@@ -16,14 +16,18 @@ export class CameraController {
     fadeUniforms.uFadeDir.value.copy(this.offset).normalize();
     this.resize();
   }
-  resize() {
-    const width = this.host.clientWidth, height = this.host.clientHeight, aspect = width / height, half = 13 / this.zoom;
+  // Zoom only touches the projection; resizing the canvas reallocates its buffers.
+  updateProjection() {
+    const width = this.host.clientWidth, height = Math.max(this.host.clientHeight, 1), aspect = width / height, half = 13 / this.zoom;
     Object.assign(this.camera, { left: -half * aspect, right: half * aspect, top: half, bottom: -half });
-    this.camera.updateProjectionMatrix(); this.renderer.setSize(width, height);
+    this.camera.updateProjectionMatrix();
     spriteScale.value = height * this.renderer.getPixelRatio() / (half * 2);
   }
-  setZoom(z) { this.zoom = THREE.MathUtils.clamp(z, .5, 1.7); this.resize(); }
-  reset() { this.panned = false; this.panOffset.set(0, 0, 0); this.setZoom(1); }
+  resize() { this.renderer.setSize(this.host.clientWidth, this.host.clientHeight); this.updateProjection(); }
+  setZoom(z) { this.zoom = THREE.MathUtils.clamp(z, .5, 1.7); this.updateProjection(); }
+  reset() { this.recenter(); this.setZoom(1); }
+  // Drops a right-drag pan so the camera follows the player again (zoom is kept).
+  recenter() { this.panned = false; this.panOffset.set(0, 0, 0); }
   pan(dxPixels, dyPixels, start) {
     const toWorld = (this.camera.top - this.camera.bottom) / this.host.clientHeight;
     this.panOffset.copy(start).addScaledVector(this.right, -dxPixels * toWorld).addScaledVector(this.forward, dyPixels * toWorld * 1.5);

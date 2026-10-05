@@ -7,6 +7,8 @@ export class InputManager {
   constructor(host) {
     this.host = host; this.keys = new Set(); this.handlers = {}; this.pan = null; this.running = false;
     window.addEventListener('keydown', e => {
+      // Escape closes panels even while a settings control has focus.
+      if (e.code === 'Escape' && !e.repeat) return this.emit('escape');
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
       if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move'); }
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.running = true;

@@ -41,13 +41,14 @@ export class Player {
     const p = this.group.position;
     if (!direction.lengthSq()) { this.animate(dt, 0); return true; }
     const speed = (running ? RUN_SPEED : WALK_SPEED) * world.speedAt(p.x, p.z) * dt;
-    const x = p.x + direction.x * speed, z = p.z + direction.z * speed;
-    let moved = false;
-    if (world.canStand(x, z)) { p.x = x; p.z = z; moved = true; }
+    const x = p.x + direction.x * speed, z = p.z + direction.z * speed, startX = p.x, startZ = p.z;
+    if (world.canStand(x, z)) { p.x = x; p.z = z; }
     else {
-      if (world.canStand(x, p.z)) { p.x = x; moved = true; }
-      if (world.canStand(p.x, z)) { p.z = z; moved = true; }
+      if (world.canStand(x, p.z)) p.x = x;
+      if (world.canStand(p.x, z)) p.z = z;
     }
+    // Real displacement: a slide attempt that keeps the same x or z is not progress.
+    const moved = Math.hypot(p.x - startX, p.z - startZ) > speed * .05;
     p.y = world.heightAt(p.x, p.z);
     const target = Math.atan2(direction.x, direction.z), r = this.group.rotation;
     r.y += Math.atan2(Math.sin(target - r.y), Math.cos(target - r.y)) * Math.min(1, dt * 14);

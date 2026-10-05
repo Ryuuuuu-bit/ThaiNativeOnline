@@ -67,3 +67,7 @@
 .shop-empty{font-size:11px;color:#a9b49e;text-align:center}
 .plate .qm{font-style:normal;font-weight:700;color:#ffd86a;margin-right:4px;font-size:13px}
 .photo-mode .shop{display:none}
+/* Touch screens get the D-pad at any width (landscape phones are wider than 600px) and drop the keyboard hints. */
+@media(pointer:coarse){.mobile-controls{display:grid;position:absolute;right:18px;bottom:18px;grid-template-columns:repeat(3,44px);gap:5px;z-index:4}.mobile-controls button{width:44px;height:44px;border-radius:5px;border:1px solid #d1bc7540;background:#173429b3;touch-action:none}.mobile-controls button:first-child{grid-column:2}.mobile-controls button:nth-child(2){grid-column:1}.controls span{display:none}}
+/* Short screens (landscape phones, small windows): keep only the essentials so panels do not overlap. */
+@media(max-height:500px){.topbar{top:8px}.location .tiny,.weather{display:none}.location h1{font-size:18px;margin:0}.brand-seal{width:32px;height:32px;font-size:20px}.character{top:52px;padding:7px 9px;width:200px}.portrait{width:32px;height:38px;font-size:24px}.exploration{top:192px;padding:8px 11px;width:200px}.exploration .eyebrow,.exploration h2,.exploration p{display:none}.quest-line{border-top:0;padding-top:0;margin-top:0}.minimap{top:52px;width:150px;padding:7px}#minimap{height:92px}.mini-footer{display:none}.map-caption{display:none}.bottom{bottom:8px}.controls{padding:6px 9px;gap:8px}}
