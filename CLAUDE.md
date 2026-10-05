@@ -34,6 +34,11 @@ src/combat/**
 QA Agent:
 Tests and bug fixes only.
 
+Lead (orchestrator):
+src/rules/** — game rules ported from the original ThaiNative project
+(stats, damage, progression, economy, content data). Pure ES modules: no
+three, no DOM. Character and Combat consume it; change it only via the lead.
+
 ## Important
 Do not rewrite another agent's system without review.
 Do not introduce a new dependency without approval.
