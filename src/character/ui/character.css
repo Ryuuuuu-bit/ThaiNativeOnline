@@ -1,8 +1,7 @@
-/* Character, combat and inventory UI. Uses the prototype's glass panels and gold accents. */
+/* Character UI: player frame, bars, panels, feed, creation screen, night glass theme. */
 .game-on .character{display:none}
 .g-layer{position:absolute;inset:0;pointer-events:none;z-index:3}
 .g-layer>*{pointer-events:auto}
-.g-floats{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
 
 /* Bars */
 .g-bar{position:relative;height:13px;background:#08171480;border:1px solid #cdbb8326;border-radius:2px;overflow:hidden;margin-bottom:4px}
@@ -26,31 +25,6 @@
 .g-buffs i{font-style:normal;font-size:9px;padding:1px 5px;border-radius:2px;background:#2d4f6b;border:1px solid #8bb7da55}
 .g-low .g-hp{animation:g-pulse 1s infinite}
 .g-shake{animation:g-shake .25s}
-
-/* Target frame */
-.g-target{position:absolute;top:140px;left:50%;transform:translateX(-50%);width:260px;padding:9px 13px 7px}
-.g-target-name{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
-.g-target-name span{font-size:9px;color:#d6b877}
-.g-target.elite{border-color:#e0a2547a;box-shadow:0 0 22px #d27a2c40}
-.g-thp span{background:linear-gradient(90deg,#8d2b22,#d05440)}
-.g-target-tags{display:flex;gap:4px}
-.g-target-tags i{font-style:normal;font-size:8px;color:#cdb8ff}
-
-/* Skill bar */
-.g-skillbar{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:7px;background:#11241ecc;border:1px solid #cabc8633;border-radius:5px;backdrop-filter:blur(12px)}
-.g-skill{position:relative;width:46px;height:46px;border-radius:4px;border:1px solid #cdb37a55;background:linear-gradient(#2c4136,#1a2c25);overflow:hidden;padding:0}
-.g-skill:hover{border-color:#ecd08f}
-.g-skill.active{border-color:#ffd88a;box-shadow:inset 0 0 12px #f1c06966}
-.g-skill.nomp .g-skill-icon{opacity:.35}
-.g-skill-icon{font-size:22px;color:#f1dfae}
-.g-skill kbd{position:absolute;left:2px;top:2px;margin:0;padding:0 3px;font-size:8px}
-.g-skill small{position:absolute;right:3px;bottom:1px;font-size:8px;color:#9fd0ec}
-.g-potion small{color:#fff0c7}
-.g-potion .g-skill-icon{color:#ef8a6a}.g-potion.mp .g-skill-icon{color:#ecc85f}
-.g-cd{position:absolute;left:0;right:0;bottom:0;height:0;background:#000a;pointer-events:none}
-.g-sep{width:1px;height:34px;background:#cabc8633;margin:0 3px}
-.g-menu{height:46px;padding:0 9px;border-radius:4px;border:1px solid #cdb37a40;background:#1a2c25;font-size:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px}
-.g-menu kbd{margin:0}
 
 /* Panels */
 .g-panel{position:absolute;top:100px;width:290px;padding:16px;max-height:calc(100dvh - 220px);overflow:auto;z-index:4}
@@ -91,26 +65,8 @@
 .g-banner b{display:block;font:500 34px 'Noto Serif Thai',serif;color:#f6dc92;letter-spacing:2px}
 .g-banner small{font-size:12px;color:#efe6c9}
 .g-banner.show{animation:g-rise .5s ease-out}
-.g-float{position:absolute;left:0;top:0;font:700 16px 'Noto Sans Thai',sans-serif;color:#fff;text-shadow:0 2px 3px #000,0 0 8px #0008;white-space:nowrap;will-change:transform}
-.g-float.crit{color:#ffd35c;font-size:22px}
-.g-float.dot{color:#d4a7ff;font-size:13px}
-.g-float.hurt{color:#ff6b55}
-.g-float.heal{color:#8ef09b}
-.g-float.miss{color:#d9d9d9;font-size:12px}
-.g-float.exp{color:#f3dc95;font-size:12px}
-.g-plate{position:absolute;left:0;top:0;width:96px;text-align:center;pointer-events:none}
-.g-plate b{display:block;font-size:9px;font-weight:500;color:#f3edd5;text-shadow:0 1px 3px #000;white-space:nowrap}
-.g-plate .g-bar{height:5px;margin:2px 0 0;border-color:#0006}
-.g-plate .g-bar span{background:#c9a35f}
-.g-plate.hostile .g-bar span{background:#d65a43}
-.g-plate.targeted b{color:#ffcf8a}
-
-/* Death overlay */
-.g-death{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(#3a0c0c99,#100505dd);text-align:center;z-index:8}
-.g-death h2{font:500 36px 'Noto Serif Thai',serif;color:#eebf9f;margin:0 0 10px}
-.g-death p{font-size:12px;line-height:1.9;color:#dccbbb}
-.g-death button,.g-start{margin-top:14px;padding:10px 26px;border:1px solid #d7b671;background:#3b4b33;border-radius:3px;font-size:13px;color:#fff3cc}
-.g-death button:hover,.g-start:hover{background:#56693f}
+.g-start{margin-top:14px;padding:10px 26px;border:1px solid #d7b671;background:#3b4b33;border-radius:3px;font-size:13px;color:#fff3cc}
+.g-start:hover{background:#56693f}
 
 /* Character creation */
 .g-create{position:absolute;inset:0;z-index:15;display:grid;place-items:center;background:radial-gradient(#1b3029cc,#0b1712f2);padding:16px;overflow:auto}
@@ -134,30 +90,20 @@
 .g-class-stats,.g-class-skills{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:6px}
 .g-class-stats i,.g-class-skills span{font-style:normal;font-size:9px;padding:2px 6px;background:#ffffff0d;border-radius:2px;color:#e3d7af}
 .g-class-skills span{color:#d7e8cf}
-.g-float.pet{color:#f2c26b;font-size:13px}
 
 @keyframes g-pulse{50%{opacity:.55}}
 @keyframes g-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @keyframes g-rise{from{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%,0)}}
-
-.g-layer,.g-player,.g-skillbar{transition:background .8s,border-color .8s,box-shadow .8s}
 /* Night: cold moonlit glass, lantern-amber accents, ghostly jade for spirits. */
 .g-night .glass{background:linear-gradient(135deg,#101826e8,#1a1f33c4);border-color:#8fa3d433;box-shadow:0 8px 30px #02040d66}
-.g-night .g-skillbar{background:#0d1422d9;border-color:#8fa3d440}
-.g-night .g-skill,.g-night .g-menu{background:linear-gradient(#1e2740,#121a2c);border-color:#8fa3d455}
-.g-night .g-skill.active{border-color:#ffb85c;box-shadow:inset 0 0 14px #ff9b3a66}
 .g-night .g-banner b{color:#bfe3d6;text-shadow:0 0 24px #49c9a0aa,0 3px 18px #000}
-.g-night .g-plate.hostile .g-bar span{background:#5fd1a8}
-.g-night .g-target.elite{border-color:#ff6a4a88;box-shadow:0 0 26px #ff4a2a55}
 .g-night .vignette{background:radial-gradient(ellipse at 50% 45%,transparent 28%,#050a1a66 70%,#02040ccc 100%)}
-.photo-mode .g-layer,.photo-mode .g-floats{display:none}
+.photo-mode .g-layer{display:none}
 @media(min-width:1700px){.g-player{left:45px;top:135px}}
 @media(max-width:900px){
   .g-classes{grid-template-columns:repeat(3,1fr)}
   .g-player{left:20px;top:94px;width:220px;padding:9px}
   .g-portrait{width:40px;height:46px;font-size:22px}
-  .g-target{top:auto;bottom:150px;width:220px}
-  .g-skillbar{bottom:64px}
   .g-panel{top:90px;left:20px;right:20px;width:auto}
   .g-feed{right:20px;bottom:140px;width:200px}
   .exploration{top:200px}
@@ -165,11 +111,6 @@
 @media(max-width:600px){
   .g-player{top:95px;width:180px}
   .g-player-name span{display:none}
-  .g-skillbar{left:16px;right:140px;bottom:20px;transform:none;flex-wrap:wrap;gap:4px;padding:5px}
-  .g-skill,.g-menu{width:38px;height:38px}
-  .g-menu{padding:0;font-size:8px}
-  .g-sep{display:none}
-  .g-target{bottom:160px}
   .g-feed{bottom:200px;right:16px}
   .g-classes{grid-template-columns:repeat(3,1fr)}
   .g-class{padding:9px 4px}

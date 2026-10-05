@@ -1,5 +1,6 @@
 // Three.js presentation for combat: monster models, target ring, projectiles, AoE and hit flashes.
 import * as THREE from 'three';
+import { RULES } from './data/rules.js';
 
 const std = (color, extra) => new THREE.MeshStandardMaterial({ color, roughness: .85, ...extra });
 const add = (parent, geometry, material, x = 0, y = 0, z = 0, scale) => {
@@ -204,7 +205,7 @@ export class CombatView {
       g.visible = true;
       g.position.set(m.x, this.groundHeight(m.x, m.z), m.z);
       g.rotation.y += Math.atan2(Math.sin(m.facing - g.rotation.y), Math.cos(m.facing - g.rotation.y)) * Math.min(1, dt * 10);
-      if (m.attackTimer > (m.def.elite ? 1.0 : 1.3)) v.attackAnim = .25;
+      if (m.attackTimer > (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay) - .3) v.attackAnim = .25;
       v.attackAnim = Math.max(0, v.attackAnim - dt);
       g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0);
       v.flash = Math.max(0, v.flash - dt);

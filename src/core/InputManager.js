@@ -1,14 +1,16 @@
 // Keyboard, mouse and touch input. Movement keys are polled each frame;
 // actions are dispatched as named events.
 const MOVE = { KeyW: 'up', ArrowUp: 'up', KeyS: 'down', ArrowDown: 'down', KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right' };
-const ACTIONS = { KeyR: 'resetCamera', KeyH: 'photo', KeyE: 'interact', KeyM: 'map', Escape: 'escape', F3: 'debug' };
+const ACTIONS = { KeyR: 'resetCamera', KeyH: 'photo', KeyE: 'interact', KeyM: 'map', KeyN: 'dayNight', Escape: 'escape', F3: 'debug' };
 
 export class InputManager {
   constructor(host) {
     this.host = host; this.keys = new Set(); this.handlers = {}; this.pan = null; this.running = false;
     window.addEventListener('keydown', e => {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
-      if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move'); }
+      // Combat and character UI get first refusal (skills, targeting, panels).
+      if (this.intercept?.(e)) return;
+      if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move', true); }
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.running = true;
       if (!e.repeat && ACTIONS[e.code]) { if (e.code === 'F3') e.preventDefault(); this.emit(ACTIONS[e.code]); }
     });
@@ -21,7 +23,7 @@ export class InputManager {
     host.addEventListener('contextmenu', e => e.preventDefault());
     host.addEventListener('pointerdown', e => {
       if (e.button === 2) { this.pan = { x: e.clientX, y: e.clientY }; host.setPointerCapture(e.pointerId); this.emit('panStart'); }
-      else if (e.button === 0) this.emit('click', e);
+      else if (e.button === 0 && !e.cancelBubble) this.emit('click', e);
     });
     host.addEventListener('pointermove', e => { if (this.pan) this.emit('pan', e.clientX - this.pan.x, e.clientY - this.pan.y); });
     for (const name of ['pointerup', 'pointercancel']) host.addEventListener(name, () => { this.pan = null; });

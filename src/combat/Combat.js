@@ -1,11 +1,16 @@
 // Combat rules and monster AI on the XZ plane. No rendering: views listen to events.
-import { MONSTERS, SKILLS, LOOT, SPAWNS, NIGHT } from './data.js';
-import { Emitter } from './Character.js';
+import { MONSTERS, NIGHT } from './data/monsters.js';
+import { SKILLS } from './data/skills.js';
+import { LOOT } from './data/loot.js';
+import { DEFAULT_ZONES } from './data/zones.js';
+import { Emitter } from '../character/Emitter.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
 const randInt = (a, b) => Math.floor(rand(a, b + 1));
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
-const LEASH = 11, COMBAT_TIMEOUT = 5, PROJECTILE_SPEED = 16, GLOBAL_COOLDOWN = 1;
+import { RULES } from './data/rules.js';
+
+const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN } = RULES;
 
 let nextId = 1;
 
@@ -26,7 +31,7 @@ export class Monster {
 
 export class Combat extends Emitter {
   // world: { canStand(x,z), playerPos() -> {x,z}, moveTo(x,z) | null, stop() }
-  constructor(character, world, spawns = SPAWNS) {
+  constructor(character, world, spawns = DEFAULT_ZONES) {
     super();
     this.character = character; this.world = world;
     this.monsters = []; this.target = null; this.autoAttack = false;
@@ -175,7 +180,7 @@ export class Combat extends Emitter {
 
   hitMonster(m, skill) {
     if (!m.alive) return;
-    if (Math.random() < .05) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return; }
+    if (Math.random() < RULES.playerMissChance) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return; }
     const { dmg, crit } = this.rollPlayerDamage(skill);
     const dealt = Math.max(1, Math.round(dmg - m.def.def * .7));
     m.hp = Math.max(0, m.hp - dealt);
@@ -187,7 +192,7 @@ export class Combat extends Emitter {
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
   kill(m) {
-    m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? 18; m.debuffs = [];
+    m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn; m.debuffs = [];
     const c = this.character, levelGap = m.level - c.level;
     const exp = Math.round(m.def.exp * Math.max(.2, 1 + levelGap * .1) * (this.night ? NIGHT.expBonus : 1));
     const gold = randInt(...m.def.gold);
@@ -274,7 +279,7 @@ export class Combat extends Emitter {
     if (m.state === 'dead' || m.state === 'dormant') {
       if (!this.isActive(m.spawn)) { m.state = 'dormant'; return; }
       if ((m.respawnTimer -= dt) <= 0 && !this.spawnMonster(m.spawn, m)) {
-        m.state = 'dormant'; m.respawnTimer = m.spawn.respawn ?? 18;
+        m.state = 'dormant'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn;
       }
       return;
     }
@@ -302,7 +307,7 @@ export class Combat extends Emitter {
       if (c.alive && d < m.def.aggro && (m.def.elite || m.level >= c.level - 2)) { m.state = 'chase'; this.emit('aggro', m); }
       else if ((m.wanderTimer -= dt) <= 0) {
         m.wanderTimer = rand(3, 7);
-        const a = Math.random() * Math.PI * 2, r = Math.random() * m.spawn.radius;
+        const a = Math.random() * Math.PI * 2, r = Math.random() * Math.min(m.spawn.radius, RULES.wanderRadius);
         m.wanderTarget = { x: m.home.x + Math.cos(a) * r, z: m.home.z + Math.sin(a) * r };
       }
       if (m.wanderTarget) { if (this.step(m, m.wanderTarget, speed * .35, dt) < .2) m.wanderTarget = null; }
@@ -332,12 +337,12 @@ export class Combat extends Emitter {
 
   monsterAttack(m) {
     const c = this.character;
-    m.attackTimer = m.def.elite ? 1.3 : 1.6;
+    m.attackTimer = m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay;
     this.combatTimer = COMBAT_TIMEOUT;
     this.emit('monster-attack', m);
     if (Math.random() < c.dodge) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
     const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
-    const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < .25 ? 1.8 : 1);
+    const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
     const dealt = c.damage(Math.max(1, raw - c.defense * .4));
     const p = this.world.playerPos();
     this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
@@ -349,9 +354,9 @@ export class Combat extends Emitter {
   }
 
   respawnPlayer() {
-    const lost = Math.floor(this.character.gold * .1);
+    const lost = Math.floor(this.character.gold * RULES.deathGoldLoss);
     this.character.gold -= lost;
-    this.character.revive(.6);
+    this.character.revive(RULES.reviveRatio);
     this.combatTimer = 0;
     this.emit('player-respawn', { goldLost: lost });
   }
