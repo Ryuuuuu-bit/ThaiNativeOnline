@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { buildForest, groundHeight, obstacles, trees, shared, HALF } from './scene.js';
 import { makeCharacter } from './sprite.js';
 import { createHero } from '../player/hero.js';
+import { CHARACTERS, DEFAULT_CHARACTER } from '../player/characters.js';
 import { createForestAudio } from './audio.js';
 import './forest.css';
 
@@ -37,18 +38,22 @@ const sunOffset = new THREE.Vector3(-26, 44, -20);
 const forest = buildForest(scene);
 // The AudioContext is created on first use so browsers never block it.
 let audio = null;
-// Two hero representations: the RO-style sprite and the 3D class model (ART_BIBLE direction).
-// `?sprite` keeps the sprite; the 3D hero is the default and loads asynchronously.
-const useSprite = new URLSearchParams(location.search).has('sprite');
+// `?hero=<id>` picks a character from characters.js (PixelLab sprites or the 3D model);
+// `?sprite` keeps the original hand-drawn RO sprite. Heroes load asynchronously.
+const params = new URLSearchParams(location.search);
+const useSprite = params.has('sprite');
+const heroId = CHARACTERS[params.get('hero')] ? params.get('hero') : DEFAULT_CHARACTER;
+const cameraRef = { yaw: 0 };
 // The sprite is built into a detached container so it only enters the scene when chosen.
 const character = makeCharacter(new THREE.Group(), () => audio?.step());
 let hero = null;
 const player = new THREE.Group(); scene.add(player);
 player.position.set(1.2, groundHeight(1.2, 1.5), 1.5);
 if (useSprite) player.add(character.group);
-else createHero(player, 'nak-muay', { onStep: () => audio?.step() }).then(h => {
+else createHero(player, heroId, { onStep: () => audio?.step(), cameraRef }).then(h => {
   hero = h; buildHotbar(h);
-  $('hero-source').textContent = h.source === 'glb' ? 'โมเดลจาก Blender (.glb)' : 'ตัวแทนชั่วคราว (ยังไม่มี .glb)';
+  $('hero-name').firstChild.textContent = `${h.def.name} `;
+  $('hero-source').textContent = { sprite: 'สไปรต์ PixelLab 8 ทิศ', glb: 'โมเดลจาก Blender (.glb)', placeholder: 'ตัวแทนชั่วคราว (ยังไม่มี .glb)' }[h.source];
 }).catch(error => { console.error(error); player.add(character.group); });
 
 const camera = new THREE.PerspectiveCamera(30, 16 / 9, 1, 260);
@@ -180,8 +185,9 @@ renderer.setAnimationLoop(t => {
   const dt = previous === null ? 0 : Math.min((t - previous) / 1000, .05); previous = t; elapsed += dt;
   const moving = movePlayer(dt);
   yaw += (targetYaw - yaw) * (1 - Math.exp(-dt * 8)); distance += (targetDistance - distance) * (1 - Math.exp(-dt * 6));
+  cameraRef.yaw = yaw;
   if (hero) {
-    const lunge = hero.update(dt, moving, heading);
+    const lunge = hero.update(dt, moving, heading, camera);
     if (lunge) {
       const p = player.position, x = p.x + lunge.x, z = p.z + lunge.z;
       if (canStand(x, z)) { p.x = x; p.z = z; p.y = groundHeight(x, z); }
