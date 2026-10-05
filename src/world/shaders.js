@@ -10,8 +10,19 @@ export const fadeUniforms = {
 export function patchMaterial(material, { wind = 0, instanced = false, fade = false } = {}) {
   material.onBeforeCompile = shader => {
     Object.assign(shader.uniforms, windUniforms, fade ? fadeUniforms : {});
-    const world = `(modelMatrix * ${instanced ? 'instanceMatrix * ' : ''}vec4(transformed, 1.0)).xyz`;
-    shader.vertexShader = `uniform float uTime; uniform float uWind;\n${fade ? 'varying vec3 vFadeWorld;\n' : ''}${shader.vertexShader}`.replace('#include <begin_vertex>', `#include <begin_vertex>
+    // The same material may serve instanced and merged meshes (bark), so the
+    // world position branches on the USE_INSTANCING define, not on the option.
+    const world = 'patchWorld(transformed)';
+    shader.vertexShader = `uniform float uTime; uniform float uWind;\n${fade ? 'varying vec3 vFadeWorld;\n' : ''}${shader.vertexShader}`
+      .replace('void main() {', `vec3 patchWorld(vec3 p) {
+        #ifdef USE_INSTANCING
+          return (modelMatrix * instanceMatrix * vec4(p, 1.0)).xyz;
+        #else
+          return (modelMatrix * vec4(p, 1.0)).xyz;
+        #endif
+      }
+      void main() {`)
+      .replace('#include <begin_vertex>', `#include <begin_vertex>
       ${wind ? `{ vec3 windPos = ${world};
         float gust = sin(uTime * 1.35 + windPos.x * .32 + windPos.z * .24) + .4 * sin(uTime * 2.1 + windPos.z * .7);
         float reach = ${instanced ? 'pow(max(position.y, 0.0), 1.5)' : '1.0'};

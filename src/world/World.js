@@ -77,7 +77,8 @@ export async function buildWorld(scene, progress = () => {}) {
   seedOccupancy(occ);
   const ctx = new WorldContext(scene, terrain, occ);
   lap('terrain');
-  for (const m of [M.tile, M.tileDark, M.tileGreen, M.tileOrange, M.thatch, M.thatchDark]) patchMaterial(m, { fade: true });
+  // Roofs, thatch and tree bark between the camera and the player dither away.
+  for (const m of [M.tile, M.tileDark, M.tileGreen, M.tileOrange, M.thatch, M.thatchDark, M.bark, M.darkBark, M.branch, M.palmBark]) patchMaterial(m, { fade: true });
 
   progress('กำลังก่อกำแพงเมืองและท่าเรือหลวง…'); await frame();
   buildWalls(ctx); buildPort(ctx); lap('walls+port');
