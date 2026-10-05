@@ -1,0 +1,76 @@
+<title>สกิลห้าสายอาชีพ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Srisakdi:wght@700&family=Anuphan:wght@400;500;600&display=swap">
+<style>
+/* layout: one dark night-forest page; header, then a grid of five class cards (thumbnail · name · skill chips · open link) */
+:root{
+  --night:#0a1210; --panel:#101c18; --line:rgba(170,215,185,.16); --text:#e6efe4; --muted:#9fb5a6; --gold:#e8c46a;
+  --display:"Srisakdi","Anuphan",serif; --body:"Anuphan","Noto Sans Thai",system-ui,sans-serif; color-scheme:dark;
+}
+body{background:var(--night);color:var(--text);font-family:var(--body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 40px}
+header .eyebrow{font-size:12px;letter-spacing:.12em;color:#8fe39a}
+h1{font-family:var(--display);font-size:clamp(34px,5vw,52px);color:var(--gold);margin:4px 0 6px;line-height:1.15;text-wrap:balance}
+header p{margin:0;color:var(--muted);max-width:68ch;line-height:1.6;font-size:14.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:26px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.shot{position:relative;aspect-ratio:16/10;max-width:100%;background:#000;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot .tag{position:absolute;left:10px;top:10px;display:flex;align-items:center;gap:6px;background:rgba(5,10,8,.72);border:1px solid var(--line);border-radius:6px;padding:3px 8px 3px 4px;font-size:12px;color:var(--text)}
+.shot .tag img{width:22px;height:22px;image-rendering:pixelated;border-radius:3px}
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body h2{font-family:var(--display);font-size:27px;margin:0;line-height:1.2;color:var(--accent)}
+.body .hi{margin:0;font-size:13.5px;line-height:1.6;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips span{font-size:11.5px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--text)}
+.chips span.new{border-color:var(--gold);color:var(--gold)}
+.open{margin-top:auto;display:inline-flex;align-self:flex-start;align-items:center;gap:6px;text-decoration:none;font-weight:600;font-size:14px;color:var(--night);background:var(--accent);padding:8px 14px;border-radius:7px}
+.open:hover{filter:brightness(1.1)}
+.open:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.extras{margin-top:30px;border-top:1px solid var(--line);padding-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.extras div{min-width:0}
+.extras h3{font-size:13px;letter-spacing:.08em;color:var(--gold);margin:0 0 4px;font-weight:600}
+.extras p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ThaiNative · เดโม three.js</div>
+    <h1>สกิลห้าสายอาชีพ</h1>
+    <p>เดโมเอฟเฟกต์สกิลครบ 10 สกิลต่อสาย ใช้สไปรต์ตัวละครและผีจริงจากเกม ฉากเดียวกันทุกสาย แต่ละหน้าเล่นวนอัตโนมัติ กดไอคอนหรือปุ่ม 1–0 เพื่อเลือกสกิล และมีปุ่มสโลว์ไว้ดูรายละเอียด</p>
+  </header>
+  <section class="grid" id="grid"></section>
+  <section class="extras">
+    <div><h3>สไปรต์ใหม่จาก PixelLab</h3><p>หมอยาชุดสมุนไพรถือตำรายา (ยืน เดิน ร่าย) · ขุนศึกถือดาบคู่ (ยืน เดิน ฟัน) · หมาไทยหลังอานคู่ใจพราน (ยืน วิ่ง กัด) · ไฟล์อยู่ใน concept/healer_herbalist, concept/sword_dual, concept/hunter_dog</p></div>
+    <div><h3>ภาพยันต์ลายเส้น</h3><p>หนุมานถวายแหวน และช้างเอราวัณสามเศียร วาดใหม่ด้วย PixelLab แล้วแปลงเป็นลายเส้นทองเรืองแสง · concept/hanuman_yant, concept/erawan_yant</p></div>
+    <div><h3>สถานะ</h3><p>ทั้งหมดเป็นเดโมแยกจากเกม ยังไม่ได้แก้โค้ดเกมหรือ shared/data/skills.js</p></div>
+  </section>
+</div>
+<script>
+const A = __ASSETS__;
+const DEMOS = [
+  { cls: 'หมอยา', name: 'ตำรับแสงหมอยา', url: 'https://claude.ai/artifact/LqzGioSdhojCDU9hX3jUcV', icon: 'ic0', thumb: 't0', accent: '#8fe39a',
+    hi: 'หมอยาชุดใหม่ถือตำรายาในมือ (สไปรต์ใหม่) · ขวดยาเด้งห้าทิศ · สกิลโจมตีใหม่วงหนาดปราบผี',
+    skills: ['สายใยสมุนไพร', 'ขวดยาเด้งห้าทิศ', 'วงหนาดปราบผี*', 'ยาต้มพยัคฆ์เหิน', 'พิธีสู่ขวัญ', 'ครกยาระเบิดสมุนไพร', 'หมอกยาชโลมใจ', 'ยาบำรุงกำลังเจ็ดพลัง', 'พรแม่โพสพ', 'น้ำอมฤตชุบชีวา'] },
+  { cls: 'ขุนศึก (ดาบคู่)', name: 'เพลงดาบขุนศึก', url: 'https://claude.ai/artifact/84hfpVn5YyrZwvGSohq1vK', icon: 'ic1', thumb: 't1', accent: '#7cc4ff',
+    hi: 'ตัวละครถือดาบคู่จริง · รอยดาบเสี้ยวโค้งสไตล์อนิเมะ ฟันไขว้ตรงเฟรมฟันของสไปรต์',
+    skills: ['ฟันดาบคู่', 'แทงทะลวง', 'ดาบวายุ', 'ตั้งการ์ดดาบคู่', 'เพลงดาบพิฆาต', 'ธงชัยเฉลิมพล', 'ดาบบาทวงจักร', 'กระโจนผ่าปฐพี', 'โทสะขุนศึก', 'ดาบประหารอสูร'] },
+  { cls: 'พรานป่า', name: 'ศรพรานไพร', url: 'https://claude.ai/artifact/V8Ebd4yBBg4vmpUwCmi95D', icon: 'ic2', thumb: 't2', accent: '#e8c46a',
+    hi: 'ลูกธนูสามมิติออกจากคันธนู · หมาไทยหลังอานวิ่งไปกัดตามสกิลโจมตี · ปีกครุฑทอง',
+    skills: ['ศรฉับไว', 'ศรพิษพรานไพร', 'ศรทะลวงเกราะ', 'ตาเหยี่ยว', 'ห่าฝนธนู', 'ลมใต้ปีกครุฑ', 'ศรกระจายเจ็ดดาว', 'กับดักหนามพราน', 'ศรสังหารเหยี่ยวราตรี', 'ศรเพลิงอัคนีบาต'] },
+  { cls: 'หมอผี (จอมขมังเวทย์)', name: 'อาคมหมอผี', url: 'https://claude.ai/artifact/Tr26eNA6sLdPKBmfSZG6rs', icon: 'ic3', thumb: 't3', accent: '#c9a3ff',
+    hi: 'ลูกไฟดาวหาง · อุกกาบาตหินลาวา · ฟ้าผ่าแตกกิ่งแกนขาว · ยันต์ตรึงวิญญาณ',
+    skills: ['คาถาอาคม', 'ยันต์ตรึงวิญญาณ', 'เกราะยันต์เก้ายอด', 'อัสนีบาต', 'เพลิงกัลป์ปราบผี', 'น้ำมนต์ธาราทิพย์', 'ไฟผีห้าทิศ', 'คำสาปพรายตานี', 'สมาธิกสิณไฟ', 'พายุอัสนีเทพ'] },
+  { cls: 'นักมวยคาดเชือก', name: 'แม่ไม้มวยไทย', url: 'https://claude.ai/artifact/EK9ckRDdZPgboUoW92Hp6u', icon: 'ic4', thumb: 't4', accent: '#ff9a5a',
+    hi: 'แฉกแสงกระแทกแบบอนิเมะ · ยันต์หนุมานและช้างเอราวัณลายเส้นทองในท่าไม้ตาย · กลองมังคละ',
+    skills: ['หมัดแย็บ', 'เตะก้านคอ', 'จระเข้ฟาดหาง', 'ไหว้ครูรำมวย', 'หักงวงไอยรา', 'กลองมังคละปลุกใจ', 'ศอกกลับพลิกล็อก', 'เข่าลอยทะลวงฟ้า', 'กายเหล็กคาถามหาอุด', 'หนุมานถวายแหวน'] },
+];
+const grid = document.getElementById('grid');
+for (const d of DEMOS) {
+  const el = document.createElement('article'); el.className = 'card'; el.style.setProperty('--accent', d.accent);
+  el.innerHTML = `<div class="shot"><img alt="ภาพจากเดโม${d.name}" src="${A[d.thumb]}"><div class="tag"><img alt="" src="${A[d.icon]}">${d.cls}</div></div>
+    <div class="body"><h2>${d.name}</h2><p class="hi">${d.hi}</p>
+      <div class="chips">${d.skills.map(s => s.endsWith('*') ? `<span class="new">${s.slice(0, -1)} · ใหม่</span>` : `<span>${s}</span>`).join('')}</div>
+      <a class="open" href="${d.url}" target="_blank" rel="noopener">เปิดเดโม ↗</a></div>`;
+  grid.appendChild(el);
+}
+</script>
