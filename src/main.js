@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { buildWorld, makePlayer, groundHeight, obstacles, landmarks, treePositions, pathX, riverX, inWater, windUniforms } from './world.js';
+import { createGame } from './game/index.js';
 import './style.css';
 
 const $ = id => document.getElementById(id);
@@ -62,11 +63,13 @@ function explore() {
 const movementCodes = ['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight'];
 window.addEventListener('keydown', event => {
   if (['INPUT','SELECT','TEXTAREA','BUTTON'].includes(event.target.tagName)) return;
+  if (game.handleKey(event)) return;
   if (movementCodes.includes(event.code)) { event.preventDefault(); keys.add(event.code); destination = null; clickMarker.visible = false; }
   if (!event.repeat) {
     if (event.code === 'KeyR') resetCamera();
     if (event.code === 'KeyH') setPhoto();
     if (event.code === 'KeyE') explore();
+    if (event.code === 'KeyN') { const select=$('time-of-day'); select.value=select.value==='night'?'morning':'night'; select.dispatchEvent(new Event('change')); }
     if (event.code === 'Escape') { $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded','false'); if (photo) setPhoto(); }
   }
 });
@@ -81,7 +84,7 @@ host.addEventListener('pointerdown', event => {
     const rect = host.getBoundingClientRect(); pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);
     raycaster.setFromCamera(pointer,camera); const hit = raycaster.intersectObject(world.ground)[0];
     if (hit && canStand(hit.point.x, hit.point.z)) {
-      destination = hit.point.clone(); clickMarker.position.set(hit.point.x, groundHeight(hit.point.x,hit.point.z)+.07,hit.point.z); clickMarker.visible=true;
+      game.onManualMove(); destination = hit.point.clone(); clickMarker.position.set(hit.point.x, groundHeight(hit.point.x,hit.point.z)+.07,hit.point.z); clickMarker.visible=true;
     }
   }
 });
@@ -110,6 +113,8 @@ function movePlayer(dt) {
   if(keys.has('KeyS')||keys.has('ArrowDown'))direction.sub(forward);
   if(keys.has('KeyD')||keys.has('ArrowRight'))direction.add(right);
   if(keys.has('KeyA')||keys.has('ArrowLeft'))direction.sub(right);
+  if(!game.canMove){keys.clear();destination=null;clickMarker.visible=false;player.update(elapsed,false);return;}
+  if(direction.lengthSq())game.onManualMove();
   if(destination && !direction.lengthSq()) {
     direction.subVectors(destination,player.group.position);direction.y=0;
     if(direction.length()<.14){destination=null;clickMarker.visible=false;direction.set(0,0,0);}
@@ -123,6 +128,12 @@ function movePlayer(dt) {
   p.y=groundHeight(p.x,p.z);player.group.rotation.y=Math.atan2(direction.x,direction.z);player.update(elapsed,moved);
 }
 
+const game=createGame({
+  root:$('app'),host,scene,camera,player,canStand,groundHeight,respawnPoint:{x:1.4,z:3},
+  moveTo(x,z){destination=new THREE.Vector3(x,0,z);},
+  stop(){destination=null;clickMarker.visible=false;},
+});
+
 $('reset-camera').addEventListener('click',resetCamera);
 $('photo-mode').addEventListener('click',setPhoto);$('restore-ui').addEventListener('click',setPhoto);
 $('interaction').addEventListener('click',explore);
@@ -134,12 +145,19 @@ $('quality').addEventListener('change',event=>{
   const high=event.target.value==='high';renderer.setPixelRatio(high?Math.min(devicePixelRatio,2):1);sun.shadow.mapSize.set(high?2048:1024,high?2048:1024);
   if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null;}renderer.shadowMap.needsUpdate=true;resize();
 });
+const TIMES={
+  morning:{bg:'#b9c6a4',fog:.016,sun:'#fff0c6',sunI:3.1,sunPos:[-12,24,-8],hemi:'#dde8d3',hemiGround:'#5e6244',hemiI:2.5,water:'#648e7b',exposure:1.18,label:'เช้า · สายลมอ่อน'},
+  evening:{bg:'#bdab92',fog:.016,sun:'#ffd09c',sunI:2.3,sunPos:[-20,13,-8],hemi:'#c9c0bc',hemiGround:'#5e6244',hemiI:1.8,water:'#748571',exposure:1.18,label:'เย็น · แสงสุดท้ายของวัน'},
+  night:{bg:'#141c2c',fog:.03,sun:'#8fa8e8',sunI:.9,sunPos:[14,22,-10],hemi:'#4c5f8c',hemiGround:'#10141c',hemiI:.75,water:'#203447',exposure:1,label:'ค่ำคืน · หมอกลงและภูตผีออกเดิน'},
+};
 $('time-of-day').addEventListener('change',event=>{
-  const evening=event.target.value==='evening';scene.background.set(evening?'#bdab92':'#b9c6a4');scene.fog.color.copy(scene.background);
-  sun.color.set(evening?'#ffd09c':'#fff0c6');sun.intensity=evening?2.3:3.1;sun.position.set(evening?-20:-12,evening?13:24,-8);
-  hemisphere.color.set(evening?'#c9c0bc':'#dde8d3');hemisphere.intensity=evening?1.8:2.5;
-  world.water.uniforms.uTint.value.set(evening?'#748571':'#648e7b');
-  $('weather-label').textContent=evening?'เย็น · แสงสุดท้ายของวัน':'เช้า · สายลมอ่อน';
+  const t=TIMES[event.target.value]||TIMES.morning;
+  scene.background.set(t.bg);scene.fog.color.copy(scene.background);scene.fog.density=t.fog;
+  sun.color.set(t.sun);sun.intensity=t.sunI;sun.position.set(...t.sunPos);
+  hemisphere.color.set(t.hemi);hemisphere.groundColor.set(t.hemiGround);hemisphere.intensity=t.hemiI;
+  renderer.toneMappingExposure=t.exposure;world.water.uniforms.uTint.value.set(t.water);
+  $('weather-label').textContent=t.label;
+  game.setPhase(event.target.value==='night'?'night':'day');
 });
 
 // Optional ambience is synthesized locally; no audio download or autoplay.
@@ -188,7 +206,7 @@ let lastHud=0;
 renderer.setAnimationLoop(timestamp=>{
   if(document.hidden){previousTime=null;return;}
   const dt=previousTime===null?0:Math.min((timestamp-previousTime)/1000,.05);previousTime=timestamp;elapsed+=dt;
-  movePlayer(dt);world.update(elapsed,dt);
+  movePlayer(dt);world.update(elapsed,dt);game.update(dt,elapsed);
   if(!cameraPanned)desiredFocus.set(player.group.position.x*.55,0,player.group.position.z*.55-3.5);
   focus.lerp(desiredFocus,1-Math.exp(-dt*3));camera.position.copy(focus).add(cameraOffset);camera.lookAt(focus);
   if(clickMarker.visible){clickMarker.scale.setScalar(1+Math.sin(elapsed*5)*.12);}
