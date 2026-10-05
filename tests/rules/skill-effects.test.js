@@ -1,0 +1,24 @@
+// Pure part of the original tests/skill-effects.test.mjs (the skill catalogue). The original also
+// checked the 2D Phaser client's screen flashes (client/js/topdown/TdSkills.js), which is not ported.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { SKILL_BY_ID } from '../../src/rules/data/skills.js';
+import { DOT_KINDS } from '../../src/rules/effects.js';
+
+const all = Object.values(SKILL_BY_ID);
+
+test('catalogue: 55 active / 10 passive skills', () => {
+  assert.equal(all.filter((s) => s.type !== 'passive').length, 55);
+  assert.equal(all.filter((s) => s.type === 'passive').length, 10);
+});
+
+test('every skill effect is a shape effects.applyEffects understands', () => {
+  const KNOWN = new Set(['stun', 'slow', 'armorBreak', 'weak', ...DOT_KINDS]);
+  const withEffect = all.filter((s) => s.effect);
+  assert.ok(withEffect.length > 0);
+  for (const s of withEffect) for (const [k, v] of Object.entries(s.effect)) {
+    assert.ok(KNOWN.has(k), `${s.id}: unknown effect ${k}`);
+    if (DOT_KINDS.includes(k)) assert.ok(v.ticks > 0 && v.every > 0 && v.ratio > 0, `${s.id}.${k}`);
+    else assert.ok(v.ms > 0 && (k === 'stun' || (v.pct > 0 && v.pct < 1)), `${s.id}.${k}`);
+  }
+});
