@@ -70,7 +70,7 @@ function patchFade(material) {
           // Fully clear around the player; an ordered 8x8 dither feathers only the rim,
           // so the window reads as a soft gradient rather than scattered dots.
           vec2 d = gl_FragCoord.xy / uViewport - uPlayerUv; d.x *= uAspect;
-          float hole = 1. - smoothstep(.055, .125, length(d));
+          float hole = 1. - smoothstep(.10, .20, length(d));
           vec2 px = floor(gl_FragCoord.xy);
           float b2 = fract(px.x * .5 + px.y * px.y * .75);
           vec2 p4 = floor(px * .5); float b4 = fract(p4.x * .5 + p4.y * p4.y * .75) * .25 + b2;
