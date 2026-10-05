@@ -1,5 +1,8 @@
 import * as THREE from 'three';
-import { buildWorld, makePlayer, groundHeight, obstacles, landmarks, treePositions, pathX, riverX, inWater, windUniforms } from './world.js';
+import { buildWorld, groundHeight, obstacles, landmarks, treePositions, pathX, riverX, inWater, windUniforms } from './world.js';
+import { Character, CLASSES, CLASS_IDS } from './characters/character.js';
+import { Dog } from './characters/dog.js';
+import { Effects } from './characters/vfx.js';
 import './style.css';
 
 const $ = id => document.getElementById(id);
@@ -31,8 +34,40 @@ const sun = new THREE.DirectionalLight('#fff0c6', 3.1); sun.position.set(-12, 24
 sun.shadow.mapSize.set(2048, 2048);
 Object.assign(sun.shadow.camera, { left: -32, right: 32, top: 32, bottom: -32, near: 1, far: 90 });
 sun.shadow.bias = -.0003; sun.shadow.normalBias = .035; sun.shadow.radius = 3; scene.add(sun);
-const world = buildWorld(scene), player = makePlayer(scene);
-player.group.position.set(1.4, 0, 3);
+const world = buildWorld(scene), effects = new Effects(scene);
+// The player is a rigged class character (see src/characters). Ground speeds
+// are in world meters; the animation phase is synced to them so feet don't slide.
+const PLAYER_SCALE = .92, RUN_SPEED = 3.1, WALK_SPEED = 1.2;
+const player = { group: null, char: null, dog: null, heading: 0 };
+const selectionRing = new THREE.Mesh(new THREE.RingGeometry(.36, .4, 48), new THREE.MeshBasicMaterial({ color: '#e1c983', transparent: true, opacity: .7, side: THREE.DoubleSide }));
+selectionRing.rotation.x = -Math.PI / 2; selectionRing.position.y = .04;
+function readClass() { try { const id = localStorage.getItem('tno.class'); return CLASS_IDS.includes(id) ? id : 'warrior'; } catch { return 'warrior'; } }
+function setClass(id) {
+  const previous = player.char, position = previous ? previous.root.position.clone() : new THREE.Vector3(1.4, 0, 3);
+  if (previous) { scene.remove(previous.root); previous.dispose(); }
+  if (player.dog) { scene.remove(player.dog.root); player.dog = null; }
+  const char = new Character(id, { scale: PLAYER_SCALE });
+  char.root.position.copy(position); char.root.rotation.y = player.heading; char.root.add(selectionRing); scene.add(char.root);
+  char.on(event => { effects.trigger(event, char); if (event.type === 'command') player.dog?.command(); });
+  player.char = char; player.group = char.root;
+  if (CLASSES[id].companion === 'dog') {
+    player.dog = new Dog(char.materials); player.dog.root.scale.setScalar(PLAYER_SCALE);
+    player.dog.root.position.copy(position).add(new THREE.Vector3(-.8, 0, -.4)); scene.add(player.dog.root);
+  }
+  try { localStorage.setItem('tno.class', id); } catch { /* storage unavailable */ }
+  $('class-select').value = id; $('portrait').textContent = CLASSES[id].icon;
+  $('hotbar').replaceChildren(...char.skills.map((skill, i) => {
+    const b = document.createElement('button'); b.title = skill.name;
+    b.innerHTML = `<kbd>${i + 1}</kbd>${skill.thai}<small>${skill.name}</small>`;
+    b.addEventListener('click', () => castSkill(i)); return b;
+  }));
+}
+function castSkill(i) {
+  const skill = player.char.skills[i]; if (!skill) return;
+  if (player.char.play(skill.id)) { destination = null; clickMarker.visible = false; }
+}
+$('class-select').replaceChildren(...CLASS_IDS.map(id => new Option(`${CLASSES[id].thai} · ${CLASSES[id].name}`, id)));
+$('class-select').addEventListener('change', event => { setClass(event.target.value); event.target.blur(); });
 const keys = new Set(), raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
 const clickMarker = new THREE.Mesh(new THREE.RingGeometry(.2, .27, 40), new THREE.MeshBasicMaterial({ color: '#fff0b2', transparent: true, opacity: .8, side: THREE.DoubleSide, depthWrite: false }));
 clickMarker.rotation.x = -Math.PI / 2; clickMarker.visible = false; scene.add(clickMarker);
@@ -63,10 +98,12 @@ const movementCodes = ['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowD
 window.addEventListener('keydown', event => {
   if (['INPUT','SELECT','TEXTAREA','BUTTON'].includes(event.target.tagName)) return;
   if (movementCodes.includes(event.code)) { event.preventDefault(); keys.add(event.code); destination = null; clickMarker.visible = false; }
+  if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') keys.add(event.code);
   if (!event.repeat) {
     if (event.code === 'KeyR') resetCamera();
     if (event.code === 'KeyH') setPhoto();
     if (event.code === 'KeyE') explore();
+    if (['Digit1', 'Digit2', 'Digit3'].includes(event.code)) castSkill(Number(event.code.slice(5)) - 1);
     if (event.code === 'Escape') { $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded','false'); if (photo) setPhoto(); }
   }
 });
@@ -105,22 +142,36 @@ function canStand(x,z) {
   return !obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.radius+.25);
 }
 function movePlayer(dt) {
-  const direction=new THREE.Vector3();
+  const direction=new THREE.Vector3(), char=player.char, p=player.group.position;
   if(keys.has('KeyW')||keys.has('ArrowUp'))direction.add(forward);
   if(keys.has('KeyS')||keys.has('ArrowDown'))direction.sub(forward);
   if(keys.has('KeyD')||keys.has('ArrowRight'))direction.add(right);
   if(keys.has('KeyA')||keys.has('ArrowLeft'))direction.sub(right);
   if(destination && !direction.lengthSq()) {
-    direction.subVectors(destination,player.group.position);direction.y=0;
+    direction.subVectors(destination,p);direction.y=0;
     if(direction.length()<.14){destination=null;clickMarker.visible=false;direction.set(0,0,0);}
   }
-  if(!direction.lengthSq()){player.update(elapsed,false);return;}
-  direction.normalize();const speed=3.1*dt,p=player.group.position;
-  const x=p.x+direction.x*speed,z=p.z+direction.z*speed;let moved=false;
-  if(canStand(x,z)){p.x=x;p.z=z;moved=true;}
-  else {if(canStand(x,p.z)){p.x=x;moved=true;}if(canStand(p.x,z)){p.z=z;moved=true;}}
-  if(!moved && destination){destination=null;clickMarker.visible=false;toast('เส้นทางถูกกีดขวาง ลองเดินอ้อมด้วย W A S D');}
-  p.y=groundHeight(p.x,p.z);player.group.rotation.y=Math.atan2(direction.x,direction.z);player.update(elapsed,moved);
+  // Skills root the character; only their own root motion moves it.
+  if(char.busy)direction.set(0,0,0);
+  let speed=0;
+  const step=(dx,dz)=>{
+    const x=p.x+dx,z=p.z+dz;let moved=false;
+    if(canStand(x,z)){p.x=x;p.z=z;moved=true;}
+    else {if(canStand(x,p.z)){p.x=x;moved=true;}if(canStand(p.x,z)){p.z=z;moved=true;}}
+    return moved;
+  };
+  if(direction.lengthSq()){
+    direction.normalize();
+    const target=Math.atan2(direction.x,direction.z);let turn=target-player.heading;turn=Math.atan2(Math.sin(turn),Math.cos(turn));
+    player.heading+=turn*Math.min(1,dt*14);
+    speed=keys.has('ShiftLeft')||keys.has('ShiftRight')?WALK_SPEED:RUN_SPEED;
+    if(!step(direction.x*speed*dt,direction.z*speed*dt)){speed=0;if(destination){destination=null;clickMarker.visible=false;toast('เส้นทางถูกกีดขวาง ลองเดินอ้อมด้วย W A S D');}}
+  }
+  const motion=char.update(dt,speed/PLAYER_SCALE);
+  if(motion)step(Math.sin(player.heading)*motion,Math.cos(player.heading)*motion);
+  p.y=groundHeight(p.x,p.z);player.group.rotation.y=player.heading;
+  if(player.dog){player.dog.update(dt,char,speed);const d=player.dog.root.position;d.y=groundHeight(d.x,d.z);}
+  effects.update(dt);
 }
 
 $('reset-camera').addEventListener('click',resetCamera);
@@ -196,5 +247,6 @@ renderer.setAnimationLoop(timestamp=>{
   renderer.render(scene,camera);
 });
 // A completed first render, rather than a timeout, dismisses the loading screen.
+setClass(readClass());
 camera.position.copy(focus).add(cameraOffset);camera.lookAt(focus);renderer.render(scene,camera);
 $('loading').classList.add('done');setTimeout(()=>$('loading').hidden=true,700);

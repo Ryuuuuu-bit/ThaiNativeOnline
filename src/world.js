@@ -370,26 +370,3 @@ export function buildWorld(scene) {
     atmosphere.update(time,dt);
   }};
 }
-
-export function makePlayer(scene) {
-  const player=new THREE.Group();scene.add(player);
-  const skin=mat('#cd9b72'),shirt=mat('#e7d9ad'),pants=mat('#665e4a'),sash=mat('#944b35'),hair=mat('#302b24');
-  const body=new THREE.Group();player.add(body);
-  mesh(new THREE.SphereGeometry(.20,12,10),skin,body,0,1.28,0,[1,1.12,1]);
-  mesh(new THREE.SphereGeometry(.205,12,8,0,Math.PI*2,0,Math.PI*.55),hair,body,0,1.34,-.015);
-  mesh(new THREE.SphereGeometry(.075,8,8),hair,body,0,1.51,-.08);
-  mesh(new THREE.CylinderGeometry(.16,.22,.47,8),shirt,body,0,.86,0);
-  cylinder(body,sash,0,.65,0,.22,.22,.1,8);
-  const legs=[],arms=[];
-  for(const sign of [-1,1]){
-    const leg=new THREE.Group();leg.position.set(sign*.105,.61,0);body.add(leg);
-    mesh(new THREE.CylinderGeometry(.095,.075,.42,7),pants,leg,0,-.2,0);
-    mesh(new THREE.SphereGeometry(.09,8,6),materials.darkWood,leg,0,-.47,.04,[1,.5,1.7]);legs.push(leg);
-    const arm=new THREE.Group();arm.position.set(sign*.2,1.03,0);body.add(arm);
-    mesh(new THREE.CylinderGeometry(.075,.055,.4,7),skin,arm,sign*.035,-.19,0);arms.push(arm);
-  }
-  const sword=box(body,materials.stone,-.26,.68,-.15,.035,.67,.06);sword.rotation.z=-.28;
-  box(body,materials.wood,-.34,.98,-.15,.18,.05,.08);
-  const ring=mesh(new THREE.RingGeometry(.36,.4,48),new THREE.MeshBasicMaterial({color:'#e1c983',transparent:true,opacity:.7,side:THREE.DoubleSide}),player,0,.04,0);ring.rotation.x=-Math.PI/2;ring.castShadow=false;
-  return {group:player,update(time,moving){body.position.y=moving?Math.sin(time*13)*.025:Math.sin(time*2)*.012;legs.forEach((leg,i)=>leg.rotation.x=moving?Math.sin(time*12+i*Math.PI)*.45:0);arms.forEach((arm,i)=>arm.rotation.x=moving?Math.sin(time*12+i*Math.PI)*-.35:0);}};
-}
