@@ -40,3 +40,7 @@ Events (`character.on(name, fn)`): `change`, `damaged(amount)`, `death`, `exp(am
 - New class: add an entry to `CLASSES` (stats, growth, range, attackSpeed, colour, four skill ids from `src/combat/data/skills.js`, optional `pet`, `nightCrit`) and a `START_ITEMS` entry.
 - New item: add to `ITEMS`. `type` is `use`, `material` or `equip`; equipment needs `slot` and `bonus`.
 - Renamed class ids go in `CLASS_ALIASES` so old saves still load.
+
+## Rig (`rig/`)
+
+Rigged 3D models and animation for all six classes: shared Mixamo-named skeleton, leg IK, anatomical joint limits, spring-bone cloth, and baked clips (idle/walk/run + three skills per class). `src/entities/Player.js` shows the player's class with it and plays a clip on every combat `cast` (`rig/castMap.js`). Viewer: `characters.html`. Validation: `npm run check:rig`. Details: `docs/character-rig.md`.

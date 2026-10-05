@@ -263,6 +263,7 @@ export class Game {
     this.npcs.update(dt, this.elapsed, p);
     this.game?.update(dt, this.elapsed);
     if (!this.questsReady && this.game?.ready) { this.quests.attach(this.game.character, this.game.combat); this.questsReady = true; }
+    this.player.bindCombat(this.game); // rigged class model + skill animations (no-op once bound)
     if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);
