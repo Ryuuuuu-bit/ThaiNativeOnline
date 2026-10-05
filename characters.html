@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#182b25" />
+    <title>Thai Native Online — Character Rig Viewer</title>
+  </head>
+  <body class="viewer">
+    <main id="viewer-app">
+      <div id="stage" aria-label="ตัวละครสามมิติ"></div>
+      <header class="viewer-top">
+        <a class="brand" href="./" aria-label="กลับสู่แผนที่"><span class="brand-seal">ท</span><span>THAI NATIVE<span class="brand-sub">O N L I N E</span></span></a>
+        <div class="viewer-title"><span class="tiny">CHARACTER RIG · ระบบกระดูกตัวละคร</span><h1 id="class-title">นักรบ</h1><span id="class-role" class="weather"></span></div>
+        <a class="viewer-link" href="./">กลับสู่แผนที่ →</a>
+      </header>
+      <nav id="class-list" class="class-list glass" aria-label="เลือกอาชีพ"></nav>
+      <section class="anim-panel glass">
+        <div class="anim-group"><span class="eyebrow">การเคลื่อนไหว</span><div id="loco-buttons" class="chips"></div></div>
+        <div class="anim-group"><span class="eyebrow">ท่าเฉพาะอาชีพ</span><div id="skill-buttons" class="chips"></div></div>
+        <div class="anim-group toggles">
+          <label><input type="checkbox" id="show-skeleton" /> โครงกระดูก</label>
+          <label><input type="checkbox" id="slow" /> สโลว์ 0.25×</label>
+          <label><input type="checkbox" id="loop-skill" checked /> เล่นท่าวนซ้ำ</label>
+          <button id="export" title="ส่งออกโมเดลพร้อม rig และ animation เป็น .glb">⇩ Export GLB</button>
+        </div>
+      </section>
+      <aside class="rig-info glass" id="rig-info"></aside>
+      <div id="loading"><span class="loading-seal">ท</span><h2>ระบบกระดูกตัวละคร</h2><p>กำลังประกอบโครงและท่าทาง…</p></div>
+    </main>
+    <script type="module" src="/src/character/rig/viewer.js"></script>
+  </body>
+</html>
