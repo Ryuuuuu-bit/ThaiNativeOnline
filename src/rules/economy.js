@@ -4,27 +4,29 @@
 //    แล้วส่งสถานะใหม่กลับ → แก้ค่าในเครื่องตัวเองไม่มีผล (กันโกงเงิน/ของ/ตีบวก)
 //  ▸ ออฟไลน์: client รันเองในเครื่อง
 //  ทุก action คืน { ok, msg, ...ข้อมูลสำหรับเอฟเฟกต์ }
+//  Port note (src/rules): every position check (legacy side-scroller x / top-down tdPos) now goes through
+//  near(ctx, target) → ctx.nearNpc(target) or legacy ctx.tdNpc; nothing supplied = in range. Herb nodes
+//  come from ./data/herbs.js; the 'grave' quest test uses isGraveMon() from ./data/maps.js.
 // ============================================================
 import { PASSIVES_ON } from './data/passives.js';
 import { ITEMS, SHOPS, sellPrice } from './data/items.js';
 import { OFFERINGS, SIAMSI, todayKey, endOfToday } from './data/blessings.js';
 import { JOBS } from './data/classes.js';
 import { MONSTERS } from './data/monsters.js';
-import { WORLD } from './constants.js';
-import { MAPS, mapAt } from './data/maps.js';
+import { MAPS, isGraveMon } from './data/maps.js';
 import { rollFish, RECIPES, BREWS, ENHANCE, QUESTS, QUEST_BY_ID, questGiver, GIVER_TH, HERB_RESPAWN_MS, dailyBounties } from './data/village.js';
 import { FORGE } from './data/crafting.js';
 import { GEAR, GEAR_IDS } from './data/gear.js';
 import { rollAffixes, affixId } from './data/affixes.js';
 import { BARTER, COIN, DEMAND, demandOf, dayKey } from './data/trade.js';
-import { NPCS, SHOP_NPC, FISH_SPOT, CAMP, HERB_NODES, nearNpc, nearSpot } from './data/npcs.js';
+import { NPCS, NPC_BY_ID, SHOP_NPC } from './data/npcs.js';
+import { HERB_NODES } from './data/herbs.js';
 import { TITLE_BY_ID, checkTitles } from './data/titles.js';
 import { getDerived, EQUIP_SLOTS, SLOT_TYPE } from './character.js';
 import { OUTFITS, HAIRSTYLES } from './data/appearance.js';
 import { STAT_KEYS, expToNext, MAX_LEVEL, STAT_CAP, raiseCost } from './stats.js';
 import { SKILL_BY_ID } from './data/skills.js';
 import { gainExp, resetStats, resetSkills, resetWeaponSkills, syncAppearance, learnSkill, assignHotbar, allocateStat, allocPassive, resetPassives, addLifeXp, lifeLv, addMastery, recomputePath, ensurePresets, snapPreset, blankPreset, applyPresetStats, PRESET_SLOTS, PRESET_LABEL, presetReserved, presetOf } from './charmodel.js';
-import { HERB_SPOTS } from './td/ayutthaya.js';
 import { CARDS, CARD_BY_ID, SLOT_CARD, CARD_SLOT_TH, socketCount, cardRemoveCost } from './data/cards.js';
 import { WEAR_TYPES, FLASK_SLOTS, ENH_SLOTS, SLOT_TH } from './data/slots.js';
 import { equipmentBonus } from './character.js';
@@ -78,7 +80,7 @@ export function questEvent(c, type, id, amt = 1) {
     if (!g || Q.active[qid] >= g.n) continue;
     if (g.job && type === 'kill' && c.appearance?.job !== g.job) continue;             // เควสอาชีพ: นับเฉพาะตอนถืออาวุธสายนั้น
     if (g.minLv && type === 'kill' && (MONSTERS[id]?.level || 0) < g.minLv) continue;   // เควสขั้นสูง: ผีต้องเลเวลถึง
-    const match = type === 'kill' ? g.kill && (g.kill === 'any' || g.kill === id || (g.kill === 'grave' && MONSTERS[id]?.zone?.[0] >= WORLD.graveX))
+    const match = type === 'kill' ? g.kill && (g.kill === 'any' || g.kill === id || (g.kill === 'grave' && isGraveMon(id)))
       : type === 'herb' ? g.herb && (g.herb === 'any' || g.herb === id)
       : type === 'fish' ? g.fish && (g.fish === 'any' ? id !== 'junk_boot' : g.fish === id)
       : type === 'heal' ? !!g.heal : type === 'revive' ? !!g.revive : false;
@@ -232,7 +234,7 @@ export const shopPrice = (c, id) => { const it = ITEMS[id]; if (!it?.price) retu
 function buy(c, { shop, id, qty = 1 }, ctx) {
   const S = SHOPS[shop], it = ITEMS[id];
   if (!S || !it?.price || !S.stock.includes(id)) return NO('ร้านไม่ขายของนี้');
-  if (ctx.x != null && !atNpc(ctx, SHOP_NPC[shop])) return NO('ต้องยืนคุยกับเจ้าของร้านก่อน');
+  if (!atNpc(ctx, SHOP_NPC[shop])) return NO('ต้องยืนคุยกับเจ้าของร้านก่อน');
   qty = it.type === 'skin' ? 1 : int(qty, 1, 9999, 1);
   if (it.type === 'skin' && count(c, id)) return NO('มีคัมภีร์นี้แล้ว');
   const cost = shopPrice(c, id) * qty;
@@ -241,11 +243,19 @@ function buy(c, { shop, id, qty = 1 }, ctx) {
   addItem(c, id, qty);
   return OK(`ซื้อ ${it.nameTh}${qty > 1 ? ` x${qty}` : ''} (-฿${cost.toLocaleString()})`);
 }
-const nearAnyShop = (x) => Object.values(SHOP_NPC).some((n) => nearNpc(x, n));
-// โลก top-down: server ส่ง ctx.tdNpc = id ของ NPC ที่ยืนใกล้ที่สุด → ตรวจตรงตัว (พิกัดหมู่บ้านเก่าอยู่ใกล้กันเกินไป ยืนร้านหนึ่งแล้วใช้อีกร้านได้)
-const atNpc = (ctx, id) => (ctx.tdNpc !== undefined ? ctx.tdNpc === id : nearNpc(ctx.x, id));
-const atAnyShop = (ctx) => (ctx.tdNpc !== undefined ? Object.values(SHOP_NPC).includes(ctx.tdNpc) : nearAnyShop(ctx.x));
-const atChai = (ctx) => (ctx.tdNpc !== undefined ? ctx.tdNpc === 'quest' : nearSpot(ctx.x, 'chai'));
+// Port (src/rules): proximity is injected, never computed from positions here.
+//  ▸ ctx.nearNpc(target) → boolean. target = an NPC id from NPCS ('shop', 'smith', 'quest', …) or a spot:
+//    'shrine' · 'temple' · 'fish' (water's edge) · 'camp' (bounty hunter) · `herb:${i}` (HERB_NODES index)
+//  ▸ legacy: ctx.tdNpc = id of the nearest NPC (the original top-down server) — used for NPC targets only
+//  ▸ neither supplied → treated as in range (offline/single-player default)
+export function near(ctx, target) {
+  if (typeof ctx.nearNpc === 'function') return !!ctx.nearNpc(target);
+  if (ctx.tdNpc !== undefined && NPC_BY_ID[target]) return ctx.tdNpc === target;
+  return true;
+}
+const atNpc = (ctx, id) => near(ctx, id);
+const atAnyShop = (ctx) => Object.values(SHOP_NPC).some((id) => near(ctx, id));
+const atChai = (ctx) => near(ctx, 'quest');   // ผู้ใหญ่ชัย (เดิมตรวจ SPOTS.chai = จุดยืนของ NPC 'quest')
 /** ของที่เพิ่งขาย (ซื้อคืนได้ราคาเดิม · เก็บ 10 รายการล่าสุด) */
 const BUYBACK_MAX = 10;
 function pushBuyback(c, id, qty) {
@@ -257,7 +267,7 @@ function pushBuyback(c, id, qty) {
   c.buyback.length = Math.min(c.buyback.length, BUYBACK_MAX);
 }
 function buyback(c, { idx }, ctx) {
-  if (ctx.x != null && !atAnyShop(ctx)) return NO('ต้องซื้อคืนที่ร้านในหมู่บ้าน');
+  if (!atAnyShop(ctx)) return NO('ต้องซื้อคืนที่ร้านในหมู่บ้าน');
   const i = int(idx, 0, BUYBACK_MAX - 1, 0), e = c.buyback?.[i];
   if (!e || !ITEMS[e.id]) return NO('ไม่มีรายการนี้');
   const cost = e.price * e.qty;
@@ -270,7 +280,7 @@ function buyback(c, { idx }, ctx) {
 function sell(c, { id, qty = 1 }, ctx) {
   const it = ITEMS[id];
   if (!it) return NO('ไม่มีไอเทมนี้');
-  if (ctx.x != null && !atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
+  if (!atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
   if (isLocked(c, id)) return NO('ไอเทมนี้ถูกล็อกไว้ (ปลดล็อกในกระเป๋า)');
   if (it.type === 'skin') return NO('ขายคัมภีร์ไม่ได้');
   if (!freeQty(c, id) && presetReserved(c, id)) return NO(`${it.nameTh} เป็นของชุด ${presetOf(c, id)} (ถอดออกจากชุดก่อนถึงจะขายได้)`);
@@ -282,7 +292,7 @@ function sell(c, { id, qty = 1 }, ctx) {
   return OK(`ขาย ${it.nameTh}${qty > 1 ? ` x${qty}` : ''} (+฿${gain.toLocaleString()})`);
 }
 function sellMany(c, { kind }, ctx) {
-  if (ctx.x != null && !atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
+  if (!atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
   let gold = 0, n = 0;
   for (const s of bulkSellList(c, kind === 'fish' ? 'fish' : 'drop').map((x) => ({ ...x }))) {
     if (!removeItem(c, s.id, s.qty)) continue;
@@ -293,7 +303,7 @@ function sellMany(c, { kind }, ctx) {
 }
 /** ขายหลายอย่างในครั้งเดียว (ตะกร้าขาย) · items = [[id, qty], ...] */
 function sellCart(c, { items }, ctx) {
-  if (ctx.x != null && !atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
+  if (!atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
   if (!Array.isArray(items) || !items.length) return NO('ยังไม่ได้เลือกของ');
   let gold = 0, n = 0, kinds = 0;
   for (const e of items.slice(0, 200)) {
@@ -324,7 +334,7 @@ function lock(c, { id }) {
 // ------------------------------------------------------------
 function offer(c, { key }, ctx) {
   const o = OFFERINGS[key];
-  if (ctx.x != null && !nearSpot(ctx.x, 'shrine')) return NO('ต้องยืนหน้าศาลพระภูมิ');
+  if (!near(ctx, 'shrine')) return NO('ต้องยืนหน้าศาลพระภูมิ');
   if (!o || !count(c, o.item)) return NO(`ไม่มี${o?.nameTh ?? 'ของถวาย'} (ซื้อได้ที่ร้านยายติ๋ม)`);
   removeItem(c, o.item);
   const now = ctx.now;
@@ -335,7 +345,7 @@ function offer(c, { key }, ctx) {
   return OK(`ถวาย${o.nameTh} ได้รับพร: ${o.blessTh} (${o.minutes} นาที)`);
 }
 function siamsi(c, a, ctx) {
-  if (ctx.x != null && !nearSpot(ctx.x, 'temple')) return NO('ต้องอยู่ที่วัดบางผี');
+  if (!near(ctx, 'temple')) return NO('ต้องอยู่ที่วัดบางผี');
   const day = todayKey(ctx.now);
   if (c.siamsi?.day === day) return NO('วันนี้เสี่ยงไปแล้ว กลับมาใหม่พรุ่งนี้นะ');
   const card = SIAMSI[Math.floor(ctx.rnd() * SIAMSI.length)];
@@ -354,7 +364,7 @@ export const canCraft = (c, r) => Object.entries(r.need).every(([id, n]) => coun
 function craft(c, { list, idx, n = 1 }, ctx) {
   const L = CRAFT[list], r = L?.list[int(idx, 0, 999, -1)];
   if (!r) return NO('ไม่มีสูตรนี้');
-  if (ctx.x != null && !atNpc(ctx, L.npc)) return NO(`ต้องยืนคุยกับ${L.who}ก่อน`);
+  if (!atNpc(ctx, L.npc)) return NO(`ต้องยืนคุยกับ${L.who}ก่อน`);
   n = int(n, 1, 99, 1);
   let done = 0;
   const lk = list === 'forge' ? 'smith' : 'cook';
@@ -384,7 +394,7 @@ export function demandLeft(c, npc, now = Date.now()) {
 function demandSell(c, { npc, n = 1 }, ctx) {
   const d = demandOf(String(npc), dayKey(ctx.now));
   if (!d) return NO('ไม่มีคำขอรับซื้อ');
-  if (ctx.x != null && !atNpc(ctx, d.npc)) return NO(`ต้องยืนคุยกับ${d.who}ก่อน`);
+  if (!atNpc(ctx, d.npc)) return NO(`ต้องยืนคุยกับ${d.who}ก่อน`);
   const day = dayKey(ctx.now);
   if (c.demand?.day !== day) c.demand = { day, n: {} };
   const sold = c.demand.n[d.npc] || 0, left = DEMAND.cap - sold;
@@ -404,7 +414,7 @@ function demandSell(c, { npc, n = 1 }, ctx) {
 // ------------------------------------------------------------
 function enhance(c, { slot, guard }, ctx) {
   if (!ENH_SLOTS.includes(slot)) return NO('ช่องไม่ถูกต้อง');
-  if (ctx.x != null && !atNpc(ctx, 'smith')) return NO('ต้องยืนคุยกับลุงดำก่อน');
+  if (!atNpc(ctx, 'smith')) return NO('ต้องยืนคุยกับลุงดำก่อน');
   c.enhance ||= {};
   const lv = c.enhance[slot] || 0, cost = ENHANCE.cost(lv, c.level), ore = ENHANCE.ore(lv), fang = ENHANCE.fang(lv);
   if (!c.equipment[slot]) return NO('ยังไม่ได้สวมอุปกรณ์ช่องนี้');
@@ -436,7 +446,7 @@ function qAccept(c, { id }, ctx = {}) {
   const q = QUEST_BY_ID[id], Q = c.quests;
   if (!q || questState(c, q) !== 'open') return NO('รับเควสนี้ไม่ได้');
   const giver = questGiver(q);
-  if (giver !== 'quest' && ctx.x != null && !atNpc(ctx, giver)) return NO(`รับเควสนี้กับ${GIVER_TH[giver]}`);
+  if (giver !== 'quest' && !atNpc(ctx, giver)) return NO(`รับเควสนี้กับ${GIVER_TH[giver]}`);
   // เควสทั่วไป (ผู้ใหญ่ชัย) กับเควสอาชีพนับโควตาแยกกัน อย่างละ ${MAX_ACTIVE_QUESTS}
   const same = Object.keys(Q.active).filter((k) => (questGiver(QUEST_BY_ID[k]) === 'quest') === (giver === 'quest')).length;
   if (same >= MAX_ACTIVE_QUESTS) return NO(`รับ${giver === 'quest' ? 'เควสทั่วไป' : 'เควสอาชีพ'}ได้พร้อมกัน ${MAX_ACTIVE_QUESTS} เควส`);
@@ -460,7 +470,7 @@ function qClaim(c, { id }, ctx) {
   const q = QUEST_BY_ID[id], Q = c.quests;
   if (!q || questState(c, q) !== 'ready') return NO('เควสยังไม่สำเร็จ');
   const giver = questGiver(q);
-  if (ctx.x != null && !(giver === 'quest' ? atChai(ctx) : atNpc(ctx, giver))) return NO(`กลับไปส่งเควสกับ${giver === 'quest' ? 'ผู้ใหญ่ชัย หรือนายกองลาดตระเวนในค่ายต่างแดน' : GIVER_TH[giver]}`);
+  if (!(giver === 'quest' ? atChai(ctx) : atNpc(ctx, giver))) return NO(`กลับไปส่งเควสกับ${giver === 'quest' ? 'ผู้ใหญ่ชัย หรือนายกองลาดตระเวนในค่ายต่างแดน' : GIVER_TH[giver]}`);
   delete Q.active[id];
   Q.done.push(id);
   c.gold += q.reward.gold;
@@ -491,7 +501,7 @@ function passiveReset(c) {
   return OK(`ล้างต้นไม้พรสวรรค์แล้ว${cost ? ` (฿${cost})` : ''}${refund ? ` · คืน SP ${refund}` : ''}`, { jobChanged: true });
 }
 function bounty(c, { i }, ctx) {
-  if (ctx.x != null && !(mapAt(ctx.x).id === 'm1' && Math.abs(ctx.x - CAMP.npcX) < 160)) return NO('ต้องกลับไปหาพรานบุญที่ค่าย (แมพ 1)');
+  if (!near(ctx, 'camp')) return NO('ต้องกลับไปหาพรานบุญที่ค่าย (แมพ 1)');
   const b = bountyList(c, todayKey(ctx.now))[int(i, 0, 9, -1)];
   if (!b || b.claimed || b.prog < b.n) return NO('ยังล่าไม่ครบ');
   b.claimed = true;
@@ -503,10 +513,10 @@ function bounty(c, { i }, ctx) {
 // ------------------------------------------------------------
 //  ตกปลา / เก็บสมุนไพร / หีบสมบัติ (server สุ่มเอง จำกัดความถี่)
 // ------------------------------------------------------------
-const atFish = (x) => mapAt(x).id === 'village' && x >= FISH_SPOT.from - 20 && x <= FISH_SPOT.to + 20;
+const atWater = (ctx) => (ctx.td ? !!ctx.tdFish : near(ctx, 'fish'));   // legacy ctx.td/tdFish ยังใช้ได้
 function fishBite(c, a, ctx) {
   const S = ctx.sess;
-  if (ctx.td ? !ctx.tdFish : (ctx.x != null && !atFish(ctx.x))) return NO('ต้องยืนริมน้ำ');
+  if (!atWater(ctx)) return NO('ต้องยืนริมน้ำ');
   if (ctx.now - (S.fishAt || 0) < 2000) return NO('ปลายังไม่กินเบ็ด');
   S.fishAt = ctx.now;
   const f = rollFish(ctx.night, ctx.rnd, ctx.tdMap);   // ปลาประจำแดนที่ยืนอยู่
@@ -529,11 +539,10 @@ function fishLand(c, a, ctx) {
 }
 function fishLose(c, a, ctx) { ctx.sess.fish = null; return OK(''); }
 function gather(c, { node }, ctx) {
-  const S = ctx.sess, i = int(node, 0, 999, -1), n = ctx.td ? HERB_SPOTS[i] : HERB_NODES[i];
-  const key = (ctx.td ? 't' : 'v') + i;                                   // คีย์คูลดาวน์จากดัชนีจริง (กันส่ง "1.1" / " 1" หลบคูลดาวน์)
+  const S = ctx.sess, i = int(node, 0, 999, -1), n = HERB_NODES[i];
+  const key = 't' + i;                                                    // คีย์คูลดาวน์จากดัชนีจริง (กันส่ง "1.1" / " 1" หลบคูลดาวน์)
   if (!n) return NO('');
-  if (ctx.td) { if (ctx.tdPos && Math.hypot(ctx.tdPos.x - n.x, ctx.tdPos.y - n.y) > 44) return NO('อยู่ไกลเกินไป'); }
-  else if (ctx.x != null && (mapAt(ctx.x).id !== n.mapId || Math.abs(ctx.x - n.x) > 45)) return NO('อยู่ไกลเกินไป');
+  if (!near(ctx, `herb:${i}`)) return NO('อยู่ไกลเกินไป');   // port: was a tdPos/x distance check (44 / 45 px)
   S.herb ||= {};
   if ((S.herb[key] || 0) > ctx.now) return NO('สมุนไพรยังไม่งอกใหม่');
   if (ctx.now - (S.gatherAt || 0) < 1100) return NO('');
@@ -592,7 +601,7 @@ function dye(c, { part, v }, ctx) {
   if (!N) return NO(part === 'outfit' ? 'ชุดตัวละครกำหนดตามเพศ เปลี่ยนไม่ได้ (ใช้ชุดแต่งตัวแทนได้)' : '');
   v = int(v, 0, N - 1, -1);
   if (v < 0) return NO('');
-  if (ctx.x != null && !atNpc(ctx, 'tailor')) return NO('ต้องยืนคุยกับแม่ช้อยก่อน');
+  if (!atNpc(ctx, 'tailor')) return NO('ต้องยืนคุยกับแม่ช้อยก่อน');
   if (c.appearance[part] === v) return NO('เป็นสีนี้อยู่แล้ว');
   if (c.gold < DYE_PRICE) return NO('เงินไม่พอ');
   c.gold -= DYE_PRICE;
@@ -786,13 +795,13 @@ export const ACTIONS = {
 const TRADE_SAFE = new Set(['flask', 'cosAck', 'statsAck', 'spAck', 'lock', 'qAccept', 'qDrop', 'hotbar', 'title', 'friendDel', 'fishBite', 'fishLand', 'fishLose', 'gather', 'learn', 'alloc', 'passive']);
 
 /**
- * รันคำสั่ง: ctx = { rnd, now, x (ตำแหน่งผู้เล่น · null = ไม่ตรวจ), night, admin, trade, sess }
+ * รันคำสั่ง: ctx = { rnd, now, nearNpc(target) (ไม่ส่ง = ถือว่าอยู่ใกล้), night, admin, trade, sess, tdNpc?, td?, tdFish?, tdMap? }
  * คืนผลลัพธ์ + ฉายาใหม่ที่ปลดล็อก (titles)
  */
 export function runAction(c, name, args = {}, ctx = {}) {
   const fn = Object.prototype.hasOwnProperty.call(ACTIONS, name) ? ACTIONS[name] : null;
   if (!fn) return NO('คำสั่งไม่ถูกต้อง');
-  ctx = { rnd: Math.random, now: Date.now(), x: null, night: false, admin: false, trade: false, sess: {}, ...ctx };
+  ctx = { rnd: Math.random, now: Date.now(), night: false, admin: false, trade: false, sess: {}, ...ctx };
   if (ctx.trade && !TRADE_SAFE.has(name)) return NO('กำลังเทรดอยู่ – ใช้/ขาย/สวมของไม่ได้จนกว่าจะเทรดเสร็จ');
   const r = fn(c, args && typeof args === 'object' ? args : {}, ctx) || NO('');
   const titles = checkTitles(c);

@@ -16,7 +16,10 @@ export const WORLD = {
 };
 
 export const VIEW = { width: 960, height: 540, zoom: 2 };
-// RENDER_SCALE (window-dependent canvas scale of the 2D client) removed: unused by rules.
+/** ความละเอียดภายในของ canvas (คูณจาก VIEW) → ตัวหนังสือในโลกคมชัด ไม่แตกเป็นพิกเซลตอนขยายเต็มจอ
+ *  จอเล็ก/เครื่องอ่อน ใช้ 1 · จอทั่วไปใช้ 2 (ภาพเท่าเดิม แค่ละเอียดขึ้น)
+ *  Port note: legacy 2D-canvas setting, ignored by the 3D client. `window` access is guarded (1 in Node). */
+export const RENDER_SCALE = typeof window === 'undefined' ? 1 : ((window.screen?.height || 720) * (window.devicePixelRatio || 1) >= 900 ? 2 : 1);
 
 export const CURRENCY = { nameTh: 'บาท', symbol: '฿' };
 
@@ -33,4 +36,5 @@ export const PARTY = {
   lvGap: 15,         // หาร EXP กันได้เมื่อเลเวลคนในแมพเดียวกันห่างกันไม่เกินนี้ (เกิน = ต่างคนต่างได้ ไม่มีโบนัส)
 };
 
-// แผนที่ทั้งหมด (หมู่บ้าน + 20 แมพล่าผี + ลานพญายักษ์) อยู่ที่ shared/data/maps.js
+// แผนที่ทั้งหมด (หมู่บ้าน + 20 แมพล่าผี + ลานพญายักษ์) อยู่ที่ ./data/maps.js (legacy realm table — not the 3D map registry)
+// Port note: WORLD/VIEW/NET are legacy side-scroller/network constants kept verbatim; rules logic no longer reads WORLD.

@@ -2,6 +2,10 @@
 //  แผนที่โลก: หมู่บ้าน + 20 แมพล่าผี (แมพละ 1 ชนิด เลเวลไต่ขึ้นเรื่อยๆ) แบ่ง 5 ภาค + ลานพญายักษ์
 //  ทุกแมพอยู่บนแกน X เดียวกันแต่แยกขาดจากกัน – ย้ายแมพด้วยประตูวาร์ป (กด F → เลือกปลายทาง)
 //  ใช้ร่วมกันทั้ง client และ server
+//  ⚠ LEGACY DATA (src/rules): the original side-scroller realm table — map ids, region, level
+//  ranges (minLv / monster level) and monster→map assignment. It is NOT the 3D game's runtime map
+//  registry (that lives under src/world / src/data). Rules use it for recall (lastHunt) and the
+//  'grave' quest goal only.
 //  Port note (src/rules): positional data of the legacy side-scroller (minX/maxX, gates,
 //  respawn/arrive x, HUNT_X0/MAP_W/MAP_STEP, mapAt/gateNear/canTravelFrom, monster `zone`
 //  rewrite) and REGIONS music/bg keys were removed. Map ids, names, regions, level ranges
