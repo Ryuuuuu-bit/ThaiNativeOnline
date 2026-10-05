@@ -76,7 +76,6 @@ button { cursor: pointer; }
 kbd { font-family: inherit; padding: 0 5px; border-radius: 4px; background: rgba(255, 255, 255, .14); font-size: 10.5px; }
 
 .photo-mode .hud { display: none; }
-.mobile-controls { display: none; }
 
 #loading { position: fixed; inset: 0; z-index: 5; display: grid; place-content: center; justify-items: center; gap: 6px; text-align: center; background: radial-gradient(circle at 50% 40%, #1b2438, #0f1420 70%); transition: opacity .6s; }
 #loading.done { opacity: 0; pointer-events: none; }
@@ -89,15 +88,10 @@ kbd { font-family: inherit; padding: 0 5px; border-radius: 4px; background: rgba
   .hero-card { width: 230px; grid-template-columns: 44px 1fr; padding: 8px; }
   .portrait { width: 44px; height: 44px; font-size: 18px; }
   .minimap { width: 118px; } .minimap canvas { width: 106px; height: 106px; }
-  .hud-top-center { top: auto; bottom: 96px; }
+  /* Tap-to-walk replaces on-screen arrows; the location chip sits above the dock. */
+  .hud-top-center { top: auto; bottom: 104px; left: 12px; transform: none; }
+  .chip { padding: 5px 10px 5px 8px; font-size: 12px; } .chip em { display: none; }
   .hint { display: none; }
   .dock { gap: 6px; padding: 6px; } .hotbar .slot { width: 54px; height: 54px; }
   .sep, #export-sprite { display: none; }
-  .mobile-controls { position: fixed; z-index: 2; right: 14px; bottom: 96px; display: grid; grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(2, 48px); gap: 5px; }
-  .mobile-controls button { border: 1px solid var(--line-strong); border-radius: 12px; background: var(--glass); color: var(--text); font-size: 20px; backdrop-filter: blur(10px); }
-  .mobile-controls [data-move=up] { grid-column: 2; }
-  .mobile-controls [data-move=left] { grid-column: 1; grid-row: 2; }
-  .mobile-controls [data-move=down] { grid-column: 2; grid-row: 2; }
-  .mobile-controls [data-move=right] { grid-column: 3; grid-row: 2; }
-  .photo-mode .mobile-controls { display: none; }
 }

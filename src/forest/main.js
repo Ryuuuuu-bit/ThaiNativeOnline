@@ -114,11 +114,6 @@ host.addEventListener('pointerdown', e => {
 host.addEventListener('pointermove', e => { if (orbit) targetYaw = orbit.yaw - (e.clientX - orbit.x) * .006; });
 host.addEventListener('pointerup', () => orbit = null);
 host.addEventListener('wheel', e => { e.preventDefault(); targetDistance = THREE.MathUtils.clamp(targetDistance + e.deltaY * .03, 16, 70); }, { passive: false });
-for (const button of document.querySelectorAll('[data-move]')) {
-  const code = { up: 'KeyW', left: 'KeyA', down: 'KeyS', right: 'KeyD' }[button.dataset.move];
-  button.addEventListener('pointerdown', e => { e.preventDefault(); button.setPointerCapture(e.pointerId); keys.add(code); destination = null; });
-  for (const n of ['pointerup', 'pointercancel', 'lostpointercapture']) button.addEventListener(n, () => keys.delete(code));
-}
 
 function canStand(x, z) {
   if (Math.abs(x) > HALF - 3 || Math.abs(z) > HALF - 3) return false;
