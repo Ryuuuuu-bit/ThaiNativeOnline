@@ -3,28 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#dfe6f2" />
-    <meta name="description" content="ป่าสนใหญ่ในฤดูหิมะ ต้นไม้ไหวตามลม ตัวละคร sprite สไตล์ RO และเสียงนกในป่า" />
+    <meta name="theme-color" content="#0f1420" />
+    <meta name="description" content="ป่าสนใหญ่ในฤดูหิมะ ต้นไม้ไหวตามลม ตัวละครนักมวยคาดเชือก และเสียงนกในป่า" />
     <title>Thai Native Online — ป่าสนใหญ่</title>
   </head>
   <body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4.5 4.5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M12 2l-3 3m3-3 3 3M12 22l-3-3m3 3 3-3M3.3 7l4.1 1.1M3.3 7 4.4 2.9M20.7 17l-4.1-1.1m4.1 1.1-1.1 4.1M3.3 17l4.1-1.1M3.3 17l1.1 4.1M20.7 7l-4.1 1.1M20.7 7l-1.1-4.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 8h11a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h8a2.5 2.5 0 1 1-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-sprite" viewBox="0 0 24 24"><path d="M4 4h16v16H4z M4 10h16M10 4v16" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M14 16l2-3 2 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    </svg>
     <main id="app">
       <div id="world" aria-label="ป่าสนใหญ่ มุมมองจากด้านบน"></div>
-      <div class="map-name"><span>ป่าสนใหญ่</span><b>ท้องฟ้าแจ่มใส</b></div>
-      <div class="panel ro-window tools">
-        <div class="ro-title">บรรยากาศ</div>
-        <button id="sound" class="ro-button" aria-pressed="false" title="เปิดเสียงป่า" aria-label="เปิดเสียงป่า">♫ เสียงป่า</button>
-        <label>แรงลม <output id="wind-value">55%</output><input id="wind" type="range" min="0" max="100" value="55" /></label>
-        <label class="check"><input id="snowfall" type="checkbox" checked /> หิมะตก</label>
-        <div class="ro-title">Assets</div>
-        <button id="export-sprite" class="ro-button">⬇ Sprite sheet 8 ทิศ</button>
-        <button id="screenshot" class="ro-button">⬇ ภาพหน้าจอ</button>
-        <button id="photo-toggle" class="ro-button">ซ่อน UI · H</button>
+
+      <header class="hud hud-top-left">
+        <section class="card hero-card">
+          <div class="portrait" aria-hidden="true"><span>ม</span></div>
+          <div class="hero-info">
+            <div class="hero-name">นักมวยคาดเชือก <span class="lvl">Lv 1</span></div>
+            <div class="bar hp"><i style="--v:100%"></i><b>HP <span>320 / 320</span></b></div>
+            <div class="bar sp"><i style="--v:100%"></i><b>SP <span>90 / 90</span></b></div>
+            <small id="hero-source" class="hero-sub">กำลังโหลดตัวละคร…</small>
+          </div>
+        </section>
+      </header>
+
+      <div class="hud hud-top-center">
+        <div class="chip location"><svg class="ico"><use href="#i-sun"/></svg><span>ป่าสนใหญ่</span><em>ท้องฟ้าแจ่มใส</em></div>
       </div>
-      <div class="panel ro-window minimap"><div class="ro-title">แผนที่ <span id="coords">0, 0</span></div><canvas id="minimap" width="160" height="160" aria-label="แผนที่ย่อ"></canvas></div>
-      <div class="panel help">คลิกพื้นเพื่อเดิน · WASD · ลากเมาส์ขวาหมุนกล้อง · Scroll ซูม · R คืนกล้อง</div>
+
+      <aside class="hud hud-top-right">
+        <section class="card minimap">
+          <canvas id="minimap" width="160" height="160" aria-label="แผนที่ย่อ"></canvas>
+          <div class="mini-foot"><span>ป่าสนใหญ่</span><span id="coords">0, 0</span></div>
+        </section>
+      </aside>
+
+      <footer class="hud hud-bottom">
+        <div class="hint">คลิกพื้นเพื่อเดิน · <kbd>WASD</kbd> · ลากเมาส์ขวาหมุนกล้อง · <kbd>Scroll</kbd> ซูม · <kbd>R</kbd> คืนกล้อง · <kbd>H</kbd> ซ่อน UI</div>
+        <div class="dock">
+          <div id="hotbar" class="hotbar" hidden></div>
+          <div class="toolbar" role="toolbar" aria-label="การตั้งค่าและเครื่องมือ">
+            <button id="sound" class="tool" aria-pressed="false" title="เปิดเสียงป่า" aria-label="เปิดเสียงป่า"><svg class="ico"><use href="#i-sound"/></svg></button>
+            <label class="tool toggle" title="หิมะตก"><input id="snowfall" type="checkbox" checked /><svg class="ico"><use href="#i-snow"/></svg></label>
+            <div class="tool wind" title="แรงลม">
+              <svg class="ico"><use href="#i-wind"/></svg>
+              <div class="wind-pop"><span>แรงลม <output id="wind-value">55%</output></span><input id="wind" type="range" min="0" max="100" value="55" aria-label="แรงลม" /></div>
+            </div>
+            <span class="sep"></span>
+            <button id="screenshot" class="tool" title="บันทึกภาพหน้าจอ" aria-label="บันทึกภาพหน้าจอ"><svg class="ico"><use href="#i-camera"/></svg></button>
+            <button id="export-sprite" class="tool" title="ดาวน์โหลด sprite sheet 8 ทิศ" aria-label="ดาวน์โหลด sprite sheet"><svg class="ico"><use href="#i-sprite"/></svg></button>
+            <button id="photo-toggle" class="tool" title="ซ่อน UI (H)" aria-label="ซ่อน UI"><svg class="ico"><use href="#i-eye"/></svg></button>
+          </div>
+        </div>
+      </footer>
+
       <div class="mobile-controls"><button data-move="up" aria-label="เดินขึ้น">↑</button><button data-move="left" aria-label="เดินซ้าย">←</button><button data-move="down" aria-label="เดินลง">↓</button><button data-move="right" aria-label="เดินขวา">→</button></div>
-      <div id="loading"><h2>ป่าสนใหญ่</h2><p>กำลังโหลดป่า…</p></div>
+      <div id="loading"><div class="loading-mark">ท</div><h2>ป่าสนใหญ่</h2><p>กำลังโหลดป่า…</p></div>
     </main>
     <script type="module" src="/src/forest/main.js"></script>
   </body>

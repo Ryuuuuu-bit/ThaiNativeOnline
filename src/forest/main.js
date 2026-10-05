@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { buildForest, groundHeight, obstacles, trees, shared, HALF } from './scene.js';
 import { makeCharacter } from './sprite.js';
+import { createHero } from '../player/hero.js';
 import { createForestAudio } from './audio.js';
 import './forest.css';
 
@@ -36,12 +37,23 @@ const sunOffset = new THREE.Vector3(-26, 44, -20);
 const forest = buildForest(scene);
 // The AudioContext is created on first use so browsers never block it.
 let audio = null;
-const character = makeCharacter(scene, () => audio?.step());
-const player = character.group; player.position.set(1.2, groundHeight(1.2, 1.5), 1.5);
+// Two hero representations: the RO-style sprite and the 3D class model (ART_BIBLE direction).
+// `?sprite` keeps the sprite; the 3D hero is the default and loads asynchronously.
+const useSprite = new URLSearchParams(location.search).has('sprite');
+// The sprite is built into a detached container so it only enters the scene when chosen.
+const character = makeCharacter(new THREE.Group(), () => audio?.step());
+let hero = null;
+const player = new THREE.Group(); scene.add(player);
+player.position.set(1.2, groundHeight(1.2, 1.5), 1.5);
+if (useSprite) player.add(character.group);
+else createHero(player, 'nak-muay', { onStep: () => audio?.step() }).then(h => {
+  hero = h; buildHotbar(h);
+  $('hero-source').textContent = h.source === 'glb' ? 'โมเดลจาก Blender (.glb)' : 'ตัวแทนชั่วคราว (ยังไม่มี .glb)';
+}).catch(error => { console.error(error); player.add(character.group); });
 
 const camera = new THREE.PerspectiveCamera(30, 16 / 9, 1, 260);
 const focus = player.position.clone();
-let yaw = 0, targetYaw = 0, pitch = THREE.MathUtils.degToRad(57), distance = 42, targetDistance = 42;
+let yaw = 0, targetYaw = 0, pitch = THREE.MathUtils.degToRad(50), distance = 34, targetDistance = 34;
 
 function resize() {
   const w = host.clientWidth, h = host.clientHeight;
@@ -56,12 +68,30 @@ let destination = null, orbit = null, heading = null;
 const marker = new THREE.Mesh(new THREE.RingGeometry(.22, .3, 40), new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: .85, depthWrite: false }));
 marker.rotation.x = -Math.PI / 2; marker.visible = false; scene.add(marker);
 const codes = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
+const skillKeys = ['Digit1', 'Digit2', 'Digit3', 'Digit4'];
 window.addEventListener('keydown', e => {
   if (['INPUT', 'SELECT', 'BUTTON'].includes(e.target.tagName) && !codes.includes(e.code)) return;
   if (codes.includes(e.code)) { e.preventDefault(); keys.add(e.code); destination = null; marker.visible = false; }
-  if (e.code === 'KeyR' && !e.repeat) { targetYaw = 0; targetDistance = 42; }
+  if (e.code === 'KeyR' && !e.repeat) { targetYaw = 0; targetDistance = 34; }
   if (e.code === 'KeyH' && !e.repeat) document.body.classList.toggle('photo-mode');
+  if (skillKeys.includes(e.code) && !e.repeat) useSkill(e.code);
 });
+function useSkill(code) {
+  const skill = hero?.useSkill(code);
+  if (!skill) return;
+  destination = null; marker.visible = false;
+  const slot = document.querySelector(`[data-skill="${code}"]`);
+  if (slot) { slot.classList.toggle('active', skill.toggle ? hero.guarding : false); if (!skill.toggle) { slot.classList.remove('flash'); void slot.offsetWidth; slot.classList.add('flash'); } }
+}
+function buildHotbar(h) {
+  const bar = $('hotbar'); bar.innerHTML = '';
+  for (const skill of h.skills) {
+    const b = document.createElement('button'); b.dataset.skill = skill.key; b.className = 'slot'; b.title = `${skill.label} (${skill.key.replace('Digit', '')})`;
+    b.innerHTML = `<span class="key">${skill.key.replace('Digit', '')}</span><span class="glyph">${skill.glyph ?? '✦'}</span><span>${skill.label}</span>`;
+    b.addEventListener('click', () => useSkill(skill.key)); bar.appendChild(b);
+  }
+  bar.hidden = false;
+}
 window.addEventListener('keyup', e => keys.delete(e.code));
 window.addEventListener('blur', () => { keys.clear(); orbit = null; });
 host.addEventListener('contextmenu', e => e.preventDefault());
@@ -78,7 +108,7 @@ host.addEventListener('pointerdown', e => {
 });
 host.addEventListener('pointermove', e => { if (orbit) targetYaw = orbit.yaw - (e.clientX - orbit.x) * .006; });
 host.addEventListener('pointerup', () => orbit = null);
-host.addEventListener('wheel', e => { e.preventDefault(); targetDistance = THREE.MathUtils.clamp(targetDistance + e.deltaY * .03, 24, 70); }, { passive: false });
+host.addEventListener('wheel', e => { e.preventDefault(); targetDistance = THREE.MathUtils.clamp(targetDistance + e.deltaY * .03, 16, 70); }, { passive: false });
 for (const button of document.querySelectorAll('[data-move]')) {
   const code = { up: 'KeyW', left: 'KeyA', down: 'KeyS', right: 'KeyD' }[button.dataset.move];
   button.addEventListener('pointerdown', e => { e.preventDefault(); button.setPointerCapture(e.pointerId); keys.add(code); destination = null; });
@@ -101,9 +131,10 @@ function movePlayer(dt) {
     dir.subVectors(destination, player.position); dir.y = 0;
     if (dir.length() < .12) { destination = null; marker.visible = false; dir.set(0, 0, 0); }
   }
+  if (hero?.busy) { heading = null; return false; }
   if (!dir.lengthSq()) return false;
   dir.normalize(); heading = Math.atan2(dir.x, dir.z);
-  const step = 4 * dt, p = player.position, x = p.x + dir.x * step, z = p.z + dir.z * step;
+  const step = (hero?.def.walkSpeed ?? 4) * dt, p = player.position, x = p.x + dir.x * step, z = p.z + dir.z * step;
   let moved = false;
   if (canStand(x, z)) { p.x = x; p.z = z; moved = true; }
   else { if (canStand(x, p.z)) { p.x = x; moved = true; } if (canStand(p.x, z)) { p.z = z; moved = true; } }
@@ -117,7 +148,7 @@ $('wind').addEventListener('input', e => { const v = Number(e.target.value) / 10
 $('snowfall').addEventListener('change', e => { forest.snow.points.visible = e.target.checked; });
 $('sound').addEventListener('click', async () => {
   audio ??= createForestAudio();
-  if (!audio) { $('sound').textContent = '✕ ไม่รองรับเสียง'; return; }
+  if (!audio) { $('sound').title = 'เบราว์เซอร์นี้ไม่รองรับเสียง'; $('sound').disabled = true; return; }
   audio.setWind(shared.uWind.value);
   const on = await audio.toggle();
   $('sound').setAttribute('aria-pressed', String(on)); $('sound').classList.toggle('on', on);
@@ -149,7 +180,13 @@ renderer.setAnimationLoop(t => {
   const dt = previous === null ? 0 : Math.min((t - previous) / 1000, .05); previous = t; elapsed += dt;
   const moving = movePlayer(dt);
   yaw += (targetYaw - yaw) * (1 - Math.exp(-dt * 8)); distance += (targetDistance - distance) * (1 - Math.exp(-dt * 6));
-  character.update(dt, elapsed, moving, heading, yaw);
+  if (hero) {
+    const lunge = hero.update(dt, moving, heading);
+    if (lunge) {
+      const p = player.position, x = p.x + lunge.x, z = p.z + lunge.z;
+      if (canStand(x, z)) { p.x = x; p.z = z; p.y = groundHeight(x, z); }
+    }
+  } else character.update(dt, elapsed, moving, heading, yaw);
   focus.lerp(player.position, 1 - Math.exp(-dt * 4));
   camera.position.set(focus.x + Math.sin(yaw) * Math.cos(pitch) * distance, focus.y + Math.sin(pitch) * distance, focus.z + Math.cos(yaw) * Math.cos(pitch) * distance);
   camera.lookAt(focus.x, focus.y + .6, focus.z);
@@ -166,6 +203,7 @@ renderer.setAnimationLoop(t => {
     const p = player.position, mx = (p.x / HALF / 2 + .5) * mini.width, my = (p.z / HALF / 2 + .5) * mini.height;
     mctx.fillStyle = '#ff6f91'; mctx.shadowColor = '#ff6f91'; mctx.shadowBlur = 6; mctx.beginPath(); mctx.arc(mx, my, 3, 0, Math.PI * 2); mctx.fill(); mctx.shadowBlur = 0;
     $('coords').textContent = `${Math.round(p.x + HALF)}, ${Math.round(p.z + HALF)}`;
+    
   }
   renderer.render(scene, camera);
 });
