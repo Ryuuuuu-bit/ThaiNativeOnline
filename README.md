@@ -71,7 +71,8 @@ npm run dev
   - กลางคืนร้านปิด ชาวเมืองกลับบ้าน ทหารออกตระเวน พระบิณฑบาตตอนเช้า
   - ทหารมี `faction: 'city_guard'` และ `NPCManager.guardsNear()` เตรียมไว้สำหรับระบบ Karma/PvP
 - **จุดเกิดมอนสเตอร์** (`data/spawns.js`) ประกาศพื้นที่และช่วงเวลา ระบบต่อสู้ใน `src/game/` สร้างมอนสเตอร์ตามพื้นที่เหล่านี้
-- **ข้อมูลร้านค้าและวิชา** (`data/shops.js`) แสดงในหน้าต่างสนทนาเป็นฟีเจอร์ที่จะเปิดในอนาคต
+- **ร้านค้า** (`shop/ShopSystem.js`, `ui/ShopPanel.js`) พ่อค้าที่มี `stock` ใน `data/shops.js` มีปุ่ม "ซื้อ-ขาย" ในหน้าต่างสนทนา ซื้อตามราคาไอเท็ม ขายคืนได้ครึ่งราคา ร้านที่ยังไม่มี stock และการฝึกวิชาแสดงเป็นฟีเจอร์ในอนาคต
+- **เควส** (`data/quests.js`, `quest/QuestSystem.js`, `ui/QuestUI.js`) 7 เควส เป้าหมายแบบสำรวจสถานที่ / ปราบมอนสเตอร์ / เก็บไอเท็ม / คุยกับ NPC มีเควสก่อนหน้าและเลเวลขั้นต่ำ ป้ายชื่อ NPC แสดง `!` (มีเควสให้รับ) `?` (ส่งได้) `…` (กำลังทำ) และติดตามความคืบหน้าในบันทึกการเดินทาง ความคืบหน้าและสถานที่ที่ค้นพบบันทึกใน localStorage
 
 ## ตัวละคร ต่อสู้ และ UI (`src/game/`)
 
@@ -106,7 +107,7 @@ npm run dev
 
 ## ทดสอบ
 
-`npm test` รันชุดทดสอบของโลกใน Node โดยไม่ต้องเปิด browser (`tests/world.test.js`) ส่วน interface ที่ระบบอื่นใช้ได้ดูใน `src/world/README.md`
+`npm test` รันชุดทดสอบใน Node โดยไม่ต้องเปิด browser: โลกและการนำทาง (`tests/world.test.js`) เควสและร้านค้า (`tests/quest-shop.test.js`) ส่วน interface ที่ระบบอื่นใช้ได้ดูใน `src/world/README.md`
 
 ## โครงสร้างโค้ด
 
@@ -118,18 +119,20 @@ src/
   world/districts/  Walls, Port, Market, Shops, Temple, Countryside, Wilds, Fill, Nature
   entities/  Player, NPC, Boats, Animals
   npc/       NPCManager, NPCData (อาชีพ/รูปลักษณ์), NPCSchedule, NavGraph, NPCRenderer
-  ui/        HUD, Minimap
+  ui/        HUD, Minimap, ShopPanel, QuestUI
+  quest/     QuestSystem (ตรรกะเควส ไม่ขึ้นกับ DOM)
+  shop/      ShopSystem (ซื้อ-ขาย ผ่าน API สาธารณะของ Character)
   game/      Character, Combat, CombatView, GameUI, data (อาชีพ ทักษะ มอนสเตอร์ ไอเท็ม), citySpawns
-  data/      npcs, shops, landmarks, regions, spawns
+  data/      npcs, shops, quests, landmarks, regions, spawns
 ```
 
 ภาพและโมเดลทั้งหมดสร้างจาก geometry และ canvas ในโค้ด ไม่มี assets เกมจากแหล่งอื่น ฟอนต์ Noto โหลดจาก Google Fonts และมี system fallback เมื่อ offline เจดีย์ร้าง ซากกำแพง และศาลเจ้าป่าจากต้นแบบแรกถูกนำมาใช้ในป่าของแผนที่ใหม่
 
 ## ขอบเขตและขั้นต่อไป
 
-ยังไม่มีร้านค้าที่ซื้อขายได้จริง เควส หรือระบบออนไลน์ ตัวละครในฉากยังเป็นโมเดลเดียวกันทุกอาชีพ
+ยังไม่มีระบบออนไลน์ การตีบวก หรือการฝึกวิชา ตัวละครในฉากยังเป็นโมเดลเดียวกันทุกอาชีพ
 
-1. ระบบร้านค้าและการตีบวกตาม `data/shops.js`
+1. การตีบวกที่โรงหลอมศาสตรา (ต้องให้ Character เก็บระดับบวกของอุปกรณ์ จึงรอ Character Agent)
 2. โมเดลตัวละครแยกตามอาชีพและเพศ
 3. ค่ากรรม (Karma) และการตอบสนองของทหารเมือง
 4. Navmesh / pathfinding สำหรับผู้เล่นและ NPC

@@ -37,3 +37,33 @@
 @media(max-width:900px){.dialogue{bottom:110px}#minimap{height:105px}}
 @media(max-width:600px){.dialogue{bottom:160px}.controls span{display:none}#minimap{height:85px}}
 .mini-footer #safety{margin-left:0;font:8px 'Noto Sans Thai',sans-serif}
+
+#dlg-quests .quest{font-size:11px;line-height:1.7;padding:9px 11px;border:1px solid #e3c47a55;border-radius:3px;background:#2a2a1966;margin-bottom:8px;color:#e6e0c8}
+#dlg-quests .quest h4{margin:0 0 3px;font:500 13px 'Noto Serif Thai',serif;color:#f6d98e}
+#dlg-quests .quest ul{margin:4px 0;padding-left:16px;color:#c9cfb8}
+#dlg-quests .quest li.done{color:#a6c98a}
+#dlg-quests .quest .reward{font-size:10px;color:#e9cf8a}
+#dlg-quests .quest button,#dlg-shop{border:1px solid #e3c47a90;background:#4a4424;border-radius:3px;padding:4px 12px;font-size:11px;color:#fff1c9;margin-top:4px}
+#quest-tracker{margin-top:10px;font-size:10px;line-height:1.65;color:#c6ccb4}
+#quest-tracker b{display:block;font-weight:500;color:#f0d59a;margin-top:6px}
+#quest-tracker b.ready{color:#a6d98a}
+#quest-tracker span.done{color:#9ec487}
+.shop{position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);width:min(380px,calc(100% - 32px));max-height:min(520px,calc(100dvh - 140px));padding:16px;display:flex;flex-direction:column;z-index:9}
+.shop .panel-heading span{display:flex;flex-direction:column}
+.shop .panel-heading small{font-size:10px;color:#cdbb86}
+.shop-tabs{display:flex;gap:6px;align-items:center;margin-bottom:10px}
+.shop-tabs button{border:1px solid #d6bc7540;background:#1b3029;border-radius:3px;padding:4px 14px;font-size:11px}
+.shop-tabs button[aria-pressed=true]{background:#4a4424;border-color:#e3c47a90;color:#fff1c9}
+#shop-gold{margin-left:auto;font-size:12px;color:#ecd38a}
+#shop-list{overflow:auto;display:flex;flex-direction:column;gap:5px}
+.shop-row{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #cabc8626;background:#0d1d1866;border-radius:3px;padding:7px 9px}
+.shop-row:hover:not(:disabled){border-color:#e3c47a90}
+.shop-row:disabled{opacity:.45;cursor:not-allowed}
+.shop-row i{font-style:normal;font-size:18px;width:24px;text-align:center}
+.shop-row span{flex:1;display:flex;flex-direction:column}
+.shop-row b{font-weight:500;font-size:12px}
+.shop-row small{font-size:9px;color:#a9b49e}
+.shop-row em{font-style:normal;font-size:11px;color:#ecd38a;white-space:nowrap}
+.shop-empty{font-size:11px;color:#a9b49e;text-align:center}
+.plate .qm{font-style:normal;font-weight:700;color:#ffd86a;margin-right:4px;font-size:13px}
+.photo-mode .shop{display:none}

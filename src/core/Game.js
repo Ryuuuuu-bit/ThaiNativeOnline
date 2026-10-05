@@ -16,6 +16,11 @@ import { WorldClock, PHASE_HOURS } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
 import { createGame } from '../game/index.js';
 import { citySpawns } from '../game/citySpawns.js';
+import { QUESTS } from '../data/quests.js';
+import { SHOPS } from '../data/shops.js';
+import { QuestSystem } from '../quest/QuestSystem.js';
+import { QuestUI } from '../ui/QuestUI.js';
+import { ShopPanel } from '../ui/ShopPanel.js';
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -45,6 +50,15 @@ export class Game {
     this.npcs = new NPCManager(this.scene, this.world, NPCS, this.clock);
     this.minimap = new Minimap($('minimap'), $('fullmap'), this.world.footprints);
     this.discovered = this.minimap.discovered;
+    try { for (const id of JSON.parse(localStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
+    // Quests and vendors attach to the character once one exists (after creation or load).
+    this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id) });
+    this.questUI = new QuestUI(this.quests, {
+      onAccept: id => { if (this.quests.accept(id)) this.hud.toast(`รับเควส · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).offer); this.refreshDialogue(); },
+      onComplete: id => { if (this.quests.complete(id)) this.hud.toast(`สำเร็จ · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).done); this.refreshDialogue(); },
+    });
+    this.quests.on('change', () => { this.questUI.renderTracker(); if (this.hud.dialogueOpen && this.talking) this.questUI.renderDialogue(this.talking.id); });
+    this.shop = new ShopPanel((text, kind) => (this.game?.ui?.log ? this.game.ui.log(text, kind === 'warn' ? '' : kind) : this.hud.toast(text, '')));
     this.input = new InputManager(host);
     this.bind();
     this.startCombat();
@@ -73,6 +87,7 @@ export class Game {
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (this.shop.open) return this.shop.close();
       if (this.hud.dialogueOpen) return this.closeDialogue();
       if (!$('fullmap-panel').hidden) return this.toggleMap();
       $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false');
@@ -96,6 +111,11 @@ export class Game {
     $('interaction').addEventListener('click', () => this.interact());
     $('dlg-next').addEventListener('click', () => this.interact());
     $('dlg-close').addEventListener('click', () => this.closeDialogue());
+    $('dlg-shop').addEventListener('click', () => {
+      const npc = this.talking, c = this.game?.character;
+      if (!npc || !c) return;
+      this.closeDialogue(); this.shop.show(npc, c);
+    });
     const settings = $('settings');
     $('settings-toggle').addEventListener('click', () => { settings.hidden = !settings.hidden; $('settings-toggle').setAttribute('aria-expanded', String(!settings.hidden)); });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
@@ -171,17 +191,27 @@ export class Game {
   interact() {
     if (this.hud.dialogueOpen && this.talking) {
       const d = this.talking.def; this.talkLine = (this.talkLine + 1) % d.dialogue.length;
-      return this.hud.openDialogue(this.talking, this.npcs.label(this.talking), d.dialogue[this.talkLine]);
+      this.hud.openDialogue(this.talking, this.npcs.label(this.talking), d.dialogue[this.talkLine]);
+      return this.refreshDialogue();
     }
     const p = this.player.position, npc = this.npcs.nearestInteractable(p.x, p.z);
     if (npc) {
       this.talking = npc; this.talkLine = 0; npc.talkTo(p.x, p.z);
-      return this.hud.openDialogue(npc, this.npcs.label(npc), npc.def.dialogue[0]);
+      this.hud.openDialogue(npc, this.npcs.label(npc), npc.def.dialogue[0]);
+      this.quests.onTalk(npc.id);
+      return this.refreshDialogue();
     }
     const l = this.nearLandmark();
     if (l) { this.discover(l, true); }
   }
   closeDialogue() { this.hud.closeDialogue(); this.talking?.release(); this.talking = null; }
+  // Quest offers and the trade button for the NPC being talked to.
+  refreshDialogue() {
+    const npc = this.talking;
+    if (!npc) return;
+    this.questUI.renderDialogue(npc.id);
+    $('dlg-shop').hidden = !(this.game?.character && SHOPS[npc.def.shopType]?.stock?.length);
+  }
   nearLandmark() {
     const p = this.player.position;
     return LANDMARKS.find(l => (!l.hidden || this.discovered.has(l.id)) && Math.hypot(l.x - p.x, l.z - p.z) < Math.min(l.radius, 8) + 1.5) ?? null;
@@ -190,6 +220,8 @@ export class Game {
     const fresh = !this.discovered.has(l.id);
     if (!fresh && !force) return;
     this.discovered.add(l.id);
+    try { localStorage.setItem('tno.discovered.v1', JSON.stringify([...this.discovered])); } catch { /* storage unavailable */ }
+    this.quests.onDiscover(l.id);
     this.hud.toast(fresh ? `ค้นพบ · ${l.name}` : l.name, l.text, l.purpose);
     this.updateJournal();
   }
@@ -231,9 +263,11 @@ export class Game {
     this.world.update(this.elapsed, dt, view.focus, env);
     this.npcs.update(dt, this.elapsed, p);
     this.game?.update(dt, this.elapsed);
+    if (!this.questsReady && this.game?.ready) { this.quests.attach(this.game.character, this.game.combat); this.questsReady = true; }
+    if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);
-    this.hud.updatePlates(this.npcs.npcs, view.camera, p, n => this.npcs.label(n));
+    this.hud.updatePlates(this.npcs.npcs, view.camera, p, n => this.npcs.label(n), n => (this.questsReady ? this.quests.marker(n.id) : null));
 
     if (time - this.lastHud > 120 || time === 0) {
       this.lastHud = time;
