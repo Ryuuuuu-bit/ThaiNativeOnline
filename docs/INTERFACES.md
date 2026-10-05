@@ -60,3 +60,15 @@ createCombatHud(container: HTMLElement, combat) -> { update() }
 ```
 Enemies are owned by combat for now (data-driven, geometry-built,
 Thai-folklore-inspired). Combat calls `player.playAction(...)` for poses.
+
+## Notes from implementation (additive, reviewed by lead)
+
+- World: `landmarks[]` also carry `obstacleRadius` and optional `questText`.
+- Character: `createPlayer` throws on unknown `classId`; adds `className`,
+  `weaponType`, `ring`, `currentAction`; `playAction` returns boolean.
+  `death` holds until `playAction('revive')` (main.js calls it on the
+  combat `respawn` event). Controller adds `getDestination()` and clears its
+  own destination on `arrived`/`blocked`.
+- Combat: adds `abilities`, `getCooldown(slot)`, `root`; `on()` returns an
+  unsubscribe fn; extra events `ability`, `heal`, `enemyAttack`,
+  `abilityFailed`. HUD returns `{ update, root, destroy }`.

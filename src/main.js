@@ -1,5 +1,7 @@
 import * as THREE from 'three';
-import { buildWorld, makePlayer, groundHeight, obstacles, landmarks, treePositions, pathX, riverX, inWater, windUniforms } from './world.js';
+import { buildWorld, groundHeight, canStand, landmarks, treePositions, pathX, riverX, windUniforms } from './world/index.js';
+import { createPlayer, createMovementController } from './character/index.js';
+import { createCombatSystem, createCombatHud } from './combat/index.js';
 import './style.css';
 
 const $ = id => document.getElementById(id);
@@ -31,12 +33,15 @@ const sun = new THREE.DirectionalLight('#fff0c6', 3.1); sun.position.set(-12, 24
 sun.shadow.mapSize.set(2048, 2048);
 Object.assign(sun.shadow.camera, { left: -32, right: 32, top: 32, bottom: -32, near: 1, far: 90 });
 sun.shadow.bias = -.0003; sun.shadow.normalBias = .035; sun.shadow.radius = 3; scene.add(sun);
-const world = buildWorld(scene), player = makePlayer(scene);
-player.group.position.set(1.4, 0, 3);
+const world = buildWorld(scene), player = createPlayer(scene, { classId: 'swordsman' });
+player.group.position.set(1.4, groundHeight(1.4, 3), 3);
+const mover = createMovementController({ player, canStand, groundHeight });
+const combat = createCombatSystem({ scene, player, groundHeight, canStand });
+const combatHud = createCombatHud($('app'), combat);
 const keys = new Set(), raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
 const clickMarker = new THREE.Mesh(new THREE.RingGeometry(.2, .27, 40), new THREE.MeshBasicMaterial({ color: '#fff0b2', transparent: true, opacity: .8, side: THREE.DoubleSide, depthWrite: false }));
 clickMarker.rotation.x = -Math.PI / 2; clickMarker.visible = false; scene.add(clickMarker);
-let destination = null, pan = null, photo = false, explored = false, elapsed = 0, previousTime = null, nearby = null;
+let pan = null, photo = false, explored = false, elapsed = 0, previousTime = null, nearby = null;
 let toastTimer;
 const forward = new THREE.Vector3(-cameraOffset.x, 0, -cameraOffset.z).normalize();
 const right = new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize();
@@ -53,21 +58,20 @@ function resetCamera() { cameraPanned = false; zoom = 1; resize(); }
 function setPhoto() { photo = !photo; document.body.classList.toggle('photo-mode', photo); $('restore-ui').hidden = !photo; }
 function explore() {
   if (!nearby) return;
-  if (nearby.kind === 'chedi') {
-    explored = true; $('quest-symbol').textContent = '✓'; $('quest-text').textContent = 'ค้นพบเจดีย์กลางป่าแล้ว';
-    toast('เจดีย์เก่า · รากไม้โอบล้อมอิฐที่ผ่านกาลเวลา สถานที่แห่งนี้จะเป็นจุดเริ่มต้นของเรื่องราวในบทต่อไป');
-  } else if (nearby.kind === 'pavilion') toast('ศาลาริมคลอง · สายลมพัดผ่านหลังคาไม้ และบัวค่อย ๆ ลอยตามผิวน้ำ');
-  else toast('ศาลเจ้าป่า · พวงมาลัยเก่าบอกว่ามีผู้เดินทางมาที่นี่ก่อนคุณ');
+  if (nearby.questText) { explored = true; $('quest-symbol').textContent = '✓'; $('quest-text').textContent = nearby.questText; }
+  toast(nearby.exploreText);
 }
 const movementCodes = ['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight'];
 window.addEventListener('keydown', event => {
   if (['INPUT','SELECT','TEXTAREA','BUTTON'].includes(event.target.tagName)) return;
-  if (movementCodes.includes(event.code)) { event.preventDefault(); keys.add(event.code); destination = null; clickMarker.visible = false; }
+  if (event.code === 'Tab') { event.preventDefault(); combat.cycleTarget(); }
+  if (movementCodes.includes(event.code)) { event.preventDefault(); keys.add(event.code); clearDestination(); }
   if (!event.repeat) {
+    if (/^Digit[1-4]$/.test(event.code)) combat.useAbility(Number(event.code.slice(5)) - 1);
     if (event.code === 'KeyR') resetCamera();
     if (event.code === 'KeyH') setPhoto();
     if (event.code === 'KeyE') explore();
-    if (event.code === 'Escape') { $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded','false'); if (photo) setPhoto(); }
+    if (event.code === 'Escape') { combat.selectTarget(null); $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded','false'); if (photo) setPhoto(); }
   }
 });
 window.addEventListener('keyup', event => keys.delete(event.code));
@@ -79,9 +83,9 @@ host.addEventListener('pointerdown', event => {
     pan = { x: event.clientX, y: event.clientY, start: desiredFocus.clone() }; host.setPointerCapture(event.pointerId); cameraPanned = true;
   } else if (event.button === 0) {
     const rect = host.getBoundingClientRect(); pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);
-    raycaster.setFromCamera(pointer,camera); const hit = raycaster.intersectObject(world.ground)[0];
+    raycaster.setFromCamera(pointer,camera); if (combat.pickEnemy(raycaster)) return; const hit = raycaster.intersectObject(world.ground)[0];
     if (hit && canStand(hit.point.x, hit.point.z)) {
-      destination = hit.point.clone(); clickMarker.position.set(hit.point.x, groundHeight(hit.point.x,hit.point.z)+.07,hit.point.z); clickMarker.visible=true;
+      mover.setDestination(hit.point); clickMarker.position.set(hit.point.x, groundHeight(hit.point.x,hit.point.z)+.07,hit.point.z); clickMarker.visible=true;
     }
   }
 });
@@ -97,31 +101,22 @@ host.addEventListener('pointercancel', () => pan=null);
 host.addEventListener('wheel', event => { event.preventDefault(); zoom=THREE.MathUtils.clamp(zoom-event.deltaY*.001, .65, 1.8); resize(); },{passive:false});
 for (const button of document.querySelectorAll('[data-move]')) {
   const code = {up:'KeyW',left:'KeyA',down:'KeyS',right:'KeyD'}[button.dataset.move];
-  button.addEventListener('pointerdown',event=>{event.preventDefault();button.setPointerCapture(event.pointerId);keys.add(code);destination=null;clickMarker.visible=false;});
+  button.addEventListener('pointerdown',event=>{event.preventDefault();button.setPointerCapture(event.pointerId);keys.add(code);clearDestination();});
   for(const name of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(name,()=>keys.delete(code));
 }
-function canStand(x,z) {
-  if (Math.abs(x)>25 || Math.abs(z)>25 || inWater(x+.35,z)) return false;
-  return !obstacles.some(o=>Math.hypot(x-o.x,z-o.z)<o.radius+.25);
-}
+function clearDestination() { mover.setDestination(null); clickMarker.visible = false; }
 function movePlayer(dt) {
   const direction=new THREE.Vector3();
   if(keys.has('KeyW')||keys.has('ArrowUp'))direction.add(forward);
   if(keys.has('KeyS')||keys.has('ArrowDown'))direction.sub(forward);
   if(keys.has('KeyD')||keys.has('ArrowRight'))direction.add(right);
   if(keys.has('KeyA')||keys.has('ArrowLeft'))direction.sub(right);
-  if(destination && !direction.lengthSq()) {
-    direction.subVectors(destination,player.group.position);direction.y=0;
-    if(direction.length()<.14){destination=null;clickMarker.visible=false;direction.set(0,0,0);}
-  }
-  if(!direction.lengthSq()){player.update(elapsed,false);return;}
-  direction.normalize();const speed=3.1*dt,p=player.group.position;
-  const x=p.x+direction.x*speed,z=p.z+direction.z*speed;let moved=false;
-  if(canStand(x,z)){p.x=x;p.z=z;moved=true;}
-  else {if(canStand(x,p.z)){p.x=x;moved=true;}if(canStand(p.x,z)){p.z=z;moved=true;}}
-  if(!moved && destination){destination=null;clickMarker.visible=false;toast('เส้นทางถูกกีดขวาง ลองเดินอ้อมด้วย W A S D');}
-  p.y=groundHeight(p.x,p.z);player.group.rotation.y=Math.atan2(direction.x,direction.z);player.update(elapsed,moved);
+  const result=mover.update(dt,elapsed,direction);
+  if(result.arrived||result.blocked)clickMarker.visible=false;
+  if(result.blocked)toast('เส้นทางถูกกีดขวาง ลองเดินอ้อมด้วย W A S D');
 }
+combat.on('death',event=>{if(event.who==='player'){keys.clear();clearDestination();toast('คุณหมดสติ · จะฟื้นคืนที่จุดเริ่มต้นในอีกครู่');}});
+combat.on('respawn',event=>{if(event.who==='player'){clearDestination();player.playAction('revive');}});
 
 $('reset-camera').addEventListener('click',resetCamera);
 $('photo-mode').addEventListener('click',setPhoto);$('restore-ui').addEventListener('click',setPhoto);
@@ -188,7 +183,7 @@ let lastHud=0;
 renderer.setAnimationLoop(timestamp=>{
   if(document.hidden){previousTime=null;return;}
   const dt=previousTime===null?0:Math.min((timestamp-previousTime)/1000,.05);previousTime=timestamp;elapsed+=dt;
-  movePlayer(dt);world.update(elapsed,dt);
+  if(combat.playerState.dead)player.update(elapsed,false);else movePlayer(dt);world.update(elapsed,dt);combat.update(dt,elapsed);combatHud.update();
   if(!cameraPanned)desiredFocus.set(player.group.position.x*.55,0,player.group.position.z*.55-3.5);
   focus.lerp(desiredFocus,1-Math.exp(-dt*3));camera.position.copy(focus).add(cameraOffset);camera.lookAt(focus);
   if(clickMarker.visible){clickMarker.scale.setScalar(1+Math.sin(elapsed*5)*.12);}
