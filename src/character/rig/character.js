@@ -84,13 +84,18 @@ export class Character {
   }
   get skills() { return this.moves.skills; }
   on(fn) { this.listeners.push(fn); }
-  play(skillId) {
+  // speed > 1 plays a skill faster (e.g. a basic attack on a short cooldown);
+  // force interrupts a skill that is still playing.
+  play(skillId, { speed = 1, force = false } = {}) {
     const clip = this.clips[skillId]; if (!clip) return false;
-    if (this.skill && this.skill.time < this.skill.clip.duration - .3) return false;
-    const action = this.actions[skillId]; action.reset(); action.play();
-    this.skill = { id: skillId, clip, action, time: 0, fired: new Set(), motion: 0, def: clip.userData.skill };
+    if (!force && this.skill && this.skill.time < this.skill.clip.duration - .3) return false;
+    if (this.skill && this.skill.action !== this.actions[skillId]) this.skill.action.setEffectiveWeight(0);
+    const action = this.actions[skillId]; action.reset(); action.timeScale = speed; action.play();
+    this.skill = { id: skillId, clip, action, time: 0, speed, fired: new Set(), motion: 0, def: clip.userData.skill };
     return true;
   }
+  // Lets the current skill fade out quickly (e.g. when the player walks away).
+  cancel() { if (this.skill) this.skill.time = Math.max(this.skill.time, this.skill.clip.duration - .2); }
   get busy() { return !!this.skill; }
   // speed: ground speed in m/s (unscaled). Returns forward root motion this frame.
   update(dt, speed = 0) {
@@ -105,7 +110,7 @@ export class Character {
     this.actions.run.time = this.phase * this.clips.run.duration;
     let skillW = 0, motion = 0;
     if (this.skill) {
-      const sk = this.skill, dur = sk.clip.duration; sk.time += dt;
+      const sk = this.skill, dur = sk.clip.duration; sk.time += dt * sk.speed;
       skillW = Math.min(1, sk.time / .14) * Math.min(1, Math.max(0, (dur + .1 - sk.time) / .3));
       const m = motionAt(sk.clip, Math.min(sk.time, dur)); motion = m - sk.motion; sk.motion = m;
       for (const e of sk.clip.userData.events) if (!sk.fired.has(e) && sk.time >= e.t) { sk.fired.add(e); this.listeners.forEach(fn => fn(e, this)); }

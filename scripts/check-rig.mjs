@@ -4,8 +4,8 @@
 // sink into the ground, planted feet stay planted (walk/run slip), IK reaches
 // its targets while a foot is planted, and looping clips are seamless.
 import * as THREE from 'three';
-import { Character, CLASS_IDS } from '../src/characters/character.js';
-import { LIMITS } from '../src/characters/skeleton.js';
+import { Character, CLASS_IDS } from '../src/character/rig/character.js';
+import { LIMITS } from '../src/character/rig/skeleton.js';
 
 const deg = THREE.MathUtils.radToDeg;
 const v = () => new THREE.Vector3();

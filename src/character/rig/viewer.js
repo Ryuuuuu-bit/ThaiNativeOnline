@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { Character, CLASSES, CLASS_IDS } from './characters/character.js';
-import { Dog } from './characters/dog.js';
-import { Effects } from './characters/vfx.js';
-import { LIMITS } from './characters/skeleton.js';
-import './style.css';
+import { Character, CLASSES, CLASS_IDS } from './character.js';
+import { Dog } from './dog.js';
+import { Effects } from './vfx.js';
+import { LIMITS } from './skeleton.js';
+import '../../style.css';
 import './viewer.css';
 
 const $ = id => document.getElementById(id);
