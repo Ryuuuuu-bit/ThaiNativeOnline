@@ -3,8 +3,13 @@ import { LANDMARKS } from '../data/landmarks.js';
 
 // A north-up map painted once from the city data. The minimap shows a window
 // around the player; M opens the whole map. Hidden places appear only once found.
-const S = 2, W = (BOUNDS.maxX - BOUNDS.minX) * S, H = (BOUNDS.maxZ - BOUNDS.minZ) * S;
-const px = x => (x - BOUNDS.minX) * S, pz = z => (z - BOUNDS.minZ) * S;
+// Map hook (src/world/maps.js): `options.bounds` limits the painting to the
+// current map, `options.landmarks` to its landmarks, and `options.portals` are
+// drawn as exits labelled with the destination. `options.discovered` lets the
+// discovered set outlive a map change.
+const S = 2;
+let BOUNDS_ = BOUNDS, W = 0, H = 0;
+const px = x => (x - BOUNDS_.minX) * S, pz = z => (z - BOUNDS_.minZ) * S;
 const AREAS = [
   { name: 'แม่น้ำเจ้าพระยา', x: 0, z: 205 }, { name: 'ท่าเรือ', x: 6, z: 152 }, { name: 'ตลาด', x: 0, z: 28 }, { name: 'วัด', x: 63, z: -60 },
   { name: 'ย่านบ้านเรือน', x: -62, z: -60 }, { name: 'ทุ่งนา', x: -64, z: -200 }, { name: 'สวน', x: 66, z: -195 }, { name: 'ป่า', x: 0, z: -400 },
@@ -12,14 +17,17 @@ const AREAS = [
 ];
 
 export class Minimap {
-  constructor(canvas, fullCanvas, footprints) {
+  constructor(canvas, fullCanvas, footprints, { bounds = BOUNDS, landmarks = LANDMARKS, portals = [], discovered = new Set() } = {}) {
+    this.bounds = bounds; this.landmarks = landmarks; this.portals = portals;
+    this.use();
     this.canvas = canvas; this.ctx = canvas.getContext('2d'); this.full = fullCanvas;
     this.base = document.createElement('canvas'); this.base.width = W; this.base.height = H;
     this.paint(this.base.getContext('2d'), footprints);
-    this.discovered = new Set();
+    this.discovered = discovered;
   }
+  use() { BOUNDS_ = this.bounds; W = (BOUNDS_.maxX - BOUNDS_.minX) * S; H = (BOUNDS_.maxZ - BOUNDS_.minZ) * S; }
   paint(g, footprints) {
-    const grad = g.createLinearGradient(0, 0, 0, H);
+    const grad = g.createLinearGradient(0, pz(BOUNDS.minZ), 0, pz(BOUNDS.maxZ));
     for (const [z, c] of [[-610, '#1f2c22'], [-470, '#26362a'], [-360, '#33473a'], [-300, '#4b5f41'], [-256, '#5e7048'], [-112, '#617350'], [-108, '#76765a'], [170, '#7a785c']]) grad.addColorStop((z - BOUNDS.minZ) / (BOUNDS.maxZ - BOUNDS.minZ), c);
     g.fillStyle = grad; g.fillRect(0, 0, W, H);
     const line = (pts, width, color) => { g.strokeStyle = color; g.lineWidth = width * S; g.lineCap = g.lineJoin = 'round'; g.beginPath(); pts.forEach(([x, z], i) => (i ? g.lineTo(px(x), pz(z)) : g.moveTo(px(x), pz(z)))); g.stroke(); };
@@ -52,8 +60,14 @@ export class Minimap {
   }
   drawMarkers(g, scale, ox, oz, labels) {
     this.drawCemetery(g, scale, ox, oz);
+    for (const p of this.portals) {
+      const m = p.marker ?? p.at, x = ox(m.x), y = oz(m.z);
+      g.strokeStyle = '#ffd98a'; g.fillStyle = 'rgba(255,214,130,.3)'; g.lineWidth = 2;
+      g.beginPath(); g.arc(x, y, labels ? 7 : 5, 0, Math.PI * 2); g.fill(); g.stroke();
+      if (labels) { g.font = '12px "Noto Sans Thai", sans-serif'; g.fillStyle = '#ffe7a8'; g.textAlign = 'left'; g.fillText(`ทางออก → ${p.toName ?? p.to}`, x + 12, y); g.textAlign = 'center'; }
+    }
     g.textAlign = 'center'; g.textBaseline = 'middle';
-    for (const l of LANDMARKS) {
+    for (const l of this.landmarks) {
       const found = this.discovered.has(l.id);
       if (l.hidden && !found) continue;
       const x = ox(l.x), y = oz(l.z);
@@ -69,6 +83,7 @@ export class Minimap {
     g.beginPath(); g.moveTo(0, -6); g.lineTo(4.5, 5); g.lineTo(0, 2.5); g.lineTo(-4.5, 5); g.closePath(); g.fill(); g.restore();
   }
   update(p, yaw) {
+    this.use();
     const g = this.ctx, cw = this.canvas.width, ch = this.canvas.height, viewW = 150, scale = cw / viewW, viewH = ch / scale;
     g.fillStyle = '#1b2a22'; g.fillRect(0, 0, cw, ch);
     g.drawImage(this.base, px(p.x - viewW / 2), pz(p.z - viewH / 2), viewW * S, viewH * S, 0, 0, cw, ch);
@@ -77,12 +92,13 @@ export class Minimap {
     this.drawPlayer(g, cw / 2, ch / 2, yaw);
   }
   drawFull(p, yaw) {
-    const c = this.full, g = c.getContext('2d'), scale = Math.min(c.height / (BOUNDS.maxZ - BOUNDS.minZ), c.width / (BOUNDS.maxX - BOUNDS.minX));
-    const w = (BOUNDS.maxX - BOUNDS.minX) * scale, h = (BOUNDS.maxZ - BOUNDS.minZ) * scale, left = (c.width - w) / 2, top = (c.height - h) / 2;
+    this.use();
+    const B = this.bounds, c = this.full, g = c.getContext('2d'), scale = Math.min(c.height / (B.maxZ - B.minZ), c.width / (B.maxX - B.minX));
+    const w = (B.maxX - B.minX) * scale, h = (B.maxZ - B.minZ) * scale, left = (c.width - w) / 2, top = (c.height - h) / 2;
     g.clearRect(0, 0, c.width, c.height); g.drawImage(this.base, left, top, w, h);
-    const ox = x => left + (x - BOUNDS.minX) * scale, oz = z => top + (z - BOUNDS.minZ) * scale;
+    const ox = x => left + (x - B.minX) * scale, oz = z => top + (z - B.minZ) * scale;
     g.font = '12px "Noto Serif Thai", serif'; g.fillStyle = 'rgba(255,245,220,.6)'; g.textAlign = 'center';
-    for (const a of AREAS) if (!LANDMARKS.some(l => this.discovered.has(l.id) && Math.hypot(l.x - a.x, l.z - a.z) < 28)) g.fillText(a.name, ox(a.x), oz(a.z));
+    for (const a of AREAS) if (a.z > B.minZ && a.z < B.maxZ && !this.landmarks.some(l => this.discovered.has(l.id) && Math.hypot(l.x - a.x, l.z - a.z) < 28)) g.fillText(a.name, ox(a.x), oz(a.z));
     this.drawMarkers(g, scale, ox, oz, true);
     this.drawPlayer(g, ox(p.x), oz(p.z), yaw);
   }

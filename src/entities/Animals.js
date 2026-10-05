@@ -44,15 +44,17 @@ export class Animals {
     this.buffalo = [];
     const add = (x, z, area) => { const o = template.clone(); scene.add(o); this.buffalo.push({ o, x, z, area, tx: x, tz: z, yaw: rng() * 6, wait: rng() * 5 }); };
     for (const pen of ctx.pens) for (let i = 0; i < 3; i++) add(pen.x + rng.range(-2, 2), pen.z + rng.range(-1.5, 1.5), { x: pen.x, z: pen.z, rx: pen.rx, rz: pen.rz });
-    for (const [x, z] of [[-50, -176], [-78, -212], [-35, -245]]) add(x, z, { x, z, rx: 5, rz: 3 });
+    // ctx.keep (World hook): only animals inside the map being built.
+    const keep = ctx.keep ?? (() => true);
+    for (const [x, z] of [[-50, -176], [-78, -212], [-35, -245]]) if (keep(x, z)) add(x, z, { x, z, rx: 5, rz: 3 });
 
     // Egrets stand in the paddies; small flocks circle over the fields by day.
     const egretGeo = merged([new THREE.SphereGeometry(.13, 7, 5).scale(1, .9, 1.6).translate(0, .45, 0), new THREE.CylinderGeometry(.025, .03, .35, 4).rotateX(.4).translate(0, .66, .14), new THREE.SphereGeometry(.05, 5, 4).translate(0, .84, .2),
       new THREE.CylinderGeometry(.012, .012, .35, 3).translate(.04, .17, 0), new THREE.CylinderGeometry(.012, .012, .35, 3).translate(-.04, .17, 0)]);
-    const wet = PADDIES.filter(p => p.state !== 'ripe');
-    this.egrets = new THREE.InstancedMesh(egretGeo, mat('#f4f1e8'), 26); this.egrets.castShadow = true;
+    const wet = PADDIES.filter(p => p.state !== 'ripe' && keep((p.x0 + p.x1) / 2, (p.z0 + p.z1) / 2)), egrets = wet.length ? 26 : 0;
+    this.egrets = new THREE.InstancedMesh(egretGeo, mat('#f4f1e8'), Math.max(1, egrets)); this.egrets.count = egrets; this.egrets.castShadow = true;
     this.egretData = [];
-    for (let i = 0; i < 26; i++) { const p = rng.pick(wet); this.egretData.push({ x: rng.range(p.x0 + .5, p.x1 - .5), z: rng.range(p.z0 + .5, p.z1 - .5), yaw: rng() * 6, phase: rng() * 6 }); }
+    for (let i = 0; i < egrets; i++) { const p = rng.pick(wet); this.egretData.push({ x: rng.range(p.x0 + .5, p.x1 - .5), z: rng.range(p.z0 + .5, p.z1 - .5), yaw: rng() * 6, phase: rng() * 6 }); }
     scene.add(this.egrets);
     const birdGeo = new THREE.BufferGeometry();
     birdGeo.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, .15, -.45, .08, -.1, 0, 0, -.05, 0, 0, .15, 0, 0, -.05, .45, .08, -.1], 3)); birdGeo.computeVertexNormals();

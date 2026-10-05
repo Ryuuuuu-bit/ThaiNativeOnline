@@ -58,14 +58,19 @@ function addMesh(scene, geometry, material) {
   const m = new THREE.Mesh(geometry, material); m.receiveShadow = true; m.matrixAutoUpdate = false; scene.add(m); return m;
 }
 
-export function buildWater(scene) {
+// Only surfaces that reach into `rect` (one map's built extent) are created.
+// dispose() frees the surfaces and forgets their materials.
+export function buildWater(scene, rect = BOUNDS) {
+  const meshes = [], overlaps = (z0, z1) => z1 >= rect.minZ && z0 <= rect.maxZ;
+  const add = (geometry, material) => { meshes.push(addMesh(scene, geometry, material)); };
   const river = waterMaterial('#6f9682', '#4f7d74', { foam: 1 });
   const canal = waterMaterial('#6c8c74', '#557c70', { foam: .8, scale: 1.2 });
   const stream = waterMaterial('#4d6458', '#33483f', { foam: .5, scale: 1.4 });
   const paddy = waterMaterial('#6a8450', '#587a50', { foam: .2, scale: 1.6, reflect: .45 });
+  const materials = [river, canal, stream, paddy];
 
   // River, extended past the map edges so its ends are never seen.
-  {
+  if (overlaps(155, 260)) {
     const pos = [], shore = [], idx = [], rows = 14, cols = [];
     for (let x = BOUNDS.minX - 40; x <= BOUNDS.maxX + 40; x += 2.5) cols.push(x);
     cols.forEach((x, i) => {
@@ -73,32 +78,39 @@ export function buildWater(scene) {
       for (let r = 0; r <= rows; r++) { const z = a + (b - a) * r / rows; pos.push(x, WATER_Y, z); shore.push(Math.min(1, Math.max(0, Math.min(z - a - .8, b - .8 - z) / 14))); }
       if (i) for (let r = 0; r < rows; r++) { const p = (i - 1) * (rows + 1) + r, q = i * (rows + 1) + r; idx.push(p, p + 1, q, q, p + 1, q + 1); }
     });
-    addMesh(scene, surface(pos, shore, idx), river);
+    add(surface(pos, shore, idx), river);
   }
-  {
+  if (overlaps(-90, 2)) {
     const pos = [], shore = [], idx = [];
     ribbon(CANAL.pts, CANAL.half + .7, () => WATER_Y, pos, shore, idx);
     // Lotus pond in the temple grounds.
     const base = pos.length / 3, seg = 28;
     pos.push(POND.x, WATER_Y + .02, POND.z); shore.push(1);
     for (let i = 0; i <= seg; i++) { const a = i / seg * Math.PI * 2; pos.push(POND.x + Math.cos(a) * (POND.rx + .6), WATER_Y + .02, POND.z + Math.sin(a) * (POND.rz + .6)); shore.push(0); if (i) idx.push(base, base + i + 1, base + i); }
-    addMesh(scene, surface(pos, shore, idx), canal);
+    add(surface(pos, shore, idx), canal);
   }
-  {
+  if (overlaps(-425, -380)) {
     const pos = [], shore = [], idx = [];
     ribbon(STREAM.pts, STREAM.half + .6, (x, z) => baseHeight(x, z) - .38, pos, shore, idx);
-    addMesh(scene, surface(pos, shore, idx), stream);
+    add(surface(pos, shore, idx), stream);
   }
-  {
+  if (overlaps(-256, -148)) {
     const pos = [], shore = [], idx = [];
     for (const p of PADDIES) {
+      if (!overlaps(p.z0, p.z1)) continue;
       const b = pos.length / 3, cx = (p.x0 + p.x1) / 2, cz = (p.z0 + p.z1) / 2;
       pos.push(p.x0 - .2, PADDY_WATER_Y, p.z0 - .2, p.x1 + .2, PADDY_WATER_Y, p.z0 - .2, p.x1 + .2, PADDY_WATER_Y, p.z1 + .2, p.x0 - .2, PADDY_WATER_Y, p.z1 + .2, cx, PADDY_WATER_Y, cz);
       shore.push(0, 0, 0, 0, 1);
       idx.push(b, b + 4, b + 1, b + 1, b + 4, b + 2, b + 2, b + 4, b + 3, b + 3, b + 4, b);
     }
     for (const c of CHANNELS) ribbon(c.pts, c.half + .2, () => -.16, pos, shore, idx);
-    addMesh(scene, surface(pos, shore, idx), paddy);
+    add(surface(pos, shore, idx), paddy);
   }
-  return { river, canal, stream, paddy };
+  return {
+    river, canal, stream, paddy, meshes,
+    dispose() {
+      for (const m of meshes) { m.removeFromParent(); m.geometry.dispose(); }
+      for (const m of materials) { m.dispose(); const i = waterMaterials.indexOf(m); if (i >= 0) waterMaterials.splice(i, 1); }
+    },
+  };
 }

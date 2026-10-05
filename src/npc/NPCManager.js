@@ -13,7 +13,8 @@ const NEAR = 48, MID = 95, FAR_TICK = 1, MID_TICK = .2;
 export class NPCManager {
   constructor(scene, world, defs, clock) {
     this.world = world; this.clock = clock;
-    this.nav = NavGraph.fromRoads();
+    // world.contains (World hook): the nav graph covers the current map only.
+    this.nav = NavGraph.fromRoads(world.contains);
     // Spots registered by the districts become graph nodes linked to their road.
     for (const [id, s] of Object.entries(world.spots)) Object.assign(this.nav.add(id, s.x, s.z), { spot: true, face: s.face });
     for (const [id, s] of Object.entries(world.spots)) this.link(id, s.link);
@@ -25,7 +26,7 @@ export class NPCManager {
     });
     for (const npc of this.npcs) npc.setActivity(activityFor(npc.def, clock.phase), true);
     this.renderer = new NPCRenderer(scene, this.npcs);
-    clock.onPhase(phase => {
+    this.offPhase = clock.onPhase(phase => {
       // Stagger reactions so the town does not move in lockstep.
       for (const npc of this.npcs) npc.pending = { activity: activityFor(npc.def, phase), delay: Math.random() * 10 };
     });
@@ -67,6 +68,8 @@ export class NPCManager {
     }
   }
   homeOf(npc) { return npc.homeId; }
+  // Called when the map unloads: stop listening to the clock and free the meshes.
+  dispose() { this.offPhase?.(); this.renderer.dispose(); this.npcs = []; }
 
   update(dt, t, focus) {
     this.tick++;

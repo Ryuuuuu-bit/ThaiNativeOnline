@@ -17,17 +17,21 @@ function prepare(geometry) {
   return g;
 }
 
+// `keep(x, z)` (optional) drops pieces outside the map being built; `whole`
+// keeps every piece of an object whose placement was already accepted.
 export class StaticBatcher {
-  constructor(chunk = 40) { this.chunk = chunk; this.buckets = new Map(); this.count = 0; }
-  add(geometry, material, matrix, castShadow = true) {
-    const e = matrix.elements, key = `${Math.floor(e[12] / this.chunk)},${Math.floor(e[14] / this.chunk)}|${material.uuid}|${castShadow ? 1 : 0}`;
+  constructor(chunk = 40, keep = null) { this.chunk = chunk; this.keep = keep; this.buckets = new Map(); this.count = 0; }
+  add(geometry, material, matrix, castShadow = true, whole = false) {
+    const e = matrix.elements;
+    if (this.keep && !whole && !this.keep(e[12], e[14])) return;
+    const key = `${Math.floor(e[12] / this.chunk)},${Math.floor(e[14] / this.chunk)}|${material.uuid}|${castShadow ? 1 : 0}`;
     let bucket = this.buckets.get(key);
     if (!bucket) this.buckets.set(key, bucket = { material, castShadow, items: [] });
     bucket.items.push([geometry, matrix.clone()]); this.count++;
   }
-  addObject(root) {
+  addObject(root, whole = false) {
     root.updateMatrixWorld(true);
-    root.traverse(o => { if (o.isMesh && !o.isInstancedMesh && o.visible) this.add(o.geometry, o.material, o.matrixWorld, o.castShadow); });
+    root.traverse(o => { if (o.isMesh && !o.isInstancedMesh && o.visible) this.add(o.geometry, o.material, o.matrixWorld, o.castShadow, whole); });
   }
   build(scene) {
     let meshes = 0;
@@ -50,15 +54,17 @@ export class StaticBatcher {
 // Repeated props and vegetation: one InstancedMesh per chunk keeps culling effective.
 const dummy = new THREE.Object3D(), white = new THREE.Color('#ffffff');
 export class InstanceSet {
-  constructor(geometry, material, { chunk = 40, castShadow = true, receiveShadow = true } = {}) {
-    Object.assign(this, { geometry, material, chunk, castShadow, receiveShadow }); this.cells = new Map(); this.total = 0;
+  constructor(geometry, material, { chunk = 40, castShadow = true, receiveShadow = true, keep = null } = {}) {
+    Object.assign(this, { geometry, material, chunk, castShadow, receiveShadow, keep }); this.cells = new Map(); this.total = 0;
   }
   add(x, y, z, { rx = 0, ry = 0, rz = 0, s = 1, sx, sy, sz, color } = {}) {
     dummy.position.set(x, y, z); dummy.rotation.set(rx, ry, rz); dummy.scale.set(sx ?? s, sy ?? s, sz ?? s); dummy.updateMatrix();
     this.addMatrix(dummy.matrix, color);
   }
-  addMatrix(matrix, color) {
-    const e = matrix.elements, key = `${Math.floor(e[12] / this.chunk)},${Math.floor(e[14] / this.chunk)}`;
+  addMatrix(matrix, color, whole = false) {
+    const e = matrix.elements;
+    if (this.keep && !whole && !this.keep(e[12], e[14])) return;
+    const key = `${Math.floor(e[12] / this.chunk)},${Math.floor(e[14] / this.chunk)}`;
     let cell = this.cells.get(key);
     if (!cell) this.cells.set(key, cell = { matrices: [], colors: [], colored: false });
     cell.matrices.push(...e);

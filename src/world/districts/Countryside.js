@@ -75,7 +75,7 @@ export function buildCountryside(ctx) {
   const { rng, veg, props } = ctx;
   // Rice paddies, with a few plots being planted where the farmers work.
   const riceMat = patchMaterial(mat('#ffffff', { side: THREE.DoubleSide }), { wind: .14, instanced: true });
-  const rice = new InstanceSet(riceGeometry(), riceMat, { castShadow: false });
+  const rice = new InstanceSet(riceGeometry(), riceMat, { castShadow: false, keep: ctx.keep });
   ctx.sets.push(rice);
   const planting = [[-45, -176], [-72, -210], [-30, -240], [-84, -176]];
   for (const [x, z] of planting) { const p = paddyAt(x, z); if (p) p.state = 'young'; }

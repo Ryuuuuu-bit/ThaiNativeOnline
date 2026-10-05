@@ -51,7 +51,8 @@ const PROPS = {
 };
 
 export class PropLibrary {
-  constructor() { this.sets = new Map(); this.m = new THREE.Matrix4(); this.p = new THREE.Matrix4(); this.e = new THREE.Euler(); this.q = new THREE.Quaternion(); }
+  // keep(x, z): optional filter for the map being built (see StaticBatcher).
+  constructor(keep = null) { this.keep = keep; this.sets = new Map(); this.m = new THREE.Matrix4(); this.p = new THREE.Matrix4(); this.e = new THREE.Euler(); this.q = new THREE.Quaternion(); }
   set(part) {
     let s = this.sets.get(part);
     if (!s) {
@@ -60,7 +61,8 @@ export class PropLibrary {
     }
     return s;
   }
-  add(name, x, y, z, { ry = 0, rx = 0, rz = 0, s = 1, sx, sy, sz, color } = {}) {
+  add(name, x, y, z, { ry = 0, rx = 0, rz = 0, s = 1, sx, sy, sz, color } = {}, whole = false) {
+    if (this.keep && !whole && !this.keep(x, z)) return;
     const parts = PROPS[name] ?? [[name]];
     this.e.set(rx, ry, rz); this.q.setFromEuler(this.e);
     this.m.compose(new THREE.Vector3(x, y, z), this.q, new THREE.Vector3(sx ?? s, sy ?? s, sz ?? s));

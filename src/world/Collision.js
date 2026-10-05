@@ -1,10 +1,12 @@
 // Static collision in a spatial hash: circles (trees, posts), oriented boxes
 // (buildings) and capsules (walls, fences). Decks are walkable surfaces that
 // may span water: piers, bridges and stepping logs.
+// `rect` (optional) limits the shapes kept to one map's built extent.
 export class Collision {
-  constructor(cell = 8) { this.cell = cell; this.shapes = new Map(); this.decks = new Map(); this.count = 0; }
+  constructor(cell = 8, rect = null) { this.cell = cell; this.rect = rect; this.shapes = new Map(); this.decks = new Map(); this.count = 0; }
   insert(map, shape, minX, minZ, maxX, maxZ) {
-    const c = this.cell;
+    const c = this.cell, r = this.rect;
+    if (r && (maxX < r.minX || minX > r.maxX || maxZ < r.minZ || minZ > r.maxZ)) return;
     for (let ix = Math.floor(minX / c); ix <= Math.floor(maxX / c); ix++) for (let iz = Math.floor(minZ / c); iz <= Math.floor(maxZ / c); iz++) {
       const key = ix * 100003 + iz; let list = map.get(key);
       if (!list) map.set(key, list = []);
