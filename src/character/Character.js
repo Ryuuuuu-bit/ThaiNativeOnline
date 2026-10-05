@@ -1,16 +1,12 @@
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
 // Pure logic so it can be reused by any world or a future server.
-import { CLASSES, CLASS_ALIASES, ITEMS, STATS, MAX_LEVEL, START_ITEMS, expToNext } from './data.js';
+import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS } from './data/classes.js';
+import { ITEMS } from './data/items.js';
+import { MAX_LEVEL, expToNext } from './data/progression.js';
+import { Emitter } from './Emitter.js';
 
 const SAVE_KEY = 'tno.character.v1';
 const INVENTORY_SIZE = 24;
-
-export class Emitter {
-  constructor() { this.handlers = {}; }
-  on(type, fn) { (this.handlers[type] ||= []).push(fn); return () => this.off(type, fn); }
-  off(type, fn) { this.handlers[type] = (this.handlers[type] || []).filter(h => h !== fn); }
-  emit(type, payload) { for (const fn of this.handlers[type] || []) fn(payload); }
-}
 
 export class Character extends Emitter {
   constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp } = {}) {
@@ -67,7 +63,7 @@ export class Character extends Emitter {
   damage(amount) {
     if (!this.alive) return 0;
     const dealt = Math.min(this.hp, Math.max(0, Math.round(amount)));
-    this.hp -= dealt; this.emit('change');
+    this.hp -= dealt; this.emit('change'); if (dealt) this.emit('damaged', dealt);
     if (this.hp <= 0) this.emit('death');
     return dealt;
   }

@@ -8,6 +8,10 @@ Stylized modern 3D MMORPG.
 Thai / Ayutthaya-inspired.
 Do not use modern architecture.
 
+Mood: warm tropical daylight (markets, farmers, fishermen, many NPCs) versus a
+darker supernatural night (fog, lanterns, dark forest, ghosts, magic, rare monsters).
+Day and night should feel like two different games.
+
 ## Coding Rules
 - ES Modules
 - Three.js
@@ -34,3 +38,12 @@ Tests and bug fixes only.
 Do not rewrite another agent's system without review.
 Do not introduce a new dependency without approval.
 Do not change public interfaces without documenting it.
+
+## Where things connect
+- `src/core/Game.js` hosts every system. Character and combat plug in through
+  `createGame()` from `src/combat/index.js` (interface: `src/combat/README.md`).
+- `src/data/spawns.js` places monster zones in the city; monster types come
+  from `src/combat/data/monsters.js`.
+- `src/core/`, `src/data/`, `src/ui/`, `src/entities/` and `src/npc/` are shared
+  and have no named owner yet: edit them only with small, documented hooks and
+  tell the other agents.

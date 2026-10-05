@@ -1,11 +1,13 @@
-// Entry point that wires the character, combat, view and UI into a world.
-// The world only needs to provide movement hooks, so the same module can plug
-// into the forest prototype or a larger map.
+// Public interface of the combat system: wires the character, combat rules,
+// 3D view and HUD into a world. The world only provides movement hooks, so the
+// same module plugs into the forest prototype or the city. See README.md.
 import * as THREE from 'three';
-import { Character } from './Character.js';
+import { loadOrCreateCharacter, CharacterUI, Feed } from '../character/index.js';
+import { el } from '../character/ui/dom.js';
 import { Combat } from './Combat.js';
 import { CombatView } from './CombatView.js';
-import { GameUI, showCreation } from './GameUI.js';
+import { CombatHUD } from './ui/CombatHUD.js';
+import { BUFF_ICONS } from './data/skills.js';
 
 /**
  * @param {object} o
@@ -19,11 +21,13 @@ import { GameUI, showCreation } from './GameUI.js';
  * @param {(x:number,z:number)=>void} o.moveTo   walk the player toward a point
  * @param {()=>void} o.stop                     stop click-to-move
  * @param {{x:number,z:number}} o.respawnPoint
- * @param {Array} [o.spawns]                    monster spawn zones (defaults to the forest map)
+ * @param {Array} [o.spawns]                    monster spawn zones (defaults to data/zones.js)
+ * @returns {{ready:boolean, character, combat, view, hud, characterUI, canMove:boolean,
+ *   setPhase(phase:string):void, handleKey(e:KeyboardEvent):boolean, update(dt:number, elapsed:number):void, onManualMove():void}}
  */
 export function createGame(o) {
   const game = {
-    ready: false, character: null, combat: null, ui: null, view: null, phase: 'day',
+    ready: false, character: null, combat: null, view: null, hud: null, characterUI: null, phase: 'day',
     setPhase(phase) { this.phase = phase; this.combat?.setPhase(phase); },
     get canMove() { return !this.ready || this.character.alive; },
     handleKey: () => false, update: () => {}, onManualMove: () => {},
@@ -36,8 +40,11 @@ export function createGame(o) {
       moveTo: o.moveTo, stop: o.stop,
     }, o.spawns);
     const view = new CombatView(o.scene, combat, o.groundHeight);
-    const ui = new GameUI(o.root, character, combat);
-    Object.assign(game, { ready: true, character, combat, view, ui });
+    const layer = el('div', 'g-layer'); o.root.append(layer);
+    const feed = new Feed(layer);
+    const characterUI = new CharacterUI(layer, character, feed, { buffIcons: BUFF_ICONS });
+    const hud = new CombatHUD(o.root, layer, combat, feed, characterUI.quickButtons);
+    Object.assign(game, { ready: true, character, combat, view, hud, characterUI });
     combat.setPhase(game.phase);
 
     combat.on('cast', ({ target }) => {
@@ -45,7 +52,7 @@ export function createGame(o) {
       const p = o.player.group.position;
       o.player.group.rotation.y = Math.atan2(target.x - p.x, target.z - p.z);
     });
-    ui.onRespawn = () => {
+    hud.onRespawn = () => {
       o.player.group.position.set(o.respawnPoint.x, o.groundHeight(o.respawnPoint.x, o.respawnPoint.z), o.respawnPoint.z);
       o.player.group.rotation.z = 0;
       combat.respawnPlayer(); character.save();
@@ -73,20 +80,22 @@ export function createGame(o) {
     setInterval(() => character.save(), 15000);
     addEventListener('beforeunload', () => character.save());
 
-    game.handleKey = event => (event.repeat && !/^Digit|Space/.test(event.code) ? false : ui.handleKey(event));
+    game.handleKey = event => {
+      if (event.repeat && !/^Digit|Space/.test(event.code)) return false;
+      return characterUI.handleKey(event) || hud.handleKey(event);
+    };
     game.onManualMove = () => combat.cancelPending();
     const size = { width: 0, height: 0 };
     game.update = (dt, elapsed) => {
       combat.update(dt);
       view.update(dt, elapsed);
       size.width = o.host.clientWidth; size.height = o.host.clientHeight;
-      ui.update(dt, o.camera, size, o.groundHeight);
+      hud.update(dt, o.camera, size, o.groundHeight);
+      characterUI.update(dt);
     };
-    ui.log(`ยินดีต้อนรับ ${character.name} · กด Tab เลือกเป้า, 1–4 ใช้ทักษะ, C ตัวละคร, I กระเป๋า`, 'gold');
+    feed.log(`ยินดีต้อนรับ ${character.name} · กด Tab เลือกเป้า, 1–4 ใช้ทักษะ, C ตัวละคร, I กระเป๋า`, 'gold');
   };
 
-  const saved = Character.load();
-  if (saved) begin(saved);
-  else showCreation(o.root).then(({ name, classId, gender }) => { const c = Character.create(name, classId, gender); c.save(); begin(c); });
+  loadOrCreateCharacter(o.root).then(begin);
   return game;
 }

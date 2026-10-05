@@ -1,4 +1,4 @@
-import { ITEMS, RARITY_COLORS } from '../game/data.js';
+import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
 import { SHOPS } from '../data/shops.js';
 import { buy, sell, sellPrice, stockOf } from '../shop/ShopSystem.js';
 

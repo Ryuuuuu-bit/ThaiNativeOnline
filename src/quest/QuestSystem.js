@@ -1,7 +1,7 @@
 // Quest progress as pure logic: no DOM or Three.js, so it runs in tests.
 // It reads the character and combat only through their public APIs
 // (gold, count, addItem, removeAt, gainExp, combat 'kill' events).
-import { Emitter } from '../game/Character.js';
+import { Emitter } from '../character/Emitter.js';
 
 const SAVE_KEY = 'tno.quests.v1';
 

@@ -1,6 +1,6 @@
 // Buying and selling with NPC vendors, using only the character's public API.
 // Prices come from item data; vendors buy back at half price like the bag's sell mode.
-import { ITEMS } from '../game/data.js';
+import { ITEMS } from '../character/data/items.js';
 import { SHOPS } from '../data/shops.js';
 
 export const sellPrice = id => Math.max(1, Math.floor(ITEMS[id].price / 2));

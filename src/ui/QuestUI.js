@@ -1,4 +1,5 @@
-import { ITEMS, MONSTERS } from '../game/data.js';
+import { ITEMS } from '../character/data/items.js';
+import { MONSTERS } from '../combat/data/monsters.js';
 import { landmark } from '../data/landmarks.js';
 import { NPCS } from '../data/npcs.js';
 

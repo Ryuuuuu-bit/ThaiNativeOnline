@@ -1,8 +1,10 @@
 // Quest and shop logic against the real Character, without a browser.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Character, Emitter } from '../src/game/Character.js';
-import { ITEMS, MONSTERS } from '../src/game/data.js';
+import { Character } from '../src/character/Character.js';
+import { Emitter } from '../src/character/Emitter.js';
+import { ITEMS } from '../src/character/data/items.js';
+import { MONSTERS } from '../src/combat/data/monsters.js';
 import { QUESTS } from '../src/data/quests.js';
 import { SHOPS } from '../src/data/shops.js';
 import { NPCS } from '../src/data/npcs.js';

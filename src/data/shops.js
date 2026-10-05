@@ -1,5 +1,5 @@
 // Shop and training services. NPCs reference these by `shopType` or `trainer`.
-// `stock` lists item ids from src/game/data.js the shop sells at their price;
+// `stock` lists item ids from src/character/data/items.js the shop sells at their price;
 // shops without stock (and trainers) still show their future services.
 export const SHOPS = {
   blacksmith: { title: 'โรงตีเหล็ก', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'bamboo_bow', 'bone_wand'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'โล่หนังควาย'] },

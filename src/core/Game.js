@@ -6,7 +6,7 @@ import { Player } from '../entities/Player.js';
 import { NPCManager } from '../npc/NPCManager.js';
 import { NPCS } from '../data/npcs.js';
 import { LANDMARKS } from '../data/landmarks.js';
-import { SPAWNS, activeSpawns } from '../data/spawns.js';
+import { SPAWNS, activeSpawns, combatSpawns } from '../data/spawns.js';
 import { regionAt } from '../data/regions.js';
 import { HUD } from '../ui/HUD.js';
 import { Minimap } from '../ui/Minimap.js';
@@ -14,8 +14,7 @@ import { CameraController } from './CameraController.js';
 import { InputManager } from './InputManager.js';
 import { WorldClock, PHASE_HOURS } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
-import { createGame } from '../game/index.js';
-import { citySpawns } from '../game/citySpawns.js';
+import { createGame } from '../combat/index.js';
 import { QUESTS } from '../data/quests.js';
 import { SHOPS } from '../data/shops.js';
 import { QuestSystem } from '../quest/QuestSystem.js';
@@ -58,7 +57,7 @@ export class Game {
       onComplete: id => { if (this.quests.complete(id)) this.hud.toast(`สำเร็จ · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).done); this.refreshDialogue(); },
     });
     this.quests.on('change', () => { this.questUI.renderTracker(); if (this.hud.dialogueOpen && this.talking) this.questUI.renderDialogue(this.talking.id); });
-    this.shop = new ShopPanel((text, kind) => (this.game?.ui?.log ? this.game.ui.log(text, kind === 'warn' ? '' : kind) : this.hud.toast(text, '')));
+    this.shop = new ShopPanel((text, kind) => (this.game?.hud?.feed ? this.game.hud.feed.log(text, kind === 'warn' ? 'bad' : kind) : this.hud.toast(text, '')));
     this.input = new InputManager(host);
     this.bind();
     this.startCombat();
@@ -144,7 +143,7 @@ export class Game {
     });
   }
 
-  // Character, combat and UI systems (src/game). Monsters follow the world clock.
+  // Character and combat systems (src/character, src/combat). Monsters follow the world clock.
   startCombat() {
     const world = this.world;
     const respawn = [[8, -312], [4, -300], [0, -110], [4, 151]].map(([x, z]) => ({ x, z })).find(p => world.canStand(p.x, p.z)) ?? { x: 4, z: 151 };
@@ -153,7 +152,7 @@ export class Game {
       canStand: (x, z) => world.canStand(x, z), groundHeight: (x, z) => world.heightAt(x, z),
       moveTo: (x, z) => { this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; },
       stop: () => { this.destination = null; this.marker.visible = false; },
-      respawnPoint: respawn, spawns: citySpawns(),
+      respawnPoint: respawn, spawns: combatSpawns(),
     });
     this.game.setPhase(this.clock.phase);
     this.clock.onPhase(phase => this.game.setPhase(phase));
