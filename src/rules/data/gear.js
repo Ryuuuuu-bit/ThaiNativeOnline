@@ -5,7 +5,9 @@
 //  ▸ lv = เลเวลขั้นต่ำที่สวมได้ · job = อาชีพที่ออกแบบมาให้ (ใครก็ใส่ได้ ค่าพลังเหมาะกับอาชีพนั้น)
 // ============================================================
 import { baseItemId } from './affixes.js';
-import { GEAR_ART } from './gear_art.js';
+// Port note: GEAR_ART (2D icon grip/look table from gear_art.js) is not ported. Items that used to
+// spread GEAR_ART[id] no longer carry `grip` (weapon grip point) or `look` (armor colours).
+const GEAR_ART = {};
 
 export const GEAR_TIERS = [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30];
 export const SHOP_MAX_LV = 20;

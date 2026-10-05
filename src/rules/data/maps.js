@@ -2,17 +2,20 @@
 //  แผนที่โลก: หมู่บ้าน + 20 แมพล่าผี (แมพละ 1 ชนิด เลเวลไต่ขึ้นเรื่อยๆ) แบ่ง 5 ภาค + ลานพญายักษ์
 //  ทุกแมพอยู่บนแกน X เดียวกันแต่แยกขาดจากกัน – ย้ายแมพด้วยประตูวาร์ป (กด F → เลือกปลายทาง)
 //  ใช้ร่วมกันทั้ง client และ server
+//  Port note (src/rules): positional data of the legacy side-scroller (minX/maxX, gates,
+//  respawn/arrive x, HUNT_X0/MAP_W/MAP_STEP, mapAt/gateNear/canTravelFrom, monster `zone`
+//  rewrite) and REGIONS music/bg keys were removed. Map ids, names, regions, level ranges
+//  and the monster rescaling/region-boss generation are kept unchanged.
 // ============================================================
-import { WORLD } from '../constants.js';
 import { MONSTERS, MONSTER_IDS } from './monsters.js';
 
 /** ภาค: ฉากหลัง, เพลง, บรรยากาศ, สีหมอก, สีพื้น, ของตกแต่ง */
 export const REGIONS = {
-  r1: { id: 'r1', no: 1, nameTh: 'ทุ่งนาบางผี',        music: 'r1', bg: 'bg_r1', fog: 0xf5b041, fogA: 0.05, ground: 0xffffff, decor: 'paddy',  sky: 0xfad7a0 },
-  r2: { id: 'r2', no: 2, nameTh: 'บึงบัวหมู่บ้านร้าง',  music: 'r2', bg: 'bg_r2', fog: 0x76d7c4, fogA: 0.1,  ground: 0xa9c4b0, decor: 'swamp',  sky: 0x7fb3a8 },
-  r3: { id: 'r3', no: 3, nameTh: 'ป่าดงดิบ',           music: 'r3', bg: 'bg_r3', fog: 0x1e8449, fogA: 0.09, ground: 0x9ccc8c, decor: 'jungle', sky: 0x82c29a },
-  r4: { id: 'r4', no: 4, nameTh: 'ป่าช้าวัดร้าง',       music: 'r4', bg: 'bg_r4', fog: 0x5b2c6f, fogA: 0.15, ground: 0xa99bb8, decor: 'grave',  sky: 0x9b7fb3 },
-  r5: { id: 'r5', no: 5, nameTh: 'หุบเขาอสุรกาย',       music: 'r5', bg: 'bg_r5', fog: 0x922b21, fogA: 0.15, ground: 0xc49a8a, decor: 'cursed', sky: 0xc0785f },
+  r1: { id: 'r1', no: 1, nameTh: 'ทุ่งนาบางผี',        fog: 0xf5b041, fogA: 0.05, ground: 0xffffff, decor: 'paddy',  sky: 0xfad7a0 },
+  r2: { id: 'r2', no: 2, nameTh: 'บึงบัวหมู่บ้านร้าง',  fog: 0x76d7c4, fogA: 0.1,  ground: 0xa9c4b0, decor: 'swamp',  sky: 0x7fb3a8 },
+  r3: { id: 'r3', no: 3, nameTh: 'ป่าดงดิบ',           fog: 0x1e8449, fogA: 0.09, ground: 0x9ccc8c, decor: 'jungle', sky: 0x82c29a },
+  r4: { id: 'r4', no: 4, nameTh: 'ป่าช้าวัดร้าง',       fog: 0x5b2c6f, fogA: 0.15, ground: 0xa99bb8, decor: 'grave',  sky: 0x9b7fb3 },
+  r5: { id: 'r5', no: 5, nameTh: 'หุบเขาอสุรกาย',       fog: 0x922b21, fogA: 0.15, ground: 0xc49a8a, decor: 'cursed', sky: 0xc0785f },
 };
 
 /** ลำดับแมพล่าผี: [ภาค, ผี, ชื่อแมพ] – เลเวลเรียงจากน้อยไปมาก */
@@ -39,13 +42,8 @@ const HUNT = [
   ['r5', 'pret_asura',      'บัลลังก์อสุรกาย'],
 ];
 
-export const HUNT_X0 = 1100;     // ขอบซ้ายแมพล่าผีแมพแรก
-export const MAP_W = 1000;       // ความกว้างแต่ละแมพ
-export const MAP_STEP = 1100;    // ระยะห่างระหว่างแมพ (มีช่องว่างกั้น)
-
 const village = {
-  id: 'village', no: 0, nameTh: 'หมู่บ้านบางผี', region: 'village', minX: WORLD.minX, maxX: 1040, safe: true,
-  respawnX: WORLD.spawnX, arriveX: 940, minLv: 1, gates: [{ x: 990 }],
+  id: 'village', no: 0, nameTh: 'หมู่บ้านบางผี', region: 'village', safe: true, minLv: 1,
 };
 
 // เลเวลผีกระจายจาก Lv.1 (แมพ 1) ถึง Lv.28 (แมพ 20) → เล่นถึงเลเวลตัน 30 ได้ (บอสลาน Lv.30)
@@ -63,26 +61,19 @@ HUNT.forEach(([, mon], i) => {
 });
 
 const hunts = HUNT.map(([region, mon, nameTh], i) => {
-  const minX = HUNT_X0 + i * MAP_STEP, maxX = minX + MAP_W;
   const m = MONSTERS[mon];
   return {
     id: `m${i + 1}`, no: i + 1, idx: i, nameTh, region, mon, level: m.level,
-    minLv: Math.max(1, m.level - 1), minX, maxX,
-    fireX: minX + 80, respawnX: minX + 120, arriveX: minX + 120, safeEndX: minX + 230,
-    gates: [{ x: minX + 32 }, { x: maxX - 32 }],
+    minLv: Math.max(1, m.level - 1),
   };
 });
 
-const lastX = HUNT_X0 + HUNT.length * MAP_STEP;
 const arena = {
-  id: 'arena', no: 21, nameTh: 'ลานพญายักษ์', region: 'r5', boss: true, minX: lastX, maxX: lastX + 700,
-  minLv: 26, respawnX: lastX + 70, arriveX: lastX + 90, safeEndX: lastX + 120, gates: [{ x: lastX + 32 }],
+  id: 'arena', no: 21, nameTh: 'ลานพญายักษ์', region: 'r5', boss: true, minLv: 26,
 };
 /** สุสานใต้ดิน (ดันเจี้ยนปาร์ตี้) – แยกห้องตามปาร์ตี้ (instance) เข้าได้ทางหลวงพ่อทองในหมู่บ้านเท่านั้น */
-const dgX = arena.maxX + 100;
 const dungeon = {
-  id: 'dungeon', no: 22, nameTh: 'สุสานใต้ดิน', region: 'r4', dungeon: true, minX: dgX, maxX: dgX + 1300,
-  minLv: 5, respawnX: dgX + 90, arriveX: dgX + 110, safeEndX: dgX + 180, gates: [{ x: dgX + 32 }], noTravel: true,
+  id: 'dungeon', no: 22, nameTh: 'สุสานใต้ดิน', region: 'r4', dungeon: true, minLv: 5, noTravel: true,
 };
 
 export const ARCHIVED_MAP_LIST = [village, ...hunts, arena, dungeon];
@@ -93,15 +84,9 @@ export const MAP_LIST = CLASSIC_WORLD_ENABLED ? ARCHIVED_MAP_LIST : [village];
 export const MAPS = Object.fromEntries(ARCHIVED_MAP_LIST.map((m) => [m.id, m]));
 export const HUNT_MAPS = hunts;
 
-// ตรวจว่าค่าคงที่โลกตรงกับจำนวนแมพ
-if (WORLD.width !== dungeon.maxX || WORLD.arenaX !== arena.minX || WORLD.arenaEndX !== arena.maxX || WORLD.graveX !== hunts[12].minX) {
-  console.warn('[maps] WORLD constants mismatch', { width: dungeon.maxX, arenaX: arena.minX, arenaEndX: arena.maxX, graveX: hunts[12].minX });
-}
-
-// ผีแต่ละชนิดอยู่แมพเดียว: เกิดทั่วแมพ (เว้นจุดพักซ้าย), ตัวละ 5 (อสุรกาย 2)
+// ผีแต่ละชนิดอยู่แมพเดียว: ตัวละ 5 (อสุรกาย 2)  (port: the legacy x spawn range `zone` is no longer rewritten)
 for (const h of hunts) {
   const m = MONSTERS[h.mon];
-  m.zone = [h.safeEndX + 70, h.maxX - 60];
   m.count = h.mon === 'pret_asura' ? 2 : 5;
   m.mapId = h.id;
   if (m.nightOnly) { m.nightOnly = false; m.nightBoost = true; }   // แมพเดี่ยว: มีทั้งวัน แต่กลางคืนดุขึ้น
@@ -126,7 +111,7 @@ for (const R of Object.values(REGIONS)) {
     MONSTERS[id] = {
       ...b, nameTh: `👑 ${I.nameTh}`, nameEn: `Region Boss ${R.no}`, desc: `เจ้าถิ่นแห่ง${R.nameTh}`, art: h.mon, regionBoss: true, region: R.id, scale: 1.8, tint: I.tint,
       level: b.level + 3, hp: Math.round(b.hp * I.hp), atk: Math.round(b.atk * 1.7), def: Math.round(b.def * 1.4 + 3), acc: b.acc + 8, eva: Math.round(b.eva * 0.6),
-      exp: Math.round(b.exp * 30), gold: b.gold.map((g) => Math.round(g * 25)), count: 1, zone: [h.safeEndX + 300, h.maxX - 120], mapId: h.id,
+      exp: Math.round(b.exp * 30), gold: b.gold.map((g) => Math.round(g * 25)), count: 1, mapId: h.id,
       respawnMs: 20 * 60 * 1000, attackRange: Math.round(b.attackRange * 1.6), attackCooldown: Math.max(1600, Math.round(b.attackCooldown * 1.3)),
       speed: Math.round(b.speed * 0.8), drops: (b.drops || []).map((d) => ({ ...d, chance: 1 })), nightBoost: false, nightOnly: false,
     };
@@ -136,18 +121,13 @@ for (const R of Object.values(REGIONS)) {
   h.rboss = id;
 }
 
-export function mapAt(x) {
-  if (!CLASSIC_WORLD_ENABLED) return village;
-  if (x < HUNT_X0 - 35) return village;
-  if (x >= dungeon.minX - 35) return dungeon;
-  if (x >= arena.minX - 35) return arena;
-  const i = Math.max(0, Math.min(hunts.length - 1, Math.floor((x - HUNT_X0 + 50) / MAP_STEP)));
-  return hunts[i];
+/** ภาค 4–5 (ป่าช้าวัดร้าง → หุบเขาอสุรกาย) เริ่มที่แมพล่าที่ 13 */
+export const GRAVE_MAP_NO = 13;
+/** ผีจากแมพล่าภาค 4–5 (รวมบอสภาค) — นับเป็น "ผีป่าช้า" ของเควส kill:'grave'.
+ *  Port note: replaces the legacy `MONSTERS[id].zone[0] >= WORLD.graveX` x-position test; same set of monsters. */
+export function isGraveMon(id) {
+  const m = MAPS[MONSTERS[id]?.mapId];
+  return !!m && m.no >= GRAVE_MAP_NO;
 }
-
-/** ประตูที่ใกล้ที่สุดภายในระยะ r */
-export const gateNear = (x, r = 90) => mapAt(x).gates.find((g) => Math.abs(x - g.x) < r) || null;
-/** วาร์ปได้จากที่ไหน: ทุกจุดในหมู่บ้าน (เขตปลอดภัย) หรือยืนใกล้ประตูของแมพล่า */
-export const canTravelFrom = (x, r = 110) => mapAt(x).id === 'village' || !!gateNear(x, r);
 
 export const regionOf = (map) => REGIONS[map.region] || null;

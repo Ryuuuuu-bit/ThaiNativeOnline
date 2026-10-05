@@ -4,7 +4,8 @@
 //  ▸ ดาเมจของบอส = % ของ HP ผู้เล่น (ทุกเลเวลเจ็บเท่ากัน) · ทุกท่าเตือนก่อนเสมอ
 //     สีเตือน: ม่วง = ดาเมจทั่วไป · เงิน = จุดปลอดภัย/เป้าที่ต้องตี · แดง = อันตรายสูง
 // ============================================================
-import { TILE } from '../td/ayutthaya.js';
+// Port note: was `import { TILE } from '../td/ayutthaya.js'` (2D top-down tile size). Same value, local.
+const TILE = 16;
 
 export const WB_ID = 'rahu_eclipse';
 export const WB_MAP = 'suriya';
