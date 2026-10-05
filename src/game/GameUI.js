@@ -169,6 +169,9 @@ export class GameUI {
 
   setPhase(phase) {
     const night = phase === 'night';
+    if (night === this.isNight) return;
+    const first = this.isNight === undefined; this.isNight = night;
+    if (first && !night) return;
     document.body.classList.toggle('g-night', night);
     if (night && this.c.cls.nightCrit) this.log(`ยามค่ำคืน ${this.c.cls.name}คริติคอล +${this.c.cls.nightCrit * 100}%`, 'epic');
     if (night) { this.showBanner('ราตรีมาเยือน', 'ภูตผีออกเดิน · EXP +25% · ผีแรงขึ้น · ระวัง Rare Monster'); this.log('ค่ำแล้ว สัตว์ป่ากลับรัง ผีป่าเริ่มออกหากิน', 'epic'); }

@@ -6,8 +6,7 @@ import { Player } from '../entities/Player.js';
 import { NPCManager } from '../npc/NPCManager.js';
 import { NPCS } from '../data/npcs.js';
 import { LANDMARKS } from '../data/landmarks.js';
-import { SPAWNS, activeSpawns, combatSpawns } from '../data/spawns.js';
-import { createGame } from '../game/index.js';
+import { SPAWNS, activeSpawns } from '../data/spawns.js';
 import { regionAt } from '../data/regions.js';
 import { HUD } from '../ui/HUD.js';
 import { Minimap } from '../ui/Minimap.js';
@@ -15,6 +14,8 @@ import { CameraController } from './CameraController.js';
 import { InputManager } from './InputManager.js';
 import { WorldClock, PHASE_HOURS } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
+import { createGame } from '../game/index.js';
+import { citySpawns } from '../game/citySpawns.js';
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -46,17 +47,7 @@ export class Game {
     this.discovered = this.minimap.discovered;
     this.input = new InputManager(host);
     this.bind();
-    // Character, combat and skills (src/game). Monsters live only in the forest and cemetery.
-    this.rpg = createGame({
-      root: $('app'), host, scene: this.scene, camera: this.view.camera, player: this.player, spawns: combatSpawns(),
-      canStand: (x, z) => this.world.canStand(x, z), groundHeight: (x, z) => this.world.heightAt(x, z),
-      moveTo: (x, z) => { this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; },
-      stop: () => { this.destination = null; this.marker.visible = false; },
-      respawnPoint: { x: 0, z: -96 },
-    });
-    this.rpg.setPhase(this.clock.phase === 'night' ? 'night' : 'day');
-    this.clock.onPhase(phase => this.rpg.setPhase(phase === 'night' ? 'night' : 'day'));
-    this.input.intercept = e => !this.hud.dialogueOpen && this.rpg.handleKey(e);
+    this.startCombat();
     if (params.has('zoom')) this.view.setZoom(Number(params.get('zoom')));
     this.view.snap(this.player.position);
     this.destination = null; this.elapsed = 0; this.previous = null; this.lastHud = 0; this.frames = 0; this.fpsTime = 0; this.fps = 0;
@@ -75,11 +66,7 @@ export class Game {
   bind() {
     const input = this.input, view = this.view;
     window.addEventListener('resize', () => view.resize());
-    input.on('move', () => { this.destination = null; this.marker.visible = false; this.rpg?.onManualMove(); });
-    input.on('dayNight', () => {
-      const night = this.clock.phase !== 'night', mode = night ? 'night' : 'day';
-      this.clock.paused = true; this.clock.set(PHASE_HOURS[mode]); $('time-mode').value = mode;
-    });
+    input.on('move', () => { this.destination = null; this.marker.visible = false; });
     input.on('resetCamera', () => view.reset());
     input.on('photo', () => this.togglePhoto());
     input.on('interact', () => this.interact());
@@ -97,8 +84,8 @@ export class Game {
     input.on('zoom', delta => view.setZoom(view.zoom - delta * .001));
     input.on('click', e => {
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
-      if (!this.world.canStand(p.x, p.z) || !this.rpg.canMove) return;
-      this.rpg.onManualMove();
+      if (!this.world.canStand(p.x, p.z)) return;
+      this.game?.onManualMove();
       this.destination = p; this.autoWalk = false; this.marker.position.set(p.x, this.world.heightAt(p.x, p.z) + .07, p.z); this.marker.visible = true;
     });
     $('reset-camera').addEventListener('click', () => view.reset());
@@ -134,6 +121,28 @@ export class Game {
       if (on === null) return this.hud.toast('เสียงบรรยากาศ', 'เบราว์เซอร์นี้ไม่รองรับเสียงบรรยากาศ');
       $('sound').setAttribute('aria-pressed', String(on)); $('sound').classList.toggle('on', on);
       $('sound').title = on ? 'ปิดเสียงบรรยากาศ' : 'เปิดเสียงบรรยากาศ'; $('sound').setAttribute('aria-label', $('sound').title);
+    });
+  }
+
+  // Character, combat and UI systems (src/game). Monsters follow the world clock.
+  startCombat() {
+    const world = this.world;
+    const respawn = [[8, -312], [4, -300], [0, -110], [4, 151]].map(([x, z]) => ({ x, z })).find(p => world.canStand(p.x, p.z)) ?? { x: 4, z: 151 };
+    this.game = createGame({
+      root: $('app'), host: this.host, scene: this.scene, camera: this.view.camera, player: this.player,
+      canStand: (x, z) => world.canStand(x, z), groundHeight: (x, z) => world.heightAt(x, z),
+      moveTo: (x, z) => { this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; },
+      stop: () => { this.destination = null; this.marker.visible = false; },
+      respawnPoint: respawn, spawns: citySpawns(),
+    });
+    this.game.setPhase(this.clock.phase);
+    this.clock.onPhase(phase => this.game.setPhase(phase));
+    this.input.on('move', () => this.game.onManualMove());
+    window.addEventListener('keydown', e => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen) return;
+      if (this.game.handleKey(e)) return;
+      // N jumps between night and morning; the clock keeps running unless locked in settings.
+      if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);
     });
   }
 
@@ -203,14 +212,16 @@ export class Game {
     const p = this.player.position, view = this.view;
     this.clock.update(dt);
     // Movement: keys, or a straight walk to a clicked point.
-    const dir = this.input.direction(view.forward, view.right, this.dir);
-    if (!this.rpg.canMove) { dir.set(0, 0, 0); this.destination = null; this.marker.visible = false; }
+    const canMove = this.game?.canMove ?? true;
+    if (!canMove) { this.destination = null; this.marker.visible = false; }
+    const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
     if (!dir.lengthSq() && this.destination) {
       dir.subVectors(this.destination, p); dir.y = 0;
       if (dir.length() < .2) { this.destination = null; this.marker.visible = false; dir.set(0, 0, 0); } else dir.normalize();
     }
     const moved = this.player.move(dir, dt, this.world, this.input.running);
     if (!moved && this.destination) {
+      // Combat auto-walk retries every frame; only a manual click reports a blocked path.
       if (!this.autoWalk) this.hud.toast('เส้นทางถูกกีดขวาง', 'ลองเดินอ้อมด้วย W A S D');
       this.destination = null; this.marker.visible = false;
     }
@@ -219,7 +230,7 @@ export class Game {
     const env = this.env.update(this.clock.hour, view.focus);
     this.world.update(this.elapsed, dt, view.focus, env);
     this.npcs.update(dt, this.elapsed, p);
-    this.rpg.update(dt, this.elapsed);
+    this.game?.update(dt, this.elapsed);
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);
     this.hud.updatePlates(this.npcs.npcs, view.camera, p, n => this.npcs.label(n));
