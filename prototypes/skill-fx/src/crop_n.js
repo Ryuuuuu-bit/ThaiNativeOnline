@@ -1,0 +1,1 @@
+const load=s=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.src=s;});const a=await load(IMG.f0);const c=document.createElement('canvas');c.width=864*2;c.height=96*2;const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.fillStyle='#4a5560';g.fillRect(0,0,c.width,c.height);g.drawImage(a,0,384,864,96,0,0,1728,192);window.OUT={'montage.png':c.toDataURL()};

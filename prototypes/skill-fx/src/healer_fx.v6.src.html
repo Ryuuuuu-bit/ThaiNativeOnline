@@ -1,0 +1,1227 @@
+<title>ตำรับแสงหมอยา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Srisakdi:wght@700&family=Anuphan:wght@400;500;600&display=swap">
+<style>
+/* layout: full-bleed WebGL stage; HUD floats on top — title top-left, skill card right, skill bar bottom */
+:root{
+  --night:#070d0c; --panel:rgba(9,20,17,.82); --line:rgba(160,220,180,.18);
+  --text:#e6efe4; --muted:#9fb5a6; --herb:#8fe39a; --gold:#e8c46a; --ember:#ff9a4a; --mpblue:#7cc4ff;
+  --display:"Srisakdi","Anuphan",serif; --body:"Anuphan","Noto Sans Thai",system-ui,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--night);color:var(--text);font-family:var(--body);overflow:hidden}
+#app{position:fixed;inset:0}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hp{position:absolute;width:46px;height:5px;margin-left:-23px;background:rgba(0,0,0,.6);border:1px solid rgba(0,0,0,.8);border-radius:2px}
+.hp i{display:block;height:100%;background:var(--herb);transition:width .25s}
+.hp.mob i{background:#e2574c}
+.hp.down{opacity:.45}
+.pop{position:absolute;font-weight:600;font-size:17px;white-space:nowrap;transform:translate(-50%,0);text-shadow:0 2px 0 #000,0 0 6px rgba(0,0,0,.8);animation:rise 1.25s ease-out forwards;font-variant-numeric:tabular-nums}
+.pop.heal{color:#9dffaa}.pop.dmg{color:#fff3d6}.pop.hurt{color:#ff7d6e;font-size:14px}.pop.mp{color:var(--mpblue)}.pop.st{color:var(--gold);font-size:14px}.pop.big{font-size:24px}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,8px) scale(.7)}12%{opacity:1;transform:translate(-50%,0) scale(1.15)}25%{transform:translate(-50%,-6px) scale(1)}100%{opacity:0;transform:translate(-50%,-46px)}}
+.combo{position:absolute;transform:translate(-50%,-50%);font:600 22px var(--body);color:var(--gold);white-space:nowrap;text-shadow:0 2px 0 #000,0 0 10px rgba(160,230,80,.6);pointer-events:none;font-variant-numeric:tabular-nums}
+.combo.bump{animation:bump .25s ease-out}
+@keyframes bump{0%{transform:translate(-50%,-50%) scale(1.35)}100%{transform:translate(-50%,-50%) scale(1)}}
+.chips{position:absolute;transform:translateX(-50%);display:flex;gap:2px}
+.chip{position:relative;width:16px;height:16px;border:1px solid var(--c);border-radius:3px;overflow:hidden;background:#000;box-shadow:0 0 6px var(--c)}
+.chip img{width:100%;height:100%;image-rendering:pixelated;display:block}
+.chip i{position:absolute;left:0;right:0;top:0;height:0;background:rgba(0,0,0,.6)}
+.pop.b-tiger{color:#ffa45a}.pop.b-mist{color:#8fe6ff}.pop.b-tonic{color:#ff8070}.pop.b-mother{color:#ffd76a}
+.castbar{position:absolute;width:70px;height:6px;margin-left:-35px;background:rgba(0,0,0,.6);border:1px solid var(--gold);border-radius:3px}
+.castbar i{display:block;height:100%;background:var(--gold)}
+
+.hud-top{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:16px;right:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;pointer-events:none}
+.brand .eyebrow{font-size:12px;letter-spacing:.12em;color:var(--herb)}
+.brand h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,42px);line-height:1.15;margin:2px 0 2px;color:var(--gold);text-shadow:0 0 18px rgba(232,196,106,.35)}
+.brand p{margin:0;font-size:13px;color:var(--muted)}
+.toggles{display:flex;gap:6px;pointer-events:auto;flex-wrap:wrap}
+.toggles button{font:500 13px var(--body);color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+.toggles button[aria-pressed="true"]{color:var(--night);background:var(--herb);border-color:var(--herb)}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+#info{position:absolute;right:16px;top:110px;width:270px;max-width:calc(100% - 32px);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;backdrop-filter:blur(6px)}
+#info .head{display:flex;gap:10px;align-items:center}
+#info img{width:40px;height:40px;image-rendering:pixelated;border:1px solid var(--line);border-radius:6px}
+#info h2{font-family:var(--display);font-size:24px;margin:0;line-height:1.2;color:var(--text)}
+#info .lv{font-size:12px;color:var(--muted)}
+#info .meta{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0 8px}
+#info .meta span{font-size:11.5px;padding:2px 7px;border-radius:4px;background:rgba(143,227,154,.1);color:var(--herb);font-variant-numeric:tabular-nums}
+#info .desc{font-size:13px;line-height:1.6;color:var(--text);margin:0 0 10px}
+#info h3{font-size:11.5px;letter-spacing:.1em;color:var(--gold);margin:0 0 4px;font-weight:600}
+#info ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.55;color:var(--muted)}
+
+#bar{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);display:flex;justify-content:center;padding-inline:16px}
+#bar .row{display:flex;gap:6px;overflow-x:auto;padding:8px;background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:100%}
+#bar .sep{width:1px;background:var(--line);margin:4px 2px;flex:none}
+.sk{position:relative;flex:none;width:54px;height:54px;border-radius:8px;border:1px solid var(--line);background:#0e1d18;cursor:pointer;padding:0}
+.sk img{width:44px;height:44px;image-rendering:pixelated;display:block;margin:auto}
+.sk .k{position:absolute;left:3px;top:1px;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sk .l{position:absolute;right:3px;bottom:1px;font-size:9.5px;color:var(--gold)}
+.sk.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 14px rgba(232,196,106,.45)}
+.sk.adv{background:#18160d}
+.sk .nw{position:absolute;right:-4px;top:-7px;font-size:9.5px;font-weight:600;padding:0 4px;border-radius:4px;background:var(--gold);color:var(--night)}
+#tip{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 92px);font-size:12px;color:var(--muted);background:rgba(0,0,0,.35);padding:3px 10px;border-radius:20px;white-space:nowrap}
+#err{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:24px;color:var(--muted)}
+
+@media (max-width:760px){
+  #info{top:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 96px);right:16px;left:16px;width:auto;padding:10px 12px}
+  #info ul,#info h3{display:none}
+  #info .desc{margin:0;font-size:12.5px}
+  #info .meta{margin:6px 0}
+  #tip{display:none}
+  .brand p{display:none}
+}
+@media (prefers-reduced-motion:reduce){.pop{animation-duration:.01s}}
+</style>
+
+<div id="app">
+  <canvas id="cv"></canvas>
+  <div id="labels"></div>
+  <header class="hud-top">
+    <div class="brand">
+      <div class="eyebrow">สายอาชีพ · หมอยา</div>
+      <h1>ตำรับแสงหมอยา</h1>
+      <p>ตัวอย่างเอฟเฟกต์สกิลด้วย three.js · อาวุธ: ตำรายาเล่มดำลอยข้างตัว · ตัวละครและผีใช้สไปรต์จริงจากเกม</p>
+    </div>
+    <div class="toggles">
+      <button id="tAuto" aria-pressed="true">เล่นวนทุกสกิล</button>
+      <button id="tSlow" aria-pressed="false">สโลว์ ×0.35</button>
+      <button id="tBloom" aria-pressed="true">แสงฟุ้ง</button>
+    </div>
+  </header>
+  <aside id="info" aria-live="polite">
+    <div class="head"><img id="iIcon" alt=""><div><h2 id="iName"></h2><div class="lv" id="iLv"></div></div></div>
+    <div class="meta" id="iMeta"></div>
+    <p class="desc" id="iDesc"></p>
+    <h3>ชั้นเอฟเฟกต์</h3>
+    <ul id="iLayers"></ul>
+  </aside>
+  <div id="tip">กดไอคอนหรือปุ่ม 1–0 เพื่อร่าย · ผีจะตีเพื่อนเรื่อย ๆ ให้มีเลือดให้รักษา</div>
+  <nav id="bar"><div class="row" id="barRow"></div></nav>
+  <div id="err">เบราว์เซอร์นี้เปิด WebGL ไม่ได้ จึงแสดงฉากไม่ได้</div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const A = __ASSETS__;
+const $ = id => document.getElementById(id);
+const rand = (a, b) => a + Math.random() * (b - a);
+const V = (x = 0, y = 0, z = 0) => new THREE.Vector3(x, y, z);
+const C = (r, g, b) => new THREE.Color(r, g, b);
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const easeOutBack = x => { const c = 1.7; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+
+/* ---------------- renderer / scene ---------------- */
+const cv = $('cv');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); }
+catch (e) { $('err').style.display = 'grid'; throw e; }
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x070d0c);
+scene.fog = new THREE.FogExp2(0x08110f, 0.032);
+const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 200);
+const camLook = V(0, 0.4, -0.45);
+let camDist = 1, shake = 0;
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.62, 0.42, 0.84);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+scene.add(new THREE.HemisphereLight(0x6f8fae, 0x1c1609, 0.9));
+const moon = new THREE.DirectionalLight(0xa9bcff, 0.9); moon.position.set(-6, 12, 4); scene.add(moon);
+
+/* ground: painted canvas texture */
+function groundTex() {
+  const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
+  g.fillStyle = '#1d2a1c'; g.fillRect(0, 0, 512, 512);
+  for (let i = 0; i < 2600; i++) {
+    const x = Math.random() * 512, y = Math.random() * 512, r = rand(2, 14);
+    const t = Math.random();
+    g.fillStyle = t < .5 ? `rgba(${40 + rand(0, 25)|0},${60 + rand(0, 30)|0},${32 + rand(0, 15)|0},.35)` : t < .8 ? 'rgba(70,58,38,.25)' : 'rgba(15,22,14,.4)';
+    g.beginPath(); g.ellipse(x, y, r, r * rand(.4, 1), rand(0, 3), 0, 7); g.fill();
+  }
+  g.strokeStyle = 'rgba(110,150,80,.35)'; g.lineWidth = 1;
+  for (let i = 0; i < 1800; i++) { const x = Math.random() * 512, y = Math.random() * 512; g.beginPath(); g.moveTo(x, y); g.lineTo(x + rand(-2, 2), y - rand(3, 7)); g.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(7, 7); t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 4; return t;
+}
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(70, 70), new THREE.MeshStandardMaterial({ map: groundTex(), roughness: 1 }));
+ground.rotation.x = -Math.PI / 2; scene.add(ground);
+/* path of packed earth through the clearing */
+{
+  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+  const gr = g.createRadialGradient(128, 128, 20, 128, 128, 128); gr.addColorStop(0, 'rgba(92,74,48,.75)'); gr.addColorStop(.7, 'rgba(70,56,36,.35)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 256, 256);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(16, 13), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false, roughness: 1 }));
+  m.rotation.x = -Math.PI / 2; m.position.set(0, 0.005, -0.8); scene.add(m);
+}
+/* rocks + dark tree ring for depth */
+{
+  const rockMat = new THREE.MeshStandardMaterial({ color: 0x4a4d45, roughness: .95, flatShading: true });
+  for (let i = 0; i < 22; i++) {
+    const a = rand(0, Math.PI * 2), r = rand(7.5, 12);
+    const m = new THREE.Mesh(new THREE.DodecahedronGeometry(rand(.25, .7), 0), rockMat);
+    m.position.set(Math.cos(a) * r, rand(0, .15), Math.sin(a) * r - 1); m.rotation.set(rand(0, 3), rand(0, 3), rand(0, 3)); m.scale.y = rand(.5, .9); scene.add(m);
+  }
+  const trunk = new THREE.MeshStandardMaterial({ color: 0x1d1712, roughness: 1 });
+  const leaf = new THREE.MeshStandardMaterial({ color: 0x132418, roughness: 1, flatShading: true });
+  for (let i = 0; i < 34; i++) {
+    const a = (i / 34) * Math.PI * 2 + rand(-.05, .05), r = rand(13, 17);
+    const x = Math.cos(a) * r, z = Math.sin(a) * r - 2;
+    if (z > 6) continue;
+    const h = rand(3, 5.5);
+    const t = new THREE.Mesh(new THREE.CylinderGeometry(.12, .2, h, 6), trunk); t.position.set(x, h / 2, z); scene.add(t);
+    for (let k = 0; k < 3; k++) {
+      const b = new THREE.Mesh(new THREE.IcosahedronGeometry(rand(1.2, 2), 0), leaf);
+      b.position.set(x + rand(-.8, .8), h + rand(-.4, 1.2), z + rand(-.8, .8)); scene.add(b);
+    }
+  }
+}
+
+/* ---------------- shared textures ---------------- */
+function radialTex(stops) {
+  const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d');
+  const gr = g.createRadialGradient(64, 64, 0, 64, 64, 64); stops.forEach(([o, col]) => gr.addColorStop(o, col));
+  g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c);
+}
+const glowTex = radialTex([[0, 'rgba(255,255,255,1)'], [.18, 'rgba(255,255,255,.75)'], [.45, 'rgba(255,255,255,.18)'], [1, 'rgba(255,255,255,0)']]);
+const shadowTex = radialTex([[0, 'rgba(0,0,0,.65)'], [.6, 'rgba(0,0,0,.3)'], [1, 'rgba(0,0,0,0)']]);
+function glow(color, size) {
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+  s.scale.setScalar(size); scene.add(s); return s;
+}
+function kill(o) { scene.remove(o); o.traverse?.(n => { n.geometry?.dispose?.(); if (n.material) [].concat(n.material).forEach(m => m.dispose()); }); }
+
+/* ---------------- particles (GPU points, CPU sim) ---------------- */
+const PV = `
+attribute vec3 aColor; attribute float aSize, aAlpha, aShape, aRot;
+varying vec3 vC; varying float vA, vS, vR; uniform float uScale;
+void main(){ vC=aColor; vA=aAlpha; vS=aShape; vR=aRot;
+  vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv;
+  gl_PointSize=aSize*uScale/max(.1,-mv.z); }`;
+const PF = `
+varying vec3 vC; varying float vA, vS, vR; uniform float uNorm;
+void main(){
+  vec2 p=gl_PointCoord*2.-1.; p.y=-p.y; float c=cos(vR), s=sin(vR); p=mat2(c,-s,s,c)*p;
+  float a=0.;
+  if(vS<.5){ float r=dot(p,p); a=exp(-r*4.5)*(1.-smoothstep(.75,1.,r))+exp(-r*28.)*.9; }
+  else if(vS<1.5){ float y=p.y; float w=.42*(1.-y*y); float d=abs(p.x)-w; a=(1.-smoothstep(-.1,.01,d)); a*=.7+.3*smoothstep(0.,.07,abs(p.x)); a*=step(abs(y),.98); }
+  else if(vS<2.5){ float y=(p.y+1.)*.5; float w=.5*sin(3.1416*pow(clamp(y,0.,1.),.75)); a=(1.-smoothstep(w-.12,w,abs(p.x)))*smoothstep(0.,.08,y)*(.55+.45*y); }
+  else if(vS<3.5){ float l=length(p); a=max(0.,1.-abs(p.x)*9.)*max(0.,1.-abs(p.y))+max(0.,1.-abs(p.y)*9.)*max(0.,1.-abs(p.x)); a=a*.9+exp(-l*l*14.); a*=1.-smoothstep(.85,1.,l); }
+  else { float r=dot(p,p); a=(1.-smoothstep(0.,1.,r))*.7; }
+  if(a<.01) discard;
+  if(uNorm>.5) gl_FragColor=vec4(vC,a*vA); else gl_FragColor=vec4(vC*a*vA,1.);
+}`;
+const SH = { glow: 0, leaf: 1, petal: 2, star: 3, soft: 4 };
+function makePS(N, additive) {
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), size = new Float32Array(N), alpha = new Float32Array(N), shape = new Float32Array(N), rot = new Float32Array(N);
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3).setUsage(THREE.DynamicDrawUsage));
+  geo.setAttribute('aColor', new THREE.BufferAttribute(col, 3).setUsage(THREE.DynamicDrawUsage));
+  geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1).setUsage(THREE.DynamicDrawUsage));
+  geo.setAttribute('aAlpha', new THREE.BufferAttribute(alpha, 1).setUsage(THREE.DynamicDrawUsage));
+  geo.setAttribute('aShape', new THREE.BufferAttribute(shape, 1).setUsage(THREE.DynamicDrawUsage));
+  geo.setAttribute('aRot', new THREE.BufferAttribute(rot, 1).setUsage(THREE.DynamicDrawUsage));
+  const mat = new THREE.ShaderMaterial({ vertexShader: PV, fragmentShader: PF, transparent: true, depthWrite: false,
+    blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, uniforms: { uScale: { value: 400 }, uNorm: { value: additive ? 0 : 1 } } });
+  const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; pts.renderOrder = additive ? 5 : 4; scene.add(pts);
+  const S = { N, cur: 0, pos, col, size, alpha, shape, rot, mat, geo,
+    v: new Float32Array(N * 3), age: new Float32Array(N), life: new Float32Array(N), s0: new Float32Array(N), s1: new Float32Array(N),
+    a0: new Float32Array(N), drag: new Float32Array(N), grav: new Float32Array(N), vr: new Float32Array(N),
+    home: new Float32Array(N * 4), swirl: new Float32Array(N), c0: new Float32Array(N * 3), live: new Uint8Array(N), onArrive: [] };
+  return S;
+}
+const PA = makePS(9000, true), PN = makePS(3000, false);
+function emit(o, S = PA) {
+  const i = S.cur; S.cur = (S.cur + 1) % S.N; const j = i * 3;
+  S.pos[j] = o.p.x; S.pos[j + 1] = o.p.y; S.pos[j + 2] = o.p.z;
+  const v = o.v || { x: 0, y: 0, z: 0 }; S.v[j] = v.x; S.v[j + 1] = v.y; S.v[j + 2] = v.z;
+  const c = o.c; S.c0[j] = c.r; S.c0[j + 1] = c.g; S.c0[j + 2] = c.b;
+  S.age[i] = 0; S.life[i] = o.life || 1; S.s0[i] = o.size || .2; S.s1[i] = o.size1 ?? S.s0[i];
+  S.a0[i] = o.a ?? 1; S.drag[i] = o.drag || 0; S.grav[i] = o.grav || 0; S.shape[i] = o.shape || 0;
+  S.rot[i] = o.rot ?? rand(0, 6.28); S.vr[i] = o.vr || 0; S.swirl[i] = o.swirl || 0;
+  if (o.home) { S.home[i * 4] = o.home.x; S.home[i * 4 + 1] = o.home.y; S.home[i * 4 + 2] = o.home.z; S.home[i * 4 + 3] = o.homeK || 6; } else S.home[i * 4 + 3] = 0;
+  S.live[i] = 1; S.onArrive[i] = o.onArrive || null;
+}
+function stepPS(S, dt) {
+  const { pos, v, col, c0 } = S;
+  for (let i = 0; i < S.N; i++) {
+    if (!S.live[i]) continue;
+    const j = i * 3; S.age[i] += dt; const f = S.age[i] / S.life[i];
+    if (f >= 1) { S.live[i] = 0; S.alpha[i] = 0; S.size[i] = 0; continue; }
+    const k = S.home[i * 4 + 3];
+    if (k > 0) {
+      const dx = S.home[i * 4] - pos[j], dy = S.home[i * 4 + 1] - pos[j + 1], dz = S.home[i * 4 + 2] - pos[j + 2];
+      const d = Math.hypot(dx, dy, dz) + 1e-4;
+      const ramp = Math.min(1, S.age[i] * 2.5);
+      v[j] += (dx / d * k * 2.2 - v[j] * 1.2) * dt * ramp * 3; v[j + 1] += (dy / d * k * 2.2 - v[j + 1] * 1.2) * dt * ramp * 3; v[j + 2] += (dz / d * k * 2.2 - v[j + 2] * 1.2) * dt * ramp * 3;
+      if (S.swirl[i]) { v[j] += -dz / d * S.swirl[i] * dt * 6; v[j + 2] += dx / d * S.swirl[i] * dt * 6; }
+      if (d < .25) { S.live[i] = 0; S.alpha[i] = 0; S.size[i] = 0; const cb = S.onArrive[i]; if (cb) cb(); continue; }
+    } else if (S.swirl[i]) {
+      const dx = pos[j], dz = pos[j + 2]; v[j] += -dz * S.swirl[i] * dt; v[j + 2] += dx * S.swirl[i] * dt;
+    }
+    const dr = Math.max(0, 1 - S.drag[i] * dt);
+    v[j] *= dr; v[j + 1] = v[j + 1] * dr - S.grav[i] * dt; v[j + 2] *= dr;
+    pos[j] += v[j] * dt; pos[j + 1] += v[j + 1] * dt; pos[j + 2] += v[j + 2] * dt;
+    if (pos[j + 1] < .02 && S.grav[i] > 0) { pos[j + 1] = .02; v[j + 1] *= -.3; v[j] *= .6; v[j + 2] *= .6; S.age[i] = Math.max(S.age[i], S.life[i] * .8); }
+    const env = Math.min(1, f / .1) * (1 - Math.max(0, (f - .55) / .45));
+    S.alpha[i] = S.a0[i] * env; S.size[i] = S.s0[i] + (S.s1[i] - S.s0[i]) * f; S.rot[i] += S.vr[i] * dt;
+    col[j] = c0[j]; col[j + 1] = c0[j + 1]; col[j + 2] = c0[j + 2];
+  }
+  for (const n of ['position', 'aColor', 'aSize', 'aAlpha', 'aShape', 'aRot']) S.geo.attributes[n].needsUpdate = true;
+}
+function burst(p, n, o) {
+  for (let i = 0; i < n; i++) {
+    const a = rand(0, Math.PI * 2), up = rand(o.upMin ?? .2, o.upMax ?? 1), sp = rand(o.spMin ?? 1, o.sp ?? 3);
+    const c = Array.isArray(o.c) ? o.c[(Math.random() * o.c.length) | 0] : o.c;
+    emit({ p: p.clone().add(V(rand(-1, 1) * (o.jit || 0), rand(0, o.jitY || 0), rand(-1, 1) * (o.jit || 0))),
+      v: V(Math.cos(a) * sp, up * sp * (o.upK ?? 1), Math.sin(a) * sp), c, life: rand(o.lifeMin ?? .5, o.life ?? 1), size: rand(o.sizeMin ?? (o.size * .6), o.size), size1: o.size1,
+      drag: o.drag ?? 2, grav: o.grav ?? 0, shape: o.shape ?? 0, vr: rand(-4, 4), a: o.a ?? 1 }, o.S || PA);
+  }
+}
+
+/* ---------------- ground decals (one shader, many looks) ---------------- */
+const DV = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`;
+const DF = `
+varying vec2 vUv; uniform float uTime,uT,uType,uAlpha; uniform vec3 uC1,uC2;
+float ring(float r,float R,float w){ return exp(-pow((r-R)/w,2.)); }
+float hash(vec2 p){ return fract(sin(dot(p,vec2(41.3,289.1)))*43758.5); }
+void main(){
+  vec2 p=vUv*2.-1.; float r=length(p); float an=atan(p.y,p.x); float a=0.; vec3 col=uC1;
+  if(uType<.5){ float R=uT; float k=1.-uT; a=ring(r,R,.05+.06*uT)*k*1.4+ring(r,R*.82,.025)*k*.6+smoothstep(R,0.,r)*k*.15*step(r,R); col=mix(uC2,uC1,k); a*=smoothstep(0.,.14,uT)*(.55+.45*smoothstep(.0,.5,uT)); }
+  else if(uType<1.5){ a=ring(r,.97,.025)*1.2+smoothstep(1.,.2,r)*.10*(.7+.3*sin(uTime*7.));
+    float d=step(.5,fract(an/6.2832*28.+uTime*.6)); a+=ring(r,.88,.012)*d*.9; a+=ring(r,.25,.01)*.5; }
+  else if(uType<2.5){ float ro=an+uTime*.25; float pe=pow(abs(cos(ro*4.)),3.); a+=ring(r,.5+.28*pe,.018);
+    float pe2=pow(abs(cos((an-uTime*.18)*8.)),4.); a+=ring(r,.3+.12*pe2,.013)*.9;
+    a+=ring(r,.96,.012)+ring(r,.9,.007)*.7+ring(r,.2,.012)+ring(r,.13,.006);
+    a+=smoothstep(.8,1.,cos(an*36.-uTime*.8))*ring(r,.93,.018)*1.3;
+    float sp=step(.96,fract(an/6.2832*16.+.5))*smoothstep(.2,.3,r)*smoothstep(.95,.85,r); a+=sp*.35;
+    a+=smoothstep(1.,0.,r)*.07; col=mix(uC2,uC1,smoothstep(.1,.9,r)); }
+  else if(uType<3.5){ float st=sin(an*14.+sin(r*9.-uTime*3.)*1.6); float band=smoothstep(.25,.6,r)*smoothstep(1.,.85,r);
+    a=smoothstep(.2,.8,st)*band*.9+ring(r,.97,.03)*1.3+ring(r,.6,.02)*.5; float fl=.75+.25*sin(uTime*23.+r*20.); a*=fl;
+    col=mix(uC2,uC1,st*.5+.5); }
+  else if(uType<4.5){ float ro=an-uTime*1.4; a=ring(r,.86,.03)+ring(r,.62,.02)*.8;
+    float tick=step(.62,fract(ro/6.2832*12.))*step(r,.84)*step(.66,r); a+=tick*.6; a+=pow(abs(sin(ro*3.)),20.)*ring(r,.74,.05)*1.2; a+=smoothstep(.6,0.,r)*.2; }
+  else { float w=sin(r*26.-uTime*5.)*.5+.5; a=pow(w,6.)*smoothstep(1.,.3,r)*.7+ring(r,.98,.02)+smoothstep(1.,0.,r)*.12;
+    }
+  a*=step(r,1.);
+  gl_FragColor=vec4(col*a*uAlpha,1.);
+}`;
+const decals = [];
+function decal(type, x, z, radius, c1, c2, opt = {}) {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ vertexShader: DV, fragmentShader: DF, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    uniforms: { uTime: { value: 0 }, uT: { value: 0 }, uType: { value: type }, uAlpha: { value: opt.alpha ?? 1 }, uC1: { value: c1 }, uC2: { value: c2 || c1 } } }));
+  m.rotation.x = -Math.PI / 2; m.position.set(x, opt.y ?? .03 + decals.length * .002, z); m.scale.setScalar(radius); m.renderOrder = 3; scene.add(m);
+  const d = { m, u: m.material.uniforms, life: opt.life ?? 1, t: 0, grow: opt.grow ?? 0, auto: opt.auto ?? true, r: radius };
+  decals.push(d); return d;
+}
+function stepDecals(dt, time) {
+  for (let i = decals.length - 1; i >= 0; i--) {
+    const d = decals[i]; d.t += dt; d.u.uTime.value = time;
+    if (d.auto) {
+      const f = d.t / d.life; d.u.uT.value = Math.min(1, f);
+      if (d.grow) d.m.scale.setScalar(d.r * Math.min(1, easeOutBack(Math.min(1, d.t / d.grow))));
+      if (d.u.uType.value > .5) d.u.uAlpha.value = Math.min(1, d.t / .15) * (1 - Math.max(0, (f - .8) / .2));
+      if (f >= 1) { kill(d.m); decals.splice(i, 1); }
+    }
+  }
+}
+const shock = (x, z, r, c1, c2, life = .55) => decal(0, x, z, r, c1, c2 || c1, { life });
+
+/* ---------------- light pool ---------------- */
+const lights = [];
+for (let i = 0; i < 5; i++) { const l = new THREE.PointLight(0xffffff, 0, 9, 1.6); scene.add(l); lights.push({ l, t: 1, dur: 1, peak: 0 }); }
+let li = 0;
+function flash(p, color, peak = 25, dur = .45) { const s = lights[li]; li = (li + 1) % lights.length; s.l.position.copy(p); s.l.position.y = Math.max(p.y, 0) + 2.2; s.l.color.set(color); s.t = 0; s.dur = dur; s.peak = peak * .22; }
+function stepLights(dt) { for (const s of lights) { s.t += dt; const f = s.t / s.dur; s.l.intensity = f >= 1 ? 0 : s.peak * (f < .12 ? f / .12 : 1 - (f - .12) / .88); } }
+
+/* ---------------- shader meshes: pillar, tube, petal, fresnel ---------------- */
+const pillarMat = (c) => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  uniforms: { uC: { value: c }, uA: { value: 1 }, uTime: { value: 0 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `varying vec2 vUv; uniform vec3 uC; uniform float uA,uTime;
+    void main(){ float y=vUv.y; float a=pow(1.-y,1.6)*(.55+.45*sin(vUv.x*37.7+uTime*6.+y*8.)); a+=pow(1.-y,8.)*.3; a*=.6; gl_FragColor=vec4(uC*a*uA,1.); }` });
+function pillar(p, c, h = 4.5, r = .55, life = 1.1) {
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r * .7, r, h, 28, 1, true), pillarMat(c)); m.position.copy(p).y = h / 2; scene.add(m);
+  addTask((dt, t) => { m.material.uniforms.uTime.value = t; const f = t / life; m.material.uniforms.uA.value = Math.min(1, f * 6) * (1 - f); m.scale.set(1 + f * .4, Math.min(1, f * 5), 1 + f * .4); if (f >= 1) { kill(m); return false; } });
+}
+const tubeMat = (c1, c2, flow, freq = 18) => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  uniforms: { uC1: { value: c1 }, uC2: { value: c2 }, uTime: { value: 0 }, uA: { value: 1 }, uFlow: { value: flow }, uFreq: { value: freq } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `varying vec2 vUv; uniform vec3 uC1,uC2; uniform float uTime,uA,uFlow,uFreq;
+    void main(){ float b=pow(.5+.5*sin(vUv.x*uFreq-uTime*uFlow),8.); float rim=.55+.45*sin(vUv.y*6.2832);
+      vec3 c=uC1*rim+uC2*b; gl_FragColor=vec4(c*uA,1.); }` });
+const petalShape = (() => { const s = new THREE.Shape(); s.moveTo(0, 0); s.bezierCurveTo(.32, .18, .3, .7, 0, 1); s.bezierCurveTo(-.3, .7, -.32, .18, 0, 0); return new THREE.ShapeGeometry(s, 10); })();
+const petalMat = (c1, c2) => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  uniforms: { uC1: { value: c1 }, uC2: { value: c2 }, uA: { value: 1 } },
+  vertexShader: `varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `varying vec3 vP; uniform vec3 uC1,uC2; uniform float uA;
+    void main(){ float y=vP.y; float w=.3*sin(3.14*pow(clamp(y,0.,1.),.8))+.001; float e=smoothstep(.55,1.,abs(vP.x)/w);
+      vec3 c=mix(uC1,uC2,y)+uC2*e*1.4; float a=.55+.45*e; gl_FragColor=vec4(c*a*uA,1.); }` });
+function lotus(c1, c2, size = .8) {
+  const g = new THREE.Group(); const mats = [petalMat(c1, c2), petalMat(c1.clone().multiplyScalar(.8), c2.clone().multiplyScalar(1.2))];
+  const pets = [];
+  [[8, 0, 1], [8, Math.PI / 8, .75]].forEach(([n, off, s], L) => {
+    for (let i = 0; i < n; i++) {
+      const piv = new THREE.Group(); piv.rotation.y = off + i / n * Math.PI * 2;
+      const m = new THREE.Mesh(petalShape, mats[L]); m.scale.setScalar(size * s); piv.add(m); g.add(piv); pets.push({ m, L });
+    }
+  });
+  g.userData.open = t => pets.forEach(({ m, L }) => { m.rotation.x = -(L ? .15 : .3) - t * (L ? .9 : 1.25); });
+  g.userData.alpha = a => mats.forEach(m => m.uniforms.uA.value = a);
+  g.userData.open(0); scene.add(g); return g;
+}
+const fresnelMat = (c) => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  uniforms: { uC: { value: c }, uA: { value: 1 }, uTime: { value: 0 } },
+  vertexShader: `varying vec3 vN; varying vec3 vV; varying float vY; void main(){ vec4 w=modelViewMatrix*vec4(position,1.); vN=normalize(normalMatrix*normal); vV=normalize(-w.xyz); vY=position.y; gl_Position=projectionMatrix*w; }`,
+  fragmentShader: `varying vec3 vN; varying vec3 vV; varying float vY; uniform vec3 uC; uniform float uA,uTime;
+    void main(){ float f=pow(1.-abs(dot(vN,vV)),2.5); float hex=.5+.5*sin(vY*30.-uTime*4.); gl_FragColor=vec4(uC*(f*1.3+hex*f*.4)*uA,1.); }` });
+
+/* ---------------- tasks / time ---------------- */
+let tasks = [];
+function addTask(fn) { tasks.push({ fn, t: 0 }); }
+function after(s, fn) { addTask((dt, t) => { if (t >= s) { fn(); return false; } }); }
+
+/* ---------------- labels ---------------- */
+const labels = $('labels');
+const tmpV = V();
+function toScreen(p) { tmpV.copy(p).project(camera); return { x: (tmpV.x * .5 + .5) * innerWidth, y: (-tmpV.y * .5 + .5) * innerHeight, vis: tmpV.z < 1 }; }
+function popup(p, text, cls = 'heal') {
+  const s = toScreen(p); const el = document.createElement('div'); el.className = 'pop ' + cls; el.textContent = text;
+  el.style.left = (s.x + rand(-14, 14)) + 'px'; el.style.top = s.y + 'px'; labels.appendChild(el); setTimeout(() => el.remove(), 1300);
+}
+
+/* ---------------- actors (game sprite sheets) ---------------- */
+const loader = new THREE.TextureLoader();
+async function sheet(key) { const t = await loader.loadAsync(A[key]); t.magFilter = THREE.NearestFilter; t.minFilter = THREE.LinearFilter; t.colorSpace = THREE.SRGBColorSpace; t.generateMipmaps = false; return t; }
+const ROWS = 8; // rows: S, SE, E, NE, N, NW, W, SW
+function dirRow(dx, dz) { const a = Math.atan2(dx, dz); return ((Math.round(a / (Math.PI / 4)) % 8) + 8) % 8; }
+const actors = [];
+async function makeActor(o) {
+  const sheets = {};
+  for (const [name, key] of Object.entries(o.sheets)) { const t = await sheet(key); sheets[name] = { t, frames: Math.round(t.image.width / o.fw) }; }
+  const mat = new THREE.SpriteMaterial({ map: null, transparent: true, alphaTest: .35, depthWrite: true });
+  const sp = new THREE.Sprite(mat); sp.center.set(.5, o.cy); sp.scale.set(o.fw * o.k, o.fh * o.k, 1); sp.renderOrder = 1; scene.add(sp);
+  const sh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
+  sh.rotation.x = -Math.PI / 2; sh.scale.set(o.shadow, o.shadow * .55, 1); sh.position.y = .012; scene.add(sh);
+  const a = { ...o, sp, sh, sheets, maps: {}, pos: V(o.x, 0, o.z), off: V(), row: o.row ?? 0, anim: 'idle', frame: 0, ft: 0, once: null,
+    hp: o.maxHp * (o.hpStart ?? 1), down: false, tint: 0, tintC: C(1, .3, .3), alive: true, fade: 1, auras: 0 };
+  for (const [name, s] of Object.entries(sheets)) { const m = s.t.clone(); m.needsUpdate = true; m.repeat.set(1 / s.frames, 1 / ROWS); a.maps[name] = m; }
+  const bar = document.createElement('div'); bar.className = 'hp' + (o.mob ? ' mob' : ''); bar.innerHTML = '<i></i>'; labels.appendChild(bar); a.bar = bar;
+  play(a, 'idle'); actors.push(a); return a;
+}
+function play(a, anim, opt = {}) {
+  a.anim = anim; a.frame = opt.from || 0; a.ft = 0; a.fps = opt.fps || (anim === 'idle' ? 6 : 12); a.once = opt.once || null; a.hold = !!opt.hold;
+  a.sp.material.map = a.maps[anim]; a.sp.material.needsUpdate = true;
+}
+function stepActor(a, dt) {
+  const s = a.sheets[a.anim]; a.ft += dt;
+  if (a.ft > 1 / a.fps) {
+    a.ft = 0; a.frame++;
+    if (a.frame >= s.frames) { if (a.hold) a.frame = s.frames - 1; else if (a.once) { const cb = a.once; a.once = null; cb(); return; } else a.frame = 0; }
+  }
+  const m = a.maps[a.anim]; m.offset.set(a.frame / s.frames, 1 - (a.row + 1) / ROWS);
+  a.sp.position.copy(a.pos).add(a.off); a.sh.position.x = a.pos.x; a.sh.position.z = a.pos.z;
+  a.tint = Math.max(0, a.tint - dt * 4);
+  const base = a.down ? C(.45, .5, .62) : C(.82, .82, .82);
+  a.sp.material.color.copy(base).lerp(a.tintC, a.tint);
+  a.sp.material.opacity = a.fade; a.sh.material.opacity = a.fade;
+  const s2 = toScreen(V(a.pos.x, a.barY, a.pos.z));
+  a.bar.style.left = s2.x + 'px'; a.bar.style.top = s2.y + 'px'; a.bar.style.display = a.fade > .1 && s2.vis ? '' : 'none';
+  a.bar.firstChild.style.width = (100 * Math.max(0, a.hp) / a.maxHp) + '%'; a.bar.classList.toggle('down', a.down);
+}
+const chest = a => V(a.pos.x, a.mob ? .85 : .95, a.pos.z);
+const headP = a => V(a.pos.x, a.barY + .2, a.pos.z);
+
+/* ---------------- party + ghosts ---------------- */
+const HK = .021, GK = .034;
+const hero = (sheets, x, z, name, extra = {}) => makeActor({ sheets, x, z, fw: 128, fh: 136, k: HK, cy: .1, shadow: 1, maxHp: 1000, barY: 2.15, name, ...extra });
+let healer, party, ghosts;
+const GH_SPOTS = [[1.5, -4.3], [-1.4, -4.6], [3.7, -3.4], [-3.6, -3.2]];
+async function build() {
+  healer = await hero({ idle: 'healer_idle' }, 0, 1.6, 'หมอยา', { hpStart: .9 });
+  const sword = await hero({ idle: 'sword_idle', die: 'sword_die' }, -2.1, -1.0, 'นักดาบ', { hpStart: .55, front: true });
+  const boxer = await hero({ idle: 'boxer_idle', die: 'boxer_die' }, 2.1, -1.2, 'นักมวย', { hpStart: .4, front: true });
+  const archer = await hero({ idle: 'archer_idle', die: 'archer_die' }, -2.9, 2.5, 'นักธนู', { hpStart: 0 });
+  party = [healer, sword, boxer, archer];
+  ghosts = [];
+  for (let i = 0; i < 4; i++) {
+    const k = i % 2 ? 'phrai' : 'pob'; const [x, z] = GH_SPOTS[i];
+    const g = await makeActor({ sheets: { idle: k + '_idle', attack: k + '_attack', die: k + '_die' }, x, z, fw: 72, fh: 72, k: GK, cy: .06, shadow: 1.3, maxHp: 1400, barY: 2.3, mob: true, spot: [x, z] });
+    g.row = dirRow(-x, 1.6 - z); ghosts.push(g);
+  }
+  sword.row = dirRow(1, -1); boxer.row = dirRow(-.3, -1); archer.row = 0; healer.row = 4; BOOK = makeBook();
+  knockDown(archer, true);
+}
+function knockDown(a, instant) {
+  a.down = true; a.hp = 0;
+  if (instant) play(a, 'die', { from: a.sheets.die.frames - 1, hold: true }); else play(a, 'die', { hold: true, fps: 10 });
+}
+function revive(a, frac) {
+  a.down = false; a.hp = a.maxHp * frac; play(a, 'idle'); a.tint = 1; a.tintC = C(1.08, 1.08, 1);
+  popup(headP(a), 'ฟื้น!', 'st big'); burst(chest(a), 40, { c: [C(2, 1.8, 1), C(1.6, 2, 1.4)], size: .22, sp: 3, upMin: .4, shape: SH.star, life: 1.1, drag: 3 });
+  after(14, () => { if (!a.down) { knockDown(a); popup(headP(a), 'สลบ', 'hurt'); } });
+}
+const living = () => party.filter(a => !a.down);
+const livingGhosts = () => ghosts.filter(g => g.alive);
+function lowest(exclude = []) { return living().filter(a => !exclude.includes(a)).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)[0]; }
+function heal(a, amt, cls = 'heal') {
+  if (a.down) return; const v = Math.round(amt); a.hp = Math.min(a.maxHp, a.hp + v);
+  popup(headP(a), '+' + v, cls); a.tint = Math.max(a.tint, .6); a.tintC = C(.72, 1.02, .72);
+}
+function hurt(g, amt, crit) {
+  if (!g.alive) return; const v = Math.round(amt * rand(.9, 1.1)); g.hp -= v; g.tint = 1; g.tintC = C(1.15, 1.15, 1);
+  popup(headP(g), (crit ? '' : '') + v, 'dmg' + (crit ? ' big' : ''));
+  g.off.set(0, 0, 0); const dir = g.pos.clone().sub(healer.pos).setY(0).normalize().multiplyScalar(.25);
+  addTask((dt, t) => { const k = Math.sin(Math.min(1, t / .25) * Math.PI); g.off.copy(dir).multiplyScalar(k); if (t > .25) { g.off.set(0, 0, 0); return false; } });
+  if (g.hp <= 0) ghostDie(g);
+}
+function ghostDie(g) {
+  g.alive = false; play(g, 'die', { hold: true, fps: 10 });
+  burst(chest(g), 30, { c: C(.25, .2, .3), S: PN, size: .6, size1: 1.2, sp: 1.2, upMin: .3, life: 1.4, shape: SH.soft, a: .7 });
+  after(1.3, () => addTask((dt, t) => { g.fade = Math.max(0, 1 - t / .6); if (t > .6) return false; }));
+  after(3.2, () => {
+    g.hp = g.maxHp; g.alive = true; g.fade = 1; play(g, 'idle');
+    burst(V(g.pos.x, .3, g.pos.z), 26, { c: C(.18, .14, .22), S: PN, size: .7, size1: 1.4, sp: 1, upMin: .5, life: 1.2, shape: SH.soft, a: .8 });
+  });
+}
+/* ghosts keep hitting the front line so there is always something to heal */
+let ghostClock = 1;
+function ghostAI(dt) {
+  ghostClock -= dt; if (ghostClock > 0) return; ghostClock = rand(1.1, 1.8);
+  const g = livingGhosts().filter(x => !x.stun)[(Math.random() * 4) | 0]; if (!g) return;
+  const targets = living().filter(a => a.front || Math.random() < .25); const a = targets[(Math.random() * targets.length) | 0]; if (!a) return;
+  g.row = dirRow(a.pos.x - g.pos.x, a.pos.z - g.pos.z);
+  play(g, 'attack', { once: () => play(g, 'idle'), fps: 12 });
+  after(.3, () => {
+    if (a.down) return;
+    const dmg = a.maxHp * rand(.07, .13); a.hp = Math.max(a.maxHp * .12, a.hp - dmg); a.tint = 1; a.tintC = C(1.15, .3, .3);
+    popup(headP(a), '-' + Math.round(dmg), 'hurt');
+    burst(chest(a), 10, { c: C(.9, .2, 1.1), size: .18, sp: 2.5, life: .4, shape: SH.star });
+  });
+}
+
+/* ---------------- ตำรายาเล่มดำ: the healer's weapon is a floating black grimoire ---------------- */
+function yantGlyph(g, cx, cy, s, col, lw) {
+  /* unalom-style spiral with a tail: the cover sigil */
+  g.strokeStyle = col; g.lineWidth = lw; g.lineCap = 'round'; g.beginPath();
+  for (let a = 0; a <= Math.PI * 4.2; a += .08) { const r = s * (.12 + a / (Math.PI * 4.2) * .88); const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r * .95; a ? g.lineTo(x, y) : g.moveTo(x, y); }
+  g.stroke(); g.beginPath(); g.moveTo(cx + s * .98, cy + s * .2); g.quadraticCurveTo(cx + s * 1.25, cy - s * .7, cx + s * .55, cy - s * 1.15); g.stroke();
+  g.beginPath(); g.arc(cx, cy, s * 1.35, 0, 7); g.lineWidth = lw * .6; g.stroke();
+}
+function coverTex() {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 320; const g = c.getContext('2d');
+  g.fillStyle = '#1c1a1d'; g.fillRect(0, 0, 256, 320);
+  for (let i = 0; i < 900; i++) { g.fillStyle = `rgba(${Math.random() < .5 ? '255,255,255' : '0,0,0'},${Math.random() * .05})`; g.fillRect(Math.random() * 256, Math.random() * 320, 2, 2); }
+  g.strokeStyle = '#b8892e'; g.lineWidth = 4; g.strokeRect(14, 14, 228, 292); g.lineWidth = 1.5; g.strokeRect(22, 22, 212, 276);
+  g.fillStyle = '#d9a94a';
+  [[14, 14, 1, 1], [242, 14, -1, 1], [14, 306, 1, -1], [242, 306, -1, -1]].forEach(([x, y, sx, sy]) => { g.beginPath(); g.moveTo(x, y); g.lineTo(x + 46 * sx, y); g.quadraticCurveTo(x + 22 * sx, y + 10 * sy, x + 14 * sx, y + 22 * sy); g.quadraticCurveTo(x + 10 * sx, y + 30 * sy, x, y + 46 * sy); g.closePath(); g.fill(); });
+  yantGlyph(g, 128, 160, 40, '#f2c84b', 9);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+function pageTex() {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 320; const g = c.getContext('2d');
+  g.fillStyle = '#efe2bd'; g.fillRect(0, 0, 256, 320);
+  g.strokeStyle = 'rgba(90,60,30,.55)'; g.lineWidth = 2;
+  for (let y = 36; y < 300; y += 18) { if (y > 110 && y < 220) continue; g.beginPath(); for (let x = 26; x < 230; x += 6) g.lineTo(x, y + Math.sin(x * .7 + y) * 2.2); g.stroke(); }
+  yantGlyph(g, 128, 165, 30, '#2f7a3a', 6);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const sigilTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d'); yantGlyph(g, 128, 128, 62, '#ffffff', 7);
+  g.lineWidth = 2; g.strokeStyle = '#fff'; g.beginPath(); g.arc(128, 128, 118, 0, 7); g.stroke();
+  for (let i = 0; i < 24; i++) { const a = i / 24 * 6.28; g.beginPath(); g.moveTo(128 + Math.cos(a) * 104, 128 + Math.sin(a) * 104); g.lineTo(128 + Math.cos(a) * (i % 2 ? 112 : 98), 128 + Math.sin(a) * (i % 2 ? 112 : 98)); g.stroke(); }
+  return new THREE.CanvasTexture(c); })();
+function makeBook() {
+  const W = .3, H = .4, root = new THREE.Group(), book = new THREE.Group(); root.add(book); scene.add(root);
+  const leather = new THREE.MeshStandardMaterial({ color: 0x29262a, roughness: .55, metalness: .1 });
+  const goldM = new THREE.MeshStandardMaterial({ color: 0xd4a23f, roughness: .3, metalness: .85, emissive: 0x3a2400 });
+  const ct = coverTex(); const coverM = new THREE.MeshStandardMaterial({ map: ct, emissiveMap: ct, emissive: 0xffffff, emissiveIntensity: .55, roughness: .5, metalness: .15 });
+  const pageM = new THREE.MeshBasicMaterial({ map: pageTex(), color: C(.8, .78, .7) });
+  const edgeM = new THREE.MeshStandardMaterial({ color: 0xe0c27a, roughness: .7, metalness: .3 });
+  const halves = [-1, 1].map(side => {
+    const h = new THREE.Group(); h.position.x = side * .045; book.add(h);
+    const mats = [leather, leather, leather, leather, leather, side < 0 ? coverM : leather];
+    const cov = new THREE.Mesh(new THREE.BoxGeometry(W, H, .018), mats); cov.position.set(side * W / 2, 0, -.009); h.add(cov);
+    const pages = new THREE.Mesh(new THREE.BoxGeometry(W - .02, H - .025, .035), [edgeM, edgeM, edgeM, edgeM, pageM, edgeM]); pages.position.set(side * (W / 2 - .005), 0, .018); h.add(pages);
+    /* gold corner caps on the outer edge */
+    [-1, 1].forEach(v => { const cap = new THREE.Mesh(new THREE.BoxGeometry(.05, .05, .024), goldM); cap.position.set(side * (W - .02), v * (H / 2 - .02), -.009); h.add(cap); });
+    return { h, side };
+  });
+  const spine = new THREE.Mesh(new THREE.BoxGeometry(.11, H, .02), leather); spine.position.z = -.012; book.add(spine);
+  /* golden herb-root rod lying across the cover, as in the concept art */
+  const rod = new THREE.Group(); const seg = (r, l, y) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r * .85, r, l, 8), goldM); m.position.y = y; rod.add(m); };
+  seg(.026, .2, 0); seg(.034, .07, .12); seg(.03, .06, .18); seg(.022, .1, -.13); const knob = new THREE.Mesh(new THREE.SphereGeometry(.036, 10, 8), goldM); knob.position.y = .23; rod.add(knob);
+  rod.position.set(-W * .55, -.04, -.04); rod.rotation.z = -.75; halves[0].h.add(rod);
+  const ribbon = new THREE.Mesh(new THREE.PlaneGeometry(.025, .18), new THREE.MeshStandardMaterial({ color: 0xc9a040, side: THREE.DoubleSide, metalness: .6, roughness: .4 })); ribbon.position.set(.02, -H / 2 - .07, .01); book.add(ribbon);
+  const sigil = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: sigilTex, color: C(1.1, .85, .3), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, opacity: 0 }));
+  sigil.position.z = .3; book.add(sigil);
+  const lamp = glow(C(1.4, 1.1, .5), .9); lamp.material.opacity = 0;
+  root.scale.setScalar(1.45);
+  return { root, book, halves, sigil, lamp, pageM, castT: 9, castDur: .9, open: 0 };
+}
+let BOOK = null;
+function bookCast(dur = .9) { BOOK.castT = 0; BOOK.castDur = dur; }
+function stepBook(dt, time) {
+  const B = BOOK; if (!B || !healer) return; B.castT += dt;
+  const ct = B.castT, d = B.castDur, casting = ct < d + .35;
+  const target = casting ? (ct < .15 ? ct / .15 : ct < d ? 1 : 1 - (ct - d) / .35) : 0;
+  B.open += (clamp01(target) - B.open) * Math.min(1, dt * 14);
+  const o = B.open, c = 1 - o;
+  /* rest: hovering by the healer's right shoulder · cast: rises in front of the face and opens toward the camera */
+  const rest = V(.62, 1.25 + Math.sin(time * 2.1) * .06, .28), up = V(.62, 1.85, .45);
+  B.root.position.copy(healer.pos).add(rest.lerp(up, o));
+  B.halves.forEach(({ h, side }) => h.rotation.y = -side * (c * Math.PI / 2 * .98 + .12));
+  B.book.rotation.set(-.55 * o + Math.sin(time * 1.3) * .08 * c, c * (Math.PI / 2) + Math.sin(time * .9) * .25 * c, Math.sin(time * 1.7) * .05);
+  B.sigil.material.opacity = o * .9; B.sigil.rotation.z = time * 1.2; B.sigil.scale.setScalar(.55 + o * .25 + Math.sin(time * 8) * .02);
+  B.pageM.color.setRGB(.72 + o * .18, .7 + o * .22, .62 + o * .06);
+  B.lamp.position.copy(B.root.position).add(V(0, 0, .15)); B.lamp.material.opacity = .2 * c + o * .18; B.lamp.scale.setScalar(.6 + o * .5);
+  if (Math.random() < dt * (3 + o * 30)) emit({ p: B.root.position.clone().add(V(rand(-.2, .2), rand(-.15, .2), rand(-.1, .2))), v: V(rand(-.2, .2), rand(.3, .9), rand(-.2, .2)), c: o > .3 ? (Math.random() < .5 ? GOLD : HERB_HOT) : GOLD_SOFT, life: rand(.5, 1), size: rand(.04, .08), shape: Math.random() < .3 ? SH.star : SH.glow });
+}
+/* only some facings of the sprite were cleanly de-staffed: snap to the nearest clean one (S, SE, N, SW) */
+const CLEAN_ROW = [0, 1, 1, 4, 4, 4, 7, 7];
+function faceHealer(p) { healer.row = CLEAN_ROW[dirRow(p.x - healer.pos.x, p.z - healer.pos.z)]; }
+
+/* ---------------- healer cast helper ---------------- */
+function castAt(p) {
+  faceHealer(p); bookCast(.75);
+}
+const staffTip = () => healer.pos.clone().add(V(.62, 1.85, .7));
+function arcPoint(a, b, h, u) { const p = a.clone().lerp(b, u); p.y += Math.sin(u * Math.PI) * h; return p; }
+const centroid = list => list.reduce((s, a) => s.add(a.pos), V()).multiplyScalar(1 / list.length).setY(0);
+
+/* ---------------- palette for FX (HDR values feed the bloom) ---------------- */
+const HERB = C(.45, 1.6, .55), HERB_HOT = C(1.4, 3, 1.3), LEAF = C(.35, 1.0, .35), GOLD = C(2.2, 1.6, .6), GOLD_SOFT = C(1.2, .9, .35),
+  EMBER = C(2.6, 1.0, .25), WATER = C(.5, 1.4, 2.4), WHITE = C(2.2, 2.2, 2), MPBLUE = C(.4, .8, 2.4), DUST = C(.48, .4, .26);
+
+/* ---------------- buff visuals: each party buff gets its own aura + an icon chip under the HP bar ---------------- */
+function buffChip(a, iconKey, color, dur) {
+  if (!a.chips) { a.chips = document.createElement('div'); a.chips.className = 'chips'; labels.appendChild(a.chips); }
+  const old = a.chips.querySelector(`[data-k="${iconKey}"]`); if (old) old.remove();
+  const el = document.createElement('div'); el.className = 'chip'; el.dataset.k = iconKey; el.style.setProperty('--c', color);
+  el.innerHTML = `<img alt="" src="${A[iconKey]}"><i></i>`; a.chips.appendChild(el);
+  { const s0 = toScreen(V(a.pos.x, a.barY, a.pos.z)); a.chips.style.left = s0.x + 'px'; a.chips.style.top = (s0.y + 8) + 'px'; }
+  addTask((dt, t) => {
+    const s = toScreen(V(a.pos.x, a.barY, a.pos.z)); a.chips.style.left = s.x + 'px'; a.chips.style.top = (s.y + 8) + 'px';
+    el.lastChild.style.height = (100 * t / dur) + '%';
+    if (t >= dur || !el.isConnected) { el.remove(); return false; }
+  });
+}
+/* tiger: striped fire ring at the feet + orange afterimages that shimmer like speed */
+function auraTiger(a, dur) {
+  const ring = decal(3, a.pos.x, a.pos.z, .85, C(1.4, .55, .12), C(.7, .15, .02), { auto: false, alpha: .8 });
+  let ghostT = 0, side = 1;
+  addTask((dt, t) => {
+    ring.m.position.set(a.pos.x, .04, a.pos.z); ring.u.uAlpha.value = .8 * clamp01(t * 4) * clamp01((dur - t) / .4);
+    ghostT -= dt;
+    if (ghostT <= 0 && !a.down) {
+      ghostT = .16; side = -side;
+      const m = new THREE.SpriteMaterial({ map: a.sp.material.map, color: C(1.25, .55, .15), transparent: true, opacity: .45, depthWrite: false, blending: THREE.AdditiveBlending });
+      const g = new THREE.Sprite(m); g.center.copy(a.sp.center); g.scale.copy(a.sp.scale); g.position.copy(a.sp.position).add(V(side * .16, 0, -.05)); scene.add(g);
+      addTask((dt2, t2) => { m.opacity = .45 * (1 - t2 / .35); g.position.x -= side * dt2 * .5; if (t2 > .35) { scene.remove(g); m.dispose(); return false; } });
+    }
+    if (Math.random() < dt * 10) emit({ p: a.pos.clone().add(V(rand(-.35, .35), .05, rand(-.2, .2))), v: V(rand(-1.4, -.6) * side, rand(.1, .4), 0), c: EMBER, life: .35, size: .09, size1: .02 });
+    if (t >= dur) { ring.auto = true; ring.t = 99; return false; }
+  });
+}
+/* mist: a small rain cloud hovers over each ally, drizzle + a ripple ring at the feet, MP drops swirl in */
+function auraMist(a, dur) {
+  const rip = decal(5, a.pos.x, a.pos.z, .95, C(.25, .7, .8), null, { auto: false, alpha: .8 });
+  addTask((dt, t) => {
+    const top = V(a.pos.x, a.barY + .45, a.pos.z), live = clamp01((dur - t) / .5);
+    rip.m.position.set(a.pos.x, .04, a.pos.z); rip.u.uAlpha.value = .8 * clamp01(t * 3) * live;
+    if (Math.random() < dt * 22 * live) emit({ p: top.clone().add(V(rand(-.42, .42), rand(-.08, .12), rand(-.15, .15))), v: V(rand(-.05, .05), 0, 0), c: Math.random() < .5 ? C(.78, .9, .92) : C(.6, .78, .82), life: .7, size: rand(.32, .45), size1: .5, shape: SH.soft, a: .55 }, PN);
+    if (Math.random() < dt * 26 * live) emit({ p: top.clone().add(V(rand(-.35, .35), -.12, rand(-.12, .12))), v: V(0, -3.2, 0), c: C(.5, 1.1, 1.5), life: .5, size: .045, grav: 3 });
+    if (Math.random() < dt * 4 * live) emit({ p: top.clone().add(V(rand(-.3, .3), 0, 0)), c: MPBLUE, life: 1.2, size: .1, home: chest(a), homeK: 2.5, swirl: 3 });
+    if (t >= dur) { rip.auto = true; rip.t = 99; return false; }
+  });
+}
+/* tonic: seven coloured beads circle the waist like a rosary; red power surges shoot up from the feet */
+const TONIC_COLS = [C(2.2, .45, .35), C(2.2, 1, .25), C(2, 1.8, .35), C(.5, 2, .5), C(.35, 1.8, 1.8), C(.45, .8, 2.3), C(1.5, .5, 2.2)];
+function auraTonic(a, dur) {
+  const beads = TONIC_COLS.map(c => glow(c, .3));
+  let surge = .2;
+  addTask((dt, t) => {
+    const live = clamp01((dur - t) / .4) * clamp01(t * 4);
+    beads.forEach((s, i) => { const an = t * 2.6 + i / 7 * 6.28; s.position.set(a.pos.x + Math.cos(an) * .55, .95 + Math.sin(an) * .18, a.pos.z + Math.sin(an) * .38); s.material.opacity = live; });
+    surge -= dt;
+    if (surge <= 0 && !a.down && live > .5) {
+      surge = .65; shock(a.pos.x, a.pos.z, .75, C(2, .5, .2), C(1.2, .3, .1), .35);
+      for (let k = 0; k < 10; k++) emit({ p: a.pos.clone().add(V(rand(-.25, .25), .1, rand(-.15, .15))), v: V(0, rand(3.5, 5.5), 0), c: Math.random() < .6 ? C(2.2, .55, .2) : GOLD, life: .4, size: .14, size1: .02, drag: 2 });
+    }
+    if (t >= dur) { beads.forEach(kill); return false; }
+  });
+}
+/* mother: a crown of golden rice grains turns above the head; crit glints flash on the body */
+function auraMother(a, dur) {
+  const grains = Array.from({ length: 8 }, () => glow(C(1.9, 1.45, .5), .22));
+  let glint = .3;
+  addTask((dt, t) => {
+    const live = clamp01((dur - t) / .4) * clamp01(t * 3);
+    grains.forEach((s, i) => { const an = -t * 1.4 + i / 8 * 6.28; s.position.set(a.pos.x + Math.cos(an) * .32, a.barY + .3 + Math.sin(t * 3 + i) * .03, a.pos.z + Math.sin(an) * .2); s.material.opacity = live; });
+    glint -= dt;
+    if (glint <= 0 && !a.down && live > .5) {
+      glint = rand(.5, .9); const p = chest(a).add(V(rand(-.35, .35), rand(-.3, .5), .2));
+      emit({ p, c: C(2.6, 2.1, 1), life: .3, size: .55, size1: .1, shape: SH.star, rot: rand(-.3, .3) });
+      emit({ p, c: GOLD, life: .3, size: .25, size1: .05 });
+    }
+    if (Math.random() < dt * 8 * live) emit({ p: a.pos.clone().add(V(rand(-.5, .5), a.barY + .2, rand(-.3, .3))), v: V(0, -.6, 0), c: GOLD_SOFT, life: 1.6, size: .05, grav: .2 });
+    if (t >= dur) { grains.forEach(kill); return false; }
+  });
+}
+
+/* =================== SKILLS =================== */
+
+/* 1 · สายใยสมุนไพร — twin twisting vines, pulses flowing to the target, leaves sprouting along the strand */
+function skVine() {
+  const tgt = lowest(); if (!tgt) return 1; castAt(tgt.pos);
+  const dur = 6, m1 = new THREE.Mesh(new THREE.BufferGeometry(), tubeMat(C(.1, .4, .14), C(.7, 1.7, .6), 9)), m2 = new THREE.Mesh(new THREE.BufferGeometry(), tubeMat(C(.08, .3, .1), C(1.1, 1.5, .5), 7, 13));
+  scene.add(m1, m2);
+  const orbs = [0, 1, 2].map(() => glow(C(.9, 1.7, .9), .38));
+  const ringD = decal(4, tgt.pos.x, tgt.pos.z, 1.0, C(.25, .8, .3), C(.6, .45, .2), { auto: false });
+  let leafAcc = 0, nextTick = .5, curve = null;
+  addTask((dt, t) => {
+    const grow = clamp01((t - .2) / .35), fade = t > dur - .4 ? clamp01((dur - t) / .4) : 1;
+    if (tgt.down) t = dur;
+    const a = staffTip(), b = chest(tgt);
+    const dir = b.clone().sub(a), side = V(-dir.z, 0, dir.x).normalize();
+    const p1 = [], p2 = [], mid = [];
+    for (let i = 0; i <= 26; i++) {
+      const u = i / 26 * Math.max(.02, grow); const p = arcPoint(a, b, .9, u); p.addScaledVector(side, Math.sin(u * 7 + t * 2.2) * .08);
+      mid.push(p.clone()); const w = Math.sin(u * Math.PI) * .13 + .03, ph = u * 16 - t * 5;
+      p1.push(p.clone().addScaledVector(side, Math.cos(ph) * w).add(V(0, Math.sin(ph) * w, 0)));
+      p2.push(p.clone().addScaledVector(side, -Math.cos(ph) * w).add(V(0, -Math.sin(ph) * w, 0)));
+    }
+    curve = new THREE.CatmullRomCurve3(mid);
+    m1.geometry.dispose(); m1.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(p1), 60, .04, 6);
+    m2.geometry.dispose(); m2.geometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(p2), 60, .028, 5);
+    [m1, m2].forEach(m => { m.material.uniforms.uTime.value = t; m.material.uniforms.uA.value = fade; });
+    orbs.forEach((o, i) => { const u = ((t * .7 + i / 3) % 1) * grow; o.position.copy(curve.getPoint(u)); o.material.opacity = fade * Math.sin(u * Math.PI); });
+    ringD.m.position.set(tgt.pos.x, .04, tgt.pos.z); ringD.u.uAlpha.value = grow * fade * .8;
+    leafAcc += dt * 22 * grow * fade;
+    while (leafAcc > 1) {
+      leafAcc--; const u = Math.random(); const p = curve.getPoint(u);
+      emit({ p, v: V(rand(-.3, .3), rand(-.4, .1), rand(-.3, .3)), c: Math.random() < .7 ? LEAF : C(.9, 1.6, .4), life: rand(.7, 1.4), size: rand(.12, .22), shape: SH.leaf, vr: rand(-3, 3), grav: .6, drag: 1.5 });
+    }
+    if (Math.random() < dt * 30) emit({ p: chest(tgt).add(V(rand(-.4, .4), rand(-.8, .3), rand(-.3, .3))), v: V(0, rand(.6, 1.4), 0), c: HERB_HOT, life: rand(.6, 1), size: rand(.06, .12), shape: Math.random() < .3 ? SH.star : SH.glow });
+    if (t >= nextTick && grow >= 1 && fade > .5) {
+      nextTick += .5; const near = tgt.pos.distanceTo(healer.pos) < 2.25; heal(tgt, tgt.maxHp * .06 * (near ? 1.5 : 1));
+      burst(chest(tgt), 6, { c: HERB_HOT, size: .14, sp: 1.6, life: .5, shape: SH.star }); shock(tgt.pos.x, tgt.pos.z, .9, HERB, HERB, .4);
+    }
+    if (t >= dur) { kill(m1); kill(m2); orbs.forEach(kill); ringD.auto = true; ringD.t = ringD.life * .8; return false; }
+  });
+  return dur;
+}
+
+/* 2 · ขวดยาเด้งห้าทิศ — a corked herb bottle tumbles ally → ghost → ally, spilling each hit and shattering on the last */
+function bottleMesh() {
+  const g = new THREE.Group(), inner = new THREE.Group(); g.add(inner); inner.position.y = -.24;
+  const pts = [[0, 0], [.13, 0], [.165, .04], [.175, .2], [.13, .3], [.065, .34], [.058, .43], [.075, .45], [.07, .47]].map(([x, y]) => new THREE.Vector2(x, y));
+  const glass = new THREE.Mesh(new THREE.LatheGeometry(pts, 18), new THREE.MeshStandardMaterial({ color: 0xc98a3a, transparent: true, opacity: .5, roughness: .08, metalness: .2, emissive: 0x3a1c04, side: THREE.DoubleSide, depthWrite: false }));
+  const liquid = new THREE.Mesh(new THREE.CylinderGeometry(.14, .125, .2, 16), new THREE.MeshBasicMaterial({ color: C(.55, 1.5, .45) })); liquid.position.y = .11;
+  const cork = new THREE.Mesh(new THREE.CylinderGeometry(.055, .048, .08, 10), new THREE.MeshStandardMaterial({ color: 0x8a6a3f, roughness: .9 })); cork.position.y = .5;
+  const cord = new THREE.Mesh(new THREE.TorusGeometry(.064, .012, 6, 18), new THREE.MeshStandardMaterial({ color: 0xb02a22, roughness: .7 })); cord.rotation.x = Math.PI / 2; cord.position.y = .42;
+  const label = new THREE.Mesh(new THREE.CylinderGeometry(.178, .178, .09, 18, 1, true), new THREE.MeshStandardMaterial({ color: 0xe8dcb0, roughness: 1, side: THREE.DoubleSide })); label.position.y = .17;
+  inner.add(glass, liquid, cork, cord, label); g.scale.setScalar(1.7); g.userData.liquid = liquid; scene.add(g); return g;
+}
+function skPill() {
+  const first = lowest(); if (!first) return 1; castAt(first.pos);
+  const seq = []; let prevAlly = first; const usedA = [first];
+  for (let i = 0; i < 5; i++) {
+    if (i % 2 === 0) { const a = i === 0 ? first : (lowest(usedA.slice(-1)) || first); seq.push(a); usedA.push(a); prevAlly = a; }
+    else { const gs = livingGhosts().sort((x, y) => x.pos.distanceTo(prevAlly.pos) - y.pos.distanceTo(prevAlly.pos)); seq.push(gs[(i >> 1) % Math.max(1, gs.length)] || prevAlly); }
+  }
+  const bot = bottleMesh(), halo = glow(C(.35, 1.0, .35), 1.1); halo.material.opacity = .55;
+  let from = staffTip(), hop = 0, ht = 0;
+  addTask((dt, t) => {
+    if (t < .25) { bot.position.copy(from); halo.position.copy(from); return; }
+    const tgt = seq[hop]; const to = chest(tgt); ht += dt; const u = Math.min(1, ht / .38);
+    const p = arcPoint(from, to, 1.5, u); bot.position.copy(p); halo.position.copy(p);
+    bot.rotation.z -= dt * 15; bot.rotation.y += dt * 4;
+    /* herb droplets drip from the tumbling bottle */
+    if (Math.random() < .7) emit({ p: p.clone().add(V(rand(-.08, .08), .1, rand(-.08, .08))), v: V(rand(-.3, .3), rand(0, .6), rand(-.3, .3)), c: C(.55, 1.5, .45), life: .5, size: .07, grav: 6 });
+    emit({ p: p.clone(), c: C(.4, 1.1, .4), life: .3, size: .22, size1: .02, a: .5 });
+    if (u >= 1) {
+      const last = hop === seq.length - 1;
+      bot.userData.liquid.scale.y = Math.max(.15, 1 - (hop + 1) * .18); bot.userData.liquid.position.y = .11 - (1 - bot.userData.liquid.scale.y) * .1;
+      splash(to, tgt.mob, last);
+      if (tgt.mob) {
+        hurt(tgt, last ? 190 : 140); flash(to, 0x9fd860, 30, .4);
+        const g = tgt, pud = decal(5, g.pos.x, g.pos.z, 1.1, C(.35, .8, .15), null, { life: 1.8, grow: .25 });
+        addTask((dt2, t2) => { if (Math.random() < dt2 * 14) emit({ p: chest(g).add(V(rand(-.3, .3), rand(-.4, .5), rand(-.3, .3))), v: V(0, .8, 0), c: C(.6, 1.6, .2), life: .6, size: .1 }); if (t2 > 1.5) return false; });
+        if (hop === 1) popup(V(g.pos.x, g.barY + .7, g.pos.z), 'พิษสมุนไพร', 'st');
+      } else {
+        heal(tgt, tgt.maxHp * .35); flash(to, 0x7dff9a, 22, .35); shock(tgt.pos.x, tgt.pos.z, 1.2, HERB_HOT, HERB);
+        burst(to, 12, { c: LEAF, size: .2, sp: 2.2, life: .9, shape: SH.leaf, grav: 1.5, upMin: .5 });
+      }
+      from = to; hop++; ht = 0;
+      if (last) { kill(bot); kill(halo); return false; }
+    }
+  });
+  function splash(p, mob, last) {
+    const liq = mob ? [C(.5, 1.2, .2), C(.8, 1.5, .3)] : [C(.5, 1.6, .5), C(1.1, 2, 1)];
+    burst(p, last ? 46 : 22, { c: liq, size: .11, sp: last ? 3.6 : 2.6, upMin: .5, upK: 1.3, life: .8, grav: 7, drag: .5 });
+    if (mob) burst(p, 18, { c: [C(.42, .5, .2), C(.3, .38, .16)], S: PN, size: .4, size1: .9, sp: 2.2, life: .9, shape: SH.soft, a: .7, drag: 3 });
+    if (last) {
+      /* glass shatters: amber shards fall and tumble */
+      burst(p, 34, { c: [C(1.6, 1.0, .45), C(1.2, 1.3, 1.1)], size: .09, sp: 4, upMin: .4, upK: 1.4, life: 1.1, grav: 9, drag: .3, shape: SH.star });
+      burst(p, 8, { c: C(.5, .38, .25), S: PN, size: .07, sp: 3, upMin: .6, life: 1.2, grav: 9, drag: .2, shape: SH.soft, a: 1 });
+      shock(p.x, p.z, 2.2, C(1.6, 1.1, .45), HERB, .55); shake = .1;
+      popup(V(p.x, 2.9, p.z), 'เพล้ง!', 'st');
+    }
+  }
+  return 2.6;
+}
+
+/* 3 · วงหนาดปราบผี — a wide yellow-green ward with a low glowing dome and a cross sigil; ghosts inside take rapid ticks (combo counter) */
+const zoneFloorMat = () => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  uniforms: { uTime: { value: 0 }, uA: { value: 0 }, uPulse: { value: 0 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+  fragmentShader: `varying vec2 vUv; uniform float uTime,uA,uPulse;
+    void main(){ vec2 p=vUv*2.-1.; float r=length(p); if(r>1.) discard; float an=atan(p.y,p.x);
+      vec3 c1=vec3(.30,.62,.12), c2=vec3(.95,1.05,.30);
+      float fill=smoothstep(.15,1.,r)*.32+.05;
+      float rim=exp(-pow((r-.985)/.011,2.))*1.5+exp(-pow((r-.94)/.05,2.))*.32;
+      float sw=pow(.5+.5*sin(an*5.+r*13.-uTime*2.4),6.)*smoothstep(.25,.95,r)*.28;
+      float sweep=pow(.5+.5*cos(an-uTime*1.5),28.)*smoothstep(.1,1.,r)*.45;
+      float ring=exp(-pow((r-fract(uTime*.55))/.03,2.))*.35*(1.-r);
+      vec3 col=mix(c1,c2,r)*(fill+sw+sweep+ring+uPulse*.2*(1.-r))*.42+c2*rim*.8;
+      gl_FragColor=vec4(col*uA,1.); }` });
+const zoneDomeMat = () => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  uniforms: { uTime: { value: 0 }, uA: { value: 0 } },
+  vertexShader: `varying vec2 vUv; varying vec3 vN; varying vec3 vV; void main(){ vUv=uv; vec4 w=modelViewMatrix*vec4(position,1.); vN=normalize(normalMatrix*normal); vV=normalize(-w.xyz); gl_Position=projectionMatrix*w; }`,
+  fragmentShader: `varying vec2 vUv; varying vec3 vN; varying vec3 vV; uniform float uTime,uA;
+    void main(){ float h=clamp((vUv.y-.5)*2.,0.,1.); float base=pow(1.-h,3.);
+      float bands=pow(.5+.5*sin(vUv.x*60.-uTime*3.+h*8.),4.)*.35; float f=pow(1.-abs(dot(vN,vV)),1.6);
+      vec3 col=mix(vec3(.35,.75,.15),vec3(.9,1.,.35),1.-h)*(base*.55+bands*base+f*.25*(1.-h))*.28;
+      gl_FragColor=vec4(col*uA,1.); }` });
+const crossTex = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+  const a = 34, b = 104; const path = () => { g.beginPath(); g.moveTo(128 - a, 128 - b); g.lineTo(128 + a, 128 - b); g.lineTo(128 + a, 128 - a); g.lineTo(128 + b, 128 - a); g.lineTo(128 + b, 128 + a); g.lineTo(128 + a, 128 + a); g.lineTo(128 + a, 128 + b); g.lineTo(128 - a, 128 + b); g.lineTo(128 - a, 128 + a); g.lineTo(128 - b, 128 + a); g.lineTo(128 - b, 128 - a); g.lineTo(128 - a, 128 - a); g.closePath(); };
+  g.shadowColor = '#fff'; g.shadowBlur = 14; g.strokeStyle = '#fff'; g.lineWidth = 9; path(); g.stroke(); g.shadowBlur = 0; g.lineWidth = 4; path(); g.stroke();
+  g.fillStyle = 'rgba(255,255,255,.12)'; path(); g.fill();
+  return new THREE.CanvasTexture(c);
+})();
+function skZone() {
+  const pack = livingGhosts().length ? livingGhosts() : ghosts, gc = centroid(pack);
+  const P = gc.clone().add(healer.pos.clone().sub(gc).setY(0).normalize().multiplyScalar(1.1)); P.y = 0;
+  const R = 4.5, LIFE = 6, TICK = .4; castAt(P);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(2 * R, 2 * R), zoneFloorMat()); floor.rotation.x = -Math.PI / 2; floor.position.set(P.x, .045, P.z); floor.renderOrder = 3;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(R, 64, 14, 0, Math.PI * 2, 0, Math.PI / 2), zoneDomeMat()); dome.position.copy(P); dome.scale.y = .26; dome.renderOrder = 4;
+  const cross = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), new THREE.MeshBasicMaterial({ map: crossTex, color: C(.45, 1.5, .35), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
+  cross.rotation.x = -Math.PI / 2; cross.position.set(P.x, .06, P.z); cross.renderOrder = 4;
+  scene.add(floor, dome, cross); floor.scale.setScalar(.01); dome.scale.set(.01, .01, .01);
+  shock(P.x, P.z, R, C(1.1, 1.3, .4), C(.5, .9, .2), .6); flash(P, 0xc8f070, 35, .6); shake = .1;
+  const lbl = document.createElement('div'); lbl.className = 'combo'; labels.appendChild(lbl);
+  let combo = 0, nextTick = .35, slowed = new Set(), leafAcc = 0;
+  addTask((dt, t) => {
+    const grow = easeOutBack(clamp01(t / .45)), fade = t > LIFE - .4 ? clamp01((LIFE - t) / .4) : 1;
+    floor.scale.setScalar(Math.max(.01, grow)); dome.scale.set(Math.max(.01, grow), .26 * Math.max(.01, grow) * (1 + Math.sin(t * 3) * .04), Math.max(.01, grow));
+    const fu = floor.material.uniforms; fu.uTime.value = t; fu.uA.value = clamp01(t * 4) * fade; fu.uPulse.value = Math.max(0, fu.uPulse.value - dt * 3);
+    dome.material.uniforms.uTime.value = t; dome.material.uniforms.uA.value = clamp01(t * 3) * fade;
+    cross.material.opacity = clamp01((t - .2) * 3) * fade * (.75 + Math.sin(t * 6) * .2); cross.scale.setScalar(1 + Math.sin(t * 3) * .03);
+    /* leaves + motes swirl up inside the ward */
+    leafAcc += dt * 26 * fade;
+    while (leafAcc > 1) { leafAcc--; const a = rand(0, 6.28), r = Math.sqrt(Math.random()) * R * .95;
+      emit({ p: V(P.x + Math.cos(a) * r, .1, P.z + Math.sin(a) * r), v: V(-Math.sin(a) * 1.2, rand(.6, 1.4), Math.cos(a) * 1.2), c: Math.random() < .5 ? C(.5, .95, .3) : C(1, 1.1, .4), life: rand(.8, 1.4), size: Math.random() < .5 ? rand(.12, .18) : rand(.05, .08), shape: Math.random() < .5 ? SH.leaf : SH.glow, vr: rand(-5, 5), drag: .8 }); }
+    /* rapid ticks on every ghost inside */
+    if (t >= nextTick && t < LIFE - .3) {
+      nextTick += TICK; const inside = livingGhosts().filter(g => g.pos.distanceTo(P) <= R);
+      if (inside.length) { fu.uPulse.value = 1; combo += inside.length; lbl.textContent = combo + ' ฮิตต่อเนื่อง'; lbl.classList.remove('bump'); void lbl.offsetWidth; lbl.classList.add('bump'); }
+      inside.forEach(g => {
+        hurt(g, 62); burst(chest(g).add(V(0, rand(-.3, .4), 0)), 5, { c: [C(1.1, 1.4, .4), C(.6, 1.3, .3)], size: .12, sp: 2.4, life: .35, shape: SH.star, drag: 4 });
+        emit({ p: V(g.pos.x, .3, g.pos.z), v: V(0, 2.4, 0), c: C(.7, 1.4, .35), life: .3, size: .5, size1: .1, a: .6 });
+        if (!slowed.has(g)) { slowed.add(g); popup(V(g.pos.x, g.barY + .7, g.pos.z), 'ช้าลง 30%', 'st'); }
+      });
+    }
+    const s = toScreen(V(P.x, 3.1, P.z)); lbl.style.left = s.x + 'px'; lbl.style.top = s.y + 'px'; lbl.style.opacity = combo ? fade : 0;
+    if (t >= LIFE) {
+      kill(floor); kill(dome); kill(cross); setTimeout(() => lbl.remove(), 300);
+      shock(P.x, P.z, R, C(.9, 1.3, .4), HERB, .5);
+      living().filter(a => a.pos.distanceTo(P) <= R + .3).forEach(a => {
+        let got = false;
+        for (let k = 0; k < 10; k++) emit({ p: P.clone().add(V(rand(-1, 1), rand(.4, 1.2), rand(-1, 1))), v: V(rand(-1.5, 1.5), rand(1, 2.5), rand(-1.5, 1.5)), c: HERB_HOT, life: 2, size: .12, home: chest(a), homeK: 4, swirl: 2,
+          onArrive: () => { if (!got) { got = true; heal(a, a.maxHp * .05); } } });
+      });
+      return false;
+    }
+  });
+  return LIFE + .8;
+}
+/* 48px icon for the new skill (no game icon exists yet): ward circle with a cross sigil */
+function zoneIcon() {
+  const c = document.createElement('canvas'); c.width = c.height = 48; const g = c.getContext('2d');
+  g.fillStyle = '#101a0b'; g.fillRect(0, 0, 48, 48);
+  const gr = g.createRadialGradient(24, 26, 2, 24, 26, 20); gr.addColorStop(0, 'rgba(90,150,30,.15)'); gr.addColorStop(.8, 'rgba(200,220,70,.55)'); gr.addColorStop(1, 'rgba(240,250,140,1)');
+  g.fillStyle = gr; g.beginPath(); g.ellipse(24, 26, 20, 15, 0, 0, 7); g.fill();
+  g.strokeStyle = '#7dff5a'; g.lineWidth = 2; const a = 4, b = 11; g.beginPath();
+  [[-a, -b], [a, -b], [a, -a], [b, -a], [b, a], [a, a], [a, b], [-a, b], [-a, a], [-b, a], [-b, -a], [-a, -a]].forEach(([x, y], i) => i ? g.lineTo(24 + x, 26 + y * .75) : g.moveTo(24 + x, 26 + y * .75)); g.closePath(); g.stroke();
+  g.strokeStyle = '#000'; g.lineWidth = 1; g.strokeRect(.5, .5, 47, 47);
+  return c.toDataURL();
+}
+A.ic_heal_zone = zoneIcon();
+
+/* 4 · ยาต้มพยัคฆ์เหิน — bronze cauldron boils, a tiger spirit leaps out of the steam, striped fire wave buffs the party */
+const tigerTex = (() => {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+  g.font = '190px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('🐯', 128, 140);
+  g.globalCompositeOperation = 'source-atop'; g.fillStyle = 'rgba(255,140,40,.55)'; g.fillRect(0, 0, 256, 256);
+  return new THREE.CanvasTexture(c);
+})();
+function cauldronMesh() {
+  const pts = []; for (let i = 0; i <= 12; i++) { const u = i / 12; pts.push(new THREE.Vector2(.08 + Math.sin(u * Math.PI * .92) * .55 + u * .06, u * .7)); }
+  const g = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), new THREE.MeshStandardMaterial({ color: 0x5b3d22, metalness: .7, roughness: .38, side: THREE.DoubleSide }));
+  const brew = new THREE.Mesh(new THREE.CircleGeometry(.5, 28), new THREE.MeshBasicMaterial({ color: C(1.5, .62, .16) })); brew.rotation.x = -Math.PI / 2; brew.position.y = .62;
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(.58, .045, 8, 32), body.material); rim.rotation.x = Math.PI / 2; rim.position.y = .7;
+  g.add(body, brew, rim);
+  for (let i = 0; i < 3; i++) { const l = new THREE.Mesh(new THREE.CylinderGeometry(.04, .05, .3, 6), body.material); const a = i / 3 * 6.28; l.position.set(Math.cos(a) * .32, -.1, Math.sin(a) * .32); g.add(l); }
+  scene.add(g); return g;
+}
+function skTiger() {
+  castAt(V(healer.pos.x + 1, 0, healer.pos.z + .5));
+  const cpos = healer.pos.clone().add(V(1.0, .15, .45)); const caul = cauldronMesh(); caul.position.copy(cpos); caul.scale.setScalar(.01);
+  const R = 5;
+  let tigerDone = false;
+  addTask((dt, t) => {
+    caul.scale.setScalar(t < .3 ? .01 + easeOutBack(t / .3) : t > 2.6 ? Math.max(.01, 1 - (t - 2.6) / .3) : 1);
+    if (t < 2.6) {
+      emit({ p: cpos.clone().add(V(rand(-.3, .3), -.05, rand(-.3, .3))), v: V(rand(-.2, .2), rand(1, 2), rand(-.2, .2)), c: Math.random() < .5 ? EMBER : C(2.4, 1.6, .4), life: rand(.3, .6), size: rand(.15, .3), size1: .02 });
+      if (Math.random() < .7) emit({ p: cpos.clone().add(V(rand(-.3, .3), .75, rand(-.3, .3))), v: V(rand(-.25, .25), rand(.8, 1.4), rand(-.25, .25)), c: C(.6, .45, .35), life: rand(1.2, 2), size: rand(.4, .6), size1: rand(1.2, 1.8), a: .35, shape: SH.soft, drag: .6 });
+      if (Math.random() < .3) emit({ p: cpos.clone().add(V(rand(-.35, .35), .7, rand(-.35, .35))), v: V(0, .4, 0), c: C(2.6, 1.4, .3), life: .3, size: .12, size1: .25 });
+    }
+    if (t > .7 && !tigerDone) { tigerDone = true; leap(); }
+    if (t > 2.9) { kill(caul); return false; }
+  });
+  function leap() {
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tigerTex, color: C(2.2, 1.3, .6), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+    scene.add(sp); flash(cpos, 0xff8a2a, 60, .8); shake = .18;
+    popup(V(cpos.x, 3.2, cpos.z), 'ฮึ่ม!', 'st big');
+    addTask((dt, t) => {
+      const u = clamp01(t / 1.1); sp.position.set(cpos.x - u * .8, 1.2 + Math.sin(u * Math.PI) * 1.4 + u * .4, cpos.z - u * 1.2); sp.scale.setScalar(1 + u * 2.6);
+      sp.material.opacity = Math.sin(u * Math.PI) * .95;
+      if (Math.random() < .6) emit({ p: sp.position.clone().add(V(rand(-.6, .6), rand(-.5, .5), 0)), v: V(0, rand(.2, .8), 0), c: EMBER, life: .6, size: .12 });
+      if (u >= 1) { kill(sp); return false; }
+    });
+    const d = decal(3, healer.pos.x, healer.pos.z, R, C(1.1, .45, .1), C(.5, .12, .02), { life: 1.6, grow: .5, alpha: .55 });
+    shock(healer.pos.x, healer.pos.z, R, C(2.6, 1.4, .4), EMBER, .7);
+    party.filter(a => !a.down && a.pos.distanceTo(healer.pos) <= R + .4).forEach((a, i) => after(.15 + i * .08, () => {
+      popup(headP(a), 'ป้องกัน +20% · เร็ว +25%', 'st b-tiger'); a.tint = 1; a.tintC = C(1.15, .85, .45);
+      auraTiger(a, 4); buffChip(a, 'ic_heal_tiger', '#ff9a4a', 4);
+    }));
+  }
+  return 4.8;
+}
+
+/* 5 · พิธีสู่ขวัญ — lotus mandala, rising bai sri, sacred cord loops the party, then light pillars + revive */
+function baiSri() {
+  const g = new THREE.Group();
+  const leaf = new THREE.MeshStandardMaterial({ color: 0x3f8a3a, roughness: .6, emissive: 0x16340f, side: THREE.DoubleSide });
+  const goldM = new THREE.MeshBasicMaterial({ color: C(1.1, .82, .32) });
+  const tiers = [[.62, .38], [.5, .34], [.38, .3], [.27, .27], [.17, .24]];
+  let y = .15;
+  tiers.forEach(([r, h]) => {
+    const c = new THREE.Mesh(new THREE.ConeGeometry(r, h, 16, 1, true), leaf); c.position.y = y + h / 2; g.add(c);
+    const t = new THREE.Mesh(new THREE.TorusGeometry(r * .97, .018, 6, 32), goldM); t.rotation.x = Math.PI / 2; t.position.y = y + .02; g.add(t);
+    y += h * .72;
+  });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(.35, .45, .2, 20), new THREE.MeshStandardMaterial({ color: 0x9a7b3a, metalness: .6, roughness: .4 })); base.position.y = .05; g.add(base);
+  const bud = glow(C(1.3, 1.3, 1.1), .45); bud.position.y = y + .15; scene.remove(bud); g.add(bud);
+  scene.add(g); return g;
+}
+function skKhwan() {
+  const cast = 1.2, total = 4.6, R = 5.5, center = centroid(party);
+  faceHealer(center); bookCast(cast);
+  const cb = document.createElement('div'); cb.className = 'castbar'; cb.innerHTML = '<i></i>'; labels.appendChild(cb);
+  const md = decal(2, center.x, center.z, R, C(1.15, .8, .28), C(1.05, .95, .7), { auto: false, alpha: .85 });
+  const bs = baiSri(); bs.position.copy(center); bs.position.y = -1.5;
+  const ring = party.slice().sort((a, b) => Math.atan2(a.pos.z - center.z, a.pos.x - center.x) - Math.atan2(b.pos.z - center.z, b.pos.x - center.x)).map(a => V(a.pos.x, .9, a.pos.z));
+  const cordCurve = new THREE.CatmullRomCurve3(ring, true, 'catmullrom', .5);
+  const cord = new THREE.Mesh(new THREE.TubeGeometry(cordCurve, 160, .022, 6, true), tubeMat(C(1.1, 1.1, 1), C(1.8, 1.6, 1), 6, 40)); scene.add(cord);
+  const idxCount = cord.geometry.index.count; cord.geometry.setDrawRange(0, 0);
+  let released = false; const halos = [];
+  addTask((dt, t) => {
+    const s = toScreen(headP(healer)); cb.style.left = s.x + 'px'; cb.style.top = (s.y - 14) + 'px'; cb.firstChild.style.width = (100 * clamp01(t / cast)) + '%';
+    md.m.scale.setScalar(R * easeOutBack(clamp01(t / .7))); md.u.uAlpha.value = .85 * clamp01(t * 3) * (t > total - .6 ? clamp01((total - t) / .6) : 1);
+    bs.position.y = -1.5 + 1.5 * (1 - Math.pow(1 - clamp01(t / .9), 3)); bs.rotation.y += dt * .5;
+    if (t > total - .5) bs.position.y -= dt * 3;
+    const draw = clamp01((t - .2) / (cast - .25)); cord.geometry.setDrawRange(0, Math.floor(idxCount * draw / 3) * 3);
+    cord.material.uniforms.uTime.value = t; cord.material.uniforms.uA.value = t > total - .6 ? clamp01((total - t) / .6) : 1;
+    if (t < cast) {
+      for (let k = 0; k < 3; k++) { const an = rand(0, 6.28), r = rand(R * .8, R * 1.1);
+        if (Math.random() < .5) emit({ p: V(center.x + Math.cos(an) * r, rand(.3, 2.2), center.z + Math.sin(an) * r), c: Math.random() < .5 ? C(2.4, 1.3, .3) : C(2.2, 2.2, 1.9), life: 1.3, size: .2, shape: SH.petal, home: V(center.x, 1.4, center.z), homeK: 2.2, swirl: 2.5, vr: 4 }); }
+    }
+    if (t >= cast && !released) { released = true; cb.remove(); release(); }
+    for (const h of halos) { h.m.rotation.z += dt * 2; h.m.position.set(h.a.pos.x, h.a.barY - .05 + Math.sin(t * 3) * .04, h.a.pos.z); h.m.material.opacity = t > total - .6 ? clamp01((total - t) / .6) : 1; }
+    if (t >= total) { kill(cord); kill(bs); halos.forEach(h => kill(h.m)); md.auto = true; md.t = md.life; return false; }
+  });
+  function release() {
+    shake = .22; flash(center, 0xffd27a, 70, 1); shock(center.x, center.z, R * 1.1, GOLD_SOFT, C(1.3, 1.2, 1), .8);
+    burst(V(center.x, 2.2, center.z), 40, { c: [GOLD, WHITE], size: .14, sp: 4, upMin: -.2, life: 1.2, shape: SH.star, drag: 2.5 });
+    party.forEach((a, i) => after(i * .07, () => {
+      pillar(a.pos, C(1.1, .9, .5), 5, .5, 1.3);
+      if (a.down) revive(a, .4); else heal(a, a.maxHp * .4, 'heal big');
+      const m = new THREE.Mesh(new THREE.TorusGeometry(.3, .025, 6, 40), new THREE.MeshBasicMaterial({ color: C(2.4, 1.9, .8), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+      m.rotation.x = Math.PI / 2 - .25; scene.add(m); halos.push({ m, a });
+      popup(V(a.pos.x, a.barY + .7, a.pos.z), 'ขวัญกันตาย', 'st');
+    }));
+    addTask((dt, t) => {
+      for (let k = 0; k < 4; k++) emit({ p: V(center.x + rand(-R, R) * .8, rand(4, 5.5), center.z + rand(-R, R) * .7), v: V(rand(-.2, .2), -rand(.6, 1.1), rand(-.2, .2)), c: Math.random() < .5 ? C(2.2, 1.2, .3) : C(2, 2, 1.8), life: 2.6, size: .17, shape: SH.petal, vr: rand(-3, 3), a: .9 });
+      if (t > 2) return false;
+    });
+  }
+  return total + .4;
+}
+
+/* 6 · ครกยาระเบิดสมุนไพร — stone mortar drops from the sky, pestle pounds 3 times, then healing powder spirals to allies */
+function mortarMesh() {
+  const g = new THREE.Group(); const stone = new THREE.MeshStandardMaterial({ color: 0x7a746a, roughness: .9, flatShading: true });
+  const pts = [[.0, 0], [.55, 0], [.62, .1], [.66, .35], [.6, .55], [.45, .58], [.4, .3], [.0, .3]].map(([x, y]) => new THREE.Vector2(x, y));
+  const bowl = new THREE.Mesh(new THREE.LatheGeometry(pts, 14), stone); g.add(bowl);
+  const herb = new THREE.Mesh(new THREE.CircleGeometry(.42, 20), new THREE.MeshBasicMaterial({ color: C(.32, 1.0, .26) })); herb.rotation.x = -Math.PI / 2; herb.position.y = .45; g.add(herb);
+  const pestle = new THREE.Group(); const sh = new THREE.Mesh(new THREE.CylinderGeometry(.1, .16, 1.2, 10), new THREE.MeshStandardMaterial({ color: 0x6b4a2e, roughness: .8 })); sh.position.y = .6; pestle.add(sh);
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(.17, 12, 8), stone); pestle.add(tip); pestle.position.y = 1.3; g.add(pestle);
+  g.userData.pestle = pestle; scene.add(g); return g;
+}
+function skMortar() {
+  const gc = centroid(livingGhosts().length ? livingGhosts() : ghosts);
+  const dir = gc.clone().sub(healer.pos).setY(0).normalize(); const P = healer.pos.clone().addScaledVector(dir, 2.75 + .3); P.y = 0;
+  const R = 2.75; castAt(P);
+  const marker = decal(1, P.x, P.z, R, C(1.1, 1.6, .5), null, { life: 3.4, grow: .3 });
+  const m = mortarMesh(); m.position.set(P.x, 9, P.z); m.scale.setScalar(1.25);
+  const pestle = m.userData.pestle; let hits = 0; const hitGhosts = new Set();
+  addTask((dt, t) => {
+    const fall = clamp01((t - .35) / .35);
+    m.position.y = t < .7 ? 9 - 9 * fall * fall : t > 2.8 ? -(t - 2.8) * 1.5 : 0;
+    if (t < .7 && t > .35) emit({ p: m.position.clone().add(V(rand(-.3, .3), .8, rand(-.3, .3))), v: V(0, 2, 0), c: C(1, 1.8, .6), life: .3, size: .25, size1: 0 });
+    const ht = t - .7; const idx = Math.floor(ht / .28);
+    if (ht >= 0 && idx < 3) { const ph = (ht % .28) / .28; pestle.position.y = .45 + Math.abs(Math.cos(ph * Math.PI)) * .9; pestle.rotation.z = Math.sin(ph * 6.28) * .1; }
+    else pestle.position.y = 1.3;
+    if (ht >= 0 && hits < 3 && ht >= hits * .28) { pound(hits); hits++; }
+    if (t > 3.4) { kill(m); return false; }
+  });
+  function pound(i) {
+    shake = .2 + i * .06; flash(P, i === 2 ? 0xa8ff6a : 0xe0b060, 40 + i * 15, .4);
+    shock(P.x, P.z, R, C(1.8, 1.5, .7), C(.9, 1.8, .5), .5); if (i === 2) shock(P.x, P.z, R * 1.3, HERB_HOT, HERB, .7);
+    burst(P.clone().setY(.2), 34, { c: [DUST, C(.55, .48, .3), C(.38, .5, .25)], S: PN, size: .55, size1: 1.3, sp: 3.5, upMin: .1, upMax: .5, life: 1.2, shape: SH.soft, a: .75, drag: 2.5 });
+    burst(P.clone().setY(.4), 14, { c: C(.25, .22, .2), S: PN, size: .1, sp: 4, upMin: .8, upK: 1.5, life: 1.2, shape: SH.soft, grav: 9, drag: .3, a: 1 });
+    burst(P.clone().setY(.5), 20, { c: [C(1.3, 2.2, .6), GOLD], size: .1, sp: 5, life: .5, shape: SH.star, drag: 4 });
+    livingGhosts().filter(g => g.pos.distanceTo(P) <= R + .5).forEach(g => {
+      hurt(g, 230 + i * 40, i === 2); hitGhosts.add(g);
+      if (i === 0) { popup(V(g.pos.x, g.barY + .7, g.pos.z), 'มึน · ช้า 30%', 'st'); stunStars(g); }
+    });
+    if (i === 2) after(.35, powder);
+  }
+  function stunStars(g) {
+    g.stun = true;
+    addTask((dt, t) => { for (let k = 0; k < 3; k++) { const an = t * 6 + k * 2.09; emit({ p: V(g.pos.x + Math.cos(an) * .35, g.barY + .05, g.pos.z + Math.sin(an) * .35), c: C(2.2, 2, .6), life: .08, size: .16, shape: SH.star }); } if (t > 1.6) { g.stun = false; return false; } });
+  }
+  function powder() {
+    const bonus = Math.min(.5, hitGhosts.size * .1);
+    const allies = living().filter(a => a.pos.distanceTo(P) <= R + .6); if (!allies.length) allies.push(lowest());
+    allies.forEach(a => {
+      let got = false;
+      for (let k = 0; k < 26; k++) emit({ p: P.clone().add(V(rand(-.4, .4), rand(.5, 1), rand(-.4, .4))), v: V(rand(-2, 2), rand(1, 3), rand(-2, 2)), c: Math.random() < .7 ? HERB_HOT : GOLD, life: 2.2, size: .13, home: chest(a), homeK: 4, swirl: 3,
+        onArrive: () => { if (!got) { got = true; heal(a, a.maxHp * .14 * (1 + bonus)); burst(chest(a), 10, { c: HERB_HOT, size: .14, sp: 2, life: .5, shape: SH.star }); } } });
+    });
+    if (bonus) popup(V(P.x, 2.6, P.z), 'ผงยา +' + Math.round(bonus * 100) + '%', 'st');
+  }
+  return 3.8;
+}
+
+/* 7 · หมอกยาชโลมใจ — soft teal fog rolls out, shimmer shells over allies, blue MP motes */
+function skMist() {
+  castAt(V(healer.pos.x, 0, healer.pos.z - 1)); const R = 5.5, c0 = healer.pos.clone();
+  const pool = decal(5, c0.x, c0.z, R, C(.35, 1.1, 1.0), null, { life: 3.6, grow: .8 });
+  addTask((dt, t) => {
+    if (t < 2.2) for (let k = 0; k < 3; k++) { const an = rand(0, 6.28), sp = rand(1, 2.4);
+      emit({ p: c0.clone().add(V(Math.cos(an) * .4, rand(.2, 1.2), Math.sin(an) * .4)), v: V(Math.cos(an) * sp, rand(-.05, .15), Math.sin(an) * sp), c: Math.random() < .6 ? C(.42, .7, .66) : C(.5, .62, .75), life: rand(1.8, 2.6), size: rand(.8, 1.2), size1: rand(2.2, 3.2), a: .22, shape: SH.soft, drag: .8 }, PN); }
+    if (t > 3.2) return false;
+  });
+  after(.6, () => party.filter(a => !a.down && a.pos.distanceTo(c0) <= R + .5).forEach((a, i) => after(i * .1, () => {
+    heal(a, a.maxHp * .15); after(.2, () => popup(headP(a), '+MP 10%', 'mp'));
+    after(.45, () => popup(V(a.pos.x, a.barY + .7, a.pos.z), 'ป้องกัน +6', 'st b-mist'));
+    auraMist(a, 3.4); buffChip(a, 'ic_heal_mist', '#7fdcff', 3.4);
+  })));
+  return 3.8;
+}
+
+/* 8 · ยาบำรุงกำลังเจ็ดพลัง — seven coloured tonic orbs orbit the healer, then streak into allies */
+function skTonic() {
+  castAt(V(healer.pos.x, 0, healer.pos.z - 1));
+  const cols = [C(2.6, .5, .4), C(2.6, 1.2, .3), C(2.4, 2.1, .4), C(.6, 2.4, .6), C(.4, 2.2, 2.2), C(.5, .9, 2.8), C(1.8, .6, 2.6)];
+  const tg = living(); const orbs = cols.map((c, i) => ({ s: glow(c, .55), c, a: tg[i % tg.length], i, done: false, from: null }));
+  addTask((dt, t) => {
+    let alive = 0;
+    for (const o of orbs) {
+      if (o.done) continue; alive++;
+      const an = t * 3.2 + o.i / 7 * 6.28, rr = Math.min(1, t * 3) * .95;
+      const orbit = healer.pos.clone().add(V(Math.cos(an) * rr, 2.2 + Math.sin(an * 2) * .12, Math.sin(an) * rr * .7));
+      const launch = 1 + o.i * .09;
+      if (t < launch) { o.s.position.copy(orbit); }
+      else { if (!o.from) o.from = orbit.clone(); const u = clamp01((t - launch) / .4); o.s.position.copy(arcPoint(o.from, chest(o.a), .8, u));
+        if (u >= 1) { o.done = true; kill(o.s); burst(chest(o.a), 14, { c: o.c, size: .16, sp: 2.4, life: .6, shape: SH.star }); flash(chest(o.a), o.c.getHex(), 12, .3); o.a.tint = 1; o.a.tintC = o.c.clone().multiplyScalar(.42); } }
+      emit({ p: o.s.position.clone(), c: o.c, life: .35, size: .2, size1: 0 });
+    }
+    if (!alive) { aura(); return false; }
+  });
+  function aura() {
+    living().forEach(a => { heal(a, a.maxHp * .05); after(.25, () => popup(V(a.pos.x, a.barY + .7, a.pos.z), 'โจมตี +18% · ป้องกัน +15%', 'st b-tonic')); auraTonic(a, 4); buffChip(a, 'ic_heal_tonic', '#ff6a5a', 4); });
+  }
+  return 3.4;
+}
+
+/* 9 · พรแม่โพสพ — golden rice field sprouts around the party under a warm sunbeam, grains drift upward */
+function skMother() {
+  const center = centroid(party), R = 6; castAt(center);
+  const N = 900, geo = new THREE.PlaneGeometry(.05, .8, 1, 4); geo.translate(0, .4, 0);
+  const mat = new THREE.ShaderMaterial({ side: THREE.DoubleSide, transparent: true,
+    uniforms: { uTime: { value: 0 }, uGrow: { value: 0 }, uA: { value: 1 } },
+    vertexShader: `uniform float uTime,uGrow; varying float vY; void main(){ vec3 p=position; vY=uv.y; vec4 w=instanceMatrix*vec4(p.x,p.y*uGrow,p.z,1.);
+      float s=sin(uTime*2.+w.x*.8+w.z*.6)*.18*vY*vY; w.x+=s; w.z+=s*.5; w.y-=vY*vY*.12*uGrow; gl_Position=projectionMatrix*viewMatrix*modelMatrix*w; }`,
+    fragmentShader: `varying float vY; uniform float uA; void main(){ vec3 c=mix(vec3(.12,.3,.08),vec3(1.3,1.0,.35),smoothstep(.3,1.,vY)); c+=vec3(1.4,1.1,.3)*smoothstep(.85,1.,vY); gl_FragColor=vec4(c,uA); }` });
+  const field = new THREE.InstancedMesh(geo, mat, N); const d = new THREE.Object3D();
+  for (let i = 0; i < N; i++) { const a = rand(0, 6.28), r = Math.sqrt(Math.random()) * R; d.position.set(center.x + Math.cos(a) * r, 0, center.z + Math.sin(a) * r);
+    d.rotation.set(rand(-.15, .15), rand(0, 6.28), rand(-.15, .15)); d.scale.setScalar(rand(.7, 1.25)); d.updateMatrix(); field.setMatrixAt(i, d.matrix); }
+  scene.add(field);
+  const beam = new THREE.Mesh(new THREE.CylinderGeometry(.6, R * .7, 9, 40, 1, true), pillarMat(C(.3, .24, .09))); beam.position.set(center.x, 4.5, center.z); scene.add(beam);
+  const gd = decal(1, center.x, center.z, R, C(1.4, 1.1, .35), null, { life: 4.2, grow: .5, alpha: .6 });
+  flash(V(center.x, 3, center.z), 0xffd890, 40, 1.4);
+  after(.7, () => living().forEach((a, i) => after(i * .1, () => { heal(a, a.maxHp * .3, 'heal big'); after(.2, () => popup(headP(a), '+MP 20%', 'mp')); after(.45, () => popup(V(a.pos.x, a.barY + .7, a.pos.z), 'คริ +10%', 'st b-mother')); auraMother(a, 4); buffChip(a, 'ic_heal_mother', '#ffd25a', 4); burst(chest(a), 18, { c: GOLD, size: .12, sp: 2, upMin: .6, life: 1, shape: SH.star }); })));
+  addTask((dt, t) => {
+    mat.uniforms.uTime.value = t; mat.uniforms.uGrow.value = 1 - Math.pow(1 - clamp01(t / .8), 3) - (t > 3.4 ? clamp01((t - 3.4) / .6) : 0);
+    beam.material.uniforms.uTime.value = t; beam.material.uniforms.uA.value = clamp01(t * 2) * clamp01((4 - t) / .6);
+    for (let k = 0; k < 3; k++) { const a = rand(0, 6.28), r = Math.sqrt(Math.random()) * R; emit({ p: V(center.x + Math.cos(a) * r, rand(.5, .8), center.z + Math.sin(a) * r), v: V(0, rand(.4, 1), 0), c: Math.random() < .6 ? GOLD : C(2.2, 2, 1.2), life: rand(1.2, 2), size: rand(.05, .1), shape: Math.random() < .2 ? SH.star : SH.glow }); }
+    if (t > 4) { kill(field); kill(beam); return false; }
+  });
+  return 4.4;
+}
+
+/* 10 · น้ำอมฤตชุบชีวา — golden urn tips from the sky, water column + ripples, sprinkle rain revives and heals */
+function skAmrita() {
+  const center = centroid(party), R = 6.5;
+  faceHealer(center); bookCast(1.3);
+  const pts = [[0, 0], [.32, .02], [.5, .3], [.55, .6], [.42, .9], [.2, 1.05], [.18, 1.25], [.3, 1.35]].map(([x, y]) => new THREE.Vector2(x, y));
+  const urn = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), new THREE.MeshStandardMaterial({ color: 0xe0b050, metalness: .35, roughness: .35, emissive: 0x7a5410, side: THREE.DoubleSide }));
+  const urnG = new THREE.Group(); urnG.add(urn); urn.position.y = -.6; scene.add(urnG);
+  const aura = glow(C(1.8, 1.6, 1), 3); aura.material.opacity = .6;
+  const top = V(center.x, 5.4, center.z);
+  let splashed = false;
+  addTask((dt, t) => {
+    const u = clamp01(t / .5); urnG.position.copy(top).y += (1 - u) * 1.5; urnG.rotation.z = -Math.min(1.9, Math.max(0, t - .4) * 3.5) ; aura.position.copy(urnG.position);
+    urnG.scale.setScalar(t > 2.4 ? Math.max(.01, 1 - (t - 2.4) / .4) : 1); aura.material.opacity = .6 * (t > 2.4 ? Math.max(0, 1 - (t - 2.4) / .4) : u);
+    urnG.updateMatrixWorld(); const lip = urnG.localToWorld(V(-.15, .75, 0));
+    if (t > .75 && t < 2.1) for (let k = 0; k < 3; k++) emit({ p: lip.clone().add(V(rand(-.06, .06), 0, rand(-.06, .06))), v: V(rand(-.15, .15), -rand(3, 4), rand(-.15, .15)), c: Math.random() < .6 ? C(.35, .9, 1.5) : C(1.2, 1.3, 1.4), life: .8, size: rand(.12, .2), grav: 5, drag: .2 });
+    if (t > 1.15 && !splashed) { splashed = true; splash(lip.clone().setY(0)); }
+    if (t > 2.9) { kill(urnG); kill(aura); return false; }
+  });
+  function splash(p) {
+    shake = .2; flash(p, 0x8fd8ff, 70, 1.2);
+    decal(5, p.x, p.z, R, C(.3, .75, 1.15), null, { life: 2.6, grow: .9 }); shock(p.x, p.z, R, WATER, WHITE, .9); shock(p.x, p.z, R * .6, C(1, 1.1, 1.2), C(.3, .7, 1.2), .6);
+    burst(p.clone().setY(.1), 40, { c: [C(.35, .9, 1.5), C(1.2, 1.3, 1.4)], size: .12, sp: 4, upMin: .8, upK: 1.6, life: 1.1, grav: 7, drag: .4 });
+    addTask((dt, t) => { for (let k = 0; k < 6; k++) emit({ p: V(p.x + rand(-R, R) * .75, rand(3.5, 4.5), p.z + rand(-R, R) * .6), v: V(0, -rand(2, 3), 0), c: Math.random() < .5 ? WATER : C(2, 2, 1.6), life: 1.6, size: .09, grav: 4, shape: Math.random() < .2 ? SH.star : SH.glow }); if (t > 1.6) return false; });
+    party.forEach((a, i) => after(.2 + i * .08, () => {
+      pillar(a.pos, C(.7, 1.0, 1.3), 5, .5, 1.2); shock(a.pos.x, a.pos.z, 1.2, C(.4, .9, 1.4), C(.2, .5, .9), .5);
+      if (a.down) revive(a, .6); else heal(a, a.maxHp * .6, 'heal big');
+      popup(V(a.pos.x, a.barY + .7, a.pos.z), 'ขวัญกันตาย 8 วิ', 'st');
+    }));
+  }
+  return 3.6;
+}
+
+/* ---------------- skill catalogue (numbers from shared/data/skills.js) ---------------- */
+const SKILLS = [
+  { id: 'heal_vine', name: 'สายใยสมุนไพร', lv: 1, run: skVine, meta: ['MP 8', 'CD 9 วิ', 'ระยะ 220', 'ผูก 6 วิ'],
+    desc: 'เถาสมุนไพรผูกเพื่อนที่เลือดน้อยสุด 6 วิ รักษาทุก 0.5 วิ ถ้ายืนใกล้กว่า 90 แรงขึ้น ×1.5 ห่างเกิน 230 เถาขาด',
+    layers: ['เถาสองเส้นบิดเกลียว สร้าง TubeGeometry ใหม่ทุกเฟรม', 'ชีพจรแสงไหลจากหมอยาไปหาเพื่อน (shader บนท่อ)', 'ลูกแสง 3 ดวงวิ่งตามเส้นโค้ง', 'ใบไม้ผลิแล้วร่วงตามเถา (particle รูปใบ)', 'วงยันต์ใต้เท้าเพื่อน + วงกระเพื่อมทุกติ๊ก'] },
+  { id: 'heal_pill', name: 'ขวดยาเด้งห้าทิศ', lv: 2, run: skPill, meta: ['MP 10', 'CD 6 วิ', 'เด้ง 5 ครั้ง'],
+    desc: 'ปาขวดยาสมุนไพรเด้ง 5 ครั้ง สลับเพื่อน → ผี → เพื่อน · โดนเพื่อนรักษา · โดนผีน้ำยากระเซ็นเป็นพิษ · ครั้งสุดท้ายขวดแตกกระจาย',
+    layers: ['ขวดแก้วอำพัน (LatheGeometry) มีจุก ด้ายแดง และฉลาก หมุนตีลังกากลางอากาศ', 'น้ำยาเรืองแสงในขวดลดลงทุกครั้งที่ชน', 'โดนเพื่อน: น้ำยากระเซ็นตามแรงโน้มถ่วง + ใบไม้ + วงแสง', 'โดนผี: แอ่งพิษเขียวบนพื้น + ฟองพิษ + ฝุ่นยา', 'ครั้งสุดท้าย: เศษแก้วแตกกระจาย กล้องสั่น']},
+  { id: 'heal_zone', name: 'วงหนาดปราบผี', lv: 4, isNew: true, run: skZone, meta: ['ใหม่', 'MP 20', 'CD 18 วิ', 'ระยะ 220', 'วง 180', 'อยู่ 6 วิ'],
+    desc: '[โจมตีวงกว้าง] กางวงหนาดเสกรัศมี 180 ลงกลางฝูงผี 6 วิ · ผีในวงโดน ×0.25 ทุก 0.4 วิ (ประมาณ 14 ฮิต รวม ×3.5) และช้าลง 30% · วงหายแล้วผงยาบินไปรักษาเพื่อนในวง 5%',
+    layers: ['พื้นวงไล่สีเหลืองเขียว ขอบสว่าง มีลายลมหมุนและแสงกวาดรอบวง (shader)', 'ผนังโดมเตี้ยเรืองแสงรอบขอบวง มีแถบแสงวิ่ง', 'กากบาทเรืองแสงสีเขียวกลางวง', 'ใบไม้และประกายหมุนลอยขึ้นทั่ววง', 'ทุกจังหวะตี: พื้นวงกระพริบ + ประกายที่ตัวผี + ตัวนับฮิตต่อเนื่อง', 'จบ: คลื่นกระแทก + ผงยาบินไปรักษาเพื่อน'] },
+  { id: 'heal_tiger', name: 'ยาต้มพยัคฆ์เหิน', lv: 6, run: skTiger, meta: ['MP 18', 'CD 16 วิ', 'รัศมี 200', 'บัฟ 8 วิ'],
+    desc: '[ทีม] ต้มยาพยัคฆ์ ไอยาแผ่ 200 รอบตัว ป้องกัน +20% วิ่งเร็ว +25% ลบอาการช้า 8 วิ',
+    layers: ['หม้อทองเหลือง (LatheGeometry) เด้งขึ้นมา', 'ไฟใต้หม้อ + ไอน้ำนุ่มลอยขึ้น', 'วิญญาณเสือกระโจนจากไอ', 'คลื่นไฟลายเสือแผ่บนพื้น (shader)', 'บัฟ: วงไฟลายเสือใต้เท้า + เงาส้มติดตัวเหมือนวิ่งเร็ว', 'ไอคอนบัฟสีส้มใต้หลอดเลือด นับถอยหลัง'] },
+  { id: 'heal_khwan', name: 'พิธีสู่ขวัญ', lv: 8, run: skKhwan, meta: ['MP 35', 'CD 40 วิ', 'ร่าย 1.2 วิ', 'อัลติ'],
+    desc: '★ ร่าย 1.2 วิ บายศรีสู่ขวัญ รักษา 40% ทุกคนในวง ชุบชีวิตเพื่อนที่สลบ ขวัญกันตาย 10 วิ',
+    layers: ['มณฑลดอกบัวทองหมุนบนพื้น (shader)', 'บายศรี 5 ชั้นผุดจากดิน', 'สายสิญจน์ค่อย ๆ ร้อยรอบทุกคน (drawRange)', 'ดาวเรือง–มะลิหมุนวนเข้ากลาง', 'ปล่อย: เสาแสง + ชุบชีวิต + วงขวัญเหนือหัว + ฝนกลีบ'] },
+  { id: 'heal_mortar', name: 'ครกยาระเบิดสมุนไพร', lv: 10, run: skMortar, meta: ['MP 28', 'CD 16 วิ', 'วง 110', 'ตำ 3 ที'],
+    desc: 'ตำครกยา 3 ที ลงกลางวง 110 ผีในวงโดน ×1.4 + มึน + ช้าลง 30% แล้วผงยาเขียววนเข้ารักษาเพื่อนในวง (+10% ต่อผีที่โดน)',
+    layers: ['วงเล็งเส้นประบนพื้น', 'ครกหินหล่นจากฟ้า + สากตำ 3 จังหวะ', 'ทุกจังหวะ: กล้องสั่น, ฝุ่นดิน, เศษหินตกตามแรงโน้มถ่วง', 'ดาวมึนหมุนเหนือหัวผี', 'ผงยาบินเกลียวกลับเข้าหาเพื่อน (particle homing)'] },
+  { id: 'heal_mist', name: 'หมอกยาชโลมใจ', lv: 20, adv: true, run: skMist, meta: ['MP 22', 'CD 14 วิ', 'HP 15% · MP 10%'],
+    desc: '[ปาร์ตี้] พ่นหมอกยาหอม ฟื้น HP 15% + MP 10% ทั้งปาร์ตี้ ป้องกัน +6 นาน 6 วิ',
+    layers: ['หมอกนุ่มสีเขียวหม่นแผ่ออกจากตัวหมอยา', 'แอ่งหมอกกระเพื่อมบนพื้น', 'บัฟ: เมฆฝนก้อนเล็กลอยเหนือหัวเพื่อน โปรยละอองลงมา', 'วงน้ำกระเพื่อมใต้เท้า + หยด MP สีฟ้าวนเข้าตัว', 'ไอคอนบัฟสีฟ้าใต้หลอดเลือด'] },
+  { id: 'heal_tonic', name: 'ยาบำรุงกำลังเจ็ดพลัง', lv: 40, adv: true, run: skTonic, meta: ['MP 26', 'CD 24 วิ', 'บัฟ 12 วิ'],
+    desc: '[ปาร์ตี้] แจกยาบำรุง โจมตี +18% ป้องกัน +15% ทั้งปาร์ตี้ 12 วิ',
+    layers: ['ลูกยา 7 สีโคจรรอบหัวหมอยา', 'ยิงทีละลูกเข้าหาเพื่อนพร้อมหาง', 'เพื่อนเปลี่ยนสีตามยาที่ได้', 'บัฟ: ลูกปัด 7 สีหมุนรอบเอวเหมือนประคำ', 'พลังแดงพุ่งขึ้นจากเท้าเป็นจังหวะ', 'ไอคอนบัฟสีแดงใต้หลอดเลือด'] },
+  { id: 'heal_mother', name: 'พรแม่โพสพ', lv: 70, adv: true, run: skMother, meta: ['MP 40', 'CD 30 วิ', 'HP 30% · MP 20%'],
+    desc: '[ปาร์ตี้] ขอพรแม่โพสพ ฟื้น HP 30% + MP 20% ทั้งปาร์ตี้ คริ +10% นาน 8 วิ',
+    layers: ['ทุ่งข้าว 900 ต้น (InstancedMesh) งอกแล้วโน้มรวงตามลม', 'ลำแสงอุ่นส่องลงจากฟ้า', 'เมล็ดข้าวทองลอยขึ้น', 'บัฟ: มงกุฎเมล็ดข้าวทองหมุนเหนือหัว', 'ประกายคริแวบบนตัว + ละอองทองโปรยลง', 'ไอคอนบัฟสีทองใต้หลอดเลือด'] },
+  { id: 'heal_amrita', name: 'น้ำอมฤตชุบชีวา', lv: 100, adv: true, run: skAmrita, meta: ['MP 60', 'CD 45 วิ', 'ร่าย 0.9 วิ', 'รัศมี 260'],
+    desc: 'ร่าย 0.9 วิ ประพรมน้ำอมฤต รักษา 60% ทุกคนในวงกว้าง ชุบชีวิตเพื่อนที่สลบ ขวัญกันตาย 8 วิ',
+    layers: ['คนโททองลอยลงแล้วเอียงเท', 'สายน้ำตกตามแรงโน้มถ่วง', 'น้ำกระเซ็น + คลื่นวงน้ำแผ่ทั้งลาน', 'ละอองน้ำโปรยทั่วปาร์ตี้', 'เสาแสงฟ้า + ชุบชีวิต'] },
+];
+
+/* ---------------- UI ---------------- */
+const barRow = $('barRow'); let current = 0, autoOn = true, slow = false, autoClock = 1.2;
+SKILLS.forEach((s, i) => {
+  if (i === 6) { const sp = document.createElement('div'); sp.className = 'sep'; barRow.appendChild(sp); }
+  const b = document.createElement('button'); b.className = 'sk' + (s.adv ? ' adv' : ''); b.id = 'sk_' + s.id; b.title = s.name;
+  b.innerHTML = `<span class="k">${(i + 1) % 10}</span><img alt="${s.name}" src="${A['ic_' + s.id]}"><span class="l">Lv.${s.lv}</span>${s.isNew ? '<span class="nw">ใหม่</span>' : ''}`;
+  b.onclick = () => { autoOn = false; setPressed('tAuto', false); cast(i); };
+  barRow.appendChild(b);
+});
+function showInfo(i) {
+  const s = SKILLS[i]; $('iIcon').src = A['ic_' + s.id]; $('iName').textContent = s.name; $('iLv').textContent = (s.adv ? 'สกิลขั้นสูง · ' : 'สกิลพื้นฐาน · ') + 'ปลดล็อก Lv.' + s.lv;
+  $('iMeta').innerHTML = s.meta.map(m => `<span>${m}</span>`).join(''); $('iDesc').textContent = s.desc; $('iLayers').innerHTML = s.layers.map(l => `<li>${l}</li>`).join('');
+  document.querySelectorAll('.sk').forEach(b => b.classList.toggle('on', b.id === 'sk_' + s.id));
+}
+function cast(i) { current = i; showInfo(i); const d = SKILLS[i].run(); autoClock = (d || 2) + 1.3; }
+function setPressed(id, v) { $(id).setAttribute('aria-pressed', v ? 'true' : 'false'); }
+$('tAuto').onclick = () => { autoOn = !autoOn; setPressed('tAuto', autoOn); };
+$('tSlow').onclick = () => { slow = !slow; setPressed('tSlow', slow); };
+$('tBloom').onclick = () => { bloom.enabled = !bloom.enabled; setPressed('tBloom', bloom.enabled); };
+addEventListener('keydown', e => { const n = '1234567890'.indexOf(e.key); if (n >= 0) { autoOn = false; setPressed('tAuto', false); cast(n); } });
+
+/* ---------------- resize / loop ---------------- */
+function resize() {
+  const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); composer.setSize(w, h); camera.aspect = w / h;
+  camDist = w / h < 1 ? 1.55 : w / h < 1.3 ? 1.2 : 1; camera.updateProjectionMatrix();
+  const us = h * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))); PA.mat.uniforms.uScale.value = us; PN.mat.uniforms.uScale.value = us;
+}
+addEventListener('resize', resize);
+const clock = new THREE.Clock(); let time = 0;
+function frame() {
+  const raw = Math.min(clock.getDelta(), 1 / 20), dt = raw * (slow ? .35 : 1); time += dt;
+  const camPos = V(Math.sin(time * .05) * .8, 9.6, 11.2).multiplyScalar(camDist);
+  camera.position.copy(camPos).add(camLook);
+  if (shake > 0) { camera.position.add(V(rand(-1, 1), rand(-1, 1), 0).multiplyScalar(shake)); shake = Math.max(0, shake - raw * .9); }
+  camera.lookAt(camLook);
+  for (let i = tasks.length - 1; i >= 0; i--) { const k = tasks[i]; k.t += dt; if (k.fn(dt, k.t) === false) tasks.splice(i, 1); }
+  ghostAI(dt);
+  /* ambient fireflies */
+  if (Math.random() < dt * 5) emit({ p: V(rand(-9, 9), rand(.4, 2.5), rand(-8, 4)), v: V(rand(-.2, .2), rand(-.1, .1), rand(-.2, .2)), c: C(1.1, 1.6, .5), life: rand(2, 4), size: rand(.05, .08), a: .8 });
+  actors.forEach(a => stepActor(a, dt)); stepBook(dt, time);
+  stepPS(PA, dt); stepPS(PN, dt); stepDecals(dt, time); stepLights(dt);
+  if (autoOn) { autoClock -= dt; if (autoClock <= 0) cast((current + 1) % SKILLS.length); }
+  composer.render();
+  requestAnimationFrame(frame);
+}
+resize();
+build().then(() => { showInfo(0); autoClock = .8; current = -1; requestAnimationFrame(frame); })
+  .catch(e => { $('err').style.display = 'grid'; $('err').textContent = 'โหลดฉากไม่สำเร็จ: ' + e.message; console.error(e); });
+</script>
