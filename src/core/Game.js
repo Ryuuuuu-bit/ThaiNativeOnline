@@ -14,6 +14,7 @@ import { CameraController } from './CameraController.js';
 import { InputManager } from './InputManager.js';
 import { WorldClock, PHASE_HOURS } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
+import { findPath } from './GridPath.js';
 import { createGame } from '../combat/index.js';
 import { QUESTS } from '../data/quests.js';
 import { SHOPS } from '../data/shops.js';
@@ -63,7 +64,7 @@ export class Game {
     this.startCombat();
     if (params.has('zoom')) this.view.setZoom(Number(params.get('zoom')));
     this.view.snap(this.player.position);
-    this.destination = null; this.elapsed = 0; this.previous = null; this.lastHud = 0; this.frames = 0; this.fpsTime = 0; this.fps = 0;
+    this.destination = null; this.route = []; this.elapsed = 0; this.previous = null; this.lastHud = 0; this.frames = 0; this.fpsTime = 0; this.fps = 0;
     this.dir = new THREE.Vector3();
     this.marker = new THREE.Mesh(new THREE.RingGeometry(.2, .27, 40), new THREE.MeshBasicMaterial({ color: '#fff0b2', transparent: true, opacity: .8, side: THREE.DoubleSide, depthWrite: false }));
     this.marker.rotation.x = -Math.PI / 2; this.marker.visible = false; this.scene.add(this.marker);
@@ -79,7 +80,7 @@ export class Game {
   bind() {
     const input = this.input, view = this.view;
     window.addEventListener('resize', () => view.resize());
-    input.on('move', () => { this.destination = null; this.marker.visible = false; });
+    input.on('move', () => { this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => view.reset());
     input.on('photo', () => this.togglePhoto());
     input.on('interact', () => this.interact());
@@ -99,8 +100,11 @@ export class Game {
     input.on('click', e => {
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
       if (!this.world.canStand(p.x, p.z)) return;
-      this.game?.onManualMove();
-      this.destination = p; this.autoWalk = false; this.marker.position.set(p.x, this.world.heightAt(p.x, p.z) + .07, p.z); this.marker.visible = true;
+      const route = findPath((x, z) => this.world.canStand(x, z), this.player.position, p);
+      if (!route) return this.hud.toast('ไปที่นั่นไม่ได้', 'ไม่มีทางเดินไปถึงจุดนั้นจากตรงนี้');
+      this.game?.onManualMove(); view.recenter();
+      this.route = route; this.autoWalk = false; this.nextWaypoint();
+      this.marker.position.set(p.x, this.world.heightAt(p.x, p.z) + .07, p.z); this.marker.visible = true;
     });
     $('reset-camera').addEventListener('click', () => view.reset());
     $('photo-mode').addEventListener('click', () => this.togglePhoto());
@@ -150,8 +154,8 @@ export class Game {
     this.game = createGame({
       root: $('app'), host: this.host, scene: this.scene, camera: this.view.camera, player: this.player,
       canStand: (x, z) => world.canStand(x, z), groundHeight: (x, z) => world.heightAt(x, z),
-      moveTo: (x, z) => { this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; },
-      stop: () => { this.destination = null; this.marker.visible = false; },
+      moveTo: (x, z) => { this.route = []; this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; this.walkBest = Infinity; this.walkStall = 0; },
+      stop: () => this.stopWalk(),
       respawnPoint: respawn, spawns: combatSpawns(),
     });
     this.game.setPhase(this.clock.phase);
@@ -164,6 +168,9 @@ export class Game {
       if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);
     });
   }
+
+  nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }
+  stopWalk() { this.destination = null; this.route = []; this.marker.visible = false; }
 
   togglePhoto() { this.photo = !this.photo; document.body.classList.toggle('photo-mode', this.photo); $('restore-ui').hidden = !this.photo; }
   toggleMap() {
@@ -244,17 +251,26 @@ export class Game {
     this.clock.update(dt);
     // Movement: keys, or a straight walk to a clicked point.
     const canMove = this.game?.canMove ?? true;
-    if (!canMove) { this.destination = null; this.marker.visible = false; }
+    if (!canMove) this.stopWalk();
     const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
+    let stalled = false;
     if (!dir.lengthSq() && this.destination) {
       dir.subVectors(this.destination, p); dir.y = 0;
-      if (dir.length() < .2) { this.destination = null; this.marker.visible = false; dir.set(0, 0, 0); } else dir.normalize();
+      if (dir.length() < .2 && this.route.length) { this.nextWaypoint(); dir.subVectors(this.destination, p); dir.y = 0; }
+      const remaining = dir.length();
+      if (remaining < .2) { this.stopWalk(); dir.set(0, 0, 0); }
+      else {
+        dir.normalize();
+        // Sliding along an obstacle can jitter in place; give up once the walk stops getting closer.
+        if (remaining < this.walkBest - .05) { this.walkBest = remaining; this.walkStall = 0; }
+        else stalled = (this.walkStall += dt) > .6;
+      }
     }
     const moved = this.player.move(dir, dt, this.world, this.input.running);
-    if (!moved && this.destination) {
+    if ((!moved && dt > 0 || stalled) && this.destination) {
       // Combat auto-walk retries every frame; only a manual click reports a blocked path.
       if (!this.autoWalk) this.hud.toast('เส้นทางถูกกีดขวาง', 'ลองเดินอ้อมด้วย W A S D');
-      this.destination = null; this.marker.visible = false;
+      this.stopWalk();
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
 

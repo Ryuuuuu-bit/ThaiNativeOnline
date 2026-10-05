@@ -44,6 +44,8 @@ Do not change public interfaces without documenting it.
   `createGame()` from `src/combat/index.js` (interface: `src/combat/README.md`).
 - `src/data/spawns.js` places monster zones in the city; monster types come
   from `src/combat/data/monsters.js`.
+- Click-to-walk plans its route with `findPath(canStand, from, to)` from
+  `src/core/GridPath.js`; combat's `moveTo` still walks straight and retries.
 - `src/core/`, `src/data/`, `src/ui/`, `src/entities/` and `src/npc/` are shared
   and have no named owner yet: edit them only with small, documented hooks and
   tell the other agents.
