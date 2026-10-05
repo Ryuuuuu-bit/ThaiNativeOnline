@@ -48,7 +48,9 @@ const cameraRef = { yaw: 0 };
 const character = makeCharacter(new THREE.Group(), () => audio?.step());
 let hero = null;
 const player = new THREE.Group(); scene.add(player);
-player.position.set(1.2, groundHeight(1.2, 1.5), 1.5);
+// `?at=x,z` spawns elsewhere (handy for screenshots and bug reports).
+const [spawnX, spawnZ] = (params.get('at') ?? '1.2,1.5').split(',').map(Number);
+player.position.set(spawnX, groundHeight(spawnX, spawnZ), spawnZ);
 if (useSprite) player.add(character.group);
 else createHero(player, heroId, { onStep: () => audio?.step(), cameraRef }).then(h => {
   hero = h; buildHotbar(h);
