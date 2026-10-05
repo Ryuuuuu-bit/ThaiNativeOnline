@@ -43,12 +43,19 @@ export class Combat extends Emitter {
   }
 
   // ---- Day / night ----
-  isActive(spawn) { return !spawn.time || spawn.time === 'any' || spawn.time === this.phase; }
+  // Phases follow the world clock (morning, day, evening, night); 'day' in
+  // spawn data means any phase that is not night.
+  get night() { return this.phase === 'night'; }
+  isActive(spawn) {
+    if (spawn.active) return spawn.active.includes(this.phase);
+    return !spawn.time || spawn.time === 'any' || (spawn.time === 'night') === this.night;
+  }
   setPhase(phase) {
     if (phase === this.phase) return;
     this.phase = phase;
-    this.character.night = phase === 'night'; this.character.emit('change');
-    for (const m of this.monsters) if (m.state === 'dormant' && this.isActive(m.spawn)) m.respawnTimer = rand(.5, 3);
+    this.character.night = this.night; this.character.emit('change');
+    // Staggered so a new night does not pop every ghost in on the same frame; the first phase spawns at once.
+    if (this.started) for (const m of this.monsters) if (m.state === 'dormant' && this.isActive(m.spawn)) m.respawnTimer = rand(.5, 3);
     this.emit('phase', phase);
   }
   isGhost(m) { return m.def.loot === 'spirit' || m.def.loot === 'rare'; }
@@ -182,7 +189,7 @@ export class Combat extends Emitter {
   kill(m) {
     m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? 18; m.debuffs = [];
     const c = this.character, levelGap = m.level - c.level;
-    const exp = Math.round(m.def.exp * Math.max(.2, 1 + levelGap * .1) * (this.phase === 'night' ? NIGHT.expBonus : 1));
+    const exp = Math.round(m.def.exp * Math.max(.2, 1 + levelGap * .1) * (this.night ? NIGHT.expBonus : 1));
     const gold = randInt(...m.def.gold);
     const drops = [];
     for (const [id, chance, min, max] of LOOT[m.def.loot] || []) if (Math.random() < chance) drops.push({ id, qty: randInt(min, max) });
@@ -195,6 +202,7 @@ export class Combat extends Emitter {
   // ---- Simulation ----
   update(dt) {
     const c = this.character, p = this.world.playerPos();
+    this.started = true;
     this.attackTimer = Math.max(0, this.attackTimer - dt);
     this.gcd = Math.max(0, this.gcd - dt);
     this.combatTimer = Math.max(0, this.combatTimer - dt);
@@ -328,7 +336,7 @@ export class Combat extends Emitter {
     this.combatTimer = COMBAT_TIMEOUT;
     this.emit('monster-attack', m);
     if (Math.random() < c.dodge) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
-    const night = this.phase === 'night' && this.isGhost(m) ? NIGHT.ghostPower : 1;
+    const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
     const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < .25 ? 1.8 : 1);
     const dealt = c.damage(Math.max(1, raw - c.defense * .4));
     const p = this.world.playerPos();

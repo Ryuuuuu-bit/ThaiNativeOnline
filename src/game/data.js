@@ -89,11 +89,14 @@ export const MONSTERS = {
   pray:   { name: 'ผีพราย', level: 4, hp: 280, atk: 22, def: 4, speed: 2.2, range: 1.4, aggro: 6.5, exp: 45, gold: [6, 14], color: '#a8d3c6', size: .9, shape: 'spirit', loot: 'spirit' },
   phibpa: { name: 'ผีป่า', level: 3, hp: 210, atk: 19, def: 3, speed: 2.4, range: 1.4, aggro: 6, exp: 38, gold: [5, 11], color: '#7fae8a', size: .85, shape: 'spirit', loot: 'spirit' },
   krasue: { name: 'กระสือ', level: 7, hp: 1300, atk: 42, def: 6, speed: 3.6, range: 1.5, aggro: 8, exp: 260, gold: [40, 80], color: '#ff5a3c', size: 1, shape: 'krasue', loot: 'rare', elite: true, rare: true },
+  winyan: { name: 'วิญญาณเร่ร่อน', level: 5, hp: 330, atk: 25, def: 4, speed: 2.3, range: 1.4, aggro: 6.5, exp: 60, gold: [7, 15], color: '#9fc4ff', size: .9, shape: 'spirit', loot: 'spirit' },
+  phitaihong: { name: 'ผีตายโหง', level: 7, hp: 520, atk: 32, def: 6, speed: 2.6, range: 1.5, aggro: 7, exp: 95, gold: [10, 20], color: '#e07070', size: 1.05, shape: 'spirit', loot: 'spirit' },
+  pop:    { name: 'ปอบ', level: 10, hp: 3200, atk: 52, def: 10, speed: 2.9, range: 1.8, aggro: 9, exp: 600, gold: [90, 160], color: '#5d6b4f', size: 1.6, shape: 'monkey', loot: 'pop', elite: true, boss: true },
   tiger:  { name: 'เสือสมิง', level: 6, hp: 1500, atk: 40, def: 8, speed: 3.1, range: 1.6, aggro: 7, exp: 140, gold: [25, 50], color: '#c98a3d', size: 1.25, shape: 'tiger', loot: 'boss', elite: true },
 };
 
 // Spawn zones in world coordinates of the forest prototype map.
-// time: 'day' | 'night' | 'any'. Day is wildlife; night brings ghosts, the
+// time: 'day' | 'night' | 'any', or active: [clock phases] (morning, day, evening, night). Day is wildlife; night brings ghosts, the
 // shapeshifter tiger and a rare krasue that only sometimes appears.
 export const SPAWNS = [
   { type: 'boar', x: -8, z: 12, radius: 4, count: 3, time: 'day' },
@@ -137,6 +140,7 @@ export const LOOT = {
   beast:  [['hide', .6, 1, 2], ['tusk', .35, 1, 1], ['potion_s', .25, 1, 1], ['cloth_vest', .04, 1, 1], ['hide_armor', .03, 1, 1], ['mongkol', .02, 1, 1]],
   spirit: [['ash', .6, 1, 2], ['ether', .3, 1, 1], ['potion_s', .2, 1, 1], ['takrut', .06, 1, 1], ['bone_wand', .04, 1, 1]],
   rare:   [['potion_m', 1, 2, 3], ['takrut', .6, 1, 1], ['tiger_fang', .2, 1, 1], ['bone_wand', .5, 1, 1], ['ash', 1, 3, 5]],
+  pop:    [['potion_m', 1, 3, 4], ['tiger_fang', .5, 1, 1], ['takrut', .6, 1, 1], ['iron_dap', .4, 1, 1], ['bamboo_bow', .4, 1, 1], ['bone_wand', .4, 1, 1], ['mongkol', .4, 1, 1]],
   boss:   [['potion_m', 1, 1, 2], ['tiger_fang', .35, 1, 1], ['iron_dap', .3, 1, 1], ['bamboo_bow', .3, 1, 1], ['hide_armor', .3, 1, 1]],
 };
 
