@@ -1,5 +1,7 @@
 // NPC roster for นครอโยธยา. Each entry is pure data:
 //   id, name, occupation, gender, home, interactionRadius, dialogue, shopType / trainer,
+//   map (optional: which map of src/world/maps.js the NPC lives on; otherwise
+//   inferred from `home.near` or the first road junction in the schedule),
 //   schedule: { morning, day, evening, night } (missing phases fall back to `day`).
 // Activities: stay at a spot in a state (idle/work/sit/talk), follow a route of
 // stops, or go home (hidden indoors). Spots are named anchors registered by the
@@ -163,20 +165,20 @@ export const NPCS = [
     schedule: { morning: carry('rw4', 'rw3', 'wb_n', 'wb_s', 'w2', 'w1', 'mkt_w', stop('stall_veg_c', 'talk', 'talk', [8, 12]), 'mkt_w', 'w1', 'w2', 'wb_s', 'wb_n', 'rw3', stop('rw4', 'idle', 'look', [6, 10])), day: carry('rw4', 'rw3', 'rw2', 'rw1', 'center', 'br_n', 'br_s', 'mkt_n', stop('stall_o1_c', 'talk', 'talk', [8, 12]), 'mkt_n', 'br_s', 'br_n', 'center', 'rw1', 'rw2', 'rw3'), evening: HOME, night: HOME } },
 
   // ---------- Temple ----------
-  { id: 'monk_elder', name: 'พระอาจารย์มั่น', occupation: 'monk', home: 'kuti_a',
+  { id: 'monk_elder', name: 'พระอาจารย์มั่น', occupation: 'monk', home: 'kuti_a', map: 'city',
     dialogue: ['เจริญพร โยม', 'จิตที่สงบย่อมเห็นทางสว่าง', 'ความลับของเมืองนี้ บางส่วนถูกจารไว้ในใบลานของวัด'],
     schedule: { morning: route(stop('t1', 'idle', 'look', [2, 3]), 'tg', 'tw', 'ave1', 'center', stop('rw1', 'idle', 'pray', [6, 9]), 'rw2', stop('rn1', 'idle', 'pray', [6, 9]), 'rx1', 'ave1', 'tw', 'tg', 't1', 'ta', 'tb', 'c_sw', stop('temple_sala', 'sit', 'pray', [40, 60])),
       day: route('cs', 'c_se', 'ce', 'c_ne', 'cn', 'c_nw', 'cw', 'c_sw'), evening: route('cs', 'c_se', 'ce', 'c_ne', 'cn', 'c_nw', 'cw', 'c_sw'), night: HOME } },
-  { id: 'monk_young', name: 'พระน้อย', occupation: 'monk', home: 'kuti_b', props: ['broom'],
+  { id: 'monk_young', name: 'พระน้อย', occupation: 'monk', home: 'kuti_b', map: 'city', props: ['broom'],
     dialogue: ['เจริญพร ลานวัดต้องสะอาดเสมอ', 'หลวงพ่อสอนว่ากวาดใบไม้ก็คือการภาวนา'],
     schedule: { morning: route('t1', 'tg', 'tw', 'ave1', 'ave2', stop('gate_in', 'idle', 'pray', [6, 9]), 'ave2', 'ave1', 'tw', 'tg', 't1', stop('temple_sweep', 'work', 'sweep', [60, 90])), day: work('temple_sweep', 'sweep'), evening: route('cs', 'c_se', 'ce', 'c_ne', 'cn', 'c_nw', 'cw', 'c_sw'), night: HOME } },
-  { id: 'monk_teacher', name: 'พระครูใบฎีกา', occupation: 'monk', home: 'kuti_a',
+  { id: 'monk_teacher', name: 'พระครูใบฎีกา', occupation: 'monk', home: 'kuti_a', map: 'city',
     dialogue: ['เจริญพร ศาลานี้เปิดให้ผู้เดินทางพักเสมอ', 'วัดสุวรรณเจดีย์สร้างมาพร้อมกับเมือง'],
     schedule: allDay(sit('temple_sala', 'pray')) },
   { id: 'temple_visitor', name: 'ยายทองคำ', occupation: 'villager', gender: 'f', home: { near: 'rx1' },
     dialogue: ['มาทำบุญให้ตายายที่ล่วงลับ', 'ไหว้พระเจดีย์ทองแล้วใจสงบ'],
     schedule: { morning: route('rx1', 'ave1', 'tw', 'tg', 't1', stop('temple_pray', 'idle', 'pray', [20, 30]), 'ta', 'tb', 'c_sw', 'cs', 'c_se', 'ce', 'c_ne', 'cn', 'c_nw', 'cw', 'c_sw', 'tb', 'ta', 't1', 'tg', 'tw', 'ave1'), day: idle('temple_pray2', 'pray'), evening: HOME, night: HOME } },
-  { id: 'traveler', name: 'ผู้เดินทางพเนจร', occupation: 'traveler', home: 'bodhi_seat',
+  { id: 'traveler', name: 'ผู้เดินทางพเนจร', occupation: 'traveler', home: 'bodhi_seat', map: 'city',
     dialogue: ['ข้าเดินทางมาจากหัวเมืองไกล ได้ยินว่าอโยธยางามนัก', 'ใต้ต้นโพธิ์นี้นอนหลับสบายกว่าโรงเตี๊ยม'],
     schedule: allDay(sit('bodhi_seat')) },
   { id: 'guard_temple', name: 'ทหารรักษาวัด', occupation: 'guard', home: { near: 'tw' }, faction: 'city_guard',

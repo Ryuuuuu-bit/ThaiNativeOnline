@@ -1,12 +1,11 @@
 import * as THREE from 'three';
-import { buildWorld } from '../world/World.js';
+import { MapManager } from '../world/MapManager.js';
+import { MAPS, walkBounds } from '../world/maps.js';
 import { Environment } from '../world/Environment.js';
 import { windUniforms } from '../world/shaders.js';
 import { Player } from '../entities/Player.js';
-import { NPCManager } from '../npc/NPCManager.js';
-import { NPCS } from '../data/npcs.js';
 import { LANDMARKS } from '../data/landmarks.js';
-import { SPAWNS, activeSpawns, combatSpawns } from '../data/spawns.js';
+import { activeSpawns } from '../data/spawns.js';
 import { regionAt } from '../data/regions.js';
 import { HUD } from '../ui/HUD.js';
 import { Minimap } from '../ui/Minimap.js';
@@ -26,6 +25,10 @@ const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
 export class Game {
+  // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
+  get world() { return this.maps?.world ?? null; }
+  get npcs() { return this.maps?.npcs ?? null; }
+
   async start() {
     const host = this.host = $('world');
     try { this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' }); }
@@ -42,15 +45,16 @@ export class Game {
     this.hud = new HUD();
     this.audio = new AudioAmbience();
 
-    this.world = await buildWorld(this.scene, text => { $('loading-text').textContent = text; });
     this.player = new Player(this.scene);
-    const [sx, sz] = (params.get('at') ?? '4,151').split(',').map(Number);
-    this.player.position.set(sx, this.world.heightAt(sx, sz), sz); this.player.group.rotation.y = Math.PI;
-    $('loading-text').textContent = 'ชาวเมืองกำลังออกจากบ้าน…'; await new Promise(res => setTimeout(res, 0));
-    this.npcs = new NPCManager(this.scene, this.world, NPCS, this.clock);
-    this.minimap = new Minimap($('minimap'), $('fullmap'), this.world.footprints);
-    this.discovered = this.minimap.discovered;
+    this.discovered = new Set();
     try { for (const id of JSON.parse(localStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
+    // One map at a time; walking through the north gate swaps city ⇄ wilds.
+    this.maps = new MapManager({
+      scene: this.scene, clock: this.clock, player: this.player,
+      progress: text => { $('loading-text').textContent = text; },
+      onLeave: () => this.leaveMap(), onChange: info => this.enterMap(info),
+    });
+    await this.maps.start(MapManager.startLocation(params));
     // Quests and vendors attach to the character once one exists (after creation or load).
     this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id) });
     this.questUI = new QuestUI(this.quests, {
@@ -62,6 +66,7 @@ export class Game {
     this.input = new InputManager(host);
     this.bind();
     this.startCombat();
+    this.maps.attachCombat(this.game);
     if (params.has('zoom')) this.view.setZoom(Number(params.get('zoom')));
     this.view.snap(this.player.position);
     this.destination = null; this.route = []; this.elapsed = 0; this.previous = null; this.lastHud = 0; this.frames = 0; this.fpsTime = 0; this.fps = 0;
@@ -98,6 +103,7 @@ export class Game {
     input.on('pan', (dx, dy) => view.pan(dx, dy, panStart));
     input.on('zoom', delta => view.setZoom(view.zoom - delta * .001));
     input.on('click', e => {
+      if (this.maps.busy) return;
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
       if (!this.world.canStand(p.x, p.z)) return;
       const route = findPath((x, z) => this.world.canStand(x, z), this.player.position, p);
@@ -148,15 +154,15 @@ export class Game {
   }
 
   // Character and combat systems (src/character, src/combat). Monsters follow the world clock.
+  // World queries go to whichever map is loaded; zones and the respawn point
+  // belong to the map manager, which switches them with the map.
   startCombat() {
-    const world = this.world;
-    const respawn = [[8, -312], [4, -300], [0, -110], [4, 151]].map(([x, z]) => ({ x, z })).find(p => world.canStand(p.x, p.z)) ?? { x: 4, z: 151 };
     this.game = createGame({
       root: $('app'), host: this.host, scene: this.scene, camera: this.view.camera, player: this.player,
-      canStand: (x, z) => world.canStand(x, z), groundHeight: (x, z) => world.heightAt(x, z),
+      canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
       moveTo: (x, z) => { this.route = []; this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; this.walkBest = Infinity; this.walkStall = 0; },
       stop: () => this.stopWalk(),
-      respawnPoint: respawn, spawns: combatSpawns(),
+      respawnPoint: this.maps.respawn, spawns: this.maps.zones,
     });
     this.game.setPhase(this.clock.phase);
     this.clock.onPhase(phase => this.game.setPhase(phase));
@@ -167,6 +173,31 @@ export class Game {
       // N jumps between night and morning; the clock keeps running unless locked in settings.
       if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);
     });
+  }
+
+  // Map changes (src/world/MapManager.js): close what belongs to the old map,
+  // then rebuild the minimap and debug overlay and reapply settings for the new one.
+  leaveMap() {
+    if (this.shop.open) this.shop.close();
+    if (this.hud.dialogueOpen) this.closeDialogue();
+    this.stopWalk(); this.game?.onManualMove();
+  }
+  enterMap({ map, world }) {
+    this.minimap = new Minimap($('minimap'), $('fullmap'), world.footprints, {
+      bounds: walkBounds(map), landmarks: this.maps.landmarks, discovered: this.discovered,
+      portals: map.portals.map(p => ({ ...p, toName: MAPS[p.to].name })),
+    });
+    document.querySelector('.mini-title span').textContent = map.name;
+    document.querySelector('.map-caption h2').textContent = map.name;
+    $('fullmap-panel').querySelector('.panel-heading').firstChild.textContent = `แผนที่${map.name}`;
+    if (this.debugGroup) {
+      this.debugGroup.removeFromParent(); this.debugGroup.traverse(o => { o.geometry?.dispose(); o.material?.dispose(); }); this.debugGroup = null;
+      if (this.debugOn) { this.debugOn = false; this.toggleDebug(); }
+    }
+    world.atmosphere.setEnabled($('particles').checked);
+    world.grass.mesh.geometry.instanceCount = $('quality').value === 'high' ? 56000 : 34000;
+    if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
+    if (this.questUI) this.updateJournal();
   }
 
   nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }
@@ -185,7 +216,7 @@ export class Game {
       for (const n of this.npcs.nav.nodes.values()) for (const e of n.edges) { const m = this.npcs.nav.nodes.get(e.to); pts.push(n.x, this.world.heightAt(n.x, n.z) + .15, n.z, m.x, this.world.heightAt(m.x, m.z) + .15, m.z); }
       const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
       g.add(new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: '#7fe0ff', transparent: true, opacity: .6, depthTest: false })));
-      for (const s of SPAWNS) {
+      for (const s of this.maps.spawnAreas) {
         const ring = new THREE.Mesh(new THREE.RingGeometry(s.radius - .3, s.radius, 48), new THREE.MeshBasicMaterial({ color: s.boss ? '#ff6a5a' : '#ffb35a', side: THREE.DoubleSide, transparent: true, opacity: .7, depthTest: false }));
         ring.rotation.x = -Math.PI / 2; ring.position.set(s.x, this.world.heightAt(s.x, s.z) + .3, s.z); g.add(ring);
       }
@@ -220,7 +251,7 @@ export class Game {
   }
   nearLandmark() {
     const p = this.player.position;
-    return LANDMARKS.find(l => (!l.hidden || this.discovered.has(l.id)) && Math.hypot(l.x - p.x, l.z - p.z) < Math.min(l.radius, 8) + 1.5) ?? null;
+    return this.maps.landmarks.find(l => (!l.hidden || this.discovered.has(l.id)) && Math.hypot(l.x - p.x, l.z - p.z) < Math.min(l.radius, 8) + 1.5) ?? null;
   }
   discover(l, force = false) {
     const fresh = !this.discovered.has(l.id);
@@ -249,6 +280,8 @@ export class Game {
     this.elapsed += dt;
     const p = this.player.position, view = this.view;
     this.clock.update(dt);
+    // While maps swap the fade overlay covers the screen; the clock keeps running.
+    if (this.maps.busy || !this.world) return;
     // Movement: keys, or a straight walk to a clicked point.
     const canMove = this.game?.canMove ?? true;
     if (!canMove) this.stopWalk();
@@ -267,6 +300,8 @@ export class Game {
       }
     }
     const moved = this.player.move(dir, dt, this.world, this.input.running);
+    this.maps.update(dt, this.elapsed);
+    if (this.maps.busy) return;
     if ((!moved && dt > 0 || stalled) && this.destination) {
       // Combat auto-walk retries every frame; only a manual click reports a blocked path.
       if (!this.autoWalk) this.hud.toast('เส้นทางถูกกีดขวาง', 'ลองเดินอ้อมด้วย W A S D');
@@ -292,7 +327,7 @@ export class Game {
       this.hud.setCoords(p);
       this.minimap.update(p, this.player.group.rotation.y);
       if (!$('fullmap-panel').hidden) this.minimap.drawFull(p, this.player.group.rotation.y);
-      for (const l of LANDMARKS) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
+      for (const l of this.maps.landmarks) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
       const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z), l = npc ? null : this.nearLandmark();
       this.hud.prompt(npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : l ? `สำรวจ ${l.name}` : null);
       this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery });

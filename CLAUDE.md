@@ -47,8 +47,11 @@ Do not change public interfaces without documenting it.
 ## Where things connect
 - `src/core/Game.js` hosts every system. Character and combat plug in through
   `createGame()` from `src/combat/index.js` (interface: `src/combat/README.md`).
-- `src/data/spawns.js` places monster zones in the city; monster types come
-  from `src/combat/data/monsters.js`.
+- The world is two maps split at the north gate, `city` and `wilds`
+  (`src/world/maps.js`); `src/world/MapManager.js` keeps one in the scene and
+  swaps them through portals (interface: `src/world/README.md`).
+- `src/data/spawns.js` places monster zones (all in the `wilds` map); monster
+  types come from `src/combat/data/monsters.js`.
 - Click-to-walk plans its route with `findPath(canStand, from, to)` from
   `src/core/GridPath.js`; combat's `moveTo` still walks straight and retries.
 - `src/core/`, `src/data/`, `src/ui/`, `src/entities/` and `src/npc/` are shared

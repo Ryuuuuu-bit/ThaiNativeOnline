@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
-import { InstanceSet } from './Batching.js';
+import { InstanceSet as BaseSet } from './Batching.js';
 import { M, mat } from './materials.js';
 import { patchMaterial } from './shaders.js';
 import { createRng } from './rng.js';
@@ -98,9 +98,12 @@ function crossPlanes(w, h, n = 3) {
 }
 
 export class Vegetation {
-  constructor() {
+  // keep(x, z): optional filter for the map being built; every call still draws
+  // the same random numbers, so layouts match between maps.
+  constructor(keep = null) {
     const rng = createRng(4242);
     this.rng = rng;
+    const InstanceSet = class extends BaseSet { constructor(g, m, o = {}) { super(g, m, { keep, ...o }); } };
     const leafMat = patchMaterial(mat('#ffffff', { map: foliageTexture, alphaTest: .45, side: THREE.DoubleSide }), { wind: .16, instanced: true, fade: true });
     const frondMat = patchMaterial(mat('#ffffff', { map: frondTexture, alphaTest: .4, side: THREE.DoubleSide }), { wind: .1, instanced: true, fade: true });
     const bananaMat = patchMaterial(mat('#7da34d', { map: bananaTexture, alphaTest: .4, side: THREE.DoubleSide }), { wind: .14, instanced: true, fade: true });

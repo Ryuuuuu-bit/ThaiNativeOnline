@@ -12,12 +12,15 @@ export class NavGraph {
     const cost = Math.hypot(A.x - B.x, A.z - B.z);
     A.edges.push({ to: b, cost }); B.edges.push({ to: a, cost });
   }
-  static fromRoads() {
+  // keep(x, z) (optional): only junctions on the current map; road segments
+  // need both ends kept.
+  static fromRoads(keep = null) {
     const g = new NavGraph();
-    for (const [id, [x, z]] of Object.entries(J)) g.add(id, x, z);
+    for (const [id, [x, z]] of Object.entries(J)) if (!keep || keep(x, z)) g.add(id, x, z);
     for (const road of ROADS) {
       for (let i = 1; i < road.pts.length; i++) {
         const a = road.pts[i - 1], b = road.pts[i], pa = J[a], pb = J[b];
+        if (!g.nodes.has(a) || !g.nodes.has(b)) continue;
         const line = resample([pa, pb], 6);
         let prev = a;
         for (let k = 1; k < line.length - 1; k++) { const id = `~${g.anon++}`; g.add(id, ...line[k]); g.connect(prev, id); prev = id; }

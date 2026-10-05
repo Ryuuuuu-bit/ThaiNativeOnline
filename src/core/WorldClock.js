@@ -30,7 +30,8 @@ export class WorldClock {
     const previous = this.phase; this.phase = phase;
     for (const listener of this.listeners) listener(phase, previous);
   }
-  onPhase(listener) { this.listeners.push(listener); }
+  // Returns an unsubscribe function (used when a map's NPCs are disposed).
+  onPhase(listener) { this.listeners.push(listener); return () => { const i = this.listeners.indexOf(listener); if (i >= 0) this.listeners.splice(i, 1); }; }
   get label() {
     const h = Math.floor(this.hour), m = Math.floor((this.hour - h) * 60);
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;

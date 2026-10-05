@@ -62,6 +62,11 @@ export class NPCRenderer {
       scene.add(mesh); this.parts.push({ mesh, entries, dynamic: def.dynamic });
     }
   }
+  dispose() {
+    for (const { mesh } of this.parts) { mesh.removeFromParent(); mesh.geometry.dispose(); mesh.dispose(); }
+    this.parts[0]?.mesh.material.dispose();
+    this.parts = [];
+  }
   frames(npc) {
     const p = npc.pose, f = npc.frames, s = npc.look.scale;
     f.root.compose(v.set(npc.x, npc.y + p.y * s, npc.z), q.setFromAxisAngle(up, npc.yaw), sc.set(s, s, s));
