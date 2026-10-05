@@ -1,0 +1,246 @@
+// Three.js presentation for combat: monster models, target ring, projectiles, AoE and hit flashes.
+import * as THREE from 'three';
+import { RULES } from './data/rules.js';
+
+const std = (color, extra) => new THREE.MeshStandardMaterial({ color, roughness: .85, ...extra });
+const add = (parent, geometry, material, x = 0, y = 0, z = 0, scale) => {
+  const m = new THREE.Mesh(geometry, material); m.position.set(x, y, z);
+  if (scale) m.scale.set(...scale);
+  m.castShadow = true; parent.add(m); return m;
+};
+
+function quadruped(def, { stripes = false, tusks = false } = {}) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const fur = std(def.color), dark = std(new THREE.Color(def.color).multiplyScalar(.55));
+  add(body, new THREE.SphereGeometry(.5, 14, 10), fur, 0, .62, 0, [.8, .7, 1.25]);
+  const head = new THREE.Group(); head.position.set(0, .75, .6); body.add(head);
+  add(head, new THREE.SphereGeometry(.3, 12, 10), fur, 0, 0, .05, [1, .9, 1.1]);
+  add(head, new THREE.SphereGeometry(.14, 10, 8), dark, 0, -.06, .3);
+  for (const s of [-1, 1]) {
+    add(head, new THREE.ConeGeometry(.09, .16, 6), dark, s * .17, .24, -.02);
+    add(head, new THREE.SphereGeometry(.035, 6, 6), std('#f4e2a0', { emissive: '#7a5b14' }), s * .12, .08, .25);
+    if (tusks) add(head, new THREE.ConeGeometry(.03, .16, 5), std('#efe6cc'), s * .1, -.08, .36).rotation.x = -1.2;
+  }
+  if (stripes) for (let i = 0; i < 4; i++) add(body, new THREE.TorusGeometry(.42, .035, 4, 16, Math.PI), dark, 0, .64, -.35 + i * .2, [.85, .9, 1]).rotation.y = Math.PI / 2;
+  const legs = [];
+  for (const [x, z] of [[-.22, .38], [.22, .38], [-.22, -.38], [.22, -.38]]) {
+    const leg = new THREE.Group(); leg.position.set(x, .45, z); body.add(leg);
+    add(leg, new THREE.CylinderGeometry(.08, .06, .45, 6), dark, 0, -.22, 0); legs.push(leg);
+  }
+  const tail = add(body, new THREE.CylinderGeometry(.03, .015, .5, 5), dark, 0, .75, -.68); tail.rotation.x = -.8;
+  g.userData.animate = (t, moving, attacking) => {
+    legs.forEach((leg, i) => leg.rotation.x = moving ? Math.sin(t * 11 + (i % 3 ? Math.PI : 0)) * .5 : 0);
+    head.rotation.x = attacking ? -.35 : Math.sin(t * 1.5) * .05;
+    tail.rotation.z = Math.sin(t * 4) * .3;
+  };
+  return g;
+}
+
+function monkey(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const fur = std(def.color), face = std('#d6b48c');
+  add(body, new THREE.SphereGeometry(.32, 12, 10), fur, 0, .75, 0, [1, 1.2, .9]);
+  add(body, new THREE.SphereGeometry(.24, 12, 10), fur, 0, 1.18, .05);
+  add(body, new THREE.SphereGeometry(.15, 10, 8), face, 0, 1.15, .18, [1, .9, .7]);
+  const arms = [];
+  for (const s of [-1, 1]) {
+    const arm = new THREE.Group(); arm.position.set(s * .3, .95, 0); body.add(arm);
+    add(arm, new THREE.CylinderGeometry(.06, .05, .6, 6), fur, 0, -.3, 0); arms.push(arm);
+    add(body, new THREE.CylinderGeometry(.07, .05, .4, 6), fur, s * .15, .32, 0);
+  }
+  const tail = add(body, new THREE.TorusGeometry(.3, .03, 5, 12, Math.PI * 1.3), fur, 0, .7, -.35); tail.rotation.y = Math.PI / 2;
+  g.userData.animate = (t, moving, attacking) => {
+    body.position.y = moving ? Math.abs(Math.sin(t * 9)) * .15 : 0;
+    arms.forEach((a, i) => a.rotation.x = attacking ? -2.2 : Math.sin(t * 9 + i * Math.PI) * (moving ? .7 : .1));
+  };
+  return g;
+}
+
+function spirit(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const glow = new THREE.MeshStandardMaterial({ color: def.color, emissive: def.color, emissiveIntensity: .55, transparent: true, opacity: .72, roughness: .4 });
+  add(body, new THREE.ConeGeometry(.42, 1.3, 14, 1, true), glow, 0, .95, 0).castShadow = false;
+  add(body, new THREE.SphereGeometry(.24, 12, 10), glow, 0, 1.68, 0).castShadow = false;
+  add(body, new THREE.SphereGeometry(.26, 12, 8, 0, Math.PI * 2, 0, Math.PI * .5), std('#1b1b1f'), 0, 1.72, -.02, [1, 1.6, 1]);
+  for (const s of [-1, 1]) add(body, new THREE.SphereGeometry(.04, 6, 6), new THREE.MeshBasicMaterial({ color: '#ff5a4a' }), s * .08, 1.7, .21);
+  const halo = glowSprite(def.color, 2.2); halo.position.y = 1.3; body.add(halo);
+  g.userData.animate = (t, moving, attacking) => {
+    body.position.y = .25 + Math.sin(t * 2.4) * .12;
+    body.rotation.z = attacking ? Math.sin(t * 30) * .15 : Math.sin(t * 1.3) * .06;
+  };
+  return g;
+}
+
+// Krasue: a floating woman's head trailing glowing entrails; the rare night monster.
+function krasue(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const skin = std('#e9cdb2', { emissive: '#3a1a10', emissiveIntensity: .4 }), hair = std('#141016', { roughness: .6 });
+  const glow = new THREE.MeshStandardMaterial({ color: def.color, emissive: def.color, emissiveIntensity: 1.4, roughness: .3 });
+  add(body, new THREE.SphereGeometry(.3, 16, 12), skin, 0, 1.9, 0, [1, 1.12, 1]);
+  add(body, new THREE.SphereGeometry(.32, 16, 10, 0, Math.PI * 2, 0, Math.PI * .6), hair, 0, 1.96, -.03, [1.05, 1.1, 1.1]);
+  add(body, new THREE.ConeGeometry(.3, .9, 10, 1, true), hair, 0, 1.5, -.12).rotation.x = .15;
+  for (const sx of [-1, 1]) add(body, new THREE.SphereGeometry(.035, 6, 6), new THREE.MeshBasicMaterial({ color: '#ffdf6b' }), sx * .1, 1.93, .27);
+  add(body, new THREE.BoxGeometry(.12, .02, .02), new THREE.MeshBasicMaterial({ color: '#7a0d12' }), 0, 1.78, .28);
+  const organs = new THREE.Group(); organs.position.y = 1.62; body.add(organs);
+  add(organs, new THREE.SphereGeometry(.13, 10, 8), glow, 0, -.12, 0).castShadow = false;
+  add(organs, new THREE.SphereGeometry(.09, 8, 6), glow, .1, -.28, .04).castShadow = false;
+  const strands = [];
+  for (let i = 0; i < 4; i++) {
+    const a = i / 4 * Math.PI * 2, curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, -.1, 0), new THREE.Vector3(Math.cos(a) * .12, -.45, Math.sin(a) * .12),
+      new THREE.Vector3(Math.cos(a) * .05, -.8, Math.sin(a) * .2), new THREE.Vector3(Math.cos(a + 1) * .1, -1.15 - i * .05, Math.sin(a + 1) * .1)]);
+    const strand = add(organs, new THREE.TubeGeometry(curve, 16, .025, 5), glow); strand.castShadow = false; strands.push(strand);
+  }
+  const light = glowSprite(def.color, 2.6); light.position.y = 1.35; body.add(light);
+  g.userData.animate = (t, moving, attacking) => {
+    body.position.y = .2 + Math.sin(t * 1.8) * .18;
+    body.rotation.z = Math.sin(t * 1.1) * .08;
+    strands.forEach((st, i) => st.rotation.y = Math.sin(t * 2 + i) * .4);
+    organs.rotation.x = moving ? -.35 : 0;
+    light.material.opacity = .65 + Math.sin(t * 7) * .2 + (attacking ? .3 : 0);
+  };
+  return g;
+}
+
+// Additive glow sprite stands in for point lights: adding or hiding lights
+// would force every material in the scene to recompile.
+let glowTexture;
+function glowSprite(color, scale) {
+  if (!glowTexture) {
+    const c = document.createElement('canvas'); c.width = c.height = 64;
+    const x = c.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, '#ffffffff'); g.addColorStop(.35, '#ffffff66'); g.addColorStop(1, '#ffffff00');
+    x.fillStyle = g; x.fillRect(0, 0, 64, 64);
+    glowTexture = new THREE.CanvasTexture(c);
+  }
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture, color, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+  sprite.scale.setScalar(scale);
+  return sprite;
+}
+
+const BUILDERS = {
+  krasue,
+  boar: def => quadruped(def, { tusks: true }),
+  tiger: def => quadruped(def, { stripes: true }),
+  monkey, spirit,
+};
+
+export class CombatView {
+  constructor(scene, combat, groundHeight) {
+    this.scene = scene; this.combat = combat; this.groundHeight = groundHeight;
+    this.views = new Map(); this.effects = [];
+    this.root = new THREE.Group(); this.root.name = 'combat'; scene.add(this.root);
+
+    this.targetRing = new THREE.Mesh(new THREE.RingGeometry(.55, .66, 40), new THREE.MeshBasicMaterial({ color: '#ff7b5c', transparent: true, opacity: .85, side: THREE.DoubleSide, depthWrite: false }));
+    this.targetRing.rotation.x = -Math.PI / 2; this.targetRing.visible = false; this.root.add(this.targetRing);
+
+    for (const m of combat.monsters) this.ensure(m);
+    combat.on('spawn', m => { const v = this.ensure(m); v.group.visible = true; v.fade = 0; });
+    combat.on('hit', ({ monster }) => { const v = this.views.get(monster.id); if (v) v.flash = .15; });
+    combat.on('kill', ({ monster }) => { const v = this.views.get(monster.id); if (v) v.dying = 1; });
+    combat.on('despawn', monster => { const v = this.views.get(monster.id); if (v) v.dying = 1; });
+    combat.on('projectile', e => this.projectile(e));
+    combat.on('aoe', e => this.ring(e.x, e.z, e.radius, e.skillId === 'whirl' ? '#f1d18a' : '#ff8a4a'));
+    combat.on('cast', ({ skill, from, target }) => {
+      if (!skill.projectile && (skill.kind === 'damage' || skill.kind === 'debuff') && target) this.slash(from, target, skill.fx || '#fff3c4');
+    });
+    combat.on('pet-command', ({ target }) => this.ring(target.x, target.z, 1.2, '#f2c26b'));
+    if (combat.pet) {
+      this.pet = quadruped({ color: '#b5713e' }, {});
+      this.pet.scale.setScalar(.48);
+      const chest = new THREE.Mesh(new THREE.SphereGeometry(.32, 10, 8), std('#f1e6d2')); chest.position.set(0, .6, .45); this.pet.children[0].add(chest);
+      this.root.add(this.pet);
+    }
+    combat.on('heal', e => this.ring(e.x, e.z, 1.1, '#9df0a8'));
+    combat.on('buff', () => { const p = combat.world.playerPos(); this.ring(p.x, p.z, 1, '#a8d4ff'); });
+  }
+
+  ensure(m) {
+    if (this.views.has(m.id)) return this.views.get(m.id);
+    const group = (BUILDERS[m.def.shape] || quadruped)(m.def);
+    group.scale.setScalar(m.def.size);
+    group.traverse(o => { if (o.isMesh) { o.userData.monsterId = m.id; o.material = o.material.clone(); } });
+    const pick = new THREE.Mesh(new THREE.CylinderGeometry(.75, .75, 1.8, 8), new THREE.MeshBasicMaterial({ visible: false }));
+    pick.position.y = .9; pick.userData.monsterId = m.id; group.add(pick);
+    this.root.add(group);
+    const view = { group, monster: m, flash: 0, dying: 0, fade: 1, attackAnim: 0 };
+    this.views.set(m.id, view);
+    return view;
+  }
+
+  // Meshes to raycast when the player clicks; userData.monsterId identifies the hit.
+  get pickables() { return [...this.views.values()].filter(v => v.monster.alive).map(v => v.group); }
+  monsterById(id) { return this.views.get(id)?.monster; }
+
+  projectile({ from, target, color, duration }) {
+    const mesh = new THREE.Mesh(new THREE.SphereGeometry(.12, 8, 6), new THREE.MeshBasicMaterial({ color }));
+    mesh.add(glowSprite(color, 1.1));
+    this.root.add(mesh);
+    const y0 = this.groundHeight(from.x, from.z) + 1.1;
+    this.effects.push({ mesh, t: 0, duration: Math.max(.05, duration), update: (e, k) => {
+      const tx = target.x, tz = target.z, ty = this.groundHeight(tx, tz) + .8;
+      mesh.position.set(from.x + (tx - from.x) * k, y0 + (ty - y0) * k + Math.sin(k * Math.PI) * .6, from.z + (tz - from.z) * k);
+    } });
+  }
+
+  ring(x, z, radius, color) {
+    const mesh = new THREE.Mesh(new THREE.RingGeometry(.85, 1, 48), new THREE.MeshBasicMaterial({ color, transparent: true, side: THREE.DoubleSide, depthWrite: false }));
+    mesh.rotation.x = -Math.PI / 2; mesh.position.set(x, this.groundHeight(x, z) + .08, z); this.root.add(mesh);
+    this.effects.push({ mesh, t: 0, duration: .5, update: (e, k) => { mesh.scale.setScalar(radius * (.3 + k * .7)); mesh.material.opacity = 1 - k; } });
+  }
+
+  slash(from, target, color) {
+    const mesh = new THREE.Mesh(new THREE.TorusGeometry(.8, .05, 4, 20, Math.PI * .9), new THREE.MeshBasicMaterial({ color, transparent: true }));
+    const a = Math.atan2(target.x - from.x, target.z - from.z);
+    mesh.position.set(from.x + Math.sin(a) * .7, this.groundHeight(from.x, from.z) + 1, from.z + Math.cos(a) * .7);
+    mesh.rotation.set(Math.PI / 2, 0, -a + Math.PI * .05); this.root.add(mesh);
+    this.effects.push({ mesh, t: 0, duration: .22, update: (e, k) => { mesh.rotation.z = -a - Math.PI * .5 + k * Math.PI * .8; mesh.material.opacity = 1 - k; } });
+  }
+
+  update(dt, elapsed) {
+    const target = this.combat.target;
+    for (const v of this.views.values()) {
+      const m = v.monster, g = v.group;
+      if (!m.alive && !v.dying) { g.visible = false; continue; }
+      g.visible = true;
+      g.position.set(m.x, this.groundHeight(m.x, m.z), m.z);
+      g.rotation.y += Math.atan2(Math.sin(m.facing - g.rotation.y), Math.cos(m.facing - g.rotation.y)) * Math.min(1, dt * 10);
+      if (m.attackTimer > (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay) - .3) v.attackAnim = .25;
+      v.attackAnim = Math.max(0, v.attackAnim - dt);
+      g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0);
+      v.flash = Math.max(0, v.flash - dt);
+      if (v.dying) {
+        v.dying = Math.max(0, v.dying - dt * 1.4);
+        g.rotation.z = (1 - v.dying) * Math.PI / 2; g.position.y -= (1 - v.dying) * .3;
+        if (!v.dying) { g.visible = false; g.rotation.z = 0; }
+      } else g.rotation.z = 0;
+      v.fade = Math.min(1, v.fade + dt * 2);
+      const slowed = m.debuffs.some(d => d.slow), cursed = m.debuffs.some(d => d.dot);
+      g.traverse(o => {
+        if (!o.isMesh || !o.material.emissive) return;
+        o.material.userData.base ??= o.material.emissive.clone();
+        if (v.flash > 0) o.material.emissive.set('#ff6040');
+        else if (cursed) o.material.emissive.set('#4a1a5e');
+        else if (slowed) o.material.emissive.set('#1e3e58');
+        else o.material.emissive.copy(o.material.userData.base);
+      });
+    }
+    if (this.pet) {
+      const pet = this.combat.pet;
+      this.pet.position.set(pet.x, this.groundHeight(pet.x, pet.z), pet.z);
+      this.pet.rotation.y += Math.atan2(Math.sin(pet.facing - this.pet.rotation.y), Math.cos(pet.facing - this.pet.rotation.y)) * Math.min(1, dt * 12);
+      this.pet.userData.animate(elapsed * 1.4, pet.moving, pet.attackTimer > (pet.frenzy > 0 ? .35 : 1.05));
+    }
+    this.targetRing.visible = !!target?.alive;
+    if (target?.alive) {
+      this.targetRing.position.set(target.x, this.groundHeight(target.x, target.z) + .06, target.z);
+      this.targetRing.scale.setScalar(target.def.size * (1 + Math.sin(elapsed * 6) * .06));
+      this.targetRing.rotation.z = elapsed;
+    }
+    for (const e of this.effects) { e.t += dt; e.update(e, Math.min(1, e.t / e.duration)); }
+    for (const e of this.effects.filter(e => e.t >= e.duration)) {
+      this.root.remove(e.mesh); e.mesh.traverse(o => { o.geometry?.dispose(); o.material?.dispose(); });
+    }
+    this.effects = this.effects.filter(e => e.t < e.duration);
+  }
+}

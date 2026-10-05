@@ -1,64 +1,58 @@
-// Character class content. Pure data: no Three.js, no logic.
-// Colours are CSS hex strings; stats are base values at level 1.
-//
-// appearance.hairStyle: 'topknot' | 'headcloth'
-// appearance.sleeves:   true => arms use the shirt colour (long sleeves)
-// weapon:               'sword' | 'staff' | 'bow' (see model.js WEAPON_BUILDERS)
+// Content data only: edit freely without touching game logic.
+export const STATS = ['str', 'agi', 'int', 'vit'];
+export const STAT_LABELS = { str: 'พลัง', agi: 'ว่องไว', int: 'ปัญญา', vit: 'อึด' };
 
-export const DEFAULT_CLASS_ID = 'swordsman';
-
+// Six callings from the concept sheet. tagline is shown on the creation screen.
 export const CLASSES = {
-  swordsman: {
-    id: 'swordsman',
-    name: 'นักดาบ',
-    nameEn: 'Swordsman',
-    description: 'ทหารเดินเท้าแห่งกรุงศรีอยุธยา ถนัดดาบคู่กาย ยืนหยัดแนวหน้า',
-    stats: { maxHp: 120, maxMp: 40, attack: 14, defense: 10, moveSpeed: 3.1 },
-    weapon: 'sword',
-    appearance: {
-      hairStyle: 'topknot',
-      sleeves: false,
-      palette: {
-        skin: '#cd9b72', shirt: '#e7d9ad', pants: '#665e4a', sash: '#944b35', hair: '#302b24',
-        footwear: '#423a2c', weapon: '#aba58a', weaponGrip: '#71523b', accent: '#c5a05d',
-        magic: '#ffe7a8', ring: '#e1c983',
-      },
-    },
+  muaythai: {
+    name: 'มวยไทย', en: 'MUAY THAI', icon: '✊', tagline: 'ร่างกายคืออาวุธ จิตใจคือเกราะ',
+    desc: 'นักสู้มือเปล่า หมัด เข่า ศอก ตีเร็ว ประชิดตัว',
+    base: { str: 8, agi: 7, int: 2, vit: 6 }, growth: { str: 2, agi: 2, int: 0, vit: 1 },
+    range: 1.4, attackSpeed: .75, color: '#e0785a',
+    skills: ['jab', 'knee', 'elbow', 'waikru'],
   },
-
-  mystic: {
-    id: 'mystic',
-    name: 'หมอผี',
-    nameEn: 'Mystic',
-    description: 'ผู้รู้วิชาอาคมแห่งป่าใหญ่ ใช้ไม้เท้าลงยันต์และสายสิญจน์ปัดเป่าภูตผี',
-    stats: { maxHp: 85, maxMp: 120, attack: 9, defense: 6, moveSpeed: 3.0 },
-    weapon: 'staff',
-    appearance: {
-      hairStyle: 'headcloth',
-      sleeves: true,
-      palette: {
-        skin: '#b98763', shirt: '#3b3f5c', pants: '#2f2b26', sash: '#e8e1cf', hair: '#1f1b17',
-        headcloth: '#8a3b2e', footwear: '#3a3127', weapon: '#6b4f36', weaponGrip: '#e8e1cf',
-        accent: '#c5a05d', magic: '#9fe3c4', ring: '#e1c983',
-      },
-    },
+  warrior: {
+    name: 'นักรบ', en: 'WARRIOR', icon: '⚔', tagline: 'ดาบของข้า ปกป้องผู้คนและแผ่นดินนี้',
+    desc: 'ดาบสองมือแห่งกองอาสา ทนทานที่สุด รับหน้าศัตรู',
+    base: { str: 8, agi: 4, int: 2, vit: 8 }, growth: { str: 2, agi: 1, int: 0, vit: 2 },
+    range: 1.7, attackSpeed: 1.1, color: '#c9a35f',
+    skills: ['slash', 'whirl', 'guard', 'rally'],
   },
-
-  archer: {
-    id: 'archer',
-    name: 'นักธนู',
-    nameEn: 'Archer',
-    description: 'พรานป่าผู้แม่นธนู ว่องไว เคลื่อนที่ไร้เสียงระหว่างแนวไม้',
-    stats: { maxHp: 100, maxMp: 60, attack: 12, defense: 8, moveSpeed: 3.3 },
-    weapon: 'bow',
-    appearance: {
-      hairStyle: 'topknot',
-      sleeves: false,
-      palette: {
-        skin: '#c08f68', shirt: '#7d7a4f', pants: '#4f4636', sash: '#b0813e', hair: '#2a241d',
-        footwear: '#3f3428', weapon: '#6e5034', weaponGrip: '#d8cfb4', accent: '#8f6a3c',
-        magic: '#d9f0a3', ring: '#e1c983',
-      },
-    },
+  hunter: {
+    name: 'นายพราน', en: 'HUNTER', icon: '🏹', tagline: 'ธรรมชาติคือเพื่อน ไม่มีสิ่งใดรอดพ้นสายตา',
+    desc: 'ยิงธนูระยะไกล มีหมาคู่ใจช่วยกัดศัตรู',
+    base: { str: 5, agi: 9, int: 3, vit: 5 }, growth: { str: 1, agi: 2, int: 1, vit: 1 },
+    range: 7, attackSpeed: .9, color: '#8fb36b', pet: 'dog',
+    skills: ['shot', 'volley', 'snare', 'sic'],
+  },
+  shaman: {
+    name: 'หมอผี', en: 'SHAMAN', icon: '☠', tagline: 'ข้าคือสะพานระหว่างสองโลก',
+    desc: 'คาถาและยันต์ เวทแรงที่สุด ร่างบาง',
+    base: { str: 3, agi: 4, int: 10, vit: 5 }, growth: { str: 0, agi: 1, int: 3, vit: 1 },
+    range: 6, attackSpeed: 1.3, color: '#a98ae0',
+    skills: ['bolt', 'yantra', 'curse', 'mend'],
+  },
+  herbalist: {
+    name: 'หมอยา', en: 'HERBALIST', icon: '❦', tagline: 'พืชพาให้ชีวิต ยาก็รักษาได้',
+    desc: 'ยาพิษกับยารักษา อยู่รอดนาน ฟื้นตัวเก่ง',
+    base: { str: 3, agi: 5, int: 8, vit: 7 }, growth: { str: 0, agi: 1, int: 2, vit: 2 },
+    range: 5.5, attackSpeed: 1.1, color: '#7fd67a',
+    skills: ['dart', 'blight', 'grove', 'balm'],
+  },
+  assassin: {
+    name: 'โจรป่า', en: 'ASSASSIN', icon: '🗡', tagline: 'เงาคือที่อยู่ของข้า ความเงียบคืออาวุธ',
+    desc: 'มีดคู่ คริติคอลสูง หลบเก่ง แข็งแกร่งยามค่ำคืน',
+    base: { str: 5, agi: 10, int: 3, vit: 4 }, growth: { str: 1, agi: 3, int: 0, vit: 1 },
+    range: 1.5, attackSpeed: .7, color: '#9c6bd6', nightCrit: .12,
+    skills: ['stab', 'shadow', 'smoke', 'venom'],
   },
 };
+// Saves from before the class rename.
+export const CLASS_ALIASES = { swordsman: 'warrior' };
+
+
+export const START_ITEMS = {
+  muaythai: ['hand_wrap'], warrior: ['wood_sword', 'cloth_vest'], hunter: ['cloth_vest'],
+  shaman: ['cloth_vest'], herbalist: ['herb_staff', 'cloth_vest'], assassin: ['krabi'],
+};
+

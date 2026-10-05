@@ -6,8 +6,14 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "check:rig": "node scripts/check-rig.mjs"
   },
-  "dependencies": { "three": "0.186.1" },
-  "devDependencies": { "vite": "8.3.2" }
+  "dependencies": {
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "vite": "8.3.2"
+  }
 }

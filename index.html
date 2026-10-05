@@ -4,28 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#182b25" />
-    <meta name="description" content="สำรวจป่าริมวัดร้างในโลกแฟนตาซีแห่งกรุงศรีอยุธยา" />
-    <title>Thai Native Online — ป่าริมวัดร้าง</title>
+    <meta name="description" content="นครอโยธยา เมืองหลวงริมแม่น้ำของโลกแฟนตาซี Thai Native Online" />
+    <title>Thai Native Online — นครอโยธยา</title>
   </head>
   <body>
     <main id="app">
-      <div id="world" aria-label="แผนที่ป่าริมวัดร้าง สามมิติ มุมมอง 2.5D"></div>
+      <div id="world" aria-label="นครอโยธยา แผนที่สามมิติ มุมมอง 2.5D"></div>
       <div class="vignette"></div>
+      <div id="nameplates" aria-hidden="true"></div>
       <header class="topbar">
         <a class="brand" href="/" aria-label="Thai Native Online"><span class="brand-seal">ท</span><span>THAI NATIVE<span class="brand-sub">O N L I N E</span></span></a>
-        <div class="location"><span class="tiny">อาณาจักรอยุธยา · เขตสำรวจ ๐๑</span><h1>ป่าริมวัดร้าง</h1><span class="weather"><i></i><span id="weather-label">เช้า · สายลมอ่อน</span></span></div>
-        <div class="top-actions"><button id="sound" title="เปิดเสียงบรรยากาศ" aria-label="เปิดเสียงบรรยากาศ" aria-pressed="false">♫</button><button id="settings-toggle" title="ตั้งค่าภาพ" aria-label="ตั้งค่าภาพ" aria-expanded="false">⚙</button></div>
+        <div class="location"><span class="tiny" id="region-sub">นครอโยธยา · ราชธานีริมแม่น้ำ</span><h1 id="region-name">นครอโยธยา</h1><span class="weather"><i id="sun-dot"></i><span id="clock">เช้า · 07:30</span></span></div>
+        <div class="top-actions"><button id="map-toggle" title="แผนที่ (M)" aria-label="แผนที่">⌖</button><button id="sound" title="เปิดเสียงบรรยากาศ" aria-label="เปิดเสียงบรรยากาศ" aria-pressed="false">♫</button><button id="settings-toggle" title="ตั้งค่า" aria-label="ตั้งค่า" aria-expanded="false">⚙</button></div>
       </header>
-      <aside class="character glass"><div class="portrait">♙</div><div class="character-info"><div class="character-name">ผู้เดินทาง <span>Lv. 1</span></div><small>จุดเริ่มต้นแห่งการผจญภัย</small></div></aside>
-      <aside class="exploration glass"><span class="eyebrow">บันทึกการเดินทาง</span><h2>เสียงจากป่าเก่า</h2><p>ในเงาไม้เหนือซากอิฐ<br>เรื่องราวแห่งอยุธยายังคงหายใจ</p><div class="quest-line"><span id="quest-symbol">◇</span><span id="quest-text">สำรวจเจดีย์กลางป่า</span></div><span class="quest-hint">เดินเข้าใกล้ แล้วกด E เพื่อสำรวจ</span></aside>
-      <aside class="minimap glass"><div class="mini-title"><span>ป่าริมวัดร้าง</span><span>N ↑</span></div><canvas id="minimap" width="220" height="168" aria-label="แผนที่ย่อ"></canvas><div class="mini-footer"><i></i> พื้นที่สงบ <span id="coords">0, 0</span></div></aside>
-      <section id="settings" class="settings glass" hidden><div class="panel-heading">บรรยากาศของโลก<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div><label>ช่วงเวลา<select id="time-of-day"><option value="morning">แสงยามเช้า</option><option value="evening">แสงยามเย็น</option></select></label><label>แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label><label>คุณภาพภาพ<select id="quality"><option value="high">สูง · Full HD</option><option value="medium">สมดุล</option></select></label><label class="check-label"><input id="particles" type="checkbox" checked /> ละอองแสงและใบไม้</label><p>มุมกล้อง Orthographic · 2.5D</p></section>
-      <div id="interaction" class="interaction" hidden><kbd>E</kbd><span>สำรวจเจดีย์เก่า</span></div>
-      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>ใต้ร่มไม้ แห่งกรุงเก่า</h2><p>ทุกเส้นทาง มีเรื่องราวรอให้ค้นพบ</p></div><div class="controls glass"><span><kbd>W A S D</kbd> เดิน</span><span><kbd>ลากเมาส์ขวา</kbd> มองแผนที่</span><span><kbd>Scroll</kbd> ซูม</span><button id="reset-camera" title="กลับมาที่ผู้เดินทาง"><kbd>R</kbd> กลับมุมกล้อง</button><button id="photo-mode" title="ซ่อนหน้าจอเพื่อชมแผนที่"><kbd>H</kbd> ชมวิว</button></div><span class="version">MAP PREVIEW <b>·</b> v0.1</span></section>
+      <aside class="character glass"><div class="portrait">♙</div><div class="character-info"><div class="character-name">ผู้เดินทาง <span>Lv. 1</span></div><div class="bar hp"><span></span></div><div class="bar energy"><span></span></div><small>ผู้มาเยือนแห่งนครอโยธยา</small></div></aside>
+      <aside class="exploration glass"><span class="eyebrow">บันทึกการเดินทาง</span><h2>เมืองแห่งสายน้ำ</h2><p>ทุ่งนาอยู่เหนือประตูเมือง<br>และไกลออกไปคือผืนป่าที่ไม่มีใครกล้าเข้าลึก</p><div class="quest-line"><span id="quest-symbol">◇</span><span id="quest-text">ค้นพบสถานที่ 0/0</span></div><span class="quest-hint" id="quest-hint">เดินสำรวจเมืองเพื่อค้นพบสถานที่สำคัญ</span><div id="quest-tracker"></div></aside>
+      <aside class="minimap glass"><div class="mini-title"><span>นครอโยธยา</span><span>N ↑</span></div><canvas id="minimap" width="440" height="336" aria-label="แผนที่ย่อ"></canvas><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
+      <section id="settings" class="settings glass" hidden>
+        <div class="panel-heading">บรรยากาศของโลก<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
+        <label>เวลาของโลก<select id="time-mode"><option value="auto">หมุนเวียนตามเวลา</option><option value="morning">เช้า</option><option value="day">กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
+        <label>ความเร็วเวลา<select id="time-speed"><option value="1">1 วัน = 24 นาที</option><option value="6">1 วัน = 4 นาที</option><option value="20">1 วัน = 72 วินาที</option></select></label>
+        <label>แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
+        <label>คุณภาพภาพ<select id="quality"><option value="high">สูง · Full HD</option><option value="medium">สมดุล</option></select></label>
+        <label class="check-label"><input id="particles" type="checkbox" checked /> ละอองแสง หิ่งห้อย และใบไม้</label>
+        <label class="check-label"><input id="debug-toggle" type="checkbox" /> โหมดผู้พัฒนา (F3)</label>
+        <p>มุมกล้อง Orthographic · 2.5D</p>
+      </section>
+      <div id="interaction" class="interaction" hidden><kbd>E</kbd><span id="interaction-text"></span></div>
+      <section id="dialogue" class="dialogue glass" hidden aria-live="polite">
+        <div class="dlg-head"><span id="dlg-icon" class="dlg-icon">◇</span><div><h3 id="dlg-name"></h3><span id="dlg-role"></span></div><button id="dlg-close" aria-label="ปิดบทสนทนา">×</button></div>
+        <p id="dlg-line"></p>
+        <div id="dlg-services"></div>
+        <div id="dlg-quests"></div>
+        <div class="dlg-actions"><button id="dlg-next"><kbd>E</kbd> คุยต่อ</button><button id="dlg-shop" hidden>◉ ซื้อขาย</button><span><kbd>Esc</kbd> ปิด</span></div>
+      </section>
+      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>อารยธรรม · ทุ่งนา · พงไพร · ดินแดนแห่งวิญญาณ</p></div><div class="controls glass"><span><kbd>W A S D</kbd> เดิน</span><span><kbd>Shift</kbd> วิ่ง</span><span><kbd>E</kbd> คุย / สำรวจ</span><span><kbd>ลากเมาส์ขวา</kbd> มองแผนที่</span><span><kbd>Scroll</kbd> ซูม</span><button id="reset-camera" title="กลับมาที่ผู้เดินทาง"><kbd>R</kbd> กลับมุมกล้อง</button><button id="photo-mode" title="ซ่อนหน้าจอเพื่อชมแผนที่"><kbd>H</kbd> ชมวิว</button><span><kbd>M</kbd> แผนที่</span></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
       <div class="mobile-controls"><button data-move="up" aria-label="เดินขึ้น">↑</button><button data-move="left" aria-label="เดินซ้าย">←</button><button data-move="down" aria-label="เดินลง">↓</button><button data-move="right" aria-label="เดินขวา">→</button></div>
+      <section id="shop" class="shop glass" hidden aria-label="ร้านค้า"><div class="panel-heading"><span><b id="shop-title"></b><small id="shop-keeper"></small></span><button id="shop-close" aria-label="ปิดร้านค้า">×</button></div>
+        <div class="shop-tabs"><button data-shop-tab="buy" aria-pressed="true">ซื้อ</button><button data-shop-tab="sell" aria-pressed="false">ขาย</button><span id="shop-gold"></span></div>
+        <div id="shop-list"></div></section>
+      <section id="fullmap-panel" class="fullmap glass" hidden><div class="panel-heading">แผนที่นครอโยธยา<button id="fullmap-close" aria-label="ปิดแผนที่">×</button></div><canvas id="fullmap"></canvas><p>สถานที่ที่ยังไม่ค้นพบแสดงเป็นจุดจาง · บางแห่งจะปรากฏเมื่อไปถึงเท่านั้น</p></section>
+      <pre id="debug" hidden></pre>
       <button id="restore-ui" hidden>แสดงหน้าจอ · H</button>
-      <div id="toast" role="status" hidden></div>
-      <div id="loading"><span class="loading-seal">ท</span><h2>ป่าริมวัดร้าง</h2><p>กำลังเปิดประตูสู่กรุงเก่า…</p></div>
+      <div id="toast" role="status" hidden><strong id="toast-title"></strong><span id="toast-text"></span><small id="toast-purpose"></small></div>
+      <div id="loading"><span class="loading-seal">ท</span><h2>นครอโยธยา</h2><p id="loading-text">กำลังเปิดประตูสู่ราชธานี…</p></div>
     </main>
     <script type="module" src="/src/main.js"></script>
   </body>
