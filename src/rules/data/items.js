@@ -1,0 +1,291 @@
+// ============================================================
+//  ไอเทม & ร้านค้า NPC
+//  type: consumable | weapon | armor | accessory | skin | material
+//  ราคาขายคืน = 50% ของราคาซื้อ (หรือ sell ที่กำหนดไว้)
+// ============================================================
+import { GEAR, gearShopStock } from './gear.js';
+import { CARD_ITEMS } from './cards.js';
+import { GD_ITEMS } from './ghostgear.js';
+import { parseAffixId, makeVariant } from './affixes.js';
+export { baseItemId } from './affixes.js';
+
+const ITEMS_BASE = {
+  // ---------- ยาฟื้นฟู ----------
+  hp_s:  { nameTh: 'ยาหม่องแดง (HP +60)',   type: 'consumable', icon: '🧴', price: 25,  effect: { hp: 60 } },
+  hp_m:  { nameTh: 'ยาดมสมุนไพร (HP +180)', type: 'consumable', icon: '🌿', price: 70,  effect: { hp: 180 } },
+  mp_s:  { nameTh: 'น้ำมะพร้าว (MP +30)',   type: 'consumable', icon: '🥥', price: 20,  effect: { mp: 30 } },
+  mp_m:  { nameTh: 'ชาตะไคร้ (MP +90)',    type: 'consumable', icon: '🍵', price: 60,  effect: { mp: 90 } },
+  yant_home: { nameTh: 'ยันต์คืนถิ่น (วาร์ปกลับกรุงศรีฯ)', type: 'home', icon: '🏠', price: 40, lvPrice: true, bound: true, desc: 'ร่าย 2.5 วิ (ห้ามขยับ/โดนตี) แล้ววาร์ปกลับลานน้ำพุกลางกรุงศรีฯ ได้จากทุกแดน · ปุ่ม B' },
+
+  // ---------- อาวุธ (ใครก็ถือได้ · wtype = แนวต่อสู้/สกิลที่ใช้ได้ · แสดงในมือตัวละคร) ----------
+  wood_sword:  { nameTh: 'ดาบไม้ฝึก',        type: 'weapon', icon: '🗡️', price: 80,  sell: 10, wtype: 'sword', bonus: { atk: 6 } },
+  iron_dab:    { nameTh: 'ดาบเหล็กน้ำพี้',     type: 'weapon', icon: '⚔️', price: 320, wtype: 'sword', bonus: { atk: 18, crit: 0.03 } },
+  oak_staff:   { nameTh: 'ไม้เท้าไม้มะขาม',    type: 'weapon', icon: '🪄', price: 80,  sell: 10, wtype: 'staff', bonus: { matk: 8, mp: 10 } },
+  yant_staff:  { nameTh: 'คทาลงยันต์',       type: 'weapon', icon: '🔮', price: 340, wtype: 'staff', bonus: { matk: 22, mp: 30 } },
+  bamboo_bow:  { nameTh: 'ธนูไม้ไผ่',         type: 'weapon', icon: '🏹', price: 80,  sell: 10, wtype: 'bow', bonus: { atk: 5, DEX: 2 } },
+  horn_bow:    { nameTh: 'ธนูเขาควาย',        type: 'weapon', icon: '🎯', price: 330, wtype: 'bow', bonus: { atk: 15, DEX: 4 } },
+  hand_wrap:   { nameTh: 'ผ้าพันมือคาดเชือก',   type: 'weapon', icon: '🥊', price: 80,  sell: 10, wtype: 'wraps', bonus: { atk: 5, STR: 1 } },
+  herb_staff:  { nameTh: 'ไม้เท้าเถาบอระเพ็ด', type: 'weapon', icon: '🌿', price: 80,  sell: 10, wtype: 'herb', art: 'g_healer_w01', bonus: { matk: 7, mp: 10, hp: 10 } },
+  mongkol:     { nameTh: 'มงคลศักดิ์สิทธิ์',     type: 'weapon', icon: '🪢', price: 320, wtype: 'wraps', bonus: { atk: 14, VIT: 3, crit: 0.02 } },
+
+  // ---------- เกราะ / เครื่องประดับ ----------
+  yant_shirt:  { nameTh: 'เสื้อยันต์',         type: 'armor', icon: '👕', price: 150, bonus: { def: 5, hp: 30 }, look: { top: '#f2efe6', bottom: '#5d4037' } },
+  // ชุดประจำสาย (ได้จากผู้ใหญ่ชัยเมื่อเลือกสายหลัก Lv.10) – look = สีชุดที่แสดงบนตัวละคร
+  armor_swordman: { nameTh: 'เกราะนักรบบางระจัน', type: 'armor', icon: '🛡️', price: 350, path: 'swordman', bonus: { def: 9, hp: 70 }, look: { top: '#922b21', bottom: '#4a2511' } },
+  armor_mage:     { nameTh: 'ผ้ายันต์หมอผีเจ็ดป่าช้า', type: 'armor', icon: '🧥', price: 350, path: 'mage', bonus: { def: 5, mp: 50, matk: 6 }, look: { top: '#1c1c1c', bottom: '#4a235a' } },
+  armor_archer:   { nameTh: 'ชุดพรานไพรลายพราง', type: 'armor', icon: '🦺', price: 350, path: 'archer', bonus: { def: 6, hp: 40, DEX: 2 }, look: { top: '#3d6b35', bottom: '#5b4a2e' } },
+  armor_boxer:    { nameTh: 'กางเกงมวยผ้าประเจียด', type: 'armor', icon: '🩳', price: 350, path: 'boxer', bonus: { def: 7, hp: 60, STR: 2 }, look: { top: '#c0392b', bottom: '#c0392b' } },
+  armor_healer:   { nameTh: 'เสื้อม่อฮ่อมหมอยา', type: 'armor', icon: '🥼', price: 350, path: 'healer', art: 'g_healer_a01', bonus: { def: 6, hp: 45, mp: 35, INT: 1 }, look: { top: '#2e6b4f', bottom: '#3b2f22' } },
+  takrut:      { nameTh: 'ตะกรุดโทน',        type: 'accessory', icon: '📿', price: 220, bonus: { def: 2, LUK: 4 } },
+  prajiad:     { nameTh: 'ประเจียดแขน',       type: 'accessory', icon: '🎗️', price: 200, bonus: { STR: 2, DEX: 2 } },
+  // เครื่องรางพระเครื่อง (ลุงดำ)
+  amulet_coin:   { nameTh: 'เหรียญหลวงพ่อเงิน',  type: 'accessory', icon: '🪙', price: 380, bonus: { LUK: 3, DEX: 2 } },
+  amulet_ganesh: { nameTh: 'เหรียญพระพิฆเนศ',   type: 'accessory', icon: '🐘', price: 420, bonus: { INT: 4, mp: 30 } },
+  amulet_somdej: { nameTh: 'พระสมเด็จ',         type: 'accessory', icon: '🛕', price: 450, bonus: { def: 3, hp: 40 } },
+  amulet_pidta:  { nameTh: 'พระปิดตา',          type: 'accessory', icon: '🙈', price: 520, bonus: { def: 4, VIT: 2 } },
+  kuman_statue:  { nameTh: 'กุมารทองบูชา',      type: 'accessory', icon: '👶', price: 600, bonus: { STR: 2, DEX: 2, LUK: 2 } },
+  naga_statue:   { nameTh: 'พญานาคราชบูชา',     type: 'accessory', icon: '🐉', price: 700, bonus: { hp: 80, VIT: 3 } },
+  yak_statue:    { nameTh: 'ท้าวเวสสุวรรณ',      type: 'accessory', icon: '👹', price: 750, bonus: { STR: 4, def: 2 } },
+  acc_yant_gold: { nameTh: 'ยันต์ทองพญายักษ์',  type: 'accessory', icon: '🏵️', sell: 400, bonus: { STR: 4, INT: 4, DEX: 3, hp: 80, def: 4 } },
+
+  // ---------- ล้างแต้ม / เปลี่ยนสายหลัก ----------
+  rename_ticket: { nameTh: 'ใบเปลี่ยนชื่อ', type: 'rename', icon: '📝', price: 5000, desc: 'เปลี่ยนชื่อตัวละคร (ชื่อใหม่ต้องไม่ซ้ำใคร · ชื่อเดิมถูกกันไว้ให้ 7 วัน)' },
+  reskill_weapon: { nameTh: 'รีแต้มสกิลอาชีพ', type: 'reskill', icon: '📘', price: 200, lvPrice: true, bound: true, desc: 'คืนแต้มสกิล (SP) ของอาวุธที่ถืออยู่ให้ลงใหม่ · สกิลอาวุธอื่นไม่หาย · ความชำนาญสกิลยังอยู่' },
+  reset_water:   { nameTh: 'รีแต้มสเตตัส', type: 'reset', icon: '💧', price: 300, lvPrice: true, bound: true, desc: 'คืนแต้มสถานะทั้งหมดของชุดที่ใช้อยู่ (A/B) ให้ลงใหม่ · สกิลไม่หาย (รีสกิลใช้ "รีแต้มสกิลอาชีพ")' },
+
+  // ---------- ของดรอปจากผี (ขายได้อย่างเดียว) ----------
+  glass_shard:  { nameTh: 'ฟางหุ่นไล่กาต้องมนตร์', type: 'material', icon: '🌾', sell: 3 },
+  gold_leaf:    { nameTh: 'แผ่นทองคำเปลว',    type: 'material', icon: '✨', sell: 5 },
+  krasue_hair:  { nameTh: 'เส้นผมกระสือ',     type: 'material', icon: '🧵', sell: 7 },
+  banana_leaf:  { nameTh: 'ใบตองตานี',        type: 'material', icon: '🍃', sell: 8 },
+  rotten_cloth: { nameTh: 'ผ้าเปื้อนปอบ',      type: 'material', icon: '🧣', sell: 10 },
+  film_reel:    { nameTh: 'ม้วนฟิล์มหนังกลางแปลง', type: 'material', icon: '🎞️', sell: 13 },
+  water_lily:   { nameTh: 'บัวสายผีพราย',     type: 'material', icon: '🪷', sell: 15 },
+  pret_bone:    { nameTh: 'กระดูกเปรต',       type: 'material', icon: '🦴', sell: 18 },
+  saming_fang:  { nameTh: 'เขี้ยวเสือสมิง',     type: 'material', icon: '🦷', sell: 24 },
+  dark_mist:    { nameTh: 'หมอกดำผีห่า',      type: 'material', icon: '🌫️', sell: 30 },
+  rahu_stone:   { nameTh: 'ศิลาราหู', type: 'material', icon: '🌑', sell: 800, desc: 'หินดำจากคราสจันทร์ ได้จากบอสโลกพระราหู (ลานสุริยคราส) · ใช้สร้างอุปกรณ์ขอบแดง "ชุดสุริยคราส" ที่ลุงดำ' },
+  yak_fang:     { nameTh: 'เขี้ยวพญายักษ์',     type: 'material', icon: '🐗', sell: 120, desc: 'ใช้ตีบวก +15 ขึ้นไป · สร้างอุปกรณ์ขอบแดง (12 ชิ้น) · ได้จาก: บอสโลกพระราหู (ชนะแล้วได้ทุกคน 1–4 ชิ้น) · บอสภาค (ปู่โสม อสุรกาย ชาละวัน) · บอสแดน (พระราหู/พญามารลุ้น 2 ชิ้น) · ผีในหิมพานต์ บาดาล นรกภูมิ ดาวดึงส์ สุเมรุ (Lv.100+ ดรอปถี่ขึ้น)' },
+  ha_essence:   { nameTh: 'แก่นวิญญาณผีห่า',    type: 'material', icon: '🔥', sell: 60, desc: 'ดรอปจากผีห่า (ป่าช้าวัดร้าง) · ยายติ๋มใช้ปรุงยาอายุวัฒนะ' },
+  // ป่าช้าผีตายโหง
+  rice_basket:  { nameTh: 'กระด้งผีกระหัง',     type: 'material', icon: '🧺', sell: 34 },
+  wisp_ember:   { nameTh: 'ประกายไฟผีโขมด',     type: 'material', icon: '✴️', sell: 34 },
+  grave_soil:   { nameTh: 'ดินหลุมผีดิบ',       type: 'material', icon: '⚱️', sell: 38 },
+  takhian_wood: { nameTh: 'แก่นไม้ตะเคียน',     type: 'material', icon: '🪵', sell: 40 },
+  blood_cloth:  { nameTh: 'ผ้าเปื้อนเลือดตายโหง', type: 'material', icon: '🩸', sell: 44 },
+  phong_glow:   { nameTh: 'จมูกเรืองแสงผีโพง',  type: 'material', icon: '🔆', sell: 44 },
+  kongkoi_hair: { nameTh: 'ขนผีกองกอย',        type: 'material', icon: '🪶', sell: 48 },
+  rib_bone:     { nameTh: 'ซี่โครงผีหลังกลวง',  type: 'material', icon: '🦴', sell: 50 },
+  chamot_scale: { nameTh: 'เกล็ดผีจะมอด',       type: 'material', icon: '🐊', sell: 55 },
+  asura_horn:   { nameTh: 'เขาเปรตอสุรกาย',     type: 'material', icon: '🦬', sell: 220 },
+  // ---- วัตถุดิบจากแมพต่างแดน (Lv.30–99) ----
+  himma_fur:    { nameTh: 'ขนสัตว์หิมพานต์',     type: 'material', icon: '🦁', sell: 140 },
+  himma_feather:{ nameTh: 'ขนนกหัสดีลิงค์',      type: 'material', icon: '🪶', sell: 180 },
+  makka_fruit:  { nameTh: 'ผลมักกะลีผล',        type: 'material', icon: '🍑', sell: 210 },
+  giant_tusk:   { nameTh: 'งากุมภกรรณ',          type: 'material', icon: '🦣', sell: 1200 },
+  naga_scale:   { nameTh: 'เกล็ดนาคพราย',        type: 'material', icon: '🐍', sell: 260 },
+  pearl_ghost:  { nameTh: 'ไข่มุกเงือกผี',         type: 'material', icon: '🦪', sell: 320 },
+  naga_gem:     { nameTh: 'แก้วมณีนาคราช',       type: 'material', icon: '💎', sell: 2500 },
+  hell_ember:   { nameTh: 'ถ่านไฟนรก',           type: 'material', icon: '🔥', sell: 380 },
+  ngiw_thorn:   { nameTh: 'หนามต้นงิ้ว',          type: 'material', icon: '🌵', sell: 430 },
+  yama_seal:    { nameTh: 'ตราพญายม',           type: 'material', icon: '⚖️', sell: 5000 },
+  // ---- Lv.99–150 ----
+  deva_silk:    { nameTh: 'ผ้าทิพย์คนธรรพ์',       type: 'material', icon: '🧣', sell: 520 },
+  asura_gold:   { nameTh: 'ทองอสูรกบฏ',          type: 'material', icon: '🪙', sell: 600 },
+  rahu_eye:     { nameTh: 'ดวงตาพระราหู',         type: 'material', icon: '🌑', sell: 8000 },
+  garuda_plume: { nameTh: 'ขนครุฑดำ',            type: 'material', icon: '🪶', sell: 700 },
+  sumeru_crystal:{ nameTh: 'ผลึกเขาสุเมรุ',         type: 'material', icon: '🔷', sell: 800 },
+  mara_crown:   { nameTh: 'มงกุฎพญามาร',         type: 'material', icon: '👑', sell: 15000 },
+
+  // ---------- ปลา (ตกที่ท่าน้ำ ซ้ายสุดของหมู่บ้าน) – ขายป้าสา หรือให้ป้าสาทำอาหาร ----------
+  pla_nin:     { nameTh: 'ปลานิล',            type: 'fish', icon: '🐟', sell: 6 },
+  pla_taphian: { nameTh: 'ปลาตะเพียนเงิน',     type: 'fish', icon: '🐟', sell: 9 },
+  pla_duk:     { nameTh: 'ปลาดุก',            type: 'fish', icon: '🐟', sell: 12 },
+  pla_chon:    { nameTh: 'ปลาช่อน',           type: 'fish', icon: '🐟', sell: 16 },
+  kung:        { nameTh: 'กุ้งแม่น้ำ',          type: 'fish', icon: '🦐', sell: 22 },
+  pla_buek:    { nameTh: 'ปลาบึกยักษ์',        type: 'fish', icon: '🐋', sell: 120 },
+  pla_phrai:   { nameTh: 'ปลาพรายวิญญาณ',     type: 'fish', icon: '👻', sell: 90 },
+  junk_boot:   { nameTh: 'รองเท้าแตะเก่า',     type: 'material', icon: '🩴', sell: 1 },
+  // ---- ปลาประจำแดน (ตกได้เฉพาะแดนนั้น · rare = หายาก · legendFish = ปลาตำนาน ประกาศทั้งเซิร์ฟ) ----
+  pla_kaewhim:  { nameTh: 'ปลาแก้วหิมพานต์',      type: 'fish', icon: '🐟', sell: 150, desc: 'ปลาใสดั่งแก้วในลำธารป่าหิมพานต์' },
+  kung_rung:    { nameTh: 'กุ้งสายรุ้ง',           type: 'fish', icon: '🦐', sell: 200, desc: 'กุ้งเปลือกเจ็ดสีใต้น้ำตกหิมพานต์' },
+  pla_khrai:    { nameTh: 'ปลากรายทอง',           type: 'fish', icon: '🐟', sell: 450, rare: true, desc: 'ขึ้นมากินเหยื่อเฉพาะกลางคืน · หายาก' },
+  pla_takhian_thong: { nameTh: 'ปลาตะเพียนทองหิมพานต์', type: 'fish', icon: '🐟', sell: 6000, rare: true, legendFish: true, desc: '✦ ปลาตำนานแห่งป่าหิมพานต์ เกล็ดทองคำแท้' },
+  pla_lai_nak:  { nameTh: 'ปลาไหลนาค',            type: 'fish', icon: '🐍', sell: 220, desc: 'ปลาไหลลายเกล็ดนาคในคูเมืองบาดาล' },
+  hoi_muk:      { nameTh: 'หอยมุกบาดาล',          type: 'fish', icon: '🦪', sell: 300, desc: 'หอยที่อาจมีมุกของนาคราชอยู่ข้างใน' },
+  pla_ngoen_badan: { nameTh: 'ปลาเงินบาดาล',       type: 'fish', icon: '🐟', sell: 700, rare: true, desc: 'ขึ้นมากินเหยื่อเฉพาะกลางคืน · หายาก' },
+  pla_krahoe:   { nameTh: 'ปลากระโห้ทองนาคราช',    type: 'fish', icon: '🐋', sell: 9000, rare: true, legendFish: true, desc: '✦ ปลาตำนานแห่งเมืองบาดาล สัตว์เลี้ยงของพญานาค' },
+  pla_thep:     { nameTh: 'ปลาเทพธารา',            type: 'fish', icon: '🐟', sell: 400, desc: 'ว่ายในธารน้ำทิพย์บนสวรรค์ชั้นดาวดึงส์' },
+  kung_kaew:    { nameTh: 'กุ้งแก้วดาวดึงส์',        type: 'fish', icon: '🦐', sell: 520, desc: 'กุ้งตัวใสเรืองแสงอ่อน ๆ' },
+  pla_suwan:    { nameTh: 'ปลาสุวรรณหงส์',         type: 'fish', icon: '🐟', sell: 1200, rare: true, desc: 'ขึ้นมากินเหยื่อเฉพาะกลางคืน · หายาก' },
+  pla_thip:     { nameTh: 'ปลาทิพย์อมฤต',          type: 'fish', icon: '🐟', sell: 15000, rare: true, legendFish: true, desc: '✦ ปลาตำนานแห่งดาวดึงส์ ว่ายในสระอมฤต' },
+  pla_hin:      { nameTh: 'ปลาหินพันปี',            type: 'fish', icon: '🐟', sell: 520, desc: 'ปลาเกล็ดแข็งดั่งหินแห่งเขาพระสุเมรุ' },
+  pu_sithan:    { nameTh: 'ปูทองสีทันดร',          type: 'fish', icon: '🦀', sell: 700, desc: 'ปูจากมหาสมุทรสีทันดรที่ล้อมเขาพระสุเมรุ' },
+  pla_nam_khaeng: { nameTh: 'ปลาน้ำแข็งสุเมรุ',     type: 'fish', icon: '🐟', sell: 1600, rare: true, desc: 'ขึ้นมากินเหยื่อเฉพาะกลางคืน · หายาก' },
+  pla_anon:     { nameTh: 'ปลาอานนท์',             type: 'fish', icon: '🐋', sell: 20000, rare: true, legendFish: true, desc: '✦ ปลายักษ์ใต้เขาพระสุเมรุที่หนุนโลกไว้ ตำนานที่สุดของนักตกปลา' },
+
+  // ---------- อาหารฝีมือป้าสา (ฟื้น HP/MP + บัฟ) ----------
+  food_pla_pao: { nameTh: 'ปลาเผาเกลือ',       type: 'food', icon: '🍢', price: 60, effect: { hp: 250 }, buff: { minutes: 10, mods: { def: 4 }, textTh: 'ป้องกัน +4' } },
+  food_khao_tom:{ nameTh: 'ข้าวต้มปลา',         type: 'food', icon: '🍲', price: 55, effect: { hp: 120, mp: 80 }, buff: { minutes: 10, mods: { expMul: 1.1 }, textTh: 'EXP +10%' } },
+  food_tom_yum: { nameTh: 'ต้มยำปลาช่อน',       type: 'food', icon: '🍜', price: 140, effect: { hp: 400, mp: 120 }, buff: { minutes: 15, mods: { atkMul: 0.1 }, textTh: 'โจมตี +10%' } },
+  food_kung_ob: { nameTh: 'กุ้งอบวุ้นเส้น',      type: 'food', icon: '🦞', price: 220, effect: { hp: 500, mp: 200 }, buff: { minutes: 15, mods: { critAdd: 0.05, atkMul: 0.05 }, textTh: 'คริ +5% · โจมตี +5%' } },
+  food_phrai:   { nameTh: 'แกงส้มปลาพราย',     type: 'food', icon: '🥘', sell: 150, effect: { hp: 800, mp: 300 }, buff: { minutes: 20, mods: { atkMul: 0.15, dropMul: 1.3 }, textTh: 'โจมตี +15% · ของดรอป +30%' } },
+
+  // ---------- สมุนไพรป่าผีดุ (เก็บด้วย F) → ยายติ๋มปรุงยา / ป้าสาทำอาหาร ----------
+  herb_aloe:      { nameTh: 'ว่านหางจระเข้',     type: 'herb', icon: '🌵', sell: 5 },
+  herb_lemongrass:{ nameTh: 'ตะไคร้ป่า',          type: 'herb', icon: '🌾', sell: 5 },
+  rice_sheaf:     { nameTh: 'รวงข้าวหอม',        type: 'herb', icon: '🌾', sell: 4 },
+  herb_turmeric:  { nameTh: 'ขมิ้นชัน',           type: 'herb', icon: '🫚', sell: 8 },
+  herb_anchan:    { nameTh: 'ดอกอัญชัน',          type: 'herb', icon: '💠', sell: 8 },
+  herb_bamboo:    { nameTh: 'หน่อไม้ป่า',          type: 'herb', icon: '🎋', sell: 6 },
+  herb_honey:     { nameTh: 'รวงผึ้งป่า',          type: 'herb', icon: '🍯', sell: 18 },
+  herb_mushroom:  { nameTh: 'เห็ดผีเรืองแสง',      type: 'herb', icon: '🍄', sell: 25 },
+  // ยาปรุง (ยายติ๋ม)
+  pot_aloe:     { nameTh: 'ยาว่านหางจระเข้ (HP +300)', type: 'consumable', icon: '🧪', sell: 20, effect: { hp: 300 } },
+  pot_turmeric: { nameTh: 'ยาขมิ้นชัน (HP +600)',     type: 'consumable', icon: '🧪', sell: 40, effect: { hp: 600 } },
+  pot_anchan:   { nameTh: 'น้ำอัญชัน (MP +250)',      type: 'consumable', icon: '🧪', sell: 40, effect: { mp: 250 } },
+  elixir_ghost: { nameTh: 'ยาอายุวัฒนะเห็ดผี',       type: 'food', icon: '⚗️', sell: 90, effect: { hp: 200, mp: 100 },
+    buff: { id: 'elixir', minutes: 15, mods: { atkMul: 0.12, critAdd: 0.04 }, textTh: 'โจมตี +12% · คริ +4%' } },
+  food_nomai:   { nameTh: 'แกงหน่อไม้ใส่ปลา',        type: 'food', icon: '🍛', sell: 40, effect: { hp: 350, mp: 60 },
+    buff: { minutes: 12, mods: { def: 6 }, textTh: 'ป้องกัน +6' } },
+
+  // ---------- วัตถุดิบตีบวก (ลุงดำ) ----------
+  black_iron:  { nameTh: 'แร่เหล็กไหล',       type: 'material', icon: '🪨', price: 60 },
+  crypt_dust:  { nameTh: 'ผงวิญญาณสุสาน',     type: 'material', icon: '💀', price: 25, desc: 'ผงเถ้าวิญญาณจากสุสานใต้ดิน · ดรอปในสุสาน/หีบรางวัล · ใช้แลกของกับสัปเหร่อเฒ่า (เร็ว ๆ นี้)' },
+  junk_coin:   { nameTh: 'เบี้ยสำเภา',          type: 'material', icon: '🪙', sell: 0, desc: 'เงินตราของนายห้างสำเภา · ได้จากรับซื้อพิเศษประจำวัน (ทุก 10 ชิ้น) และแลกจากของดรอป · ใช้แลกของดีที่ร้านแลกของ' },
+  yant_guard:  { nameTh: 'ยันต์กันลดขั้น',      type: 'material', icon: '🧧', price: 1500, desc: 'ติ๊กใช้ตอนตีบวก +10 ขึ้นไป · ตีพลาดขั้นไม่ลด (ใช้ครั้งละ 1)' },
+
+  // ---------- ของถวายศาลพระภูมิ (กด F ที่ศาล) ----------
+  garland:   { nameTh: 'พวงมาลัยดาวเรือง', type: 'offering', icon: '🌼', price: 30 },
+  nam_daeng: { nameTh: 'น้ำแดง',           type: 'offering', icon: '🥤', price: 25 },
+  khai_tom:  { nameTh: 'ไข่ต้ม',           type: 'offering', icon: '🥚', price: 35 },
+  hua_mu:    { nameTh: 'หัวหมูบวงสรวง',    type: 'offering', icon: '🐷', price: 400 },
+};
+
+/** ไอเทมทั้งหมด + ไอเทมมีค่าสุ่ม (รหัส base@affix สร้างให้อัตโนมัติ · เก็บแคช) */
+const VARIANTS = new Map();
+export const ITEMS = new Proxy(ITEMS_BASE, {
+  get(t, k) {
+    if (typeof k !== 'string' || k in t || !k.includes('@')) return t[k];
+    if (VARIANTS.has(k)) return VARIANTS.get(k);
+    const p = parseAffixId(k);
+    const v = p && t[p.base] ? makeVariant(t[p.base], p.list) : null;
+    if (VARIANTS.size < 20000) VARIANTS.set(k, v || undefined);
+    return v || undefined;
+  },
+});
+
+// ขวดยา (แบบ PoE): ใส่ช่องขวดยา 2 ช่อง · ดื่มได้หลายครั้ง · ฆ่าผีแล้วเติมกลับ (4 ตัว = 1 ครั้ง · บอส = เต็ม) · กลับเมือง/ฟื้น = เต็ม
+//  flask = { kind: 'hp'|'mp', heal, max }  (เข็มขัด flaskPct = ฟื้นเพิ่ม %)
+const FLASK_DEF = [
+  ['hp', 1, 'ขวดน้ำมนต์เล็ก', 80, 3, 150], ['hp', 8, 'ขวดน้ำมนต์ทองเหลือง', 220, 3, 1200], ['hp', 14, 'คนโทยาหอมแดง', 400, 4, 3500],
+  ['hp', 20, 'คนโทโอสถหลวง', 650, 4, 7000], ['hp', 26, 'น้ำทิพย์พญานาค', 950, 5, 0], ['hp', 30, 'อมฤตสวรรค์', 1300, 5, 0],
+  ['mp', 1, 'ขวดน้ำมะพร้าวเล็ก', 40, 3, 150], ['mp', 8, 'ขวดชาดอกอัญชัน', 100, 3, 1200], ['mp', 14, 'คนโทน้ำจันทร์', 180, 4, 3500],
+  ['mp', 20, 'คนโทน้ำค้างทิพย์', 280, 4, 7000], ['mp', 26, 'น้ำมนต์เจ็ดป่าช้า', 400, 5, 0], ['mp', 30, 'น้ำอมฤตจันทรา', 550, 5, 0],
+];
+// ขวดยาขั้นสูง (แมพต่างแดน · ดรอปเท่านั้น) — รหัส flask_hp7..10 / flask_mp7..10
+FLASK_DEF.push(
+  ['hp', 40, 'น้ำทิพย์หิมพานต์', 1900, 5, 0], ['hp', 55, 'อมฤตนาคา', 2700, 6, 0], ['hp', 70, 'น้ำมนต์มณีนาคราช', 3600, 6, 0], ['hp', 85, 'อมฤตดับไฟนรก', 4600, 6, 0],
+  ['mp', 40, 'น้ำค้างดอกบัวหิมพานต์', 780, 5, 0], ['mp', 55, 'น้ำมนต์บาดาล', 1050, 6, 0], ['mp', 70, 'น้ำอมฤตพระจันทร์เต็มดวง', 1350, 6, 0], ['mp', 85, 'น้ำมนต์ยมโลก', 1700, 6, 0],
+);
+const FLASK_N = { hp: 0, mp: 0 };
+FLASK_DEF.forEach(([kind, lv, nameTh, heal, max, price]) => {
+  const n = ++FLASK_N[kind];
+  ITEMS[`flask_${kind}${n}`] = { nameTh, type: 'flask', icon: kind === 'hp' ? '🧪' : '🫙', lv, ...(price ? { price } : { sell: 1500 + lv * 60 }),
+    flask: { kind, heal, max }, art: kind === 'hp' && n >= 7 ? 'flask_hp_7' : `flask_${kind}_${Math.min(6, n)}`,
+    desc: `ขวดยา${kind === 'hp' ? 'ฟื้น HP' : 'ฟื้น MP'} +${heal} · ดื่มได้ ${max} ครั้ง · ฆ่าผีเติมกลับ · ใส่ช่องขวดยา (Q/E)` };
+});
+
+// อุปกรณ์ตามอาชีพ 200 ชิ้น (shared/data/gear.js)
+Object.assign(ITEMS, GEAR);
+// การ์ดผี 20 ใบ (shared/data/cards.js)
+Object.assign(ITEMS, CARD_ITEMS);
+// ชุดประจำบอสดันเจี้ยนสี่ผีป่าช้า + แก่นผี (shared/data/ghostgear.js)
+Object.assign(ITEMS, GD_ITEMS);
+
+export function sellPrice(id) {
+  const it = ITEMS[id];
+  if (!it) return 0;
+  return it.sell ?? Math.floor((it.price || 0) * 0.5);
+}
+
+/** NPC ร้านค้า (กรุงศรีอยุธยา) */
+export const SHOPS = {
+  mae_kha: {
+    nameTh: 'ยายติ๋ม ร้านยาและของใช้',
+    greeting: 'มาจ้ะหลาน ยาดีของยาย ผีหลอกก็ไม่กลัว!',
+    stock: ['flask_hp1', 'flask_mp1', 'flask_hp2', 'flask_mp2', 'flask_hp3', 'flask_mp3', 'flask_hp4', 'flask_mp4', 'hp_s', 'hp_m', 'mp_s', 'mp_m', 'yant_home', 'rename_ticket',
+      'reset_water', 'reskill_weapon'],
+    tabs: ['buy', 'sell', 'demand', 'cards', 'brew'],
+  },
+  lung_dam: {
+    nameTh: 'ลุงดำ โรงตีเหล็ก',
+    greeting: 'เหล็กดีต้องตีตอนร้อน! อยากได้อาวุธหรือจะตีบวกก็ว่ามา',
+    stock: ['wood_sword', 'iron_dab', 'oak_staff', 'yant_staff', 'bamboo_bow', 'horn_bow', 'hand_wrap', 'mongkol',
+      'yant_shirt', 'takrut', 'prajiad', 'amulet_coin', 'amulet_ganesh', 'amulet_somdej', 'amulet_pidta',
+      'kuman_statue', 'naga_statue', 'yak_statue', 'black_iron', 'yant_guard'],
+    tabs: ['buy', 'sell', 'demand', 'enhance', 'forge'],
+  },
+  tailor: {
+    nameTh: 'แม่ช้อย ร้านผ้าและรับซื้อของ',
+    greeting: 'ช่วงนี้แม่รับซื้อผ้ากับของแปลก ๆ มีอะไรเอามาให้แม่ดูได้นะจ๊ะ',
+    stock: [],
+    tabs: ['demand', 'sell'],
+  },
+  // ---------- ครูประจำอาชีพ (ขายอุปกรณ์สายตัวเอง Lv.1–20) ----------
+  kru_sword: {
+    nameTh: 'ครูเหม สำนักดาบกรุงศรี', job: 'swordman',
+    greeting: 'ดาบดีต้องคู่กับใจนิ่ง… เลือกอาวุธและเกราะที่เหมาะกับฝีมือเจ้าเถิด',
+    stock: ['armor_swordman', ...gearShopStock('swordman')], tabs: ['quests', 'buy', 'sell'],
+  },
+  kru_mage: {
+    nameTh: 'หลวงตาเผือก หมอธรรมป่าช้า', job: 'mage',
+    greeting: 'อาคมจะขลังได้ ต้องมีของดีติดตัว… มาดูเครื่องรางของข้าก่อน',
+    stock: ['armor_mage', ...gearShopStock('mage')], tabs: ['quests', 'buy', 'sell'],
+  },
+  kru_archer: {
+    nameTh: 'พรานแก้ว ค่ายพรานไพร', job: 'archer',
+    greeting: 'ตาไว มือนิ่ง ลมไม่แรง… ธนูดี ๆ ต้องแบบนี้เลยจ้ะ',
+    stock: ['armor_archer', ...gearShopStock('archer')], tabs: ['quests', 'buy', 'sell'],
+  },
+  kru_boxer: {
+    nameTh: 'ครูแดง ค่ายมวยกรุงศรี', job: 'boxer',
+    greeting: 'ไหว้ครูให้ดี ใจสู้ให้ถึง! อุปกรณ์มวยครบ มาเลือกเอา',
+    stock: ['armor_boxer', ...gearShopStock('boxer')], tabs: ['quests', 'buy', 'sell'],
+  },
+  kru_healer: {
+    nameTh: 'หมอพร ศาลาโอสถ', job: 'healer',
+    greeting: 'ยาดีต้องรู้จักต้น รู้จักราก รู้จักใจคนป่วย… มาเลือกเครื่องมือหมอยาได้เลยลูก',
+    stock: ['herb_staff', 'armor_healer', ...gearShopStock('healer')], tabs: ['quests', 'buy', 'sell'],
+  },
+  pa_sa: {
+    nameTh: 'ป้าสา ครัวริมน้ำ',
+    greeting: 'ได้ปลามาเหรอลูก เอามาให้ป้าทำกับข้าวให้ อร่อยจนผีต้องร้องขอ!',
+    stock: ['food_khao_tom', 'food_pla_pao', 'food_tom_yum', 'food_kung_ob'],
+    tabs: ['buy', 'sell', 'demand', 'cook'],
+  },
+  // ---------- ท่าเรือค้าขาย (ตลาดผู้เล่น) ----------
+  market: {
+    nameTh: 'นายห้างสำเภา ท่าค้าขาย',
+    greeting: 'ของดีจากทุกสารทิศมาอยู่ที่นี่ จะฝากขายหรือหาซื้อ ว่ามาได้เลย!',
+    stock: [],
+    tabs: ['market', 'mylist', 'orders', 'claim', 'barter'],
+  },
+  travel: {
+    nameTh: 'พ่อค้าเร่สำเภาจีน ร้านของหายาก',
+    greeting: 'ของหายากจากเมืองจีน มาไม่บ่อย หมดแล้วหมดเลยนะ!',
+    stock: [],
+    tabs: ['travel'],
+  },
+};
+
+export const STARTING_GOLD = 150;
+export const STARTING_ITEMS = [{ id: 'hp_s', qty: 3 }, { id: 'mp_s', qty: 2 }, { id: 'yant_home', qty: 3 },
+  { id: 'wood_sword', qty: 1 }, { id: 'oak_staff', qty: 1 }, { id: 'bamboo_bow', qty: 1 }, { id: 'hand_wrap', qty: 1 }, { id: 'herb_staff', qty: 1 }];   // อาวุธฝึกให้ลองทุกแนว
+
+/** แนวต่อสู้ตามชนิดอาวุธ → id สายใน classes.js */
+export const WTYPE_JOB = { sword: 'swordman', staff: 'mage', bow: 'archer', wraps: 'boxer', herb: 'healer' };
+/** อาวุธที่ถือ → แนวต่อสู้ (มือเปล่า = มวย) */
+export const weaponStyle = (weaponId) => WTYPE_JOB[ITEMS[weaponId]?.wtype] || 'boxer';
+/** อาวุธเริ่มต้นของแต่ละสาย (ใช้ตอนแปลงเซฟเก่า) */
+export const STARTER_WEAPON = { swordman: 'wood_sword', mage: 'oak_staff', archer: 'bamboo_bow', boxer: 'hand_wrap', healer: 'herb_staff' };
