@@ -16,17 +16,17 @@ Report the exact pass/fail counts. A failing test is reported, never hidden or s
 
 | Page | Entry | What it is |
 |---|---|---|
-| `index.html` | `src/forest/main.js` | big forest: 3D fighters, skill FX, dummy |
-| `city.html` | `src/main.js` → `src/account` → `src/core/Game.js` | the MMORPG: login, city + wilds, combat, training ground |
+| `index.html` (`/`) | `src/main.js` → `src/account` → `src/core/Game.js` | the MMORPG, first map นครอโยธยา: login, city + wilds, combat, training ground |
+| `forest.html` | `src/forest/main.js` | big forest: 3D fighters, skill FX, dummy |
 | `characters.html` | `src/character/rig/viewer.js` | procedural rig viewer |
 
 Useful URL flags:
-- `city.html?at=x,z&t=10`: start position and hour
+- `/?at=x,z&t=10`: start position and hour
 - `?rig`: class rigs, no GLB avatars or training ground
 - `?classes=all`: unlock every class
 - `?login`: force the login screens
 - `?lv=50&skill=5&ddef=40`: training damage test values
-- `index.html?sprite` / `?low`
+- `forest.html?sprite` / `?low`
 
 ## Screenshots (Windows, headless Edge)
 
@@ -37,7 +37,7 @@ $edge = "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe"
 $out  = "<scratchpad>\shot.png"
 $p = Start-Process -FilePath $edge -PassThru -ArgumentList @('--headless=new','--disable-gpu',
   '--use-angle=swiftshader','--enable-unsafe-swiftshader','--hide-scrollbars','--window-size=1600,900',
-  '--virtual-time-budget=25000',"--user-data-dir=<scratchpad>\prof","--screenshot=$out",'http://127.0.0.1:5181/index.html')
+  '--virtual-time-budget=25000',"--user-data-dir=<scratchpad>\prof","--screenshot=$out",'http://127.0.0.1:5181/forest.html')
 $p.WaitForExit(90000) | Out-Null; if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -Confirm:$false }
 ```
 
@@ -46,7 +46,7 @@ $p.WaitForExit(90000) | Out-Null; if (-not $p.HasExited) { Stop-Process -Id $p.I
 - WebGL runs on SwiftShader, so it is slow. Frame-time numbers from it mean nothing.
 - Headless tabs are throttled, so scripted multi-step input (casting skills, clicking through screens) may never finish. In that case, test the logic with a unit test instead.
 
-### Getting past the login on `city.html`
+### Getting past the login on `index.html`
 
 Put a temporary page in the repo root (delete it afterwards). It seeds a guest session and a character, then redirects in the same tab:
 
@@ -55,7 +55,7 @@ Put a temporary page in the repo root (delete it afterwards). It seeds a guest s
 import { Character } from '/src/character/Character.js';
 Character.create('ทดสอบ', 'muaythai', 'male').save();        // guest slot 0 = unprefixed keys
 sessionStorage.setItem('tno.session.v1', JSON.stringify({ id: 'guest', guest: true, prefix: '' }));
-location.replace('/city.html?at=4,150&t=10');
+location.replace('/?at=4,150&t=10');
 </script>
 ```
 

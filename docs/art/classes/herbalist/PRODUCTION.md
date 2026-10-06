@@ -104,7 +104,7 @@ tripo view @herbalist        # ตรวจในเบราว์เซอร�
 
 1. วางไฟล์ที่ `public/models/herbalist.glb`
 2. แก้ `src/data/training.js` → `AVATARS.herbalist.url = 'models/herbalist.glb'`
-3. เปิด `/city.html` สร้างตัวละครเป็นหมอยา ผู้เล่นจะสวมโมเดลนี้แทน rig แบบ procedural
+3. เปิดหน้าแรก `/` สร้างตัวละครเป็นหมอยา ผู้เล่นจะสวมโมเดลนี้แทน rig แบบ procedural
    ถ้าไฟล์โหลดไม่ได้ เกมจะกลับไปใช้ rig เดิมและแจ้งเตือนใน console
 
 ชุดสกิล 3D + FX ของหมอยายังไม่ได้พอร์ต (มี prototype อยู่ที่ `prototypes/skill-fx/demos/healer_fx.html`)
