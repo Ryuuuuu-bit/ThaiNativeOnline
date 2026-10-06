@@ -84,6 +84,12 @@
 .g-class-icon{font-size:30px}
 .g-class b{font:500 17px 'Noto Serif Thai',serif}
 .g-class em{font:normal 8px Georgia,serif;letter-spacing:2px;color:#cdbb8a}
+/* Locked class: black silhouette of the icon with a "?" (see classReady in src/data/training.js) */
+.g-class-locked{border-top-color:#3a4540;background:linear-gradient(#141c19e8,#0b120fe8);cursor:not-allowed}
+.g-class-locked .g-class-icon{position:relative}
+.g-class-locked .g-shadow{display:block;filter:brightness(0) drop-shadow(0 0 2px #cabc8666);opacity:.9}
+.g-class-locked .g-class-icon i{position:absolute;inset:0;display:grid;place-items:center;font:700 20px Georgia,serif;font-style:normal;color:#e1c983;text-shadow:0 0 6px #000}
+.g-class-locked b{color:#7d877f;letter-spacing:3px}.g-class-locked em{color:#6f7a72;letter-spacing:0;font-family:'Noto Sans Thai',sans-serif}
 .g-class-detail{margin:14px auto 0;max-width:560px;padding:14px 18px;border:1px solid #cabc8626;border-left:3px solid var(--cls);background:#0d1a16b3;border-radius:4px}
 .g-class-detail p{margin:0 0 8px;font-size:11px;color:#c0c8b4}
 .g-class-detail .g-tagline{font:500 15px 'Noto Serif Thai',serif;color:#f2e2b5}

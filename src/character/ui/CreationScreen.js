@@ -1,11 +1,16 @@
 import { CLASSES, STATS, STAT_LABELS } from '../data/classes.js';
 import { SKILLS } from '../../combat/data/skills.js';
 import { el } from './dom.js';
+import { classReady } from '../../data/training.js';
 
 // Character creation; resolves with { name, classId, gender }.
+// Classes that are not ready yet (src/data/training.js) show as a locked black
+// silhouette with "?"; ?classes=all unlocks them for testing.
 export function showCreation(root) {
   return new Promise(resolve => {
-    let chosen = 'warrior', gender = 'male';
+    const all = new URLSearchParams(location.search).get('classes') === 'all';
+    const open = id => all || classReady(id);
+    let chosen = Object.keys(CLASSES).find(open) ?? 'warrior', gender = 'male';
     const overlay = el('section', 'g-create', `
       <div class="g-create-card">
         <span class="eyebrow">สร้างผู้เดินทาง · วิถีไทย ในโลกที่กว้างกว่าเดิม</span>
@@ -20,6 +25,11 @@ export function showCreation(root) {
       </div>`);
     const list = overlay.querySelector('.g-classes'), detail = overlay.querySelector('.g-class-detail');
     for (const [id, c] of Object.entries(CLASSES)) {
+      if (!open(id)) {
+        const card = el('button', 'g-class g-class-locked', `<span class="g-class-icon" aria-hidden="true"><span class="g-shadow">${c.icon}</span><i>?</i></span><b>???</b><em>กำลังเตรียม</em>`);
+        card.disabled = true; card.title = 'อาชีพนี้กำลังเตรียม เร็ว ๆ นี้'; card.setAttribute('aria-label', 'อาชีพที่ยังไม่เปิด');
+        list.append(card); continue;
+      }
       const card = el('button', 'g-class', `<span class="g-class-icon">${c.icon}</span><b>${c.name}</b><em>${c.en}</em>`);
       card.style.setProperty('--cls', c.color);
       card.setAttribute('role', 'radio'); card.dataset.id = id;
@@ -28,7 +38,7 @@ export function showCreation(root) {
     }
     overlay.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { gender = b.dataset.g; sync(); }));
     const sync = () => {
-      list.querySelectorAll('.g-class').forEach(b => b.setAttribute('aria-checked', String(b.dataset.id === chosen)));
+      list.querySelectorAll('.g-class:not(.g-class-locked)').forEach(b => b.setAttribute('aria-checked', String(b.dataset.id === chosen)));
       overlay.querySelectorAll('[data-g]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.g === gender)));
       const c = CLASSES[chosen];
       detail.style.setProperty('--cls', c.color);
