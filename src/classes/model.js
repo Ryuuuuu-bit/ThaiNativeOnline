@@ -82,11 +82,13 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
     return { model, clips: Object.keys(actions) };
   });
 
-  const play = (name, fade = .2) => {
+  // The first clip snaps in: fading from nothing would show the bind (T) pose for a moment.
+  const play = (name, fade = current ? .2 : 0) => {
     const next = actions[name];
     if (!next || next === current) return;
     next.enabled = true; next.setEffectiveWeight(1);
-    if (next.paused) next.fadeIn(fade); else next.reset().fadeIn(fade).play();
+    if (!fade) next.reset().play();
+    else if (next.paused) next.fadeIn(fade); else next.reset().fadeIn(fade).play();
     current?.fadeOut(fade); current = next;
   };
 

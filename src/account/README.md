@@ -3,8 +3,8 @@
 `src/main.js` awaits `enterGame(root)` before `new Game().start()`:
 
 1. **Login** (`screens.js` → `showLogin`): log in, register, or play as a guest.
-2. **Character select** (`showCharacterSelect`): `ACCOUNTS.slots` (4) slots per account. Each slot can be played, deleted (after a confirm), or filled with a new character.
-3. **Creation** for an empty slot: the existing `showCreation` from `src/character`, which already locks unfinished classes.
+2. **Character select** (`showCharacterSelect`): a 3D stage (`src/ui/ModelPreview.js`) shows the class model of the slot under the pointer. `ACCOUNTS.slots` (4) slots per account. Each slot can be played, deleted (after a confirm), or filled with a new character.
+3. **Creation** for an empty slot (3D stage of the chosen class; its ten-skill kit with icons, click one to see the move): the existing `showCreation` from `src/character`, which already locks unfinished classes.
 4. The chosen slot becomes active through `SaveSlot.use(prefix)` (`src/core/SaveSlot.js`).
 
 The session is kept per tab in `sessionStorage`, so a reload goes straight back into the same character. The settings panel gets **เปลี่ยนตัวละคร** and **ออกจากระบบ** buttons. `?login` always shows the screens.

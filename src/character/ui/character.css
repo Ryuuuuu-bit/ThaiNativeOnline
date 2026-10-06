@@ -96,6 +96,29 @@
 .g-class-stats,.g-class-skills{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:6px}
 .g-class-stats i,.g-class-skills span{font-style:normal;font-size:9px;padding:2px 6px;background:#ffffff0d;border-radius:2px;color:#e3d7af}
 .g-class-skills span{color:#d7e8cf}
+/* Creation layout: 3D stage (src/ui/ModelPreview.js) beside the form */
+.g-create .g-create-card{width:min(1060px,100%)}
+.g-create-main{display:grid;grid-template-columns:minmax(260px,400px) 1fr;gap:18px;align-items:stretch;text-align:left}
+.g-stage{position:relative;min-height:440px;border:1px solid #cabc8633;border-top:3px solid var(--cls,#cabc86);border-radius:4px;background:radial-gradient(ellipse at 50% 72%,color-mix(in srgb,var(--cls,#cabc86) 22%,transparent),transparent 62%),linear-gradient(#22342fe8,#0e1915f0);overflow:hidden}
+.g-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+.g-stage canvas:active{cursor:grabbing}
+.g-stage-loading,.g-stage-hint{position:absolute;left:0;right:0;text-align:center;font-size:10px;color:#cfc8ac;pointer-events:none;z-index:1}
+.g-stage-loading{top:46%;display:none}.g-stage.loading .g-stage-loading{display:block}
+.g-stage-hint{bottom:10px;color:#9aa596}
+.g-stage.no-webgl .g-stage-hint{display:none}
+.g-create-side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.g-create-side .g-create-row{justify-content:flex-start;margin-bottom:0}
+.g-create-side .g-classes{grid-template-columns:repeat(3,1fr)}
+.g-create-side .g-class-detail{margin:0;max-width:none;flex:1}
+.g-create-side .g-start{align-self:stretch}
+.g-skills-title{display:block;margin-top:10px;font-size:9px;letter-spacing:2px;color:#d5bb81}
+.g-kit{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;justify-content:stretch}
+.g-skill{position:relative;aspect-ratio:1;padding:0;border:1px solid #cabc8655;border-radius:4px;background:linear-gradient(#24372f,#12201b);overflow:hidden}
+.g-skill img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.g-skill small{position:absolute;left:2px;top:0;font-size:8px;font-weight:600;color:#fff;text-shadow:0 1px 2px #000}
+.g-skill:hover{border-color:#e1c983;box-shadow:0 0 0 1px #e1c983}
+.g-skill-name{min-height:16px;margin:8px 0 0!important;font-size:10px!important;color:#e3d7af!important}
+@media(max-width:820px){.g-create-main{grid-template-columns:1fr}.g-stage{min-height:300px}.g-kit{grid-template-columns:repeat(5,1fr)}}
 
 @keyframes g-pulse{50%{opacity:.55}}
 @keyframes g-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}

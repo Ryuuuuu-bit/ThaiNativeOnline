@@ -1,6 +1,7 @@
 import { ACCOUNTS } from '../data/accounts.js';
 import { CLASSES, CLASS_ALIASES } from '../character/data/classes.js';
 import { el, esc } from '../character/ui/dom.js';
+import { ModelPreview } from '../ui/ModelPreview.js';
 
 // Login and character-select screens. Both are overlays over #app and resolve
 // a Promise; src/account/index.js chains them before the world starts.
@@ -62,17 +63,39 @@ export function showLogin(root, store) {
 export function showCharacterSelect(root, store, session, { onLogout } = {}) {
   return new Promise(resolve => {
     const overlay = el('section', 'acc-screen');
+    // One 3D stage above the slots shows the character under the pointer / focus.
+    const stage = el('div', 'acc-stage', '<span class="acc-stage-name"></span>');
+    let preview = null;
+    const leave = value => { preview?.dispose(); overlay.remove(); resolve(value); };
     const render = () => {
       const slots = store.slots(session.id);
       overlay.innerHTML = `
         <div class="acc-select">
           <span class="eyebrow">${session.guest ? esc(ACCOUNTS.guestName) : `บัญชี ${esc(session.id)}`}</span>
           <h2>เลือกผู้เดินทาง</h2>
+          <div class="acc-stage-slot"></div>
           <div class="acc-slots">${slots.map(slotCard).join('')}</div>
           <button type="button" class="acc-logout">${session.guest ? 'กลับไปหน้าเข้าสู่ระบบ' : 'ออกจากระบบ'}</button>
         </div>`;
+      const filled = slots.filter(s => s.character);
+      const slotHost = overlay.querySelector('.acc-stage-slot');
+      if (filled.length) {
+        slotHost.append(stage);
+        if (!preview) { try { preview = new ModelPreview(stage); } catch { stage.classList.add('no-webgl'); } }
+        const showSlot = s => {
+          const cls = CLASSES[CLASS_ALIASES[s.character.classId] || s.character.classId];
+          stage.style.setProperty('--cls', cls?.color ?? '#cabc86');
+          stage.querySelector('.acc-stage-name').textContent = `${s.character.name} · ${cls?.name ?? ''} Lv.${s.character.level ?? 1}`;
+          preview?.show(CLASS_ALIASES[s.character.classId] || s.character.classId);
+        };
+        showSlot(filled[0]);
+        overlay.querySelectorAll('.acc-play').forEach(b => {
+          const s = slots[Number(b.dataset.play)];
+          for (const n of ['pointerenter', 'focus']) b.addEventListener(n, () => showSlot(s));
+        });
+      }
       overlay.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => {
-        const s = slots[Number(b.dataset.play)]; overlay.remove(); resolve({ slot: s.slot, prefix: s.prefix, fresh: !s.character });
+        const s = slots[Number(b.dataset.play)]; leave({ slot: s.slot, prefix: s.prefix, fresh: !s.character });
       }));
       overlay.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', e => {
         e.stopPropagation();
@@ -80,7 +103,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
         if (!confirm(`ลบ "${s.character.name}" ถาวร? ความคืบหน้า เควส และของในกระเป๋าจะหายทั้งหมด`)) return;
         store.deleteSlot(session.id, s.slot); render();
       }));
-      overlay.querySelector('.acc-logout').addEventListener('click', () => { overlay.remove(); onLogout?.(); resolve(null); });
+      overlay.querySelector('.acc-logout').addEventListener('click', () => { onLogout?.(); leave(null); });
     };
     render();
     root.append(overlay);
