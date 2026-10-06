@@ -188,7 +188,9 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
         hits('sword_twin', (i, n) => {
           const p = chest(tg).add(V(rand(-.1, .1), rand(-.1, .2), 0)), last = i === n - 1;
           cut(p, last ? 1.2 : .7); blood(p, last ? 16 : 8);
-          if (last) fx.slashArc(chest(hero).add(V(0, .2, 0)), tpos(), { r: 1.3, sweep: 2.2, roll: .7, pal: 'red', thick: .45, dur: .09, hold: .05 }), fx.slashArc(chest(hero).add(V(0, .2, 0)), tpos(), { r: 1.3, sweep: 2.2, roll: -.7, dir: -1, pal: 'red', thick: .45, dur: .09, hold: .05 });
+          // each cut is a wide crossing arc over the whole front (ฟันไขว้ · โดนทุกตัวด้านหน้า)
+          const o = chest(hero).add(V(0, .2, 0)), arc = (roll, dir) => fx.slashArc(o, tpos(), { r: 1.5, sweep: 2.6, roll, dir, pal: 'red', thick: .45, dur: .09, hold: .05 });
+          if (i === 0) arc(.75, 1); else if (i === 1) arc(-.75, -1); else { arc(.75, 1); arc(-.75, -1); fx.shock(tpos().x, tpos().z, 1.5, CRIMSON, BLOOD, .45); }
           if (near(hero.pos(), 2.2)) { hurt(90, last, .1); if (last) { fx.popup(tg.head().add(V(0, .4, 0)), 'เลือดไหล', 'st');
             let k = 0; fx.addTask((dt, t) => { if (Math.random() < dt * 10) blood(chest(tg).add(V(rand(-.2, .2), rand(-.3, .3), 0)), 2); if (t > .6 * (k + 1) && k < 3) { k++; if (tg.alive) hurt(25, false, 0, 'sword_twin'); } return t < 2; }); } }
         });
@@ -199,14 +201,20 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
     // the air rings open along the line, armour cracks
     sword_thrust() {
       fx.cinematic(.6, 1.5);
-      stepIn(2.2, () => { anim('sword_thrust'); const d = dirTo(), start = hero.pos(), end = add(tpos(), d.clone().multiplyScalar(.75));
+      stepIn(2.2, () => { anim('sword_thrust'); const d = dirTo(), start = hero.pos(), end = add(tpos(), d.clone().multiplyScalar(1.1));
         sweepBoth(STEEL, .25, .45, { k0: .5 });
+        // the dash: untouchable while it lasts (อมตะระหว่างพุ่ง) — a gold shell and a wake of light
+        fx.after(.2, () => { character.tint?.(C(1, .85, .4), .45, .5); fx.popup(hero.pos().setY(hero.barY + .5), 'อมตะ', 'st');
+          const T = strip(GOLD, .5, 12); fx.addTask((dt, t) => { T.push(chest(hero)); T.alpha = clamp01((.55 - t) / .25); T.draw();
+            for (let k = 0; k < 4; k++) fx.emit({ p: chest(hero).add(V(rand(-.25, .25), rand(-.7, .6), rand(-.25, .25))), v: d.clone().multiplyScalar(-rand(1, 3)), c: Math.random() < .5 ? GOLD : STEEL, life: .35, size: .1, size1: .02 });
+            if (t > .55) { T.kill(); return false; } }); });
         fx.after(.23, () => moveTo(end, .17, null, STEEL));
         fx.after(.4, () => {
           const p = chest(tg); cut(p, 1.5, STEEL); fx.shake = .2;
           for (let i = 0; i < 5; i++) fx.after(i * .025, () => ringPulse(add(start.clone().lerp(end, .3 + i * .15), V(0, .95, 0)), d, STEEL, .5 + i * .06, .35));
           fx.burst(p, 26, { c: [STEEL, WHITE], size: .09, sp: 6, upMin: -.3, life: .45, shape: SH.star, drag: 3 });
-          if (near(p, 1.6)) { hurt(200, true, .25); fx.stunStars(tg, .5); fx.popup(tg.head().add(V(0, .5, 0)), 'เกราะแตก −30%', 'st'); }
+          if (near(p, 1.6)) { hurt(200, true, .25); fx.stunStars(tg, .5); fx.popup(tg.head().add(V(0, .4, 0)), 'สะดุ้ง', 'st'); fx.after(.18, () => fx.popup(tg.head().add(V(0, .7, 0)), 'เกราะแตก DEF −30% · 6 วิ', 'st'));
+            fx.burst(chest(tg), 14, { c: [C(.7, .65, .55), C(.9, .85, .7)], S: fx.PN, size: .07, sp: 3, life: .6, grav: 6 }); }
         });
       });
       return 1.2;
@@ -257,11 +265,17 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
       stepIn(1.15, () => { anim('sword_pikat'); const P0 = hero.pos();
         sigil(CRIMSON, 1.6, { p: P0.clone().setY(.06), life: 2.4, spin: 2 });
         sweepBoth(EMBER, .12, 1.75, { n: 26 });
+        // the clip turns him a full circle between 5/30 and 50/30 s: every cut faces where he faces,
+        // so the six arcs ring him round (ร่ายเพลงดาบรอบตัว)
+        const d0 = dirTo(), turn = t => { const u = clamp01((t - 5 / 30) / (45 / 30)), e = u * u * (3 - 2 * u), a = Math.PI * 2 * e; return V(d0.x * Math.cos(a) + d0.z * Math.sin(a), 0, -d0.x * Math.sin(a) + d0.z * Math.cos(a)); };
+        fx.decal(1, P0.x, P0.z, 2.1, EMBER, null, { life: 2.2, grow: .2 });
         hits('sword_pikat', (i, n) => {
-          const last = i === n - 1, p = chest(tg).add(V(rand(-.15, .15), rand(-.15, .25), 0));
-          fx.slashArc(chest(hero).add(V(0, rand(.0, .3), 0)), tpos(), { r: 1.4 + (last ? .5 : 0), sweep: 2.4, roll: (i % 2 ? -1 : 1) * rand(.3, .8), dir: i % 2 ? -1 : 1, pal: i % 2 ? 'gold' : 'red', thick: .4, dur: .08, hold: .04 });
-          cut(p, last ? 1.6 : .7, i % 2 ? EMBER : CRIMSON); blood(p, 6);
-          const a = rand(0, 6.28); fx.decal(2, P0.x + Math.cos(a) * .6, P0.z + Math.sin(a) * .6, .5, EMBER, CRIMSON, { life: .8, grow: .1 });
+          const last = i === n - 1, f = turn(MOVES.sword_pikat.hits[i]), o = chest(hero).add(V(0, rand(0, .3), 0));
+          fx.slashArc(o, add(o, f), { r: 1.5 + (last ? .6 : 0), sweep: last ? 6.2 : 2.6, roll: (i % 2 ? -1 : 1) * rand(.2, .6), dir: i % 2 ? -1 : 1, pal: i % 2 ? 'gold' : 'red', thick: .4, dur: .08, hold: .04 });
+          const q = add(P0, f.clone().multiplyScalar(1.3)); fx.decal(2, q.x, q.z, .55, EMBER, CRIMSON, { life: .9, grow: .1 });
+          fx.burst(add(o, f.clone().multiplyScalar(1.2)), 10, { c: [EMBER, CRIMSON, WHITE], size: .08, sp: 3, life: .4, shape: SH.star, drag: 3 });
+          const p = chest(tg).add(V(rand(-.15, .15), rand(-.15, .25), 0));
+          if (near(P0, 2.2)) { cut(p, last ? 1.6 : .7, i % 2 ? EMBER : CRIMSON); blood(p, 6); }
           if (last) { fx.shock(P0.x, P0.z, 2.6, CRIMSON, C(.6, .1, .05), .6); fx.lightPillar(P0, EMBER, 4, .7, .7); fx.shake = .25; }
           if (near(P0, 2.2)) hurt(100, last, .08);
         });
@@ -274,7 +288,8 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
       fx.cinematic(.6, 2.6); face(tpos()); anim('sword_banner');
       fx.after(.4, () => { const b = bladeAt('R', 1); fx.lightPillar(b.clone().setY(0), GOLD, 2.5, .2, .5); fx.burst(b, 14, { c: [GOLD, WHITE], size: .08, sp: 2, life: .5, shape: SH.star }); });
       fx.after(.9, () => {
-        const hp = hero.pos(), d = dirTo(), at = add(hp, d.clone().multiplyScalar(-.35)).add(sideOf(d).multiplyScalar(-.75));
+        // ปักธง: the garuda standard rises from the very spot the blade is driven in
+        const hp = hero.pos(), d = dirTo(), at = bladeAt('R', 1).setY(0);
         fx.shock(hp.x, hp.z, 3.6, GOLD, C(1, .45, .1), .8); fx.decal(4, hp.x, hp.z, 2.4, C(2, 1.4, .5), C(.6, .3, .05), { life: 3.2, grow: .2 });
         fx.burst(add(hp, d.clone().multiplyScalar(.4)).setY(.1), 26, { c: [C(.55, .48, .32), C(.4, .33, .22)], S: fx.PN, size: .1, sp: 2.5, upMin: .5, life: .8, grav: 7 });
         fx.flash(at.clone().setY(2), 0xffc060, 40, .8); fx.lightPillar(at, GOLD, 5, .35, .8);
@@ -344,7 +359,7 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
         fx.shock(hp.x, hp.z, 3, CRIMSON, C(.6, .05, .02), .7); fx.after(.1, () => fx.shock(hp.x, hp.z, 2, EMBER, CRIMSON, .5));
         sigil(CRIMSON, 1.4, { p: hp.clone().setY(.06), life: 2.6, spin: -2 });
         character.tint?.(C(1, .25, .15), .5, 2.5);
-        fx.popup(hp.clone().setY(hero.barY + .7), 'โจมตี +35% · คริ +15% · เร็ว +15%', 'st');
+        fx.popup(hp.clone().setY(hero.barY + .7), 'โจมตี +35% · คริ +15% · ตีเร็ว +15% · วิ่งเร็ว +15%', 'st');
         const eyes = [-1, 1].map(() => fx.glowSprite(C(2.6, .4, .2), .14));
         fx.addTask((dt, t) => {
           const h = headP(hero).add(V(0, -.3, 0)), s = sideOf(dirTo()).multiplyScalar(.06);
@@ -373,7 +388,11 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
           fx.slashArc(chest(hero).add(V(0, .3, 0)), tp, { r: 2.2, sweep: 2.4, roll: 1.45, pal: 'blue', thick: .55, dur: .1, hold: .08 });
           fx.impact(p, 2.6, BOLT); fx.hitstop(.18); fx.shake = .45; fx.lightPillar(tp, BOLT, 7, .9, 1);
           fx.shock(tp.x, tp.z, 3.4, BOLT, C(.2, .3, 1), .6); fx.decal(4, tp.x, tp.z, 1.6, BOLT, C(.1, .2, .8), { life: 1.8, grow: .12 });
-          if (near(P, 2)) { hurt(800, true, .3); fx.stunStars(tg, 1.5); fx.popup(tg.head().add(V(0, .7, 0)), 'ประหาร!', 'st big'); }
+          // the thunder runs on through the ground in a fan over everything in front
+          const hd = dirTo(), o = hero.pos();
+          for (let k = -2; k <= 2; k++) { const a = k * .28, f = V(hd.x * Math.cos(a) + hd.z * Math.sin(a), 0, -hd.x * Math.sin(a) + hd.z * Math.cos(a)); fx.after(.03 * Math.abs(k), () => bolt(add(o, f.clone().multiplyScalar(.6)).setY(.06), add(o, f.clone().multiplyScalar(3.6)).setY(.06), BOLT, .55, .05, .12)); }
+          fx.slashArc(chest(hero).add(V(0, -.2, 0)), tp, { r: 3, sweep: 1.8, roll: 0, pitch: -.15, pal: 'blue', thick: .3, dur: .1, hold: .1 });
+          if (near(P, 2.4)) { hurt(800, true, .3); fx.stunStars(tg, 1.5); fx.popup(tg.head().add(V(0, .7, 0)), 'ประหาร!', 'st big'); fx.after(.2, () => fx.popup(tg.head().add(V(0, .4, 0)), 'มึน 1.5 วิ', 'st')); }
         });
       });
       return 2.1;

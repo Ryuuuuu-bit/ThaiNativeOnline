@@ -11,7 +11,8 @@ from `docs/art/classes/warrior.webp`), prepared in Blender:
 3. the swords (one Tripo mesh holding the mirrored pair) are split in two, decimated to
    4.5 k triangles each (textures 1024²), scaled to 0.48 of the body height with the grip
    centre as origin, and parented to `mixamorig:LeftHand` / `RightHand`: grip through the
-   fist, blade out of the thumb side (T-pose: forward), edge toward the knuckles;
+   fist, blade out of the thumb side (T-pose: forward), the curved edge leading the cut
+   (held forward, the edge faces down and the tip curls up);
 4. exported (JPEG textures) with the fighter's source clips (walk, run, jab …), which play unchanged.
 
 ```sh
