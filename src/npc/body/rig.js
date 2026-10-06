@@ -8,7 +8,7 @@ import * as THREE from 'three';
 //   legL/R hip → knee                          shinL/R knee → foot
 export const RIG = {
   hipY: .88, hipX: .09, waistY: .92, thigh: .42, shin: .40,
-  shoulderY: 1.37, shoulderX: .19, shoulderXF: .168, upperArm: .29, handY: -.31,
+  shoulderY: 1.335, shoulderX: .178, shoulderXF: .156, upperArm: .29, handY: -.31,
   neckY: 1.47,
   head: { y: .135, z: .01, rx: .1, ry: .13, rz: .115 },
 };

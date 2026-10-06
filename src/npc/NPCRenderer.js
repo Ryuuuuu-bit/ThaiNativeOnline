@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { BODY_PARTS } from './body/bodyParts.js';
 import { GEAR_PARTS } from './body/gearParts.js';
 import { computeFrames, straightRightArm } from './body/rig.js';
+import { merge } from './body/shape.js';
 
 // All NPCs share one instanced mesh per body part, garment or prop (about 45,
 // independent of population size). Each part reads one of the NPC's frame
@@ -19,7 +20,7 @@ export class NPCRenderer {
       const entries = [];
       for (const npc of npcs) if ((!def.when || def.when(npc.look)) && (!def.whenNpc || def.whenNpc(npc))) for (const frame of def.frames) entries.push({ npc, frame });
       if (!entries.length) continue;
-      const mesh = new THREE.InstancedMesh(def.geo(), material, entries.length);
+      const mesh = new THREE.InstancedMesh(merge(def.geo()), material, entries.length);
       mesh.name = `npc:${def.name}`;
       entries.forEach((e, i) => mesh.setColorAt(i, new THREE.Color(def.color(e.npc.look, e.frame))));
       mesh.castShadow = true; mesh.receiveShadow = true; mesh.frustumCulled = false;

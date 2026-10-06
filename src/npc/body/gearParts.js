@@ -42,7 +42,7 @@ export const GEAR_PARTS = [
     frames: ['head'], color: () => '#a58a4f', when: hasProp('headBasket') },
   { name: 'pack', geo: () => paint(merge(box(.3, .4, .15).translate(0, 1.15, -.21), box(.32, .06, .17).translate(0, 1.37, -.21)), (x, y) => (y > 1.33 ? .8 : 1)), frames: ['upper'], color: () => '#6b5338', when: hasProp('pack') },
   { name: 'apron', geo: () => merge(box(.32, .72, .025).translate(0, .95, .145), box(.025, .14, .02).translate(-.09, 1.36, .118), box(.025, .14, .02).translate(.09, 1.36, .118)), frames: ['upper'], color: () => '#5a3f2a', when: hasProp('apron') },
-  { name: 'pole', geo: () => merge(cyl(.022, .022, 1.9, 6).rotateX(Math.PI / 2).translate(.13, 1.47, 0),
+  { name: 'pole', geo: () => merge(cyl(.022, .022, 1.9, 6).rotateX(Math.PI / 2).translate(.13, 1.44, 0),
     ...[1, -1].flatMap(s => [paint(cyl(.19, .14, .24, 12).translate(.13, .66, s * .85), rings(.03, .82)), cyl(.005, .005, .7, 3).translate(.13, 1.12, s * .85)])), frames: ['upper'], color: () => '#a5824f', when: hasProp('pole') },
   { name: 'sack', geo: () => new THREE.CapsuleGeometry(.16, .24, 3, 8).rotateZ(Math.PI / 2).translate(.12, 1.53, -.02), frames: ['upper'], color: () => '#c7b289', when: () => true, whenNpc: npc => Object.values(npc.def.schedule ?? {}).some(act => act?.carry),
     dynamic: npc => npc.carrying && !npc.look.props.includes('pole') && !npc.look.props.includes('headBasket') && !npc.look.props.includes('basket') },

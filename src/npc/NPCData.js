@@ -27,7 +27,7 @@ export const OCCUPATIONS = {
   guard: { label: 'ทหารเมือง', speed: 1.45, top: ['#a8432f'], bottom: ['#3a3229'], sash: '#c9a35a', hat: 'helmet', props: ['spear'] },
   dockworker: { label: 'คนงานท่าเรือ', speed: 1.5, top: [null], bottom: ['#5a4a3a'], hat: 'headband' },
   boatman: { label: 'คนพายเรือ', speed: 1.4, top: ['#6f7f86'], hat: 'ngob', props: ['paddle'] },
-  monk: { label: 'พระ', speed: 1.1, robe: '#c9782c', hair: 'shaved' },
+  monk: { label: 'พระ', speed: 1.1, robe: '#c9782c', hair: 'shaved', hat: 'none' },
   child: { label: 'เด็ก', speed: 2.5, scale: .68, hair: ['topknot', 'topknot', 'crop'], top: [null, '#d8c9a3', '#c98a8a'] },
   traveler: { label: 'ผู้เดินทาง', speed: 1.5, top: ['#8a7a5a'], hat: 'ngob', props: ['pack', 'staff'] },
 };

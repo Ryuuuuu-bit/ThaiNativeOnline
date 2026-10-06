@@ -41,17 +41,29 @@ export function smooth(g) {
   return m;
 }
 
-// Keep only triangles whose centroid passes keep(x, y, z) (in the geometry's
-// current space). Works on indexed geometry.
-export function crop(g, keep) {
-  const p = g.attributes.position, idx = g.index.array, out = [];
+// Drop zero-area triangles (left behind when vertices are clamped onto an edge).
+export function dropFlat(g, eps = 1e-9) {
+  const p = g.attributes.position, idx = g.index.array, out = [], a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
   for (let i = 0; i < idx.length; i += 3) {
-    const a = idx[i], b = idx[i + 1], c = idx[i + 2];
-    const cx = (p.getX(a) + p.getX(b) + p.getX(c)) / 3, cy = (p.getY(a) + p.getY(b) + p.getY(c)) / 3, cz = (p.getZ(a) + p.getZ(b) + p.getZ(c)) / 3;
-    if (keep(cx, cy, cz)) out.push(a, b, c);
+    a.fromBufferAttribute(p, idx[i]); b.fromBufferAttribute(p, idx[i + 1]); c.fromBufferAttribute(p, idx[i + 2]);
+    if (b.sub(a).cross(c.sub(a)).lengthSq() > eps) out.push(idx[i], idx[i + 1], idx[i + 2]);
   }
   g.setIndex(out);
   return g;
+}
+
+// Radius of a [radius, y] profile at height y (linear).
+export function profileAt(prof, y) {
+  if (y <= prof[0][1]) return prof[0][0];
+  for (let i = 1; i < prof.length; i++) if (y <= prof[i][1]) { const [r0, y0] = prof[i - 1], [r1, y1] = prof[i]; return r0 + (r1 - r0) * (y - y0) / (y1 - y0); }
+  return prof[prof.length - 1][0];
+}
+// Profile resampled every `step` between y0 and y1 (finer rows for clipped garments).
+export function resample(prof, y0, y1, step) {
+  const out = [];
+  for (let y = y0; y < y1 - 1e-6; y += step) out.push([profileAt(prof, y), y]);
+  out.push([profileAt(prof, y1), y1]);
+  return out;
 }
 
 // Per-triangle tone (crisp blocks: woven bands, checks, hems). tone(cx, cy, cz, i) → 0..1 grey.
