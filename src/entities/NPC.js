@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { STATE, normalizeStops } from '../npc/NPCSchedule.js';
 import { OCCUPATIONS } from '../npc/NPCData.js';
 import { createRng, hashString } from '../world/rng.js';
+import { FRAMES } from '../npc/body/rig.js';
 
 const SEATED = new Set(['fish', 'mend', 'chant']);
 
@@ -18,7 +19,7 @@ export class NPC {
     this.node = null; this.path = null; this.pathIndex = 0; this.plan = null; this.timer = 0; this.walkPhase = 0;
     this.talkTarget = null;
     this.pose = { y: 0, bend: 0, legL: 0, legR: 0, armLx: 0, armRx: 0, armLz: 0, armRz: 0, headYaw: 0, headPitch: 0 };
-    this.frames = { root: new THREE.Matrix4(), upper: new THREE.Matrix4(), head: new THREE.Matrix4(), legL: new THREE.Matrix4(), legR: new THREE.Matrix4(), armL: new THREE.Matrix4(), armR: new THREE.Matrix4() };
+    this.frames = Object.fromEntries(FRAMES.map(f => [f, new THREE.Matrix4()]));
     this.distance = 0; this.accum = 0; this.chain = 0;
   }
   get interactionRadius() { return this.def.interactionRadius ?? (this.def.shopType || this.def.trainer ? 3.6 : 2.8); }
@@ -101,13 +102,15 @@ export class NPC {
     Object.assign(p, { y: 0, bend: 0, legL: 0, legR: 0, armLx: 0, armRx: 0, armLz: .06, armRz: .06, headYaw: 0, headPitch: 0 });
     if (state === STATE.WALK) {
       this.walkPhase += dt * this.speed * (child ? 4.2 : 5.6);
-      const w = Math.sin(this.walkPhase), amp = child ? .75 : .5;
+      // A ผ้าซิ่น tube skirt shortens the stride.
+      const w = Math.sin(this.walkPhase), amp = child ? .75 : this.look.skirt ? .32 : .5;
       p.legL = w * amp; p.legR = -w * amp; p.armLx = -w * amp * .8; p.armRx = w * amp * .8; p.y = Math.abs(Math.cos(this.walkPhase)) * .035; p.bend = .04;
       if (this.carrying || this.look.props.includes('pole')) { p.armRx = this.look.props.includes('pole') ? -.7 : -2.5; p.armRz = .35; p.bend = .1; }
       if (this.look.props.includes('headBasket')) { p.armLx = -2.8; p.armLz = -.1; }
       return;
     }
-    if (state === STATE.SIT) { p.y = -.42; p.legL = p.legR = -1.45; p.armLx = p.armRx = -.35; }
+    // Seated on the ground: hips drop to about 0.2 m (rig hip height 0.88).
+    if (state === STATE.SIT) { p.y = -.68; p.legL = p.legR = -1.45; p.armLx = p.armRx = -.35; }
     switch (anim) {
       case 'guard': p.armRx = -.3; p.headYaw = Math.sin(s * .35) * .6; break;
       case 'pray': p.armLx = p.armRx = -1.15; p.armLz = -.45; p.armRz = -.45; p.headPitch = .25; p.bend = .08; break;

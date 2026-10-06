@@ -180,8 +180,8 @@ export const SKILLS = {
       mp: 26, cd: 28000, buff: { defMul: 0.3, atkMul: 0.2 }, duration: 10000, heal: 0.12, sfx: 'buff',
       desc: 'ลงคาถามหาอุด ป้องกัน +30% โจมตี +20% ฟื้น HP 12% นาน 10 วิ' },
     { id: 'boxer_hanuman', nameTh: 'หนุมานถวายแหวน', icon: '🐒', reqLv: 100, type: 'melee', kind: 'physical',
-      mp: 44, cd: 16000, mult: 3.2, range: 38, hits: 2, interval: 440, all: true, sfx: 'punch',
-      desc: 'แม่ไม้: ปัดหมัดคู่ต่อสู้ ย่อหลบ แล้วเสยหมัดคู่ขึ้นปลายคาง โดนทุกตัวด้านหน้า' },
+      mp: 44, cd: 16000, mult: 1.25, range: 38, hits: 8, interval: 270, all: true, sfx: 'punch',
+      desc: 'สุดยอดคอมโบ 8 จังหวะ หมัด-ศอก-เข่า-เตะ ปิดด้วยแม่ไม้ปัดแล้วเสยหมัดคู่ขึ้นปลายคาง โดนทุกตัวด้านหน้า' },
     // ---- สกิลติดตัว (Passive · มีผลตลอดเมื่อใส่ผ้าพันมือ ไม่ต้องร่าย) ----
     { id: 'boxer_p_fist', nameTh: 'หมัดหนักคาดเชือก', icon: '👊', reqLv: 5, type: 'passive',
       passive: (lv) => ({ atk: 3 * lv, crit: 0.01 * lv }),

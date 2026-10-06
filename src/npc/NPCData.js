@@ -6,6 +6,9 @@ const SKIN = ['#c99a72', '#b9875f', '#d6a982', '#a97a55', '#c58f66'];
 const HAIR = ['#2b2722', '#1f1c19', '#3a332b'];
 const CLOTH = ['#a8432f', '#3d4a6b', '#5f7a4a', '#d4a443', '#6d4a6e', '#4f7a8c', '#c98a8a', '#d8c9a3', '#7a5a3a'];
 const DARK = ['#4a3f33', '#3a3a48', '#5a4a3a', '#2f3a3f', '#6b4a3a'];
+// Hem bands, collars and cuffs; default hairstyles (short = ทรงมหาดไทย, crop = ดอกกระทุ่ม).
+const TRIM = ['#c9a35a', '#a8432f', '#2f3a55', '#e8dcc0', '#6d4a6e', '#3f5a3a'];
+const HAIR_STYLES = { m: ['short', 'short', 'crop'], f: ['bun', 'bun', 'long', 'crop'] };
 
 export const OCCUPATIONS = {
   villager: { label: 'ชาวบ้าน', speed: 1.5 },
@@ -25,7 +28,7 @@ export const OCCUPATIONS = {
   dockworker: { label: 'คนงานท่าเรือ', speed: 1.5, top: [null], bottom: ['#5a4a3a'], hat: 'headband' },
   boatman: { label: 'คนพายเรือ', speed: 1.4, top: ['#6f7f86'], hat: 'ngob', props: ['paddle'] },
   monk: { label: 'พระ', speed: 1.1, robe: '#c9782c', hair: 'shaved' },
-  child: { label: 'เด็ก', speed: 2.5, scale: .68, top: [null, '#d8c9a3', '#c98a8a'] },
+  child: { label: 'เด็ก', speed: 2.5, scale: .68, hair: ['topknot', 'topknot', 'crop'], top: [null, '#d8c9a3', '#c98a8a'] },
   traveler: { label: 'ผู้เดินทาง', speed: 1.5, top: ['#8a7a5a'], hat: 'ngob', props: ['pack', 'staff'] },
 };
 
@@ -35,7 +38,7 @@ export function makeLook(def) {
   const female = def.gender === 'f';
   const pick = (list, fallback) => (list ? rng.pick(list) : fallback);
   const look = {
-    skin: rng.pick(SKIN), hair: rng.pick(HAIR), hairStyle: occ.hair ?? (female ? 'bun' : 'short'),
+    skin: rng.pick(SKIN), hair: rng.pick(HAIR), hairStyle: null,
     top: female && occ.top?.[0] === null ? rng.pick(CLOTH) : pick(occ.top, rng.chance(.55) ? null : rng.pick(CLOTH)),
     bottom: pick(occ.bottom, rng.pick(DARK)), sash: typeof occ.sash === 'string' ? occ.sash : rng.pick(CLOTH),
     skirt: null, robe: occ.robe ?? null, sleeves: false, hat: occ.hat ?? (rng.chance(.15) ? 'ngob' : null),
@@ -44,5 +47,10 @@ export function makeLook(def) {
   if (female) { look.skirt = pick(occ.bottom, rng.pick(CLOTH.concat(DARK))); if (look.hat === 'headband' || look.hat === 'mongkol') look.hat = null; }
   if (look.robe) { look.top = look.robe; look.skirt = look.robe; look.sash = look.robe; }
   if (def.occupation === 'guard' || def.occupation === 'sword_master' || def.occupation === 'enhancer') look.sleeves = true;
+  // Style details draw from their own stream so the colours above stay stable.
+  const style = createRng(hashString(`${def.id}:style`)), hair = occ.hair ?? HAIR_STYLES[female ? 'f' : 'm'];
+  Object.assign(look, { female, child: def.occupation === 'child', trim: style.pick(TRIM), hairStyle: Array.isArray(hair) ? style.pick(hair) : hair });
+  // A shirt is worn when there is a top, except by monks and by women in a สไบ.
+  look.shirt = !!look.top && !look.robe && (!female || look.child || look.sleeves);
   return Object.assign(look, def.look ?? {});
 }

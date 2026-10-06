@@ -29,7 +29,7 @@
 | 7 | ศอกกลับพลิกล็อก | `boxer_elbow` | 0.9 | 0.25 / 0.48 | jab-cross |
 | 8 | เข่าลอยทะลวงฟ้า | `boxer_knee` | 1.2 | 0.60 | teep |
 | 9 | กายเหล็กคาถามหาอุด | `boxer_iron` | 2.4 | (บัฟ) | – |
-| 0 | หนุมานถวายแหวน | `boxer_hanuman` | 1.6 | 0.34 ปัด · 0.78 เสยคู่ | แม่ไม้: ก้าวขวาออกข้าง ปัดหมัดตรงด้วยหมัดซ้าย ย่อหลบ เสยหมัดคู่ขึ้นปลายคาง |
+| 0 | หนุมานถวายแหวน | `boxer_hanuman` | 2.9 | 0.20 / 0.37 / 0.57 / 0.73 / 0.97 / 1.20 / 1.50 / 2.13 (ปัด 1.87) | คอมโบ 8 จังหวะ: แย็บ หมัดตรง ศอกซ้าย ศอกขวา เข่าขวา เข่าซ้าย เตะตัด แล้วแม่ไม้: ก้าวขวาออกข้าง ปัด ย่อ เสยหมัดคู่ขึ้นปลายคาง |
 
 ## สถานะ
 
@@ -104,7 +104,7 @@ Muay Thai fighter channeling an invulnerability charm: bring palms together in f
 
 **0 · หนุมานถวายแหวน `boxer_hanuman`**
 ```
-Muay Thai master technique Hanuman Presents the Ring: from orthodox guard, step the right foot out to the side while the left fist parries an incoming straight right across the face, drop low under it with both fists cocked at the waist, then drive up off both legs into a double uppercut, both fists together side by side rising to the opponent's chin, short follow-through, return to guard. Total 1.6 seconds, in place.
+Muay Thai fighter's ultimate combination, 2.9 seconds: lead jab (0.2 s), rear cross (0.37), lead horizontal elbow (0.57), rear horizontal elbow (0.73), both hands clinch behind the opponent's head pulling it down onto a right knee (0.97) and a left knee (1.2), a right roundhouse to the body (1.5), lands, steps the right foot out to the side and parries the answering straight with the left glove (1.87), drops low with both fists cocked at the waist and drives up into a double uppercut, fists side by side under the chin like presenting a ring (2.13), holds, back to guard.
 ```
 
 ## ลำดับทำงาน

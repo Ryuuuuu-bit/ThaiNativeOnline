@@ -64,7 +64,7 @@ export class Environment {
     snap.copy(right).multiplyScalar(a).addScaledVector(up, b).addScaledVector(this.dir, c);
     this.sun.target.position.copy(snap); this.sun.position.copy(snap).addScaledVector(this.dir, 70);
 
-    waterUniforms.uSky.value.copy(k.water); waterUniforms.uNight.value = night; waterUniforms.uSun.value.copy(k.sun);
+    waterUniforms.uSky.value.copy(k.water); waterUniforms.uNight.value = night; waterUniforms.uSun.value.copy(k.sun); waterUniforms.uSunDir.value.copy(this.dir);
     for (const m of nightGlow) m.emissiveIntensity = m.userData.glow * lantern;
     return this.state;
   }

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { M } from './materials.js';
+import { createRng, hashString } from './rng.js';
 
 // Building kit. Builders return a Group in local space (front faces +z). The
 // group's userData lists colliders, decks, instanced props, glows, smoke and NPC
@@ -49,7 +50,16 @@ export const anchor = (g, name, x, z, face = 0) => { g.userData.anchors[name] = 
 // ---------- Roofs ----------
 function roofProfile(w, h, style) {
   if (style === 'temple') return [[-w / 2, .13 * h], [-w * .38, 0], [-w * .19, .33 * h], [0, h], [w * .19, .33 * h], [w * .38, 0], [w / 2, .13 * h]];
-  return [[-w / 2, 0], [-w * .42, h * .15], [-w * .05, h * .95], [0, h], [w * .05, h * .95], [w * .42, h * .15], [w / 2, 0]];
+  // เรือนไทย: a steep main pitch that kicks out into a shallow, flared eave (ชายคา).
+  return [[-w / 2, 0], [-w * .4, h * .075], [-w * .06, h * .93], [0, h], [w * .06, h * .93], [w * .4, h * .075], [w / 2, 0]];
+}
+// Height of a profile's upper edge at x (linear between its points).
+function profileTop(points, x) {
+  for (let i = 1; i < points.length; i++) {
+    const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+    if (x >= x0 && x <= x1) return y0 + (y1 - y0) * (x - x0) / (x1 - x0 || 1);
+  }
+  return 0;
 }
 function roofGeometry(w, d, h, style) {
   return cached(`roof${w.toFixed(1)}|${d.toFixed(1)}|${h.toFixed(1)}|${style}`, () => {
@@ -78,22 +88,108 @@ function trimGeometry(w, h, style, r) {
     return new THREE.TubeGeometry(curve, 18, r, 4, false);
   });
 }
+// Bargeboard (ป้านลม): a flat board of width b riding the roof edge, offset along the slope normal.
+function bargeGeometry(w, h, b, t = .08) {
+  return cached(`barge${w.toFixed(1)}|${h.toFixed(1)}|${b.toFixed(2)}`, () => {
+    const pts = roofProfile(w, h, 'house'), top = [], low = [];
+    pts.forEach(([x, y], i) => {
+      const a = pts[Math.max(0, i - 1)], c = pts[Math.min(pts.length - 1, i + 1)];
+      let nx = -(c[1] - a[1]), ny = c[0] - a[0]; const l = Math.hypot(nx, ny) || 1; nx /= l; ny /= l;
+      top.push([x + nx * b * .3, y + ny * b * .3]); low.push([x - nx * b * .7, y - ny * b * .7]);
+    });
+    const shape = new THREE.Shape();
+    [...top, ...low.reverse()].forEach(([x, y], i) => (i ? shape.lineTo(x, y) : shape.moveTo(x, y)));
+    return new THREE.ExtrudeGeometry(shape, { depth: t, bevelEnabled: false }).translate(0, 0, -t / 2);
+  });
+}
+// A sheet with tile-sized UVs (u across, v down the slope) for lean-to roofs (กันสาด); local +z runs down the slope.
+const sheetGeometry = (w, l) => cached(`sheet${w.toFixed(1)}|${l.toFixed(1)}`, () => {
+  const g = new THREE.PlaneGeometry(w, l).rotateX(-Math.PI / 2), uv = g.attributes.uv;
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * w / 2, uv.getY(i) * l / 2);
+  return g;
+});
 const finialGeometry = cached('finial', () => new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
   new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, .3, .12), new THREE.Vector3(0, .62, .02), new THREE.Vector3(0, .78, -.14)]), 10, .06, 5, false));
+// Curled eave tip (หางหงส์ / ตัวเหงา), drawn in the xy plane and reaching out along +x.
+const curlGeometry = cached('curl', () => new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
+  new THREE.Vector3(-.1, -.02, 0), new THREE.Vector3(.35, .02, 0), new THREE.Vector3(.62, .25, 0), new THREE.Vector3(.58, .52, 0), new THREE.Vector3(.4, .58, 0)]), 8, .09, 4, false));
+// Small upswept apex horn for house gables, pointing out along +z.
+const hornGeometry = cached('horn', () => new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
+  new THREE.Vector3(0, -.1, -.05), new THREE.Vector3(0, .25, .02), new THREE.Vector3(0, .5, .2), new THREE.Vector3(0, .62, .42)]), 6, .07, 4, false));
+// Ridge caps contrast with their roof and use the roof (fading) materials.
+let RIDGE = null;
+const ridgeFor = m => {
+  RIDGE ??= new Map([[M.tile, M.tileDark], [M.tileOrange, M.tileDark], [M.tileGreen, M.tileDark], [M.tileDark, M.tile], [M.thatch, M.thatchDark], [M.thatchDark, M.thatch]]);
+  return RIDGE.get(m) ?? m;
+};
 
-// Ridge runs along local z. width spans x; y is the eave height.
-export function thaiRoof(p, { width, depth, height = width * .6, y, x = 0, z = 0, ry = 0, material = M.tile, style = 'house', trim = M.darkWood, gable = M.woodLight, finials = false, trimR = .045 }) {
+// Gable infill (หน้าจั่ว): 'sun' is the sunburst (หน้าจั่วพรหมพักตร์ / ลายแสงอาทิตย์), 'panel' framed boards (ปะกน).
+function gablePattern(p, w, h, pattern, m, b) {
+  const pts = roofProfile(w * .9, h * .93, 'house'), gw = w * .9, z = .035;
+  box(p, m, 0, .05, z, gw * .86, b * .9, .06);
+  if (pattern === 'sun') {
+    const n = 9;
+    for (let i = 0; i < n; i++) {
+      const a = Math.PI * (.1 + .8 * i / (n - 1)), dx = Math.cos(a), dy = Math.sin(a);
+      let t = .2;
+      while (t < h && Math.abs(dx * t) < gw / 2 && dy * t + .1 < profileTop(pts, dx * t) - .12) t += .05;
+      if (t < .4) continue;
+      box(p, m, dx * t / 2, .1 + dy * t / 2, z, .055, t, .045, 0, 0, a - Math.PI / 2);
+    }
+    const r = Math.min(.45, b * 1.6);
+    mesh(p, cylGeo(1, 1, 12), m, 0, .1, z, r, .06, r, 0, Math.PI / 2);
+  } else {
+    const step = Math.max(.42, gw / 9);
+    for (let x = -gw * .4 + step / 2; x < gw * .4; x += step) {
+      const top = profileTop(pts, x) - .08;
+      if (top > .3) box(p, m, x, (top + .05) / 2, z, .05, top - .05, .045);
+    }
+    const yr = h * .36, half = gw / 2 * (1 - yr / (h * .93)) * .9;
+    if (half > .4) box(p, m, 0, yr, z, half * 2, .07, .05);
+  }
+}
+
+// Ridge runs along local z. width spans x; y is the eave height. House-style
+// roofs get flat bargeboards with curled tips, a ridge cap, eave boards and a
+// gable pattern; temple roofs keep their gilded trim and finials.
+export function thaiRoof(p, { width, depth, height = width * .6, y, x = 0, z = 0, ry = 0, material = M.tile, style = 'house', trim = M.darkWood, gable = M.woodLight, finials = false, trimR = .045, ridge = null, pattern = 'panel', battens = trim, tips = true }) {
   const g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = ry; p.add(g);
   mesh(g, roofGeometry(width, depth, height, style), material);
+  if (style === 'temple') {
+    for (const end of [-1, 1]) {
+      if (gable) mesh(g, gableGeometry(width, height, style), gable, 0, 0, end * (depth / 2 - .12), 1, 1, 1, end > 0 ? 0 : Math.PI);
+      mesh(g, trimGeometry(width, height, style, trimR), trim, 0, 0, end * depth / 2);
+      if (finials) {
+        mesh(g, finialGeometry, trim, 0, height - .02, end * depth / 2, 1.3, 1.3, end * 1.3);
+        for (const side of [-1, 1]) mesh(g, finialGeometry, trim, side * width * .5, .13 * height, end * depth / 2, .6, .6, end * .6, side * .5);
+      }
+    }
+    return g;
+  }
+  const b = THREE.MathUtils.clamp(width * .034, .07, .22);
+  if (ridge !== false) box(g, ridge ?? ridgeFor(material), 0, height - b * .15, 0, Math.max(.16, b * 1.2), b, depth + .06);
+  for (const side of [-1, 1]) box(g, trim, side * (width / 2 - .03), -b * .3, 0, .06, b * .9, depth - .04);
   for (const end of [-1, 1]) {
-    if (gable) mesh(g, gableGeometry(width, height, style), gable, 0, 0, end * (depth / 2 - .12), 1, 1, 1, end > 0 ? 0 : Math.PI);
-    mesh(g, trimGeometry(width, height, style, trimR), trim, 0, 0, end * depth / 2);
-    if (finials) {
-      mesh(g, finialGeometry, trim, 0, height - .02, end * depth / 2, 1.3, 1.3, end * 1.3);
-      for (const side of [-1, 1]) mesh(g, finialGeometry, trim, side * width * .5, .13 * height + (style === 'temple' ? 0 : -.1), end * depth / 2, .6, .6, end * .6, side * .5);
+    const e = new THREE.Group(); e.position.z = end * depth / 2; e.rotation.y = end > 0 ? 0 : Math.PI; g.add(e);
+    mesh(e, bargeGeometry(width, height, b), trim);
+    if (tips) {
+      const s = b * 1.9;
+      for (const side of [-1, 1]) mesh(e, curlGeometry, trim, side * (width / 2 - .02), -b * .45, 0, s, s, s, side > 0 ? 0 : Math.PI);
+      mesh(e, hornGeometry, trim, 0, height + b * .1, 0, b * 3.4, b * 3.4, b * 3.4);
+    }
+    if (gable) {
+      const inner = new THREE.Group(); inner.position.z = -.14; e.add(inner);
+      mesh(inner, gableGeometry(width, height, style), gable);
+      if (pattern) gablePattern(inner, width, height, pattern, battens, b);
     }
   }
   return g;
+}
+// Lean-to roof (กันสาด) from (z0, y0) down to (z1, y1), `w` wide, centred on x.
+export function leanTo(p, material, x, w, z0, y0, z1, y1, edge = M.darkWood) {
+  const l = Math.hypot(z1 - z0, y1 - y0), a = Math.atan2(y0 - y1, z1 - z0);
+  mesh(p, sheetGeometry(w, l), material, x, (y0 + y1) / 2, (z0 + z1) / 2, 1, 1, 1, 0, a);
+  box(p, edge, x, y1 - .05, z1, w, .12, .06, 0, a);
 }
 // Tiered temple roof: each tier is shorter and narrower, giving the stepped Ayutthaya silhouette.
 export function tieredRoof(p, { width, depth, y, tiers = 2, material = M.tile, edge = M.tileGreen, trim = M.gold, gable = M.woodRed, x = 0, z = 0, ry = 0 }) {
@@ -131,37 +227,113 @@ export function hangingLantern(p, x, y, z, material = M.lantern) {
   glow(p, x, y, z, 1.2);
 }
 
+// ---------- Wall details ----------
+// Framed plank panels (ฝาปะกน) laid on a wall face. The face is centred at
+// (x, z), `len` wide, from y0 up `h`, and faces +z when rot = 0. `skip` lists
+// [from, to] spans along the face kept clear of studs (doors, windows).
+export function panelFace(p, m, x, z, rot, len, y0, h, { step = .9, skip = [] } = {}) {
+  const g = new THREE.Group(); g.position.set(x, y0, z); g.rotation.y = rot; p.add(g);
+  for (const y of [.05, h * .56, h - .05]) box(g, m, 0, y, .02, len, .08, .05);
+  const n = Math.max(1, Math.round(len / step));
+  for (let i = 0; i <= n; i++) {
+    const lx = -len / 2 + i * len / n;
+    if (!skip.some(([a, b]) => lx > a && lx < b)) box(g, m, lx, h / 2, .02, .07, h, .05);
+  }
+  return g;
+}
+// A framed window on a wall face (same placement convention as panelFace):
+// open ones show a lit pane with the shutters folded flat against the wall.
+export function windowFrame(p, { x, y, z, rot = 0, w = .8, h = .7, frame = M.darkWood, shutter = M.teak, open = true }) {
+  const g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = rot; p.add(g);
+  box(g, open ? M.window : shutter, 0, 0, .05, w, h, .04);
+  box(g, frame, 0, h / 2 + .05, .07, w + .28, .09, .08);
+  box(g, frame, 0, -h / 2 - .05, .09, w + .32, .07, .14);
+  for (const s of [-1, 1]) box(g, frame, s * (w / 2 + .04), 0, .07, .07, h, .07);
+  if (open) for (const s of [-1, 1]) { box(g, shutter, s * (w * .75 + .1), 0, .05, w / 2, h, .04); box(g, frame, s * (w * .75 + .1), 0, .075, w * .3, .05, .02); }
+  else box(g, frame, 0, 0, .08, .04, h, .02);
+  return g;
+}
+// Door opening with jambs, lintel and a raised sill (ธรณีประตู).
+export function doorFrame(p, { x, y, z, rot = 0, w = 1, h = 1.7, frame = M.darkWood }) {
+  const g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = rot; p.add(g);
+  box(g, M.darkWood, 0, h / 2, .02, w, h, .04);
+  box(g, frame, 0, h + .06, .07, w + .36, .12, .1);
+  box(g, frame, 0, .06, .08, w + .1, .12, .12);
+  for (const s of [-1, 1]) box(g, frame, s * (w / 2 + .05), h / 2, .07, .09, h, .08);
+  return g;
+}
+
 // ---------- Houses ----------
+// Raised Thai house (เรือนไทย): stilts and floor beams, framed plank walls
+// (ฝาปะกน) with shuttered windows, a terrace (ชาน) with railings and stairs,
+// a steep flared roof with bargeboards and a patterned gable. The shared `rng`
+// draws exactly what it always did (layout and NPC spots depend on it); the
+// look varies through a private generator seeded from the house's own size.
 export function stiltHouse(rng, { thatch = rng.chance(.4), wide = 1 } = {}) {
-  const w = rng.range(5, 6.6) * wide, d = rng.range(4.2, 5.2), fh = rng.range(1.5, 1.9), wh = 1.8;
+  const w = rng.range(5, 6.6) * wide, d = rng.range(4.2, 5.2), fh = rng.range(1.5, 1.9), wh = 2;
+  const v = createRng(hashString(`house|${w.toFixed(5)}|${d.toFixed(5)}|${fh.toFixed(5)}`));
   const g = structure({ w: w + 1.6, d: d + 4.2 });
-  const wall = rng.pick([M.woodPale, M.woodLight, M.teak]), dark = M.darkWood;
-  for (const px of [-w / 2 + .2, 0, w / 2 - .2]) for (const pz of [-d / 2 + .2, d / 2 - .2]) cyl(g, dark, px, (fh + wh) / 2, pz, .1, .12, fh + wh, 6);
+  const wall = rng.pick([M.woodPale, M.woodLight, M.teak]), dark = M.darkWood, top = fh + wh;
+  const frame = wall === M.teak ? v.pick([M.woodPale, M.darkWood, M.woodLight]) : v.pick([M.darkWood, M.teak, M.woodRed, M.darkWood]);
+  const shutter = v.pick([M.teak, M.woodRed, M.wood, M.darkWood].filter(m => m !== wall && m !== frame));
+  const rail = v.pick([M.wood, frame, M.woodPale]);
+  // Stilts (เสา) up to the eaves; beams (ราอด, คาน) carry the floor.
+  const postX = [-w / 2 + .2, 0, w / 2 - .2], postZ = [-d / 2 + .2, d / 2 - .2];
+  for (const px of postX) for (const pz of postZ) cyl(g, dark, px, top / 2, pz, .1, .13, top, 6);
+  for (const pz of postZ) box(g, dark, 0, fh - .2, pz, w + .45, .16, .16);
+  for (const px of postX) box(g, dark, px, fh - .36, 0, .14, .14, d + .45);
   box(g, M.wood, 0, fh, 0, w + .2, .18, d + .2);
-  // Walls with door, shutters and plank seams.
-  box(g, wall, 0, fh + wh / 2, -d / 2 + .1, w, wh, .12);
-  box(g, wall, -w / 2 + .1, fh + wh / 2, 0, .12, wh, d);
-  box(g, wall, w / 2 - .1, fh + wh / 2, 0, .12, wh, d);
-  box(g, wall, -w * .3, fh + wh / 2, d / 2 - .1, w * .4, wh, .12);
-  box(g, wall, w * .3, fh + wh / 2, d / 2 - .1, w * .4, wh, .12);
-  box(g, dark, 0, fh + wh * .45, d / 2 - .14, w * .2, wh * .9, .06);
-  box(g, M.window, -w * .3, fh + wh * .55, d / 2 - .03, .7, .6, .04);
-  box(g, M.window, w * .3, fh + wh * .55, d / 2 - .03, .7, .6, .04);
-  for (let i = 0; i < 6; i++) box(g, dark, -w / 2 + (i + .5) * w / 6, fh + wh / 2, -d / 2 + .03, .04, wh, .04);
-  // Veranda (ชาน) and stairs.
-  const vx = rng.chance(.5) ? -w * .18 : w * .18;
-  box(g, M.woodLight, vx, fh - .02, d / 2 + 1, w * .62, .14, 2);
-  for (const sx of [-1, 1]) cyl(g, dark, vx + sx * w * .29, fh / 2, d / 2 + 1.9, .07, .08, fh, 6);
-  railing(g, M.wood, vx - w * .31, d / 2 + 1.98, vx + w * .05, d / 2 + 1.98, fh);
+  box(g, frame, 0, fh + .02, d / 2 + .11, w + .24, .14, .04);
+  // Walls: back, sides and the front either side of the door.
+  const y0 = fh + .09, h = wh - .09, dw = w * .2;
+  box(g, wall, 0, y0 + h / 2, -d / 2 + .1, w, h, .12);
+  box(g, wall, -w / 2 + .1, y0 + h / 2, 0, .12, h, d);
+  box(g, wall, w / 2 - .1, y0 + h / 2, 0, .12, h, d);
+  box(g, wall, -(w + dw) / 4, y0 + h / 2, d / 2 - .1, (w - dw) / 2, h, .12);
+  box(g, wall, (w + dw) / 4, y0 + h / 2, d / 2 - .1, (w - dw) / 2, h, .12);
+  const segment = (w - dw) / 2, wy = y0 + h * .55;
+  for (const s of [-1, 1]) {
+    panelFace(g, frame, s * (w + dw) / 4, d / 2 - .04, 0, segment, y0, h, { skip: [[-.55, .55]] });
+    windowFrame(g, { x: s * (w + dw) / 4, y: wy, z: d / 2 - .04, w: .8, h: .72, frame, shutter });
+    panelFace(g, frame, s * (w / 2 - .04), 0, s * Math.PI / 2, d, y0, h, { skip: [[-.55, .55]] });
+    windowFrame(g, { x: s * (w / 2 - .04), y: wy, z: 0, rot: s * Math.PI / 2, w: .75, h: .7, frame, shutter, open: v.chance(.6) });
+  }
+  panelFace(g, frame, 0, -d / 2 + .04, Math.PI, w, y0, h, { skip: [[-w * .25 - .5, -w * .25 + .5], [w * .25 - .5, w * .25 + .5]] });
+  for (const s of [-1, 1]) windowFrame(g, { x: s * w * .25, y: wy, z: -d / 2 + .04, rot: Math.PI, w: .75, h: .7, frame, shutter, open: v.chance(.4) });
+  doorFrame(g, { x: 0, y: y0, z: d / 2 - .1, w: dw - .2, h: h * .86, frame });
+  // Terrace (ชาน) with plank seams, railings, stairs and a newel-posted handrail.
+  const vx = rng.chance(.5) ? -w * .18 : w * .18, vw = w * .62, front = d / 2 + 2;
+  box(g, M.woodLight, vx, fh - .02, d / 2 + 1, vw, .14, 2);
+  for (let i = 1; i < 5; i++) box(g, M.wood, vx, fh + .052, d / 2 + i * .4, vw - .06, .012, .035);
+  box(g, frame, vx, fh - .05, front + .02, vw + .04, .14, .05);
   const sx = vx + w * .2, steps = Math.round(fh * 3.2), stairEnd = d / 2 + 2.05 + steps * .32;
+  const roofMat = thatch ? M.thatch : rng.pick([M.tile, M.tileDark, M.tile]);
+  const pent = v.chance(.55), py = top - .5;
+  for (const s of [-1, 1]) cyl(g, dark, vx + s * w * .29, (pent ? py : fh + .9) / 2, front - .1, .07, .08, pent ? py : fh + .9, 6);
+  railing(g, rail, vx - w * .31, front - .04, vx + w * .05, front - .04, fh);
+  for (const s of [-1, 1]) railing(g, rail, vx + s * (vw / 2 - .04), d / 2 + .12, vx + s * (vw / 2 - .04), front - .1, fh, .5);
   stairs(g, M.wood, sx, stairEnd, .9, fh, steps, 0);
-  thaiRoof(g, { width: d + 1.6, depth: w + 1.4, height: (d + 1.6) * .72, y: fh + wh - .05, ry: Math.PI / 2, material: thatch ? M.thatch : rng.pick([M.tile, M.tileDark, M.tile]), gable: wall === M.teak ? M.woodLight : M.teak });
-  // Life under the house: a bamboo platform (แคร่), water jars.
+  for (const s of [-1, 1]) beam(g, frame, [sx + s * .48, .05, stairEnd + .18], [sx + s * .48, fh, front + .02], .05, 4);
+  cyl(g, frame, sx + .5, .5, stairEnd + .1, .06, .06, 1, 6);
+  beam(g, rail, [sx + .5, .95, stairEnd + .1], [sx + .5, fh + .6, front], .035, 4);
+  if (pent) {
+    // A tiled lean-to (กันสาด) shades the terrace, with a lantern under its edge.
+    leanTo(g, roofMat, vx, vw + .6, d / 2 + .35, top + .22, front + .35, py, frame);
+    box(g, dark, vx, py - .1, front - .1, vw, .12, .12);
+    if (v.chance(.65)) hangingLantern(g, vx - w * .16, py - .45, front - .15, v.chance(.5) ? M.lantern : M.lanternPaper);
+  } else {
+    for (let i = 0; i < 3; i++) if (v.chance(.7)) prop(g, 'plantPot', vx - vw / 2 + .35 + i * .45, fh + .06, front - .3, { s: v.range(.8, 1.1), ry: v() * 6 });
+  }
+  prop(g, 'jar', sx - .75, fh + .06, front - .35, { s: .6 });
+  thaiRoof(g, { width: d + 1.8, depth: w + 1.4, height: (d + 1.8) * .74, y: top - .05, ry: Math.PI / 2, material: roofMat, gable: wall === M.teak ? M.woodLight : M.teak, trim: v.chance(.7) ? dark : frame, pattern: v.pick(['sun', 'panel', 'sun']), battens: wall === M.teak ? M.teak : M.woodPale });
+  // Life under the house: a bamboo platform (แคร่), water jars, sometimes a hanging basket or firewood.
   box(g, M.woodPale, -w * .22, .45, -.2, 1.8, .1, 1.1);
   for (const lx of [-1, 1]) for (const lz of [-1, 1]) box(g, dark, -w * .22 + lx * .8, .22, -.2 + lz * .45, .06, .44, .06);
   prop(g, 'jar', sx - 1.1, 0, stairEnd - .4, { s: rng.range(.9, 1.2) });
   prop(g, 'jar', w / 2 + .3, 0, -d / 4, { s: rng.range(.8, 1.1) });
   if (rng.chance(.5)) prop(g, 'basket', -w / 2 - .2, 0, d / 4);
+  if (v.chance(.5)) for (let i = 0; i < 5; i++) box(g, M.branch, w * .24, .08 + (i > 2 ? .15 : 0), -d / 2 + .5 + (i > 2 ? i - 2.5 : i) * .16, 1.3, .15, .15);
+  if (v.chance(.4)) for (let i = 0; i < 3; i++) prop(g, 'pot', -w / 2 + .5 + i * .45, 0, d / 2 + .3, { s: v.range(.9, 1.3) });
   solid(g, 0, 0, w + .5, d + .5);
   solid(g, vx, d / 2 + 1, w * .62, 2);
   anchor(g, 'door', sx, stairEnd + .9, 0);
@@ -171,30 +343,80 @@ export function stiltHouse(rng, { thatch = rng.chance(.4), wide = 1 } = {}) {
   return g;
 }
 
+// Builders without continuous random sizes (shophouses, stalls) take their
+// look from a per-kind sequence; World resets it before every build so the
+// same city comes out each time without touching the shared layout sequence.
+const lookCount = new Map();
+export function resetLooks() { lookCount.clear(); }
+function nextLook(kind) {
+  const n = lookCount.get(kind) ?? 0; lookCount.set(kind, n + 1);
+  return createRng(hashString(`${kind}|${n}`));
+}
+const CLOTHS = () => [M.cloth.red, M.cloth.cream, M.cloth.indigo, M.cloth.yellow, M.cloth.green, M.cloth.white];
+// Contrast trim for an awning: a light cloth on dark ones and red on light ones.
+const contrastFor = (cloth, v) => (cloth === M.cloth.cream || cloth === M.cloth.white || cloth === M.cloth.yellow ? v.pick([M.cloth.red, M.cloth.indigo, M.cloth.green]) : v.pick([M.cloth.cream, M.cloth.white, M.cloth.yellow]));
+// Scalloped valance along an awning edge: alternating flaps hung under (x, y, z).
+function valance(p, x, y, z, w, a, b, ry = 0) {
+  const g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = ry; p.add(g);
+  const n = Math.max(3, Math.round(w / .36)), fw = w / n;
+  for (let i = 0; i < n; i++) box(g, i % 2 ? b : a, -w / 2 + fw * (i + .5), -.11 - (i % 2) * .03, 0, fw * .92, .22 + (i % 2) * .06, .02);
+}
+
+// Two-storey wooden shophouse row (ห้องแถวไม้): shop rooms open under cloth
+// awnings or closed with folding plank doors (บานเฟี้ยม), shuttered upper
+// windows, eave brackets (คันทวย), signboards and lanterns.
 export function shophouseRow(rng, units, { goods = [], awning = null } = {}) {
-  const uw = 3.6, d = 5.2, h1 = 2.5, h2 = 1.3, w = units * uw;
+  const uw = 3.6, d = 5.2, h1 = 2.5, h2 = 1.5, w = units * uw, top1 = h1 + .2, top2 = top1 + h2;
+  const v = nextLook('shop');
   const g = structure({ w: w + 1, d: d + 3 });
   const wall = rng.pick([M.woodLight, M.teak, M.woodPale]);
+  const frame = wall === M.teak ? v.pick([M.woodPale, M.darkWood]) : v.pick([M.darkWood, M.teak, M.woodRed]);
+  const shutter = v.pick([M.teak, M.woodRed, M.wood, M.darkWood].filter(m => m !== wall && m !== frame));
   box(g, M.stone, 0, .12, 0, w + .2, .24, d + .2);
+  box(g, M.sandstone, 0, .25, 0, w + .3, .04, d + .3);
   box(g, wall, 0, h1 / 2 + .2, -d / 2 + .1, w, h1, .14);
-  box(g, wall, 0, h1 + .2 + h2 / 2, 0, w, h2, d - .3);
-  for (const sx of [-1, 1]) box(g, wall, sx * (w / 2 - .07), (h1 + h2) / 2 + .2, 0, .14, h1 + h2, d);
+  box(g, wall, 0, top1 + h2 / 2, 0, w, h2, d - .3);
+  for (const sx of [-1, 1]) box(g, wall, sx * (w / 2 - .07), (top1 + top2) / 2 - h1 / 2, 0, .14, top2 - .2, d);
+  // Storey beam, upper-floor panels and windows on every side.
+  box(g, frame, 0, top1 + .02, d / 2 - .1, w + .12, .16, .24);
+  const unitX = u => -w / 2 + uw * (u + .5), skips = Array.from({ length: units }, (_, u) => [unitX(u) - .65, unitX(u) + .65]);
+  panelFace(g, frame, 0, d / 2 - .15, 0, w, top1 + .1, h2 - .1, { step: uw / 4, skip: skips });
+  panelFace(g, frame, 0, -d / 2 + .03, Math.PI, w, .26, h1 - .06, { step: uw / 4, skip: skips });
+  panelFace(g, frame, 0, -d / 2 + .15, Math.PI, w, top1 + .1, h2 - .1, { step: uw / 4, skip: skips });
+  for (const s of [-1, 1]) {
+    panelFace(g, frame, s * w / 2, 0, s * Math.PI / 2, d, .26, top2 - .26, { step: 1.05, skip: [[-.6, .6]] });
+    windowFrame(g, { x: s * w / 2, y: top1 + h2 * .55, z: 0, rot: s * Math.PI / 2, w: .8, h: .6, frame, shutter, open: v.chance(.6) });
+  }
   for (let u = 0; u < units; u++) {
-    const cx = -w / 2 + uw * (u + .5);
+    const cx = unitX(u);
     box(g, M.darkWood, cx - uw / 2 + .05, h1 / 2 + .2, d / 2 - .1, .14, h1, .14);
     const open = u % 3 !== 2;
-    if (open) { box(g, M.darkWood, cx, h1 / 2 + .2, d / 2 - .6, uw - .3, h1 - .1, .05); box(g, M.wood, cx - uw * .44, h1 / 2 + .2, d / 2 - .2, .12, h1 - .2, .5); }
-    else for (let k = 0; k < 6; k++) box(g, k % 2 ? M.wood : M.teak, cx - uw / 2 + .3 + k * (uw - .6) / 5.5, h1 / 2 + .2, d / 2 - .15, (uw - .6) / 6, h1 - .1, .06);
-    box(g, M.window, cx, h1 + .2 + h2 * .5, d / 2 - .18, .9, .55, .05);
+    if (open) {
+      box(g, M.darkWood, cx, h1 / 2 + .2, d / 2 - .6, uw - .3, h1 - .1, .05); box(g, M.wood, cx - uw * .44, h1 / 2 + .2, d / 2 - .2, .12, h1 - .2, .5);
+      // Counter and a shelf of wares inside the open room.
+      box(g, M.woodLight, cx + .2, .82, d / 2 - .42, uw - 1.3, .08, .5); box(g, frame, cx + .2, .52, d / 2 - .2, uw - 1.3, .56, .05);
+      box(g, M.darkWood, cx, 1.55, d / 2 - .55, uw - .7, .05, .22);
+      for (let k = 0; k < 4; k++) prop(g, v.pick(['pot', 'jar', 'basket']), cx - uw * .3 + k * uw * .2, 1.58, d / 2 - .55, { s: .45 });
+    } else for (let k = 0; k < 6; k++) box(g, k % 2 ? M.wood : M.teak, cx - uw / 2 + .3 + k * (uw - .6) / 5.5, h1 / 2 + .2, d / 2 - .15, (uw - .6) / 6, h1 - .1, .06);
+    windowFrame(g, { x: cx, y: top1 + h2 * .55, z: d / 2 - .15, w: 1, h: .62, frame, shutter });
+    windowFrame(g, { x: cx, y: top1 + h2 * .55, z: -d / 2 + .15, rot: Math.PI, w: .8, h: .6, frame, shutter, open: v.chance(.5) });
+    windowFrame(g, { x: cx, y: h1 * .55, z: -d / 2 + .03, rot: Math.PI, w: .8, h: .6, frame, shutter, open: false });
+    // Eave brackets (คันทวย) from the upper wall to the roof edge.
+    for (const s of [-1, 1]) if (s < 0 || u === units - 1) beam(g, frame, [cx + s * (uw / 2 - .06), top2 - .5, d / 2 - .15], [cx + s * (uw / 2 - .06), top2 + .1, d / 2 + .55], .045, 4);
     // Awning, sign and a lantern for each shop room.
     const cloth = awning ?? rng.pick([M.cloth.red, M.cloth.cream, M.cloth.indigo, M.cloth.yellow, M.thatch]);
     box(g, cloth, cx, h1 + .02, d / 2 + .75, uw - .1, .05, 1.7, 0, .32);
+    if (cloth !== M.thatch) {
+      const trim = contrastFor(cloth, v);
+      valance(g, cx, h1 - .25, d / 2 + 1.57, uw - .1, cloth, trim);
+      if (v.chance(.5)) for (const k of [-1, 0, 1]) box(g, trim, cx + k * uw * .3, h1 + .05, d / 2 + .76, .32, .05, 1.7, 0, .32);
+    }
     for (const sx of [-1, 1]) cyl(g, M.darkWood, cx + sx * (uw / 2 - .2), (h1 - .2) / 2, d / 2 + 1.5, .05, .05, h1 - .2, 5);
-    box(g, M.darkWood, cx, h1 + .48, d / 2 + .04, 1.6, .38, .06); box(g, M.gold, cx, h1 + .48, d / 2 + .08, 1.4, .24, .02);
+    box(g, M.darkWood, cx, h1 + .42, d / 2 + .04, 1.6, .36, .06); box(g, v.chance(.7) ? M.gold : M.cloth.red, cx, h1 + .42, d / 2 + .08, 1.4, .22, .02);
     hangingLantern(g, cx + uw * .3, h1 - .35, d / 2 + 1.2);
     for (const item of goods[u] ?? []) prop(g, item.name, cx + (item.x ?? 0), item.y ?? 0, d / 2 + 1 + (item.z ?? 0), item);
   }
-  thaiRoof(g, { width: d + 1.6, depth: w + 1, height: (d + 1.6) * .55, y: h1 + h2 + .15, ry: Math.PI / 2, material: rng.pick([M.tile, M.tileDark]), gable: wall });
+  thaiRoof(g, { width: d + 1.6, depth: w + 1, height: (d + 1.6) * .58, y: h1 + h2 + .15, ry: Math.PI / 2, material: rng.pick([M.tile, M.tileDark]), gable: wall === M.teak ? M.woodLight : M.teak, battens: frame, pattern: v.pick(['panel', 'sun']), trim: M.darkWood });
   solid(g, 0, 0, w + .2, d + .2);
   return g;
 }
@@ -234,12 +456,21 @@ const STALL_GOODS = {
 };
 export function stall(rng, kind) {
   const g = structure({ w: 3.4, d: 2.8 });
-  const cloth = rng.pick([M.cloth.red, M.cloth.cream, M.cloth.indigo, M.cloth.yellow, M.cloth.green, M.cloth.white]);
+  const v = nextLook('stall');
+  const cloth = rng.pick(CLOTHS()), trim = contrastFor(cloth, v);
   box(g, M.woodLight, 0, .8, 0, 2.6, .1, 1.2);
+  box(g, M.darkWood, 0, .74, .6, 2.64, .1, .04);
   for (const lx of [-1.2, 1.2]) for (const lz of [-.5, .5]) box(g, M.darkWood, lx, .4, lz, .08, .8, .08);
   for (const lx of [-1.35, 1.35]) for (const lz of [-.85, .75]) cyl(g, M.darkWood, lx, 1.15, lz, .04, .05, 2.3 - (lz > 0 ? .3 : 0), 5);
+  // Striped canopy with a scalloped valance; a cloth skirt hides the table legs.
   box(g, cloth, 0, 2.08, -.05, 2.95, .04, 1.95, 0, .16);
+  if (v.chance(.6)) for (const k of [-1, 0, 1]) box(g, trim, k * .9, 2.105, -.05, .3, .04, 1.95, 0, .16);
+  valance(g, 0, 1.94, .92, 2.95, cloth, trim);
   for (const lx of [-1, 1]) box(g, cloth, lx * 1.47, 1.9, -.05, .02, .35, 1.9);
+  box(g, v.chance(.5) ? trim : cloth, 0, .48, .63, 2.5, .5, .02);
+  // Some stalls hang a small signboard; baskets and sacks wait under the table.
+  if (v.chance(.45)) { cyl(g, M.darkWood, -1.35, 2.5, -.85, .03, .03, .8, 5); box(g, M.darkWood, -1.35, 2.75, -.62, .06, .36, .5); box(g, trim, -1.32, 2.75, -.62, .02, .26, .4); }
+  for (let i = 0; i < 2; i++) if (v.chance(.6)) prop(g, v.pick(['basket', 'sack', 'jar']), -.7 + i * 1.3, 0, -.15, { s: .7, ry: v() * 6 });
   (STALL_GOODS[kind] ?? STALL_GOODS.fruit)(g);
   solid(g, 0, 0, 2.7, 1.3);
   anchor(g, 'vendor', 0, -1.15, 0); anchor(g, 'customer', 0, 1.45, Math.PI);

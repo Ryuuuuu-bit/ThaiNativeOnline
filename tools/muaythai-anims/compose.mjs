@@ -467,13 +467,38 @@ const WAI_FLEX = -1.5;
   const land = withP(S0, { hip: [-0.01, 0.06, 0.08], hipYaw: -0.15, lean: 0.12, L: { x: 0.07, z: 0.0, yaw: 0, heel: 0.4, up: 0 }, R: { x: -0.05, z: 0.14, yaw: -0.4, heel: 0, up: 0 } });
   buildP('boxer_knee', 1.2, [[0, S0], [0.22, load, ease], [0.42, drive, easeIn], [0.6, strike, easeOut], [0.68, strike], [0.85, fall, easeIn], [0.95, land, easeOut], [1.2, S0, ease]]);
 }
-// หนุมานถวายแหวน (hits 0.34 parry / 0.78 uppercut): the right foot steps out to the side
-// as the left glove parries the incoming straight across; the fighter drops low under it
-// with both fists cocked at the waist, then drives up off the legs with both fists
-// together, palms in, a double uppercut to the chin — the fists side by side like hands
-// presenting a ring — and settles back into guard.
+// หนุมานถวายแหวน — the boxer's strongest move, a full combination (8 blows, 2.9 s):
+// jab · cross · lead elbow · rear elbow · clinch and a right knee · a left knee ·
+// a right roundhouse to the body · then the แม่ไม้ itself: the right foot steps out as
+// the left glove parries the answering straight, he drops low with both fists cocked at
+// the waist and drives up into a double uppercut, fists side by side under the chin like
+// hands presenting a ring. Every blow lands on a sampled frame (n / 30 s), matching the
+// hit times in src/classes/muaythai-moves.js.
 {
-  const S0 = STANCE;
+  const S0 = STANCE, f = n => n / 30;
+  const guardL = { at: [0.05, -0.05, 0.09], pole: [0.4, -1, -0.1], palm: [-0.8, 0, -0.55], sh: 0 };
+  const guardR = { ...S0.Rh, at: [-0.05, -0.06, 0.07] };
+  const cross = withP(S0, { hip: [-0.01, 0.026, 0.0], hipYaw: 0.15, twist: 0.25, lean: 0.14, R: { ...S0.R, yaw: -0.3, heel: 0.8 },
+    Rh: { at: [0.0, -0.035, 0.33], pole: [-1, -0.35, 0], palm: [-0.15, -1, 0], sh: 0.16 }, Lh: guardL });
+  const elbowL = withP(S0, { hip: [0, 0.03, 0.01], hipYaw: -0.95, twist: -0.45, lean: 0.12, L: { ...S0.L, yaw: -0.5, heel: 0.35 },
+    Lh: { at: [-0.06, -0.04, 0.07], pole: [0.3, 0.25, 1], palm: [0, -1, 0], sh: 0.15 }, Rh: guardR });
+  const elbowR = withP(S0, { hip: [0, 0.03, 0.02], hipYaw: 0.25, twist: 0.3, lean: 0.14, R: { ...S0.R, yaw: -0.2, heel: 0.75 },
+    Rh: { at: [0.07, 0.0, 0.08], pole: [0.15, 0.25, 1], palm: [0, -1, 0], sh: 0.18 }, Lh: { ...guardL, at: [0.06, -0.03, 0.1] } });
+  // clinch: both hands behind the opponent's head, pulling it down onto the knees
+  const clinch = withP(S0, { hip: [0, 0.02, 0.04], hipYaw: -0.15, twist: 0, lean: -0.04, chin: 0.15,
+    Lh: { at: [0.06, -0.03, 0.23], pole: [0.7, -1, 0], palm: [-0.3, -0.6, 1], sh: 0 }, Rh: { at: [-0.05, -0.03, 0.23], pole: [-0.7, -1, 0], palm: [0.3, -0.6, 1], sh: 0 } });
+  const pull = h => ({ Lh: { ...clinch.Lh, at: [0.06, -0.11, 0.21] }, Rh: { ...clinch.Rh, at: [-0.05, -0.11, 0.21] } });
+  const kneeR = withP(clinch, { hip: [0, -0.01, 0.08], lean: -0.16, L: { ...S0.L, heel: 0.55 },
+    R: { x: -0.03, z: 0.14, yaw: -0.2, up: 0.36, pole: [0, 0.8, 0.6], point: 0.6, heel: 0 }, ...pull() });
+  const kneeL = withP(clinch, { hip: [0, -0.01, 0.07], hipYaw: -0.3, lean: -0.16, R: { ...S0.R, heel: 0.6 },
+    L: { x: 0.05, z: 0.2, yaw: 0, up: 0.36, pole: [0, 0.8, 0.6], point: 0.6, heel: 0 }, ...pull() });
+  const kickCh = withP(S0, { hip: [0.04, 0.01, 0.05], hipYaw: 0.75, twist: -0.4, lean: -0.12, side: -0.15, look: 0.9,
+    L: { x: 0.1, z: 0.12, yaw: 1.2, heel: 0.45, up: 0 }, R: { x: -0.06, z: 0.12, yaw: 0.6, up: 0.22, pole: [1, 0.3, 0.6], point: 0.7, heel: 0 },
+    Lh: { at: [0.07, -0.04, 0.15], pole: [0.5, -1, 0], palm: [-0.8, 0, -0.5], sh: 0.05 }, Rh: { at: [-0.16, -0.3, -0.02], pole: [-0.3, -0.4, -1], palm: [0.6, 0, -0.8], sh: 0 } });
+  const kick = withP(kickCh, { hip: [0.05, 0.0, 0.06], hipYaw: 1.4, twist: -0.5, lean: -0.24, side: -0.24, look: 0.8,
+    L: { x: 0.1, z: 0.12, yaw: 1.55, heel: 0.5, up: 0 }, R: { x: 0.2, z: 0.46, yaw: 1.4, up: 0.42, pole: [1, 0.25, 0], point: 0.9, heel: 0 },
+    Rh: { at: [-0.25, -0.4, -0.12], pole: [-0.3, -0.2, -1], palm: [0.3, 0, -1], sh: 0 } });
+  const land = withP(S0, { hip: [0.0, 0.03, 0.02], hipYaw: -0.2 });
   const parry = withP(S0, { hip: [-0.02, 0.03, -0.01], hipYaw: -0.6, twist: -0.2, lean: 0.1, R: { x: -0.17, z: -0.07, yaw: -0.8, heel: 0.35, up: 0 },
     Lh: { at: [-0.08, -0.05, 0.16], pole: [0.6, -1, -0.2], palm: [-1, 0, 0.1], sh: 0.08 } });
   const low = withP(parry, { hip: [-0.03, 0.11, 0.0], hipYaw: -0.3, twist: 0, lean: 0.38, chin: 0.15,
@@ -481,9 +506,17 @@ const WAI_FLEX = -1.5;
   const up = withP(low, { hip: [-0.02, -0.015, 0.04], hipYaw: -0.15, lean: -0.12, chin: 0.1, L: { ...S0.L, heel: 0.35 }, R: { x: -0.17, z: -0.07, yaw: -0.8, heel: 0.6, up: 0 },
     Lh: { at: [0.02, -0.035, 0.15], pole: [0.15, -1, -0.1], palm: [-0.2, 0, -1], sh: 0.05 }, Rh: { at: [-0.02, -0.035, 0.15], pole: [-0.15, -1, -0.1], palm: [0.2, 0, -1], sh: 0.05 } });
   const follow = withP(up, { hip: [-0.02, -0.02, 0.05], lean: -0.14, Lh: { ...up.Lh, at: [0.02, -0.025, 0.16] }, Rh: { ...up.Rh, at: [-0.02, -0.025, 0.16] } });
-  buildP('boxer_hanuman', 1.6, [[0, S0], [0.14, withP(S0, { hip: [0, 0.035, -0.02] }), ease], [0.34, parry, easeOut], [0.4, parry], [0.6, low, ease], [0.66, low], [0.78, up, easeIn], [0.92, follow, easeOut], [1.1, follow], [1.6, S0, ease]], (t, c) => {
-    if (t > 0.16 && t < 0.32) c.R.up += 0.02 * Math.sin(Math.PI * (t - 0.16) / 0.16);          // the side step lifts the foot
-    if (t > 1.22 && t < 1.45) c.R.up += 0.02 * Math.sin(Math.PI * (t - 1.22) / 0.23);
+  buildP('boxer_hanuman', 2.9, [
+    [0, S0], [f(4), LOAD, easeOut], [f(6), JAB_OUT, easeIn], [f(8), mix(S0, JAB_OUT, 0.4), easeOut],   // 1 jab
+    [f(11), cross, easeIn], [f(14), mix(S0, cross, 0.35), easeOut],                                     // 2 cross
+    [f(17), elbowL, easeIn], [f(19), elbowL], [f(22), elbowR, easeIn], [f(24), elbowR],                 // 3–4 elbows
+    [f(26), clinch, ease], [f(29), kneeR, easeIn], [f(32), clinch, easeOut],                            // 5 right knee
+    [f(36), kneeL, easeIn], [f(39), clinch, easeOut],                                                   // 6 left knee
+    [f(41), kickCh, ease], [f(45), kick, easeIn], [f(48), kick], [f(52), land, easeOut],                // 7 roundhouse
+    [f(56), parry, easeOut], [f(58), parry], [f(61), low, ease], [f(64), up, easeIn],                   // parry, drop, 8 uppercut
+    [f(68), follow, easeOut], [f(76), follow], [2.9, S0, ease],
+  ], (t, c) => {
+    if (t > f(52) && t < f(57)) c.R.up += 0.02 * Math.sin(Math.PI * (t - f(52)) / f(5));               // the side step lifts the foot
   });
 }
 // Hit: the head snaps back and the guard is knocked in; back to guard.

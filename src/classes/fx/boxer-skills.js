@@ -23,7 +23,7 @@ export const SKILL_META = {
   boxer_elbow: { lv: 20, cd: 5.5, desc: 'ศอกตัดแล้วพลิกศอกเดิมฟาดกลับ เลือดไหล' },
   boxer_knee: { lv: 40, cd: 10, desc: 'กระโดดเข่าลอยเข้าหาเป้า ผีรอบจุดมึน' },
   boxer_iron: { lv: 70, cd: 28, desc: 'คาถามหาอุด ป้องกัน +30% โจมตี +20% ฟื้น HP 12%' },
-  boxer_hanuman: { lv: 100, cd: 16, desc: 'แม่ไม้: ปัดหมัดตรง ย่อหลบ แล้วเสยหมัดคู่ขึ้นปลายคาง กระเด็น มึน 1.2 วิ' },
+  boxer_hanuman: { lv: 100, cd: 16, desc: '★ สุดยอดคอมโบ 8 จังหวะ หมัด ศอก เข่า เตะ ปิดด้วยแม่ไม้ปัดแล้วเสยหมัดคู่ กระเด็น มึน 1.2 วิ' },
 };
 export const iconUrl = id => BASE + 'icon_' + id + '.png';
 
@@ -410,42 +410,62 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
       });
       return 2.4;
     },
+    // หนุมานถวายแหวน, the boxer's strongest move: an 8-blow combination (jab, cross, two
+    // elbows, two clinch knees, a roundhouse) with a combo counter, then the แม่ไม้ — a
+    // parry and the double uppercut that presents the ring. Hanuman's yant stands behind
+    // the fighter the whole time and pulses with every blow.
     boxer_hanuman() {
-      fx.cinematic(1, 2.2);
-      stepIn(1.15, () => {
-        anim('boxer_hanuman');
+      fx.cinematic(1, 3.4);
+      stepIn(1.05, () => {
+        const M = anim('boxer_hanuman'), H = M.hits, last = H.length - 1, PARRY = 1.87;
         const han = fx.yantPlane(hanumanTex()), u = han.material.uniforms; let pulse = 0;
+        const END = H[last] + .6;
         fx.addTask((dt, t) => { u.uT.value = t; u.uReveal.value = Math.min(1.15, t / .5 * 1.15); pulse = Math.max(0, pulse - dt * 6); u.uPulse.value = pulse;
-          const back = dirTo().multiplyScalar(-.9); han.position.copy(hero.pos()).add(back).add(V(0, 2.15 + Math.sin(t * 3) * .05, 0)); han.lookAt(fx.camera.position); han.scale.setScalar(4.2 * (1 + pulse * .05)); u.uA.value = clamp01((1.7 - t) / .3);
-          if (t > 1.4 && t - dt <= 1.4) for (let k = 0; k < 60; k++) fx.emit({ p: han.position.clone().add(V(rand(-1.3, 1.3), rand(-1.4, 1.4), 0)), v: V(rand(-.6, .6), rand(.4, 1.4), rand(-.3, .3)), c: Math.random() < .6 ? GOLD : C(2.4, 2, 1.2), life: rand(.6, 1.1), size: rand(.05, .1), shape: Math.random() < .3 ? SH.star : SH.glow });
-          if (t > 1.7) { fx.kill(han); return false; } });
-        // แม่ไม้หนุมานถวายแหวน: parry the straight right across, slip low, then a double
-        // uppercut — both fists together up under the chin, like presenting the ring.
+          const back = dirTo().multiplyScalar(-.9); han.position.copy(hero.pos()).add(back).add(V(0, 2.15 + Math.sin(t * 3) * .05, 0)); han.lookAt(fx.camera.position); han.scale.setScalar(4.2 * (1 + pulse * .05)); u.uA.value = clamp01((END + .3 - t) / .3);
+          if (t > END && t - dt <= END) for (let k = 0; k < 60; k++) fx.emit({ p: han.position.clone().add(V(rand(-1.3, 1.3), rand(-1.4, 1.4), 0)), v: V(rand(-.6, .6), rand(.4, 1.4), rand(-.3, .3)), c: Math.random() < .6 ? GOLD : C(2.4, 2, 1.2), life: rand(.6, 1.1), size: rand(.05, .1), shape: Math.random() < .3 ? SH.star : SH.glow });
+          if (t > END + .3) { fx.kill(han); return false; } });
         const fistsAt = () => { const l = character.bone?.('LeftHand'), r = character.bone?.('RightHand'); return l && r ? fx.toLocal(l.getWorldPosition(new THREE.Vector3())).add(fx.toLocal(r.getWorldPosition(new THREE.Vector3()))).multiplyScalar(.5) : chest(hero).add(dirTo().multiplyScalar(.4)); };
+        // the combo counter over the target
+        const lbl = document.createElement('div'); lbl.className = 'fx-pop st big fx-combo'; labels.appendChild(lbl);
+        fx.addTask((dt, t) => { const s = fx.toScreen(tg.head().add(V(0, .75, 0))); lbl.style.left = s.x + 'px'; lbl.style.top = s.y + 'px'; if (t > END + .5) { lbl.remove(); return false; } });
+        const blow = [   // [effect, damage, push]
+          () => { fx.speedLines(ahead(.5), dirTo(), 8); fx.impact(chest(tg).add(V(0, .35, .15)), .7); },                                       // jab
+          () => { fx.speedLines(ahead(.5), dirTo(), 10); fx.impact(chest(tg).add(V(0, .35, .15)), .9); },                                      // cross
+          () => { fx.slashArc(chest(hero).add(V(0, .4, 0)), tg.pos, { r: .9, sweep: 1.7, roll: .9, dir: 1, pal: 'red', thick: .55, dur: .07, hold: .03, dis: .2 }); fx.impact(chest(tg).add(V(0, .45, .15)), 1, C(2.4, .6, .35)); },   // lead elbow
+          () => { fx.slashArc(chest(hero).add(V(0, .4, 0)), tg.pos, { r: .9, sweep: 1.7, roll: -.9, dir: -1, pal: 'red', thick: .55, dur: .07, hold: .03, dis: .2 }); fx.impact(chest(tg).add(V(0, .45, .15)), 1.1, C(2.4, .6, .35)); }, // rear elbow
+          () => { fx.impact(chest(tg).add(V(0, .05, .15)), 1.2); for (let k = 0; k < 8; k++) fx.emit({ p: chest(tg), v: V(rand(-.5, .5), rand(3, 6), rand(-.5, .5)), c: GOLD, life: .35, size: .08, size1: .02, drag: 2 }); },  // knee
+          () => { fx.impact(chest(tg).add(V(0, .05, .15)), 1.3); for (let k = 0; k < 10; k++) fx.emit({ p: chest(tg), v: V(rand(-.5, .5), rand(3, 7), rand(-.5, .5)), c: GOLD, life: .35, size: .08, size1: .02, drag: 2 }); }, // knee
+          () => { fx.slashArc(chest(hero).add(V(0, .1, 0)), tg.pos, { r: 1.4, sweep: 2.2, roll: .2, dir: 1, pal: 'gold', thick: .5, dur: .1, hold: .04, dis: .28 }); const tp = tg.pos.clone().add(tg.off); fx.impact(chest(tg).add(V(0, .1, .15)), 1.6); fx.shock(tp.x, tp.z, 2, GOLD, C(1.2, .4, .1), .5); fx.shake = .2; },  // roundhouse
+        ];
+        const dmg = [70, 80, 95, 105, 120, 130, 210];
         hits('boxer_hanuman', i => {
-          if (i === 0) {   // parry: a cool deflection arc across the face
-            fx.slashArc(chest(hero).add(V(0, .45, 0)), tg.pos, { r: .7, sweep: 1.4, roll: 1.2, dir: -1, pal: 'blue', thick: .4, dur: .08, hold: .03, dis: .16 });
-            fx.burst(chest(hero).add(dirTo().multiplyScalar(.45)).add(V(0, .45, 0)), 10, { c: [WHITE, C(1.4, 1.7, 2.2)], size: .08, sp: 3, life: .3, shape: SH.star, drag: 4 });
-            fx.popup(headP(hero).add(V(0, .2, 0)), 'ปัด!', 'st'); pulse = .6;
-            return;
-          }
-          // double uppercut: two gold arcs sweeping up, the ring rising off the fists into the chin
+          pulse = Math.min(1, .35 + i * .08);
+          lbl.textContent = `${i + 1} HIT`; lbl.style.transform = 'translate(-50%,0) scale(1.35)'; setTimeout(() => { lbl.style.transform = 'translate(-50%,0)'; }, 90);
+          // combo blows get only a tiny hit-stop: in the game the model's clip keeps real time, so long freezes would let the effects fall behind it
+          if (i < last) { blow[i]?.(); fx.stop = Math.min(fx.stop, .02); if (tg.alive && near(hero.pos(), 2.6)) { hurt(dmg[i] ?? 100, i === last - 1, .08); if (i === last - 1) tg.knock(dirTo(), .3); } return; }
+          // the finisher: two gold arcs sweeping up, the ring rising off the fists into the chin
+          lbl.textContent = `${H.length} HIT · ถวายแหวน!`;
           const f = fistsAt();
           for (const side of [-1, 1]) fx.slashArc(f.clone().add(V(0, -.3, 0)), tg.pos, { r: 1.1, sweep: 1.5, roll: Math.PI / 2 + side * .25, dir: side, pal: 'gold', thick: .6, dur: .07, hold: .03, dis: .2 });
           const ringM = fx.add(new THREE.Mesh(new THREE.TorusGeometry(.32, .07, 10, 40), new THREE.MeshBasicMaterial({ color: C(2.6, 2, .7), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })));
           const from = f.clone(), to = headP(tg).add(V(0, -.15, 0));
-          fx.addTask((dt, t) => { const u = clamp01(t / .12); ringM.position.copy(from).lerp(to, u).add(V(0, Math.sin(u * Math.PI) * .2, 0)); ringM.lookAt(fx.camera.position); ringM.scale.setScalar(t < .12 ? .7 + u * .3 : 1 + (t - .12) * 4); ringM.material.opacity = t < .12 ? 1 : 1 - (t - .12) / .45; if (t > .57) { fx.kill(ringM); return false; } });
+          fx.addTask((dt, t) => { const k = clamp01(t / .12); ringM.position.copy(from).lerp(to, k).add(V(0, Math.sin(k * Math.PI) * .2, 0)); ringM.lookAt(fx.camera.position); ringM.scale.setScalar(t < .12 ? .7 + k * .3 : 1 + (t - .12) * 4); ringM.material.opacity = t < .12 ? 1 : 1 - (t - .12) / .45; if (t > .57) { fx.kill(ringM); return false; } });
           fx.after(.1, () => {
             const tp = tg.pos.clone().add(tg.off);
-            fx.flash(to, 0xffd060, 90, .6); fx.impact(to, 2.4); fx.hitstop(.14); fx.shake = .3; pulse = 1;
-            fx.lightPillar(tp, C(2.2, 1.7, .6), 7, .9, 1); fx.shock(tp.x, tp.z, 3.4, GOLD, C(1, .4, .1), .9);
-            fx.burst(to, 30, { c: [GOLD, WHITE], size: .14, sp: 5, upMin: .5, life: .5, shape: SH.star, drag: 3 });
-            if (near(hero.pos(), 2.4)) { hurt(520, true, .2); tg.knock(dirTo(), .9); fx.stunStars(tg, 1.2); }
-            fx.popup(tg.head().add(V(0, .9, 0)), 'ถวายแหวน!', 'st big');
+            fx.flash(to, 0xffd060, 90, .6); fx.impact(to, 2.6); fx.hitstop(.16); fx.shake = .35; pulse = 1;
+            fx.lightPillar(tp, C(2.2, 1.7, .6), 7, .9, 1); fx.shock(tp.x, tp.z, 3.6, GOLD, C(1, .4, .1), .9);
+            fx.burst(to, 36, { c: [GOLD, WHITE], size: .14, sp: 5, upMin: .5, life: .5, shape: SH.star, drag: 3 });
+            if (tg.alive && near(hero.pos(), 2.6)) { hurt(560, true, .2); tg.knock(dirTo(), .9); fx.stunStars(tg, 1.2); }
           });
         });
+        // the parry before the finisher: a cool deflection arc across the face
+        fx.after(PARRY, () => {
+          fx.slashArc(chest(hero).add(V(0, .45, 0)), tg.pos, { r: .7, sweep: 1.4, roll: 1.2, dir: -1, pal: 'blue', thick: .4, dur: .08, hold: .03, dis: .16 });
+          fx.burst(chest(hero).add(dirTo().multiplyScalar(.45)).add(V(0, .45, 0)), 10, { c: [WHITE, C(1.4, 1.7, 2.2)], size: .08, sp: 3, life: .3, shape: SH.star, drag: 4 });
+          fx.popup(headP(hero).add(V(0, .2, 0)), 'ปัด!', 'st');
+        });
       });
-      return 1.9;
+      return 3.3;
     },
   };
 

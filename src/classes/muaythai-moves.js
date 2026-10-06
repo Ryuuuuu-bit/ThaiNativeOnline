@@ -26,7 +26,7 @@ export const MUAYTHAI_SKILLS = [
   { id: 'boxer_elbow', icon: '💢', mp: 8, cooldown: 3, key: 'Digit7', name: 'ศอกกลับพลิกล็อก', clip: 'boxer_elbow', fallback: 'attack_combo', duration: 0.9, hits: [0.25, 0.48] },   // ศอกตัด, then ศอกกลับ with the same arm
   { id: 'boxer_knee', icon: '🦶', mp: 11, cooldown: 4.5, key: 'Digit8', name: 'เข่าลอยทะลวงฟ้า', clip: 'boxer_knee', fallback: 'skill_teep', duration: 1.2, hits: [0.6] },
   { id: 'boxer_iron', icon: '🛡️', mp: 15, cooldown: 20, key: 'Digit9', name: 'กายเหล็กคาถามหาอุด', clip: 'boxer_iron', fallback: 'idle', duration: 2.4, hits: [] },
-  { id: 'boxer_hanuman', icon: '🐵', mp: 20, cooldown: 14, key: 'Digit0', name: 'หนุมานถวายแหวน', clip: 'boxer_hanuman', fallback: 'attack_combo', duration: 1.6, hits: [0.34, 0.78] },   // parry, double uppercut
+  { id: 'boxer_hanuman', icon: '🐵', mp: 20, cooldown: 14, key: 'Digit0', name: 'หนุมานถวายแหวน', clip: 'boxer_hanuman', fallback: 'attack_combo', duration: 2.9, hits: [0.2, 0.37, 0.57, 0.73, 0.97, 1.2, 1.5, 2.13] },   // jab, cross, elbow ×2, knee ×2, kick, then the double uppercut (parry at 1.87)
 ];
 
 export const SKILL_BY_KEY = Object.fromEntries(MUAYTHAI_SKILLS.map(s => [s.key, s]));
