@@ -1,12 +1,14 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { HERBALIST_SKILLS } from '../herbalist-moves.js';
 
 // หมอยา: ten skills ported from prototypes/skill-fx/src/healer_fx.src.html onto the
 // 3D herbalist. The prototype was a party fight; here heals land on the herbalist
-// and attacks on the training dummy. While casting, the black grimoire (ตำรายา)
-// appears in the left hand (or floats beside the shoulder for two-handed moves)
-// and opens. Positions are FX-local units (see engine.js K).
+// and attacks on the training dummy. While casting, the grimoire (ตำรายา, Tripo model
+// public/models/herbalist-book.glb) orbits the herbalist closed; on release it glides
+// to the front, bursts open into the spell-book with the sigil, then closes and orbits on.
+// Positions are FX-local units (see engine.js K).
 const { GOLD, WHITE, DUST } = COL;
 const HERB = C(.45, 1.6, .55), HERB_HOT = C(1.4, 3, 1.3), LEAF = C(.35, 1.0, .35), GOLD_SOFT = C(1.2, .9, .35),
   EMBER = C(2.6, 1.0, .25), WATER = C(.5, 1.4, 2.4), MPBLUE = C(.4, .8, 2.4);
@@ -77,7 +79,7 @@ function textures() {
 // ---- the grimoire ----------------------------------------------------------------------
 function makeBook(fx) {
   const T = textures(), W = .3, H = .4, root = new THREE.Group(), book = new THREE.Group(); root.add(book); fx.add(root);
-  const leather = new THREE.MeshStandardMaterial({ color: 0x29262a, roughness: .55, metalness: .1 });
+  const leather = new THREE.MeshStandardMaterial({ color: 0x1f3a2c, roughness: .55, metalness: .1 });
   const goldM = new THREE.MeshStandardMaterial({ color: 0xd4a23f, roughness: .3, metalness: .85, emissive: 0x3a2400 });
   const coverM = new THREE.MeshStandardMaterial({ map: T.cover, emissiveMap: T.cover, emissive: 0xffffff, emissiveIntensity: .55, roughness: .5, metalness: .15 });
   const pageM = new THREE.MeshBasicMaterial({ map: T.page, color: C(.8, .78, .7) });
@@ -91,10 +93,18 @@ function makeBook(fx) {
   });
   const spine = new THREE.Mesh(new THREE.BoxGeometry(.11, H, .02), leather); spine.position.z = -.012; book.add(spine);
   const sigil = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: T.sigil, color: C(1.1, .85, .3), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide, opacity: 0 }));
-  sigil.position.z = .3; book.add(sigil);
+  sigil.position.z = .2; book.add(sigil);
   root.traverse(o => { if (o.isMesh && o !== sigil) o.castShadow = true; });
+  // the closed tome: Tripo model, cover turned outward (away from the caster), ~0.48 tall
+  const closed = new THREE.Group(); closed.rotation.y = Math.PI; root.add(closed);
+  new GLTFLoader().loadAsync('models/herbalist-book.glb').then(g => {
+    const m = g.scene, box = new THREE.Box3().setFromObject(m), sz = box.getSize(new THREE.Vector3()), k = .48 / sz.y;
+    m.scale.setScalar(k); m.position.copy(box.getCenter(new THREE.Vector3()).multiplyScalar(-k));
+    m.traverse(o => { if (o.isMesh) { o.castShadow = true; if (o.material.emissive) { o.material.emissive.set(0x2a2208); } } });
+    closed.add(m);
+  }).catch(() => {}); // without the model the procedural book is used throughout
   root.scale.setScalar(.01); root.visible = false;
-  return { root, book, halves, sigil, pageM, open: 0, show: 0 };
+  return { root, book, closed, halves, sigil, pageM, open: 0, show: 0, wasOpen: false };
 }
 
 // ---- runner ----------------------------------------------------------------------------
@@ -114,36 +124,52 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
   const hurt = (amt, crit, push = .2) => tg.hurt(amt, crit, push, hero.pos());
   const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
   const lw = new THREE.Vector3(), boneLocal = name => { const b = character.bone?.(name); return b ? fx.toLocal(b.getWorldPosition(lw)) : null; };
-  // the open hand / book in front of the chest
-  const castPoint = () => boneLocal('LeftHand')?.add(dirTo().multiplyScalar(.15)).add(V(0, .12, 0)) ?? chest(hero).add(dirTo().multiplyScalar(.45)).add(V(0, .15, 0));
+  // where spells leave from: the open grimoire while it is out, else the left hand / chest
+  const castPoint = () => (BOOK?.root.visible ? BOOK.root.position.clone().add(V(0, .1, 0)) : null) ?? boneLocal('LeftHand')?.add(dirTo().multiplyScalar(.15)).add(V(0, .12, 0)) ?? chest(hero).add(dirTo().multiplyScalar(.45)).add(V(0, .15, 0));
 
-  // ---- grimoire: appears for the cast, sits in the left hand or floats by the shoulder, opens on release
-  const BOOK = makeBook(fx); let bookMode = null, bookUntil = 0, bookOpenAt = 0;
-  const showBook = (mode, dur, openAt) => {
-    bookMode = mode; bookUntil = R.time + dur + .35; bookOpenAt = R.time + openAt - .25;
-    BOOK.root.visible = true; const p = castPoint();
-    fx.burst(p, 16, { c: [GOLD, C(.8, 1.6, .5)], size: .1, sp: 1.6, life: .7, shape: SH.leaf, drag: 2, vr: 4 });
+  // ---- grimoire: appears beside the herbalist and orbits at shoulder height for the whole cast;
+  // on release it glides to the front-left, opens toward the caster, then closes and orbits on.
+  // ORBIT_R keeps the whole book clear of the body: in every herbalist clip the mesh reaches at
+  // most ~0.74 from the axis at orbit height, the book's nearest edge (tilted open page / sigil)
+  // stays ≥ 0.8 from it.
+  const ORBIT_R = 1.05, ORBIT_Y = 1.3, ORBIT_W = 2.2, FRONT = .55;
+  const BOOK = makeBook(fx); let bookOn = false, bookUntil = 0, bookOpenAt = 0, bookCloseAt = 0, bookAng = 0;
+  const bookPos = () => hero.pos().add(V(Math.sin(bookAng) * ORBIT_R, ORBIT_Y + Math.sin(R.time * 2.1) * .05, Math.cos(bookAng) * ORBIT_R));
+  const showBook = (dur, openAt) => {
+    const f = dirTo();
+    if (!bookOn || BOOK.show < .1) bookAng = Math.atan2(f.x, f.z) + Math.PI * .75; // appear behind the left shoulder
+    bookOn = true; bookUntil = R.time + dur + .35; bookOpenAt = R.time + openAt - .3; bookCloseAt = R.time + Math.max(openAt + .55, dur - .2);
+    BOOK.root.visible = true;
+    fx.burst(bookPos(), 16, { c: [GOLD, C(.8, 1.6, .5)], size: .1, sp: 1.6, life: .7, shape: SH.leaf, drag: 2, vr: 4 });
   };
   function stepBook(dt) {
-    const B = BOOK, on = bookMode && R.time < bookUntil;
+    const B = BOOK, on = bookOn && R.time < bookUntil;
     B.show += ((on ? 1 : 0) - B.show) * Math.min(1, dt * 10);
-    if (B.show < .02 && !on) { B.root.visible = false; bookMode = null; return; }
-    const opening = on && R.time > bookOpenAt; B.open += ((opening ? 1 : 0) - B.open) * Math.min(1, dt * 12);
-    const fwd = dirTo(), side = V(fwd.z, 0, -fwd.x), hp = hero.pos();
-    let pos;
-    if (bookMode === 'hand') pos = boneLocal('LeftHand')?.addScaledVector(fwd, .06).add(V(0, .06, 0));
-    pos ??= hp.clone().addScaledVector(side, .55).add(V(0, 1.55 + Math.sin(R.time * 2.1) * .05, 0)).addScaledVector(fwd, .15);
+    if (B.show < .02 && !on) { B.root.visible = false; bookOn = false; return; }
+    const opening = on && R.time > bookOpenAt && R.time < bookCloseAt;
+    B.open += ((opening ? 1 : 0) - B.open) * Math.min(1, dt * 12);
+    const fwd = dirTo(), hp = hero.pos();
+    if (opening) { // glide along the orbit to the front-left and hold there while the spell is read
+      const goal = Math.atan2(fwd.x, fwd.z) + FRONT;
+      const d = THREE.MathUtils.euclideanModulo(goal - bookAng + Math.PI, Math.PI * 2) - Math.PI;
+      bookAng += d * Math.min(1, dt * 9);
+    } else bookAng += ORBIT_W * dt * (1 - .6 * B.open);
+    const pos = bookPos();
     B.root.position.copy(pos); B.root.scale.setScalar(Math.max(.01, B.show) * 1.25);
-    // pages face up and back toward the reader, tipping forward as it opens
-    const look = fx.toWorld(pos.clone().add(V(0, 1, 0)).addScaledVector(fwd, -.6 + B.open * .9));
-    B.root.lookAt(look);
-    const o = B.open, c = 1 - o;
+    // pages face the caster (tilted up toward the face) with a little flutter
+    const look = fx.toWorld(V(hp.x, pos.y + .75, hp.z));
+    B.root.lookAt(look); B.root.rotateZ(Math.sin(R.time * 3.3) * .08 * (1 - B.open));
+    const o = B.open, c = 1 - o, hasTome = B.closed.children.length > 0;
+    // swap closed tome ⇄ open spell-book with a gold puff at the switch
+    B.closed.scale.setScalar(Math.max(.001, c)); B.closed.visible = c > .02;
+    B.book.scale.setScalar(hasTome ? Math.max(.001, o) : 1); B.book.visible = !hasTome || o > .02;
+    if (opening !== B.wasOpen) { B.wasOpen = opening; fx.burst(pos.clone(), opening ? 22 : 10, { c: [GOLD, HERB_HOT], size: .09, sp: opening ? 2.2 : 1.2, life: .6, shape: SH.star, drag: 2.5 }); }
     B.halves.forEach(({ h, side: sd }) => h.rotation.y = -sd * (c * Math.PI / 2 * .98 + .12));
     B.sigil.material.opacity = o * .9; B.sigil.rotation.z = R.time * 1.2; B.sigil.scale.setScalar(.55 + o * .25 + Math.sin(R.time * 8) * .02);
     B.pageM.color.setRGB(.72 + o * .18, .7 + o * .22, .62 + o * .06);
     if (Math.random() < dt * (3 + o * 30)) fx.emit({ p: pos.clone().add(V(rand(-.2, .2), rand(-.15, .2), rand(-.1, .2))), v: V(rand(-.2, .2), rand(.3, .9), rand(-.2, .2)), c: o > .3 ? (Math.random() < .5 ? GOLD : HERB_HOT) : GOLD_SOFT, life: rand(.5, 1), size: rand(.04, .08), shape: Math.random() < .3 ? SH.star : SH.glow });
   }
-  const cast = id => { const m = MOVES[id]; face(tpos()); anim(id); showBook(m.book, m.duration, m.hits[0]); return m; };
+  const cast = id => { const m = MOVES[id]; face(tpos()); anim(id); showBook(m.duration, m.hits[0]); return m; };
 
   const SK = {
     // 1 · สายใยสมุนไพร: twin twisting vines from the book to the target, life pulses flow back to the herbalist
