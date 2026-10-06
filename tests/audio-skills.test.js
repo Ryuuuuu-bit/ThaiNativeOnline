@@ -6,11 +6,12 @@ import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
+import { SHAMAN_SKILLS } from '../src/classes/shaman-moves.js';
 
-const SKILLS = [...MUAYTHAI_SKILLS, ...HERBALIST_SKILLS, ...HUNTER_SKILLS, ...WARRIOR_SKILLS];
+const SKILLS = [...MUAYTHAI_SKILLS, ...HERBALIST_SKILLS, ...HUNTER_SKILLS, ...WARRIOR_SKILLS, ...SHAMAN_SKILLS];
 
-test('all forty skills have a signature sound that exists', () => {
-  assert.equal(SKILLS.length, 40);
+test('all fifty skills have a signature sound that exists', () => {
+  assert.equal(SKILLS.length, 50);
   for (const s of SKILLS) {
     const entry = SKILL_SFX[s.id];
     assert.ok(entry, `${s.id} (${s.name}) has sounds`);

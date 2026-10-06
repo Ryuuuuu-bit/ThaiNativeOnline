@@ -14,3 +14,4 @@ three signature poses). These drive the Tripo GLB characters
 | Hunter พราน | no sheet — model generated directly in Tripo (`hunter/ANIMATIONS.md`) |
 
 Warrior นักรบ (ขุนศึกดาบคู่) is modelled from `warrior.webp`: `warrior/ANIMATIONS.md`.
+Shaman หมอผี (จอมขมังเวทย์), the owner's Tripo model and rig with a skull staff: `shaman/ANIMATIONS.md`.

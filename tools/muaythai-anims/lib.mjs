@@ -42,12 +42,13 @@ export function rotWorld(R, pose, name, axis, angle) {
   const p = pose.get(node); p.r.premultiply(Pw.clone().invert().multiply(Rw).multiply(Pw)).normalize();
 }
 // Write a list of poses (sampled at fps) as a new animation.
-export function writeAnim(R, name, frames, fps) {
+// `extra`: node names outside the skin to key as well (e.g. a weapon turning in the hand).
+export function writeAnim(R, name, frames, fps, extra = []) {
   const { doc } = R; const buf = doc.getRoot().listBuffers()[0];
   const anim = doc.createAnimation(name);
   const times = new Float32Array(frames.length).map((_, i) => i / fps);
   const input = doc.createAccessor().setType('SCALAR').setArray(times).setBuffer(buf);
-  const joints = R.root.listSkins()[0].listJoints();
+  const joints = [...R.root.listSkins()[0].listJoints(), ...extra.map(n => R.byName[n]).filter(Boolean)];
   for (const n of joints) for (const path of ['translation', 'rotation']) {
     const k = path === 'rotation' ? 4 : 3, arr = new Float32Array(frames.length * k);
     frames.forEach((f, i) => { const p = f.get(n); (path === 'rotation' ? p.r : p.t).toArray(arr, i * k); });

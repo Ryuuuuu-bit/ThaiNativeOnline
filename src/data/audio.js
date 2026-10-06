@@ -85,6 +85,10 @@ Object.assign(SFX, {
   blade_draw:  { vary: .06, layers: [{ wave: 'noise', dur: .35, a: .05, gain: .06, filter: { type: 'bandpass', f: [3500, 7000], q: 6 } }, { wave: 'sine', f: [2900, 3100], dur: .4, at: .05, gain: .025 }] },
   blade_cut:   { vary: .1, layers: [{ wave: 'noise', dur: .14, a: .01, gain: .12, filter: { type: 'bandpass', f: [2600, 900], q: 1.4 } }, { wave: 'sine', f: [3300, 3000], dur: .22, at: .02, gain: .03 }] },
   thunder:     { layers: [{ wave: 'noise', dur: .9, a: .01, gain: .3, filter: { type: 'lowpass', f: [1800, 120], q: .7 } }, { wave: 'sine', f: [70, 40], dur: .8, gain: .3 }] },
+  // the shaman: a chanted hum as the spell gathers, a whoosh of fire, a sizzle of spirit
+  chant:       { vary: .04, layers: [{ wave: 'sawtooth', f: [110, 104], dur: .6, a: .15, gain: .05, filter: { type: 'lowpass', f: [700, 500], q: 4 } }, { wave: 'sine', f: [220, 218], dur: .6, a: .15, gain: .05 }] },
+  fire_whoosh: { vary: .1, layers: [{ wave: 'noise', dur: .45, a: .04, gain: .14, filter: { type: 'bandpass', f: [500, 1600], q: .9 } }, { wave: 'sine', f: [160, 70], dur: .35, gain: .08 }] },
+  spirit:      { vary: .08, layers: [{ wave: 'sine', f: [880, 660], dur: .5, a: .05, gain: .05 }, { wave: 'noise', dur: .4, a: .1, gain: .05, filter: { type: 'highpass', f: [4000, 2500] } }] },
   dog_bark:    { vary: .06, layers: [0, .16].flatMap(at => [{ wave: 'sawtooth', f: [620, 340], dur: .11, at, gain: .09, filter: { type: 'bandpass', f: [900, 700], q: 3 } }, { wave: 'noise', dur: .08, at, gain: .06, filter: { type: 'bandpass', f: [1400, 900], q: 2 } }]) },
   bow_release: { vary: .08, layers: [{ wave: 'triangle', f: [190, 150], dur: .22, gain: .16 }, { wave: 'noise', dur: .05, gain: .12, filter: { type: 'highpass', f: [2500, 2500] } }, { wave: 'noise', dur: .25, at: .02, a: .02, gain: .07, filter: { type: 'bandpass', f: [3000, 1200], q: 2 } }] },
   sig_jab:     { layers: [{ wave: 'noise', dur: .08, gain: .06, filter: { type: 'bandpass', f: [1500, 2500], q: 2 } }] },
@@ -173,6 +177,17 @@ export const SKILL_SFX = {
   sword_leap: { cast: 'swing_heavy', hit: 'slam' },
   sword_berserk: { cast: 'blade_draw', hit: 'buff' },
   sword_execute: { cast: 'blade_draw', hit: 'thunder' },
+  // the shaman: every spell is chanted; the hit is what the spell is made of
+  mage_akom: { cast: 'chant', hit: 'fire_whoosh' },
+  mage_yant: { cast: 'chant', hit: 'spirit' },
+  mage_shield: { cast: 'chant', hit: 'buff' },
+  mage_thunder: { cast: 'chant', hit: 'thunder' },
+  mage_kalp: { cast: 'chant', hit: 'fire_whoosh' },
+  mage_holy: { cast: 'chant', hit: 'heal' },
+  mage_ghostfire: { cast: 'chant', hit: 'spirit' },
+  mage_curse: { cast: 'chant', hit: 'spirit' },
+  mage_meditate: { cast: 'chant', hit: 'buff' },
+  mage_storm: { cast: 'chant', hit: 'thunder' },
 };
 
 // Game events → SFX ids (src/audio/gameSounds.js).
@@ -183,7 +198,7 @@ export const SFX_EVENTS = {
   'character:levelup': 'levelup', 'character:used': 'heal',
 };
 // Cast sound per training-ground kit (src/classes/index.js CLASS_KITS ids).
-export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb', hunter: 'bow_draw', warrior: 'blade_draw' };
+export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb', hunter: 'bow_draw', warrior: 'blade_draw', shaman: 'chant' };
 
 // Generative music (src/audio/Music.js) on a 16-step bar. Two styles:
 //
