@@ -21,6 +21,7 @@ import { QuestSystem } from '../quest/QuestSystem.js';
 import { QuestUI } from '../ui/QuestUI.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
+import { slotStorage } from './SaveSlot.js';
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -48,7 +49,7 @@ export class Game {
 
     this.player = new Player(this.scene);
     this.discovered = new Set();
-    try { for (const id of JSON.parse(localStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
+    try { for (const id of JSON.parse(slotStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
     // One map at a time; walking through the north gate swaps city ⇄ wilds.
     this.maps = new MapManager({
       scene: this.scene, clock: this.clock, player: this.player,
@@ -57,7 +58,7 @@ export class Game {
     });
     await this.maps.start(MapManager.startLocation(params));
     // Quests and vendors attach to the character once one exists (after creation or load).
-    this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id) });
+    this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id), storage: slotStorage });
     this.questUI = new QuestUI(this.quests, {
       onAccept: id => { if (this.quests.accept(id)) this.hud.toast(`รับเควส · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).offer); this.refreshDialogue(); },
       onComplete: id => { if (this.quests.complete(id)) this.hud.toast(`สำเร็จ · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).done); this.refreshDialogue(); },
@@ -270,7 +271,7 @@ export class Game {
     const fresh = !this.discovered.has(l.id);
     if (!fresh && !force) return;
     this.discovered.add(l.id);
-    try { localStorage.setItem('tno.discovered.v1', JSON.stringify([...this.discovered])); } catch { /* storage unavailable */ }
+    slotStorage.setItem('tno.discovered.v1', JSON.stringify([...this.discovered]));
     this.quests.onDiscover(l.id);
     this.hud.toast(fresh ? `ค้นพบ · ${l.name}` : l.name, l.text, l.purpose);
     this.updateJournal();

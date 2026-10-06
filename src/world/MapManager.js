@@ -1,4 +1,5 @@
 import { buildWorld } from './World.js';
+import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { Portals } from './Portals.js';
 import { J } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, mapOf, portalAt, landmarksOf, spawnsOf, npcsForMap, walkable } from './maps.js';
@@ -44,7 +45,7 @@ export class MapManager {
       return { map, x, z, facing: Math.PI };
     }
     try {
-      const saved = JSON.parse(localStorage.getItem(LOCATION_KEY) ?? 'null');
+      const saved = JSON.parse(slotStorage.getItem(LOCATION_KEY) ?? 'null');
       if (saved && MAPS[saved.map] && Number.isFinite(saved.x) && Number.isFinite(saved.z)) return saved;
     } catch { /* storage unavailable */ }
     return { map: DEFAULT_MAP, ...MAPS[DEFAULT_MAP].spawn };
@@ -146,7 +147,7 @@ export class MapManager {
   save() {
     if (!this.map) return;
     const p = this.player.position;
-    try { localStorage.setItem(LOCATION_KEY, JSON.stringify({ map: this.map.id, x: +p.x.toFixed(2), z: +p.z.toFixed(2), facing: +this.player.group.rotation.y.toFixed(3) })); } catch { /* storage unavailable */ }
+    slotStorage.setItem(LOCATION_KEY, JSON.stringify({ map: this.map.id, x: +p.x.toFixed(2), z: +p.z.toFixed(2), facing: +this.player.group.rotation.y.toFixed(3) }));
   }
 
   // Full-screen fade while maps swap (DOM overlay, inline styles).

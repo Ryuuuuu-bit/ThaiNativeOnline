@@ -4,6 +4,7 @@ import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS } from './data/classes.js';
 import { ITEMS } from './data/items.js';
 import { MAX_LEVEL, expToNext } from './data/progression.js';
 import { Emitter } from './Emitter.js';
+import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 
 const SAVE_KEY = 'tno.character.v1';
 const INVENTORY_SIZE = 24;
@@ -198,15 +199,15 @@ export class Character extends Emitter {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp } = this;
     return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp };
   }
-  save() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
+  save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {
     try {
-      const raw = localStorage.getItem(SAVE_KEY); if (!raw) return null;
+      const raw = slotStorage.getItem(SAVE_KEY); if (!raw) return null;
       const data = JSON.parse(raw);
       if (!CLASSES[CLASS_ALIASES[data.classId] || data.classId]) return null;
       data.inventory = data.inventory?.map(s => (s && ITEMS[s.id] ? s : null));
       return new Character(data);
     } catch { return null; }
   }
-  static clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch { /* ignore */ } }
+  static clearSave() { try { slotStorage.removeItem(SAVE_KEY); } catch { /* ignore */ } }
 }

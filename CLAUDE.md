@@ -56,6 +56,9 @@ Do not change public interfaces without documenting it.
   its modelled GLB (`AVATARS` in `src/data/training.js`); Muay Thai also gets a
   straw dummy in the city to test skill damage from `src/rules`. It hooks into
   `Game` and `Player.useModel()`. `?rig` turns it off.
+- `src/main.js` runs `src/account` first (login → character select → creation;
+  interface: `src/account/README.md`). Per-character saves go through
+  `slotStorage` from `src/core/SaveSlot.js`, never `localStorage` directly.
 - Click-to-walk plans its route with `findPath(canStand, from, to)` from
   `src/core/GridPath.js`; combat's `moveTo` still walks straight and retries.
 - `src/core/`, `src/data/`, `src/ui/`, `src/entities/` and `src/npc/` are shared

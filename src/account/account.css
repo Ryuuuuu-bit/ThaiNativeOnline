@@ -1,0 +1,51 @@
+/* Login and character select: same dark-green glass and gold serif as the
+   creation screen (character.css). Shown above the loading screen (z 20). */
+.acc-screen{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:16px;overflow:auto;background:radial-gradient(ellipse at 50% 35%,#24402fcc,#0b1712f7),#0b1712}
+.acc-flow .g-create{z-index:30}
+.acc-screen .eyebrow{font-size:10px;letter-spacing:3px;color:#cdbb8a}
+.acc-screen h2{font:500 28px 'Noto Serif Thai',serif;margin:6px 0 16px;color:#f3dfa4}
+
+.acc-card{position:relative;display:grid;gap:10px;width:min(360px,100%);padding:30px 26px 22px;text-align:center}
+.acc-seal{justify-self:center;display:grid;place-items:center;width:46px;height:46px;border:1px solid #cdb170;border-radius:50%;font:600 22px 'Noto Serif Thai',serif;color:#f3dfa4;background:#1c2d27;box-shadow:0 0 0 4px #cabc8614}
+.acc-tabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid #cabc8633;border-radius:4px;overflow:hidden}
+.acc-tabs button{padding:7px;border:0;background:#0d1a16b3;color:#cfc8ac;font:inherit;font-size:12px;cursor:pointer}
+.acc-tabs [aria-selected=true]{background:#cabc8626;color:#f3dfa4}
+.acc-card label{display:grid;gap:4px;text-align:left;font-size:11px;color:#cfc8ac}
+.acc-card label[hidden]{display:none}
+.acc-card input{padding:9px 10px;border:1px solid #cabc8640;border-radius:3px;background:#0b1512cc;color:#f3eedb;font:inherit;font-size:14px}
+.acc-card input:focus{outline:none;border-color:#e1c983;box-shadow:0 0 0 2px #e1c98333}
+.acc-card input::placeholder{color:#6f7a72;font-size:10px}
+.acc-error{min-height:16px;margin:0;font-size:11px;color:#f08a6a}
+.acc-primary,.acc-guest,.acc-logout{padding:10px;border:1px solid #cdb170;border-radius:3px;font:inherit;cursor:pointer}
+.acc-primary{background:linear-gradient(#c9a352,#9c7a32);color:#1a1408;font-weight:600}
+.acc-primary:disabled{opacity:.6;cursor:wait}
+.acc-guest,.acc-logout{background:#0d1a16b3;color:#e3d7af;border-color:#cabc8655}
+.acc-primary:hover,.acc-guest:hover,.acc-logout:hover{filter:brightness(1.12)}
+.acc-or{display:flex;align-items:center;gap:10px;font-size:10px;color:#7d877f}
+.acc-or::before,.acc-or::after{content:'';flex:1;height:1px;background:#cabc8626}
+.acc-note{margin:2px 0 0;font-size:9px;color:#7d877f}
+
+.acc-select{width:min(900px,100%);text-align:center}
+.acc-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.acc-slot{position:relative;display:flex;flex-direction:column;min-height:220px;border:1px solid #cabc8633;border-top:3px solid var(--cls,#cabc8655);border-radius:4px;background:linear-gradient(#22342fe8,#121f1be8)}
+.acc-play,.acc-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px 8px;border:0;background:none;color:#f3eedb;font:inherit;cursor:pointer}
+.acc-slot:hover{border-color:var(--cls,#e1c983);box-shadow:0 0 0 1px var(--cls,#e1c983),0 10px 30px #0006}
+.acc-icon{font-size:40px;margin-bottom:6px}
+.acc-play b{font:500 18px 'Noto Serif Thai',serif}
+.acc-play em{font-style:normal;font-size:11px;color:#e1c983}
+.acc-play small{font-size:10px;color:#9aa596}
+.acc-enter{margin-top:10px;padding:5px 16px;border:1px solid #cdb170;border-radius:3px;font-size:11px;color:#f3dfa4}
+.acc-delete{position:absolute;top:6px;right:6px;padding:1px 7px;border:1px solid #cabc8633;border-radius:3px;background:none;color:#7d877f;font:inherit;font-size:10px;cursor:pointer}
+.acc-delete:hover{color:#f08a6a;border-color:#f08a6a}
+.acc-empty{border:1px dashed #cabc8640;border-radius:4px}
+.acc-plus{display:grid;place-items:center;width:46px;height:46px;border:1px dashed #cabc8666;border-radius:50%;font-size:24px;color:#cdbb8a;margin-bottom:6px}
+.acc-empty b{font-weight:500;color:#cfc8ac}.acc-empty em{font-style:normal;font-size:10px;color:#6f7a72}
+.acc-logout{min-width:180px}
+.acc-play:focus-visible,.acc-empty:focus-visible,.acc-screen button:focus-visible{outline:2px solid #e1c983;outline-offset:2px}
+
+/* In-game settings panel */
+.acc-settings{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #cabc8626}
+.acc-settings button{padding:6px;border:1px solid #cabc8644;border-radius:3px;background:#0d1a16b3;color:#e3d7af;font:inherit;font-size:11px;cursor:pointer}
+.acc-settings button:hover{border-color:#e1c983}
+
+@media (max-width:760px){.acc-slots{grid-template-columns:repeat(2,1fr)}.acc-slot{min-height:180px}.acc-screen h2{font-size:22px}}
