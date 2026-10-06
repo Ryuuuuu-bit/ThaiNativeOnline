@@ -1,0 +1,59 @@
+/* City training ground: skill FX labels, the Muay Thai hotbar and the damage
+   log, in the city's dark-glass-and-gold look. FX/hotbar class names come from
+   src/forest/fx (their forest styles live in src/forest/forest.css). */
+.fx-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 3; }
+.fx-dim { position: absolute; inset: 0; background: #02040a; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 2; }
+.fx-vignette { position: absolute; inset: 0; opacity: 0; pointer-events: none; z-index: 2; background: radial-gradient(ellipse at 50% 55%, transparent 38%, #0a0f1f99 78%, #050814dd 100%); }
+.fx-pop { position: absolute; transform: translate(-50%, 0); font-weight: 600; font-size: 17px; white-space: nowrap; color: #fff3d6; text-shadow: 0 2px 0 #000, 0 0 6px #000c; animation: fx-rise 1.25s ease-out forwards; font-variant-numeric: tabular-nums; }
+.fx-pop.heal { color: #9dffaa; } .fx-pop.hurt { color: #ff7d6e; font-size: 14px; } .fx-pop.st { color: #ffd77a; font-size: 14px; } .fx-pop.big { font-size: 24px; color: #ffcf5a; }
+.fx-pop.fx-combo { animation: none; }
+@keyframes fx-rise { 0% { opacity: 0; translate: 0 6px; } 12% { opacity: 1; translate: 0 0; } 100% { opacity: 0; translate: 0 -46px; } }
+.fx-hp { position: absolute; width: 56px; height: 6px; margin-left: -28px; background: #000a; border: 1px solid #000c; border-radius: 2px; }
+.fx-hp i { display: block; height: 100%; background: #e2574c; transition: width .25s; }
+
+/* Hotbar: only near the dummy, where it replaces the class skill bar. */
+.hotbar { position: absolute; left: 50%; bottom: 64px; transform: translateX(-50%); display: none; align-items: stretch; gap: 8px; padding: 6px; max-width: calc(100% - 24px); z-index: 4;
+  background: linear-gradient(135deg, #192c27e0, #22342fb3); backdrop-filter: blur(16px); border: 1px solid #cabc8640; border-radius: 5px; box-shadow: 0 8px 30px #071e1740; }
+.training-near .hotbar { display: flex; }
+.training-near .g-skillbar { display: none; }
+.hotbar-row { display: flex; gap: 5px; overflow-x: auto; }
+.hotbar-sep { width: 1px; flex: none; background: #cabc8655; margin: 4px 2px; }
+.hotbar-slot { position: relative; flex: none; width: 50px; height: 50px; padding: 0; border: 1px solid #cabc8655; border-radius: 5px; background: linear-gradient(#24372f, #12201b); cursor: pointer; overflow: hidden; }
+.hotbar-slot.adv { background: linear-gradient(#3d3420, #231d10); border-color: #c8a256; }
+.hotbar-slot img { width: 42px; height: 42px; margin: 3px; image-rendering: pixelated; display: block; }
+.hotbar-slot .key { position: absolute; left: 3px; top: 1px; font-size: 11px; font-weight: 600; color: #fff; text-shadow: 0 1px 2px #000; }
+.hotbar-slot .cd { position: absolute; inset: 0; background: conic-gradient(#0b0f1ccc calc(var(--cd, 0) * 360deg), transparent 0); pointer-events: none; }
+.hotbar-slot .cdt { position: absolute; inset: 0; display: grid; place-content: center; color: #fff; font-weight: 600; font-size: 14px; text-shadow: 0 1px 3px #000; font-variant-numeric: tabular-nums; }
+.hotbar-slot:hover { border-color: #e1c983; }
+.hotbar-slot:focus-visible { outline: 2px solid #e1c983; outline-offset: 1px; }
+.hotbar-slot.fire { box-shadow: 0 0 0 2px #e1c983, 0 0 14px #e1c98399; }
+.hotbar-auto { flex: none; display: grid; place-content: center; text-align: center; min-width: 64px; line-height: 1.15; padding: 4px 8px; border: 1px solid #cabc8655; border-radius: 5px; background: linear-gradient(#24372f, #12201b); color: #f3eedb; cursor: pointer; font: inherit; }
+.hotbar-auto small { font-size: 10px; color: #cfc8ac; }
+.hotbar-auto.on { border-color: #e1c983; animation: fx-auto 1.2s ease-in-out infinite; }
+@keyframes fx-auto { 50% { box-shadow: 0 0 0 2px #e1c983, 0 0 12px #e1c983; } }
+.hotbar-tip { position: absolute; width: 220px; padding-bottom: 8px; pointer-events: none; z-index: 6; background: #13231ef0; border: 1px solid #cabc8655; border-radius: 4px; color: #f3eedb; font-size: 12px; }
+.hotbar-tip .ro-title { display: flex; justify-content: space-between; padding: 4px 10px; background: #cabc8622; color: #e1c983; font-weight: 600; }
+.hotbar-tip p { margin: 6px 10px 4px; }
+.hotbar-tip small { margin: 0 10px; color: #cfc8ac; }
+
+/* Damage log, left of the minimap. */
+.training-panel { position: absolute; right: 270px; top: 100px; width: 250px; padding: 10px 12px; font-size: 12px; z-index: 4; }
+.training-panel[hidden] { display: none; }
+.training-panel header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.training-panel header b { color: #e1c983; font-weight: 600; }
+.training-reset { padding: 1px 8px; border: 1px solid #cabc8655; border-radius: 3px; background: none; color: #cfc8ac; font: inherit; font-size: 11px; cursor: pointer; }
+.training-reset:hover { color: #fff; border-color: #e1c983; }
+.training-sub { margin: 0 0 8px; font-size: 10px; line-height: 1.5; color: #cfc8ac; }
+.training-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 0 0 8px; }
+.training-sum div { padding: 4px 2px; text-align: center; background: #0e1f1a99; border: 1px solid #cabc8626; border-radius: 3px; }
+.training-sum dt { font-size: 9px; color: #cfc8ac; } .training-sum dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.training-log { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 1px; }
+.training-log li { display: flex; justify-content: space-between; padding: 1px 6px; background: linear-gradient(90deg, #0e1f1a99, transparent); font-variant-numeric: tabular-nums; }
+.training-log li span { color: #cfc8ac; } .training-log .crit b { color: #ffcf5a; } .training-log .miss b { color: #8fa3b8; } .training-log .bleed b { color: #ff7d6e; } .training-log .ko b { color: #9dffaa; }
+.training-skills { width: 100%; border-collapse: collapse; font-size: 11px; font-variant-numeric: tabular-nums; }
+.training-skills th { text-align: right; font-weight: 400; color: #cfc8ac; border-bottom: 1px solid #cabc8626; } .training-skills th:first-child, .training-skills td:first-child { text-align: left; }
+.training-skills td { text-align: right; padding: 1px 0; }
+.training-tip { margin: 8px 0 0; font-size: 10px; color: #cfc8ac99; }
+@media (max-width: 900px) { .training-panel { right: auto; left: 16px; top: auto; bottom: 130px; width: 220px; } .hotbar { bottom: 20px; } .hotbar-slot { width: 40px; height: 40px; } .hotbar-slot img { width: 32px; height: 32px; } }
+@media (prefers-reduced-motion: reduce) { .fx-pop { animation-duration: .01s; } .hotbar-auto.on { animation: none; } }
+.photo-mode .hotbar, .photo-mode .training-panel { display: none !important; }

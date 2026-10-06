@@ -22,10 +22,18 @@ export class Player {
     this.setClass('warrior');
   }
   get position() { return this.group.position; }
+  // Hook (src/training): show an external model instead of the class rig, e.g.
+  // the Tripo Muay Thai fighter. `model` = { group, update(dt, time, moving, heading) };
+  // the Player still moves and turns this.group, the model only animates itself.
+  useModel(model) {
+    this.model = model; this.modelTime = 0;
+    this.rig.root.visible = false; this.group.add(model.group);
+  }
   setClass(classId) {
     if (classId === this.classId) return;
     if (this.rig) { this.group.remove(this.rig.root); this.rig.dispose(); }
     this.rig = new Character(classId, { scale: SCALE }); this.classId = classId;
+    this.rig.root.visible = !this.model;
     this.group.add(this.rig.root);
     this.rig.on(event => { if (GAME_EFFECTS.has(event.type)) this.effects.trigger(event, this.rig); });
   }
@@ -61,6 +69,7 @@ export class Player {
   }
   // speed: ground speed in m/s; the walk/run cycle is synced to it so feet don't slide.
   animate(dt, speed, world) {
+    if (this.model) { this.modelTime += dt; this.model.update(dt, this.modelTime, speed > 0, null); this.effects.update(dt); return; }
     const motion = this.rig.update(dt, speed / SCALE);
     if (motion && world) { // root motion of dash/leap skills
       const p = this.group.position, r = this.group.rotation.y, x = p.x + Math.sin(r) * motion, z = p.z + Math.cos(r) * motion;

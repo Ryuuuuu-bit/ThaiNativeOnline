@@ -52,6 +52,10 @@ Do not change public interfaces without documenting it.
   swaps them through portals (interface: `src/world/README.md`).
 - `src/data/spawns.js` places monster zones (all in the `wilds` map); monster
   types come from `src/combat/data/monsters.js`.
+- `src/training/` (interface: `src/training/README.md`) swaps a class's rig for
+  its modelled GLB (`AVATARS` in `src/data/training.js`); Muay Thai also gets a
+  straw dummy in the city to test skill damage from `src/rules`. It hooks into
+  `Game` and `Player.useModel()`. `?rig` turns it off.
 - Click-to-walk plans its route with `findPath(canStand, from, to)` from
   `src/core/GridPath.js`; combat's `moveTo` still walks straight and retries.
 - `src/core/`, `src/data/`, `src/ui/`, `src/entities/` and `src/npc/` are shared

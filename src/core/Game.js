@@ -20,6 +20,7 @@ import { SHOPS } from '../data/shops.js';
 import { QuestSystem } from '../quest/QuestSystem.js';
 import { QuestUI } from '../ui/QuestUI.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
+import { createClassAvatar } from '../training/TrainingGround.js';
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -169,10 +170,21 @@ export class Game {
     this.input.on('move', () => this.game.onManualMove());
     window.addEventListener('keydown', e => {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen) return;
+      if (this.training?.handleKey(e)) return; // keys 1–0 / Q near the training dummy
       if (this.game.handleKey(e)) return;
       // N jumps between night and morning; the clock keeps running unless locked in settings.
       if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);
     });
+  }
+
+  // Class avatar (src/training): once the character exists, a class with a modelled GLB
+  // wears it; Muay Thai also gets the training dummy in the city. ?rig keeps every class rig.
+  startTraining() {
+    this.training = params.has('rig') ? null : createClassAvatar(this.game.character.classId, {
+      scene: this.scene, camera: this.view.camera, renderer: this.renderer, root: $('app'), player: this.player,
+      canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
+    });
+    this.training?.enterMap(this.maps.map.id);
   }
 
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
@@ -198,6 +210,7 @@ export class Game {
     world.grass.mesh.geometry.instanceCount = $('quality').value === 'high' ? 56000 : 34000;
     if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
     if (this.questUI) this.updateJournal();
+    this.training?.enterMap(map.id);
   }
 
   nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }
@@ -283,7 +296,7 @@ export class Game {
     // While maps swap the fade overlay covers the screen; the clock keeps running.
     if (this.maps.busy || !this.world) return;
     // Movement: keys, or a straight walk to a clicked point.
-    const canMove = this.game?.canMove ?? true;
+    const canMove = (this.game?.canMove ?? true) && !this.training?.busy;
     if (!canMove) this.stopWalk();
     const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
     let stalled = false;
@@ -313,8 +326,10 @@ export class Game {
     this.world.update(this.elapsed, dt, view.focus, env);
     this.npcs.update(dt, this.elapsed, p);
     this.game?.update(dt, this.elapsed);
+    this.training?.update(dt);
     if (!this.questsReady && this.game?.ready) { this.quests.attach(this.game.character, this.game.combat); this.questsReady = true; }
     this.player.bindCombat(this.game); // rigged class model + skill animations (no-op once bound)
+    if (this.training === undefined && this.game?.ready) this.startTraining();
     if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);
