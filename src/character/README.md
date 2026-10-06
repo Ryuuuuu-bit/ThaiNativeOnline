@@ -1,6 +1,6 @@
 # Character system (`src/character/`)
 
-Owner: gameplay-engineer (`rig/`: technical-artist, `data/`: content-designer). Pure game logic in `Character.js`; content lives in `data/`.
+Owner: gameplay-engineer (`data/`: content-designer). Pure game logic in `Character.js`; content lives in `data/`.
 
 ## Files
 
@@ -41,6 +41,6 @@ Events (`character.on(name, fn)`): `change`, `damaged(amount)`, `death`, `exp(am
 - New item: add to `ITEMS`. `type` is `use`, `material` or `equip`; equipment needs `slot` and `bonus`.
 - Renamed class ids go in `CLASS_ALIASES` so old saves still load.
 
-## Rig (`rig/`)
+## Look
 
-Rigged 3D models and animation for all six classes: shared Mixamo-named skeleton, leg IK, anatomical joint limits, spring-bone cloth, and baked clips (idle/walk/run + three skills per class). `src/entities/Player.js` shows the player's class with it and plays a clip on every combat `cast` (`rig/castMap.js`). Viewer: `characters.html`. Validation: `npm run check:rig`. Details: `docs/character-rig.md`.
+Classes have no models here. The player wears the class's Tripo GLB (`AVATARS` in `src/data/training.js`, attached by `src/training` through `Player.setAvatar`), which plays the `casts` clip on every combat `cast`.

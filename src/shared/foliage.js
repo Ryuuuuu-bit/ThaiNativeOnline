@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-// Broadleaf foliage shared by the forest (src/forest/scene.js) and Ayutthaya
+// Broadleaf foliage for Ayutthaya (first made for the snowy forest prototype)
 // (src/world/Vegetation.js): dense clumps of small leaves whose texture stores data,
 // not colour — R = leaf shade, G = snow mask, A = coverage. The per-instance colour
 // tints the leaves, so one texture gives every tree its own hue and a darker,

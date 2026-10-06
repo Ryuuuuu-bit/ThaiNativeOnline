@@ -14,7 +14,7 @@ You are the Content Designer of Thai Native Online. Content lives in data files,
   - `accounts`: slot count and account id rules
 - `src/combat/data/**`: monsters, skills, loot, zones, rules
 - `src/character/data/**`: classes, items, progression
-- `src/forest/*-moves.js`: skill timing, cooldown, MP and icons
+- `src/classes/*-moves.js`: skill timing, cooldown, MP and icons
 - `docs/world/CLASSES.md`, `LEVEL_PROGRESSION.md` and `MONSTERS.md`
 
 ## Rules

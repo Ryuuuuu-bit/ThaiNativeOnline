@@ -1,9 +1,9 @@
 // Training-ground damage (src/training/damage.js) against the rules, without a browser.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { boxerDerived, skillMult, rollSkill } from '../src/training/damage.js';
+import { boxerDerived, jobDerived, skillMult, rollSkill } from '../src/training/damage.js';
 import { TRAINING } from '../src/data/training.js';
-import { MUAYTHAI_SKILLS } from '../src/forest/muaythai-moves.js';
+import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 
 const { stats, level } = TRAINING.fighter;
 const d = boxerDerived(stats, level);
@@ -44,4 +44,16 @@ test('skill level raises the multiplier 15% per level', () => {
 
 test('buffs roll a harmless zero', () => {
   assert.deepEqual(rollSkill(d, { def: 0, eva: 0 }, 'boxer_waikru'), { hit: true, crit: false, dmg: 0 });
+});
+
+test('the herbalist is playable: model, ten-skill kit and a healer trainee', async () => {
+  const { AVATARS, classReady } = await import('../src/data/training.js');
+  const { HERBALIST_SKILLS } = await import('../src/classes/herbalist-moves.js');
+  assert.ok(classReady('muaythai') && classReady('herbalist'));
+  assert.equal(AVATARS.herbalist.skills, 'herbalist');
+  assert.equal(AVATARS.herbalist.job, 'healer');
+  assert.equal(HERBALIST_SKILLS.length, 10);
+  assert.deepEqual(HERBALIST_SKILLS.map(s => s.key), ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0']);
+  const f = TRAINING.fighter, healer = jobDerived('healer', f.byJob.healer, f.level);
+  assert.ok(healer.matk > d.matk, 'the herbalist trains on INT');
 });

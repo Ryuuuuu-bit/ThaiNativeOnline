@@ -1,7 +1,7 @@
 # มวยไทย · ชุดท่า (Animation) ตามสกิลที่ออกแบบไว้
 
 ท่าทั้งหมดผูกกับสกิล 10 ท่าใน `prototypes/skill-fx/src/boxer_skills.js` (จังหวะโดนเป้าอิงจากต้นแบบ)
-ข้อมูลที่เกมใช้อยู่ใน `src/forest/muaythai-moves.js` — ชื่อ clip, ปุ่ม, ความยาว, เวลาที่หมัด/เท้าโดน
+ข้อมูลที่เกมใช้อยู่ใน `src/classes/muaythai-moves.js` — ชื่อ clip, ปุ่ม, ความยาว, เวลาที่หมัด/เท้าโดน
 
 ## Rig
 
@@ -112,4 +112,4 @@ Muay Thai fighter unleashing an eight-strike flurry in 0.9 seconds: jab, roundho
 1. Tripo Studio → โมเดลมวยไทย → Animate ใส่ prompt ทีละท่า
 2. ตั้งชื่อท่าตามคอลัมน์ clip แล้ว export **GLB** รวมทุกท่า
 3. วางทับ `public/models/muay-thai-fighter.glb` แล้วกด 1–0 ในป่าสนใหญ่ เพื่อตรวจทุกท่า
-4. ถ้าเวลาโดนไม่ตรงตาราง ปรับ `hits` ใน `src/forest/muaythai-moves.js` (ตอนผูกกับระบบ combat)
+4. ถ้าเวลาโดนไม่ตรงตาราง ปรับ `hits` ใน `src/classes/muaythai-moves.js` (ตอนผูกกับระบบ combat)

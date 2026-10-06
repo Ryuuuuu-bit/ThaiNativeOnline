@@ -2,7 +2,6 @@
 import { MONSTERS, NIGHT } from './data/monsters.js';
 import { SKILLS } from './data/skills.js';
 import { LOOT } from './data/loot.js';
-import { DEFAULT_ZONES } from './data/zones.js';
 import { Emitter } from '../character/Emitter.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -31,7 +30,7 @@ export class Monster {
 
 export class Combat extends Emitter {
   // world: { canStand(x,z), playerPos() -> {x,z}, moveTo(x,z) | null, stop() }
-  constructor(character, world, spawns = DEFAULT_ZONES) {
+  constructor(character, world, spawns = []) {
     super();
     this.character = character; this.world = world;
     this.monsters = []; this.target = null; this.autoAttack = false;

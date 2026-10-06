@@ -50,7 +50,7 @@ export class Game {
     this.player = new Player(this.scene);
     this.discovered = new Set();
     try { for (const id of JSON.parse(slotStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
-    // One map at a time; walking through the north gate swaps city ⇄ wilds.
+    // The one map, นครอโยธยา (src/world/maps.js); MapManager still loads maps by id.
     this.maps = new MapManager({
       scene: this.scene, clock: this.clock, player: this.player,
       progress: text => { $('loading-text').textContent = text; },
@@ -178,10 +178,10 @@ export class Game {
     });
   }
 
-  // Class avatar (src/training): once the character exists, a class with a modelled GLB
-  // wears it; Muay Thai also gets the training dummy in the city. ?rig keeps every class rig.
+  // Class avatar (src/training): once the character exists the player wears its class's
+  // 3D model; Muay Thai also gets the training dummy in the city.
   startTraining() {
-    this.training = params.has('rig') ? null : createClassAvatar(this.game.character.classId, {
+    this.training = createClassAvatar(this.game.character.classId, {
       scene: this.scene, camera: this.view.camera, renderer: this.renderer, root: $('app'), player: this.player,
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
     });

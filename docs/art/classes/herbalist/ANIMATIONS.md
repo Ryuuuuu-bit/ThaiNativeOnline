@@ -20,7 +20,7 @@ Rig: Humanoid · **Mixamo** · ทุกท่า in place · ท่าร่า
 ## สถานะ
 
 ทุกท่าในตารางมีแล้วใน `public/models/herbalist.glb` (11 clip) สร้างด้วย `tools/herbalist-anims/compose.mjs`
-ตำรายาเล่มดำไม่ได้อยู่ในโมเดล เป็นพร็อพ 3D ใน `src/forest/fx/herbalist-skills.js` ที่โผล่มาตอนใช้สกิล
+ตำรายาเล่มดำไม่ได้อยู่ในโมเดล เป็นพร็อพ 3D ใน `src/classes/fx/herbalist-skills.js` ที่โผล่มาตอนใช้สกิล
 (ถือในมือซ้ายสำหรับท่าที่ใช้มือเดียว ลอยข้างไหล่สำหรับท่าสองมือ) และเปิดออกตอนปล่อยพลัง
 
 ## Prompt (Tripo Animate)

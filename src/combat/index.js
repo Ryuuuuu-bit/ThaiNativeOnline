@@ -1,6 +1,6 @@
 // Public interface of the combat system: wires the character, combat rules,
 // 3D view and HUD into a world. The world only provides movement hooks, so the
-// same module plugs into the forest prototype or the city. See README.md.
+// same module plugs into the city. See README.md.
 import * as THREE from 'three';
 import { loadOrCreateCharacter, CharacterUI, Feed } from '../character/index.js';
 import { el } from '../character/ui/dom.js';
@@ -21,7 +21,7 @@ import { BUFF_ICONS } from './data/skills.js';
  * @param {(x:number,z:number)=>void} o.moveTo   walk the player toward a point
  * @param {()=>void} o.stop                     stop click-to-move
  * @param {{x:number,z:number}} o.respawnPoint
- * @param {Array} [o.spawns]                    monster spawn zones (defaults to data/zones.js)
+ * @param {Array} [o.spawns]                    monster spawn zones (src/data/spawns.js; none by default)
  * @returns {{ready:boolean, character, combat, view, hud, characterUI, canMove:boolean,
  *   setPhase(phase:string):void, handleKey(e:KeyboardEvent):boolean, update(dt:number, elapsed:number):void, onManualMove():void}}
  */

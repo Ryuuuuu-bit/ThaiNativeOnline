@@ -7,8 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --test \"tests/**/*.test.js\"",
-    "check:rig": "node scripts/check-rig.mjs"
+    "test": "node --test \"tests/**/*.test.js\""
   },
   "dependencies": {
     "three": "0.186.1"

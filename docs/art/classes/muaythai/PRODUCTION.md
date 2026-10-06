@@ -80,15 +80,14 @@ no props.
 4. ไม่ต้องดาวน์โหลดท่าจาก Mixamo เพราะเกมมีท่าของมวยไทยอยู่แล้ว
    (ตั้งการ์ดยกเข่ากัน, ศอกตัด, เข่าลอย, ยืน, เดิน, วิ่ง)
 
-## ขั้นที่ 4 · Blender + เข้าเกม
+## ขั้นที่ 4 · ประกอบท่าและเข้าเกม
 
 ```
-blender -b muaythai.blend --python tools/blender/prepare_character.py -- --class muaythai --out public/assets/characters/muaythai.glb
-npm run check:character -- public/assets/characters/muaythai.glb
-npm run dev   # เปิด /characters.html เลือกมวยไทย
+node tools/muaythai-anims/compose.mjs <Tripo export>.glb public/models/muay-thai-fighter.glb
+npm run dev   # / (อโยธยา) สร้างตัวเป็นมวยไทย แล้วลองสกิลที่หุ่นฟาง
 ```
 
-(สคริปต์และคำสั่งตรวจไฟล์มาพร้อมระบบโหลดโมเดล GLB ดูรายละเอียดใน `docs/character-assets.md`)
+ตั้งค่าใน `AVATARS.muaythai` (`src/data/training.js`) รายละเอียดท่าดูที่ `tools/muaythai-anims/README.md`
 
 ## สี (ดูดจาก concept sheet)
 

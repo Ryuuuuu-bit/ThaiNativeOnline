@@ -2,22 +2,18 @@
 
 Once the character exists (after creation or load), `Game` calls `createClassAvatar(classId, opts)`:
 
-- **A class with a modelled GLB** (`AVATARS` in `src/data/training.js`) wears that model instead of its procedural rig. The model is shown only after it loads, so a missing file keeps the rig.
-- **Muay Thai** (`skills: 'muaythai'`) also gets the training ground below.
-- **Other classes** return `null` and keep their rig.
+- **Every class wears a Tripo GLB.** The model comes from `avatarFor(classId)` (`AVATARS` in `src/data/training.js`); a class without its own model wears `AVATAR_FALLBACK`'s. The model is shown once it loads, through `Player.setAvatar(model, casts)`, and plays the `casts` clip on each combat cast.
+- **มวยไทย and หมอยา** (`skills: 'muaythai'` / `'herbalist'`, kits in `src/classes/index.js`) also get the training ground below.
+- **Other classes** get a model-only avatar.
 
-The หมอยา (herbalist) entry is ready and waits for `models/herbalist.glb` (see `docs/art/classes/herbalist/PRODUCTION.md`).
-
-## Training ground (Muay Thai)
+## Training ground (classes with a skill kit)
 
 In the city, a straw dummy stands just north of the spawn. Near the dummy (within `TRAINING.range` = 12 m):
 
-- keys **1–0** cast the ten Muay Thai skills with full FX
+- keys **1–0** cast the class's ten skills with full FX (the herbalist's grimoire orbits while casting)
 - **Q** toggles auto-cast
 - the skill hotbar replaces the class skill bar
 - a damage log shows every blow, the total, DPS, crit and miss rates, and a per-skill table
-
-`?rig` turns all of this off and keeps the class rig.
 
 | File | Role |
 |---|---|
@@ -31,24 +27,24 @@ Data lives in `src/data/training.js`: class avatars (model URL, height, skill se
 
 Damage comes from `src/rules`, not from the hand-tuned FX numbers:
 
-- the fighter's stats come from `computeDerived(stats, JOBS.boxer, level)`
+- the trainee's stats come from `computeDerived(stats, JOBS[avatar.job], level)` (`boxer` or `healer`)
 - each blow uses `skillStats(skill, skillLevel).mult` with `rollDamage` against `{ def, eva }`
 - the hit chance, the ±10% variance and crits all come from the rules
 
-The blood ticks of ศอกกลับ still deal a flat 30, as in the forest dummy.
+The blood ticks of ศอกกลับ still deal a flat 30.
 
 ## Hooks into shared code (documented interface changes)
 
-- **`Player.useModel(model)`** (`src/entities/Player.js`): hides the class rig and shows `model.group` in its place.
-  - `Player.animate` calls `model.update(dt, time, moving, null)` instead of updating the rig.
+- **`Player.setAvatar(model, casts)`** (`src/entities/Player.js`): the player's only look.
+  - `Player.animate` calls `model.update(dt, time, moving, null)`.
   - Movement and turning stay in `Player`.
 - **`Game`** (`src/core/Game.js`): `this.training = createClassAvatar(...)` is created once `game.ready` (the character exists). Game then:
   - calls `enterMap(map.id)` on every map change
   - gives `handleKey(e)` first pick of keys (before combat)
   - blocks walking while `training.busy`
   - calls `update(dt)` each frame
-- **`createFx({ scale, gain })`** (`src/forest/fx/engine.js`) takes an FX scale for fighters of other heights and now also works with an orthographic camera.
-- **`createBoxerSkills({ damage })`**: optional `damage(skillId) → { hit, crit, dmg }` rolls each blow; without it the forest numbers stay.
+- **`createFx({ scale, gain })`** (`src/classes/fx/engine.js`) takes an FX scale for fighters of other heights and now also works with an orthographic camera.
+- **`createBoxerSkills({ damage })`**: optional `damage(skillId) → { hit, crit, dmg }` rolls each blow; without it the hand-tuned FX numbers stay.
 - **`createDummy(…, { hp, onHit })`**:
   - `onHit` receives `{ amount, crit, miss, bleed, killed }`
   - `hurt(..., exact)` skips the ±10% spread

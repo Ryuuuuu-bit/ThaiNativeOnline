@@ -1,6 +1,7 @@
 // Skill hotbar: ten slots (keys 1–0) with icon, cooldown sweep and a tooltip,
 // plus an Auto toggle that keeps casting the next ready skill on the dummy.
 // list: [{ id, name, lv, cd, desc, icon }] in bar order (see classes.js).
+import './fx.css';
 export function createHotbar(host, skills, list, label = 'สกิล') {
   const bar = document.createElement('nav'); bar.className = 'hotbar ro-window panel'; bar.setAttribute('aria-label', label);
   const row = document.createElement('div'); row.className = 'hotbar-row'; bar.appendChild(row);

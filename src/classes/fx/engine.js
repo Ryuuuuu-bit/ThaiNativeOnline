@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import './fx.css';
 
 // Skill FX engine, ported from prototypes/skill-fx/src/boxer_fx.src.html.
 // Everything lives in `root`, a group scaled by K, so the prototype's units

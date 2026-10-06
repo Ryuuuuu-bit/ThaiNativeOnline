@@ -14,6 +14,12 @@ import { buy, sell, sellPrice, stockOf } from '../src/shop/ShopSystem.js';
 
 const memoryStorage = () => { const m = new Map(); return { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, v) }; };
 const hero = (opts = {}) => new Character({ name: 'ทดสอบ', classId: 'warrior', ...opts });
+// The live quest list is small (the game is one safe city); kill and collect
+// mechanics are checked on fixture quests chained after the real first quest.
+const FIXTURE = [...QUESTS,
+  { id: 'smith_boars', title: 'test', giver: 'blacksmith', requires: ['first_steps'], offer: '', done: '', objectives: [{ kill: 'boar', count: 4 }], rewards: { gold: 60 } },
+  { id: 'herbal_ash', title: 'test', giver: 'herbalist', requires: ['first_steps'], offer: '', done: '', objectives: [{ collect: 'ash', count: 3 }], rewards: { gold: 50 } },
+];
 
 test('quest data references known NPCs, landmarks, monsters, items and quests', () => {
   const npc = new Set(NPCS.map(n => n.id)), place = new Set(LANDMARKS.map(l => l.id)), quest = new Set(QUESTS.map(q => q.id));
@@ -39,7 +45,7 @@ test('shop stock only lists known items and every vendor shop is used by an NPC'
 
 test('a quest goes from offer to hand-in and pays its rewards', () => {
   const found = new Set();
-  const qs = new QuestSystem(QUESTS, { isDiscovered: id => found.has(id), storage: memoryStorage() });
+  const qs = new QuestSystem(FIXTURE, { isDiscovered: id => found.has(id), storage: memoryStorage() });
   const c = hero(), combat = new Emitter();
   qs.attach(c, combat);
   assert.equal(qs.marker('guard_port'), '!');
@@ -66,7 +72,7 @@ test('a quest goes from offer to hand-in and pays its rewards', () => {
 
 test('collect quests take the items on hand-in and progress survives a reload', () => {
   const storage = memoryStorage();
-  const qs = new QuestSystem(QUESTS, { storage });
+  const qs = new QuestSystem(FIXTURE, { storage });
   const c = hero();
   qs.attach(c, null);
   qs.state.first_steps = { status: 'done', kills: {}, talked: [] };
@@ -74,7 +80,7 @@ test('collect quests take the items on hand-in and progress survives a reload', 
   c.addItem('ash', 2);
   assert.equal(qs.complete('herbal_ash'), false);
   c.addItem('ash', 2);
-  const again = new QuestSystem(QUESTS, { storage });
+  const again = new QuestSystem(FIXTURE, { storage });
   again.attach(c, null);
   assert.equal(again.status('herbal_ash'), 'active');
   assert.ok(again.complete('herbal_ash'));

@@ -1,10 +1,11 @@
 // Pure damage math for the training ground (no three, no DOM): one blow of a
-// Muay Thai skill against a target, using the rules' skill table and formulas.
+// class skill against a target, using the rules' skill table and formulas.
 import { JOBS } from '../rules/data/classes.js';
 import { SKILL_BY_ID, skillStats } from '../rules/data/skills.js';
 import { computeDerived, rollDamage } from '../rules/stats.js';
 
-export const boxerDerived = (stats, level) => computeDerived(stats, JOBS.boxer, level);
+export const jobDerived = (job, stats, level) => computeDerived(stats, JOBS[job] ?? JOBS.boxer, level);
+export const boxerDerived = (stats, level) => jobDerived('boxer', stats, level);
 
 // Per-blow multiplier of a skill at a skill level; null for skills that deal no damage (buffs).
 export function skillMult(skillId, skillLevel = 1) {

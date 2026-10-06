@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-// A 3D player character loaded from a GLB (e.g. a Tripo export). Same interface
-// as makeCharacter() in sprite.js: { group, update(dt, time, moving, heading) },
+// A 3D player character loaded from a GLB (e.g. a Tripo export). Interface:
+// { group, update(dt, time, moving, heading) },
 // plus attack(name) for one-shot moves. The model is expected to face +Z with
 // its feet at y = 0 (Tripo's default).
 //

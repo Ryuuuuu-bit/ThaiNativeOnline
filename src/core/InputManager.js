@@ -29,11 +29,6 @@ export class InputManager {
     host.addEventListener('pointermove', e => { if (this.pan) this.emit('pan', e.clientX - this.pan.x, e.clientY - this.pan.y); });
     for (const name of ['pointerup', 'pointercancel']) host.addEventListener(name, () => { this.pan = null; });
     host.addEventListener('wheel', e => { e.preventDefault(); this.emit('zoom', e.deltaY); }, { passive: false });
-    for (const button of document.querySelectorAll('[data-move]')) {
-      const dir = button.dataset.move;
-      button.addEventListener('pointerdown', e => { e.preventDefault(); button.setPointerCapture(e.pointerId); this.keys.add(dir); this.emit('move'); });
-      for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) button.addEventListener(name, () => this.keys.delete(dir));
-    }
   }
   on(name, fn) { (this.handlers[name] ??= []).push(fn); }
   emit(name, ...args) { for (const fn of this.handlers[name] ?? []) fn(...args); }

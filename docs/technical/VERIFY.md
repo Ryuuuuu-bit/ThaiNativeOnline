@@ -7,7 +7,7 @@ QA and Art Director agents also use the screenshot recipe.
 
 ```sh
 npm test          # node --test tests/**/*.test.js
-npm run build     # vite build (index, city, characters)
+npm run build     # vite build (index)
 ```
 
 Report the exact pass/fail counts. A failing test is reported, never hidden or skipped.
@@ -16,17 +16,13 @@ Report the exact pass/fail counts. A failing test is reported, never hidden or s
 
 | Page | Entry | What it is |
 |---|---|---|
-| `index.html` (`/`) | `src/main.js` → `src/account` → `src/core/Game.js` | the MMORPG, first map นครอโยธยา: login, city + wilds, combat, training ground |
-| `forest.html` | `src/forest/main.js` | big forest: 3D fighters, skill FX, dummy |
-| `characters.html` | `src/character/rig/viewer.js` | procedural rig viewer |
+| `index.html` (`/`) | `src/main.js` → `src/account` → `src/core/Game.js` | the MMORPG, one map นครอโยธยา: login, class choice (มวยไทย / หมอยา), training ground |
 
 Useful URL flags:
 - `/?at=x,z&t=10`: start position and hour
-- `?rig`: class rigs, no GLB avatars or training ground
 - `?classes=all`: unlock every class
 - `?login`: force the login screens
 - `?lv=50&skill=5&ddef=40`: training damage test values
-- `forest.html?sprite` / `?low`
 
 ## Screenshots (Windows, headless Edge)
 
@@ -37,7 +33,7 @@ $edge = "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe"
 $out  = "<scratchpad>\shot.png"
 $p = Start-Process -FilePath $edge -PassThru -ArgumentList @('--headless=new','--disable-gpu',
   '--use-angle=swiftshader','--enable-unsafe-swiftshader','--hide-scrollbars','--window-size=1600,900',
-  '--virtual-time-budget=25000',"--user-data-dir=<scratchpad>\prof","--screenshot=$out",'http://127.0.0.1:5181/forest.html')
+  '--virtual-time-budget=25000',"--user-data-dir=<scratchpad>\prof","--screenshot=$out",'http://127.0.0.1:5181/?ui=0')
 $p.WaitForExit(90000) | Out-Null; if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -Confirm:$false }
 ```
 

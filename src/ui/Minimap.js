@@ -12,8 +12,7 @@ let BOUNDS_ = BOUNDS, W = 0, H = 0;
 const px = x => (x - BOUNDS_.minX) * S, pz = z => (z - BOUNDS_.minZ) * S;
 const AREAS = [
   { name: 'แม่น้ำเจ้าพระยา', x: 0, z: 205 }, { name: 'ท่าเรือ', x: 6, z: 152 }, { name: 'ตลาด', x: 0, z: 28 }, { name: 'วัด', x: 63, z: -60 },
-  { name: 'ย่านบ้านเรือน', x: -62, z: -60 }, { name: 'ทุ่งนา', x: -64, z: -200 }, { name: 'สวน', x: 66, z: -195 }, { name: 'ป่า', x: 0, z: -400 },
-  { name: 'ป่าลึก', x: 50, z: -520 },
+  { name: 'ย่านบ้านเรือน', x: -62, z: -60 },
 ];
 
 export class Minimap {

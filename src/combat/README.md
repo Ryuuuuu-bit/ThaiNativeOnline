@@ -14,7 +14,6 @@ Owner: gameplay-engineer (`data/`: content-designer). Rules and AI in `Combat.js
 | `data/monsters.js` | `MONSTERS`, `NIGHT` (night EXP and ghost bonuses) |
 | `data/loot.js` | `LOOT` tables: `[itemId, chance, min, max]` |
 | `data/rules.js` | `RULES`: leash, cooldowns, timeouts, death penalty and other tuning |
-| `data/zones.js` | `DEFAULT_ZONES` for the forest prototype; the city passes `src/data/spawns.js` |
 
 ## Public interface
 
