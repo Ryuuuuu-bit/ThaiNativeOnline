@@ -380,7 +380,7 @@ buildP('idle', 2.6, [[0, SSTANCE], [2.6, SSTANCE]], (t, c) => {
 {
   const sit = S({ hip: [0, 0.37, 0.0], hipYaw: 0, twist: 0, lean: 0.04, chin: 0.2,
     L: { x: -0.07, z: 0.13, yaw: -1.35, heel: 0, up: 0.02, pole: [1, 0.5, 0.6] }, R: { x: 0.07, z: 0.08, yaw: 1.35, heel: 0, up: 0.02, pole: [-1, 0.5, 0.6] },
-    Rh: Hr([-0.2, -0.06, 0.16], [-0.5, -1, -0.3], [0, 1, 0]), Lh: Hl([0.04, -0.5, 0.17], [0.8, -0.4, -0.4], [0, 1, 0]), fist: [0, 1] });   // staff held up so its foot stays on the ground
+    Rh: Hr([-0.2, -0.18, 0.16], [-0.4, -1, -0.4], [0, 1, 0]), Lh: Hl([0.04, -0.5, 0.17], [0.8, -0.4, -0.4], [0, 1, 0]), fist: [0, 1] });   // staff held up so its foot stays on the ground
   buildP('shaman_meditate', 2.0, [[0, SSTANCE], [f(14), sit, ease], [f(46), sit], [2.0, SSTANCE, ease]], (t, c) => {
     if (t > f(14) && t < f(46)) c.hip[1] -= 0.012 * Math.sin(TAU * (t - f(14)) / 1.1);   // breathing
   });

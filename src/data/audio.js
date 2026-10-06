@@ -177,11 +177,11 @@ export const SKILL_SFX = {
   sword_leap: { cast: 'swing_heavy', hit: 'slam' },
   sword_berserk: { cast: 'blade_draw', hit: 'buff' },
   sword_execute: { cast: 'blade_draw', hit: 'thunder' },
-  // the shaman: every spell is chanted; the hit is what the spell is made of
-  mage_akom: { cast: 'chant', hit: 'fire_whoosh' },
-  mage_yant: { cast: 'chant', hit: 'spirit' },
+  // the shaman's dark arts: every spell is chanted; the hit is what the spell is made of
+  mage_akom: { cast: 'chant', hit: 'spirit' },
+  mage_yant: { cast: 'chant', hit: 'crack' },
   mage_shield: { cast: 'chant', hit: 'buff' },
-  mage_thunder: { cast: 'chant', hit: 'thunder' },
+  mage_thunder: { cast: 'chant', hit: 'slam' },
   mage_kalp: { cast: 'chant', hit: 'fire_whoosh' },
   mage_holy: { cast: 'chant', hit: 'heal' },
   mage_ghostfire: { cast: 'chant', hit: 'spirit' },

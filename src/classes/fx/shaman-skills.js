@@ -2,17 +2,19 @@ import * as THREE from 'three';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { SHAMAN_SKILLS } from '../shaman-moves.js';
 
-// The shaman's (หมอผี · จอมขมังเวทย์) ten skills with their effects, timed to the shaman's clips
-// (spell times come from shaman-moves.js). Positions are FX-local units. Spells leave the
-// skull of his staff (staffTip, from the real staff in his hand) or his free left hand, and
-// each does what its description says: curving fireballs, talismans that chain the spirit,
-// a nine-spired yant shield, lightning, the kalpa fire, the holy-water lotus, ghost fires,
-// the curse circle, the fire kasina, the thunder storm.
-const { GOLD, WHITE } = COL;
+// The shaman's (หมอผี · จอมขมังเวทย์) ten skills — the dark arts of death: soul skulls, the chains
+// of Yama's guards, a cage of ghost bones, the death god's hand, hellfire, the ancestors'
+// offering, wandering souls, the curse of violent death, meditation in the graveyard, the
+// gate of the underworld. Timed to the shaman's clips (spell times from shaman-moves.js);
+// positions are FX-local units. Spells leave the skull of his staff (staffTip, from the real
+// staff in his hand) or his free left hand.
+const { WHITE } = COL;
 const BASE = import.meta.env.BASE_URL + 'fx/shaman/';
 export const shamanIconUrl = id => BASE + 'icon_' + id + '.png';
 
-const AKOM = C(2.4, .9, 2.2), FIRE = C(2.6, 1.1, .25), GHOST = C(.6, 2.2, 1.6), BOLT = C(1.5, 1.9, 2.8), HOLY = C(1, 1.9, 2.6), CURSE = C(1.5, .4, 2.2), TOXIC = C(.7, 1.8, .4), SPIRIT = C(.9, 1.6, 2.6);
+// death palette: soul green, underworld violet, bone, blood, ember of hell
+const SOUL = C(.7, 2.4, 1.5), DEATH = C(1.4, .35, 2.2), BONE = C(2.2, 2.1, 1.7), BLOOD = C(2.2, .15, .15), HELL = C(2, .4, 1.6), HELLFIRE = C(2.4, .5, .9), PALE = C(1.3, 1.8, 2.2);
+const SMOKE = C(.1, .06, .12), INK = C(.05, .03, .06);
 const ADD = { transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide };
 const SKULL = .3;   // staff-local height of the skull above the grip (the staff runs along local +Y)
 
@@ -21,33 +23,42 @@ let TEX = null;
 function textures() {
   if (TEX) return TEX;
   TEX = {
-    // a ritual circle: ticked rings, a pentagram of the five directions, script dots
+    // a ritual circle of death: ticked rings, a pentagram, skull marks round the band
     sigil: canvasTex(512, 512, (g, S) => {
       g.translate(S / 2, S / 2); g.strokeStyle = g.fillStyle = '#fff'; g.lineCap = 'round';
       const circ = (r, w) => { g.lineWidth = w; g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.stroke(); };
       circ(246, 6); circ(230, 2); circ(170, 3); circ(60, 3);
       for (let i = 0; i < 72; i++) { const a = i / 72 * Math.PI * 2, r0 = i % 6 ? 234 : 214; g.lineWidth = i % 6 ? 2 : 4; g.beginPath(); g.moveTo(Math.cos(a) * r0, Math.sin(a) * r0); g.lineTo(Math.cos(a) * 243, Math.sin(a) * 243); g.stroke(); }
       g.lineWidth = 3; g.beginPath(); for (let i = 0; i <= 5; i++) { const a = -Math.PI / 2 + i * 4 * Math.PI / 5, x = Math.cos(a) * 168, y = Math.sin(a) * 168; i ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
-      for (let i = 0; i < 24; i++) { const a = i / 24 * Math.PI * 2; g.beginPath(); g.arc(Math.cos(a) * 200, Math.sin(a) * 200, i % 3 ? 3 : 6, 0, 7); g.fill(); }
+      for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, x = Math.cos(a) * 200, y = Math.sin(a) * 200; g.beginPath(); g.arc(x, y - 3, 11, 0, 7); g.fill(); g.fillRect(x - 6, y + 4, 12, 8); }
       const gr = g.createRadialGradient(0, 0, 0, 0, 0, 70); gr.addColorStop(0, 'rgba(255,255,255,.9)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 70, 0, 7); g.fill();
     }),
-    // a golden paper talisman with red script
-    talisman: canvasTex(64, 160, (g, w, h) => {
-      g.fillStyle = '#f2c94c'; g.fillRect(0, 0, w, h); g.strokeStyle = '#b3261e'; g.lineWidth = 3; g.strokeRect(4, 4, w - 8, h - 8);
-      g.fillStyle = '#b3261e'; g.font = 'bold 20px serif'; g.textAlign = 'center';
-      ['ॐ', 'นะ', 'มะ', 'พะ', 'ทะ'].forEach((s, i) => g.fillText(s, w / 2, 30 + i * 26));
+    // a skull: white bone with the sockets, nose and teeth cut out (glows when added)
+    skull: canvasTex(128, 128, (g) => {
+      g.fillStyle = '#fff'; g.beginPath(); g.ellipse(64, 54, 40, 42, 0, 0, 7); g.fill(); g.fillRect(40, 70, 48, 30); g.beginPath(); g.ellipse(64, 100, 24, 12, 0, 0, 7); g.fill();
+      g.globalCompositeOperation = 'destination-out';
+      g.beginPath(); g.ellipse(48, 60, 12, 14, -.2, 0, 7); g.fill(); g.beginPath(); g.ellipse(80, 60, 12, 14, .2, 0, 7); g.fill();
+      g.beginPath(); g.moveTo(64, 72); g.lineTo(57, 86); g.lineTo(71, 86); g.closePath(); g.fill();
+      for (let i = 0; i < 6; i++) g.fillRect(45 + i * 7, 96, 2, 14);
     }),
-    // the nine-spired yant (เก้ายอด): nine stacked peaks over a square of script — white ink for fx.yantPlane
-    nine: canvasTex(512, 512, (g) => {
-      g.strokeStyle = '#fff'; g.fillStyle = '#fff'; g.lineCap = 'round'; g.lineJoin = 'round';
-      g.lineWidth = 6; g.strokeRect(126, 300, 260, 160); g.lineWidth = 3; g.strokeRect(142, 316, 228, 128);
-      for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { g.beginPath(); g.arc(166 + c * 36, 340 + r * 28, 6, 0, 7); g.stroke(); }
-      for (let i = 0; i < 9; i++) {   // nine peaks, the middle tallest, each an unalom curl
-        const x = 70 + i * 46, top = 300 - (130 + (4 - Math.abs(i - 4)) * 28), base = 300;
-        g.lineWidth = 5; g.beginPath(); g.moveTo(x - 20, base); g.quadraticCurveTo(x - 10, (base + top) / 2, x, top + 24); g.quadraticCurveTo(x + 10, (base + top) / 2, x + 20, base); g.stroke();
-        g.lineWidth = 3; g.beginPath(); g.moveTo(x, top + 24); g.lineTo(x, top + 4); g.arc(x + 6, top + 4, 6, Math.PI, Math.PI * 3.2); g.stroke();
-      }
-      g.lineWidth = 4; g.beginPath(); g.moveTo(40, 470); g.lineTo(472, 470); g.stroke();
+    // a clawed ghost hand reaching up out of the ground: gaunt fingers, hooked nails, knuckle
+    // lines cut out, the forearm fading into the pit
+    hand: canvasTex(128, 192, (g) => {
+      g.fillStyle = '#fff'; g.strokeStyle = '#fff'; g.lineCap = 'round'; g.lineJoin = 'round';
+      g.beginPath(); g.moveTo(40, 192); g.lineTo(44, 128); g.quadraticCurveTo(42, 104, 50, 96); g.lineTo(80, 96); g.quadraticCurveTo(88, 106, 86, 128); g.lineTo(90, 192); g.closePath(); g.fill();   // palm and forearm
+      const finger = (x0, y0, x1, y1, x2, y2, w) => { g.lineWidth = w; g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.lineTo(x2, y2); g.stroke();
+        const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy); g.beginPath(); g.moveTo(x2 - dy / L * w * .45, y2 + dx / L * w * .45); g.lineTo(x2 + dx / L * 12 + dy / L * 3, y2 + dy / L * 12 - dx / L * 3); g.lineTo(x2 + dy / L * w * .45, y2 - dx / L * w * .45); g.fill(); };
+      finger(48, 100, 36, 64, 24, 34, 9); finger(58, 96, 54, 54, 50, 20, 9); finger(68, 96, 70, 52, 72, 16, 9); finger(78, 98, 86, 58, 94, 28, 8); finger(84, 118, 104, 100, 114, 78, 9);
+      g.globalCompositeOperation = 'destination-out'; g.lineWidth = 2;
+      [[38, 70], [54, 62], [70, 60], [85, 64], [100, 96]].forEach(([x, y]) => { g.beginPath(); g.moveTo(x - 4, y); g.lineTo(x + 4, y + 1); g.stroke(); });
+      g.beginPath(); g.moveTo(52, 112); g.quadraticCurveTo(64, 120, 78, 110); g.stroke();
+      g.globalCompositeOperation = 'destination-in'; const gr = g.createLinearGradient(0, 0, 0, 192); gr.addColorStop(0, '#fff'); gr.addColorStop(.62, '#fff'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 192);
+    }),
+    // a sheet-ghost silhouette with two dark eyes
+    ghost: canvasTex(96, 128, (g) => {
+      const gr = g.createLinearGradient(0, 0, 0, 128); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr;
+      g.beginPath(); g.moveTo(10, 128); g.lineTo(14, 48); g.quadraticCurveTo(48, -12, 82, 48); g.lineTo(86, 128); g.quadraticCurveTo(70, 108, 58, 128); g.quadraticCurveTo(48, 110, 38, 128); g.quadraticCurveTo(26, 108, 10, 128); g.fill();
+      g.globalCompositeOperation = 'destination-out'; g.beginPath(); g.ellipse(36, 50, 7, 10, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(60, 50, 7, 10, 0, 0, 7); g.fill(); g.beginPath(); g.ellipse(48, 74, 6, 9, 0, 0, 7); g.fill();
     }),
   };
   return TEX;
@@ -127,13 +138,43 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
       s.alpha = 1 - t / life; s.draw(); if (t > life) { s.kill(); return false; }
     });
   }
-  // a lightning strike from the sky onto a ground point: double bolt, flash, scorch, sparks
-  function strike(P, k = 1, col = BOLT) {
-    const top = P.clone().setY(6.5);
-    bolt(top, P.clone().setY(.05), WHITE, .35 * k, .07 * k, .35); bolt(add(top, V(rand(-.4, .4), 0, rand(-.4, .4))), P.clone().setY(.05), col, .45 * k, .045 * k, .5);
-    fx.flash(P.clone().setY(1.5), 0x9cc4ff, 35 * k, .3); fx.shock(P.x, P.z, 1.2 * k, col, C(.2, .3, 1), .4);
-    fx.decal(4, P.x, P.z, .7 * k, col, C(.1, .2, .7), { life: .9, grow: .08 });
-    fx.burst(P.clone().setY(.2), Math.round(14 * k), { c: [col, WHITE], size: .08, sp: 4, upMin: .4, life: .4, shape: SH.star, drag: 3 });
+  // ---- the dark arts --------------------------------------------------------------------
+  // a sprite of one of the drawn textures (skull, hand, ghost), added light
+  const sprite = (tex, col, size) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: textures()[tex], color: col.clone().multiplyScalar(fx.gain * .32), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); s.scale.set(size * (tex === 'hand' ? .67 : tex === 'ghost' ? .75 : 1), size, 1); return fx.add(s); };
+  // black smoke that hangs and spreads (drawn over the scene, not added)
+  const smoke = (p, n = 8, k = 1, jit = .3) => { for (let i = 0; i < n; i++) fx.emit({ p: add(p, V(rand(-jit, jit), rand(-.1, .3), rand(-jit, jit))), v: V(rand(-.3, .3), rand(.2, .7), rand(-.3, .3)), c: Math.random() < .5 ? SMOKE : INK, life: rand(.9, 1.5), size: .3 * k, size1: .8 * k, shape: SH.soft, a: .6, drag: 1.2 }, fx.PN); };
+  // an abyss: a black, slowly swirling pit with a violet rim, darkening the ground under it
+  function abyss(P, r, life = 2, rim = DEATH) {
+    const pool = fx.decal(6, P.x, P.z, r, C(.22, .05, .3), C(.01, 0, .03), { auto: false, alpha: 0, normal: true });
+    fx.decal(1, P.x, P.z, r * 1.02, rim, null, { life, grow: .25 });
+    fx.addTask((dt, t) => { pool.u.uAlpha.value = .9 * clamp01(t / .25) * clamp01((life - t) / .4); pool.m.scale.setScalar(r * easeOutBack(clamp01(t / .3)) + .001);
+      if (Math.random() < .6) { const a = rand(0, 6.28), q = rand(.2, .95) * r; fx.emit({ p: add(P, V(Math.cos(a) * q, .05, Math.sin(a) * q)), v: V(0, rand(.4, 1.1), 0), c: Math.random() < .5 ? rim : SOUL, life: .7, size: .06, size1: .01 }); }
+      if (t > life) { pool.auto = true; pool.t = 99; return false; } });
+  }
+  // dark lightning: a black-violet bolt with a pale core
+  const darkBolt = (a, b, life = .35, w = .05, jag = .25) => { bolt(a, b, DEATH, life, w, jag); bolt(a, b, PALE, life * .8, w * .35, jag * .6); };
+  // a ghost hand bursting out of the ground at P: an underworld pit opens, the hand rises,
+  // clutches (fingers close) and sinks back
+  function deathHand(P, k = 1, life = 1.1, col = SOUL) {
+    abyss(P, .75 * k, life + .2); fx.shock(P.x, P.z, 1.1 * k, DEATH, INK, .4);
+    smoke(P.clone().setY(.1), 10, k, .4 * k);
+    const h = sprite('hand', col, 1.6 * k), g = fx.glowSprite(col.clone().multiplyScalar(.5), .1);
+    fx.addTask((dt, t) => {
+      const up = easeOutBack(clamp01(t / .22)), grab = clamp01((t - .3) / .12), down = clamp01((t - life + .3) / .3);
+      h.position.copy(P).setY((-.6 + up * 1.4 - down * 1.2) * k); h.scale.set(1.07 * k * (1 - grab * .25), 1.6 * k * (1 - grab * .18), 1);
+      h.material.opacity = clamp01(t / .08) * (1 - down); g.position.copy(h.position); g.scale.setScalar(1.4 * k * (1 - down) + .001);
+      if (Math.random() < .5) fx.emit({ p: add(P, V(rand(-.3, .3) * k, rand(0, 1) * k, rand(-.3, .3) * k)), v: V(0, rand(.5, 1.2), 0), c: col, life: .5, size: .07, size1: .01 });
+      if (t > life) { fx.kill(h); fx.kill(g); return false; }
+    });
+  }
+  // an iron chain of links from a to b (each link a torus turned 90° to the last), glowing red-hot
+  const linkGeo = new THREE.TorusGeometry(.045, .012, 6, 12); linkGeo.userData.shared = true;
+  const linkMat = new THREE.MeshStandardMaterial({ color: 0x2a2228, metalness: .8, roughness: .35, emissive: new THREE.Color(.6, .05, .1) });
+  function chain(n = 14) {
+    const G = new THREE.Group(); fx.add(G); const links = [];
+    for (let i = 0; i < n; i++) { const m = new THREE.Mesh(linkGeo, linkMat); G.add(m); links.push(m); }
+    return { G, set(a, b, sag = 0, len = 1) { const d = b.clone().sub(a), L = d.length(); links.forEach((m, i) => { const u = i / (links.length - 1) * len; m.visible = u <= len; m.position.copy(a).addScaledVector(d, u).add(V(0, -Math.sin(u * Math.PI) * sag, 0)); m.lookAt(fx.toWorld(add(m.position, d))); m.rotateZ(i % 2 ? Math.PI / 2 : 0); m.scale.setScalar(Math.max(.6, Math.min(1.3, L / links.length / .07))); }); },
+      kill() { G.parent?.remove(G); } };
   }
   const planeGeo = new THREE.PlaneGeometry(2, 2), ringGeo = new THREE.RingGeometry(.9, 1, 56);
   planeGeo.userData.shared = ringGeo.userData.shared = true;
@@ -185,213 +226,216 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
   }
 
   const SK = {
-    // 1 · คาถาอาคม: three fireballs leave the skull and curve in on the target from the left,
-    // the middle and the right
+    // 1 · กระสุนวิญญาณ: three soul skulls leave the staff's skull and curve in from the left,
+    // the middle and the right, wailing green wakes behind them
     mage_akom() {
-      fx.cinematic(.45, 1.3);
-      ready(() => { anim('mage_akom'); charge('mage_akom', AKOM, .8);
+      fx.cinematic(.55, 1.3);
+      ready(() => { anim('mage_akom'); charge('mage_akom', SOUL, .8);
         fx.after(MOVES.mage_akom.hits[0], () => {
-          const from = staffTip(), d = dirTo(), side = sideOf(d); ringPulse(from, d, AKOM, .45, .3); fx.flash(from, 0xff80e0, 25, .25);
+          const from = staffTip(), d = dirTo(), side = sideOf(d); ringPulse(from, d, SOUL, .45, .3); fx.flash(from, 0x60ffa0, 22, .25); smoke(from, 6, .6, .15);
           [-1, 0, 1].forEach((s, i) => fx.after(i * .07, () => {
             const to = chest(tg).add(V(0, .1 * s, 0)), ctrl = from.clone().lerp(to, .5).add(side.clone().multiplyScalar(s * 1.1)).add(V(0, .5 + (s === 0 ? .4 : 0), 0));
-            const o = orb(AKOM, .8, C(2.6, 1.8, 1)), T = trail(AKOM, .09, 14), dur = from.distanceTo(to) / 11;
-            fx.addTask((dt, t) => { const u = clamp01(t / dur), a = from.clone().lerp(ctrl, u), b = ctrl.clone().lerp(to, u), p = a.lerp(b, u); o.at(p, t); T.p = p;
-              if (u >= 1) { o.kill(); T.stop(); fx.impact(to, .8, AKOM); fx.burst(to, 12, { c: [AKOM, FIRE, WHITE], size: .1, sp: 3, life: .45, drag: 3 }); if (near(to, 1.6)) hurt(70, s === 0, .08); return false; } });
+            const sk = sprite('skull', SOUL, .42), glow = fx.glowSprite(SOUL.clone().multiplyScalar(.5), .5), T = trail(SOUL, .1, 16), dur = from.distanceTo(to) / 10;
+            fx.addTask((dt, t) => { const u = clamp01(t / dur), a = from.clone().lerp(ctrl, u), b = ctrl.clone().lerp(to, u), p = a.lerp(b, u); sk.position.copy(p); glow.position.copy(p); sk.material.rotation = Math.sin(t * 20) * .2; T.p = p;
+              if (Math.random() < .7) fx.emit({ p: add(p, V(rand(-.06, .06), rand(-.06, .06), rand(-.06, .06))), v: V(0, rand(.1, .4), 0), c: Math.random() < .3 ? PALE : SOUL, life: .4, size: .1, size1: .02 });
+              if (u >= 1) { fx.kill(sk); fx.kill(glow); T.stop(); fx.impact(to, .8, SOUL); smoke(to, 6, .7, .2); fx.burst(to, 12, { c: [SOUL, PALE], size: .1, sp: 3, life: .45, shape: SH.star, drag: 3 }); if (near(to, 1.6)) hurt(70, s === 0, .08); return false; } });
           }));
         });
       });
       return 1.2;
     },
-    // 2 · ยันต์ตรึงวิญญาณ: three golden talismans spiral out of his hand and on through the line;
-    // spirit chains rise from the ground and lock the target for 1.8 s
+    // 2 · โซ่ตรวนยมบาล: a red-hot hell chain lashes out of his hand straight through the line;
+    // more chains burst out of the ground and bind the target fast for 1.8 s
     mage_yant() {
-      fx.cinematic(.55, 1.6);
+      fx.cinematic(.65, 1.7);
       ready(() => { anim('mage_yant');
         fx.after(MOVES.mage_yant.hits[0], () => {
-          const from = leftHand(), d = dirTo(), side = sideOf(d), to = chest(tg), end = add(to, d.clone().multiplyScalar(2.5)), dist = from.distanceTo(end), dur = dist / 9;
+          const from = leftHand(), d = dirTo(), to = chest(tg), end = add(to, d.clone().multiplyScalar(2.5)), C1 = chain(26), dist = from.distanceTo(end);
           let locked = false;
-          for (let i = 0; i < 3; i++) {
-            const m = new THREE.Mesh(new THREE.PlaneGeometry(.16, .4), new THREE.MeshBasicMaterial({ map: textures().talisman, side: THREE.DoubleSide, transparent: true })); fx.add(m);
-            const T = trail(GOLD, .05, 12), ph = i / 3 * Math.PI * 2;
-            fx.addTask((dt, t) => {
-              const u = clamp01(t / dur), c = from.clone().lerp(end, u), a = ph + t * 14, r = .28 * Math.sin(Math.min(1, u * 4) * Math.PI / 2);
-              const p = c.add(side.clone().multiplyScalar(Math.cos(a) * r)).add(V(0, Math.sin(a) * r, 0)); m.position.copy(p); m.lookAt(fx.camera.position); m.rotateZ(t * 12); T.p = p;
-              if (Math.random() < .5) fx.emit({ p: p.clone(), v: V(0, rand(-.2, .2), 0), c: GOLD, life: .3, size: .06, size1: .01, shape: SH.star });
-              if (!locked && i === 0 && u * dist >= from.distanceTo(to)) { locked = true; lock(); }
-              if (u >= 1) { T.stop(); fx.kill(m); fx.burst(p, 8, { c: [GOLD, WHITE], size: .06, sp: 2, life: .4, shape: SH.star }); return false; }
-            });
-          }
+          fx.addTask((dt, t) => {
+            const out = clamp01(t / .25), back = clamp01((t - .45) / .25), len = out * (1 - back);
+            C1.set(from, end, .05, len); const tip = from.clone().lerp(end, len);
+            if (Math.random() < .8) fx.emit({ p: tip, v: V(rand(-.3, .3), rand(-.1, .4), rand(-.3, .3)), c: Math.random() < .5 ? BLOOD : HELLFIRE, life: .3, size: .07, size1: .01, shape: SH.star });
+            if (!locked && len * dist >= from.distanceTo(to)) { locked = true; bind(); }
+            if (t > .72) { C1.kill(); return false; }
+          });
         });
       });
-      function lock() {
-        if (!tg.alive) return; const P = tpos(); hurt(120, false, 0); fx.stunStars(tg, 1.8); pop(tg.head().add(V(0, .5, 0)), 'ตรึงวิญญาณ 1.8 วิ');
-        sigil(SPIRIT, 1.2, { p: P.clone().setY(.06), life: 1.9, spin: 2 }); fx.flash(chest(tg), 0x88aaff, 25, .4);
-        const anchors = [0, 1, 2, 3].map(k => { const a = k / 4 * 6.28 + .4; return add(P, V(Math.cos(a) * 1.1, .05, Math.sin(a) * 1.1)); });
-        const chains = anchors.map(() => strip(SPIRIT, .035, 10));
+      function bind() {
+        if (!tg.alive) return; const P = tpos(); hurt(120, false, 0); fx.stunStars(tg, 1.8); pop(tg.head().add(V(0, .5, 0)), 'ตรวนยมบาล · นิ่ง 1.8 วิ'); fx.impact(chest(tg), .9, BLOOD);
+        sigil(BLOOD, 1.2, { p: P.clone().setY(.06), life: 1.9, spin: -2 }); fx.decal(5, P.x, P.z, 1.1, BLOOD, INK, { life: 1.9, grow: .15 }); smoke(P.clone().setY(.1), 12, 1, .7);
+        const anchors = [0, 1, 2, 3].map(k => { const a = k / 4 * 6.28 + .4; return add(P, V(Math.cos(a) * 1.1, .02, Math.sin(a) * 1.1)); });
+        const chains = anchors.map(() => chain(16));
         fx.addTask((dt, t) => {
-          const c = chest(tg), live = clamp01(t / .15) * clamp01((1.8 - t) / .3);
-          chains.forEach((s, k) => { const a = anchors[k], list = []; for (let i = 0; i < 10; i++) { const u = i / 9; list.push(a.clone().lerp(c, u * clamp01(t / .2)).add(V(0, Math.sin(u * Math.PI) * .25, 0)).add(V(0, Math.sin(t * 20 + i) * .015, 0))); } s.set(list); s.alpha = live; s.draw(); });
-          if (Math.random() < .5) fx.emit({ p: add(c, V(rand(-.3, .3), rand(-.5, .5), rand(-.3, .3))), v: V(0, .4, 0), c: SPIRIT, life: .5, size: .07, size1: .01 });
-          if (t > 1.8) { chains.forEach(s => s.kill()); return false; }
+          const c = chest(tg).add(V(0, -.15, 0)), grow = clamp01(t / .2), drop = clamp01((t - 1.6) / .2);
+          chains.forEach((ch, k) => ch.set(anchors[k], c, .12 + Math.sin(t * 25 + k) * .01, grow * (1 - drop)));
+          if (Math.random() < .4) fx.emit({ p: add(c, V(rand(-.3, .3), rand(-.4, .4), rand(-.3, .3))), v: V(0, .4, 0), c: BLOOD, life: .4, size: .07, size1: .01 });
+          if (t > 1.8) { chains.forEach(ch => ch.kill()); return false; }
         });
       }
       return 1.3;
     },
-    // 3 · เกราะยันต์เก้ายอด: the nine-spired yant inks itself in gold behind him and a shell of
-    // golden light closes round him; HP +25%, DEF +24 for 8 s
+    // 3 · เกราะกระดูกผี: ghost bones rise out of the ground and lock round him in a ribcage of
+    // bone, a skull leers over his head; HP +25%, DEF +24 for 8 s
     mage_shield() {
-      fx.cinematic(.5, 1.8); face(tpos()); anim('mage_shield');
-      fx.after(MOVES.mage_shield.hits[0] - .25, () => {
-        const yant = fx.yantPlane(textures().nine), yu = yant.material.uniforms, YS = 2.4;
-        fx.addTask((dt, t) => {
-          yu.uT.value = t; yu.uReveal.value = Math.min(1.15, t / .45 * 1.15); yu.uPulse.value = Math.max(0, 1 - Math.abs(t - .5) * 4); yu.uA.value = clamp01((1.9 - t) / .4);
-          yant.position.copy(hero.pos()).add(dirTo().multiplyScalar(-.6)).add(V(0, 1.45, 0)); yant.lookAt(fx.camera.position); yant.scale.setScalar(YS);
-          if (t > 1.9) { fx.kill(yant); return false; }
-        });
-      });
+      fx.cinematic(.6, 1.9); face(tpos()); anim('mage_shield');
+      fx.after(MOVES.mage_shield.hits[0] - .2, () => { const hp = hero.pos(); sigil(DEATH, 1.3, { p: hp.clone().setY(.06), life: 2.2, spin: -1 }); smoke(hp.clone().setY(.1), 14, 1, .8); });
       fx.after(MOVES.mage_shield.hits[0], () => {
-        const hp = hero.pos(); fx.shock(hp.x, hp.z, 2, GOLD, C(1, .5, .1), .5); sigil(GOLD, 1.3, { p: hp.clone().setY(.06), life: 2, spin: -.8 });
-        const shell = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 18), fx.fresnelMat(C(2, 1.5, .6))); fx.add(shell);
-        fx.addTask((dt, t) => { shell.position.copy(hero.pos()).setY(.95); shell.scale.set(.85, 1.15, .85).multiplyScalar(easeOutBack(clamp01(t / .3))); shell.material.uniforms.uTime.value = t; shell.material.uniforms.uA.value = clamp01((2.2 - t) / .5) * fx.gain * .8;
-          if (Math.random() < .4) fx.emit({ p: add(hero.pos(), V(rand(-.6, .6), rand(.1, 1.8), rand(-.6, .6))), v: V(0, .5, 0), c: GOLD, life: .6, size: .07, size1: .01 });
-          if (t > 2.2) { fx.kill(shell); return false; } });
-        character.tint?.(C(1, .8, .35), .25, 1.2);
+        const hp = hero.pos(), boneM = new THREE.MeshStandardMaterial({ color: 0xe8dcc0, roughness: .6, emissive: new THREE.Color(.25, .35, .3) });
+        const G = new THREE.Group(); fx.add(G); const ribs = [];
+        for (let i = 0; i < 12; i++) { const a = i / 12 * 6.28, m = new THREE.Mesh(new THREE.ConeGeometry(.035, 1.5, 5).translate(0, .75, 0), boneM); m.position.set(Math.cos(a) * .62, 0, Math.sin(a) * .62); G.add(m); ribs.push({ m, a }); }
+        const head = sprite('skull', BONE, .55);
+        fx.addTask((dt, t) => {
+          G.position.copy(hero.pos()); const up = easeOutBack(clamp01(t / .3)), out = clamp01((t - 1.9) / .3);
+          ribs.forEach(({ m, a }, i) => { m.scale.set(1, Math.max(.001, up * (1 - out)), 1); m.rotation.set(Math.sin(a) * .5, 0, -Math.cos(a) * .5); m.position.y = -.1 + Math.sin(t * 3 + i) * .02; });
+          G.rotation.y = t * .6; head.position.copy(hero.pos()).setY(2.4 + Math.sin(t * 4) * .05); head.material.opacity = clamp01(t / .2) * (1 - out);
+          if (Math.random() < .4) fx.emit({ p: add(hero.pos(), V(rand(-.6, .6), rand(.1, 1.6), rand(-.6, .6))), v: V(0, .4, 0), c: SOUL, life: .6, size: .06, size1: .01 });
+          if (t > 2.2) { fx.kill(G); fx.kill(head); boneM.dispose(); return false; }
+        });
+        fx.shock(hp.x, hp.z, 1.8, BONE, DEATH, .5); character.tint?.(C(.4, .9, .6), .22, 1.2);
         heal('HP +25%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'ป้องกัน +24 · 8 วิ'));
       });
       return 1.4;
     },
-    // 4 · อัสนีบาต: the staff raised to a thundercloud sigil, then a bolt falls on the target
+    // 4 · มือมัจจุราช: the staff points, the ground under the nearest foe tears open and the
+    // death god's hand grabs it
     mage_thunder() {
-      fx.cinematic(.65, 1.5);
-      ready(() => { anim('mage_thunder'); const P = tpos();
-        fx.after(.25, () => { sigil(BOLT, 1.4, { p: P.clone().setY(5), life: 1, spin: 2, grow: .25 }); bolt(staffTip(), staffTip().add(V(0, 1.2, 0)), BOLT, .3, .03, .1); });
+      fx.cinematic(.7, 1.5);
+      ready(() => { anim('mage_thunder');
+        fx.after(.3, () => { const P = tpos(); fx.decal(4, P.x, P.z, 1.2, DEATH, INK, { life: 1.2, grow: .2 }); smoke(P.clone().setY(.1), 10, 1, .6); darkBolt(staffTip(), P.clone().setY(.1), .3, .03, .15); });
         fx.after(MOVES.mage_thunder.hits[0], () => {
-          const Q = tpos(); strike(Q, 1.6); fx.impact(chest(tg), 1.3, BOLT); fx.hitstop(.08); fx.shake = .25;
-          bolt(staffTip(), chest(tg), BOLT, .25, .03, .15);
-          if (near(Q, 1.6)) { hurt(260, true, .15); fx.stunStars(tg, .7); pop(tg.head().add(V(0, .5, 0)), 'สะดุ้ง'); }
+          const Q = tpos(); deathHand(Q, 1.25, 1.2); fx.shake = .25; fx.flash(Q.clone().setY(1), 0x9050ff, 30, .4);
+          fx.after(.25, () => { if (near(Q, 1.6)) { hurt(260, true, .1); fx.impact(chest(tg), 1.1, SOUL); fx.stunStars(tg, .7); pop(tg.head().add(V(0, .5, 0)), 'สะดุ้ง'); } });
         });
       });
       return 1.2;
     },
-    // 5 · เพลิงกัลป์ปราบผี: he calls the fire, slams the staff down, and four waves of the
-    // kalpa fire erupt one after another across the ground in front; ghosts caught keep burning
+    // 5 · ไฟนรกอเวจี: he calls up the fire of Avici, slams the staff down, and four waves of
+    // violet hellfire erupt across the ground in front; ghosts caught keep burning
     mage_kalp() {
-      fx.cinematic(.9, 2.6);
+      fx.cinematic(1, 2.8);
       ready(() => { anim('mage_kalp'); const hp0 = hero.pos(), d = dirTo(), side = sideOf(d);
-        fx.after(.3, () => sigil(FIRE, 2.2, { p: add(hp0, d.clone().multiplyScalar(2.2)).setY(4.5), life: 1.8, spin: -1.5, grow: .35 }));
-        fx.after(.75, () => { fx.shake = .2; fx.shock(hp0.x, hp0.z, 1.6, FIRE, C(.8, .2, .05), .4); });
+        fx.after(.3, () => { const c = add(hp0, d.clone().multiplyScalar(2.8)); abyss(c, 3, 2.4, HELL); sigil(HELL, 3.6, { p: c.clone().setY(.07), life: 2.2, spin: -1.2, grow: .35 }); smoke(c.clone().setY(.1), 26, 1.4, 2.4); });
+        fx.after(.75, () => { fx.shake = .2; fx.shock(hp0.x, hp0.z, 1.6, HELL, INK, .4); });
         let burning = false;
         hits('mage_kalp', (i, n) => {
-          const row = add(hp0, d.clone().multiplyScalar(1.2 + i * .75));
-          for (let k = -2; k <= 2; k++) {
-            const q = add(row, side.clone().multiplyScalar(k * .45 + rand(-.1, .1)));
+          const row = add(hp0, d.clone().multiplyScalar(1.2 + i * 1.05));
+          for (let k = -4; k <= 4; k++) {
+            const q = add(row, side.clone().multiplyScalar(k * .5 + rand(-.12, .12)));
             fx.after(Math.abs(k) * .03, () => {
-              fx.lightPillar(q, FIRE, 2.2 + rand(0, .8), .22, .55); fx.decal(3, q.x, q.z, .5, FIRE, C(.8, .2, .05), { life: 1.4, grow: .1 });
-              fx.burst(q.clone().setY(.2), 10, { c: [FIRE, C(2.6, 1.8, .6)], size: .12, sp: 2.5, upMin: .8, upK: 1.6, life: .7, grav: 3 });
-              fx.burst(q.clone().setY(.4), 4, { c: [C(.3, .25, .2)], S: fx.PN, size: .25, size1: .6, sp: 1, upMin: .5, life: 1, shape: SH.soft, a: .5 });
+              fx.lightPillar(q, HELLFIRE, 2.2 + rand(0, .8), .22, .6); fx.decal(3, q.x, q.z, .5, HELL, INK, { life: 1.6, grow: .1 });
+              fx.burst(q.clone().setY(.2), 12, { c: [HELLFIRE, HELL, PALE], size: .12, sp: 2.5, upMin: .8, upK: 1.6, life: .7, grav: 3 });
+              smoke(q.clone().setY(.4), 3, .8, .1);
             });
           }
           fx.shake = .15;
-          if (tg.alive && Math.abs(tpos().clone().sub(hp0).dot(d) - (1.2 + i * .75)) < .9) {
-            hurt(160, i === n - 1, .1); fx.impact(chest(tg), .9, FIRE);
-            if (!burning) { burning = true; pop(tg.head().add(V(0, .5, 0)), 'ไฟลุก');
-              let k = 0; fx.addTask((dt, t) => { if (Math.random() < dt * 20) fx.emit({ p: chest(tg).add(V(rand(-.3, .3), rand(-.6, .6), rand(-.2, .2))), v: V(0, rand(.6, 1.2), 0), c: Math.random() < .5 ? FIRE : C(2.6, 1.8, .6), life: .5, size: .12, size1: .02 });
+          if (tg.alive && Math.abs(tpos().clone().sub(hp0).dot(d) - (1.2 + i * 1.05)) < 1.1 && Math.abs(tpos().clone().sub(hp0).dot(side)) < 2.4) {
+            hurt(160, i === n - 1, .1); fx.impact(chest(tg), .9, HELLFIRE);
+            if (!burning) { burning = true; pop(tg.head().add(V(0, .5, 0)), 'ไฟนรกลุกไหม้');
+              let k = 0; fx.addTask((dt, t) => { if (Math.random() < dt * 22) fx.emit({ p: chest(tg).add(V(rand(-.3, .3), rand(-.6, .6), rand(-.2, .2))), v: V(0, rand(.6, 1.2), 0), c: Math.random() < .5 ? HELLFIRE : HELL, life: .5, size: .12, size1: .02 });
                 if (t > .6 * (k + 1) && k < 4) { k++; if (tg.alive) hurt(40, false, 0, 'mage_kalp'); } return t < 2.6 && tg.alive; }); }
           }
         });
       });
       return 2.1;
     },
-    // 6 · น้ำมนต์ธาราทิพย์: a sacred lotus blooms in the middle of the party, holy water rains
-    // from his hand; HP +25%, MP +15%, DEF +12 for 10 s
+    // 6 · พิธีเซ่นผีบรรพบุรุษ: incense smoke rises, the ancestors' spirits come round the party in a
+    // slow ring and bless it; HP +25%, MP +15%, DEF +12 for 10 s
     mage_holy() {
-      fx.cinematic(.5, 2.2); face(tpos()); anim('mage_holy');
-      fx.after(.4, () => { const hp = hero.pos(); fx.decal(1, hp.x, hp.z, 2.4, HOLY, C(.3, .6, 1), { life: 2.4, grow: .3 }); });
+      fx.cinematic(.6, 2.4); face(tpos()); anim('mage_holy');
+      fx.after(.3, () => { const hp = hero.pos(); sigil(PALE, 2, { p: hp.clone().setY(.06), life: 2.4, spin: .5 }); for (let k = 0; k < 6; k++) { const a = k / 6 * 6.28; const q = add(hp, V(Math.cos(a) * 1.6, 0, Math.sin(a) * 1.6));
+        fx.addTask((dt, t) => { if (Math.random() < .5) fx.emit({ p: q.clone().setY(.15), v: V(Math.sin(t * 3 + k) * .1, rand(.3, .6), 0), c: C(.35, .3, .3), life: 1.6, size: .1, size1: .4, shape: SH.soft, a: .5, drag: .5 }, fx.PN); const fl = fx.emit; if (Math.random() < .3) fl({ p: q.clone().setY(.2), v: V(0, .4, 0), c: C(2.4, 1.4, .4), life: .3, size: .06, size1: .01 }); return t < 2.2; }); } });
       fx.after(MOVES.mage_holy.hits[0], () => {
-        const hp = hero.pos(), lotus = fx.lotus(C(1.6, 1.9, 2.4), C(2.4, 1.6, 2), 1.2); lotus.position.copy(hp).setY(.05);
-        fx.addTask((dt, t) => { lotus.userData.open(clamp01(t / .6)); lotus.rotation.y = t * .4; lotus.userData.alpha(clamp01(t * 4) * clamp01((2.2 - t) / .5));
-          if (t < 1.4) for (let k = 0; k < 3; k++) { const a = rand(0, 6.28), r = rand(0, 2.2); fx.emit({ p: add(hp, V(Math.cos(a) * r, rand(2.2, 3), Math.sin(a) * r)), v: V(0, -rand(2.5, 4), 0), c: Math.random() < .5 ? HOLY : WHITE, life: .8, size: .06, size1: .03 }); }
-          if (t > 2.2) { fx.kill(lotus); return false; } });
-        const lh = leftHand(); for (let k = 0; k < 24; k++) fx.emit({ p: lh.clone(), v: dirTo().multiplyScalar(rand(1, 2.5)).add(sideOf(dirTo()).multiplyScalar(rand(-1.5, 1.5))).add(V(0, rand(1, 2.5), 0)), c: Math.random() < .5 ? HOLY : WHITE, life: 1, size: .07, size1: .02, grav: 5 });
-        fx.lightPillar(hp, HOLY, 3.5, .8, .9); fx.shock(hp.x, hp.z, 2.6, HOLY, C(.3, .6, 1), .6);
-        character.tint?.(C(.5, .8, 1), .25, 1.2);
-        heal('HP +25%'); fx.after(.15, () => heal('MP +15%', 'heal mp')); fx.after(.3, () => pop(hp.clone().setY(hero.barY + .9), 'ปาร์ตี้ · ป้องกัน +12 · 10 วิ'));
+        const hp = hero.pos(), spirits = [0, 1, 2, 3, 4].map(() => sprite('ghost', PALE, .7));
+        fx.addTask((dt, t) => {
+          spirits.forEach((s, i) => { const a = t * 1.2 + i / 5 * 6.28; s.position.copy(hp).add(V(Math.cos(a) * 1.4, 1.1 + Math.sin(t * 2 + i) * .15, Math.sin(a) * 1.4)); s.material.opacity = clamp01(t / .3) * clamp01((2 - t) / .4) * .8; });
+          if (Math.random() < .5) fx.emit({ p: add(hp, V(rand(-1.4, 1.4), rand(.5, 1.8), rand(-1.4, 1.4))), v: V(0, -.2, 0), c: PALE, life: .8, size: .06, size1: .01 });
+          if (t > 2) { spirits.forEach(s => fx.kill(s)); return false; }
+        });
+        fx.lightPillar(hp, PALE, 3.5, .8, .9); fx.shock(hp.x, hp.z, 2.6, PALE, DEATH, .6);
+        character.tint?.(C(.6, .8, 1), .22, 1.2);
+        heal('HP +25%'); fx.after(.15, () => heal('MP +15%')); fx.after(.3, () => pop(hp.clone().setY(hero.barY + .9), 'ปาร์ตี้ · ป้องกัน +12 · 10 วิ'));
       });
       return 1.8;
     },
-    // 7 · ไฟผีห้าทิศ: five ghost fires gather round the skull, then fly out in a fan
+    // 7 · วิญญาณเร่ร่อนห้าดวง: five wandering souls gather round the skull, then fly out in a fan
     mage_ghostfire() {
-      fx.cinematic(.6, 1.6);
+      fx.cinematic(.65, 1.6);
       ready(() => { anim('mage_ghostfire');
-        const orbs = [0, 1, 2, 3, 4].map(() => orb(GHOST, .7, C(1.6, 2.6, 2.2)));
+        const souls = [0, 1, 2, 3, 4].map(() => ({ s: sprite('ghost', SOUL, .5), g: fx.glowSprite(SOUL.clone().multiplyScalar(.4), .5) }));
         let gone = false;
-        fx.addTask((dt, t) => { if (gone) return false; const b = staffTip(); orbs.forEach((o, i) => { const a = t * 6 + i / 5 * 6.28; o.at(add(b, V(Math.cos(a) * .35, Math.sin(a * 1.3) * .12, Math.sin(a) * .35)), t + i); }); });
-        fx.after(MOVES.mage_ghostfire.hits[0], () => { gone = true; const d = dirTo(), from = staffTip(), dist = hero.pos().distanceTo(tpos()) + .4;
-          orbs.forEach((o, i) => { const ang = (i - 2) * .26, dir = rotY(d, ang), to = add(hero.pos(), dir.multiplyScalar(dist)).setY(1.2), T = trail(GHOST, .1, 14), dur = from.distanceTo(to) / 9, wob = rand(0, 6);
-            fx.addTask((dt, t) => { const u = clamp01(t / dur), p = from.clone().lerp(to, u).add(V(0, Math.sin(u * Math.PI) * .3 + Math.sin(t * 18 + wob) * .05, 0)); o.at(p, t); T.p = p;
-              if (u >= 1) { o.kill(); T.stop(); fx.burst(to, 10, { c: [GHOST, WHITE], size: .1, sp: 2.5, life: .5, drag: 3 }); if (near(to, 1.1)) { fx.impact(to, .7, GHOST); hurt(90, false, .06); } return false; } });
+        fx.addTask((dt, t) => { if (gone) return false; const b = staffTip(); souls.forEach(({ s, g }, i) => { const a = t * 5 + i / 5 * 6.28; s.position.copy(b).add(V(Math.cos(a) * .4, Math.sin(a * 1.3) * .12, Math.sin(a) * .4)); g.position.copy(s.position); s.material.opacity = clamp01(t / .2); }); });
+        fx.after(MOVES.mage_ghostfire.hits[0], () => { gone = true; const d = dirTo(), from = staffTip(), dist = hero.pos().distanceTo(tpos()) + .4; smoke(from, 6, .6, .2);
+          souls.forEach(({ s, g }, i) => { const dir = rotY(d, (i - 2) * .45), to = add(hero.pos(), dir.multiplyScalar(dist)).setY(1.2), T = trail(SOUL, .1, 16), dur = from.distanceTo(to) / 8, wob = rand(0, 6);
+            fx.addTask((dt, t) => { const u = clamp01(t / dur), p = from.clone().lerp(to, u).add(V(0, Math.sin(u * Math.PI) * .3 + Math.sin(t * 14 + wob) * .07, 0)); s.position.copy(p); g.position.copy(p); T.p = p;
+              if (u >= 1) { fx.kill(s); fx.kill(g); T.stop(); fx.burst(to, 10, { c: [SOUL, PALE], size: .1, sp: 2.5, life: .5, drag: 3 }); smoke(to, 4, .6, .15); if (near(to, 1.1)) { fx.impact(to, .7, SOUL); hurt(90, false, .06); } return false; } });
           });
         });
       });
       return 1.2;
     },
-    // 8 · คำสาปพรายตานี: a violet curse circle opens under the target; drowned-spirit wisps
-    // rise round it — poison bites six times, the target slows by 35% for 3.5 s
+    // 8 · คำสาปตายโหง: a blood-red curse circle opens under the target; skulls of the violently
+    // dead rise round it — the poison bites six times, the target slows by 35% for 3.5 s
     mage_curse() {
-      fx.cinematic(.7, 2);
+      fx.cinematic(.75, 2);
       ready(() => { anim('mage_curse');
-        fx.after(.35, () => bolt(staffTip(), tpos().setY(.1), CURSE, .3, .03, .12));
+        fx.after(.35, () => darkBolt(staffTip(), tpos().setY(.1), .3, .03, .12));
         fx.after(MOVES.mage_curse.hits[0], () => {
-          const P = tpos(); sigil(CURSE, 1.5, { p: P.clone().setY(.06), life: 3.6, spin: -1.2, grow: .25 }); fx.decal(5, P.x, P.z, 1.6, CURSE, C(.3, .05, .5), { life: 3.6, grow: .2 });
-          fx.shock(P.x, P.z, 1.8, CURSE, C(.3, .05, .5), .5); fx.flash(P.clone().setY(1), 0xb060ff, 25, .5);
-          if (!near(P, 1.6)) return;
-          hurt(110, false, 0); pop(tg.head().add(V(0, .4, 0)), 'ติดพิษพราย'); fx.after(.2, () => pop(tg.head().add(V(0, .7, 0)), 'เชื่องช้า −35% · 3.5 วิ'));
+          const P = tpos(); abyss(P, 2.7, 3.6, BLOOD); sigil(BLOOD, 2.7, { p: P.clone().setY(.07), life: 3.6, spin: -1, grow: .3 });
+          fx.shock(P.x, P.z, 3.2, BLOOD, INK, .6); fx.flash(P.clone().setY(1), 0xff2020, 30, .5); smoke(P.clone().setY(.1), 28, 1.4, 2.2);
+          for (let k = 0; k < 6; k++) { const a = k / 6 * 6.28; fx.after(.05 * k, () => deathHand(add(P, V(Math.cos(a) * 2.1, 0, Math.sin(a) * 2.1)), .55, .9, BLOOD)); }
+          if (!near(P, 2.7)) return;
+          hurt(110, false, 0); pop(tg.head().add(V(0, .4, 0)), 'ติดพิษตายโหง'); fx.after(.2, () => pop(tg.head().add(V(0, .7, 0)), 'เชื่องช้า −35% · 3.5 วิ'));
+          const skulls = [0, 1, 2, 3, 4].map(() => sprite('skull', BLOOD, .45));
           let n = 0;
           fx.addTask((dt, t) => {
             const c = tpos();
-            for (let k = 0; k < 2; k++) { const a = t * 2 + k * Math.PI + rand(-.2, .2), r = .9; fx.emit({ p: add(c, V(Math.cos(a) * r, .1, Math.sin(a) * r)), v: V(-Math.cos(a) * .3, rand(.8, 1.4), -Math.sin(a) * .3), c: Math.random() < .5 ? CURSE : TOXIC, life: .9, size: .14, size1: .03 }); }
-            if (Math.random() < dt * 12) fx.emit({ p: add(c, V(rand(-.6, .6), .3, rand(-.6, .6))), v: V(0, .3, 0), c: C(.25, .12, .35), life: 1.4, size: .3, size1: .7, shape: SH.soft, a: .45 }, fx.PN);
-            if (t > .55 * (n + 1) && n < 6) { n++; if (tg.alive) { hurt(30, false, 0, 'mage_curse'); fx.burst(chest(tg), 6, { c: [TOXIC, CURSE], size: .07, sp: 2, life: .35, shape: SH.star }); } }
-            if (t > 3.5) return false;
+            skulls.forEach((s, k) => { const a = t * 1.2 + k / 5 * 6.28; s.position.copy(c).add(V(Math.cos(a) * 1.8, .5 + ((t * .5 + k * .33) % 1) * 1.6, Math.sin(a) * .85)); s.material.opacity = clamp01((3.5 - t) / .5) * .9; });
+            if (Math.random() < dt * 14) fx.emit({ p: add(c, V(rand(-2.2, 2.2), .3, rand(-2.2, 2.2))), v: V(0, .3, 0), c: SMOKE, life: 1.4, size: .3, size1: .7, shape: SH.soft, a: .5 }, fx.PN);
+            if (t > .55 * (n + 1) && n < 6) { n++; if (tg.alive) { hurt(30, false, 0, 'mage_curse'); fx.burst(chest(tg), 6, { c: [BLOOD, C(.6, .05, .05)], size: .07, sp: 2, life: .35, shape: SH.star }); } }
+            if (t > 3.5) { skulls.forEach(s => fx.kill(s)); return false; }
           });
         });
       });
       return 1.4;
     },
-    // 9 · สมาธิกสิณไฟ: seated in meditation, he kindles the fire kasina — a disc of flame before
-    // him; the fire runs up his body; magic +30%, crit +10%, HP +10% for 12 s
+    // 9 · ฌานป่าช้า: seated in the graveyard trance, he draws the souls of the dead out of the
+    // ground into himself; his eyes burn soul-green; magic +30%, crit +10%, HP +10% for 12 s
     mage_meditate() {
-      fx.cinematic(.6, 2.4); face(tpos()); anim('mage_meditate');
-      fx.after(.5, () => {
-        const hp = hero.pos(); sigil(FIRE, 1.2, { p: hp.clone().setY(.06), life: 1.9, spin: .6 });
-        const disc = fx.glowSprite(FIRE, .1), core = fx.glowSprite(C(2.6, 2, 1), .1), ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: FIRE.clone().multiplyScalar(fx.gain * .4), ...ADD })); fx.add(ring);
+      fx.cinematic(.7, 2.4); face(tpos()); anim('mage_meditate');
+      fx.after(.45, () => {
+        const hp = hero.pos(); sigil(DEATH, 1.6, { p: hp.clone().setY(.06), life: 2, spin: .6 }); fx.decal(5, hp.x, hp.z, 2.2, DEATH, INK, { life: 2, grow: .3 });
         fx.addTask((dt, t) => {
-          const at = add(hero.pos(), dirTo().multiplyScalar(.6)).setY(.75), k = clamp01(t / .5) * clamp01((1.6 - t) / .3) + .001;
-          disc.position.copy(at); core.position.copy(at); ring.position.copy(at); ring.lookAt(fx.camera.position);
-          disc.scale.setScalar(.9 * k * (1 + Math.sin(t * 30) * .05)); core.scale.setScalar(.35 * k); ring.scale.setScalar(.45 * k); ring.material.opacity = k;
-          if (Math.random() < .7) fx.emit({ p: add(at, V(rand(-.2, .2), rand(-.2, .2), rand(-.2, .2))), v: V(0, rand(.4, .9), 0), c: Math.random() < .5 ? FIRE : C(2.6, 1.8, .6), life: .5, size: .1, size1: .02 });
-          if (Math.random() < .6) { const a = rand(0, 6.28), r = rand(.25, .45); fx.emit({ p: add(hero.pos(), V(Math.cos(a) * r, rand(0, .8), Math.sin(a) * r)), v: V(0, rand(.6, 1.2), 0), c: FIRE, life: .6, size: .1, size1: .02 }); }
-          if (t > 1.6) { fx.kill(disc); fx.kill(core); fx.kill(ring); return false; }
+          const c = chest(hero).add(V(0, -.3, 0));
+          if (Math.random() < .9) { const a = rand(0, 6.28), r = rand(1.2, 2.2); fx.emit({ p: add(hero.pos(), V(Math.cos(a) * r, .1, Math.sin(a) * r)), c: Math.random() < .3 ? PALE : SOUL, life: 1.2, size: .1, size1: .03, home: c, homeK: 3, swirl: 2 }); }
+          if (Math.random() < .2) { const a = rand(0, 6.28), r = rand(1, 1.8), s = sprite('ghost', SOUL, .35), from = add(hero.pos(), V(Math.cos(a) * r, .1, Math.sin(a) * r));
+            fx.addTask((dt2, t2) => { const u = clamp01(t2 / .8); s.position.copy(from.clone().lerp(c, u * u)).add(V(0, Math.sin(u * Math.PI) * .6, 0)); s.material.opacity = (1 - u) * .8; if (u >= 1) { fx.kill(s); return false; } }); }
+          return t < 1.6;
         });
       });
       fx.after(MOVES.mage_meditate.hits[0], () => {
-        const hp = hero.pos(); fx.flash(chest(hero), 0xff9040, 30, .5); fx.shock(hp.x, hp.z, 2, FIRE, C(.8, .2, .05), .5);
-        character.tint?.(C(1, .55, .2), .3, 1.4);
+        const hp = hero.pos(); fx.flash(chest(hero), 0x60ffa0, 30, .5); fx.shock(hp.x, hp.z, 2.2, SOUL, DEATH, .5);
+        character.tint?.(C(.3, .9, .5), .3, 1.4);
+        const eyes = [-1, 1].map(() => fx.glowSprite(SOUL, .12));
+        fx.addTask((dt, t) => { const h = headP(hero).add(V(0, -.3, 0)), s = sideOf(dirTo()).multiplyScalar(.06);
+          eyes.forEach((e, i) => { e.position.copy(h).add(s.clone().multiplyScalar(i ? 1 : -1)).add(dirTo().multiplyScalar(.12)); e.material.opacity = clamp01((2.5 - t) / .5); });
+          if (t > 2.5) { eyes.forEach(e => fx.kill(e)); return false; } });
         heal('HP +10%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'พลังเวทย์ +30% · คริ +10% · 12 วิ'));
       });
       return 2.0;
     },
-    // 10 · พายุอัสนีเทพ: a storm sigil opens over him; five waves of lightning strike all round
-    // him across a wide circle, stunning every time
+    // 10 · ประตูยมโลก: the gate of the underworld opens all round him — a great black pit, dark
+    // lightning overhead, and in five waves the hands of the dead tear up out of the ground
     mage_storm() {
-      fx.cinematic(1, 3);
+      fx.cinematic(1, 3.2);
       face(tpos()); anim('mage_storm'); const hp0 = hero.pos();
-      fx.after(.3, () => { sigil(BOLT, 3.6, { p: hp0.clone().setY(5.5), life: 2.2, spin: .8, grow: .4 }); fx.decal(1, hp0.x, hp0.z, 3.4, BOLT, null, { life: 2.3, grow: .3 }); });
-      fx.after(.45, () => fx.addTask((dt, t) => { if (Math.random() < .5) fx.emit({ p: add(staffTip(), V(rand(-.15, .15), rand(-.15, .15), rand(-.15, .15))), c: BOLT, life: .2, size: .08, size1: .01, shape: SH.star }); return t < 1.5; }));
+      fx.after(.3, () => { abyss(hp0, 5.2, 2.6, BLOOD); sigil(BLOOD, 5.2, { p: hp0.clone().setY(.08), life: 2.5, spin: .4, grow: .45 }); sigil(DEATH, 2.4, { p: hp0.clone().setY(.09), life: 2.4, spin: -1.2, grow: .35 }); sigil(DEATH, 4.2, { p: hp0.clone().setY(5.6), life: 2.3, spin: -.6, grow: .45 }); smoke(hp0.clone().setY(.1), 50, 1.7, 4.5); });
+      fx.after(.45, () => fx.addTask((dt, t) => { if (Math.random() < .5) fx.emit({ p: add(staffTip(), V(rand(-.15, .15), rand(-.15, .15), rand(-.15, .15))), c: DEATH, life: .25, size: .09, size1: .01, shape: SH.star }); return t < 1.6; }));
       hits('mage_storm', (i, n) => {
-        bolt(add(hp0, V(rand(-.5, .5), 5.4, rand(-.5, .5))), staffTip(), BOLT, .2, .04, .2);
-        for (let k = 0; k < 5; k++) { const a = k / 5 * 6.28 + i * .7 + rand(-.2, .2), r = rand(1.2, 3.2); fx.after(k * .025, () => strike(add(hp0, V(Math.cos(a) * r, 0, Math.sin(a) * r)), .9)); }
-        if (near(hp0, 3.6)) { fx.after(.03, () => strike(tpos(), 1.1)); hurt(150, i === n - 1, .08); fx.stunStars(tg, .4); pop(tg.head().add(V(0, .4 + i * .08, 0)), 'สะดุ้ง'); }
+        darkBolt(add(hp0, V(rand(-.5, .5), 5.2, rand(-.5, .5))), staffTip(), .25, .045, .25);
+        for (let k = 0; k < 7; k++) { const a = k / 7 * 6.28 + i * .7 + rand(-.2, .2), r = rand(1.3, 4.8); fx.after(k * .025, () => deathHand(add(hp0, V(Math.cos(a) * r, 0, Math.sin(a) * r)), .85, .8, i % 2 ? SOUL : DEATH)); }
+        fx.shock(hp0.x, hp0.z, 5 + i * .2, DEATH, INK, .5);
+        if (near(hp0, 5.2)) { fx.after(.04, () => deathHand(tpos(), 1, .8, BLOOD)); hurt(150, i === n - 1, .08); fx.stunStars(tg, .4); pop(tg.head().add(V(0, .4 + i * .08, 0)), 'สะดุ้ง'); }
         fx.shake = .2;
       });
       return 2.2;

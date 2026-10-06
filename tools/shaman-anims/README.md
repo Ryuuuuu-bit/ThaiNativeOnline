@@ -3,7 +3,7 @@
 `shaman-tripo.glb` is the owner's Tripo shaman (low-poly, ≈ 4.7 k triangles, textures 512²)
 rigged by the owner in Tripo with Mixamo bone names, plus the skull staff:
 
-1. the staff (Tripo, 1.9 M → 5 k triangles, textures 1024²) keeps its size (≈ the body height)
+1. the staff (Tripo, 1.9 M → 5 k triangles, textures 1024²) is scaled to 0.72 (≈ 1.3 m on the 1.8 m shaman)
    with the grip centre (on the shaft, under the skull ornaments) as origin, and is parented to
    `mixamorig:RightHand`: grip through the fist, skull end out of the thumb side (T-pose:
    forward), the skull's face toward the knuckles;
