@@ -19,13 +19,15 @@
       </header>
       <aside class="character glass"><div class="portrait">♙</div><div class="character-info"><div class="character-name">ผู้เดินทาง <span>Lv. 1</span></div><div class="bar hp"><span></span></div><div class="bar energy"><span></span></div><small>ผู้มาเยือนแห่งนครอโยธยา</small></div></aside>
       <aside class="exploration glass"><span class="eyebrow">บันทึกการเดินทาง</span><h2>เมืองแห่งสายน้ำ</h2><p>ประตูเมืองทิศเหนือปิดสนิท<br>ทุกเรื่องราวอยู่ภายในกำแพงนคร</p><div class="quest-line"><span id="quest-symbol">◇</span><span id="quest-text">ค้นพบสถานที่ 0/0</span></div><span class="quest-hint" id="quest-hint">เดินสำรวจเมืองเพื่อค้นพบสถานที่สำคัญ</span><div id="quest-tracker"></div></aside>
-      <aside class="minimap glass"><div class="mini-title"><span>นครอโยธยา</span><span>N ↑</span></div><canvas id="minimap" width="440" height="336" aria-label="แผนที่ย่อ"></canvas><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
+      <aside class="minimap glass"><div class="zoom-ctl glass" role="group" aria-label="ซูมกล้อง"><button id="zoom-in" title="ซูมเข้า (+)" aria-label="ซูมเข้า">+</button><button id="zoom-out" title="ซูมออก (−)" aria-label="ซูมออก">−</button></div><div class="mini-title"><span>นครอโยธยา</span><span>N ↑</span></div><canvas id="minimap" width="440" height="336" aria-label="แผนที่ย่อ"></canvas><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
       <section id="settings" class="settings glass" hidden>
         <div class="panel-heading">บรรยากาศของโลก<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
         <label>เวลาของโลก<select id="time-mode"><option value="auto">หมุนเวียนตามเวลา</option><option value="morning">เช้า</option><option value="day">กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
         <label>ความเร็วเวลา<select id="time-speed"><option value="1">1 วัน = 24 นาที</option><option value="6">1 วัน = 4 นาที</option><option value="20">1 วัน = 72 วินาที</option></select></label>
         <label>แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
         <label>คุณภาพภาพ<select id="quality"><option value="high">สูง · Full HD</option><option value="medium">สมดุล</option></select></label>
+        <label>ระยะกล้อง <output id="zoom-value">100%</output><input id="zoom" type="range" min="50" max="170" step="5" value="100" /></label>
+        <label>ขนาดหน้าจอ (HUD)<select id="hud-size"><option value="0.85">เล็ก</option><option value="1" selected>พอดีจอ</option><option value="1.15">ใหญ่</option><option value="1.3">ใหญ่มาก</option></select></label>
         <label class="check-label"><input id="particles" type="checkbox" checked /> ละอองแสง หิ่งห้อย และใบไม้</label>
         <label class="check-label"><input id="debug-toggle" type="checkbox" /> โหมดผู้พัฒนา (F3)</label>
         <p>มุมกล้อง Orthographic · 2.5D</p>
@@ -38,7 +40,7 @@
         <div id="dlg-quests"></div>
         <div class="dlg-actions"><button id="dlg-next"><kbd>E</kbd> คุยต่อ</button><button id="dlg-shop" hidden>◉ ซื้อขาย</button><span><kbd>Esc</kbd> ปิด</span></div>
       </section>
-      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><div class="controls glass"><span><kbd>W A S D</kbd> เดิน</span><span><kbd>Shift</kbd> วิ่ง</span><span><kbd>E</kbd> คุย / สำรวจ</span><span><kbd>ลากเมาส์ขวา</kbd> มองแผนที่</span><span><kbd>Scroll</kbd> ซูม</span><button id="reset-camera" title="กลับมาที่ผู้เดินทาง"><kbd>R</kbd> กลับมุมกล้อง</button><button id="photo-mode" title="ซ่อนหน้าจอเพื่อชมแผนที่"><kbd>H</kbd> ชมวิว</button><span><kbd>M</kbd> แผนที่</span></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
+      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><div class="controls glass"><span><kbd>W A S D</kbd> เดิน</span><span><kbd>Shift</kbd> วิ่ง</span><span><kbd>E</kbd> คุย / สำรวจ</span><span><kbd>ลากเมาส์ขวา</kbd> มองแผนที่</span><span><kbd>Scroll</kbd><kbd>+ −</kbd> ซูม</span><button id="reset-camera" title="กลับมาที่ผู้เดินทาง"><kbd>R</kbd> กลับมุมกล้อง</button><button id="photo-mode" title="ซ่อนหน้าจอเพื่อชมแผนที่"><kbd>H</kbd> ชมวิว</button><span><kbd>M</kbd> แผนที่</span></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
       <section id="shop" class="shop glass" hidden aria-label="ร้านค้า"><div class="panel-heading"><span><b id="shop-title"></b><small id="shop-keeper"></small></span><button id="shop-close" aria-label="ปิดร้านค้า">×</button></div>
         <div class="shop-tabs"><button data-shop-tab="buy" aria-pressed="true">ซื้อ</button><button data-shop-tab="sell" aria-pressed="false">ขาย</button><span id="shop-gold"></span></div>
         <div id="shop-list"></div></section>

@@ -22,6 +22,7 @@ import { QuestUI } from '../ui/QuestUI.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
+import { createViewPrefs } from '../ui/viewPrefs.js';
 import { Sound } from '../audio/Sound.js';
 import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
 import { MUSIC_FOR } from '../data/audio.js';
@@ -68,11 +69,13 @@ export class Game {
     });
     this.quests.on('change', () => { this.questUI.renderTracker(); if (this.hud.dialogueOpen && this.talking) this.questUI.renderDialogue(this.talking.id); });
     this.shop = new ShopPanel((text, kind) => (this.game?.hud?.feed ? this.game.hud.feed.log(text, kind === 'warn' ? 'bad' : kind) : this.hud.toast(text, '')));
+    this.prefs = createViewPrefs();   // HUD scale and saved camera zoom (device-wide)
     this.input = new InputManager(host);
     this.bind();
     this.startCombat();
     this.maps.attachCombat(this.game);
-    if (params.has('zoom')) this.view.setZoom(Number(params.get('zoom')));
+    this.view.setZoom(params.has('zoom') ? Number(params.get('zoom')) : this.prefs.zoom);
+    this.syncZoom();
     this.view.snap(this.player.position);
     this.destination = null; this.route = []; this.elapsed = 0; this.previous = null; this.lastHud = 0; this.frames = 0; this.fpsTime = 0; this.fps = 0;
     this.dir = new THREE.Vector3();
@@ -106,7 +109,11 @@ export class Game {
     let panStart = null;
     input.on('panStart', () => { panStart = view.panOffset.clone(); });
     input.on('pan', (dx, dy) => view.pan(dx, dy, panStart));
-    input.on('zoom', delta => view.setZoom(view.zoom - delta * .001));
+    input.on('zoom', delta => this.zoomTo(view.zoom - delta * .001));
+    input.on('zoomBy', ratio => this.zoomTo(view.zoom * ratio));
+    input.on('zoomStep', dir => this.zoomTo(view.zoom * (dir > 0 ? 1.12 : 1 / 1.12)));
+    $('zoom-in').addEventListener('click', () => this.zoomTo(view.zoom * 1.15));
+    $('zoom-out').addEventListener('click', () => this.zoomTo(view.zoom / 1.15));
     input.on('click', e => {
       if (this.maps.busy) return;
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
@@ -133,6 +140,9 @@ export class Game {
     const settings = $('settings');
     $('settings-toggle').addEventListener('click', () => { settings.hidden = !settings.hidden; $('settings-toggle').setAttribute('aria-expanded', String(!settings.hidden)); });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
+    $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100));
+    $('hud-size').value = String(this.prefs.hud);
+    $('hud-size').addEventListener('change', e => this.prefs.set({ hud: Number(e.target.value) }));
     $('wind').addEventListener('input', e => { windUniforms.uWind.value = Number(e.target.value) / 100; $('wind-value').value = `${e.target.value}%`; });
     $('particles').addEventListener('change', e => this.world.atmosphere.setEnabled(e.target.checked));
     $('debug-toggle').addEventListener('change', e => { if (e.target.checked !== !!this.debugOn) this.toggleDebug(); });
@@ -194,8 +204,18 @@ export class Game {
     this.training = createClassAvatar(this.game.character.classId, {
       scene: this.scene, camera: this.view.camera, renderer: this.renderer, root: $('app'), player: this.player,
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
+      character: this.game.character,   // the dummy reads the player's real stats
     });
     this.training?.enterMap(this.maps.map.id);
+  }
+
+  // Camera zoom from the wheel, pinch, + / − keys, the buttons by the minimap and the
+  // settings slider; saved per device (src/ui/viewPrefs.js).
+  zoomTo(z) { this.view.setZoom(z); this.prefs.set({ zoom: this.view.zoom }); this.syncZoom(); }
+  syncZoom() {
+    const pct = Math.round(this.view.zoom * 100);
+    $('zoom').value = pct; $('zoom-value').value = `${pct}%`;
+    $('zoom-in').disabled = this.view.zoom >= 1.7; $('zoom-out').disabled = this.view.zoom <= .5;
   }
 
   // Map changes (src/world/MapManager.js): close what belongs to the old map,

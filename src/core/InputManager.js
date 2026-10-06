@@ -2,6 +2,8 @@
 // actions are dispatched as named events.
 const MOVE = { KeyW: 'up', ArrowUp: 'up', KeyS: 'down', ArrowDown: 'down', KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right' };
 const ACTIONS = { KeyR: 'resetCamera', KeyH: 'photo', KeyE: 'interact', KeyM: 'map', Escape: 'escape', F3: 'debug' };
+// + / − zoom the camera (held keys repeat).
+const ZOOM_KEYS = { Equal: 1, NumpadAdd: 1, Minus: -1, NumpadSubtract: -1 };
 
 export class InputManager {
   constructor(host) {
@@ -12,6 +14,7 @@ export class InputManager {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
       if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move'); }
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.running = true;
+      if (ZOOM_KEYS[e.code]) { e.preventDefault(); this.emit('zoomStep', ZOOM_KEYS[e.code]); }
       if (!e.repeat && ACTIONS[e.code]) { if (e.code === 'F3') e.preventDefault(); this.emit(ACTIONS[e.code]); }
     });
     window.addEventListener('keyup', e => {
@@ -21,7 +24,18 @@ export class InputManager {
     window.addEventListener('blur', () => { this.keys.clear(); this.pan = null; this.running = false; });
     document.addEventListener('visibilitychange', () => this.keys.clear());
     host.addEventListener('contextmenu', e => e.preventDefault());
+    // Two-finger pinch zooms on touch screens: 'zoomBy' gets the distance ratio since the last move.
+    const touches = new Map(); let pinch = 0;
+    const spread = () => { const [a, b] = [...touches.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+    host.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') { touches.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (touches.size === 2) pinch = spread(); } }, true);
+    host.addEventListener('pointermove', e => {
+      if (!touches.has(e.pointerId)) return;
+      touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (touches.size === 2 && pinch) { const d = spread(); if (d > 0) { this.emit('zoomBy', d / pinch); pinch = d; } }
+    });
+    for (const name of ['pointerup', 'pointercancel']) host.addEventListener(name, e => { touches.delete(e.pointerId); if (touches.size < 2) pinch = 0; });
     host.addEventListener('pointerdown', e => {
+      if (touches.size > 1) return;   // the second finger of a pinch is not a click
       if (e.button === 2) { this.pan = { x: e.clientX, y: e.clientY }; host.setPointerCapture(e.pointerId); this.emit('panStart'); }
       // A click the combat layer consumed (a monster) must not also start a ground walk.
       else if (e.button === 0 && !e.cancelBubble) this.emit('click', e);

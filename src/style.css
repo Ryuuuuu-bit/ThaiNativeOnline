@@ -76,3 +76,27 @@
 .cls-badge img{width:100%;height:100%;object-fit:cover;display:block}
 .icon-glyph{line-height:1}
 .shop-row i .icon-img{width:32px;height:32px;display:block;image-rendering:pixelated;border-radius:3px;box-shadow:0 0 0 1px var(--rar,#e9dfc0)}
+
+/* HUD scale: src/ui/viewPrefs.js sets --ui from the screen size × the HUD size setting.
+   Only screen-anchored panels zoom; world-anchored layers (nameplates, floating numbers,
+   FX labels, the hotbar tooltip placed in screen pixels) and full-screen menus stay 1:1. */
+.topbar,.character,.exploration,.minimap,.settings,.interaction,.dialogue,.bottom,.shop,.fullmap,#restore-ui,#toast,#debug,.g-layer,.hotbar,.training-panel{zoom:var(--ui,1)}
+/* Camera zoom buttons, on the minimap's left edge (wheel, pinch and + / − keys also zoom). */
+.minimap{overflow:visible}
+.zoom-ctl{position:absolute;left:-42px;top:0;display:flex;flex-direction:column;padding:3px;gap:3px}
+.zoom-ctl button{width:30px;height:30px;border:1px solid #e2cf962e;border-radius:3px;background:#1f312baa;font-size:18px;line-height:1}
+.zoom-ctl button:hover:not(:disabled){background:#4f5a3a}
+.zoom-ctl button:disabled{opacity:.35;cursor:default}
+/* Compact (narrow or short screens): only what play needs; touch-sized zoom buttons. */
+.ui-compact .exploration,.ui-compact .map-caption,.ui-compact .controls,.ui-compact .version,.ui-compact .brand>span:last-child{display:none}
+.ui-compact .training-panel{left:20px;right:auto;top:215px;bottom:auto;width:240px}
+.ui-compact .training-panel .training-log,.ui-compact .training-panel .training-skills,.ui-compact .training-panel .training-tip{display:none}
+.ui-compact .hotbar{bottom:16px}
+.ui-compact .zoom-ctl button{width:38px;height:38px;font-size:22px}
+.ui-compact .zoom-ctl{left:-50px}
+/* Portrait phones: the ten skills wrap into two rows of five. */
+.ui-portrait .hotbar-row{flex-wrap:wrap;justify-content:center;width:calc(5 * 50px + 4 * 5px);overflow:visible}
+.ui-portrait .hotbar-sep{display:none}
+.ui-portrait .training-panel{top:auto;bottom:190px}
+/* Full layout: the skill bar sits clear of the controls bar. */
+body:not(.ui-compact) .hotbar{bottom:84px}
