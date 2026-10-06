@@ -11,4 +11,4 @@ three signature poses). These drive the Tripo GLB characters
 | Assassin นักฆ่า | `assassin.webp` |
 | Shaman หมอผี | `shaman.webp` |
 | Herbalist หมอยา | `herbalist.webp` |
-| Hunter พราน | `hunter.webp` — not yet in the repo |
+| Hunter พราน | no sheet — model generated directly in Tripo (`hunter/ANIMATIONS.md`) |

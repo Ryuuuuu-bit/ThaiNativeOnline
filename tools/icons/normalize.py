@@ -4,7 +4,8 @@
     (item art comes from tools/icons/draw_items.py → tools/icons/source/items/)
 
 Each 48x48 icon gets:
-  - the class's background (dark lacquer red for มวยไทย, deep herb green for หมอยา)
+  - the class's background (dark lacquer red for มวยไทย, deep herb green for หมอยา,
+    forest-floor brown for นายพราน — its art comes from PixelLab, 48×48 on transparency)
     with a soft centre glow,
   - the subject centred in the 40x40 inner area with a 1 px drop shadow,
   - one gold bevel frame (light top-left, dark bottom-right) like the HUD panels.
@@ -29,6 +30,7 @@ SIZE, INNER = 48, 40
 PALETTE = {  # centre glow, edge
     'muaythai': ((122, 46, 26), (34, 13, 8)),
     'herbalist': ((52, 92, 38), (12, 26, 10)),
+    'hunter': ((92, 78, 38), (24, 20, 9)),       # forest-floor brown for นายพราน
     'items': ((70, 64, 48), (20, 18, 13)),   # warm neutral lacquer for every item
 }
 # Where each set lives in public/ (items are not class FX).

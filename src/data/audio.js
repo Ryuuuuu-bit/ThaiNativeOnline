@@ -79,6 +79,9 @@ Object.assign(SFX, {
   wood_thud:   { vary: .06, layers: [{ wave: 'sine', f: [260, 120], dur: .14, gain: .35 }, { wave: 'noise', dur: .05, gain: .14, filter: { type: 'bandpass', f: [900, 500], q: 2 } }] },
   glass_clink: { vary: .1, layers: [{ wave: 'sine', f: [2600, 2600], dur: .25, gain: .07 }, { wave: 'sine', f: [3900, 3900], dur: .18, gain: .04 }, { wave: 'noise', dur: .03, gain: .06, filter: { type: 'highpass', f: [6000, 6000] } }] },
   // signature sounds, played as the skill starts
+  // the hunter's bow: the limbs creak as the string comes back, a twang and a hiss on the release
+  bow_draw:    { vary: .05, layers: [{ wave: 'sawtooth', f: [70, 110], dur: .35, a: .2, gain: .05, filter: { type: 'bandpass', f: [400, 900], q: 6 } }, { wave: 'noise', dur: .3, a: .2, gain: .03, filter: { type: 'bandpass', f: [1800, 2600], q: 4 } }] },
+  bow_release: { vary: .08, layers: [{ wave: 'triangle', f: [190, 150], dur: .22, gain: .16 }, { wave: 'noise', dur: .05, gain: .12, filter: { type: 'highpass', f: [2500, 2500] } }, { wave: 'noise', dur: .25, at: .02, a: .02, gain: .07, filter: { type: 'bandpass', f: [3000, 1200], q: 2 } }] },
   sig_jab:     { layers: [{ wave: 'noise', dur: .08, gain: .06, filter: { type: 'bandpass', f: [1500, 2500], q: 2 } }] },
   sig_kick:    { layers: [{ wave: 'noise', dur: .45, a: .35, gain: .12, filter: { type: 'bandpass', f: [300, 1800], q: 1.2 } }] },
   sig_croc:    { layers: [{ wave: 'noise', dur: .6, a: .2, gain: .12, filter: { type: 'bandpass', f: [400, 2600], q: 2 } }, { wave: 'noise', dur: .5, at: .3, a: .2, gain: .1, filter: { type: 'bandpass', f: [2600, 500], q: 2 } }] },
@@ -143,6 +146,17 @@ export const SKILL_SFX = {
   heal_tonic: { cast: 'sig_tonic', hit: 'buff' },
   heal_mother: { cast: 'sig_mother', hit: 'heal' },
   heal_amrita: { cast: 'sig_amrita', hit: 'heal' },
+  // the hunter: every shot draws on the cast and twangs on the release (the hits are the releases)
+  arch_quick: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_poison: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_pierce: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_rain: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_volley: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_snipe: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_meteor: { cast: 'bow_draw', hit: 'bow_release' },
+  arch_hawk: { cast: 'buff', hit: 'buff' },
+  arch_garuda: { cast: 'whoosh', hit: 'buff' },
+  arch_trap: { cast: 'whoosh', hit: 'crack' },
 };
 
 // Game events → SFX ids (src/audio/gameSounds.js).
@@ -153,7 +167,7 @@ export const SFX_EVENTS = {
   'character:levelup': 'levelup', 'character:used': 'heal',
 };
 // Cast sound per training-ground kit (src/classes/index.js CLASS_KITS ids).
-export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb' };
+export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb', hunter: 'bow_draw' };
 
 // Generative music (src/audio/Music.js) on a 16-step bar. Two styles:
 //

@@ -4,11 +4,12 @@ import assert from 'node:assert/strict';
 import { SFX, SKILL_SFX } from '../src/data/audio.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
+import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 
-const SKILLS = [...MUAYTHAI_SKILLS, ...HERBALIST_SKILLS];
+const SKILLS = [...MUAYTHAI_SKILLS, ...HERBALIST_SKILLS, ...HUNTER_SKILLS];
 
-test('all twenty skills have a signature sound that exists', () => {
-  assert.equal(SKILLS.length, 20);
+test('all thirty skills have a signature sound that exists', () => {
+  assert.equal(SKILLS.length, 30);
   for (const s of SKILLS) {
     const entry = SKILL_SFX[s.id];
     assert.ok(entry, `${s.id} (${s.name}) has sounds`);

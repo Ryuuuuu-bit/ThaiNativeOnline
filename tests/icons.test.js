@@ -6,6 +6,7 @@ import { SKILLS, BUFF_ICONS } from '../src/combat/data/skills.js';
 import { AVATARS } from '../src/data/training.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
+import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 import { ITEMS } from '../src/character/data/items.js';
 
 const pub = path => existsSync(new URL(`../public/${path}`, import.meta.url));
@@ -19,6 +20,7 @@ test('playable classes have a portrait and their skills have framed icons', () =
   for (const [id, a] of Object.entries(AVATARS)) if (a.ready) assert.ok(a.portrait && pub(a.portrait), `${id} portrait`);
   for (const s of MUAYTHAI_SKILLS) assert.ok(pub(`fx/muaythai/icon_${s.id}.png`), s.id);
   for (const s of HERBALIST_SKILLS) assert.ok(pub(`fx/herbalist/icon_${s.id}.png`), s.id);
+  for (const s of HUNTER_SKILLS) assert.ok(pub(`fx/hunter/icon_${s.id}.png`), s.id);
 });
 
 test('both playable classes show their own art on the city skill bar', () => {

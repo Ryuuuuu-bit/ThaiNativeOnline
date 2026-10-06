@@ -132,8 +132,13 @@ export class ModelPreview {
   place(dt, fx) {
     const height = this.current?.avatar.height ?? 1.8, t = Math.tan(THREE.MathUtils.degToRad(FOV / 2)), a = this.camera.aspect;
     const rest = { x: 0, y: height * .5, eye: height * .62, dist: (height * .62) / t / Math.min(1, a * 1.4) };
-    const H = height * 1.25 * .58, W = DUMMY_AT.x + 1.45;
-    const demo = { x: DUMMY_AT.x * .6, y: H * .9, eye: H * 1.15, dist: Math.max(H / t, W / 2 / t / a) * 1.08 };
+    // the demo framing holds the fighter and the dummy, following the fighter as it moves
+    // (an archer steps back to shoot); eased so the camera doesn't jerk
+    const fxPos = this.current?.character.group.position.x ?? 0;
+    this.frameX = (this.frameX ?? fxPos) + (Math.min(fxPos, 0) - (this.frameX ?? fxPos)) * Math.min(1, (dt || 1) * 3);
+    const left = this.frameX - .55, right = DUMMY_AT.x + .9;
+    const H = height * 1.25 * .58, W = right - left;
+    const demo = { x: (left + right) / 2, y: H * .9, eye: H * 1.15, dist: Math.max(H / t, W / 2 / t / a) * 1.08 };
     const k = this.demo, mix = n => rest[n] + (demo[n] - rest[n]) * k;
     const ang = -this.yaw, dist = mix('dist') - (fx?.punchV ?? 0) * .35, s = fx?.shake ?? 0, j = () => (Math.random() - .5) * s * .25;
     const cx = mix('x'), cz = DUMMY_AT.z * .5 * k;

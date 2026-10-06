@@ -21,6 +21,10 @@ export const AVATARS = {
     url: 'models/herbalist.glb', portrait: 'ui/portraits/herbalist.png', height: 1.75, skills: 'herbalist', job: 'healer', ready: true,
     casts: { dart: 'cast_book', blight: 'toss', grove: 'kneel_heal', balm: 'raise_sky' },
   },
+  hunter: {
+    url: 'models/hunter.glb', portrait: 'ui/portraits/hunter.png', height: 1.8, skills: 'hunter', job: 'archer', ready: true,
+    casts: { shot: 'hunter_shot', volley: 'hunter_volley', snare: 'hunter_trap', sic: 'hunter_hawk' },
+  },
 };
 export const AVATAR_FALLBACK = 'muaythai';
 export const avatarFor = id => (AVATARS[id]?.url ? AVATARS[id] : AVATARS[AVATAR_FALLBACK]);
@@ -37,7 +41,7 @@ export const TRAINING = {
     level: 10, skillLevel: 1,
     stats: { STR: 30, AGI: 18, VIT: 15, INT: 5, DEX: 15, LUK: 10 },
     // Per-job stat overrides (the herbalist trains on INT).
-    byJob: { healer: { STR: 8, AGI: 12, VIT: 15, INT: 30, DEX: 18, LUK: 10 } },
+    byJob: { healer: { STR: 8, AGI: 12, VIT: 15, INT: 30, DEX: 18, LUK: 10 }, archer: { STR: 12, AGI: 20, VIT: 14, INT: 6, DEX: 30, LUK: 12 } },
   },
   range: 12,                     // metres from the dummy at which skills and keys 1–0 / Q take over
   log: 8,                        // hits shown in the damage log
