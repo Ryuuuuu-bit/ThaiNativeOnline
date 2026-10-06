@@ -80,17 +80,17 @@ function waterMaterial(shallow, deep, { foam = 1, scale = 1, reflect = 1, amp = 
 
         // Body colour: light shallows, deeper channel, lit crests and darker troughs.
         vec3 col = mix(uShallow, uDeep, depth);
-        col *= mix(vec3(1.), vec3(.62, .74, .98), uNight * .85) * (1. - uNight * .62);
+        col *= mix(vec3(1.), vec3(.62, .74, .98), uNight * .85) * (1. - uNight * .72);
         col *= .86 + .2 * clamp(dot(N, L), 0., 1.) + .2 * hN;
         col = mix(col, col * 1.18 + vec3(.02, .03, .025), smoothstep(.35, 1., hN) * .55 * edge);
 
         // Fresnel sky reflection: hazy horizon, clearer zenith, warmer toward the sun.
         float fres = clamp(.08 + .8 * pow(1. - clamp(dot(N, V), 0., 1.), 2.6), 0., .6) * uReflect;
         float toSun = max(dot(R, L), 0.);
-        vec3 sky = mix(uSky * 1.08, uSky * vec3(.82, .92, 1.06), clamp(R.y, 0., 1.)) * (1. - uNight * .45);
+        vec3 sky = mix(uSky * 1.08, uSky * vec3(.82, .92, 1.06), clamp(R.y, 0., 1.)) * (1. - uNight * .6);
         // Night: lantern-warm low reflections under the cool moonlit sky.
         sky += vec3(.5, .3, .14) * (1. - clamp((R.y - .3) * 2., 0., 1.)) * uNight * .14;
-        sky += uSun * pow(toSun, 5.) * .3 * (1. - uNight * .4);
+        sky += uSun * pow(toSun, 5.) * .3 * (1. - uNight * .5);
         col = mix(col, sky, fres);
 
         // Glint and dancing sparkles (they twinkle where two drifting noise fields peak together).
@@ -105,7 +105,7 @@ function waterMaterial(shallow, deep, { foam = 1, scale = 1, reflect = 1, amp = 
         float lap = smoothstep(.55, .95, sin(vShore * 70. - uTime * 1.6 + fn * 2.5)) * (1. - smoothstep(.08, .24, vShore)) * smoothstep(-.2, .4, fn);
         float caps = smoothstep(.82, 1., hN) * smoothstep(.15, .6, n2.x) * edge * .5;
         float foam = clamp(shoreLine * .75 + lap * .6 + caps, 0., 1.) * uFoam;
-        col = mix(col, vec3(.9, .93, .88) * mix(1., .42, uNight), foam);
+        col = mix(col, vec3(.9, .93, .88) * mix(1., .36, uNight), foam);
 
         gl_FragColor = vec4(col, 1.);
         #include <tonemapping_fragment>
