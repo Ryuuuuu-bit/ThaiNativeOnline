@@ -1,6 +1,6 @@
 # Combat system (`src/combat/`)
 
-Owner: Combat Agent. Rules and AI in `Combat.js` (no rendering), visuals in `CombatView.js`, HUD in `ui/`, content in `data/`.
+Owner: gameplay-engineer (`data/`: content-designer). Rules and AI in `Combat.js` (no rendering), visuals in `CombatView.js`, HUD in `ui/`, content in `data/`.
 
 ## Files
 

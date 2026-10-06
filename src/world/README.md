@@ -1,6 +1,6 @@
 # World public interface
 
-Owned by the World Agent (`src/world/**`). Other systems may rely only on what
+Owned by world-designer (maps, MapManager, portals, collision), environment-artist (buildings, vegetation, terrain, districts) and technical-artist (shaders, materials, lighting); see CLAUDE.md. Other systems may rely only on what
 this page lists; changes to it must be documented here and in the PR.
 
 ## Maps (`maps.js`)

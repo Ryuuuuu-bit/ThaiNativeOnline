@@ -1,6 +1,6 @@
 # Character system (`src/character/`)
 
-Owner: Character Agent. Pure game logic in `Character.js`; content lives in `data/`.
+Owner: gameplay-engineer (`rig/`: technical-artist, `data/`: content-designer). Pure game logic in `Character.js`; content lives in `data/`.
 
 ## Files
 

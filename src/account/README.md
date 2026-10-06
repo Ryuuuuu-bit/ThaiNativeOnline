@@ -23,10 +23,10 @@ Every per-character save goes through `slotStorage` (Storage-like, prefixes keys
 
 | Save | File |
 |---|---|
-| `tno.character.v1` | `src/character/Character.js` (Character Agent) |
+| `tno.character.v1` | `src/character/Character.js` (gameplay-engineer) |
 | `tno.quests.v1` | `src/quest/QuestSystem.js` via its `storage` option, passed in `Game.js` |
 | `tno.discovered.v1` | `src/core/Game.js` |
-| `tno.location.v1` | `src/world/MapManager.js` (World Agent) |
+| `tno.location.v1` | `src/world/MapManager.js` (world-designer) |
 
 - **Prefixes:** guest slot 0 = `''`, so saves from before accounts existed appear as the guest's first character. Every other slot = `tno.<account>.<slot>/`.
 - **No slot chosen** (tests, other pages): the prefix is empty, so behaviour is unchanged.

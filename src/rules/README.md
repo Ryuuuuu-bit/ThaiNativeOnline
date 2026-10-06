@@ -5,7 +5,7 @@ content data of the original ThaiNative project (`shared/` + parts of `server/td
 and numbers are the ones balanced in the live game; keep them unless the lead decides otherwise.
 Content comments are in Thai as in the original.
 
-Owner: lead (see CLAUDE.md). Character and Combat consume this layer; they do not edit it.
+Owner: game-director, the lead (see CLAUDE.md). Character and Combat consume this layer; they do not edit it.
 
 ## Modules
 
