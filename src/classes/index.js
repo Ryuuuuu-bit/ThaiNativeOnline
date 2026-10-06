@@ -4,6 +4,8 @@ import { createBoxerSkills, SKILL_META, iconUrl } from './fx/boxer-skills.js';
 import { createHerbalistSkills, herbIconUrl } from './fx/herbalist-skills.js';
 import { HUNTER_SKILLS } from './hunter-moves.js';
 import { createHunterSkills, hunterIconUrl } from './fx/hunter-skills.js';
+import { WARRIOR_SKILLS } from './warrior-moves.js';
+import { createWarriorSkills, warriorIconUrl } from './fx/warrior-skills.js';
 
 // Class skill kits for the city training ground (src/training): the ten skills of
 // each playable class with their FX runner and hotbar entries. AVATARS in
@@ -26,6 +28,10 @@ export const CLASS_KITS = {
   hunter: {
     name: 'นายพราน', ground: 'ลานซ้อมยิงธนู · หุ่นฟาง', createSkills: createHunterSkills,
     skills: HUNTER_SKILLS.map(s => ({ ...s, icon: hunterIconUrl(s.id) })),
+  },
+  warrior: {
+    name: 'นักรบ', ground: 'ลานซ้อมดาบ · หุ่นฟาง', createSkills: createWarriorSkills,
+    skills: WARRIOR_SKILLS.map(s => ({ ...s, icon: warriorIconUrl(s.id) })),
   },
 };
 export const KIT_IDS = Object.keys(CLASS_KITS);

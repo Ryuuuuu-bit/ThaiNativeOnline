@@ -113,6 +113,8 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
     has: name => Boolean(actions[name]),
     // Skeleton bone by Mixamo name ('LeftHand', 'Head' …); null before load or if absent.
     bone(name) { let b = null; body.traverse(o => { if (!b && o.isBone && o.name.replace(/[:_]/g, '').endsWith(name) && o.name.replace(/[:_]/g, '').startsWith('mixamorig')) b = o; }); return b; },
+    // Any object of the model by exact name (e.g. the warrior's 'sword_L'); null if absent.
+    node(name) { return body.getObjectByName(name) ?? null; },
     // Glow the whole body (skill auras); tint(null) clears it. Optional fade-out time.
     tint(color, amount = 1, fade = 0) {
       const apply = k => tinted.forEach(m => m.emissive.copy(color ?? m.userData.baseEmissive).multiplyScalar(color ? k : 1));

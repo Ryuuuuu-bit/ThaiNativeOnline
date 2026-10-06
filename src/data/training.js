@@ -25,6 +25,10 @@ export const AVATARS = {
     url: 'models/hunter.glb', portrait: 'ui/portraits/hunter.png', height: 1.8, skills: 'hunter', job: 'archer', ready: true,
     casts: { shot: 'hunter_shot', volley: 'hunter_volley', snare: 'hunter_trap', sic: 'hunter_hawk' },
   },
+  warrior: {
+    url: 'models/warrior.glb', portrait: 'ui/portraits/warrior.png', height: 1.8, skills: 'warrior', job: 'swordman', ready: true,
+    casts: { slash: 'sword_twin', whirl: 'sword_whirl', guard: 'sword_guard', rally: 'sword_banner' },
+  },
 };
 export const AVATAR_FALLBACK = 'muaythai';
 export const avatarFor = id => (AVATARS[id]?.url ? AVATARS[id] : AVATARS[AVATAR_FALLBACK]);
@@ -41,7 +45,7 @@ export const TRAINING = {
     level: 10, skillLevel: 1,
     stats: { STR: 30, AGI: 18, VIT: 15, INT: 5, DEX: 15, LUK: 10 },
     // Per-job stat overrides (the herbalist trains on INT).
-    byJob: { healer: { STR: 8, AGI: 12, VIT: 15, INT: 30, DEX: 18, LUK: 10 }, archer: { STR: 12, AGI: 20, VIT: 14, INT: 6, DEX: 30, LUK: 12 } },
+    byJob: { healer: { STR: 8, AGI: 12, VIT: 15, INT: 30, DEX: 18, LUK: 10 }, archer: { STR: 12, AGI: 20, VIT: 14, INT: 6, DEX: 30, LUK: 12 }, swordman: { STR: 32, AGI: 14, VIT: 24, INT: 4, DEX: 14, LUK: 8 } },
   },
   range: 12,                     // metres from the dummy at which skills and keys 1–0 / Q take over
   log: 8,                        // hits shown in the damage log

@@ -12,3 +12,5 @@ three signature poses). These drive the Tripo GLB characters
 | Shaman หมอผี | `shaman.webp` |
 | Herbalist หมอยา | `herbalist.webp` |
 | Hunter พราน | no sheet — model generated directly in Tripo (`hunter/ANIMATIONS.md`) |
+
+Warrior นักรบ (ขุนศึกดาบคู่) is modelled from `warrior.webp`: `warrior/ANIMATIONS.md`.

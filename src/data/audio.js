@@ -81,6 +81,10 @@ Object.assign(SFX, {
   // signature sounds, played as the skill starts
   // the hunter's bow: the limbs creak as the string comes back, a twang and a hiss on the release
   bow_draw:    { vary: .05, layers: [{ wave: 'sawtooth', f: [70, 110], dur: .35, a: .2, gain: .05, filter: { type: 'bandpass', f: [400, 900], q: 6 } }, { wave: 'noise', dur: .3, a: .2, gain: .03, filter: { type: 'bandpass', f: [1800, 2600], q: 4 } }] },
+  // the warrior's twin swords: steel sliding out, and a ringing cut
+  blade_draw:  { vary: .06, layers: [{ wave: 'noise', dur: .35, a: .05, gain: .06, filter: { type: 'bandpass', f: [3500, 7000], q: 6 } }, { wave: 'sine', f: [2900, 3100], dur: .4, at: .05, gain: .025 }] },
+  blade_cut:   { vary: .1, layers: [{ wave: 'noise', dur: .14, a: .01, gain: .12, filter: { type: 'bandpass', f: [2600, 900], q: 1.4 } }, { wave: 'sine', f: [3300, 3000], dur: .22, at: .02, gain: .03 }] },
+  thunder:     { layers: [{ wave: 'noise', dur: .9, a: .01, gain: .3, filter: { type: 'lowpass', f: [1800, 120], q: .7 } }, { wave: 'sine', f: [70, 40], dur: .8, gain: .3 }] },
   dog_bark:    { vary: .06, layers: [0, .16].flatMap(at => [{ wave: 'sawtooth', f: [620, 340], dur: .11, at, gain: .09, filter: { type: 'bandpass', f: [900, 700], q: 3 } }, { wave: 'noise', dur: .08, at, gain: .06, filter: { type: 'bandpass', f: [1400, 900], q: 2 } }]) },
   bow_release: { vary: .08, layers: [{ wave: 'triangle', f: [190, 150], dur: .22, gain: .16 }, { wave: 'noise', dur: .05, gain: .12, filter: { type: 'highpass', f: [2500, 2500] } }, { wave: 'noise', dur: .25, at: .02, a: .02, gain: .07, filter: { type: 'bandpass', f: [3000, 1200], q: 2 } }] },
   sig_jab:     { layers: [{ wave: 'noise', dur: .08, gain: .06, filter: { type: 'bandpass', f: [1500, 2500], q: 2 } }] },
@@ -158,6 +162,17 @@ export const SKILL_SFX = {
   arch_hawk: { cast: 'buff', hit: 'buff' },
   arch_garuda: { cast: 'whoosh', hit: 'dog_bark' },
   arch_trap: { cast: 'whoosh', hit: 'crack' },
+  // the warrior: every blow is a ringing cut; the leap and the execution land with weight
+  sword_twin: { cast: 'blade_draw', hit: 'blade_cut' },
+  sword_thrust: { cast: 'blade_draw', hit: 'swing_heavy' },
+  sword_wind: { cast: 'blade_draw', hit: 'whoosh' },
+  sword_guard: { cast: 'blade_draw', hit: 'buff' },
+  sword_pikat: { cast: 'blade_draw', hit: 'blade_cut' },
+  sword_banner: { cast: 'blade_draw', hit: 'slam' },
+  sword_whirl: { cast: 'blade_draw', hit: 'blade_cut' },
+  sword_leap: { cast: 'swing_heavy', hit: 'slam' },
+  sword_berserk: { cast: 'blade_draw', hit: 'buff' },
+  sword_execute: { cast: 'blade_draw', hit: 'thunder' },
 };
 
 // Game events → SFX ids (src/audio/gameSounds.js).
@@ -168,7 +183,7 @@ export const SFX_EVENTS = {
   'character:levelup': 'levelup', 'character:used': 'heal',
 };
 // Cast sound per training-ground kit (src/classes/index.js CLASS_KITS ids).
-export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb', hunter: 'bow_draw' };
+export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb', hunter: 'bow_draw', warrior: 'blade_draw' };
 
 // Generative music (src/audio/Music.js) on a 16-step bar. Two styles:
 //

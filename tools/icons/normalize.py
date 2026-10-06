@@ -31,6 +31,7 @@ PALETTE = {  # centre glow, edge
     'muaythai': ((122, 46, 26), (34, 13, 8)),
     'herbalist': ((52, 92, 38), (12, 26, 10)),
     'hunter': ((92, 78, 38), (24, 20, 9)),       # forest-floor brown for นายพราน
+    'warrior': ((50, 58, 80), (12, 14, 22)),     # night-steel blue for นักรบ
     'items': ((70, 64, 48), (20, 18, 13)),   # warm neutral lacquer for every item
 }
 # Where each set lives in public/ (items are not class FX).
