@@ -16,14 +16,19 @@
         <button id="sound" class="ro-button" aria-pressed="false" title="เปิดเสียงป่า" aria-label="เปิดเสียงป่า">♫ เสียงป่า</button>
         <label>แรงลม <output id="wind-value">55%</output><input id="wind" type="range" min="0" max="100" value="55" /></label>
         <label class="check"><input id="snowfall" type="checkbox" checked /> หิมะตก</label>
+        <div class="ro-title">อาชีพ</div>
+        <button id="class-switch" class="ro-button">อาชีพ</button>
         <div class="ro-title">Assets</div>
         <button id="export-sprite" class="ro-button">⬇ Sprite sheet 8 ทิศ</button>
         <button id="screenshot" class="ro-button">⬇ ภาพหน้าจอ</button>
         <button id="photo-toggle" class="ro-button">ซ่อน UI · H</button>
       </div>
       <div class="panel ro-window minimap"><div class="ro-title">แผนที่ <span id="coords">0, 0</span></div><canvas id="minimap" width="160" height="160" aria-label="แผนที่ย่อ"></canvas></div>
-      <div class="panel help">คลิกพื้นเพื่อเดิน · WASD · ลากเมาส์ขวาหมุนกล้อง · Scroll ซูม · R คืนกล้อง</div>
+      <div class="panel help">คลิกพื้นเพื่อเดิน · WASD · ลากเมาส์ขวาหมุนกล้อง · Scroll ซูม · R คืนกล้อง · 1–0 สกิล · Q ออโต้</div>
       <div class="mobile-controls"><button data-move="up" aria-label="เดินขึ้น">↑</button><button data-move="left" aria-label="เดินซ้าย">←</button><button data-move="down" aria-label="เดินลง">↓</button><button data-move="right" aria-label="เดินขวา">→</button></div>
+      <div id="fx-vignette" aria-hidden="true"></div>
+      <div id="fx-dim" aria-hidden="true"></div>
+      <div id="fx-labels" aria-hidden="true"></div>
       <div id="loading"><h2>ป่าสนใหญ่</h2><p>กำลังโหลดป่า…</p></div>
     </main>
     <script type="module" src="/src/forest/main.js"></script>
