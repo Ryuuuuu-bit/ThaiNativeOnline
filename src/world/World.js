@@ -17,6 +17,7 @@ import { buildPort } from './districts/Port.js';
 import { buildMarket } from './districts/Market.js';
 import { buildShops } from './districts/Shops.js';
 import { buildTemple } from './districts/Temple.js';
+import { buildHalls } from './districts/Halls.js';
 import { buildCountryside } from './districts/Countryside.js';
 import { buildWilds } from './districts/Wilds.js';
 import { fillBuildings } from './districts/Fill.js';
@@ -118,12 +119,18 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   resetLooks();
   lap('terrain');
   // Roofs, thatch and tree bark between the camera and the player dither away.
-  for (const m of [M.tile, M.tileDark, M.tileGreen, M.tileOrange, M.thatch, M.thatchDark, M.bark, M.darkBark, M.branch, M.palmBark]) patchMaterial(m, { fade: true });
+  // Shared module materials are patched once: patching again on the next map would
+  // chain the shader edits twice and the roofs would fail to compile after a warp.
+  for (const m of [M.tile, M.tileDark, M.tileGreen, M.tileOrange, M.thatch, M.thatchDark, M.bark, M.darkBark, M.branch, M.palmBark]) {
+    if (!m.userData.fadePatched) { patchMaterial(m, { fade: true }); m.userData.fadePatched = true; }
+  }
 
   progress('กำลังก่อกำแพงเมืองและท่าเรือหลวง…'); await frame();
   buildWalls(ctx); buildPort(ctx); lap('walls+port');
   progress('กำลังจัดตลาด ร้านค้า และวัด…'); await frame();
   buildMarket(ctx); buildShops(ctx); buildTemple(ctx); lap('market+shops+temple');
+  // Class training halls and their NPC spots, before the spot links and the houses.
+  const halls = buildHalls(ctx); lap('halls');
   progress('กำลังไถนาและปลูกป่า…'); await frame();
   buildCountryside(ctx); buildWilds(ctx);
   ctx.reserveSpotLinks(); lap('countryside+wilds');
@@ -153,7 +160,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const world = {
     map, root, ground, terrain, water, grass, atmosphere, boats, animals, collision, mask,
     spots: ctx.spots, footprints: ctx.footprints, market: ctx.market,
-    stats: { map: map.id, houses, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
+    stats: { map: map.id, houses, halls, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
     contains: (x, z) => walkable(map, x, z),
     heightAt(x, z) { const d = collision.deckHeight(x, z), g = terrain.height(x, z); return d === null ? g : Math.max(d, g); },
     canStand(x, z) {

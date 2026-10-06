@@ -16,10 +16,19 @@ Report the exact pass/fail counts. A failing test is reported, never hidden or s
 
 | Page | Entry | What it is |
 |---|---|---|
-| `index.html` (`/`) | `src/main.js` → `src/account` → `src/core/Game.js` | the MMORPG, one map นครอโยธยา: login, class choice (มวยไทย / หมอยา), training ground |
+| `index.html` (`/`) | `src/main.js` → `src/account` → `src/core/Game.js` | the MMORPG: login, class choice, training ground, two maps |
+
+Maps (`src/world/maps.js`), loaded one at a time:
+
+| Map | Where | Safe | What to check |
+|---|---|---|---|
+| `city` นครอโยธยา | z ≥ -112 (inside the wall) | yes | no monsters, combat skills 1–4 hidden, six class halls (ย่านสำนักครู, x 87–108, z 62–115) with their masters by day, ลุงดำ at the forge, the warp in the North Gate passage (0, -107) |
+| `fields` ทุ่งนอกเมือง | z < -112 (north of the wall) | no | monsters in every zone of `src/data/spawns.js`, skills visible, ยายเพียร's shop in the farmers' village, the warp back at (0, -122.5) |
+
+The saved location (`tno.location.v1` in the save slot) decides the map on reload; `?at=x,z` picks the map from z (add `&map=id` to force one).
 
 Useful URL flags:
-- `/?at=x,z&t=10`: start position and hour
+- `/?at=x,z&t=10`: start position and hour (`?at=0,-140` starts on `fields`)
 - `?classes=all`: unlock every class
 - `?login`: force the login screens
 - `?lv=50&skill=5&ddef=40`: training damage test values
@@ -56,6 +65,35 @@ location.replace('/?at=4,150&t=10');
 ```
 
 Without the session the login screen appears. Without the character, the character select and creation screens appear.
+
+### Scripted checks over the DevTools protocol (works on the game page)
+
+`--screenshot` and `--dump-dom` with `--virtual-time-budget` hang on the game
+page (the animation loop never lets virtual time finish). Drive Edge over the
+DevTools protocol instead; no dependency, Node 22+ only:
+
+```sh
+npm run dev -- --port 5186 --strictPort      # your own port, in the background
+node tests/browser/cdp.mjs "http://127.0.0.1:5186/tests/browser/two-maps-probe.html" run 480000 "<scratchpad>"
+```
+
+- `tests/browser/cdp.mjs` starts headless Edge (SwiftShader, fresh
+  `--user-data-dir` under the out dir, deleted afterwards), records every console
+  message, polls the page until it writes `QA_RESULT {...}` with a `done` step
+  into `#out`, then writes `<prefix>-result.json`, `<prefix>-console.json` and
+  one JPEG per `shots` entry. It kills only the Edge it started (hard timeout).
+- `tests/browser/two-maps-probe.html` is served by Vite from `tests/` (no temp
+  page in the repo root). It seeds a guest character, loads the game in a
+  same-origin iframe, hooks its console, then checks: masters at their hall
+  spots, ลุงดำ and the shops (stock rows), the hall lane and `findPath` to every
+  master, warp city → fields → city through the trigger, monsters per map,
+  skill bar per map, journal, full map, roofs after the warp, GPU memory over
+  three round trips. Flags: `?q=<URL-encoded game query>`, `?loc=<saved
+  location JSON>` (reload tests), `?quick=1` (start state only).
+- Screenshots come from `renderer.render()` followed by `canvas.toDataURL()` in
+  the same task, so no `preserveDrawingBuffer` is needed.
+- Copy the probe for other scenarios; keep `window.game` (set in
+  `src/core/Game.js`) as the entry point.
 
 ## Bug report format (QA)
 

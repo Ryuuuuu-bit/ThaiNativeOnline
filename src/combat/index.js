@@ -45,7 +45,8 @@ export function createGame(o) {
     const characterUI = new CharacterUI(layer, character, feed, { buffIcons: BUFF_ICONS });
     const hud = new CombatHUD(o.root, layer, combat, feed, characterUI.quickButtons);
     // A world with no monster zones (the safe city today): no combat skill bar, no fight hints.
-    const safe = !o.spawns?.length; hud.setSafe(safe);
+    // isSafe() (the loaded map) wins: spawns may exist on another map while the player is in a safe one.
+    const safe = o.isSafe ? o.isSafe() : !o.spawns?.length; hud.setSafe(safe);
     Object.assign(game, { ready: true, character, combat, view, hud, characterUI });
     combat.setPhase(game.phase);
 
@@ -95,7 +96,8 @@ export function createGame(o) {
       hud.update(dt, o.camera, size, o.groundHeight);
       characterUI.update(dt);
     };
-    feed.log(safe ? `ยินดีต้อนรับ ${character.name} · ลองสกิล 1–0 ที่หุ่นซ้อมในลานซ้อม · C ตัวละคร · I กระเป๋า` : `ยินดีต้อนรับ ${character.name} · กด Tab เลือกเป้า, 1–4 ใช้ทักษะ, C ตัวละคร, I กระเป๋า`, 'gold');
+    // Fighting tips show the first time the player is on a map with monsters (CombatHUD.setSafe).
+    feed.log(`ยินดีต้อนรับ ${character.name} · ลองสกิล 1–0 ที่หุ่นซ้อมในลานซ้อม · C ตัวละคร · I กระเป๋า`, 'gold');
   };
 
   loadOrCreateCharacter(o.root).then(begin);

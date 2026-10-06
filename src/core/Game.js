@@ -4,7 +4,6 @@ import { MAPS, walkBounds } from '../world/maps.js';
 import { Environment } from '../world/Environment.js';
 import { windUniforms } from '../world/shaders.js';
 import { Player } from '../entities/Player.js';
-import { LANDMARKS } from '../data/landmarks.js';
 import { activeSpawns } from '../data/spawns.js';
 import { regionAt } from '../data/regions.js';
 import { HUD } from '../ui/HUD.js';
@@ -54,7 +53,7 @@ export class Game {
     this.player = new Player(this.scene);
     this.discovered = new Set();
     try { for (const id of JSON.parse(slotStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
-    // The one map, นครอโยธยา (src/world/maps.js); MapManager still loads maps by id.
+    // Maps (src/world/maps.js): นครอโยธยา and ทุ่งนอกเมือง, one loaded at a time; warps move between them.
     this.maps = new MapManager({
       scene: this.scene, clock: this.clock, player: this.player,
       progress: text => { $('loading-text').textContent = text; },
@@ -184,6 +183,7 @@ export class Game {
       moveTo: (x, z) => { this.route = []; this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; this.walkBest = Infinity; this.walkStall = 0; },
       stop: () => this.stopWalk(),
       respawnPoint: this.maps.respawn, spawns: this.maps.zones,
+      isSafe: () => this.maps.map?.safe ?? true, // qa fix: no "danger" tip in the safe city at login
     });
     this.game.setPhase(this.clock.phase);
     this.clock.onPhase(phase => this.game.setPhase(phase));
@@ -207,6 +207,7 @@ export class Game {
       character: this.game.character,   // the dummy reads the player's real stats
     });
     this.training?.enterMap(this.maps.map.id);
+    this.game.hud?.setSafe(this.maps.map.safe); // world-designer hook: combat bar only on maps with monsters
   }
 
   // Camera zoom from the wheel, pinch, + / − keys, the buttons by the minimap and the
@@ -242,6 +243,7 @@ export class Game {
     if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
     if (this.questUI) this.updateJournal();
     this.training?.enterMap(map.id);
+    this.game?.hud?.setSafe(map.safe); // world-designer hook: safe maps hide the combat skill bar
   }
 
   nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }
@@ -307,9 +309,10 @@ export class Game {
     this.updateJournal();
   }
   updateJournal() {
-    const known = LANDMARKS.filter(l => !l.hidden || this.discovered.has(l.id)), p = this.player.position;
+    // Counts and hints cover the loaded map only (another map's landmarks can't be found from here).
+    const known = this.maps.landmarks.filter(l => !l.hidden || this.discovered.has(l.id)), p = this.player.position;
     const next = known.filter(l => !this.discovered.has(l.id)).sort((a, b) => Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z))[0];
-    this.hud.setJournal(known.filter(l => this.discovered.has(l.id)).length, known.length, next?.name);
+    this.hud.setJournal(known.filter(l => this.discovered.has(l.id)).length, known.length, next?.name, this.maps.map.name);
   }
 
   tick(time) {

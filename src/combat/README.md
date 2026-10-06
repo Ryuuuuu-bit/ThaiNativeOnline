@@ -24,6 +24,7 @@ const rpg = createGame({
   canStand(x, z), groundHeight(x, z),         // world queries
   moveTo(x, z), stop(),                       // walk the player toward a target / stop
   respawnPoint: { x, z }, spawns,             // spawns optional
+  isSafe(),                                   // optional: true while the loaded map is a safe zone (default: no spawns)
 });
 rpg.setPhase('morning' | 'day' | 'evening' | 'night');
 rpg.update(dt, elapsed);                      // every frame

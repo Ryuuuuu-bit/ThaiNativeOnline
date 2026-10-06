@@ -1,16 +1,20 @@
-// Map registry: the game has one map, นครอโยธยา, inside the city walls. The land
-// north of the North City Gate (fields, forest, cemetery) is only a backdrop seen
-// over the wall: the gate is closed and nothing out there is part of the game.
+// Map registry: นครอโยธยา inside the city walls, and ทุ่งนอกเมือง, the fields,
+// forest and cemetery north of the wall. The North City Gate stays closed; a
+// warp (ประตูวาป) in the gate passage and one outside the gate link the maps.
+// Maps are built one at a time (and later map 1:1 to server rooms).
 // Pure data and math (no three.js) so tests, the map manager and a future server
 // read the same source of truth. Coordinates stay in world space (CityMap.js).
 //
-//   owns   — the area a map is responsible for. Landmarks, spawn areas and NPC
-//            homes outside every map's `owns` area are not in the game.
-//   walk   — rectangles the player may stand in (union).
+//   owns   — the band a map is responsible for. Every landmark, spawn area and
+//            NPC home lies in exactly one map's `owns` band.
+//   walk   — rectangles the player may stand in (union). Leaving them is only
+//            possible through a portal.
 //   view   — the built extent: terrain, ground paint and scenery. Wider than
-//            `walk` so the camera never sees the edge of the map.
-//   portals — walking into `at` (circle) moves the player to `to` at `arrive`
-//            (none today; the format stays for future maps).
+//            `walk` so the camera never sees the edge of the map (near the seam
+//            it shows the neighbouring map as non-interactive backdrop).
+//   portals — walking into `at` (circle) moves the player to `to` at `arrive`.
+//            `node` is the road junction visiting NPCs walk to when they leave;
+//            `marker` is where the warp ring and label are drawn.
 import { J, BOUNDS } from './CityMap.js';
 
 // The city wall runs along z = -110 (WALL.z); the seam sits just outside it.
@@ -27,9 +31,31 @@ export const MAPS = {
     spawn: { x: 4, z: 151, facing: Math.PI },
     respawn: [[4, 151], [0, -99]],   // the port spawn first (the north gate only if it is blocked)
     entities: ['boats', 'animals'],
-    regions: ['river', 'port', 'fishmkt', 'fishing', 'riverside', 'market', 'merchants', 'smiths', 'training', 'center', 'residential', 'temple', 'city', 'gate'],
-    portals: [],
+    regions: ['river', 'port', 'fishmkt', 'fishing', 'riverside', 'market', 'merchants', 'smiths', 'training', 'halls', 'center', 'residential', 'temple', 'city', 'gate'],
+    portals: [
+      // The warp glows in the passage of the closed North City Gate.
+      { id: 'warp_to_fields', at: { x: 0, z: -107, radius: 2.2 }, to: 'fields', arrive: { x: 0, z: -130, facing: Math.PI }, node: 'gate_in', name: 'ประตูวาป', marker: { x: 0, z: -107 } },
+    ],
     visitors: [],
+  },
+  fields: {
+    id: 'fields', name: 'ทุ่งนอกเมือง', sub: 'ทุ่งนา · ป่า · ป่าช้า', safe: false,
+    owns: { minZ: BOUNDS.minZ, maxZ: SEAM_Z },
+    walk: [
+      { minX: -122, maxX: 122, minZ: -592, maxZ: -113.5 }, // fields, orchards, forest and cemetery up to the outer face of the wall
+    ],
+    view: { minX: BOUNDS.minX, maxX: BOUNDS.maxX, minZ: BOUNDS.minZ, maxZ: -50 },
+    spawn: { x: 0, z: -130, facing: Math.PI },
+    respawn: [[0, -130], [-61.5, -132]],   // the warp yard outside the gate first, then the farmers' village
+    entities: ['animals'],
+    regions: ['gate', 'rice', 'orchards', 'north_road', 'grassland', 'forest_edge', 'forest', 'deep', 'shrine', 'cemetery'],
+    portals: [
+      // Outside, the warp stands in front of the gate between the lantern posts (clear of the gate roof for the camera).
+      { id: 'warp_to_city', at: { x: 0, z: -122.5, radius: 2.2 }, to: 'city', arrive: { x: 0, z: -99, facing: 0 }, node: 'gate_out', name: 'ประตูวาป', marker: { x: 0, z: -122.5 } },
+    ],
+    // City folk whose schedule takes them outside the wall: the gate guards stand
+    // beside the outer warp and the herbalist gathers herbs in the morning.
+    visitors: ['guard_gate_w', 'guard_gate_e', 'herbalist'],
   },
 };
 export const MAP_IDS = Object.keys(MAPS);
@@ -45,8 +71,7 @@ export function walkBounds(map) {
     minZ: Math.min(...map.walk.map(r => r.minZ)), maxZ: Math.max(...map.walk.map(r => r.maxZ)),
   };
 }
-// The one map responsible for a world position.
-// null outside every map (beyond the North City Gate).
+// The one map responsible for a world position (null outside the world's bands).
 export function mapOf(x, z) {
   for (const id of MAP_IDS) { const o = MAPS[id].owns; if (z >= o.minZ && z < o.maxZ) return id; }
   return null;

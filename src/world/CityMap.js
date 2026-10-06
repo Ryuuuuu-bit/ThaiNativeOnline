@@ -1,6 +1,7 @@
 // Geography of นครอโยธยา: bounds, water, roads and the analytic terrain shape.
 // Pure data and math (no three.js) so collision, painting, minimap and NPC
 // navigation all read the same source of truth. North is -z, the river is +z.
+import { HALLS } from '../data/halls.js';
 
 export const BOUNDS = { minX: -125, maxX: 125, minZ: -610, maxZ: 268 };
 export const WATER_Y = -0.32;
@@ -145,6 +146,8 @@ export const J = {
   f5: [11, -434], f6: [-3, -462], f7: [5, -490], cg: [0, -508],
   rc1: [-30, -352], rc2: [-46, -366], as1: [-20, -468], as2: [-30, -474],
   cem: [0, -532], cem_w: [-18, -546], cem_e: [18, -546], cem_n: [0, -560],
+  // ย่านสำนักครู: the lane between the class training halls (src/data/halls.js).
+  hq_n: [95, 50], hq_1: [96, 62], hq_2: [96, 78], hq_3: [96, 92], hq_s: [97, 104],
 };
 
 // kind: paved (brick/laterite), road (packed earth), bund (raised field path),
@@ -188,6 +191,9 @@ export const ROADS = [
   { w: 3, kind: 'bridge', pts: ['eb_s', 'eb_n'] }, { w: 3, kind: 'bridge', pts: ['sb_s', 'sb_n'] },
   // Market plaza ring around the pavilion.
   { w: 3, kind: 'plaza', pts: ['mkt_n', 'pl_nw', 'mkt_w', 'pl_sw', 'mkt_s', 'pl_se', 'mkt_e', 'pl_ne', 'mkt_n'] },
+  // Lane of the training-hall quarter. Kept last and of kind 'plaza' (no houses
+  // or street trees along it) so the random layout of every road above is unchanged.
+  { w: 4, kind: 'plaza', pts: ['e3', 'hq_n', 'hq_1', 'hq_2', 'hq_3', 'hq_s'] },
 ];
 export const roadPoints = road => road.pts.map(p => (typeof p === 'string' ? J[p] : p));
 
@@ -203,4 +209,6 @@ export const PLAZAS = [
   { kind: 'earth', x: -96, z: 156, rx: 16, rz: 6 },
   { kind: 'temple', x: 63, z: -61, rx: 37, rz: 37, rect: true },
   { kind: 'grave', x: 0, z: -542, rx: 34, rz: 34 },
+  // Reserved yards of the class training halls (rects: kept free of houses and gardens).
+  ...HALLS.map(h => ({ kind: 'earth', ...h.yard, rect: true, hall: h.id })),
 ];

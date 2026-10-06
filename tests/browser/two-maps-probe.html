@@ -1,0 +1,149 @@
+<!doctype html><meta charset="utf-8"><title>qa probe</title>
+<body style="margin:0"><pre id="out">pending</pre>
+<script type="module">
+// QA probe for the two maps (open via tests/browser/cdp.mjs; docs/technical/VERIFY.md).
+// Seeds a guest character, loads the game in an iframe, drives it and writes
+// "QA_RESULT {...}" into #out. Flags: ?q=<game query, URL-encoded> (default at=96,85&t=11),
+// ?loc=<saved location JSON>, ?quick=1 (only the start state).
+import { Character } from '/src/character/Character.js';
+import { findPath } from '/src/core/GridPath.js';
+import { J, ROADS, roadPoints, resample } from '/src/world/CityMap.js';
+import { HALLS } from '/src/data/halls.js';
+import { SHOPS } from '/src/data/shops.js';
+const R = { logs: [], feed: [], steps: [], shots: {} };
+const step = (k, v) => R.steps.push([k, v]);
+const outEl = document.getElementById('out');
+const flush = () => { outEl.textContent = 'QA_RESULT ' + JSON.stringify(R); };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const until = async (fn, ms, every = 100) => { const t = performance.now(); while (performance.now() - t < ms) { try { if (fn()) return true; } catch {} await sleep(every); } return false; };
+localStorage.clear();
+Character.create('ทดสอบ', 'muaythai', 'male').save();
+const params0 = new URLSearchParams(location.search); if (params0.get('loc')) localStorage.setItem('tno.location.v1', params0.get('loc'));
+sessionStorage.setItem('tno.session.v1', JSON.stringify({ id: 'guest', guest: true, prefix: '' }));
+const params = new URLSearchParams(location.search);
+const f = document.createElement('iframe');
+f.style.cssText = 'width:1600px;height:900px;border:0';
+f.src = '/?' + (params.get('q') ?? 'at=96,85&t=11');
+document.body.prepend(f);
+// Hook the iframe's console as soon as its window exists.
+let hooked = null;
+const hook = setInterval(() => {
+  const w = f.contentWindow;
+  if (!w || w.location.href === 'about:blank' || hooked === w) return;
+  hooked = w;
+  for (const lvl of ['error', 'warn']) { const o = w.console[lvl].bind(w.console); w.console[lvl] = (...a) => { R.logs.push([lvl, a.map(String).join(' ').slice(0, 300)]); o(...a); }; }
+  w.addEventListener('error', e => R.logs.push(['uncaught', String(e.message)]));
+  w.addEventListener('unhandledrejection', e => R.logs.push(['rejection', String(e.reason?.stack ?? e.reason).slice(0, 300)]));
+  const mo = new w.MutationObserver(ms => { for (const m of ms) for (const n of m.addedNodes) if (n.nodeType === 1 && n.parentElement?.classList?.contains('g-feed')) R.feed.push(n.textContent); });
+  w.document.addEventListener('DOMContentLoaded', () => mo.observe(w.document.body, { childList: true, subtree: true }));
+}, 1);
+const shot = (name) => {
+  const g = f.contentWindow.game; g.frame?.(0, 1 / 60); g.renderer.render(g.scene, g.view.camera);
+  R.shots[name] = g.renderer.domElement.toDataURL('image/jpeg', .8);
+};
+const W = () => f.contentWindow, G = () => W().game;
+try {
+  const ok = await until(() => G()?.maps?.map && G().game?.ready && G().training !== undefined, 240000, 250);
+  step('game ready', ok); flush();
+  if (!ok) throw new Error('game not ready');
+  const g = G();
+  await sleep(1500);
+  const mem = () => ({ ...g.renderer.info.memory, programs: g.renderer.info.programs?.length });
+  step('memory start', mem());
+  if (params.get('quick')) { step('map', g.maps.map.id); step('player', [g.player.position.x, g.player.position.z]); step('skillbar', g.game.hud.skillButtons.map(b => b.hidden)); step('journal', W().document.getElementById('quest-text').textContent + ' | ' + W().document.getElementById('quest-hint').textContent); step('alive', g.game.combat.monsters.filter(m => m.alive).length); await sleep(4000); step('alive after 4s', g.game.combat.monsters.filter(m => m.alive).length); shot('quick'); throw new Error('quick mode: stopped after the start state'); }
+  step('map', g.maps.map.id);
+  step('hour/phase', [g.clock.hour, g.clock.phase]);
+  step('world stats', g.world.stats);
+  step('skillbar hidden in city', g.game.hud.skillButtons.map(b => b.hidden));
+  step('journal', W().document.getElementById('quest-text').textContent + ' | ' + W().document.getElementById('quest-hint').textContent);
+  const npcs = g.npcs.npcs, byId = id => npcs.find(n => n.id === id);
+  // Masters at their hall spots.
+  for (const h of HALLS) {
+    const spot = g.world.spots[h.spots.master], door = g.world.spots[h.spots.door];
+    const m = npcs.find(n => n.def.trainer && n.def.schedule?.day?.at === h.spots.master);
+    const id = m?.id;
+    const n = byId(id);
+    const path = spot && findPath((x, z) => g.world.canStand(x, z), { x: J[h.junction][0], z: J[h.junction][1] }, { x: spot.x, z: spot.z });
+    step(`hall ${h.id}`, { spot, door, master: id, npcAt: n && [+n.x.toFixed(1), +n.z.toFixed(1)], distToSpot: n && spot && +Math.hypot(n.x - spot.x, n.z - spot.z).toFixed(2),
+      canStandMaster: spot && g.world.canStand(spot.x, spot.z), canStandDoor: door && g.world.canStand(door.x, door.z), pathFromLane: path ? path.length : null });
+  }
+  const masterIds = ['master_muay', 'master_sword', 'master_hunter', 'master_herbal', 'master_shaman', 'master_bandit'];
+  step('masters present', masterIds.map(id => [id, !!byId(id), byId(id)?.activity?.do ?? byId(id)?.state]));
+  const smith = byId('blacksmith'), forge = g.world.spots['forge_smith'];
+  step('blacksmith', { name: smith?.def.name, at: smith && [+smith.x.toFixed(1), +smith.z.toFixed(1)], forge, dist: smith && forge && +Math.hypot(smith.x - forge.x, smith.z - forge.z).toFixed(2) });
+  const gs = byId('gate_supplier');
+  step('gate_supplier', { exists: !!gs, at: gs && [+gs.x.toFixed(1), +gs.z.toFixed(1)] });
+  step('village_trader in city?', !!byId('village_trader'));
+  const openShop = npc => {
+    g.talking = npc; g.refreshDialogue();
+    const btn = W().document.getElementById('dlg-shop');
+    const btnShown = !btn.hidden;
+    g.closeDialogue(); g.shop.show(npc, g.game.character);
+    const rows = [...W().document.querySelectorAll('#shop-list [data-buy]')].map(r => r.dataset.buy);
+    const title = W().document.getElementById('shop-title').textContent;
+    g.shop.close();
+    return { btnShown, title, rows };
+  };
+  if (smith) step('shop blacksmith', openShop(smith));
+  if (gs) step('shop gate_supplier', openShop(gs));
+  const c = g.game.combat;
+  const monsterCount = () => { const by = {}; for (const m of c.monsters) if (m.alive) by[m.spawn.map ?? '?'] = (by[m.spawn.map ?? '?'] ?? 0) + 1; return by; };
+  step('alive monsters (city)', monsterCount());
+  const lane = ROADS.at(-1), bad = resample(roadPoints(lane), .5).filter(([x, z]) => !g.world.canStand(x, z));
+  step('hall lane unstandable samples', { lane: lane.pts.join('>'), bad: bad.length, sample: bad.slice(0, 5) });
+  for (const h of HALLS) { const s = g.world.spots[h.spots.master]; const t = performance.now(); const p = findPath((x, z) => g.world.canStand(x, z), { x: 47, z: 62 }, { x: s.x, z: s.z }); step(`findPath training->${h.id}`, p ? { pts: p.length, ms: Math.round(performance.now() - t) } : null); }
+  // Camera near the halls for a shot.
+  g.player.position.set(96, g.world.heightAt(96, 85), 85); g.view.snap?.(g.player.position);
+  await sleep(800); shot('city_halls');
+  // Warp to the fields.
+  const t0 = performance.now();
+  g.player.position.set(0, g.world.heightAt(0, -107), -107); g.stopWalk?.();
+  let warped = await until(() => g.maps.map?.id === 'fields' && !g.maps.busy, 60000, 200);
+  step('warp city->fields via trigger', { warped, ms: Math.round(performance.now() - t0), travelMs: g.maps.lastTravelMs });
+  if (!warped) { await g.maps.travel(g.maps.map.portals[0]); warped = g.maps.map?.id === 'fields'; step('warp city->fields via travel()', warped); }
+  await sleep(6000);
+  step('fields player at', [+g.player.position.x.toFixed(1), +g.player.position.z.toFixed(1)]);
+  step('skillbar hidden on fields', g.game.hud.skillButtons.map(b => b.hidden));
+  step('alive monsters (fields, after 6s)', monsterCount());
+  step('fields zones active', g.maps.zones.map(z => [z.area ?? z.type, z.map, z.active.length]));
+  const fn = g.npcs.npcs, fById = id => fn.find(n => n.id === id);
+  step('fields npcs', fn.map(n => n.id));
+  const vt = fById('village_trader');
+  if (vt) step('shop village_trader', openShop(vt));
+  step('gate_supplier on fields?', !!fById('gate_supplier'));
+  step('fields journal', W().document.getElementById('quest-text').textContent + ' | ' + W().document.getElementById('quest-hint').textContent);
+  step('region on fields', W().document.getElementById('region-name').textContent);
+  shot('fields_arrival');
+  g.toggleMap(); await sleep(300);
+  const fm = W().document.getElementById('fullmap');
+  step('fullmap', { shown: !W().document.getElementById('fullmap-panel').hidden, w: fm.width, h: fm.height });
+  R.shots.fullmap = fm.toDataURL('image/jpeg', .8); R.shots.minimap = W().document.getElementById('minimap').toDataURL('image/jpeg', .8);
+  g.toggleMap();
+  // Warp back.
+  const t1 = performance.now();
+  g.player.position.set(0, g.world.heightAt(0, -122.5), -122.5);
+  let back = await until(() => g.maps.map?.id === 'city' && !g.maps.busy, 60000, 200);
+  step('warp fields->city via trigger', { back, ms: Math.round(performance.now() - t1), travelMs: g.maps.lastTravelMs });
+  if (!back) { await g.maps.travel(g.maps.map.portals[0]); back = g.maps.map?.id === 'city'; step('warp back via travel()', back); }
+  await sleep(2000);
+  step('city player at', [+g.player.position.x.toFixed(1), +g.player.position.z.toFixed(1)]);
+  step('alive monsters (city after return)', monsterCount());
+  step('skillbar hidden after return', g.game.hud.skillButtons.map(b => b.hidden));
+  // Roofs: walk the scene for roof materials and check they compiled.
+  g.player.position.set(-40, g.world.heightAt(-40, -40), -40); g.view.snap?.(g.player.position);
+  await sleep(800); shot('city_roofs_after_warp');
+  const progs = g.renderer.info.programs ?? [];
+  step('programs', { count: progs.length, bad: progs.filter(p => p.diagnostics && !p.diagnostics.runnable).length });
+  let roofMeshes = 0, roofVisible = 0;
+  g.scene.traverse(o => { if (o.isMesh && o.material?.userData?.fadePatched) { roofMeshes++; if (o.visible) roofVisible++; } });
+  step('fade-patched meshes after return', { roofMeshes, roofVisible });
+  step('renderer info', { calls: g.renderer.info.render.calls, triangles: g.renderer.info.render.triangles, geometries: g.renderer.info.memory.geometries, textures: g.renderer.info.memory.textures });
+  step('location save', W().localStorage.getItem('tno.location.v1'));
+  step('memory after 1 round trip', mem());
+  for (let i = 0; i < 2; i++) { await g.maps.travel(g.maps.map.portals[0]); await sleep(500); await g.maps.travel(g.maps.map.portals[0]); await sleep(500); }
+  step('memory after 3 round trips', mem());
+  step('map now', g.maps.map.id);
+} catch (e) { step('probe error', String(e.stack ?? e)); }
+step('done', true);
+flush();
+</script>

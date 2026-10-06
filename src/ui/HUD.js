@@ -6,7 +6,7 @@ import { PHASE_NAMES } from '../core/WorldClock.js';
 import { STATE_NAMES } from '../npc/NPCSchedule.js';
 
 const $ = id => document.getElementById(id);
-const ICONS = { blacksmith: '⚒', enhance: '✦', general: '◆', herbalist: '✚', occult: '☯', fish: '◆', weapons: '⚔', armor: '⛨', fruit: '◆', rice: '◆', pottery: '◆', lanterns: '◆', charms: '☯' };
+const ICONS = { blacksmith: '⚒', enhance: '✦', general: '◆', supplies: '◆', village: '◆', herbalist: '✚', occult: '☯', fish: '◆', weapons: '⚔', armor: '⛨', fruit: '◆', rice: '◆', pottery: '◆', lanterns: '◆', charms: '☯' };
 const v = new THREE.Vector3();
 
 // DOM overlay: region header, clock, journal, prompts, dialogue, nameplates.
@@ -26,8 +26,8 @@ export class HUD {
   }
   setClock(label, phase, hour) { $('clock').textContent = `${PHASE_NAMES[phase]} · ${label}`; $('sun-dot').dataset.phase = phase; }
   setCoords(p) { $('coords').textContent = `${p.x.toFixed(0)}, ${p.z.toFixed(0)}`; }
-  setJournal(found, total, next) {
-    $('quest-text').textContent = `ค้นพบสถานที่ ${found}/${total}`;
+  setJournal(found, total, next, mapName) {
+    $('quest-text').textContent = `ค้นพบสถานที่${mapName ? `ใน${mapName}` : ''} ${found}/${total}`;
     $('quest-hint').textContent = next ? `ถัดไป: ${next}` : 'สำรวจครบทุกแห่งที่รู้จักแล้ว';
   }
   toast(title, text, purpose) {

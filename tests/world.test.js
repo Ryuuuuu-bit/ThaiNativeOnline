@@ -100,15 +100,16 @@ test('regions name the main districts', () => {
 
 test('landmarks and spawn areas sit inside the map; monsters stay out of the city', () => {
   for (const l of LANDMARKS) assert.ok(inBounds(l.x, l.z), l.id);
-  for (const l of LANDMARKS) assert.ok(l.z > WALL.z - 2, `${l.id} lies outside the city walls`);
+  // Landmarks lie inside the walls (city) or clearly outside them (the fields map).
+  for (const l of LANDMARKS) assert.ok(l.z > WALL.z + 1 || l.z < WALL.z - 5, `${l.id} sits in the city wall`);
   for (const s of SPAWNS) {
     assert.ok(inBounds(s.x, s.z), s.id);
-    assert.ok(s.z - s.radius < WALL.z - 150, `${s.id} is too close to the city`);
+    assert.ok(s.z + s.radius < WALL.z - 40, `${s.id} is too close to the city`);
   }
   assert.ok(Math.hypot(CEMETERY.x, CEMETERY.z - WALL.z) > 400, 'the cemetery is a journey away');
 });
 
-test('combat zones (none in the safe city today) use known monsters', async () => {
+test('combat zones (on the fields map only) use known monsters', async () => {
   const { combatSpawns } = await import('../src/data/spawns.js');
   const { MONSTERS } = await import('../src/combat/data/monsters.js');
   for (const z of combatSpawns()) {

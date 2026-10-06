@@ -32,7 +32,7 @@ anyone else changes them only through a small, documented hook.
 | `gameplay-engineer` | `src/core/**`, `src/main.js`, `src/entities/**`, `src/npc/**`, `src/quest/**`, `src/ui/**`, `src/character/**` (not `data/`), `src/combat/**` (not `data/`), `src/account/**`, `src/training/**`, `src/audio/**`, `src/classes/model.js`, `src/classes/index.js` |
 | `technical-artist` | `src/world/shaders.js`, `materials.js`, `Batching.js`, `Environment.js`, `Atmosphere.js`; `src/classes/model.js` clip handling; `src/classes/fx/**`; `tools/*-anims/**` |
 | `environment-artist` | `src/world/Architecture.js`, `Vegetation.js`, `props.js`, `Terrain.js`, `Water.js`, `World.js`, `districts/**` |
-| `world-designer` | `src/world/maps.js`, `CityMap.js`, `MapManager.js`, `Portals.js`, `Collision.js`; `src/data/landmarks.js`, `regions.js`, spawn placement; `docs/world/WORLD_MAP.md` |
+| `world-designer` | `src/world/maps.js`, `CityMap.js`, `MapManager.js`, `Portals.js`, `Collision.js`; `src/data/landmarks.js`, `regions.js`, `halls.js`, spawn placement; `docs/world/WORLD_MAP.md` |
 | `content-designer` | `src/data/**` (content values), `src/combat/data/**`, `src/character/data/**`, `src/classes/*-moves.js`, `docs/world/*.md` (not WORLD_MAP) |
 | `character-artist` | `docs/art/classes/**`, `public/models/**`, `public/fx/**` |
 | `art-director` | review only; `docs/art/*.md` guides |
@@ -49,11 +49,13 @@ Do not change public interfaces without documenting it.
 ## Where things connect
 - `src/core/Game.js` hosts every system. Character and combat plug in through
   `createGame()` from `src/combat/index.js` (interface: `src/combat/README.md`).
-- The game is one map, `city` (นครอโยธยา, inside the walls; `src/world/maps.js`).
-  The North City Gate is closed and the land beyond it is backdrop only.
-  `src/world/MapManager.js` loads it (interface: `src/world/README.md`).
-- `src/data/spawns.js` places monster zones (none today: the city is a safe
-  zone); monster types come from `src/combat/data/monsters.js`.
+- Two maps (`src/world/maps.js`): `city` (นครอโยธยา, inside the walls, safe) and
+  `fields` (ทุ่งนอกเมือง, north of the wall, not safe). The North City Gate stays
+  closed; warps (ประตูวาป) link the maps. `src/world/MapManager.js` loads one at a
+  time (interface: `src/world/README.md`). Class training halls sit in the city
+  (`src/data/halls.js`).
+- `src/data/spawns.js` places monster zones (on `fields` only; the city is safe);
+  monster types come from `src/combat/data/monsters.js`.
 - Characters are Tripo GLB models only (`public/models/`, `AVATARS` in
   `src/data/training.js`; classes without one wear the fallback model).
   `src/training/` (interface: `src/training/README.md`) puts the class model on

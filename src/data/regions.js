@@ -13,15 +13,16 @@ const REG = {
   merchants: R('merchants', 'ถนนพ่อค้า', 'นครอโยธยา · ย่านร้านค้า'),
   smiths: R('smiths', 'ย่านช่างเหล็ก', 'นครอโยธยา · ย่านร้านค้า'),
   training: R('training', 'ลานฝึกครู', 'นครอโยธยา · สำนักวิชา'),
+  halls: R('halls', 'ย่านสำนักครู', 'นครอโยธยา · โรงฝึกของทุกสาย'),
   center: R('center', 'ใจกลางนคร', 'นครอโยธยา · ศาลหลักเมือง'),
   residential: R('residential', 'ย่านบ้านเรือน', 'นครอโยธยา · ที่อยู่อาศัย'),
   temple: R('temple', 'เขตวัดสุวรรณเจดีย์', 'นครอโยธยา · เขตพุทธาวาส'),
   city: R('city', 'นครอโยธยา', 'ราชธานีริมแม่น้ำ'),
-  gate: R('gate', 'ประตูเมืองทิศเหนือ', 'ทางออกสู่ทุ่งและป่า'),
-  rice: R('rice', 'ทุ่งนาหลวง', 'ชานเมือง · เกษตรกรรม'),
-  orchards: R('orchards', 'สวนผลไม้และสมุนไพร', 'ชานเมือง · เกษตรกรรม'),
-  north_road: R('north_road', 'ถนนสู่ป่า', 'ชานเมือง'),
-  grassland: R('grassland', 'ทุ่งหญ้าชายป่า', 'ชานเมือง · ต้นไทรพันปี'),
+  gate: R('gate', 'ประตูเมืองทิศเหนือ', 'ประตูวาป · ทางสู่ทุ่งและป่า'),
+  rice: R('rice', 'ทุ่งนาหลวง', 'ทุ่งนอกเมือง · เกษตรกรรม'),
+  orchards: R('orchards', 'สวนผลไม้และสมุนไพร', 'ทุ่งนอกเมือง · หมูป่าและลิงบุกสวน', 'wild'),
+  north_road: R('north_road', 'ถนนสู่ป่า', 'ทุ่งนอกเมือง'),
+  grassland: R('grassland', 'ทุ่งหญ้าชายป่า', 'ทุ่งนอกเมือง · ต้นไทรพันปี', 'wild'),
   forest_edge: R('forest_edge', 'ชายป่า', 'ป่าโปร่ง', 'wild'),
   forest: R('forest', 'ป่าทึบ', 'ไพรพฤกษ์', 'wild'),
   deep: R('deep', 'ป่าลึก', 'ไพรพฤกษ์ · ที่ซึ่งแสงส่องไม่ถึง', 'danger'),
@@ -53,6 +54,7 @@ export function regionAt(x, z, discoveredCemetery = true) {
   if (x > 24 && x < 102 && z > -100 && z < -22) return REG.temple;
   if (Math.hypot(x, z + 30) < 16) return REG.center;
   if (z < -12) return x < 0 ? REG.residential : REG.city;
+  if (x > 80 && x < 116 && z > 50 && z < 123) return REG.halls;   // hall yards end at x 114.5
   if (z > 112) return x < -62 ? REG.fishing : x > 62 ? REG.riverside : Math.abs(x) < 20 && z < 133 ? REG.fishmkt : REG.port;
   if (((x / 31) ** 2 + ((z - 28) / 25) ** 2) < 1) return REG.market;
   if (z > 50 && z < 112) {

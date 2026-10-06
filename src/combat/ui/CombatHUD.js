@@ -42,6 +42,7 @@ export class CombatHUD {
   }
   // Safe zone: the combat skills (1–4) are hidden; potions and menus stay.
   setSafe(on) {
+    if (!on && !this.tipped) { this.tipped = true; this.feed?.log('พื้นที่อันตราย · กด Tab เลือกเป้า, 1–4 ใช้ทักษะ, Q / F ดื่มยา', 'bad'); }
     this.safe = on;
     for (const b of this.skillButtons) b.hidden = on;
     const sep = this.bar.children[this.skillButtons.length]; if (sep?.classList.contains('g-sep')) sep.hidden = on;

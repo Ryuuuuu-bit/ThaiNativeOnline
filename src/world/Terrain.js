@@ -80,7 +80,9 @@ export function seedOccupancy(occ) {
   for (const road of ROADS) occ.markPolyline(roadPoints(road), road.w / 2 + (road.kind === 'trail' ? .5 : 1), OCC.ROAD);
   for (const p of PLAZAS) {
     if (p.kind === 'temple' || p.kind === 'grave') continue;
-    occ.markEllipse(p.x, p.z, p.rx, p.rz, OCC.ROAD);
+    // Rect plazas (the training-hall yards; world-designer hook) reserve their whole rectangle.
+    if (p.rect) occ.markRect(p.x, p.z, p.rx * 2, p.rz * 2, 0, OCC.ROAD);
+    else occ.markEllipse(p.x, p.z, p.rx, p.rz, OCC.ROAD);
   }
 }
 
