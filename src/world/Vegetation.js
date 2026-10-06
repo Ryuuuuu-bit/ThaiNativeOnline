@@ -4,6 +4,7 @@ import { InstanceSet as BaseSet } from './Batching.js';
 import { M, mat } from './materials.js';
 import { patchMaterial } from './shaders.js';
 import { createRng } from './rng.js';
+import { leafClumpTexture, patchFoliage } from '../shared/foliage.js';
 
 const rngTex = createRng(1977);
 function texture(w, h, draw) {
@@ -11,16 +12,9 @@ function texture(w, h, draw) {
   draw(canvas.getContext('2d'), w, h);
   const t = new THREE.CanvasTexture(canvas); t.colorSpace = THREE.SRGBColorSpace; return t;
 }
-// Broadleaf clusters, as in the first prototype.
-const foliageTexture = texture(256, 256, ctx => {
-  for (let i = 0; i < 210; i++) {
-    const a = rngTex() * Math.PI * 2, r = Math.sqrt(rngTex()) * 94, b = Math.floor(rngTex.range(145, 235));
-    ctx.save(); ctx.translate(128 + Math.cos(a) * r, 128 + Math.sin(a) * r); ctx.rotate(rngTex.range(-Math.PI, Math.PI));
-    ctx.fillStyle = `rgb(${b},${Math.min(255, b + 14)},${Math.floor(b * .75)})`;
-    ctx.beginPath(); ctx.ellipse(0, 0, rngTex.range(8, 17), rngTex.range(4, 9), 0, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = '#52673e40'; ctx.lineWidth = .7; ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(8, 0); ctx.stroke(); ctx.restore();
-  }
-});
+// Leaf clumps as in the forest map: a data texture (shade / coverage) tinted per
+// instance, so canopies read as many small dense clumps with a darker inside.
+const leafData = leafClumpTexture(rngTex, { snow: false });
 // Palm frond: a rib with paired leaflets.
 const frondTexture = texture(128, 32, (ctx, w, h) => {
   ctx.strokeStyle = '#d6dcb0'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
@@ -97,6 +91,8 @@ function crossPlanes(w, h, n = 3) {
   return mergeGeometries(Array.from({ length: n }, (_, i) => new THREE.PlaneGeometry(w, h).translate(0, h / 2, 0).rotateY(i / n * Math.PI).toNonIndexed()), false);
 }
 
+const CARD = 2.5;
+
 export class Vegetation {
   // keep(x, z): optional filter for the map being built; every call still draws
   // the same random numbers, so layouts match between maps.
@@ -104,11 +100,12 @@ export class Vegetation {
     const rng = createRng(4242);
     this.rng = rng;
     const InstanceSet = class extends BaseSet { constructor(g, m, o = {}) { super(g, m, { keep, ...o }); } };
-    const leafMat = patchMaterial(mat('#ffffff', { map: foliageTexture, alphaTest: .45, side: THREE.DoubleSide }), { wind: .16, instanced: true, fade: true });
+    const leaves = () => patchFoliage(mat('#ffffff', { map: leafData, alphaTest: .45, side: THREE.DoubleSide, roughness: .9 }));
+    const leafMat = patchMaterial(leaves(), { wind: .16, instanced: true, fade: true });
     const frondMat = patchMaterial(mat('#ffffff', { map: frondTexture, alphaTest: .4, side: THREE.DoubleSide }), { wind: .1, instanced: true, fade: true });
     const bananaMat = patchMaterial(mat('#7da34d', { map: bananaTexture, alphaTest: .4, side: THREE.DoubleSide }), { wind: .14, instanced: true, fade: true });
-    const bushMat = patchMaterial(mat('#ffffff', { map: foliageTexture, alphaTest: .45, side: THREE.DoubleSide }), { wind: .12, instanced: true });
-    this.cards = new InstanceSet(new THREE.PlaneGeometry(2.5, 2.5), leafMat);
+    const bushMat = patchMaterial(leaves(), { wind: .12, instanced: true });
+    this.cards = new InstanceSet(new THREE.PlaneGeometry(CARD, CARD), leafMat);
     this.trunks = [0, 1, 2].map(() => new InstanceSet(broadleafTrunk(rng, 4.4, 1), M.bark));
     this.giants = [0, 1].map(() => new InstanceSet(giantTrunk(rng, 11), M.darkBark));
     this.dead = [0, 1].map(() => new InstanceSet(deadTrunk(rng), M.darkBark));
@@ -127,19 +124,34 @@ export class Vegetation {
     this.obstacles = [];
     this.d = new THREE.Object3D(); this.c = new THREE.Color();
   }
-  leafColor(dark) {
+  // Fronds (palm, sugar palm, fern) keep the original palette: their textures carry colour.
+  frondColor(dark) {
     const r = this.rng;
     return this.c.setHSL(r.range(.22, .3) + dark * .06, r.range(.17, .32) - dark * .05, r.range(.24, .4) - dark * .14).clone();
   }
+  // Forest-map palette: rich, fairly dark greens; `shade` (0 bottom → 1 top of the crown)
+  // lightens the outer top so the canopy is self-shaded. Tropical: a touch warmer and
+  // brighter than the snowy forest.
+  leafColor(dark, shade = .5) {
+    const r = this.rng;
+    return this.c.setHSL(r.range(.25, .32) + dark * .03, r.range(.38, .52) - dark * .08, .08 + shade * .1 - dark * .04 + r.range(-.02, .02)).clone();
+  }
+  // Crown of many small leaf clumps (like the forest's broadleaf trees): a dome of
+  // `radius` around (x, y, z), flattened by `flat`. `count` is the old card count;
+  // clumps are ~3.6× as many and much smaller, scaled by crown area.
   canopy(x, y, z, count, radius, size, dark = 0, flat = .22) {
-    const r = this.rng, d = this.d;
-    for (let j = 0; j < count; j++) {
-      const a = r() * Math.PI * 2, rr = Math.sqrt(r()) * radius;
-      d.position.set(x + Math.cos(a) * rr, y + r.range(-.9, .6) * size - rr * flat, z + Math.sin(a) * rr);
-      d.rotation.set(-.72 + r.range(-.12, .12), .6 + r.range(-.12, .12), r.range(-Math.PI, Math.PI));
-      const sc = r.range(.75, 1.3) * size; d.scale.set(sc * 1.1, sc, sc); d.updateMatrix();
-      this.cards.addMatrix(d.matrix, this.leafColor(dark));
+    // The old big cards overhung the crown by about half a card; small clumps don't, so
+    // the dome itself is wider to keep the same silhouette.
+    radius *= 1.3;
+    const r = this.rng, d = this.d, n = Math.round(count * 3.6), tall = radius * (.72 - flat);
+    for (let j = 0; j < n; j++) {
+      const a = r() * Math.PI * 2, rr = Math.sqrt(r()), h = r.range(-.7, 1);
+      d.position.set(x + Math.cos(a) * rr * radius, y + h * tall * (1 - rr * rr * .5) - radius * .1, z + Math.sin(a) * rr * radius);
+      d.rotation.set(-Math.PI / 2 + r.range(-.5, .5) * (1 + rr), r.range(-.5, .5) * (1 + rr), r() * 6.28, 'YXZ');
+      d.scale.setScalar(radius * r.range(.4, .62) * Math.max(.75, size / (radius * .38)) / CARD); d.updateMatrix();
+      this.cards.addMatrix(d.matrix, this.leafColor(dark, (h + .7) / 1.7 * (1 - rr * .25)));
     }
+    d.rotation.order = 'XYZ';
   }
   broadleaf(x, y, z, { s = 1, dark = 0, cards = 34 } = {}) {
     const r = this.rng, h = r.range(4.4, 6.2) * s;
@@ -165,12 +177,12 @@ export class Vegetation {
     const p = this.rng.pick(this.palms), q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), ry);
     p.set.add(x, y, z, { ry, s });
     const tip = p.tip.clone().multiplyScalar(s).applyQuaternion(q);
-    this.palmCrown.add(x + tip.x, y + tip.y, z + tip.z, { ry: this.rng() * 6.28, s: s * this.rng.range(.9, 1.1), color: this.leafColor(-.2) });
+    this.palmCrown.add(x + tip.x, y + tip.y, z + tip.z, { ry: this.rng() * 6.28, s: s * this.rng.range(.9, 1.1), color: this.frondColor(-.2) });
     this.obstacles.push([x, z, .3 * s]);
   }
   sugarPalm(x, y, z, { s = 1 } = {}) {
     this.sugarTrunk.add(x, y, z, { s, sy: s * this.rng.range(.85, 1.15) });
-    this.sugarCrown.add(x, y + 9 * s, z, { ry: this.rng() * 6.28, s: s * 1.2, color: this.leafColor(.1) });
+    this.sugarCrown.add(x, y + 9 * s, z, { ry: this.rng() * 6.28, s: s * 1.2, color: this.frondColor(.1) });
     this.obstacles.push([x, z, .3 * s]);
   }
   banana(x, y, z, { s = 1 } = {}) {
@@ -195,7 +207,7 @@ export class Vegetation {
     this.obstacles.push([x, z, .35 * s]);
   }
   bush(x, y, z, { s = 1, dark = 0 } = {}) { this.bushes.add(x, y, z, { ry: this.rng() * 3, s, color: this.leafColor(dark - .1) }); }
-  fern(x, y, z, { s = 1, dark = 0 } = {}) { this.ferns.add(x, y + .1, z, { ry: this.rng() * 6, s, color: this.leafColor(dark) }); }
+  fern(x, y, z, { s = 1, dark = 0 } = {}) { this.ferns.add(x, y + .1, z, { ry: this.rng() * 6, s, color: this.frondColor(dark) }); }
   vine(x, y, z, { s = 1 } = {}) { this.vines.add(x, y, z, { ry: this.rng() * 3, sy: s, color: this.leafColor(.8) }); }
   build(scene) {
     let n = 0;

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { leafClumpTexture as sharedLeafClumpTexture, patchFoliage } from '../shared/foliage.js';
 
 // Fixed seed: trees, collision and the trail are identical on every load.
 let seed = 20261005;
@@ -83,24 +84,7 @@ function patchFade(material) {
   return material;
 }
 
-// Foliage textures store data, not colour: R = leaf shade, G = snow mask, A = coverage.
-// The instance colour tints the leaves while snow stays white.
-function patchFoliage(material, snow) {
-  const previous = material.onBeforeCompile;
-  material.onBeforeCompile = (shader, renderer) => {
-    previous(shader, renderer);
-    shader.uniforms.uSnow = { value: snow };
-    shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform float uSnow;')
-      .replace('#include <map_fragment>', `
-        vec4 leafData = texture2D(map, vMapUv);
-        vec3 leaf = vColor.rgb * (.32 + leafData.r * 1.05);
-        diffuseColor.rgb = mix(leaf, vec3(.94, .96, 1.), clamp(leafData.g * uSnow, 0., 1.));
-        diffuseColor.a *= leafData.a;`)
-      .replace('#include <color_fragment>', '');
-  };
-  return material;
-}
+// Foliage shading (data textures tinted per instance) lives in src/shared/foliage.js.
 
 // ---------- Textures -------------------------------------------------------
 function canvas(size, draw) { const c = document.createElement('canvas'); c.width = c.height = size; draw(c.getContext('2d'), size); return c; }
@@ -139,21 +123,7 @@ function pineCardTexture() {
     }
   }));
 }
-function leafClumpTexture() {
-  return dataTexture(canvas(256, (ctx) => {
-    for (let i = 0; i < 260; i++) {
-      const a = random() * Math.PI * 2, r = Math.sqrt(random()) * 100, x = 128 + Math.cos(a) * r, y = 128 + Math.sin(a) * r;
-      ctx.save(); ctx.translate(x, y); ctx.rotate(range(-Math.PI, Math.PI));
-      ctx.fillStyle = `rgb(${Math.floor(range(60, 235) - r * .5 + 40)},0,0)`;
-      ctx.beginPath(); ctx.ellipse(0, 0, range(9, 18), range(4, 8), 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-    }
-    for (let i = 0; i < 26; i++) {
-      const a = random() * Math.PI * 2, r = Math.sqrt(random()) * 80;
-      ctx.fillStyle = 'rgba(230,255,0,.95)';
-      ctx.beginPath(); ctx.ellipse(128 + Math.cos(a) * r, 120 + Math.sin(a) * r, range(6, 16), range(4, 8), range(0, 3), 0, Math.PI * 2); ctx.fill();
-    }
-  }));
-}
+const leafClumpTexture = () => sharedLeafClumpTexture(random);
 function snowTexture() {
   const t = new THREE.CanvasTexture(canvas(2048, (ctx, size) => {
     const px = v => (v / (HALF * 2) + .5) * size;
