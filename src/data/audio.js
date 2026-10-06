@@ -81,6 +81,7 @@ Object.assign(SFX, {
   // signature sounds, played as the skill starts
   // the hunter's bow: the limbs creak as the string comes back, a twang and a hiss on the release
   bow_draw:    { vary: .05, layers: [{ wave: 'sawtooth', f: [70, 110], dur: .35, a: .2, gain: .05, filter: { type: 'bandpass', f: [400, 900], q: 6 } }, { wave: 'noise', dur: .3, a: .2, gain: .03, filter: { type: 'bandpass', f: [1800, 2600], q: 4 } }] },
+  dog_bark:    { vary: .06, layers: [0, .16].flatMap(at => [{ wave: 'sawtooth', f: [620, 340], dur: .11, at, gain: .09, filter: { type: 'bandpass', f: [900, 700], q: 3 } }, { wave: 'noise', dur: .08, at, gain: .06, filter: { type: 'bandpass', f: [1400, 900], q: 2 } }]) },
   bow_release: { vary: .08, layers: [{ wave: 'triangle', f: [190, 150], dur: .22, gain: .16 }, { wave: 'noise', dur: .05, gain: .12, filter: { type: 'highpass', f: [2500, 2500] } }, { wave: 'noise', dur: .25, at: .02, a: .02, gain: .07, filter: { type: 'bandpass', f: [3000, 1200], q: 2 } }] },
   sig_jab:     { layers: [{ wave: 'noise', dur: .08, gain: .06, filter: { type: 'bandpass', f: [1500, 2500], q: 2 } }] },
   sig_kick:    { layers: [{ wave: 'noise', dur: .45, a: .35, gain: .12, filter: { type: 'bandpass', f: [300, 1800], q: 1.2 } }] },
@@ -155,7 +156,7 @@ export const SKILL_SFX = {
   arch_snipe: { cast: 'bow_draw', hit: 'bow_release' },
   arch_meteor: { cast: 'bow_draw', hit: 'bow_release' },
   arch_hawk: { cast: 'buff', hit: 'buff' },
-  arch_garuda: { cast: 'whoosh', hit: 'buff' },
+  arch_garuda: { cast: 'whoosh', hit: 'dog_bark' },
   arch_trap: { cast: 'whoosh', hit: 'crack' },
 };
 

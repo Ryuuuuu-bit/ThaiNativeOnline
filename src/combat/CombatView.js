@@ -1,6 +1,7 @@
 // Three.js presentation for combat: monster models, target ring, projectiles, AoE and hit flashes.
 import * as THREE from 'three';
 import { RULES } from './data/rules.js';
+import { makeDog } from '../classes/dog.js';
 
 const std = (color, extra) => new THREE.MeshStandardMaterial({ color, roughness: .85, ...extra });
 const add = (parent, geometry, material, x = 0, y = 0, z = 0, scale) => {
@@ -146,9 +147,8 @@ export class CombatView {
     });
     combat.on('pet-command', ({ target }) => this.ring(target.x, target.z, 1.2, '#f2c26b'));
     if (combat.pet) {
-      this.pet = quadruped({ color: '#b5713e' }, {});
-      this.pet.scale.setScalar(.48);
-      const chest = new THREE.Mesh(new THREE.SphereGeometry(.32, 10, 8), std('#f1e6d2')); chest.position.set(0, .6, .45); this.pet.children[0].add(chest);
+      this.pet = makeDog();   // the hunter's dog (src/classes/dog.js), also summoned by ลมใต้ปีกครุฑ
+      this.pet.scale.setScalar(.8);
       this.root.add(this.pet);
     }
     combat.on('heal', e => this.ring(e.x, e.z, 1.1, '#9df0a8'));
@@ -229,7 +229,7 @@ export class CombatView {
       const pet = this.combat.pet;
       this.pet.position.set(pet.x, this.groundHeight(pet.x, pet.z), pet.z);
       this.pet.rotation.y += Math.atan2(Math.sin(pet.facing - this.pet.rotation.y), Math.cos(pet.facing - this.pet.rotation.y)) * Math.min(1, dt * 12);
-      this.pet.userData.animate(elapsed * 1.4, pet.moving, pet.attackTimer > (pet.frenzy > 0 ? .35 : 1.05));
+      this.pet.userData.animate(elapsed, pet.moving, pet.attackTimer > (pet.frenzy > 0 ? .35 : 1.05), { run: pet.pounce ? 1 : 0 });
     }
     this.targetRing.visible = !!target?.alive;
     if (target?.alive) {

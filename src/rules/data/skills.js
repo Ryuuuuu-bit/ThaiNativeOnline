@@ -250,7 +250,8 @@ export const SKILLS = {
       desc: 'ธนูตกเป็นห่าฝน 5 ระลอก' },
     { id: 'arch_garuda', nameTh: 'ลมใต้ปีกครุฑ', icon: '🪶', reqLv: 10, type: 'party', party: true,
       mp: 24, cd: 26000, radius: 220, buff: { critAdd: 0.15, atkMul: 0.1, aspd: 0.08 }, duration: 12000, heal: 0.08, sfx: 'buff',
-      desc: '[ปาร์ตี้] ปีกครุฑโอบปาร์ตี้ คริ +15% โจมตี +10% ตีเร็วขึ้น 8% ทั้งปาร์ตี้ 12 วิ' },
+      kind: 'physical', mult: 0.8, petBites: 3,   // + the hunter's dog runs in and bites the target petBites times (mult each)
+      desc: '[ปาร์ตี้] ปีกครุฑโอบปาร์ตี้ คริ +15% โจมตี +10% ตีเร็วขึ้น 8% ทั้งปาร์ตี้ 12 วิ · เรียกน้องหมาวิ่งไปกัดเป้า 3 ครั้ง' },
     // ---- สกิลขั้นสูง (Lv.20 / 40 / 70 / 100) ----
     { id: 'arch_volley', nameTh: 'ศรกระจายเจ็ดดาว', icon: '✨', reqLv: 20, type: 'projectile', kind: 'physical',
       mp: 16, cd: 7000, mult: 0.9, proj: 'arrow', speed: 420, range: 280, count: 5, spread: 34, sfx: 'arrow',
