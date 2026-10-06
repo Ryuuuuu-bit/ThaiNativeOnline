@@ -21,13 +21,13 @@ In the city, a straw dummy stands just north of the spawn. Near the dummy (withi
 | `damage.js` | pure damage math, tested in `tests/training-damage.test.js` |
 | `training.css` | city-themed styles for the FX labels, hotbar and log |
 
-Data lives in `src/data/training.js`: class avatars (model URL, height, skill set), dummy position, HP, DEF and EVA, plus the fighter's level, stats and skill level. You can override values from the URL: `?lv=50&skill=5&ddef=40&deva=30`.
+Data lives in `src/data/training.js`: class avatars (model URL, height, skill set), dummy position, HP, DEF and EVA, plus the fallback fighter's level and stats, and the skill level. You can override values from the URL: `?lv=50&skill=5&ddef=40&deva=30`.
 
 ## Damage
 
 Damage comes from `src/rules`, not from the hand-tuned FX numbers:
 
-- the trainee's stats come from `computeDerived(stats, JOBS[avatar.job], level)` (`boxer` or `healer`)
+- the trainee is the player: its live stats come from the city `Character` (six base stats, gear and buffs, through the same `computeDerived`); with `?lv=` or no character it falls back to the fixed fighter (`computeDerived(stats, JOBS[avatar.job], level)`, `boxer` or `healer`)
 - each blow uses `skillStats(skill, skillLevel).mult` with `rollDamage` against `{ def, eva }`
 - the hit chance, the ±10% variance and crits all come from the rules
 

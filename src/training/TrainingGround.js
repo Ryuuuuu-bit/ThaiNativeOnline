@@ -49,14 +49,18 @@ export function createClassAvatar(classId, opts) {
 }
 
 export class TrainingGround {
-  constructor({ scene, camera, renderer, root, player, canStand, groundHeight }, avatar, kit) {
+  constructor({ scene, camera, renderer, root, player, canStand, groundHeight, character }, avatar, kit) {
     this.kit = kit; this.kitId = avatar.skills; this.keys = kit.skills.map(s => s.key);
     const q = new URLSearchParams(location.search), num = (k, d) => (q.has(k) && Number.isFinite(Number(q.get(k))) ? Number(q.get(k)) : d);
     const f = TRAINING.fighter;
-    this.level = num('lv', f.level); this.skillLevel = Math.max(1, Math.min(5, num('skill', f.skillLevel)));
+    this.skillLevel = Math.max(1, Math.min(5, num('skill', f.skillLevel)));
     this.target = { def: num('ddef', TRAINING.dummy.def), eva: num('deva', TRAINING.dummy.eva) };
     this.job = avatar.job ?? 'boxer';
-    this.derived = jobDerived(this.job, f.byJob?.[this.job] ?? f.stats, this.level);
+    // The player's own stats (src/character, buffs included); ?lv= or no character uses the fixed trainee instead.
+    this.hero = q.has('lv') ? null : character ?? null;
+    this.fixedLevel = num('lv', f.level);
+    this.fixed = jobDerived(this.job, f.byJob?.[this.job] ?? f.stats, this.fixedLevel);
+    character?.on?.('change', () => this.renderSub?.());
     this.player = player; this.canStand = canStand; this.groundHeight = groundHeight; this.active = false;
 
     // The Player still walks and turns the avatar; this drives its skills.
@@ -161,20 +165,33 @@ export class TrainingGround {
   reset() { this.stats = { total: 0, hits: 0, crits: 0, misses: 0, first: 0, last: 0, bySkill: {}, log: [] }; this.renderPanel(); }
 
   buildPanel(root) {
-    const d = this.derived, hit = hitChanceOf(d.accuracy, this.target.eva);
     const panel = $el('aside', 'training-panel glass');
     panel.hidden = true;
     panel.innerHTML = `
       <header><b>${this.kit.ground}</b><button type="button" class="training-reset" title="ล้างสถิติ">ล้าง</button></header>
-      <p class="training-sub">${this.kit.name} Lv.${this.level} · สกิล Lv.${this.skillLevel} · ATK ${d.patk} · คริ ${(d.critRate * 100).toFixed(0)}% ×${d.critDmg.toFixed(2)} · โดน ${(hit * 100).toFixed(0)}%<br>หุ่น DEF ${this.target.def} · EVA ${this.target.eva}</p>
+      <p class="training-sub"></p>
       <dl class="training-sum"></dl>
       <ol class="training-log"></ol>
       <table class="training-skills"></table>
       <p class="training-tip">1–0 ใช้สกิล · Q ออโต้ · ?lv=50&amp;skill=5&amp;ddef=40 ปรับค่าทดสอบ</p>`;
     panel.querySelector('.training-reset').addEventListener('click', () => this.reset());
     root.appendChild(panel);
+    this.sub = panel.querySelector('.training-sub');
     this.sum = panel.querySelector('.training-sum'); this.logEl = panel.querySelector('.training-log'); this.table = panel.querySelector('.training-skills');
+    this.renderSub();
     return panel;
+  }
+  get level() { return this.hero?.level ?? this.fixedLevel; }
+  // Rules-shaped stats for rollSkill: the live character's, or the fixed trainee's.
+  get derived() {
+    const c = this.hero;
+    if (!c) return this.fixed;
+    return { ...c.derived, patk: c.patk, matk: c.matk, critRate: c.critChance };
+  }
+  renderSub() {
+    if (!this.sub) return;
+    const d = this.derived, hit = hitChanceOf(d.accuracy, this.target.eva), magic = this.hero?.cls.magic ?? ['healer', 'mage'].includes(this.job);
+    this.sub.innerHTML = `${this.kit.name} Lv.${this.level} · สกิล Lv.${this.skillLevel} · ${magic ? `MATK ${d.matk}` : `ATK ${d.patk}`} · คริ ${(d.critRate * 100).toFixed(0)}% ×${d.critDmg.toFixed(2)} · โดน ${(hit * 100).toFixed(0)}%<br>หุ่น DEF ${this.target.def} · EVA ${this.target.eva}`;
   }
   renderPanel() {
     const s = this.stats, span = Math.max(1, s.last - s.first), name = id => (id === 'bleed' ? 'เลือดไหล' : this.kit.skills.find(m => m.id === id)?.name ?? id);

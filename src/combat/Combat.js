@@ -8,6 +8,8 @@ const rand = (a, b) => a + Math.random() * (b - a);
 const randInt = (a, b) => Math.floor(rand(a, b + 1));
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 import { RULES } from './data/rules.js';
+import { rollDamage } from '../rules/stats.js';
+import { MONSTER_ACCURACY } from '../character/data/progression.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN } = RULES;
 
@@ -141,8 +143,8 @@ export class Combat extends Emitter {
   execute(skillId, target) {
     const c = this.character, skill = SKILLS[skillId], p = this.world.playerPos();
     if (!c.spendMp(skill.mp)) { this.autoAttack = false; this.fail('MP ไม่พอ'); return false; }
-    if (skill.cd) c.cooldowns[skillId] = skill.cd;
-    if (skill.basic) this.attackTimer = c.cls.attackSpeed;
+    if (skill.cd) c.cooldowns[skillId] = skill.cd * (1 - c.cooldownCut);          // DEX shortens skill cooldowns
+    if (skill.basic) this.attackTimer = c.cls.attackSpeed * (1 - c.attackSpeed);   // AGI speeds up basic attacks
     else { this.gcd = GLOBAL_COOLDOWN; this.attackTimer = Math.max(this.attackTimer, GLOBAL_COOLDOWN * .6); }
     this.combatTimer = Math.max(this.combatTimer, skill.kind === 'heal' || skill.kind === 'buff' ? 0 : COMBAT_TIMEOUT);
     this.emit('cast', { skillId, skill, target, from: { x: p.x, z: p.z } });
@@ -169,19 +171,18 @@ export class Combat extends Emitter {
     } else this.hitMonster(target, skill);
   }
 
-  rollPlayerDamage(skill) {
-    const c = this.character, scale = skill.scale ? c.stat(skill.scale) : 0;
-    let dmg = (c.attack + scale * .6) * skill.power * rand(.88, 1.12);
-    const crit = skill.alwaysCrit || Math.random() < c.critChance;
-    if (crit) dmg *= 1.6;
-    return { dmg, crit };
+  // One blow with the rules' formula (src/rules/stats.js rollDamage): INT skills deal
+  // MATK (always hit, half armour), the rest ATK against the monster's DEF and evasion.
+  rollPlayerDamage(skill, m) {
+    const c = this.character;
+    const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit ? 1 : c.critChance, critDmg: c.critDamage };
+    return rollDamage(atk, { def: m.def.def, eva: m.def.eva ?? 0 }, skill.scale === 'int' ? 'magic' : 'physical', skill.power);
   }
 
   hitMonster(m, skill) {
     if (!m.alive) return;
-    if (Math.random() < RULES.playerMissChance) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return; }
-    const { dmg, crit } = this.rollPlayerDamage(skill);
-    const dealt = Math.max(1, Math.round(dmg - m.def.def * .7));
+    const { hit, dmg: dealt, crit } = this.rollPlayerDamage(skill, m);
+    if (!hit) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return; }
     m.hp = Math.max(0, m.hp - dealt);
     this.emit('hit', { monster: m, amount: dealt, crit, x: m.x, z: m.z });
     if (skill.debuff) { m.debuffs = m.debuffs.filter(d => d.id !== skill.debuff.id); m.debuffs.push({ ...skill.debuff, remaining: skill.debuff.duration, source: this.character.attack }); }
@@ -339,7 +340,7 @@ export class Combat extends Emitter {
     m.attackTimer = m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay;
     this.combatTimer = COMBAT_TIMEOUT;
     this.emit('monster-attack', m);
-    if (Math.random() < c.dodge) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
+    if (Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
     const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
     const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
     const dealt = c.damage(Math.max(1, raw - c.defense * .4));

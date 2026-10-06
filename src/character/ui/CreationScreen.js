@@ -64,7 +64,7 @@ export function showCreation(root) {
       const c = CLASSES[chosen], kit = CLASS_KITS[AVATARS[chosen]?.skills];
       detail.style.setProperty('--cls', c.color); stage.style.setProperty('--cls', c.color);
       detail.innerHTML = `<p class="g-tagline">“${c.tagline}”</p><p>${c.desc}</p>
-        <div class="g-class-stats">${STATS.map(k => `<i>${STAT_LABELS[k]} ${c.base[k]}</i>`).join('')}</div>
+        <div class="g-class-stats">${STATS.map(k => `<i title="${STAT_LABELS[k]}">${k.toUpperCase()} ${c.base[k]}</i>`).join('')}</div>
         ${kit ? `<span class="g-skills-title">สกิล ${kit.skills.length} ท่า</span>` : ''}
         <div class="g-class-skills${kit ? ' g-kit' : ''}">${skillsHtml(chosen)}</div>
         <p class="g-skill-name" aria-live="polite"></p>`;

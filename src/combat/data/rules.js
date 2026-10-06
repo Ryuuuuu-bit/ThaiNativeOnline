@@ -5,7 +5,6 @@ export const RULES = {
   combatTimeout: 5,        // seconds without hits before "out of combat" regen
   projectileSpeed: 16,
   globalCooldown: 1,       // shared delay after any non-basic skill
-  playerMissChance: .05,
   monsterRespawn: 18,      // default when a zone has no `respawn`
   monsterAttackDelay: 1.6,
   eliteAttackDelay: 1.3,

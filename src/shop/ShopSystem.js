@@ -10,6 +10,7 @@ export function buy(character, shopType, itemId) {
   if (!stockOf(shopType).includes(itemId)) return { ok: false, reason: 'ร้านนี้ไม่มีสินค้านี้' };
   const price = ITEMS[itemId].price;
   if (character.gold < price) return { ok: false, reason: 'ทองไม่พอ' };
+  if (character.carryRoom(itemId) < 1) return { ok: false, reason: 'ของหนักเกินไป' };
   if (!character.addItem(itemId, 1)) return { ok: false, reason: 'กระเป๋าเต็ม' };
   character.gold -= price; character.emit('change'); character.save?.();
   return { ok: true, price };

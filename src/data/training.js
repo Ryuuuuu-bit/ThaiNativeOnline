@@ -30,8 +30,8 @@ export const AVATAR_FALLBACK = 'muaythai';
 export const avatarFor = id => (AVATARS[id]?.url ? AVATARS[id] : AVATARS[AVATAR_FALLBACK]);
 export const classReady = id => AVATARS[id]?.ready === true;
 
-// Damage comes from src/rules: computeDerived(stats, JOBS[avatar.job], level) for
-// the trainee, skillStats(skill, skillLevel).mult per blow, rollDamage vs the dummy.
+// Damage comes from src/rules: the player's own Character stats (computeDerived) for
+// the trainee, or `fighter` below with ?lv= or without a character; skillStats(skill, skillLevel).mult per blow, rollDamage vs the dummy.
 // URL overrides for quick tests: ?lv=50 &skill=5 &ddef=40 &deva=30
 export const TRAINING = {
   map: 'city',

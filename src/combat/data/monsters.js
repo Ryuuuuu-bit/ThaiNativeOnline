@@ -1,4 +1,6 @@
 // Content data only: edit freely without touching game logic.
+// Optional per monster: acc (accuracy; default MONSTER_ACCURACY(level) in
+// src/character/data/progression.js) and eva (evasion against player ATK, default 0).
 export const MONSTERS = {
   boar:   { name: 'หมูป่า', level: 1, hp: 125, atk: 13, def: 2, speed: 2.6, range: 1.3, aggro: 4.5, exp: 18, gold: [2, 6], color: '#6b5241', size: .8, shape: 'boar', loot: 'beast' },
   monkey: { name: 'ลิงกัง', level: 2, hp: 120, atk: 15, def: 1, speed: 3.4, range: 1.2, aggro: 6, exp: 22, gold: [3, 8], color: '#8d7350', size: .6, shape: 'monkey', loot: 'beast' },

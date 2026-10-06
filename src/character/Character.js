@@ -1,13 +1,18 @@
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
 // Pure logic so it can be reused by any world or a future server.
-import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS } from './data/classes.js';
+import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
 import { ITEMS } from './data/items.js';
-import { MAX_LEVEL, expToNext } from './data/progression.js';
+import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY } from './data/progression.js';
+import { computeDerived, hitChanceOf } from '../rules/stats.js';
+import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 
 const SAVE_KEY = 'tno.character.v1';
 const INVENTORY_SIZE = 24;
+// Gear bonus keys passed to computeDerived besides the base stats.
+const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
+const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 
 export class Character extends Emitter {
   constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp } = {}) {
@@ -16,12 +21,12 @@ export class Character extends Emitter {
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
     this.name = name; this.classId = classId; this.gender = gender; this.night = false; this.level = level; this.exp = exp; this.gold = gold;
     this.points = points; // unspent stat points
-    this.alloc = { str: 0, agi: 0, int: 0, vit: 0, ...alloc };
+    this.alloc = { ...emptyAlloc(), ...alloc };
     this.inventory = inventory ? inventory.map(s => s && { ...s }) : Array(INVENTORY_SIZE).fill(null);
     this.equipment = { weapon: null, armor: null, charm: null, ...equipment };
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
-    this.hp = hp ?? this.maxHp; this.mp = mp ?? this.maxMp;
+    this.hp = Math.min(hp ?? this.maxHp, this.maxHp); this.mp = Math.min(mp ?? this.maxMp, this.maxMp);   // saves from older stat formulas may exceed the cap
   }
 
   static create(name, classId, gender = 'male') {
@@ -40,23 +45,51 @@ export class Character extends Emitter {
     return total;
   }
 
-  stat(key) { return this.cls.base[key] + this.cls.growth[key] * (this.level - 1) + this.alloc[key] + this.equipBonus(key); }
+  // Base stat: class base + growth per level (rounded down) + allocated points + gear.
+  stat(key) { return Math.floor((this.cls.base[key] || 0) + (this.cls.growth[key] || 0) * (this.level - 1)) + (this.alloc[key] || 0) + this.equipBonus(key); }
   get stats() { return Object.fromEntries(STATS.map(k => [k, this.stat(k)])); }
 
-  get maxHp() { return Math.round(80 + this.stat('vit') * 12 + this.level * 10 + this.equipBonus('hp')); }
-  get maxMp() { return Math.round(30 + this.stat('int') * 6 + this.level * 4); }
-  get attack() {
-    const s = this.stats, main = Math.max(s.str, s.agi, s.int);
-    const buff = this.buffs.reduce((n, b) => n + (b.atk || 0), 0);
-    return Math.round((main * 1.4 + this.level * 1.5 + this.equipBonus('atk')) * (1 + buff));
+  // Derived stats from the rules (src/rules/stats.js computeDerived), before buffs:
+  // { maxHp, maxMp, patk, matk, accuracy, critRate, critDmg, def, eva, aspd, castRed }
+  get derived() {
+    const s = this.stats, bonus = {};
+    for (const key of DERIVED_BONUS) bonus[key] = this.equipBonus(key);
+    const base = Object.fromEntries(STATS.map(k => [k.toUpperCase(), s[k]]));
+    return computeDerived(base, JOBS[this.cls.job] ?? JOBS.boxer, this.level, bonus, { ranged: this.cls.ranged });
   }
-  get defense() {
-    const base = this.stat('vit') * .8 + this.equipBonus('def');
-    const guard = this.buffs.find(b => b.def);
-    return Math.round(base * (1 + (guard?.def || 0)));
+  buffSum(key) { return this.buffs.reduce((n, b) => n + (b[key] || 0), 0); }
+
+  get maxHp() { return this.derived.maxHp; }
+  get maxMp() { return this.derived.maxMp; }
+  // Attack power after buffs: MATK for spell classes, ATK for the rest.
+  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + this.buffSum('atk'))); }
+  get patk() { return Math.round(this.derived.patk * (1 + this.buffSum('atk'))); }
+  get matk() { return Math.round(this.derived.matk * (1 + this.buffSum('atk'))); }
+  get defense() { return Math.round(this.derived.def * (1 + (this.buffs.find(b => b.def)?.def || 0))); }
+  get accuracy() { return this.derived.accuracy; }
+  get evasion() { return this.derived.eva; }
+  get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
+  get critDamage() { return this.derived.critDmg; }
+  get attackSpeed() { return this.derived.aspd; }        // share cut from the basic-attack interval
+  get cooldownCut() { return this.derived.castRed; }     // share cut from skill cooldowns
+  // Chance to avoid a blow from an attacker with this accuracy (buffs such as smoke add on top).
+  evadeChance(accuracy) { return Math.min(.9, 1 - hitChanceOf(accuracy, this.evasion) + this.buffSum('dodge')); }
+  // Kept for callers without an attacker: evasion against an even-level monster.
+  get dodge() { return this.evadeChance(MONSTER_ACCURACY(this.level)); }
+  // Bag weight: bag stacks plus equipped items, against a STR-based limit.
+  get weight() {
+    let w = 0;
+    for (const s of this.inventory) if (s) w += (ITEMS[s.id].weight || 0) * s.qty;
+    for (const id of Object.values(this.equipment)) if (id) w += ITEMS[id].weight || 0;
+    return w;
   }
-  get critChance() { return Math.min(.6, .05 + this.stat('agi') * .006 + this.equipBonus('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
-  get dodge() { return Math.min(.25, this.stat('agi') * .008) + this.buffs.reduce((n, b) => n + (b.dodge || 0), 0); }
+  get maxWeight() { return Math.round(CARRY.base + this.stat('str') * CARRY.perStr); }
+  get heavy() { return this.weight >= this.maxWeight * CARRY.heavy; }
+  // How many of an item still fit under the weight limit.
+  carryRoom(id) {
+    const w = ITEMS[id]?.weight || 0;
+    return w ? Math.max(0, Math.floor((this.maxWeight - this.weight) / w)) : Infinity;
+  }
   get expNeeded() { return expToNext(this.level); }
   get alive() { return this.hp > 0; }
 
@@ -88,7 +121,7 @@ export class Character extends Emitter {
     if (hot && this.hp < this.maxHp) { this.hp = Math.min(this.maxHp, this.hp + this.maxHp * hot * dt); this.emit('change'); }
     const rate = inCombat ? .004 : .025;
     this.regen = (this.regen || 0) + dt;
-    if (this.regen >= 1) {
+    if (this.regen >= 1 && !this.heavy) {   // a heavy bag stops natural regeneration
       this.regen = 0;
       if (this.hp < this.maxHp || this.mp < this.maxMp) {
         this.hp = Math.min(this.maxHp, this.hp + Math.ceil(this.maxHp * rate));
@@ -104,7 +137,7 @@ export class Character extends Emitter {
     if (this.level >= MAX_LEVEL) return;
     this.exp += Math.round(amount); this.emit('exp', amount);
     while (this.level < MAX_LEVEL && this.exp >= this.expNeeded) {
-      this.exp -= this.expNeeded; this.level += 1; this.points += 3;
+      this.exp -= this.expNeeded; this.level += 1; this.points += POINTS_PER_LEVEL;
       this.hp = this.maxHp; this.mp = this.maxMp;
       this.emit('levelup', this.level);
     }
@@ -120,13 +153,21 @@ export class Character extends Emitter {
   }
   resetStats() {
     this.points += Object.values(this.alloc).reduce((a, b) => a + b, 0);
-    this.alloc = { str: 0, agi: 0, int: 0, vit: 0 };
+    this.alloc = emptyAlloc();
     this.hp = Math.min(this.hp, this.maxHp); this.mp = Math.min(this.mp, this.maxMp); this.emit('change');
   }
 
   // ---- Inventory ----
+  // Adds as many as fit; false (with 'overweight') when any are left behind.
   addItem(id, qty = 1) {
     const def = ITEMS[id]; if (!def) return false;
+    const room = this.carryRoom(id);
+    if (room < qty) {
+      this.emit('overweight', id);
+      if (room === 0) return false;
+      this.addItem(id, room);
+      return false;
+    }
     const stackable = def.type !== 'equip';
     if (stackable) {
       const slot = this.inventory.find(s => s?.id === id);
