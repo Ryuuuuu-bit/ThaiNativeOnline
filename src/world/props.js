@@ -48,6 +48,7 @@ const PROPS = {
   fruitBasket: [['basket'], ['pile', 0, .2, 0, .95]],
   fishBasket: [['basket'], ['pile', 0, .2, 0, .95, '#9aa3a2']],
   bigJar: [['jar', 0, 0, 0, 1.6]],
+  plantPot: [['pot', 0, 0, 0, 1.3], ['herb', 0, .3, 0, 1.15, '#5d8a3c'], ['flower', .06, .42, .04, 1.6, '#d9573f']],
 };
 
 export class PropLibrary {

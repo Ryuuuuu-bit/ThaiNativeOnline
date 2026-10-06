@@ -61,15 +61,20 @@ function profileTop(points, x) {
   }
   return 0;
 }
-function roofGeometry(w, d, h, style) {
-  return cached(`roof${w.toFixed(1)}|${d.toFixed(1)}|${h.toFixed(1)}|${style}`, () => {
+// part: 'all', 'main' (without the eave kicks) or 'eave' (only the outer kick segments).
+function roofGeometry(w, d, h, style, part = 'all') {
+  return cached(`roof${w.toFixed(1)}|${d.toFixed(1)}|${h.toFixed(1)}|${style}|${part}`, () => {
     const cross = roofProfile(w, h, style), pos = [], uv = [], index = [];
     let s = 0;
     cross.forEach(([x, y], i) => {
       if (i) s += Math.hypot(x - cross[i - 1][0], y - cross[i - 1][1]);
       for (const z of [-d / 2, d / 2]) { pos.push(x, y, z); uv.push(z / 2, s / 2); }
     });
-    for (let i = 0; i < cross.length - 1; i++) { const a = i * 2; index.push(a, a + 2, a + 1, a + 1, a + 2, a + 3); }
+    for (let i = 0; i < cross.length - 1; i++) {
+      const eave = i === 0 || i === cross.length - 2;
+      if (part === 'main' && eave || part === 'eave' && !eave) continue;
+      const a = i * 2; index.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+    }
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
     g.setIndex(index); g.computeVertexNormals(); return g;
@@ -124,9 +129,9 @@ const ridgeFor = m => {
 };
 
 // Gable infill (หน้าจั่ว): 'sun' is the sunburst (หน้าจั่วพรหมพักตร์ / ลายแสงอาทิตย์), 'panel' framed boards (ปะกน).
-function gablePattern(p, w, h, pattern, m, b) {
-  const pts = roofProfile(w * .9, h * .93, 'house'), gw = w * .9, z = .035;
-  box(p, m, 0, .05, z, gw * .86, b * .9, .06);
+function gablePattern(p, w, h, pattern, m, b, style = 'house') {
+  const pts = roofProfile(w * .9, h * .93, style), gw = w * .9, z = .035;
+  if (style === 'house') box(p, m, 0, .05, z, gw * .86, b * .9, .06);
   if (pattern === 'sun') {
     const n = 9;
     for (let i = 0; i < n; i++) {
@@ -134,7 +139,7 @@ function gablePattern(p, w, h, pattern, m, b) {
       let t = .2;
       while (t < h && Math.abs(dx * t) < gw / 2 && dy * t + .1 < profileTop(pts, dx * t) - .12) t += .05;
       if (t < .4) continue;
-      box(p, m, dx * t / 2, .1 + dy * t / 2, z, .055, t, .045, 0, 0, a - Math.PI / 2);
+      box(p, m, dx * t / 2, .1 + dy * t / 2, z, Math.max(.055, b * .4), t, .045, 0, 0, a - Math.PI / 2);
     }
     const r = Math.min(.45, b * 1.6);
     mesh(p, cylGeo(1, 1, 12), m, 0, .1, z, r, .06, r, 0, Math.PI / 2);
@@ -152,12 +157,18 @@ function gablePattern(p, w, h, pattern, m, b) {
 // Ridge runs along local z. width spans x; y is the eave height. House-style
 // roofs get flat bargeboards with curled tips, a ridge cap, eave boards and a
 // gable pattern; temple roofs keep their gilded trim and finials.
-export function thaiRoof(p, { width, depth, height = width * .6, y, x = 0, z = 0, ry = 0, material = M.tile, style = 'house', trim = M.darkWood, gable = M.woodLight, finials = false, trimR = .045, ridge = null, pattern = 'panel', battens = trim, tips = true }) {
+export function thaiRoof(p, { width, depth, height = width * .6, y, x = 0, z = 0, ry = 0, material = M.tile, style = 'house', trim = M.darkWood, gable = M.woodLight, finials = false, trimR = .045, ridge = null, pattern = 'panel', battens = trim, tips = true, eave = null, ends = [-1, 1] }) {
   const g = new THREE.Group(); g.position.set(x, y, z); g.rotation.y = ry; p.add(g);
-  mesh(g, roofGeometry(width, depth, height, style), material);
+  if (style === 'temple' || eave === false) mesh(g, roofGeometry(width, depth, height, style), material);
+  else { mesh(g, roofGeometry(width, depth, height, style, 'main'), material); mesh(g, roofGeometry(width, depth, height, style, 'eave'), eave ?? ridgeFor(material)); }
   if (style === 'temple') {
     for (const end of [-1, 1]) {
-      if (gable) mesh(g, gableGeometry(width, height, style), gable, 0, 0, end * (depth / 2 - .12), 1, 1, 1, end > 0 ? 0 : Math.PI);
+      if (gable) {
+        const face = new THREE.Group(); face.position.z = end * (depth / 2 - .12); face.rotation.y = end > 0 ? 0 : Math.PI; g.add(face);
+        mesh(face, gableGeometry(width, height, style), gable);
+        // Gilded sunburst on the pediment (หน้าบัน) of larger sacred roofs.
+        if (pattern && width > 3) gablePattern(face, width, height, 'sun', trim, THREE.MathUtils.clamp(width * .03, .08, .25), style);
+      }
       mesh(g, trimGeometry(width, height, style, trimR), trim, 0, 0, end * depth / 2);
       if (finials) {
         mesh(g, finialGeometry, trim, 0, height - .02, end * depth / 2, 1.3, 1.3, end * 1.3);
@@ -169,7 +180,7 @@ export function thaiRoof(p, { width, depth, height = width * .6, y, x = 0, z = 0
   const b = THREE.MathUtils.clamp(width * .034, .07, .22);
   if (ridge !== false) box(g, ridge ?? ridgeFor(material), 0, height - b * .15, 0, Math.max(.16, b * 1.2), b, depth + .06);
   for (const side of [-1, 1]) box(g, trim, side * (width / 2 - .03), -b * .3, 0, .06, b * .9, depth - .04);
-  for (const end of [-1, 1]) {
+  for (const end of ends) {
     const e = new THREE.Group(); e.position.z = end * depth / 2; e.rotation.y = end > 0 ? 0 : Math.PI; g.add(e);
     mesh(e, bargeGeometry(width, height, b), trim);
     if (tips) {
@@ -409,14 +420,19 @@ export function shophouseRow(rng, units, { goods = [], awning = null } = {}) {
     if (cloth !== M.thatch) {
       const trim = contrastFor(cloth, v);
       valance(g, cx, h1 - .25, d / 2 + 1.57, uw - .1, cloth, trim);
-      if (v.chance(.5)) for (const k of [-1, 0, 1]) box(g, trim, cx + k * uw * .3, h1 + .05, d / 2 + .76, .32, .05, 1.7, 0, .32);
+      if (v.chance(.35)) for (const k of [-1, 0, 1]) box(g, trim, cx + k * uw * .3, h1 + .05, d / 2 + .76, .32, .05, 1.7, 0, .32);
     }
     for (const sx of [-1, 1]) cyl(g, M.darkWood, cx + sx * (uw / 2 - .2), (h1 - .2) / 2, d / 2 + 1.5, .05, .05, h1 - .2, 5);
     box(g, M.darkWood, cx, h1 + .42, d / 2 + .04, 1.6, .36, .06); box(g, v.chance(.7) ? M.gold : M.cloth.red, cx, h1 + .42, d / 2 + .08, 1.4, .22, .02);
     hangingLantern(g, cx + uw * .3, h1 - .35, d / 2 + 1.2);
     for (const item of goods[u] ?? []) prop(g, item.name, cx + (item.x ?? 0), item.y ?? 0, d / 2 + 1 + (item.z ?? 0), item);
   }
-  thaiRoof(g, { width: d + 1.6, depth: w + 1, height: (d + 1.6) * .58, y: h1 + h2 + .15, ry: Math.PI / 2, material: rng.pick([M.tile, M.tileDark]), gable: wall === M.teak ? M.woodLight : M.teak, battens: frame, pattern: v.pick(['panel', 'sun']), trim: M.darkWood });
+  const roof = { width: d + 1.6, height: (d + 1.6) * .58, y: h1 + h2 + .15, ry: Math.PI / 2, material: rng.pick([M.tile, M.tileDark]), gable: wall === M.teak ? M.woodLight : M.teak, battens: frame, pattern: v.pick(['panel', 'sun']), trim: M.darkWood };
+  if (units === 3 && v.chance(.7)) {
+    // Stepped ridge (หลังคาลดชั้น): the middle room's roof rises above its neighbours.
+    thaiRoof(g, { ...roof, depth: uw + .3, width: d + 1.9, height: (d + 1.9) * .6, y: roof.y + .5 });
+    for (const s of [-1, 1]) thaiRoof(g, { ...roof, x: s * (uw + .25), depth: uw + .5, ends: [s] });
+  } else thaiRoof(g, { ...roof, depth: w + 1 });
   solid(g, 0, 0, w + .2, d + .2);
   return g;
 }

@@ -9,6 +9,7 @@ import { Vegetation } from './Vegetation.js';
 import { buildWater } from './Water.js';
 import { Atmosphere } from './Atmosphere.js';
 import { M } from './materials.js';
+import { resetLooks } from './Architecture.js';
 import { patchMaterial, windUniforms } from './shaders.js';
 import { createRng } from './rng.js';
 import { buildWalls } from './districts/Walls.js';
@@ -114,6 +115,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const terrain = new TerrainData(map.view), occ = new Occupancy();
   seedOccupancy(occ);
   const ctx = new WorldContext(scene, terrain, occ, map);
+  resetLooks();
   lap('terrain');
   // Roofs, thatch and tree bark between the camera and the player dither away.
   for (const m of [M.tile, M.tileDark, M.tileGreen, M.tileOrange, M.thatch, M.thatchDark, M.bark, M.darkBark, M.branch, M.palmBark]) patchMaterial(m, { fade: true });
