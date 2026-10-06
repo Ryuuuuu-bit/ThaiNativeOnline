@@ -8,16 +8,17 @@
 // skills: a kit id from src/classes (CLASS_KITS) — the class's ten skills,
 // their FX and the training dummy in the city.
 // job: rules job (src/rules/data/classes.js JOBS) for the trainee's stats.
+// portrait: head render for the HUD and entry screens (src/ui/icons.js classBadge).
 // ready: true opens the class in the creation screen; every other class shows
 // as a locked black silhouette with "?" until its model and skills are done
 // (?classes=all unlocks them all for testing).
 export const AVATARS = {
   muaythai: {
-    url: 'models/muay-thai-fighter.glb', height: 1.8, skills: 'muaythai', job: 'boxer', ready: true,
+    url: 'models/muay-thai-fighter.glb', portrait: 'ui/portraits/muaythai.png', height: 1.8, skills: 'muaythai', job: 'boxer', ready: true,
     casts: { jab: 'boxer_jab', knee: 'boxer_knee', elbow: 'boxer_elbow', waikru: 'boxer_waikru' },
   },
   herbalist: {
-    url: 'models/herbalist.glb', height: 1.75, skills: 'herbalist', job: 'healer', ready: true,
+    url: 'models/herbalist.glb', portrait: 'ui/portraits/herbalist.png', height: 1.75, skills: 'herbalist', job: 'healer', ready: true,
     casts: { dart: 'cast_book', blight: 'toss', grove: 'kneel_heal', balm: 'raise_sky' },
   },
 };

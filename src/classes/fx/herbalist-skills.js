@@ -97,7 +97,7 @@ function makeBook(fx) {
   root.traverse(o => { if (o.isMesh && o !== sigil) o.castShadow = true; });
   // the closed tome: Tripo model, cover turned outward (away from the caster), ~0.48 tall
   const closed = new THREE.Group(); closed.rotation.y = Math.PI; root.add(closed);
-  new GLTFLoader().loadAsync('models/herbalist-book.glb').then(g => {
+  new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}models/herbalist-book.glb`).then(g => {
     const m = g.scene, box = new THREE.Box3().setFromObject(m), sz = box.getSize(new THREE.Vector3()), k = .48 / sz.y;
     m.scale.setScalar(k); m.position.copy(box.getCenter(new THREE.Vector3()).multiplyScalar(-k));
     m.traverse(o => { if (o.isMesh) { o.castShadow = true; if (o.material.emissive) { o.material.emissive.set(0x2a2208); } } });
@@ -108,7 +108,7 @@ function makeBook(fx) {
 }
 
 // ---- runner ----------------------------------------------------------------------------
-export function createHerbalistSkills({ fx, character, player, dummy, groundHeight, labels }) {
+export function createHerbalistSkills({ fx, character, player, dummy, groundHeight, labels, damage }) {
   const MOVES = Object.fromEntries(HERBALIST_SKILLS.map(s => [s.id, s]));
   const R = { busyUntil: 0, facing: null, time: 0, range: 14 };
   const hero = { barY: 1.95, maxHp: 1000, hp: 700 };
@@ -121,7 +121,14 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
   const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
   const at = (id, fn) => fx.after(MOVES[id].hits[0], fn);
   const heal = (amt, cls = 'heal', glow = true) => { const v = Math.round(amt); hero.hp = Math.min(hero.maxHp, hero.hp + v); fx.popup(headP(hero), '+' + v, cls); if (glow) character.tint?.(C(.3, .9, .3), .2, .5); };
-  const hurt = (amt, crit, push = .2) => tg.hurt(amt, crit, push, hero.pos());
+  const hurt = (amt, crit, push = .2) => {
+    // Rules damage (src/training/damage.js via the training ground) for the skill being cast;
+    // the effect's own number when there is no rules entry (or in the entry-screen preview).
+    const r = damage?.(R.current);
+    if (!r || !r.dmg) return tg.hurt(amt, crit, push, hero.pos());
+    if (!r.hit) return tg.miss();
+    return tg.hurt(r.dmg, r.crit, push, hero.pos(), true);
+  };
   const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
   const lw = new THREE.Vector3(), boneLocal = name => { const b = character.bone?.(name); return b ? fx.toLocal(b.getWorldPosition(lw)) : null; };
   // where spells leave from: the open grimoire while it is out, else the left hand / chest
@@ -450,7 +457,7 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) fx.popup(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ', 'st'); return false; }
-    const dur = SK[id](); R.busyUntil = R.time + dur; return dur;
+    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur; return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; stepBook(dt); };
   Object.defineProperty(R, 'busy', { get: () => R.time < R.busyUntil });

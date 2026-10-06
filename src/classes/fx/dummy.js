@@ -1,11 +1,18 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { V, C, rand, SH } from './engine.js';
 
 // A straw training dummy (หุ่นซ้อม) to hit with skills. It lives in the FX root,
 // so all numbers are in FX-local units (see engine.js K). It takes damage,
 // shows an HP bar, flinches, can be knocked back and stunned, breaks apart at
 // 0 HP and is rebuilt a few seconds later.
+// The look is the wooden DPS dummy model (public/models/training-dummy.glb, a Tripo
+// model decimated in Blender); the simple straw one stands in until it loads (or if it can't).
 // opts: { hp, onHit(event) } — onHit gets { amount, crit, miss, bleed, killed } for damage logs.
+const HEIGHT = 2.05;   // FX units, the same as the old straw dummy
+let model = null;
+const loadModel = () => (model ??= new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}models/training-dummy.glb`).then(g => g.scene));
+
 export function createDummy(fx, labels, at, groundHeight, { hp = 2600, onHit } = {}) {
   const group = new THREE.Group(); fx.add(group);
   const wood = new THREE.MeshStandardMaterial({ color: 0x6b4a2b, roughness: .9 });
@@ -20,6 +27,16 @@ export function createDummy(fx, labels, at, groundHeight, { hp = 2600, onHit } =
   part(new THREE.CylinderGeometry(.035, .035, 1.2, 6), wood, 0, 1.5, 0, 0, Math.PI / 2);
   for (const s of [-1, 1]) part(new THREE.SphereGeometry(.09, 8, 6), straw, s * .6, 1.5, 0);
   const base = new THREE.Mesh(new THREE.CylinderGeometry(.42, .5, .12, 14), wood); base.position.y = .06; base.castShadow = base.receiveShadow = true; group.add(base);
+  // swap in the model: scaled to HEIGHT, feet on the ground, centred; it flashes with the same hit tint
+  const glow = [straw, cloth];
+  loadModel().then(src => {
+    const m = src.clone(true), box = new THREE.Box3().setFromObject(m), k = HEIGHT / (box.max.y - box.min.y);
+    m.scale.setScalar(k); m.position.set(-(box.min.x + box.max.x) / 2 * k, -box.min.y * k, -(box.min.z + box.max.z) / 2 * k);
+    m.traverse(o => { if (!o.isMesh) return; o.castShadow = o.receiveShadow = true; o.material = o.material.clone(); o.material.emissive ??= new THREE.Color(); glow.push(o.material); });
+    for (const c of [...body.children]) { body.remove(c); c.geometry.dispose(); }
+    group.remove(base); base.geometry.dispose();
+    body.add(m); glow.splice(0, 2);
+  }).catch(() => { /* keep the straw dummy */ });
 
   const bar = document.createElement('div'); bar.className = 'fx-hp'; bar.innerHTML = '<i></i>'; labels.appendChild(bar);
   const d = { group, pos: fx.toLocal(at).setY(0), off: V(), alive: true, hp, maxHp: hp, barY: 2.25, stun: false, tint: 0, mob: true };
@@ -64,7 +81,10 @@ export function createDummy(fx, labels, at, groundHeight, { hp = 2600, onHit } =
     // Sit on the real ground even though the FX root follows the player's height.
     const w = fx.toWorld(group.position); group.position.y = (groundHeight(w.x, w.z) - fx.root.position.y) / fx.K;
     d.tint = Math.max(0, d.tint - dt * 4);
-    straw.emissive.setRGB(d.tint * .45, d.tint * .4, d.tint * .3); cloth.emissive.setRGB(d.tint * .35, d.tint * .2, d.tint * .2);
+    for (const m of glow) m.emissive.setRGB(d.tint * .45, d.tint * .38, d.tint * .28);
+    // turn its painted target toward the camera (the side the player hits it from)
+    const cam = fx.cameraLocal(), want = Math.atan2(cam.x - group.position.x, cam.z - group.position.z);
+    group.rotation.y += Math.atan2(Math.sin(want - group.rotation.y), Math.cos(want - group.rotation.y)) * Math.min(1, dt * 3);
     const s = fx.toScreen(V(d.pos.x + d.off.x, d.barY, d.pos.z + d.off.z));
     bar.style.left = s.x + 'px'; bar.style.top = s.y + 'px'; bar.style.display = s.vis && d.alive ? '' : 'none';
     bar.firstChild.style.width = (100 * Math.max(0, d.hp) / d.maxHp) + '%';

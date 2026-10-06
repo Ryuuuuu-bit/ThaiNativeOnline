@@ -16,11 +16,11 @@ const HANUMAN_IMG = img('hanuman_yant.png'), ERAWAN_IMG = img('erawan_yant.png')
 export const SKILL_META = {
   boxer_jab: { lv: 1, cd: 2, desc: 'แย็บ แย็บคู่ แล้วก้าวแย็บ 3 หมัด' },
   boxer_kick: { lv: 2, cd: 4.5, desc: 'เตะก้านคอเต็มแรง กระเด็น มึนงง อ่อนแรง' },
-  boxer_croc: { lv: 4, cd: 7, desc: 'หมุนตัวถีบส้นเท้ากลับหลัง โดนทุกตัวรอบตัว กระเด็น' },
+  boxer_croc: { lv: 4, cd: 7, desc: 'หมุนตัวเตะกลับหลัง โดนทุกตัวรอบตัว 2 ครั้ง' },
   boxer_waikru: { lv: 6, cd: 22, desc: 'ฟื้น HP 20% โจมตี +35% ตีเร็ว +10% 12 วิ' },
   boxer_ngouy: { lv: 8, cd: 18, desc: '★ รับขาแล้วทุ่มศอกลงต้นขา มึนงง เกราะแตก' },
   boxer_drum: { lv: 10, cd: 26, desc: '[ปาร์ตี้] ตีกลองศึก 3 จังหวะ ฟื้น HP บัฟป้องกัน/โจมตี' },
-  boxer_elbow: { lv: 20, cd: 5.5, desc: 'ศอกตัดแล้วหมุนตัวศอกกลับ เลือดไหล' },
+  boxer_elbow: { lv: 20, cd: 5.5, desc: 'ศอกตัดแล้วพลิกศอกเดิมฟาดกลับ เลือดไหล' },
   boxer_knee: { lv: 40, cd: 10, desc: 'กระโดดเข่าลอยเข้าหาเป้า ผีรอบจุดมึน' },
   boxer_iron: { lv: 70, cd: 28, desc: 'คาถามหาอุด ป้องกัน +30% โจมตี +20% ฟื้น HP 12%' },
   boxer_hanuman: { lv: 100, cd: 16, desc: 'แม่ไม้: ปัดหมัดตรง ย่อหลบ แล้วเสยหมัดคู่ขึ้นปลายคาง กระเด็น มึน 1.2 วิ' },
@@ -103,7 +103,7 @@ function auraMat(c) {
 // ---- runner -------------------------------------------------------------------
 // player: THREE.Object3D moved in world space; character: model with attack/has/tint;
 // groundHeight(x, z): world ground height; onMove(): stops the player's own walking.
-export function createBoxerSkills({ fx, character, player, dummy, groundHeight, labels, dim }) {
+export function createBoxerSkills({ fx, character, player, dummy, groundHeight, labels, dim, damage }) {
   const MOVES = Object.fromEntries(MUAYTHAI_SKILLS.map(s => [s.id, s]));
   const R = { busyUntil: 0, facing: null, time: 0, range: 12 };
   const hero = { barY: 1.95, maxHp: 1000, hp: 750 };
@@ -117,7 +117,14 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
   const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
   const hits = (id, fn) => MOVES[id].hits.forEach((t, i) => fx.after(t, () => fn(i)));
   const heal = (amt, cls = 'heal') => { const v = Math.round(amt); hero.hp = Math.min(hero.maxHp, hero.hp + v); fx.popup(hero.pos().setY(hero.barY + .2), '+' + v, cls); character.tint?.(C(.3, .9, .3), .25, .5); };
-  const hurt = (amt, crit, push) => tg.hurt(amt, crit, push, hero.pos());
+  const hurt = (amt, crit, push) => {
+    // Rules damage (src/training/damage.js via the training ground) for the skill being cast;
+    // the effect's own number when there is no rules entry (or in the entry-screen preview).
+    const r = damage?.(R.current);
+    if (!r || !r.dmg) return tg.hurt(amt, crit, push, hero.pos());
+    if (!r.hit) return tg.miss();
+    return tg.hurt(r.dmg, r.crit, push, hero.pos(), true);
+  };
   const near = (P, r) => tg.alive && tg.pos.clone().add(tg.off).distanceTo(P) <= r;
 
   // Tween the player to a local point; a warm afterglow trails behind.
@@ -201,7 +208,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
           for (let k = 0; k < 30; k++) { const a = k / 30 * 6.28; fx.emit({ p: V(P.x + Math.sin(a) * Rr * .85, .35, P.z + Math.cos(a) * Rr * .85), v: V(Math.sin(a) * rand(1.2, 2.6), rand(1.6, 3), Math.cos(a) * rand(1.2, 2.6)), c: Math.random() < .5 ? C(.22, .55, .66) : FOAM, life: .9, size: rand(.07, .12), grav: 7, drag: .4, a: .9 }, fx.PN); }
           fx.shock(P.x, P.z, Rr + .2, C(.6, 1.4, 1.3), WATER, .5); fx.shake = .12;
           if (near(P, Rr + .5)) {
-            hurt(last ? 400 : 200, last, .4); const c = chest(tg);
+            hurt(200, last, .4); const c = chest(tg);
             fx.impact(c, last ? 1.6 : 1.1, C(1, 2, 1.4)); if (last) fx.lightPillar(tg.pos.clone().add(tg.off), C(.5, 1.6, 1.5), 4.5, .6, .8);
             fx.burst(c, 24, { c: [C(.22, .55, .66), FOAM, C(.5, .8, .85)], S: fx.PN, size: .12, sp: 3.2, upMin: .3, upK: 1.3, life: .9, grav: 7, drag: .5, a: .9 });
             const tp = tg.pos.clone().add(tg.off); fx.shock(tp.x, tp.z, .9, FOAM, WATER, .45);
@@ -447,7 +454,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) fx.popup(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ', 'st'); return false; }
-    const dur = SK[id](); R.busyUntil = R.time + dur;
+    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur;
     return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; };

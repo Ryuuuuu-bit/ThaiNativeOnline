@@ -22,6 +22,9 @@ import { QuestUI } from '../ui/QuestUI.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
+import { Sound } from '../audio/Sound.js';
+import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
+import { MUSIC_FOR } from '../data/audio.js';
 
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -147,12 +150,18 @@ export class Game {
       this.world.grass.mesh.geometry.instanceCount = high ? 56000 : 34000;
       this.view.resize();
     });
-    $('sound').addEventListener('click', async () => {
-      const on = await this.audio.toggle();
-      if (on === null) return this.hud.toast('เสียงบรรยากาศ', 'เบราว์เซอร์นี้ไม่รองรับเสียงบรรยากาศ');
+    // Sound (src/audio): the ♫ button mutes everything; volumes live in the settings panel.
+    const syncSound = () => {
+      const on = !Sound.muted;
       $('sound').setAttribute('aria-pressed', String(on)); $('sound').classList.toggle('on', on);
-      $('sound').title = on ? 'ปิดเสียงบรรยากาศ' : 'เปิดเสียงบรรยากาศ'; $('sound').setAttribute('aria-label', $('sound').title);
-    });
+      $('sound').title = on ? 'ปิดเสียง' : 'เปิดเสียง'; $('sound').setAttribute('aria-label', $('sound').title);
+    };
+    $('sound').addEventListener('click', () => { Sound.setMuted(!Sound.muted); syncSound(); });
+    syncSound();
+    mountAudioSettings(settings);
+    Sound.onReady(s => this.audio.start(s.ctx, s.ambienceBus));
+    Sound.music(MUSIC_FOR[this.clock.phase]);
+    this.clock.onPhase(phase => Sound.music(MUSIC_FOR[phase]));
   }
 
   // Character and combat systems (src/character, src/combat). Monsters follow the world clock.
@@ -181,6 +190,7 @@ export class Game {
   // Class avatar (src/training): once the character exists the player wears its class's
   // 3D model; Muay Thai also gets the training dummy in the city.
   startTraining() {
+    bindCombatSounds(this.game);
     this.training = createClassAvatar(this.game.character.classId, {
       scene: this.scene, camera: this.view.camera, renderer: this.renderer, root: $('app'), player: this.player,
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
@@ -314,6 +324,9 @@ export class Game {
       }
     }
     const moved = this.player.move(dir, dt, this.world, this.input.running);
+    // Footsteps, faster when running.
+    this.stepTime = moved ? (this.stepTime ?? 0) + dt : 0;
+    if (this.stepTime > (this.input.running ? .3 : .42)) { this.stepTime = 0; Sound.sfx('step'); }
     this.maps.update(dt, this.elapsed);
     if (this.maps.busy) return;
     if ((!moved && dt > 0 || stalled) && this.destination) {

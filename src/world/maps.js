@@ -25,7 +25,7 @@ export const MAPS = {
     ],
     view: { minX: BOUNDS.minX, maxX: BOUNDS.maxX, minZ: -192, maxZ: BOUNDS.maxZ },
     spawn: { x: 4, z: 151, facing: Math.PI },
-    respawn: [[0, -99], [4, 151]],
+    respawn: [[4, 151], [0, -99]],   // the port spawn first (the north gate only if it is blocked)
     entities: ['boats', 'animals'],
     regions: ['river', 'port', 'fishmkt', 'fishing', 'riverside', 'market', 'merchants', 'smiths', 'training', 'center', 'residential', 'temple', 'city', 'gate'],
     portals: [],

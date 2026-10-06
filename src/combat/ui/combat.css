@@ -12,16 +12,18 @@
 
 /* Skill bar */
 .g-skillbar{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:7px;background:#11241ecc;border:1px solid #cabc8633;border-radius:5px;backdrop-filter:blur(12px)}
-.g-skill{position:relative;width:46px;height:46px;border-radius:4px;border:1px solid #cdb37a55;background:linear-gradient(#2c4136,#1a2c25);overflow:hidden;padding:0}
-.g-skill:hover{border-color:#ecd08f}
+.g-skill{position:relative;width:50px;height:50px;border-radius:5px;border:1px solid #cabc8655;background:linear-gradient(#24372f,#12201b);overflow:hidden;padding:0;transition:transform .12s,border-color .12s}
+.g-skill:hover{border-color:#e1c983;transform:translateY(-2px)}
 .g-skill.active{border-color:#ffd88a;box-shadow:inset 0 0 12px #f1c06966}
 .g-skill.nomp .g-skill-icon{opacity:.35}
-.g-skill-icon{font-size:22px;color:#f1dfae}
-.g-skill kbd{position:absolute;left:2px;top:2px;margin:0;padding:0 3px;font-size:8px}
-.g-skill small{position:absolute;right:3px;bottom:1px;font-size:8px;color:#9fd0ec}
+.g-skill-icon{display:grid;place-items:center;width:100%;height:100%;font-size:22px;color:#f1dfae}
+.g-skill-icon .icon-img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.g-potion .g-skill-icon .icon-img{width:100%;height:100%}
+.g-skill kbd{position:absolute;left:3px;top:3px;margin:0;padding:0 3px;font-size:8px;background:#0b1512cc;border-color:#e1c98355;z-index:2}
+.g-skill small{position:absolute;right:4px;bottom:2px;font-size:9px;font-weight:600;color:#9fd0ec;text-shadow:0 1px 2px #000,0 0 3px #000;z-index:2}
 .g-potion small{color:#fff0c7}
 .g-potion .g-skill-icon{color:#ef8a6a}.g-potion.mp .g-skill-icon{color:#ecc85f}
-.g-cd{position:absolute;left:0;right:0;bottom:0;height:0;background:#000a;pointer-events:none}
+.g-cd{position:absolute;left:0;right:0;bottom:0;height:0;background:#0b0f1ccc;pointer-events:none;z-index:1}
 .g-sep{width:1px;height:34px;background:#cabc8633;margin:0 3px}
 .g-menu{height:46px;padding:0 9px;border-radius:4px;border:1px solid #cdb37a40;background:#1a2c25;font-size:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px}
 .g-menu kbd{margin:0}
@@ -65,3 +67,7 @@
   .g-sep{display:none}
   .g-target{bottom:160px}
 }
+/* Skill art carries its own gold frame: the button then shows the art edge to edge. */
+.g-skill:has(img.icon-img){border-color:transparent;background:#0b1411}
+.g-skill:has(img.icon-img):hover{border-color:transparent;box-shadow:0 0 0 1px #e1c983,0 4px 10px #0008}
+.g-skill.active:has(img.icon-img){box-shadow:0 0 0 2px #ffd88a,0 0 12px #f1c06988}

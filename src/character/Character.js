@@ -206,6 +206,8 @@ export class Character extends Emitter {
       const data = JSON.parse(raw);
       if (!CLASSES[CLASS_ALIASES[data.classId] || data.classId]) return null;
       data.inventory = data.inventory?.map(s => (s && ITEMS[s.id] ? s : null));
+      if (data.equipment) data.equipment = Object.fromEntries(Object.entries(data.equipment).map(([k, id]) => [k, id && ITEMS[id] ? id : null]));
+      if (!(data.hp > 0)) data.hp = undefined;   // never come back stuck at 0 HP (full HP instead)
       return new Character(data);
     } catch { return null; }
   }

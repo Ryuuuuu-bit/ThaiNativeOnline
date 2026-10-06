@@ -1,27 +1,23 @@
-// Optional ambience synthesized locally (no downloads, no autoplay): wind,
+// Ambience synthesized locally (no downloads) on the ambience bus of src/audio/Sound.js: wind,
 // birds by day, crickets at night. Birds fall silent deeper in the forest and
 // a low drone replaces them near the cemetery.
 export class AudioAmbience {
   constructor() { this.enabled = false; this.mood = { night: 0, wild: 0, cemetery: 0 }; }
-  async toggle() {
-    if (!this.context) {
-      const Audio = window.AudioContext || window.webkitAudioContext;
-      if (!Audio) return null;
-      const ctx = this.context = new Audio();
-      this.gain = ctx.createGain(); this.gain.gain.value = 0; this.gain.connect(ctx.destination);
-      const buffer = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate), data = buffer.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * .25;
-      const noise = ctx.createBufferSource(); noise.buffer = buffer; noise.loop = true;
-      this.windFilter = ctx.createBiquadFilter(); this.windFilter.type = 'lowpass'; this.windFilter.frequency.value = 550;
-      noise.connect(this.windFilter); this.windFilter.connect(this.gain); noise.start();
-      this.drone = ctx.createOscillator(); this.drone.type = 'sine'; this.drone.frequency.value = 62;
-      this.droneGain = ctx.createGain(); this.droneGain.gain.value = 0; this.drone.connect(this.droneGain); this.droneGain.connect(this.gain); this.drone.start();
-    }
-    await this.context.resume();
-    this.enabled = !this.enabled;
-    this.gain.gain.setTargetAtTime(this.enabled ? .32 : 0, this.context.currentTime, .35);
-    clearTimeout(this.timer); if (this.enabled) this.schedule();
-    return this.enabled;
+  // Builds the ambience on the shared audio engine (src/audio/Sound.js) and starts it.
+  start(ctx, dest) {
+    if (this.context || !ctx || !dest) return;
+    this.context = ctx;
+    this.gain = ctx.createGain(); this.gain.gain.value = 0; this.gain.connect(dest);
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate), data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * .25;
+    const noise = ctx.createBufferSource(); noise.buffer = buffer; noise.loop = true;
+    this.windFilter = ctx.createBiquadFilter(); this.windFilter.type = 'lowpass'; this.windFilter.frequency.value = 550;
+    noise.connect(this.windFilter); this.windFilter.connect(this.gain); noise.start();
+    this.drone = ctx.createOscillator(); this.drone.type = 'sine'; this.drone.frequency.value = 62;
+    this.droneGain = ctx.createGain(); this.droneGain.gain.value = 0; this.drone.connect(this.droneGain); this.droneGain.connect(this.gain); this.drone.start();
+    this.enabled = true;
+    this.gain.gain.setTargetAtTime(.32, ctx.currentTime, .8);
+    this.setMood(this.mood); this.schedule();
   }
   setMood(mood) {
     this.mood = mood;

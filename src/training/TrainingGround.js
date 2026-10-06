@@ -7,6 +7,8 @@ import { CLASS_KITS } from '../classes/index.js';
 import { hitChanceOf } from '../rules/stats.js';
 import { jobDerived, rollSkill } from './damage.js';
 import { AVATARS, avatarFor, TRAINING } from '../data/training.js';
+import { Sound } from '../audio/Sound.js';
+import { playSkillSound } from '../audio/gameSounds.js';
 import './training.css';
 
 // Class avatars and the city training ground. The player wears its class's
@@ -48,7 +50,7 @@ export function createClassAvatar(classId, opts) {
 
 export class TrainingGround {
   constructor({ scene, camera, renderer, root, player, canStand, groundHeight }, avatar, kit) {
-    this.kit = kit; this.keys = kit.skills.map(s => s.key);
+    this.kit = kit; this.kitId = avatar.skills; this.keys = kit.skills.map(s => s.key);
     const q = new URLSearchParams(location.search), num = (k, d) => (q.has(k) && Number.isFinite(Number(q.get(k))) ? Number(q.get(k)) : d);
     const f = TRAINING.fighter;
     this.level = num('lv', f.level); this.skillLevel = Math.max(1, Math.min(5, num('skill', f.skillLevel)));
@@ -63,7 +65,7 @@ export class TrainingGround {
     this.labels = $el('div', 'fx-labels'); this.dim = $el('div', 'fx-dim'); this.vignette = $el('div', 'fx-vignette');
     root.append(this.vignette, this.dim, this.labels);
     // FX units are sized for a 2.6 m character; scale them to this one.
-    this.fx = createFx({ scene, camera, renderer, labels: this.labels, scale: FOREST_K * avatar.height / 2.6 });
+    this.fx = createFx({ scene, camera, renderer, labels: this.labels, size: FOREST_K * avatar.height / 2.6 });
     window.addEventListener('resize', () => this.fx.resize());
 
     this.stats = { total: 0, hits: 0, crits: 0, misses: 0, first: 0, last: 0, bySkill: {}, log: [] };
@@ -91,6 +93,9 @@ export class TrainingGround {
     this.dummy = createDummy(this.fx, this.labels, this.spot, this.groundHeight, { hp: d.hp, onHit: e => this.record(e) });
     this.skills = this.kit.createSkills({ fx: this.fx, character: this.character, player: this.player.group, dummy: this.dummy, groundHeight: this.groundHeight, labels: this.labels, dim: this.dim, damage: id => this.roll(id) });
     this.skills.range = TRAINING.range;
+    // Every successful cast (keys, clicks or auto) gets the skill's own sounds (SKILL_SFX).
+    const cast = this.skills.cast;
+    this.skills.cast = (id, quiet) => { const r = cast(id, quiet); if (r !== false) this.lastSkill = id; if (r !== false) playSkillSound(this.kit.skills.find(k => k.id === id) ?? { id }, this.kitId); return r; };
     this.hotbar = createHotbar(this.labels.parentElement, this.skills, this.kit.skills, 'สกิล' + this.kit.name);
   }
 
@@ -150,6 +155,7 @@ export class TrainingGround {
     s.log.unshift(e.miss ? { id, text: 'MISS', cls: 'miss' } : { id, text: String(e.amount), cls: e.bleed ? 'bleed' : e.crit ? 'crit' : '' });
     s.log.length = Math.min(s.log.length, TRAINING.log);
     if (e.killed) s.log.unshift({ id: 'ko', text: 'หุ่นแตก!', cls: 'ko' });
+    Sound.sfx(e.killed ? 'kill' : e.miss ? 'miss' : e.bleed ? 'player_hurt' : e.crit ? 'hit_crit' : 'hit', { volume: e.bleed ? .4 : 1 });
     this.dirty = true;
   }
   reset() { this.stats = { total: 0, hits: 0, crits: 0, misses: 0, first: 0, last: 0, bySkill: {}, log: [] }; this.renderPanel(); }

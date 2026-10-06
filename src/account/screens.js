@@ -2,6 +2,7 @@ import { ACCOUNTS } from '../data/accounts.js';
 import { CLASSES, CLASS_ALIASES } from '../character/data/classes.js';
 import { el, esc } from '../character/ui/dom.js';
 import { ModelPreview } from '../ui/ModelPreview.js';
+import { classBadge } from '../ui/icons.js';
 
 // Login and character-select screens. Both are overlays over #app and resolve
 // a Promise; src/account/index.js chains them before the world starts.
@@ -116,7 +117,7 @@ function slotCard({ slot, character: c }) {
   const cls = CLASSES[CLASS_ALIASES[c.classId] || c.classId];
   return `<div class="acc-slot" style="--cls:${cls?.color ?? '#cabc86'}">
     <button type="button" class="acc-play" data-play="${slot}" aria-label="เล่น ${esc(c.name)}">
-      <span class="acc-icon">${cls?.icon ?? '?'}</span>
+      <span class="acc-icon">${classBadge(CLASS_ALIASES[c.classId] || c.classId, cls, { size: 34 })}</span>
       <b>${esc(c.name)}</b>
       <em>${esc(cls?.name ?? c.classId)} · Lv.${c.level ?? 1}</em>
       <small>${c.gender === 'female' ? 'หญิง' : 'ชาย'} · ${(c.gold ?? 0).toLocaleString()} ทอง</small>

@@ -39,7 +39,7 @@ export class ModelPreview {
     const r = this.renderer;
     r.setPixelRatio(Math.min(devicePixelRatio, 2));
     r.outputColorSpace = THREE.SRGBColorSpace; r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.1;
-    r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFShadowMap;
     host.appendChild(r.domElement);
 
     this.scene = new THREE.Scene();
@@ -82,7 +82,7 @@ export class ModelPreview {
     let last = performance.now();
     const frame = now => {
       this.raf = requestAnimationFrame(frame);
-      const dt = Math.max(0, Math.min((now - last) / 1000, .05)); last = now; this.time += dt;
+      const dt = Math.max(0, Math.min((now - last) / 1000, .05)); last = now;
       this.step(dt);
       if (this.current?.kit) keepAlpha(this.current.kit.fx.root);
       r.render(this.scene, this.camera);
@@ -99,8 +99,9 @@ export class ModelPreview {
     this.host.classList.toggle('loading', !!e && !e.loaded);
     if (kit) {
       kit.skills.update(sdt);
-      if (kit.skills.busy) this.hold = HOLD;
-      else if (this.demoOn && (this.hold -= dt) <= 0) this.endDemo();
+      // the demo lasts while the skill plays and its effects run (a ward can outlive the cast), at most 6 s past it
+      if (kit.skills.busy) { this.hold = HOLD; this.tail = 6; }
+      else if (this.demoOn && ((this.tail -= dt) <= 0 || (kit.fx.tasks === 0 ? (this.hold -= dt) <= 0 : false))) this.endDemo();
       kit.fx.update(sdt, this.time, 0); kit.dummy.update(sdt);
       if (!kit.dummy.group.visible) kit.bar.style.display = 'none';
       this.vignette.style.opacity = kit.fx.mood.toFixed(3);
@@ -153,7 +154,7 @@ export class ModelPreview {
       entry.ready.then(() => { if (!this.disposed) this.kitOf(entry); });
       this.models.set(avatar.url, entry);
     }
-    if (this.current !== entry) this.endDemo(true);
+    if (this.current !== entry) { if (this.current?.kit) this.stopKit(this.current); this.endDemo(true); }
     for (const e of this.models.values()) { e.character.group.visible = e === entry; if (e.kit) e.kit.fx.root.visible = e === entry; }
     this.current = entry; this.place(0);
     return entry.ready;
@@ -168,7 +169,9 @@ export class ModelPreview {
     dummy.group.visible = false;
     const ground = () => 0;
     const skills = def.createSkills({ fx, character: entry.character, player: entry.character.group, dummy, groundHeight: ground, labels: this.labels, dim: this.dim, damage: () => null });
-    entry.kit = { def, fx, dummy, skills, bar };
+    // what the kit keeps for good (particles, lights, dummy, the herbalist's book); anything else in the FX root is a skill's
+    const keep = new Set(fx.root.children);
+    entry.kit = { def, fx, dummy, skills, bar, keep };
     fx.root.visible = entry === this.current;
     return entry.kit;
   }
@@ -182,6 +185,16 @@ export class ModelPreview {
     e.character.group.position.set(0, 0, 0);
     kit.dummy.group.visible = true; this.demoOn = true; this.hold = HOLD;
     return kit.skills.cast(id, true) !== false;
+  }
+  // Leaving a class mid-skill: drop its effects and timers so nothing resumes later.
+  stopKit(entry) {
+    const { fx, skills, bar, keep } = entry.kit;
+    fx.clearTasks();
+    for (const o of [...fx.root.children]) if (!keep.has(o)) fx.kill(o); skills.busyUntil = skills.time; skills.facing = null;
+    fx.mood = fx.moodTarget = 0; fx.stop = 0; fx.shake = 0; fx.punchV = 0;
+    bar.style.display = 'none'; this.dim.style.opacity = '0'; this.vignette.style.opacity = '0';
+    this.labels.querySelectorAll('.fx-combo, .fx-pop').forEach(el => el.remove());
+    entry.character.group.position.set(0, 0, 0);
   }
   endDemo(now = false) {
     this.demoOn = false;

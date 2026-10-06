@@ -101,6 +101,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
   fx.addTask = fn => tasks.push({ fn, t: 0 });
   fx.after = (s, fn) => fx.addTask((dt, t) => { if (t >= s) { fn(); return false; } });
   fx.clearTasks = () => { tasks = []; };
+  Object.defineProperty(fx, 'tasks', { get: () => tasks.length });
 
   // ---- labels ----------------------------------------------------------------
   fx.popup = (p, text, cls = 'heal') => {

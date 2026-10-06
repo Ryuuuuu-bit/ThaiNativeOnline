@@ -5,6 +5,7 @@ import { SKILLS } from '../data/skills.js';
 import { ITEMS } from '../../character/data/items.js';
 import { el, pct, setBar } from '../../character/ui/dom.js';
 import './combat.css';
+import { iconHtml } from '../../ui/icons.js';
 
 export class CombatHUD {
   /**
@@ -29,7 +30,7 @@ export class CombatHUD {
     this.bar = el('div', 'g-skillbar');
     this.skillButtons = this.c.cls.skills.map((id, i) => {
       const s = SKILLS[id];
-      const b = el('button', 'g-skill', `<span class="g-skill-icon">${s.icon}</span><kbd>${i + 1}</kbd><i class="g-cd"></i><small>${s.mp ? s.mp : ''}</small>`);
+      const b = el('button', 'g-skill', `<span class="g-skill-icon">${iconHtml(s)}</span><kbd>${i + 1}</kbd><i class="g-cd"></i><small>${s.mp ? s.mp : ''}</small>`);
       b.title = `${s.name}${s.mp ? ` · MP ${s.mp}` : ''}${s.cd ? ` · คูลดาวน์ ${s.cd} วิ` : ''}`;
       b.setAttribute('aria-label', s.name); b.dataset.skill = id;
       b.addEventListener('click', () => this.combat.useSkill(id));
@@ -38,6 +39,12 @@ export class CombatHUD {
     if (potions.length) this.bar.append(el('span', 'g-sep'), ...potions);
     if (menus.length) this.bar.append(el('span', 'g-sep'), ...menus);
     this.layer.append(this.bar);
+  }
+  // Safe zone: the combat skills (1–4) are hidden; potions and menus stay.
+  setSafe(on) {
+    this.safe = on;
+    for (const b of this.skillButtons) b.hidden = on;
+    const sep = this.bar.children[this.skillButtons.length]; if (sep?.classList.contains('g-sep')) sep.hidden = on;
   }
   buildDeath() {
     this.death = el('section', 'g-death', `<h2>คุณหมดสติ</h2><p>วิญญาณยังไม่ไปไหน กลับไปตั้งหลักที่จุดปลอดภัย<br><small>เสียทอง 10% ที่ติดตัว</small></p><button>ฟื้นคืนชีพ</button>`);
@@ -73,6 +80,11 @@ export class CombatHUD {
     const first = this.isNight === undefined; this.isNight = night;
     document.body.classList.toggle('g-night', night);
     if (first && !night) return;
+    if (this.safe) {
+      if (night) { feed.banner('ราตรีมาเยือน', 'ตะเกียงริมน้ำถูกจุดทั่วพระนคร · ลานซ้อมยังเปิด'); feed.log('ค่ำแล้ว แสงตะเกียงสะท้อนผิวน้ำเจ้าพระยา', 'epic'); }
+      else { feed.banner('อรุณรุ่ง', 'ระฆังวัดดังทั่วพระนคร · ตลาดเช้าเริ่มคึกคัก'); feed.log('เช้าแล้ว พระออกบิณฑบาตริมคลอง', 'gold'); }
+      return;
+    }
     if (night && this.c.cls.nightCrit) feed.log(`ยามค่ำคืน ${this.c.cls.name}คริติคอล +${this.c.cls.nightCrit * 100}%`, 'epic');
     if (night) { feed.banner('ราตรีมาเยือน', 'ภูตผีออกเดิน · EXP +25% · ผีแรงขึ้น · ระวัง Rare Monster'); feed.log('ค่ำแล้ว สัตว์ป่ากลับรัง ผีป่าเริ่มออกหากิน', 'epic'); }
     else { feed.banner('อรุณรุ่ง', 'ผีกลับคืนสู่เงามืด ป่ากลับมาสงบ'); feed.log('เช้าแล้ว สัตว์ป่ากลับมาหากิน', 'gold'); }
@@ -81,6 +93,7 @@ export class CombatHUD {
   // Returns true when the key was handled.
   handleKey(e) {
     const k = e.code;
+    if (this.safe && (/^Digit[1-4]$/.test(k) || k === 'Tab' || k === 'Space')) return false;
     if (/^Digit[1-4]$/.test(k)) { this.combat.useSkill(this.c.cls.skills[Number(k.slice(5)) - 1]); return true; }
     if (k === 'Tab') { e.preventDefault(); this.combat.cycleTarget(); return true; }
     if (k === 'Space') { e.preventDefault(); this.combat.useSkill(this.combat.basicSkillId()); return true; }

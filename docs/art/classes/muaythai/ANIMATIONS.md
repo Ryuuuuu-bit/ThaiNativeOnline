@@ -22,11 +22,11 @@
 | – | ล้ม | `die` | 1.6 | – | – |
 | 1 | หมัดแย็บ | `boxer_jab` | 1.0 | 0.20 / 0.40 / 0.62 | jab |
 | 2 | เตะก้านคอ | `boxer_kick` | 1.1 | 0.45 | front kick |
-| 3 | จระเข้ฟาดหาง | `boxer_croc` | 1.4 | 0.62 | jab-cross |
+| 3 | จระเข้ฟาดหาง | `boxer_croc` | 1.4 | 0.55 / 0.85 | jab-cross |
 | 4 | ไหว้ครูรำมวย | `boxer_waikru` | 3.2 | (บัฟ) | – |
 | 5 | หักงวงไอยรา | `boxer_ngouy` | 1.6 | 0.95 | jab-cross |
 | 6 | กลองมังคละปลุกใจ | `boxer_drum` | 2.6 | 0.40 / 0.85 / 1.30 | jab |
-| 7 | ศอกกลับพลิกล็อก | `boxer_elbow` | 1.0 | 0.22 / 0.60 | jab-cross |
+| 7 | ศอกกลับพลิกล็อก | `boxer_elbow` | 0.9 | 0.25 / 0.48 | jab-cross |
 | 8 | เข่าลอยทะลวงฟ้า | `boxer_knee` | 1.2 | 0.60 | teep |
 | 9 | กายเหล็กคาถามหาอุด | `boxer_iron` | 2.4 | (บัฟ) | – |
 | 0 | หนุมานถวายแหวน | `boxer_hanuman` | 1.6 | 0.34 ปัด · 0.78 เสยคู่ | แม่ไม้: ก้าวขวาออกข้าง ปัดหมัดตรงด้วยหมัดซ้าย ย่อหลบ เสยหมัดคู่ขึ้นปลายคาง |
@@ -69,7 +69,7 @@ Muay Thai fighter loading and throwing a full-power rear-leg high roundhouse kic
 
 **3 · จระเข้ฟาดหาง `boxer_croc`**
 ```
-Muay Thai fighter performing a spinning back kick ("crocodile tail whip"): the lead foot steps across in front, he spins clockwise on it looking over the right shoulder to spot the target, chambers the right knee and drives the heel straight back into the target at chest height, trunk leaning away; the heel lands at 0.62 seconds, the leg folds back and he turns back into guard. Total 1.4 seconds.
+Muay Thai fighter performing a spinning back heel kick ("crocodile tail whip") twice in a row: spin backward over the lead shoulder, rear leg whips out straight in a wide horizontal circle at body height, heel lands at 0.55 seconds, continue the momentum into a second spinning whip landing at 0.85 seconds. Arms tight during spins. Ends facing the starting direction. Total 1.4 seconds.
 ```
 
 **4 · ไหว้ครูรำมวย `boxer_waikru`**
@@ -89,7 +89,7 @@ Muay Thai fighter beating a large war drum standing in front of him: wide strong
 
 **7 · ศอกกลับพลิกล็อก `boxer_elbow`**
 ```
-Muay Thai fighter throwing a lead horizontal elbow at 0.22 seconds (hips and shoulders turn into it, upper arm level, forearm folded tight), then stepping the lead foot across and spinning clockwise into a spinning back elbow with the rear arm landing at 0.6 seconds, coming round into guard. Total 1.0 second.
+Muay Thai fighter throwing ศอกตัด then ศอกกลับ with the same rear (right) arm, no spin: the hips and shoulders whip round to the left on the ball of the rear foot and the right elbow, forearm folded tight, cuts across at chin height (fist ends by the left ear) at 0.25 seconds; then the body snaps back to the right and the same elbow comes back outward, point first, a backhand elbow along the same line, at 0.48 seconds. Lead glove stays up. Total 0.9 seconds.
 ```
 
 **8 · เข่าลอยทะลวงฟ้า `boxer_knee`**

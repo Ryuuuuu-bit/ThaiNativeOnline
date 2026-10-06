@@ -59,7 +59,7 @@
 .shop-row{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #cabc8626;background:#0d1d1866;border-radius:3px;padding:7px 9px}
 .shop-row:hover:not(:disabled){border-color:#e3c47a90}
 .shop-row:disabled{opacity:.45;cursor:not-allowed}
-.shop-row i{font-style:normal;font-size:18px;width:24px;text-align:center}
+.shop-row i{flex:none;font-style:normal;font-size:18px;min-width:24px;text-align:center}
 .shop-row span{flex:1;display:flex;flex-direction:column}
 .shop-row b{font-weight:500;font-size:12px}
 .shop-row small{font-size:9px;color:#a9b49e}
@@ -71,3 +71,8 @@
 @media(pointer:coarse){.controls span{display:none}}
 /* Short screens (landscape phones, small windows): keep only the essentials so panels do not overlap. */
 @media(max-height:500px){.topbar{top:8px}.location .tiny,.weather{display:none}.location h1{font-size:18px;margin:0}.brand-seal{width:32px;height:32px;font-size:20px}.character{top:52px;padding:7px 9px;width:200px}.portrait{width:32px;height:38px;font-size:24px}.exploration{top:192px;padding:8px 11px;width:200px}.exploration .eyebrow,.exploration h2,.exploration p{display:none}.quest-line{border-top:0;padding-top:0;margin-top:0}.minimap{top:52px;width:150px;padding:7px}#minimap{height:92px}.mini-footer{display:none}.map-caption{display:none}.bottom{bottom:8px}.controls{padding:6px 9px;gap:8px}}
+/* Class badge (src/ui/icons.js): a framed portrait or a gold line emblem, tinted by the class colour. */
+.cls-badge{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;overflow:hidden;color:#e8cf8e;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--cls,#cabc86) 35%,#22342f),#0e1915);border:1px solid color-mix(in srgb,var(--cls,#cabc86) 70%,#e1c983);box-shadow:0 0 0 2px #0b141199,0 0 10px color-mix(in srgb,var(--cls,#cabc86) 35%,transparent)}
+.cls-badge img{width:100%;height:100%;object-fit:cover;display:block}
+.icon-glyph{line-height:1}
+.shop-row i .icon-img{width:32px;height:32px;display:block;image-rendering:pixelated;border-radius:3px;box-shadow:0 0 0 1px var(--rar,#e9dfc0)}

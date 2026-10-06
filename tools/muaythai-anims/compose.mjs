@@ -13,7 +13,7 @@ const G = sample(R, TEEP, 0);                       // orthodox guard
 const hip0 = G.get(HIPS).t.clone();
 const pin = p => { const h = p.get(HIPS).t; h.x = hip0.x; h.z = hip0.z; return p; };
 const at = (anim, t) => pin(sample(R, anim, t));
-const P = { G };
+const P = { G, FK0: at(KICK, 0.5), FK: at(KICK, 0.83), FK1: at(KICK, 1.05) };   // the source "front kick" is really a spinning kick
 // Point bone->child along a world direction (blend w).
 function aim(p, bone, child, dir, w = 1) {
   const a = worldPos(R, p, B(bone)), b = worldPos(R, p, B(child));
@@ -194,7 +194,7 @@ function groundFeet(p) {
 }
 // Clips where the fighter's hands are closed fists (not the wai or falling).
 // Clips posed from bones (not the procedural fighter, which curls its own fists).
-const FISTS = new Set(['boxer_drum', 'boxer_iron']);
+const FISTS = new Set(['boxer_croc', 'boxer_drum', 'boxer_iron']);
 const ease = u => u * u * (3 - 2 * u);
 const easeIn = u => u * u * u;                 // accelerate into a hit
 const easeOut = u => 1 - Math.pow(1 - u, 2.4); // decelerate into a wind-up
@@ -206,7 +206,7 @@ function build(name, dur, keys, fx, gen) {
     const [t0, a] = keys[k], [t1, b, e = ease] = keys[Math.min(k + 1, keys.length - 1)];
     const u = t1 > t0 ? e(Math.min(1, (t - t0) / (t1 - t0))) : 0;
     const p = gen ? gen(t, { a, b }, u) : blend(a, b, u); fx?.(t, p);
-    if (name !== 'die') capLean(p, 58);
+    if (name !== 'die') capLean(p, name === 'boxer_waikru' ? 80 : 58);   // the prostration bows lower
     groundFeet(p);
     if (FISTS.has(name)) { fist(R, p, B, 'Left'); fist(R, p, B, 'Right'); }
     frames.push(p);
@@ -274,40 +274,22 @@ buildP('boxer_jab', 1.0, [
     Rh: { at: [-0.16, -0.3, -0.02], pole: [-0.3, -0.4, -1], palm: [0.6, 0, -0.8], sh: 0 } });
   const impact = withP(chamber, { hip: [0.06, -0.01, 0.07], hipYaw: 1.45, twist: -0.5, lean: -0.32, side: -0.32, look: 0.8,
     L: { x: 0.12, z: 0.17, yaw: 1.55, heel: 0.5, up: 0 },
-    R: { x: 0.17, z: 0.41, yaw: 1.4, up: 0.62, pole: [1, 0.25, 0], point: 0.9 },
+    R: { x: 0.2, z: 0.48, yaw: 1.4, up: 0.67, pole: [1, 0.25, 0], point: 0.9 },
     Lh: { at: [0.1, -0.06, 0.13], pole: [0.6, -1, 0], palm: [-0.7, 0, -0.7], sh: 0.08 },
     Rh: { at: [-0.25, -0.4, -0.12], pole: [-0.3, -0.2, -1], palm: [0.3, 0, -1], sh: 0 } });
   const through = withP(impact, { hipYaw: 1.75, twist: -0.45, lean: -0.24, side: -0.24,
-    L: { ...impact.L, yaw: 1.7 }, R: { x: 0.24, z: 0.3, yaw: 1.7, up: 0.42, pole: [1, 0.2, -0.3], point: 0.8 } });
+    L: { ...impact.L, yaw: 1.7 }, R: { x: 0.3, z: 0.36, yaw: 1.7, up: 0.48, pole: [1, 0.2, -0.3], point: 0.8 } });
   const recoil = withP(chamber, { hip: [0.03, 0.02, 0.04], hipYaw: 0.5, twist: -0.25, lean: 0, side: -0.05,
     L: { x: 0.12, z: 0.17, yaw: 1.0, heel: 0.25, up: 0 }, R: { x: -0.05, z: 0.0, yaw: -0.2, up: 0.13, pole: [0.3, 0, 1], point: 0.4 },
     Rh: { ...S0.Rh, at: [-0.08, -0.12, 0.05] } });
   const land = withP(S0, { hip: [0.02, 0.025, 0.0], hipYaw: -0.2, L: { x: 0.11, z: 0.15, yaw: 0.2, heel: 0, up: 0 } });
   buildP('boxer_kick', 1.1, [[0, S0], [0.14, stepOut, ease], [0.3, chamber, ease], [0.45, impact, easeIn], [0.52, impact], [0.62, through, easeOut], [0.8, recoil, ease], [0.93, land, ease], [1.1, S0, ease]]);
 }
-// จระเข้ฟาดหาง, spinning back kick (hit 0.62 s): the lead foot steps across in front,
-// the fighter spins clockwise on it (looking over the right shoulder to spot the
-// target), chambers the right knee and drives the heel straight back into the target
-// at chest height, the trunk leaning away; the leg folds back and he turns back into guard.
-{
-  const S0 = STANCE;
-  const cross = withP(S0, { hip: [-0.03, 0.03, 0.01], hipYaw: -1.35, twist: -0.35, lean: 0.05,
-    L: { x: -0.03, z: 0.06, yaw: -1.5, heel: 0.15, up: 0 }, R: { ...S0.R, heel: 0.6 },
-    Lh: { ...S0.Lh, at: [0.04, -0.06, 0.12] } });
-  const spin = withP(cross, { hip: [-0.03, 0.02, 0.0], hipYaw: -2.55, twist: -0.45, lean: -0.3, look: 1,
-    L: { x: -0.03, z: 0.06, yaw: -2.6, heel: 0.3, up: 0 },
-    R: { x: -0.0, z: 0.0, yaw: -2.6, up: 0.2, pole: [0, -0.2, -1], point: 0.1 },
-    Lh: { at: [0.04, -0.08, 0.06], pole: [0.3, -1, 0], palm: [-0.8, 0, -0.5], sh: 0 }, Rh: { at: [-0.05, -0.08, 0.05], pole: [-0.3, -1, 0], palm: [0.6, 0, 0.8], sh: 0 } });
-  const kick = withP(spin, { hip: [-0.03, 0.005, -0.05], hipYaw: -3.0, twist: -0.15, lean: -1.0, side: 0,
-    L: { x: -0.03, z: 0.06, yaw: -2.95, heel: 0.25, up: 0 },
-    R: { x: -0.02, z: 0.42, yaw: -3.1, up: 0.47, pole: [0, -1, 0], point: 0 } });
-  const back = withP(spin, { hipYaw: -2.4, lean: -0.2, R: { x: -0.02, z: 0.02, yaw: -2.4, up: 0.15, pole: [0, -0.2, -1], point: 0.2 } });
-  const turn = withP(cross, { hipYaw: -1.2, R: { ...S0.R, heel: 0.3 }, L: { x: 0.02, z: 0.08, yaw: -0.9, heel: 0.2, up: 0 } });
-  buildP('boxer_croc', 1.4, [[0, S0], [0.18, cross, ease], [0.4, spin, ease], [0.62, kick, easeIn], [0.7, kick], [0.86, back, easeOut], [1.06, turn, ease], [1.4, S0, ease]], (t, c) => {
-    // spot the target: the head turns ahead of the body through the spin
-    if (t > 0.18 && t < 0.86) c.look = 1;
-  });
-}
+// จระเข้ฟาดหาง (hits 0.55 / 0.85 s): the fighter's own spinning kick from the Tripo clip,
+// turned twice round — two whips of the tail.
+build('boxer_croc', 1.4, [[0, P.G], [0.25, P.FK0], [0.55, P.FK], [0.7, P.FK0], [0.85, P.FK], [1.05, P.FK1], [1.4, P.G]], (t, p) => {
+  const u = Math.min(1, Math.max(0, (t - 0.15) / 0.95)); spinY(p, -TAU * 2 * ease(u));
+});
 // War drum in front: alternate left / right beats, then both fists together.
 // Stroke follows a real drummer's whip ("lead with the elbow"): raise with the
 // elbow high and the fist cocked behind the head -> the elbow drops forward
@@ -343,14 +325,16 @@ buildP('boxer_jab', 1.0, [
   // one stroke landing at time h: raise -> lead -> whip -> strike -> rebound
   const stroke = (h, from) => [[h - .2, 'raise', easeOut], [h - .09, 'lead', ease], [h - .035, 'whip', easeIn], [h, 'strike', easeIn], [h + .1, 'rebound', easeOut]];
   const L = track([[0, 'guard'], ...stroke(.4), [.55, 'ready', ease], [.92, 'ready'], ...stroke(1.3), [1.5, 'ready', ease], [1.85, 'hips', ease], [2.25, 'hips'], [2.6, 'guard', ease]]);
-  const Rt = track([[0, 'guard'], [.2, 'ready', easeOut], [.45, 'ready'], ...stroke(.85), [1.0, 'ready', ease], [1.1, 'raise', easeOut], ...stroke(1.3).slice(1), [1.5, 'ready', ease], [1.85, 'hips', ease], [2.25, 'hips'], [2.6, 'guard', ease]]);
+  const Rt = track([[0, 'guard'], [.2, 'ready', easeOut], [.45, 'ready'], ...stroke(26 / 30), [1.0, 'ready', ease], [1.1, 'raise', easeOut], ...stroke(1.3).slice(1), [1.5, 'ready', ease], [1.85, 'hips', ease], [2.25, 'hips'], [2.6, 'guard', ease]]);
   // body: open up and rise on the wind-up (inhale), twist toward the striking arm, drop the hips on impact (exhale)
-  const body = (yawA, bendA, neck, h) => mk(P.G, p => { yaw(p, yawA); bend(p, bendA); bend(p, neck, 'Neck'); lift(p, h); return p; });
-  const Bd = { upL: body(.25, -.12, -.05, .012), hitL: body(-.15, .32, .12, -.05), upR: body(-.25, -.12, -.05, .012), hitR: body(.15, .32, .12, -.05),
+  // a wide, square drummer's stance (out of the bladed guard) under every beat
+  const SQ = fighter(withP(STANCE, { hip: [0, 0.035, 0], hipYaw: 0, twist: 0, lean: 0.05, L: { x: 0.11, z: 0.02, yaw: 0.3, heel: 0, up: 0 }, R: { x: -0.11, z: -0.02, yaw: -0.3, heel: 0, up: 0 }, fist: [0, 0] }));
+  const body = (yawA, bendA, neck, h) => mk(SQ, p => { yaw(p, yawA); bend(p, bendA); bend(p, neck, 'Neck'); lift(p, h); return p; });
+  const Bd = { upL: body(.25, -.12, -.05, .012), hitL: body(-.2, .4, .12, -.06), upR: body(-.25, -.12, -.05, .012), hitR: body(.2, .4, .12, -.06),
     upB: body(0, -.2, -.15, .02), hitB: body(0, .45, .15, -.075), proud: body(0, -.18, -.12, 0) };
   build('boxer_drum', 2.6, [
     [0, P.G], [0.2, Bd.upL, easeOut], [0.4, Bd.hitL, easeIn], [0.52, blend(Bd.hitL, Bd.upL, .4), easeOut],
-    [0.65, Bd.upR, ease], [0.85, Bd.hitR, easeIn], [0.97, blend(Bd.hitR, Bd.upR, .4), easeOut],
+    [0.65, Bd.upR, ease], [26 / 30, Bd.hitR, easeIn], [0.97, blend(Bd.hitR, Bd.upR, .4), easeOut],
     [1.1, Bd.upB, ease], [1.3, Bd.hitB, easeIn], [1.45, blend(Bd.hitB, Bd.upB, .35), easeOut],
     [1.85, Bd.proud, ease], [2.25, Bd.proud], [2.6, P.G, ease],
   ], (t, p) => {
@@ -416,15 +400,15 @@ const WAI_FLEX = -1.5;
     L: { x: 0.07, z: 0.0, yaw: 0.15, heel: 0, up: 0 }, R: { x: -0.07, z: -0.01, yaw: -0.15, heel: 0, up: 0 }, ...wai(-0.17, 0.11) });
   const kneel = withP(square, { hip: [0, 0.35, -0.02], lean: 0.08, chin: 0.15,
     L: { x: 0.065, z: -0.12, yaw: 0, heel: 1.25, up: 0, pole: [0.05, -0.5, 1] }, R: { x: -0.065, z: -0.12, yaw: 0, heel: 1.25, up: 0, pole: [-0.05, -0.5, 1] } });
-  const bow = withP(kneel, { hip: [0, 0.37, -0.04], lean: 1.15, chin: 0.25,
-    Lh: { at: [0.08, -0.62, 0.12], pole: [0.5, 0.2, -1], palm: [0, -1, 0], sh: 0, flex: -1.0 }, Rh: { at: [-0.08, -0.62, 0.12], pole: [-0.5, 0.2, -1], palm: [0, -1, 0], sh: 0, flex: -1.0 } });
+  const bow = withP(kneel, { hip: [0, 0.38, -0.04], lean: 1.3, chin: 0.25,
+    Lh: { at: [0.07, -0.42, 0.14], pole: [0.5, 0.2, -1], palm: [0, -1, 0], sh: 0, flex: -1.0 }, Rh: { at: [-0.07, -0.42, 0.14], pole: [-0.5, 0.2, -1], palm: [0, -1, 0], sh: 0, flex: -1.0 } });
   const headWai = withP(kneel, { lean: 0.15, chin: 0.3, ...wai(0.02, 0.09) });
   const rise = withP(square, { hip: [0, 0.03, 0], ...wai(-0.14, 0.11) });
   const ram = withP(square, { hip: [-0.03, 0.03, 0.01], hipYaw: -0.15, lean: 0.06, chin: 0.05, fist: [0.2, 0.2],
     L: { x: 0.06, z: 0.1, yaw: 0.1, heel: 0, up: 0.17, pole: [0.1, 0.2, 1], point: 0.6 }, R: { x: -0.06, z: -0.02, yaw: -0.3, heel: 0, up: 0 },
     Lh: { at: [0.25, -0.12, 0.12], pole: [0.3, -0.6, -1], palm: [0, -1, 0.2], sh: 0, flex: -0.4 }, Rh: { at: [-0.22, -0.12, 0.06], pole: [-0.3, -0.6, -1], palm: [0, -1, 0.2], sh: 0, flex: -0.4 } });
   const stepDown = withP(S0, { hipYaw: -0.3, fist: [0.6, 0.6] });
-  buildP('boxer_waikru', 3.2, [[0, S0], [0.3, square, ease], [0.75, kneel, ease], [1.05, bow, ease], [1.3, bow], [1.55, headWai, ease], [1.75, headWai], [2.1, rise, ease], [2.45, ram, ease], [2.7, ram], [2.95, stepDown, ease], [3.2, S0, ease]], (t, c) => {
+  buildP('boxer_waikru', 3.2, [[0, S0], [0.3, square, ease], [0.75, kneel, ease], [1.05, bow, ease], [1.3, bow], [1.5, headWai, ease], [1.62, headWai], [1.9, mix(kneel, rise, 0.5), ease], [2.15, rise, ease], [2.45, ram, ease], [2.65, ram], [2.95, stepDown, ease], [3.2, S0, ease]], (t, c) => {
     // the raised knee and arms sway a little (the ram's slow wave)
     if (t > 2.45 && t < 2.7) { const w = Math.sin(Math.PI * (t - 2.45) / 0.25); c.Lh.at[1] += 0.02 * w; c.Rh.at[1] -= 0.02 * w; }
   });
@@ -437,37 +421,33 @@ const WAI_FLEX = -1.5;
 {
   const S0 = STANCE;
   const catchK = withP(S0, { hip: [0.01, 0.04, -0.02], hipYaw: -0.25, twist: 0.1, lean: 0.1, side: -0.05, fist: [0.4, 1],
-    Lh: { at: [0.13, -0.3, 0.08], pole: [1, -0.4, -0.3], palm: [-0.2, 1, 0], sh: 0, flex: 0 }, Rh: { ...S0.Rh, at: [-0.05, -0.06, 0.07] } });
+    Lh: { at: [0.06, -0.3, 0.15], pole: [1, -0.3, -0.4], palm: [0, 1, 0], sh: 0, flex: 0 }, Rh: { ...S0.Rh, at: [-0.05, -0.06, 0.07] } });
   const cock = withP(catchK, { hip: [0.0, -0.025, 0.03], lean: -0.08, chin: 0.05,
     L: { ...S0.L, heel: 0.5 }, R: { ...S0.R, heel: 0.7 },
     Rh: { at: [-0.03, 0.08, -0.03], pole: [-0.2, 1, 0.3], palm: [0.6, 0, 0.8], sh: 0.1, flex: 0 } });
-  const drop = withP(catchK, { hip: [0.0, 0.1, 0.05], lean: 0.85, chin: 0.15, side: 0,
+  const drop = withP(catchK, { hip: [0.0, 0.14, 0.05], lean: 0.75, chin: 0.15, side: 0,
     L: { ...S0.L, heel: 0 }, R: { ...S0.R, heel: 0.3 },
-    Lh: { at: [0.12, -0.36, 0.13], pole: [1, -0.4, -0.2], palm: [-0.2, 1, 0], sh: 0, flex: 0 },
-    Rh: { at: [-0.05, -0.12, 0.07], pole: [0, -1, 0.45], palm: [0.8, 0, 0.6], sh: 0, flex: 0 } });   // arm folded tight, the elbow's point down
+    Lh: { at: [0.06, -0.33, 0.17], pole: [1, -0.3, -0.4], palm: [0, 1, 0], sh: 0, flex: 0 },
+    Rh: { at: [-0.02, -0.2, 0.15], pole: [0, -1, 0.6], palm: [0.8, 0, 0.6], sh: 0, flex: 0 } });   // arm folded tight, the elbow's point down
   const hold = withP(drop, { hip: [0.0, 0.08, 0.04], lean: 0.7 });
   buildP('boxer_ngouy', 1.6, [[0, S0], [0.25, catchK, easeOut], [0.6, cock, ease], [0.95, drop, easeIn], [1.2, hold, easeOut], [1.6, S0, ease]]);
 }
-// ศอกกลับพลิกล็อก (hits 0.22 / 0.6 s): a lead horizontal elbow — the hips and shoulders
-// turn into it, the upper arm comes level with the forearm folded tight, the point of the
-// elbow sweeping across at chin height — then the left foot steps across and the fighter
-// spins clockwise (spotting over the right shoulder) into a spinning back elbow with the
-// right arm, and comes round into guard.
+// ศอกกลับพลิกล็อก (hits 0.25 / 0.48 s): ศอกตัด then ศอกกลับ with the same rear arm.
+// The hips and shoulders whip round to the left on the ball of the rear foot and the
+// right elbow, forearm folded tight, cuts across at chin height (the fist ends by the
+// left ear); then the body snaps back to the right and the same elbow comes back
+// outward, the point leading — a backhand elbow along the same line. Lead glove up.
 {
   const S0 = STANCE;
-  const leadElbow = withP(S0, { hip: [0.0, 0.025, 0.0], hipYaw: -0.95, twist: -0.45, lean: 0.12,
-    L: { ...S0.L, yaw: -0.5, heel: 0.35 },
-    Lh: { at: [-0.06, -0.06, 0.05], pole: [0.3, 0.15, 1], palm: [0, -1, 0], sh: 0.12 }, Rh: { ...S0.Rh, at: [-0.06, -0.05, 0.07] } });
-  const across = withP(leadElbow, { hipYaw: -1.9, twist: -0.5, lean: 0.05,
-    L: { x: -0.02, z: 0.05, yaw: -1.7, heel: 0.3, up: 0 }, R: { ...S0.R, heel: 0.6 },
-    Lh: { ...S0.Lh, at: [0.03, -0.06, 0.1] }, Rh: { at: [0.05, -0.08, 0.02], pole: [-0.5, -0.3, 1], palm: [0, -1, 0], sh: 0 } });
-  const backElbow = withP(across, { hipYaw: -3.35, twist: -0.25, lean: 0.0,
-    L: { x: -0.02, z: 0.05, yaw: -3.1, heel: 0.3, up: 0 }, R: { x: 0.1, z: -0.05, yaw: -3.6, heel: 0.6, up: 0 },
-    Rh: { at: [0.07, -0.07, -0.02], pole: [0, 0.1, 1], palm: [0, -1, 0], sh: 0.1 } });
-  const round = withP(S0, { hipYaw: -0.45 - Math.PI * 2 + 0.6, twist: -0.2, L: { ...S0.L, yaw: -0.12 - Math.PI * 2 + 0.4 }, R: { ...S0.R, yaw: -0.72 - Math.PI * 2 + 0.3 } });
-  const end = withP(S0, { hipYaw: S0.hipYaw - Math.PI * 2, L: { ...S0.L, yaw: S0.L.yaw - Math.PI * 2 }, R: { ...S0.R, yaw: S0.R.yaw - Math.PI * 2 } });
-  buildP('boxer_elbow', 1.0, [[0, S0], [0.12, withP(S0, { hipYaw: -0.3, Lh: { ...S0.Lh, at: [0.07, -0.05, 0.11] } }), easeOut], [0.22, leadElbow, easeIn], [0.27, leadElbow],
-    [0.42, across, ease], [0.6, backElbow, easeIn], [0.65, backElbow], [0.82, round, easeOut], [1.0, end, ease]]);
+  const load = withP(S0, { hip: [-0.01, 0.03, -0.02], hipYaw: -0.6, twist: -0.2, Rh: { ...S0.Rh, at: [-0.07, -0.05, 0.05] } });
+  const cut = withP(S0, { hip: [0.0, 0.03, 0.02], hipYaw: 0.25, twist: 0.3, lean: 0.14, chin: 0.25,
+    R: { ...S0.R, yaw: -0.2, heel: 0.75 }, L: { ...S0.L, yaw: 0.05 },
+    Rh: { at: [0.07, 0.0, 0.08], pole: [0.15, 0.25, 1], palm: [0, -1, 0], sh: 0.18 },
+    Lh: { at: [0.06, -0.03, 0.1], pole: [0.5, -1, 0], palm: [-0.8, 0, -0.5], sh: 0 } });
+  const back = withP(cut, { hipYaw: -0.55, twist: -0.3, lean: 0.12,
+    R: { ...S0.R, yaw: -0.6, heel: 0.45 },
+    Rh: { at: [-0.1, 0.01, 0.05], pole: [-0.6, 0.3, 0.8], palm: [0, -1, 0], sh: 0.16 } });
+  buildP('boxer_elbow', 0.9, [[0, S0], [0.12, load, easeOut], [0.25, cut, easeIn], [0.31, cut], [0.48, back, easeIn], [0.54, back], [0.9, S0, ease]]);
 }
 // เข่าลอยทะลวงฟ้า, flying knee (hit 0.6 s): a quick step in on the left foot with both
 // hands reaching up for the opponent's head, a jump off the left leg driving the right
@@ -481,8 +461,8 @@ const WAI_FLEX = -1.5;
     R: { x: -0.04, z: 0.1, yaw: -0.3, up: 0.22, pole: [0, 0.3, 1], point: 0.6, heel: 0 } });
   const strike = withP(drive, { hip: [0.0, -0.17, 0.11], lean: -0.22, chin: 0.25,
     L: { x: 0.06, z: 0.0, yaw: 0, heel: 0, up: 0.17, pole: [0, -0.3, 1], point: 0.8 },
-    R: { x: -0.03, z: 0.17, yaw: -0.2, up: 0.44, pole: [0, 0.5, 1], point: 0.6, heel: 0 },
-    Lh: { at: [0.05, -0.13, 0.19], pole: [0.7, -1, 0], palm: [-0.3, -0.5, 1], sh: 0 }, Rh: { at: [-0.04, -0.13, 0.19], pole: [-0.7, -1, 0], palm: [0.3, -0.5, 1], sh: 0 } });
+    R: { x: -0.03, z: 0.13, yaw: -0.2, up: 0.52, pole: [0, 0.9, 0.5], point: 0.6, heel: 0 },
+    Lh: { at: [0.05, -0.04, 0.2], pole: [0.7, -1, 0], palm: [-0.3, -0.6, 1], sh: 0 }, Rh: { at: [-0.04, -0.04, 0.2], pole: [-0.7, -1, 0], palm: [0.3, -0.6, 1], sh: 0 } });
   const fall = withP(strike, { hip: [0.0, -0.05, 0.1], lean: -0.05, L: { x: 0.06, z: 0.05, yaw: 0, heel: 0.3, up: 0.06 }, R: { x: -0.04, z: 0.14, yaw: -0.3, up: 0.14, pole: [0, 0, 1], point: 0.3, heel: 0 } });
   const land = withP(S0, { hip: [-0.01, 0.06, 0.08], hipYaw: -0.15, lean: 0.12, L: { x: 0.07, z: 0.0, yaw: 0, heel: 0.4, up: 0 }, R: { x: -0.05, z: 0.14, yaw: -0.4, heel: 0, up: 0 } });
   buildP('boxer_knee', 1.2, [[0, S0], [0.22, load, ease], [0.42, drive, easeIn], [0.6, strike, easeOut], [0.68, strike], [0.85, fall, easeIn], [0.95, land, easeOut], [1.2, S0, ease]]);
@@ -499,8 +479,8 @@ const WAI_FLEX = -1.5;
   const low = withP(parry, { hip: [-0.03, 0.11, 0.0], hipYaw: -0.3, twist: 0, lean: 0.38, chin: 0.15,
     Lh: { at: [0.1, -0.33, 0.05], pole: [0.3, -0.6, -1], palm: [-0.3, 0.5, 0.8], sh: 0 }, Rh: { at: [-0.1, -0.33, 0.05], pole: [-0.3, -0.6, -1], palm: [0.3, 0.5, 0.8], sh: 0 } });
   const up = withP(low, { hip: [-0.02, -0.015, 0.04], hipYaw: -0.15, lean: -0.12, chin: 0.1, L: { ...S0.L, heel: 0.35 }, R: { x: -0.17, z: -0.07, yaw: -0.8, heel: 0.6, up: 0 },
-    Lh: { at: [0.02, -0.06, 0.17], pole: [0.15, -1, -0.1], palm: [-0.2, 0, -1], sh: 0.05 }, Rh: { at: [-0.02, -0.06, 0.17], pole: [-0.15, -1, -0.1], palm: [0.2, 0, -1], sh: 0.05 } });
-  const follow = withP(up, { hip: [-0.02, -0.025, 0.05], lean: -0.16, Lh: { ...up.Lh, at: [0.02, -0.01, 0.19] }, Rh: { ...up.Rh, at: [-0.02, -0.01, 0.19] } });
+    Lh: { at: [0.02, -0.035, 0.15], pole: [0.15, -1, -0.1], palm: [-0.2, 0, -1], sh: 0.05 }, Rh: { at: [-0.02, -0.035, 0.15], pole: [-0.15, -1, -0.1], palm: [0.2, 0, -1], sh: 0.05 } });
+  const follow = withP(up, { hip: [-0.02, -0.02, 0.05], lean: -0.14, Lh: { ...up.Lh, at: [0.02, -0.025, 0.16] }, Rh: { ...up.Rh, at: [-0.02, -0.025, 0.16] } });
   buildP('boxer_hanuman', 1.6, [[0, S0], [0.14, withP(S0, { hip: [0, 0.035, -0.02] }), ease], [0.34, parry, easeOut], [0.4, parry], [0.6, low, ease], [0.66, low], [0.78, up, easeIn], [0.92, follow, easeOut], [1.1, follow], [1.6, S0, ease]], (t, c) => {
     if (t > 0.16 && t < 0.32) c.R.up += 0.02 * Math.sin(Math.PI * (t - 0.16) / 0.16);          // the side step lifts the foot
     if (t > 1.22 && t < 1.45) c.R.up += 0.02 * Math.sin(Math.PI * (t - 1.22) / 0.23);
@@ -511,12 +491,12 @@ const HURT = withP(STANCE, { hip: [-0.005, 0.035, -0.05], lean: -0.22, chin: -0.
 buildP('hurt', 0.5, [[0, STANCE], [0.08, HURT, easeOut], [0.2, HURT], [0.5, STANCE, ease]]);
 // Knock-out: the knees give, the arms drop and he topples backwards onto the floor.
 {
-  const slump = withP(HURT, { hip: [0, 0.12, -0.04], lean: -0.1, fist: [0.3, 0.3], R: { ...STANCE.R, heel: 0 },
+  const slump = withP(HURT, { hip: [0, 0.2, -0.06], lean: -0.1, fist: [0.3, 0.3], R: { ...STANCE.R, heel: 0 },
     Lh: { at: [0.17, -0.42, 0.0], pole: [0.3, 0, -1], palm: [0, 0, 1], sh: 0 }, Rh: { at: [-0.17, -0.42, -0.02], pole: [-0.3, 0, -1], palm: [0, 0, 1], sh: 0 } });
   // legs straighten as he goes over, so they lie along the floor
-  const spread = withP(slump, { hip: [0, -0.01, -0.04], L: { ...STANCE.L, heel: 0, yaw: 0.3 }, R: { ...STANCE.R, heel: 0, yaw: -0.4 }, Lh: { at: [0.3, -0.12, 0.0], pole: [0, -1, -0.3], palm: [0, 1, 0], sh: 0 }, Rh: { at: [-0.3, -0.12, -0.02], pole: [0, -1, -0.3], palm: [0, 1, 0], sh: 0 } });
+  const spread = withP(slump, { hip: [0, 0.05, -0.04], L: { ...STANCE.L, heel: 0, yaw: 0.3 }, R: { ...STANCE.R, heel: 0, yaw: -0.4 }, Lh: { at: [0.3, -0.12, 0.0], pole: [0, -1, -0.3], palm: [0, 1, 0], sh: 0 }, Rh: { at: [-0.3, -0.12, -0.02], pole: [0, -1, -0.3], palm: [0, 1, 0], sh: 0 } });
   buildP('die', 1.6, [[0, STANCE], [0.25, HURT, easeOut], [0.6, slump, ease], [1.0, spread, ease], [1.6, spread]], null, (t, p) => {
-    const u = ease(Math.min(1, Math.max(0, (t - 0.45) / 0.75)));
+    const u = ease(Math.min(1, Math.max(0, (t - 0.6) / 0.6)));
     rotWorld(R, p, B('Hips'), [1, 0, 0], -1.45 * u);
     const parts = ['Head', 'Spine2', 'Hips', 'LeftFoot', 'RightFoot', 'LeftLeg', 'RightLeg', 'LeftHand', 'RightHand'];
     const lowY = Math.min(...parts.map(n => worldPos(R, p, B(n)).y));

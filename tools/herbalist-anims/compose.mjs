@@ -73,8 +73,10 @@ const P = {
   pestleDown: mk(STAND, p => { arm(p, 'L', [.12, -.5, .85], [-.12, -.95, .3]); arm(p, 'R', [-.12, -.5, .85], [.12, -.95, .3]); bend(p, .38); lift(p, -.07); return p; }),
   skyUp: mk(STAND, p => { arm(p, 'L', [.3, .95, .12], [.15, 1, .08]); arm(p, 'R', [-.3, .95, .12], [-.15, 1, .08]); bend(p, -.14); bend(p, -.3, 'Neck'); lift(p, .01); return p; }),
   sprinkle: mk(STAND, p => { arm(p, 'L', [.3, -.1, 1], [.15, -.4, 1]); arm(p, 'R', [-.3, -.1, 1], [-.15, -.4, 1]); bend(p, .22); return p; }),
-  hurt: mk(STAND, p => { bend(p, -.4); bend(p, -.35, 'Neck'); arm(p, 'L', [.4, -.5, .5], [.2, .3, .9]); arm(p, 'R', [-.4, -.5, .5], [-.2, .3, .9]); lift(p, -.02); return p; }),
-  down: mk(STAND, p => { arm(p, 'L', [1, .2, .3], [1, 0, .4]); arm(p, 'R', [-1, .2, .3], [-1, 0, .4]); return p; }),
+  // hit: the trunk and head recoil, the hands come up in front of the chest (elbows bent, never shoulder-high)
+  hurt: mk(STAND, p => { bend(p, -.28); bend(p, -.3, 'Neck'); arm(p, 'L', [.25, -.9, .35], [-.35, .45, .82]); arm(p, 'R', [-.25, -.9, .35], [.35, .45, .82]); lift(p, -.025); return p; }),
+  // knocked out: arms fall limp a little away from the body
+  down: mk(STAND, p => { arm(p, 'L', [.4, -.92, .05], [.35, -.85, .4]); arm(p, 'R', [-.4, -.92, .05], [-.35, -.85, .4]); return p; }),
 };
 
 // ---- composer ------------------------------------------------------------------
@@ -134,8 +136,11 @@ build('brew', 2.4, [[0, P.STAND], [.25, P.stirA], [.5, P.stirB], [.75, P.stirA],
 build('pound', 2.2, [[0, P.STAND], [.4, P.pestleUp, easeOut], [.6, P.pestleDown, easeIn], [.85, P.pestleUp, easeOut], [1.1, P.pestleDown, easeIn], [1.35, P.pestleUp, easeOut], [1.6, P.pestleDown, easeIn], [1.9, P.book], [2.2, P.STAND]]);
 build('raise_sky', 2.2, [[0, P.STAND], [.6, P.skyUp, ease], [1.1, P.skyUp], [1.5, P.sprinkle, ease], [1.85, P.sprinkle], [2.2, P.STAND]], (t, p) => { if (t > 1.5 && t < 1.85) arm(p, 'R', [-.3, -.1 + .15 * Math.sin(t * 30), 1], [-.15, -.4 + .2 * Math.sin(t * 30), 1]); });
 build('hurt', .5, [[0, P.STAND], [.1, P.hurt], [.22, P.hurt], [.5, P.STAND]]);
+// Knock-out: the knees give first (feet stay planted), then she sits back and topples.
 build('die', 1.6, [[0, P.STAND], [.25, P.hurt], [.6, P.down], [1.6, P.down]], (t, p) => {
-  const u = ease(Math.min(1, Math.max(0, (t - .25) / .85))); rotWorld(H, p, B('Hips'), [1, 0, 0], -1.5 * u);
+  const buckle = ease(Math.min(1, Math.max(0, (t - .15) / .4))) * (1 - ease(Math.min(1, Math.max(0, (t - .9) / .45))));
+  if (buckle > 0) { lift(p, -.26 * hipH * buckle); p.get(HIPS).t.z -= .08 * hipH * buckle; legIK(H, p, B, 'Left', FEET.Left.at, FEET.Left.q); legIK(H, p, B, 'Right', FEET.Right.at, FEET.Right.q); }
+  const u = ease(Math.min(1, Math.max(0, (t - .55) / .65))); rotWorld(H, p, B('Hips'), [1, 0, 0], -1.5 * u);
   const low = Math.min(...['Head', 'Spine2', 'Hips', 'LeftFoot', 'RightFoot', 'LeftLeg', 'RightLeg', 'LeftHand', 'RightHand'].map(n => worldPos(H, p, B(n)).y)); lift(p, (.06 - low) * u);
 });
 

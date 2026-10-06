@@ -29,7 +29,7 @@ anyone else changes them only through a small, documented hook.
 | Agent | Owns |
 |---|---|
 | `game-director` (lead) | `src/rules/**` (rules ported from ThaiNative: pure ES modules, no three, no DOM; change only via the lead), `CLAUDE.md`, `docs/GAME_VISION.md`, `docs/MILESTONES.md` |
-| `gameplay-engineer` | `src/core/**`, `src/main.js`, `src/entities/**`, `src/npc/**`, `src/quest/**`, `src/ui/**`, `src/character/**` (not `data/`), `src/combat/**` (not `data/`), `src/account/**`, `src/training/**`, `src/classes/model.js`, `src/classes/index.js` |
+| `gameplay-engineer` | `src/core/**`, `src/main.js`, `src/entities/**`, `src/npc/**`, `src/quest/**`, `src/ui/**`, `src/character/**` (not `data/`), `src/combat/**` (not `data/`), `src/account/**`, `src/training/**`, `src/audio/**`, `src/classes/model.js`, `src/classes/index.js` |
 | `technical-artist` | `src/world/shaders.js`, `materials.js`, `Batching.js`, `Environment.js`, `Atmosphere.js`; `src/classes/model.js` clip handling; `src/classes/fx/**`; `tools/*-anims/**` |
 | `environment-artist` | `src/world/Architecture.js`, `Vegetation.js`, `props.js`, `Terrain.js`, `Water.js`, `World.js`, `districts/**` |
 | `world-designer` | `src/world/maps.js`, `CityMap.js`, `MapManager.js`, `Portals.js`, `Collision.js`; `src/data/landmarks.js`, `regions.js`, spawn placement; `docs/world/WORLD_MAP.md` |
@@ -66,6 +66,14 @@ Do not change public interfaces without documenting it.
 - One UI look on every page: panels, topbar, controls bar and settings come
   from `src/style.css`; skill FX and the hotbar from `src/classes/fx/fx.css`.
   A page's own CSS (`training.css`) holds only what differs.
+  Icons go through `src/ui/icons.js`: class portraits/emblems (`classBadge`),
+  skill art (`iconHtml`, data `img`) and potion gourds. Skill art is framed by
+  `tools/icons/normalize.py` (sources in `tools/icons/source/`); never use emoji
+  where art exists.
+- Sound: one engine, `Sound` from `src/audio/Sound.js` (music / sfx / ambience
+  buses, unlocked on the first click). SFX recipes, event → sound mapping and
+  the generative Thai-style music live in `src/data/audio.js`; call
+  `Sound.sfx(id)` / `Sound.music(id)`, never create another AudioContext.
 - Click-to-walk plans its route with `findPath(canStand, from, to)` from
   `src/core/GridPath.js`; combat's `moveTo` still walks straight and retries.
 - `src/core/` (including `Game.js`) is where systems meet: its owner is

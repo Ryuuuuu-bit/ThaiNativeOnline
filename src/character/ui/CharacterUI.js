@@ -3,6 +3,7 @@ import { STATS, STAT_LABELS } from '../data/classes.js';
 import { ITEMS, RARITY_COLORS } from '../data/items.js';
 import { el, esc, setBar } from './dom.js';
 import './character.css';
+import { classBadge, iconHtml } from '../../ui/icons.js';
 
 const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', charm: 'เครื่องราง' };
 const BONUS_LABELS = { atk: 'โจมตี', def: 'ป้องกัน', hp: 'HP', crit: 'คริ' };
@@ -31,7 +32,7 @@ export class CharacterUI {
   buildFrame() {
     const c = this.c;
     this.frame = el('aside', 'g-player glass', `
-      <div class="g-portrait" style="--cls:${c.cls.color}">${c.cls.icon}<span class="g-lv"></span></div>
+      <div class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 30 })}<span class="g-lv"></span></div>
       <div class="g-player-info">
         <div class="g-player-name"><b>${esc(c.name)}</b><span>${c.cls.name} · ${c.gender === 'female' ? 'หญิง' : 'ชาย'}</span></div>
         <div class="g-bar g-hp" title="HP"><span></span><em></em></div>
@@ -43,9 +44,9 @@ export class CharacterUI {
   }
   // Potion and menu buttons; the combat HUD places them on its action bar.
   buildQuickButtons() {
-    this.potionHp = el('button', 'g-skill g-potion', `<span class="g-skill-icon">⚱</span><kbd>Q</kbd><small></small>`);
+    this.potionHp = el('button', 'g-skill g-potion', `<span class="g-skill-icon">${iconHtml(ITEMS.potion_s)}</span><kbd>Q</kbd><small></small>`);
     this.potionHp.title = 'ดื่มยาฟื้น HP'; this.potionHp.addEventListener('click', () => this.quickPotion('hp'));
-    this.potionMp = el('button', 'g-skill g-potion mp', `<span class="g-skill-icon">❂</span><kbd>F</kbd><small></small>`);
+    this.potionMp = el('button', 'g-skill g-potion mp', `<span class="g-skill-icon">${iconHtml(ITEMS.ether)}</span><kbd>F</kbd><small></small>`);
     this.potionMp.title = 'ดื่มน้ำผึ้งฟื้น MP'; this.potionMp.addEventListener('click', () => this.quickPotion('mp'));
     const menus = [['C', 'ตัวละคร', 'sheet'], ['I', 'กระเป๋า', 'bag']].map(([key, label, panel]) => {
       const b = el('button', 'g-menu', `<kbd>${key}</kbd>${label}`); b.addEventListener('click', () => this.toggle(panel)); return b;
@@ -100,7 +101,7 @@ export class CharacterUI {
     if (!p.hidden) { if (name === 'sheet') this.refreshSheet(); else this.refreshInventory(); }
   }
 
-  buffsHtml() { return this.c.buffs.map(b => `<i title="${b.id}">${this.buffIcons[b.id] || '✧'} ${Math.ceil(b.remaining)}</i>`).join(''); }
+  buffsHtml() { return this.c.buffs.map(b => `<i title="${b.id}">${iconHtml(this.buffIcons[b.id] ?? { icon: '✧' })}<b>${Math.ceil(b.remaining)}</b></i>`).join(''); }
   refresh() {
     const c = this.c;
     this.frame.querySelector('.g-lv').textContent = c.level;
@@ -118,8 +119,8 @@ export class CharacterUI {
   refreshSheet() {
     const c = this.c, s = c.stats;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
-      <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${c.cls.icon}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level}</small></div></div>
-      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id)}\nคลิกเพื่อถอด` : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? ITEMS[id].icon : '·'}</span><small>${id ? ITEMS[id].name : SLOT_LABELS[slot]}</small></button>`; }).join('')}</div>
+      <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 24 })}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level}</small></div></div>
+      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id)}\nคลิกเพื่อถอด` : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? ITEMS[id].name : SLOT_LABELS[slot]}</small></button>`; }).join('')}</div>
       <div class="g-stats-head"><span>สถานะ</span><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
       ${STATS.map(k => `<div class="g-stat"><span>${STAT_LABELS[k]}</span><b>${s[k]}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`).join('')}
       <div class="g-derived">
@@ -133,7 +134,7 @@ export class CharacterUI {
     this.grid.innerHTML = this.c.inventory.map((s, i) => {
       if (!s) return `<button class="g-slot empty" data-index="${i}" aria-label="ช่องว่าง"></button>`;
       const d = ITEMS[s.id];
-      return `<button class="g-slot" data-index="${i}" title="${esc(itemTip(s.id))}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${d.icon}</span>${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
+      return `<button class="g-slot" data-index="${i}" title="${esc(itemTip(s.id))}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.refresh();
   }

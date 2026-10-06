@@ -4,6 +4,8 @@ import { el, esc } from './dom.js';
 import { AVATARS, classReady } from '../../data/training.js';
 import { CLASS_KITS } from '../../classes/index.js';
 import { ModelPreview } from '../../ui/ModelPreview.js';
+import { classBadge, classEmblem } from '../../ui/icons.js';
+import { playSkillSound } from '../../audio/gameSounds.js';
 
 // Character creation; resolves with { name, classId, gender }.
 // A 3D stage shows the chosen class's model (src/ui/ModelPreview.js); its ten
@@ -35,11 +37,11 @@ export function showCreation(root) {
     const list = overlay.querySelector('.g-classes'), detail = overlay.querySelector('.g-class-detail');
     for (const [id, c] of Object.entries(CLASSES)) {
       if (!open(id)) {
-        const card = el('button', 'g-class g-class-locked', `<span class="g-class-icon" aria-hidden="true"><span class="g-shadow">${c.icon}</span><i>?</i></span><b>???</b><em>กำลังเตรียม</em>`);
+        const card = el('button', 'g-class g-class-locked', `<span class="g-class-icon" aria-hidden="true"><span class="g-shadow">${classEmblem(id, 30)}</span><i>?</i></span><b>???</b><em>กำลังเตรียม</em>`);
         card.disabled = true; card.title = 'อาชีพนี้กำลังเตรียม เร็ว ๆ นี้'; card.setAttribute('aria-label', 'อาชีพที่ยังไม่เปิด');
         list.append(card); continue;
       }
-      const card = el('button', 'g-class', `<span class="g-class-icon">${c.icon}</span><b>${c.name}</b><em>${c.en}</em>`);
+      const card = el('button', 'g-class', `<span class="g-class-icon">${classBadge(id, c, { size: 30 })}</span><b>${c.name}</b><em>${c.en}</em>`);
       card.style.setProperty('--cls', c.color);
       card.setAttribute('role', 'radio'); card.dataset.id = id;
       card.addEventListener('click', () => { chosen = id; sync(); });
@@ -54,7 +56,7 @@ export function showCreation(root) {
     const skillsHtml = id => {
       const kit = CLASS_KITS[AVATARS[id]?.skills];
       if (!kit) return CLASSES[id].skills.map(s => `<span title="${esc(SKILLS[s].name)}">${SKILLS[s].icon} ${esc(SKILLS[s].name)}</span>`).join('');
-      return kit.skills.map((s, i) => `<button type="button" class="g-skill" data-skill="${i}" title="${esc(`${s.name} · Lv.${s.lv}\n${s.desc ?? ''}`)}" aria-label="${esc(s.name)}"><img src="${s.icon}" alt=""><small>${(i + 1) % 10}</small></button>`).join('');
+      return kit.skills.map((s, i) => `<button type="button" class="g-kit-skill" data-skill="${i}" title="${esc(`${s.name} · Lv.${s.lv}\n${s.desc ?? ''}`)}" aria-label="${esc(s.name)}"><img src="${s.icon}" alt=""><small>${(i + 1) % 10}</small></button>`).join('');
     };
     const sync = () => {
       list.querySelectorAll('.g-class:not(.g-class-locked)').forEach(b => b.setAttribute('aria-checked', String(b.dataset.id === chosen)));
@@ -70,6 +72,7 @@ export function showCreation(root) {
         const s = kit.skills[Number(b.dataset.skill)];
         // The full skill with its FX on a dummy; just the move while the model is still loading.
         if (preview && !preview.skill(s.id)) preview.play(s.clip, s.fallback);
+        playSkillSound(s, AVATARS[chosen]?.skills);
         detail.querySelector('.g-skill-name').textContent = `${s.name} — ${s.desc ?? ''}`;
       }));
       preview?.show(chosen);

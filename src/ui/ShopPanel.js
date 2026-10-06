@@ -1,6 +1,7 @@
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
 import { SHOPS } from '../data/shops.js';
 import { buy, sell, sellPrice, stockOf } from '../shop/ShopSystem.js';
+import { iconHtml } from './icons.js';
 
 const $ = id => document.getElementById(id);
 const BONUS = { atk: 'โจมตี', def: 'ป้องกัน', str: 'พลัง', agi: 'ว่องไว', int: 'ปัญญา', vit: 'อึด', hp: 'HP', crit: 'คริติคอล' };
@@ -35,7 +36,7 @@ export class ShopPanel {
     $('shop-gold').textContent = `◉ ${c.gold.toLocaleString()} ทอง`;
     for (const b of document.querySelectorAll('[data-shop-tab]')) b.setAttribute('aria-pressed', String(b.dataset.shopTab === this.tab));
     const row = (attr, value, def, price, priceLabel, disabled) => `<button class="shop-row" ${attr}="${value}" ${disabled ? 'disabled' : ''}>
-      <i style="color:${RARITY_COLORS[def.rarity] ?? '#e9dfc0'}">${def.icon}</i><span><b>${def.name}</b><small>${describeItem(def)}</small></span><em>${priceLabel} ${price}</em></button>`;
+      <i style="--rar:${RARITY_COLORS[def.rarity] ?? '#e9dfc0'}">${iconHtml(def)}</i><span><b>${def.name}</b><small>${describeItem(def)}</small></span><em>${priceLabel} ${price}</em></button>`;
     $('shop-list').innerHTML = this.tab === 'buy'
       ? stockOf(this.shopType).map(id => row('data-buy', id, ITEMS[id], ITEMS[id].price, 'ราคา', c.gold < ITEMS[id].price)).join('')
       : c.inventory.map((slot, i) => (slot ? row('data-sell', i, ITEMS[slot.id], sellPrice(slot.id) * 1, `ขาย${slot.qty > 1 ? ` (มี ${slot.qty})` : ''}`, false) : '')).join('') || '<p class="shop-empty">กระเป๋าว่าง</p>';
