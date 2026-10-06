@@ -1,12 +1,19 @@
 // Shop and training services. NPCs reference these by `shopType` or `trainer`.
 // `stock` lists item ids from src/character/data/items.js the shop sells at their price;
-// shops without stock (and trainers) still show their future services.
+// every shop with stock also buys anything from the bag at half price (sell tab),
+// so loot (hide, tusk, ash) sells at any of them.
+// Shops without stock (and trainers) still show their future services.
 export const SHOPS = {
-  blacksmith: { title: 'โรงตีเหล็ก', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'bamboo_bow', 'bone_wand'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'โล่หนังควาย'] },
+  // ลุงดำ's forge: blades, the bow and leather armour; cloth, staves and wands stay at the stalls, with the herbalist and occultist.
+  blacksmith: { title: 'โรงตีเหล็กลุงดำ', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'krabi', 'bamboo_bow', 'hide_armor'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'โล่หนังควาย'] },
   enhance: { title: 'โรงหลอมศาสตรา', purpose: 'upgrade', services: ['ตีบวกอุปกรณ์', 'หลอมขัดเกลา (Refine)', 'อัปเกรดด้วยวัตถุดิบพิเศษ'], preview: ['แร่ศักดิ์สิทธิ์', 'ทองคำเปลว', 'น้ำมนต์หลอม'] },
   general: { title: 'ร้านของชำ', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether'], services: ['ซื้อ-ขายของทั่วไป'], preview: ['ยาสามัญ', 'ข้าวห่อใบตอง', 'คบไฟ', 'เชือก', 'เครื่องมือพื้นฐาน'] },
+  // Last stop before the warp at the North Gate: potions and honey, buys loot back from returning hunters.
+  supplies: { title: 'ร้านเสบียงหน้าประตูเหนือ', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether'], services: ['ยาและน้ำผึ้งก่อนออกล่า', 'รับซื้อของป่า'], preview: ['ข้าวห่อใบตอง', 'คบไฟ', 'เชือก'] },
+  // The farmers' village outside the wall: the only shop on the fields, so hunters can restock and sell without warping back.
+  village: { title: 'ร้านชำหมู่บ้านชาวนา', purpose: 'trade', stock: ['potion_s', 'ether'], services: ['ยาสามัญ', 'รับซื้อหนัง เขี้ยว และขี้เถ้าธูป'], preview: ['ข้าวเหนียวห่อใบตอง', 'น้ำต้น'] },
   herbalist: { title: 'ร้านหมอยา', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether', 'herb_staff'], services: ['ยารักษา', 'ยาแก้พิษ', 'ปรุงยาสมุนไพร'], preview: ['ยาหอม', 'ยาเขียว', 'ยาแก้พิษงู', 'ขมิ้นชัน'] },
-  occult: { title: 'ร้านหมออาคม', purpose: 'skills', stock: ['takrut', 'ether'], services: ['เครื่องราง', 'ผ้ายันต์ · ตะกรุด', 'วัตถุดิบอาคม', 'ของประกอบวิชา'], preview: ['ตะกรุดโทน', 'ผ้ายันต์แดง', 'เทียนขี้ผึ้ง', 'ใบลานจารอักขระ'] },
+  occult: { title: 'ร้านหมออาคม', purpose: 'skills', stock: ['takrut', 'bone_wand', 'ether'], services: ['เครื่องราง', 'ผ้ายันต์ · ตะกรุด', 'วัตถุดิบอาคม', 'ของประกอบวิชา'], preview: ['ตะกรุดโทน', 'ผ้ายันต์แดง', 'เทียนขี้ผึ้ง', 'ใบลานจารอักขระ'] },
   weapons: { title: 'แผงอาวุธ', purpose: 'equipment', stock: ['wood_sword', 'krabi', 'hand_wrap', 'herb_staff'], services: ['ซื้อ-ขายอาวุธ'], preview: ['ดาบสั้น', 'ง้าว', 'มีดพร้า'] },
   armor: { title: 'แผงเกราะ', purpose: 'equipment', stock: ['cloth_vest', 'hide_armor'], services: ['ซื้อ-ขายเกราะ'], preview: ['เสื้อเกราะหนัง', 'หมวกลอมพอก', 'โล่หวาย'] },
   fruit: { title: 'แผงผลไม้', purpose: 'trade', services: ['วัตถุดิบทำอาหาร'], preview: ['มะม่วง', 'กล้วยน้ำว้า', 'มะพร้าว'] },
@@ -16,12 +23,15 @@ export const SHOPS = {
   lanterns: { title: 'แผงโคมไฟ', purpose: 'trade', services: ['เครื่องให้แสง'], preview: ['โคมกระดาษ', 'ตะเกียงน้ำมัน'] },
   charms: { title: 'แผงเครื่องราง', purpose: 'trade', stock: ['takrut'], services: ['เครื่องรางพื้นฐาน'], preview: ['สายสิญจน์', 'พระเครื่องดินเผา'] },
 };
+// One master per playable class (src/character/data/classes.js), each at the
+// class's hall (src/data/halls.js). `classId` links the trainer to its class;
+// `skills` names come from the class's real kit (src/classes/*-moves.js where a
+// ten-skill kit exists, otherwise src/combat/data/skills.js).
 export const TRAINERS = {
-  muay: { title: 'สำนักมวยไทย', class: 'นักมวย', skills: ['หมัดตรง', 'เข่าลอย', 'ศอกกลับ'] },
-  sword: { title: 'สำนักดาบ', class: 'นักดาบ', skills: ['ดาบสองมือ', 'รำดาบ', 'ปัดป้อง'] },
-  hunter: { title: 'วิชาพราน', class: 'พราน', skills: ['ยิงธนู', 'วางกับดัก', 'ตามรอย'] },
-  herbal: { title: 'วิชาหมอยา', class: 'หมอยา', skills: ['ปรุงยา', 'รักษาบาดแผล', 'แก้พิษ'] },
-  shaman: { title: 'วิชาหมอผี', class: 'หมอผี', skills: ['ไล่ผี', 'ลงยันต์', 'สื่อวิญญาณ'] },
-  occult: { title: 'วิชาอาคม', class: 'ผู้ใช้อาคม', skills: ['คาถาคงกระพัน', 'ปลุกเสก'] },
-  bandit: { title: 'วิชาโจรป่า', class: 'โจรป่า', skills: ['ซุ่มโจมตี', 'ล้วงกระเป๋า', 'หลบหนี'] },
+  muay: { title: 'ค่ายมวยไทย', classId: 'muaythai', class: 'มวยไทย', skills: ['หมัดแย็บ', 'เตะก้านคอ', 'ศอกกลับพลิกล็อก', 'เข่าลอยทะลวงฟ้า', 'ไหว้ครูรำมวย'] },
+  sword: { title: 'สำนักดาบนักรบ', classId: 'warrior', class: 'นักรบ', skills: ['ฟันดาบ', 'ดาบหมุนวน', 'ตั้งการ์ด', 'ยาดม'] },
+  hunter: { title: 'ทับนายพราน', classId: 'hunter', class: 'นายพราน', skills: ['ศรฉับไว', 'ศรพิษพรานไพร', 'ห่าฝนธนู', 'กับดักหนามพราน', 'ตาเหยี่ยว'] },
+  herbal: { title: 'สำนักหมอยา', classId: 'herbalist', class: 'หมอยา', skills: ['สายใยสมุนไพร', 'ขวดยาเด้งห้าทิศ', 'วงหนาดปราบผี', 'หมอกยาชโลมใจ', 'น้ำอมฤตชุบชีวา'] },
+  shaman: { title: 'ตำหนักหมอผี', classId: 'shaman', class: 'หมอผี', skills: ['ลูกไฟอาคม', 'ยันต์เพลิง', 'คุณไสย', 'น้ำมนต์'] },
+  bandit: { title: 'เรือนโจรป่า', classId: 'assassin', class: 'โจรป่า', skills: ['แทงมีด', 'จู่โจมเงา', 'ม่านควัน', 'มีดอาบยาพิษ'] },
 };

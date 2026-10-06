@@ -1,4 +1,4 @@
-// NPC roster for นครอโยธยา. Each entry is pure data:
+// NPC roster for นครอโยธยา and ทุ่งนอกเมือง. Each entry is pure data:
 //   id, name, occupation, gender, home, interactionRadius, dialogue, shopType / trainer,
 //   map (optional: which map of src/world/maps.js the NPC lives on; otherwise
 //   inferred from `home.near` or the first road junction in the schedule),
@@ -103,37 +103,63 @@ export const NPCS = [
     dialogue: ['ตลาดนี้ห้ามวิวาท ใครฝ่าฝืนโดนจับ', 'ข้าจำหน้าคนที่มีกรรมหนักได้ทุกคน'],
     schedule: { morning: route(stop('mkt_n', 'idle', 'guard', [6, 10]), 'pl_ne', stop('mkt_e', 'idle', 'guard', [6, 10]), 'pl_se', stop('mkt_s', 'idle', 'guard', [6, 10]), 'pl_sw', stop('mkt_w', 'idle', 'guard', [6, 10]), 'pl_nw'), day: route(stop('mkt_n', 'idle', 'guard', [6, 10]), 'pl_ne', stop('mkt_e', 'idle', 'guard', [6, 10]), 'pl_se', stop('mkt_s', 'idle', 'guard', [6, 10]), 'pl_sw', stop('mkt_w', 'idle', 'guard', [6, 10]), 'pl_nw'), evening: guard(P(3.5, 6, Math.PI, 'mkt_n')), night: route('mkt_n', 'pl_ne', 'mkt_e', 'pl_se', 'mkt_s', stop('shops_m', 'idle', 'guard', [6, 10]), 'mkt_s', 'pl_sw', 'mkt_w', 'pl_nw') } },
 
-  // ---------- Craft shops and class masters ----------
-  { id: 'blacksmith', name: 'ช่างทองดี', occupation: 'blacksmith', home: { near: 'bl2' }, shopType: 'blacksmith', interactionRadius: 6.2,
-    dialogue: ['เหล็กดีต้องเผาจนแดงแล้วตีให้ถึงเนื้อ', 'เอาอาวุธมาซ่อมได้ทุกเมื่อ ส่วนการตีของใหม่ รอข้าเตรียมเตาก่อน'],
+  // ---------- Craft shops ----------
+  // ลุงดำ took over the forge from ช่างทองดี; the id stays `blacksmith` (quests and tests use it).
+  { id: 'blacksmith', name: 'ลุงดำ', occupation: 'blacksmith', home: { near: 'bl2' }, shopType: 'blacksmith', interactionRadius: 6.2,
+    // Old, burly, skin darkened by forty years at the forge; grey crop, white headband, ผ้าขาวม้า at the waist.
+    look: { skin: '#7a5236', hair: '#9a948a', hairStyle: 'crop', bottom: '#3a2e24', sash: '#a8432f', hat: 'headband', scale: 1.06 },
+    dialogue: [
+      'เข้ามาสิ ยืนเกะกะหน้าเตาทำไม ไฟมันไม่กัดเอ็งหรอก... ข้าลุงดำ ตีเหล็กมาตั้งแต่ก่อนเอ็งเกิด',
+      'เหล็กน้ำพี้ต้องเผาจนแดงเป็นสีลูกตำลึง แล้วตีให้ถึงเนื้อ ทำลวก ๆ ดาบจะหักกลางศึก',
+      'จะออกประตูวาปไปทุ่งนอกเมืองรึ? อย่าไปมือเปล่า หมูป่าในสวนผลไม้เขี้ยวมันแทงทะลุหนังคนได้',
+      'ตกค่ำผีป่ากับผีพรายออกเพ่นพ่านแถวชายป่า ดาบดี ๆ กับเกราะหนังสักตัว ช่วยให้เอ็งได้กลับมากินข้าวเย็นที่บ้าน',
+      'ได้หนังสัตว์ เขี้ยวหมูป่ามา เอามาขายข้าได้ ข้าให้ราคาไม่โกงเอ็งหรอก',
+    ],
     schedule: shopHours(work('forge_smith', 'hammer')) },
   { id: 'enhancer', name: 'หมื่นเพชรศาสตรา', occupation: 'enhancer', home: { near: 'bl3' }, shopType: 'enhance', interactionRadius: 5.6,
     dialogue: ['เปลวไฟสีฟ้านี้ไม่ใช่ไฟธรรมดา มันหลอมได้ทั้งเหล็กและวิญญาณของศาสตรา', 'ตีบวกมีทั้งสำเร็จและแตกหัก เจ้าพร้อมรับความเสี่ยงหรือไม่'],
     schedule: shopHours(work('enhance_master', 'hammer')) },
   { id: 'general_merchant', name: 'เจ๊กฮวด', occupation: 'merchant', home: { near: 'shops_m' }, shopType: 'general',
-    dialogue: ['คบไฟ เชือก เสบียง ครบทุกอย่างสำหรับคนเดินทาง', 'ไปลานซ้อมอย่าลืมพกยาติดตัว'],
+    dialogue: ['คบไฟ เชือก เสบียง ครบทุกอย่างสำหรับคนเดินทาง', 'จะออกไปทุ่งนอกเมืองอย่าลืมพกยาติดตัว ข้างนอกไม่มีหมอยาเดินตามเอ็งนะ'],
     schedule: shopHours(work('general_keeper', 'sell')) },
-  { id: 'herbalist', name: 'หมอยาเย็น', occupation: 'herbalist', gender: 'f', home: { near: 'shops_m' }, shopType: 'herbalist', trainer: 'herbal',
-    dialogue: ['ใบไม้ทุกใบเป็นยา ถ้ารู้จักใช้', 'สมุนไพรในสวนหลังบ้านข้าพอใช้ได้ทั้งเมือง', 'หมอยารุ่นใหม่ไปลองตำรับกับหุ่นซ้อมที่ลานซ้อมได้นะ'],
+  // Last stop before the warp: just inside the North Gate, beside the avenue.
+  { id: 'gate_supplier', name: 'แม่ค้าเสบียงจันทร์เพ็ญ', occupation: 'merchant', gender: 'f', home: { near: 'gate_in' }, shopType: 'supplies', props: ['basket'],
+    dialogue: [
+      'ยาหม้อ น้ำผึ้งป่า ซื้อติดตัวไว้ก่อนเข้าประตูวาปเถิดพ่อคุณ ข้างนอกไม่มีร้านให้วิ่งกลับมาทัน',
+      'ใครกลับจากทุ่งมาพร้อมหนังสัตว์กับเขี้ยวหมูป่า ป้ารับซื้อหมด ไม่ต้องหอบไปถึงตลาด',
+      'ตกค่ำแล้วผีออกเดินในทุ่ง ทหารเฝ้าประตูยังต้องจุดโคมทั้งคืน เอ็งจะไปก็พกยาไปเยอะ ๆ',
+    ],
+    schedule: shopHours(work(P(-8, -99, Math.PI / 2, 'gate_in'), 'sell')) },
+  // หมอยาเย็น keeps the herb shop; the class is taught at สำนักหมอยา by หมอหลวงพรหม (master_herbal).
+  { id: 'herbalist', name: 'หมอยาเย็น', occupation: 'herbalist', gender: 'f', home: { near: 'shops_m' }, shopType: 'herbalist',
+    dialogue: ['ใบไม้ทุกใบเป็นยา ถ้ารู้จักใช้', 'เช้า ๆ ข้าออกประตูวาปไปเก็บสมุนไพรริมสวนผลไม้ สายหน่อยก็กลับมาเปิดร้าน', 'อยากเป็นหมอยาเต็มตัว ไปกราบหมอหลวงพรหมที่สำนักหมอยา ย่านสำนักครูโน่น'],
     schedule: { morning: work('herb_gather', 'gather'), day: work('herb_keeper', 'grind'), evening: work('herb_keeper', 'grind'), night: HOME } },
-  { id: 'occultist', name: 'หมออาคมเฒ่า', occupation: 'occultist', home: { near: 'shops_s' }, shopType: 'occult', trainer: 'occult',
-    dialogue: ['ตะกรุดดอกนี้ลงอักขระไว้สามคืน', 'ยามค่ำคืนวิชาอาคมแรงกว่ากลางวัน ร้านข้าจึงเปิดถึงดึก', 'ว่ากันว่าหลังประตูเหนือมีสุสานเก่า... ดีแล้วที่ประตูปิด'],
+  { id: 'occultist', name: 'หมออาคมเฒ่า', occupation: 'occultist', home: { near: 'shops_s' }, shopType: 'occult',
+    dialogue: ['ตะกรุดดอกนี้ลงอักขระไว้สามคืน', 'ยามค่ำคืนวิชาอาคมแรงกว่ากลางวัน ร้านข้าจึงเปิดถึงดึก', 'ประตูเหนือยังปิดตาย แต่หมอผีเปิดทางวาปไว้ใต้ซุ้ม... หลังกำแพงมีสุสานเก่า ตกดึกวิญญาณเดินกันเต็มทุ่ง พกตะกรุดไปด้วย'],
     schedule: { morning: sit('occult_keeper', 'chant'), day: sit('occult_keeper', 'chant'), evening: sit('occult_keeper', 'chant'), night: sit('occult_keeper', 'chant') } },
-  { id: 'master_muay', name: 'ครูมวยเสือ', occupation: 'boxing_master', home: { near: 'tr2' }, trainer: 'muay', interactionRadius: 5,
-    dialogue: ['หมัด เท้า เข่า ศอก ทุกส่วนคืออาวุธ', 'กลับมาเมื่อพร้อมจะเรียนวิชามวย'],
-    schedule: shopHours(work('boxing_master', 'box')) },
-  { id: 'master_sword', name: 'ครูดาบสิงห์', occupation: 'sword_master', home: { near: 'tr3' }, trainer: 'sword',
-    dialogue: ['ดาบสองมือต้องใช้ใจเดียว', 'ข้าเคยรบมาแล้วสามศึก'],
-    schedule: shopHours(work('sword_master', 'sword')) },
-  { id: 'master_hunter', name: 'พรานบุญ', occupation: 'hunter', home: { near: 'tr2' }, trainer: 'hunter',
-    dialogue: ['ป่าเหนือเมืองมีสัตว์และสิ่งที่ไม่ใช่สัตว์', 'ธนูดีต้องทำจากไม้ไผ่ป่าแก่'],
-    schedule: { morning: work('hunter_master', 'aim'), day: work('hunter_master', 'aim'), evening: sit('hunter_camp'), night: sit('hunter_camp') } },
-  { id: 'master_shaman', name: 'หมอผีจันทร์', occupation: 'shaman', home: { near: 'tr3' }, trainer: 'shaman',
-    dialogue: ['ผีตายโหงไม่ยอมไปผุดไปเกิด ต้องมีคนช่วยส่ง', 'กลางคืนข้าได้ยินเสียงร้องจากทางป่าเหนือ'],
-    schedule: allDay(sit('shaman_master', 'chant')) },
-  { id: 'master_bandit', name: 'เสือดำ', occupation: 'bandit', home: { near: 'tr3' }, trainer: 'bandit',
-    dialogue: ['ชู่ว... ข้าไม่ได้อยู่ที่นี่นะ', 'ถ้าอยากเรียนวิชาหลบหนี กลับมาหาข้าตอนไม่มีทหาร'],
-    schedule: { morning: idle('bandit_master', 'lean'), day: idle('bandit_master', 'lean'), evening: idle('bandit_master', 'lean'), night: idle('bandit_master', 'lean') } },
+
+  // ---------- Class masters (ย่านสำนักครู, src/data/halls.js) ----------
+  // Each master works at `<hall id>_master` (spot registered by the hall builder) and goes home at night;
+  // the หมอผี and the โจรป่า keep their halls open through the night, when their arts are strongest.
+  { id: 'master_muay', name: 'ครูมวยเสือ', occupation: 'boxing_master', home: { near: 'hq_s' }, trainer: 'muay', interactionRadius: 5,
+    dialogue: ['ไหว้ครูก่อนเข้าค่าย! ข้าครูมวยเสือ เจ้าของค่ายมวยไทยแห่งนี้', 'หมัด เท้า เข่า ศอก ทุกส่วนคืออาวุธ มวยไทยเน้นพลังกับความว่องไว ตีหนักและตีถี่', 'เพิ่มพลังให้หมัดหนัก เพิ่มว่องไวให้หลบเขี้ยวหมูป่าได้ อย่าลืมไปลองแม่ไม้กับหุ่นฟางก่อนออกทุ่ง'],
+    schedule: shopHours(work('hall_muaythai_master', 'box')) },
+  { id: 'master_sword', name: 'ครูดาบสิงห์', occupation: 'sword_master', home: { near: 'hq_1' }, trainer: 'sword',
+    dialogue: ['ยืนให้ตรง! ข้าครูดาบสิงห์ เคยรบมาแล้วสามศึก', 'นักรบคือโล่ของพวกพ้อง พลังให้ดาบหนัก ความอึดให้ยืนรับศัตรูได้นานกว่าใคร', 'ดาบสองมือต้องใช้ใจเดียว ออกทุ่งไปเมื่อใด จงยืนหน้า ให้เพื่อนยิงจากข้างหลัง'],
+    schedule: shopHours(work('hall_warrior_master', 'sword')) },
+  { id: 'master_hunter', name: 'พรานบุญ', occupation: 'hunter', home: { near: 'hq_2' }, trainer: 'hunter',
+    dialogue: ['เดินเบา ๆ หน่อย... ข้าพรานบุญ ล่าสัตว์ในป่าเหนือมาครึ่งชีวิต', 'นายพรานยิงจากที่ไกล ความชำนาญให้ลูกศรแม่นและแรง ว่องไวให้ถอยหนีทัน โชคให้ศรเข้าจุดตาย', 'ป่าเหนือเมืองมีสัตว์และสิ่งที่ไม่ใช่สัตว์ ไอ้ด่างหมาคู่ใจจะดมกลิ่นผีให้เอ็งก่อนมันจะถึงตัว'],
+    schedule: shopHours(work('hall_hunter_master', 'aim')) },
+  { id: 'master_herbal', name: 'หมอหลวงพรหม', occupation: 'herbalist', home: { near: 'hq_3' }, trainer: 'herbal',
+    look: { hair: '#c9c4ba' },
+    dialogue: ['มาเถิด นั่งลงก่อน ข้าหมอหลวงพรหม เคยถวายงานหมอในวังมาสามแผ่นดิน', 'หมอยาเรียนทั้งยารักษาและยาพิษ ปัญญาให้ตำรับแรง ความอึดให้อยู่รอดจนเพื่อนกลับบ้านครบ', 'สมุนไพรดีขึ้นริมสวนผลไม้นอกกำแพง หนาดกับขมิ้นไล่ผีพรายได้ จำไว้'],
+    schedule: shopHours(work('hall_herbalist_master', 'grind')) },
+  { id: 'master_shaman', name: 'หมอผีจันทร์', occupation: 'shaman', home: { near: 'hq_3' }, trainer: 'shaman',
+    dialogue: ['ข้าเห็นเจ้ามาตั้งแต่เปลวเทียนไหว... ข้าหมอผีจันทร์ ผู้เปิดประตูวาปใต้ซุ้มประตูเหนือ', 'หมอผีใช้ปัญญาเป็นเวท ความชำนาญให้ร่ายไว ยันต์เพลิงกับคุณไสยแรงที่สุดในหกสาย แต่ร่างบาง อย่ายืนหน้า', 'ผีตายโหงในสุสานเก่าไม่ยอมไปผุดไปเกิด ตกค่ำมันออกเดินถึงทุ่งนา ต้องมีคนช่วยส่ง'],
+    schedule: { morning: sit('hall_shaman_master', 'chant'), day: sit('hall_shaman_master', 'chant'), evening: sit('hall_shaman_master', 'chant'), night: sit('hall_shaman_master', 'chant') } },
+  { id: 'master_bandit', name: 'เสือดำ', occupation: 'bandit', home: { near: 'hq_s' }, trainer: 'bandit',
+    dialogue: ['ชู่ว... หาเรือนนี้เจอได้ก็ไม่เลว ข้าเสือดำ เคยเป็นโจรป่าที่ทหารทั้งกรุงตามจับ', 'โจรป่าอยู่ด้วยความว่องไวกับโชค หลบให้พ้น แทงให้ตรงจุด มีดคู่คมที่สุดยามค่ำคืน', 'ตกดึกผีออกเดินในทุ่ง คนอื่นหลบเข้าบ้าน แต่เงาคือบ้านของพวกเรา'],
+    schedule: { morning: idle('hall_assassin_master', 'lean'), day: idle('hall_assassin_master', 'lean'), evening: idle('hall_assassin_master', 'lean'), night: idle('hall_assassin_master', 'lean') } },
 
   // ---------- City centre and residential ----------
   { id: 'guard_center', name: 'ทหารหลักเมือง', occupation: 'guard', home: { near: 'center' }, faction: 'city_guard',
@@ -149,10 +175,10 @@ export const NPCS = [
     dialogue: ['ลานบ้านต้องกวาดทุกเช้าทุกเย็น', 'เด็กแถวนี้ซนนัก วิ่งเล่นทั้งวัน'],
     schedule: { morning: work(P(-37, -31, -Math.PI / 2, 'rw2'), 'sweep'), day: sit(P(-36.2, -29.4, -Math.PI / 2, 'rw2')), evening: work(P(-37, -31, -Math.PI / 2, 'rw2'), 'sweep'), night: HOME } },
   { id: 'gossip_a', name: 'ลุงเปลี่ยน', occupation: 'villager', home: { near: 'rn1' },
-    dialogue: ['ได้ข่าวไหม คนเห็นแสงประหลาดแถวป่าเหนือ', 'ปีนี้ข้าวงามกว่าทุกปี'],
+    dialogue: ['ได้ข่าวไหม คนเห็นแสงประหลาดแถวป่าเหนือ', 'หมอผีจันทร์เปิดประตูวาปใต้ซุ้มประตูเหนือ คนหนุ่ม ๆ เข้าแสงไปล่าหมูป่ากันทุกวัน'],
     schedule: { morning: talk(P(-44.6, -44, Math.PI / 2, 'rn1')), day: talk(P(-44.6, -44, Math.PI / 2, 'rn1')), evening: talk(P(-44.6, -44, Math.PI / 2, 'rn1')), night: HOME } },
   { id: 'gossip_b', name: 'ป้าพร', occupation: 'villager', gender: 'f', home: { near: 'rn1' },
-    dialogue: ['แสงที่ไหนกัน ลุงก็ตาฝาดอีกแล้ว', 'ดีแล้วที่ประตูเหนือปิด ไม่มีใครต้องผ่านสุสานเก่า'],
+    dialogue: ['แสงที่ไหนกัน ลุงก็ตาฝาดอีกแล้ว', 'ประตูเหนือปิดก็จริง แต่แสงวาปนั่นพาคนออกไปถึงทุ่งนอกเมือง ตกค่ำผีเดินเต็มทุ่ง ป้าไม่ไปเด็ดขาด'],
     schedule: { morning: talk(P(-43.3, -44.2, -Math.PI / 2, 'rn1')), day: talk(P(-43.3, -44.2, -Math.PI / 2, 'rn1')), evening: talk(P(-43.3, -44.2, -Math.PI / 2, 'rn1')), night: HOME } },
   { id: 'kid_a', name: 'เด็กหญิงอ้อย', occupation: 'child', gender: 'f', home: { near: 'rw3' },
     dialogue: ['ไล่จับกัน! ข้าเป็นยักษ์!', 'อย่าบอกแม่นะว่าข้ามาเล่นถึงนี่'],
@@ -187,10 +213,10 @@ export const NPCS = [
 
   // ---------- North gate ----------
   { id: 'guard_gate_w', name: 'นายประตูอิน', occupation: 'guard', home: { near: 'gate_in' }, faction: 'city_guard',
-    dialogue: ['ประตูเหนือปิดตายตามรับสั่ง ไม่มีใครออกนอกกำแพงได้', 'ผู้ที่มีกรรมหนัก ทหารอโยธยาไม่ปล่อยให้เข้าเมือง'],
+    dialogue: ['บานประตูเหนือปิดตายตามรับสั่ง ผู้ใดจะกลับเข้าเมืองต้องเข้าแสงวาปข้างหลังข้า', 'ผู้ที่มีกรรมหนัก ทหารอโยธยาไม่ปล่อยให้เข้าเมือง', 'ถ้าบาดเจ็บหนัก กลับเข้าเมืองไปพักก่อน ทุ่งนี้ไม่ใช่ที่ของคนประมาท'],
     schedule: { morning: guard(P(-4, -116, Math.PI, 'gate_out')), day: guard(P(-4, -116, Math.PI, 'gate_out')), evening: guard(P(-4, -116, Math.PI, 'gate_out')), night: guard(P(-4, -116, Math.PI, 'gate_out')) } },
   { id: 'guard_gate_e', name: 'นายประตูจัน', occupation: 'guard', home: { near: 'gate_in' }, faction: 'city_guard',
-    dialogue: ['ประตูเมืองปิดมาหลายวันแล้ว ข้าได้แต่เฝ้ายาม', 'เห็นแสงไฟแปลก ๆ ในป่าเหนือเมื่อคืน'],
+    dialogue: ['ข้าเฝ้าแสงวาปนอกกำแพงนี้ทั้งวันทั้งคืน หมูป่ากับลิงในสวนผลไม้ยังพอสู้ไหว', 'ยิ่งเดินลึกเข้าป่ายิ่งอันตราย ตกค่ำผีป่าออกจากชายป่า ไกลไปถึงสุสานเก่ามีแต่วิญญาณ', 'เห็นแสงไฟแปลก ๆ ในป่าเหนือเมื่อคืน... อย่าไปคนเดียว'],
     schedule: { morning: guard(P(4, -116, Math.PI, 'gate_out')), day: guard(P(4, -116, Math.PI, 'gate_out')), evening: guard(P(4, -116, Math.PI, 'gate_out')), night: guard(P(4, -116, Math.PI, 'gate_out')) } },
   { id: 'guard_patrol', name: 'หมื่นตระเวน', occupation: 'guard', home: { near: 'ave1' }, faction: 'city_guard',
     dialogue: ['ข้าตระเวนรอบเมืองวันละหลายรอบ', 'ยามค่ำคืนทหารจะออกตระเวนมากขึ้น'],
@@ -212,4 +238,23 @@ export const NPCS = [
   { id: 'boatwright', name: 'ช่างเรือเปีย', occupation: 'villager', home: { near: 'er_m' }, props: ['hammer'],
     dialogue: ['เรือลำนี้ใช้ไม้ตะเคียนทั้งลำ', 'วันหนึ่งเรือที่ข้าต่อจะพาผู้คนไปไกลถึงทะเล'],
     schedule: shopHours(work('boatyard', 'hammer')) },
+  // ---------- ทุ่งนอกเมือง (map `fields`): the farmers' village by the warp ----------
+  // The only shop outside the wall: restock and sell loot without warping back.
+  { id: 'village_trader', name: 'ยายเพียร', occupation: 'merchant', gender: 'f', map: 'fields', home: { near: 'fv2' }, shopType: 'village', props: ['basket'],
+    dialogue: [
+      'มาจากในเมืองรึลูก? ยายมียาหม้อกับน้ำผึ้งป่าพอให้ไปต่อได้อีกหน่อย',
+      'หนังสัตว์ เขี้ยวหมูป่า ขี้เถ้าธูปจากผี เอามาขายยายได้ ไม่ต้องแบกกลับเข้าเมือง',
+      'ตะวันตกดินเมื่อไรรีบกลับมาหมู่บ้านนะ ผีป่ามันออกมาจากชายป่า ไม่ปรานีใคร',
+    ],
+    schedule: shopHours(work(P(-69.5, -131, 0, 'fv2'), 'sell')) },
+  { id: 'farmer_a', name: 'นายมา', occupation: 'farmer', map: 'fields', home: { near: 'fv2' },
+    dialogue: ['ปีนี้น้ำดี ข้าวในทุ่งนาหลวงงามทั้งแปลง', 'หมูป่าลงมากินข้าวกล้าจากสวนผลไม้ทุกคืน ใครล่ามันได้ข้าขอบใจนัก'],
+    schedule: { morning: work('paddy_a', 'plant'), day: work('paddy_a', 'plant'), evening: sit('village_yard'), night: HOME } },
+  { id: 'farmer_b', name: 'นางดวง', occupation: 'farmer', gender: 'f', map: 'fields', home: { near: 'fv2' },
+    dialogue: ['ดำนาตั้งแต่ไก่โห่ หลังแทบหัก', 'ตกค่ำได้ยินเสียงผีพรายหัวเราะจากชายป่า ปิดประตูนอนกันแต่หัวค่ำ'],
+    schedule: { morning: work('paddy_b', 'plant'), day: work('paddy_b', 'plant'), evening: work('pounder', 'pound'), night: HOME } },
+  { id: 'farmer_c', name: 'ลุงคำ', occupation: 'farmer', map: 'fields', home: { near: 'fv3' }, props: ['pole'],
+    dialogue: ['ข้าวเปลือกสองกระบุงนี้ต้องขึ้นยุ้งก่อนฝนมา', 'แต่ก่อนขนข้าวเข้าเมืองทางประตูเหนือ ตอนนี้ประตูปิด ต้องรอแสงวาปของหมอผีจันทร์'],
+    schedule: { morning: carry('fv2', 'fb2', stop('paddy_d', 'work', 'plant', [10, 14]), 'fb2', 'fv2', stop('village_yard', 'work', 'lift', [4, 6])), day: carry('fv2', 'fb2', 'fc2', stop('paddy_b', 'work', 'plant', [10, 14]), 'fc2', 'fb2', 'fv2', stop('village_yard', 'work', 'lift', [4, 6])), evening: sit('village_yard'), night: HOME } },
 ];
+

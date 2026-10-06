@@ -6,7 +6,9 @@ import { Emitter } from '../src/character/Emitter.js';
 import { ITEMS } from '../src/character/data/items.js';
 import { MONSTERS } from '../src/combat/data/monsters.js';
 import { QUESTS } from '../src/data/quests.js';
-import { SHOPS } from '../src/data/shops.js';
+import { SHOPS, TRAINERS } from '../src/data/shops.js';
+import { CLASSES } from '../src/character/data/classes.js';
+import { HALLS } from '../src/data/halls.js';
 import { NPCS } from '../src/data/npcs.js';
 import { LANDMARKS } from '../src/data/landmarks.js';
 import { QuestSystem } from '../src/quest/QuestSystem.js';
@@ -41,6 +43,20 @@ test('quest data references known NPCs, landmarks, monsters, items and quests', 
 test('shop stock only lists known items and every vendor shop is used by an NPC', () => {
   for (const [type, shop] of Object.entries(SHOPS)) for (const id of shop.stock ?? []) assert.ok(ITEMS[id], `${type}: unknown item ${id}`);
   for (const n of NPCS) if (n.shopType) assert.ok(SHOPS[n.shopType], `${n.id}: unknown shop ${n.shopType}`);
+});
+
+test('one master per playable class, teaching at the class hall', () => {
+  for (const [id, t] of Object.entries(TRAINERS)) {
+    const cls = CLASSES[t.classId];
+    assert.ok(cls, `trainer ${id}: unknown class ${t.classId}`);
+    assert.equal(t.class, cls.name, `trainer ${id} names the class ${cls.name}`);
+  }
+  for (const n of NPCS) if (n.trainer) assert.ok(TRAINERS[n.trainer], `${n.id}: unknown trainer ${n.trainer}`);
+  for (const hall of HALLS) {
+    const masters = NPCS.filter(n => n.trainer && TRAINERS[n.trainer].classId === hall.classId);
+    assert.equal(masters.length, 1, `${hall.classId} has one master`);
+    assert.equal(masters[0].schedule.day.at, hall.spots.master, `${masters[0].id} works at ${hall.spots.master}`);
+  }
 });
 
 test('a quest goes from offer to hand-in and pays its rewards', () => {
