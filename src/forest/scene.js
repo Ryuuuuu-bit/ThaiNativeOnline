@@ -67,10 +67,15 @@ function patchFade(material) {
         uniform vec2 uPlayerUv; uniform float uPlayerDepth; uniform float uAspect; uniform vec2 uViewport; varying float vViewDepth;`)
       .replace('#include <clipping_planes_fragment>', `#include <clipping_planes_fragment>
         {
+          // Fully clear around the player; an ordered 8x8 dither feathers only the rim,
+          // so the window reads as a soft gradient rather than scattered dots.
           vec2 d = gl_FragCoord.xy / uViewport - uPlayerUv; d.x *= uAspect;
-          float hole = 1. - smoothstep(.07, .16, length(d));
-          float bayer = fract(dot(floor(gl_FragCoord.xy), vec2(.7548777, .5698403)));
-          if (vViewDepth < uPlayerDepth - 1.5 && hole * .85 > bayer) discard;
+          float hole = 1. - smoothstep(.10, .20, length(d));
+          vec2 px = floor(gl_FragCoord.xy);
+          float b2 = fract(px.x * .5 + px.y * px.y * .75);
+          vec2 p4 = floor(px * .5); float b4 = fract(p4.x * .5 + p4.y * p4.y * .75) * .25 + b2;
+          vec2 p8 = floor(px * .25); float b8 = fract(p8.x * .5 + p8.y * p8.y * .75) * .0625 + b4;
+          if (vViewDepth < uPlayerDepth - 1.5 && hole > b8 * .999) discard;
         }`);
   };
   const key = material.customProgramCacheKey;
