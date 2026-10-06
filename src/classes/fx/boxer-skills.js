@@ -6,7 +6,7 @@ import { crocYantTex } from './croc-yant.js';
 // The ten Muay Thai skills with their effects, ported from
 // prototypes/skill-fx/src/boxer_fx.src.html and timed to the fighter's clips
 // (hit times come from muaythai-moves.js). Positions are FX-local units.
-const { GOLD, WHITE, DUST } = COL;
+const { GOLD, WHITE, DUST, GOLD_SOFT } = COL;
 
 const BASE = import.meta.env.BASE_URL + 'fx/muaythai/';
 const img = name => Object.assign(new Image(), { src: BASE + name });
@@ -14,16 +14,16 @@ const HANUMAN_IMG = img('hanuman_yant.png'), ERAWAN_IMG = img('erawan_yant.png')
 
 // Skill bar data: icon, unlock level, cooldown, short description.
 export const SKILL_META = {
-  boxer_jab: { lv: 1, cd: 2, desc: 'แย็บรัว 3 หมัด' },
+  boxer_jab: { lv: 1, cd: 2, desc: 'แย็บ แย็บคู่ แล้วก้าวแย็บ 3 หมัด' },
   boxer_kick: { lv: 2, cd: 4.5, desc: 'เตะก้านคอเต็มแรง กระเด็น มึนงง อ่อนแรง' },
-  boxer_croc: { lv: 4, cd: 7, desc: 'หมุนตัวเตะกลับหลัง โดนทุกตัวรอบตัว 2 ครั้ง' },
+  boxer_croc: { lv: 4, cd: 7, desc: 'หมุนตัวถีบส้นเท้ากลับหลัง โดนทุกตัวรอบตัว กระเด็น' },
   boxer_waikru: { lv: 6, cd: 22, desc: 'ฟื้น HP 20% โจมตี +35% ตีเร็ว +10% 12 วิ' },
-  boxer_ngouy: { lv: 8, cd: 18, desc: '★ กระโดดทุ่มศอกลงกลางหัว มึนงง เกราะแตก' },
+  boxer_ngouy: { lv: 8, cd: 18, desc: '★ รับขาแล้วทุ่มศอกลงต้นขา มึนงง เกราะแตก' },
   boxer_drum: { lv: 10, cd: 26, desc: '[ปาร์ตี้] ตีกลองศึก 3 จังหวะ ฟื้น HP บัฟป้องกัน/โจมตี' },
-  boxer_elbow: { lv: 20, cd: 5.5, desc: 'ศอกกลับ 2 จังหวะ เลือดไหล' },
+  boxer_elbow: { lv: 20, cd: 5.5, desc: 'ศอกตัดแล้วหมุนตัวศอกกลับ เลือดไหล' },
   boxer_knee: { lv: 40, cd: 10, desc: 'กระโดดเข่าลอยเข้าหาเป้า ผีรอบจุดมึน' },
   boxer_iron: { lv: 70, cd: 28, desc: 'คาถามหาอุด ป้องกัน +30% โจมตี +20% ฟื้น HP 12%' },
-  boxer_hanuman: { lv: 100, cd: 16, desc: 'ท่าไม้ครู หมัด-เท้า-เข่า-ศอก 8 จังหวะ' },
+  boxer_hanuman: { lv: 100, cd: 16, desc: 'แม่ไม้: ปัดหมัดตรง ย่อหลบ แล้วเสยหมัดคู่ขึ้นปลายคาง กระเด็น มึน 1.2 วิ' },
 };
 export const iconUrl = id => BASE + 'icon_' + id + '.png';
 
@@ -74,6 +74,32 @@ function noteTex() {
   NOTE_TEX = new THREE.CanvasTexture(c); return NOTE_TEX;
 }
 
+// ---- power-up aura ----------------------------------------------------------------
+// A lathe envelope (body-hugging, widest at the waist, tapering ~1.9× the body
+// height) with a shader that shows its rim, cuts the top into flickering flame
+// tongues and streams bright streaks upward.
+function auraGeo(k = 1) {
+  const prof = [[.36, 0], [.55, .35], [.66, .9], [.64, 1.45], [.52, 2.05], [.34, 2.65], [.14, 3.15], [.02, 3.45]];
+  return new THREE.LatheGeometry(prof.map(([r, y]) => new THREE.Vector2(r * k, y * (.85 + .15 * k))), 40);
+}
+function auraMat(c) {
+  return new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+    uniforms: { uC: { value: c }, uA: { value: 1 }, uTime: { value: 0 } },
+    vertexShader: `varying vec2 vUv; varying vec3 vN, vV;
+      void main(){ vUv = uv; vec4 w = modelViewMatrix * vec4(position, 1.); vN = normalize(normalMatrix * normal); vV = normalize(-w.xyz); gl_Position = projectionMatrix * w; }`,
+    fragmentShader: `varying vec2 vUv; varying vec3 vN, vV; uniform vec3 uC; uniform float uA, uTime;
+      void main(){
+        float u = vUv.x * 6.2832, v = vUv.y;
+        float rim = pow(1. - abs(dot(vN, vV)), 1.6);
+        // flame tongues: the envelope's top edge rises and falls around it
+        float tip = .62 + .2 * sin(u * 7. + uTime * 5.) * sin(u * 3. - uTime * 3.1) + .12 * sin(u * 13. + uTime * 9.);
+        float body = smoothstep(tip, tip - .22, v) * smoothstep(0., .08, v);
+        float streak = .55 + .45 * sin(u * 23. + v * 9. - uTime * 14.);
+        float a = (rim * .9 + .12) * body * streak * uA;
+        gl_FragColor = vec4(uC * a, 1.);
+      }` });
+}
+
 // ---- runner -------------------------------------------------------------------
 // player: THREE.Object3D moved in world space; character: model with attack/has/tint;
 // groundHeight(x, z): world ground height; onMove(): stops the player's own walking.
@@ -83,6 +109,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
   const hero = { barY: 1.95, maxHp: 1000, hp: 750 };
   hero.pos = () => fx.toLocal(player.position).setY(0);
   const chest = a => (a === hero ? hero.pos().setY(.95) : a.chest());
+  const headP = a => (a === hero ? hero.pos().setY(hero.barY + .2) : a.head());
   const tg = dummy;
   const dirTo = () => tg.pos.clone().add(tg.off).sub(hero.pos()).setY(0).normalize();
   const ahead = (k = .45) => chest(hero).add(dirTo().multiplyScalar(k));
@@ -113,7 +140,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
         anim('boxer_jab');
         hits('boxer_jab', i => { const p = chest(tg).add(V(rand(-.15, .15), rand(-.1, .2), .15)); fx.speedLines(ahead(.5), dirTo(), 10); fx.impact(p, i === 2 ? 1.1 : .6); hurt(85, i === 2, .12); if (i === 2) { const tp = tg.pos.clone().add(tg.off); fx.shock(tp.x, tp.z, 1.4, GOLD, C(1, .5, .2), .4); } });
       });
-      return 1.2;
+      return 1.35;
     },
     boxer_kick() {
       fx.cinematic(.65, 1.5);
@@ -165,6 +192,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
           if (t > 1.8) { fx.kill(yant); eyes.forEach(({ e }) => fx.kill(e)); pool.auto = true; pool.t = 99; return false; }
         });
         hits('boxer_croc', i => {
+          const last = i === MOVES.boxer_croc.hits.length - 1;   // the heel that lands (bigger)
           pulse = 1;
           // the jaws snap: a gold flash at the yant's mouth
           yant.updateMatrixWorld(); const jaws = fx.toLocal(yant.localToWorld(JAWS.clone().divideScalar(YS))); fx.flash(jaws, 0xffc860, 30, .3);
@@ -173,11 +201,11 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
           for (let k = 0; k < 30; k++) { const a = k / 30 * 6.28; fx.emit({ p: V(P.x + Math.sin(a) * Rr * .85, .35, P.z + Math.cos(a) * Rr * .85), v: V(Math.sin(a) * rand(1.2, 2.6), rand(1.6, 3), Math.cos(a) * rand(1.2, 2.6)), c: Math.random() < .5 ? C(.22, .55, .66) : FOAM, life: .9, size: rand(.07, .12), grav: 7, drag: .4, a: .9 }, fx.PN); }
           fx.shock(P.x, P.z, Rr + .2, C(.6, 1.4, 1.3), WATER, .5); fx.shake = .12;
           if (near(P, Rr + .5)) {
-            hurt(200, i === 1, .4); const c = chest(tg);
-            fx.impact(c, i ? 1.6 : 1.1, C(1, 2, 1.4)); if (i) fx.lightPillar(tg.pos.clone().add(tg.off), C(.5, 1.6, 1.5), 4.5, .6, .8);
+            hurt(last ? 400 : 200, last, .4); const c = chest(tg);
+            fx.impact(c, last ? 1.6 : 1.1, C(1, 2, 1.4)); if (last) fx.lightPillar(tg.pos.clone().add(tg.off), C(.5, 1.6, 1.5), 4.5, .6, .8);
             fx.burst(c, 24, { c: [C(.22, .55, .66), FOAM, C(.5, .8, .85)], S: fx.PN, size: .12, sp: 3.2, upMin: .3, upK: 1.3, life: .9, grav: 7, drag: .5, a: .9 });
             const tp = tg.pos.clone().add(tg.off); fx.shock(tp.x, tp.z, .9, FOAM, WATER, .45);
-            if (i === 1) { tg.knock(tg.pos.clone().sub(P), .6); fx.popup(tg.head().add(V(0, .5, 0)), 'จระเข้ฟาดหาง!', 'st'); }
+            if (last) { tg.knock(tg.pos.clone().sub(P), .6); fx.popup(tg.head().add(V(0, .5, 0)), 'จระเข้ฟาดหาง!', 'st'); }
           }
         });
       }, C(.12, .38, .34));
@@ -289,7 +317,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
           fx.impact(chest(tg).add(V(0, .45, .15)), i ? 1.4 : 1, C(2.4, .6, .35)); if (tg.alive) { hurt(190, i === 1, .15); if (i === 0) { fx.stunStars(tg, .5); tg.bleed(); } }
         });
       });
-      return 1.2;
+      return 1.35;
     },
     boxer_knee() {
       fx.cinematic(.8, 1.5);
@@ -305,21 +333,73 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
       });
       return 1.4;
     },
+    // กายเหล็กมหาอุด: a power-up. Dust and motes are pulled in while the fighter
+    // strains (gold aura licking up, sparks crackling); at 1.42 s it bursts — flash,
+    // shock rings, a light pillar, debris thrown up — and a blazing gold aura with
+    // arcing sparks stays on, over the nine-yant ring, while the buff lasts.
     boxer_iron() {
-      fx.cinematic(.7, 2.8);
-      face(tg.pos); anim('boxer_iron'); const P = hero.pos();
-      const ring = fx.add(new THREE.Mesh(new THREE.PlaneGeometry(2.4, 2.4), new THREE.MeshBasicMaterial({ map: nineYantTex(), color: C(1.4, 1.5, 1.8), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }))); ring.rotation.x = -Math.PI / 2;
-      const shell = fx.add(new THREE.Mesh(new THREE.IcosahedronGeometry(.9, 1), fx.fresnelMat(C(1, 1.15, 1.5)))); shell.scale.y = 1.4;
-      fx.flash(P, 0xc0d0ff, 60, .6); fx.shock(P.x, P.z, 1.6, C(1.4, 1.6, 2), C(.5, .6, .8), .45); fx.shock(P.x, P.z, 3, C(1, 1.3, 2), C(.3, .4, .7), .9); fx.lightPillar(P, C(1.2, 1.5, 2.2), 6, .8, 1.1); fx.punch(.5);
-      fx.after(1.3, () => { heal(hero.maxHp * .12); fx.after(.25, () => fx.popup(P.clone().setY(hero.barY + .7), 'ป้องกัน +30% · โจมตี +20%', 'st')); });
-      let ping = .5;
+      fx.cinematic(.85, 3.2);
+      face(tg.pos); anim('boxer_iron'); const P0 = hero.pos();
+      const AURA = C(2.4, 1.75, .4), HOT = C(2.8, 2.4, 1.2), ARC = C(1.8, 2.1, 2.8), BURST = 1.42;
+      const ring = fx.add(new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), new THREE.MeshBasicMaterial({ map: nineYantTex(), color: C(2, 1.5, .5), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }))); ring.rotation.x = -Math.PI / 2;
+      // the aura: a tall flame envelope around the body — brightest at its rim, licking
+      // up in tongues that taper well above the head (two layers, the inner one hotter)
+      const shell = fx.add(new THREE.Mesh(auraGeo(1), auraMat(AURA)));
+      const inner = fx.add(new THREE.Mesh(auraGeo(.72), auraMat(HOT)));
+      const charge = fx.decal(3, P0.x, P0.z, 1.3, AURA, C(1, .5, .1), { life: 1.5, grow: 1.2 });
+      // crackling arcs: short jagged lines re-drawn every few frames around the body
+      const bolts = [0, 1, 2].map(() => {
+        const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(7 * 3), 3));
+        const l = fx.add(new THREE.Line(g, new THREE.LineBasicMaterial({ color: ARC, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })));
+        l.visible = false; l.renderOrder = 6; return l;
+      });
+      const zap = (l, hp) => {
+        const a = rand(0, 6.28), y = rand(.4, 1.7), r = rand(.25, .45);
+        const p = hp.clone().add(V(Math.cos(a) * r, y, Math.sin(a) * r)), d = V(rand(-1, 1), rand(-.6, 1), rand(-1, 1)).normalize().multiplyScalar(rand(.35, .7));
+        const arr = l.geometry.attributes.position.array;
+        for (let i = 0; i < 7; i++) { const u = i / 6, q = p.clone().addScaledVector(d, u); if (i && i < 6) q.add(V(rand(-.08, .08), rand(-.08, .08), rand(-.08, .08))); q.toArray(arr, i * 3); }
+        l.geometry.attributes.position.needsUpdate = true; l.visible = true; l.material.opacity = 1;
+      };
+      fx.flash(P0, 0xffd27a, 25, .5); fx.punch(.25);
+      let boomed = false, zapT = 0;
       fx.addTask((dt, t) => {
-        const live = clamp01((3.6 - t) / .4), hp = hero.pos();
-        character.tint?.(C(.55, .65, .85), .3 * live);
-        ring.position.set(hp.x, .06, hp.z); ring.rotation.z = t * .8; ring.material.opacity = clamp01(t * 3) * live;
-        shell.position.copy(hp).setY(.95); shell.material.uniforms.uTime.value = t; shell.material.uniforms.uA.value = .5 * clamp01(t * 3) * live;
-        ping -= dt; if (ping <= 0 && live > .5) { ping = rand(.35, .7); const p = chest(hero).add(V(rand(-.4, .4), rand(-.3, .5), .3)); fx.burst(p, 8, { c: [WHITE, C(1.6, 1.7, 2.2)], size: .08, sp: 3, life: .25, shape: SH.star, drag: 4 }); fx.popup(p, 'ติ๊ง', 'st'); }
-        if (t > 3.6) { character.tint?.(null); fx.kill(ring); fx.kill(shell); return false; }
+        const hp = hero.pos(), pow = clamp01(t / BURST), on = t >= BURST, live = clamp01((3.6 - t) / .4);
+        // gather: dust and motes spiral in toward the feet while charging
+        if (!on && Math.random() < dt * 45) {
+          const a = rand(0, 6.28), r = rand(1.6, 2.8), gold = Math.random() < .4;
+          fx.emit({ p: hp.clone().add(V(Math.cos(a) * r, rand(.03, .25), Math.sin(a) * r)), c: gold ? GOLD_SOFT : DUST, life: 1.3, size: gold ? .07 : .12, size1: .03, home: hp.clone().setY(.25), homeK: 3, swirl: 1.4, shape: gold ? SH.glow : SH.soft }, gold ? undefined : fx.PN);
+        }
+        // aura flames: rising embers around the body, roaring after the burst
+        const rate = (on ? 140 : 15 + 70 * pow) * live;
+        for (let n = Math.floor(rate * dt + Math.random()); n > 0; n--) {
+          const a = rand(0, 6.28), r = rand(.28, .55) * (on ? 1.15 : 1);
+          fx.emit({ p: hp.clone().add(V(Math.cos(a) * r, rand(0, on ? 1.5 : 1.1), Math.sin(a) * r)), v: V(-Math.cos(a) * .3, rand(1.8, on ? 4.2 : 3), -Math.sin(a) * .3), c: Math.random() < .35 ? HOT : AURA, life: rand(.3, .55), size: rand(.2, .34), size1: .03, drag: 1.2, shape: Math.random() < .5 ? SH.soft : SH.glow });
+        }
+        const flick = .85 + .15 * Math.sin(t * 37) * Math.sin(t * 23);
+        const grow = on ? 1 : .45 + .4 * pow;
+        shell.position.copy(hp); shell.material.uniforms.uTime.value = t; shell.material.uniforms.uA.value = (on ? .95 : .35 * pow) * live * flick;
+        shell.scale.set(1 + .04 * Math.sin(t * 41), grow + .04 * Math.sin(t * 29), 1 + .04 * Math.sin(t * 43));
+        inner.position.copy(hp); inner.material.uniforms.uTime.value = t * 1.3 + 4; inner.material.uniforms.uA.value = (on ? .45 : .15 * pow) * live * flick;
+        inner.scale.set(1, grow * .9, 1);
+        character.tint?.(C(.95, .7, .2), (on ? .55 : .3 * pow) * live);
+        ring.position.set(hp.x, .06, hp.z); ring.rotation.z = t * (on ? 1.6 : .6); ring.material.opacity = clamp01(t * 2) * live; ring.scale.setScalar(on ? 1 + .06 * Math.sin(t * 9) : .8 + .2 * pow);
+        // sparks: sparse while straining, constant once powered up
+        zapT -= dt;
+        if (zapT <= 0 && t > .5 && live > .3) { zapT = on ? rand(.04, .09) : rand(.12, .25); zap(bolts[(Math.random() * bolts.length) | 0], hp); }
+        for (const l of bolts) if (l.visible) { l.material.opacity -= dt * 12; if (l.material.opacity <= 0) l.visible = false; }
+        if (on && !boomed) {
+          boomed = true; const c = hp.clone().setY(.95);
+          fx.flash(hp, 0xffe08a, 90, .7); fx.hitstop(.12); fx.punch(.9); fx.shake = Math.max(fx.shake, .45);
+          fx.shock(hp.x, hp.z, 2.4, HOT, AURA, .55); fx.shock(hp.x, hp.z, 4.2, AURA, C(1, .45, .1), 1);
+          fx.decal(0, hp.x, hp.z, 1.6, C(.25, .18, .1), null, { life: 2.6, normal: true, alpha: .55 });   // scorched crater
+          fx.lightPillar(hp, AURA, 8, 1.1, 1.2);
+          fx.burst(c, 60, { c: [HOT, AURA, WHITE], size: .14, sp: 7, upMin: -.2, upMax: .9, life: .7, drag: 2.5, shape: SH.star });
+          fx.burst(hp.clone().setY(.1), 26, { c: DUST, size: .16, sizeMin: .06, sp: 5, upMin: .8, upMax: 1.6, life: 1.2, grav: 9, drag: .6, shape: SH.soft, S: fx.PN });   // debris thrown up
+          if (near(hp, 2.6)) { tg.knock(dirTo(), .8); fx.popup(tg.head().add(V(0, .4, 0)), 'กระเด็น', 'st'); }
+          fx.after(.05, () => heal(hero.maxHp * .12));
+          fx.after(.3, () => fx.popup(hp.clone().setY(hero.barY + .7), 'ป้องกัน +30% · โจมตี +20%', 'st'));
+        }
+        if (t > 3.6) { character.tint?.(null); fx.kill(ring); fx.kill(shell); fx.kill(inner); bolts.forEach(l => fx.kill(l)); return false; }
       });
       return 2.4;
     },
@@ -332,21 +412,30 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
           const back = dirTo().multiplyScalar(-.9); han.position.copy(hero.pos()).add(back).add(V(0, 2.15 + Math.sin(t * 3) * .05, 0)); han.lookAt(fx.camera.position); han.scale.setScalar(4.2 * (1 + pulse * .05)); u.uA.value = clamp01((1.7 - t) / .3);
           if (t > 1.4 && t - dt <= 1.4) for (let k = 0; k < 60; k++) fx.emit({ p: han.position.clone().add(V(rand(-1.3, 1.3), rand(-1.4, 1.4), 0)), v: V(rand(-.6, .6), rand(.4, 1.4), rand(-.3, .3)), c: Math.random() < .6 ? GOLD : C(2.4, 2, 1.2), life: rand(.6, 1.1), size: rand(.05, .1), shape: Math.random() < .3 ? SH.star : SH.glow });
           if (t > 1.7) { fx.kill(han); return false; } });
-        const kinds = ['fist', 'foot', 'knee', 'elbow', 'fist', 'foot', 'elbow', 'knee'];
-        const combo = document.createElement('div'); combo.className = 'fx-pop st big fx-combo'; labels.appendChild(combo);
+        // แม่ไม้หนุมานถวายแหวน: parry the straight right across, slip low, then a double
+        // uppercut — both fists together up under the chin, like presenting the ring.
+        const fistsAt = () => { const l = character.bone?.('LeftHand'), r = character.bone?.('RightHand'); return l && r ? fx.toLocal(l.getWorldPosition(new THREE.Vector3())).add(fx.toLocal(r.getWorldPosition(new THREE.Vector3()))).multiplyScalar(.5) : chest(hero).add(dirTo().multiplyScalar(.4)); };
         hits('boxer_hanuman', i => {
-          const k = kinds[i], pal = k === 'elbow' ? 'red' : k === 'fist' ? 'blue' : 'gold';
-          if (k !== 'fist') fx.slashArc(chest(hero).add(V(0, k === 'knee' ? -.1 : .2, 0)), tg.pos, { r: k === 'foot' ? 1.5 : 1, sweep: k === 'foot' ? 2.4 : 1.6, roll: rand(-.9, .9), dir: i % 2 ? -1 : 1, pal, thick: .55, dur: .06, hold: .02, dis: .18 });
-          else fx.speedLines(ahead(.5), dirTo(), 6);
-          if (near(hero.pos(), 2.2)) { hurt(95, i === 7, .1); fx.impact(chest(tg).add(V(rand(-.2, .2), rand(-.2, .3), .15)), i === 7 ? 1.4 : .6); }
-          fx.shake = .05; pulse = 1; combo.textContent = (i + 1) + ' จังหวะ'; const s = fx.toScreen(tg.pos.clone().setY(3)); combo.style.left = s.x + 'px'; combo.style.top = s.y + 'px';
-        });
-        fx.after(1.0, () => {
-          combo.remove();
-          const ringM = fx.add(new THREE.Mesh(new THREE.TorusGeometry(.35, .07, 10, 40), new THREE.MeshBasicMaterial({ color: C(2.6, 2, .7), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })));
-          ringM.position.copy(chest(tg).add(V(0, .6, .3))); fx.flash(ringM.position, 0xffd060, 90, .6); fx.impact(chest(tg), 2.4); fx.hitstop(.12); { const tp = tg.pos.clone().add(tg.off); fx.lightPillar(tp, C(2.2, 1.7, .6), 7, .9, 1); fx.shock(tp.x, tp.z, 3.4, GOLD, C(1, .4, .1), .9); } fx.popup(tg.head().add(V(0, .9, 0)), 'ถวายแหวน!', 'st big');
-          fx.addTask((dt, t) => { ringM.lookAt(fx.camera.position); ringM.scale.setScalar(1 + t * 4); ringM.material.opacity = 1 - t / .5; if (t > .5) { fx.kill(ringM); return false; } });
-          fx.burst(chest(tg), 30, { c: [GOLD, WHITE], size: .14, sp: 5, life: .5, shape: SH.star, drag: 3 });
+          if (i === 0) {   // parry: a cool deflection arc across the face
+            fx.slashArc(chest(hero).add(V(0, .45, 0)), tg.pos, { r: .7, sweep: 1.4, roll: 1.2, dir: -1, pal: 'blue', thick: .4, dur: .08, hold: .03, dis: .16 });
+            fx.burst(chest(hero).add(dirTo().multiplyScalar(.45)).add(V(0, .45, 0)), 10, { c: [WHITE, C(1.4, 1.7, 2.2)], size: .08, sp: 3, life: .3, shape: SH.star, drag: 4 });
+            fx.popup(headP(hero).add(V(0, .2, 0)), 'ปัด!', 'st'); pulse = .6;
+            return;
+          }
+          // double uppercut: two gold arcs sweeping up, the ring rising off the fists into the chin
+          const f = fistsAt();
+          for (const side of [-1, 1]) fx.slashArc(f.clone().add(V(0, -.3, 0)), tg.pos, { r: 1.1, sweep: 1.5, roll: Math.PI / 2 + side * .25, dir: side, pal: 'gold', thick: .6, dur: .07, hold: .03, dis: .2 });
+          const ringM = fx.add(new THREE.Mesh(new THREE.TorusGeometry(.32, .07, 10, 40), new THREE.MeshBasicMaterial({ color: C(2.6, 2, .7), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false })));
+          const from = f.clone(), to = headP(tg).add(V(0, -.15, 0));
+          fx.addTask((dt, t) => { const u = clamp01(t / .12); ringM.position.copy(from).lerp(to, u).add(V(0, Math.sin(u * Math.PI) * .2, 0)); ringM.lookAt(fx.camera.position); ringM.scale.setScalar(t < .12 ? .7 + u * .3 : 1 + (t - .12) * 4); ringM.material.opacity = t < .12 ? 1 : 1 - (t - .12) / .45; if (t > .57) { fx.kill(ringM); return false; } });
+          fx.after(.1, () => {
+            const tp = tg.pos.clone().add(tg.off);
+            fx.flash(to, 0xffd060, 90, .6); fx.impact(to, 2.4); fx.hitstop(.14); fx.shake = .3; pulse = 1;
+            fx.lightPillar(tp, C(2.2, 1.7, .6), 7, .9, 1); fx.shock(tp.x, tp.z, 3.4, GOLD, C(1, .4, .1), .9);
+            fx.burst(to, 30, { c: [GOLD, WHITE], size: .14, sp: 5, upMin: .5, life: .5, shape: SH.star, drag: 3 });
+            if (near(hero.pos(), 2.4)) { hurt(520, true, .2); tg.knock(dirTo(), .9); fx.stunStars(tg, 1.2); }
+            fx.popup(tg.head().add(V(0, .9, 0)), 'ถวายแหวน!', 'st big');
+          });
         });
       });
       return 1.9;

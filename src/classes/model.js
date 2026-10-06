@@ -78,6 +78,20 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
         if (e.action !== oneShot) return;
         oneShot.fadeOut(.15); oneShot = null; current = null;
       });
+      // The bind-pose box above can be off from how the model really stands: re-seat it
+      // on its idle pose so the feet touch y = 0 and the body is centred on the turn axis.
+      if (actions.idle) {
+        actions.idle.reset().play(); mixer.update(0); current = actions.idle;
+        body.updateMatrixWorld(true);
+        const toBody = body.matrixWorld.clone().invert(), v = new THREE.Vector3();
+        const lo = new THREE.Vector3(Infinity, Infinity, Infinity), hi = lo.clone().negate();
+        model.traverse(o => {
+          if (!o.isSkinnedMesh) return;
+          const p = o.geometry.attributes.position;
+          for (let i = 0; i < p.count; i += 5) { o.getVertexPosition(i, v); v.applyMatrix4(o.matrixWorld).applyMatrix4(toBody); lo.min(v); hi.max(v); }
+        });
+        if (Number.isFinite(lo.y)) model.position.sub(new THREE.Vector3((lo.x + hi.x) / 2, lo.y, (lo.z + hi.z) / 2));
+      }
     }
     return { model, clips: Object.keys(actions) };
   });

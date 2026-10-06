@@ -20,7 +20,7 @@ export function showCreation(root) {
         <span class="eyebrow">สร้างผู้เดินทาง · วิถีไทย ในโลกที่กว้างกว่าเดิม</span>
         <h2>จากแผ่นดินนี้ สู่เรื่องราวของคุณ</h2>
         <div class="g-create-main">
-          <div class="g-stage"><span class="g-stage-loading">กำลังโหลดโมเดล…</span><span class="g-stage-hint">ลากเพื่อหมุน · คลิกสกิลเพื่อดูท่า</span></div>
+          <div class="g-stage"><span class="g-stage-loading">กำลังโหลดโมเดล…</span><span class="g-stage-hint">ลากเพื่อหมุน · คลิกสกิลเพื่อดูท่าและเอฟเฟกต์</span></div>
           <div class="g-create-side">
             <div class="g-create-row">
               <label class="g-name">ชื่อตัวละคร<input maxlength="16" value="ผู้เดินทาง" autocomplete="off" /></label>
@@ -68,7 +68,8 @@ export function showCreation(root) {
         <p class="g-skill-name" aria-live="polite"></p>`;
       detail.querySelectorAll('[data-skill]').forEach(b => b.addEventListener('click', () => {
         const s = kit.skills[Number(b.dataset.skill)];
-        preview?.play(s.clip, s.fallback);
+        // The full skill with its FX on a dummy; just the move while the model is still loading.
+        if (preview && !preview.skill(s.id)) preview.play(s.clip, s.fallback);
         detail.querySelector('.g-skill-name').textContent = `${s.name} — ${s.desc ?? ''}`;
       }));
       preview?.show(chosen);

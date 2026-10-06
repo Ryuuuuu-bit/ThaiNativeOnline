@@ -78,11 +78,13 @@ const PALS = {
 };
 const SMOKE = { blue: C(.32, .38, .55), gold: C(.4, .35, .3), jade: C(.3, .4, .35), red: C(.35, .25, .25) };
 
-export function createFx({ scene, camera, renderer, labels }) {
-  const root = new THREE.Group(); root.scale.setScalar(K); scene.add(root);
+// `size` (default K) overrides the world size of one FX unit, e.g. to fit the effects
+// to a smaller character in the entry-screen preview; the game uses K.
+export function createFx({ scene, camera, renderer, labels, size = K }) {
+  const root = new THREE.Group(); root.scale.setScalar(size); scene.add(root);
   const add = o => { root.add(o); return o; };
   const kill = o => { o.parent?.remove(o); o.traverse?.(n => { if (n.geometry && !n.geometry.userData.shared) n.geometry.dispose(); if (n.material) [].concat(n.material).forEach(m => m.dispose()); }); };
-  const fx = { root, K, shake: 0, kill, add, camera, gain: GAIN, mood: 0, moodTarget: 0, moodHold: 0, stop: 0, punchV: 0 };
+  const fx = { root, K: size, shake: 0, kill, add, camera, gain: GAIN, mood: 0, moodTarget: 0, moodHold: 0, stop: 0, punchV: 0 };
 
   // ---- coordinates -----------------------------------------------------------
   fx.toLocal = w => root.worldToLocal(w.clone());
@@ -360,7 +362,7 @@ export function createFx({ scene, camera, renderer, labels }) {
   // ---- frame -----------------------------------------------------------------------
   fx.resize = () => {
     const h = renderer.domElement.clientHeight || innerHeight;
-    const us = h * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * K;
+    const us = h * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * size;
     PA.mat.uniforms.uScale.value = us; PN.mat.uniforms.uScale.value = us;
   };
   fx.update = (dt, time, groundY) => {

@@ -1,7 +1,7 @@
 // Builds the herbalist's animations on its Tripo Mixamo rig (no clips of its own):
 // walk/run are retargeted from the Muay Thai fighter's clips by bone direction
 // (the two rigs' rest orientations differ), the casting moves are posed by hand.
-import { load, sample, clone, blend, worldPos, worldQuat, rotWorld, writeAnim, THREE } from '../muaythai-anims/lib.mjs';
+import { load, sample, clone, blend, worldPos, worldQuat, rotWorld, writeAnim, legIK, fist, hingeLimb, THREE } from '../muaythai-anims/lib.mjs';
 const H = await load(process.argv[2] ?? 'tools/herbalist-anims/herbalist-tripo.glb');
 const A = await load(process.argv[4] ?? 'tools/muaythai-anims/fighter-tripo.glb');
 const find = re => Object.values(A.anims).find(a => re.test(a.getName()));
@@ -17,8 +17,9 @@ function aim(p, bone, child, dir, w = 1) {
   const axis = new THREE.Vector3(q.x, q.y, q.z); const s = axis.length(); if (s < 1e-6) return p;
   rotWorld(H, p, B(bone), axis.divideScalar(s).toArray(), 2 * Math.atan2(s, q.w) * w); return p;
 }
-const arm = (p, side, up, fo) => { const S = side === 'L' ? 'Left' : 'Right'; aim(p, S + 'Arm', S + 'ForeArm', up); aim(p, S + 'ForeArm', S + 'Hand', fo); return p; };
-const leg = (p, side, up, lo) => { const S = side === 'L' ? 'Left' : 'Right'; aim(p, S + 'UpLeg', S + 'Leg', up); aim(p, S + 'Leg', S + 'Foot', lo); return p; };
+// Limbs are posed as hinges (lib.mjs hingeLimb): elbows/knees never bend sideways or backwards.
+const arm = (p, side, up, fo) => { const S = side === 'L' ? 'Left' : 'Right'; hingeLimb(H, p, B, S + 'Arm', S + 'ForeArm', S + 'Hand', up, fo); return p; };
+const leg = (p, side, up, lo) => { const S = side === 'L' ? 'Left' : 'Right'; hingeLimb(H, p, B, S + 'UpLeg', S + 'Leg', S + 'Foot', up, lo); return p; };
 const bend = (p, a, bone = 'Spine1') => { rotWorld(H, p, B(bone), [1, 0, 0], a); return p; };
 const yaw = (p, a, bone = 'Spine1') => { rotWorld(H, p, B(bone), [0, 1, 0], a); return p; };
 const lift = (p, h) => { p.get(HIPS).t.y += h; return p; };
@@ -35,7 +36,15 @@ function retarget(anim, t) {
   const dq = worldQuat(A, src, aHips).multiply(worldQuat(A, AREST, aHips).invert());
   p.get(HIPS).r.premultiply(dq);
   const k = hip0.y / AREST.get(aHips).t.y; p.get(HIPS).t.set(hip0.x, hip0.y + (src.get(aHips).t.y - AREST.get(aHips).t.y) * k, hip0.z);
-  for (const [b, c] of CHAINS) { const d = worldPos(A, src, B(c)).sub(worldPos(A, src, B(b))); aim(p, b, c, d.toArray()); }
+  const LIMB = /^(Left|Right)(Arm|ForeArm|UpLeg|Leg)$/;
+  const dir = (b, c) => worldPos(A, src, B(c)).sub(worldPos(A, src, B(b))).toArray();
+  for (const [b, c] of CHAINS) if (!LIMB.test(b)) aim(p, b, c, dir(b, c));
+  for (const S of ['Left', 'Right']) {
+    hingeLimb(H, p, B, S + 'Arm', S + 'ForeArm', S + 'Hand', dir(S + 'Arm', S + 'ForeArm'), dir(S + 'ForeArm', S + 'Hand'));
+    hingeLimb(H, p, B, S + 'UpLeg', S + 'Leg', S + 'Foot', dir(S + 'UpLeg', S + 'Leg'), dir(S + 'Leg', S + 'Foot'));
+    aim(p, S + 'Hand', S + 'HandMiddle1', dir(S + 'Hand', S + 'HandMiddle1'));
+    aim(p, S + 'Foot', S + 'ToeBase', dir(S + 'Foot', S + 'ToeBase')); aim(p, S + 'ToeBase', S + 'Toe_End', dir(S + 'ToeBase', S + 'Toe_End'));
+  }
   return p;
 }
 function retargetClip(name, anim) {
@@ -69,19 +78,54 @@ const P = {
 };
 
 // ---- composer ------------------------------------------------------------------
+// Feet and knees never go through the floor (see the fighter's compose.mjs).
+const GROUND = { foot: Math.min(worldPos(H, STAND, B('LeftFoot')).y, worldPos(H, STAND, B('RightFoot')).y), toe: Math.min(worldPos(H, STAND, B('LeftToeBase')).y, worldPos(H, STAND, B('RightToeBase')).y) };
+const FLAT = { Left: worldQuat(H, STAND, H.byName[B('LeftFoot')]), Right: worldQuat(H, STAND, H.byName[B('RightFoot')]) };
+function groundFeet(p) {
+  for (const S of ['Left', 'Right']) {
+    const f = worldPos(H, p, B(S + 'Foot')), toe = worldPos(H, p, B(S + 'ToeBase'));
+    if (f.y < GROUND.foot - 0.002 || toe.y < GROUND.toe - 0.004) legIK(H, p, B, S, new THREE.Vector3(f.x, Math.max(f.y, GROUND.foot), f.z), FLAT[S]);
+  }
+  const low = Math.min(...['LeftLeg', 'RightLeg'].map(n => worldPos(H, p, B(n)).y), ...['LeftToeBase', 'RightToeBase'].map(n => worldPos(H, p, B(n)).y - GROUND.toe + 0.03));
+  if (low < 0.03) lift(p, 0.03 - low);
+}
 const ease = u => u * u * (3 - 2 * u), easeIn = u => u * u * u, easeOut = u => 1 - Math.pow(1 - u, 2.4);
 function build(name, dur, keys, fx) {
   const frames = [];
   for (let i = 0; i <= Math.round(dur * FPS); i++) {
     const t = i / FPS; let k = 0; while (k < keys.length - 1 && keys[k + 1][0] <= t) k++;
     const [t0, a] = keys[k], [t1, b, e = ease] = keys[Math.min(k + 1, keys.length - 1)];
-    const p = blend(a, b, t1 > t0 ? e(Math.min(1, (t - t0) / (t1 - t0))) : 0); fx?.(t, p); frames.push(p);
+    const p = blend(a, b, t1 > t0 ? e(Math.min(1, (t - t0) / (t1 - t0))) : 0); fx?.(t, p); groundFeet(p); frames.push(p);
   }
   return writeAnim(H, name, frames, FPS);
 }
 const breathe = (t, p, k = 1) => { lift(p, -.006 * k * (1 - Math.cos(TAU * t / 2.4)) / 2); rotWorld(H, p, B('Hips'), [0, 0, 1], Math.sin(TAU * t / 2.4) * .025 * k); };
 
-build('idle', 2.4, [[0, P.STAND], [2.4, P.STAND]], (t, p) => { breathe(t, p); bend(p, .05 * Math.sin(TAU * t / 2.4 + 1), 'Neck'); });
+// Calm idle: breathing, a slow weight shift, hands loose and swaying, the head
+// looking around now and then (two looks per 4.8 s loop).
+const plant = side => ({ at: worldPos(H, P.STAND, B(side + 'Foot')), q: worldQuat(H, P.STAND, H.byName[B(side + 'Foot')]) });
+const FEET = { Left: plant('Left'), Right: plant('Right') }, hipH = worldPos(H, P.STAND, B('Hips')).y;
+// Arms folded across the chest: forearms level, each hand tucked by the other elbow.
+const FOLD = mk(STAND, p => {
+  arm(p, 'L', [.22, -.72, .66], [-1, .06, .02]);
+  arm(p, 'R', [-.22, -.68, .72], [1, .12, -.04]);
+  fist(H, p, B, 'Left', .35); fist(H, p, B, 'Right', .35);   // fingers rest on the other arm
+  return p;
+});
+build('idle', 4.8, [[0, FOLD], [4.8, FOLD]], (t, p) => {
+  const w = TAU * t / 4.8;
+  breathe(t, p, 1.4);
+  p.get(HIPS).t.x += .025 * hipH * Math.sin(w);              // weight shifts side to side; feet stay (IK)
+  lift(p, -.005 * hipH * (1 - Math.cos(2 * w)) / 2);
+  rotWorld(H, p, B('Hips'), [0, 0, 1], Math.sin(w) * .035);
+  yaw(p, Math.sin(w) * .06); bend(p, .03 * Math.sin(2 * w + .5));
+  rotWorld(H, p, B('Neck'), [0, 1, 0], .22 * Math.sin(w) * Math.abs(Math.sin(w)));
+  bend(p, .06 * Math.sin(2 * w + 1), 'Neck');
+  // folded arms rise and fall a little with the breath
+  rotWorld(H, p, B('LeftArm'), [1, 0, 0], -.03 * Math.sin(TAU * t / 2.4));
+  rotWorld(H, p, B('RightArm'), [1, 0, 0], -.03 * Math.sin(TAU * t / 2.4));
+  legIK(H, p, B, 'Left', FEET.Left.at, FEET.Left.q); legIK(H, p, B, 'Right', FEET.Right.at, FEET.Right.q);
+});
 retargetClip('walk', WALK); retargetClip('run', RUN);
 build('cast_book', 1.6, [[0, P.STAND], [.3, P.book, easeOut], [.55, P.readPalm], [.7, P.release, easeIn], [1.15, P.release], [1.6, P.STAND]], (t, p) => breathe(t, p, .5));
 build('toss', 1.0, [[0, P.STAND], [.3, P.tossBack, easeOut], [.45, P.tossRel, easeIn], [.65, P.tossFol, easeOut], [1.0, P.STAND]]);

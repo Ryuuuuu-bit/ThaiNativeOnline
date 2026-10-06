@@ -57,3 +57,100 @@ export function writeAnim(R, name, frames, fps) {
   }
   return anim;
 }
+// Two-bone leg IK: put `side`'s foot ('Left'/'Right') at world position `target`
+// (Vector3, armature space), knee bending toward `pole` (world direction), and
+// keep the foot's world orientation `footQ` (Quaternion) so the sole stays flat.
+// `B(name)` maps a bone name to the rig's node name.
+export function legIK(R, pose, B, side, target, footQ, pole = [0, 0, 1]) {
+  const up = R.byName[B(side + 'UpLeg')], kn = R.byName[B(side + 'Leg')], ft = R.byName[B(side + 'Foot')];
+  const H = worldPos(R, pose, up.getName()), K = worldPos(R, pose, kn.getName()), F = worldPos(R, pose, ft.getName());
+  const a = H.distanceTo(K), b = K.distanceTo(F);
+  const toT = target.clone().sub(H); const d = Math.min(toT.length(), a + b - 1e-4); const n = toT.normalize();
+  const along = (a * a - b * b + d * d) / (2 * d), h = Math.sqrt(Math.max(0, a * a - along * along));
+  const p = new THREE.Vector3(...pole); p.sub(n.clone().multiplyScalar(p.dot(n))).normalize();
+  const knee = H.clone().add(n.clone().multiplyScalar(along)).add(p.multiplyScalar(h));
+  const foot = H.clone().add(n.clone().multiplyScalar(d));
+  const aimTo = (node, child, want) => {
+    const s = worldPos(R, pose, node.getName()), c = worldPos(R, pose, child.getName());
+    const q = new THREE.Quaternion().setFromUnitVectors(c.sub(s).normalize(), want.clone().normalize());
+    const ax = new THREE.Vector3(q.x, q.y, q.z), sl = ax.length(); if (sl < 1e-7) return;
+    rotWorld(R, pose, node.getName(), ax.divideScalar(sl).toArray(), 2 * Math.atan2(sl, q.w));
+  };
+  hingeLimb(R, pose, B, side + 'UpLeg', side + 'Leg', side + 'Foot', knee.clone().sub(H).toArray(), foot.clone().sub(knee).toArray());
+  if (footQ) { const pq = worldQuat(R, pose, R.parent.get(ft)); pose.get(ft).r.copy(pq.invert().multiply(footQ)).normalize(); }
+}
+// Curl a hand into a fist (k = 0..1). Each finger joint turns about the knuckle line
+// (index → pinky base), in whichever direction brings the fingertip toward the wrist;
+// the thumb folds over the fingers.
+export function fist(R, pose, B, side, k = 1) {
+  const P = n => worldPos(R, pose, B(side + n));
+  const across = P('HandPinky1').sub(P('HandIndex1')).normalize();
+  const curl = (bones, tip, angles) => bones.forEach((b, i) => {
+    const name = B(side + b), wrist = P('Hand');
+    const before = worldPos(R, pose, B(side + tip)).distanceTo(wrist);
+    rotWorld(R, pose, name, across.toArray(), angles[i] * k);
+    if (worldPos(R, pose, B(side + tip)).distanceTo(wrist) > before) rotWorld(R, pose, name, across.toArray(), -2 * angles[i] * k);
+  });
+  for (const f of ['Index', 'Middle', 'Ring', 'Pinky']) curl(['Hand' + f + '1', 'Hand' + f + '2', 'Hand' + f + '3'], 'Hand' + f + '4', [1.45, 1.55, 1.1]);
+  // thumb: fold toward the middle finger's second knuckle
+  const t1 = B(side + 'HandThumb2'), t2 = B(side + 'HandThumb3');
+  for (const [name, a] of [[t1, .6], [t2, .7]]) {
+    const before = P('HandThumb4').distanceTo(P('HandMiddle2'));
+    const axis = P('HandThumb4').sub(P('HandThumb1')).cross(across).normalize().toArray();
+    rotWorld(R, pose, name, axis, a * k);
+    if (P('HandThumb4').distanceTo(P('HandMiddle2')) > before) rotWorld(R, pose, name, axis, -2 * a * k);
+  }
+}
+
+// ---- anatomical limbs ----------------------------------------------------------
+// Elbows and knees are hinges. hingeLimb() poses root→mid along `upDir` and
+// mid→end along `loDir` (world directions) the way a real limb can: it turns the
+// upper bone about its own axis until the joint's hinge is perpendicular to both
+// directions, then bends the mid joint about that hinge only (no sideways bend,
+// no forearm/shin twist, never past straight). Rest pose is a T-pose with palms
+// down, so elbows flex toward +Z (forward) and knees toward -Z (back).
+const REST_HINGE = { LeftForeArm: [0, -1, 0], RightForeArm: [0, 1, 0], LeftLeg: [1, 0, 0], RightLeg: [1, 0, 0] };
+function restPoseOf(R) {
+  if (!R._rest) R._rest = new Map(R.nodes.map(n => [n, { t: new THREE.Vector3(...n.getTranslation()), r: new THREE.Quaternion(...n.getRotation()), s: new THREE.Vector3(...n.getScale()) }]));
+  return R._rest;
+}
+function aimBone(R, pose, name, childName, want) {
+  const s = worldPos(R, pose, name), c = worldPos(R, pose, childName);
+  const q = new THREE.Quaternion().setFromUnitVectors(c.sub(s).normalize(), want.clone().normalize());
+  const ax = new THREE.Vector3(q.x, q.y, q.z), sl = ax.length(); if (sl < 1e-7) return;
+  rotWorld(R, pose, name, ax.divideScalar(sl).toArray(), 2 * Math.atan2(sl, q.w));
+}
+const signedAngle = (a, b, axis) => Math.atan2(a.clone().cross(b).dot(axis), a.dot(b));
+export function hingeLimb(R, pose, B, root, mid, end, upDir, loDir) {
+  const rest = restPoseOf(R), nMid = R.byName[B(mid)];
+  const u = new THREE.Vector3(...upDir).normalize(), f = new THREE.Vector3(...loDir).normalize();
+  // hinge axis in the mid bone's local frame (from the rest pose)
+  const hl = new THREE.Vector3(...REST_HINGE[mid]).applyQuaternion(worldQuat(R, rest, nMid).invert()).normalize();
+  pose.get(nMid).r.copy(rest.get(nMid).r);                       // mid at rest: the limb is (nearly) straight
+  aimBone(R, pose, B(root), B(mid), u);
+  // desired hinge: rotating u about it by the elbow/knee angle gives f
+  // A nearly straight limb has no defined hinge plane: fall back to the natural one
+  // (elbow pointing down/back so the forearm folds forward-up, knee folding backward)
+  // and blend to the requested plane as the joint bends, so the bone never flips.
+  const natural = u.clone().cross(new THREE.Vector3(...(/Leg$/.test(mid) ? [0, -.2, -1] : [0, .5, 1])).normalize());
+  if (natural.lengthSq() < 1e-6) natural.copy(u.clone().cross(new THREE.Vector3(1, 0, 0)));
+  natural.normalize();
+  const bendA = u.angleTo(f), want = u.clone().cross(f);
+  const k = THREE.MathUtils.smoothstep(bendA, .09, .45);
+  let hs = want.lengthSq() > 1e-10 ? want.normalize() : natural.clone();
+  if (hs.dot(natural) < 0 && k < 1) hs.lerp(natural, 1 - k); else hs.lerp(natural, 1 - k);
+  hs.normalize();
+  const midQ = () => worldQuat(R, pose, nMid);
+  const hNow = hl.clone().applyQuaternion(midQ());
+  const proj = v => v.clone().sub(u.clone().multiplyScalar(v.dot(u))).normalize();
+  rotWorld(R, pose, B(root), u.toArray(), signedAngle(proj(hNow), proj(hs), u));
+  // bend about the hinge only
+  const d0 = worldPos(R, pose, B(end)).sub(worldPos(R, pose, B(mid))).normalize();
+  const hW = hl.clone().applyQuaternion(midQ());
+  const pj = v => v.clone().sub(hW.clone().multiplyScalar(v.dot(hW))).normalize();
+  // the rest pose may be slightly bent: allow straightening back to 180°, never past it
+  const rU = worldPos(R, rest, B(mid)).sub(worldPos(R, rest, B(root))), rF = worldPos(R, rest, B(end)).sub(worldPos(R, rest, B(mid)));
+  const restFlex = rU.angleTo(rF);
+  const phi = Math.min(2.6, Math.max(-restFlex, signedAngle(pj(d0), pj(f), hW)));
+  pose.get(nMid).r.copy(rest.get(nMid).r).multiply(new THREE.Quaternion().setFromAxisAngle(hl, phi)).normalize();
+}
