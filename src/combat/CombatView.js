@@ -326,7 +326,8 @@ export class CombatView {
 
   // a fist's blow: a short burst of rays and a ring where it lands
   punch(from, target, color) {
-    const a = Math.atan2(target.x - from.x, target.z - from.z), d = Math.min(1.2, Math.hypot(target.x - from.x, target.z - from.z) * .7);
+    // the impact on the near side of the target (the fist reaches it)
+    const a = Math.atan2(target.x - from.x, target.z - from.z), d = Math.max(.5, Math.hypot(target.x - from.x, target.z - from.z) - .45);
     const x = from.x + Math.sin(a) * d, z = from.z + Math.cos(a) * d, y = this.groundHeight(from.x, from.z) + 1.05;
     const g = new THREE.Group(); g.position.set(x, y, z);
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false });

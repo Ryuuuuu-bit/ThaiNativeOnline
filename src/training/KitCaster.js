@@ -67,14 +67,20 @@ export class KitCaster {
     if (quiet && this.pending) return false;
     const pick = this.pick(info);
     if (!pick) { if (!quiet) this.fail(this.dummy() ? 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ' : 'ไม่มีเป้าหมายใกล้ๆ'); return false; }
-    if (pick.monster) {
-      if (c.mp < this.mpOf(i)) { if (!quiet) this.fail('MP ไม่พอ'); return false; }
-      if (dist(pick.monster, this.player.position) > info.range) { this.pending = { i, monster: pick.monster, t: 0, quiet }; return true; }
-    }
+    if (pick.monster && c.mp < this.mpOf(i)) { if (!quiet) this.fail('MP ไม่พอ'); return false; }
+    // the skill's own reach, for a monster and for the training dummy alike: walk in first
+    const at = this.spotOf(pick);
+    if (at && dist(at, this.player.position) > info.range) { this.pending = { i, ...pick, t: 0, quiet }; return true; }
     this.pending = null;
     return this.fire(i, pick);
   }
 
+  // Where a pick stands in the world (null for a self cast).
+  spotOf(pick) {
+    if (pick.monster) return pick.monster;
+    if (pick.dummy) { const d = this.dummy(); if (!d) return null; const w = this.fx.toWorld(d.pos.clone()); return { x: w.x, z: w.z }; }
+    return null;
+  }
   // Target for a cast: { monster } | { dummy } | { self } | null.
   pick(info) {
     const cb = this.combat, t = cb.target;
@@ -138,13 +144,13 @@ export class KitCaster {
     }
     const p = this.pending;
     if (!p) return;
-    const m = p.monster;
-    if (!m.alive || !this.character.alive) { this.pending = null; return; }
+    const m = p.monster, at = this.spotOf(p);
+    if ((m && !m.alive) || !at || !this.character.alive) { this.pending = null; return; }
     if ((p.t += dt) > KIT.approachTimeout) { this.pending = null; this.combat.world.stop?.(); if (!p.quiet) this.fail('ไกลเกินไป'); return; }
-    if (dist(m, this.player.position) <= this.infos[p.i].range) {
+    if (dist(at, this.player.position) <= this.infos[p.i].range) {
       this.combat.world.stop?.();
-      if (!this.runner.busy) { this.pending = null; this.fire(p.i, { monster: m }); }
-    } else this.combat.world.moveTo?.(m.x, m.z);
+      if (!this.runner.busy) { this.pending = null; this.fire(p.i, m ? { monster: m } : { dummy: true }); }
+    } else this.combat.world.moveTo?.(at.x, at.z);
   }
   cancel(why = 'ยกเลิกการร่าย') {
     if (this.pending) this.pending = null;

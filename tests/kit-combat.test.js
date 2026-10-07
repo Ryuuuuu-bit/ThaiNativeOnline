@@ -118,8 +118,8 @@ test('a kit skill hits the combat target with rules damage, costs MP and starts 
   combat.setTarget(boar);
   const mp = character.mp, hp = boar.hp;
   assert.equal(caster.cast(0), true);   // หมัดแย็บ: three blows
-  const hits = events.filter(([n]) => n === 'hit');
-  assert.equal(hits.length, 3);
+  const hits = events.filter(([n]) => n === 'hit'), misses = events.filter(([n]) => n === 'miss');
+  assert.equal(hits.length + misses.length, 3, 'three blows (a roll may miss)');
   assert.equal(boar.hp, Math.max(0, hp - hits.reduce((n, [, e]) => n + e.amount, 0)));
   assert.equal(character.mp, mp - caster.slots[0].mp);
   assert.ok(caster.cooldown(0)[0] > 0);

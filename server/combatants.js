@@ -57,7 +57,7 @@ export const SKILL_LV = 1;          // the level of a skill a character has no l
 // A character's level in a kit skill (job levels: src/character/Character.js); 0 = not learnt.
 const lvOf = (c, id) => (c.skillLevel ? c.skillLevel(id) : SKILL_LV);
 export const CAST_WINDOW = 6;       // s a cast's blows may keep landing (slow projectiles, the dog's errands)
-export const REACH_SLACK = 4;       // m added to a skill's reach (the monster and the player both move)
+export const REACH_SLACK = 2.5;     // m added to a reach (the monster and the player both move; ~150 ms of lag at a run)
 const CD_SLACK = .85, CD_LAG = .3;  // a cooldown may come back 15% + 0.3 s early (lag, frame timing)
 const PET_EVERY = .45, POUNCE_EVERY = 2;   // s: the dog's fastest bite (frenzy) and pounce
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);

@@ -98,3 +98,19 @@
 .soc-row.off { opacity: .55; } .soc-row em { font-style: normal; font-size: 9px; color: #a9b49e; }
 .soc-row button { background: #2b4034; border: 1px solid #cdb37a55; border-radius: 3px; padding: 2px 6px; font-size: 9px; }
 @media (max-width: 900px) { .soc-panel { right: 20px; top: 220px; width: 250px; } }
+
+/* my name plate and the DPS meter — src/net/CombatMeters.js */
+.plate.is-self { color: #ffe9b0; }
+.plate.is-self small { color: #e0cf9e; }
+#nameplates.hide-others .plate.is-player { display: none; }
+.dps-meter { position: absolute; right: 34px; top: 270px; width: 210px; padding: 8px 10px; z-index: 4; zoom: var(--ui, 1); font-size: 11px; pointer-events: none; }
+.dps-meter header { font-weight: 600; color: #f0d79a; margin-bottom: 4px; } .dps-meter header small { font-weight: 400; font-size: 9px; color: #b7c1a6; margin-left: 4px; }
+.dps-row { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; padding: 2px 0; }
+.dps-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .dps-row span small { font-size: 8px; color: #a9b49e; margin-left: 4px; }
+.dps-row b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.dps-row em { grid-column: 1 / -1; height: 3px; border-radius: 2px; background: #ffffff14; overflow: hidden; }
+.dps-row em i { display: block; height: 100%; background: #9a9a8a; }
+.dps-row.me em i { background: #e8c25a; } .dps-row.me b { color: #ffe08a; }
+.dps-row.party em i { background: #6fd08a; } .dps-row.party b { color: #9fe8b0; }
+@media (max-width: 900px) { .dps-meter { right: 20px; top: 210px; width: 170px; } }
+.photo-mode .dps-meter { display: none; }

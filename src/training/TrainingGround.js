@@ -223,7 +223,13 @@ export class TrainingGround {
     this.swingTimer = Math.max(0, (this.swingTimer ?? 0) - sdt);
     if (this.autoSwing) {
       if (!this.near || !this.hero?.alive) this.autoSwing = false;
-      else if (!this.skills.busy && this.swingTimer <= 0) this.doSwing();
+      else if (!this.skills.busy) {
+        // the basic attack's own reach (src/character/data/classes.js range): walk up to the dummy first
+        const e = this.closest, p = this.player.position, d = e && Math.hypot(e.spot.x - p.x, e.spot.z - p.z);
+        if (e && d > this.hero.cls.range) this.combat?.world.moveTo?.(e.spot.x, e.spot.z);
+        else { if (this.walkingIn) this.combat?.world.stop?.(); if (this.swingTimer <= 0) this.doSwing(); }
+        this.walkingIn = !!e && d > this.hero.cls.range;
+      }
     }
     if (this.ring?.visible) { this.ring.rotation.z = this.clock; this.ring.scale.setScalar(1 + Math.sin(this.clock * 6) * .06); }
     this.vignette.style.opacity = fx.mood.toFixed(3);

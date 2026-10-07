@@ -4,6 +4,7 @@ import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
 import { attachSocial } from './Social.js';
 import { attachRemoteSkills } from './RemoteSkills.js';
+import { attachCombatMeters } from './CombatMeters.js';
 import './net.css';
 import { ITEMS } from '../character/data/items.js';
 
@@ -52,6 +53,7 @@ export function startMultiplayer(game) {
   game.game?.combat?.on('kit-fx', e => net.send({ t: 'fx', skill: e.id, ...(e.monster?.sid != null ? { tgt: e.monster.sid } : e.at ? { x: e.at.x, z: e.at.z } : {}) }));
   attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
   const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
+  const meters = attachCombatMeters(net, game, remote, social);                             // my name plate, the DPS meter
   // the same character opened in another tab or device: this one stops talking to the server
   net.on('kicked', m => { net.close(); chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
   net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, map, ...pos() }));
@@ -60,11 +62,12 @@ export function startMultiplayer(game) {
   player.onAnim = (clip, sp) => { if (!game.training?.busy) net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) }); };
 
   return {
-    net, remote, chat, social,
+    net, remote, chat, social, meters,
     enterMap(id) { map = id; last = null; remote.clear(); net.send({ t: 'map', map: id, ...pos() }); },
     update(dt, camera) {
       remote.update(dt, camera, document.getElementById('world'));
       skillsFx.update(dt);
+      meters.update(dt, camera);
       combat?.update(dt);
       if (!net.online) return;
       sendT += dt; keepT += dt;
