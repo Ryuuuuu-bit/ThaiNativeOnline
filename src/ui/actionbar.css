@@ -1,0 +1,19 @@
+/* The action bar (src/ui/ActionBar.js). The look is the shared .hotbar in
+   src/classes/fx/fx.css; this holds only what the unified bar adds: MP costs,
+   glyph icons for skills without art, the AUTO key, potions and menu buttons. */
+.action-bar { align-items: center; width: max-content; }   /* left: 50% would otherwise cap its width at half the screen */
+.hotbar-slot .hotbar-glyph { display: grid; place-items: center; width: 100%; height: 100%; font-size: 22px; color: #f1dfae; background: linear-gradient(#24372f, #12201b); }
+.hotbar-slot .hotbar-glyph .icon-img { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+.hotbar-slot .mp { position: absolute; right: 3px; bottom: 2px; font-size: 9px; font-weight: 600; color: #9fd0ec; text-shadow: 0 1px 2px #000, 0 0 3px #000; z-index: 2; }
+.hotbar-slot.nomp img, .hotbar-slot.nomp .hotbar-glyph { opacity: .35; }
+.hotbar-slot.active { box-shadow: 0 0 0 2px #ffd88a, 0 0 12px #f1c06988; }
+.hotbar-auto { align-self: stretch; }
+.hotbar-auto kbd { margin: 0 0 0 2px; padding: 0 3px; font-size: 8px; line-height: 12px; vertical-align: 2px; }
+.action-bar .key, .action-bar .g-potion kbd, .action-bar .g-menu kbd { position: absolute; left: 3px; top: 3px; margin: 0; padding: 0 3px; border: 1px solid #e1c98355; border-radius: 2px; background: #0b1512cc; font-size: 8px; line-height: 12px; font-weight: 600; color: #fff; z-index: 2; }
+.action-items, .action-menus { display: flex; gap: 5px; flex: none; }
+.action-bar .g-potion { width: 50px; height: 50px; border: 0; border-radius: 4px; background: #0b1411; }
+.action-bar .g-potion small { right: 3px; bottom: 2px; }
+.action-bar .g-menu { position: relative; width: 50px; height: 50px; padding: 12px 0 0; border: 1px solid #cabc8655; border-radius: 5px; background: linear-gradient(#24372f, #12201b); color: #f3eedb; font-size: 10px; line-height: 1.2; }
+.action-bar .g-menu:hover, .action-bar .g-potion:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px #e1c983, 0 4px 10px #0008; }
+@media (max-width: 900px) { .action-bar .g-potion, .action-bar .g-menu { width: 40px; height: 40px; } .action-bar .g-menu { font-size: 8px; padding-top: 10px; } }
+.ui-portrait .action-bar { flex-wrap: wrap; justify-content: center; }

@@ -1,10 +1,5 @@
-/* City training ground: when the hotbar shows, and the damage log. FX and the
-   hotbar themselves are styled once in src/classes/fx/fx.css. */
-
-/* The shared hotbar shows only near the dummy, in place of the class skill bar. */
-.hotbar { display: none; }
-.training-near .hotbar { display: flex; }
-.training-near .g-skillbar { display: none; }
+/* City training ground: the damage log. FX and the action bar are styled once
+   in src/classes/fx/fx.css (+ src/ui/actionbar.css); the bar shows on every map. */
 
 /* Damage log, left of the minimap. */
 .training-panel { position: absolute; right: 316px; top: 100px; width: 250px; padding: 10px 12px; font-size: 12px; z-index: 4; }

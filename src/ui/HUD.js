@@ -26,7 +26,12 @@ export class HUD {
   }
   setClock(label, phase, hour) { $('clock').textContent = `${PHASE_NAMES[phase]} · ${label}`; $('sun-dot').dataset.phase = phase; }
   setCoords(p) { $('coords').textContent = `${p.x.toFixed(0)}, ${p.z.toFixed(0)}`; }
-  setJournal(found, total, next, mapName) {
+  // intro: the map's { title, text } (src/world/maps.js); a line break in text starts a new line.
+  setJournal(found, total, next, mapName, intro) {
+    if (intro) {
+      $('journal-title').textContent = intro.title;
+      $('journal-text').replaceChildren(...intro.text.split('\n').flatMap((line, i) => (i ? [document.createElement('br'), line] : [line])));
+    }
     $('quest-text').textContent = `ค้นพบสถานที่${mapName ? `ใน${mapName}` : ''} ${found}/${total}`;
     $('quest-hint').textContent = next ? `ถัดไป: ${next}` : 'สำรวจครบทุกแห่งที่รู้จักแล้ว';
   }

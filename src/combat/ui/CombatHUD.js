@@ -1,11 +1,11 @@
-// Combat interface: target frame, action bar, floating numbers, monster
-// nameplates, death screen and the day/night mood.
+// Combat interface: target frame, the action bar (src/ui/ActionBar.js), floating
+// numbers, monster nameplates, death screen and the day/night mood.
 import * as THREE from 'three';
-import { SKILLS } from '../data/skills.js';
 import { ITEMS } from '../../character/data/items.js';
 import { el, pct, setBar } from '../../character/ui/dom.js';
+import { ActionBar } from '../../ui/ActionBar.js';
+import { legacyCaster } from '../LegacyCaster.js';
 import './combat.css';
-import { iconHtml } from '../../ui/icons.js';
 
 export class CombatHUD {
   /**
@@ -13,39 +13,31 @@ export class CombatHUD {
    * @param {HTMLElement} layer   container for panels
    * @param {import('../Combat.js').Combat} combat
    * @param {import('../../character/ui/Feed.js').Feed} feed
-   * @param {{potions: HTMLElement[], menus: HTMLElement[]}} [quickButtons]  extra buttons for the action bar
+   * @param {{potions: HTMLElement[], menus: HTMLElement[]}} [quickButtons]  potion and menu buttons for the action bar
    */
   constructor(root, layer, combat, feed, quickButtons = { potions: [], menus: [] }) {
     this.layer = layer; this.combat = combat; this.c = combat.character; this.feed = feed;
     this.floatLayer = el('div', 'g-floats'); root.insertBefore(this.floatLayer, root.querySelector('.vignette')?.nextSibling || null);
     this.plates = new Map(); this.floats = [];
-    this.buildTarget(); this.buildBar(quickButtons); this.buildDeath(); this.bind();
+    this.buildTarget(); this.buildBar(root, quickButtons); this.buildDeath(); this.bind();
   }
 
   buildTarget() {
     this.target = el('div', 'g-target glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-thp"><span></span><em></em></div><div class="g-target-tags"></div>`);
     this.target.hidden = true; this.layer.append(this.target);
   }
-  buildBar({ potions, menus }) {
-    this.bar = el('div', 'g-skillbar');
-    this.skillButtons = this.c.cls.skills.map((id, i) => {
-      const s = SKILLS[id];
-      const b = el('button', 'g-skill', `<span class="g-skill-icon">${iconHtml(s)}</span><kbd>${i + 1}</kbd><i class="g-cd"></i><small>${s.mp ? s.mp : ''}</small>`);
-      b.title = `${s.name}${s.mp ? ` · MP ${s.mp}` : ''}${s.cd ? ` · คูลดาวน์ ${s.cd} วิ` : ''}`;
-      b.setAttribute('aria-label', s.name); b.dataset.skill = id;
-      b.addEventListener('click', () => this.combat.useSkill(id));
-      this.bar.append(b); return b;
-    });
-    if (potions.length) this.bar.append(el('span', 'g-sep'), ...potions);
-    if (menus.length) this.bar.append(el('span', 'g-sep'), ...menus);
-    this.layer.append(this.bar);
+  // One action bar on every map: the class's four combat skills until a class kit
+  // (src/training) swaps in its ten skills with setSkills(); potions and menus stay.
+  // It sits in the app root (not this layer) so the --ui zoom applies once.
+  buildBar(root, { potions, menus }) {
+    this.bar = new ActionBar(root, { potions, menus });
+    this.setSkills(legacyCaster(this.combat), `สกิล${this.c.cls.name}`);
   }
-  // Safe zone: the combat skills (1–4) are hidden; potions and menus stay.
+  setSkills(controller, label) { this.bar.setSkills(controller, label); }
+  // Safe zone (the city): no fighting tips, Tab / Space do nothing; the bar stays the same.
   setSafe(on) {
-    if (!on && !this.tipped) { this.tipped = true; this.feed?.log('พื้นที่อันตราย · กด Tab เลือกเป้า, 1–4 ใช้ทักษะ, Q / F ดื่มยา', 'bad'); }
+    if (!on && !this.tipped) { this.tipped = true; this.feed?.log('พื้นที่อันตราย · Tab เลือกเป้า · 1–0 ใช้สกิล · G ออโต้ · Q / F ดื่มยา', 'bad'); }
     this.safe = on;
-    for (const b of this.skillButtons) b.hidden = on;
-    const sep = this.bar.children[this.skillButtons.length]; if (sep?.classList.contains('g-sep')) sep.hidden = on;
   }
   buildDeath() {
     this.death = el('section', 'g-death', `<h2>คุณหมดสติ</h2><p>วิญญาณยังไม่ไปไหน กลับไปตั้งหลักที่จุดปลอดภัย<br><small>เสียทอง 10% ที่ติดตัว</small></p><button>ฟื้นคืนชีพ</button>`);
@@ -94,8 +86,8 @@ export class CombatHUD {
   // Returns true when the key was handled.
   handleKey(e) {
     const k = e.code;
-    if (this.safe && (/^Digit[1-4]$/.test(k) || k === 'Tab' || k === 'Space')) return false;
-    if (/^Digit[1-4]$/.test(k)) { this.combat.useSkill(this.c.cls.skills[Number(k.slice(5)) - 1]); return true; }
+    if (this.bar.handleKey(e)) return true;
+    if (this.safe && (k === 'Tab' || k === 'Space')) return false;
     if (k === 'Tab') { e.preventDefault(); this.combat.cycleTarget(); return true; }
     if (k === 'Space') { e.preventDefault(); this.combat.useSkill(this.combat.basicSkillId()); return true; }
     if (k === 'Escape' && this.combat.target) { this.combat.setTarget(null); return true; }
@@ -110,22 +102,17 @@ export class CombatHUD {
     this.target.querySelector('.g-target-name span').textContent = `Lv. ${m.level}${m.def.boss ? ' · บอส' : m.def.elite ? ' · หัวหน้า' : ''}`;
     this.target.classList.toggle('elite', !!m.def.elite);
     setBar(this.target.querySelector('.g-thp'), m.hp, m.maxHp);
-    this.target.querySelector('.g-target-tags').innerHTML = m.debuffs.map(d => `<i>${d.slow ? 'ติดบ่วง' : 'ต้องคุณไสย'}</i>`).join('');
+    this.target.querySelector('.g-target-tags').innerHTML = m.debuffs.map(d => `<i>${d.label ?? (d.slow ? 'ติดบ่วง' : 'ต้องคุณไสย')}</i>`).join('');
   }
   float(x, z, text, kind, height = 1.6) {
     const node = el('span', `g-float ${kind}`); node.textContent = text; this.floatLayer.append(node);
     this.floats.push({ node, pos: new THREE.Vector3(x + (Math.random() - .5) * .4, height, z), age: 0 });
   }
 
-  // Per frame: cooldowns, floating numbers and monster nameplates.
+  // Per frame: the action bar, floating numbers and monster nameplates.
   update(dt, camera, size, groundHeight) {
-    const c = this.c, project = v => { const p = v.clone().project(camera); return [(p.x + 1) / 2 * size.width, (1 - p.y) / 2 * size.height]; };
-    this.skillButtons.forEach(b => {
-      const id = b.dataset.skill, s = SKILLS[id], left = c.cooldowns[id] || 0;
-      b.querySelector('.g-cd').style.height = s.cd ? pct(left, s.cd) : '0%';
-      b.classList.toggle('nomp', c.mp < s.mp);
-      b.classList.toggle('active', this.combat.pending?.skillId === id || (s.basic && this.combat.autoAttack));
-    });
+    const project = v => { const p = v.clone().project(camera); return [(p.x + 1) / 2 * size.width, (1 - p.y) / 2 * size.height]; };
+    this.bar.update(dt);
     for (const f of this.floats) {
       f.age += dt;
       const [x, y] = project(f.pos.clone().setY(f.pos.y + groundHeight(f.pos.x, f.pos.z) + f.age * 1.1));

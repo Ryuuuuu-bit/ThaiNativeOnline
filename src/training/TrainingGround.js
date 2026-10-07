@@ -2,30 +2,34 @@ import * as THREE from 'three';
 import { makeModelCharacter } from '../classes/model.js';
 import { createFx, K as FOREST_K } from '../classes/fx/engine.js';
 import { createDummy } from '../classes/fx/dummy.js';
-import { createHotbar } from '../classes/fx/hotbar.js';
 import { CLASS_KITS } from '../classes/index.js';
 import { hitChanceOf } from '../rules/stats.js';
-import { jobDerived, rollSkill } from './damage.js';
+import { jobDerived } from './damage.js';
+import { KitCaster } from './KitCaster.js';
 import { AVATARS, avatarFor, TRAINING } from '../data/training.js';
 import { Sound } from '../audio/Sound.js';
 import { playSkillSound } from '../audio/gameSounds.js';
 import './training.css';
 
-// Class avatars and the city training ground. The player wears its class's
-// GLB (AVATARS in src/data/training.js; classes without one wear the fallback
-// model). A class with a skill kit (src/classes: มวยไทย, หมอยา) also gets the
-// training ground: a straw dummy near the spawn that its ten skills (keys 1–0,
-// Q auto) hit, and a log of every blow, totals and DPS.
+// Class avatars, class skill kits and the city training ground. The player wears
+// its class's GLB (AVATARS in src/data/training.js; classes without one wear the
+// fallback model). A class with a skill kit (src/classes CLASS_KITS) also gets:
+//   - its ten skills on the action bar (keys 1–0, G auto) on every map, cast by
+//     KitCaster: on the combat target / nearby monsters on the zone maps, on the
+//     training dummy in the city
+//   - the training ground: a straw dummy near the city spawn and a log of every
+//     blow on it, totals and DPS (shown while standing at the dummy)
 //
-//   const training = createClassAvatar(classId, { scene, camera, renderer, root, player, canStand, groundHeight });
+//   const training = createClassAvatar(classId, { scene, camera, renderer, root, player, canStand, groundHeight, character, combat, hud });
 //   → TrainingGround (classes with a kit) or a model-only avatar
-//   training.enterMap(mapId)        after each map change (only active in TRAINING.map)
-//   training.handleKey(e) → bool    keys 1–0 / Q while near the dummy
+//   training.enterMap(mapId)        after each map change (the dummy lives in TRAINING.map)
 //   training.busy                   true while a skill plays (Game blocks walking)
-//   training.update(dt, elapsed)    once per frame, after the player moved
+//   training.onManualMove()         the player steered: drop a cast that was walking in
+//   training.update(dt)             once per frame, after the player moved
 //
 // The player keeps its own movement; this only sets its look (Player.setAvatar)
-// and drives the skills.
+// and drives the skills. Classes without a kit keep the combat skills that
+// CombatHUD puts on the same action bar.
 
 const $el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
@@ -45,28 +49,29 @@ export function createClassAvatar(classId, opts) {
   if (kit && avatar === AVATARS[classId]) return new TrainingGround(opts, avatar, kit);
   wearModel(opts.player, opts.scene, avatar);
   // Model only: nothing to drive per frame.
-  return { busy: false, enterMap() {}, handleKey: () => false, update() {} };
+  return { busy: false, enterMap() {}, onManualMove() {}, update() {} };
 }
 
 export class TrainingGround {
-  constructor({ scene, camera, renderer, root, player, canStand, groundHeight, character }, avatar, kit) {
-    this.kit = kit; this.kitId = avatar.skills; this.keys = kit.skills.map(s => s.key);
+  constructor({ scene, camera, renderer, root, player, canStand, groundHeight, character, combat, hud }, avatar, kit) {
+    this.kit = kit; this.kitId = avatar.skills; this.combat = combat;
     const q = new URLSearchParams(location.search), num = (k, d) => (q.has(k) && Number.isFinite(Number(q.get(k))) ? Number(q.get(k)) : d);
     const f = TRAINING.fighter;
     this.skillLevel = Math.max(1, Math.min(5, num('skill', f.skillLevel)));
-    this.target = { def: num('ddef', TRAINING.dummy.def), eva: num('deva', TRAINING.dummy.eva) };
+    this.target = { def: num('ddef', TRAINING.dummy.def), eva: num('deva', TRAINING.dummy.eva) };   // the dummy's armour
     this.job = avatar.job ?? 'boxer';
     // The player's own stats (src/character, buffs included); ?lv= or no character uses the fixed trainee instead.
     this.hero = q.has('lv') ? null : character ?? null;
     this.fixedLevel = num('lv', f.level);
     this.fixed = jobDerived(this.job, f.byJob?.[this.job] ?? f.stats, this.fixedLevel);
     character?.on?.('change', () => this.renderSub?.());
-    this.player = player; this.canStand = canStand; this.groundHeight = groundHeight; this.active = false;
+    this.player = player; this.canStand = canStand; this.groundHeight = groundHeight; this.inGround = false;
 
     // The Player still walks and turns the avatar; this drives its skills.
     this.character = wearModel(player, scene, avatar);
 
     this.labels = $el('div', 'fx-labels'); this.dim = $el('div', 'fx-dim'); this.vignette = $el('div', 'fx-vignette');
+    this.dummyLabels = $el('div', 'fx-dummy-labels'); this.labels.append(this.dummyLabels);
     root.append(this.vignette, this.dim, this.labels);
     // FX units are sized for a 2.6 m character; scale them to this one.
     this.fx = createFx({ scene, camera, renderer, labels: this.labels, size: FOREST_K * avatar.height / 2.6 });
@@ -75,13 +80,20 @@ export class TrainingGround {
     this.stats = { total: 0, hits: 0, crits: 0, misses: 0, first: 0, last: 0, bySkill: {}, log: [] };
     this.clock = 0;
     this.panel = this.buildPanel(root);
-  }
 
-  // Rules damage for one blow of `skillId` against the dummy.
-  roll(skillId) {
-    this.lastSkill = skillId;
-    return rollSkill(this.derived, this.target, skillId, this.skillLevel);
+    // The kit's runner hits whatever KitCaster binds: the dummy, a monster or nobody.
+    this.caster = new KitCaster({
+      kit, fx: this.fx, player, combat, character, canStand, skillLevel: this.skillLevel,
+      stats: () => this.derived, dummy: () => (this.inGround ? this.dummy ?? null : null), nearDummy: () => this.near,
+      dummyDefense: () => this.target, dummyRange: TRAINING.range,
+      runnerFactory: (target, damage) => kit.createSkills({ fx: this.fx, character: this.character, player: player.group, dummy: target, groundHeight, labels: this.labels, dim: this.dim, damage }),
+      // Every successful cast (keys, clicks or auto) gets the skill's own sounds (SKILL_SFX).
+      onCast: skill => playSkillSound(skill, this.kitId),
+    });
+    this.skills = this.caster.runner;
+    hud?.setSkills(this.caster, 'สกิล' + kit.name);
   }
+  get lastSkill() { return this.caster?.lastSkill; }
 
   // Built lazily on entering the city so the dummy can stand on real, loaded ground.
   spawnDummy() {
@@ -94,56 +106,42 @@ export class TrainingGround {
     this.spot = spot ?? new THREE.Vector3(d.x, this.groundHeight(d.x, d.z), d.z);
     // The FX root follows the player's ground height; seat it there before placing the dummy.
     this.fx.root.position.y = this.player.position.y;
-    this.dummy = createDummy(this.fx, this.labels, this.spot, this.groundHeight, { hp: d.hp, onHit: e => this.record(e) });
-    this.skills = this.kit.createSkills({ fx: this.fx, character: this.character, player: this.player.group, dummy: this.dummy, groundHeight: this.groundHeight, labels: this.labels, dim: this.dim, damage: id => this.roll(id) });
-    this.skills.range = TRAINING.range;
-    // Every successful cast (keys, clicks or auto) gets the skill's own sounds (SKILL_SFX).
-    const cast = this.skills.cast;
-    this.skills.cast = (id, quiet) => { const r = cast(id, quiet); if (r !== false) this.lastSkill = id; if (r !== false) playSkillSound(this.kit.skills.find(k => k.id === id) ?? { id }, this.kitId); return r; };
-    this.hotbar = createHotbar(this.labels.parentElement, this.skills, this.kit.skills, 'สกิล' + this.kit.name);
+    this.dummy = createDummy(this.fx, this.dummyLabels, this.spot, this.groundHeight, { hp: d.hp, onHit: e => this.record(e) });
   }
 
+  // The skills work on every map; the dummy (and its labels) only in TRAINING.map.
   enterMap(mapId) {
-    this.active = mapId === TRAINING.map;
-    if (this.active && !this.dummy) this.spawnDummy();
-    this.fx.root.visible = this.active;
-    this.labels.hidden = !this.active;
-    if (!this.active) { this.hotbar?.setAuto(false); this.setNear(false); }
+    this.inGround = mapId === TRAINING.map;
+    if (this.inGround && !this.dummy) this.spawnDummy();
+    if (this.dummy) this.dummy.group.visible = this.inGround;
+    this.dummyLabels.hidden = !this.inGround;
+    this.caster.cancel();
+    if (!this.inGround) this.setNear(false);
   }
 
-  get near() { return this.active && !!this.spot && Math.hypot(this.player.position.x - this.spot.x, this.player.position.z - this.spot.z) <= TRAINING.range; }
-  get busy() { return this.active && !!this.skills?.busy; }
-
-  handleKey(e) {
-    if (!this.near || e.repeat || !this.hotbar) return false;
-    const slot = this.keys.indexOf(e.code);
-    if (slot >= 0) { this.hotbar.cast(slot); return true; }
-    if (e.code === 'KeyQ') { this.hotbar.toggleAuto(); return true; }
-    return false;
-  }
+  get near() { return this.inGround && !!this.spot && Math.hypot(this.player.position.x - this.spot.x, this.player.position.z - this.spot.z) <= TRAINING.range; }
+  get busy() { return !!this.skills?.busy; }
+  onManualMove() { this.caster.cancel(); }
 
   setNear(on) {
     if (on === this.wasNear) return;
     this.wasNear = on;
-    // Near the dummy the class's ten-skill hotbar replaces the combat skill bar.
-    document.body.classList.toggle('training-near', on);
-    this.panel.hidden = !on;
-    if (!on) this.hotbar?.setAuto(false);
+    this.panel.hidden = !on;   // at the dummy: the damage log
   }
 
   update(dt) {
-    if (!this.active || !this.skills) return;
     const fx = this.fx;
     // Hit-stop: heavy blows freeze the fighter and effects for a few frames (the world keeps going).
     const sdt = fx.stop > 0 ? dt * .06 : dt; fx.stop = Math.max(0, fx.stop - dt);
     this.clock += sdt;
     this.skills.update(sdt);
+    this.caster.update(sdt);
     this.setNear(this.near);
-    // While a skill plays it moves and turns the avatar.
+    // While a skill plays it moves and turns the avatar, and the combat basic attack waits.
     if (this.skills.busy && this.skills.facing !== null) this.player.group.rotation.y = this.skills.facing;
-    this.hotbar.update(sdt, false);
+    if (this.combat) this.combat.hold = this.skills.busy;
     fx.update(sdt, this.clock, this.player.position.y);
-    this.dummy.update(sdt);
+    if (this.inGround) this.dummy?.update(sdt);
     this.vignette.style.opacity = fx.mood.toFixed(3);
     if (this.dirty) { this.dirty = false; this.renderPanel(); }
   }
@@ -173,7 +171,7 @@ export class TrainingGround {
       <dl class="training-sum"></dl>
       <ol class="training-log"></ol>
       <table class="training-skills"></table>
-      <p class="training-tip">1–0 ใช้สกิล · Q ออโต้ · ?lv=50&amp;skill=5&amp;ddef=40 ปรับค่าทดสอบ</p>`;
+      <p class="training-tip">1–0 ใช้สกิล · G ออโต้ · ?lv=50&amp;skill=5&amp;ddef=40 ปรับค่าทดสอบ</p>`;
     panel.querySelector('.training-reset').addEventListener('click', () => this.reset());
     root.appendChild(panel);
     this.sub = panel.querySelector('.training-sub');

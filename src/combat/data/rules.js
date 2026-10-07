@@ -11,4 +11,10 @@ export const RULES = {
   eliteHeavyChance: .25,   // elites sometimes hit for 1.8×
   deathGoldLoss: .1,
   reviveRatio: .6,
+  // Class skill kits fighting monsters (src/training/kitCombat.js). Rules skills
+  // (src/rules/data/skills.js) measure range/radius in ThaiNative pixels: pxPerMeter
+  // turns them into metres. Casts need the target within [minRange, maxRange] m
+  // (melee kits dash the last metres themselves); farther, the player walks in for
+  // up to approachTimeout s. A blow with no rules multiplier hits at fallbackMult.
+  kit: { pxPerMeter: 25, minRange: 3, maxRange: 12, approachTimeout: 6, fallbackMult: 1, targetRange: 14 },
 };

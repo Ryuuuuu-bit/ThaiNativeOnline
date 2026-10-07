@@ -100,3 +100,37 @@
 .ui-portrait .training-panel{top:auto;bottom:190px}
 /* Full layout: the skill bar sits clear of the controls bar. */
 body:not(.ui-compact) .hotbar{bottom:84px}
+/* Painted map (src/ui/Minimap.js): parchment canvas in a gold frame with lai kranok corners. */
+.minimap{padding:9px 10px 8px}
+.mini-title{display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:6px;line-height:1.15;text-align:center}
+.mini-title b{font:500 13px 'Noto Serif Thai',serif;color:#f0d79a;letter-spacing:1px;text-shadow:0 1px 6px #0008}
+.mini-title small{font-size:8px;color:#cdbf98;letter-spacing:.5px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-title b{display:flex;align-items:center;gap:6px;max-width:100%}
+.mini-title #mini-lv{font:600 8px 'Noto Sans Thai',sans-serif;font-style:normal;letter-spacing:.5px;color:#2b1b0a;background:linear-gradient(#f3d58a,#c08a3a);border-radius:8px;padding:1px 6px;text-shadow:none;white-space:nowrap}
+.map-frame{position:relative;padding:3px;border-radius:3px;background:linear-gradient(135deg,#e8c77a,#9a6a2a 45%,#f1d892 55%,#8a5a22);box-shadow:0 0 0 1px #2b1b0a,0 4px 14px #0007}
+.map-frame canvas{display:block;width:100%;border:1px solid #3a2410!important;border-radius:2px;opacity:1!important;background:#cdb88a}
+.kranok{position:absolute;width:24px;height:24px;color:#f6dd9c;pointer-events:none;filter:drop-shadow(0 1px 1px #2b1b0acc)}
+.kranok svg{display:block;width:100%;height:100%}
+.kranok.tl{left:-5px;top:-5px}.kranok.tr{right:-5px;top:-5px;transform:scaleX(-1)}
+.kranok.bl{left:-5px;bottom:-5px;transform:scaleY(-1)}.kranok.br{right:-5px;bottom:-5px;transform:scale(-1,-1)}
+.mini-footer{margin-top:7px}
+.mini-footer #safety-dot{width:6px;height:6px;box-shadow:0 0 4px #000a}
+.g-night .map-frame{background:linear-gradient(135deg,#c9d3e8,#5f6f92 45%,#e1e8f6 55%,#4e5c7c)}
+.g-night .kranok{color:#dfe8fb}
+.g-night .mini-title b{color:#dbe6ff}
+/* Full map: canvas and legend side by side; the legend wraps below on small screens. */
+.fullmap{width:min(900px,calc(100% - 32px));inset:5vh 50% 5vh auto}
+.fullmap-body{flex:1;min-height:0;display:flex;gap:14px}
+.fullmap-body .map-frame{flex:1;min-width:0;min-height:0}
+.fullmap .map-frame #fullmap{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);background:radial-gradient(ellipse at center,#3d2c17,#150e07)}
+.map-legend{list-style:none;margin:0;padding:0;width:150px;display:flex;flex-direction:column;gap:6px;font-size:10px;color:#e6dcbf}
+.map-legend li{display:flex;align-items:center;gap:7px}
+.map-legend canvas{width:22px;height:22px;flex:none;border:0;background:none}
+.map-tip{position:absolute;max-width:260px;padding:6px 9px;font-size:10px;line-height:1.45;color:#3a2612;background:#f6ebcbf2;border:1px solid #9a6a2a;border-radius:3px;box-shadow:0 4px 12px #0006;pointer-events:none;z-index:2}
+.ui-compact .fullmap,.ui-portrait .fullmap{inset:56px 50% 12px auto;padding:10px 12px}
+.ui-compact .fullmap-body,.ui-portrait .fullmap-body{flex-direction:column;gap:8px}
+.ui-compact .map-legend,.ui-portrait .map-legend{width:auto;flex-direction:row;flex-wrap:wrap;gap:4px 10px;font-size:9px}
+.ui-compact .map-legend canvas,.ui-portrait .map-legend canvas{width:16px;height:16px}
+.ui-compact .fullmap>p{display:none}
+.ui-compact .mini-title small{display:none}
+.ui-compact .kranok{width:18px;height:18px}

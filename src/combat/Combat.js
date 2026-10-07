@@ -37,7 +37,7 @@ export class Combat extends Emitter {
     this.character = character; this.world = world;
     this.monsters = []; this.target = null; this.autoAttack = false;
     this.pending = null; // { skillId, target } waiting to get in range
-    this.attackTimer = 0; this.gcd = 0; this.combatTimer = 0; this.projectiles = [];
+    this.attackTimer = 0; this.gcd = 0; this.combatTimer = 0; this.projectiles = []; this.hold = false;
     this.phase = 'day';
     // Hunter's dog: follows the player and bites whatever the player fights.
     this.pet = character.cls.pet ? { kind: character.cls.pet, x: 0, z: 0, facing: 0, moving: false, attackTimer: 0, frenzy: 0, placed: false } : null;
@@ -182,12 +182,22 @@ export class Combat extends Emitter {
   hitMonster(m, skill) {
     if (!m.alive) return;
     const { hit, dmg: dealt, crit } = this.rollPlayerDamage(skill, m);
-    if (!hit) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return; }
-    m.hp = Math.max(0, m.hp - dealt);
-    this.emit('hit', { monster: m, amount: dealt, crit, x: m.x, z: m.z });
-    if (skill.debuff) { m.debuffs = m.debuffs.filter(d => d.id !== skill.debuff.id); m.debuffs.push({ ...skill.debuff, remaining: skill.debuff.duration, source: this.character.attack }); }
-    if (m.hp <= 0) this.kill(m); else this.aggro(m);
+    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit }) && skill.debuff) this.debuff(m, { ...skill.debuff, source: this.character.attack });
   }
+
+  // Apply an already rolled blow to a monster (hook for the class skill kits,
+  // src/training/KitCaster.js): emits hit/miss, then kills (EXP, gold, loot) or aggroes.
+  // → true when the monster took the blow and is still alive.
+  damageMonster(m, amount, { crit = false, miss = false } = {}) {
+    if (!m?.alive) return false;
+    if (miss) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return false; }
+    m.hp = Math.max(0, m.hp - Math.max(0, Math.round(amount)));
+    this.emit('hit', { monster: m, amount: Math.round(amount), crit, x: m.x, z: m.z });
+    if (m.hp <= 0) { this.kill(m); return false; }
+    this.aggro(m); return true;
+  }
+  // Debuff on a monster: { id, duration, slow?, stun?, dot?, source?, label? }; one of each id at a time.
+  debuff(m, d) { m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push({ ...d, remaining: d.duration }); }
 
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
@@ -218,8 +228,9 @@ export class Combat extends Emitter {
     this.projectiles = this.projectiles.filter(proj => proj.delay > 0);
     for (const proj of landed) this.hitMonster(proj.target, proj.skill);
 
-    // Chase toward pending target, then fire.
-    if (c.alive && this.pending) {
+    // Chase toward pending target, then fire. `hold` (set while a class kit skill
+    // plays, src/training) pauses the player's own swings and chasing.
+    if (c.alive && this.pending && !this.hold) {
       const { skillId, target } = this.pending, skill = SKILLS[skillId];
       if (!target?.alive) this.pending = null;
       else {
@@ -231,7 +242,7 @@ export class Combat extends Emitter {
       }
     }
     // Auto attack keeps swinging at the current target while in range.
-    if (c.alive && this.autoAttack && !this.pending && this.target?.alive && this.attackTimer <= 0) {
+    if (c.alive && !this.hold && this.autoAttack && !this.pending && this.target?.alive && this.attackTimer <= 0) {
       const basic = this.basicSkillId();
       if (dist(this.target, p) <= c.cls.range) this.execute(basic, this.target);
       else this.pending = { skillId: basic, target: this.target };
@@ -301,6 +312,7 @@ export class Combat extends Emitter {
     }
     m.attackTimer = Math.max(0, m.attackTimer - dt);
     m.moving = false;
+    if (m.debuffs.some(d => d.stun) && m.state !== 'return') return;   // stunned: no move, no attack
     const d = dist(m, p), fromHome = dist(m, m.home), speed = m.def.speed * m.speedFactor;
 
     if (m.state === 'idle') {

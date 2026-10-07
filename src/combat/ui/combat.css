@@ -11,7 +11,6 @@
 .g-target-tags i{font-style:normal;font-size:8px;color:#cdb8ff}
 
 /* Skill bar */
-.g-skillbar{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:7px;background:#11241ecc;border:1px solid #cabc8633;border-radius:5px;backdrop-filter:blur(12px)}
 .g-skill{position:relative;width:50px;height:50px;border-radius:5px;border:1px solid #cabc8655;background:linear-gradient(#24372f,#12201b);overflow:hidden;padding:0;transition:transform .12s,border-color .12s}
 .g-skill:hover{border-color:#e1c983;transform:translateY(-2px)}
 .g-skill.active{border-color:#ffd88a;box-shadow:inset 0 0 12px #f1c06966}
@@ -49,8 +48,7 @@
 .g-death button:hover{background:#56693f}
 .g-float.pet{color:#f2c26b;font-size:13px}
 
-.g-layer,.g-player,.g-skillbar{transition:background .8s,border-color .8s,box-shadow .8s}
-.g-night .g-skillbar{background:#0d1422d9;border-color:#8fa3d440}
+.g-layer,.g-player{transition:background .8s,border-color .8s,box-shadow .8s}
 .g-night .g-skill,.g-night .g-menu{background:linear-gradient(#1e2740,#121a2c);border-color:#8fa3d455}
 .g-night .g-skill.active{border-color:#ffb85c;box-shadow:inset 0 0 14px #ff9b3a66}
 .g-night .g-plate.hostile .g-bar span{background:#5fd1a8}
@@ -58,10 +56,8 @@
 .photo-mode .g-floats{display:none}
 @media(max-width:900px){
   .g-target{top:auto;bottom:150px;width:220px}
-  .g-skillbar{bottom:64px}
 }
 @media(max-width:600px){
-  .g-skillbar{left:16px;right:140px;bottom:20px;transform:none;flex-wrap:wrap;gap:4px;padding:5px}
   .g-skill,.g-menu{width:38px;height:38px}
   .g-menu{padding:0;font-size:8px}
   .g-sep{display:none}

@@ -9,11 +9,12 @@ Owner: gameplay-engineer (`data/`: content-designer). Rules and AI in `Combat.js
 | `index.js` | Public entry: `createGame(options)` wires character, combat, view and UI into a world |
 | `Combat.js` | Targeting, skills, global cooldown, damage, crits, dodge, debuffs, pet, monster AI, loot, respawn, day/night |
 | `CombatView.js` | Monster models, hunter's dog, target ring, projectiles, AoE rings, hit flashes |
-| `ui/CombatHUD.js` | Target frame, action bar, floating numbers, nameplates, death screen, night theme |
+| `ui/CombatHUD.js` | Target frame, the action bar (`src/ui/ActionBar.js`), floating numbers, nameplates, death screen, night theme |
+| `LegacyCaster.js` | The class's four `SKILLS` as an action bar controller (classes without a ten-skill kit) |
 | `data/skills.js` | `SKILLS`, `BUFF_ICONS` |
 | `data/monsters.js` | `MONSTERS`, `NIGHT` (night EXP and ghost bonuses) |
 | `data/loot.js` | `LOOT` tables: `[itemId, chance, min, max]` |
-| `data/rules.js` | `RULES`: leash, cooldowns, timeouts, death penalty and other tuning |
+| `data/rules.js` | `RULES`: leash, cooldowns, timeouts, death penalty and other tuning; `RULES.kit` tunes class kits fighting monsters |
 
 ## Public interface
 
@@ -36,7 +37,23 @@ rpg.ready, rpg.character, rpg.combat, rpg.view, rpg.hud, rpg.characterUI
 
 The character is loaded or created asynchronously, so `ready` stays false until the creation screen closes; every method is safe to call before that.
 
-Keys: `1–4` skills, `Space` basic attack, `Tab` next target, `Esc` clear target. Clicking a monster targets and attacks it. The click event's propagation is stopped, so the world's click-to-move does not fire.
+Keys: `1–0` the action bar's skills, `G` AUTO, `Q` / `F` potions, `C` character, `I` bag (CharacterUI), `Space` basic attack, `Tab` next target, `Esc` clear target. Clicking a monster targets it and starts the class's basic attack. The click event's propagation is stopped, so the world's click-to-move does not fire.
+
+### Action bar (`rpg.hud.bar`, `src/ui/ActionBar.js`)
+
+One bar on every map, in the shared hotbar look: up to ten skills (keys 1–0), AUTO (G), the potion buttons (Q / F, with counts) and the C / I menu buttons from CharacterUI. A controller fills the skill slots:
+
+- `LegacyCaster.js`: the class's four `SKILLS` through `Combat.useSkill` (default, and for classes without a kit).
+- `src/training/KitCaster.js`: the class's ten-skill kit (`src/classes` `CLASS_KITS`); TrainingGround swaps it in with `rpg.hud.setSkills(controller, label)` once the character exists.
+
+The controller interface is documented at the top of `ActionBar.js`. `hud.setSafe(on)` (safe map) only silences the fight tips and Tab / Space; the bar is the same everywhere.
+
+### Hooks for class kits (`src/training/KitCaster.js`)
+
+- `combat.damageMonster(monster, amount, { crit, miss })`: apply an already rolled blow; emits `hit` / `miss`, then aggro, or the kill path (`kill` event, EXP, gold, loot). Returns true while the monster lives.
+- `combat.debuff(monster, { id, duration, slow?, stun?, dot?, source?, label? })`: one debuff per id. `stun` stops the monster moving and attacking; `label` is the tag on the target frame.
+- `combat.hold`: true while a kit skill plays; the player's own chase and basic-attack swings wait.
+- `RULES.kit` (`data/rules.js`): pixel → metre scale for rules ranges/radii, min/max cast range, approach timeout, fallback multiplier, target search range.
 
 ### Spawn zones
 
