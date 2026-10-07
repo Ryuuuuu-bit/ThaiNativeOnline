@@ -362,16 +362,21 @@ function tradeMsg(ws, m) {
 }
 setInterval(() => { for (const party of parties.parties.values()) sendParty(party.id); }, 1000);
 // a healer's party / revive skill (src/training/kitCombat.js supportOf): the other members in the
-// same room within its radius are healed, buffed and — for a revive — stood back up where they fell
+// same room within its radius are healed, buffed and — for a revive — stood back up where they fell.
+// The caster hears who it reached: aided {skill, got: [{name, x, z, heal, revived}]}
 function support(caster, skill, sup) {
   const pid = parties.of(caster.id); if (!pid) return;
+  const got = [];
   for (const id of parties.members(pid)) {
     if (id === caster.id) continue;
     const o = byId(id); if (!o || o.p.room !== caster.room || Math.hypot(o.p.x - caster.x, o.p.z - caster.z) > sup.radius) continue;
     const r = combatants.aid(id, sup);
     if (r?.revived) presence.setDead(o.ws, false);
-    if (r || o.p.dead) send(o.ws, { t: 'aid', from: caster.name, skill, heal: sup.heal, mp: sup.mp, buff: sup.buff, revive: o.p.dead || r?.revived ? sup.revive : 0 });
+    if (r || o.p.dead) send(o.ws, { t: 'aid', from: caster.name, skill, heal: sup.heal, hp: sup.hp, mp: sup.mp, buff: sup.buff, revive: o.p.dead || r?.revived ? sup.revive : 0 });
+    if (r) got.push({ name: o.p.name, x: o.p.x, z: o.p.z, heal: r.heal ?? 0, revived: !!r.revived });
   }
+  const casterWs = byId(caster.id)?.ws;
+  if (got.length && casterWs) send(casterWs, { t: 'aided', skill, got });
 }
 
 // ---- whisper, who is online, friends ---------------------------------------------------------

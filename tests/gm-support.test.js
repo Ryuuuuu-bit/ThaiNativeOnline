@@ -48,7 +48,8 @@ test('GM: only listed accounts; own character on the server, others by name', ()
 test('a healer\'s party skill reaches the members near them; a revive stands the fallen up', () => {
   const mist = supportOf('heal_mist', 1, 10), khwan = supportOf('heal_khwan', 1, 10);
   assert.ok(mist.heal > 0 && mist.radius > 5 && !mist.revive);
-  assert.ok(khwan.revive > 0); assert.equal(supportOf('heal_vine'), null, 'a single-target skill is not a party skill');
+  assert.ok(khwan.revive > 0); assert.equal(supportOf('heal_zone'), null, 'a damage-only skill is not a support skill');
+  const vine = supportOf('heal_vine', 1, 10, 100); assert.ok(vine.hp > 0 && vine.radius > 5, 'a healing skill heals the party near the caster by MATK');
   let t = 0; const cs = new Combatants({ now: () => t });
   const all = Object.fromEntries(['heal_vine', 'heal_pill', 'heal_zone', 'heal_tiger', 'heal_khwan', 'heal_mortar', 'heal_mist'].map(id => [id, EVO_LEVEL]));
   cs.load(1, { ...Character.create('หมอ', 'herbalist').toJSON(), jobLevel: 50, skills: all }, { account: 'a', slot: 0 });
