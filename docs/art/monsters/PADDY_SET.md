@@ -27,13 +27,16 @@ registered asset rather than a fixed three-model list. Hashes are in `manifest.j
 
 ## Validation
 
-All 261 tests and the production build pass. Asset checks cover five named clips,
+All 266 tests and the production build pass after integrating current main.
+Asset checks cover five named clips,
 skin weights, seamless idle/walk endpoints and bounded animated vertices.
 The game-loader gallery loads all seven paddy models and plays idle/walk/attack
 without page exceptions. Independent skeletons, materials and picking IDs are
 checked. Actual paddy gameplay loads all nine registered models with HTTP 200
 and accepts selecting a boar as a combat target, with no page exceptions.
-Local receipts and diagnostics are retained under `artifacts/paddy-monsters/`.
+All six final GLBs reimport successfully in an isolated Blender session with
+zero degenerate faces. Local receipts and diagnostics are retained under
+`artifacts/paddy-monsters/` and `artifacts/paddy-validation/`.
 
 ## Limits
 
