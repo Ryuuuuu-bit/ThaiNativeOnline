@@ -2,7 +2,8 @@
 // Pure logic so it can be reused by any world or a future server.
 import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
 import { ITEMS } from './data/items.js';
-import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY } from './data/progression.js';
+import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
+import { KIT_SKILL_IDS } from './data/kits.js';
 import { computeDerived, hitChanceOf, ASPD_BUFF_MAX } from '../rules/stats.js';
 import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
@@ -15,12 +16,21 @@ const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
     this.name = name; this.classId = classId; this.gender = gender; this.night = false; this.level = level; this.exp = exp; this.gold = gold;
     this.points = points; // unspent stat points
+    // Job level and learnt skills ({ kit skill id: level }). Saves from before job levels get a
+    // job level that matches their base level and only the first skill (the points are theirs to spend).
+    this.jobLevel = Math.max(1, Math.min(MAX_JOB_LEVEL, Math.floor(jobLevel ?? Math.min(MAX_JOB_LEVEL, Math.floor((level - 1) * .85) + 1))));
+    this.jobExp = Math.max(0, jobExp || 0);
+    this.skills = {};
+    const ids = KIT_SKILL_IDS[classId] ?? [];
+    for (const [id, lv] of Object.entries(skills ?? {})) { const i = ids.indexOf(id); if (i >= 0 && lv > 0 && SKILL_UNLOCK_JOB[i] <= this.jobLevel) this.skills[id] = Math.min(MAX_SKILL_LEVEL, Math.floor(lv)); }
+    if (ids[0] && !this.skills[ids[0]]) this.skills[ids[0]] = 1;
+    while (this.skillPoints < 0) { const top = Object.keys(this.skills).filter(id => id !== ids[0] || this.skills[id] > 1).pop(); if (!top) break; if (--this.skills[top] <= 0) delete this.skills[top]; }
     this.alloc = { ...emptyAlloc(), ...alloc };
     this.inventory = inventory ? inventory.map(s => s && { ...s }) : Array(INVENTORY_SIZE).fill(null);
     this.equipment = { weapon: null, armor: null, charm: null, ...equipment };
@@ -133,9 +143,50 @@ export class Character extends Emitter {
   }
   addBuff(buff) { this.buffs = this.buffs.filter(b => b.id !== buff.id); this.buffs.push({ ...buff, remaining: buff.duration }); this.emit('change'); }
 
+  // ---- Job level and skills ----
+  get jobExpNeeded() { return jobExpToNext(this.jobLevel); }
+  get kitSkills() { return KIT_SKILL_IDS[this.classId] ?? []; }
+  // Points spent: every learnt level beyond the free first skill's first level.
+  get skillPointsSpent() { return Object.entries(this.skills).reduce((n, [id, lv]) => n + lv - (id === this.kitSkills[0] ? 1 : 0), 0); }
+  get skillPoints() { return this.jobLevel - 1 - this.skillPointsSpent; }
+  skillLevel(id) { return this.skills[id] ?? 0; }
+  skillUnlockJob(id) { const i = this.kitSkills.indexOf(id); return i < 0 ? Infinity : SKILL_UNLOCK_JOB[i]; }
+  // Why a skill cannot go up one level now (null: it can).
+  skillBlock(id) {
+    if (!this.kitSkills.includes(id)) return 'ไม่ใช่สกิลของอาชีพนี้';
+    if (this.skillLevel(id) >= MAX_SKILL_LEVEL) return 'เลเวลสูงสุดแล้ว';
+    if (this.jobLevel < this.skillUnlockJob(id)) return `ต้องถึง Job Lv.${this.skillUnlockJob(id)}`;
+    if (this.skillPoints <= 0) return 'แต้มสกิลไม่พอ';
+    return null;
+  }
+  learnSkill(id) {
+    if (this.skillBlock(id)) return false;
+    this.skills[id] = this.skillLevel(id) + 1; this.emit('skills'); this.emit('change');
+    return true;
+  }
+  get skillResetCost() { return this.jobLevel * SKILL_RESET_GOLD; }
+  resetSkills() {
+    if (this.skillPointsSpent <= 0 || this.gold < this.skillResetCost) return false;
+    this.gold -= this.skillResetCost;
+    this.skills = this.kitSkills[0] ? { [this.kitSkills[0]]: 1 } : {};
+    this.emit('skills'); this.emit('change');
+    return true;
+  }
+  gainJobExp(amount) {
+    if (this.jobLevel >= MAX_JOB_LEVEL) return;
+    this.jobExp += Math.round(amount);
+    while (this.jobLevel < MAX_JOB_LEVEL && this.jobExp >= this.jobExpNeeded) {
+      this.jobExp -= this.jobExpNeeded; this.jobLevel += 1;
+      this.emit('joblevelup', this.jobLevel);
+    }
+    if (this.jobLevel >= MAX_JOB_LEVEL) this.jobExp = 0;
+  }
+
   // ---- EXP / level ----
+  // Every EXP gain also feeds the job level (JOB_EXP_RATE of it), on the server and here alike.
   gainExp(amount) {
-    if (this.level >= MAX_LEVEL) return;
+    this.gainJobExp(amount * JOB_EXP_RATE);
+    if (this.level >= MAX_LEVEL) { this.emit('change'); return; }
     this.exp += Math.round(amount); this.emit('exp', amount);
     while (this.level < MAX_LEVEL && this.exp >= this.expNeeded) {
       this.exp -= this.expNeeded; this.level += 1; this.points += POINTS_PER_LEVEL;
@@ -238,8 +289,8 @@ export class Character extends Emitter {
 
   // ---- Persistence ----
   toJSON() {
-    const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp };
+    const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills } = this;
+    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills } };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

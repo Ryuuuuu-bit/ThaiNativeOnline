@@ -14,7 +14,9 @@ const boars = (n = 1, spread = 0) => {
   for (const m of w.monsters) { m.maxHp = m.hp = 1e6; }   // tough enough to count blows on
   return w;
 };
-const sheet = (classId, level = 10) => ({ ...Character.create('ทดสอบ', classId).toJSON(), level });
+import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
+// every kit skill learnt at Lv.1 (job level 50 has the points)
+const sheet = (classId, level = 10) => ({ ...Character.create('ทดสอบ', classId).toJSON(), level, jobLevel: 50, skills: Object.fromEntries((KIT_SKILL_IDS[classId] ?? []).map(id => [id, 1])) });
 const setup = (classId = 'hunter', o = {}) => {
   const now = clock(), cs = new Combatants({ now, random: () => .3 });
   assert.equal(cs.set(1, sheet(classId), classId), true);

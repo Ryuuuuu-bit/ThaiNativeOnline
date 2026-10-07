@@ -4,7 +4,7 @@
 // player's own actions, which the browser does locally and mirrors as `op` messages that
 // the server replays with the very same Character / shop code:
 //   buy {shop, id} · sell {id} · use {id} · equip {id} · unequip {slot} · alloc {key} · reset · sort ·
-//   quest_accept {id} · quest_complete {id} · talk {npc}
+//   quest_accept {id} · quest_complete {id} · talk {npc} · learn {id} (a skill point) · skill_reset
 // An action the server cannot replay (no gold, not in the bag, …) is refused and the
 // browser gets the server's copy back. The browser's save sync can no longer change the
 // character or its quests: the server's copies win.
@@ -57,6 +57,8 @@ export function applyOp(c, msg = {}, quests = null) {
     case 'alloc': return STATS.includes(msg.key) && c.allocate(msg.key);
     case 'reset': c.resetStats(); return true;
     case 'sort': sortBag(c); return true;
+    case 'learn': return typeof msg.id === 'string' && c.learnSkill(msg.id);
+    case 'skill_reset': return c.resetSkills();
     case 'quest_accept': return !!quests?.defs.has(msg.id) && quests.accept(msg.id);
     case 'quest_complete': return !!quests?.defs.has(msg.id) && quests.complete(msg.id);
     case 'talk': if (typeof msg.npc !== 'string' || !quests) return false; quests.onTalk(msg.npc); return true;

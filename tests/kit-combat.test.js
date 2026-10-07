@@ -94,6 +94,7 @@ function fakeRunner(target, damage, hits) {
 }
 function setup({ boarAt = { x: 0, z: 2 } } = {}) {
   const character = Character.create('ทดสอบ', 'muaythai');
+  character.jobLevel = 50; for (const id of character.kitSkills) character.skills[id] = 1;   // every skill learnt
   const player = { group: new THREE.Group() }; player.position = player.group.position;
   const walks = [];
   const combat = new Combat(character, { canStand: () => true, playerPos: () => player.position, moveTo: (x, z) => walks.push([x, z]), stop() {} },

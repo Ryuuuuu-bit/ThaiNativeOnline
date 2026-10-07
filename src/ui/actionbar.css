@@ -48,3 +48,9 @@
 .hotbar-attack kbd { margin: 0; padding: 0 3px; font-size: 8px; line-height: 12px; }
 .hotbar-attack:hover { box-shadow: 0 0 0 1px #f0b98a; }
 .hotbar-attack.on { box-shadow: 0 0 0 2px #ffb46b, 0 0 12px #ff8a3c88; }
+
+/* Skill level and not-learnt skills (job levels). */
+.hotbar-slot .slv { position: absolute; right: 3px; top: 2px; font-size: 9px; font-weight: 700; color: #ffe08a; text-shadow: 0 1px 2px #000, 0 0 3px #000; z-index: 2; }
+.hotbar-slot .lock { display: none; position: absolute; inset: 0; place-items: center; font-size: 16px; z-index: 2; text-shadow: 0 1px 3px #000; }
+.hotbar-slot.locked .lock { display: grid; }
+.hotbar-slot.locked img, .hotbar-slot.locked .hotbar-glyph { filter: grayscale(1) brightness(.45); }

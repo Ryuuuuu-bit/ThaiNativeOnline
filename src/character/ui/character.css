@@ -192,3 +192,25 @@
 .g-slot.rar-rare{background:radial-gradient(circle at 50% 60%,#7fb7e826,#0b1b1799 70%)}
 /* the training-ground box sits where the bag / sheet open: step it aside while they are up */
 body:has(.g-bag:not([hidden])) .training-panel,body:has(.g-sheet:not([hidden])) .training-panel{display:none}
+
+/* Skill window (K, src/character/ui/SkillPanel.js) and the job level on the player frame. */
+.g-skills{left:320px;width:330px}
+.g-player .g-job-lv{font-style:normal;color:#e7c87d}
+.g-player.g-sp .g-job-lv::after{content:' ●';color:#ffcf6a}
+.g-job{margin-bottom:10px}.g-job-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}.g-job-head span{color:#cfc8ac}.g-job-head .g-has-points{color:#ffd36b;font-weight:600}
+.g-jexp span{background:linear-gradient(90deg,#a07a2c,#e8c56a)}
+.g-skill-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.g-skill-list li{display:grid;grid-template-columns:40px 1fr 32px;gap:8px;align-items:center;padding:6px;border:1px solid #cabc8626;border-radius:4px;background:#0b151299}
+.g-skill-list li.closed{opacity:.55}
+.g-skill-list li.learnt{border-color:#e1c98355}
+.g-skill-ico{position:relative;width:40px;height:40px;border-radius:4px;overflow:hidden;background:#0b1411}
+.g-skill-ico img{width:100%;height:100%;display:block;image-rendering:pixelated}
+.g-skill-list li:not(.learnt) .g-skill-ico img{filter:grayscale(1) brightness(.6)}
+.g-skill-ico em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:16px;text-shadow:0 1px 3px #000}
+.g-skill-txt b{font-size:12px;font-weight:600;margin-right:6px}.g-skill-txt small{display:block;margin-top:2px;font-size:10px;line-height:1.45;color:#b9c0a8}
+.g-pips{display:inline-flex;gap:2px;vertical-align:1px}.g-pips i{width:7px;height:7px;border-radius:50%;border:1px solid #e1c98388;background:#0008}.g-pips i.on{background:#ffd36b;border-color:#ffd36b}
+.g-skill-list button{width:32px;height:32px;border:1px solid #cdb170;border-radius:4px;background:linear-gradient(#c9a352,#9c7a32);color:#1a1408;font-size:18px;font-weight:700;cursor:pointer}
+.g-skill-list button:disabled{opacity:.3;cursor:default}
+.g-skill-foot{margin-top:10px;display:grid;gap:5px}.g-skill-foot small{font-size:9px;color:#8d9f8f}
+.g-skill-reset{padding:6px;border:1px solid #cabc8655;border-radius:3px;background:#0d1a16b3;color:#e3d7af;font:inherit;font-size:11px;cursor:pointer}.g-skill-reset:disabled{opacity:.4;cursor:default}
+body:has(.g-skills:not([hidden])) .training-panel{display:none}

@@ -25,8 +25,10 @@ export class KitCaster {
   constructor(o) {
     Object.assign(this, o);
     this.cd = new Map(); this.pending = null; this.cast_ = 0; this.affected = new Set();
-    this.infos = o.kit.skills.map(s => castInfo(s, o.skillLevel));
-    this.slots = o.kit.skills.map((s, i) => ({ id: s.id, name: s.name, icon: s.icon, lv: s.lv, desc: s.desc, cd: this.infos[i].cd, mp: this.infos[i].mp }));
+    this.slots = o.kit.skills.map(s => ({ id: s.id, name: s.name, icon: s.icon, lv: s.lv, desc: s.desc, cd: 0, mp: 0 }));
+    this.refreshLevels();
+    // learning a skill (or a reset) changes its numbers: MP, cooldown, reach
+    o.character?.on?.('skills', () => this.refreshLevels());
     this.stub = stubTarget(o.fx, o.player.group);
     this.proxy = createTargetProxy(this.stub);
     this.adapters = new WeakMap();
@@ -36,12 +38,24 @@ export class KitCaster {
   // ---- action bar controller --------------------------------------------------
   get busy() { return this.runner.busy || !!this.pending; }
   cooldown(i) { return [this.cd.get(this.slots[i].id) ?? 0, this.slots[i].cd * (1 - (this.character.cooldownCut || 0))]; }
-  usable(i) { return this.nearDummy() || this.character.mp >= this.infos[i].mp; }
+  usable(i) { return this.nearDummy() || (this.learned(i) && this.character.mp >= this.infos[i].mp); }
+  // Skill levels: the character's learnt levels (job levels, src/character/Character.js);
+  // ?skill=N on the URL forces one level for testing. 0 = not learnt yet.
+  lv(id) { return this.forceLevel ?? (this.character?.skillLevel ? this.character.skillLevel(id) : this.skillLevel ?? 1); }
+  learned(i) { return this.lv(this.slots[i].id) >= 1; }
+  locked(i) { return !this.learned(i); }
+  level(i) { return this.lv(this.slots[i].id); }
+  refreshLevels() {
+    this.infos = this.kit.skills.map(s => castInfo(s, Math.max(1, this.lv(s.id))));
+    this.slots.forEach((sl, i) => { sl.cd = this.infos[i].cd; sl.mp = this.infos[i].mp; sl.unlock = this.character?.skillUnlockJob?.(sl.id); });
+  }
   active(i) { return this.pending?.i === i; }
 
   cast(i, quiet = false) {
     const s = this.slots[i], info = this.infos[i], c = this.character;
     if (!s || !c.alive || this.runner.busy || (this.cd.get(s.id) ?? 0) > 0) return false;
+    // not learnt yet: only a practice swing at the training dummy (at Lv.1)
+    if (!this.learned(i) && !this.nearDummy()) { if (!quiet) this.fail(`ยังไม่ได้เรียนสกิลนี้ · ปลดที่ Job Lv.${s.unlock ?? '?'} แล้วอัปด้วยแต้มสกิล (K)`); return false; }
     if (quiet && this.pending) return false;
     const pick = this.pick(info);
     if (!pick) { if (!quiet) this.fail(this.dummy() ? 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ' : 'ไม่มีเป้าหมายใกล้ๆ'); return false; }
@@ -81,7 +95,7 @@ export class KitCaster {
   }
 
   applySelf(id) {
-    const c = this.character, e = selfEffects(id, this.skillLevel, c.defense);
+    const c = this.character, e = selfEffects(id, Math.max(1, this.lv(id)), c.defense);
     if (!e) return;
     const p = this.player.position;
     if (e.heal) { const amount = c.heal(c.maxHp * e.heal); if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z }); }
@@ -111,7 +125,7 @@ export class KitCaster {
   roll(id) {
     this.lastSkill = id;
     const t = this.proxy.current, defense = t?.monster ? monsterDefense(t.monster.def) : this.dummyDefense();
-    const r = rollSkill(this.stats(), defense, id, this.skillLevel);
+    const r = rollSkill(this.stats(), defense, id, Math.max(1, this.lv(id)));
     return r.hit ? r : { ...r, dmg: -1 };
   }
   adapter(m) {
@@ -127,17 +141,17 @@ export class KitCaster {
   hurt(m, amount, crit, exact) {
     if (!m.alive) return 0;
     const id = this.runner.current ?? this.lastSkill;
-    const r = exact ? { hit: true, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), id, this.skillLevel);
+    const r = exact ? { hit: true, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), id, Math.max(1, this.lv(id)));
     this.strike(m, r, id);
     const info = this.infos[this.slots.findIndex(s => s.id === id)];
     const sp = this.combat.remote ? null : info?.splash;   // online the server finds who else an area skill catches
     if (sp?.line || sp?.cone) {
       // a piercing shot / a fan: everyone else on its path takes one blow per cast
       this.splashed ??= new Set();
-      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!this.splashed.has(o)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), id, this.skillLevel), id); }
+      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!this.splashed.has(o)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), id, Math.max(1, this.lv(id))), id); }
     } else if (sp) {
       const center = sp.around === 'self' ? this.player.position : m;
-      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), id, this.skillLevel), id);
+      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), id, Math.max(1, this.lv(id))), id);
     }
     return r.hit ? r.dmg : 0;
   }

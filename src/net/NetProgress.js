@@ -1,8 +1,8 @@
 // A signed-in character's progress belongs to the server (phase 3c of
 // docs/technical/SERVER_SPLIT.md, server/progress.js). Once the server sends `sync` (its copy
 // of the character) this browser:
-//   · takes that copy (level, EXP, points, gold, bag, gear, HP, MP, quests);
-//   · still does the player's own actions at once (buy, sell, use, equip, stat points, sort)
+//   · takes that copy (level, EXP, job level, skills, points, gold, bag, gear, HP, MP, quests);
+//   · still does the player's own actions at once (buy, sell, use, equip, stat / skill points, sort)
 //     and mirrors each as an `op`, which the server replays with the same code. A refused one
 //     brings the server's copy back;
 //   · follows the server's HP and MP (1×/s) when the two drift apart.
@@ -34,6 +34,8 @@ export function attachNetProgress(net, c, quests = null) {
   wrap('unequip', slot => ({ op: 'unequip', slot }));
   wrap('allocate', key => ({ op: 'alloc', key }));
   const reset = c.resetStats.bind(c); c.resetStats = () => { reset(); op({ op: 'reset' }); };
+  wrap('learnSkill', id => ({ op: 'learn', id }));
+  wrap('resetSkills', () => ({ op: 'skill_reset' }));
   c.on('bought', e => op({ op: 'buy', shop: e.shop, id: e.id }));
   c.on('sorted', () => op({ op: 'sort' }));
   if (quests) {
@@ -45,8 +47,9 @@ export function attachNetProgress(net, c, quests = null) {
   }
 
   const adopt = s => {
-    const { level, exp, points, gold, alloc, inventory, equipment } = s;
-    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x }), equipment: { ...equipment } });
+    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills } = s;
+    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills } });
+    c.emit('skills');
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);
     c.emit('inventory'); c.emit('change'); c.save?.();
     if (quests && s.quests) { quests.state = JSON.parse(JSON.stringify(s.quests)); quests.save(); quests.emit('change'); }

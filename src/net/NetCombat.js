@@ -58,7 +58,7 @@ export function attachNetCombat(net, game) {
     m.hp = Math.max(0, m.hp - msg.amount);
     combat.emit('hit', { monster: m, amount: msg.amount, crit: msg.crit, dot: msg.dot, pet: msg.pet, x: m.x, z: m.z });
   });
-  net.on('nope', msg => { const why = { cooldown: 'สกิลยังไม่พร้อม', mp: 'MP ไม่พอ' }[msg.why]; if (why) combat.emit('fail', why); });
+  net.on('nope', msg => { const why = { cooldown: 'สกิลยังไม่พร้อม', mp: 'MP ไม่พอ', not_learnt: 'ยังไม่ได้เรียนสกิลนี้' }[msg.why]; if (why) combat.emit('fail', why); });
   net.on('mgone', msg => { const m = byId.get(msg.id); if (!m || !m.alive && m.state === 'dead') return; combat.emit('despawn', m); gone(m); });
   // this player's share of a kill: the usual kill event (log, quests) and the rewards
   net.on('kill', msg => {
@@ -90,7 +90,7 @@ export function attachNetCombat(net, game) {
   // the character sheet the server rolls with: sent on join and whenever level, points or gear change
   let sheetKey = '';
   const sheet = (force = false) => {
-    const { name, classId, gender, level, points, alloc, equipment } = c.toJSON(), data = { name, classId, gender, level, points, alloc, equipment };
+    const { name, classId, gender, level, points, alloc, equipment, jobLevel, skills } = c.toJSON(), data = { name, classId, gender, level, points, alloc, equipment, jobLevel, skills };
     const key = JSON.stringify(data);
     if (!force && key === sheetKey) return;
     sheetKey = key; net.send({ t: 'ch', data });

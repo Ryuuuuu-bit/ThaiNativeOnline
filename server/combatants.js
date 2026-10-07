@@ -46,7 +46,9 @@ import { SHAMAN_SKILLS } from '../src/classes/shaman-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
 
 export const KITS = { muaythai: MUAYTHAI_SKILLS, warrior: WARRIOR_SKILLS, hunter: HUNTER_SKILLS, shaman: SHAMAN_SKILLS, herbalist: HERBALIST_SKILLS };
-export const SKILL_LV = 1;          // every kit skill is level 1 for now (the browser's KitCaster too)
+export const SKILL_LV = 1;          // the level of a skill a character has no level for (legacy callers)
+// A character's level in a kit skill (job levels: src/character/Character.js); 0 = not learnt.
+const lvOf = (c, id) => (c.skillLevel ? c.skillLevel(id) : SKILL_LV);
 export const CAST_WINDOW = 6;       // s a cast's blows may keep landing (slow projectiles, the dog's errands)
 export const REACH_SLACK = 4;       // m added to a skill's reach (the monster and the player both move)
 const CD_SLACK = .85, CD_LAG = .3;  // a cooldown may come back 15% + 0.3 s early (lag, frame timing)
@@ -65,7 +67,10 @@ export function sane(data, cls) {
   if (spent > budget) return null;
   const equipment = {};
   for (const slot of ['weapon', 'armor', 'charm']) { const id = data.equipment?.[slot]; equipment[slot] = id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slot ? id : null; }
-  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [] }); } catch { return null; }
+  // job level and skills are checked by Character itself (unlock levels, no more points than the job level gives)
+  const jobLevel = Number.isFinite(Number(data.jobLevel)) ? Number(data.jobLevel) : undefined;
+  const skills = data.skills && typeof data.skills === 'object' ? data.skills : undefined;
+  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills }); } catch { return null; }
 }
 
 export class Combatants {
@@ -138,10 +143,13 @@ export class Combatants {
     const kitSkill = KITS[c.classId]?.find(k => k.id === skillId);
     const legacy = !kitSkill && c.cls.skills.includes(skillId) && !LEGACY[skillId]?.basic ? LEGACY[skillId] : null;
     if (!kitSkill && !legacy) return { ok: false, why: 'not_yours' };
-    const cd = kitSkill ? castInfo(kitSkill, SKILL_LV).cd * (1 - (c.cooldownCut || 0)) : (legacy.cd ?? 0);
+    // a kit skill must be learnt (job levels and skill points)
+    if (kitSkill && lvOf(c, skillId) < 1) return { ok: false, why: 'not_learnt' };
+    const slv = kitSkill ? lvOf(c, skillId) : 1;
+    const cd = kitSkill ? castInfo(kitSkill, slv).cd * (1 - (c.cooldownCut || 0)) : (legacy.cd ?? 0);
     if (now < (s.cds.get(skillId) ?? -Infinity)) return { ok: false, why: 'cooldown' };
     // a signed-in character pays MP here (a little slack: the browser's regen ticks on its own clock)
-    const mp = kitSkill ? castInfo(kitSkill, SKILL_LV).mp : legacy.mp ?? 0;
+    const mp = kitSkill ? castInfo(kitSkill, slv).mp : legacy.mp ?? 0;
     if (s.persist && mp) { if (c.mp + c.maxMp * .1 + 2 < mp) return { ok: false, why: 'mp' }; c.mp = Math.max(0, c.mp - mp); }
     s.cds.set(skillId, now + Math.max(0, cd * CD_SLACK - CD_LAG));
     const base = SKILL_BY_ID[skillId];
@@ -151,7 +159,7 @@ export class Combatants {
     s.casts = s.casts.filter(k => now - k.at < CAST_WINDOW);
     s.casts.push({ skill: skillId, at: now, left: blows, kit: !!kitSkill, hit: new Set(), splashed: new Set() });
     // the caster's side happens here: buffs raise the next rolls
-    if (kitSkill) { const e = selfEffects(skillId, SKILL_LV, c.defense); if (e?.buff) c.addBuff(e.buff); }
+    if (kitSkill) { const e = selfEffects(skillId, slv, c.defense); if (e?.buff) c.addBuff(e.buff); }
     else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     return { ok: true };
   }
@@ -183,12 +191,13 @@ export class Combatants {
     const cast = [...s.casts].reverse().find(k => k.skill === msg.skill && now - k.at < CAST_WINDOW && k.left > 0);
     if (!cast) return [];
     const kitSkill = cast.kit ? KITS[c.classId].find(k => k.id === cast.skill) : null, legacy = cast.kit ? null : LEGACY[cast.skill];
-    const info = kitSkill ? castInfo(kitSkill, SKILL_LV) : null;
+    const slv = kitSkill ? Math.max(1, lvOf(c, cast.skill)) : 1;
+    const info = kitSkill ? castInfo(kitSkill, slv) : null;
     const reach = (info ? info.range + (info.splash?.length ?? info.splash?.radius ?? 0) : 10) + REACH_SLACK;
     if (dist(m, p) > reach) return [];
     cast.left--;
     const stats = this.stats(c);
-    const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o.def), cast.skill, SKILL_LV, this.r)
+    const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o.def), cast.skill, slv, this.r)
       : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o.def), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
     const ev = this.strike(world, players, m, id, roll(m), cast, night);
     // area skills: the server picks who else is caught

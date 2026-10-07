@@ -5,6 +5,7 @@ import { el, esc, setBar } from './dom.js';
 import './character.css';
 import { classBadge, iconHtml } from '../../ui/icons.js';
 import { BAG_TABS, inTab, compareToWorn, matchesSearch, sortBag, sortedInventory } from '../bag.js';
+import { SkillPanel } from './SkillPanel.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -39,7 +40,7 @@ export class CharacterUI {
     this.frame = el('aside', 'g-player glass', `
       <div class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 30 })}<span class="g-lv"></span></div>
       <div class="g-player-info">
-        <div class="g-player-name"><b>${esc(c.name)}</b><span>${c.cls.name} · ${c.gender === 'female' ? 'หญิง' : 'ชาย'}</span></div>
+        <div class="g-player-name"><b>${esc(c.name)}</b><span>${c.cls.name} · <i class="g-job-lv" title="Job Lv. (แต้มสกิล: กด K)"></i></span></div>
         <div class="g-bar g-hp" title="HP"><span></span><em></em></div>
         <div class="g-bar g-mp" title="MP"><span></span><em></em></div>
         <div class="g-bar g-exp" title="EXP"><span></span><em></em></div>
@@ -53,7 +54,7 @@ export class CharacterUI {
     this.potionHp.title = 'ดื่มยาฟื้น HP'; this.potionHp.addEventListener('click', () => this.quickPotion('hp'));
     this.potionMp = el('button', 'g-skill g-potion mp', `<span class="g-skill-icon">${iconHtml(ITEMS.ether)}</span><kbd>F</kbd><small></small>`);
     this.potionMp.title = 'ดื่มน้ำผึ้งฟื้น MP'; this.potionMp.addEventListener('click', () => this.quickPotion('mp'));
-    const menus = [['C', 'ตัวละคร', 'sheet'], ['I', 'กระเป๋า', 'bag']].map(([key, label, panel]) => {
+    const menus = [['C', 'ตัวละคร', 'sheet'], ['K', 'สกิล', 'skills'], ['I', 'กระเป๋า', 'bag']].map(([key, label, panel]) => {
       const b = el('button', 'g-menu', `<kbd>${key}</kbd>${label}`); b.addEventListener('click', () => this.toggle(panel)); return b;
     });
     this.quickButtons = { potions: [this.potionHp, this.potionMp], menus };
@@ -67,6 +68,7 @@ export class CharacterUI {
       <div class="g-grid"></div><p class="g-bag-none" hidden>ไม่มีไอเท็มในหมวดนี้</p>
       <label class="g-sell"><input type="checkbox" /> โหมดขาย (คลิกไอเท็มเพื่อขาย)</label><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่</p>`);
     for (const p of [this.sheet, this.bag]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { p.hidden = true; }); this.layer.append(p); }
+    this.skills = new SkillPanel(this.layer, this.c, this.feed);
     this.sellMode = this.bag.querySelector('.g-sell input');
     this.sellMode.addEventListener('change', () => this.bag.classList.toggle('selling', this.sellMode.checked));
     this.grid = this.bag.querySelector('.g-grid');
@@ -114,11 +116,13 @@ export class CharacterUI {
     if (k === 'KeyF') { this.quickPotion('mp'); return true; }
     if (k === 'KeyC') { this.toggle('sheet'); return true; }
     if (k === 'KeyI' || k === 'KeyB') { this.toggle('bag'); return true; }
-    if (k === 'Escape' && (!this.sheet.hidden || !this.bag.hidden)) { this.sheet.hidden = true; this.bag.hidden = true; return true; }
+    if (k === 'KeyK') { this.toggle('skills'); return true; }
+    if (k === 'Escape' && (!this.sheet.hidden || !this.bag.hidden || !this.skills.hidden)) { this.sheet.hidden = true; this.bag.hidden = true; this.skills.root.hidden = true; return true; }
     return false;
   }
   quickPotion(kind) { if (!this.c.quickUse(kind)) this.feed.log(kind === 'hp' ? 'ไม่มียาฟื้น HP หรือ HP เต็มแล้ว' : 'ไม่มีน้ำผึ้งป่า', 'bad', true); }
   toggle(name) {
+    if (name === 'skills') { this.skills.toggle(); return; }
     const p = this[name]; p.hidden = !p.hidden;
     if (!p.hidden) { if (name === 'sheet') this.refreshSheet(); else this.refreshInventory(); }
   }
@@ -127,6 +131,8 @@ export class CharacterUI {
   refresh() {
     const c = this.c;
     this.frame.querySelector('.g-lv').textContent = c.level;
+    this.frame.querySelector('.g-job-lv').textContent = `Job ${c.jobLevel}`;
+    this.frame.classList.toggle('g-sp', c.skillPoints > 0);
     setBar(this.frame.querySelector('.g-hp'), c.hp, c.maxHp);
     setBar(this.frame.querySelector('.g-mp'), c.mp, c.maxMp);
     setBar(this.frame.querySelector('.g-exp'), c.exp, c.expNeeded, `EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%`);
@@ -146,7 +152,7 @@ export class CharacterUI {
   refreshSheet() {
     const c = this.c, s = c.stats;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
-      <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 24 })}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level}</small></div></div>
+      <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 24 })}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level} · Job Lv. ${c.jobLevel}</small></div></div>
       <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id)}\nคลิกเพื่อถอด` : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? ITEMS[id].name : SLOT_LABELS[slot]}</small></button>`; }).join('')}</div>
       <div class="g-stats-head"><span>สถานะ</span><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
       ${STATS.map(k => `<div class="g-stat" title="${STAT_HINTS[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${s[k]}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`).join('')}

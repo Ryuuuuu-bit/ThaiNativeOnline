@@ -55,6 +55,7 @@ function simRunner(target, damage, kit) {
 
 function run(classId) {
   const c = Character.create('sim', classId);
+  c.jobLevel = 50; for (const id of c.kitSkills) c.skills[id] = 1;   // every skill learnt at Lv.1 (the balance baseline)
   c.level = Number(level); c.points += (c.level - 1) * 3;
   // spend the stat points a player would have, on the class's two main stats
   for (let i = 0; c.points > 0 && i < 400; i++) c.allocate(BUILD[classId][i % 2]);

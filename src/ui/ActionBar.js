@@ -56,20 +56,21 @@ export class ActionBar {
     this.row.replaceChildren();
     this.slots = controller.slots.map((s, i) => {
       const b = el('button', 'hotbar-slot' + (s.lv >= 20 ? ' adv' : ''),
-        `${s.icon ? `<img src="${s.icon}" alt="">` : `<span class="hotbar-glyph">${s.html ?? ''}</span>`}<span class="key">${keyLabel(i)}</span>${s.mp ? `<span class="mp">${s.mp}</span>` : ''}<span class="cd"></span><span class="cdt"></span>`);
+        `${s.icon ? `<img src="${s.icon}" alt="">` : `<span class="hotbar-glyph">${s.html ?? ''}</span>`}<span class="key">${keyLabel(i)}</span><span class="mp"></span><span class="slv"></span><span class="lock">🔒</span><span class="cd"></span><span class="cdt"></span>`);
       b.type = 'button'; b.setAttribute('aria-label', `${s.name} (ปุ่ม ${keyLabel(i)})`);
       b.addEventListener('click', () => this.cast(i));
       b.addEventListener('pointerenter', () => this.showTip(i, b)); b.addEventListener('pointerleave', () => this.hideTip());
       b.addEventListener('focus', () => this.showTip(i, b)); b.addEventListener('blur', () => this.hideTip());
       if (i === 6) this.row.append(el('span', 'hotbar-sep'));
       this.row.append(b);
-      return { b, cdt: b.querySelector('.cdt') };
+      return { b, cdt: b.querySelector('.cdt'), mp: b.querySelector('.mp'), slv: b.querySelector('.slv'), shown: '' };
     });
   }
 
   showTip(i, b) {
-    const s = this.ctl.slots[i], lines = [s.cd ? `คูลดาวน์ ${+s.cd.toFixed(1)} วิ` : 'ไม่มีคูลดาวน์', s.mp ? `MP ${s.mp}` : null, `ปุ่ม ${keyLabel(i)}`].filter(Boolean).join(' · ');
-    this.tip.innerHTML = `<div class="ro-title">${s.name}${s.lv ? `<span>Lv.${s.lv}</span>` : ''}</div>${s.desc ? `<p>${s.desc}</p>` : ''}<small>${lines}</small>`;
+    const s = this.ctl.slots[i], lv = this.ctl.level?.(i), lines = [s.cd ? `คูลดาวน์ ${+s.cd.toFixed(1)} วิ` : 'ไม่มีคูลดาวน์', s.mp ? `MP ${s.mp}` : null, `ปุ่ม ${keyLabel(i)}`].filter(Boolean).join(' · ');
+    const head = lv === undefined ? (s.lv ? `<span>Lv.${s.lv}</span>` : '') : lv > 0 ? `<span>สกิล Lv.${lv}</span>` : `<span>🔒 Job Lv.${s.unlock ?? '?'}</span>`;
+    this.tip.innerHTML = `<div class="ro-title">${s.name}${head}</div>${s.desc ? `<p>${s.desc}</p>` : ''}<small>${lines}${lv === 0 ? '<br>ยังไม่ได้เรียน · อัปได้ในหน้าสกิล (K)' : ''}</small>`;
     this.tip.hidden = false;
     const r = b.getBoundingClientRect(), hr = this.host.getBoundingClientRect();
     this.tip.style.left = Math.max(8, Math.min(hr.width - 228, r.left - hr.left + r.width / 2 - 110)) + 'px'; this.tip.style.bottom = (hr.bottom - r.top + 8) + 'px';
@@ -110,7 +111,11 @@ export class ActionBar {
   update(dt) {
     const ctl = this.ctl;
     if (!ctl) return;
-    this.slots.forEach(({ b, cdt }, i) => {
+    this.slots.forEach((sl, i) => {
+      const { b, cdt } = sl;
+      // MP cost and skill level (they change as skills are learnt)
+      const s = ctl.slots[i], lv = ctl.level?.(i), shown = `${s.mp}|${lv}`;
+      if (sl.shown !== shown) { sl.shown = shown; sl.mp.textContent = s.mp || ''; sl.slv.textContent = lv > 0 ? lv : ''; b.classList.toggle('locked', lv === 0); }
       const [left, total] = ctl.cooldown(i);
       b.style.setProperty('--cd', left > 0 && total > 0 ? Math.min(1, left / total) : 0); b.classList.toggle('cooling', left > 0);
       cdt.textContent = left > 0 ? (left >= 10 ? Math.ceil(left) : left.toFixed(1)) : '';
