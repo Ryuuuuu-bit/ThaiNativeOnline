@@ -16,9 +16,10 @@ import { buy, sell, sellPrice, stockOf } from '../src/shop/ShopSystem.js';
 
 const memoryStorage = () => { const m = new Map(); return { getItem: k => m.get(k) ?? null, setItem: (k, v) => m.set(k, v) }; };
 const hero = (opts = {}) => new Character({ name: 'ทดสอบ', classId: 'warrior', ...opts });
-// The live quest list is small (the game is one safe city); kill and collect
-// mechanics are checked on fixture quests chained after the real first quest.
+// The live quest list may be empty; the mechanics (talk, kill, collect, chains,
+// rewards, saves) are checked on fixture quests.
 const FIXTURE = [...QUESTS,
+  { id: 'first_steps', title: 'test', giver: 'guard_port', turnIn: 'guard_center', offer: '', done: '', objectives: [{ talk: 'blacksmith' }], rewards: { gold: 30, exp: 40, items: [['potion_s', 3]] } },
   { id: 'smith_boars', title: 'test', giver: 'blacksmith', requires: ['first_steps'], offer: '', done: '', objectives: [{ kill: 'boar', count: 4 }], rewards: { gold: 60 } },
   { id: 'herbal_ash', title: 'test', giver: 'herbalist', requires: ['first_steps'], offer: '', done: '', objectives: [{ collect: 'ash', count: 3 }], rewards: { gold: 50 } },
 ];
@@ -31,6 +32,7 @@ test('quest data references known NPCs, landmarks, monsters, items and quests', 
     if (q.turnIn) assert.ok(npc.has(q.turnIn), `${q.id}: unknown turnIn ${q.turnIn}`);
     for (const r of q.requires ?? []) assert.ok(quest.has(r), `${q.id}: unknown requirement ${r}`);
     for (const o of q.objectives) {
+      assert.ok(!o.discover, `${q.id}: no exploration (discover) objectives`);
       if (o.discover) assert.ok(place.has(o.discover), `${q.id}: unknown landmark ${o.discover}`);
       if (o.kill) assert.ok(MONSTERS[o.kill], `${q.id}: unknown monster ${o.kill}`);
       if (o.collect) assert.ok(ITEMS[o.collect], `${q.id}: unknown item ${o.collect}`);
@@ -68,7 +70,7 @@ test('a quest goes from offer to hand-in and pays its rewards', () => {
   assert.equal(qs.offers('blacksmith').length, 0, 'smith_boars needs first_steps first');
   assert.ok(qs.accept('first_steps'));
   assert.equal(qs.marker('guard_center'), '…');
-  found.add('market'); found.add('city_pillar');
+  qs.onTalk('blacksmith');
   assert.equal(qs.marker('guard_center'), '?');
   const gold = c.gold, potions = c.count('potion_s');
   assert.ok(qs.complete('first_steps'));

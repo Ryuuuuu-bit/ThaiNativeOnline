@@ -1,0 +1,100 @@
+// Presence: who is online, on which map, where they stand and what they just did.
+// Pure logic with no sockets, shared by server/index.js and the tests. Phase 1 of the
+// server split (docs/technical/SERVER_SPLIT.md): players see each other and chat;
+// combat, saves and the economy still run in each browser for now.
+//
+// The server trusts nothing it is sent: names and chat are cleaned, numbers must be
+// finite and inside the world, a move faster than anyone can walk is refused (the
+// player keeps their last good spot), and each socket is rate limited.
+//
+//   const P = new Presence({ now })
+//   P.join(conn, hello)   → { you, roster, joined }     (hello: name, cls, gender, lv, map, x, z, f)
+//   P.move(conn, msg)     → true | false                (msg: x, z, f, m)
+//   P.changeMap(conn, m)  → { left: oldMap, roster, joined }
+//   P.anim(conn, msg)     → relay message | null
+//   P.chat(conn, text)    → relay message | null
+//   P.leave(conn)         → { map, id } | null
+//   P.snapshot(map)       → [[id, x, z, f, m], …] of players who moved since the last one
+export const LIMITS = {
+  name: 16, chat: 120, chatEvery: 0.8,      // characters; seconds between chat lines
+  speed: 9,                                 // m/s: the fastest run (6.8) with slack for lag
+  world: 3000,                              // |x|, |z| bound
+  msgsPerSec: 40, maxPlayers: 300,
+};
+export const CLASSES = ['muaythai', 'warrior', 'hunter', 'shaman', 'herbalist', 'assassin'];
+export const MAPS = ['city', 'paddy', 'deep_forest', 'wat_rang'];
+
+const clean = (s, n) => String(s ?? '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
+const num = (v, lim = LIMITS.world) => (Number.isFinite(v) && Math.abs(v) <= lim ? v : null);
+const round = v => Math.round(v * 100) / 100;
+
+export class Presence {
+  constructor({ now = () => Date.now() / 1000 } = {}) {
+    this.now = now; this.players = new Map(); this.nextId = 1;
+  }
+  get count() { return this.players.size; }
+  inMap(map) { return [...this.players.values()].filter(p => p.map === map); }
+  info(p) { return { id: p.id, name: p.name, cls: p.cls, gender: p.gender, lv: p.lv, x: p.x, z: p.z, f: p.f, m: p.m }; }
+
+  join(conn, h = {}) {
+    if (this.players.has(conn)) return null;
+    if (this.players.size >= LIMITS.maxPlayers) return { full: true };
+    const map = MAPS.includes(h.map) ? h.map : 'city';
+    const p = {
+      id: this.nextId++, name: clean(h.name, LIMITS.name) || 'ผู้เดินทาง', cls: CLASSES.includes(h.cls) ? h.cls : 'muaythai',
+      gender: h.gender === 'female' ? 'female' : 'male', lv: Math.max(1, Math.min(150, Math.floor(Number(h.lv) || 1))),
+      map, x: num(h.x) ?? 0, z: num(h.z) ?? 0, f: num(h.f, 10) ?? 0, m: 0, t: this.now(), dirty: true, chatAt: -Infinity,
+    };
+    this.players.set(conn, p);
+    return { you: p.id, roster: this.inMap(map).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map };
+  }
+  // A move is kept only if it is reachable on foot since the last accepted one.
+  move(conn, msg = {}) {
+    const p = this.players.get(conn); if (!p) return false;
+    const x = num(msg.x), z = num(msg.z), f = num(msg.f, 10), now = this.now();
+    if (x === null || z === null) return false;
+    const dt = Math.max(.05, now - p.t), d = Math.hypot(x - p.x, z - p.z);
+    if (d > LIMITS.speed * dt + .5) return false;
+    p.x = round(x); p.z = round(z); if (f !== null) p.f = round(f); p.m = [0, 1, 2].includes(msg.m) ? msg.m : 0; p.t = now; p.dirty = true;
+    return true;
+  }
+  // Walking through a portal (or a respawn): a new room, and a jump the speed check allows once.
+  changeMap(conn, msg = {}) {
+    const p = this.players.get(conn); if (!p || !MAPS.includes(msg.map)) return null;
+    const left = p.map;
+    p.map = msg.map; p.x = num(msg.x) ?? p.x; p.z = num(msg.z) ?? p.z; p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = this.now(); p.dirty = true;
+    return { left, id: p.id, roster: this.inMap(p.map).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map: p.map };
+  }
+  // Level shown on the name plate (from the client's own save for now).
+  setLevel(conn, lv) { const p = this.players.get(conn); if (p) p.lv = Math.max(1, Math.min(150, Math.floor(Number(lv) || p.lv))); return p ? { id: p.id, lv: p.lv } : null; }
+  // A move clip to play on everyone else's screen (names are checked by the client's model).
+  anim(conn, msg = {}) {
+    const p = this.players.get(conn); if (!p) return null;
+    const clip = clean(msg.clip, 32); if (!/^[a-z0-9_]+$/.test(clip)) return null;
+    const sp = Math.max(.5, Math.min(3, Number(msg.sp) || 1));
+    return { t: 'a', id: p.id, clip, sp, map: p.map };
+  }
+  chat(conn, text) {
+    const p = this.players.get(conn); if (!p) return null;
+    const line = clean(text, LIMITS.chat), now = this.now();
+    if (!line || now - p.chatAt < LIMITS.chatEvery) return null;
+    p.chatAt = now;
+    return { t: 'c', id: p.id, name: p.name, map: p.map, text: line };
+  }
+  leave(conn) {
+    const p = this.players.get(conn); if (!p) return null;
+    this.players.delete(conn);
+    return { map: p.map, id: p.id };
+  }
+  snapshot(map) {
+    const out = [];
+    for (const p of this.players.values()) if (p.map === map && p.dirty) { out.push([p.id, p.x, p.z, p.f, p.m]); p.dirty = false; }
+    return out;
+  }
+}
+
+// Per-socket message budget: a token bucket refilled at LIMITS.msgsPerSec.
+export function rateLimiter(now = () => Date.now() / 1000, rate = LIMITS.msgsPerSec) {
+  let tokens = rate, last = now();
+  return () => { const t = now(); tokens = Math.min(rate, tokens + (t - last) * rate); last = t; if (tokens < 1) return false; tokens -= 1; return true; };
+}

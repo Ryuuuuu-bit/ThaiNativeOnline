@@ -3,6 +3,7 @@ import { CLASSES, CLASS_ALIASES } from '../character/data/classes.js';
 import { el, esc } from '../character/ui/dom.js';
 import { ModelPreview } from '../ui/ModelPreview.js';
 import { classBadge } from '../ui/icons.js';
+import { renderGoogleButton } from './google.js';
 
 // Login and character-select screens. Both are overlays over #app and resolve
 // a Promise; src/account/index.js chains them before the world starts.
@@ -26,12 +27,24 @@ export function showLogin(root, store) {
         <p class="acc-error" role="alert" aria-live="polite"></p>
         <button type="submit" class="acc-primary">เข้าสู่ระบบ</button>
         <div class="acc-or"><span>หรือ</span></div>
+        <div class="acc-google" hidden></div>
         <button type="button" class="acc-guest">เล่นแบบผู้มาเยือน</button>
         <p class="acc-note">บัญชีเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น (ยังไม่มีเซิร์ฟเวอร์)</p>
       </form>`);
     const form = overlay.querySelector('form'), error = overlay.querySelector('.acc-error'), submit = overlay.querySelector('.acc-primary');
     const field = n => form.elements.namedItem(n);
     field('id').value = store.lastId ?? '';
+    // with the game server: accounts live there; Google sign-in when the server has a Client ID
+    if (store.remote) overlay.querySelector('.acc-note').textContent = 'บัญชีและตัวละครเก็บบนเซิร์ฟเวอร์ · เล่นต่อได้ทุกเครื่อง';
+    if (store.googleClientId) {
+      const box = overlay.querySelector('.acc-google'); box.hidden = false;
+      renderGoogleButton(box, store.googleClientId, async credential => {
+        error.textContent = '';
+        const r = await store.loginWithGoogle(credential);
+        if (!r.ok) { error.textContent = r.msg; return; }
+        done({ id: r.id, guest: false });
+      }).catch(() => { box.hidden = true; });
+    }
     const setMode = m => {
       mode = m; error.textContent = '';
       overlay.querySelectorAll('[data-mode]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === m)));

@@ -166,7 +166,9 @@ test('area skills also hit monsters around the caster', () => {
   combat.monsters.push(second);
   combat.setTarget(combat.monsters[0]);
   character.mp = 999;
-  caster.cast(2);   // จระเข้ฟาดหาง
+  // the blow on the target must land (a miss splashes nobody): pin the dice for this cast
+  const random = Math.random; Math.random = () => .5;
+  try { caster.cast(2); } finally { Math.random = random; }   // จระเข้ฟาดหาง
   const struck = new Set(events.filter(([n]) => n === 'hit' || n === 'miss').map(([, e]) => e.monster));
   assert.equal(struck.size, 2);
 });

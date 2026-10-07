@@ -1,0 +1,18 @@
+/* Other players' name plates (src/net/RemotePlayers.js) and the chat box (src/net/Multiplayer.js). */
+.plate.is-player { color: #bfe6ff; border-color: #7fb7e855; }
+.plate.is-player small { color: #9ec3dc; }
+
+.net-chat { position: absolute; left: 34px; bottom: 250px; width: 300px; max-width: calc(100vw - 32px); z-index: 6; zoom: var(--ui, 1); pointer-events: none; font-size: 11px; color: #f0ead6; }
+.net-chat header { display: inline-flex; gap: 8px; align-items: center; padding: 3px 9px; border-radius: 3px; background: #142821b3; border: 1px solid #cabc8633; pointer-events: auto; cursor: text; }
+.net-chat header b { font-weight: 600; color: #e1c983; }
+.net-chat .net-online { font-size: 9px; color: #9fd7a8; }
+.net-chat.offline .net-online { color: #d9a08f; }
+.net-lines { max-height: 150px; overflow: hidden; margin-top: 4px; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; }
+.net-chat.typing .net-lines { overflow-y: auto; pointer-events: auto; background: #0d1c17aa; border-radius: 3px; padding: 4px; }
+.net-lines p { margin: 0; padding: 2px 6px; border-radius: 3px; background: #0b1814a8; text-shadow: 0 1px 2px #000; line-height: 1.5; word-break: break-word; transition: opacity .8s; }
+.net-lines p b { color: #9fd0ff; font-weight: 600; }
+.net-lines p.old { opacity: 0; }
+.net-chat.typing .net-lines p.old { opacity: 1; }
+.net-chat input { display: block; width: 100%; margin-top: 4px; padding: 6px 8px; border: 1px solid #e1c98366; border-radius: 3px; background: #06110eee; color: #f3eedb; pointer-events: auto; font-size: 12px; }
+@media (max-width: 900px) { .net-chat { left: 16px; bottom: 230px; width: 240px; } }
+.photo-mode .net-chat { display: none; }

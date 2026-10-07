@@ -24,6 +24,11 @@ export class Player {
   setAvatar(model, casts = {}) {
     if (this.model) this.group.remove(this.model.group);
     this.model = model; this.casts = casts; this.modelTime = 0;
+    // every move the model plays is reported (onAnim), so others can see it (src/net)
+    if (model.attack && !model.attack.reported) {
+      const play = model.attack.bind(model);
+      model.attack = Object.assign((clip, speed) => { const ok = play(clip, speed); if (ok !== false) this.onAnim?.(clip, speed); return ok; }, { reported: true });
+    }
     this.group.add(model.group);
   }
   // Called every frame by Game; binds once the character exists (after creation/load).

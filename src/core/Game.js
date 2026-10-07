@@ -15,6 +15,7 @@ import { WorldClock, PHASE_HOURS } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
 import { findPath } from './GridPath.js';
 import { createGame } from '../combat/index.js';
+import { startMultiplayer } from '../net/Multiplayer.js';
 import { QUESTS } from '../data/quests.js';
 import { SHOPS } from '../data/shops.js';
 import { QuestSystem } from '../quest/QuestSystem.js';
@@ -64,8 +65,9 @@ export class Game {
     // Quests and vendors attach to the character once one exists (after creation or load).
     this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id), storage: slotStorage });
     this.questUI = new QuestUI(this.quests, {
-      onAccept: id => { if (this.quests.accept(id)) this.hud.toast(`รับเควส · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).offer); this.refreshDialogue(); },
-      onComplete: id => { if (this.quests.complete(id)) this.hud.toast(`สำเร็จ · ${this.quests.defs.get(id).title}`, this.quests.defs.get(id).done); this.refreshDialogue(); },
+      // accepting / finishing a quest is a line in the feed, not a popup
+      onAccept: id => { if (this.quests.accept(id)) this.game?.hud?.feed?.log(`รับเควส · ${this.quests.defs.get(id).title}`, 'gold'); this.refreshDialogue(); },
+      onComplete: id => { if (this.quests.complete(id)) this.game?.hud?.feed?.log(`เควสสำเร็จ · ${this.quests.defs.get(id).title}`, 'gold'); this.refreshDialogue(); },
     });
     this.quests.on('change', () => { this.questUI.renderTracker(); if (this.hud.dialogueOpen && this.talking) this.questUI.renderDialogue(this.talking.id); });
     this.shop = new ShopPanel((text, kind) => (this.game?.hud?.feed ? this.game.hud.feed.log(text, kind === 'warn' ? 'bad' : kind) : this.hud.toast(text, '')));
@@ -247,6 +249,7 @@ export class Game {
     if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
     if (this.questUI) this.updateJournal();
     this.training?.enterMap(map.id);
+    this.net?.enterMap(map.id);
     this.game?.hud?.setSafe(map.safe); // world-designer hook: fight tips only on maps with monsters
   }
 
@@ -257,7 +260,7 @@ export class Game {
     let goal = stand(x, z) ? { x, z } : null;
     for (let r = 1; !goal && r <= near; r++) for (let i = 0; i < 16 && !goal; i++) { const a = i / 16 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
     const route = goal && findPath(stand, this.player.position, goal);
-    if (!route) { this.hud.toast('ไปที่นั่นไม่ได้', 'ไม่มีทางเดินไปถึงจุดนั้นจากตรงนี้'); return false; }
+    if (!route) { this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
     this.game?.onManualMove(); this.view.recenter();
     this.route = route; this.autoWalk = false; this.nextWaypoint();
     this.marker.position.set(goal.x, this.world.heightAt(goal.x, goal.z) + .07, goal.z); this.marker.visible = true;
@@ -322,6 +325,8 @@ export class Game {
     this.questUI.renderDialogue(npc.id);
     $('dlg-shop').hidden = !(this.game?.character && SHOPS[npc.def.shopType]?.stock?.length);
   }
+  // A small line in the game feed (no popup in the middle of the screen).
+  note(text) { this.game?.hud?.feed?.log(text, 'bad', true); }
   nearLandmark() {
     const p = this.player.position;
     return this.maps.landmarks.find(l => (!l.hidden || this.discovered.has(l.id)) && Math.hypot(l.x - p.x, l.z - p.z) < Math.min(l.radius, 8) + 1.5) ?? null;
@@ -381,7 +386,7 @@ export class Game {
     if (this.maps.busy) return;
     if ((!moved && dt > 0 || stalled) && this.destination) {
       // Combat auto-walk retries every frame; only a manual click reports a blocked path.
-      if (!this.autoWalk) this.hud.toast('เส้นทางถูกกีดขวาง', 'ลองเดินอ้อมด้วย W A S D');
+      if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
       this.stopWalk();
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
@@ -395,6 +400,8 @@ export class Game {
     if (!this.questsReady && this.game?.ready) { this.quests.attach(this.game.character, this.game.combat); this.questsReady = true; }
     this.player.bindCombat(this.game); // rigged class model + skill animations (no-op once bound)
     if (this.training === undefined && this.game?.ready) this.startTraining();
+    if (!this.net && this.game?.ready && this.training !== undefined) this.net = startMultiplayer(this); // other players + chat (src/net)
+    this.net?.update(dt, view.camera);
     if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);

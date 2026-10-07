@@ -54,3 +54,7 @@
 .acc-settings button:hover{border-color:#e1c983}
 
 @media (max-width:760px){.acc-stage{height:220px}.acc-slots{grid-template-columns:repeat(2,1fr)}.acc-slot{min-height:180px}.acc-screen h2{font-size:22px}}
+
+/* Sign in with Google (src/account/google.js) */
+.acc-google{display:flex;justify-content:center;min-height:44px;margin:4px 0 8px}
+.acc-google-link{margin-top:8px;font-size:11px;color:#cfd8c4}
