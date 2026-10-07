@@ -8,7 +8,7 @@ import { SHAMAN_SKILLS } from '../shaman-moves.js';
 // of Yama's guards, a cage of ghost bones, the death god's hand, hellfire, the ancestors'
 // offering, wandering souls, the curse of violent death, meditation in the graveyard, the
 // gate of the underworld. Timed to the shaman's clips (spell times from shaman-moves.js);
-// positions are FX-local units. Spells leave the skull of his staff (staffTip, from the real
+// positions are FX-local units. Spells leave the midpoint of the hands (castOrigin, from the real
 // staff in his hand) or his free left hand.
 const { WHITE } = COL;
 const BASE = import.meta.env.BASE_URL + 'fx/shaman/';
@@ -18,7 +18,6 @@ export const shamanIconUrl = id => BASE + 'icon_' + id + '.png';
 const SOUL = C(.7, 2.4, 1.5), DEATH = C(1.4, .35, 2.2), BONE = C(2.2, 2.1, 1.7), BLOOD = C(2.2, .15, .15), HELL = C(2, .4, 1.6), HELLFIRE = C(2.4, .5, .9), PALE = C(1.3, 1.8, 2.2);
 const SMOKE = C(.1, .06, .12), INK = C(.05, .03, .06);
 const ADD = { transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide };
-const SKULL = .3;   // staff-local height of the skull above the grip (the staff runs along local +Y)
 
 const canvasTex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; };
 let TEX = null;
@@ -90,7 +89,11 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
   };
   const pop = (p, text, cls = 'st') => fx.popup(p, text, cls);
   const heal = (text, cls = 'heal') => pop(hero.pos().setY(hero.barY + .2), text, cls);
-  const staffTip = () => { const s = character.node?.('staff'); return s ? fx.toLocal(s.localToWorld(V(0, SKULL, 0))) : chest(hero).add(dirTo().multiplyScalar(.4)).add(V(0, .5, 0)); };
+  const castOrigin = () => {
+    const hands = ['LeftHand', 'RightHand'].map(n => character.bone?.(n)).filter(Boolean);
+    if (hands.length === 2) return fx.toLocal(hands[0].getWorldPosition(V()).add(hands[1].getWorldPosition(V())).multiplyScalar(.5));
+    return chest(hero).add(dirTo().multiplyScalar(.4));
+  };
   const leftHand = () => { const b = character.bone?.('LeftHand'); return b ? fx.toLocal(b.getWorldPosition(new THREE.Vector3())) : chest(hero).add(sideOf(dirTo()).multiplyScalar(-.3)); };
 
   // ---- light ---------------------------------------------------------------------------
@@ -208,7 +211,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
   function charge(id, col, k = 1) {
     const until = MOVES[id].hits[0], glow = fx.glowSprite(col.clone().multiplyScalar(.5), .1);
     fx.addTask((dt, t) => {
-      const b = staffTip(); glow.position.copy(b); glow.scale.setScalar((.2 + clamp01(t / until) * .7) * k * (1 + Math.sin(t * 40) * .06));
+      const b = castOrigin(); glow.position.copy(b); glow.scale.setScalar((.2 + clamp01(t / until) * .7) * k * (1 + Math.sin(t * 40) * .06));
       if (Math.random() < .9) { const a = rand(0, 6.28), e = rand(-1, 1), r = rand(.6, 1) * k, s = Math.sqrt(1 - e * e);
         fx.emit({ p: add(b, V(Math.cos(a) * r * s, e * r, Math.sin(a) * r * s)), c: Math.random() < .3 ? WHITE : col, life: .6, size: .07 * k, size1: .02, home: b, homeK: 5, swirl: 2.5 }); }
       if (t >= until) { fx.kill(glow); return false; }
@@ -234,7 +237,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
       fx.cinematic(.55, 1.3);
       ready(() => { anim('mage_akom'); charge('mage_akom', SOUL, .8);
         fx.after(MOVES.mage_akom.hits[0], () => {
-          const from = staffTip(), d = dirTo(), side = sideOf(d); ringPulse(from, d, SOUL, .45, .3); fx.flash(from, 0x60ffa0, 22, .25); smoke(from, 6, .6, .15);
+          const from = castOrigin(), d = dirTo(), side = sideOf(d); ringPulse(from, d, SOUL, .45, .3); fx.flash(from, 0x60ffa0, 22, .25); smoke(from, 6, .6, .15);
           [-1, 0, 1].forEach((s, i) => fx.after(i * .07, () => {
             const to = chest(tg).add(V(0, .1 * s, 0)), ctrl = from.clone().lerp(to, .5).add(side.clone().multiplyScalar(s * 1.1)).add(V(0, .5 + (s === 0 ? .4 : 0), 0));
             const sk = sprite('skull', SOUL, .42), glow = fx.glowSprite(SOUL.clone().multiplyScalar(.5), .5), T = trail(SOUL, .1, 16), dur = from.distanceTo(to) / 10;
@@ -304,7 +307,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
     mage_thunder() {
       fx.cinematic(.7, 1.5);
       ready(() => { anim('mage_thunder');
-        fx.after(.3, () => { const P = tpos(); fx.decal(4, P.x, P.z, 1.2, DEATH, INK, { life: 1.2, grow: .2 }); smoke(P.clone().setY(.1), 10, 1, .6); darkBolt(staffTip(), P.clone().setY(.1), .3, .03, .15); });
+        fx.after(.3, () => { const P = tpos(); fx.decal(4, P.x, P.z, 1.2, DEATH, INK, { life: 1.2, grow: .2 }); smoke(P.clone().setY(.1), 10, 1, .6); darkBolt(castOrigin(), P.clone().setY(.1), .3, .03, .15); });
         fx.after(MOVES.mage_thunder.hits[0], () => {
           const Q = tpos(); deathHand(Q, 1.25, 1.2); fx.shake = .25; fx.flash(Q.clone().setY(1), 0x9050ff, 30, .4);
           fx.after(.25, () => { if (near(Q, 1.6)) { hurt(260, true, .1); fx.impact(chest(tg), 1.1, SOUL); fx.stunStars(tg, .7); pop(tg.head().add(V(0, .5, 0)), 'สะดุ้ง'); } });
@@ -366,8 +369,8 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
       ready(() => { anim('mage_ghostfire');
         const souls = [0, 1, 2, 3, 4].map(() => ({ s: sprite('ghost', SOUL, .5), g: fx.glowSprite(SOUL.clone().multiplyScalar(.4), .5) }));
         let gone = false;
-        fx.addTask((dt, t) => { if (gone) return false; const b = staffTip(); souls.forEach(({ s, g }, i) => { const a = t * 5 + i / 5 * 6.28; s.position.copy(b).add(V(Math.cos(a) * .4, Math.sin(a * 1.3) * .12, Math.sin(a) * .4)); g.position.copy(s.position); s.material.opacity = clamp01(t / .2); }); });
-        fx.after(MOVES.mage_ghostfire.hits[0], () => { gone = true; const d = dirTo(), from = staffTip(), dist = hero.pos().distanceTo(tpos()) + .4; smoke(from, 6, .6, .2);
+        fx.addTask((dt, t) => { if (gone) return false; const b = castOrigin(); souls.forEach(({ s, g }, i) => { const a = t * 5 + i / 5 * 6.28; s.position.copy(b).add(V(Math.cos(a) * .4, Math.sin(a * 1.3) * .12, Math.sin(a) * .4)); g.position.copy(s.position); s.material.opacity = clamp01(t / .2); }); });
+        fx.after(MOVES.mage_ghostfire.hits[0], () => { gone = true; const d = dirTo(), from = castOrigin(), dist = hero.pos().distanceTo(tpos()) + .4; smoke(from, 6, .6, .2);
           souls.forEach(({ s, g }, i) => { const dir = rotY(d, (i - 2) * .45), to = add(hero.pos(), dir.multiplyScalar(dist)).setY(1.2), T = trail(SOUL, .1, 16), dur = from.distanceTo(to) / 8, wob = rand(0, 6);
             fx.addTask((dt, t) => { const u = clamp01(t / dur), p = from.clone().lerp(to, u).add(V(0, Math.sin(u * Math.PI) * .3 + Math.sin(t * 14 + wob) * .07, 0)); s.position.copy(p); g.position.copy(p); T.p = p;
               if (u >= 1) { fx.kill(s); fx.kill(g); T.stop(); fx.burst(to, 10, { c: [SOUL, PALE], size: .1, sp: 2.5, life: .5, drag: 3 }); smoke(to, 4, .6, .15); if (near(to, 1.1)) { fx.impact(to, .7, SOUL); hurt(90, false, .06); } return false; } });
@@ -381,7 +384,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
     mage_curse() {
       fx.cinematic(.75, 2);
       ready(() => { anim('mage_curse');
-        fx.after(.35, () => darkBolt(staffTip(), tpos().setY(.1), .3, .03, .12));
+        fx.after(.35, () => darkBolt(castOrigin(), tpos().setY(.1), .3, .03, .12));
         fx.after(MOVES.mage_curse.hits[0], () => {
           const P = tpos(); abyss(P, 2.7, 3.6, BLOOD); sigil(BLOOD, 2.7, { p: P.clone().setY(.07), life: 3.6, spin: -1, grow: .3 });
           fx.shock(P.x, P.z, 3.2, BLOOD, INK, .6); fx.flash(P.clone().setY(1), 0xff2020, 30, .5); smoke(P.clone().setY(.1), 28, 1.4, 2.2);
@@ -432,9 +435,9 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
       fx.cinematic(1, 3.2);
       face(tpos()); anim('mage_storm'); const hp0 = hero.pos();
       fx.after(.3, () => { abyss(hp0, 5.2, 2.6, BLOOD); sigil(BLOOD, 5.2, { p: hp0.clone().setY(.08), life: 2.5, spin: .4, grow: .45 }); sigil(DEATH, 2.4, { p: hp0.clone().setY(.09), life: 2.4, spin: -1.2, grow: .35 }); sigil(DEATH, 4.2, { p: hp0.clone().setY(5.6), life: 2.3, spin: -.6, grow: .45 }); smoke(hp0.clone().setY(.1), 50, 1.7, 4.5); });
-      fx.after(.45, () => fx.addTask((dt, t) => { if (Math.random() < .5) fx.emit({ p: add(staffTip(), V(rand(-.15, .15), rand(-.15, .15), rand(-.15, .15))), c: DEATH, life: .25, size: .09, size1: .01, shape: SH.star }); return t < 1.6; }));
+      fx.after(.45, () => fx.addTask((dt, t) => { if (Math.random() < .5) fx.emit({ p: add(castOrigin(), V(rand(-.15, .15), rand(-.15, .15), rand(-.15, .15))), c: DEATH, life: .25, size: .09, size1: .01, shape: SH.star }); return t < 1.6; }));
       hits('mage_storm', (i, n) => {
-        darkBolt(add(hp0, V(rand(-.5, .5), 5.2, rand(-.5, .5))), staffTip(), .25, .045, .25);
+        darkBolt(add(hp0, V(rand(-.5, .5), 5.2, rand(-.5, .5))), castOrigin(), .25, .045, .25);
         for (let k = 0; k < 7; k++) { const a = k / 7 * 6.28 + i * .7 + rand(-.2, .2), r = rand(1.3, 4.8); fx.after(k * .025, () => deathHand(add(hp0, V(Math.cos(a) * r, 0, Math.sin(a) * r)), .85, .8, i % 2 ? SOUL : DEATH)); }
         fx.shock(hp0.x, hp0.z, 5 + i * .2, DEATH, INK, .5);
         if (near(hp0, 5.2)) { fx.after(.04, () => deathHand(tpos(), 1, .8, BLOOD)); hurt(150, i === n - 1, .08); fx.stunStars(tg, .4); pop(tg.head().add(V(0, .4 + i * .08, 0)), 'สะดุ้ง'); }
