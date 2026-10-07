@@ -35,6 +35,8 @@ export const SKILL_UNLOCK_JOB = [1, 3, 5, 8, 12, 16, 22, 30, 40, 50];
 export const SKILL_RESET_GOLD = 40;
 // Bag weight: max = base + STR x perStr. Bag and equipped items both count.
 // At `heavy` (share of max) HP/MP stop regenerating; past max nothing more can be picked up.
-export const CARRY = { base: 1000, perStr: 30, heavy: .7 };
+export const CARRY = { base: 5000, perStr: 30, heavy: .7 };
+// Per second; VIT improves both resources, but never scales with maximum HP/MP.
+export const RECOVERY = { hpBase: 1, hpPerVit: .1, hpCap: 8, mpBase: .5, mpPerVit: .05, mpCap: 4, combat: .25, sitting: 2 };
 // Accuracy of a monster at a level (src/rules hitChanceOf: 90 vs 0 evasion = 95% hit).
 export const MONSTER_ACCURACY = level => 88 + level;

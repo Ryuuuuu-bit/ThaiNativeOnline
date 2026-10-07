@@ -7,7 +7,7 @@
 3. **Creation** for an empty slot (3D stage of the chosen class; its ten-skill kit with icons, click one to see the move): the existing `showCreation` from `src/character`, which already locks unfinished classes.
 4. The chosen slot becomes active through `SaveSlot.use(prefix)` (`src/core/SaveSlot.js`).
 
-The session is kept per tab in `sessionStorage`, so a reload goes straight back into the same character. The settings panel gets **เปลี่ยนตัวละคร** and **ออกจากระบบ** buttons. `?login` always shows the screens.
+The session persists in `localStorage` across tabs and browser restarts, with migration from older `sessionStorage` sessions. Server tokens are validated on resume. The settings panel gets **เปลี่ยนตัวละคร** and **ออกจากระบบ** buttons; logout clears both stores. `?login` always shows the screens.
 
 ## Local only — not security
 

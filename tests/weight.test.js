@@ -9,7 +9,7 @@ import { buy } from '../src/shop/ShopSystem.js';
 const hero = (opts = {}) => new Character({ name: 'ทดสอบ', classId: 'muaythai', ...opts });
 
 test('every item has a weight', () => {
-  for (const [id, d] of Object.entries(ITEMS)) assert.ok(Number.isSafeInteger(d.weight) && d.weight >= 0, `${id} weight`);
+  for (const [id, d] of Object.entries(ITEMS)) assert.ok(Number.isFinite(d.weight) && d.weight >= 0 && Math.abs(d.weight * 10 - Math.round(d.weight * 10)) < 1e-8, `${id} weight`);
 });
 
 test('weight counts bag stacks and equipped items; STR raises the limit', () => {
@@ -55,7 +55,7 @@ test('shops refuse weighted goods that exceed capacity without charging gold', (
 
 test('recovery supplies can be bought at the weight limit and do not increase weight', () => {
   const c = hero({ gold: 1000 });
-  c.addItem('hide', c.maxWeight);
+  c.addItem('hide', Math.round(c.maxWeight / ITEMS.hide.weight));
   const before = c.weight;
   for (const id of ['potion_s', 'potion_m', 'ether']) {
     assert.equal(ITEMS[id].weight, 0);

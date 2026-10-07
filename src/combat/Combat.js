@@ -116,6 +116,7 @@ export class Combat extends Emitter {
     this.emit('sit', on);
   }
   basicSkillId() { return this.character.cls.skills.find(id => SKILLS[id].basic); }
+  get basicApproachRange() { return Math.max(5, this.character.cls.range + 3); }
 
   useSkill(skillId) {
     const c = this.character, skill = SKILLS[skillId];
@@ -131,6 +132,10 @@ export class Combat extends Emitter {
       const target = this.target;
       if (!target) return this.fail('ไม่มีเป้าหมายใกล้ๆ');
       const range = this.skillRange(skill);
+      if (skill.basic && dist(target, this.world.playerPos()) > this.basicApproachRange) {
+        this.pending = null; this.autoAttack = false; this.world.stop?.();
+        return this.fail('เป้าหมายไกลเกินไป · เดินเข้าใกล้ก่อนโจมตี');
+      }
       if (dist(target, this.world.playerPos()) > range) {
         this.pending = { skillId, target };
         if (skill.basic) this.autoAttack = true;
@@ -253,7 +258,10 @@ export class Combat extends Emitter {
     if (byHand) { this.pending = null; this.autoAttack = false; }
     if (c.alive && this.pending && !this.hold) {
       const { skillId, target } = this.pending, skill = SKILLS[skillId];
-      if (!target?.alive) this.pending = null;
+      this.pending.elapsed = (this.pending.elapsed ?? 0) + dt;
+      if (!target?.alive || this.pending.elapsed > 6 || (skill.basic && dist(target, p) > this.basicApproachRange)) {
+        this.pending = null; this.autoAttack = false; this.world.stop?.();
+      }
       else {
         if (dist(target, p) <= this.skillRange(skill)) {
           this.world.stop?.();
@@ -270,7 +278,8 @@ export class Combat extends Emitter {
     if (c.alive && !this.hold && this.autoAttack && !this.pending && this.target?.alive && this.attackTimer <= 0) {
       const basic = this.basicSkillId();
       if (dist(this.target, p) <= c.cls.range) this.execute(basic, this.target);
-      else this.pending = { skillId: basic, target: this.target };
+      else if (dist(this.target, p) <= this.basicApproachRange) this.pending = { skillId: basic, target: this.target };
+      else { this.autoAttack = false; this.world.stop?.(); }
     }
 
     // online (src/net/NetCombat.js) the server runs the monsters; offline they live here

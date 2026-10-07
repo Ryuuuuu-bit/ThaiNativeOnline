@@ -5,7 +5,7 @@
 //
 // It selects the save slot (src/core/SaveSlot.js), so Character, quests,
 // discovered places and the last location all load and save per character.
-// The session is kept for this tab (sessionStorage): a reload goes straight
+// The session is kept across browser restarts (localStorage): reopening goes straight
 // back into the same character. The settings panel gets "change character"
 // and "log out" buttons. ?login forces the screens even with a session.
 import { AccountStore } from './AccountStore.js';
@@ -18,9 +18,7 @@ import { showCreation } from '../character/ui/CreationScreen.js';
 import '../character/ui/character.css';
 import './account.css';
 
-const SESSION_KEY = 'tno.session.v1';
-const readSession = () => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) ?? 'null'); } catch { return null; } };
-const writeSession = s => { try { if (s) sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)); else sessionStorage.removeItem(SESSION_KEY); } catch { /* storage unavailable */ } };
+import { readSession, writeSession } from './session.js';
 
 export async function enterGame(root) {
   // With the game server (Railway) accounts and saves live there; without it (plain dev) in this browser.
@@ -29,7 +27,7 @@ export async function enterGame(root) {
   const forced = new URLSearchParams(location.search).has('login');
   let session = forced ? null : readSession();
   // a server account resumes with its token (and the server's copy of the slots); a stale one logs in again
-  if (remote && session?.id && !session.guest && !(session.token && await store.resume(session.id, session.token).catch(() => false))) session = null;
+  if (remote && session?.id && !session.guest && !(session.token && await store.resume(session.id, session.token).catch(() => false))) { session = null; writeSession(null); }
 
   // Same tab, same character: skip the screens.
   if (session?.prefix !== undefined && store.slots(session.id).some(s => s.prefix === session.prefix && s.character)) {
@@ -37,8 +35,8 @@ export async function enterGame(root) {
   } else {
     let pick = null;
     while (!pick) {
-      if (!session?.id) session = await showLogin(root, store);
-      pick = await showCharacterSelect(root, store, session);
+      if (!session?.id) { session = await showLogin(root, store); session.token = store.token ?? undefined; writeSession(session); }
+      pick = await showCharacterSelect(root, store, session, { onLogout: () => { store.logout?.(); writeSession(null); } });
       if (!pick) session = null; // logged out → back to the login
     }
     SaveSlot.use(pick.prefix);

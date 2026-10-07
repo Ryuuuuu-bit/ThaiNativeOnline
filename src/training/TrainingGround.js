@@ -94,7 +94,7 @@ export class TrainingGround {
       forceLevel: q.has('skill') ? this.skillLevel : null,   // else each skill at the level the character learnt (Job levels)
       stats: () => this.derived, dummy: () => (this.inGround ? this.dummy ?? null : null), nearDummy: () => this.near,
       dummyDefense: () => this.target, dummyRange: TRAINING.range,
-      runnerFactory: (target, damage) => kit.createSkills({ fx: this.fx, character: this.character, player: player.group, dummy: target, groundHeight, labels: this.labels, dim: this.dim, damage }),
+      runnerFactory: (target, damage) => kit.createSkills({ fx: this.fx, character: this.character, player: player.group, dummy: target, groundHeight, canStand, labels: this.labels, dim: this.dim, damage }),
       // Every successful cast (keys, clicks or auto) gets the skill's own sounds (SKILL_SFX).
       onCast: skill => playSkillSound(skill, this.kitId),
     });

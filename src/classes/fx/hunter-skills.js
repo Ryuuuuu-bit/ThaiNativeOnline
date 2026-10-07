@@ -1,3 +1,4 @@
+import { moveSkillPlayer } from './skillMovement.js';
 import * as THREE from 'three';
 import { lockTime } from '../tempo.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
@@ -33,7 +34,7 @@ function sigilTex() {
   SIGIL_TEX = new THREE.CanvasTexture(c); SIGIL_TEX.colorSpace = THREE.SRGBColorSpace; return SIGIL_TEX;
 }
 
-export function createHunterSkills({ fx, character, player, dummy, groundHeight, labels, damage }) {
+export function createHunterSkills({ fx, character, player, dummy, groundHeight, canStand, labels, damage }) {
   const MOVES = Object.fromEntries(HUNTER_SKILLS.map(s => [s.id, s]));
   const R = { busyUntil: 0, facing: null, time: 0, range: 14 };
   const hero = { barY: 1.95, maxHp: 1000, hp: 800 };
@@ -229,7 +230,7 @@ export function createHunterSkills({ fx, character, player, dummy, groundHeight,
     const to = tpos().add(hero.pos().sub(tpos()).setY(0).normalize().multiplyScalar(3.2)), from = fx.toWorld(hero.pos()), dest = fx.toWorld(to);
     fx.addTask((dt, t) => {
       const u = clamp01(t / .3), e = 1 - (1 - u) * (1 - u);
-      player.position.x = from.x + (dest.x - from.x) * e; player.position.z = from.z + (dest.z - from.z) * e; player.position.y = groundHeight(player.position.x, player.position.z);
+      moveSkillPlayer(player.position, from.x + (dest.x - from.x) * e, from.z + (dest.z - from.z) * e, canStand); player.position.y = groundHeight(player.position.x, player.position.z);
       if (u >= 1) { face(tpos()); cb(); return false; }
     });
   }
