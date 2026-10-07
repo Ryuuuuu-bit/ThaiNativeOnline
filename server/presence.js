@@ -19,6 +19,9 @@
 //   P.leave(conn)         → { map, id, name, account } | null
 //   P.allowJump(conn, m)  the next move may be m metres longer (thrown back / dragged by a monster)
 //   P.snapshot(map)       → [[id, x, z, f, m], …] of players who moved since the last one
+//   P.setTitle(conn, id, trusted?) → { id, title } (the title worn above the name, src/data/titles.js)
+import { TITLE_BY_ID } from '../src/data/titles.js';
+
 export const LIMITS = {
   name: 16, chat: 120, chatEvery: 0.8,      // characters; seconds between chat lines
   speed: 9,                                 // m/s: the fastest run (6.8) with slack for lag
@@ -32,6 +35,7 @@ const roomOf = (map, ch) => (ch > 1 ? `${map}#${ch}` : map);
 const clean = (s, n) => String(s ?? '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
 const num = (v, lim = LIMITS.world) => (Number.isFinite(v) && Math.abs(v) <= lim ? v : null);
 const round = v => Math.round(v * 100) / 100;
+const guestTitle = id => (TITLE_BY_ID[id] && !TITLE_BY_ID[id].dynamic ? id : null);
 
 export class Presence {
   constructor({ now = () => Date.now() / 1000 } = {}) {
@@ -45,7 +49,7 @@ export class Presence {
     p.ch = Math.max(1, Math.floor(ch) || 1); p.room = roomOf(p.map, p.ch);
     return { id: p.id, roster: this.inMap(p.room).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map: p.map, room: p.room, ch: p.ch };
   }
-  info(p) { return { id: p.id, name: p.name, cls: p.cls, gender: p.gender, lv: p.lv, x: p.x, z: p.z, f: p.f, m: p.m }; }
+  info(p) { return { id: p.id, name: p.name, cls: p.cls, gender: p.gender, lv: p.lv, title: p.title ?? null, x: p.x, z: p.z, f: p.f, m: p.m }; }
 
   join(conn, h = {}, ch = 1) {
     if (this.players.has(conn)) return null;
@@ -55,6 +59,7 @@ export class Presence {
       id: this.nextId++, name: clean(h.name, LIMITS.name) || 'ผู้เดินทาง', cls: CLASSES.includes(h.cls) ? h.cls : 'muaythai',
       gender: h.gender === 'female' ? 'female' : 'male', lv: Math.max(1, Math.min(150, Math.floor(Number(h.lv) || 1))),
       map, x: num(h.x) ?? 0, z: num(h.z) ?? 0, f: num(h.f, 10) ?? 0, m: 0, t: this.now(), dirty: true, chatAt: -Infinity,
+      title: guestTitle(h.title),
     };
     this.players.set(conn, p);
     const r = this.enter(p, ch);
@@ -89,6 +94,13 @@ export class Presence {
   setDead(conn, v) { const p = this.players.get(conn); if (p) p.dead = !!v; return p; }
   // Level shown on the name plate (from the client's own save for now).
   setLevel(conn, lv) { const p = this.players.get(conn); if (p) p.lv = Math.max(1, Math.min(150, Math.floor(Number(lv) || p.lv))); return p ? { id: p.id, lv: p.lv } : null; }
+  // The title worn above the name (src/data/titles.js): `trusted` for a signed-in character's own
+  // (checked against the server's copy); a guest's may not be a rank title. → { id, title } | null
+  setTitle(conn, id, trusted = false) {
+    const p = this.players.get(conn); if (!p) return null;
+    p.title = trusted ? (TITLE_BY_ID[id] ? id : null) : guestTitle(id);
+    return { id: p.id, title: p.title };
+  }
   // A move clip to play on everyone else's screen (names are checked by the client's model).
   anim(conn, msg = {}) {
     const p = this.players.get(conn); if (!p) return null;
@@ -101,7 +113,7 @@ export class Presence {
     const line = clean(text, LIMITS.chat), now = this.now();
     if (!line || now - p.chatAt < LIMITS.chatEvery) return null;
     p.chatAt = now;
-    return { t: 'c', id: p.id, name: p.name, map: p.map, text: line };
+    return { t: 'c', id: p.id, name: p.name, title: p.title ?? null, map: p.map, text: line };
   }
   leave(conn) {
     const p = this.players.get(conn); if (!p) return null;

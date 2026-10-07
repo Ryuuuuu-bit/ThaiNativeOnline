@@ -1,4 +1,5 @@
 import { NetClient, serverUrl } from './NetClient.js';
+import { titleHtml } from '../ui/titleTag.js';
 import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
@@ -39,7 +40,8 @@ export function startMultiplayer(game) {
     .on('tick', m => { for (const [id, x, z, f, mv] of m.p) remote.move(id, x, z, f, mv); })
     .on('a', m => remote.anim(m.id, m.clip, m.sp))
     .on('lv', m => remote.level(m.id, m.lv))
-    .on('c', m => chat.add(m.name, m.text, m.kind ?? ''))
+    .on('ttl', m => remote.setTitle(m.id, m.title))   // someone's worn title (src/data/titles.js)
+    .on('c', m => chat.add(m.name, m.text, m.kind ?? '', m.title))
     // a GM's commands (server/gm.js): sent somewhere, HP set
     .on('gmwarp', m => { const maps = game.maps; if (maps.map?.id === m.map) maps.place({ x: m.x, z: m.z, facing: game.player.group.rotation.y }); else maps.travel({ to: m.map, arrive: { x: m.x, z: m.z } }); })
     .on('gmhp', m => { if (m.pct === 0) { game.game.combat?.knockOut(); return; } c.hp = Math.round(c.maxHp * m.pct / 100); if (m.mp) c.mp = c.maxMp; c.emit('change'); })
@@ -56,7 +58,7 @@ export function startMultiplayer(game) {
   const meters = attachCombatMeters(net, game, remote, social);                             // my name plate, the DPS meter
   // the same character opened in another tab or device: this one stops talking to the server
   net.on('kicked', m => { net.close(); chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
-  net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, map, ...pos() }));
+  net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, title: c.title, map, ...pos() }));
   // every move the player's model plays (skills, basic attacks) is mirrored to the others
   // (a class skill's own clips are not: the others play the whole skill from its `fx`)
   player.onAnim = (clip, sp) => { if (!game.training?.busy) net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) }); };
@@ -133,8 +135,8 @@ class ChatBox {
   }
   open(text = null) { this.input.hidden = false; this.root.classList.add('typing'); if (text !== null) this.input.value = text; this.input.focus(); }
   close() { this.input.hidden = true; this.root.classList.remove('typing'); this.input.blur(); }
-  add(name, text, kind = '') {
-    const line = document.createElement('p'); line.innerHTML = `<b></b> <span></span>`; if (kind) line.className = kind;
+  add(name, text, kind = '', title = null) {
+    const line = document.createElement('p'); line.innerHTML = `${titleHtml(title, { brackets: true })}<b></b> <span></span>`; if (kind) line.className = kind;
     line.querySelector('b').textContent = name; line.querySelector('span').textContent = text;
     this.lines.append(line); while (this.lines.children.length > 30) this.lines.firstChild.remove();
     this.lines.scrollTop = this.lines.scrollHeight;

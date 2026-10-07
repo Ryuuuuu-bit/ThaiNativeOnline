@@ -14,6 +14,7 @@ import { computeDerived, hitChanceOf, ASPD_BUFF_MAX } from '../rules/stats.js';
 import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
+import { TITLE_BY_ID, BOSS_TITLES, checkTitles } from '../data/titles.js';
 
 const SAVE_KEY = 'tno.character.v1';
 const INVENTORY_SIZE = 24;
@@ -21,9 +22,13 @@ export const FRIENDS_MAX = 50;
 // Gear bonus keys passed to computeDerived besides the base stats.
 const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
+// the records titles are earned from (src/data/titles.js): whole counts only
+const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank'];
+const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
+const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -66,6 +71,11 @@ export class Character extends Emitter {
     }
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
+    // ฉายา (src/data/titles.js): the ids earned, the one worn (null = none) and the records behind them
+    this.rec = cleanRec(rec);
+    this.titles = Array.isArray(titles) ? [...new Set(titles.filter(id => TITLE_BY_ID[id]))] : [];
+    checkTitles(this);
+    this.title = this.titles.includes(title) ? title : null;
     this.hp = Math.min(hp ?? this.maxHp, this.maxHp); this.mp = Math.min(mp ?? this.maxMp, this.maxMp);   // saves from older stat formulas may exceed the cap
   }
 
@@ -125,6 +135,21 @@ export class Character extends Emitter {
   get evasion() { return this.derived.eva; }
   get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
   get critDamage() { return this.derived.critDmg; }
+  // ค่าพลังรวม (CP): one number for the ranking boards and titles, without buffs (ThaiNative's
+  // combatPower, src/rules/character.js, on this game's derived stats)
+  get power() {
+    const d = this.derived, off = Math.max(d.patk, d.matk) * (1 + d.critRate * Math.max(0, d.critDmg - 1)) * (1 + (d.aspd || 0) * .5 + (d.castRed || 0) * .5);
+    return Math.max(0, Math.round(off * 3 + d.maxHp * .4 + d.maxMp * .15 + d.def * 6 + d.eva * 4 + Math.max(0, d.accuracy - 85) * 2));
+  }
+  // the highest plus on the worn gear (the ตีบวก board)
+  get refineMax() { return Math.max(0, ...Object.values(this.refine ?? {})); }
+
+  // ---- Records and titles (src/data/titles.js) ----
+  noteKill(type) { this.rec.kills++; if (BOSS_TITLES[type]) this.rec.boss[type] = (this.rec.boss[type] || 0) + 1; }
+  note(key, n = 1) { if (REC_KEYS.includes(key)) this.rec[key] += count(n); }
+  // newly earned titles → their ids (emits 'titles' when the list or the worn one changed)
+  checkTitles() { const before = this.titles.length, worn = this.title, got = checkTitles(this); if (got.length || before !== this.titles.length || worn !== this.title) this.emit('titles', got); return got; }
+  setTitle(id) { if (id !== null && !this.titles.includes(id)) return false; this.title = id; this.emit('titles', []); return true; }
   // share cut from the basic-attack interval: AGI/DEX (≤30%) plus buffs, all together ≤45%
   get attackSpeed() { return Math.min(ASPD_BUFF_MAX, this.derived.aspd + this.buffSum('aspd')); }
   get cooldownCut() { return Math.min(CDR_MAX, this.derived.castRed + this.equipBonus('cdr')); }   // share cut from skill cooldowns
@@ -467,7 +492,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

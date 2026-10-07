@@ -147,6 +147,7 @@ export class Combatants {
     c.gold += Math.max(0, k.gold | 0); c.gainExp(Math.max(0, k.exp | 0));
     for (const d of k.drops ?? []) c.addItem(d.id, d.qty);
     if (k.type) s.quests.onKill(k.type);
+    c.noteKill(k.type);   // the records behind the titles (src/data/titles.js)
     s.dirty = true;
     return c.level !== before ? { level: c.level } : {};
   }

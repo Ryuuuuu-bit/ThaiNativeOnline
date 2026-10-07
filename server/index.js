@@ -37,6 +37,12 @@
 //   who → who {list: [{id, name, cls, lv, map, ch}]} · friends → friends {list: [{name, online, id?, lv?, cls?, map?}]} ·
 //   fadd {name} (online now) · fdel {name} · fon / foff {name} when a friend comes or goes
 // Healer support: cast {skill} of a party / revive skill → aid {from, skill, heal, mp, buff, revive} to the party members near the caster
+// Titles and ranking (src/data/titles.js, server/ranking.js): join / roster / c carry `title` (the one worn).
+//   client → server  ttl {id | null} (wear a title) · rank (the boards)
+//   server → client  ttl {id, title} (someone's worn title changed) · titles {titles, title, rec, got} (a signed-in
+//                    character's titles changed: got = just earned) · fnote {kind: 'added', name, cls} (someone added you) ·
+//                    rank {power, level, enhance, at, total, holders, me: {cpRank, lvRank, enhRank, cp, lv, enh, gap10} | null}
+//   who / friends rows carry `title`; an offline friend carries its last known cls, lv and title
 // GM (server/gm.js): '/gm …' in chat from an account in ADMIN_IDS → a reply line; may send
 //   gmwarp {map, x, z} (go there) · gmhp {pct, mp?} (HP set; 0 = knocked out) · sync
 // Parties (server/parties.js): up to 6, EXP of a kill shared by the members near it.
@@ -60,6 +66,7 @@ import { Parties, PARTY } from './parties.js';
 import { Trades, TRADE, swap } from './trades.js';
 import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
+import { createRanking, RANKING } from './ranking.js';
 import { WorldClock } from '../src/core/WorldClock.js';
 
 try { process.loadEnvFile(resolve(import.meta.dirname, '..', '.env')); } catch { /* no .env */ }
@@ -181,6 +188,7 @@ wss.on('connection', ws => {
           if (old) for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { await flush(op.id); send(ows, { t: 'kicked' }); ows.close(); }
           const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved;
           combatants.load(r.you, fresh, { account: id, slot: m.slot }, await accounts.quests(id, m.slot).catch(() => '{}'));
+          presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
         send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
@@ -195,6 +203,20 @@ wss.on('connection', ws => {
       }
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
+      case 'ttl': {   // wear a title: a signed-in character only one it has earned (src/data/titles.js)
+        const p = presence.players.get(ws), s = p && combatants.get(p.id); if (!p) return;
+        const id = typeof m.id === 'string' ? m.id : null;
+        if (s?.persist) { if (!s.c.setTitle(id)) return send(ws, { t: 'titles', titles: s.c.titles, title: s.c.title, rec: s.c.rec, got: [] }); s.dirty = true; }
+        const r = presence.setTitle(ws, id, !!s?.persist); if (r) toMap(p.room, { t: 'ttl', ...r }, ws);
+        break;
+      }
+      case 'rank': {
+        const p = presence.players.get(ws); if (!p) return;
+        if (ranking.stale()) await ranking.refresh();
+        const s = combatants.get(p.id);
+        send(ws, { t: 'rank', ...ranking.boards(), me: s?.persist ? ranking.mine(`${s.persist.account}:${s.persist.slot}`) : null });
+        break;
+      }
       case 'treq': case 'tans': case 'toffer': case 'tlock': case 'tconf': case 'tcancel': tradeMsg(ws, m); break;
       case 'map': {
         endTrade(presence.players.get(ws)?.id, 'moved');
@@ -361,6 +383,27 @@ function tradeMsg(ws, m) {
   }
 }
 setInterval(() => { for (const party of parties.parties.values()) sendParty(party.id); }, 1000);
+
+// ---- titles and the ranking boards (src/data/titles.js, server/ranking.js) -------------------------
+// a signed-in character's titles after its records moved: the player hears of a change (and the
+// room, when the worn one was taken back with a lost rank)
+function titleNews(id) {
+  const s = combatants.get(id); if (!s?.persist) return;
+  const c = s.c, before = `${c.titles.join()}|${c.title}`, got = c.checkTitles();
+  if (before === `${c.titles.join()}|${c.title}`) return;
+  s.dirty = true;
+  const ws = socketOf(id); if (!ws) return;
+  send(ws, { t: 'titles', titles: c.titles, title: c.title, rec: c.rec, got });
+  const p = presence.players.get(ws);
+  if (p && (p.title ?? null) !== c.title) { const r = presence.setTitle(ws, c.title, true); if (r) toMap(p.room, { t: 'ttl', ...r }, ws); }
+}
+const ranking = createRanking({
+  store,
+  live: () => [...presence.players.values()].map(p => ({ id: p.id, s: combatants.get(p.id) })).filter(x => x.s?.persist).map(({ id, s }) => ({ id, c: s.c, key: `${s.persist.account}:${s.persist.slot}` })),
+  onRanks: titleNews,
+});
+setInterval(() => ranking.refresh(), RANKING.every);
+setTimeout(() => ranking.refresh(), 3000);
 // a healer's party / revive skill (src/training/kitCombat.js supportOf): the other members in the
 // same room within its radius are healed, buffed and — for a revive — stood back up where they fell.
 // The caster hears who it reached: aided {skill, got: [{name, x, z, heal, revived}]}
@@ -375,19 +418,22 @@ function support(caster, skill, sup) {
     if (r || o.p.dead) send(o.ws, { t: 'aid', from: caster.name, skill, heal: sup.heal, hp: sup.hp, mp: sup.mp, buff: sup.buff, revive: o.p.dead || r?.revived ? sup.revive : 0 });
     if (r) got.push({ name: o.p.name, x: o.p.x, z: o.p.z, heal: r.heal ?? 0, revived: !!r.revived });
   }
+  // the healer's records (สายซัพพอร์ต titles): HP given to the others and the fallen stood up
+  const cs = combatants.get(caster.id);
+  if (cs?.persist && got.length) { cs.c.note('healOut', got.reduce((n, g) => n + g.heal, 0)); cs.c.note('revive', got.filter(g => g.revived).length); cs.dirty = true; titleNews(caster.id); }
   const casterWs = byId(caster.id)?.ws;
   if (got.length && casterWs) send(casterWs, { t: 'aided', skill, got });
 }
 
 // ---- whisper, who is online, friends ---------------------------------------------------------
-const whoList = () => [...presence.players.values()].sort((a, b) => b.lv - a.lv).slice(0, 200).map(p => ({ id: p.id, name: p.name, cls: p.cls, lv: p.lv, map: p.map, ch: p.ch }));
+const whoList = () => [...presence.players.values()].sort((a, b) => b.lv - a.lv).slice(0, 200).map(p => ({ id: p.id, name: p.name, cls: p.cls, lv: p.lv, title: p.title ?? null, map: p.map, ch: p.ch }));
 // a signed-in player came or went: tell everyone online who has them as a friend
 function friendNews(p, on) {
   for (const [ws, o] of presence.players) if (o !== p && combatants.get(o.id)?.c.friends?.includes(p.name)) send(ws, { t: on ? 'fon' : 'foff', name: p.name });
 }
 function friendList(id) {
   const s = combatants.get(id), online = new Map([...presence.players.values()].map(p => [p.name, p]));
-  return (s?.c.friends ?? []).map(name => { const o = online.get(name); return o ? { name, online: true, id: o.id, lv: o.lv, cls: o.cls, map: o.map } : { name, online: false }; });
+  return (s?.c.friends ?? []).map(name => { const o = online.get(name); return o ? { name, online: true, id: o.id, lv: o.lv, cls: o.cls, title: o.title ?? null, map: o.map, ch: o.ch } : { name, online: false, ...ranking.infoOf(name) }; });
 }
 function socialMsg(ws, m) {
   const me = presence.players.get(ws); if (!me) return;
@@ -407,9 +453,9 @@ function socialMsg(ws, m) {
       if (o.p.id === me.id) return sys('เพิ่มตัวเองเป็นเพื่อนไม่ได้');
       if (s.c.friends.includes(o.p.name)) return sys(`${o.p.name} เป็นเพื่อนอยู่แล้ว`);
       if (s.c.friends.length >= FRIENDS_MAX) return sys(`เพื่อนได้สูงสุด ${FRIENDS_MAX} คน`);
-      s.c.friends.push(o.p.name); send(o.ws, { t: 'c', id: null, name: 'ระบบ', text: `${me.name} เพิ่มคุณเป็นเพื่อน` });
+      s.c.friends.push(o.p.name); send(o.ws, { t: 'fnote', kind: 'added', name: me.name, cls: me.cls });
     } else s.c.friends = s.c.friends.filter(n => n !== name);
-    s.dirty = true; send(ws, { t: 'friends', list: friendList(me.id) });
+    s.dirty = true; send(ws, { t: 'friends', list: friendList(me.id) }); titleNews(me.id);
   }
 }
 
@@ -434,6 +480,7 @@ function route(map, events, except = null) {
   for (const e of events) {
     if (e.t === 'kill') {
       const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
+      titleNews(e.to);
       const ws = socketOf(e.to); if (ws) send(ws, e);
       if (e.card) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
       if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
@@ -441,7 +488,7 @@ function route(map, events, except = null) {
       const ws = socketOf(e.to); if (!ws) continue;
       combatants.touch(e.to);
       const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power);   // signed-in: resolved here
-      if (res?.dead) presence.setDead(ws, true);
+      if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
       if ((e.knock || e.pull) && !res?.dodge) presence.allowJump(ws, e.pull ? 16 : 4);
       send(ws, res ? { ...e, res } : e);
     }

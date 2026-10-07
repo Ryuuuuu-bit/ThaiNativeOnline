@@ -1,6 +1,7 @@
 // Where accounts, sessions and character saves live: Postgres when DATABASE_URL is set
 // (Railway), otherwise memory (local dev and tests — gone on restart).
 //   const store = await openStore(process.env.DATABASE_URL)
+//   store.allCharacters(limit) → [{ account, slot, data }] (the ranking boards, server/ranking.js)
 //   store.getAccount(id) · createAccount(id, salt, hash) → bool (false if taken)
 //   store.createSession(token, id, expires) · getSession(token) · deleteSession(token)
 //   store.listSlots(id) → [{ slot, data, updated }] · putSlot(id, slot, data) · deleteSlot(id, slot)
@@ -26,6 +27,7 @@ export class MemoryStore {
   async listSlots(id) { return [...(this.slots.get(id) ?? new Map()).entries()].map(([slot, v]) => ({ slot, ...v })).sort((a, b) => a.slot - b.slot); }
   async putSlot(id, slot, data) { if (!this.slots.has(id)) this.slots.set(id, new Map()); this.slots.get(id).set(slot, { data, updated: Date.now() }); }
   async deleteSlot(id, slot) { this.slots.get(id)?.delete(slot); }
+  async allCharacters(limit = 5000) { const out = []; for (const [account, m] of this.slots) for (const [slot, v] of m) out.push({ account, slot, data: v.data }); return out.slice(0, limit); }
 }
 
 export class PgStore {
@@ -46,6 +48,7 @@ export class PgStore {
   async listSlots(id) { return (await this.q('select slot, data, extract(epoch from updated) * 1000 as updated from characters where account = $1 order by slot', [id])).rows.map(r => ({ ...r, updated: Number(r.updated) })); }
   async putSlot(id, slot, data) { await this.q('insert into characters (account, slot, data, updated) values ($1, $2, $3, now()) on conflict (account, slot) do update set data = excluded.data, updated = now()', [id, slot, data]); }
   async deleteSlot(id, slot) { await this.q('delete from characters where account = $1 and slot = $2', [id, slot]); }
+  async allCharacters(limit = 5000) { return (await this.q('select account, slot, data from characters order by updated desc limit $1', [limit])).rows; }
   async getGoogle(sub) { return (await this.q('select account from google_links where sub = $1', [sub])).rows[0]?.account ?? null; }
   async googleOf(id) { const r = (await this.q('select email from google_links where account = $1 limit 1', [id])).rows[0]; return r ? { email: r.email } : null; }
   async linkGoogle(sub, id, email) { return (await this.q('insert into google_links (sub, account, email) values ($1, $2, $3) on conflict do nothing', [sub, id, email ?? null])).rowCount === 1; }

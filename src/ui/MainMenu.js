@@ -2,7 +2,7 @@
 // showing its key. It replaces the old top-right icons and the C / I buttons on the
 // action bar; the keys themselves are unchanged (handled where they always were).
 //
-//   const menu = new MainMenu({ sheet, skills, bag, map, auto, photo, settings })   actions by tile
+//   const menu = new MainMenu({ sheet, skills, social, bag, map, auto, photo, settings })   actions by tile
 //   menu.open / menu.toggle(on?)      Esc closes it first (src/core/Game.js)
 //   menu.setAlert(on)                 gold dot when there are stat points to spend
 //   bindSettingsTabs(panel)           the tab strip inside the settings window

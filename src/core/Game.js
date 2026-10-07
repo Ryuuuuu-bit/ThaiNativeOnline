@@ -182,6 +182,7 @@ export class Game {
       skills: () => characterUI()?.toggle('skills'),
       bag: () => characterUI()?.toggle('bag'),
       map: () => this.toggleMap(),
+      social: () => (this.net?.social ? this.net.social.toggle() : this.hud.toast('สังคม', 'ต้องเชื่อมต่อเซิร์ฟเวอร์ก่อน (ออนไลน์)')),
       auto: () => document.querySelector('.hotbar-auto-cfg')?.click(),
       photo: () => this.togglePhoto(),
       settings: () => $('settings-toggle').click(),
