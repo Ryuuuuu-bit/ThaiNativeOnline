@@ -43,7 +43,8 @@
 .ui-touch .controls, .ui-touch .training-tip, .ui-touch .net-chat input + * { display: none; }
 .ui-touch .net-chat { left: calc(var(--sl) + 16px); top: 200px; bottom: auto; width: 230px; }
 .ui-touch .net-lines { max-height: 84px; }
-.ui-touch .training-panel { left: 50%; right: auto; top: 96px; bottom: auto; width: 250px; transform: translateX(-50%); }
+/* (centred by calc, not %/transform: the panel is zoomed, and zoom scales its offsets too) */
+body.ui-touch .training-panel { left: calc(50vw / var(--ui, 1) - 125px); right: auto; top: 96px; bottom: auto; width: 250px; transform: none; }
 .ui-touch .training-panel .training-log, .ui-touch .training-panel .training-skills { display: none; }
 .ui-touch .interaction { bottom: auto; top: 58%; padding: 12px 18px; font-size: 14px; }
 .ui-touch .interaction kbd { display: none; }
@@ -58,7 +59,7 @@
 .ui-touch.ui-portrait .hotbar.action-bar { right: auto; left: 50%; transform: translateX(-50%); bottom: calc(var(--sb) + 182px) !important; }
 .ui-touch.ui-portrait .touch-side { right: auto; left: 50%; transform: translateX(-50%); bottom: calc(var(--sb) + 305px); }
 .ui-touch.ui-portrait .net-chat { top: 170px; width: 200px; }
-.ui-touch.ui-portrait .training-panel { top: 290px; width: 220px; }
+body.ui-touch.ui-portrait .training-panel { top: 290px; bottom: auto; }
 .touch-rotate { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 12px 14px; width: min(320px, calc(100% - 32px)); font-size: 13px; }
 .touch-rotate span { font-size: 28px; color: #e1c983; }
 .touch-rotate p { margin: 0; flex: 1; line-height: 1.5; }
@@ -81,3 +82,14 @@ body .acc-screen>*,body .g-create>*{margin:auto;max-width:100%}
 
 /* Short screens: the place name in the header stays inside the screen. */
 @media (max-height:500px){ body .location h1{font-size:16px} body .location{top:-2px} }
+
+/* A menu open: the controls step aside; menus fit the screen and scroll. */
+.touch-menu .touch-zone, .touch-menu .touch-pad, .touch-menu .touch-side, .touch-menu .hotbar.action-bar, .touch-menu .hotbar-tip { display: none !important; }
+.ui-touch .settings { max-height: calc((100dvh - 24px) / var(--ui, 1) - 88px); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; z-index: 12; }
+.ui-touch .g-panel { max-height: calc((100dvh - 24px) / var(--ui, 1) - 100px); overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.ui-touch .auto-panel { bottom: auto; top: 70px; max-height: calc(100dvh - 90px); }
+
+/* Lock-on: เป้า glows while a target is locked. */
+.touch-btn.t-target.locked { border-color: #ff8a5c; box-shadow: 0 0 0 2px #ff8a5c66, 0 0 14px #ff7b5c99; color: #ffd2bd; }
+.touch-btn.t-target.locked b::after { content: ' ●'; color: #ff8a5c; font-size: 10px; }
+.touch-btn.t-target.released { border-color: #9fd0ec; }

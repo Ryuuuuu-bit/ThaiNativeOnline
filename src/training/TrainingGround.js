@@ -67,6 +67,9 @@ export class TrainingGround {
     this.fixed = jobDerived(this.job, f.byJob?.[this.job] ?? f.stats, this.fixedLevel);
     character?.on?.('change', () => this.renderSub?.());
     this.player = player; this.canStand = canStand; this.groundHeight = groundHeight; this.inGround = false;
+    this.scene = scene; this.camera = camera; this.renderer = renderer; this.selected = null;
+    // a tap / click on a dummy locks onto it (before the ground click walks there)
+    renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 0 && this.pickAt(e.clientX, e.clientY, e.pointerType === 'touch')) e.stopPropagation(); });
 
     // The Player still walks and turns the avatar; this drives its skills.
     this.character = wearModel(player, scene, avatar);
@@ -111,11 +114,43 @@ export class TrainingGround {
       return { spot, dummy: createDummy(this.fx, this.dummyLabels, spot, this.groundHeight, { hp: d.hp, onHit: e => this.record(e) }) };
     });
   }
-  // The dummy nearest the player (the one skills hit) and where it stands.
+  // The dummy skills hit: the one picked (Tab / a tap) while it is in reach, else the nearest.
   get closest() {
     if (!this.dummies) return null;
     const p = this.player.position, d = e => Math.hypot(p.x - e.spot.x, p.z - e.spot.z);
+    if (this.selected && d(this.selected) <= TRAINING.range) return this.selected;
     return this.dummies.reduce((a, b) => (d(b) < d(a) ? b : a));
+  }
+  // Lock onto a dummy: Tab cycles them (nearest first) while at the training ground.
+  cycleDummy() {
+    if (!this.inGround || !this.dummies) return false;
+    const p = this.player.position, d = e => Math.hypot(p.x - e.spot.x, p.z - e.spot.z);
+    const list = this.dummies.filter(e => d(e) <= TRAINING.range + 6).sort((a, b) => d(a) - d(b));
+    if (!list.length) return false;
+    this.select(list[(list.indexOf(this.selected) + 1) % list.length]);
+    return true;
+  }
+  select(e) {
+    this.selected = e ?? null;
+    if (!this.ring) {
+      this.ring = new THREE.Mesh(new THREE.RingGeometry(.5, .62, 40), new THREE.MeshBasicMaterial({ color: '#ff7b5c', transparent: true, opacity: .85, side: THREE.DoubleSide, depthWrite: false }));
+      this.ring.rotation.x = -Math.PI / 2; this.scene.add(this.ring);
+    }
+    this.ring.visible = !!e;
+    if (e) this.ring.position.set(e.spot.x, this.groundHeight(e.spot.x, e.spot.z) + .06, e.spot.z);
+    return !!e;
+  }
+  // A tap / click near a dummy on screen picks it (true: the tap was used).
+  pickAt(clientX, clientY, touch) {
+    if (!this.inGround || !this.dummies) return false;
+    const rect = this.renderer.domElement.getBoundingClientRect(), v = new THREE.Vector3();
+    let best = null, bd = touch ? 46 : 26;
+    for (const e of this.dummies) {
+      v.set(e.spot.x, this.groundHeight(e.spot.x, e.spot.z) + 1.1, e.spot.z).project(this.camera);
+      const d = Math.hypot((v.x + 1) / 2 * rect.width + rect.left - clientX, (1 - v.y) / 2 * rect.height + rect.top - clientY);
+      if (v.z < 1 && d < bd) { bd = d; best = e; }
+    }
+    return best ? this.select(best) : false;
   }
   get dummy() { return this.closest?.dummy ?? null; }
   get spot() { return this.closest?.spot ?? null; }
@@ -126,6 +161,7 @@ export class TrainingGround {
     if (this.inGround && !this.dummies) this.spawnDummies();
     for (const e of this.dummies ?? []) e.dummy.group.visible = this.inGround;
     this.dummyLabels.hidden = !this.inGround;
+    if (!this.inGround) this.select(null);
     this.caster.cancel();
     if (!this.inGround) this.setNear(false);
   }
@@ -153,6 +189,7 @@ export class TrainingGround {
     if (this.combat) this.combat.hold = this.skills.busy;
     fx.update(sdt, this.clock, this.player.position.y);
     if (this.inGround) for (const e of this.dummies ?? []) e.dummy.update(sdt);
+    if (this.ring?.visible) { this.ring.rotation.z = this.clock; this.ring.scale.setScalar(1 + Math.sin(this.clock * 6) * .06); }
     this.vignette.style.opacity = fx.mood.toFixed(3);
     if (this.dirty) { this.dirty = false; this.renderPanel(); }
   }

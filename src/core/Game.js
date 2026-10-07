@@ -74,7 +74,10 @@ export class Game {
     this.shop = new ShopPanel((text, kind) => (this.game?.hud?.feed ? this.game.hud.feed.log(text, kind === 'warn' ? 'bad' : kind) : this.hud.toast(text, '')));
     this.prefs = createViewPrefs();   // HUD scale and saved camera zoom (device-wide)
     this.input = new InputManager(host);
-    this.touch = createTouchControls($('app'), this.input);   // phones and tablets: joystick and thumb buttons (src/ui/TouchControls.js)
+    this.touch = createTouchControls($('app'), this.input, {
+      locked: () => !!(this.game?.combat?.target?.alive || this.training?.selected),
+      unlock: () => { this.game?.combat?.setTarget(null); this.training?.select?.(null); },
+    });   // phones and tablets: joystick and thumb buttons (src/ui/TouchControls.js)
     this.bind();
     this.startCombat();
     this.maps.attachCombat(this.game);
@@ -190,6 +193,9 @@ export class Game {
     this.input.on('move', () => { this.game.onManualMove(); this.training?.onManualMove(); });
     window.addEventListener('keydown', e => {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen) return;
+      // Tab at the training ground locks onto the next dummy (monsters elsewhere: CombatHUD)
+      if (e.code === 'Tab' && this.maps.map?.safe && this.training?.cycleDummy?.()) { e.preventDefault(); return; }
+      if (e.code === 'Escape' && this.training?.selected) this.training.select(null);
       if (this.game.handleKey(e)) return; // action bar 1–0 / G, potions Q / F, C, I, Tab, Space
       // N jumps between night and morning; the clock keeps running unless locked in settings.
       if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);

@@ -73,12 +73,28 @@ export function createGame(o) {
       pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
       raycaster.setFromCamera(pointer, o.camera);
       const hit = raycaster.intersectObjects(view.pickables, true)[0];
-      const monster = hit && view.monsterById(hit.object.userData.monsterId);
+      // a finger is wider than a mouse: a tap near a monster (on screen) also picks it
+      const monster = (hit && view.monsterById(hit.object.userData.monsterId)) ?? nearOnScreen(event, rect);
       if (!monster) return;
       event.stopPropagation();
       combat.setTarget(monster);
       combat.useSkill(combat.basicSkillId());
     }, { capture: true });
+
+    const sp = new THREE.Vector3();
+    function nearOnScreen(event, rect) {
+      const reach = event.pointerType === 'touch' ? 46 : 22;
+      let best = null, bd = reach;
+      for (const m of combat.monsters) {
+        if (!m.alive) continue;
+        sp.set(m.x, o.groundHeight(m.x, m.z) + .9 * (m.def.size ?? 1), m.z).project(o.camera);
+        const d = Math.hypot((sp.x + 1) / 2 * rect.width - (event.clientX - rect.left), (1 - sp.y) / 2 * rect.height - (event.clientY - rect.top));
+        if (sp.z < 1 && d < bd) { bd = d; best = m; }
+      }
+      return best;
+    }
+    // Lock-on: a monster that hits you while nothing is targeted becomes the target.
+    combat.on('monster-attack', m => { if (!combat.target?.alive && m?.alive) combat.setTarget(m); });
 
     setInterval(() => character.save(), 15000);
     addEventListener('beforeunload', () => character.save());

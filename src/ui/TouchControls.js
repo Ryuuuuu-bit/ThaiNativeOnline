@@ -4,11 +4,13 @@ import './touch.css';
 // touch-first screens (coarse pointer, no hover) or with ?touch=1 (?touch=0 turns it off):
 //   · a floating joystick: a thumb anywhere in the lower-left area walks the player that
 //     way (InputManager.stick); pushed to the rim it runs;
-//   · a right-thumb cluster: ตี (basic attack, Space), เป้า (next target, Tab) and คุย
+//   · a right-thumb cluster: ตี (basic attack, Space), เป้า (lock the next target, Tab; it glows
+//     while something is locked, a long press lets go) and คุย
 //     (talk / use, E), sent as the same keys the keyboard uses so every rule stays in one place;
 //   · the action bar is regrouped: the skills stay along the bottom, while AUTO, its
 //     settings, potions and the character / bag buttons move into a column on the right;
-//   · a full-screen button and, on a phone held upright, a one-time hint to turn it sideways.
+//   · a full-screen button and, on a phone held upright, a one-time hint to turn it sideways;
+//   · while a menu is open the controls hide (body.touch-menu) and the menu scrolls within the screen.
 // Tapping the ground still walks there and two fingers still pinch-zoom (InputManager).
 //
 //   createTouchControls(root, input)  → null on a mouse-and-keyboard screen
@@ -29,7 +31,7 @@ const press = code => {
   window.dispatchEvent(new KeyboardEvent('keyup', { code, key: code, bubbles: true }));
 };
 
-export function createTouchControls(root, input) {
+export function createTouchControls(root, input, { locked = () => false, unlock = () => {} } = {}) {
   if (!wantsTouch()) return null;
   document.body.classList.add('ui-touch');
 
@@ -70,7 +72,12 @@ export function createTouchControls(root, input) {
     pad.append(b); return b;
   };
   btn('t-attack', '<b>ตี</b>', 'Space', 'ตีปกติใส่เป้าหมาย');
-  btn('t-target', '<b>เป้า</b>', 'Tab', 'เลือกเป้าหมายถัดไป');
+  const targetBtn = btn('t-target', '<b>เป้า</b>', 'Tab', 'แตะ: ล็อกเป้าหมายถัดไป · กดค้าง: ปลดล็อก');
+  // a long press on เป้า lets the target go
+  let hold = null;
+  targetBtn.addEventListener('pointerdown', () => { clearTimeout(hold); hold = setTimeout(() => { unlock(); targetBtn.classList.add('released'); setTimeout(() => targetBtn.classList.remove('released'), 400); }, 550); });
+  for (const n of ['pointerup', 'pointercancel', 'pointerleave']) targetBtn.addEventListener(n, () => clearTimeout(hold));
+  setInterval(() => targetBtn.classList.toggle('locked', locked()), 200);
   btn('t-talk', '<b>คุย</b>', 'KeyE', 'คุย / ใช้ของตรงหน้า');
   root.append(pad);
 
@@ -107,6 +114,16 @@ export function createTouchControls(root, input) {
     root.append(side);
     return true;
   };
+  // A menu open (settings, character / bag, shop, full map, AUTO settings): the joystick,
+  // buttons and skills step aside so the menu is whole and nothing under it gets pressed.
+  const MENUS = '.settings:not([hidden]), .g-panel:not([hidden]), .shop:not([hidden]), .fullmap:not([hidden]), .auto-panel:not([hidden])';
+  setInterval(() => {
+    const open = !!root.querySelector(MENUS);
+    if (open !== document.body.classList.contains('touch-menu')) {
+      document.body.classList.toggle('touch-menu', open);
+      if (open) { id = null; input.setStick(0, 0, false); home(); }
+    }
+  }, 200);
   if (!attachBar()) { const mo = new MutationObserver(() => { if (attachBar()) mo.disconnect(); }); mo.observe(root, { childList: true }); }
   return { zone, pad };
 }

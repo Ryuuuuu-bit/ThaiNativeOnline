@@ -67,3 +67,7 @@
 .g-skill:has(img.icon-img){border-color:transparent;background:#0b1411}
 .g-skill:has(img.icon-img):hover{border-color:transparent;box-shadow:0 0 0 1px #e1c983,0 4px 10px #0008}
 .g-skill.active:has(img.icon-img){box-shadow:0 0 0 2px #ffd88a,0 0 12px #f1c06988}
+
+/* Lock-on marker over the targeted monster. */
+.g-plate.targeted::before{content:'▼';display:block;margin-bottom:-2px;font-size:13px;line-height:1;color:#ff8a5c;text-shadow:0 0 6px #ff5a2a,0 1px 2px #000;animation:g-lock 1s ease-in-out infinite}
+@keyframes g-lock{50%{transform:translateY(-3px)}}
