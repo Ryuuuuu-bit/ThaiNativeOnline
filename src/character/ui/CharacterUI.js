@@ -7,6 +7,7 @@ import { classBadge, iconHtml } from '../../ui/icons.js';
 import { BAG_TABS, inTab, compareToWorn, matchesSearch, sortBag, sortedInventory } from '../bag.js';
 import { SkillPanel } from './SkillPanel.js';
 import { RACE_LABELS, ELEMENT_LABELS } from '../data/cards.js';
+import { refineBonus } from '../data/refine.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -23,17 +24,18 @@ const bonusLabel = (k, v) => {
 };
 export const bonusText = b => (b ? Object.entries(b).map(([k, v]) => bonusLabel(k, v)).join(' · ') : '');
 
-// "ดาบเหล็กลาย [2]" — RO style, the number of card slots
-export const itemName = id => { const d = ITEMS[id]; return d.type === 'equip' && d.slots ? `${d.name} [${d.slots}]` : d.name; };
+// "+4 ดาบเหล็กลาย [2]" — RO style, the plus from ตีบวก and the number of card slots
+export const itemName = (id, plus = 0) => { const d = ITEMS[id]; return `${plus ? `+${plus} ` : ''}${d.type === 'equip' && d.slots ? `${d.name} [${d.slots}]` : d.name}`; };
 const cardsLine = (id, cards = []) => {
   const n = ITEMS[id]?.slots ?? 0; if (ITEMS[id]?.type !== 'equip') return '';
   if (!n) return '\nไม่มีช่องการ์ด';
   return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
 };
-function itemTip(id, cards = []) {
+function itemTip(id, cards = [], plus = 0) {
   const d = ITEMS[id];
   const where = d.type === 'card' ? ` (การ์ด${SLOT_LABELS[d.slot]})` : d.slot ? ` (${SLOT_LABELS[d.slot]})` : '';
-  return `${itemName(id)}${where}\n${d.desc || bonusText(d.bonus)}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
+  const refine = plus ? `\nตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}` : '';
+  return `${itemName(id, plus)}${where}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
 }
 const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
 
@@ -133,6 +135,7 @@ export class CharacterUI {
     c.on('levelup', lv => { this.feed.banner(`เลเวลอัป · Lv. ${lv}`, `ได้รับแต้มสถานะ ${POINTS_PER_LEVEL} แต้ม กด C เพื่ออัปสถานะ`); this.feed.log(`เลเวลอัปเป็น ${lv}!`, 'gold'); });
     c.on('used', id => this.feed.log(`ใช้ ${ITEMS[id].name}`));
     c.on('card-choose', i => this.openCardPick(i));
+    c.on('two-hand', what => this.feed.log(what === 'offhand' ? 'ถืออาวุธสองมืออยู่ ใส่ของมือรองไม่ได้' : 'อาวุธสองมือ: เก็บของมือรองเข้ากระเป๋าแล้ว', what === 'offhand' ? 'bad' : ''));
     c.on('card-no-slot', slot => this.feed.log(`ไม่มี${SLOT_LABELS[slot]}ที่มีช่องการ์ดว่าง`, 'bad'));
     c.on('damaged', () => { this.frame.classList.remove('g-shake'); void this.frame.offsetWidth; this.frame.classList.add('g-shake'); });
   }
@@ -181,9 +184,9 @@ export class CharacterUI {
     const c = this.c, s = c.stats;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
       <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 24 })}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level} · Job Lv. ${c.jobLevel}</small></div></div>
-      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id, c.cards[slot])}\nคลิกเพื่อถอด` : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? itemName(id) : SLOT_LABELS[slot]}</small>${id ? pips(id, c.cards[slot]) : ''}</button>`; }).join('')}</div>
+      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : slot === 'offhand' && c.twoHanded ? 'ว่าง · ถืออาวุธสองมืออยู่' : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? itemName(id, c.refine[slot]) : SLOT_LABELS[slot]}</small>${id ? pips(id, c.cards[slot]) : ''}</button>`; }).join('')}</div>
       <div class="g-stats-head"><span>สถานะ</span><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
-      ${STATS.map(k => `<div class="g-stat" title="${STAT_HINTS[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${s[k]}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`).join('')}
+      ${STATS.map(k => { const p = c.statParts(k); return `<div class="g-stat" title="${STAT_HINTS[k]}\nพื้นฐาน ${p.base} (1 + แต้มที่ลง ${p.base - 1}) · โบนัสอาชีพ/เลเวล ${p.cls >= 0 ? '+' : ''}${p.cls}${p.gear ? ` · อุปกรณ์ ${p.gear > 0 ? '+' : ''}${p.gear}` : ''} = ${s[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${p.base}${p.bonus ? `<i class="g-bonus">${p.bonus > 0 ? '+' : ''}${p.bonus}</i>` : ''}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`; }).join('')}
       <div class="g-derived">
         <span>HP</span><b>${c.maxHp}</b><span>MP</span><b>${c.maxMp}</b>
         <span title="พลังโจมตีกายภาพ (STR, ธนูใช้ DEX)">ATK</span><b>${c.patk}</b><span title="พลังเวท/ยา (INT)">MATK</span><b>${c.matk}</b>
@@ -207,7 +210,7 @@ export class CharacterUI {
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
       const d = ITEMS[s.id], cmp = compareToWorn(this.c, s.id); shown++;
       const arrow = cmp > 0 ? '<i class="g-cmp up" title="ดีกว่าที่ใส่อยู่">▲</i>' : cmp < 0 ? '<i class="g-cmp down" title="แย่กว่าที่ใส่อยู่">▼</i>' : '';
-      return `<button class="g-slot rar-${d.rarity || 'none'}" data-index="${i}" title="${esc(itemTip(s.id, s.cards))}${cmp ? `\n${cmp > 0 ? '▲ ดีกว่าที่ใส่อยู่' : '▼ แย่กว่าที่ใส่อยู่'}` : ''}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
+      return `<button class="g-slot rar-${d.rarity || 'none'}" data-index="${i}" title="${esc(itemTip(s.id, s.cards, s.plus))}${cmp ? `\n${cmp > 0 ? '▲ ดีกว่าที่ใส่อยู่' : '▼ แย่กว่าที่ใส่อยู่'}` : ''}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
     this.refresh();
@@ -218,7 +221,7 @@ export class CharacterUI {
     if (this.bag.hidden) this.toggle('bag');
     const targets = this.c.cardTargets(i); this.pickCard = i;
     this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${bonusText(card.bonus)}</small></header>`
-      + (targets.length ? targets.map(t => `<button data-where="${t.worn ? 'worn' : t.index}"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
+      + (targets.length ? targets.map(t => `<button data-where="${t.worn ? 'worn' : t.index}"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id, t.worn ? this.c.refine[t.slot] : this.c.inventory[t.index]?.plus))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
         : `<p>ไม่มี${SLOT_LABELS[card.slot]}ที่มีช่องการ์ดว่าง</p>`)
       + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><button class="g-pick-cancel">ยกเลิก</button>';
     this.cardPick.hidden = false;

@@ -2,6 +2,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { applyOp, fromSave, reconcileSave, questsFor, shopOn } from '../server/progress.js';
+import { shopSpot } from '../src/data/shopSites.js';
+const by = shop => ({ map: shopSpot(shop).map, x: shopSpot(shop).x + 2, z: shopSpot(shop).z });
 import { MONSTERS } from '../src/combat/data/monsters.js';
 import { Combatants } from '../server/combatants.js';
 import { Character } from '../src/character/Character.js';
@@ -58,7 +60,7 @@ test('signed-in characters: kill rewards, MP for casts, the browser\'s sheet ign
   c.mp = c.maxMp; const before = c.mp;
   assert.equal(cs.cast(1, 'arch_volley').ok, true); assert.ok(c.mp < before, 'paid');
   c.hp = 0; cs.respawn(1); assert.equal(c.gold, 23, 'a death costs 10% of the gold');
-  assert.equal(cs.op(1, { op: 'buy', shop: 'general', id: 'potion_s' }, 'city'), true);
+  assert.equal(cs.op(1, { op: 'buy', shop: 'general', id: 'potion_s' }, by('general')), true);
   assert.equal(cs.me(1).ack, 1); assert.equal(cs.me(1).gold, 13);
   // guests are left as before
   cs.set(2, hero('warrior'), 'warrior'); assert.deepEqual(cs.reward(2, { exp: 999, gold: 9 }), {}); assert.equal(cs.me(2), null);
@@ -77,15 +79,16 @@ test('phase 4: monster swings and deaths are resolved on the server', () => {
   assert.equal(cs.swing(2, MONSTERS.boar, 1), null, 'guests resolve their own');
 });
 
-test('phase 4: buying needs that shop on your map and no fight', () => {
+test('phase 4: buying needs that shop close by and no fight', () => {
   assert.ok(shopOn('general', 'city')); assert.ok(!shopOn('general', 'paddy')); assert.ok(shopOn('village', 'paddy'));
   let t = 100; const cs = new Combatants({ now: () => t });
   cs.load(1, hero('hunter'), { account: 'a', slot: 0 });
-  assert.equal(cs.op(1, { op: 'buy', shop: 'general', id: 'potion_s' }, 'paddy'), false, 'no such shop out here');
-  assert.equal(cs.op(1, { op: 'buy', shop: 'village', id: 'potion_s' }, 'paddy'), true);
+  assert.equal(cs.op(1, { op: 'buy', shop: 'general', id: 'potion_s' }, { ...by('general'), map: 'paddy' }), false, 'no such shop out here');
+  assert.equal(cs.op(1, { op: 'buy', shop: 'general', id: 'potion_s' }, { map: 'city', x: 0, z: -90 }), false, 'in the city, but far from the shop');
+  assert.equal(cs.op(1, { op: 'buy', shop: 'village', id: 'potion_s' }, by('village')), true);
   cs.swing(1, MONSTERS.boar, 1);
-  assert.equal(cs.op(1, { op: 'buy', shop: 'village', id: 'potion_s' }, 'paddy'), false, 'in a fight');
-  t += 6; assert.equal(cs.op(1, { op: 'buy', shop: 'village', id: 'potion_s' }, 'paddy'), true);
+  assert.equal(cs.op(1, { op: 'buy', shop: 'village', id: 'potion_s' }, by('village')), false, 'in a fight');
+  t += 6; assert.equal(cs.op(1, { op: 'buy', shop: 'village', id: 'potion_s' }, by('village')), true);
 });
 
 test('phase 4: quests progress and pay out on the server', () => {

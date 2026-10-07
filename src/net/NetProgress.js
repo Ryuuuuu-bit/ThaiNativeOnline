@@ -28,12 +28,12 @@ export function attachNetProgress(net, c, quests = null) {
     };
   };
   const idAt = i => c.inventory[i]?.id;
-  // gear is named with the cards it holds (two swords with different cards are different items)
-  const held = i => (c.inventory[i]?.cards?.length ? { cards: [...c.inventory[i].cards] } : {});
+  // gear is named with the cards it holds and its plus (two swords that differ are different items)
+  const held = i => ({ ...(c.inventory[i]?.cards?.length ? { cards: [...c.inventory[i].cards] } : {}), ...(c.inventory[i]?.plus ? { plus: c.inventory[i].plus } : {}) });
   wrap('useAt', i => idAt(i) && { op: 'use', id: idAt(i), ...held(i) });
   wrap('sellAt', i => idAt(i) && { op: 'sell', id: idAt(i), ...held(i) });
   wrap('equip', i => idAt(i) && { op: 'equip', id: idAt(i), ...held(i) });
-  wrap('insertCard', (i, where) => idAt(i) && (typeof where === 'string' ? { op: 'card', id: idAt(i), worn: where } : { op: 'card', id: idAt(i), item: idAt(where), has: [...(c.inventory[where]?.cards ?? [])] }));
+  wrap('insertCard', (i, where) => idAt(i) && (typeof where === 'string' ? { op: 'card', id: idAt(i), worn: where } : { op: 'card', id: idAt(i), item: idAt(where), has: [...(c.inventory[where]?.cards ?? [])], ...(c.inventory[where]?.plus ? { plus: c.inventory[where].plus } : {}) }));
   wrap('unequip', slot => ({ op: 'unequip', slot }));
   wrap('allocate', key => ({ op: 'alloc', key }));
   const reset = c.resetStats.bind(c); c.resetStats = () => { reset(); op({ op: 'reset' }); };
@@ -46,10 +46,19 @@ export function attachNetProgress(net, c, quests = null) {
   c.stripCards = i => {
     if (!on || !net.online) return strip(i);
     const s = c.inventory[i]; if (!s?.cards?.length) return strip(i);
-    op({ op: 'strip', id: s.id, cards: [...s.cards] });
+    op({ op: 'strip', id: s.id, ...held(i) });
     return { ok: true, pending: true };
   };
   net.on('stripped', m => c.emit('stripped', m));
+  // ตีบวก is a dice roll too
+  const refine = c.refineGear.bind(c);
+  c.refineGear = where => {
+    if (!on || !net.online) return refine(where);
+    if (typeof where === 'string') { if (!c.equipment[where]) return refine(where); op({ op: 'refine', worn: where }); }
+    else { const s = c.inventory[where]; if (!s) return refine(where); op({ op: 'refine', id: s.id, ...held(where) }); }
+    return { ok: true, pending: true };
+  };
+  net.on('refined', m => c.emit('refined', m));
   c.on('sorted', () => op({ op: 'sort' }));
   if (quests) {
     const accept = quests.accept.bind(quests), complete = quests.complete.bind(quests), talk = quests.onTalk.bind(quests);
@@ -60,8 +69,8 @@ export function attachNetProgress(net, c, quests = null) {
   }
 
   const adopt = s => {
-    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards, evo = c.evo } = s;
-    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
+    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards, evo = c.evo, refine: plus = c.refine } = s;
+    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, refine: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, 0])), ...plus }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
     c.emit('skills');
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);
     c.emit('inventory'); c.emit('change'); c.save?.();

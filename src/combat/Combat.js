@@ -170,7 +170,7 @@ export class Combat extends Emitter {
     if (skill.projectile) {
       const delay = dist(p, target) / PROJECTILE_SPEED;
       this.projectiles.push({ target, skill, delay });
-      this.emit('projectile', { from: { x: p.x, z: p.z }, target, color: skill.projectile, duration: delay });
+      this.emit('projectile', { from: { x: p.x, z: p.z }, target, color: skill.projectile, duration: delay, look: skill.look });
     } else this.hitMonster(target, skill);
   }
 

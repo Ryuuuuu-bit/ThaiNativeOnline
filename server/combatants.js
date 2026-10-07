@@ -41,10 +41,11 @@ import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
 import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from '../src/training/kitCombat.js';
-import { fromSave, applyOp, questsFor, shopOn } from './progress.js';
+import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
 import { MONSTER_ACCURACY } from '../src/character/data/progression.js';
 import { afterHit, shielded, SHIELD } from '../src/combat/monsterHit.js';
-import { STRIP, sameCards } from '../src/character/data/cards.js';
+import { STRIP } from '../src/character/data/cards.js';
+import { REFINE_SHOP, sameGear } from '../src/character/data/refine.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
@@ -79,7 +80,8 @@ export function sane(data, cls) {
   // cards in the worn gear: only real ones of the item's kind, no more than its slots (Character checks)
   const cards = data.cards && typeof data.cards === 'object' ? data.cards : undefined;
   const evo = data.evo && typeof data.evo === 'object' ? data.evo : undefined;   // paths: Character checks
-  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills, cards, evo }); } catch { return null; }
+  const refine = data.refine && typeof data.refine === 'object' ? data.refine : undefined;   // pluses: Character checks
+  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills, cards, evo, refine }); } catch { return null; }
 }
 
 export class Combatants {
@@ -107,19 +109,30 @@ export class Combatants {
   entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
   casting(id, skillId) { const s = this.list.get(id); if (s && typeof skillId === 'string') s.casting.set(skillId, this.now()); }
   // ---- signed-in characters ------------------------------------------------------------------
-  op(id, msg, map = null) {
+  // `at`: where the player is ({ map, x, z }, server/presence.js)
+  op(id, msg, at = {}) {
     const s = this.list.get(id); if (!s?.persist) return false;
     s.ack++;
-    // buying: only where such a shop stands, and not in the middle of a fight
-    if (msg.op === 'buy' && (!shopOn(msg.shop, map) || this.now() - s.fightAt < RULES.combatTimeout)) return false;
-    // taking cards out: at หมออาคม's, out of a fight; the server rolls the outcome (sent back as `stripped`)
+    // shops: next to an NPC of that shop (src/data/shopSites.js), and not in the middle of a fight
+    const atShop = shop => nearShop(shop, at.map, at.x, at.z) && this.now() - s.fightAt >= RULES.combatTimeout;
+    if (msg.op === 'buy' && !atShop(msg.shop)) return false;
+    // taking cards out: at หมออาคม's; the server rolls the outcome (sent back as `stripped`)
     if (msg.op === 'strip') {
       s.stripped = { ok: false, why: 'no_shop' };
-      if (!shopOn(STRIP.shop, map) || this.now() - s.fightAt < RULES.combatTimeout) return false;
-      const i = s.c.inventory.findIndex(x => x?.id === msg.id && sameCards(x.cards, msg.cards));
+      if (!atShop(STRIP.shop)) return false;
+      const i = s.c.inventory.findIndex(x => x?.id === msg.id && sameGear(x, msg.cards, msg.plus));
       s.stripped = i >= 0 ? s.c.stripCards(i, this.r) : { ok: false, why: 'no_cards' };
       if (s.stripped.ok) s.dirty = true;
       return s.stripped.ok;
+    }
+    // ตีบวก: at หมื่นเพชรศาสตรา's; worn {worn: slot} or bag gear {id, cards, plus}; rolled here (sent back as `refined`)
+    if (msg.op === 'refine') {
+      s.refined = { ok: false, why: 'no_shop' };
+      if (!atShop(REFINE_SHOP)) return false;
+      const where = typeof msg.worn === 'string' ? msg.worn : s.c.inventory.findIndex(x => x?.id === msg.id && sameGear(x, msg.cards, msg.plus));
+      s.refined = where === -1 ? { ok: false, why: 'no_item' } : s.c.refineGear(where, this.r);
+      if (s.refined.ok) s.dirty = true;
+      return s.refined.ok;
     }
     const ok = applyOp(s.c, msg, s.quests);
     if (ok) s.dirty = true;

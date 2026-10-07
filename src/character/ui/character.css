@@ -38,8 +38,9 @@
 .g-equip span{font-size:20px}.g-equip small{font-size:8px;color:#cfc8ac;text-align:center}
 .g-stats-head{display:flex;justify-content:space-between;font-size:10px;color:#cfc8ac;border-bottom:1px solid #f0e3b31a;padding-bottom:5px;margin-bottom:6px}
 .g-has-points{color:#f2cf75}
-.g-stat{display:grid;grid-template-columns:1fr 40px 26px;align-items:center;font-size:12px;padding:3px 0}
+.g-stat{display:grid;grid-template-columns:1fr 64px 26px;align-items:center;font-size:12px;padding:3px 0}
 .g-stat b{text-align:right;font-weight:500;padding-right:8px}
+.g-stat b .g-bonus{font-style:normal;font-size:11px;color:#8fd8a0;margin-left:3px}
 .g-stat button,.g-reset{border:1px solid #cdb37a66;background:#2b4034;border-radius:3px;height:22px}
 .g-stat button:disabled,.g-reset:disabled{opacity:.3;cursor:default}
 .g-derived{display:grid;grid-template-columns:1fr auto 1fr auto;gap:5px 10px;font-size:10px;color:#b9c2ab;margin:12px 0;padding-top:10px;border-top:1px solid #f0e3b31a}
@@ -217,6 +218,7 @@ body:has(.g-skills:not([hidden])) .training-panel{display:none}
 
 /* card slots (RO style, src/character/data/cards.js): worn gear's slots, bag pips, the picker */
 .g-slot .g-pips{position:absolute;left:2px;bottom:1px;font-style:normal;font-size:7px;letter-spacing:-1px;color:#c79af0;text-shadow:0 0 3px #000}
+.g-slot .g-plus{position:absolute;right:3px;top:1px;z-index:1;font-style:normal;font-size:9px;font-weight:700;color:#ffd36b;text-shadow:0 0 3px #000,0 0 2px #000}
 .g-card-pick{position:absolute;inset:auto 10px 10px 10px;z-index:3;background:#16261fee;border:1px solid #c79af088;border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:4px;max-height:70%;overflow:auto}
 .g-card-pick header{font-size:12px;color:#eadcff;display:flex;flex-direction:column}.g-card-pick header small{font-size:9px;color:#c9b8e8}
 .g-card-pick button[data-where]{display:flex;align-items:center;gap:8px;background:#ffffff0d;border:1px solid #d3c48726;border-radius:3px;padding:4px 8px;font-size:11px;text-align:left;position:relative}

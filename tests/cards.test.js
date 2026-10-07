@@ -165,7 +165,9 @@ test('หมออาคม takes the cards out, RO style: a price, and a chance
   const cs = new Combatants({ now: () => 100, random: () => .1 });
   cs.load(1, { ...setup().c.toJSON(), jobLevel: 50 }, { account: 'a', slot: 0 });
   const msg = { op: 'strip', id: 'iron_dap', cards: ['card_boar', 'card_headless'] };
-  assert.equal(cs.op(1, msg, 'paddy'), false); assert.equal(cs.get(1).stripped.why, 'no_shop');
-  assert.equal(cs.op(1, msg, 'city'), true); assert.equal(cs.get(1).stripped.outcome, 'ok');
+  const { shopSpot } = await import('../src/data/shopSites.js'), occult = shopSpot('occult');
+  assert.equal(cs.op(1, msg, { map: 'paddy', x: occult.x, z: occult.z }), false); assert.equal(cs.get(1).stripped.why, 'no_shop');
+  assert.equal(cs.op(1, msg, { map: 'city', x: occult.x + 30, z: occult.z }), false, 'too far from the shop');
+  assert.equal(cs.op(1, msg, { map: 'city', x: occult.x + 3, z: occult.z }), true); assert.equal(cs.get(1).stripped.outcome, 'ok');
   assert.equal(cs.get(1).c.count('card_boar'), 1);
 });

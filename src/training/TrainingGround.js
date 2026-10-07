@@ -161,7 +161,7 @@ export class TrainingGround {
     // the same events a swing at a monster sends: the clip, facing, the slash / the projectile
     this.combat?.emit('cast', { skillId: id, skill, target, from });
     const flight = skill.projectile ? d / RULES.projectileSpeed : .18;
-    if (skill.projectile) this.combat?.emit('projectile', { from, target, color: skill.projectile, duration: flight });
+    if (skill.projectile) this.combat?.emit('projectile', { from, target, color: skill.projectile, duration: flight, look: skill.look });
     const r = rollDamage({ patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit ? 1 : c.critChance, critDmg: c.critDamage }, this.target, skill.scale === 'int' ? 'magic' : 'physical', skill.power);
     this.fx.after(flight, () => {
       if (!e.dummy.alive) return;

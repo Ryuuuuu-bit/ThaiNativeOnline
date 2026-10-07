@@ -226,6 +226,36 @@ const BUILDERS = {
   monkey, spirit, bird, snake, crab, orb,
 };
 
+// Shots (CombatView.projectile). An arrow points along +z, so lookAt aims it down its flight.
+function arrowMesh() {
+  const g = new THREE.Group();
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.018, .018, .78, 5), new THREE.MeshBasicMaterial({ color: '#8a6a42' }));
+  shaft.rotation.x = Math.PI / 2; g.add(shaft);
+  const head = new THREE.Mesh(new THREE.ConeGeometry(.045, .14, 5), new THREE.MeshBasicMaterial({ color: '#c8ccd4' }));
+  head.rotation.x = Math.PI / 2; head.position.z = .44; g.add(head);
+  for (const r of [0, Math.PI / 2]) {
+    const vane = new THREE.Mesh(new THREE.PlaneGeometry(.1, .16), new THREE.MeshBasicMaterial({ color: '#e8e0c8', side: THREE.DoubleSide }));
+    vane.rotation.set(0, Math.PI / 2, r); vane.position.z = -.32; g.add(vane);
+  }
+  return g;
+}
+function dartMesh(color) {
+  const g = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.02, .02, .3, 5), new THREE.MeshBasicMaterial({ color: '#6a8a3a' }));
+  body.rotation.x = Math.PI / 2; g.add(body);
+  const tip = new THREE.Mesh(new THREE.ConeGeometry(.04, .1, 5), new THREE.MeshBasicMaterial({ color }));
+  tip.rotation.x = Math.PI / 2; tip.position.z = .2; g.add(tip);
+  const leaf = new THREE.Mesh(new THREE.PlaneGeometry(.12, .1), new THREE.MeshBasicMaterial({ color: '#9cd060', side: THREE.DoubleSide }));
+  leaf.rotation.y = Math.PI / 2; leaf.position.z = -.15; g.add(leaf);
+  g.add(glowSprite(color, .35));
+  return g;
+}
+function orbMesh(color) {
+  const mesh = new THREE.Mesh(new THREE.SphereGeometry(.12, 8, 6), new THREE.MeshBasicMaterial({ color }));
+  mesh.add(glowSprite(color, 1.1));
+  return mesh;
+}
+
 export class CombatView {
   constructor(scene, combat, groundHeight) {
     this.scene = scene; this.combat = combat; this.groundHeight = groundHeight;
@@ -242,8 +272,12 @@ export class CombatView {
     combat.on('despawn', monster => { const v = this.views.get(monster.id); if (v) v.dying = 1; });
     combat.on('projectile', e => this.projectile(e));
     combat.on('aoe', e => this.ring(e.x, e.z, e.radius, e.skillId === 'whirl' ? '#f1d18a' : '#ff8a4a'));
+    // melee blows look like the class's weapon: a fist's impact, a blade's arc, a knife's thrust
     combat.on('cast', ({ skill, from, target }) => {
-      if (!skill.projectile && (skill.kind === 'damage' || skill.kind === 'debuff') && target) this.slash(from, target, skill.fx || '#fff3c4');
+      if (skill.projectile || !(skill.kind === 'damage' || skill.kind === 'debuff') || !target) return;
+      if (skill.look === 'punch') this.punch(from, target, skill.fx || '#ffd2a0');
+      else if (skill.look === 'thrust') this.thrust(from, target, skill.fx || '#e0e0f0');
+      else this.slash(from, target, skill.fx || '#fff3c4');
     });
     combat.on('pet-command', ({ target }) => this.ring(target.x, target.z, 1.2, '#f2c26b'));
     if (combat.pet) {
@@ -274,15 +308,45 @@ export class CombatView {
   get pickables() { return [...this.views.values()].filter(v => v.monster.alive).map(v => v.group); }
   monsterById(id) { return this.views.get(id)?.monster; }
 
-  projectile({ from, target, color, duration }) {
-    const mesh = new THREE.Mesh(new THREE.SphereGeometry(.12, 8, 6), new THREE.MeshBasicMaterial({ color }));
-    mesh.add(glowSprite(color, 1.1));
+  // A shot in flight. look: 'arrow' (a real arrow, no glow: the hunter's bow), 'dart' (a small
+  // herbal dart with a faint green trail), anything else a glowing orb (spells, spirits).
+  projectile({ from, target, color, duration, look }) {
+    const mesh = look === 'arrow' ? arrowMesh() : look === 'dart' ? dartMesh(color) : orbMesh(color);
     this.root.add(mesh);
-    const y0 = this.groundHeight(from.x, from.z) + 1.1;
-    this.effects.push({ mesh, t: 0, duration: Math.max(.05, duration), update: (e, k) => {
+    const y0 = this.groundHeight(from.x, from.z) + 1.1, lift = look === 'arrow' ? .25 : look === 'dart' ? .35 : .6;
+    const at = k => {
       const tx = target.x, tz = target.z, ty = this.groundHeight(tx, tz) + .8;
-      mesh.position.set(from.x + (tx - from.x) * k, y0 + (ty - y0) * k + Math.sin(k * Math.PI) * .6, from.z + (tz - from.z) * k);
+      return new THREE.Vector3(from.x + (tx - from.x) * k, y0 + (ty - y0) * k + Math.sin(k * Math.PI) * lift, from.z + (tz - from.z) * k);
+    };
+    this.effects.push({ mesh, t: 0, duration: Math.max(.05, duration), update: (e, k) => {
+      mesh.position.copy(at(k));
+      if (look === 'arrow' || look === 'dart') mesh.lookAt(k < .95 ? at(k + .05) : mesh.position.clone().add(at(1).sub(at(.95))));
     } });
+  }
+
+  // a fist's blow: a short burst of rays and a ring where it lands
+  punch(from, target, color) {
+    const a = Math.atan2(target.x - from.x, target.z - from.z), d = Math.min(1.2, Math.hypot(target.x - from.x, target.z - from.z) * .7);
+    const x = from.x + Math.sin(a) * d, z = from.z + Math.cos(a) * d, y = this.groundHeight(from.x, from.z) + 1.05;
+    const g = new THREE.Group(); g.position.set(x, y, z);
+    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false });
+    for (let i = 0; i < 6; i++) {
+      const ray = new THREE.Mesh(new THREE.BoxGeometry(.06, .06, .42), mat);
+      const r = i / 6 * Math.PI * 2; ray.position.set(Math.cos(r) * .22, Math.sin(r) * .22, 0); ray.lookAt(Math.cos(r), Math.sin(r), 0); g.add(ray);
+    }
+    const ring = new THREE.Mesh(new THREE.RingGeometry(.12, .17, 20), new THREE.MeshBasicMaterial({ color, transparent: true, side: THREE.DoubleSide, depthWrite: false }));
+    g.add(ring); g.add(glowSprite(color, .7)); g.rotation.y = a; this.root.add(g);
+    this.effects.push({ mesh: g, t: 0, duration: .2, update: (e, k) => { g.scale.setScalar(.6 + k * 1.1); g.traverse(o => { if (o.material) { o.material.transparent = true; o.material.opacity = 1 - k; } }); } });
+  }
+
+  // a knife's thrust: a thin streak straight at the target
+  thrust(from, target, color) {
+    const a = Math.atan2(target.x - from.x, target.z - from.z);
+    const mesh = new THREE.Mesh(new THREE.ConeGeometry(.05, 1.1, 5), new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false }));
+    mesh.rotation.set(Math.PI / 2, 0, 0); const g = new THREE.Group(); g.add(mesh); g.rotation.y = a;
+    const y = this.groundHeight(from.x, from.z) + 1;
+    this.root.add(g);
+    this.effects.push({ mesh: g, t: 0, duration: .16, update: (e, k) => { const d = .4 + k * .7; g.position.set(from.x + Math.sin(a) * d, y, from.z + Math.cos(a) * d); mesh.material.opacity = 1 - k * k; } });
   }
 
   ring(x, z, radius, color) {

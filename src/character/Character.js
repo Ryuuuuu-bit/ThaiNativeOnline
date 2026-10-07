@@ -5,6 +5,7 @@ import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
 import { KIT_SKILL_IDS } from './data/kits.js';
 import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
+import { refinable, refineBonus, refineCost, plusOf } from './data/refine.js';
 import { EVOLUTIONS, EVO_LEVEL, EVO_SWITCH_GOLD, evoId } from '../rules/data/evolutions.js';
 // Skill timing from gear and DEX: cooldown cut (DEX + `cdr`, ≤ CDR_MAX) and cast speed
 // (DEX + `cast`, ≤ CAST_MAX); `mpCost` makes skills dearer (src/character/data/items.js).
@@ -21,7 +22,7 @@ const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -41,12 +42,25 @@ export class Character extends Emitter {
     for (const [id, pick] of Object.entries(evo ?? {})) if (EVOLUTIONS[id]?.[pick] && ids.includes(id)) this.evo[id] = pick;
     this.alloc = { ...emptyAlloc(), ...alloc };
     // gear in the bag may carry cards (src/character/data/cards.js): only real ones, no more than its slots
-    this.inventory = inventory ? inventory.map(s => { if (!s) return null; const { cards: held, ...rest } = s; const ok = socketCards(s.id, held, ITEMS); return ok.length ? { ...rest, cards: ok } : { ...rest }; }) : Array(INVENTORY_SIZE).fill(null);
+    // and a plus from ตีบวก (src/character/data/refine.js): only on gear that takes one
+    this.inventory = inventory ? inventory.map(s => {
+      if (!s) return null;
+      const { cards: held, plus, ...rest } = s, ok = socketCards(s.id, held, ITEMS), p = refinable(ITEMS[s.id]) ? plusOf(plus) : 0;
+      return { ...rest, ...(ok.length ? { cards: ok } : {}), ...(p ? { plus: p } : {}) };
+    }) : Array(INVENTORY_SIZE).fill(null);
     this.equipment = Object.fromEntries(EQUIP_SLOTS.map(s => [s, null]));
     for (const s of EQUIP_SLOTS) { const id = equipment?.[s]; if (id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slotKind(s)) this.equipment[s] = id; }
     // the cards in the worn gear, per slot (they belong to that item and leave with it)
     this.cards = Object.fromEntries(EQUIP_SLOTS.map(s => [s, []]));
     for (const slot of Object.keys(this.cards)) if (this.equipment[slot]) this.cards[slot] = socketCards(this.equipment[slot], cards?.[slot], ITEMS);
+    // the plus of the worn gear, per slot
+    this.refine = Object.fromEntries(EQUIP_SLOTS.map(s => [s, this.equipment[s] && refinable(ITEMS[this.equipment[s]]) ? plusOf(refine?.[s]) : 0]));
+    // a two-handed weapon leaves the off hand empty: an older save's shield goes back to the bag
+    if (this.twoHanded && this.equipment.offhand) {
+      const free = this.inventory.indexOf(null);
+      if (free >= 0) this.inventory[free] = this.wornItem('offhand');
+      this.equipment.offhand = null; this.cards.offhand = []; this.refine.offhand = 0;
+    }
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
     this.hp = Math.min(hp ?? this.maxHp, this.maxHp); this.mp = Math.min(mp ?? this.maxMp, this.maxMp);   // saves from older stat formulas may exceed the cap
@@ -67,6 +81,7 @@ export class Character extends Emitter {
     for (const [slot, id] of Object.entries(this.equipment)) {
       if (!id) continue;
       total += ITEMS[id].bonus?.[key] || 0;
+      if (this.refine?.[slot]) total += refineBonus(ITEMS[id], this.refine[slot])?.[key] || 0;
       for (const card of this.cards?.[slot] ?? []) total += ITEMS[card].bonus?.[key] || 0;
     }
     return total;
@@ -78,6 +93,13 @@ export class Character extends Emitter {
   // Base stat: class base + growth per level (rounded down) + allocated points + gear.
   stat(key) { return Math.floor((this.cls.base[key] || 0) + (this.cls.growth[key] || 0) * (this.level - 1)) + (this.alloc[key] || 0) + this.equipBonus(key); }
   get stats() { return Object.fromEntries(STATS.map(k => [k, this.stat(k)])); }
+  // Shown RO style (CharacterUI): the base, 1 + the points put in, and the bonus on top of it —
+  // the class and its growth per level (like RO's job bonus) and the gear.
+  baseStat(key) { return 1 + (this.alloc[key] || 0); }
+  statParts(key) {
+    const cls = Math.floor((this.cls.base[key] || 0) + (this.cls.growth[key] || 0) * (this.level - 1)) - 1, gear = this.equipBonus(key);
+    return { base: this.baseStat(key), cls, gear, bonus: cls + gear };
+  }
 
   // Derived stats from the rules (src/rules/stats.js computeDerived), before buffs:
   // { maxHp, maxMp, patk, matk, accuracy, critRate, critDmg, def, eva, aspd, castRed }
@@ -298,15 +320,32 @@ export class Character extends Emitter {
     }
     return false;
   }
+  // a weapon held in both hands (items.js twoHand): no shield or off-hand knife with it
+  get twoHanded() { return !!ITEMS[this.equipment.weapon]?.twoHand; }
+  // the worn item of a slot as a bag item (its cards and plus go with it)
+  wornItem(slot) {
+    const id = this.equipment[slot]; if (!id) return null;
+    return { id, qty: 1, ...(this.cards[slot]?.length ? { cards: [...this.cards[slot]] } : {}), ...(this.refine?.[slot] ? { plus: this.refine[slot] } : {}) };
+  }
   equip(index) {
     const slot = this.inventory[index]; if (!slot) return false;
     const def = ITEMS[slot.id]; if (def.type !== 'equip') return false;
+    // the off hand is not free while a two-handed weapon is held
+    if (def.slot === 'offhand' && this.twoHanded) { this.emit('two-hand', 'offhand'); return false; }
+    // a two-handed weapon sends the off-hand item to the bag (it needs a free bag slot)
+    const dropOff = def.slot === 'weapon' && def.twoHand && this.equipment.offhand;
+    if (dropOff && !this.inventory.some((s, i) => !s && i !== index) && this.equipment.weapon) { this.emit('inventory-full', this.equipment.offhand); return false; }
     const ratio = this.hp / this.maxHp;
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
-    const previous = this.equipment[to], prevCards = this.cards[to];
-    this.equipment[to] = slot.id; this.cards[to] = [...(slot.cards ?? [])];
-    this.inventory[index] = previous ? { id: previous, qty: 1, ...(prevCards.length ? { cards: prevCards } : {}) } : null;
+    const previous = this.wornItem(to);
+    this.equipment[to] = slot.id; this.cards[to] = [...(slot.cards ?? [])]; this.refine[to] = slot.plus ?? 0;
+    this.inventory[index] = previous;
+    if (dropOff) {
+      const free = this.inventory.indexOf(null);
+      this.inventory[free] = this.wornItem('offhand'); this.equipment.offhand = null; this.cards.offhand = []; this.refine.offhand = 0;
+      this.emit('two-hand', 'weapon');
+    }
     this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.min(this.mp, this.maxMp);
     this.emit('inventory'); this.emit('change');
     return true;
@@ -315,8 +354,7 @@ export class Character extends Emitter {
     const id = this.equipment[slotName]; if (!id) return false;
     const free = this.inventory.indexOf(null);
     if (free < 0) { this.emit('inventory-full', id); return false; }
-    const held = this.cards[slotName];
-    this.inventory[free] = { id, qty: 1, ...(held.length ? { cards: [...held] } : {}) }; this.equipment[slotName] = null; this.cards[slotName] = [];
+    this.inventory[free] = this.wornItem(slotName); this.equipment[slotName] = null; this.cards[slotName] = []; this.refine[slotName] = 0;
     this.hp = Math.min(this.hp, this.maxHp); this.emit('inventory'); this.emit('change');
     return true;
   }
@@ -369,6 +407,39 @@ export class Character extends Emitter {
     this.emit('inventory'); this.emit('change'); this.emit('stripped', res);
     return res;
   }
+  // ---- ตีบวก (src/character/data/refine.js) at หมื่นเพชรศาสตรา's ----
+  // Gear that can go one step higher: worn ({ worn: true, slot }) and in the bag ({ index }).
+  refineTargets() {
+    const out = [];
+    for (const s of EQUIP_SLOTS) { const id = this.equipment[s]; if (id && refineCost(ITEMS[id], this.refine[s])) out.push({ worn: true, slot: s, id, plus: this.refine[s], cards: this.cards[s] }); }
+    this.inventory.forEach((s, i) => { if (s && refineCost(ITEMS[s.id], s.plus ?? 0)) out.push({ index: i, id: s.id, plus: s.plus ?? 0, cards: s.cards ?? [] }); });
+    return out;
+  }
+  // One try at the next plus of a worn slot ('weapon', …) or a bag index. Up to +REFINE_SAFE it
+  // always works; past that it may fail, and a failed try breaks the item with its cards.
+  // → { ok, outcome: 'up' | 'broke', item, to, cards } | { ok: false, why }
+  refineGear(where, roll = Math.random) {
+    const worn = typeof where === 'string', s = worn ? null : this.inventory[where];
+    const id = worn ? this.equipment[where] : s?.id, plus = worn ? this.refine[where] ?? 0 : s?.plus ?? 0;
+    const fail = why => { const r = { ok: false, why }; this.emit('refined', r); return r; };
+    if (!id || (worn && !EQUIP_SLOTS.includes(where))) return fail('no_item');
+    const cost = refineCost(ITEMS[id], plus);
+    if (!cost) return fail(refinable(ITEMS[id]) ? 'max' : 'not_refinable');
+    if (this.gold < cost.gold) return fail('gold');
+    const ore = this.inventory.findIndex(x => x?.id === cost.ore); if (ore < 0) return fail('ore');
+    this.gold -= cost.gold; this.removeAt(ore, 1);
+    const ratio = this.hp / this.maxHp, cards = worn ? [...this.cards[where]] : [...(s.cards ?? [])];
+    const up = !cost.risky || roll() < cost.rate;
+    if (worn) {
+      if (up) this.refine[where] = cost.to;
+      else { this.equipment[where] = null; this.cards[where] = []; this.refine[where] = 0; }
+    } else if (up) s.plus = cost.to;
+    else this.inventory[where] = null;
+    this.hp = Math.max(1, Math.min(this.maxHp, Math.round(this.maxHp * ratio))); this.mp = Math.min(this.mp, this.maxMp);
+    const res = { ok: true, outcome: up ? 'up' : 'broke', item: id, to: cost.to, cards: up ? [] : cards };
+    this.emit('inventory'); this.emit('change'); this.emit('refined', res);
+    return res;
+  }
   sellAt(index) {
     const slot = this.inventory[index]; if (!slot) return 0;
     const value = Math.max(1, Math.floor(ITEMS[slot.id].price / 2));
@@ -379,7 +450,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

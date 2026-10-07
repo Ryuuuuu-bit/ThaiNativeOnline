@@ -6,7 +6,8 @@
 export const SHOPS = {
   // ลุงดำ's forge: blades, the bow and leather armour; cloth, staves and wands stay at the stalls, with the herbalist and occultist.
   blacksmith: { title: 'โรงตีเหล็กลุงดำ', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'krabi', 'bamboo_bow', 'hide_armor', 'hide_boots'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'โล่หนังควาย'] },
-  enhance: { title: 'โรงหลอมศาสตรา', purpose: 'upgrade', services: ['ตีบวกอุปกรณ์', 'หลอมขัดเกลา (Refine)', 'อัปเกรดด้วยวัตถุดิบพิเศษ'], preview: ['แร่ศักดิ์สิทธิ์', 'ทองคำเปลว', 'น้ำมนต์หลอม'] },
+  // หมื่นเพชรศาสตรา refines gear (ตีบวก, src/character/data/refine.js) and sells the ores for it.
+  enhance: { title: 'โรงหลอมศาสตรา', purpose: 'upgrade', stock: ['sacred_ore', 'gold_leaf'], services: ['ตีบวกอุปกรณ์', 'หลอมขัดเกลา (Refine)', 'อัปเกรดด้วยวัตถุดิบพิเศษ'], preview: ['แร่ศักดิ์สิทธิ์', 'ทองคำเปลว', 'น้ำมนต์หลอม'] },
   general: { title: 'ร้านของชำ', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether'], services: ['ซื้อ-ขายของทั่วไป'], preview: ['ยาสามัญ', 'ข้าวห่อใบตอง', 'คบไฟ', 'เชือก', 'เครื่องมือพื้นฐาน'] },
   // Last stop before the warp at the North Gate: potions and honey, buys loot back from returning hunters.
   supplies: { title: 'ร้านเสบียงหน้าประตูเหนือ', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether'], services: ['ยาและน้ำผึ้งก่อนออกล่า', 'รับซื้อของป่า'], preview: ['ข้าวห่อใบตอง', 'คบไฟ', 'เชือก'] },

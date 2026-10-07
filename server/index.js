@@ -29,7 +29,9 @@
 //   server → client  chans {map, ch, list: [{ch, n, cap, closing}]} · chno {why} · chwarn {ch, secs} · chmove {ch, why}
 // Cards (src/character/data/cards.js): a card in a kill's drops is announced to everyone:
 //   server → client  cardnews {name, card, monster}
-//   client → server  op {op: 'strip', id, cards} (หมออาคม takes the cards out; rolled here) → stripped {ok, outcome, cards} + sync
+//   client → server  op {op: 'strip', id, cards, plus} (หมออาคม takes the cards out; rolled here) → stripped {ok, outcome, cards} + sync
+//   client → server  op {op: 'refine', worn: slot | id, cards, plus} (ตีบวก, src/character/data/refine.js; rolled here) → refined {ok, outcome, item, to, cards} + sync
+//   Buying, strip and refine need the player by an NPC of that shop (src/data/shopSites.js).
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -190,9 +192,10 @@ wss.on('connection', ws => {
       }
       case 'op': {
         const p = presence.players.get(ws); if (!p || !combatants.get(p.id)?.persist) return;
-        const ok = combatants.op(p.id, m, p.map);
-        // taking cards out is rolled here: the result, then the character as it is now
+        const ok = combatants.op(p.id, m, { map: p.map, x: p.x, z: p.z });
+        // taking cards out and ตีบวก are rolled here: the result, then the character as it is now
         if (m.op === 'strip') { send(ws, { t: 'stripped', ...combatants.get(p.id).stripped }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
+        else if (m.op === 'refine') { send(ws, { t: 'refined', ...combatants.get(p.id).refined }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
         else if (!ok) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
         break;
       }

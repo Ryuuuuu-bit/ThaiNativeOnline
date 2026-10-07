@@ -123,7 +123,20 @@ def chalawan_fang(d):  # a great crocodile fang on a cord
     d.polygon([(10, 8), (14, 8), (12, 21)], fill=c('#efe6cc')); d.line([(12, 9), (12, 19)], fill=c('#c9bc98'))
 
 
+def sacred_ore(d):  # a glowing blue-white ore lump
+    d.polygon([(5, 15), (8, 8), (14, 5), (19, 9), (19, 16), (13, 20), (7, 19)], fill=c('#4a4e5e'))
+    for x, y in [(10, 10), (14, 9), (12, 14), (16, 14)]: d.polygon([(x, y - 2), (x + 2, y), (x, y + 2), (x - 2, y)], fill=c('#9fd8ff'))
+    d.point((14, 9), fill=c('#ffffff')); d.point((12, 14), fill=c('#ffffff'))
+
+
+def gold_leaf(d):  # a stack of thin gold leaves
+    for i, y in enumerate([16, 12, 8]):
+        d.polygon([(5 + i, y), (17 + i, y - 2), (19 + i, y + 2), (7 + i, y + 4)], fill=c(['#b8862a', '#d6a64a', '#f0cf6a'][i]))
+    d.line([(9, 9), (16, 8)], fill=c('#fff2b0'))
+
+
 ICONS = {
+    'sacred_ore': sacred_ore, 'gold_leaf': gold_leaf,
     'croc_scale': croc_scale, 'kris': kris, 'mangrove_staff': mangrove_staff, 'horn_bow': horn_bow,
     'croc_armor': croc_armor, 'croc_boots': shoe(c('#3e5232'), c('#22301c'), c('#7a9a5a')), 'chalawan_fang': chalawan_fang,
     'bia_kae': bia_kae, 'pha_yant': pha_yant, 'prakam': prakam,
