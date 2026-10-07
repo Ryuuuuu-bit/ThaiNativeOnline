@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="th"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thai Native — Monster Review</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#182b29;color:#f8ebcb;font:16px system-ui}canvas{display:block;width:100vw;height:100vh}
+  header{position:absolute;top:30px;left:36px;pointer-events:none}small{color:#b9ccb7;letter-spacing:3px}h1{font-size:32px;margin:8px 0}header p{color:#b9ccb7;margin:0}
+  nav{position:absolute;bottom:30px;left:0;right:0;display:flex;gap:12px;justify-content:center}button{border:1px solid #a3b69b;background:#233f36;color:#f8ebcb;padding:12px 24px;border-radius:8px;font:inherit;cursor:pointer}button.active{background:#c6a963;color:#182b29}
+  .labels{position:absolute;bottom:145px;display:flex;width:100%;justify-content:space-around;text-align:center;pointer-events:none}.labels strong{font-size:23px;display:block}.labels span{font-size:13px;color:#b9ccb7}
+</style>
+<header><small>THAI NATIVE ONLINE · CREATURES</small><h1>สัตว์ป่าและวิญญาณไทย</h1><p>โมเดลต้นแบบจาก Blender · มุมกล้อง 2.5D</p></header>
+<div class="labels"><div><strong>หมูป่า</strong><span>ทุ่งนา · Lv.1</span></div><div><strong>ผีพราย</strong><span>ป่าลึก · Lv.4</span></div><div><strong>กระสือ</strong><span>วัดร้าง · Elite Lv.7</span></div></div>
+<nav><button data-move="idle" class="active">ยืน / ลอยตัว</button><button data-move="walk">เคลื่อนที่</button><button data-move="attack">โจมตี</button></nav>
+<script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import {makeMonsterModel} from '/src/combat/MonsterModels.js';
+const scene=new THREE.Scene();scene.background=new THREE.Color('#263d36');scene.fog=new THREE.Fog('#263d36',18,40);
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;document.body.append(renderer.domElement);
+const camera=new THREE.OrthographicCamera(-6,6,3.6,-3.6,.1,60);camera.position.set(2,7,11);camera.lookAt(0,.55,0);
+scene.add(new THREE.HemisphereLight('#e8efdf','#4d6550',2));const sun=new THREE.DirectionalLight('#fff1d1',3);sun.position.set(-3,8,4);sun.castShadow=true;sun.shadow.bias=-.0003;sun.shadow.normalBias=.035;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-8;sun.shadow.camera.right=8;sun.shadow.camera.top=8;sun.shadow.camera.bottom=-8;scene.add(sun);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:'#536b45',roughness:1}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+const models=['boar','pray','krasue'].map((type,i)=>{const g=makeMonsterModel(type,new THREE.Group(),i+1);g.position.x=(i-1)*3.7;g.rotation.y=.45;scene.add(g);return g;});
+let mode='idle',start=performance.now(),attackStart=-10;
+document.querySelectorAll('button').forEach(b=>b.onclick=()=>{mode=b.dataset.move;attackStart=(performance.now()-start)/1000;document.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));});
+function resize(){renderer.setSize(innerWidth,innerHeight);const aspect=innerWidth/innerHeight;camera.left=-3.6*aspect;camera.right=3.6*aspect;camera.updateProjectionMatrix();}resize();addEventListener('resize',resize);
+await Promise.all(models.map(g=>g.userData.ready));window.reviewReady=models.every(g=>g.userData.modelLoaded);
+function frame(){const t=(performance.now()-start)/1000;models.forEach(g=>g.userData.animate(t,mode==='walk',mode==='attack'&&((t-attackStart)%1.4)<.25));renderer.render(scene,camera);requestAnimationFrame(frame);}frame();
+</script></html>

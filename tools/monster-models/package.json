@@ -1,0 +1,10 @@
+{
+  "name": "thai-native-monster-tools",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@gltf-transform/core": "4.5.1",
+    "@gltf-transform/functions": "4.5.1",
+    "three": "0.186.1"
+  }
+}

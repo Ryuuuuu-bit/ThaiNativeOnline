@@ -1,0 +1,23 @@
+[
+  {
+    "id": "boar",
+    "path": "public/models/monsters/boar.glb",
+    "bytes": 1411284,
+    "sha256": "0362f2cf4e7f8fc5bbb5e867d357c4b867915b466cceb77555d7a7edbabd73db",
+    "source": "tools/monster-models/source/boar.blend"
+  },
+  {
+    "id": "pray",
+    "path": "public/models/monsters/pray.glb",
+    "bytes": 902084,
+    "sha256": "1601378ca5c9fa8165957bf44d007586afd0ce5345b97ecf72771947098d9052",
+    "source": "tools/monster-models/source/pray.blend"
+  },
+  {
+    "id": "krasue",
+    "path": "public/models/monsters/krasue.glb",
+    "bytes": 576872,
+    "sha256": "7ed720fa8a51ce4fb90af7fc260351f6783939d5e48d0547d69eea7aa5b3851e",
+    "source": "tools/monster-models/source/krasue.blend"
+  }
+]

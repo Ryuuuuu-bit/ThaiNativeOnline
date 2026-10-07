@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { RULES } from './data/rules.js';
 import { makeDog } from '../classes/dog.js';
+import { makeMonsterModel } from './MonsterModels.js';
 
 const std = (color, extra) => new THREE.MeshStandardMaterial({ color, roughness: .85, ...extra });
 const add = (parent, geometry, material, x = 0, y = 0, z = 0, scale) => {
@@ -293,13 +294,14 @@ export class CombatView {
 
   ensure(m) {
     if (this.views.has(m.id)) return this.views.get(m.id);
-    const group = (BUILDERS[m.def.shape] || quadruped)(m.def);
+    const fallback = (BUILDERS[m.def.shape] || quadruped)(m.def);
+    const group = makeMonsterModel(m.type, fallback, m.id);
     group.scale.setScalar(m.def.size);
     group.traverse(o => { if (o.isMesh) { o.userData.monsterId = m.id; o.material = o.material.clone(); } });
     const pick = new THREE.Mesh(new THREE.CylinderGeometry(.75, .75, 1.8, 8), new THREE.MeshBasicMaterial({ visible: false }));
     pick.position.y = .9; pick.userData.monsterId = m.id; group.add(pick);
     this.root.add(group);
-    const view = { group, monster: m, flash: 0, dying: 0, fade: 1, attackAnim: 0 };
+    const view = { group, monster: m, flash: 0, dying: 0, fade: 1, attackAnim: 0, animationState: { hurt: false, dying: false } };
     this.views.set(m.id, view);
     return view;
   }
@@ -374,11 +376,14 @@ export class CombatView {
       g.rotation.y += Math.atan2(Math.sin(m.facing - g.rotation.y), Math.cos(m.facing - g.rotation.y)) * Math.min(1, dt * 10);
       if (m.attackTimer > (m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay)) - .3) v.attackAnim = .25;
       v.attackAnim = Math.max(0, v.attackAnim - dt);
-      g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0);
+      v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
+      g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0, v.animationState);
       v.flash = Math.max(0, v.flash - dt);
       if (v.dying) {
         v.dying = Math.max(0, v.dying - dt * 1.4);
-        g.rotation.z = (1 - v.dying) * Math.PI / 2; g.position.y -= (1 - v.dying) * .3;
+        if (!g.userData.modelLoaded) {
+          g.rotation.z = (1 - v.dying) * Math.PI / 2; g.position.y -= (1 - v.dying) * .3;
+        }
         if (!v.dying) { g.visible = false; g.rotation.z = 0; }
       } else g.rotation.z = 0;
       v.fade = Math.min(1, v.fade + dt * 2);
