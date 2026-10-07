@@ -8,12 +8,13 @@
 //   const w = new MonsterWorld(mapId, { elites? })   elites: false for CH 2+ (server/channels.js)
 //   w.update(dt, players, phase) → events     players: [{ id, x, z, lv, dead }]
 //   w.damage(m, playerId, amount, { crit, dot, pet }, players, night) → events   (blows rolled by server/combatants.js)
-//   w.debuff(m, { id, stun?, slow?, dot?, source?, by?, remaining }) · w.aggro(m, playerId)
+//   w.debuff(m, { id, stun?, slow?, dot?, label?, source?, by?, remaining }) → md event · w.aggro(m, playerId)
 //   w.snapshot() → [[id, x, z, facing, hp, stateCode, moving], …] of monsters that changed
 //   w.list() → every live monster in full (for a player arriving on the map)
 // Events: { t: 'mspawn', m } · { t: 'mgone', id, killed } · { t: 'ma', id, to, power, knock?, pull? } (monster
 // swings at player `to`; knock / pull: the player is thrown back / dragged in if it lands) ·
-// { t: 'mh', id, amount, crit, dot, pet, by } · { t: 'kill', id, type, to, exp, gold, drops, card? }
+// { t: 'mh', id, amount, crit, dot, pet, by } · { t: 'md', id, d } (a stun / slow / damage over time landed) ·
+// { t: 'kill', id, type, to, exp, gold, drops, card? }
 // (card: the monster's card fell to the top damager, src/character/data/cards.js — server/index.js announces it)
 //
 // Monster behaviours (src/combat/data/monsters.js): passive ones never start a fight; flee runs
@@ -195,7 +196,11 @@ export class MonsterWorld {
     return ev;
   }
 
-  debuff(m, d) { m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(d); }
+  // → the event that shows it to the players on the map ({ t: 'md', id, d: { id, stun, slow, dot, label, secs } })
+  debuff(m, d) {
+    m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(d);
+    return { t: 'md', id: m.id, d: { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, ...(d.label ? { label: d.label } : {}), secs: d.remaining } };
+  }
   aggro(m, playerId) {
     if (m.state === 'return' || m.state === 'flee') return;
     if (m.state !== 'chase') { m.target = playerId; this.rally(m, playerId); }

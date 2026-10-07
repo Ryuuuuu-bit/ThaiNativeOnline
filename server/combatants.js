@@ -249,7 +249,7 @@ export class Combatants {
       const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit && !pet ? 1 : c.critChance, critDmg: c.critDamage };
       const r = rollDamage(atk, def, !pet && skill.scale === 'int' ? 'magic' : 'physical', power, this.r);
       const ev = this.land(world, players, m, id, r, night, { pet });
-      if (r.hit && !pet && skill.debuff && m.hp > 0) world.debuff(m, { id: skill.debuff.id ?? 'basic', ...skill.debuff, remaining: skill.debuff.duration, source: c.attack, by: id });
+      if (r.hit && !pet && skill.debuff && m.hp > 0) ev.push(world.debuff(m, { id: skill.debuff.id ?? 'basic', ...skill.debuff, remaining: skill.debuff.duration, source: c.attack, by: id }));
       return ev;
     }
     // a skill: it needs a live cast with blows left
@@ -290,7 +290,7 @@ export class Combatants {
     if (r.hit && m.hp > 0 && !cast.hit.has(m.id)) {
       cast.hit.add(m.id);
       for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
-        world.debuff(m, { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, source: d.source || r.dmg, by: id, remaining: d.duration });
+        ev.push(world.debuff(m, { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, label: d.label, source: d.source || r.dmg, by: id, remaining: d.duration }));
       }
     }
     return ev;

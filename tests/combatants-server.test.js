@@ -54,13 +54,22 @@ test('skills: only your own kit, cooldowns hold, a cast allows only so many blow
   cs.casting(1, 'arch_snipe'); now.add(1);
   assert.equal(cs.cast(1, 'arch_snipe').ok, true);
   assert.equal(cs.cast(1, 'arch_snipe').why, 'cooldown');
-  let n = 0; for (let i = 0; i < 50; i++) n += cs.blow(1, w, players, { id: m.id, skill: 'arch_snipe' }).length;
+  let n = 0; for (let i = 0; i < 50; i++) n += cs.blow(1, w, players, { id: m.id, skill: 'arch_snipe' }).filter(e => e.t === 'mh').length;
   assert.ok(n > 0 && n <= 7, `blows per cast are bounded (${n})`);
   now.add(CAST_WINDOW + 1);
   const cd = castInfo(KITS.hunter.find(k => k.id === 'arch_snipe'), 1).cd;
   now.add(cd);
   cs.casting(1, 'arch_snipe'); now.add(1);
   assert.equal(cs.cast(1, 'arch_snipe').ok, true, 'ready again after its cooldown');
+});
+
+test('an effect the server lands is announced to the map (md)', () => {
+  const { cs, p, now } = setup('warrior'), w = boars(), m = w.monsters[0];
+  m.x = 1; m.z = 0; m.maxHp = m.hp = 1e6;
+  cs.load(1, { ...cs.get(1).c.toJSON(), jobLevel: 50, skills: { sword_twin: 5, sword_thrust: 5 }, evo: { sword_thrust: 'B' } }, { account: 'x', slot: 0 });
+  assert.equal(cs.cast(1, 'sword_thrust').ok, true);
+  let md = []; for (let i = 0; i < 6 && !md.length; i++) md = cs.blow(1, w, [p], { id: m.id, skill: 'sword_thrust' }).filter(e => e.t === 'md');
+  assert.equal(md[0]?.id, m.id); assert.ok(md[0].d.stun && md[0].d.secs > 0 && md[0].d.label);
 });
 
 test('area skills: the server finds who else is caught; effects land once per cast', () => {

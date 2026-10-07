@@ -59,6 +59,13 @@ export function attachNetCombat(net, game) {
     combat.emit('hit', { monster: m, amount: msg.amount, crit: msg.crit, dot: msg.dot, pet: msg.pet, x: m.x, z: m.z });
   });
   net.on('nope', msg => { const why = { cooldown: 'สกิลยังไม่พร้อม', mp: 'MP ไม่พอ', not_learnt: 'ยังไม่ได้เรียนสกิลนี้', casting: 'ร่ายไม่ทัน' }[msg.why]; if (why) combat.emit('fail', why); });
+  // an effect the server landed on a monster (anyone's): stun / slow / damage over time
+  net.on('md', msg => {
+    const m = byId.get(msg.id); if (!m?.alive || !msg.d?.id) return;
+    m.debuffs = m.debuffs.filter(o => o.id !== msg.d.id);
+    m.debuffs.push({ ...msg.d, remaining: msg.d.secs });
+    combat.emit('debuffed', { monster: m, debuff: msg.d });
+  });
   net.on('mgone', msg => { const m = byId.get(msg.id); if (!m || !m.alive && m.state === 'dead') return; combat.emit('despawn', m); gone(m); });
   // this player's share of a kill: the usual kill event (log, quests) and the rewards
   net.on('kill', msg => {

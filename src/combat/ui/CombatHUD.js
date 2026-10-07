@@ -55,6 +55,8 @@ export class CombatHUD {
     cb.on('target', () => this.refreshTarget());
     cb.on('hit', e => { this.float(e.x, e.z, e.amount, e.crit ? 'crit' : e.dot ? 'dot' : e.pet ? 'pet' : 'deal'); this.refreshTarget(); });
     cb.on('miss', e => this.float(e.x, e.z, 'พลาด', 'miss'));
+    // an effect the server landed (online): its name over the monster, the tags on the target frame
+    cb.on('debuffed', ({ monster: m, debuff: d }) => { this.float(m.x, m.z, d.label ?? (d.stun ? 'มึน' : d.slow ? 'เชื่องช้า' : 'ติดพิษ'), 'evo', 2.1); if (m === this.combat.target) this.refreshTarget(); });
     cb.on('dodge', e => this.float(e.x, e.z, 'หลบ', 'miss', 1.9));
     cb.on('player-hit', e => this.float(e.x, e.z, e.amount, 'hurt', 1.9));
     cb.on('heal', e => this.float(e.x, e.z, `+${e.amount}`, 'heal', 1.9));

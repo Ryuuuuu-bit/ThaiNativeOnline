@@ -194,6 +194,7 @@ export class KitCaster {
   strike(m, r, id) {
     if (!r.hit) { this.combat.damageMonster(m, 0, { miss: true, skill: id }); return; }
     const alive = this.combat.damageMonster(m, r.dmg, { crit: r.crit, skill: id });
-    if (alive && !this.affected.has(m)) { this.affected.add(m); for (const d of hitEffects(this.eid(id), r.dmg)) this.combat.debuff(m, d); }
+    // offline the effects land here; online the server rolls them and sends them (src/net/NetCombat.js 'md')
+    if (alive && !this.combat.remote && !this.affected.has(m)) { this.affected.add(m); for (const d of hitEffects(this.eid(id), r.dmg)) this.combat.debuff(m, d); }
   }
 }

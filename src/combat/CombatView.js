@@ -381,12 +381,13 @@ export class CombatView {
         if (!v.dying) { g.visible = false; g.rotation.z = 0; }
       } else g.rotation.z = 0;
       v.fade = Math.min(1, v.fade + dt * 2);
-      const slowed = m.debuffs.some(d => d.slow), cursed = m.debuffs.some(d => d.dot);
+      const slowed = m.debuffs.some(d => d.slow), cursed = m.debuffs.some(d => d.dot), stunned = m.debuffs.some(d => d.stun);
       g.traverse(o => {
         if (!o.isMesh || !o.material.emissive) return;
         o.material.userData.base ??= o.material.emissive.clone();
         if (v.flash > 0) o.material.emissive.set('#ff6040');
         else if (cursed) o.material.emissive.set('#4a1a5e');
+        else if (stunned) o.material.emissive.set('#4a4214');
         else if (slowed) o.material.emissive.set('#1e3e58');
         else o.material.emissive.copy(o.material.userData.base);
       });

@@ -188,7 +188,7 @@ export class Combat extends Emitter {
     // สัญชาตญาณหมาล่า: a hunter's landed basic hit may send the dog in at once (LUK helps)
     if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 }; }
     const id = skill.basic ? 'basic' : Object.keys(SKILLS).find(k => SKILLS[k] === skill);
-    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff) this.debuff(m, { ...skill.debuff, source: this.character.attack });
+    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff && !this.remote) this.debuff(m, { ...skill.debuff, source: this.character.attack });
   }
 
   // Apply an already rolled blow to a monster (hook for the class skill kits,
@@ -260,6 +260,8 @@ export class Combat extends Emitter {
 
     // online (src/net/NetCombat.js) the server runs the monsters; offline they live here
     if (!this.remote) for (const m of this.monsters) this.updateMonster(m, dt, p);
+    // online the server's effects (stun, slow, damage over time) run down here for the tint and the tags
+    else for (const m of this.monsters) if (m.debuffs.length) m.debuffs = m.debuffs.filter(d => (d.remaining -= dt) > 0);
     if (this.pet) this.updatePet(dt, p);
   }
 
