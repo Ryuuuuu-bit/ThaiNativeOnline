@@ -13,7 +13,8 @@
 //   w.list() → every live monster in full (for a player arriving on the map)
 // Events: { t: 'mspawn', m } · { t: 'mgone', id, killed } · { t: 'ma', id, to, power, knock?, pull? } (monster
 // swings at player `to`; knock / pull: the player is thrown back / dragged in if it lands) ·
-// { t: 'mh', id, amount, crit, dot, pet, by } · { t: 'kill', id, type, to, exp, gold, drops }
+// { t: 'mh', id, amount, crit, dot, pet, by } · { t: 'kill', id, type, to, exp, gold, drops, card? }
+// (card: the monster's card fell to the top damager, src/character/data/cards.js — server/index.js announces it)
 //
 // Monster behaviours (src/combat/data/monsters.js): passive ones never start a fight; flee runs
 // from the blow for a moment; pack / callSpirits bring the neighbours in; charge dashes from
@@ -27,6 +28,7 @@ import { MONSTERS, NIGHT } from '../src/combat/data/monsters.js';
 import { LOOT } from '../src/combat/data/loot.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { combatSpawns } from '../src/data/spawns.js';
+import { cardId, cardRate, hasCard } from '../src/character/data/cards.js';
 import { mapOf } from '../src/world/maps.js';
 
 const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
@@ -229,8 +231,12 @@ export class MonsterWorld {
       if (!p || (i > 0 && dmg / total < .15)) return;
       const exp = Math.round(m.def.exp * Math.max(.2, 1 + (m.def.level - p.lv) * .1) * (night ? NIGHT.expBonus : 1));
       const top = i === 0, drops = [];
-      if (top) for (const [item, chance, min, max] of LOOT[m.def.loot] || []) if (this.r() < chance) drops.push({ id: item, qty: randInt(min, max, this.r) });
-      out.push({ t: 'kill', id: m.id, type: m.type, to: id, exp, gold: top ? randInt(...m.def.gold, this.r) : 0, drops });
+      let card = null;
+      if (top) {
+        for (const [item, chance, min, max] of LOOT[m.def.loot] || []) if (this.r() < chance) drops.push({ id: item, qty: randInt(min, max, this.r) });
+        if (hasCard(m.type) && this.r() < cardRate(m.def)) { card = cardId(m.type); drops.push({ id: card, qty: 1 }); }
+      }
+      out.push({ t: 'kill', id: m.id, type: m.type, to: id, exp, gold: top ? randInt(...m.def.gold, this.r) : 0, drops, ...(card ? { card } : {}) });
     });
     m.contrib = new Map();
     return out;

@@ -1,5 +1,6 @@
 // Content data only: edit freely without touching game logic.
-// slot: weapon | armor | charm; use: consumable effect
+import { CARD_ITEMS } from './cards.js';
+// slot: weapon | armor | head | offhand | cape | shoes | charm (two charm slots: charm, charm2); slots: card slots (RO style, 0–4: plain gear has more, strong gear fewer); use: consumable effect
 // bonus keys: base stats (str agi vit int dex luk) and atk matk def hp mp crit critDmg acc eva
 // weight: carried weight of one item (bag capacity: CARRY in progression.js)
 export const ITEMS = {
@@ -9,20 +10,37 @@ export const ITEMS = {
   hide:     { name: 'หนังสัตว์', icon: '▤', img: 'ui/items/icon_hide.png', weight: 20, type: 'material', price: 4, desc: 'วัตถุดิบ ขายได้' },
   tusk:     { name: 'เขี้ยวหมูป่า', icon: '⟆', img: 'ui/items/icon_tusk.png', weight: 15, type: 'material', price: 7, desc: 'วัตถุดิบ ขายได้' },
   ash:      { name: 'ขี้เถ้าธูป', icon: '∴', img: 'ui/items/icon_ash.png', weight: 3, type: 'material', price: 9, desc: 'วัตถุดิบเวทมนตร์' },
-  hand_wrap:  { name: 'ผ้าพันมือมงคล', icon: '🥊', img: 'ui/items/icon_hand_wrap.png', weight: 10, type: 'equip', slot: 'weapon', bonus: { atk: 3 }, rarity: 'common', price: 15 },
-  krabi:      { name: 'มีดสั้นคู่', icon: '🔪', img: 'ui/items/icon_krabi.png', weight: 40, type: 'equip', slot: 'weapon', bonus: { atk: 3 }, rarity: 'common', price: 15 },
-  herb_staff: { name: 'ไม้เท้าสมุนไพร', icon: '🌿', img: 'ui/items/icon_herb_staff.png', weight: 60, type: 'equip', slot: 'weapon', bonus: { matk: 4, int: 1 }, rarity: 'common', price: 15 },
-  mongkol:    { name: 'มงคลครูมวย', icon: '◯', img: 'ui/items/icon_mongkol.png', weight: 5, type: 'equip', slot: 'charm', bonus: { atk: 5, str: 2, agi: 2, luk: 1 }, rarity: 'rare', price: 70 },
-  wood_sword: { name: 'ดาบไม้ซ้อม', icon: '🗡', img: 'ui/items/icon_wood_sword.png', weight: 50, type: 'equip', slot: 'weapon', bonus: { atk: 3 }, rarity: 'common', price: 15 },
-  iron_dap:   { name: 'ดาบเหล็กลาย', icon: '🗡', img: 'ui/items/icon_iron_dap.png', weight: 120, type: 'equip', slot: 'weapon', bonus: { atk: 9, str: 2 }, rarity: 'rare', price: 80 },
-  bamboo_bow: { name: 'ธนูไม้ไผ่', icon: '🏹', img: 'ui/items/icon_bamboo_bow.png', weight: 50, type: 'equip', slot: 'weapon', bonus: { atk: 7, dex: 2 }, rarity: 'rare', price: 75 },
-  bone_wand:  { name: 'ไม้เท้ากระดูก', icon: '⚚', img: 'ui/items/icon_bone_wand.png', weight: 40, type: 'equip', slot: 'weapon', bonus: { matk: 9, int: 3 }, rarity: 'rare', price: 75 },
-  cloth_vest: { name: 'เสื้อผ้าฝ้าย', icon: '👕', img: 'ui/items/icon_cloth_vest.png', weight: 30, type: 'equip', slot: 'armor', bonus: { def: 3 }, rarity: 'common', price: 15 },
-  hide_armor: { name: 'เกราะหนังสัตว์', icon: '🥋', img: 'ui/items/icon_hide_armor.png', weight: 110, type: 'equip', slot: 'armor', bonus: { def: 8, vit: 2 }, rarity: 'rare', price: 70 },
-  takrut:     { name: 'ตะกรุดโทน', icon: '⌬', img: 'ui/items/icon_takrut.png', weight: 5, type: 'equip', slot: 'charm', bonus: { def: 2, int: 2, hp: 20, matk: 3 }, rarity: 'rare', price: 60 },
-  tiger_fang: { name: 'เขี้ยวเสือสมิง', icon: '☾', img: 'ui/items/icon_tiger_fang.png', weight: 5, type: 'equip', slot: 'charm', bonus: { atk: 6, str: 3, agi: 3, luk: 3, crit: .08 }, rarity: 'epic', price: 300 },
+  hand_wrap:  { name: 'ผ้าพันมือมงคล', icon: '🥊', img: 'ui/items/icon_hand_wrap.png', weight: 10, type: 'equip', slot: 'weapon', slots: 3, bonus: { atk: 3 }, rarity: 'common', price: 15 },
+  krabi:      { name: 'มีดสั้นคู่', icon: '🔪', img: 'ui/items/icon_krabi.png', weight: 40, type: 'equip', slot: 'weapon', slots: 3, bonus: { atk: 3 }, rarity: 'common', price: 15 },
+  herb_staff: { name: 'ไม้เท้าสมุนไพร', icon: '🌿', img: 'ui/items/icon_herb_staff.png', weight: 60, type: 'equip', slot: 'weapon', slots: 3, bonus: { matk: 4, int: 1 }, rarity: 'common', price: 15 },
+  mongkol:    { name: 'มงคลครูมวย', icon: '◯', img: 'ui/items/icon_mongkol.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { atk: 5, str: 2, agi: 2, luk: 1 }, rarity: 'rare', price: 70 },
+  wood_sword: { name: 'ดาบไม้ซ้อม', icon: '🗡', img: 'ui/items/icon_wood_sword.png', weight: 50, type: 'equip', slot: 'weapon', slots: 3, bonus: { atk: 3 }, rarity: 'common', price: 15 },
+  iron_dap:   { name: 'ดาบเหล็กลาย', icon: '🗡', img: 'ui/items/icon_iron_dap.png', weight: 120, type: 'equip', slot: 'weapon', slots: 2, bonus: { atk: 9, str: 2 }, rarity: 'rare', price: 80 },
+  bamboo_bow: { name: 'ธนูไม้ไผ่', icon: '🏹', img: 'ui/items/icon_bamboo_bow.png', weight: 50, type: 'equip', slot: 'weapon', slots: 2, bonus: { atk: 7, dex: 2 }, rarity: 'rare', price: 75 },
+  bone_wand:  { name: 'ไม้เท้ากระดูก', icon: '⚚', img: 'ui/items/icon_bone_wand.png', weight: 40, type: 'equip', slot: 'weapon', slots: 2, bonus: { matk: 9, int: 3 }, rarity: 'rare', price: 75 },
+  cloth_vest: { name: 'เสื้อผ้าฝ้าย', icon: '👕', img: 'ui/items/icon_cloth_vest.png', weight: 30, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 15 },
+  hide_armor: { name: 'เกราะหนังสัตว์', icon: '🥋', img: 'ui/items/icon_hide_armor.png', weight: 110, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 8, vit: 2 }, rarity: 'rare', price: 70 },
+  takrut:     { name: 'ตะกรุดโทน', icon: '⌬', img: 'ui/items/icon_takrut.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 2, int: 2, hp: 20, matk: 3 }, rarity: 'rare', price: 60 },
+  tiger_fang: { name: 'เขี้ยวเสือสมิง', icon: '☾', img: 'ui/items/icon_tiger_fang.png', weight: 5, type: 'equip', slot: 'charm', slots: 0, bonus: { atk: 6, str: 3, agi: 3, luk: 3, crit: .08 }, rarity: 'epic', price: 300 },
+  // ---- head · off hand · cape · shoes ----
+  pha_khao:   { name: 'ผ้าโพกหัว', icon: '◠', img: 'ui/items/icon_pha_khao.png', weight: 5, type: 'equip', slot: 'head', slots: 1, bonus: { def: 1, vit: 1 }, rarity: 'common', price: 20 },
+  ngob:       { name: 'งอบใบลาน', icon: '◭', img: 'ui/items/icon_ngob.png', weight: 10, type: 'equip', slot: 'head', slots: 1, bonus: { def: 2 }, rarity: 'common', price: 30 },
+  chada:      { name: 'ชฎาทองเหลือง', icon: '♔', img: 'ui/items/icon_chada.png', weight: 15, type: 'equip', slot: 'head', slots: 1, bonus: { def: 3, int: 2, matk: 3 }, rarity: 'rare', price: 150 },
+  rattan_shield: { name: 'โล่หวาย', icon: '◍', img: 'ui/items/icon_rattan_shield.png', weight: 40, type: 'equip', slot: 'offhand', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 25 },
+  mo_knife:   { name: 'มีดหมอ', icon: '🗡', img: 'ui/items/icon_mo_knife.png', weight: 15, type: 'equip', slot: 'offhand', slots: 1, bonus: { atk: 3, agi: 1 }, rarity: 'common', price: 40 },
+  buffalo_shield: { name: 'โล่หนังควาย', icon: '◍', img: 'ui/items/icon_buffalo_shield.png', weight: 80, type: 'equip', slot: 'offhand', slots: 1, bonus: { def: 6, vit: 2 }, rarity: 'rare', price: 120 },
+  pakhaoma:   { name: 'ผ้าขาวม้า', icon: '▦', img: 'ui/items/icon_pakhaoma.png', weight: 5, type: 'equip', slot: 'cape', slots: 1, bonus: { def: 1, eva: 2 }, rarity: 'common', price: 20 },
+  sabai:      { name: 'สไบไหม', icon: '≋', img: 'ui/items/icon_sabai.png', weight: 5, type: 'equip', slot: 'cape', slots: 1, bonus: { def: 2, int: 1, mp: 20 }, rarity: 'rare', price: 90 },
+  sandals:    { name: 'รองเท้าแตะหนัง', icon: '⏢', img: 'ui/items/icon_sandals.png', weight: 10, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 1, agi: 1 }, rarity: 'common', price: 20 },
+  hide_boots: { name: 'รองเท้าหนังสัตว์', icon: '⏢', img: 'ui/items/icon_hide_boots.png', weight: 20, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 3, agi: 2 }, rarity: 'rare', price: 80 },
+  // monster cards (type 'card'): src/character/data/cards.js
+  ...CARD_ITEMS,
 };
 
 // img: framed pixel art (public/ui/items, tools/icons/); icon is the fallback glyph.
 export const RARITY_COLORS = { common: '#d9d3bd', rare: '#7fb7e8', epic: '#c79af0' };
 
+
+// What a character wears: one item per slot; a charm fits either charm slot.
+export const EQUIP_SLOTS = ['weapon', 'armor', 'head', 'offhand', 'cape', 'shoes', 'charm', 'charm2'];
+export const slotKind = slot => (slot === 'charm2' ? 'charm' : slot);

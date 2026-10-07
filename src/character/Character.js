@@ -1,9 +1,10 @@
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
 // Pure logic so it can be reused by any world or a future server.
 import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
-import { ITEMS } from './data/items.js';
+import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
 import { KIT_SKILL_IDS } from './data/kits.js';
+import { RESIST_CAP, socketCards } from './data/cards.js';
 import { computeDerived, hitChanceOf, ASPD_BUFF_MAX } from '../rules/stats.js';
 import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
@@ -16,7 +17,7 @@ const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -32,8 +33,13 @@ export class Character extends Emitter {
     if (ids[0] && !this.skills[ids[0]]) this.skills[ids[0]] = 1;
     while (this.skillPoints < 0) { const top = Object.keys(this.skills).filter(id => id !== ids[0] || this.skills[id] > 1).pop(); if (!top) break; if (--this.skills[top] <= 0) delete this.skills[top]; }
     this.alloc = { ...emptyAlloc(), ...alloc };
-    this.inventory = inventory ? inventory.map(s => s && { ...s }) : Array(INVENTORY_SIZE).fill(null);
-    this.equipment = { weapon: null, armor: null, charm: null, ...equipment };
+    // gear in the bag may carry cards (src/character/data/cards.js): only real ones, no more than its slots
+    this.inventory = inventory ? inventory.map(s => { if (!s) return null; const { cards: held, ...rest } = s; const ok = socketCards(s.id, held, ITEMS); return ok.length ? { ...rest, cards: ok } : { ...rest }; }) : Array(INVENTORY_SIZE).fill(null);
+    this.equipment = Object.fromEntries(EQUIP_SLOTS.map(s => [s, null]));
+    for (const s of EQUIP_SLOTS) { const id = equipment?.[s]; if (id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slotKind(s)) this.equipment[s] = id; }
+    // the cards in the worn gear, per slot (they belong to that item and leave with it)
+    this.cards = Object.fromEntries(EQUIP_SLOTS.map(s => [s, []]));
+    for (const slot of Object.keys(this.cards)) if (this.equipment[slot]) this.cards[slot] = socketCards(this.equipment[slot], cards?.[slot], ITEMS);
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
     this.hp = Math.min(hp ?? this.maxHp, this.maxHp); this.mp = Math.min(mp ?? this.maxMp, this.maxMp);   // saves from older stat formulas may exceed the cap
@@ -51,9 +57,16 @@ export class Character extends Emitter {
 
   equipBonus(key) {
     let total = 0;
-    for (const slot of Object.values(this.equipment)) if (slot) total += ITEMS[slot].bonus?.[key] || 0;
+    for (const [slot, id] of Object.entries(this.equipment)) {
+      if (!id) continue;
+      total += ITEMS[id].bonus?.[key] || 0;
+      for (const card of this.cards?.[slot] ?? []) total += ITEMS[card].bonus?.[key] || 0;
+    }
     return total;
   }
+  // Cards: more damage against a monster's race; less damage taken from its race and element.
+  vsRace(def) { return def?.race ? this.equipBonus(`vs_${def.race}`) : 0; }
+  resist(def) { return Math.min(RESIST_CAP, (def?.race ? this.equipBonus(`res_${def.race}`) : 0) + (def?.element ? this.equipBonus(`res_${def.element}`) : 0)); }
 
   // Base stat: class base + growth per level (rounded down) + allocated points + gear.
   stat(key) { return Math.floor((this.cls.base[key] || 0) + (this.cls.growth[key] || 0) * (this.level - 1)) + (this.alloc[key] || 0) + this.equipBonus(key); }
@@ -247,6 +260,7 @@ export class Character extends Emitter {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
     const def = ITEMS[slot.id];
     if (def.type === 'equip') return this.equip(index);
+    if (def.type === 'card') { this.emit('card-choose', index); return false; }   // the bag asks which item (CharacterUI)
     if (def.type !== 'use') return false;
     if (def.use.hp && this.hp >= this.maxHp && !def.use.mp) return false;
     if (def.use.hp) this.heal(def.use.hp);
@@ -268,9 +282,11 @@ export class Character extends Emitter {
     const slot = this.inventory[index]; if (!slot) return false;
     const def = ITEMS[slot.id]; if (def.type !== 'equip') return false;
     const ratio = this.hp / this.maxHp;
-    const previous = this.equipment[def.slot];
-    this.equipment[def.slot] = slot.id;
-    this.inventory[index] = previous ? { id: previous, qty: 1 } : null;
+    // a charm goes into the free charm slot (the first one when both are taken)
+    const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
+    const previous = this.equipment[to], prevCards = this.cards[to];
+    this.equipment[to] = slot.id; this.cards[to] = [...(slot.cards ?? [])];
+    this.inventory[index] = previous ? { id: previous, qty: 1, ...(prevCards.length ? { cards: prevCards } : {}) } : null;
     this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.min(this.mp, this.maxMp);
     this.emit('inventory'); this.emit('change');
     return true;
@@ -279,8 +295,36 @@ export class Character extends Emitter {
     const id = this.equipment[slotName]; if (!id) return false;
     const free = this.inventory.indexOf(null);
     if (free < 0) { this.emit('inventory-full', id); return false; }
-    this.inventory[free] = { id, qty: 1 }; this.equipment[slotName] = null;
+    const held = this.cards[slotName];
+    this.inventory[free] = { id, qty: 1, ...(held.length ? { cards: [...held] } : {}) }; this.equipment[slotName] = null; this.cards[slotName] = [];
     this.hp = Math.min(this.hp, this.maxHp); this.emit('inventory'); this.emit('change');
+    return true;
+  }
+  // Items a card from the bag can go into: { worn: true, slot } and { index } for bag gear of the
+  // card's kind with a free card slot.
+  cardTargets(cardIndex) {
+    const card = ITEMS[this.inventory[cardIndex]?.id]; if (card?.type !== 'card') return [];
+    const free = (id, held) => (ITEMS[id]?.slots ?? 0) - (held?.length ?? 0) > 0;
+    const out = [];
+    for (const s of EQUIP_SLOTS) {
+      const worn = this.equipment[s];
+      if (worn && slotKind(s) === card.slot && free(worn, this.cards[s])) out.push({ worn: true, slot: s, id: worn, cards: this.cards[s] });
+    }
+    this.inventory.forEach((s, i) => { if (s && ITEMS[s.id]?.type === 'equip' && ITEMS[s.id].slot === card.slot && free(s.id, s.cards)) out.push({ index: i, id: s.id, cards: s.cards ?? [] }); });
+    return out;
+  }
+  // A card into a free slot of a piece of gear, for good (RO style). where: a worn slot ('weapon',
+  // 'charm2', …; 'worn' = the first worn item that fits) or a bag index.
+  insertCard(cardIndex, where) {
+    const card = this.inventory[cardIndex], def = card && ITEMS[card.id]; if (def?.type !== 'card') return false;
+    const target = this.cardTargets(cardIndex).find(t => (typeof where === 'string' ? t.worn && (where === 'worn' || t.slot === where) : t.index === where));
+    if (!target) { this.emit('card-no-slot', def.slot); return false; }
+    const cardId = card.id, ratio = this.hp / this.maxHp;
+    if (target.worn) this.cards[target.slot] = [...this.cards[target.slot], cardId];
+    else { const s = this.inventory[target.index]; s.cards = [...(s.cards ?? []), cardId]; }
+    this.removeAt(cardIndex);
+    this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.min(this.mp, this.maxMp);
+    this.emit('card', { id: cardId, item: target.id, worn: !!target.worn }); this.emit('inventory'); this.emit('change');
     return true;
   }
   sellAt(index) {
@@ -292,8 +336,8 @@ export class Character extends Emitter {
 
   // ---- Persistence ----
   toJSON() {
-    const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills } };
+    const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
+    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

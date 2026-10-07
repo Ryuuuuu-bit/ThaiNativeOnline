@@ -93,7 +93,7 @@ export function attachNetCombat(net, game) {
   // the character sheet the server rolls with: sent on join and whenever level, points or gear change
   let sheetKey = '';
   const sheet = (force = false) => {
-    const { name, classId, gender, level, points, alloc, equipment, jobLevel, skills } = c.toJSON(), data = { name, classId, gender, level, points, alloc, equipment, jobLevel, skills };
+    const { name, classId, gender, level, points, alloc, equipment, jobLevel, skills, cards } = c.toJSON(), data = { name, classId, gender, level, points, alloc, equipment, jobLevel, skills, cards };
     const key = JSON.stringify(data);
     if (!force && key === sheetKey) return;
     sheetKey = key; net.send({ t: 'ch', data });

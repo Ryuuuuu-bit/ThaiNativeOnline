@@ -1,6 +1,7 @@
 // Combat interface: target frame, the action bar (src/ui/ActionBar.js), floating
 // numbers, monster nameplates, death screen and the day/night mood.
 import * as THREE from 'three';
+import { RACE_LABELS, ELEMENT_LABELS } from '../../character/data/cards.js';
 import { ITEMS } from '../../character/data/items.js';
 import { el, pct, setBar } from '../../character/ui/dom.js';
 import { ActionBar } from '../../ui/ActionBar.js';
@@ -57,7 +58,9 @@ export class CombatHUD {
     cb.on('fail', reason => feed.log(reason, 'bad', true));
     cb.on('kill', ({ monster, exp, gold, drops }) => {
       feed.log(`ปราบ${monster.name} · +${exp} EXP · +${gold} ทอง`, 'exp');
-      for (const d of drops) feed.log(`ได้รับ ${ITEMS[d.id].name}${d.qty > 1 ? ` ×${d.qty}` : ''}`, ITEMS[d.id].rarity === 'epic' ? 'epic' : 'loot');
+      for (const d of drops) feed.log(`ได้รับ ${ITEMS[d.id].name}${d.qty > 1 ? ` ×${d.qty}` : ''}`, ITEMS[d.id].rarity === 'epic' || ITEMS[d.id].type === 'card' ? 'epic' : 'loot');
+      const card = drops.find(d => ITEMS[d.id]?.type === 'card');
+      if (card) feed.banner(`ได้รับ${ITEMS[card.id].name}!`, 'คลิกการ์ดในกระเป๋าเพื่อใส่ในช่องการ์ด (กด C ดูช่อง)');
       this.float(monster.x, monster.z, `+${exp} EXP`, 'exp', 2.2);
     });
     cb.on('aggro', m => { if (m.def.elite) feed.log(`${m.name} จ้องมองคุณ!`, 'bad'); });
@@ -100,7 +103,8 @@ export class CombatHUD {
     this.target.hidden = !m;
     if (!m) return;
     this.target.querySelector('b').textContent = m.name;
-    this.target.querySelector('.g-target-name span').textContent = `Lv. ${m.level}${m.def.boss ? ' · บอส' : m.def.elite ? ' · หัวหน้า' : ''}`;
+    const kind = [RACE_LABELS[m.def.race], ELEMENT_LABELS[m.def.element]].filter(Boolean).join('·');
+    this.target.querySelector('.g-target-name span').textContent = `Lv. ${m.level}${m.def.boss ? ' · บอส' : m.def.elite ? ' · หัวหน้า' : ''}${kind ? ` · ${kind}` : ''}`;
     this.target.classList.toggle('elite', !!m.def.elite);
     setBar(this.target.querySelector('.g-thp'), m.hp, m.maxHp);
     this.target.querySelector('.g-target-tags').innerHTML = m.debuffs.map(d => `<i>${d.label ?? (d.slow ? 'ติดบ่วง' : 'ต้องคุณไสย')}</i>`).join('');

@@ -28,9 +28,12 @@ export function attachNetProgress(net, c, quests = null) {
     };
   };
   const idAt = i => c.inventory[i]?.id;
-  wrap('useAt', i => idAt(i) && { op: 'use', id: idAt(i) });
-  wrap('sellAt', i => idAt(i) && { op: 'sell', id: idAt(i) });
-  wrap('equip', i => idAt(i) && { op: 'equip', id: idAt(i) });
+  // gear is named with the cards it holds (two swords with different cards are different items)
+  const held = i => (c.inventory[i]?.cards?.length ? { cards: [...c.inventory[i].cards] } : {});
+  wrap('useAt', i => idAt(i) && { op: 'use', id: idAt(i), ...held(i) });
+  wrap('sellAt', i => idAt(i) && { op: 'sell', id: idAt(i), ...held(i) });
+  wrap('equip', i => idAt(i) && { op: 'equip', id: idAt(i), ...held(i) });
+  wrap('insertCard', (i, where) => idAt(i) && (typeof where === 'string' ? { op: 'card', id: idAt(i), worn: where } : { op: 'card', id: idAt(i), item: idAt(where), has: [...(c.inventory[where]?.cards ?? [])] }));
   wrap('unequip', slot => ({ op: 'unequip', slot }));
   wrap('allocate', key => ({ op: 'alloc', key }));
   const reset = c.resetStats.bind(c); c.resetStats = () => { reset(); op({ op: 'reset' }); };
@@ -47,8 +50,8 @@ export function attachNetProgress(net, c, quests = null) {
   }
 
   const adopt = s => {
-    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills } = s;
-    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills } });
+    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards } = s;
+    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
     c.emit('skills');
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);
     c.emit('inventory'); c.emit('change'); c.save?.();

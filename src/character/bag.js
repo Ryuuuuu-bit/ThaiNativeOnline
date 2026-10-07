@@ -9,7 +9,8 @@ export const BAG_TABS = [
   { id: 'all', label: 'ทั้งหมด', has: () => true },
   { id: 'equip', label: 'อุปกรณ์', has: d => d.type === 'equip' },
   { id: 'use', label: 'ของใช้', has: d => d.type === 'use' },
-  { id: 'material', label: 'วัตถุดิบ', has: d => d.type !== 'equip' && d.type !== 'use' },
+  { id: 'card', label: 'การ์ด', has: d => d.type === 'card' },
+  { id: 'material', label: 'วัตถุดิบ', has: d => d.type !== 'equip' && d.type !== 'use' && d.type !== 'card' },
 ];
 export const inTab = (tab, id) => (BAG_TABS.find(t => t.id === tab) ?? BAG_TABS[0]).has(ITEMS[id] ?? {});
 
@@ -34,7 +35,8 @@ export function gearScore(cls, id) {
 // An empty slot makes any piece better.
 export function compareToWorn(character, id) {
   const d = ITEMS[id]; if (d?.type !== 'equip') return 0;
-  const worn = character.equipment?.[d.slot];
+  // charms: against the weaker of the two worn (an empty charm slot makes any charm better)
+  const worn = d.slot === 'charm' ? [character.equipment?.charm, character.equipment?.charm2].sort((a, b) => (a ? gearScore(character.cls, a) : -1) - (b ? gearScore(character.cls, b) : -1))[0] : character.equipment?.[d.slot];
   if (!worn) return 1;
   const diff = gearScore(character.cls, id) - gearScore(character.cls, worn);
   return Math.abs(diff) < .5 ? 0 : Math.sign(diff);
@@ -45,7 +47,7 @@ export const matchesSearch = (id, q) => !q || (ITEMS[id]?.name ?? '').toLowerCas
 // Auto-sort: gear first (weapon, armor, charm; rarer first), then consumables, then
 // materials; same items merged into one stack; empty slots last. Returns a new array
 // of the same length.
-const TYPE_ORDER = { equip: 0, use: 1 }, SLOT_ORDER = { weapon: 0, armor: 1, charm: 2 }, RARITY_ORDER = { epic: 0, rare: 1, common: 2 };
+const TYPE_ORDER = { equip: 0, card: 1, use: 2 }, SLOT_ORDER = { weapon: 0, offhand: 1, armor: 2, head: 3, cape: 4, shoes: 5, charm: 6 }, RARITY_ORDER = { epic: 0, rare: 1, common: 2 };
 export function sortedInventory(inventory) {
   const stacks = new Map(), gear = [];
   for (const s of inventory) {

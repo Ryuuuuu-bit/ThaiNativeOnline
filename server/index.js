@@ -27,6 +27,8 @@
 //   bosses past CH 1); quiet ones close after a warning. welcome carries {ch, chs}.
 //   client → server  chans (the list) · chan {ch} (switch: out of a fight, once a minute)
 //   server → client  chans {map, ch, list: [{ch, n, cap, closing}]} · chno {why} · chwarn {ch, secs} · chmove {ch, why}
+// Cards (src/character/data/cards.js): a card in a kill's drops is announced to everyone:
+//   server → client  cardnews {name, card, monster}
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -215,6 +217,7 @@ function route(map, events, except = null) {
     if (e.t === 'kill') {
       const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
       const ws = socketOf(e.to); if (ws) send(ws, e);
+      if (e.card) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
       if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
     } else if (e.t === 'ma') {
       const ws = socketOf(e.to); if (!ws) continue;

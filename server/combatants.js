@@ -33,7 +33,7 @@
 //   cs.touch(playerId) (a blow or a swing: in a fight) · cs.fighting(playerId) → bool
 import { Character } from '../src/character/Character.js';
 import { CLASSES, POINTS_PER_LEVEL } from '../src/character/data/classes.js';
-import { ITEMS } from '../src/character/data/items.js';
+import { ITEMS, EQUIP_SLOTS, slotKind } from '../src/character/data/items.js';
 import { SKILLS as LEGACY } from '../src/combat/data/skills.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
@@ -69,11 +69,13 @@ export function sane(data, cls) {
   const budget = POINTS_PER_LEVEL * (level - 1) + 10;   // a few starting points of slack
   if (spent > budget) return null;
   const equipment = {};
-  for (const slot of ['weapon', 'armor', 'charm']) { const id = data.equipment?.[slot]; equipment[slot] = id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slot ? id : null; }
+  for (const slot of EQUIP_SLOTS) { const id = data.equipment?.[slot]; equipment[slot] = id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slotKind(slot) ? id : null; }
   // job level and skills are checked by Character itself (unlock levels, no more points than the job level gives)
   const jobLevel = Number.isFinite(Number(data.jobLevel)) ? Number(data.jobLevel) : undefined;
   const skills = data.skills && typeof data.skills === 'object' ? data.skills : undefined;
-  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills }); } catch { return null; }
+  // cards in the worn gear: only real ones of the item's kind, no more than its slots (Character checks)
+  const cards = data.cards && typeof data.cards === 'object' ? data.cards : undefined;
+  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills, cards }); } catch { return null; }
 }
 
 export class Combatants {
@@ -131,7 +133,7 @@ export class Combatants {
     s.fightAt = this.now();
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
     const raw = def.atk * power * (.85 + this.r() * .3) * (def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
-    const dmg = c.damage(Math.max(1, raw - c.defense * .4));
+    const dmg = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(def))));   // cards: less from that race / element
     if (c.alive) afterHit(c, def);
     s.dirty = true;
     return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
@@ -235,8 +237,10 @@ export class Combatants {
   }
   land(world, players, m, id, r, night, { pet = false } = {}) {
     if (!r.hit) { world.aggro(m, id); return [{ t: 'mh', id: m.id, miss: true, by: id }]; }
-    const p = players.find(x => x.id === id);
-    const dmg = m.def.shield && p && shielded(m, p) ? Math.max(1, Math.round(r.dmg * (1 - SHIELD))) : r.dmg;
+    const p = players.find(x => x.id === id), c = this.list.get(id)?.c;
+    let dmg = r.dmg * (1 + (c?.vsRace(m.def) ?? 0));   // cards: more against that race
+    if (m.def.shield && p && shielded(m, p)) dmg *= 1 - SHIELD;
+    dmg = Math.max(1, Math.round(dmg));
     return world.damage(m, id, dmg, { crit: !!r.crit, pet }, players, night);
   }
   // a rate bucket: one blow per `every` seconds, up to 2 saved up (network bunching)

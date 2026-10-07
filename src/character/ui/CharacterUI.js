@@ -6,19 +6,36 @@ import './character.css';
 import { classBadge, iconHtml } from '../../ui/icons.js';
 import { BAG_TABS, inTab, compareToWorn, matchesSearch, sortBag, sortedInventory } from '../bag.js';
 import { SkillPanel } from './SkillPanel.js';
+import { RACE_LABELS, ELEMENT_LABELS } from '../data/cards.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
 
-const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', charm: 'เครื่องราง' };
+const SLOT_LABELS = { weapon: 'อาวุธ', offhand: 'มือรอง', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง', charm2: 'เครื่องราง 2' };
 const BONUS_LABELS = { atk: 'ATK', matk: 'MATK', def: 'DEF', hp: 'HP', mp: 'MP', crit: 'คริ', critDmg: 'แรงคริ', acc: 'แม่นยำ', eva: 'หลบ' };
 const PERCENT_BONUS = new Set(['crit', 'critDmg']);
+// card keys: vs_<race> (more damage against it), res_<race | element> (less damage from it)
+const bonusLabel = (k, v) => {
+  const [kind, what] = k.split('_');
+  if (kind === 'vs') return `ตี${RACE_LABELS[what] ?? what} +${Math.round(v * 100)}%`;
+  if (kind === 'res') return `รับดาเมจจาก${RACE_LABELS[what] ?? `ธาตุ${ELEMENT_LABELS[what] ?? what}`} −${Math.round(v * 100)}%`;
+  return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${Math.round(v * 100)}%` : v}`;
+};
+export const bonusText = b => (b ? Object.entries(b).map(([k, v]) => bonusLabel(k, v)).join(' · ') : '');
 
-function itemTip(id) {
+// "ดาบเหล็กลาย [2]" — RO style, the number of card slots
+export const itemName = id => { const d = ITEMS[id]; return d.type === 'equip' && d.slots ? `${d.name} [${d.slots}]` : d.name; };
+const cardsLine = (id, cards = []) => {
+  const n = ITEMS[id]?.slots ?? 0; if (ITEMS[id]?.type !== 'equip') return '';
+  if (!n) return '\nไม่มีช่องการ์ด';
+  return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
+};
+function itemTip(id, cards = []) {
   const d = ITEMS[id];
-  const bonus = d.bonus ? Object.entries(d.bonus).map(([k, v]) => `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${Math.round(v * 100)}%` : v}`).join(' · ') : '';
-  return `${d.name}${d.slot ? ` (${SLOT_LABELS[d.slot]})` : ''}\n${d.desc || bonus}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
+  const where = d.type === 'card' ? ` (การ์ด${SLOT_LABELS[d.slot]})` : d.slot ? ` (${SLOT_LABELS[d.slot]})` : '';
+  return `${itemName(id)}${where}\n${d.desc || bonusText(d.bonus)}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
 }
+const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
 
 export class CharacterUI {
   /**
@@ -65,7 +82,7 @@ export class CharacterUI {
       <div class="g-gold"></div><div class="g-bar g-weight" title="น้ำหนักสัมภาระ (STR เพิ่มความจุ)"><span></span><em></em></div>
       <div class="g-bag-tabs" role="tablist">${BAG_TABS.map((t, i) => `<button role="tab" data-tab="${t.id}" aria-selected="${i === 0}">${t.label}</button>`).join('')}</div>
       <div class="g-bag-tools"><input class="g-bag-search" type="search" placeholder="ค้นหา…" aria-label="ค้นหาไอเท็ม" /><button class="g-bag-sort" title="เรียงไอเท็มและรวมกองซ้ำ">เรียง</button><label class="g-bag-auto" title="เรียงให้เองทุกครั้งที่ได้ของ"><input type="checkbox" /> อัตโนมัติ</label></div>
-      <div class="g-grid"></div><p class="g-bag-none" hidden>ไม่มีไอเท็มในหมวดนี้</p>
+      <div class="g-grid"></div><p class="g-bag-none" hidden>ไม่มีไอเท็มในหมวดนี้</p><div class="g-card-pick" hidden></div>
       <label class="g-sell"><input type="checkbox" /> โหมดขาย (คลิกไอเท็มเพื่อขาย)</label><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่</p>`);
     for (const p of [this.sheet, this.bag]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { p.hidden = true; }); this.layer.append(p); }
     this.skills = new SkillPanel(this.layer, this.c, this.feed);
@@ -89,7 +106,16 @@ export class CharacterUI {
       const slot = e.target.closest('[data-index]'); if (!slot) return;
       const i = Number(slot.dataset.index), item = this.c.inventory[i]; if (!item) return;
       if (this.sellMode.checked) { const gold = this.c.sellAt(i); this.feed.log(`ขาย ${ITEMS[item.id].name} ได้ ${gold} ทอง`, 'gold'); }
+      else if (ITEMS[item.id].type === 'card') this.openCardPick(i);
       else if (!this.c.useAt(i) && ITEMS[item.id].type === 'use') this.feed.log('HP เต็มอยู่แล้ว');
+    });
+    // which item a card goes into (the card stays there for good)
+    this.cardPick = this.bag.querySelector('.g-card-pick');
+    this.cardPick.addEventListener('click', e => {
+      const b = e.target.closest('[data-where]'); if (!b) { if (e.target.closest('.g-pick-cancel')) this.cardPick.hidden = true; return; }
+      const card = this.c.inventory[this.pickCard]?.id, where = b.dataset.where === 'worn' ? 'worn' : Number(b.dataset.where);
+      this.cardPick.hidden = true;
+      if (card && this.c.insertCard(this.pickCard, where)) this.feed.log(`ใส่${ITEMS[card].name}แล้ว`, 'epic');
     });
     this.sheet.addEventListener('click', e => {
       const add = e.target.closest('[data-stat]'); if (add) this.c.allocate(add.dataset.stat);
@@ -106,6 +132,8 @@ export class CharacterUI {
     c.on('overweight', id => this.feed.log(`หนักเกินไป ถือ ${ITEMS[id].name} ไม่ไหว`, 'bad'));
     c.on('levelup', lv => { this.feed.banner(`เลเวลอัป · Lv. ${lv}`, `ได้รับแต้มสถานะ ${POINTS_PER_LEVEL} แต้ม กด C เพื่ออัปสถานะ`); this.feed.log(`เลเวลอัปเป็น ${lv}!`, 'gold'); });
     c.on('used', id => this.feed.log(`ใช้ ${ITEMS[id].name}`));
+    c.on('card-choose', i => this.openCardPick(i));
+    c.on('card-no-slot', slot => this.feed.log(`ไม่มี${SLOT_LABELS[slot]}ที่มีช่องการ์ดว่าง`, 'bad'));
     c.on('damaged', () => { this.frame.classList.remove('g-shake'); void this.frame.offsetWidth; this.frame.classList.add('g-shake'); });
   }
 
@@ -153,7 +181,7 @@ export class CharacterUI {
     const c = this.c, s = c.stats;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
       <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 24 })}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level} · Job Lv. ${c.jobLevel}</small></div></div>
-      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id)}\nคลิกเพื่อถอด` : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? ITEMS[id].name : SLOT_LABELS[slot]}</small></button>`; }).join('')}</div>
+      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id, c.cards[slot])}\nคลิกเพื่อถอด` : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? itemName(id) : SLOT_LABELS[slot]}</small>${id ? pips(id, c.cards[slot]) : ''}</button>`; }).join('')}</div>
       <div class="g-stats-head"><span>สถานะ</span><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
       ${STATS.map(k => `<div class="g-stat" title="${STAT_HINTS[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${s[k]}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`).join('')}
       <div class="g-derived">
@@ -179,10 +207,21 @@ export class CharacterUI {
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
       const d = ITEMS[s.id], cmp = compareToWorn(this.c, s.id); shown++;
       const arrow = cmp > 0 ? '<i class="g-cmp up" title="ดีกว่าที่ใส่อยู่">▲</i>' : cmp < 0 ? '<i class="g-cmp down" title="แย่กว่าที่ใส่อยู่">▼</i>' : '';
-      return `<button class="g-slot rar-${d.rarity || 'none'}" data-index="${i}" title="${esc(itemTip(s.id))}${cmp ? `\n${cmp > 0 ? '▲ ดีกว่าที่ใส่อยู่' : '▼ แย่กว่าที่ใส่อยู่'}` : ''}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
+      return `<button class="g-slot rar-${d.rarity || 'none'}" data-index="${i}" title="${esc(itemTip(s.id, s.cards))}${cmp ? `\n${cmp > 0 ? '▲ ดีกว่าที่ใส่อยู่' : '▼ แย่กว่าที่ใส่อยู่'}` : ''}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
     this.refresh();
+  }
+  // The card picker: gear of the card's kind with a free slot (worn first).
+  openCardPick(i) {
+    const card = ITEMS[this.c.inventory[i]?.id]; if (!card) return;
+    if (this.bag.hidden) this.toggle('bag');
+    const targets = this.c.cardTargets(i); this.pickCard = i;
+    this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${bonusText(card.bonus)}</small></header>`
+      + (targets.length ? targets.map(t => `<button data-where="${t.worn ? 'worn' : t.index}"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
+        : `<p>ไม่มี${SLOT_LABELS[card.slot]}ที่มีช่องการ์ดว่าง</p>`)
+      + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><button class="g-pick-cancel">ยกเลิก</button>';
+    this.cardPick.hidden = false;
   }
   // Per frame: buff timers count down.
   update() { if (this.c.buffs.length) this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml(); }

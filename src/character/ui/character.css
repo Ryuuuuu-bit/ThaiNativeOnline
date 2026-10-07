@@ -33,7 +33,7 @@
 .g-sheet-head{display:flex;gap:12px;align-items:center;margin-bottom:14px}
 .g-sheet-head .g-portrait{width:42px;height:46px;font-size:22px}
 .g-sheet-head b{display:block;font-weight:500}.g-sheet-head small{font-size:10px;color:#d6b877}
-.g-equip{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.g-equip{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px}
 .g-equip button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 3px;border:1px solid var(--rar);border-radius:4px;background:#0e1f1a99}
 .g-equip span{font-size:20px}.g-equip small{font-size:8px;color:#cfc8ac;text-align:center}
 .g-stats-head{display:flex;justify-content:space-between;font-size:10px;color:#cfc8ac;border-bottom:1px solid #f0e3b31a;padding-bottom:5px;margin-bottom:6px}
@@ -214,3 +214,16 @@ body:has(.g-bag:not([hidden])) .training-panel,body:has(.g-sheet:not([hidden])) 
 .g-skill-foot{margin-top:10px;display:grid;gap:5px}.g-skill-foot small{font-size:9px;color:#8d9f8f}
 .g-skill-reset{padding:6px;border:1px solid #cabc8655;border-radius:3px;background:#0d1a16b3;color:#e3d7af;font:inherit;font-size:11px;cursor:pointer}.g-skill-reset:disabled{opacity:.4;cursor:default}
 body:has(.g-skills:not([hidden])) .training-panel{display:none}
+
+/* card slots (RO style, src/character/data/cards.js): worn gear's slots, bag pips, the picker */
+.g-slot .g-pips{position:absolute;left:2px;bottom:1px;font-style:normal;font-size:7px;letter-spacing:-1px;color:#c79af0;text-shadow:0 0 3px #000}
+.g-card-pick{position:absolute;inset:auto 10px 10px 10px;z-index:3;background:#16261fee;border:1px solid #c79af088;border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:4px;max-height:70%;overflow:auto}
+.g-card-pick header{font-size:12px;color:#eadcff;display:flex;flex-direction:column}.g-card-pick header small{font-size:9px;color:#c9b8e8}
+.g-card-pick button[data-where]{display:flex;align-items:center;gap:8px;background:#ffffff0d;border:1px solid #d3c48726;border-radius:3px;padding:4px 8px;font-size:11px;text-align:left;position:relative}
+.g-card-pick button[data-where]:hover{background:#ffffff1f}
+.g-card-pick button span{width:26px;height:26px;display:grid;place-items:center}.g-card-pick button span img{width:26px;height:26px}
+.g-card-pick .g-pips{position:static;margin-left:auto;font-size:9px}
+.g-card-pick p{margin:2px 0;font-size:10px;color:#b7c1a6}.g-card-pick .g-pick-warn{color:#f0b38a}
+.g-pick-cancel{align-self:flex-end;background:none;border:1px solid #d3c48740;border-radius:3px;font-size:10px;padding:2px 10px}
+.net-chat p.news b{color:#c79af0}.net-chat p.news span{color:#f3dcff}
+.g-equip button{position:relative}.g-equip .g-pips{position:static;font-size:8px;letter-spacing:0;line-height:1}

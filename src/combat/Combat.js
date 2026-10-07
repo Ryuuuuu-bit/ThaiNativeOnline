@@ -12,6 +12,7 @@ import { rollDamage } from '../rules/stats.js';
 import { followerAway } from '../classes/dog.js';
 import { MONSTER_ACCURACY } from '../character/data/progression.js';
 import { afterHit, shoveTo } from './monsterHit.js';
+import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -196,6 +197,7 @@ export class Combat extends Emitter {
   damageMonster(m, amount, { crit = false, miss = false } = {}) {
     if (!m?.alive) return false;
     if (miss) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return false; }
+    amount *= 1 + this.character.vsRace(m.def);   // cards (offline; online the server rolls)
     m.hp = Math.max(0, m.hp - Math.max(0, Math.round(amount)));
     this.emit('hit', { monster: m, amount: Math.round(amount), crit, x: m.x, z: m.z });
     if (m.hp <= 0) { this.kill(m); return false; }
@@ -213,6 +215,7 @@ export class Combat extends Emitter {
     const gold = randInt(...m.def.gold);
     const drops = [];
     for (const [id, chance, min, max] of LOOT[m.def.loot] || []) if (Math.random() < chance) drops.push({ id, qty: randInt(min, max) });
+    if (hasCard(m.type) && Math.random() < cardRate(m.def)) drops.push({ id: cardId(m.type), qty: 1 });
     this.emit('kill', { monster: m, exp, gold, drops });
     c.gold += gold; c.gainExp(exp);
     for (const d of drops) c.addItem(d.id, d.qty);
@@ -375,7 +378,7 @@ export class Combat extends Emitter {
     else {
       const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
       const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
-      dealt = c.damage(Math.max(1, raw - c.defense * .4));
+      dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def))));
     }
     const p = this.world.playerPos();
     this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });

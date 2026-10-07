@@ -3,6 +3,7 @@ import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
 import './net.css';
+import { ITEMS } from '../character/data/items.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
 // on this map and talk to everyone. The player's own position goes out ~10× a second
@@ -29,6 +30,7 @@ export function startMultiplayer(game) {
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
     .on('chno', m => chat.add('ระบบ', CH_WHY[m.why] ?? 'ย้ายแชนแนลไม่ได้'))
+    .on('cardnews', m => chat.add('ประกาศ', `✦ ${m.name} ได้รับ${ITEMS[m.card]?.name ?? 'การ์ด'}!`, 'news'))
     .on('join', m => remote.set(m.p))
     .on('leave', m => remote.remove(m.id))
     .on('tick', m => { for (const [id, x, z, f, mv] of m.p) remote.move(id, x, z, f, mv); })
@@ -115,8 +117,8 @@ class ChatBox {
   }
   open() { this.input.hidden = false; this.root.classList.add('typing'); this.input.focus(); }
   close() { this.input.hidden = true; this.root.classList.remove('typing'); this.input.blur(); }
-  add(name, text) {
-    const line = document.createElement('p'); line.innerHTML = `<b></b> <span></span>`;
+  add(name, text, kind = '') {
+    const line = document.createElement('p'); line.innerHTML = `<b></b> <span></span>`; if (kind) line.className = kind;
     line.querySelector('b').textContent = name; line.querySelector('span').textContent = text;
     this.lines.append(line); while (this.lines.children.length > 30) this.lines.firstChild.remove();
     this.lines.scrollTop = this.lines.scrollHeight;
