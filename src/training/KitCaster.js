@@ -44,7 +44,7 @@ export class KitCaster {
   get busy() { return this.runner.busy || !!this.pending || !!this.casting; }
   cooldown(i) { return [this.cd.get(this.slots[i].id) ?? 0, this.slots[i].cd * (1 - (this.character.cooldownCut || 0))]; }
   mpOf(i) { return Math.round(this.infos[i].mp * (this.character.mpCostMul ?? 1)); }
-  usable(i) { return this.nearDummy() || (this.learned(i) && this.character.mp >= this.mpOf(i)); }
+  usable(i) { return this.learned(i) && (this.nearDummy() || this.character.mp >= this.mpOf(i)); }
   // the rules id a skill casts with (its evolution path, if the character took one)
   eid(id) { return this.character?.skillVariant?.(id) ?? id; }
   // Skill levels: the character's learnt levels (job levels, src/character/Character.js);
@@ -62,8 +62,8 @@ export class KitCaster {
   cast(i, quiet = false) {
     const s = this.slots[i], info = this.infos[i], c = this.character;
     if (!s || !c.alive || this.runner.busy || this.casting || (this.cd.get(s.id) ?? 0) > 0) return false;
-    // not learnt yet: only a practice swing at the training dummy (at Lv.1)
-    if (!this.learned(i) && !this.nearDummy()) { if (!quiet) this.fail(`ยังไม่ได้เรียนสกิลนี้ · ปลดที่ Job Lv.${s.unlock ?? '?'} แล้วอัปด้วยแต้มสกิล (K)`); return false; }
+    // not learnt yet: not even at the training dummy (practice is free of MP, not of learning)
+    if (!this.learned(i)) { if (!quiet) this.fail(`ยังไม่ได้เรียนสกิลนี้ · ปลดที่ Job Lv.${s.unlock ?? '?'} แล้วอัปด้วยแต้มสกิล (K)`); return false; }
     if (quiet && this.pending) return false;
     const pick = this.pick(info);
     if (!pick) { if (!quiet) this.fail(this.dummy() ? 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ' : 'ไม่มีเป้าหมายใกล้ๆ'); return false; }
