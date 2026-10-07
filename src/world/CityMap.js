@@ -4,7 +4,11 @@
 import { HALLS } from '../data/halls.js';
 import { WAT_RANG } from '../data/sites.js';
 
-export const BOUNDS = { minX: -125, maxX: 125, minZ: -610, maxZ: 268 };
+export const BOUNDS = { minX: -125, maxX: 125, minZ: -820, maxZ: 268 };
+// The world ended at z -610 before คลองหนองบึง was added north of วัดร้าง. Layout passes that
+// spanned the whole world (forest scatter, ground speckle) keep that extent so every older
+// map looks exactly as before; the marsh has its own (districts/Klong.js).
+export const OLD_MIN_Z = -610;
 export const WATER_Y = -0.32;
 export const PADDY_WATER_Y = -0.1;
 // The west wall stands closer in than the east one (the city was trimmed on its west side so
@@ -23,6 +27,22 @@ export const CANAL = { half: 3.5, pts: [[-132, -6], [-95, -11], [-60, -8], [-28,
 // A forest stream marks the boundary between dense and deep forest.
 export const STREAM = { half: 2, pts: [[-132, -392], [-90, -400], [-50, -396], [-20, -406], [0, -405], [25, -398], [60, -410], [100, -402], [132, -408]] };
 export const POND = { x: 42, z: -80, rx: 9, rz: 6 };
+// คลองหนองบึง (map `klong`): a wide klong winds east-west across the marsh, and four
+// หนอง (marsh pools) lie in reed beds; the south-east one is the lagoon of ชาละวัน.
+export const KLONG = { half: 4.5, pts: [[-132, -700], [-90, -690], [-50, -696], [-15, -686], [0, -689], [30, -684], [70, -695], [100, -688], [132, -694]] };
+export const NONGS = [
+  { x: -78, z: -642, rx: 16, rz: 10 }, { x: 74, z: -650, rx: 14, rz: 9 },
+  { x: -70, z: -765, rx: 18, rz: 11 }, { x: 78, z: -790, rx: 22, rz: 13, lagoon: true },
+];
+export const MARSH_WATER_Y = -0.55;
+export const marshFactor = z => smoothstep(-605, -640, z);
+export function nongDistance(x, z) {
+  if (z > -620) return Infinity;
+  let best = Infinity;
+  for (const n of NONGS) best = Math.min(best, Math.hypot((x - n.x) / n.rx, (z - n.z) / n.rz));
+  return best;
+}
+export const klongDistance = (x, z) => (z < -672 && z > -712 ? polylineDistance(x, z, KLONG.pts) : Infinity);
 export const CEMETERY = { x: 0, z: -542, r: 34 };
 
 export function segmentDistance(px, pz, ax, az, bx, bz) {
@@ -45,8 +65,9 @@ export function resample(pts, step) {
   return out;
 }
 
-// 0 inside the city and farmland, 1 in the deep forest.
-export function wildness(z) { return smoothstep(-292, -470, z); }
+// 0 inside the city and farmland, 1 in the deep forest; the open marsh north of the
+// woods (คลองหนองบึง) is lighter again (less fog, brighter sun).
+export function wildness(z) { return smoothstep(-292, -470, z) * (1 - .55 * smoothstep(-600, -650, z)); }
 export function cemeteryFactor(x, z) { return smoothstep(CEMETERY.r + 40, CEMETERY.r - 6, Math.hypot(x - CEMETERY.x, z - CEMETERY.z)); }
 export function insideWalls(x, z) { return x > WALL.west && x < WALL.x && z > WALL.z && z < riverBank(x); }
 
@@ -98,6 +119,12 @@ export function waterAt(x, z) {
   if (z > -20 && z < 2 && polylineDistance(x, z, CANAL.pts) < CANAL.half - .35) return 2;
   if (((x - POND.x) / POND.rx) ** 2 + ((z - POND.z) / POND.rz) ** 2 < .82) return 2;
   if (z < -385 && z > -420 && polylineDistance(x, z, STREAM.pts) < STREAM.half - .35) return 2;
+  if (z < -620) {
+    if (klongDistance(x, z) < KLONG.half - .35) return 2;
+    const n = nongDistance(x, z);
+    if (n < .82) return 2;
+    if (n < 1.32) return 1;   // reed beds: wading depth
+  }
   if (paddyAt(x, z) || channelDistance(x, z) < 0) return 1;
   return 0;
 }
@@ -113,6 +140,14 @@ export function terrainHeight(x, z) {
   const pond = Math.hypot((x - POND.x) / POND.rx, (z - POND.z) / POND.rz);
   if (pond < 1.4) h = lerp(h, -1, 1 - smoothstep(.75, 1.15, pond));
   if (z < -380 && z > -425) h -= (1 - smoothstep(STREAM.half - .8, STREAM.half + .7, polylineDistance(x, z, STREAM.pts))) * .95;
+  // the marsh: low and flat, the klong and the pools sunk into it
+  if (z < -600) {
+    h = lerp(h, h * .3 - .1, marshFactor(z));
+    const k = klongDistance(x, z);
+    if (k < KLONG.half + 1.5) h = lerp(h, -1.4, 1 - smoothstep(KLONG.half - 1, KLONG.half + 1.2, k));
+    const n = nongDistance(x, z);
+    if (n < 1.6) h = lerp(h, n < .82 ? -1.3 : -.66, 1 - smoothstep(.72, 1.45, n));
+  }
   if (paddyAt(x, z)) h = -.22;
   else {
     const c = channelDistance(x, z);
@@ -154,6 +189,11 @@ export const J = {
   // วัดร้าง approach (src/data/sites.js WAT_RANG): through a fallen stretch of the
   // cemetery wall (wat_cw) to the ground before the temple's west gate (wat_g).
   wat_cw: [34, -544.7], wat_g: [45, -540],
+  // The trail west of the cemetery north to คลองหนองบึง (kw0–kw2, map wat_rang), and the
+  // marsh paths: arrival k0, across the klong bridge (kb_s/kb_n), to ชาละวัน's lagoon.
+  kw0: [-40, -506], kw1: [-50, -548], kw2: [-40, -586],
+  k0: [-40, -612], k1: [-28, -640], k2: [-8, -664], kb_s: [0, -678], kb_n: [0, -700], k3: [12, -722], k4: [32, -748], k5: [52, -770],
+  kv1: [22, -628], kv2: [44, -622], kt1: [-22, -716], kt2: [-38, -738],
 };
 
 // kind: paved (brick/laterite), road (packed earth), bund (raised field path),
@@ -204,6 +244,12 @@ export const ROADS = [
   // hook). After the lane so every layout above is unchanged; `site` keeps it out
   // of the cemetery's own grave and tree spacing (districts/Wilds.js).
   { w: 2.4, kind: 'trail', pts: ['cem_e', 'wat_cw', 'wat_g'], site: WAT_RANG.id },
+  // คลองหนองบึง (added after everything above so every older layout is unchanged).
+  { w: 2.6, kind: 'trail', pts: ['f7', 'kw0', 'kw1', 'kw2', 'k0'], marsh: true },   // crosses the seam: the path exit on each side
+  { w: 3, kind: 'trail', pts: ['k0', 'k1', 'k2', 'kb_s'], marsh: true },
+  { w: 3, kind: 'trail', pts: ['kb_n', 'k3', 'k4', 'k5'], marsh: true },
+  { w: 2.2, kind: 'trail', pts: ['k1', 'kv1', 'kv2'], marsh: true }, { w: 2.2, kind: 'trail', pts: ['k3', 'kt1', 'kt2'], marsh: true },
+  { w: 3, kind: 'bridge', pts: ['kb_s', 'kb_n'], marsh: true },
 ];
 export const roadPoints = road => road.pts.map(p => (typeof p === 'string' ? J[p] : p));
 

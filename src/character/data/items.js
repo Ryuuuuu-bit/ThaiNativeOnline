@@ -34,6 +34,14 @@ export const ITEMS = {
   sabai:      { name: 'สไบไหม', icon: '≋', img: 'ui/items/icon_sabai.png', weight: 5, type: 'equip', slot: 'cape', slots: 1, bonus: { def: 2, int: 1, mp: 20 }, rarity: 'rare', price: 90 },
   sandals:    { name: 'รองเท้าแตะหนัง', icon: '⏢', img: 'ui/items/icon_sandals.png', weight: 10, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 1, agi: 1 }, rarity: 'common', price: 20 },
   hide_boots: { name: 'รองเท้าหนังสัตว์', icon: '⏢', img: 'ui/items/icon_hide_boots.png', weight: 20, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 3, agi: 2 }, rarity: 'rare', price: 80 },
+  // ---- คลองหนองบึง tier (Lv 10-25): the marsh boat sells the plain ones, the rest drop ----
+  croc_scale: { name: 'เกล็ดจระเข้', icon: '◇', img: 'ui/items/icon_croc_scale.png', weight: 8, type: 'material', price: 25, desc: 'เกล็ดแข็งจากจระเข้บึง ขายได้ราคาดี' },
+  kris:       { name: 'กริชคดน้ำ', icon: '🗡', img: 'ui/items/icon_kris.png', weight: 30, type: 'equip', slot: 'weapon', slots: 2, bonus: { atk: 16, dex: 2 }, rarity: 'rare', price: 260 },
+  mangrove_staff: { name: 'ไม้เท้ารากโกงกาง', icon: '⚚', img: 'ui/items/icon_mangrove_staff.png', weight: 50, type: 'equip', slot: 'weapon', slots: 2, bonus: { matk: 18, int: 4 }, rarity: 'rare', price: 260 },
+  horn_bow:   { name: 'ธนูเขาควายบึง', icon: '🏹', img: 'ui/items/icon_horn_bow.png', weight: 45, type: 'equip', slot: 'weapon', slots: 2, bonus: { atk: 15, dex: 4 }, rarity: 'rare', price: 260 },
+  croc_armor: { name: 'เกราะเกล็ดจระเข้', icon: '🥋', img: 'ui/items/icon_croc_armor.png', weight: 150, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 16, vit: 3 }, rarity: 'rare', price: 300 },
+  croc_boots: { name: 'รองเท้าหนังจระเข้', icon: '⏢', img: 'ui/items/icon_croc_boots.png', weight: 25, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 5, agi: 3 }, rarity: 'rare', price: 160 },
+  chalawan_fang: { name: 'เขี้ยวชาละวัน', icon: '☾', img: 'ui/items/icon_chalawan_fang.png', weight: 5, type: 'equip', slot: 'charm', slots: 0, bonus: { atk: 10, str: 4, vs_beast: .1 }, rarity: 'epic', price: 900 },
   // ---- casting gear: cast speed and cooldowns (src/character/Character.js castSpeed / cooldownCut) ----
   bia_kae:    { name: 'เบี้ยแก้', icon: '◉', img: 'ui/items/icon_bia_kae.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 1, cast: .1 }, rarity: 'rare', price: 90 },
   pha_yant:   { name: 'ผ้ายันต์ห้าแถว', icon: '▤', img: 'ui/items/icon_pha_yant.png', weight: 5, type: 'equip', slot: 'cape', slots: 1, bonus: { int: 2, cdr: .08, mpCost: .1 }, rarity: 'rare', price: 140 },

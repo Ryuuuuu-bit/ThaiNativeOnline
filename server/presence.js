@@ -26,7 +26,7 @@ export const LIMITS = {
   msgsPerSec: 40, maxPlayers: 300,
 };
 export const CLASSES = ['muaythai', 'warrior', 'hunter', 'shaman', 'herbalist', 'assassin'];
-export const MAPS = ['city', 'paddy', 'deep_forest', 'wat_rang'];
+export const MAPS = ['city', 'paddy', 'deep_forest', 'wat_rang', 'klong'];
 const roomOf = (map, ch) => (ch > 1 ? `${map}#${ch}` : map);
 
 const clean = (s, n) => String(s ?? '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);

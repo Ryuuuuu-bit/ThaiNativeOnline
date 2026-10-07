@@ -36,6 +36,13 @@ export const THEMES = {
     tree: '#4f7040', treeDark: '#2a4426', roof: '#8f5e3a', roofStone: '#7a5638', roofDark: '#4c3220', wall: '#7a5638', wallTop: '#c9aa7e',
     deck: '#84633c', ruin: '#868479', temple: '#cbb98a', wash: '#e2d8b4',
   },
+  // Marsh: olive-brown paper, wide tea-coloured water.
+  klong: {
+    paper: '#d8d2ac', edge: '#857d55', land: '#a8ae80', wild: '#6f805a', track: '#c2a670', trackEdge: '#7a6440',
+    water: '#5d8278', waterDeep: '#3f6158', ink: '#34321f', waterInk: '#1f3d36', paddy: '#8aa868', paddyInk: '#55743c',
+    tree: '#58744a', treeDark: '#30472a', roof: '#8a6a44', roofStone: '#76603e', roofDark: '#4e3c24', wall: '#7a6644', wallTop: '#c8b088',
+    deck: '#86683e', ruin: '#8c8a7e', temple: '#c9b98c', wash: '#e2dab8',
+  },
   // Ruined temple grounds: grey-ochre, cold stone.
   ruins: {
     paper: '#ddd5bb', edge: '#8e8670', land: '#bdbb98', wild: '#7f8a6a', track: '#c9b088', trackEdge: '#80704f',
@@ -44,7 +51,7 @@ export const THEMES = {
     deck: '#86704f', ruin: '#9b978d', temple: '#cfc2a2', wash: '#e6dfca',
   },
 };
-const ALIASES = { fields: 'wild', rice: 'paddy', paddy_fields: 'paddy', deep_forest: 'forest', jungle: 'forest', wat_rang: 'ruins', wat: 'ruins', ruin: 'ruins', temple_ruins: 'ruins' };
+const ALIASES = { marsh: 'klong', swamp: 'klong', fields: 'wild', rice: 'paddy', paddy_fields: 'paddy', deep_forest: 'forest', jungle: 'forest', wat_rang: 'ruins', wat: 'ruins', ruin: 'ruins', temple_ruins: 'ruins' };
 const WORDS = [[/forest|jungle|pa_?luek/, 'forest'], [/wat|ruin|shrine|cemetery/, 'ruins'], [/paddy|rice|field|farm/, 'paddy'], [/city|town|nakhon/, 'city']];
 
 const known = k => (typeof k === 'string' ? (THEMES[k] ? k : ALIASES[k]) : null);

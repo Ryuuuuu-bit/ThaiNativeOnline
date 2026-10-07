@@ -3,7 +3,8 @@
 // is split into three zone maps along the bands where the scenery changes:
 //   paddy       ทุ่งนาข้าว   rice fields, farmers' village, orchards, banyan (Lv 1-3)
 //   deep_forest ป่าลึก       forest gate, dense forest, log bridge, deep forest (Lv 2-5)
-//   wat_rang    วัดร้าง      abandoned shrine, old cemetery, ruined temple (Lv 4-7)
+//   wat_rang    วัดร้าง      abandoned shrine, old cemetery, ruined temple (Lv 4-8)
+//   klong       คลองหนองบึง  marsh, klong, reed beds and ชาละวัน's lagoon (Lv 10-25)
 // The North City Gate stays closed; a warp (ประตูวาป) in the gate passage and
 // one outside the gate link the city with the paddies. The wild maps are joined
 // by path exits on the trail (signposts), not by magic warps.
@@ -38,6 +39,8 @@ export const SEAM_Z = -112;
 // (z -305), and in the deep forest past the log bridge, before the shrine.
 export const FOREST_SEAM_Z = -296;
 export const WAT_SEAM_Z = -445;
+// North of the cemetery the woods give way to the marsh.
+export const KLONG_SEAM_Z = -600;
 
 const FULL_X = { minX: -122, maxX: 122 };
 
@@ -107,17 +110,36 @@ export const MAPS = {
   wat_rang: {
     id: 'wat_rang', name: 'วัดร้าง', sub: 'ศาลร้างกลางไพร · สุสานเก่า · โบสถ์ร้าง', safe: false, theme: 'wat', levels: [4, 8],
     intro: { title: 'วัดร้างกลางไพร', text: 'ศาลร้าง สุสานเก่า และโบสถ์ร้าง\nวิญญาณเร่ร่อนชุมนุมยามราตรี' },
-    owns: { minZ: BOUNDS.minZ, maxZ: WAT_SEAM_Z },
+    owns: { minZ: KLONG_SEAM_Z, maxZ: WAT_SEAM_Z },
     walk: [
       { ...FULL_X, minZ: -592, maxZ: -447 }, // the woods around the shrine, the cemetery and the ruined temple
     ],
-    view: { minX: BOUNDS.minX, maxX: BOUNDS.maxX, minZ: BOUNDS.minZ, maxZ: -375 },
+    view: { minX: BOUNDS.minX, maxX: BOUNDS.maxX, minZ: -660, maxZ: -375 },
     spawn: { x: -1.5, z: -459, facing: Math.PI },
     respawn: [[-1.5, -459], [-6, -462]],   // the trail head where the path from the forest arrives
     entities: [],
     regions: ['wat_wood', 'shrine', 'cemetery'],
     portals: [
       { id: 'path_to_deep_forest', style: 'path', at: { x: 3, z: -450, radius: 2.4 }, to: 'deep_forest', arrive: { x: 10.5, z: -429, facing: 0 }, node: 'f6', name: 'ทางกลับป่าลึก', marker: { x: -1.6, z: -451 } },
+      // West of the cemetery a trail runs north out of the woods into the marsh.
+      { id: 'path_to_klong', style: 'path', at: { x: -40, z: -589, radius: 2.4 }, to: 'klong', arrive: { x: -40, z: -612, facing: Math.PI }, node: 'kw2', name: 'ทางสู่คลองหนองบึง', marker: { x: -35.5, z: -588 } },
+    ],
+    visitors: [],
+  },
+  klong: {
+    id: 'klong', name: 'คลองหนองบึง', sub: 'ดงอ้อ · คลองใหญ่ · หนองน้ำ · ถิ่นชาละวัน', safe: false, theme: 'klong', levels: [10, 25],
+    intro: { title: 'คลองหนองบึง', text: 'ป่าอ้อ หนองน้ำ และคลองใหญ่ที่ไม่มีใครกล้าข้าม\nจระเข้และผีพรายน้ำซุ่มอยู่ใต้ผิวน้ำ' },
+    owns: { minZ: BOUNDS.minZ, maxZ: KLONG_SEAM_Z },
+    walk: [
+      { ...FULL_X, minZ: -800, maxZ: -603.5 }, // from the trail out of the woods across the klong to the lagoon
+    ],
+    view: { minX: BOUNDS.minX, maxX: BOUNDS.maxX, minZ: BOUNDS.minZ, maxZ: -540 },
+    spawn: { x: -40, z: -612, facing: Math.PI },
+    respawn: [[-40, -612], [-34, -616]],   // where the trail from the woods comes out
+    entities: [],
+    regions: ['marsh', 'reeds', 'klong_bank', 'lagoon'],
+    portals: [
+      { id: 'path_to_wat', style: 'path', at: { x: -40, z: -605.5, radius: 2.4 }, to: 'wat_rang', arrive: { x: -41, z: -580, facing: 0 }, node: 'k0', name: 'ทางกลับวัดร้าง', marker: { x: -44.5, z: -606 } },
     ],
     visitors: [],
   },

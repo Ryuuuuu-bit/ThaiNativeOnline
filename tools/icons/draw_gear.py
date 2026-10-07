@@ -90,7 +90,42 @@ def prakam(d):     # agarwood prayer beads
     d.ellipse([10, 18, 14, 22], fill=c('#f0cf6a'))
 
 
+def croc_scale(d):  # a few dark green scales
+    for i, (x, y) in enumerate([(7, 8), (12, 6), (16, 10), (9, 13), (14, 15)]):
+        d.polygon([(x, y - 3), (x + 3, y), (x, y + 3), (x - 3, y)], fill=c('#4a6a3a' if i % 2 else '#5a7a44'))
+        d.point((x, y), fill=c('#9ab070'))
+
+
+def kris(d):       # a wavy kris blade
+    pts = [(12, 3)] + [(12 + (2 if i % 2 else -2), 4 + i * 2) for i in range(6)] + [(12, 16)]
+    d.line(pts, fill=c('#c8ccd4'), width=3); d.line(pts, fill=c('#f0f0f4'))
+    d.rectangle([8, 16, 16, 17], fill=c('#c9a24a')); d.rectangle([10, 17, 14, 21], fill=c('#5a3a22'))
+
+
+def mangrove_staff(d):  # a twisted root staff with a green glow
+    d.line([(8, 21), (12, 12), (11, 6), (14, 3)], fill=c('#5a3e2a'), width=2)
+    d.line([(12, 12), (16, 9)], fill=c('#5a3e2a')); d.ellipse([12, 1, 18, 7], fill=c('#7fd0a0'))
+
+
+def horn_bow(d):   # a dark buffalo-horn bow
+    d.arc([4, 3, 18, 21], 290, 70, fill=c('#2e2a26'), width=3); d.line([(14, 4), (14, 20)], fill=c('#e0d8c0'))
+
+
+def croc_armor(d):  # scale armour
+    d.polygon([(6, 5), (18, 5), (19, 19), (5, 19)], fill=c('#3e5232'))
+    for y in range(7, 19, 3):
+        for x in range(7, 18, 3): d.point((x, y), fill=c('#7a9a5a'))
+    d.rectangle([9, 4, 15, 6], fill=c('#2a3a22'))
+
+
+def chalawan_fang(d):  # a great crocodile fang on a cord
+    d.line([(5, 4), (12, 8), (19, 4)], fill=c('#c8a070'))
+    d.polygon([(10, 8), (14, 8), (12, 21)], fill=c('#efe6cc')); d.line([(12, 9), (12, 19)], fill=c('#c9bc98'))
+
+
 ICONS = {
+    'croc_scale': croc_scale, 'kris': kris, 'mangrove_staff': mangrove_staff, 'horn_bow': horn_bow,
+    'croc_armor': croc_armor, 'croc_boots': shoe(c('#3e5232'), c('#22301c'), c('#7a9a5a')), 'chalawan_fang': chalawan_fang,
     'bia_kae': bia_kae, 'pha_yant': pha_yant, 'prakam': prakam,
     'pha_khao': pha_khao, 'ngob': ngob, 'chada': chada,
     'rattan_shield': shield(c('#c79a52'), c('#8a6430'), c('#5a3e1c')),

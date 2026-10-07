@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {
-  BOUNDS, ROADS, PLAZAS, PADDIES, CHANNELS, CANAL, STREAM, POND, CEMETERY,
+  BOUNDS, ROADS, PLAZAS, PADDIES, CHANNELS, CANAL, STREAM, POND, CEMETERY, OLD_MIN_Z, KLONG, NONGS,
   roadPoints, terrainHeight, waterAt, riverBank, farBank, wildness, insideWalls,
 } from './CityMap.js';
 import { createRng } from './rng.js';
@@ -120,12 +120,12 @@ export function paintGround(footprints, extent = BOUNDS) {
   };
 
   ctx.fillStyle = gradientByZ(ctx, pz, [
-    [-610, '#30392c'], [-480, '#38432f'], [-410, '#3f4c35'], [-360, '#4d5d3f'], [-310, '#61734a'], [-280, '#768751'],
+    [-820, '#3d4631'], [-650, '#3c4631'], [-612, '#30392c'], [-610, '#30392c'], [-480, '#38432f'], [-410, '#3f4c35'], [-360, '#4d5d3f'], [-310, '#61734a'], [-280, '#768751'],
     [-250, '#7c8c55'], [-120, '#7b8b56'], [-104, '#7e8a57'], [150, '#83895a'], [268, '#7f8a5b'],
   ]);
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < 60000; i++) {
-    const x = rng.range(BOUNDS.minX, BOUNDS.maxX), z = rng.range(BOUNDS.minZ, BOUNDS.maxZ), w = wildness(z);
+    const x = rng.range(BOUNDS.minX, BOUNDS.maxX), z = rng.range(OLD_MIN_Z, BOUNDS.maxZ), w = wildness(z);
     const style = rng() > .5 ? `rgba(255,250,215,${rng.range(.03, .09) * (1 - w * .6)})` : `rgba(28,36,18,${rng.range(.04, .12)})`;
     const rx = rng.range(1, 14), ry = rng.range(1, 6), rot = rng() * Math.PI;
     if (!near(x, z, 4)) continue;
@@ -133,7 +133,7 @@ export function paintGround(footprints, extent = BOUNDS) {
   }
   // Forest floor: leaf litter and darker hollows.
   for (let i = 0; i < 26000; i++) {
-    const x = rng.range(BOUNDS.minX, BOUNDS.maxX), z = rng.range(BOUNDS.minZ, -290);
+    const x = rng.range(BOUNDS.minX, BOUNDS.maxX), z = rng.range(OLD_MIN_Z, -290);
     const style = rng() > .4 ? `rgba(${110 + rng() * 40},${80 + rng() * 30},${40 + rng() * 20},.22)` : 'rgba(18,24,14,.18)';
     const w = rng.range(1, 4), h = rng.range(1, 3);
     if (!near(x, z, 2)) continue;
@@ -156,6 +156,18 @@ export function paintGround(footprints, extent = BOUNDS) {
   for (const c of CHANNELS) line(c.pts, c.half * 2 + 1, '#5a5a40');
   for (let z = -156; z > -252; z -= 6) line([[16, z], [118, z + rng.range(-1, 1)]], 1.6, '#6b6a4466');
   for (let i = 0; i < 14; i++) rect(40 + (i % 7) * 4.2, -128 - Math.floor(i / 7) * 5.5, 3, 4, 0, '#6e5c40');
+  // คลองหนองบึง: mud banks along the klong and around the pools, muddy patches (own sequence).
+  if (near(0, -700, 140) && extent.minZ < -600) {
+    const mud = createRng(61017);
+    line(KLONG.pts, KLONG.half * 2 + 7, '#4a4632a0'); line(KLONG.pts, KLONG.half * 2 + 2.5, '#57503a');
+    for (const n of NONGS) { ellipse(n.x, n.z, n.rx * 1.5, n.rz * 1.5, '#3f4a3070'); ellipse(n.x, n.z, n.rx * 1.12, n.rz * 1.12, '#4d4a36'); }
+    for (let i = 0; i < 9000; i++) {
+      const x = mud.range(BOUNDS.minX, BOUNDS.maxX), z = mud.range(BOUNDS.minZ, -600);
+      const style = mud() > .5 ? `rgba(${70 + mud() * 30},${66 + mud() * 20},${44 + mud() * 14},.3)` : 'rgba(30,44,22,.22)';
+      if (!near(x, z, 4)) continue;
+      ctx.fillStyle = style; ctx.beginPath(); ctx.ellipse(px(x), pz(z), mud.range(1, 9), mud.range(1, 4), mud() * Math.PI, 0, Math.PI * 2); ctx.fill();
+    }
+  }
   // Cemetery ground.
   ellipse(CEMETERY.x, CEMETERY.z, CEMETERY.r + 8, CEMETERY.r + 8, '#45493d90');
   ellipse(CEMETERY.x, CEMETERY.z, CEMETERY.r, CEMETERY.r, '#4f5246');
@@ -230,7 +242,7 @@ export function buildGrassMask(terrain, footprints) {
   // Read back on the CPU: an accelerated canvas makes getImageData very slow.
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   const px = x => (x - x0) * S, pz = z => (z - z0) * S;
-  ctx.fillStyle = gradientByZ(ctx, pz, [[-610, '#5a5a5a'], [-470, '#606060'], [-380, '#909090'], [-300, '#e8e8e8'], [-260, '#ffffff'], [-113, '#ffffff'], [-105, '#a8a8a8'], [160, '#ababab'], [268, '#d0d0d0']]);
+  ctx.fillStyle = gradientByZ(ctx, pz, [[-820, '#dcdcdc'], [-650, '#d0d0d0'], [-612, '#5a5a5a'], [-610, '#5a5a5a'], [-470, '#606060'], [-380, '#909090'], [-300, '#e8e8e8'], [-260, '#ffffff'], [-113, '#ffffff'], [-105, '#a8a8a8'], [160, '#ababab'], [268, '#d0d0d0']]);
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = '#c8c8c8'; ctx.beginPath(); ctx.ellipse(px(CEMETERY.x), pz(CEMETERY.z), CEMETERY.r * S, CEMETERY.r * S, 0, 0, Math.PI * 2); ctx.fill();
   ctx.strokeStyle = '#000'; ctx.fillStyle = '#000'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
@@ -251,6 +263,8 @@ export function buildGrassMask(terrain, footprints) {
   for (const p of PADDIES) ctx.fillRect(px(p.x0 - .2), pz(p.z0 - .2), (p.x1 - p.x0 + .4) * S, (p.z1 - p.z0 + .4) * S);
   for (const c of CHANNELS) line(c.pts, c.half * 2 + .6);
   line(CANAL.pts, CANAL.half * 2 + 1.6); line(STREAM.pts, STREAM.half * 2 + .6);
+  line(KLONG.pts, KLONG.half * 2 + 1);
+  for (const n of NONGS) { ctx.beginPath(); ctx.ellipse(px(n.x), pz(n.z), n.rx * .95 * S, n.rz * .95 * S, 0, 0, Math.PI * 2); ctx.fill(); }
   ctx.beginPath(); ctx.ellipse(px(POND.x), pz(POND.z), (POND.rx + 1) * S, (POND.rz + 1) * S, 0, 0, Math.PI * 2); ctx.fill();
   for (const f of footprints) { ctx.save(); ctx.translate(px(f.x), pz(f.z)); ctx.rotate(-f.rot); ctx.fillRect(-(f.w / 2 + .4) * S, -(f.d / 2 + .4) * S, (f.w + .8) * S, (f.d + .8) * S); ctx.restore(); }
 

@@ -62,6 +62,20 @@ export const SPAWNS = [
   { id: 'wat_sky', monster: 'ผีกระหัง', x: 32, z: -500, radius: 10, active: NIGHT, max: 3 },
   { id: 'wat_ubosot', monster: 'ผีปู่โสม', x: 90, z: -540, radius: 2, active: ALWAYS, max: 1, boss: true },
   { id: 'wat_stupas', monster: 'กระสือ', x: 70, z: -562, radius: 3, active: NIGHT, max: 1, boss: true },
+
+  // ---- klong คลองหนองบึง (Lv 10-25): leeches and water ghosts in the reed beds, crocodiles on
+  // the klong banks, pythons in the reeds east of the hamlet; past the bridge ผีโพง by night,
+  // ผีตายทั้งกลม near the banana grove, กุมภีล์ up the klong, ผีนางรำ in the far south. ----
+  { id: 'leech_reeds', monster: 'ปลิงควาย', x: -78, z: -656, radius: 8, active: ALWAYS, max: 3 },
+  { id: 'wraith_pool', monster: 'ผีพรายน้ำ', x: 74, z: -640, radius: 8, active: ALWAYS, max: 3 },
+  { id: 'croc_bank', monster: 'จระเข้บึง', x: -62, z: -676, radius: 10, active: ALWAYS, max: 3 },
+  { id: 'python_grass', monster: 'งูเหลือมดงอ้อ', x: 52, z: -666, radius: 10, active: ALWAYS, max: 3 },
+  { id: 'phong_marsh', monster: 'ผีโพง', x: 62, z: -722, radius: 12, active: DUSK, max: 3 },
+  { id: 'klom_reeds', monster: 'ผีตายทั้งกลม', x: -82, z: -716, radius: 10, active: ALWAYS, max: 3 },
+  { id: 'kumphi_bank', monster: 'กุมภีล์', x: 96, z: -710, radius: 10, active: ALWAYS, max: 2 },
+  { id: 'nangram_field', monster: 'ผีนางรำ', x: -20, z: -778, radius: 12, active: ALWAYS, max: 3 },
+  { id: 'tani_grove', monster: 'นางตานี', x: -44, z: -742, radius: 1, active: NIGHT, max: 1, boss: true },
+  { id: 'chalawan_lagoon', monster: 'ชาละวัน', x: 62, z: -774, radius: 2, active: ALWAYS, max: 1, boss: true },
 ];
 export const activeSpawns = phase => SPAWNS.filter(s => s.active.includes(phase));
 
@@ -109,6 +123,17 @@ const ROSTER = {
   wat_sky: [{ type: 'krahang', count: 3 }],
   wat_ubosot: [{ type: 'pusom', count: 1, respawn: 600 }],
   wat_stupas: [{ type: 'krasue', count: 1, chance: .5, respawn: 600 }],
+  // ---- คลองหนองบึง ----
+  leech_reeds: [{ type: 'leech', count: 3 }],
+  wraith_pool: [{ type: 'wraith', count: 3 }],
+  croc_bank: [{ type: 'croc', count: 3 }],
+  python_grass: [{ type: 'python', count: 3 }],
+  phong_marsh: [{ type: 'phong', count: 3 }],
+  klom_reeds: [{ type: 'klom', count: 2, active: DAYLIGHT }, { type: 'klom', count: 3, active: NIGHT }],
+  kumphi_bank: [{ type: 'kumphi', count: 2 }],
+  nangram_field: [{ type: 'nangram', count: 3 }],
+  tani_grove: [{ type: 'tani', count: 1, respawn: 420 }],
+  chalawan_lagoon: [{ type: 'chalawan', count: 1, respawn: 1200 }],
 };
 
 // Combat zones: each area keeps its position, radius and phases; ROSTER entries may narrow the phases.

@@ -14,6 +14,8 @@ export const SHOPS = {
   village: { title: 'ร้านชำหมู่บ้านชาวนา', purpose: 'trade', stock: ['potion_s', 'ether'], services: ['ยาสามัญ', 'รับซื้อหนัง เขี้ยว และขี้เถ้าธูป'], preview: ['ข้าวเหนียวห่อใบตอง', 'น้ำต้น'] },
   herbalist: { title: 'ร้านหมอยา', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether', 'herb_staff'], services: ['ยารักษา', 'ยาแก้พิษ', 'ปรุงยาสมุนไพร'], preview: ['ยาหอม', 'ยาเขียว', 'ยาแก้พิษงู', 'ขมิ้นชัน'] },
   occult: { title: 'ร้านหมออาคม', purpose: 'skills', stock: ['takrut', 'bone_wand', 'ether', 'sabai', 'bia_kae', 'pha_yant'], services: ['เครื่องราง', 'ผ้ายันต์ · ตะกรุด', 'วัตถุดิบอาคม', 'ของประกอบวิชา'], preview: ['ตะกรุดโทน', 'ผ้ายันต์แดง', 'เทียนขี้ผึ้ง', 'ใบลานจารอักขระ'] },
+  // แม่บัวผัน's boat in คลองหนองบึง: potions, honey and marsh-tier gear for hunters past Lv 10.
+  marsh: { title: 'เรือแม่ค้าคลองหนองบึง', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether', 'kris', 'mangrove_staff', 'horn_bow', 'croc_boots'], services: ['ยาและน้ำผึ้งป่า', 'อาวุธชาวบึง', 'รับซื้อของจากหนอง'], preview: ['ปลาย่าง', 'ข้าวห่อใบบัว'] },
   weapons: { title: 'แผงอาวุธ', purpose: 'equipment', stock: ['wood_sword', 'krabi', 'hand_wrap', 'herb_staff', 'mo_knife', 'rattan_shield'], services: ['ซื้อ-ขายอาวุธ'], preview: ['ดาบสั้น', 'ง้าว', 'มีดพร้า'] },
   armor: { title: 'แผงเกราะ', purpose: 'equipment', stock: ['cloth_vest', 'hide_armor', 'pha_khao', 'ngob', 'rattan_shield', 'pakhaoma', 'sandals'], services: ['ซื้อ-ขายเกราะ'], preview: ['เสื้อเกราะหนัง', 'หมวกลอมพอก', 'โล่หวาย'] },
   fruit: { title: 'แผงผลไม้', purpose: 'trade', services: ['วัตถุดิบทำอาหาร'], preview: ['มะม่วง', 'กล้วยน้ำว้า', 'มะพร้าว'] },

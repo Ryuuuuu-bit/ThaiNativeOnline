@@ -49,6 +49,17 @@ const CARD_DEFS = {
   tiger:    { slot: 'weapon', bonus: { str: 3, atk: 8, vs_beast: .1 } },
   krasue:   { slot: 'weapon', bonus: { int: 2, matk: 10, vs_spirit: .05 } },
   pop:      { slot: 'armor', bonus: { vit: 3, res_spirit: .15 } },
+  // ---- คลองหนองบึง ----
+  leech:    { slot: 'weapon', bonus: { atk: 8, luk: 1 } },
+  wraith:   { slot: 'armor', bonus: { mp: 40, res_water: .15 } },
+  croc:     { slot: 'armor', bonus: { def: 8, vit: 3 } },
+  python:   { slot: 'offhand', bonus: { def: 6, hp: 80 } },
+  phong:    { slot: 'head', bonus: { int: 3, matk: 10 } },
+  klom:     { slot: 'cape', bonus: { hp: 50, res_dark: .15 } },
+  kumphi:   { slot: 'weapon', bonus: { str: 3, atk: 10, vs_beast: .1 } },
+  nangram:  { slot: 'shoes', bonus: { agi: 4, eva: 10 } },
+  tani:     { slot: 'charm', bonus: { int: 4, cast: .1 } },
+  chalawan: { slot: 'armor', bonus: { vit: 6, hp: 200, res_beast: .15 } },
 };
 
 export const cardId = monsterType => `card_${monsterType}`;

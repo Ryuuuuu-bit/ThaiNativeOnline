@@ -6,7 +6,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { BOUNDS, J, PLAZAS, ROADS, CEMETERY, roadPoints, resample, waterAt } from '../src/world/CityMap.js';
-import { MAPS, MAP_IDS, DEFAULT_MAP, SEAM_Z, FOREST_SEAM_Z, WAT_SEAM_Z, LEGACY_MAPS, mapOf, walkable, inView, portalAt, walkBounds, npcHome, npcMap, npcsForMap, landmarksOf, spawnsOf, resolveLocation, arrivalsOn } from '../src/world/maps.js';
+import { MAPS, MAP_IDS, DEFAULT_MAP, SEAM_Z, FOREST_SEAM_Z, WAT_SEAM_Z, KLONG_SEAM_Z, LEGACY_MAPS, mapOf, walkable, inView, portalAt, walkBounds, npcHome, npcMap, npcsForMap, landmarksOf, spawnsOf, resolveLocation, arrivalsOn } from '../src/world/maps.js';
 import { NavGraph } from '../src/npc/NavGraph.js';
 import { regionAt } from '../src/data/regions.js';
 import { LANDMARKS } from '../src/data/landmarks.js';
@@ -19,16 +19,16 @@ import { WAT_RANG, SITES } from '../src/data/sites.js';
 import { CLASSES } from '../src/character/data/classes.js';
 
 const { city, paddy, deep_forest: forest, wat_rang: wat } = MAPS;
-const WILD = ['paddy', 'deep_forest', 'wat_rang'];
-const bandOf = z => (z >= SEAM_Z ? 'city' : z >= FOREST_SEAM_Z ? 'paddy' : z >= WAT_SEAM_Z ? 'deep_forest' : 'wat_rang');
+const WILD = ['paddy', 'deep_forest', 'wat_rang', 'klong'];
+const bandOf = z => (z >= SEAM_Z ? 'city' : z >= FOREST_SEAM_Z ? 'paddy' : z >= WAT_SEAM_Z ? 'deep_forest' : z >= KLONG_SEAM_Z ? 'wat_rang' : 'klong');
 const owners = (x, z) => MAP_IDS.filter(id => z >= MAPS[id].owns.minZ && z < MAPS[id].owns.maxZ);
 
-test('the registry has the city and three zone maps, linked by portals both ways', () => {
-  assert.deepEqual([...MAP_IDS].sort(), ['city', 'deep_forest', 'paddy', 'wat_rang']);
+test('the registry has the city and four zone maps, linked by portals both ways', () => {
+  assert.deepEqual([...MAP_IDS].sort(), ['city', 'deep_forest', 'klong', 'paddy', 'wat_rang']);
   assert.equal(DEFAULT_MAP, 'city');
   for (const map of Object.values(MAPS)) {
     assert.ok(map.name && map.sub && map.walk.length && map.view && map.owns && map.spawn, `${map.id} is incomplete`);
-    assert.ok(['city', 'paddy', 'forest', 'wat'].includes(map.theme), `${map.id} theme ${map.theme}`);
+    assert.ok(['city', 'paddy', 'forest', 'wat', 'klong'].includes(map.theme), `${map.id} theme ${map.theme}`);
     assert.ok(map.portals.length, `${map.id} has no way out`);
     for (const p of map.portals) {
       assert.ok(MAPS[p.to], `${map.id} portal ${p.id} leads to unknown map ${p.to}`);
@@ -42,7 +42,7 @@ test('the registry has the city and three zone maps, linked by portals both ways
   for (const id of WILD) assert.ok(!MAPS[id].safe && MAPS[id].levels?.length === 2, id);
   // The city and the paddies are linked by the warp pair; the wild maps by path exits in a chain.
   const links = Object.values(MAPS).flatMap(m => m.portals.map(p => `${m.id}>${p.to}:${p.style}`)).sort();
-  assert.deepEqual(links, ['city>paddy:warp', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'wat_rang>deep_forest:path']);
+  assert.deepEqual(links, ['city>paddy:warp', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'klong>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'wat_rang>deep_forest:path', 'wat_rang>klong:path']);
   // Visitors from the city leave the paddies through the warp (npcsForMap uses portals[0]).
   assert.equal(paddy.portals[0].to, 'city');
 });
@@ -72,7 +72,7 @@ test('the maps never touch: the only way across a seam is a portal', () => {
   // Inner walk area ends inside the wall (z -110), the outer one outside it.
   assert.ok(walkBounds(city).minZ > -110 && walkBounds(paddy).maxZ < -111);
   // Neighbouring walk areas stop at least 4 m apart at every seam.
-  for (const [a, b] of [[city, paddy], [paddy, forest], [forest, wat]]) assert.ok(walkBounds(a).minZ - walkBounds(b).maxZ >= 4, `${a.id} and ${b.id} walk areas are too close`);
+  for (const [a, b] of [[city, paddy], [paddy, forest], [forest, wat], [wat, MAPS.klong]]) assert.ok(walkBounds(a).minZ - walkBounds(b).maxZ >= 4, `${a.id} and ${b.id} walk areas are too close`);
   for (let z = BOUNDS.minZ; z <= BOUNDS.maxZ; z += .5) for (let x = -122; x <= 122; x += 4) {
     const on = MAP_IDS.filter(id => walkable(MAPS[id], x, z));
     assert.ok(on.length <= 1, `${on.join(' and ')} both walk at ${x},${z}`);
@@ -229,7 +229,7 @@ test('each map\'s nav graph is one connected network', () => {
 });
 
 test('saves from the retired fields map load on the zone map that owns the position', () => {
-  assert.deepEqual([...LEGACY_MAPS.fields].sort(), [...WILD].sort());
+  assert.deepEqual([...LEGACY_MAPS.fields].sort(), ['deep_forest', 'paddy', 'wat_rang']);   // the marsh came later
   const at = (x, z) => resolveLocation({ map: 'fields', x, z, facing: 1 });
   assert.deepEqual(at(-60, -140), { map: 'paddy', x: -60, z: -140, facing: 1 });       // farmers' village
   assert.deepEqual(at(-28, -372), { map: 'deep_forest', x: -28, z: -372, facing: 1 }); // dense forest

@@ -273,5 +273,14 @@ export const NPCS = [
       'โบสถ์ร้างหลังป่าช้ามีของไม่ดีสิงอยู่ อย่าเข้าไปถ้ายังไม่แกร่งพอ',
     ],
     schedule: { morning: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray'), day: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray'), evening: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray'), night: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray') } },
+  // ---------- คลองหนองบึง (map `klong`) ----------
+  // The last trader before the marsh: moored by the deserted hamlet, day and night.
+  { id: 'marsh_trader', name: 'แม่บัวผัน', occupation: 'merchant', gender: 'f', map: 'klong', home: { near: 'kv1' }, shopType: 'marsh', props: ['basket'],
+    dialogue: [
+      'เรือยายจอดตรงนี้มาตั้งแต่ชาวบ้านทิ้งหมู่บ้านไป ยาหม้อกับน้ำผึ้งป่ายังพอมีนะลูก',
+      'อย่าลงเดินในดงอ้อตอนค่ำ ผีพรายน้ำมันดึงขาคนลงหนอง',
+      'คนเฒ่าคนแก่ว่าใต้หนองใหญ่ทางตะวันออกเฉียงใต้ ชาละวันยังไม่ตาย มันรอเหยื่ออยู่',
+    ],
+    schedule: { morning: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell'), day: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell'), evening: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell'), night: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell') } },
 ];
 

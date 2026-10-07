@@ -1,4 +1,4 @@
-import { WALL, BOUNDS, ROADS, CANAL, CEMETERY, roadPoints, insideWalls, riverBank, farBank, wildness, smoothstep, resample } from '../CityMap.js';
+import { WALL, BOUNDS, OLD_MIN_Z, ROADS, CANAL, CEMETERY, roadPoints, insideWalls, riverBank, farBank, wildness, smoothstep, resample } from '../CityMap.js';
 import { M } from '../materials.js';
 import { cyl, structure } from '../Architecture.js';
 import { OCC } from '../Terrain.js';
@@ -75,7 +75,8 @@ export function scatterNature(ctx) {
   // The forest itself.
   const cell = 4.4;
   let trees = 0;
-  for (let gz = -290; gz > BOUNDS.minZ + 2; gz -= cell) for (let gx = BOUNDS.minX; gx < BOUNDS.maxX; gx += cell) {
+  // (the marsh beyond OLD_MIN_Z has its own scatter, districts/Klong.js)
+  for (let gz = -290; gz > OLD_MIN_Z + 2; gz -= cell) for (let gx = BOUNDS.minX; gx < BOUNDS.maxX; gx += cell) {
     const x = gx + rng() * cell, z = gz - rng() * cell, w = wildness(z);
     if (Math.hypot(x - CEMETERY.x, z - CEMETERY.z) < CEMETERY.r + 1.5 || !free(x, z, .9)) continue;
     // Canopies keep back from trails so paths stay readable from above.

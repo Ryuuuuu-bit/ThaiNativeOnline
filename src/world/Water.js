@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { BOUNDS, WATER_Y, PADDY_WATER_Y, CANAL, STREAM, POND, PADDIES, CHANNELS, riverBank, farBank, baseHeight, resample } from './CityMap.js';
+import { BOUNDS, WATER_Y, PADDY_WATER_Y, MARSH_WATER_Y, CANAL, STREAM, POND, PADDIES, CHANNELS, KLONG, NONGS, riverBank, farBank, baseHeight, resample } from './CityMap.js';
 import { windUniforms } from './shaders.js';
 
 // One shader family for every water surface. aShore runs 0 at the bank to 1 in
@@ -146,7 +146,8 @@ export function buildWater(scene, rect = BOUNDS) {
   const canal = waterMaterial('#6c8c74', '#4c7468', { foam: .8, scale: 1.2, reflect: .8, amp: .05, ripple: .7, flow: [.25, 0], glint: .6 });
   const stream = waterMaterial('#4d6458', '#33483f', { foam: .5, scale: 1.4, amp: .04, ripple: 1, flow: [.8, 0], glint: .6 });
   const paddy = waterMaterial('#6a8450', '#587a50', { foam: .2, scale: 1.6, reflect: .45, amp: .012, ripple: .35, flow: [0, 0], glint: .5 });
-  const materials = [river, canal, stream, paddy];
+  const marsh = waterMaterial('#4f5f44', '#34442f', { foam: .25, scale: 1.3, reflect: .55, amp: .03, ripple: .6, flow: [.18, 0], glint: .45 });
+  const materials = [river, canal, stream, paddy, marsh];
 
   // River, extended past the map edges so its ends are never seen. Tessellated
   // (1.5 x ~2.1 units) so the vertex waves stay smooth.
@@ -174,6 +175,17 @@ export function buildWater(scene, rect = BOUNDS) {
     ribbon(STREAM.pts, STREAM.half + .6, (x, z) => baseHeight(x, z) - .38, pos, shore, idx);
     add(surface(pos, shore, idx), stream);
   }
+  // คลองหนองบึง: the klong and the pools (their reed-bed rims lie under the same water line).
+  if (overlaps(-820, -600)) {
+    const pos = [], shore = [], idx = [];
+    ribbon(KLONG.pts, KLONG.half + .9, () => MARSH_WATER_Y, pos, shore, idx);
+    for (const n of NONGS) {
+      const base = pos.length / 3, seg = 36;
+      pos.push(n.x, MARSH_WATER_Y, n.z); shore.push(1);
+      for (let i = 0; i <= seg; i++) { const a = i / seg * Math.PI * 2; pos.push(n.x + Math.cos(a) * n.rx * 1.15, MARSH_WATER_Y, n.z + Math.sin(a) * n.rz * 1.15); shore.push(0); if (i) idx.push(base, base + i + 1, base + i); }
+    }
+    add(surface(pos, shore, idx), marsh);
+  }
   if (overlaps(-256, -148)) {
     const pos = [], shore = [], idx = [];
     for (const p of PADDIES) {
@@ -187,7 +199,7 @@ export function buildWater(scene, rect = BOUNDS) {
     add(surface(pos, shore, idx), paddy);
   }
   return {
-    river, canal, stream, paddy, meshes,
+    river, canal, stream, paddy, marsh, meshes,
     dispose() {
       for (const m of meshes) { m.removeFromParent(); m.geometry.dispose(); }
       for (const m of materials) { m.dispose(); const i = waterMaterials.indexOf(m); if (i >= 0) waterMaterials.splice(i, 1); }

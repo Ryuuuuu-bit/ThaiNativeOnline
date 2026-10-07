@@ -1,4 +1,4 @@
-import { CEMETERY, STREAM, riverBank, insideWalls } from '../world/CityMap.js';
+import { CEMETERY, STREAM, NONGS, riverBank, insideWalls, nongDistance, klongDistance } from '../world/CityMap.js';
 
 // Regions name the area under the player and describe how safe it is.
 // safety: safe | wild | danger (dangerous at night).
@@ -32,6 +32,11 @@ const REG = {
   wat_wood: R('wat_wood', 'ดงวัดร้าง', 'วัดร้าง · ป่ารกล้อมซากวัด', 'danger'),
   shrine: R('shrine', 'ศาลร้างกลางไพร', 'วัดร้าง', 'danger'),
   cemetery: R('cemetery', 'สุสานเก่าแห่งอโยธยา', 'วัดร้าง · ดินแดนของผู้ล่วงลับ', 'danger'),
+  // คลองหนองบึง (map `klong`)
+  marsh: R('marsh', 'ดงอ้อริมบึง', 'คลองหนองบึง · ทุ่งอ้อและหนองน้ำ', 'danger'),
+  reeds: R('reeds', 'หนองน้ำ', 'คลองหนองบึง · น้ำตื้นเดินลุยได้', 'danger'),
+  klong_bank: R('klong_bank', 'คลองใหญ่', 'คลองหนองบึง · ฝั่งคลองและสะพานไม้', 'danger'),
+  lagoon: R('lagoon', 'บึงชาละวัน', 'คลองหนองบึง · ถิ่นพญาจระเข้', 'danger'),
 };
 export const SAFETY = {
   safe: { label: 'พื้นที่สงบ', color: '#a3bb86' },
@@ -50,6 +55,13 @@ function streamZ(x) {
 // deep_forest -445 … -296, paddy -296 … -112.
 export function regionAt(x, z, discoveredCemetery = true) {
   if (z > riverBank(x) + .5) return REG.river;
+  if (z < -600) {
+    const lagoon = NONGS.find(n => n.lagoon);
+    if (Math.hypot((x - lagoon.x) / lagoon.rx, (z - lagoon.z) / lagoon.rz) < 1.9) return REG.lagoon;
+    if (klongDistance(x, z) < 12) return REG.klong_bank;
+    if (nongDistance(x, z) < 1.5) return REG.reeds;
+    return REG.marsh;
+  }
   if (Math.hypot(x - CEMETERY.x, z - CEMETERY.z) < CEMETERY.r + 4) return discoveredCemetery ? REG.cemetery : REG.wat_wood;
   if (Math.hypot(x + 38, z + 478) < 16) return REG.shrine;
   if (z < -445) return REG.wat_wood;
