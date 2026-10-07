@@ -31,7 +31,8 @@ export class RemotePlayers {
   }
   label(r) { r.plate.innerHTML = `${esc(r.name)}<small>${CLASSES[r.cls]?.name ?? ''} · Lv.${r.lv}</small>`; }
   move(id, x, z, f, m) { const r = this.list.get(id); if (!r) return; r.tx = x; r.tz = z; r.tf = f; r.m = m; }
-  anim(id, clip, sp) { const r = this.list.get(id); if (r?.model.has(clip)) r.model.attack(clip, sp); }
+  // a move clip (basic attacks, potions …); a class skill plays through src/net/RemoteSkills.js instead
+  anim(id, clip, sp) { const r = this.list.get(id); if (!r || (r.skillUntil ?? 0) > performance.now() / 1000) return; if (r.model.has(clip)) r.model.attack(clip, sp); }
   level(id, lv) { const r = this.list.get(id); if (r) { r.lv = lv; this.label(r); } }
   remove(id) {
     const r = this.list.get(id); if (!r) return;
@@ -49,7 +50,9 @@ export class RemotePlayers {
       if (Math.hypot(r.tx - r.x, r.tz - r.z) > 12) { r.x = r.tx; r.z = r.tz; }
       r.x += (r.tx - r.x) * k; r.z += (r.tz - r.z) * k;
       const g = r.model.group; g.position.set(r.x, this.heightAt(r.x, r.z), r.z);
-      r.model.update(dt, r.time, r.m > 0, r.tf);
+      // while a skill plays its runner turns them (and a dash is not a walk)
+      const casting = (r.skillUntil ?? 0) > performance.now() / 1000;
+      r.model.update(dt, r.time, r.m > 0 && !casting, r.skillFacing ?? r.tf);
       // name plate above the head
       v.set(r.x, g.position.y + 2.15, r.z).project(camera);
       const off = v.z > 1 || v.x < -1.1 || v.x > 1.1 || v.y < -1.1 || v.y > 1.1 || !g.visible;

@@ -101,6 +101,8 @@ export class KitCaster {
     if (pick.monster) { this.combat.setTarget(pick.monster); this.combat.pending = null; }
     const ok = this.runner.cast(s.id, true);
     if (ok === false) return false;
+    // online, the others see this cast played on this player (src/net/RemoteSkills.js)
+    if (!pick.dummy) this.combat.emit('kit-fx', { id: s.id, monster: pick.monster ?? null });
     if (!pick.dummy) c.spendMp(this.mpOf(i));
     this.cd.set(s.id, info.cd * (1 - (c.cooldownCut || 0)));   // DEX / cards shorten skill cooldowns
     this.cast_++; this.affected.clear(); this.splashed?.clear(); this.lastSkill = s.id;

@@ -106,6 +106,8 @@ export function attachNetCombat(net, game) {
   combat.on('player-revived', () => net.send({ t: 'dead', v: false }));
 
   return {
+    monster: sid => byId.get(sid) ?? null,   // a monster by the server's id (src/net/RemoteSkills.js)
+    sidOf: m => m?.sid ?? null,
     // monsters glide toward the server's spots between updates
     update(dt) {
       if (!combat.remote) return;

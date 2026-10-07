@@ -3,6 +3,7 @@ import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
 import { attachSocial } from './Social.js';
+import { attachRemoteSkills } from './RemoteSkills.js';
 import './net.css';
 import { ITEMS } from '../character/data/items.js';
 
@@ -46,19 +47,24 @@ export function startMultiplayer(game) {
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
+  // class skills: ours go out as `fx` (which skill, which monster); the others' play on their models
+  const skillsFx = attachRemoteSkills(net, game, remote, combat);
+  game.game?.combat?.on('kit-fx', e => net.send({ t: 'fx', skill: e.id, ...(e.monster?.sid != null ? { tgt: e.monster.sid } : {}) }));
   attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
   const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
   // the same character opened in another tab or device: this one stops talking to the server
   net.on('kicked', m => { net.close(); chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
   net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, map, ...pos() }));
   // every move the player's model plays (skills, basic attacks) is mirrored to the others
-  player.onAnim = (clip, sp) => net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) });
+  // (a class skill's own clips are not: the others play the whole skill from its `fx`)
+  player.onAnim = (clip, sp) => { if (!game.training?.busy) net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) }); };
 
   return {
     net, remote, chat, social,
     enterMap(id) { map = id; last = null; remote.clear(); net.send({ t: 'map', map: id, ...pos() }); },
     update(dt, camera) {
       remote.update(dt, camera, document.getElementById('world'));
+      skillsFx.update(dt);
       combat?.update(dt);
       if (!net.online) return;
       sendT += dt; keepT += dt;
@@ -66,9 +72,11 @@ export function startMultiplayer(game) {
       if (sendT < SEND_EVERY) return;
       const p = pos(), moved = last && Math.hypot(p.x - last.x, p.z - last.z) / sendT;
       sendT = 0;
-      if (last && p.x === last.x && p.z === last.z && p.f === last.f && keepT < KEEPALIVE) return;
-      net.send({ t: 's', ...p, m: !moved ? 0 : moved > 5 ? 2 : moved > .3 ? 1 : 0 });
-      last = p; keepT = 0;
+      // walking, as the others should animate it: not while a skill carries us (a dash is no walk)
+      const m = game.training?.busy || !moved ? 0 : moved > 5 ? 2 : moved > .3 ? 1 : 0;
+      if (last && p.x === last.x && p.z === last.z && p.f === last.f && m === last.m && keepT < KEEPALIVE) return;
+      net.send({ t: 's', ...p, m });
+      last = { ...p, m }; keepT = 0;
     },
   };
 }
