@@ -5,6 +5,7 @@ import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
 import { attachSocial } from './Social.js';
 import { attachPvp } from './PvpPanel.js';
+import { attachDynamicHUD } from '../ui/DynamicHUD.js';
 import { attachRemoteSkills } from './RemoteSkills.js';
 import { attachCombatMeters } from './CombatMeters.js';
 import './net.css';
@@ -58,6 +59,7 @@ export function startMultiplayer(game) {
   const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
   const pvp = attachPvp(net, game, chat, social);
   social.pvp = pvp;
+  const dynamicHUD = attachDynamicHUD(game, net);
   net.on('position', async m => {
     if (game.maps.busy) return;
     if (m.map === game.maps.map.id && Math.hypot(player.position.x-m.x,player.position.z-m.z)<.15) return;
@@ -84,6 +86,7 @@ export function startMultiplayer(game) {
       meters.update(dt, camera);
       combat?.update(dt);
       pvp.update(dt);
+      dynamicHUD.update(dt);
       if (game.maps.busy) return;
       if (!net.online) return;
       sendT += dt; keepT += dt;
