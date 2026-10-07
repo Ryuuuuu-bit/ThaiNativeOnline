@@ -11,6 +11,7 @@ import { KitCaster } from './KitCaster.js';
 import { AVATARS, avatarFor, TRAINING } from '../data/training.js';
 import { Sound } from '../audio/Sound.js';
 import { playSkillSound } from '../audio/gameSounds.js';
+import { draggable } from '../ui/draggable.js';
 import './training.css';
 
 // Class avatars, class skill kits and the city training ground. The player wears
@@ -255,6 +256,7 @@ export class TrainingGround {
   buildPanel(root) {
     const panel = $el('aside', 'training-panel glass');
     panel.hidden = true;
+    draggable(panel, { key: 'training' });
     panel.innerHTML = `
       <header><button type="button" class="training-fold" title="ย่อ / ขยาย" aria-expanded="true"><b>${this.kit.ground}</b><i>▾</i></button><span><button type="button" class="training-reset" title="ล้างสถิติ">ล้าง</button><button type="button" class="training-close" title="ซ่อนแผงนี้ (กลับมาเมื่อเดินไปหาหุ่นอีกครั้ง)" aria-label="ซ่อน">×</button></span></header>
       <p class="training-sub"></p>

@@ -1,62 +1,58 @@
 // Windows you can move: drag a window by its title bar and it stays where you left it
 // (a per-browser view preference, like the skin). Double-click the title bar to put it back.
-// Touch layouts keep the fixed places.
+// The move is a CSS `translate` on top of the window's own layout, so centred, stretched and
+// zoomed windows keep their size. Touch layouts keep the fixed places.
 //
 //   draggable(el, { key, handle })   handle: a selector inside el (default 'header')
 const KEY = 'thainative.ui.pos';
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) ?? {}; } catch { return {}; } };
 const save = all => { try { localStorage.setItem(KEY, JSON.stringify(all)); } catch { /* private mode */ } };
+const touch = () => document.body.classList.contains('ui-touch');
+const NOT_GRAB = 'button,input,select,textarea,a,kbd,[data-tab]';
 
-// CSS zoom (--ui) and parent zoom scale left/top: measure how far 1px of left moves on screen.
-function scaleOf(el, left) {
-  const x0 = el.getBoundingClientRect().left;
-  el.style.left = `${left + 100}px`;
-  const s = (el.getBoundingClientRect().left - x0) / 100;
-  el.style.left = `${left}px`;
+const shift = (el, x, y) => { el.style.translate = x || y ? `${x}px ${y}px` : ''; };
+
+// CSS zoom (--ui) scales the translate too: measure how far 100px moves on screen.
+function scaleOf(el, x, y) {
+  const a = el.getBoundingClientRect().left;
+  shift(el, x + 100, y);
+  const s = (el.getBoundingClientRect().left - a) / 100;
+  shift(el, x, y);
   return s > 0 ? s : 1;
 }
 
-function place(el, x, y) { Object.assign(el.style, { left: `${x}px`, top: `${y}px`, right: 'auto', bottom: 'auto' }); }
-function reset(el) { for (const p of ['left', 'top', 'right', 'bottom']) el.style[p] = ''; }
-
 export function draggable(el, { key, handle = 'header' } = {}) {
-  const saved = load()[key];
-  if (saved && !document.body.classList.contains('ui-touch')) place(el, saved.x, saved.y);
+  const pos = { x: 0, y: 0, ...load()[key] };
+  if (!touch()) shift(el, pos.x, pos.y);
   el.addEventListener('pointerdown', e => {
     const bar = e.target.closest(handle);
-    if (e.button !== 0 || !bar || !el.contains(bar) || e.target.closest('button,input,select,a,kbd')) return;
-    if (document.body.classList.contains('ui-touch')) return;
-    const cs = getComputedStyle(el), left = parseFloat(cs.left) || 0, top = parseFloat(cs.top) || 0;
-    const width = el.offsetWidth;
-    const s = scaleOf(el, left), sx = e.clientX, sy = e.clientY;
+    if (e.button !== 0 || !bar || !el.contains(bar) || e.target.closest(NOT_GRAB) || touch()) return;
+    const x0 = pos.x, y0 = pos.y, s = scaleOf(el, x0, y0), sx = e.clientX, sy = e.clientY;
     let moved = false;
     const move = ev => {
       const dx = ev.clientX - sx, dy = ev.clientY - sy;
       if (!moved && Math.hypot(dx, dy) < 4) return;
-      if (!moved) { moved = true; el.style.width = `${width}px`; el.classList.add('dragging'); }
-      // keep the title bar on screen
-      const x = left + dx / s, y = top + dy / s;
-      place(el, x, y);
-      const r = el.getBoundingClientRect();
+      if (!moved) { moved = true; el.classList.add('dragging'); }
+      pos.x = x0 + dx / s; pos.y = y0 + dy / s; shift(el, pos.x, pos.y);
+      // keep part of the window, and its title bar, on screen
+      const r = el.getBoundingClientRect(), b = bar.getBoundingClientRect();
       let fx = 0, fy = 0;
-      if (r.right < 60) fx = 60 - r.right; else if (r.left > innerWidth - 60) fx = innerWidth - 60 - r.left;
-      if (r.top < 0) fy = -r.top; else if (r.top > innerHeight - 40) fy = innerHeight - 40 - r.top;
-      if (fx || fy) place(el, x + fx / s, y + fy / s);
+      if (r.right < 80) fx = 80 - r.right; else if (r.left > innerWidth - 80) fx = innerWidth - 80 - r.left;
+      if (b.top < 0) fy = -b.top; else if (b.bottom > innerHeight) fy = innerHeight - b.bottom;
+      if (fx || fy) { pos.x += fx / s; pos.y += fy / s; shift(el, pos.x, pos.y); }
     };
     const up = () => {
       removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
       if (!moved) return;
       el.classList.remove('dragging');
-      const all = load(); all[key] = { x: parseFloat(el.style.left), y: parseFloat(el.style.top), w: width }; save(all);
+      const all = load(); all[key] = { x: Math.round(pos.x), y: Math.round(pos.y) }; save(all);
     };
     addEventListener('pointermove', move); addEventListener('pointerup', up); addEventListener('pointercancel', up);
     e.preventDefault();
   });
   el.addEventListener('dblclick', e => {
-    if (!e.target.closest(handle) || e.target.closest('button')) return;
-    reset(el); el.style.width = '';
+    if (!e.target.closest(handle) || e.target.closest(NOT_GRAB)) return;
+    pos.x = pos.y = 0; shift(el, 0, 0);
     const all = load(); delete all[key]; save(all);
   });
-  // a restored window keeps the width it had when it was dragged (left+right layouts would stretch)
-  if (saved?.w && !document.body.classList.contains('ui-touch')) el.style.width = `${saved.w}px`;
 }

@@ -8,6 +8,7 @@
 //   pickTarget(monsters, me, s, current) → monster | null
 //   castOrder(slots, s, hpFrac, next) → slot indices to try, in order
 //   new AutoPanel(host, getSettings, onChange).open(slots)
+import { draggable } from './draggable.js';
 const KEY = 'thainative.auto';
 export const AUTO_RANGES = { near: 7, mid: 11, far: 14 };   // metres around the player
 export const DEFAULT_AUTO = {
@@ -70,6 +71,7 @@ export class AutoPanel {
     this.get = get; this.onChange = onChange;
     this.root = el('section', 'auto-panel ro-window'); this.root.hidden = true; this.root.setAttribute('aria-label', 'ตั้งค่า AUTO');
     host.append(this.root);
+    draggable(this.root, { key: 'auto', handle: '.ro-title' });
     this.root.addEventListener('click', e => {
       if (e.target.closest('.auto-close')) { this.close(); return; }
       const slot = e.target.closest('[data-slot]');

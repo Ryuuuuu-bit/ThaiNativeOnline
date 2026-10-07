@@ -24,6 +24,7 @@ import { ShopPanel } from '../ui/ShopPanel.js';
 import { PostFX } from '../world/PostFX.js';
 import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
 import { initSkin } from '../ui/skin.js';
+import { draggable } from '../ui/draggable.js';
 import { segmentSelects } from '../ui/segControls.js';
 import { renderRoute } from '../ui/worldRoute.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
@@ -164,6 +165,8 @@ export class Game {
     bindSettingsTabs(settings);
     initSkin($('ui-skin'));   // modern glass or classic wood (src/ui/skin.js)
     segmentSelects(settings);   // the dropdowns as segmented buttons (src/ui/segControls.js)
+    // windows move by their title bar (src/ui/draggable.js)
+    for (const [id, key, handle] of [['settings', 'settings', '.panel-heading'], ['shop', 'shop', '.panel-heading'], ['fullmap-panel', 'map', '.panel-heading'], ['dialogue', 'dialogue', '.dlg-head']]) draggable($(id), { key, handle });
     // Main menu (bottom-right): the windows the old top-right icons and C / I buttons opened.
     const characterUI = () => this.game?.characterUI;
     this.menu = new MainMenu({

@@ -245,5 +245,5 @@ body .g-death button{padding:10px 26px;font-size:14px}
 .set-tabs .acc-settings button:hover{box-shadow:inset 0 0 0 1px rgba(232,200,130,.55)}
 
 /* windows you can move (src/ui/draggable.js): grab the title bar */
-body:not(.ui-touch) :is(.g-panel > .panel-heading,.soc-party > header,.soc-panel > header){cursor:move;user-select:none}
+body:not(.ui-touch) :is(.g-panel > .panel-heading,.settings > .panel-heading,.shop > .panel-heading,.fullmap > .panel-heading,.dlg-head,.auto-panel .ro-title,.training-panel > header,.soc-party > header,.soc-panel > header){cursor:move;user-select:none}
 body .dragging{transition:none!important}
