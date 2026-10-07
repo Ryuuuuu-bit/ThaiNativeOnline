@@ -5,6 +5,9 @@
 // each item has `slots`, 0–4, in src/character/data/items.js) and stays there for good — it
 // travels with that item (bag, trade, sale) and works while the item is worn
 // (src/character/Character.js insertCard; the item in the bag keeps `cards: [ids]`).
+// หมออาคม (the occult shop, src/data/shops.js) takes them all out again, RO style: per card
+// STRIP.gold and STRIP.ash ขี้เถ้าธูป, and a small chance that the item or the cards break
+// (Character.stripCards; online the server rolls it, server/combatants.js).
 //
 // bonus keys: the gear keys (str agi vit int dex luk atk matk def hp mp crit critDmg acc eva) and
 //   vs_<race>   more damage against that race (0.1 = +10%)
@@ -14,6 +17,7 @@ import { MONSTERS } from '../../combat/data/monsters.js';
 
 export const CARD_RATE = { normal: .0002, elite: .0025, boss: .005 };   // 1 in 5000 · 1 in 400 · 1 in 200
 export const RESIST_CAP = .5;
+export const STRIP = { gold: 200, ash: 1, ok: .9, itemBreaks: .07, shop: 'occult' };   // the rest (3%): the cards break
 export const RACE_LABELS = { beast: 'สัตว์', spirit: 'ผี', demon: 'อสูร' };
 export const ELEMENT_LABELS = { earth: 'ดิน', water: 'น้ำ', fire: 'ไฟ', wind: 'ลม', dark: 'มืด' };
 

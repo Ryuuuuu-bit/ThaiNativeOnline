@@ -42,6 +42,7 @@ import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, w
 import { fromSave, applyOp, questsFor, shopOn } from './progress.js';
 import { MONSTER_ACCURACY } from '../src/character/data/progression.js';
 import { afterHit, shielded, SHIELD } from '../src/combat/monsterHit.js';
+import { STRIP, sameCards } from '../src/character/data/cards.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
@@ -107,6 +108,15 @@ export class Combatants {
     s.ack++;
     // buying: only where such a shop stands, and not in the middle of a fight
     if (msg.op === 'buy' && (!shopOn(msg.shop, map) || this.now() - s.fightAt < RULES.combatTimeout)) return false;
+    // taking cards out: at หมออาคม's, out of a fight; the server rolls the outcome (sent back as `stripped`)
+    if (msg.op === 'strip') {
+      s.stripped = { ok: false, why: 'no_shop' };
+      if (!shopOn(STRIP.shop, map) || this.now() - s.fightAt < RULES.combatTimeout) return false;
+      const i = s.c.inventory.findIndex(x => x?.id === msg.id && sameCards(x.cards, msg.cards));
+      s.stripped = i >= 0 ? s.c.stripCards(i, this.r) : { ok: false, why: 'no_cards' };
+      if (s.stripped.ok) s.dirty = true;
+      return s.stripped.ok;
+    }
     const ok = applyOp(s.c, msg, s.quests);
     if (ok) s.dirty = true;
     return ok;

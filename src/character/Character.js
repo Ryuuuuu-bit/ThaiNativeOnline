@@ -4,7 +4,7 @@ import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './
 import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
 import { KIT_SKILL_IDS } from './data/kits.js';
-import { RESIST_CAP, socketCards } from './data/cards.js';
+import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
 import { computeDerived, hitChanceOf, ASPD_BUFF_MAX } from '../rules/stats.js';
 import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
@@ -326,6 +326,28 @@ export class Character extends Emitter {
     this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.min(this.mp, this.maxMp);
     this.emit('card', { id: cardId, item: target.id, worn: !!target.worn }); this.emit('inventory'); this.emit('change');
     return true;
+  }
+  // หมออาคม takes every card out of a piece of gear in the bag (RO style): STRIP.gold and STRIP.ash
+  // per card; 90% all is well, 7% the item breaks (the cards come back), 3% the cards break.
+  // → { ok, outcome: 'ok' | 'item_broke' | 'cards_broke', cards } | { ok: false, why }
+  stripCost(index) { const n = this.inventory[index]?.cards?.length ?? 0; return { n, gold: n * STRIP.gold, ash: n * STRIP.ash }; }
+  stripCards(index, roll = Math.random) {
+    const s = this.inventory[index], cost = this.stripCost(index);
+    const fail = why => { const r = { ok: false, why }; this.emit('stripped', r); return r; };
+    if (!s || !cost.n) return fail('no_cards');
+    if (this.gold < cost.gold) return fail('gold');
+    if (this.count('ash') < cost.ash) return fail('ash');
+    const need = new Set(s.cards.filter(id => !this.inventory.some(x => x?.id === id))).size;
+    if (this.inventory.filter(x => !x).length < need) return fail('bag_full');
+    this.gold -= cost.gold;
+    for (let left = cost.ash; left > 0;) { const i = this.inventory.findIndex(x => x?.id === 'ash'); const take = Math.min(left, this.inventory[i].qty); this.removeAt(i, take); left -= take; }
+    const cards = [...s.cards], r = roll();
+    const outcome = r < STRIP.ok ? 'ok' : r < STRIP.ok + STRIP.itemBreaks ? 'item_broke' : 'cards_broke';
+    if (outcome === 'item_broke') this.inventory[index] = null; else delete s.cards;
+    if (outcome !== 'cards_broke') for (const id of cards) this.addItem(id, 1);
+    const res = { ok: true, outcome, cards, item: s.id };
+    this.emit('inventory'); this.emit('change'); this.emit('stripped', res);
+    return res;
   }
   sellAt(index) {
     const slot = this.inventory[index]; if (!slot) return 0;

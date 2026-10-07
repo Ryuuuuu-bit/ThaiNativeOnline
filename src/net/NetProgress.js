@@ -40,6 +40,15 @@ export function attachNetProgress(net, c, quests = null) {
   wrap('learnSkill', id => ({ op: 'learn', id }));
   wrap('resetSkills', () => ({ op: 'skill_reset' }));
   c.on('bought', e => op({ op: 'buy', shop: e.shop, id: e.id }));
+  // taking cards out is a dice roll: online the server rolls it and sends the result and the character
+  const strip = c.stripCards.bind(c);
+  c.stripCards = i => {
+    if (!on || !net.online) return strip(i);
+    const s = c.inventory[i]; if (!s?.cards?.length) return strip(i);
+    op({ op: 'strip', id: s.id, cards: [...s.cards] });
+    return { ok: true, pending: true };
+  };
+  net.on('stripped', m => c.emit('stripped', m));
   c.on('sorted', () => op({ op: 'sort' }));
   if (quests) {
     const accept = quests.accept.bind(quests), complete = quests.complete.bind(quests), talk = quests.onTalk.bind(quests);

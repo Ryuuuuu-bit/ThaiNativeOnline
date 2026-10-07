@@ -137,3 +137,35 @@ test('eight equipment slots: head, off hand, cape, shoes and two charms', async 
   assert.equal(applyOp(s, { op: 'unequip', slot: 'shoes' }), true);
   assert.equal(sane({ level: 5, equipment: { head: 'sandals', shoes: 'sandals', charm2: 'takrut' } }, 'warrior').equipment.head, null, 'shoes are not a hat');
 });
+
+test('หมออาคม takes the cards out, RO style: a price, and a chance that the item or the cards break', async () => {
+  const { STRIP } = await import('../src/character/data/cards.js');
+  const setup = () => {
+    const c = Character.create('ทดสอบ', 'warrior'); c.gold = 1000;
+    c.addItem('ash', 5); c.addItem('card_boar'); c.addItem('card_headless'); c.addItem('iron_dap');
+    const sword = () => c.inventory.findIndex(s => s?.id === 'iron_dap');
+    c.insertCard(c.inventory.findIndex(s => s?.id === 'card_boar'), sword());
+    c.insertCard(c.inventory.findIndex(s => s?.id === 'card_headless'), sword());
+    return { c, sword };
+  };
+  let { c, sword } = setup();
+  assert.deepEqual(c.stripCost(sword()), { n: 2, gold: 2 * STRIP.gold, ash: 2 * STRIP.ash });
+  let r = c.stripCards(sword(), () => .5);
+  assert.deepEqual([r.outcome, c.gold, c.count('ash'), c.count('card_boar'), c.count('card_headless')], ['ok', 1000 - 2 * STRIP.gold, 3, 1, 1]);
+  assert.ok(!c.inventory[sword()].cards, 'the sword is bare again');
+  ({ c, sword } = setup());
+  r = c.stripCards(sword(), () => STRIP.ok + .01);
+  assert.equal(r.outcome, 'item_broke'); assert.equal(sword(), -1); assert.equal(c.count('card_boar'), 1);
+  ({ c, sword } = setup());
+  r = c.stripCards(sword(), () => .999);
+  assert.equal(r.outcome, 'cards_broke'); assert.ok(sword() >= 0); assert.equal(c.count('card_boar'), 0);
+  ({ c, sword } = setup()); c.gold = 10;
+  assert.deepEqual(c.stripCards(sword()), { ok: false, why: 'gold' });
+  // online: only at หมออาคม's, rolled by the server
+  const cs = new Combatants({ now: () => 100, random: () => .1 });
+  cs.load(1, { ...setup().c.toJSON(), jobLevel: 50 }, { account: 'a', slot: 0 });
+  const msg = { op: 'strip', id: 'iron_dap', cards: ['card_boar', 'card_headless'] };
+  assert.equal(cs.op(1, msg, 'paddy'), false); assert.equal(cs.get(1).stripped.why, 'no_shop');
+  assert.equal(cs.op(1, msg, 'city'), true); assert.equal(cs.get(1).stripped.outcome, 'ok');
+  assert.equal(cs.get(1).c.count('card_boar'), 1);
+});

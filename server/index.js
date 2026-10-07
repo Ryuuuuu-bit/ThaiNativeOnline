@@ -29,6 +29,7 @@
 //   server → client  chans {map, ch, list: [{ch, n, cap, closing}]} · chno {why} · chwarn {ch, secs} · chmove {ch, why}
 // Cards (src/character/data/cards.js): a card in a kill's drops is announced to everyone:
 //   server → client  cardnews {name, card, monster}
+//   client → server  op {op: 'strip', id, cards} (หมออาคม takes the cards out; rolled here) → stripped {ok, outcome, cards} + sync
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -188,7 +189,10 @@ wss.on('connection', ws => {
       }
       case 'op': {
         const p = presence.players.get(ws); if (!p || !combatants.get(p.id)?.persist) return;
-        if (!combatants.op(p.id, m, p.map)) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
+        const ok = combatants.op(p.id, m, p.map);
+        // taking cards out is rolled here: the result, then the character as it is now
+        if (m.op === 'strip') { send(ws, { t: 'stripped', ...combatants.get(p.id).stripped }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
+        else if (!ok) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
         break;
       }
       case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }
