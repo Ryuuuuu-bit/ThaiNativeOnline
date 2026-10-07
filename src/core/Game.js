@@ -240,6 +240,8 @@ export class Game {
       portals: map.portals.map(p => ({ ...p, toName: MAPS[p.to]?.name ?? p.to })),
       world, map, regionAt,
       onPick: l => { if (this.walkTo(l.x, l.z, Math.min(l.radius ?? 6, 12))) this.toggleMap(); },
+      // navigation: a tap on the minimap / full map walks to that spot (the nearest ground there)
+      onWalk: (x, z, fromFull) => { const ok = this.walkTo(x, z, 10); if (ok && fromFull) this.toggleMap(); return ok; },
     }).activate();
     Minimap.mountLegend($('fullmap-legend'));
     const lv = levelText(map.levels);
@@ -267,15 +269,19 @@ export class Game {
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;
     for (let r = 1; !goal && r <= near; r++) for (let i = 0; i < 16 && !goal; i++) { const a = i / 16 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
-    const route = goal && findPath(stand, this.player.position, goal);
+    // long trips (a tap on the map across the city) plan on a coarser grid so the search stays small
+    let route = null;
+    for (const step of [.5, 1, 1.5]) if (goal && !route) route = findPath(stand, this.player.position, goal, { step, maxCells: 160000 });
     if (!route) { this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
     this.game?.onManualMove(); this.view.recenter();
-    this.route = route; this.autoWalk = false; this.nextWaypoint();
+    this.route = route; this.autoWalk = false; this.navGoal = { x: goal.x, z: goal.z }; this.nextWaypoint();
     this.marker.position.set(goal.x, this.world.heightAt(goal.x, goal.z) + .07, goal.z); this.marker.visible = true;
     return true;
   }
   nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }
-  stopWalk() { this.destination = null; this.route = []; this.marker.visible = false; }
+  stopWalk() { this.destination = null; this.route = []; this.marker.visible = false; this.navGoal = null; }
+  // The way still to walk, for the minimap (null when not walking somewhere).
+  get nav() { return this.navGoal && this.destination ? { goal: this.navGoal, route: [this.destination, ...this.route] } : null; }
 
   togglePhoto() { this.photo = !this.photo; document.body.classList.toggle('photo-mode', this.photo); $('restore-ui').hidden = !this.photo; }
   toggleMap() {
@@ -290,7 +296,7 @@ export class Game {
     return {
       t: this.elapsed, night: this.envNight ?? 0, npcs: this.npcs?.npcs, monsters: this.game?.combat?.monsters,
       quest: q ? id => q.marker(id) : null, targets: q ? questTargets(q.active()) : null,
-      view: this.view.groundFootprint(),
+      view: this.view.groundFootprint(), nav: this.nav,
     };
   }
   toggleDebug() {

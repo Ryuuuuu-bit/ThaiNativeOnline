@@ -159,3 +159,23 @@ export function markerSample(g, kind, x, y, r) {
   else if (kind === 'guard') { npcDot(g, x - r * .5, y, r * .35, 'guard'); npcDot(g, x + r * .5, y, r * .3); }
   else if (kind === 'monster') monsterMark(g, x, y, r * .4);
 }
+
+// Navigation (tap the map to walk there): the planned route as a dashed line and a flag at its end.
+export function routeLine(g, pts, r, t = 0) {
+  if (pts.length < 2) return;
+  g.save(); g.lineCap = 'round'; g.lineJoin = 'round';
+  g.strokeStyle = 'rgba(58,38,18,.55)'; g.lineWidth = Math.max(2, r * .42);
+  g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke();
+  g.strokeStyle = '#ffd36b'; g.lineWidth = Math.max(1.2, r * .22); g.setLineDash([r * .55, r * .4]); g.lineDashOffset = -t * r * 2;
+  g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke();
+  g.restore();
+}
+export function goalFlag(g, x, y, r, t = 0) {
+  g.save();
+  g.strokeStyle = 'rgba(226,100,58,.8)'; g.lineWidth = Math.max(1, r * .14);
+  g.beginPath(); g.arc(x, y, r * (.55 + (t * 1.4 % 1) * .6), 0, Math.PI * 2); g.globalAlpha = 1 - (t * 1.4 % 1); g.stroke(); g.globalAlpha = 1;
+  g.fillStyle = '#3a2612'; g.fillRect(x - r * .07, y - r * 1.25, r * .14, r * 1.25);
+  g.beginPath(); g.moveTo(x + r * .07, y - r * 1.25); g.lineTo(x + r * .9, y - r * 1); g.lineTo(x + r * .07, y - r * .72); g.closePath();
+  g.fillStyle = '#e2643a'; g.fill(); g.strokeStyle = '#3a2612'; g.lineWidth = Math.max(1, r * .1); g.stroke();
+  g.restore();
+}

@@ -3,7 +3,7 @@ import { HALLS } from '../data/halls.js';
 import { SHOPS, TRAINERS } from '../data/shops.js';
 import { themeFor, npcMarker, landmarkMarker, edgePoint, portalStyle, LEGEND } from './minimap/mapStyle.js';
 import { paintBase } from './minimap/paintBase.js';
-import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample } from './minimap/glyphs.js';
+import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample, routeLine, goalFlag } from './minimap/glyphs.js';
 
 // Painted north-up map of the loaded map (minimap + the M full map).
 //
@@ -18,6 +18,8 @@ import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monste
 //               the palette follows map.minimap.theme / map.theme / map.id (mapStyle.js)
 //   regionAt    (x, z) → region, for zone names on the full map
 //   onPick      (landmark) => void, clicking a discovered landmark on the full map
+//   onWalk      (x, z) => bool, a tap / click anywhere else on the minimap or the full map:
+//               walk there (navigation); state.nav = { goal, route } draws the way
 // Per refresh (Game calls it every ~120 ms, never per frame):
 //   update(p, yaw, state)  /  drawFull(p, yaw, state)
 //   state: { t, night 0..1, npcs, monsters, quest(npcId), targets: Set, view: [{x,z}×4] }
@@ -26,8 +28,8 @@ import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monste
 const VIEW_UNITS = 120, MONSTER_RADIUS = 48;
 
 export class Minimap {
-  constructor(canvas, fullCanvas, footprints, { bounds, landmarks = LANDMARKS, portals = [], discovered = new Set(), world = null, map = null, regionAt = null, onPick = null } = {}) {
-    Object.assign(this, { canvas, full: fullCanvas, landmarks, portals, discovered, world, map, regionAt, onPick });
+  constructor(canvas, fullCanvas, footprints, { bounds, landmarks = LANDMARKS, portals = [], discovered = new Set(), world = null, map = null, regionAt = null, onPick = null, onWalk = null } = {}) {
+    Object.assign(this, { canvas, full: fullCanvas, landmarks, portals, discovered, world, map, regionAt, onPick, onWalk });
     this.bounds = bounds ?? world?.map?.view;
     this.theme = themeFor(map ?? world?.map ?? {});
     this.ctx = canvas.getContext('2d');
@@ -123,6 +125,8 @@ export class Minimap {
     g.drawImage(B.canvas, (p.x - B.rect.minX) * B.S - sw / 2, (p.z - B.rect.minZ) * B.S - sh / 2, sw, sh, 0, 0, cw, ch);
     this.nightTint(g, cw, ch, state.night);
     const to = (x, z) => [(x - p.x) * k + cw / 2, (z - p.z) * k + ch / 2];
+    this.mini = { px: p.x, pz: p.z, k, cw, ch };
+    this.drawNav(g, to, ui, state, p);
     this.markers(g, to, k, ui, state, { p });
     // Off-screen warps and quest targets: arrows on the edge.
     const edge = (x, z, color) => { const e = edgePoint((x - p.x) * k, (z - p.z) * k, cw / 2, ch / 2, ui * .55); if (e) edgeArrow(g, cw / 2 + e.x, ch / 2 + e.y, e.angle, ui * .38, color); };
@@ -131,6 +135,20 @@ export class Minimap {
     playerMark(g, cw / 2, ch / 2, ui * .5, yaw);
     compassRose(g, cw - ui * .95, ui * .95, ui * .72, state.night > .5);
     this.stats.drawMs = +(performance.now() - t0).toFixed(2);
+  }
+  // The way being walked (state.nav): from the player through the waypoints to the flag.
+  drawNav(g, to, ui, state, p) {
+    const nav = state.nav; if (!nav?.goal) return;
+    routeLine(g, [to(p.x, p.z), ...nav.route.map(w => to(w.x, w.z))], ui * .5, state.t ?? 0);
+    goalFlag(g, ...to(nav.goal.x, nav.goal.z), ui * .55, state.t ?? 0);
+  }
+  // Canvas pixel (from a pointer event) → world point, on the minimap or the full map.
+  worldAt(c, e) {
+    const r = c.getBoundingClientRect(), x = (e.clientX - r.left) * c.width / r.width, y = (e.clientY - r.top) * c.height / r.height;
+    if (c === this.canvas && this.mini) { const m = this.mini; return { x: m.px + (x - m.cw / 2) / m.k, z: m.pz + (y - m.ch / 2) / m.k }; }
+    const f = this.fullView;
+    if (c === this.full && f && x >= f.left && y >= f.top && x <= f.left + f.w && y <= f.top + f.h) return { x: f.minX + (x - f.left) / f.k, z: f.minZ + (y - f.top) / f.k };
+    return null;
   }
   // Night: the paper cools to moonlit blue (one multiply pass over the blit).
   nightTint(g, w, h, night = 0) {
@@ -165,6 +183,8 @@ export class Minimap {
       label(g, z.name, x, y, size, { color: 'rgba(70,44,18,.78)', halo: 'rgba(246,236,208,.55)', weight: 500 });
       boxes.push({ x, y, hw, hh });
     }
+    this.fullView = { left, top, k, minX: R.minX, minZ: R.minZ, w, h };
+    this.drawNav(g, to, ui * .8, state, p);
     this.markers(g, to, k, ui, state, { full: true, p });
     playerMark(g, ...to(p.x, p.z), ui * .55, yaw);
     compassRose(g, left + w - ui * 1.6, top + ui * 1.6, ui * 1.15, state.night > .5);
@@ -189,10 +209,21 @@ export class Minimap {
       tip.style.left = `${(e.clientX - pr.left) / z + 14}px`; tip.style.top = `${(e.clientY - pr.top) / z + 10}px`;
     });
     c.addEventListener('mouseleave', () => { if (tip) tip.hidden = true; });
-    c.addEventListener('click', e => { const h = find(e); if (h?.landmark) c._minimap?.onPick?.(h.landmark); });
+    // a discovered place walks to it; anywhere else on the map walks to that spot
+    c.addEventListener('click', e => {
+      const m = c._minimap, h = find(e);
+      if (h?.landmark) return m?.onPick?.(h.landmark);
+      const at = m?.worldAt(c, e); if (at) m.onWalk?.(at.x, at.z, true);
+    });
+    // the minimap: a tap walks there (its canvas is shared across map changes too)
+    const mini = this.canvas;
+    if (mini && !mini.dataset.bound) {
+      mini.dataset.bound = '1'; mini.style.cursor = 'pointer'; mini.title = 'แตะ / คลิกเพื่อเดินไปจุดนั้น';
+      mini.addEventListener('click', e => { const m = mini._minimap, at = m?.worldAt(mini, e); if (at) m.onWalk?.(at.x, at.z, false); });
+    }
   }
   // The full map's canvas is shared across map changes; route events to the live minimap.
-  activate() { if (this.full) this.full._minimap = this; return this; }
+  activate() { if (this.full) this.full._minimap = this; if (this.canvas) this.canvas._minimap = this; return this; }
 
   // Legend rows (canvas icons drawn by the same code as the map).
   static mountLegend(el) {
