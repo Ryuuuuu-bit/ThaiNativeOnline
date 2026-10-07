@@ -83,8 +83,9 @@ export class ActionBar {
   swing() {
     const cb = this.combat;
     if (!cb) return;
-    if (!this.autoCfg.basic) { if (cb.autoAttack) cb.autoAttack = false; return; }
+    if (!this.autoCfg.basic) { if (cb.autoAttack) cb.autoAttack = false; this.idleStop?.(); return; }
     if (cb.target?.alive && !cb.autoAttack && cb.basicSkillId?.()) cb.useSkill(cb.basicSkillId());
+    else if (!cb.target?.alive) this.idleSwing?.();   // no monster: the training dummy (Game sets this)
   }
   // Survival skills (quick buffs, heals) go first when HP is low: the kit's quick moves.
   survival(i) { const s = this.ctl?.slots[i]; return !!(s?.survival ?? this.ctl?.kit?.skills?.[i]?.quick); }

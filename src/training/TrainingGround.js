@@ -148,7 +148,8 @@ export class TrainingGround {
   swing() {
     if (!this.near || !this.hero) return false;
     if (!this.selected) this.select(this.closest);
-    this.autoSwing = true; this.swingTimer = Math.min(this.swingTimer ?? 0, 0);
+    // pressing again only keeps it going: the next swing still waits for the attack interval
+    this.autoSwing = true; this.swingTimer ??= 0;
     return true;
   }
   doSwing() {
@@ -218,9 +219,11 @@ export class TrainingGround {
     if (this.combat) this.combat.hold = this.skills.busy;
     fx.update(sdt, this.clock, this.player.position.y);
     if (this.inGround) for (const e of this.dummies ?? []) e.dummy.update(sdt);
+    // the attack interval runs down whether or not a swing is wanted (no faster swings by tapping)
+    this.swingTimer = Math.max(0, (this.swingTimer ?? 0) - sdt);
     if (this.autoSwing) {
       if (!this.near || !this.hero?.alive) this.autoSwing = false;
-      else if (!this.skills.busy && (this.swingTimer -= sdt) <= 0) this.doSwing();
+      else if (!this.skills.busy && this.swingTimer <= 0) this.doSwing();
     }
     if (this.ring?.visible) { this.ring.rotation.z = this.clock; this.ring.scale.setScalar(1 + Math.sin(this.clock * 6) * .06); }
     this.vignette.style.opacity = fx.mood.toFixed(3);

@@ -222,6 +222,9 @@ export class Game {
       combat: this.game.combat, hud: this.game.hud,   // kit skills fight monsters and sit on the action bar
     });
     this.training?.enterMap(this.maps.map.id);
+    // AUTO's basic attack also swings at the training dummy (the same pace as by hand)
+    const bar = this.game.hud?.bar;
+    if (bar) { bar.idleSwing = () => this.maps.map?.safe && this.training?.swing?.(); bar.idleStop = () => { if (this.training) this.training.autoSwing = false; }; }
     this.game.hud?.setSafe(this.maps.map.safe); // world-designer hook: fight tips only on maps with monsters
   }
 
