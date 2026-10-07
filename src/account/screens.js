@@ -14,7 +14,7 @@ export function showLogin(root, store) {
     let mode = 'login';
     const overlay = el('section', 'acc-screen acc-login', `
       <div class="acc-login-art" aria-hidden="true"></div>
-      <header class="acc-brand"><span class="acc-brand-mark" aria-hidden="true">ท</span><span>THAI NATIVE <b>ONLINE</b></span></header>
+      <header class="acc-brand" aria-label="Thai Native Online"><img class="acc-brand-crest" src="/ui/login/native-crest.svg" alt="" width="64" height="70"><span class="acc-brand-title">THAI NATIVE<span class="acc-brand-online"><i></i>ONLINE<i></i></span></span></header>
       <div class="acc-welcome">
         <p class="acc-kicker">ตำนานบทใหม่ กำลังรอคุณ</p>
         <h1>ไทยเนทีฟ<span>ออนไลน์</span></h1>

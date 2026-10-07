@@ -10,6 +10,11 @@ Changed implementation: `src/account/screens.js`, `src/account/account.css`, and
 `public/ui/login/royal-dawn.webp`. Login-only selectors override the existing
 touch layout without changing character selection or gameplay panels.
 
+The logo refinement replaces the letter seal with an original SVG lotus/flame
+crest (`public/ui/login/native-crest.svg`) and a larger serif wordmark. The
+updated screenshot below shows the refinement. Login behavior and the 266-test
+suite/build still pass; physical-device and art-director review remain pending.
+
 ![Desktop entrance](login-desktop.png)
 
 ## Verification
