@@ -84,7 +84,7 @@ export function showLogin(root, store) {
 // → { slot, prefix, fresh } (fresh = empty slot → character creation), or null after logging out
 export function showCharacterSelect(root, store, session, { onLogout } = {}) {
   return new Promise(resolve => {
-    const overlay = el('section', 'acc-screen');
+    const overlay = el('section', 'acc-screen acc-character-select');
     // One 3D stage above the slots shows the character under the pointer / focus.
     const stage = el('div', 'acc-stage', '<span class="acc-stage-name"></span>');
     let preview = null;
@@ -92,9 +92,11 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
     const render = () => {
       const slots = store.slots(session.id);
       overlay.innerHTML = `
+        <div class="acc-select-art" aria-hidden="true"></div>
         <div class="acc-select">
           <span class="eyebrow">${session.guest ? esc(ACCOUNTS.guestName) : `บัญชี ${esc(session.id)}`}</span>
           <h2>เลือกผู้เดินทาง</h2>
+          <p class="acc-select-intro">นครอโยธยารอการกลับมาของเจ้า</p>
           <div class="acc-stage-slot"></div>
           <div class="acc-slots">${slots.map(slotCard).join('')}</div>
           <button type="button" class="acc-logout">${session.guest ? 'กลับไปหน้าเข้าสู่ระบบ' : 'ออกจากระบบ'}</button>
