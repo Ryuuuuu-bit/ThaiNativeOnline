@@ -1,0 +1,26 @@
+<!doctype html><html lang="th"><meta charset="utf-8"><title>NPC architecture review</title>
+<style>body{margin:0;background:#c5cfbd;color:#273b31;font:16px system-ui}canvas{display:block}header{position:absolute;top:28px;left:32px}h1{font-size:26px;margin:6px 0}small{letter-spacing:3px}p{margin:5px 0;font-size:13px}nav{position:absolute;bottom:26px;left:0;right:0;text-align:center}a{color:#f4e7c8;background:#284c3f;padding:10px 18px;margin:5px;border-radius:6px;text-decoration:none}</style>
+<header><small>THAI NATIVE · ARCHITECTURE</small><h1></h1><p>โมเดลจริง · กล้อง Orthographic 2.5D</p></header>
+<nav><a href="?type=stiltHouse">เรือนไทย</a><a href="?type=shophouseRow">ห้องแถวร้านค้า</a></nav>
+<script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import * as shops from '/src/world/Architecture.js';
+import {createRng} from '/src/world/rng.js';
+import {PropLibrary} from '/src/world/props.js';
+import {StaticBatcher} from '/src/world/Batching.js';
+const q=new URLSearchParams(location.search),type=['stiltHouse','shophouseRow'].includes(q.get('type'))?q.get('type'):'stiltHouse';
+const names={stiltHouse:'เรือนไทยในเมือง',shophouseRow:'ห้องแถวร้านค้า'};
+const builders=shops;
+document.querySelector('h1').textContent=names[type]+' · แบบปรับรายละเอียด';
+const scene=new THREE.Scene();scene.background=new THREE.Color('#c5cfbd');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;document.body.append(renderer.domElement);
+const camera=new THREE.OrthographicCamera(-9*innerWidth/innerHeight,9*innerWidth/innerHeight,9,-9,.1,80);camera.position.set(12,12,17);camera.lookAt(0,2,0);
+scene.add(new THREE.HemisphereLight('#fff1d5','#62745b',2.3));const sun=new THREE.DirectionalLight('#fff0d1',3);sun.position.set(-8,14,6);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-14;sun.shadow.camera.right=14;sun.shadow.camera.top=14;sun.shadow.camera.bottom=-14;sun.shadow.normalBias=.025;scene.add(sun);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:'#a4ad87',roughness:1}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+const model=type==='stiltHouse'?builders.stiltHouse(createRng(7),{thatch:true,detailed:true}):builders.shophouseRow(createRng(7),2),props=new PropLibrary();for(const p of model.userData.props)props.add(p.name,p.x,p.y,p.z,p);props.build(scene);
+const batch=new StaticBatcher();batch.addObject(model);batch.build(scene);
+renderer.render(scene,camera);
+window.shopReview={ready:true,type,metadata:model.userData,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles};
+</script></html>
+
+
