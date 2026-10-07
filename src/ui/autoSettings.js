@@ -1,3 +1,4 @@
+import { assetIcon } from './icons.js';
 // AUTO settings (the ⚙ next to AUTO on the action bar, src/ui/ActionBar.js): which
 // skills AUTO may cast, potion thresholds, survival skills when HP is low, target
 // priority and how far it looks for the next monster. AUTO only runs while the player
@@ -117,7 +118,7 @@ export class AutoPanel {
     this.root.innerHTML = `<div class="ro-title"><kbd class="auto-kc">G</kbd>ตั้งค่า AUTO<button class="auto-close" aria-label="ปิด">×</button></div>
       <div class="auto-grid">
         <div class="auto-card"><h4>สกิล <small>แตะเพื่อเปิด/ปิด</small></h4>
-          <div class="auto-skills">${slots.map((sl, i) => { const off = s.off.includes(i); return `<button type="button" data-slot="${i}" class="${off ? 'off' : ''}${sl.survival ? ' survival' : ''}" title="${sl.name}${sl.survival ? ' · สกิลเอาตัวรอด' : ''}"><i class="k">${(i + 1) % 10}</i>${off ? '' : '<i class="ok">✓</i>'}${sl.icon ? `<img src="${sl.icon}" alt="">` : `<b>${sl.html ?? ''}</b>`}<span>${sl.name}</span></button>`; }).join('')}</div>
+          <div class="auto-skills">${slots.map((sl, i) => { const off = s.off.includes(i); return `<button type="button" data-slot="${i}" class="${off ? 'off' : ''}${sl.survival ? ' survival' : ''}" title="${sl.name}${sl.survival ? ' · สกิลเอาตัวรอด' : ''}"><i class="k">${(i + 1) % 10}</i>${off ? '' : '<i class="ok">✓</i>'}${sl.icon ? assetIcon(sl.icon) : `<b>${sl.html ?? ''}</b>`}<span>${sl.name}</span></button>`; }).join('')}</div>
           <div class="auto-legend"><span><i class="atk"></i>สกิลโจมตี</span><span><i class="sv"></i>สกิลเอาตัวรอด ใช้ก่อนเมื่อ HP ต่ำ</span></div>
           ${sw('basic', 'ตีปกติระหว่างรอสกิล', 'ปิดไว้เพื่อประหยัด MP สำหรับสายเวท')}</div>
         <div class="auto-card"><h4>ฟื้นฟู</h4>

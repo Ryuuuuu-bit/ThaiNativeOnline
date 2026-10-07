@@ -1,3 +1,4 @@
+import { assetIcon } from './icons.js';
 // The one action bar, the same on every map and for every class (the hotbar look
 // from src/classes/fx/fx.css): up to ten skills on keys 1–0, AUTO on G, then the
 // potions (Q / F) and the EXP bar from CharacterUI (the main menu opens the windows).
@@ -57,7 +58,7 @@ export class ActionBar {
     this.row.replaceChildren();
     this.slots = controller.slots.map((s, i) => {
       const b = el('button', 'hotbar-slot' + (s.lv >= 20 ? ' adv' : ''),
-        `${s.icon ? `<img src="${s.icon}" alt="">` : `<span class="hotbar-glyph">${s.html ?? ''}</span>`}<span class="key">${keyLabel(i)}</span><span class="mp"></span><span class="slv"></span><span class="lock">🔒</span><span class="cd"></span><span class="cdt"></span>`);
+        `${s.icon ? assetIcon(s.icon) : `<span class="hotbar-glyph">${s.html ?? ''}</span>`}<span class="key">${keyLabel(i)}</span><span class="mp"></span><span class="slv"></span><span class="lock">🔒</span><span class="cd"></span><span class="cdt"></span>`);
       b.type = 'button'; b.setAttribute('aria-label', `${s.name} (ปุ่ม ${keyLabel(i)})`);
       b.addEventListener('click', () => this.cast(i));
       b.addEventListener('pointerenter', () => this.showTip(i, b)); b.addEventListener('pointerleave', () => this.hideTip());

@@ -1,3 +1,4 @@
+import { assetIcon } from '../../ui/icons.js';
 // Skill window (K), laid out as the design "UI ใหม่" draws it: the class path and job strip on
 // top, the class's ten kit skills as a tree (three branches by what a skill does, rows by the
 // job level that opens them) and the selected skill's card on the right, the action bar's
@@ -130,7 +131,7 @@ export class SkillPanel {
         const lv = c.skillLevel(s.id), need = c.skillUnlockJob(s.id), state = lv ? 'learned' : c.jobLevel >= need ? 'avail' : 'locked';
         const ult = SKILL_BY_ID[s.id]?.ultimate, evo = c.evo[s.id];
         cells.push(`<div class="g-cell${line}"><button type="button" class="g-node ${state}${s.id === this.sel ? ' sel' : ''}" data-sk="${s.id}" title="${esc(s.name)}">
-          <span class="g-ic">${s.icon ? `<img src="${s.icon}" alt="">` : ''}</span><b class="g-lvp">${state === 'locked' ? `Job ${need}` : `${lv}/${MAX_SKILL_LEVEL}`}</b>
+          <span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><b class="g-lvp">${state === 'locked' ? `Job ${need}` : `${lv}/${MAX_SKILL_LEVEL}`}</b>
           <span class="g-nm">${esc(s.name)}</span>${ult ? '<span class="g-bdg ult">★</span>' : evo ? `<span class="g-bdg" style="--evo:${EVOLUTIONS[s.id][evo].color}">${evo}</span>` : ''}${c.skillBlock(s.id) ? '' : '<span class="g-plus">+</span>'}</button></div>`);
       });
     });
@@ -149,7 +150,7 @@ export class SkillPanel {
       return `<button type="button" data-evo="${s.id}:${p}" class="${on ? 'on' : ''}" ${ready && !on ? '' : 'disabled'} title="${esc(paths[p].desc)}" style="--evo:${paths[p].color}"><b>${p}</b> ${esc(paths[p].name)}${on ? ' ✓' : cost && ready ? ` · ${cost} ทอง` : ''}<small>${esc(paths[p].desc)}</small></button>`;
     }).join('')}</div>`;
     const label = locked ? `ปลดที่ Job Lv ${need}` : maxed ? 'เลเวลสูงสุดแล้ว' : block ?? (lv ? 'อัปเลเวล <small>ใช้ 1 แต้ม</small>' : 'เรียนสกิล <small>ใช้ 1 แต้ม</small>');
-    card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? `<img src="${s.icon}" alt="">` : ''}</span><div><b>${esc(s.name)}</b><small>${TYPE_TH[SKILL_BY_ID[s.id]?.type] ?? 'สกิล'} · ${SKILL_BY_ID[s.id]?.kind === 'physical' ? 'กายภาพ' : SKILL_BY_ID[s.id]?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}</small><div class="g-pips">${pips}</div></div>
+    card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${TYPE_TH[SKILL_BY_ID[s.id]?.type] ?? 'สกิล'} · ${SKILL_BY_ID[s.id]?.kind === 'physical' ? 'กายภาพ' : SKILL_BY_ID[s.id]?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}</small><div class="g-pips">${pips}</div></div>
         <span class="g-skd-lv">Lv ${lv}/${MAX_SKILL_LEVEL}<small>${locked ? 'ยังไม่ปลด' : lv ? 'เรียนแล้ว' : 'เรียนได้'}</small></span></div>
       ${cmp ? `<div class="g-cmp">${cmp}</div>` : ''}
       ${s.desc ? `<p class="g-skd-desc">${esc(s.desc)}</p>` : ''}
@@ -159,7 +160,7 @@ export class SkillPanel {
 
     // the action bar's ten slots
     this.root.querySelector('.g-sk-slots').innerHTML = this.kit.skills.map((k, i) => c.skillLevel(k.id)
-      ? `<div class="g-skslot">${k.icon ? `<img src="${k.icon}" alt="">` : ''}<kbd>${(i + 1) % 10}</kbd><span>${esc(k.name)}</span></div>`
+      ? `<div class="g-skslot">${k.icon ? assetIcon(k.icon) : ''}<kbd>${(i + 1) % 10}</kbd><span>${esc(k.name)}</span></div>`
       : `<div class="g-skslot empty">${(i + 1) % 10} · ว่าง</div>`).join('');
   }
 }

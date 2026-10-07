@@ -7,6 +7,13 @@ import { AVATARS } from '../data/training.js';
 //   iconHtml(entry)      entry.img (a framed PNG) when there is one, else entry.icon
 //   (items, potions included, use iconHtml with their framed art in public/ui/items)
 const BASE = import.meta.env?.BASE_URL ?? '/';
+const escapeAttr = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+// Keep source art untouched. One live frame replaces the baked PNG rim and
+// scales with inventory, skill tree, hotbar and small buff icons alike.
+export function assetIcon(url, alt = '') {
+  return `<span class="icon-img asset-icon"><img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}"></span>`;
+}
 
 // 24×24 line emblems (stroke = currentColor) for classes without a portrait yet.
 export const EMBLEMS = {
@@ -29,6 +36,6 @@ export function classBadge(id, cls, { size = 26 } = {}) {
 export const classEmblem = (id, size = 26) => emblem(id, size);
 
 export function iconHtml(entry, alt = '') {
-  if (entry?.img) return `<img class="icon-img" src="${BASE}${entry.img}" alt="${alt}">`;
+  if (entry?.img) return assetIcon(`${BASE}${entry.img}`, alt);
   return `<span class="icon-glyph">${entry?.icon ?? '✦'}</span>`;
 }

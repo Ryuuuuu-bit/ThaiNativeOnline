@@ -6,6 +6,7 @@ import { MUSIC_FOR } from './data/audio.js';
 import './style.css';
 import './ui/theme.css';   // the shared look for every in-game box (loaded last)
 import './ui/layout.css';  // the design's window layouts, shared by both skins
+import './ui/icon-theme.css';
 import './ui/skin-classic.css';   // carved-wood skin, on when body.skin-classic (src/ui/skin.js)
 
 // Login → character select → creation (src/account), then the world.
