@@ -134,3 +134,8 @@ body:not(.ui-compact) .hotbar{bottom:84px}
 .ui-compact .fullmap>p{display:none}
 .ui-compact .mini-title small{display:none}
 .ui-compact .kranok{width:18px;height:18px}
+
+/* No place-discovery journal on screen: the left panel only shows the quest tracker, and only when a quest is active. */
+.exploration .eyebrow,.exploration h2,.exploration p,.exploration .quest-line,.exploration .quest-hint{display:none}
+.exploration{padding:12px 14px}
+.exploration:not(:has(#quest-tracker > *)){display:none}

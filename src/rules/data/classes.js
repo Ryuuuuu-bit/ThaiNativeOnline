@@ -44,7 +44,7 @@ export const JOBS = {
     baseHp: 80, baseMp: 60, hpPerLevel: 9,
     startStats: { STR: 1, AGI: 1, VIT: 1, INT: 1, DEX: 1, LUK: 1 },
     weapon: 'staff', color: '#8e44ad',
-    attack: { kind: 'magic', style: 'projectile', range: 220, cooldown: 700, mult: 1.25, mpCost: 3, projectile: 'fireball', speed: 230 },
+    attack: { kind: 'magic', style: 'projectile', range: 220, cooldown: 700, mult: 1.25, mpCost: 0, projectile: 'fireball', speed: 230 },
   },
   archer: {
     id: 'archer', nameTh: 'พรานป่า', nameEn: 'Archer',
@@ -74,7 +74,7 @@ export const JOBS = {
     baseHp: 95, baseMp: 55, hpPerLevel: 10,
     startStats: { STR: 1, AGI: 1, VIT: 1, INT: 1, DEX: 1, LUK: 1 },
     weapon: 'staff', color: '#2ecc71',          // ท่าทาง/ภาพตัวละครแบบถือไม้เท้า (ชนิดอาวุธในกระเป๋า = 'herb')
-    attack: { kind: 'magic', style: 'projectile', range: 200, cooldown: 720, mult: 1.1, mpCost: 2, projectile: 'pill', speed: 240 },
+    attack: { kind: 'magic', style: 'projectile', range: 200, cooldown: 720, mult: 1.1, mpCost: 0, projectile: 'pill', speed: 240 },
   },
 };
 

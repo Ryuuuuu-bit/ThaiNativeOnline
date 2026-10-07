@@ -7,6 +7,7 @@ import * as THREE from 'three';
 // bindCombat(game), which plays the class's skill clip on every combat cast.
 // Speed is tuned to the city's travel-time targets.
 export const WALK_SPEED = 4.2, RUN_SPEED = 6.8;
+const SWING_TEMPO = 1.25;   // combat clips play at least this fast (see swingSpeed)
 
 export class Player {
   constructor(scene) {
@@ -31,8 +32,15 @@ export class Player {
     this.combat = game.combat;
     game.combat.on('cast', ({ skillId }) => {
       const clip = this.casts[skillId];
-      if (clip && this.model?.has?.(clip)) this.model.attack(clip);
+      if (clip && this.model?.has?.(clip)) this.model.attack(clip, this.swingSpeed(clip));
     });
+  }
+  // Clip speed for a combat cast: at least the snappy base tempo, and fast enough that the
+  // swing fits inside the basic-attack interval, so attack speed (AGI, buffs) shows.
+  swingSpeed(clip) {
+    const c = this.combat?.character, len = this.model?.clipLength?.(clip) ?? 0;
+    const interval = c?.cls?.attackSpeed ? c.cls.attackSpeed * (1 - (c.attackSpeed || 0)) : 0;
+    return Math.min(3, Math.max(SWING_TEMPO, interval > 0 && len > 0 ? len / (interval * .9) : 0));
   }
   // Moves along `direction` (normalised, on the ground plane), sliding along obstacles.
   move(direction, dt, world, running) {

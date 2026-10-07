@@ -16,6 +16,10 @@ import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 //   o.run    0..1 blend from trot to a full gallop
 //   o.bite   0..1 phase of one scripted bite (lunge, jaw open, snap shut) — overrides `attacking`
 //   o.glow   0..1 spirit glow (emissive jade) for summoned dogs
+//   o.howl   0..1 head thrown back to the sky, jaw open (a howl / war bark)
+//
+// followerDog() is the dog that heels behind the hunter in the world (the first
+// makeDog() without `transient` still in a scene); the skill kit borrows it.
 
 const mat = (color, extra) => new THREE.MeshStandardMaterial({ color, roughness: .78, ...extra });
 const mesh = (parent, geo, m, x = 0, y = 0, z = 0, s) => {
@@ -108,6 +112,8 @@ function primitiveDog({ coat = '#b8733c', glowColor = '#5dffa8' } = {}) {
     if (o.bite != null) {
       const b = o.bite, open = b < .55 ? Math.sin(b / .55 * Math.PI / 2) : Math.max(0, 1 - (b - .55) / .12);
       jawOpen = open * .75; headPitch = .25 * Math.sin(Math.min(1, b / .7) * Math.PI); headFwd = Math.sin(Math.min(1, b / .8) * Math.PI) * .09;
+    } else if (o.howl) {
+      jawOpen = .65 * o.howl; headPitch = -.85 * o.howl;
     } else if (attacking) {
       const s = Math.sin(t * 16); jawOpen = Math.max(0, s) * .6; headPitch = .2 + s * .08; headFwd = .04;
     } else {
@@ -168,6 +174,7 @@ function riggedDog(src, glowColor) {
     rot(hips, [X, moving ? Math.sin(ph) * run * .1 : 0]); rot(mid, [X, moving ? -Math.sin(ph) * run * .06 : Math.sin(t * 2.2) * .01]);
     let pitch, fwd = 0, yaw = 0;
     if (o.bite != null) { const b = o.bite; pitch = .75 * Math.sin(Math.min(1, b / .7) * Math.PI); fwd = Math.sin(Math.min(1, b / .8) * Math.PI) * .1; }
+    else if (o.howl) { pitch = -1.5 * o.howl; }
     else if (attacking) { const s = Math.sin(t * 16); pitch = .3 + s * .12; fwd = .05; }
     else { pitch = moving ? Math.sin(ph * 2) * .05 + run * .2 : Math.sin(t * .7) * .05; yaw = moving ? 0 : Math.sin(t * .45) * .4; }
     inner.position.z = fwd;
@@ -185,7 +192,18 @@ export function makeDog(opts = {}) {
   const stand = primitiveDog(opts); g.add(stand);
   let rig = null;
   g.userData.animate = (t, moving = false, attacking = false, o = {}) => (rig ? rig.animate(t, moving, attacking, o) : stand.userData.animate(t, moving, attacking, o));
+  if (!opts.transient) FOLLOWERS.add(g);
   loadSource().then(src => { if (!src) return; rig = riggedDog(src, glowColor); g.remove(stand); stand.traverse(n => { n.geometry?.dispose(); n.material?.dispose?.(); }); g.add(rig.inner); g.userData.animate(0); });
   return g;
 }
 export const preloadDog = loadSource;
+
+// The world's heeling dog (src/combat/CombatView.js), or null when none is in a scene.
+const FOLLOWERS = new Set();
+// True while a skill has borrowed the heeling dog (its own combat bites wait, src/combat/Combat.js).
+export const followerAway = () => [...FOLLOWERS].some(d => d.parent && d.userData.away);
+export function followerDog() {
+  let found = null;
+  for (const d of FOLLOWERS) { if (!d.parent) { if (d.userData.seen) FOLLOWERS.delete(d); continue; } d.userData.seen = true; found = d; }
+  return found;
+}

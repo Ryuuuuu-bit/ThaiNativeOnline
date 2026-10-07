@@ -172,3 +172,23 @@
 
 /* Six base stats: English key with the Thai name beside it. */
 .g-stat span small{font-size:9px;color:#9fae98;margin-left:4px}
+
+/* bag: tabs, search, sort, better/worse arrows, rarity frames */
+.g-bag-tabs{display:flex;gap:3px;margin:8px 0 5px}
+.g-bag-tabs button{flex:1;padding:4px 0;font-size:10px;border:1px solid #ffffff1a;border-radius:3px;background:#0b1b1799;color:#c9cfbd}
+.g-bag-tabs button[aria-selected="true"]{background:#c69a52;border-color:#e6c27f;color:#1d140a;font-weight:700}
+.g-bag-tools{display:flex;gap:4px;align-items:center;margin-bottom:6px}
+.g-bag-search{flex:1;min-width:0;padding:4px 6px;font-size:10px;border:1px solid #ffffff22;border-radius:3px;background:#06110ecc;color:#e7e3d0}
+.g-bag-sort{padding:4px 8px;font-size:10px;border:1px solid #c69a5288;border-radius:3px;background:#2a2114;color:#f0d9a8}
+.g-bag-sort:hover{background:#3a2d18}
+.g-bag-auto{display:flex;gap:3px;align-items:center;font-size:9px;color:#b9c2ad;white-space:nowrap}
+.g-bag-auto input{accent-color:#c69a52;margin:0}
+.g-bag-none{font-size:10px;color:#8d9f8f;text-align:center;margin:10px 0}
+.g-slot .g-cmp{position:absolute;left:2px;top:1px;z-index:1;font-size:10px;font-style:normal;line-height:1;text-shadow:0 0 2px #000,0 1px 2px #000}
+.g-slot .g-cmp.up{color:#6fe08a}
+.g-slot .g-cmp.down{color:#ff6b5e}
+.g-slot.rar-rare,.g-slot.rar-epic{border-width:2px}
+.g-slot.rar-epic{background:radial-gradient(circle at 50% 60%,#c79af033,#0b1b1799 70%)}
+.g-slot.rar-rare{background:radial-gradient(circle at 50% 60%,#7fb7e826,#0b1b1799 70%)}
+/* the training-ground box sits where the bag / sheet open: step it aside while they are up */
+body:has(.g-bag:not([hidden])) .training-panel,body:has(.g-sheet:not([hidden])) .training-panel{display:none}

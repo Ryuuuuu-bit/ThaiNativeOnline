@@ -31,6 +31,7 @@ export class CombatHUD {
   // It sits in the app root (not this layer) so the --ui zoom applies once.
   buildBar(root, { potions, menus }) {
     this.bar = new ActionBar(root, { potions, menus });
+    this.bar.bindAuto({ character: this.c, combat: this.combat });
     this.setSkills(legacyCaster(this.combat), `สกิล${this.c.cls.name}`);
   }
   setSkills(controller, label) { this.bar.setSkills(controller, label); }

@@ -312,8 +312,7 @@ export class Game {
       this.quests.onTalk(npc.id);
       return this.refreshDialogue();
     }
-    const l = this.nearLandmark();
-    if (l) { this.discover(l, true); }
+    // places are found silently by walking through them (no prompt, no popup)
   }
   closeDialogue() { this.hud.closeDialogue(); this.talking?.release(); this.talking = null; }
   // Quest offers and the trade button for the NPC being talked to.
@@ -334,7 +333,6 @@ export class Game {
     if (l.hidden && fresh) this.minimap?.invalidate(); // hidden places (the cemetery) tint the painted map once found
     slotStorage.setItem('tno.discovered.v1', JSON.stringify([...this.discovered]));
     this.quests.onDiscover(l.id);
-    this.hud.toast(fresh ? `ค้นพบ · ${l.name}` : l.name, l.text, l.purpose);
     this.updateJournal();
   }
   updateJournal() {
@@ -411,8 +409,8 @@ export class Game {
       this.minimap.update(p, this.player.group.rotation.y, mapState);
       if (!$('fullmap-panel').hidden) this.minimap.drawFull(p, this.player.group.rotation.y, mapState);
       for (const l of this.maps.landmarks) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
-      const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z), l = npc ? null : this.nearLandmark();
-      this.hud.prompt(npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : l ? `สำรวจ ${l.name}` : null);
+      const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z);
+      this.hud.prompt(npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
       this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery });
       if (this.debugOn) {
         const info = this.renderer.info.render;

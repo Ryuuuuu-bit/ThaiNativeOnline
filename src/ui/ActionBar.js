@@ -6,6 +6,8 @@
 //   bar.setSkills(controller, label)   swap the skills (class kit or legacy combat skills)
 //   bar.handleKey(e) → bool             1–0 cast, G toggles AUTO
 //   bar.update(dt)                      cooldown sweeps, MP / pending states, AUTO
+//   bar.bindAuto({ character, combat }) lets AUTO drink potions and choose targets by the
+//                                       ⚙ settings (src/ui/autoSettings.js)
 //
 // controller: {
 //   slots: [{ id, name, icon? (image URL), html? (icon markup), lv?, cd, mp?, desc? }],
@@ -17,6 +19,7 @@
 // }
 import '../classes/fx/fx.css';
 import './actionbar.css';
+import { AutoPanel, autoPotion, castOrder, loadAuto, normalizeAuto, pickTarget, saveAuto } from './autoSettings.js';
 
 export const AUTO_KEY = 'KeyG';
 const keyLabel = i => String((i + 1) % 10);
@@ -30,7 +33,15 @@ export class ActionBar {
     this.autoBtn = el('button', 'ro-button hotbar-auto', '<b>AUTO <kbd>G</kbd></b><small>สกิลอัตโนมัติ</small>');
     this.autoBtn.type = 'button'; this.autoBtn.setAttribute('aria-pressed', 'false'); this.autoBtn.title = 'ใช้สกิลที่พร้อมวนไปเรื่อย ๆ กับเป้าหมาย (ปุ่ม G)';
     this.autoBtn.addEventListener('click', () => this.setAuto(!this.auto));
-    this.bar.append(this.row, this.autoBtn);
+    this.cfgBtn = el('button', 'ro-button hotbar-auto-cfg', '⚙'); this.cfgBtn.type = 'button'; this.cfgBtn.title = 'ตั้งค่า AUTO';
+    this.autoCfg = loadAuto(); this.potionWait = 0;
+    this.panel = new AutoPanel(host, () => this.autoCfg, s => { this.autoCfg = normalizeAuto(s); saveAuto(this.autoCfg); });
+    this.cfgBtn.addEventListener('click', () => this.panel.toggle(this.ctl?.slots.map((sl, i) => ({ ...sl, survival: this.survival(i) })) ?? []));
+    // the basic attack (Space): every class has one, its speed follows AGI and buffs
+    this.atkBtn = el('button', 'ro-button hotbar-attack', '<b>โจมตี</b><kbd>Space</kbd>'); this.atkBtn.type = 'button'; this.atkBtn.hidden = true;
+    this.atkBtn.title = 'ตีปกติใส่เป้าหมาย (เร็วขึ้นตาม AGI และบัฟ)';
+    this.atkBtn.addEventListener('click', () => { const cb = this.combat; if (cb?.basicSkillId?.()) cb.useSkill(cb.basicSkillId()); });
+    this.bar.append(this.row, this.atkBtn, this.autoBtn, this.cfgBtn);
     if (potions.length) this.bar.append(el('span', 'hotbar-sep'), el('div', 'action-items'));
     this.bar.querySelector('.action-items')?.append(...potions);
     if (menus.length) { const m = el('div', 'action-menus'); m.append(...menus); this.bar.append(m); }
@@ -64,6 +75,18 @@ export class ActionBar {
   }
   hideTip() { this.tip.hidden = true; }
 
+  bindAuto({ character, combat } = {}) { this.character = character; this.combat = combat; this.atkBtn.hidden = !combat?.basicSkillId?.(); }
+  // AUTO keeps the basic attack going on its target between skills, unless the
+  // settings turn it off (then it stops the swings it would otherwise keep up).
+  swing() {
+    const cb = this.combat;
+    if (!cb) return;
+    if (!this.autoCfg.basic) { if (cb.autoAttack) cb.autoAttack = false; return; }
+    if (cb.target?.alive && !cb.autoAttack && cb.basicSkillId?.()) cb.useSkill(cb.basicSkillId());
+  }
+  // Survival skills (quick buffs, heals) go first when HP is low: the kit's quick moves.
+  survival(i) { const s = this.ctl?.slots[i]; return !!(s?.survival ?? this.ctl?.kit?.skills?.[i]?.quick); }
+
   setAuto(on) { this.auto = on; this.autoBtn.setAttribute('aria-pressed', String(on)); this.autoBtn.classList.toggle('on', on); this.autoWait = .2; }
   toggleAuto() { this.setAuto(!this.auto); }
 
@@ -92,13 +115,29 @@ export class ActionBar {
       cdt.textContent = left > 0 ? (left >= 10 ? Math.ceil(left) : left.toFixed(1)) : '';
       b.classList.toggle('nomp', !ctl.usable(i)); b.classList.toggle('active', !!ctl.active(i));
     });
-    if (!this.auto || ctl.busy) return;
-    if ((this.autoWait -= dt) > 0) return;
-    // The next skill in bar order that is ready.
-    for (let k = 0; k < this.slots.length; k++) {
-      const i = (this.next + k) % this.slots.length;
-      if (ctl.cooldown(i)[0] <= 0 && this.cast(i, true)) { this.next = i + 1; this.autoWait = .35; return; }
+    this.atkBtn.classList.toggle('on', !!this.combat?.autoAttack && !!this.combat?.target?.alive);
+    if (!this.auto) return;
+    const c = this.character, cfg = this.autoCfg, hp = c ? c.hp / c.maxHp : 1;
+    // potions first, even mid-cast (one every 1.5 s at most)
+    if (c?.alive && (this.potionWait -= dt) <= 0) {
+      const kind = autoPotion(cfg, hp, c.mp / c.maxMp);
+      if (kind && c.quickUse(kind)) this.potionWait = 1.5;
     }
-    this.autoWait = .8;
+    if (ctl.busy) return;
+    if ((this.autoWait -= dt) > 0) return;
+    // the target, by the priority in the settings
+    const cb = this.combat;
+    if (cb?.monsters && cb.world?.playerPos) {
+      const t = pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target);
+      if (t && t !== cb.target) cb.setTarget(t);
+    }
+    // the next enabled skill that is ready (survival skills first when HP is low)
+    const order = castOrder(this.slots.map((_, i) => ({ survival: this.survival(i) })), cfg, hp, this.next);
+    for (const i of order) {
+      if (ctl.cooldown(i)[0] <= 0 && this.cast(i, true)) { this.next = i + 1; this.autoWait = .35; this.swing(); return; }
+    }
+    // nothing ready: the basic attack fills the gaps (its speed follows AGI and buffs)
+    this.swing();
+    this.autoWait = .3;
   }
 }

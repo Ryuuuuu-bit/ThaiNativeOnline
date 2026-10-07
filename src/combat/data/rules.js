@@ -11,6 +11,11 @@ export const RULES = {
   eliteHeavyChance: .25,   // elites sometimes hit for 1.8×
   deathGoldLoss: .1,
   reviveRatio: .6,
+  // The hunter's dog: each bite is a rules blow at petBite × ATK (crits, armour), every
+  // 1.3 s (0.55 s in a frenzy) shortened by attack speed; a landed basic hit sends it in
+  // at once with petInstinct chance (+0.2% per LUK) for a 1.5× bite (สัญชาตญาณหมาล่า).
+  petBite: .45,
+  petInstinct: .12,
   // Class skill kits fighting monsters (src/training/kitCombat.js). Rules skills
   // (src/rules/data/skills.js) measure range/radius in ThaiNative pixels: pxPerMeter
   // turns them into metres. Casts need the target within [minRange, maxRange] m

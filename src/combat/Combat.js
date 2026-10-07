@@ -9,9 +9,10 @@ const randInt = (a, b) => Math.floor(rand(a, b + 1));
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 import { RULES } from './data/rules.js';
 import { rollDamage } from '../rules/stats.js';
+import { followerAway } from '../classes/dog.js';
 import { MONSTER_ACCURACY } from '../character/data/progression.js';
 
-const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN } = RULES;
+const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
 let nextId = 1;
 
@@ -182,6 +183,8 @@ export class Combat extends Emitter {
   hitMonster(m, skill) {
     if (!m.alive) return;
     const { hit, dmg: dealt, crit } = this.rollPlayerDamage(skill, m);
+    // สัญชาตญาณหมาล่า: a hunter's landed basic hit may send the dog in at once (LUK helps)
+    if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 }; }
     if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit }) && skill.debuff) this.debuff(m, { ...skill.debuff, source: this.character.attack });
   }
 
@@ -265,14 +268,18 @@ export class Combat extends Emitter {
       if (d > 1.1) this.step(pet, target, pet.pounce ? 9 : 5.5, dt);
       else {
         pet.facing = Math.atan2(target.x - pet.x, target.z - pet.z);
-        if (pet.attackTimer <= 0) {
-          pet.attackTimer = pet.frenzy > 0 ? .55 : 1.3;
-          const skill = pet.pounce || { power: .35 };
+        // a skill has the dog out on an errand (its bites are the skill's own): no second set of bites
+        if (pet.attackTimer <= 0 && !followerAway()) {
+          pet.attackTimer = (pet.frenzy > 0 ? .55 : 1.3) * (1 - c.attackSpeed);
+          const skill = pet.pounce || { power: PET_BITE };
           pet.pounce = null;
-          const dealt = Math.max(1, Math.round(c.attack * skill.power * rand(.85, 1.15) - target.def.def * .5));
+          const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: c.critChance, critDmg: c.critDamage };
+          const r = rollDamage(atk, { def: target.def.def, eva: target.def.eva ?? 0 }, 'physical', skill.power);
+          if (!r.hit) { this.emit('miss', { x: target.x, z: target.z, monster: target }); this.aggro(target); return; }
+          const dealt = r.dmg;
           target.hp = Math.max(0, target.hp - dealt);
           this.emit('pet-bite', { monster: target, amount: dealt });
-          this.emit('hit', { monster: target, amount: dealt, pet: true, x: target.x, z: target.z });
+          this.emit('hit', { monster: target, amount: dealt, crit: r.crit, pet: true, x: target.x, z: target.z });
           if (target.hp <= 0) this.kill(target); else this.aggro(target);
         }
       }

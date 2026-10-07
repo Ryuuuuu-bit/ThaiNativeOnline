@@ -111,6 +111,8 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
     group, ready,
     get clips() { return Object.keys(actions); },
     has: name => Boolean(actions[name]),
+    // Authored length of a clip in seconds (0 if absent).
+    clipLength: name => actions[name]?.getClip().duration ?? 0,
     // Skeleton bone by Mixamo name ('LeftHand', 'Head' …); null before load or if absent.
     bone(name) { let b = null; body.traverse(o => { if (!b && o.isBone && o.name.replace(/[:_]/g, '').endsWith(name) && o.name.replace(/[:_]/g, '').startsWith('mixamorig')) b = o; }); return b; },
     // Any object of the model by exact name (e.g. the warrior's 'sword_L'); null if absent.
@@ -121,12 +123,15 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
       if (!color || !fade) { apply(amount); return; }
       tintFade = { color, amount, t: 0, fade, apply };
     },
-    // Play a one-shot move (e.g. 'attack_jab'); returns false if the model lacks it.
-    attack(name) {
+    // Play a one-shot move (e.g. 'attack_jab') at `speed` (the class tempo, src/classes/tempo.js,
+    // or the basic attack fitted to the attack interval); returns false if the model lacks it.
+    // A newer move cuts in over one still playing. Walking cancels whatever is left of it.
+    attack(name, speed = 1) {
       const action = actions[name];
-      if (!action || oneShot || action === actions.idle) return false;
-      action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true;
-      action.reset().fadeIn(.1).play(); current?.fadeOut(.1);
+      if (!action || action === actions.idle) return false;
+      if (oneShot && oneShot !== action) oneShot.fadeOut(.08);
+      action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.timeScale = speed;
+      action.reset().fadeIn(.08).play(); if (current !== action) current?.fadeOut(.08);
       oneShot = action; current = action;
       return true;
     },
@@ -145,6 +150,9 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
       } else { walkTime = 0; lastStep = -1; }
 
       if (mixer) {
+        // the player only walks once the cast has let go of him (Game blocks walking while a
+        // skill holds him), so walking now means: skip the rest of the move
+        if (moving && oneShot) { oneShot.fadeOut(.12); oneShot = null; current = null; }
         if (!oneShot) play(moving ? 'walk' : 'idle');
         mixer.update(dt);
         // A held idle pose still breathes a little.

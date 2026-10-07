@@ -17,3 +17,34 @@
 .action-bar .g-menu:hover, .action-bar .g-potion:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px #e1c983, 0 4px 10px #0008; }
 @media (max-width: 900px) { .action-bar .g-potion, .action-bar .g-menu { width: 40px; height: 40px; } .action-bar .g-menu { font-size: 8px; padding-top: 10px; } }
 .ui-portrait .action-bar { flex-wrap: wrap; justify-content: center; }
+
+/* AUTO settings (src/ui/autoSettings.js) */
+.hotbar-auto-cfg { align-self: stretch; width: 28px; padding: 0; border: 1px solid #cabc8655; border-radius: 5px; background: linear-gradient(#24372f, #12201b); color: #f1dfae; font-size: 15px; cursor: pointer; }
+.hotbar-auto-cfg:hover { box-shadow: 0 0 0 1px #e1c983; }
+.auto-panel { position: absolute; right: 16px; bottom: 96px; z-index: 30; width: 270px; max-width: calc(100vw - 32px); max-height: calc(100vh - 140px); overflow: auto; padding: 10px 12px; font-size: 11px; color: #e9e3cf; background: linear-gradient(#1b2b25f2, #0e1915f2); border: 1px solid #cabc8666; border-radius: 6px; box-shadow: 0 8px 24px #000a; }
+.auto-panel .ro-title { display: flex; justify-content: space-between; align-items: center; }
+.auto-panel .auto-close { border: 0; background: none; color: #e9e3cf; font-size: 16px; cursor: pointer; }
+.auto-panel h4 { margin: 10px 0 5px; font-size: 11px; color: #f1d9a0; }
+.auto-panel h4 small { font-weight: 400; color: #9fae9c; }
+.auto-slots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.auto-slots button { position: relative; aspect-ratio: 1; padding: 0; border: 2px solid #e1c98366; border-radius: 4px; background: #0b1512; overflow: hidden; }
+.auto-slots button.survival { border-color: #6fe08a99; }
+.auto-slots button img, .auto-slots button span { width: 100%; height: 100%; display: grid; place-items: center; image-rendering: pixelated; }
+.auto-slots button small { position: absolute; left: 2px; top: 1px; font-size: 8px; color: #fff; text-shadow: 0 0 2px #000; }
+.auto-slots button.off { opacity: .3; filter: grayscale(1); }
+.auto-slots button.off::after { content: 'ปิด'; position: absolute; inset: auto 0 2px; font-size: 8px; color: #ff9b8f; text-align: center; }
+.auto-row { display: grid; grid-template-columns: 1fr 70px 30px; gap: 6px; align-items: center; margin: 4px 0; }
+.auto-row input { accent-color: #c69a52; width: 100%; }
+.auto-row b { text-align: right; color: #f1d9a0; }
+.auto-check { display: flex; gap: 6px; align-items: center; margin: 4px 0; }
+.auto-check input { accent-color: #c69a52; margin: 0; }
+.auto-range { display: flex; gap: 4px; align-items: center; margin-top: 6px; }
+.auto-range span { flex: 1; }
+.auto-range button { padding: 3px 9px; border: 1px solid #ffffff22; border-radius: 3px; background: #0b1b1799; color: #c9cfbd; font-size: 10px; }
+.auto-range button[aria-pressed="true"] { background: #c69a52; border-color: #e6c27f; color: #1d140a; font-weight: 700; }
+.auto-note { margin: 10px 0 0; font-size: 9px; color: #9fae9c; line-height: 1.4; }
+.hotbar-attack { align-self: stretch; min-width: 56px; padding: 4px 6px; border: 1px solid #e6a77a66; border-radius: 5px; background: linear-gradient(#4a2a1f, #24130d); color: #ffe2c4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; }
+.hotbar-attack b { font-size: 12px; }
+.hotbar-attack kbd { margin: 0; padding: 0 3px; font-size: 8px; line-height: 12px; }
+.hotbar-attack:hover { box-shadow: 0 0 0 1px #f0b98a; }
+.hotbar-attack.on { box-shadow: 0 0 0 2px #ffb46b, 0 0 12px #ff8a3c88; }

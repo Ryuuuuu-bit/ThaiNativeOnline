@@ -1,15 +1,15 @@
 import * as THREE from 'three';
+import { lockTime } from '../tempo.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { HUNTER_SKILLS } from '../hunter-moves.js';
-import { makeDog } from '../dog.js';
+import { makeDog, followerDog } from '../dog.js';
 
 // The hunter's (นายพราน) ten skills with their effects, timed to the hunter's clips
 // (release times come from hunter-moves.js). Positions are FX-local units.
-// Every shot nocks a real arrow between the hands while he draws; on the release the bow
-// flares (muzzle rings, sparks) and the arrow flies with a ribbon of light behind it,
-// lands when it arrives and stays stuck in the dummy (or the ground) for a moment.
-// Skill 6 (ลมใต้ปีกครุฑ) also calls his dog: it bursts out of a jade wind sigil, gallops
-// to the target, bites three times and runs back.
+// Two sources of damage, Ragnarok-hunter style: his arrows (a real arrow nocked between the
+// hands, a flare on release, a ribbon of light in flight) and his dog's fangs. The dog is the
+// one heeling behind him in the world when there is one (see dogActor below); skills send it
+// to pounce, hold, circle a pack or howl, and spirit wolves join it for the pack skills.
 const { GOLD, WHITE } = COL;
 const BASE = import.meta.env.BASE_URL + 'fx/hunter/';
 export const hunterIconUrl = id => BASE + 'icon_' + id + '.png';
@@ -44,7 +44,7 @@ export function createHunterSkills({ fx, character, player, dummy, groundHeight,
   const dirTo = () => tpos().sub(hero.pos()).setY(0).normalize();
   const sideOf = d => V(d.z, 0, -d.x);
   const face = p => { const d = p.clone().sub(hero.pos()); R.facing = Math.atan2(d.x, d.z); };
-  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
+  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback, m.speed); return m; };
   const release = (id, fn) => fx.after(MOVES[id].hits[0], fn);
   const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
   // rules damage (via the training ground) for the given skill, else the effect's own number.
@@ -235,312 +235,301 @@ export function createHunterSkills({ fx, character, player, dummy, groundHeight,
   }
 
   // ---- the dog --------------------------------------------------------------------------
-  // Out of a jade wind sigil beside the hunter: gallops to the target, bites three times
-  // (the last a leaping maul), trots back and dissolves into leaves.
-  function summonDog(spawn) {
-    const dog = makeDog(), S = .95, A = dog.userData.animate, T = trail(C(.3, 1, .55), .06, 16);
-    dog.position.copy(spawn); dog.scale.setScalar(.001); fx.add(dog);
-    const faceTo = p => { const d = p.clone().sub(dog.position); if (d.lengthSq() > 1e-6) dog.rotation.y = Math.atan2(d.x, d.z); };
-    const step = (to, sp, dt) => { const d = to.clone().sub(dog.position).setY(0), L = d.length(); faceTo(to); if (L < sp * dt) { dog.position.x = to.x; dog.position.z = to.z; return true; } dog.position.add(d.multiplyScalar(sp * dt / L)); return false; };
-    const spot = () => tpos().add(dog.position.clone().sub(tpos()).setY(0).normalize().multiplyScalar(.95)).setY(0);
-    const dust = () => { if (Math.random() < .5) fx.emit({ p: dog.position.clone().add(V(rand(-.2, .2), .05, rand(-.2, .2))), v: V(rand(-.3, .3), rand(.3, .7), rand(-.3, .3)), c: C(.55, .48, .36), life: .6, size: .14, size1: .35, shape: SH.soft, a: .5, drag: 2 }, fx.PN); };
-    let phase = 'appear', t0 = 0, bites = 0, clock = 0;
-    const BITE = .5;
-    fx.addTask((dt, t) => {
-      clock += dt; const pt = t - t0, go = (p) => { phase = p; t0 = t; };
-      let moving = false, run = 0, bite = null, glow = .06, y = 0;
-      if (phase === 'appear') {
-        dog.scale.setScalar(S * Math.max(.001, easeOutBack(clamp01(pt / .35)))); glow = 1 - clamp01(pt / .5) * .94; faceTo(tpos());
-        if (Math.random() < .8) fx.emit({ p: add(dog.position, V(rand(-.4, .4), rand(.1, .8), rand(-.4, .4))), v: V(0, rand(.5, 1.2), 0), c: JADE, life: .5, size: .1, size1: .02, shape: SH.leaf, vr: 5 });
-        if (pt > .45) go('run');
-      } else if (phase === 'run') {
-        moving = true; run = 1; dust();
-        if (!tg.alive || step(spot(), 7.5, dt) || pt > 2.5) go(tg.alive ? 'bite' : 'back');
-      } else if (phase === 'bite') {
-        faceTo(tpos()); const k = bites === 2 ? 1.2 : 1, u = pt / (BITE * k); bite = clamp01(u);
-        if (bites === 2) y = Math.sin(clamp01(u * 1.3) * Math.PI) * .45;
-        if (u >= .55 && !dog.userData.snapped) {
-          dog.userData.snapped = true;
-          const mouth = tpos().add(dog.position.clone().sub(tpos()).setY(0).normalize().multiplyScalar(.3)).setY(.75 + y * .6);
-          const last = bites === 2;
-          fx.impact(mouth, last ? 1.4 : .75, JADE);
-          fx.slashArc(mouth, add(mouth, dog.position.clone().sub(tpos()).setY(0).negate()), { r: last ? .9 : .6, sweep: 2, pal: 'jade', pitch: rand(-.6, .6), roll: rand(-.3, .3), dur: .08, thick: .35 });
-          fx.burst(mouth, last ? 22 : 10, { c: [JADE, WHITE, GOLD], size: .08, sp: 3, life: .45, shape: SH.leaf, drag: 3 });
-          if (tg.alive) { hurt(last ? 160 : 110, last, last ? .25 : .08, 'arch_garuda'); if (last) { tg.knock(tpos().sub(dog.position).setY(0).normalize(), .35); fx.shock(tpos().x, tpos().z, 1.6, JADE, C(.2, .8, .4), .5); fx.popup(tg.head().add(V(0, .5, 0)), 'น้องหมากัด!', 'st'); } }
-        }
-        if (u >= 1) { bites++; dog.userData.snapped = false; if (bites >= 3 || !tg.alive) go('back'); else t0 = t; }
-      } else if (phase === 'back') {
-        moving = true; run = .35; dust();
-        const home = hero.pos().add(sideOf(dirTo()).multiplyScalar(.9)).add(dirTo().multiplyScalar(-.2));
-        if (step(home, 5, dt) || pt > 2.5) go('vanish');
-      } else if (phase === 'vanish') {
-        glow = .06 + clamp01(pt / .3) * .9; dog.scale.setScalar(S * (1 - clamp01((pt - .2) / .3)) + .001);
-        if (pt < dt * 1.5) { fx.burst(add(dog.position, V(0, .5, 0)), 26, { c: [JADE, GOLD], size: .1, sp: 2.5, upMin: .4, life: .8, shape: SH.leaf, drag: 2 }); fx.shock(dog.position.x, dog.position.z, .9, JADE, JADE, .4); }
-        if (pt > .5) { T.stop(); fx.kill(dog); return false; }
-      }
-      dog.position.y = y; T.p = add(dog.position, V(0, .55, 0));
-      A(clock, moving, false, { run, bite, glow });
-      if (t > 9) { T.stop(); fx.kill(dog); return false; }
-    });
+  // The hunter's own dog does the biting. When the world has his heeling dog (followerDog,
+  // src/combat/CombatView.js), that dog is borrowed: it is hidden and a copy runs off from the
+  // very spot, then trots back and hands over. Without one (the city training ground), the dog
+  // steps out of a jade sigil beside him and fades into leaves after.
+  // A dog actor runs a list of orders (run, leap, bite, hold, howl, circle, wait); a new order
+  // list replaces what is left, so skills can call the dog back mid-errand.
+  const BARK = C(2.4, 1.6, .7), FANG = C(2.6, .5, .35);
+  const dust = (p, k = 1) => { if (Math.random() < .55) fx.emit({ p: p.clone().add(V(rand(-.2, .2), .05, rand(-.2, .2))), v: V(rand(-.3, .3), rand(.3, .7), rand(-.3, .3)), c: C(.55, .48, .36), life: .6, size: .14 * k, size1: .35 * k, shape: SH.soft, a: .5, drag: 2 }, fx.PN); };
+  // the bite lands: fang arcs, a snap of light, blood flecks and leaves (jade for spirit dogs)
+  function snapFx(mouth, from, big, spirit) {
+    const col = spirit ? JADE : FANG, back = from.clone().sub(mouth).setY(0).normalize();
+    fx.impact(mouth, big ? 1.5 : .8, col);
+    for (const s of [-1, 1]) fx.slashArc(mouth, add(mouth, back.clone().negate()), { r: big ? .85 : .55, sweep: 1.6, pal: spirit ? 'jade' : 'red', pitch: s * .9, roll: rand(-.2, .2), dur: .07, thick: .4 });
+    fx.burst(mouth, big ? 24 : 12, { c: spirit ? [JADE, WHITE] : [FANG, C(1.4, .2, .15), WHITE], size: .07, sp: big ? 3.5 : 2.5, life: .45, grav: 5, drag: 2 });
+    if (big) { fx.shock(mouth.x, mouth.z, 1.4, col, col.clone().multiplyScalar(.3), .45); fx.shake = Math.max(fx.shake || 0, .12); }
   }
+  function dogActor({ spirit = false, borrow = null, from = null, glowColor } = {}) {
+    const dog = makeDog({ transient: true, glowColor: glowColor ?? (spirit ? '#5dffa8' : undefined) }), A = dog.userData.animate;
+    const S = borrow ? borrow.scale.x / fx.K : spirit ? .85 : .95;
+    const T = trail(spirit ? JADE : C(1.1, .85, .45), spirit ? .08 : .045, 14);
+    dog.position.copy(from ?? (borrow ? fx.toLocal(borrow.getWorldPosition(V())).setY(0) : hero.pos())); fx.add(dog);
+    if (borrow) { dog.rotation.y = borrow.rotation.y; borrow.visible = false; borrow.userData.away = true; dog.scale.setScalar(S); } else dog.scale.setScalar(.001);
+    let q = [], cur = null, t0 = 0, clock = 0;
+    const me = { dog, alive: true, spirit, borrow, frenzy: 0, order(list) { q = list.slice(); cur = null; return me; }, then(list) { q.push(...list); return me; } };
+    const faceTo = (p, k = 1) => { const d = p.clone().sub(dog.position); if (d.lengthSq() < 1e-6) return; const want = Math.atan2(d.x, d.z), a = Math.atan2(Math.sin(want - dog.rotation.y), Math.cos(want - dog.rotation.y)); dog.rotation.y += a * Math.min(1, k); };
+    const step = (to, sp, dt) => { const d = to.clone().sub(dog.position).setY(0), L = d.length(); faceTo(to, dt * 14); if (L < sp * dt) { dog.position.x = to.x; dog.position.z = to.z; return true; } dog.position.add(d.multiplyScalar(sp * dt / L)); return false; };
+    const nearTarget = (r = .95) => tpos().add(dog.position.clone().sub(tpos()).setY(0).normalize().multiplyScalar(r)).setY(0);
+    const mouth = (y = 0) => tpos().add(dog.position.clone().sub(tpos()).setY(0).normalize().multiplyScalar(.3)).setY(.7 + y * .6);
+    const homeSpot = () => borrow?.parent ? fx.toLocal(borrow.getWorldPosition(V())).setY(0) : hero.pos().add(sideOf(dirTo()).multiplyScalar(-.9)).add(dirTo().multiplyScalar(-.4));
+    let born = borrow ? 1 : 0;
+    if (!borrow) {
+      sigil(spirit ? JADE : GOLD, .9, { p: dog.position.clone().setY(.07), life: 1, spin: 3, grow: .2 });
+      fx.flash(dog.position.clone().setY(.6), spirit ? 0x60ffa0 : 0xffd080, 25, .4);
+      for (let k = 0; k < 24; k++) { const a = k / 24 * 6.28 * 2, y = k / 24 * 1.3; fx.emit({ p: add(dog.position, V(Math.cos(a) * .45, y, Math.sin(a) * .45)), v: V(-Math.sin(a) * 2, .5, Math.cos(a) * 2), c: k % 2 ? JADE : WHITE, life: .55, size: .08, size1: .02, shape: SH.leaf, drag: 2, vr: 6 }); }
+    }
+    const finish = () => {
+      me.alive = false; T.stop();
+      if (borrow) { borrow.visible = true; borrow.userData.away = false; fx.kill(dog); return; }
+      fx.burst(add(dog.position, V(0, .5, 0)), 22, { c: [JADE, GOLD], size: .1, sp: 2.5, upMin: .4, life: .8, shape: SH.leaf, drag: 2 });
+      fx.shock(dog.position.x, dog.position.z, .8, JADE, JADE, .35); fx.kill(dog);
+    };
+    fx.addTask((dt, t) => {
+      clock += dt; me.frenzy = Math.max(0, me.frenzy - dt);
+      if (born < 1) { born = Math.min(1, born + dt / .3); dog.scale.setScalar(S * Math.max(.001, easeOutBack(born))); }
+      if (!cur) { cur = q.shift() || { kind: 'home' }; t0 = t; cur.from = dog.position.clone(); cur.n = 0; }
+      const o = cur, pt = t - t0;
+      let moving = false, run = 0, bite = null, howl = 0, y = 0, fin = false, glow = spirit ? .55 : me.frenzy > 0 ? .18 : 0;
+      switch (o.kind) {
+        case 'run': { moving = true; run = 1; dust(dog.position); const to = o.to?.() ?? nearTarget(); fin = (!tg.alive && !o.to) || step(to, o.sp ?? 9, dt) || pt > 3; break; }
+        case 'leap': { // pounce onto the target in an arc; jaws open in the air, shut on landing
+          const dur = o.dur ?? .42, u = clamp01(pt / dur), to = o.to?.() ?? nearTarget(.55);
+          dog.position.lerpVectors(o.from, to, u); y = Math.sin(u * Math.PI) * (o.h ?? .7); faceTo(tpos(), dt * 20); bite = u * .55; run = 1;
+          if (u >= 1) { o.onLand?.(mouth(0)); snapFx(mouth(0), dog.position, true, spirit); fin = true; }
+          break; }
+        case 'bite': { // n snaps on the target, the last one a leaping maul when big
+          faceTo(tpos(), dt * 20); const dur = o.dur ?? .42, last = o.n === (o.count ?? 1) - 1, k = last && o.big ? 1.25 : 1, u = pt / (dur * k) - o.n;
+          bite = clamp01(u); if (last && o.big) y = Math.sin(clamp01(u * 1.3) * Math.PI) * .4;
+          if (u >= .55 && !o.snapped) { o.snapped = true; const m = mouth(y); snapFx(m, dog.position, last && o.big, spirit); if (tg.alive) o.onSnap?.(o.n, m, last); }
+          if (u >= 1) { o.n++; o.snapped = false; if (o.n >= (o.count ?? 1) || !tg.alive) fin = true; }
+          break; }
+        case 'hold': { // jaws locked, head shaking the prey
+          faceTo(tpos(), dt * 20); const p = nearTarget(.6); dog.position.lerp(p, Math.min(1, dt * 10)); bite = .5 + Math.sin(pt * 26) * .06; dog.rotation.z = Math.sin(pt * 22) * .12;
+          if (Math.random() < dt * 14) fx.emit({ p: mouth(0), v: V(rand(-1, 1), rand(.5, 1.5), rand(-1, 1)), c: spirit ? JADE : FANG, life: .4, size: .05, size1: .01, grav: 6 });
+          if (o.every && pt >= o.every * (o.n + 1)) { o.n++; snapFx(mouth(0), dog.position, false, spirit); if (tg.alive) o.onTick?.(o.n, mouth(0)); }
+          if (pt > o.dur || !tg.alive) { dog.rotation.z = 0; fin = true; }
+          break; }
+        case 'howl': { // sit up, throw the head back, and let it out
+          const at = o.at ?? .35; faceTo(o.face?.() ?? tpos(), dt * 10); howl = clamp01(pt / at) * clamp01((o.dur - pt) / .25);
+          if (pt >= at && !o.fired) { o.fired = true; o.onPeak?.(add(dog.position, V(0, .9, 0)).add(V(Math.sin(dog.rotation.y) * .3, 0, Math.cos(dog.rotation.y) * .3))); }
+          if (pt > o.dur) fin = true; break; }
+        case 'circle': { // gallop round a centre, snapping inward `passes` times
+          moving = true; run = 1; const c = o.c(), r = o.r ?? 1.4;
+          if (o.a0 == null) o.a0 = Math.atan2(dog.position.z - c.z, dog.position.x - c.x);
+          const a = o.a0 + (o.dir ?? 1) * (o.laps ?? 1) * 6.28 * clamp01(pt / o.dur), want = add(c, V(Math.cos(a) * r, 0, Math.sin(a) * r));
+          const prev = dog.position.clone(); dog.position.lerp(want, Math.min(1, dt * 14)); faceTo(add(dog.position, dog.position.clone().sub(prev).multiplyScalar(10)), dt * 18); dust(dog.position, 1.2);
+          const k = Math.floor(pt / o.dur * (o.passes ?? 3)); bite = (pt / o.dur * (o.passes ?? 3)) % 1 > .6 ? ((pt / o.dur * (o.passes ?? 3)) % 1 - .6) / .4 : null;
+          if (k > o.n && o.n < (o.passes ?? 3)) { o.n = k; const m = c.clone().lerp(dog.position, .55).setY(.65); snapFx(m, dog.position, false, spirit); o.onPass?.(k - 1, m); }
+          if (pt > o.dur) fin = true; break; }
+        case 'wait': { faceTo(o.face?.() ?? tpos(), dt * 8); if (pt > o.dur) fin = true; break; }
+        case 'home': {
+          moving = true; run = .45; dust(dog.position);
+          if (spirit) { if (pt > .1) { finish(); return false; } break; }
+          const h = homeSpot(); if (step(h, borrow ? 6.5 : 5, dt) || pt > 3) { if (!borrow) { finish(); return false; } dog.rotation.y = borrow.rotation.y; finish(); return false; }
+          break; }
+      }
+      if (fin) cur = null;
+      dog.position.y = y; T.p = add(dog.position, V(0, .55 + y, 0));
+      A(clock, moving, false, { run, bite, howl, glow: !borrow && born < 1 ? 1 - born * .9 : glow });
+      if (t > 14) { finish(); return false; }
+    });
+    return me;
+  }
+  // The hunter's dog (one at a time; a new skill re-orders the one already out).
+  let hound = null;
+  const theDog = () => (hound?.alive ? hound : (hound = dogActor({ borrow: followerDog(), from: followerDog() ? null : add(hero.pos(), sideOf(dirTo()).multiplyScalar(-.9)).setY(0) })));
+  // Spirit wolves out of jade sigils beside the hunter, gone after their orders.
+  const wolves = (n, glowColor) => Array.from({ length: n }, (_, i) => dogActor({ spirit: true, glowColor, from: add(hero.pos(), sideOf(dirTo()).multiplyScalar(i % 2 ? 1.3 : -1.3)).add(dirTo().multiplyScalar(-.3 - i * .4)).setY(0) }));
+  const dogHurt = (amt, crit, id, push = .08) => { if (tg.alive) hurt(amt, crit, push, id); };
 
   const SK = {
-    // 1 · ศรฉับไว: two arrows at once, a hair apart, each with a white-gold ribbon
+    // 1 · ศรคู่ฉับไว (Double Strafe): two arrows a breath apart into one target, quick enough to chain
     arch_quick() {
-      fx.cinematic(.4, 1.3);
+      fx.cinematic(.25, .9);
       ready(() => { anim('arch_quick'); const drop = nock('arch_quick', WHITE);
-        release('arch_quick', () => { drop(); loose(C(2.4, 2.1, 1.4), .8, 2);
-          for (const [i, off] of [[0, -.12], [1, .12]].entries()) {
-            const side = sideOf(dirTo()).multiplyScalar(off[1]);
-            fx.after(i * .05, () => shoot({ to: chest(tg).add(V(0, .2 + i * .1, 0)).add(side), col: C(2.4, 2.1, 1.4), rib: .07, speed: 26, onHit: p => { struck(p, .75); if (near(p, 1.5)) hurt(95, false); } }));
-          }
+        release('arch_quick', () => { drop();
+          for (let i = 0; i < 2; i++) fx.after(i * .11, () => { loose(C(2.4, 2.1, 1.4), .7, 1);
+            shoot({ to: chest(tg).add(V(0, .15 + i * .12, 0)).add(sideOf(dirTo()).multiplyScalar(i ? .08 : -.08)), col: C(2.4, 2.1, 1.4), rib: .07, speed: 30, onHit: p => { struck(p, .7); if (near(p, 1.5)) hurt(95, false, .06, 'arch_quick'); } }); });
         }); });
-      return 1.2;
+      return .8;
     },
-    // 2 · ศรพิษพรานไพร: a dripping green arrow; a toxic cloud swells and bites five times
+    // 2 · สั่งกัด!: a whistling jade arrow marks the prey; the dog bolts in, pounces, locks its jaws and shakes
     arch_poison() {
-      fx.cinematic(.5, 1.6);
-      ready(() => { anim('arch_poison'); const drop = nock('arch_poison', POISON, 1, POISON);
-        release('arch_poison', () => { drop(); loose(POISON, .9, 2);
-          shoot({ to: chest(tg).add(V(0, .25, 0)), col: POISON, trail: C(.4, 1.6, .3), rib: .08, motes: 3, onHit: p => {
-            struck(p, .9, POISON); const P = tpos();
-            fx.decal(5, P.x, P.z, 1.4, POISON, C(.1, .5, .1), { life: 3.8, grow: .25 });
-            fx.burst(p, 24, { c: [POISON, C(.2, .9, .2)], size: .12, sp: 2.5, life: .7, drag: 2.5 });
-            const snake = fx.emojiSprite('🐍', '#7dff6a', C(.8, 2, .6));
-            fx.addTask((dt, t) => { snake.position.copy(tpos()).setY(1.6 + t * .6); snake.scale.setScalar(.2 + clamp01(t / .3) * .7); snake.material.opacity = clamp01((1.3 - t) / .4); if (t > 1.3) { fx.kill(snake); return false; } });
-            if (!near(p, 1.5)) return; hurt(80, false, .12, 'arch_poison'); fx.popup(tg.head().add(V(0, .4, 0)), 'ติดพิษ', 'st');
-            let n = 0;
-            fx.addTask((dt, t) => {
-              const c = tpos();
-              if (Math.random() < dt * 22) fx.emit({ p: add(c, V(rand(-.6, .6), rand(.1, 1.6), rand(-.6, .6))), v: V(rand(-.15, .15), rand(.15, .4), rand(-.15, .15)), c: Math.random() < .5 ? C(.25, .45, .18) : C(.35, .6, .2), life: 1.4, size: .3, size1: .7, shape: SH.soft, a: .45, drag: 1 }, fx.PN);
-              if (Math.random() < dt * 16) fx.emit({ p: chest(tg).add(V(rand(-.3, .3), rand(-.4, .5), rand(-.25, .25))), v: V(0, rand(.3, .8), 0), c: POISON, life: .8, size: .1, size1: .02 });
-              if (t > .7 * (n + 1) && n < 5) { n++; if (tg.alive) { hurt(30, false, 0, 'arch_poison'); fx.burst(chest(tg), 8, { c: [POISON, WHITE], size: .07, sp: 2, life: .35, shape: SH.star, drag: 4 }); } }
-              if (t > 3.8) return false;
-            });
+      fx.cinematic(.5, 1.8);
+      ready(() => { anim('arch_poison'); const drop = nock('arch_poison', JADE);
+        release('arch_poison', () => { drop(); loose(JADE, .9, 2);
+          shoot({ to: chest(tg).add(V(0, .3, 0)), col: JADE, trail: C(.5, 1.8, 1), rib: .07, motes: 3, onHit: p => {
+            struck(p, .8, JADE); const P = tpos();
+            sigil(FANG, .9, { p: P.clone().setY(.06), life: 2.2, spin: -2, grow: .15 }); fx.popup(tg.head().add(V(0, .35, 0)), 'หมายเป้า!', 'st');
+            if (near(p, 1.5)) hurt(80, false, .05, 'arch_poison');
           } });
+          const d = theDog(); d.frenzy = 2.5;
+          d.order([{ kind: 'run', sp: 11 }, { kind: 'leap', h: .8, onLand: () => { dogHurt(150, true, 'arch_poison', .2); if (tg.alive) { fx.stunStars(tg, 1.5); fx.popup(tg.head().add(V(0, .55, 0)), 'งับ! ตรึง 1.5 วิ', 'st'); } } },
+            { kind: 'hold', dur: 1.3, every: .6, onTick: () => dogHurt(70, false, 'arch_poison', 0) }]);
         }); });
       return 1.2;
     },
-    // 3 · ศรทะลวงเกราะ: kneeling, a full heavy draw gathering light; a lightning-wrapped arrow
-    // punches through, rings of air along its path, the ground splitting under the target
+    // 3 · ห่าศรพราน (Arrow Shower): one arrow up, a golden sigil opens over the pack and a single
+    // dense shower nails the whole circle; the ground bursts and everything in it is shoved back
     arch_pierce() {
-      fx.cinematic(.75, 2);
-      ready(() => { anim('arch_pierce'); const drop = nock('arch_pierce', SKY, 1.3); charge('arch_pierce', SKY, 1.2);
-        release('arch_pierce', () => { drop(); fx.shake = .18; loose(SKY, 1.4, 4);
-          const from = bowHand(), to = chest(tg).add(V(0, .2, 0)), end = add(to, to.clone().sub(from).setY(0).normalize().multiplyScalar(3));
-          bolt(from, end, SKY, .4, .035, .2); fx.after(.06, () => bolt(from, end, C(1.6, 1.8, 2.4), .3, .018, .12));
-          for (let i = 1; i <= 5; i++) fx.after(i * .025, () => ringPulse(from.clone().lerp(end, i / 6), end.clone().sub(from).normalize(), SKY, .55, .35));
-          shoot({ from, to, col: SKY, k: 1.5, speed: 36, h: 0, through: 3, rib: .06, motes: 4, onHit: p => {
-            struck(p, 1.6, SKY); const tp = tpos(); fx.shock(tp.x, tp.z, 2, SKY, C(.4, .6, 1.2), .5); fx.decal(4, tp.x, tp.z, 1.3, SKY, C(.2, .3, 1), { life: 1.4, grow: .15 });
-            fx.burst(p, 30, { c: [SKY, WHITE, C(.8, 1.2, 2.6)], size: .1, sp: 6, upMin: -.3, life: .5, shape: SH.star, drag: 3 });
-            for (let i = 1; i <= 3; i++) fx.after(i * .05, () => { const q = add(p, dirTo().multiplyScalar(i * .7)); fx.shock(q.x, q.z, .7, SKY, SKY, .35); });
-            if (near(p, 1.6)) { hurt(260, true, .3); tg.knock(dirTo(), .45); fx.popup(tg.head().add(V(0, .5, 0)), 'เกราะแตก −35%', 'st'); }
-          } });
+      fx.cinematic(.5, 1.6);
+      ready(() => { anim('arch_pierce'); const drop = nock('arch_pierce', GOLD);
+        release('arch_pierce', () => { drop(); loose(GOLD, 1, 2); const P = tpos(), from = bowHand(), sky = P.clone().setY(4.2), R0 = 2.2;
+          shoot({ from, to: add(from, dirTo().multiplyScalar(1)).add(V(0, 5, 0)), col: GOLD, speed: 30, h: 0, rib: .08, stick: false });
+          fx.after(.18, () => { sigil(GOLD, R0 + .3, { p: sky, life: 1.1, spin: 2, grow: .2 }); fx.flash(sky, 0xffc060, 40, .6); });
+          fx.decal(1, P.x, P.z, R0, C(2, 1.4, .5), null, { life: 1.6, grow: .15 });
+          for (let i = 0; i < 26; i++) fx.after(.3 + i * .012, () => { const a = rand(0, 6.28), r = Math.sqrt(Math.random()) * R0, to = add(P, V(Math.cos(a) * r, .05, Math.sin(a) * r));
+            shoot({ from: add(to, V(rand(-.4, .4), 4, rand(-.4, .4))), to, col: GOLD, speed: 26, h: 0, k: .85, rib: .045, motes: 1, stick: 'ground' }); });
+          fx.after(.5, () => { fx.shock(P.x, P.z, R0 + .6, GOLD, C(1, .5, .1), .5); fx.burst(P.clone().setY(.2), 30, { c: [C(.55, .48, .32), C(.4, .33, .22)], S: fx.PN, size: .14, size1: .4, sp: 3, upMin: .5, life: .9, shape: SH.soft, a: .6 });
+            if (near(P, R0 + .3)) { hurt(130, false, .2, 'arch_pierce'); tg.knock(tpos().sub(hero.pos()).setY(0).normalize(), .5); fx.impact(chest(tg), .8); } });
         }); });
-      return 1.6;
+      return 1.1;
     },
-    // 4 · ตาเหยี่ยว: a great golden hawk circles high on a ribbon of light, dives into the
-    // hunter through a feather storm; a golden sigil under him, his eyes burning
+    // 4 · ตาเหยี่ยว: a golden hawk dives into the hunter; his eyes burn and his draw quickens
     arch_hawk() {
-      fx.cinematic(.7, 2.2); face(tpos()); anim('arch_hawk');
-      const hawk = fx.emojiSprite('🦅', '#ffd77a', C(2.2, 1.7, .7)), T = trail(GOLD, .14, 24);
-      const c0 = hero.pos();
-      sigil(GOLD, 1.4, { p: c0.clone().setY(.06), life: 2.8, spin: .8, delay: .2 });
+      fx.cinematic(.6, 2); face(tpos()); anim('arch_hawk');
+      const hawk = fx.emojiSprite('🦅', '#ffd77a', C(2.2, 1.7, .7)), T = trail(GOLD, .14, 24), c0 = hero.pos();
+      sigil(GOLD, 1.4, { p: c0.clone().setY(.06), life: 2.6, spin: .8, delay: .2 });
       fx.addTask((dt, t) => {
-        const dive = clamp01((t - .5) / .3), a = t * 4.5;
-        const orbit = add(c0, V(Math.cos(a) * 2.1, 3.3 + Math.sin(t * 7) * .15, Math.sin(a) * 2.1)), into = headP(hero);
-        hawk.position.copy(orbit.lerp(into, dive * dive)); hawk.scale.setScalar(1.3 - dive * .7); T.p = hawk.position;
+        const dive = clamp01((t - .5) / .3), a = t * 4.5, orbit = add(c0, V(Math.cos(a) * 2.1, 3.3 + Math.sin(t * 7) * .15, Math.sin(a) * 2.1));
+        hawk.position.copy(orbit.lerp(headP(hero), dive * dive)); hawk.scale.setScalar(1.3 - dive * .7); T.p = hawk.position;
         for (let k = 0; k < 2; k++) fx.emit({ p: hawk.position.clone(), v: V(rand(-.4, .4), rand(-.6, 0), rand(-.4, .4)), c: Math.random() < .3 ? WHITE : GOLD, life: .6, size: .1, size1: .03, shape: SH.leaf, vr: 6 });
         if (dive >= 1) { T.stop(); fx.kill(hawk); return false; }
       });
       release('arch_hawk', () => {
-        const hp = hero.pos(); fx.flash(headP(hero), 0xffd070, 50, .6); fx.shock(hp.x, hp.z, 2, GOLD, C(1, .5, .1), .6); fx.shock(hp.x, hp.z, 1.2, WHITE, GOLD, .4);
-        fx.lightPillar(hp, GOLD, 4.5, .6, .9);
-        for (let k = 0; k < 48; k++) { const a = k / 48 * 6.28; fx.emit({ p: add(headP(hero), V(Math.cos(a) * .3, -.2, Math.sin(a) * .3)), v: V(Math.cos(a) * rand(2.5, 4), rand(-.2, .4), Math.sin(a) * rand(2.5, 4)), c: k % 3 ? GOLD : WHITE, life: .9, size: .13, size1: .04, shape: SH.leaf, drag: 2.5, vr: 8 }); }
+        const hp = hero.pos(); fx.flash(headP(hero), 0xffd070, 50, .6); fx.shock(hp.x, hp.z, 2, GOLD, C(1, .5, .1), .6); fx.lightPillar(hp, GOLD, 4.5, .6, .9);
+        for (let k = 0; k < 40; k++) { const a = k / 40 * 6.28; fx.emit({ p: add(headP(hero), V(Math.cos(a) * .3, -.2, Math.sin(a) * .3)), v: V(Math.cos(a) * rand(2.5, 4), rand(-.2, .4), Math.sin(a) * rand(2.5, 4)), c: k % 3 ? GOLD : WHITE, life: .9, size: .13, size1: .04, shape: SH.leaf, drag: 2.5, vr: 8 }); }
         character.tint?.(C(1, .75, .25), .35, 1.2);
-        fx.after(.2, () => fx.popup(hp.clone().setY(hero.barY + .7), 'โจมตี +30% · คริ +30%', 'st'));
-        const eyes = [-1, 1].map(() => fx.glowSprite(C(2.6, 1.9, .5), .14));
-        fx.addTask((dt, t) => { const h = headP(hero).add(V(0, -.3, 0)), side = sideOf(dirTo()).multiplyScalar(.06);
-          eyes.forEach((e, i) => { e.position.copy(h).add(side.clone().multiplyScalar(i ? 1 : -1)).add(dirTo().multiplyScalar(.12)); e.material.opacity = clamp01((3 - t) / .5); });
-          if (Math.random() < dt * 30) { const a = rand(0, 6.28), r = rand(.35, .6); fx.emit({ p: add(hero.pos(), V(Math.cos(a) * r, rand(.1, .4), Math.sin(a) * r)), v: V(0, rand(.8, 1.6), 0), c: GOLD, life: .9, size: .08, size1: .01 }); }
-          if (t > 3) { eyes.forEach(e => fx.kill(e)); return false; } });
+        fx.after(.2, () => fx.popup(hp.clone().setY(hero.barY + .7), 'ตีเร็ว +25% · โจมตี +15% · คริ +10%', 'st'));
+        if (hound?.alive) hound.frenzy = 10;
+        // ten seconds of quickened hands: golden streaks keep spiralling up his bow arm
+        fx.addTask((dt, t) => { if (Math.random() < dt * 26) { const b = bowHand(), a = rand(0, 6.28); fx.emit({ p: add(b, V(Math.cos(a) * .25, rand(-.3, .1), Math.sin(a) * .25)), v: V(0, rand(.6, 1.2), 0), c: GOLD, life: .5, size: .06, size1: .01, swirl: 4, home: b, homeK: 1 }); } return t < 10; });
       });
-      return 1.6;
+      return 1.5;
     },
-    // 5 · ห่าฝนธนู: one arrow into the sky opens a golden sigil above the target; five waves
-    // of ribboned arrows pour out of it and plant themselves around the target
+    // 5 · ฝูงหมาไล่ล่า: five jade arrows pin the pack's ground; the dog and two spirit wolves run
+    // circles round it, tearing in three waves
     arch_rain() {
-      fx.cinematic(.85, 2.8);
-      ready(() => { anim('arch_rain'); const drop = nock('arch_rain', GOLD); charge('arch_rain', GOLD, .8);
-        release('arch_rain', () => { drop(); loose(GOLD, 1, 2); const P = tpos(), from = bowHand(), sky = P.clone().setY(4.4);
-          shoot({ from, to: add(from, dirTo().multiplyScalar(1.4)).add(V(0, 5, 0)), col: GOLD, speed: 26, h: 0, rib: .08, stick: false });
-          fx.after(.28, () => { sigil(GOLD, 2.3, { p: sky, life: 2.3, spin: 1.2, grow: .35 }); fx.flash(sky, 0xffc060, 40, .8); fx.burst(sky, 30, { c: [GOLD, WHITE], size: .12, sp: 3, upMin: -.5, upMax: .5, life: .7, shape: SH.star, drag: 2 }); });
-          fx.decal(1, P.x, P.z, 2, C(2, 1.4, .5), null, { life: 2.5, grow: .2 });
-          for (let w = 0; w < 5; w++) fx.after(.5 + w * .2, () => {
-            for (let i = 0; i < 7; i++) {
-              const a = rand(0, 6.28), r = Math.sqrt(Math.random()) * 1.8, to = add(P, V(Math.cos(a) * r, .05, Math.sin(a) * r));
-              fx.after(i * .02, () => shoot({ from: add(to, V(rand(-.5, .5), 4.3, rand(-.5, .5))), to, col: GOLD, speed: 20, h: 0, k: .9, rib: .045, motes: 1, stick: 'ground' }));
-            }
-            fx.after(.28, () => { if (near(P, 2)) { hurt(110, false, .05, 'arch_rain'); fx.impact(chest(tg), .6); } });
-          });
+      fx.cinematic(.8, 3);
+      ready(() => { anim('arch_rain'); const drop = nock('arch_rain', JADE);
+        release('arch_rain', () => { drop(); loose(JADE, 1, 2); const P = tpos(), d = dirTo();
+          [-2, -1, 0, 1, 2].forEach((i, n) => fx.after(n * .03, () => { const a = Math.atan2(d.z, d.x) + i * .5, to = add(P, V(Math.cos(a) * 1.4, .05, Math.sin(a) * 1.4));
+            shoot({ to, col: JADE, trail: C(.4, 1.6, .9), rib: .06, motes: 2, stick: 'ground', onHit: q => { sigil(JADE, .35, { p: q.clone().setY(.06), life: 2.4, spin: 3, grow: .1 }); fx.lightPillar(q, JADE, 1.6, .2, .5); } }); }));
+          fx.after(.25, () => { sigil(JADE, 2.5, { p: P.clone().setY(.05), life: 2.6, spin: -1, grow: .3 }); fx.decal(2, P.x, P.z, 2.4, JADE, C(.1, .4, .2), { life: 2.8, grow: .3 }); });
+          const c = () => tpos(), pack = [theDog(), ...wolves(2)];
+          pack.forEach((w, i) => { w.frenzy = 3;
+            w.order([{ kind: 'run', to: () => add(c(), V(Math.cos(i * 2.1) * 1.4, 0, Math.sin(i * 2.1) * 1.4)), sp: 11 },
+              { kind: 'circle', c, r: 1.2 + i * .35, dur: 1.8, laps: 1.5, dir: i % 2 ? -1 : 1, passes: 3, onPass: (k) => { if (i === 0) { dogHurt(110, k === 2, 'arch_rain', .1); fx.shock(c().x, c().z, 2.6, JADE, C(.2, .8, .4), .4); if (k === 2) fx.popup(tg.head().add(V(0, .5, 0)), 'ฝูงหมาไล่ล่า!', 'st'); } } },
+              ...(i ? [{ kind: 'home' }] : [{ kind: 'bite', count: 1, big: true, onSnap: () => {} }])]); });
         }); });
       return 1.4;
     },
-    // 6 · ลมใต้ปีกครุฑ: golden garuda wings beat a gust over the party, and out of a jade
-    // wind sigil beside him bursts the hunter's dog, which runs in and bites three times
+    // 6 · หมาเห่าข่มขวัญ: the dog plants itself before him and lets out a howl; the roar rolls out
+    // in rings that knock the pack dizzy
     arch_garuda() {
-      fx.cinematic(.7, 3); face(tpos()); anim('arch_garuda');
-      const wingTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
-        for (let i = 0; i < 9; i++) { g.save(); g.translate(20, 230); g.rotate(-1.45 + i * .17); const grad = g.createLinearGradient(0, 0, 0, -210); grad.addColorStop(0, 'rgba(255,200,90,1)'); grad.addColorStop(1, 'rgba(255,240,180,0)');
-          g.fillStyle = grad; g.beginPath(); g.ellipse(0, -110, 16 + i, 105, 0, 0, Math.PI * 2); g.fill(); g.restore(); }
-        const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
-      const wings = [-1, 1].map(s => { const m = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2.8), new THREE.MeshBasicMaterial({ map: wingTex, color: C(2, 1.5, .7), ...ADD })); m.scale.x = s; fx.add(m); return { m, s }; });
-      sigil(GOLD, 1.5, { p: hero.pos().setY(.06), life: 2, spin: -.8 });
-      fx.addTask((dt, t) => {
-        const v = hero.pos().sub(fx.cameraLocal()).setY(0).normalize(), back = v.clone().multiplyScalar(.3), side = sideOf(v).negate(), open = clamp01(t / .45), beat = t > .8 && t < 1.2 ? Math.sin((t - .8) / .4 * Math.PI) : 0;
-        wings.forEach(({ m, s }) => { m.position.copy(hero.pos()).add(back).add(side.clone().multiplyScalar(s * (.15 + 1.25 * open))).add(V(0, 1.55 - beat * .25, 0)); m.lookAt(fx.camera.position); m.rotation.z += s * (-.35 + beat * .55);
-          m.material.opacity = Math.min(open, clamp01((2 - t) / .4)); });
-        if (Math.random() < .5 && t < 1.8) { const s = Math.random() < .5 ? -1 : 1; fx.emit({ p: hero.pos().add(side.clone().multiplyScalar(s * rand(.6, 1.6))).add(V(0, rand(.8, 2.4), 0)), v: V(0, rand(-.5, .2), 0), c: GOLD, life: .8, size: .09, size1: .02, shape: SH.leaf, vr: 4 }); }
-        if (t > 2) { wings.forEach(({ m }) => fx.kill(m)); return false; }
-      });
-      release('arch_garuda', () => {
-        const hp = hero.pos(), d = dirTo(); fx.shock(hp.x, hp.z, 3.6, JADE, C(.3, 1, .6), .8); fx.shock(hp.x, hp.z, 2.4, GOLD, C(1, .5, .1), .6);
-        for (let k = 0; k < 50; k++) { const a = k / 50 * 6.28; fx.emit({ p: add(hp, V(Math.cos(a) * .4, rand(.2, 1.4), Math.sin(a) * .4)), v: V(Math.cos(a) * rand(2, 4.5), rand(.2, 1), Math.sin(a) * rand(2, 4.5)), c: Math.random() < .5 ? GOLD : JADE, life: 1, size: .11, size1: .03, shape: SH.leaf, drag: 1.5, vr: 6 }); }
-        fx.popup(hp.clone().setY(hero.barY + .5), '+80', 'heal');
-        fx.after(.25, () => fx.popup(hp.clone().setY(hero.barY + .8), 'ปาร์ตี้ · คริ +15% · โจมตี +10% · ตีเร็ว +8%', 'st'));
-        // the dog's gate: a jade sigil and a whirl of wind beside him
-        const spawn = add(hp, sideOf(d).multiplyScalar(1)).add(d.clone().multiplyScalar(.35)).setY(0);
-        sigil(JADE, 1, { p: spawn.clone().setY(.07), life: 1.3, spin: 3, grow: .2 }); fx.lightPillar(spawn, JADE, 3, .45, .7); fx.flash(spawn, 0x60ffa0, 30, .5);
-        for (let k = 0; k < 36; k++) { const a = k / 36 * 6.28 * 2, y = k / 36 * 1.6; fx.emit({ p: add(spawn, V(Math.cos(a) * .5, y, Math.sin(a) * .5)), v: V(-Math.sin(a) * 2, .6, Math.cos(a) * 2), c: k % 2 ? JADE : WHITE, life: .6, size: .09, size1: .02, shape: SH.leaf, drag: 2, vr: 6 }); }
-        fx.after(.1, () => summonDog(spawn));
-      });
-      return 1.8;
+      fx.cinematic(.7, 2.4); face(tpos()); anim('arch_garuda');
+      const d = theDog(), spot = () => add(hero.pos(), dirTo().multiplyScalar(.9));
+      d.order([{ kind: 'run', to: spot, sp: 10 }, { kind: 'howl', dur: 1.5, at: .45, face: () => tpos(), onPeak: m => {
+        const c = d.dog.position.clone(), R0 = 4;
+        fx.shake = .3; fx.hitstop(.06); fx.flash(m, 0xffb060, 45, .5);
+        for (let i = 0; i < 4; i++) fx.after(i * .1, () => { fx.shock(c.x, c.z, R0 * (.45 + i * .2), i % 2 ? FANG : BARK, C(.6, .2, .05), .5); ringPulse(add(m, dirTo().multiplyScalar(.3 + i * .4)), dirTo(), BARK, .5 + i * .35, .45); });
+        sigil(FANG, R0, { p: c.clone().setY(.05), life: 1.4, spin: 2.5, grow: .25 });
+        for (let k = 0; k < 60; k++) { const a = k / 60 * 6.28; fx.emit({ p: add(c, V(Math.cos(a) * .4, rand(.1, .6), Math.sin(a) * .4)), v: V(Math.cos(a) * rand(4, 7), rand(.2, .8), Math.sin(a) * rand(4, 7)), c: k % 3 ? C(.6, .5, .35) : BARK, life: .8, size: .16, size1: .45, shape: SH.soft, a: .5, drag: 2.5 }, fx.PN); }
+        for (let k = 0; k < 30; k++) { const a = rand(0, 6.28); fx.emit({ p: add(c, V(0, .5, 0)), v: V(Math.cos(a) * rand(3, 6), rand(.5, 2), Math.sin(a) * rand(3, 6)), c: C(.6, 1.3, .3), life: 1, size: .09, size1: .03, shape: SH.leaf, drag: 2, vr: 8 }); }
+        if (tg.alive && tpos().distanceTo(c) <= R0 + .5) { hurt(90, false, .3, 'arch_garuda'); fx.stunStars(tg, 1.5); tg.knock(tpos().sub(c).setY(0).normalize(), .4); fx.popup(tg.head().add(V(0, .5, 0)), 'ข่มขวัญ! มึน · ตีเบาลง 20%', 'st'); }
+      } }, { kind: 'wait', dur: .3 }]);
+      return 1.6;
     },
-    // 7 · ศรกระจายเจ็ดดาว: seven stars light up in a fan before the bow, joined like a
-    // constellation; five starlit arrows burst from it
+    // 7 · ศรทะลวงแนว (Sharp Shooting): kneeling full draw; a lightning-wrapped arrow tears a long
+    // line through everything, the ground splitting all along it
     arch_volley() {
-      fx.cinematic(.6, 1.6);
-      ready(() => { anim('arch_volley'); const drop = nock('arch_volley', STAR);
-        const d0 = dirTo(), side0 = sideOf(d0), stars = [], line = strip(C(1.4, 1.3, 2.2), .035, 7);
-        for (let i = 0; i < 7; i++) {
-          const u = (i - 3) / 3, s = fx.glowSprite(C(1, .95, 1.4), .001); stars.push({ s, u, born: .1 + i * .045 });
-        }
-        const at = (u, b) => add(b, d0.clone().multiplyScalar(.55 + Math.cos(u * 1.3) * .3)).add(side0.clone().multiplyScalar(u * .35)).add(V(0, u * .75 + Math.sin((u + 1) * 3.1) * .08, 0));
-        const until = MOVES.arch_volley.hits[0] + .35;
-        fx.addTask((dt, t) => {
-          const b = bowHand(), list = [];
-          stars.forEach(st => { const k = clamp01((t - st.born) / .12); st.s.position.copy(at(st.u, b)); st.s.scale.setScalar((.05 + k * .32) * (1 + Math.sin(t * 30 + st.u * 9) * .15)); st.s.material.opacity = clamp01((until - t) / .3); if (k > 0) list.push(st.s.position); });
-          line.set(list); line.alpha = clamp01((until - t) / .3) * .8; line.draw();
-          if (t > until) { stars.forEach(st => fx.kill(st.s)); line.kill(); return false; }
-        });
-        release('arch_volley', () => { drop(); loose(STAR, 1, 2); const d = dirTo(), dist = hero.pos().distanceTo(tpos()) + .2, b = bowHand();
-          [-2, -1, 0, 1, 2].forEach((i, n) => fx.after(n * .03, () => {
-            const ang = i * .15, dir = V(d.x * Math.cos(ang) - d.z * Math.sin(ang), 0, d.x * Math.sin(ang) + d.z * Math.cos(ang));
-            const to = hero.pos().add(dir.multiplyScalar(dist)).setY(1.2);
-            shoot({ from: at(i / 2 * .9, b), to, col: STAR, trail: C(1.6, 1.4, 2.6), rib: .07, motes: 3, stick: i ? false : 'target', onHit: p => {
-              fx.burst(p, 10, { c: [WHITE, STAR], size: .09, sp: 2.5, life: .45, shape: SH.star, drag: 3 });
-              if (near(p, 1.1)) { struck(p, .8, STAR); hurt(70, false, .05, 'arch_volley'); } } });
-          }));
+      fx.cinematic(.8, 2.2);
+      ready(() => { anim('arch_volley'); const drop = nock('arch_volley', SKY, 1.3); charge('arch_volley', SKY, 1.2);
+        release('arch_volley', () => { drop(); fx.shake = .22; loose(SKY, 1.5, 5);
+          const from = bowHand(), to = chest(tg).add(V(0, .2, 0)), dir = to.clone().sub(from).setY(0).normalize(), end = add(to, dir.clone().multiplyScalar(7));
+          bolt(from, end, SKY, .45, .04, .22); fx.after(.05, () => bolt(from, end, C(1.6, 1.8, 2.6), .35, .02, .14));
+          for (let i = 1; i <= 8; i++) fx.after(i * .02, () => ringPulse(from.clone().lerp(end, i / 9), end.clone().sub(from).normalize(), SKY, .6, .35));
+          for (let i = 0; i < 10; i++) fx.after(.05 + i * .025, () => { const q = add(hero.pos(), dir.clone().multiplyScalar(1 + i * 1)).setY(0); fx.shock(q.x, q.z, .8, SKY, C(.2, .3, 1), .35); fx.decal(4, q.x, q.z, .6, SKY, C(.2, .3, 1), { life: 1.2, grow: .1 }); fx.burst(q.clone().setY(.1), 5, { c: [C(.5, .45, .35)], S: fx.PN, size: .1, sp: 2, upMin: .6, life: .6, grav: 6 }); });
+          shoot({ from, to, col: SKY, k: 1.6, speed: 45, h: 0, through: 7, rib: .07, motes: 4, onHit: p => {
+            struck(p, 1.6, SKY); fx.burst(p, 30, { c: [SKY, WHITE], size: .1, sp: 6, life: .5, shape: SH.star, drag: 3 });
+            if (near(p, 1.6)) { hurt(280, true, .3, 'arch_volley'); tg.knock(dir, .45); fx.popup(tg.head().add(V(0, .5, 0)), 'ทะลวง! เกราะแตก −25%', 'st'); }
+          } });
         }); });
-      return 1.3;
+      return 1.5;
     },
-    // 8 · กับดักหนามพราน: he skids a spiked trap along the ground; it springs shut under the
-    // target and a ring of great thorns bursts out of the earth around it
+    // 8 · กับดักดินระเบิด: a spiked trap skids under the pack and blows the earth apart; a ring of
+    // thorns bursts up and pins whatever is left standing
     arch_trap() {
-      fx.cinematic(.6, 2);
+      fx.cinematic(.7, 2.4);
       ready(() => { anim('arch_trap');
-        release('arch_trap', () => { const from = add(hero.pos(), dirTo().multiplyScalar(.6)), P = tpos();
+        release('arch_trap', () => { const from = add(hero.pos(), dirTo().multiplyScalar(.6)), P = tpos(), R0 = 2.4;
           const trap = new THREE.Group(); fx.add(trap);
           const ring = new THREE.Mesh(new THREE.TorusGeometry(.42, .05, 6, 24), new THREE.MeshStandardMaterial({ color: 0x5b4a33, roughness: .7, metalness: .4 })); ring.rotation.x = Math.PI / 2; trap.add(ring);
-          const spikes = []; for (let i = 0; i < 12; i++) { const a = i / 12 * 6.28, s = new THREE.Mesh(new THREE.ConeGeometry(.05, .45, 5), new THREE.MeshStandardMaterial({ color: 0x9a8a70, metalness: .5, roughness: .4 })); s.position.set(Math.cos(a) * .42, 0, Math.sin(a) * .42); trap.add(s); spikes.push({ s, a }); }
+          const core = fx.glowSprite(FIRE, .3); fx.root.remove(core); trap.add(core);
           const thorns = new THREE.Group(); fx.add(thorns); thorns.position.copy(P).setY(0); const tm = new THREE.MeshStandardMaterial({ color: 0x3e4a22, roughness: .6, emissive: new THREE.Color(.25, .35, .05) });
-          const th = []; for (let i = 0; i < 14; i++) { const a = i / 14 * 6.28 + rand(-.1, .1), r = rand(.75, .95), h = rand(.9, 1.4); const m = new THREE.Mesh(new THREE.ConeGeometry(.09, h, 5).translate(0, h / 2, 0), tm); m.position.set(Math.cos(a) * r, 0, Math.sin(a) * r); m.rotation.set(-Math.sin(a) * .45, 0, Math.cos(a) * .45); m.scale.setScalar(.001); thorns.add(m); th.push(m); }
-          let tr = null;
+          const th = []; for (let i = 0; i < 22; i++) { const a = i / 22 * 6.28 + rand(-.1, .1), r = rand(1.2, R0 - .2), h = rand(.8, 1.4); const m = new THREE.Mesh(new THREE.ConeGeometry(.09, h, 5).translate(0, h / 2, 0), tm); m.position.set(Math.cos(a) * r, 0, Math.sin(a) * r); m.rotation.set(-Math.sin(a) * .45, 0, Math.cos(a) * .45); m.scale.setScalar(.001); thorns.add(m); th.push(m); }
+          let boom = false;
           fx.addTask((dt, t) => {
-            const u = clamp01(t / .3); trap.position.copy(from.clone().lerp(P, u)).setY(.04); trap.rotation.y = t * 9 * (1 - u);
+            const u = clamp01(t / .3); trap.position.copy(from.clone().lerp(P, u)).setY(.04); trap.rotation.y = t * 9 * (1 - u); core.scale.setScalar(.3 + Math.sin(t * 30) * .1 + clamp01((t - .3) / .2) * .8);
             if (u < 1 && Math.random() < .8) fx.emit({ p: trap.position.clone().setY(.06), v: V(rand(-.4, .4), rand(.4, .9), rand(-.4, .4)), c: C(1.6, 1.1, .5), life: .25, size: .06, size1: .01, shape: SH.star });
-            const snap = clamp01((t - .32) / .08);
-            spikes.forEach(({ s, a }) => { s.rotation.set(Math.sin(a) * (1.4 - snap * 1.25), 0, -Math.cos(a) * (1.4 - snap * 1.25)); s.position.y = .05 + snap * .2; });
-            const up = t < 1.9 ? easeOutBack(clamp01((t - .34) / .16)) : 1 - clamp01((t - 1.9) / .3);
-            th.forEach((m, i) => m.scale.setScalar(Math.max(.001, up * (1 - (i % 3) * .1))));
-            if (t > .32 && t - dt <= .32) {
-              fx.decal(4, P.x, P.z, 1.4, C(1.4, 1, .5), C(.5, .3, .1), { life: 2, grow: .15 }); fx.shake = .2; fx.flash(P, 0xffb060, 30, .3);
-              fx.shock(P.x, P.z, 2.2, C(1.4, 1.1, .5), C(.4, .3, .1), .5);
-              fx.burst(P.clone().setY(.2), 30, { c: [C(.55, .48, .32), C(.4, .33, .22)], S: fx.PN, size: .12, sp: 3, upMin: .6, life: .9, grav: 7 });
-              fx.burst(P.clone().setY(.4), 20, { c: [C(1, 1.6, .4), GOLD], size: .08, sp: 3, upMin: .4, life: .5, shape: SH.leaf, drag: 2 });
-              tr = true;
-              if (near(P, 1.3)) { hurt(180, false, 0); fx.stunStars(tg, 1.6); fx.popup(tg.head().add(V(0, .5, 0)), 'ติดกับ 1.6 วิ · ช้าลง 40%', 'st'); }
+            if (t > .5 && !boom) { boom = true; trap.visible = false;
+              fx.shake = .4; fx.hitstop(.08); fx.flash(P, 0xff8030, 70, .6); fx.impact(P.clone().setY(.4), 2.2, FIRE);
+              fx.shock(P.x, P.z, R0 + .8, FIRE, C(.6, .2, .05), .6); fx.after(.08, () => fx.shock(P.x, P.z, R0, C(1.4, 1.1, .5), C(.4, .3, .1), .5));
+              fx.decal(3, P.x, P.z, R0, C(1.6, .6, .15), C(.25, .1, .02), { life: 2.6, grow: .12 });
+              fx.burst(P.clone().setY(.3), 50, { c: [C(.55, .48, .32), C(.4, .33, .22), C(.3, .25, .2)], S: fx.PN, size: .2, size1: .6, sp: 4, upMin: .5, upK: 1.6, life: 1.2, shape: SH.soft, a: .7 });
+              fx.burst(P.clone().setY(.3), 40, { c: [FIRE, C(2.6, 1.8, .6)], size: .09, sp: 6, upMin: .6, upK: 1.8, life: .9, grav: 7, shape: SH.star });
+              fx.lightPillar(P, FIRE, 3.5, .9, .6);
+              if (near(P, R0 + .3)) { hurt(240, false, .2, 'arch_trap'); fx.stunStars(tg, 1.6); fx.popup(tg.head().add(V(0, .5, 0)), 'ตรึง 1.6 วิ · ช้าลง 40%', 'st'); }
             }
-            if (tr && t < 1.9 && Math.random() < .3) fx.emit({ p: add(P, V(rand(-.9, .9), rand(.1, 1), rand(-.9, .9))), v: V(0, rand(.2, .5), 0), c: C(.9, 1.5, .3), life: .6, size: .06, size1: .01 });
-            if (t > 2.4) { fx.kill(trap); fx.kill(thorns); return false; }
+            const up = t < 2.1 ? easeOutBack(clamp01((t - .55) / .18)) : 1 - clamp01((t - 2.1) / .3);
+            th.forEach((m, i) => m.scale.setScalar(Math.max(.001, up * (1 - (i % 3) * .1))));
+            if (boom && t < 2.1 && Math.random() < .4) fx.emit({ p: add(P, V(rand(-R0, R0) * .7, rand(.1, 1), rand(-R0, R0) * .7)), v: V(0, rand(.2, .5), 0), c: C(.9, 1.5, .3), life: .6, size: .06, size1: .01 });
+            if (t > 2.6) { fx.kill(trap); fx.kill(thorns); return false; }
           });
         }); });
       return 1.5;
     },
-    // 9 · ศรสังหารเหยี่ยวราตรี: the world darkens under a blood moon, a red reticle closes on
-    // the target, the breath is held … one arrow, a streak of light, a pillar of fire
+    // 9 · ล่าคู่ศรเหยี่ยวราตรี: the dog pins the prey down while the blood moon rises; the hunter
+    // holds his breath and looses one arrow — harder still on a pinned target
     arch_snipe() {
       fx.cinematic(1, 2.6);
+      const d = theDog(); d.frenzy = 3;
+      d.order([{ kind: 'run', sp: 12 }, { kind: 'leap', h: .9, onLand: () => { dogHurt(120, false, 'arch_snipe', .1); if (tg.alive) { fx.stunStars(tg, 1); fx.popup(tg.head().add(V(0, .45, 0)), 'ตะครุบ!', 'st'); } } }, { kind: 'hold', dur: 1.1 }, { kind: 'run', to: () => add(tpos(), sideOf(dirTo()).multiplyScalar(1.4)), sp: 9 }, { kind: 'wait', dur: .5 }]);
       ready(() => { anim('arch_snipe'); const drop = nock('arch_snipe', BLOODMOON, 1.2); charge('arch_snipe', BLOODMOON, 1);
         const d0 = dirTo(), moonP = add(hero.pos(), d0.clone().multiplyScalar(-3)).add(sideOf(d0).multiplyScalar(-1.2)).setY(4.6);
         const moon = fx.glowSprite(BLOODMOON, .1), halo = fx.glowSprite(C(1.2, .15, .12), .1);
         fx.addTask((dt, t) => { const k = clamp01(t / .4) * clamp01((2.5 - t) / .5); moon.position.copy(moonP); halo.position.copy(moonP); moon.scale.setScalar(1.6 * k + .001); halo.scale.setScalar(4.2 * k + .001); if (t > 2.5) { fx.kill(moon); fx.kill(halo); return false; } });
         const line = new THREE.Mesh(new THREE.CylinderGeometry(.008, .008, 1, 4).rotateX(Math.PI / 2), new THREE.MeshBasicMaterial({ color: C(2.6, .3, .3), ...ADD })); fx.add(line);
-        const reticle = sigil(BLOODMOON, .8, { p: chest(tg), dir: d0.clone().negate(), life: 1.35, spin: 2.5, delay: .35, grow: .2 });
+        const reticle = sigil(BLOODMOON, .8, { p: chest(tg), dir: d0.clone().negate(), life: MOVES.arch_snipe.hits[0] + .02, spin: 2.5, delay: .35, grow: .2 });
         fx.addTask((dt, t) => {
           const a = bowHand(), b = chest(tg).add(V(0, .45, 0)); line.position.copy(a.clone().lerp(b, .5)); line.lookAt(fx.toWorld(b)); line.scale.set(1, 1, a.distanceTo(b));
-          const on = clamp01((t - .5) / .2) * clamp01((1.33 - t) / .05); line.material.opacity = on * (.5 + .3 * Math.sin(t * 30));
+          const rel = MOVES.arch_snipe.hits[0]; line.material.opacity = clamp01((t - rel * .38) / .2) * clamp01((rel - t) / .05) * (.5 + .3 * Math.sin(t * 30));
           reticle.position.copy(b); reticle.scale.setScalar(1 - clamp01((t - .45) / .8) * .6);
-          if (t > 1.4) { fx.kill(line); return false; }
+          if (t > MOVES.arch_snipe.hits[0] + .07) { fx.kill(line); return false; }
         });
         release('arch_snipe', () => { drop(); fx.shake = .3; loose(BLOODMOON, 1.6, 4);
-          const from = bowHand(), to = chest(tg).add(V(0, .45, 0));
-          const beam = strip(C(2.6, .8, .6), .06, 2); beam.set([to, from]);
+          const from = bowHand(), to = chest(tg).add(V(0, .45, 0)), beam = strip(C(2.6, .8, .6), .06, 2); beam.set([to, from]);
           fx.addTask((dt, t) => { beam.alpha = 1 - t / .5; beam.w = .06 * (1 - t / .5) + .008; beam.draw(); if (t > .5) { beam.kill(); return false; } });
           shoot({ from, to, col: C(2.6, .6, .4), trail: WHITE, k: 1.3, speed: 70, h: 0, rib: .1, motes: 4, onHit: p => {
             fx.impact(p, 2.6, C(2.6, .7, .4)); fx.hitstop(.18); const tp = tpos(); fx.lightPillar(tp, C(2, .6, .4), 7, .8, .9);
             fx.shock(tp.x, tp.z, 3, BLOODMOON, C(.6, .05, .05), .6); fx.after(.08, () => fx.shock(tp.x, tp.z, 1.8, WHITE, BLOODMOON, .4));
             fx.burst(p, 40, { c: [BLOODMOON, WHITE, C(2.6, 1.2, .5)], size: .12, sp: 7, life: .6, shape: SH.star, drag: 3 });
-            if (near(p, 1.6)) { hurt(900, true, .3); tg.knock(dirTo(), .7); fx.popup(tg.head().add(V(0, .7, 0)), 'สังหาร!', 'st big'); }
+            if (near(p, 1.6)) { hurt(900, true, .3, 'arch_snipe'); tg.knock(dirTo(), .7); fx.popup(tg.head().add(V(0, .7, 0)), 'ล่าคู่! สังหาร', 'st big'); }
           } });
         }); });
       return 2.1;
     },
-    // 10 · ศรเพลิงอัคนีบาต: a burning arrow shot straight up tears open a fire sigil in the
-    // sky; meteors with flaming tails rain down, the last one enormous, embers falling after
+    // 10 · ล่าล้างฝูง: a burning arrow tears open a fire sigil over the pack; six waves of fire arrows
+    // pour down while the dog and two ember wolves rampage round the circle
     arch_meteor() {
       fx.cinematic(1, 4);
       ready(() => { anim('arch_meteor'); const drop = nock('arch_meteor', FIRE, 1.3); charge('arch_meteor', FIRE, 1.3);
-        const flame = fx.glowSprite(FIRE, .3);
-        fx.addTask((dt, t) => { flame.position.copy(bowHand().lerp(drawHand(), .2)); flame.scale.setScalar(.3 + clamp01(t / 1.1) * .5 + Math.sin(t * 40) * .05);
-          if (Math.random() < .9) fx.emit({ p: flame.position.clone(), v: V(rand(-.2, .2), rand(.5, 1.2), rand(-.2, .2)), c: Math.random() < .3 ? C(2.6, 1.8, .6) : FIRE, life: .45, size: .14, size1: .02 });
-          if (t > 1.1) { fx.kill(flame); return false; } });
-        release('arch_meteor', () => { drop(); loose(FIRE, 1.5, 3); fx.shake = .2; const P = tpos(), from = bowHand(), sky = P.clone().setY(6.2);
-          shoot({ from, to: add(from, V(0, 7, 0)), col: FIRE, trail: C(2.4, .8, .2), speed: 24, h: 0, k: 1.3, rib: .1, motes: 4, stick: false });
-          fx.after(.35, () => {
-            fx.flash(sky, 0xff6030, 70, 1.4); sigil(FIRE, 3.2, { p: sky, life: 2.9, spin: -1, grow: .4 }); sigil(C(2.6, 1.8, .6), 1.9, { p: sky.clone().setY(6.1), life: 2.9, spin: 1.6, grow: .5 });
-            fx.decal(3, P.x, P.z, 2.8, FIRE, C(.8, .2, .05), { life: 3.2, grow: .4 });
-            fx.burst(sky, 40, { c: [FIRE, C(2.6, 1.8, .6)], size: .16, sp: 4, upMin: -.6, upMax: .3, life: .9, drag: 1.5 });
+        release('arch_meteor', () => { drop(); loose(FIRE, 1.5, 3); fx.shake = .2; const P = tpos(), from = bowHand(), sky = P.clone().setY(6), R0 = 3.2;
+          shoot({ from, to: add(from, V(0, 7, 0)), col: FIRE, trail: C(2.4, .8, .2), speed: 26, h: 0, k: 1.3, rib: .1, motes: 4, stick: false });
+          fx.after(.3, () => { fx.flash(sky, 0xff6030, 70, 1.4); sigil(FIRE, R0 + .4, { p: sky, life: 2.6, spin: -1, grow: .4 }); sigil(C(2.6, 1.8, .6), 2, { p: sky.clone().setY(5.9), life: 2.6, spin: 1.6, grow: .5 });
+            fx.decal(3, P.x, P.z, R0, FIRE, C(.8, .2, .05), { life: 3.4, grow: .4 }); fx.burst(sky, 40, { c: [FIRE, C(2.6, 1.8, .6)], size: .16, sp: 4, upMin: -.6, upMax: .3, life: .9, drag: 1.5 }); });
+          for (let w = 0; w < 6; w++) fx.after(.55 + w * .25, () => {
+            for (let i = 0; i < 6; i++) fx.after(i * .02, () => { const a = rand(0, 6.28), r = Math.sqrt(Math.random()) * R0, to = add(P, V(Math.cos(a) * r, .05, Math.sin(a) * r));
+              shoot({ from: add(to, V(rand(-1, 1), 5.5, rand(-1, 1))), to, col: FIRE, trail: C(2.6, 1.2, .3), speed: 24, h: 0, k: 1, rib: .07, motes: 2, stick: 'ground', onHit: q => { fx.impact(q.clone().setY(.3), .6, FIRE); fx.decal(3, q.x, q.z, .45, C(1.6, .5, .1), C(.3, .05, 0), { life: 1.6, grow: .1 }); } }); });
+            fx.after(.25, () => { fx.shock(P.x, P.z, R0, FIRE, C(.8, .2, .05), .4); if (near(P, R0 + .3)) hurt(w === 5 ? 260 : 120, w === 5, .08, 'arch_meteor'); if (w === 5) { fx.lightPillar(P, FIRE, 7, 1.1, 1); fx.hitstop(.12); fx.shake = .4; } });
           });
-          for (let w = 0; w < 5; w++) fx.after(.65 + w * .26, () => {
-            const big = w === 4, n = big ? 1 : 3;
-            for (let i = 0; i < n; i++) {
-              const a = rand(0, 6.28), r = big ? 0 : Math.sqrt(Math.random()) * 2.2, to = add(P, V(Math.cos(a) * r, .1, Math.sin(a) * r));
-              const ball = fx.glowSprite(FIRE, big ? 1.4 : .6), core = fx.glowSprite(C(2.6, 2, 1), big ? .6 : .25), from2 = add(to, V(rand(-1.2, 1.2), 6, rand(-1.2, 1.2)));
-              const T = trail(FIRE, big ? .38 : .18, 18), T2 = trail(C(2.6, 1.8, .6), big ? .14 : .06, 12), dur = big ? .55 : .35;
-              fx.addTask((dt, t) => { const u = clamp01(t / dur); ball.position.copy(from2.clone().lerp(to, u * u)); core.position.copy(ball.position); T.p = T2.p = ball.position;
-                for (let k = 0; k < (big ? 4 : 2); k++) fx.emit({ p: add(ball.position, V(rand(-.15, .15), rand(-.15, .15), rand(-.15, .15))), c: Math.random() < .5 ? FIRE : C(2.6, 1.8, .6), life: .45, size: big ? .35 : .18, size1: .03 });
-                if (Math.random() < .6) fx.emit({ p: ball.position.clone(), v: V(rand(-.2, .2), rand(0, .3), rand(-.2, .2)), c: C(.28, .22, .18), life: 1, size: big ? .5 : .25, size1: big ? 1 : .55, shape: SH.soft, a: .5, drag: 1.5 }, fx.PN);
-                if (u >= 1) { fx.kill(ball); fx.kill(core); T.stop(); T2.stop(); fx.impact(to.clone().setY(.4), big ? 2.6 : 1.1, FIRE); fx.shock(to.x, to.z, big ? 3.6 : 1.4, FIRE, C(.8, .2, .05), .55);
-                  fx.decal(3, to.x, to.z, big ? 1.8 : .7, C(1.6, .5, .1), C(.3, .05, 0), { life: 2, grow: .1 });
-                  fx.burst(to.clone().setY(.3), big ? 36 : 12, { c: [C(.3, .25, .2), C(.5, .4, .3)], S: fx.PN, size: .2, size1: .5, sp: 2.5, upMin: .3, life: 1, shape: SH.soft, a: .7 });
-                  fx.burst(to.clone().setY(.3), big ? 40 : 14, { c: [FIRE, C(2.6, 1.8, .6)], size: .09, sp: big ? 6 : 4, upMin: .5, upK: 1.5, life: .9, grav: 6, shape: SH.star });
-                  if (big) { fx.lightPillar(to, FIRE, 7, 1.1, 1); fx.hitstop(.16); fx.shake = .4;
-                    fx.addTask((dt2, t2) => { if (Math.random() < .8) fx.emit({ p: add(P, V(rand(-2.5, 2.5), rand(3, 5), rand(-2.5, 2.5))), v: V(rand(-.2, .2), -rand(1, 2), rand(-.2, .2)), c: Math.random() < .5 ? FIRE : C(2.6, 1.8, .6), life: 1.6, size: .07, size1: .02 }); return t2 < 1.6; }); }
-                  return false; } });
-            }
-            fx.after(big ? .55 : .35, () => { if (near(P, 2.6)) hurt(big ? 320 : 120, big, .1, 'arch_meteor'); });
-          });
+          const c = () => tpos(), pack = [theDog(), ...wolves(2, '#ff8a3c')];
+          pack.forEach((w, i) => { w.frenzy = 4;
+            w.order([{ kind: 'run', to: () => add(c(), V(Math.cos(i * 2.1) * 1.6, 0, Math.sin(i * 2.1) * 1.6)), sp: 12 },
+              { kind: 'circle', c, r: 1.3 + i * .5, dur: 1.6, laps: 1.5, dir: i % 2 ? -1 : 1, passes: 4 },
+              ...(i ? [{ kind: 'home' }] : [{ kind: 'bite', count: 2, big: true }])]); });
         }); });
       return 2.2;
     },
@@ -550,7 +539,7 @@ export function createHunterSkills({ fx, character, player, dummy, groundHeight,
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) fx.popup(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ', 'st'); return false; }
-    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur;
+    R.current = id; const dur = lockTime(MOVES[id], SK[id]()); R.busyUntil = R.time + dur;
     return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; };

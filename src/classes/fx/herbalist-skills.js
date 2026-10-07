@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { lockTime } from '../tempo.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { HERBALIST_SKILLS } from '../herbalist-moves.js';
@@ -118,7 +119,7 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
   const tg = dummy, tpos = () => tg.pos.clone().add(tg.off);
   const dirTo = () => tpos().sub(hero.pos()).setY(0).normalize();
   const face = p => { const d = p.clone().sub(hero.pos()); R.facing = Math.atan2(d.x, d.z); };
-  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
+  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback, m.speed); return m; };
   const at = (id, fn) => fx.after(MOVES[id].hits[0], fn);
   const heal = (amt, cls = 'heal', glow = true) => { const v = Math.round(amt); hero.hp = Math.min(hero.maxHp, hero.hp + v); fx.popup(headP(hero), '+' + v, cls); if (glow) character.tint?.(C(.3, .9, .3), .2, .5); };
   const hurt = (amt, crit, push = .2) => {
@@ -457,7 +458,7 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) fx.popup(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ', 'st'); return false; }
-    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur; return dur;
+    R.current = id; const dur = lockTime(MOVES[id], SK[id]()); R.busyUntil = R.time + dur; return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; stepBook(dt); };
   Object.defineProperty(R, 'busy', { get: () => R.time < R.busyUntil });

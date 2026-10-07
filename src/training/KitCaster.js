@@ -1,5 +1,5 @@
 import { RULES } from '../combat/data/rules.js';
-import { castInfo, hitEffects, monsterDefense, rollBlow, selfEffects, within } from './kitCombat.js';
+import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from './kitCombat.js';
 import { rollSkill } from './damage.js';
 import { createTargetProxy, monsterTarget, stubTarget } from './targets.js';
 
@@ -35,7 +35,7 @@ export class KitCaster {
 
   // ---- action bar controller --------------------------------------------------
   get busy() { return this.runner.busy || !!this.pending; }
-  cooldown(i) { return [this.cd.get(this.slots[i].id) ?? 0, this.slots[i].cd]; }
+  cooldown(i) { return [this.cd.get(this.slots[i].id) ?? 0, this.slots[i].cd * (1 - (this.character.cooldownCut || 0))]; }
   usable(i) { return this.nearDummy() || this.character.mp >= this.infos[i].mp; }
   active(i) { return this.pending?.i === i; }
 
@@ -66,12 +66,13 @@ export class KitCaster {
     const s = this.slots[i], info = this.infos[i], c = this.character;
     this.proxy.bind(pick.dummy ? this.dummy() : pick.monster ? this.adapter(pick.monster) : this.stub);
     this.runner.range = pick.dummy ? this.dummyRange : Infinity;
-    if (pick.monster) { this.combat.setTarget(pick.monster); this.combat.cancelPending(); }
+    // a skill drops any walk-in, but the basic attack keeps swinging after it (Combat.hold pauses it while the skill plays)
+    if (pick.monster) { this.combat.setTarget(pick.monster); this.combat.pending = null; }
     const ok = this.runner.cast(s.id, true);
     if (ok === false) return false;
     if (!pick.dummy) c.spendMp(info.mp);
-    this.cd.set(s.id, info.cd);
-    this.cast_++; this.affected.clear(); this.lastSkill = s.id;
+    this.cd.set(s.id, info.cd * (1 - (c.cooldownCut || 0)));   // DEX / cards shorten skill cooldowns
+    this.cast_++; this.affected.clear(); this.splashed?.clear(); this.lastSkill = s.id;
     if (pick.monster) this.combat.combatTimer = Math.max(this.combat.combatTimer, RULES.combatTimeout);
     this.applySelf(s.id);
     this.onCast?.(this.kit.skills[i]);
@@ -129,7 +130,11 @@ export class KitCaster {
     this.strike(m, r, id);
     const info = this.infos[this.slots.findIndex(s => s.id === id)];
     const sp = info?.splash;
-    if (sp) {
+    if (sp?.line || sp?.cone) {
+      // a piercing shot / a fan: everyone else on its path takes one blow per cast
+      this.splashed ??= new Set();
+      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!this.splashed.has(o)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), id, this.skillLevel), id); }
+    } else if (sp) {
       const center = sp.around === 'self' ? this.player.position : m;
       for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), id, this.skillLevel), id);
     }

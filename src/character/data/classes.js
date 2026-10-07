@@ -39,7 +39,7 @@ export const CLASSES = {
     desc: 'ยิงธนูระยะไกล มีหมาคู่ใจช่วยกัดศัตรู',
     base: { str: 4, agi: 7, vit: 5, int: 3, dex: 9, luk: 4 }, growth: { str: .5, agi: 1, vit: 1, int: 0, dex: 2, luk: .5 },
     job: 'archer', ranged: true,
-    range: 7, attackSpeed: .9, color: '#8fb36b', pet: 'dog',
+    range: 7, attackSpeed: .7, color: '#8fb36b', pet: 'dog',
     skills: ['shot', 'volley', 'snare', 'sic'],
   },
   shaman: {

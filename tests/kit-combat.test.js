@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
-import { castInfo, hitEffects, rollBlow, selfEffects, splashOf, within, monsterDefense } from '../src/training/kitCombat.js';
+import { castInfo, hitEffects, rollBlow, selfEffects, splashOf, within, inShape, monsterDefense } from '../src/training/kitCombat.js';
 import { rollSkill } from '../src/training/damage.js';
 import { KitCaster } from '../src/training/KitCaster.js';
 import { Combat } from '../src/combat/Combat.js';
@@ -37,8 +37,11 @@ test('cast info: melee reach is the minimum, ranged skills reach far, buffs need
   assert.equal(castInfo({ id: 'boxer_jab', cd: 2 }).needsTarget, true);
   assert.equal(castInfo({ id: 'arch_quick', cd: 1.8 }).range, Math.min(KIT.maxRange, 280 / KIT.pxPerMeter));
   assert.equal(castInfo({ id: 'boxer_waikru', cd: 22 }).needsTarget, false);
-  // the kit's own mp / cd win, else the rules'
-  assert.equal(castInfo({ id: 'boxer_kick', mp: 7, cd: 4.5 }).mp, 7);
+  // the rules' mp / cd win (they scale with skill level); the kit's fill only skills the rules lack
+  assert.equal(castInfo({ id: 'boxer_kick', mp: 7, cd: 4.5 }).mp, SKILL_BY_ID.boxer_kick.mp);
+  assert.equal(castInfo({ id: 'boxer_kick', mp: 7, cd: 4.5 }).cd, SKILL_BY_ID.boxer_kick.cd / 1000);
+  assert.ok(castInfo({ id: 'boxer_kick' }, 5).cd < castInfo({ id: 'boxer_kick' }, 1).cd);
+  assert.equal(castInfo({ id: 'heal_zone', mp: 9, cd: 18 }).cd, 18);
   assert.equal(castInfo({ id: 'heal_pill', cd: 6 }).mp, SKILL_BY_ID.heal_pill.mp);
 });
 
@@ -55,7 +58,7 @@ test('a blow against a monster uses its DEF and EVA (same formula as the dummy)'
   const boar = monsterDefense(MONSTERS.boar);
   const r = rollBlow(d, boar, 'boxer_kick', 1, seq([0, .5, .99]));
   assert.deepEqual(r, rollSkill(d, boar, 'boxer_kick', 1, seq([0, .5, .99])));
-  assert.equal(r.dmg, Math.round(Math.max(1, d.patk * 2.0 - MONSTERS.boar.def * .5)));
+  assert.equal(r.dmg, Math.round(Math.max(1, d.patk * SKILL_BY_ID.boxer_kick.mult - MONSTERS.boar.def * .5)));
   // a buff with no damage multiplier still strikes at the fallback multiplier
   const f = rollBlow(d, boar, 'boxer_waikru', 1, seq([0, .5, .99]));
   assert.equal(f.dmg, Math.round(Math.max(1, d.patk * KIT.fallbackMult - MONSTERS.boar.def * .5)));
@@ -166,4 +169,15 @@ test('area skills also hit monsters around the caster', () => {
   caster.cast(2);   // จระเข้ฟาดหาง
   const struck = new Set(events.filter(([n]) => n === 'hit' || n === 'miss').map(([, e]) => e.monster));
   assert.equal(struck.size, 2);
+});
+
+test('piercing shots hit a line, spread volleys a fan, from the caster toward the target', () => {
+  const line = splashOf(SKILL_BY_ID.arch_volley), fan = splashOf(SKILL_BY_ID.mage_ghostfire);
+  assert.ok(line.line && line.length > 5); assert.ok(fan.cone && fan.angle > .5);
+  assert.equal(splashOf(SKILL_BY_ID.arch_quick), null);           // two arrows into one target
+  const me = { x: 0, z: 0 }, target = { x: 0, z: 4, alive: true };
+  const behind = { x: .5, z: 8, alive: true }, beside = { x: 2, z: 4, alive: true }, back = { x: 0, z: -3, alive: true };
+  const ms = [target, behind, beside, back];
+  assert.deepEqual(inShape(ms, me, target, line, target), [behind]);
+  assert.deepEqual(inShape(ms, me, target, fan, target), [beside, behind]);
 });

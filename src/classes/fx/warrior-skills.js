@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { lockTime } from '../tempo.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { WARRIOR_SKILLS } from '../warrior-moves.js';
 
@@ -56,7 +57,7 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
   const sideOf = d => V(d.z, 0, -d.x);
   const add = (o, c) => o.clone().add(c);
   const face = p => { const d = p.clone().sub(hero.pos()); R.facing = Math.atan2(d.x, d.z); };
-  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
+  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback, m.speed); return m; };
   const hits = (id, fn) => MOVES[id].hits.forEach((t, i) => fx.after(t, () => fn(i, MOVES[id].hits.length)));
   const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
   const hurt = (amt, crit, push = .12, id = R.current) => {
@@ -403,7 +404,7 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) fx.popup(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ', 'st'); return false; }
-    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur;
+    R.current = id; const dur = lockTime(MOVES[id], SK[id]()); R.busyUntil = R.time + dur;
     return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; };

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { lockTime } from '../tempo.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { SHAMAN_SKILLS } from '../shaman-moves.js';
 
@@ -77,7 +78,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
   const add = (o, c) => o.clone().add(c);
   const rotY = (d, a) => V(d.x * Math.cos(a) + d.z * Math.sin(a), 0, -d.x * Math.sin(a) + d.z * Math.cos(a));
   const face = p => { const d = p.clone().sub(hero.pos()); R.facing = Math.atan2(d.x, d.z); };
-  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
+  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback, m.speed); return m; };
   const hits = (id, fn) => MOVES[id].hits.forEach((t, i) => fx.after(t, () => fn(i, MOVES[id].hits.length)));
   const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
   const hurt = (amt, crit, push = .12, id = R.current) => {
@@ -293,7 +294,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
           if (t > 2.2) { fx.kill(G); fx.kill(head); boneM.dispose(); return false; }
         });
         fx.shock(hp.x, hp.z, 1.8, BONE, DEATH, .5); character.tint?.(C(.4, .9, .6), .22, 1.2);
-        heal('HP +25%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'ป้องกัน +24 · 8 วิ'));
+        heal('HP +12%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'ป้องกัน +24 · 8 วิ'));
       });
       return 1.4;
     },
@@ -354,7 +355,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
         });
         fx.lightPillar(hp, PALE, 3.5, .8, .9); fx.shock(hp.x, hp.z, 2.6, PALE, DEATH, .6);
         character.tint?.(C(.6, .8, 1), .22, 1.2);
-        heal('HP +25%'); fx.after(.15, () => heal('MP +15%')); fx.after(.3, () => pop(hp.clone().setY(hero.barY + .9), 'ปาร์ตี้ · ป้องกัน +12 · 10 วิ'));
+        heal('HP +15%'); fx.after(.15, () => heal('MP +15%')); fx.after(.3, () => pop(hp.clone().setY(hero.barY + .9), 'ปาร์ตี้ · ป้องกัน +12 · 10 วิ'));
       });
       return 1.8;
     },
@@ -420,7 +421,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
         fx.addTask((dt, t) => { const h = headP(hero).add(V(0, -.3, 0)), s = sideOf(dirTo()).multiplyScalar(.06);
           eyes.forEach((e, i) => { e.position.copy(h).add(s.clone().multiplyScalar(i ? 1 : -1)).add(dirTo().multiplyScalar(.12)); e.material.opacity = clamp01((2.5 - t) / .5); });
           if (t > 2.5) { eyes.forEach(e => fx.kill(e)); return false; } });
-        heal('HP +10%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'พลังเวทย์ +30% · คริ +10% · 12 วิ'));
+        heal('HP +10%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'พลังเวทย์ +35% · คริ +10% · 12 วิ'));
       });
       return 2.0;
     },
@@ -446,7 +447,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) pop(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ'); return false; }
-    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur;
+    R.current = id; const dur = lockTime(MOVES[id], SK[id]()); R.busyUntil = R.time + dur;
     return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; };

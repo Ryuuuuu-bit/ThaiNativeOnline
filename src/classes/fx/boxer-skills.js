@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { lockTime } from '../tempo.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL, K } from './engine.js';
 import { MUAYTHAI_SKILLS } from '../muaythai-moves.js';
 import { crocYantTex } from './croc-yant.js';
@@ -14,15 +15,15 @@ const HANUMAN_IMG = img('hanuman_yant.png'), ERAWAN_IMG = img('erawan_yant.png')
 
 // Skill bar data: icon, unlock level, cooldown, short description.
 export const SKILL_META = {
-  boxer_jab: { lv: 1, cd: 2, desc: 'แย็บ แย็บคู่ แล้วก้าวแย็บ 3 หมัด' },
+  boxer_jab: { lv: 1, cd: 2.8, desc: 'แย็บ แย็บคู่ แล้วก้าวแย็บ 3 หมัด' },
   boxer_kick: { lv: 2, cd: 4.5, desc: 'เตะก้านคอเต็มแรง กระเด็น มึนงง อ่อนแรง' },
   boxer_croc: { lv: 4, cd: 7, desc: 'หมุนตัวเตะกลับหลัง โดนทุกตัวรอบตัว 2 ครั้ง' },
-  boxer_waikru: { lv: 6, cd: 22, desc: 'ฟื้น HP 20% โจมตี +35% ตีเร็ว +10% 12 วิ' },
-  boxer_ngouy: { lv: 8, cd: 18, desc: '★ รับขาแล้วทุ่มศอกลงต้นขา มึนงง เกราะแตก' },
+  boxer_waikru: { lv: 6, cd: 22, desc: 'ฟื้น HP 10% โจมตี +25% ตีเร็ว +10% 12 วิ' },
+  boxer_ngouy: { lv: 8, cd: 12, desc: '★ รับขาแล้วทุ่มศอกลงต้นขา มึนงง เกราะแตก' },
   boxer_drum: { lv: 10, cd: 26, desc: '[ปาร์ตี้] ตีกลองศึก 3 จังหวะ ฟื้น HP บัฟป้องกัน/โจมตี' },
   boxer_elbow: { lv: 20, cd: 5.5, desc: 'ศอกตัดแล้วพลิกศอกเดิมฟาดกลับ เลือดไหล' },
-  boxer_knee: { lv: 40, cd: 10, desc: 'กระโดดเข่าลอยเข้าหาเป้า ผีรอบจุดมึน' },
-  boxer_iron: { lv: 70, cd: 28, desc: 'คาถามหาอุด ป้องกัน +30% โจมตี +20% ฟื้น HP 12%' },
+  boxer_knee: { lv: 40, cd: 8, desc: 'กระโดดเข่าลอยเข้าหาเป้า ผีรอบจุดมึน' },
+  boxer_iron: { lv: 70, cd: 28, desc: 'คาถามหาอุด ป้องกัน +30% โจมตี +40% ฟื้น HP 10%' },
   boxer_hanuman: { lv: 100, cd: 16, desc: '★ สุดยอดคอมโบ 8 จังหวะ หมัด ศอก เข่า เตะ ปิดด้วยแม่ไม้ปัดแล้วเสยหมัดคู่ กระเด็น มึน 1.2 วิ' },
 };
 export const iconUrl = id => BASE + 'icon_' + id + '.png';
@@ -114,7 +115,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
   const dirTo = () => tg.pos.clone().add(tg.off).sub(hero.pos()).setY(0).normalize();
   const ahead = (k = .45) => chest(hero).add(dirTo().multiplyScalar(k));
   const face = p => { const d = p.clone().sub(hero.pos()); R.facing = Math.atan2(d.x, d.z); };
-  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback); return m; };
+  const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback, m.speed); return m; };
   const hits = (id, fn) => MOVES[id].hits.forEach((t, i) => fx.after(t, () => fn(i)));
   const heal = (amt, cls = 'heal') => { const v = Math.round(amt); hero.hp = Math.min(hero.maxHp, hero.hp + v); fx.popup(hero.pos().setY(hero.barY + .2), '+' + v, cls); character.tint?.(C(.3, .9, .3), .25, .5); };
   const hurt = (amt, crit, push) => {
@@ -242,7 +243,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
       const wp = new THREE.Vector3(), boneLocal = b => fx.toLocal(b.getWorldPosition(wp));
       let lotus = null;
       fx.after(1.4, () => {
-        heal(hero.maxHp * .2, 'heal big'); fx.after(.25, () => fx.popup(P.clone().setY(hero.barY + .7), 'โจมตี +35% · ตีเร็ว +10%', 'st'));
+        heal(hero.maxHp * .2, 'heal big'); fx.after(.25, () => fx.popup(P.clone().setY(hero.barY + .7), 'โจมตี +25% · ตีเร็ว +10%', 'st'));
         fx.flash(P, 0xffc060, 60, .8); fx.shock(P.x, P.z, 1.8, GOLD, C(1, .45, .2), .6); fx.shock(P.x, P.z, 3.2, C(2, 1.4, .5), C(1, .4, .1), .9); fx.lightPillar(P, C(2, 1.5, .6), 7, .9, 1.4); fx.punch(.6);
         lotus = fx.lotus(C(.7, .32, .22), C(1.5, 1.05, .35), .95); lotus.position.copy(P).setY(.04);
         fx.burst(P.clone().setY(.3), 26, { c: [C(.98, .72, .22), C(.95, .45, .5)], S: fx.PN, size: .12, sp: 2.2, upMin: .8, upK: 1.4, life: 1.3, shape: SH.petal, drag: 1.4, grav: .6, a: .95 });
@@ -404,7 +405,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
           fx.burst(hp.clone().setY(.1), 26, { c: DUST, size: .16, sizeMin: .06, sp: 5, upMin: .8, upMax: 1.6, life: 1.2, grav: 9, drag: .6, shape: SH.soft, S: fx.PN });   // debris thrown up
           if (near(hp, 2.6)) { tg.knock(dirTo(), .8); fx.popup(tg.head().add(V(0, .4, 0)), 'กระเด็น', 'st'); }
           fx.after(.05, () => heal(hero.maxHp * .12));
-          fx.after(.3, () => fx.popup(hp.clone().setY(hero.barY + .7), 'ป้องกัน +30% · โจมตี +20%', 'st'));
+          fx.after(.3, () => fx.popup(hp.clone().setY(hero.barY + .7), 'ป้องกัน +30% · โจมตี +40%', 'st'));
         }
         if (t > 3.6) { character.tint?.(null); fx.kill(ring); fx.kill(shell); fx.kill(inner); bolts.forEach(l => fx.kill(l)); return false; }
       });
@@ -474,7 +475,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
     if (R.time < R.busyUntil) return false;
     const dist = player.position.distanceTo(fx.toWorld(tg.pos.clone()));
     if (dist > R.range) { if (!quiet) fx.popup(hero.pos().setY(hero.barY + .4), 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ', 'st'); return false; }
-    R.current = id; const dur = SK[id](); R.busyUntil = R.time + dur;
+    R.current = id; const dur = lockTime(MOVES[id], SK[id]()); R.busyUntil = R.time + dur;
     return dur;
   };
   R.update = dt => { R.time += dt; if (R.time >= R.busyUntil) R.facing = null; };

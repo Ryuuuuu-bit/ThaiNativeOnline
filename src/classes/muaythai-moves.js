@@ -8,6 +8,7 @@
 // loop      locomotion/idle clips loop; everything else plays once
 // icon      glyph shown in the HUD skill bar until real icons exist
 // mp        MP cost; cooldown in seconds (both read by the HUD skill bar)
+import { tempo, CLASS_TEMPO } from './tempo.js';
 export const BASE_CLIPS = {
   idle: { clip: 'idle', loop: true, duration: 2.0 },
   walk: { clip: 'walk', loop: true, duration: 1.0 },
@@ -16,7 +17,7 @@ export const BASE_CLIPS = {
   die: { clip: 'die', duration: 1.6 },
 };
 
-export const MUAYTHAI_SKILLS = [
+export const MUAYTHAI_SKILLS = tempo([
   { id: 'boxer_jab', icon: '👊', mp: 4, cooldown: 1.2, key: 'Digit1', name: 'หมัดแย็บ', clip: 'boxer_jab', fallback: 'attack_jab', duration: 1.0, hits: [0.2, 0.4, 0.62] },   // jab, double jab, stepping jab
   { id: 'boxer_kick', icon: '🦵', mp: 7, cooldown: 2.5, key: 'Digit2', name: 'เตะก้านคอ', clip: 'boxer_kick', fallback: 'attack_kick_front', duration: 1.1, hits: [0.45] },
   { id: 'boxer_croc', icon: '🐊', mp: 10, cooldown: 4, key: 'Digit3', name: 'จระเข้ฟาดหาง', clip: 'boxer_croc', fallback: 'attack_combo', duration: 1.4, hits: [0.55, 0.85] },   // two spinning whips
@@ -27,6 +28,6 @@ export const MUAYTHAI_SKILLS = [
   { id: 'boxer_knee', icon: '🦶', mp: 11, cooldown: 4.5, key: 'Digit8', name: 'เข่าลอยทะลวงฟ้า', clip: 'boxer_knee', fallback: 'skill_teep', duration: 1.2, hits: [0.6] },
   { id: 'boxer_iron', icon: '🛡️', mp: 15, cooldown: 20, key: 'Digit9', name: 'กายเหล็กคาถามหาอุด', clip: 'boxer_iron', fallback: 'idle', duration: 2.4, hits: [] },
   { id: 'boxer_hanuman', icon: '🐵', mp: 20, cooldown: 14, key: 'Digit0', name: 'หนุมานถวายแหวน', clip: 'boxer_hanuman', fallback: 'attack_combo', duration: 2.9, hits: [0.2, 0.37, 0.57, 0.73, 0.97, 1.2, 1.5, 2.13] },   // jab, cross, elbow ×2, knee ×2, kick, then the double uppercut (parry at 1.87)
-];
+], CLASS_TEMPO.muaythai, ['boxer_waikru', 'boxer_drum', 'boxer_iron']);
 
 export const SKILL_BY_KEY = Object.fromEntries(MUAYTHAI_SKILLS.map(s => [s.key, s]));

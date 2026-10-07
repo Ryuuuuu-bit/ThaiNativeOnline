@@ -3,7 +3,7 @@
 import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
 import { ITEMS } from './data/items.js';
 import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY } from './data/progression.js';
-import { computeDerived, hitChanceOf } from '../rules/stats.js';
+import { computeDerived, hitChanceOf, ASPD_BUFF_MAX } from '../rules/stats.js';
 import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
@@ -70,7 +70,8 @@ export class Character extends Emitter {
   get evasion() { return this.derived.eva; }
   get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
   get critDamage() { return this.derived.critDmg; }
-  get attackSpeed() { return this.derived.aspd; }        // share cut from the basic-attack interval
+  // share cut from the basic-attack interval: AGI/DEX (≤30%) plus buffs, all together ≤45%
+  get attackSpeed() { return Math.min(ASPD_BUFF_MAX, this.derived.aspd + this.buffSum('aspd')); }
   get cooldownCut() { return this.derived.castRed; }     // share cut from skill cooldowns
   // Chance to avoid a blow from an attacker with this accuracy (buffs such as smoke add on top).
   evadeChance(accuracy) { return Math.min(.9, 1 - hitChanceOf(accuracy, this.evasion) + this.buffSum('dodge')); }

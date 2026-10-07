@@ -13,9 +13,13 @@ const metres = px => px / KIT.pxPerMeter;
 // Rules skill types that act on the caster (no target needed).
 const SELF_TYPES = new Set(['buff', 'party', 'revive']);
 
-// Who else an area skill hits: { radius (m), around: 'self' | 'target' } or null.
+// Who else an area skill hits: { radius (m), around: 'self' | 'target' }, a piercing shot's
+// line { line: true, length, width } or a spread volley's fan { cone: true, length, angle }
+// (both from the caster toward the target), or null.
 export function splashOf(base) {
   if (!base) return null;
+  if (base.type === 'projectile' && base.pierce) return { line: true, length: metres(base.range ?? 280), width: 1.1 };
+  if (base.type === 'projectile' && (base.count ?? 1) > 1 && (base.spread ?? 0) >= 20) return { cone: true, length: metres(base.range ?? 280), angle: base.spread * Math.PI / 180 };
   if ((base.type === 'aoe' || base.type === 'mortar') && base.radius) return { radius: metres(base.radius), around: base.offset ? 'target' : 'self' };
   if (base.type === 'dash' && base.radius) return { radius: metres(base.radius), around: 'target' };
   if (base.type === 'melee' && base.all) return { radius: Math.max(1.5, metres(base.range ?? 0)), around: 'target' };
@@ -23,13 +27,14 @@ export function splashOf(base) {
 }
 
 // A kit hotbar entry ({ id, cd | cooldown, mp? }) at a skill level →
-// { mp, cd (s), range (m), needsTarget, splash }. The kit's own cd/mp win over the rules'.
+// { mp, cd (s), range (m), needsTarget, splash }. The rules' mp/cd (scaled by skill level)
+// win, so kits and the rules never disagree; the kit's own only fill skills the rules lack.
 export function castInfo(kitSkill, lv = 1) {
   const base = SKILL_BY_ID[kitSkill.id], st = base ? skillStats(base, lv) : {};
   const px = base?.range ?? base?.distance ?? (base?.offset ? base.offset + (base.radius ?? 0) : 0);
   return {
-    mp: kitSkill.mp ?? st.mp ?? 0,
-    cd: kitSkill.cd ?? kitSkill.cooldown ?? (st.cd ? st.cd / 1000 : 0),
+    mp: base ? st.mp ?? 0 : kitSkill.mp ?? 0,
+    cd: st.cd ? st.cd / 1000 : kitSkill.cd ?? kitSkill.cooldown ?? 0,
     range: Math.min(KIT.maxRange, Math.max(KIT.minRange, metres(px))),
     needsTarget: !base || !SELF_TYPES.has(base.type),
     splash: splashOf(base),
@@ -61,6 +66,7 @@ export function selfEffects(skillId, lv = 1, ownDef = 10) {
     const def = (b.defMul ?? 0) + (b.def ? b.def / Math.max(10, ownDef) : 0);
     if (def) buff.def = +def.toFixed(3);
     if (b.critAdd) buff.crit = b.critAdd;
+    if (b.aspd) buff.aspd = b.aspd;
   }
   return heal || mp || buff ? { heal, mp, buff } : null;
 }
@@ -79,6 +85,18 @@ export function hitEffects(skillId, firstBlow) {
     if (d) out.push({ id: k, dot: +(d.ratio * 1000 / d.every).toFixed(3), duration: d.ticks * d.every / 1000, source: firstBlow, label: DOT_LABELS[k] });
   }
   return out;
+}
+
+// Live monsters a line / fan from `from` toward `to` covers (see splashOf), nearest first, leaving out `except`.
+export function inShape(monsters, from, to, sp, except = null) {
+  const dx = to.x - from.x, dz = to.z - from.z, L = Math.hypot(dx, dz) || 1, ux = dx / L, uz = dz / L;
+  const d = m => Math.hypot(m.x - from.x, m.z - from.z);
+  return monsters.filter(m => {
+    if (m === except || !m.alive) return false;
+    const px = m.x - from.x, pz = m.z - from.z, along = px * ux + pz * uz, side = Math.abs(px * uz - pz * ux);
+    if (along < 0 || along > sp.length) return false;
+    return sp.line ? side <= sp.width : Math.atan2(side, along) <= sp.angle / 2;
+  }).sort((a, b) => d(a) - d(b));
 }
 
 // Live monsters within `radius` of `center` ({ x, z }), nearest first, leaving out `except`.
