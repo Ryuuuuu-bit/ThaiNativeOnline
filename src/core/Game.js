@@ -52,7 +52,7 @@ export class Game {
     catch (error) { document.body.dataset.error = 'webgl'; $('loading-text').textContent = 'ไม่สามารถเปิด WebGL ได้ กรุณาเปิด hardware acceleration แล้วลองใหม่'; throw error; }
     const r = this.renderer;
     host.appendChild(r.domElement);
-    r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    r.setPixelRatio(Math.min(devicePixelRatio, 1.5)); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFShadowMap;   // PCFSoft is gone from three
     r.outputColorSpace = THREE.SRGBColorSpace; r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.18;
     this.scene = new THREE.Scene();
     this.env = new Environment(this.scene, r);
@@ -206,7 +206,7 @@ export class Game {
     $('quality').addEventListener('change', e => {
       const high = e.target.value === 'high', sun = this.env.sun;
       this.prefs.set({ quality: high ? 'high' : 'low' });
-      this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, 2) : 1);
+      this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, 1.5) : 1);   // above 1.5× the GPU cost outgrows what shows at full HD
       sun.shadow.mapSize.set(high ? 4096 : 2048, high ? 4096 : 2048);
       this.postfx.enabled = high;   // bloom, colour grade and vignette only on high
       if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
@@ -549,6 +549,6 @@ export class Game {
 แผนที่ย่อ วาด ${this.minimap.stats.drawMs} ms · ปูพื้น ${this.minimap.stats.buildMs} ms`);
       }
     }
-    if (draw) this.postfx.render();
+    if (draw) { this.postfx.adapt(dt); this.postfx.render(); }
   }
 }

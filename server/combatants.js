@@ -41,7 +41,7 @@ import { SKILLS as LEGACY } from '../src/combat/data/skills.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
-import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, within } from '../src/training/kitCombat.js';
+import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, within } from '../src/training/kitCombat.js';
 import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
 import { nearAnyShop } from '../src/data/shopSites.js';
 import { MONSTER_ACCURACY, MAX_LEVEL } from '../src/character/data/progression.js';
@@ -185,7 +185,9 @@ export class Combatants {
   // Attacker stats for a roll, buffs included.
   stats(c) { return { ...c.derived, patk: c.patk, matk: c.matk, critRate: c.critChance, critDmg: c.critDamage, accuracy: c.accuracy }; }
 
-  cast(id, skillId) {
+  // `ally`: the heal is aimed at one friend (kitCombat.allyHeal): the caster does not get it, and
+  // the result says `single` (server/index.js gives it to that friend alone).
+  cast(id, skillId, { ally = false } = {}) {
     const s = this.list.get(id); if (!s) return { ok: false, why: 'no_sheet' };
     const c = s.c, now = this.now();
     if (!c.alive) return { ok: false, why: 'dead' };
@@ -223,16 +225,17 @@ export class Combatants {
     if (legacy?.kind === 'pet' && legacy.frenzy) s.pet.frenzyUntil = now + legacy.frenzy;   // ไอ้ด่าง ลุย!: the dog bites faster for a while
     // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
     // and MP land on the server's copy (the browser shows the same)
+    const single = !!kitSkill && ally && allyHeal(eff);
     if (kitSkill) {
       const e = selfEffects(eff, slv, c.defense, c.matk);
       if (e?.buff) c.addBuff(e.buff);
-      if (s.persist && (e?.heal || e?.hp)) c.heal(c.maxHp * e.heal + e.hp);
+      if (s.persist && !single && (e?.heal || e?.hp)) c.heal(c.maxHp * e.heal + e.hp);
       if (s.persist && e?.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * e.mp);
       if (e?.heal || e?.hp || e?.mp) s.dirty = true;
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
     const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk) : null;
-    return support ? { ok: true, support } : { ok: true };
+    return support ? { ok: true, support, ...(single ? { single: true } : {}) } : { ok: true };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
   // back where they lie. → what happened ({ heal, revived }) or null.

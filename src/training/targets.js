@@ -37,6 +37,19 @@ export function stubTarget(fx, player) {
   };
 }
 
+// A party member a heal is aimed at (KitCaster.allyPick): `get()` → { x, z } (world) while they are
+// here, so a tether follows them as they walk. Blows on it do nothing; the heal is the server's.
+export function allyTarget(get, fx) {
+  let last = get() ?? { x: 0, z: 0 };
+  const pos = () => { last = get() ?? last; return fx.toLocal(V(last.x, fx.root.position.y, last.z)).setY(0); };
+  return {
+    ally: true, off: V(), barY: 1.6, hp: 1, maxHp: 1, stun: false,
+    get pos() { return pos(); }, get alive() { return !!get(); },
+    chest: () => pos().setY(1), head: () => pos().setY(1.8),
+    hurt: () => 0, miss() {}, knock() {}, bleed() {},
+  };
+}
+
 // A combat monster (src/combat/Combat.js Monster, world XZ) seen as an FX target.
 // Blows go to onHurt(monster, amount, crit, exact) / onMiss(monster), which route
 // them through Combat (numbers, aggro, kill, loot). Knock-backs push the monster.

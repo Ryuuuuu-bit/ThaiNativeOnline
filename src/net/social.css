@@ -136,6 +136,10 @@
 .sw-rt { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, .06); }
 .sw-rt span { display: flex; flex-direction: column; } .sw-rt small { font-size: 11px; color: var(--t-mute, #7d8796); } .sw-rt em { font-style: normal; font-size: 12px; font-weight: 600; white-space: nowrap; }
 
+/* the party frame: a member picked as the friend heals go to (src/net/Social.js setAlly) */
+.soc-pf { cursor: pointer; }
+.soc-pf.sel { box-shadow: inset 0 0 0 2px #7fe08a, 0 0 12px rgba(127, 224, 138, .35); }
+
 /* the context menu on a player's name plate, in the same look */
 .soc-menu header { font-weight: 600; color: var(--t-gold-hi, #f7e2b0); }
 

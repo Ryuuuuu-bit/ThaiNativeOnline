@@ -1,7 +1,7 @@
 import { RULES } from '../combat/data/rules.js';
-import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from './kitCombat.js';
+import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from './kitCombat.js';
 import { rollSkill } from './damage.js';
-import { createTargetProxy, monsterTarget, stubTarget } from './targets.js';
+import { allyTarget, createTargetProxy, monsterTarget, stubTarget } from './targets.js';
 import { evoOf } from '../rules/data/evolutions.js';
 
 // Casts a class kit's ten skills (src/classes CLASS_KITS) on any map, as the
@@ -71,9 +71,9 @@ export class KitCaster {
       if ((e?.heal || e?.hp) && !e?.buff && c.hp >= c.maxHp * .9) return false;
     }
     this.combat.sit?.(false);
-    const pick = this.pick(info);
+    const pick = this.allyPick(s.id, info) ?? this.pick(info);
     if (!pick) { if (!quiet) this.fail(this.dummy() ? 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ' : 'ไม่มีเป้าหมายใกล้ๆ'); return false; }
-    if (pick.monster && c.mp < this.mpOf(i)) { if (!quiet) this.fail('MP ไม่พอ'); return false; }
+    if ((pick.monster || pick.ally) && c.mp < this.mpOf(i)) { if (!quiet) this.fail('MP ไม่พอ'); return false; }
     // the skill's own reach, for a monster and for the training dummy alike: walk in first
     const at = this.spotOf(pick);
     if (at && dist(at, this.player.position) > info.range) { if (!quiet) this.combat.world.stop?.(); this.pending = { i, ...pick, t: 0, quiet }; return true; }
@@ -84,8 +84,22 @@ export class KitCaster {
   // Where a pick stands in the world (null for a self cast).
   spotOf(pick) {
     if (pick.monster) return pick.monster;
+    if (pick.ally) return this.allyOf(pick.ally);
     if (pick.dummy) { const d = this.dummy(); if (!d) return null; const w = this.fx.toWorld(d.pos.clone()); return { x: w.x, z: w.z }; }
     return null;
+  }
+  // A heal aimed at one friend (kitCombat.allyHeal: the vine, the bouncing pill), online in a party:
+  // the friend picked (Combat.ally: party frame or name plate), walked up to when far; else, as in
+  // ThaiNative, the party member lowest on HP (by share) within reach, when lower than the caster.
+  // → { ally: id } | null (the caster's own heal, as before). Combat.allies(): the members in this room.
+  allyOf(id) { const a = this.combat.allies?.().find(x => x.id === id); return a?.alive ? a : null; }
+  allyPick(id, info) {
+    if (!allyHeal(this.eid(id)) || this.nearDummy()) return null;
+    const cb = this.combat, me = this.player.position, c = this.character;
+    if (cb.ally && this.allyOf(cb.ally.id)) return { ally: cb.ally.id };
+    const share = a => a.hp / Math.max(1, a.maxHp);
+    const low = (cb.allies?.() ?? []).filter(a => a.alive && a.maxHp && dist(a, me) <= info.range).sort((a, b) => share(a) - share(b))[0];
+    return low && share(low) < c.hp / c.maxHp ? { ally: low.id } : null;
   }
   // Target for a cast: { monster } | { dummy } | { self } | null.
   pick(info) {
@@ -107,7 +121,8 @@ export class KitCaster {
   }
   release(i, pick) {
     const s = this.slots[i], info = this.infos[i], c = this.character;
-    this.proxy.bind(pick.dummy ? this.dummy() : pick.monster ? this.adapter(pick.monster) : this.stub);
+    const friend = pick.ally ? this.allyOf(pick.ally) : null;
+    this.proxy.bind(pick.dummy ? this.dummy() : pick.monster ? this.adapter(pick.monster) : friend ? allyTarget(() => this.allyOf(friend.id), this.fx) : this.stub);
     if (this.fx) this.fx.statusTarget = pick.monster ? this.adapter(pick.monster) : null;   // its effects are named by the rules (engine.js popup)
     this.runner.range = pick.dummy ? this.dummyRange : Infinity;
     // a skill drops any walk-in, but the basic attack keeps swinging after it (Combat.hold pauses it while the skill plays)
@@ -116,14 +131,15 @@ export class KitCaster {
     if (ok === false) return false;
     // online, the others see this cast played on this player (src/net/RemoteSkills.js)
     // (at the training dummy: where it stands, so the others see the practice too)
-    const d = pick.dummy ? this.dummy() : null, at = d ? this.fx.toWorld(d.pos.clone()) : null;
+    const d = pick.dummy ? this.dummy() : null, at = d ? this.fx.toWorld(d.pos.clone()) : friend;
     this.combat.emit('kit-fx', { id: s.id, monster: pick.monster ?? null, ...(at ? { at: { x: +at.x.toFixed(2), z: +at.z.toFixed(2) } } : {}) });
     if (!pick.dummy) c.spendMp(this.mpOf(i));
     this.cd.set(s.id, info.cd * (1 - (c.cooldownCut || 0)));   // DEX / cards shorten skill cooldowns
     this.cast_++; this.affected.clear(); this.splashed?.clear(); this.lastSkill = s.id;
     if (pick.monster) this.combat.combatTimer = Math.max(this.combat.combatTimer, RULES.combatTimeout);
-    this.applySelf(s.id);
-    if (!pick.dummy) this.combat.emit('kit-cast', { id: s.id });   // online: the server opens the cast (src/net/NetCombat.js)
+    if (!friend) this.applySelf(s.id);   // a heal sent to a friend lands on them (server/index.js), not on the caster
+    // online: the server opens the cast (src/net/NetCombat.js); `ally` = the friend the heal goes to
+    if (!pick.dummy) this.combat.emit('kit-cast', { id: s.id, ...(friend ? { ally: friend.id } : {}) });
     const evo = evoOf(this.eid(s.id));
     if (evo) { const p = pick.monster ?? this.player.position; this.combat.emit('evo-fx', { x: p.x, z: p.z, color: evo.color, name: evo.name }); }
     this.onCast?.(this.kit.skills[i]);
@@ -144,19 +160,20 @@ export class KitCaster {
     for (const [id, v] of this.cd) this.cd.set(id, Math.max(0, v - dt));
     const k = this.casting;
     if (k) {
-      const m = k.pick.monster;
-      if (!this.character.alive || (m && (!m.alive || dist(m, this.player.position) > this.infos[k.i].range + 1.5))) this.cancel(m && !m.alive ? null : 'การร่ายถูกขัด');
+      const m = k.pick.monster, a = k.pick.ally ? this.allyOf(k.pick.ally) : null, far = x => dist(x, this.player.position) > this.infos[k.i].range + 1.5;
+      if (k.pick.ally && (!a || far(a))) this.cancel(a ? 'เพื่อนอยู่ไกลเกินไป' : 'เพื่อนหมดสติหรือออกไปแล้ว');
+      else if (!this.character.alive || (m && (!m.alive || far(m)))) this.cancel(m && !m.alive ? null : 'การร่ายถูกขัด');
       else if ((k.t += dt) >= k.total) { this.casting = null; this.combat.emit('cast-done', { id: this.slots[k.i].id }); this.release(k.i, k.pick); }
       return;
     }
     const p = this.pending;
     if (!p) return;
     const m = p.monster, at = this.spotOf(p);
-    if ((m && !m.alive) || !at || !this.character.alive) { this.pending = null; return; }
+    if ((m && !m.alive) || !at || !this.character.alive) { this.pending = null; if (p.ally && !p.quiet) this.fail('เพื่อนหมดสติหรือออกไปแล้ว'); return; }
     if ((p.t += dt) > KIT.approachTimeout) { this.pending = null; this.combat.world.stop?.(); if (!p.quiet) this.fail('ไกลเกินไป'); return; }
     if (dist(at, this.player.position) <= this.infos[p.i].range) {
       this.combat.world.stop?.();
-      if (!this.runner.busy) { this.pending = null; this.fire(p.i, m ? { monster: m } : { dummy: true }); }
+      if (!this.runner.busy) { this.pending = null; this.fire(p.i, m ? { monster: m } : p.ally ? { ally: p.ally } : { dummy: true }); }
     } else if (this.combat.world.manualMove?.()) { /* the player is walking by hand: the walk-in waits */ }
     else if (this.combat.world.moveTo?.(at.x, at.z) === false) {
       this.pending = null; if (m) m.unreachableAt = Date.now();
