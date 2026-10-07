@@ -40,8 +40,9 @@
 // GM (server/gm.js): '/gm …' in chat from an account in ADMIN_IDS → a reply line; may send
 //   gmwarp {map, x, z} (go there) · gmhp {pct, mp?} (HP set; 0 = knocked out) · sync
 // Parties (server/parties.js): up to 6, EXP of a kill shared by the members near it.
-//   client → server  pinv {id} · pans {from, ok} · pleave · pkick {id} · pc {text} (party chat)
-//   server → client  pinv {from, name} · pno {why, name?} · party {id, leader, members: [{id, name, cls, lv, hp, map, ch}]} | {id: null} · pc {name, text}
+//   client → server  pinv {id} · pans {from, ok} · pleave · pkick {id} · plead {id} (hand over the lead) · pc {text} (party chat)
+//   server → client  pinv {from, name} · pno {why, name?} · pc {name, text} ·
+//                    party {id, leader, share: {range, bonus, gap}, members: [{id, name, cls, lv, map, ch, x, z, dead, buffs, hp?, maxHp?, mp?, maxMp?}]} | {id: null}
 // Trade (server/trades.js): signed-in players within 8 m; offer → both lock → both confirm → swap.
 //   client → server  treq {id} · tans {from, ok} · toffer {items: [{id, qty, cards?, plus?}], gold} · tlock · tconf · tcancel
 //   server → client  treq {from, name} · tno {why} · trade {id, with, mine, theirs, locked, confirmed} · tend {ok, why} (+ sync)
@@ -55,7 +56,7 @@ import { openStore } from './store.js';
 import { Accounts } from './accounts.js';
 import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
-import { Parties } from './parties.js';
+import { Parties, PARTY } from './parties.js';
 import { Trades, TRADE, swap } from './trades.js';
 import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
@@ -188,7 +189,7 @@ wss.on('connection', ws => {
         break;
       }
       case 's': presence.move(ws, m); break;
-      case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'pc': partyMsg(ws, m); break;
+      case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
       case 'treq': case 'tans': case 'toffer': case 'tlock': case 'tconf': case 'tcancel': tradeMsg(ws, m); break;
       case 'map': {
@@ -268,9 +269,10 @@ const byId = id => { for (const [ws, p] of presence.players) if (p.id === id) re
 const PARTY_WHY = new Set(['self', 'in_party', 'not_leader', 'full', 'expired', 'offline']);
 function partyState(pid) {
   const party = parties.get(pid); if (!party) return { t: 'party', id: null };
-  return { t: 'party', id: party.id, leader: party.leader, members: party.members.map(id => {
+  return { t: 'party', id: party.id, leader: party.leader, share: { range: PARTY.shareRange, bonus: PARTY.bonus, gap: PARTY.levelGap }, members: party.members.map(id => {
     const o = byId(id)?.p, s = combatants.get(id);
-    return { id, name: o?.name ?? '?', cls: o?.cls, lv: o?.lv ?? 1, map: o?.map, ch: o?.ch, dead: !!o?.dead, ...(s?.persist ? { hp: Math.round(s.c.hp), maxHp: s.c.maxHp } : {}) };
+    return { id, name: o?.name ?? '?', cls: o?.cls, lv: o?.lv ?? 1, map: o?.map, ch: o?.ch, x: Math.round(o?.x ?? 0), z: Math.round(o?.z ?? 0), dead: !!o?.dead,
+      buffs: (s?.c.buffs ?? []).map(b => b.id), ...(s?.persist ? { hp: Math.round(s.c.hp), maxHp: s.c.maxHp, mp: Math.round(s.c.mp), maxMp: s.c.maxMp } : {}) };
   }) };
 }
 const tellParty = (ids, msg) => { for (const id of ids) { const w = byId(id)?.ws; if (w) send(w, msg); } };
@@ -297,6 +299,8 @@ function partyMsg(ws, m) {
     const r = parties.kick(me.id, Number(m.id)); if (!r) return;
     const k = byId(Number(m.id)); if (k) send(k.ws, { t: 'party', id: null });
     if (r.party) sendParty(r.party.id); else tellParty(r.before, { t: 'party', id: null });
+  } else if (m.t === 'plead') {
+    const party = parties.promote(me.id, Number(m.id)); if (party) sendParty(party.id);
   } else if (m.t === 'pc') {
     if (muted(me)) return;
     const pid = parties.of(me.id), r = pid && presence.chat(ws, m.text); if (!r) return;

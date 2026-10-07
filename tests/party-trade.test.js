@@ -36,6 +36,8 @@ test('a party: invite, accept, up to six, the leader passes on, a party of one i
   assert.equal(P.invite(9, 2).why, 'in_party');
   P.leave(1); assert.equal(P.get(P.of(2)).leader, 2, 'the leader passes on');
   assert.equal(P.kick(3, 4), null, 'only the leader removes'); assert.ok(P.kick(2, 4));
+  assert.equal(P.promote(3, 5), null, 'only the leader hands over the lead'); assert.equal(P.promote(2, 9), null, 'to a member');
+  assert.equal(P.promote(2, 3).leader, 3); assert.ok(P.promote(3, 2));
   P.leave(3); const last = P.leave(5);
   assert.equal(last.party, null); assert.equal(P.of(2), null, 'one left: no party');
 });

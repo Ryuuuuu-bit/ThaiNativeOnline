@@ -6,6 +6,7 @@
 //   P.accept(to, from) → { ok, party } | { ok: false, why }     P.decline(to, from)
 //   P.leave(id) → { party, before } | null   (party: as it is now, null once one is left; the
 //                 leader passes on; before: who was in it) · P.kick(leader, id) → the same
+//   P.promote(leader, id) → party | null   (the leader hands the lead to a member)
 //   P.of(id) → party id | null · P.members(pid) → [ids] · P.get(pid) → { id, leader, members }
 //
 // The EXP of a kill (server/monsters.js rewards): a party counts as one hunter. Every member on
@@ -62,6 +63,11 @@ export class Parties {
     const pid = this.of(leader), party = pid && this.get(pid);
     if (!party || party.leader !== leader || leader === id || !party.members.includes(id)) return null;
     return this.leave(id);
+  }
+  promote(leader, id) {
+    const pid = this.of(leader), party = pid && this.get(pid);
+    if (!party || party.leader !== leader || leader === id || !party.members.includes(id)) return null;
+    party.leader = id; return party;
   }
 }
 
