@@ -31,6 +31,8 @@ const groupOf = d => d.type === 'use' ? 'use' : d.type === 'equip' ? (d.slot ===
   : d.type === 'material' ? 'material' : d.type === 'card' ? 'card' : 'other';
 const typeOf = d => d.type === 'use' ? 'ยา · ใช้ครั้งเดียว' : d.type === 'equip' ? SLOT_TH[d.slot] ?? SLOT_TH.charm : d.type === 'material' ? 'วัตถุดิบ' : d.type === 'card' ? 'การ์ด' : 'ของใช้';
 const single = d => d.type === 'equip';
+// the colour of a plus (ThaiNative's aura tiers, on this game's +10 scale): +3 blue · +5 purple · +7 gold · +9 flame · +10 rainbow
+const enhTier = n => `t${n >= 10 ? 5 : n >= 9 ? 4 : n >= 7 ? 3 : n >= 5 ? 2 : n >= 3 ? 1 : 0}`;
 const TABS = { buy: ['🛒', 'ซื้อ'], sell: ['💰', 'ขาย'], cards: ['🃏', 'ถอดการ์ด'], refine: ['🔨', 'ตีบวก'] };
 const icon = d => `<span class="sh-ic" style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</span>`;
 
@@ -53,6 +55,11 @@ export class ShopPanel {
         const key = ref.dataset.refine, where = key.startsWith('w:') ? key.slice(2) : Number(key.slice(2));
         if (ref.dataset.risky && this.armed !== key) { this.armed = key; this.render(); return; }   // a risky try asks first
         this.armed = null; this.character.refineGear(where); this.render(); return;
+      }
+      const es = e.target.closest('[data-esel],[data-ebuy]');   // ตีบวก: pick the gear · buy the ore it lacks
+      if (es && this.character) {
+        if (es.dataset.esel) { this.enhSel = es.dataset.esel; this.armed = null; } else this.buyMany(es.dataset.ebuy, 1);
+        this.render(); return;
       }
       const strip = e.target.closest('[data-strip]');
       if (strip && this.character) {
@@ -183,19 +190,45 @@ export class ShopPanel {
     return `<p class="shop-note">หมออาคมถอดการ์ดออกจากอุปกรณ์ในกระเป๋าได้ทั้งหมดในครั้งเดียว · การ์ดละ ${STRIP.gold} ทอง + ขี้เถ้าธูป ${STRIP.ash}<br>สำเร็จ ${Math.round(STRIP.ok * 100)}% · อุปกรณ์แตก ${Math.round(STRIP.itemBreaks * 100)}% (ได้การ์ดคืน) · การ์ดแตก ${Math.round((1 - STRIP.ok - STRIP.itemBreaks) * 100)}%</p>`
       + (rows || '<p class="shop-empty">ไม่มีอุปกรณ์ที่ใส่การ์ดในกระเป๋า (ถอดอุปกรณ์ที่สวมอยู่ออกก่อน)</p>');
   }
-  // worn gear first, then the bag: the next plus, what it adds, the price and the odds
+  // ตีบวก, laid out as ThaiNative's forge (ShopUI.enhance): the item in a glowing ring between what
+  // the next plus adds and its odds, the ore and cards at stake, the fee and the button; the gear
+  // to pick on the right (worn first, then the bag). A risky try asks for a second click.
   refineHtml() {
-    const c = this.character, rows = c.refineTargets().map(t => {
-      const d = ITEMS[t.id], cost = refineCost(d, t.plus), key = t.worn ? `w:${t.slot}` : `i:${t.index}`;
-      const have = c.count(cost.ore), afford = c.gold >= cost.gold && have > 0, armed = this.armed === key;
-      const gain = Object.entries(refineBonus(d, cost.to)).map(([k, v]) => `${k.toUpperCase()} +${v - (refineBonus(d, t.plus)?.[k] ?? 0)}`).join(' ');
-      const odds = cost.risky ? `โอกาส ${Math.round(cost.rate * 100)}% · พลาดแล้วแตก` : 'ปลอดภัย';
-      return `<button class="shop-row${armed ? ' armed' : ''}" data-refine="${key}" ${cost.risky ? 'data-risky="1"' : ''} ${afford ? '' : 'disabled'}>
-        <i style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</i><span><b>${plusName(t.id, t.plus)} → +${cost.to}${t.worn ? ` · สวมอยู่ (${SLOT_TH[t.slot] ?? t.slot})` : ''}</b><small>${gain} · ${odds}${t.cards.length ? ` · การ์ด ${t.cards.length}` : ''}</small></span>
-        <em>${armed ? 'เสี่ยงแตก! กดอีกครั้งเพื่อยืนยัน' : `${cost.gold} ทอง · ${ITEMS[cost.ore].name} 1 (มี ${have})`}</em></button>`;
-    }).join('');
-    return `<p class="shop-note">ตีบวกได้ถึง +${REFINE_MAX} ทีละขั้น · ใช้แร่ 1 ชิ้นต่อครั้ง (อาวุธ: ${ITEMS.sacred_ore.name} · อย่างอื่น: ${ITEMS.gold_leaf.name}) + ทองตามขั้น<br>ถึง +${REFINE_SAFE} สำเร็จเสมอ · เกินนั้นถ้าพลาด อุปกรณ์แตกสลายพร้อมการ์ดที่ใส่ไว้ · เครื่องรางตีบวกไม่ได้</p>`
-      + (rows || '<p class="shop-empty">ไม่มีอุปกรณ์ที่ตีบวกได้</p>');
+    const c = this.character, list = c.refineTargets(), keyOf = t => (t.worn ? `w:${t.slot}` : `i:${t.index}`);
+    if (!list.length) return '<p class="shop-empty">ไม่มีอุปกรณ์ที่ตีบวกได้ (เครื่องรางตีบวกไม่ได้)</p>';
+    if (!list.some(t => keyOf(t) === this.enhSel)) this.enhSel = keyOf(list[0]);
+    const key = this.enhSel, t = list.find(x => keyOf(x) === key), d = ITEMS[t.id];
+    const cost = refineCost(d, t.plus), max = !cost, armed = this.armed === key;
+    const cur = refineBonus(d, t.plus) ?? {}, nxt = (cost && refineBonus(d, cost.to)) ?? cur;
+    const stats = Object.keys(nxt).map(k => `<div><span>${BONUS[k] ?? k}</span><b>+${cur[k] ?? 0} → <em>+${nxt[k]}</em></b></div>`).join('');
+    const ore = cost && ITEMS[cost.ore], have = cost ? c.count(cost.ore) : 0, rate = cost ? Math.round(cost.rate * 100) : 0;
+    const can = !!cost && c.gold >= cost.gold && have > 0, sells = !!cost && stockOf(this.shopType).includes(cost.ore);
+    const label = max ? 'สูงสุดแล้ว' : armed ? 'เสี่ยงแตก! กดอีกครั้งเพื่อยืนยัน' : !have ? `ไม่มี${ore.name}` : c.gold < cost.gold ? 'ทองไม่พอ' : `ตีบวก +${cost.to}`;
+    const row = x => {
+      const dx = ITEMS[x.id], cx = refineCost(dx, x.plus), k = keyOf(x);
+      return `<button type="button" class="eh-slot${k === key ? ' on' : ''}" data-esel="${k}">${icon(dx)}<span class="sh-tx"><b>${dx.name}</b>`
+        + `<small>${x.worn ? SLOT_TH[x.slot] ?? x.slot : 'ในกระเป๋า'} · ${!cx ? 'สูงสุดแล้ว' : cx.risky ? `สำเร็จ ${Math.round(cx.rate * 100)}%` : 'ปลอดภัย'}</small></span><b class="eh-lv enh ${enhTier(x.plus)}">+${x.plus}</b></button>`;
+    };
+    const worn = list.filter(x => x.worn), bag = list.filter(x => !x.worn);
+    return `<div class="sh-split eh">
+      <div class="sh-left eh-main">
+        <div class="eh-title"><b>ตีบวก${t.worn ? SLOT_TH[t.slot] ?? '' : ''}</b><small>${plusName(t.id, t.plus)} · ${t.worn ? 'สวมอยู่' : 'ในกระเป๋า'}</small></div>
+        <div class="eh-stage">
+          <div class="eh-box"><small>โบนัสหลังตี</small>${stats || '<div><span>—</span></div>'}<div class="eh-safe${cost?.risky ? ' bad' : ''}">${max ? 'ตีครบแล้ว' : cost.risky ? '⚠ ตีพลาด อุปกรณ์แตกสลาย' : `✔ ถึง +${REFINE_SAFE} ตีไม่มีวันพลาด`}</div></div>
+          <div class="eh-ring ${enhTier(max ? t.plus : cost.to)}"><i class="eh-rays"></i><span class="eh-item" style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</span>
+            <div class="eh-step">${max ? `<b class="enh ${enhTier(t.plus)}">+${t.plus}</b> <small>สูงสุด</small>` : `<b class="enh ${enhTier(t.plus)}">+${t.plus}</b> → <b class="enh ${enhTier(cost.to)}">+${cost.to}</b>`}</div></div>
+          <div class="eh-box rate"><small>โอกาสสำเร็จ</small><b class="eh-pct${rate >= 100 ? ' safe' : ''}">${max ? '—' : `${rate}%`}</b><i class="eh-bar"><i style="width:${rate}%"></i></i><small>${max ? `ตีได้สูงสุด +${REFINE_MAX}` : cost.risky ? 'พลาด: แตกสลายพร้อมการ์ด' : 'พลาด: ไม่มี'}</small></div>
+        </div>
+        <div class="eh-mats">
+          ${ore ? `<div class="eh-mat${have < 1 ? ' miss' : ''}">${icon(ore)}<span><b>${ore.name}</b><small>${have} / 1</small></span>${have < 1 && sells ? `<button type="button" class="sh-go alt sm" data-ebuy="${cost.ore}">ซื้อ ${fmt(ore.price)}</button>` : ''}</div>` : ''}
+          <div class="eh-mat${t.cards.length && cost?.risky ? ' miss' : ' off'}"><span class="sh-ic">❖</span><span><b>การ์ดที่ใส่ไว้</b><small>${t.cards.length ? `${t.cards.length} ใบ${cost?.risky ? ' · แตกด้วยถ้าพลาด' : ''}` : 'ไม่มี'}</small></span></div>
+          <div class="eh-mat off"><span class="sh-ic">✦</span><span><b>ขั้นปลอดภัย</b><small>ถึง +${REFINE_SAFE} สำเร็จเสมอ</small></span></div>
+        </div>
+        <div class="eh-foot"><span class="eh-cost"><small>ค่าตีบวก</small><b class="${cost && c.gold < cost.gold ? 'bad' : ''}">${max ? '—' : `${fmt(cost.gold)} ทอง`}</b>${cost ? `<small>เหลือ ${fmt(Math.max(0, c.gold - cost.gold))}</small>` : ''}</span>
+          <button type="button" class="sh-go${armed ? ' danger' : ''}" data-refine="${key}" ${cost?.risky ? 'data-risky="1"' : ''} ${can ? '' : 'disabled'}>${label}</button></div>
+        <p class="sh-note">ตีได้ถึง +${REFINE_MAX} ทีละขั้น · อาวุธใช้${ITEMS.sacred_ore.name} · อย่างอื่นใช้${ITEMS.gold_leaf.name} · สีของเลขบอกขั้น: +3 ฟ้า · +5 ม่วง · +7 ทอง · +9 เพลิง · +10 รุ้ง</p>
+      </div>
+      <aside class="sh-right eh-list">${worn.length ? `<p class="sh-gh"><b>อุปกรณ์ที่สวมอยู่</b><small>เลือกชิ้นที่จะตี</small></p>${worn.map(row).join('')}` : ''}${bag.length ? `<p class="sh-gh"><b>ในกระเป๋า</b></p>${bag.map(row).join('')}` : ''}</aside></div>`;
   }
   close() { $('shop').hidden = true; this.unsub?.(); this.unsub = null; this.npc = null; }
   render() {
@@ -204,7 +237,7 @@ export class ShopPanel {
     $('shop-gold').textContent = fmt(this.character.gold);
     $('shop-rail').innerHTML = this.tabs();
     list.innerHTML = this.tab === 'cards' ? `<div class="sh-pad">${this.cardsHtml()}</div>`
-      : this.tab === 'refine' ? `<div class="sh-pad">${this.refineHtml()}</div>`
+      : this.tab === 'refine' ? this.refineHtml()
       : this.tab === 'buy' ? this.buyHtml() : this.sellHtml();
     const left = list.querySelector('.sh-left'); if (left) left.scrollTop = top;
   }
