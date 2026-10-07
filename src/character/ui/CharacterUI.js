@@ -3,6 +3,7 @@ import { STATS, STAT_LABELS, STAT_HINTS, POINTS_PER_LEVEL } from '../data/classe
 import { ITEMS, RARITY_COLORS } from '../data/items.js';
 import { el, esc, setBar } from './dom.js';
 import './character.css';
+import { draggable } from '../../ui/draggable.js';
 import { classBadge, iconHtml } from '../../ui/icons.js';
 import { BAG_TABS, inTab, compareToWorn, matchesSearch, sortBag, sortedInventory } from '../bag.js';
 import { SkillPanel } from './SkillPanel.js';
@@ -103,6 +104,7 @@ export class CharacterUI {
       <div class="g-bag-foot"><span class="g-bag-count"></span><span class="g-gold"></span></div>
       <div class="g-detail" hidden></div><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่ · ขายของได้ที่ร้านค้า (แท็บขาย)</p>`);
     for (const p of [this.sheet, this.bag]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { p.hidden = true; }); this.layer.append(p); }
+    draggable(this.sheet, { key: 'sheet', handle: '.panel-heading' }); draggable(this.bag, { key: 'bag', handle: '.panel-heading' });
     this.skills = new SkillPanel(this.layer, this.c, this.feed, name => { if (this[name].hidden) this.toggle(name); });
     this.grid = this.bag.querySelector('.g-grid'); this.detail = this.bag.querySelector('.g-detail');
     this.grid.addEventListener('pointerover', e => this.showDetail(e.target.closest('[data-index]')));

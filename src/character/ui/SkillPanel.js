@@ -15,6 +15,7 @@ import { EVOLUTIONS, EVO_LEVEL } from '../../rules/data/evolutions.js';
 import { MAX_SKILL_LEVEL, MAX_JOB_LEVEL } from '../data/progression.js';
 import { classBadge } from '../../ui/icons.js';
 import { el, esc, setBar } from './dom.js';
+import { draggable } from '../../ui/draggable.js';
 
 // Tree branches by the rules skill type (columns of the tree).
 const BRANCHES = [
@@ -54,6 +55,7 @@ export class SkillPanel {
       <div class="g-sk-bar"><b>ช่องลัด</b><div class="g-sk-slots"></div></div>`);
     this.root.hidden = true;
     this.root.querySelector('.panel-heading button').addEventListener('click', () => { this.root.hidden = true; });
+    draggable(this.root, { key: 'skills', handle: '.panel-heading' });
     this.root.addEventListener('click', e => {
       const go = e.target.closest('[data-go]'); if (go) { this.root.hidden = true; this.open?.(go.dataset.go); return; }
       const node = e.target.closest('[data-sk]'); if (node) { this.sel = node.dataset.sk; this.key = null; this.refresh(); return; }

@@ -14,6 +14,7 @@ import { CLASSES } from '../character/data/classes.js';
 import { BUFF_ICONS } from '../combat/data/skills.js';
 import { iconHtml, classBadge } from '../ui/icons.js';
 import { sameGear } from '../character/data/refine.js';
+import { draggable } from '../ui/draggable.js';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const PARTY_WHY = { self: 'ชวนตัวเองไม่ได้', in_party: 'ผู้เล่นนั้นอยู่ในปาร์ตี้อื่นแล้ว', not_leader: 'หัวหน้าปาร์ตี้เท่านั้นที่ชวนได้', full: 'ปาร์ตี้เต็มแล้ว (6 คน)', expired: 'คำเชิญหมดอายุแล้ว', offline: 'ผู้เล่นนั้นออฟไลน์', declined: 'ปฏิเสธคำเชิญปาร์ตี้' };
@@ -69,6 +70,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
 
   // ---- the party frame ----
   const frame = node('soc-party'); frame.hidden = true;
+  draggable(frame, { key: 'party' });
   const CROWN = '<i class="soc-crown" title="หัวหน้าปาร์ตี้">♛</i>';
   const self = () => party?.members.find(p => p.id === me);
   // near: same map and channel, alive, within the share range (server/parties.js sharers) → shares the EXP
@@ -125,6 +127,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
 
   // ---- the social window (P): party, who is online, friends ----
   const soc = node('soc-panel glass'); soc.hidden = true;
+  draggable(soc, { key: 'social' });
   let tab = 'who', lists = { who: [], friends: [] }, refresh = null;
   const askLists = () => { net.send({ t: 'who' }); net.send({ t: 'friends' }); };
   const nav = () => `<nav><button data-tab="party" aria-pressed="${tab === 'party'}">ปาร์ตี้ ${party ? `${party.members.length} / 6` : ''}</button><button data-tab="who" aria-pressed="${tab === 'who'}">ออนไลน์ (${lists.who.length})</button><button data-tab="friends" aria-pressed="${tab === 'friends'}">เพื่อน (${lists.friends.filter(f => f.online).length}/${lists.friends.length})</button></nav>`;
