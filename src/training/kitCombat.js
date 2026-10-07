@@ -57,10 +57,21 @@ export function rollBlow(derived, defense, skillId, lv = 1, rng = Math.random) {
   return rollDamage(derived, defense, SKILL_BY_ID[skillId]?.kind || 'physical', KIT.fallbackMult, rng);
 }
 
-// The caster's side of a cast: { heal (share of max HP), mp (share of max MP), buff } or null.
-// buff is a Character buff ({ id, duration, atk?, def?, crit? }, src/character/Character.js);
-// a flat rules DEF bonus becomes a share of the caster's own DEF (`ownDef`).
-export function selfEffects(skillId, lv = 1, ownDef = 10) {
+// A healing skill's flat heal (the rules `hmult` × the caster's MATK): the tether ticks for its
+// whole duration, the bouncing pill lands on a friend every other hop, the mortar's powder once.
+export function healPower(skillId, lv = 1, matk = 0) {
+  const base = SKILL_BY_ID[skillId];
+  if (!base?.heals || !base.hmult || !(matk > 0)) return 0;
+  const st = skillStats(base, lv);
+  const ticks = base.type === 'tether' ? Math.max(1, Math.floor((st.duration ?? 0) / (base.tick || 500)))
+    : base.type === 'bounce' ? Math.ceil((base.bounces ?? 1) / 2) : 1;
+  return Math.round(st.hmult * matk * ticks);
+}
+
+// The caster's side of a cast: { heal (share of max HP), hp (flat heal, healPower), mp (share of
+// max MP), buff } or null. buff is a Character buff ({ id, duration, atk?, def?, crit? },
+// src/character/Character.js); a flat rules DEF bonus becomes a share of the caster's own DEF (`ownDef`).
+export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0) {
   const base = SKILL_BY_ID[skillId];
   if (!base) return null;
   const st = skillStats(base, lv), b = st.buff, seconds = (st.duration ?? 0) / 1000;
@@ -74,17 +85,21 @@ export function selfEffects(skillId, lv = 1, ownDef = 10) {
     if (b.critAdd) buff.crit = b.critAdd;
     if (b.aspd) buff.aspd = b.aspd;
   }
-  return heal || mp || buff ? { heal, mp, buff } : null;
+  const hp = healPower(skillId, lv, matk);
+  return heal || hp || mp || buff ? { heal, hp, mp, buff } : null;
 }
 
 // A support skill's share for the party (ThaiNative's healer, server/index.js): the party and
 // revive skills reach every member within `radius` m — the same heal, MP and buff the caster
-// gets — and a revive skill brings the fallen ones back with `revive` of their HP.
-export function supportOf(skillId, lv = 1, ownDef = 10) {
+// gets — and a revive skill brings the fallen ones back with `revive` of their HP. The healing
+// skills (vine, pill, mortar: rules `heals` + `hmult`) give the members in reach the same flat `hp`.
+export function supportOf(skillId, lv = 1, ownDef = 10, matk = 0) {
   const base = SKILL_BY_ID[skillId];
-  if (!base || !(base.party || base.type === 'revive')) return null;
-  const e = selfEffects(skillId, lv, ownDef) ?? { heal: 0, mp: 0, buff: null };
-  return { radius: metres(base.radius ?? 200), heal: e.heal, mp: e.mp, buff: e.buff, revive: base.type === 'revive' ? Math.max(.2, e.heal || .3) : 0 };
+  const area = base && (base.party || base.type === 'revive'), healing = !!(base?.heals && base.hmult);
+  if (!area && !healing) return null;
+  const e = selfEffects(skillId, lv, ownDef, matk) ?? { heal: 0, hp: 0, mp: 0, buff: null };
+  const radius = metres(area ? base.radius ?? 200 : Math.max(base.range ?? 0, 220));
+  return { radius, heal: e.heal, hp: e.hp, mp: e.mp, buff: e.buff, revive: base.type === 'revive' ? Math.max(.2, e.heal || .3) : 0 };
 }
 
 // The target's side: Combat debuffs (src/combat/Combat.js debuff()) from the rules

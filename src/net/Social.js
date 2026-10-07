@@ -104,10 +104,18 @@ export function attachSocial(net, c, chat, remote, game = null) {
   net.on('aid', m => {
     const combat = game?.game?.combat, p = game?.player?.position;
     if (!c.alive) { if (m.revive && combat?.reviveHere(m.revive)) chat.add('ระบบ', `${m.from} ชุบชีวิตคุณ`); return; }
-    if (m.heal) { const amount = c.heal(c.maxHp * m.heal); if (amount && p) combat?.emit('heal', { amount, x: p.x, z: p.z }); }
+    if (m.heal || m.hp) { const amount = c.heal(c.maxHp * (m.heal || 0) + (m.hp || 0)); if (amount && p) combat?.emit('heal', { amount, x: p.x, z: p.z }); }
     if (m.mp) { c.mp = Math.min(c.maxMp, Math.round(c.mp + c.maxMp * m.mp)); c.emit('change'); }
     if (m.buff) c.addBuff(m.buff);
-    if (prefs.buffNote && (m.buff || m.heal || m.mp)) chat.add('ระบบ', `${m.from} ${m.buff ? 'บัฟ' : 'ฟื้นพลัง'}ให้คุณ`);
+    if (prefs.buffNote && (m.buff || m.heal || m.hp || m.mp)) chat.add('ระบบ', `${m.from} ${m.buff ? 'บัฟ' : 'ฟื้นพลัง'}ให้คุณ`);
+  });
+  // our party / healing skill reached friends: their heal numbers over them, a revive in the chat
+  net.on('aided', m => {
+    const combat = game?.game?.combat;
+    for (const g of m.got ?? []) {
+      if (g.heal > 0) combat?.emit('heal', { amount: g.heal, x: g.x, z: g.z });
+      if (g.revived) chat.add('ระบบ', `คุณชุบชีวิต ${g.name}`);
+    }
   });
   // "/p text" goes to the party · "/w name text" whispers · "/r text" answers the last whisper
   let lastFrom = null;

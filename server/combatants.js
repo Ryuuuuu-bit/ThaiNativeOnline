@@ -208,14 +208,14 @@ export class Combatants {
     // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
     // and MP land on the server's copy (the browser shows the same)
     if (kitSkill) {
-      const e = selfEffects(eff, slv, c.defense);
+      const e = selfEffects(eff, slv, c.defense, c.matk);
       if (e?.buff) c.addBuff(e.buff);
-      if (s.persist && e?.heal) c.heal(c.maxHp * e.heal);
+      if (s.persist && (e?.heal || e?.hp)) c.heal(c.maxHp * e.heal + e.hp);
       if (s.persist && e?.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * e.mp);
-      if (e?.heal || e?.mp) s.dirty = true;
+      if (e?.heal || e?.hp || e?.mp) s.dirty = true;
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
-    // a party / revive skill: what the members near the caster get (server/index.js hands it out)
-    const support = kitSkill ? supportOf(eff, slv, c.defense) : null;
+    // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
+    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk) : null;
     return support ? { ok: true, support } : { ok: true };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
@@ -225,7 +225,7 @@ export class Combatants {
     const c = s.c;
     if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); s.dirty = true; return { revived: true }; }
     const before = c.hp;
-    if (sup.heal) c.heal(c.maxHp * sup.heal);
+    if (sup.heal || sup.hp) c.heal(c.maxHp * (sup.heal || 0) + (sup.hp || 0));
     if (sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
     if (sup.buff) c.addBuff(sup.buff);
     s.dirty = true;

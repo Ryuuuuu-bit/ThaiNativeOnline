@@ -125,10 +125,10 @@ export class KitCaster {
   }
 
   applySelf(id) {
-    const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense);
+    const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense, this.stats()?.matk ?? 0);
     if (!e) return;
     const p = this.player.position;
-    if (e.heal) { const amount = c.heal(c.maxHp * e.heal); if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z }); }
+    if (e.heal || e.hp) { const amount = c.heal(c.maxHp * e.heal + e.hp); if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z }); }
     if (e.mp) { c.mp = Math.min(c.maxMp, Math.round(c.mp + c.maxMp * e.mp)); c.emit('change'); }
     if (e.buff) c.addBuff(e.buff);
   }
