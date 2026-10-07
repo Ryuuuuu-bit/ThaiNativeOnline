@@ -82,6 +82,7 @@ export class TrainingGround {
     root.append(this.vignette, this.dim, this.labels);
     // FX units are sized for a 2.6 m character; scale them to this one.
     this.fx = createFx({ scene, camera, renderer, labels: this.labels, size: FOREST_K * avatar.height / 2.6 });
+    this.fx.warm();   // the effects' shaders compile now, not on the first skill in a fight
     window.addEventListener('resize', () => this.fx.resize());
 
     this.stats = { total: 0, hits: 0, crits: 0, misses: 0, first: 0, last: 0, bySkill: {}, log: [] };
@@ -209,8 +210,11 @@ export class TrainingGround {
 
   update(dt) {
     const fx = this.fx;
-    // Hit-stop: heavy blows freeze the fighter and effects for a few frames (the world keeps going).
-    const sdt = fx.stop > 0 ? dt * .06 : dt; fx.stop = Math.max(0, fx.stop - dt);
+    // Hit-stop: heavy blows freeze the fighter and effects for a few frames. In full at the dummy; out in
+    // the world, where monsters and the camera keep moving and a frozen fighter reads as lag, a third as
+    // long and only slowed (40%).
+    const world = !this.near, sdt = fx.stop > 0 ? dt * (world ? .4 : .06) : dt;
+    fx.stop = Math.max(0, fx.stop - dt * (world ? 3 : 1));
     this.clock += sdt;
     this.skills.update(sdt);
     this.caster.update(sdt);
