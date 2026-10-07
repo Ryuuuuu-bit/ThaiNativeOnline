@@ -137,13 +137,6 @@ function boxingRing() {
 }
 function stairs4(g) { for (let i = 0; i < 3; i++) box(g, M.wood, 0, .1 + i * .2, 3.6 - i * .3, 1.4, .2, .32); deck(g, 0, 3.5, 1.4, 1.4, 0, .6, [0, 1.2]); }
 
-function trainingDummy() {
-  const g = structure({ w: 1.5, d: 1.5 });
-  cyl(g, M.wood, 0, .9, 0, .16, .18, 1.8, 8); box(g, M.wood, 0, 1.3, 0, 1.1, .12, .12); ball(g, M.hay, 0, 1.95, 0, .2);
-  cyl(g, M.rope, 0, 1, 0, .2, .2, .4, 8);
-  post(g, 0, 0, .3);
-  return g;
-}
 function archeryTarget() {
   const g = structure({ w: 2, d: 1.5 });
   for (const s of [-1, 1]) beam(g, M.darkWood, [s * .5, 0, -.3], [s * .3, 1.6, 0], .05);
@@ -214,7 +207,7 @@ export function buildShops(ctx) {
   // Training grounds of the class masters.
   a = ctx.place(boxingRing(), 39, 59, 0);
   ctx.spot('boxing_master', 39, 59, Math.PI, 'tr_yard'); ctx.spot('tr_yard', 39, 64.8, 0, 'tr2');
-  for (let i = 0; i < 3; i++) ctx.place(trainingDummy(), 49 + i * 3, 55.5);
+  // (the row of training dummies here is live: src/training/TrainingGround.js, TRAINING.dummy.spots)
   ctx.spot('sword_master', 52, 58.8, Math.PI, 'tr_yard2'); ctx.spot('tr_yard2', 52, 64, 0, 'tr2');
   for (let i = 0; i < 3; i++) ctx.place(archeryTarget(), 59.5, 61 + i * 3.4, -Math.PI / 2);
   ctx.spot('hunter_master', 47, 67.6, Math.PI / 2, 'tr2');

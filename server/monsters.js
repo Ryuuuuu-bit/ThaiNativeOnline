@@ -12,7 +12,7 @@
 //   w.snapshot() → [[id, x, z, facing, hp, stateCode, moving], …] of monsters that changed
 //   w.list() → every live monster in full (for a player arriving on the map)
 // Events: { t: 'mspawn', m } · { t: 'mgone', id, killed } · { t: 'ma', id, to } (monster swings at
-// player `to`) · { t: 'mh', id, amount, crit, dot, pet, by } · { t: 'kill', id, to, exp, gold, drops }
+// player `to`) · { t: 'mh', id, amount, crit, dot, pet, by } · { t: 'kill', id, type, to, exp, gold, drops }
 //
 // Since 3b the damage is rolled on the server (server/combatants.js); still trusted from the
 // browser: the player's own HP / defence (a monster's swing is resolved there). 3c keeps the rewards here.
@@ -147,7 +147,7 @@ export class MonsterWorld {
       const exp = Math.round(m.def.exp * Math.max(.2, 1 + (m.def.level - p.lv) * .1) * (night ? NIGHT.expBonus : 1));
       const top = i === 0, drops = [];
       if (top) for (const [item, chance, min, max] of LOOT[m.def.loot] || []) if (this.r() < chance) drops.push({ id: item, qty: randInt(min, max, this.r) });
-      out.push({ t: 'kill', id: m.id, to: id, exp, gold: top ? randInt(...m.def.gold, this.r) : 0, drops });
+      out.push({ t: 'kill', id: m.id, type: m.type, to: id, exp, gold: top ? randInt(...m.def.gold, this.r) : 0, drops });
     });
     m.contrib = new Map();
     return out;

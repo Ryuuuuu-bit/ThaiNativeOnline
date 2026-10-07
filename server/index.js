@@ -20,7 +20,9 @@
 //                    nope {skill, why} (a cast the server refused)
 // Phase 3c (a signed-in character's progress is the server's, server/progress.js):
 //   client → server  op {n, op, …, hp} (buy / sell / use / equip / unequip / alloc / reset / sort) · resync
-//   server → client  sync {c} (the server's character, c.ack = actions replayed) · me {mp, ack} (1×/s) · kicked {}
+//   server → client  sync {c} (the server's character, c.ack = actions replayed, c.quests) · me {hp, mp, ack} (1×/s) · kicked {}
+// Phase 4 (signed-in players): ma {id, power, res: {dodge} | {dmg, hp, dead}} — the server resolved the swing;
+//   quest_accept / quest_complete / talk ops; buying needs a shop of that kind on the map, out of a fight.
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -76,7 +78,7 @@ async function api(req, res, url) {
     const m = /^\/api\/slots\/(\d+)$/.exec(url.pathname);
     if (m && req.method === 'PUT') {
       const slot = Number(m[1]), live = combatants.live(id, slot);   // a character in play: its live copy is the truth
-      const r = await accounts.save(id, slot, (await readBody(req)).data, live ? live.c.toJSON() : null);
+      const r = await accounts.save(id, slot, (await readBody(req)).data, live ? { c: live.c.toJSON(), quests: live.quests.json() } : null);
       if (live) live.dirty = false;
       return json(res, r.ok ? 200 : 400, r);
     }
@@ -131,7 +133,7 @@ wss.on('connection', ws => {
           const old = combatants.live(id, m.slot);
           if (old) for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { await flush(op.id); send(ows, { t: 'kicked' }); ows.close(); }
           const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved;
-          combatants.load(r.you, fresh, { account: id, slot: m.slot });
+          combatants.load(r.you, fresh, { account: id, slot: m.slot }, await accounts.quests(id, m.slot).catch(() => '{}'));
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
         send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count }); arrive(ws, r.map);
@@ -151,10 +153,15 @@ wss.on('connection', ws => {
       case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
       case 'cast': { const p = presence.players.get(ws); if (!p) return; const r = combatants.cast(p.id, m.skill); if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why }); break; }
       case 'blow': { const p = presence.players.get(ws); if (p) route(p.map, combatants.blow(p.id, worldOf(p.map), presence.inMap(p.map), m, clock.phase)); break; }
-      case 'dead': { const p = presence.setDead(ws, m.v); if (p && !m.v) combatants.respawn(p.id); break; }
+      case 'dead': {
+        const p = presence.players.get(ws); if (!p) return;
+        if (!combatants.get(p.id)?.persist) { presence.setDead(ws, m.v); break; }
+        if (!m.v && combatants.respawn(p.id)) presence.setDead(ws, false);   // a signed-in death is the server's call
+        break;
+      }
       case 'op': {
         const p = presence.players.get(ws); if (!p || !combatants.get(p.id)?.persist) return;
-        if (!combatants.op(p.id, m)) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
+        if (!combatants.op(p.id, m, p.map)) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
         break;
       }
       case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }
@@ -184,7 +191,12 @@ function route(map, events, except = null) {
       const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
       const ws = socketOf(e.to); if (ws) send(ws, e);
       if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
-    } else if (e.t === 'ma') { const ws = socketOf(e.to); if (ws) send(ws, e); }
+    } else if (e.t === 'ma') {
+      const ws = socketOf(e.to); if (!ws) continue;
+      const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power);   // signed-in: resolved here
+      if (res?.dead) presence.setDead(ws, true);
+      send(ws, res ? { ...e, res } : e);
+    }
     else toMap(map, e, except);
   }
 }
@@ -204,8 +216,8 @@ setInterval(() => {
 }, TICK);
 setInterval(() => toAll({ t: 'clock', h: +clock.hour.toFixed(3) }), 10000);
 // signed-in characters: MP to the browser 1×/s, saved to the database every 30 s when changed
-const flush = async id => { const s = combatants.get(id); if (!s?.persist || !s.dirty) return; s.dirty = false; await accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON()).catch(e => { s.dirty = true; console.warn('save', e.message); }); };
-setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);
+const flush = async id => { const s = combatants.get(id); if (!s?.persist || !s.dirty) return; s.dirty = false; await accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json()).catch(e => { s.dirty = true; console.warn('save', e.message); }); };
+setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);
 setInterval(() => { for (const p of presence.players.values()) flush(p.id); }, 30000);
 setInterval(() => { for (const [ws] of conns) { if (!ws.alive) { ws.terminate(); continue; } ws.alive = false; ws.ping(); } }, 15000);
 

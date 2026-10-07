@@ -7,7 +7,9 @@ import { WAT_RANG } from '../data/sites.js';
 export const BOUNDS = { minX: -125, maxX: 125, minZ: -610, maxZ: 268 };
 export const WATER_Y = -0.32;
 export const PADDY_WATER_Y = -0.1;
-export const WALL = { x: 116, z: -110 };
+// The west wall stands closer in than the east one (the city was trimmed on its west side so
+// it is quicker to cross): x runs from WALL.west to WALL.x inside the walls.
+export const WALL = { x: 116, west: -78, z: -110 };
 
 export const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 export const lerp = (a, b, t) => a + (b - a) * t;
@@ -46,7 +48,7 @@ export function resample(pts, step) {
 // 0 inside the city and farmland, 1 in the deep forest.
 export function wildness(z) { return smoothstep(-292, -470, z); }
 export function cemeteryFactor(x, z) { return smoothstep(CEMETERY.r + 40, CEMETERY.r - 6, Math.hypot(x - CEMETERY.x, z - CEMETERY.z)); }
-export function insideWalls(x, z) { return Math.abs(x) < WALL.x && z > WALL.z && z < riverBank(x); }
+export function insideWalls(x, z) { return x > WALL.west && x < WALL.x && z > WALL.z && z < riverBank(x); }
 
 // Rice paddies form an irregular grid west of the north road; bund roads and
 // irrigation channels run along some grid lines.
@@ -121,20 +123,20 @@ export function terrainHeight(x, z) {
 
 // Named junctions double as navigation nodes for NPC routes.
 export const J = {
-  fv_w: [-112, 146], fv_m: [-96, 150], fv_e: [-78, 146],
+  fv_m: [-70, 150], fv_e: [-64, 147],
   port_w2: [-60, 148], port_w: [-32, 146], port_c: [3, 144], port_e: [40, 146], port_e2: [72, 148], er_m: [92, 146], er_e: [112, 142],
   fishmkt: [0, 126], sw_a: [-62, 128], se_a: [70, 128], south_rd: [1, 106], sw_b: [-34, 108], se_b: [36, 108],
   shops_s: [0, 92], shops_m: [0, 74], mkt_s: [0, 51],
   bl1: [-16, 74], bl2: [-36, 78], bl3: [-58, 72], bl4: [-66, 46],
   tr1: [16, 75], tr2: [32, 80], tr3: [62, 74], tr4: [72, 48],
   mkt_n: [0, 6], mkt_w: [-28, 28], mkt_e: [28, 28], pl_nw: [-15, 13], pl_ne: [15, 13], pl_sw: [-15, 43], pl_se: [15, 43],
-  w1: [-46, 24], w2: [-62, 20], w3: [-90, 24], w4: [-112, 20], e1: [46, 30], e2: [66, 26], e3: [92, 30], e4: [112, 24],
+  w1: [-46, 24], w2: [-62, 20], e1: [46, 30], e2: [66, 26], e3: [92, 30], e4: [112, 24],
   br_s: [0, -1], br_n: [0, -19], wb_s: [-60, 1], wb_n: [-60, -17], eb_s: [62, 1], eb_n: [62, -17],
   center: [0, -30],
-  rw1: [-20, -36], rw2: [-42, -32], rw3: [-66, -36], rw4: [-92, -30], rw5: [-112, -36],
-  rn1: [-46, -56], rn2: [-40, -80], rx1: [-22, -60], rn4: [-88, -62], rn5: [-70, -86], rn6: [-68, -58],
+  rw1: [-20, -36], rw2: [-42, -32], rw3: [-66, -36],
+  rn1: [-46, -56], rn2: [-40, -80], rx1: [-22, -60], rn5: [-66, -86], rn6: [-66, -58],
   ave1: [1, -62], ave2: [-1, -88], gate_in: [0, -103], gate_out: [0, -119],
-  wr_w1: [-32, -103], wr_w2: [-70, -103], wr_w3: [-108, -101], wr_e1: [30, -104], wr_e2: [70, -104], wr_e3: [108, -102],
+  wr_w1: [-32, -103], wr_w2: [-70, -103], wr_e1: [30, -104], wr_e2: [70, -104], wr_e3: [108, -102],
   te1: [16, -22], te2: [40, -19], te3: [90, -20], te4: [112, -24],
   tw: [14, -52], tg: [25, -52], t1: [35, -52], ta: [35, -42], tb: [60, -42], tc: [35, -64], td: [56, -69],
   cs: [78, -44], ce: [92, -58], cn: [78, -72], cw: [64, -58], tk: [88, -86],
@@ -161,21 +163,21 @@ export const ROADS = [
   { w: 6, kind: 'paved', pts: ['br_s', 'mkt_n'] },
   { w: 5, kind: 'paved', pts: ['mkt_s', 'shops_m', 'shops_s', 'south_rd', 'fishmkt', 'port_c'] },
   { w: 6, kind: 'road', pts: ['fv_e', 'port_w2', 'port_w', 'port_c', 'port_e', 'port_e2', 'er_m', 'er_e'] },
-  { w: 3.5, kind: 'road', pts: ['fv_w', 'fv_m', 'fv_e'] },
+  { w: 3.5, kind: 'road', pts: ['fv_m', 'fv_e'] },
   { w: 4, kind: 'road', pts: ['south_rd', 'sw_b', 'sw_a', 'port_w2'] },
   { w: 4, kind: 'road', pts: ['south_rd', 'se_b', 'se_a', 'port_e2'] },
   { w: 4, kind: 'road', pts: ['shops_m', 'bl1', 'bl2', 'bl3', 'bl4', 'w2'] },
   { w: 4, kind: 'road', pts: ['shops_m', 'tr1', 'tr2', 'tr3', 'tr4', 'e2'] },
-  { w: 5, kind: 'road', pts: ['mkt_w', 'w1', 'w2', 'w3', 'w4'] },
+  { w: 5, kind: 'road', pts: ['mkt_w', 'w1', 'w2'] },
   { w: 5, kind: 'road', pts: ['mkt_e', 'e1', 'e2', 'e3', 'e4'] },
   { w: 3.5, kind: 'road', pts: ['w2', 'wb_s'] }, { w: 3.5, kind: 'road', pts: ['wb_n', 'rw3'] },
   { w: 3.5, kind: 'road', pts: ['e2', 'eb_s'] },
-  { w: 4.5, kind: 'road', pts: ['center', 'rw1', 'rw2', 'rw3', 'rw4', 'rw5'] },
+  { w: 4.5, kind: 'road', pts: ['center', 'rw1', 'rw2', 'rw3'] },
   { w: 3, kind: 'road', pts: ['rw2', 'rn1', 'rn2', 'wr_w1'] },
-  { w: 3, kind: 'road', pts: ['rw4', 'rn4', 'rn5', 'rn2'] },
-  { w: 3, kind: 'road', pts: ['rn1', 'rn6', 'rn4'] }, { w: 3, kind: 'road', pts: ['rw3', 'rn6'] },
+  { w: 3, kind: 'road', pts: ['rn6', 'rn5', 'rn2'] },
+  { w: 3, kind: 'road', pts: ['rn1', 'rn6'] }, { w: 3, kind: 'road', pts: ['rw3', 'rn6'] },
   { w: 3, kind: 'road', pts: ['ave1', 'rx1', 'rn1'] },
-  { w: 3.5, kind: 'road', pts: ['wr_w3', 'wr_w2', 'wr_w1', 'gate_in', 'wr_e1', 'wr_e2', 'wr_e3'] },
+  { w: 3.5, kind: 'road', pts: ['wr_w2', 'wr_w1', 'gate_in', 'wr_e1', 'wr_e2', 'wr_e3'] },
   { w: 4, kind: 'paved', pts: ['ave1', 'tw', 'tg', 't1'] },
   { w: 3, kind: 'paved', pts: ['t1', 'ta', 'tb', 'c_sw', 'cs', 'c_se', 'ce', 'c_ne', 'cn', 'c_nw', 'cw', 'c_sw'] },
   { w: 3, kind: 'paved', pts: ['t1', 'tc', 'td', 'c_nw'] }, { w: 2.5, kind: 'paved', pts: ['cn', 'tk'] },

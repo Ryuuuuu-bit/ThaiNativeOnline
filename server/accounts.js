@@ -5,7 +5,7 @@
 //   A.register(id, pw) / A.login(id, pw) → { ok, token, id } | { ok: false, code, msg }
 //   A.auth(token) → account id | null · A.logout(token)
 //   A.slots(id) → [{ slot, data, updated }] · A.save(id, slot, data, live?) · A.remove(id, slot)
-//   A.putCharacter(id, slot, json) — the server's own copy of a character (phase 3c)
+//   A.putCharacter(id, slot, json, quests?) — the server's own copy of a character and its quests (3c / 4) · A.quests(id, slot)
 //   A.character(id, slot) → the saved character ({ name, classId, gender, level }) or null
 //   A.google(credential) → session for the Google account (an account is made on first use)
 //   A.linkGoogle(id, credential) → ties a Google account to a signed-in account
@@ -18,7 +18,7 @@
 import { randomBytes, scrypt as scryptCb, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 import { ACCOUNTS } from '../src/data/accounts.js';
-import { reconcileSave, CHARACTER_KEY } from './progress.js';
+import { reconcileSave, CHARACTER_KEY, QUESTS_KEY } from './progress.js';
 
 const scrypt = promisify(scryptCb);
 export const SESSION_DAYS = 30;
@@ -107,17 +107,21 @@ export class Accounts {
     for (const k of keys) { try { JSON.parse(data[k]); } catch { return 'bad_save'; } }
     return null;
   }
+  // `live`: the character in play ({ c: its JSON, quests: its quests JSON text }), else the stored one
   async save(id, slot, data, live = null) {
     if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง');
     const bad = this.check(data); if (bad) return fail(bad, 'ข้อมูลเซฟไม่ถูกต้อง');
-    const server = live ?? (await this.character(id, slot));
-    await this.store.putSlot(id, slot, reconcileSave(data, server)); return { ok: true };
+    const stored = live ? null : (await this.store.listSlots(id)).find(x => x.slot === slot)?.data;
+    const server = live?.c ?? (stored ? await this.character(id, slot) : null);
+    const quests = live ? live.quests : stored?.[QUESTS_KEY] ?? '{}';
+    await this.store.putSlot(id, slot, reconcileSave(data, server, quests)); return { ok: true };
   }
-  async putCharacter(id, slot, json) {
+  async putCharacter(id, slot, json, quests = null) {
     const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return false;
     const key = Object.keys(s.data).find(k => CHARACTER_KEY.test(k)) ?? 'tno.character.v1';
-    await this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify(json) }); return true;
+    await this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify(json), ...(quests != null ? { [QUESTS_KEY]: quests } : {}) }); return true;
   }
+  async quests(id, slot) { return (await this.store.listSlots(id)).find(x => x.slot === slot)?.data?.[QUESTS_KEY] ?? '{}'; }
   async remove(id, slot) { if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง'); await this.store.deleteSlot(id, slot); return { ok: true }; }
   async character(id, slot) {
     const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return null;

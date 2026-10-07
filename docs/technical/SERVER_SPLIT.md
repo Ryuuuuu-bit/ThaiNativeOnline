@@ -45,7 +45,11 @@ client uses for prediction.
      - The save sync can no longer change the character: the server's copy (in play, else stored) replaces it; a new slot starts as a fresh character of the chosen class (old local-only characters move across without their progress).
      - One tab per character: opening it elsewhere closes the older connection after saving it.
      - Still the browser's: the player's own HP (monster swings are resolved there), and which shop the player stands at.
-4. **Economy.** Shops, refining, trading and gold sinks on the server.
+4. **Economy and the player's own state** (signed-in characters):
+   - **4a — done.** HP is the server's: a monster's swing at a signed-in player is resolved on the server (dodge, defence, elite heavy hits, ghost power at night) and sent with the swing; deaths are the server's call (no respawn, and no gold loss, without one); regen follows the server once a second.
+   - Quests run on the server with the same `QuestSystem` (kills counted from the server's kills; accept / hand in / talk mirrored as ops); rewards are paid there, and the save's quest key is the server's.
+   - Buying needs a shop of that kind on the player's map (from `src/data/npcs.js`) and no fight in the last 5 s. Selling from the bag stays allowed anywhere (half price), as designed.
+   - Still open: the exact spot of the shop NPC (the server has no road graph), whether a `talk` objective's NPC is really near, refining / trading / gold sinks when those systems arrive.
 
 ## Phase 1 details
 
@@ -116,3 +120,12 @@ client uses for prediction.
 - **`server/accounts.js`:** `save(id, slot, data, live)` keeps the browser's other keys and the server's character; `putCharacter` stores the server's copy.
 - **`server/index.js`:** `op` / `resync`; `sync` on join and after a refused action; `me {mp, ack}` once a second; level-ups broadcast from the server; saves every 30 s and on leaving; a second connection to the same slot kicks the first (`kicked`).
 - **`src/net/NetProgress.js`:** mirrors the character's own actions (wrapping `useAt`, `sellAt`, `equip`, `unequip`, `allocate`, `resetStats`; the `bought` / `sorted` events from `ShopSystem.buy` / `sortBag`), adopts `sync` when no action of its own is still in flight (else asks again), and follows the server's MP when it drifts.
+
+## Phase 4a details
+
+- **`server/combatants.js`:** `swing(id, def, power)` → `{ dodge }` | `{ dmg, hp, dead }` for signed-in players (guests still resolve their own); `respawn` only after a death the server saw; buying checked in `op(id, msg, map)`; each signed-in character has `quests` (`questsFor`, the browser's `QuestSystem` over an in-memory store), counted from `reward` kills (kill events now carry the monster `type`).
+- **`server/progress.js`:** `SHOP_MAPS` / `shopOn`, `questsFor`, quest ops; `reconcileSave(data, server, quests)` replaces both the character (HP included) and the quest key.
+- **`server/accounts.js`:** `save(…, live = { c, quests })`, `putCharacter(…, quests)`, `quests(id, slot)`.
+- **`server/index.js`:** `ma` carries `res` for signed-in players; `dead` from the browser only asks for a respawn; `me` carries HP.
+- **Browser:** `Combat.monsterAttack(m, res)` lands exactly on the server's HP; `NetProgress` mirrors quest actions, adopts the server's HP and quest state.
+- Tests: `tests/progress-server.test.js` (swings and deaths, shops, quests); e2e on a real server: a tampered local HP is replaced on join, swings arrive resolved, a city shop bought from the paddies and a village purchase mid-fight are refused, and the stored HP is the server's.

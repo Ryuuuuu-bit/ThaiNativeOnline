@@ -33,7 +33,7 @@ export function startMultiplayer(game) {
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
-  attachNetProgress(net, c);                                                // a signed-in character's progress is the server's (3c)
+  attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
   // the same character opened in another tab or device: this one stops talking to the server
   net.on('kicked', () => { net.close(); chat.add('ระบบ', 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
   net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, map, ...pos() }));

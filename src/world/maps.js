@@ -30,7 +30,7 @@
 //   intro  — the journal panel's heading and two short lines for the map
 //            ({ title, text }, `\n` breaks the line; gameplay-engineer hook,
 //            read by Game.updateJournal → HUD.setJournal).
-import { J, BOUNDS } from './CityMap.js';
+import { J, BOUNDS, WALL } from './CityMap.js';
 
 // The city wall runs along z = -110 (WALL.z); the seam sits just outside it.
 export const SEAM_Z = -112;
@@ -47,11 +47,13 @@ export const MAPS = {
     intro: { title: 'เมืองแห่งสายน้ำ', text: 'ตลาด วัด และลานฝึกริมแม่น้ำ\nประตูวาปทิศเหนือพาออกสู่ทุ่งนา' },
     owns: { minZ: SEAM_Z, maxZ: BOUNDS.maxZ },
     walk: [
-      { minX: -122, maxX: 122, minZ: -108.5, maxZ: 266 }, // inside the walls, port and river bank
+      { minX: WALL.west - 2, maxX: 122, minZ: -108.5, maxZ: 266 }, // inside the walls (trimmed on the west; the wall itself blocks), port and river bank
     ],
-    view: { minX: BOUNDS.minX, maxX: BOUNDS.maxX, minZ: -192, maxZ: BOUNDS.maxZ },
-    spawn: { x: 4, z: 151, facing: Math.PI },
-    respawn: [[4, 151], [0, -99]],   // the port spawn first (the north gate only if it is blocked)
+    view: { minX: WALL.west - 24, maxX: BOUNDS.maxX, minZ: -192, maxZ: BOUNDS.maxZ },
+    // New players and respawns start in the heart of the city: the south side of the market
+    // plaza, a short walk from the shops, ลานฝึกครู (the training dummies) and the north gate.
+    spawn: { x: 0, z: 52, facing: Math.PI },
+    respawn: [[0, 52], [0, -99]],   // the market first (the north gate only if it is blocked)
     entities: ['boats', 'animals'],
     regions: ['river', 'port', 'fishmkt', 'fishing', 'riverside', 'market', 'merchants', 'smiths', 'training', 'halls', 'center', 'residential', 'temple', 'city', 'gate'],
     portals: [

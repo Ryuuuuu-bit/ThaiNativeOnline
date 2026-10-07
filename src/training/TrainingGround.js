@@ -17,8 +17,9 @@ import './training.css';
 //   - its ten skills on the action bar (keys 1–0, G auto) on every map, cast by
 //     KitCaster: on the combat target / nearby monsters on the zone maps, on the
 //     training dummy in the city
-//   - the training ground: a straw dummy near the city spawn and a log of every
-//     blow on it, totals and DPS (shown while standing at the dummy)
+//   - the training ground: a row of dummies on ลานฝึกครู (TRAINING.dummy.spots) and a log
+//     of every blow on them, totals and DPS (shown while standing at one); skills go to
+//     the nearest dummy
 //
 //   const training = createClassAvatar(classId, { scene, camera, renderer, root, player, canStand, groundHeight, character, combat, hud });
 //   → TrainingGround (classes with a kit) or a model-only avatar
@@ -95,31 +96,41 @@ export class TrainingGround {
   }
   get lastSkill() { return this.caster?.lastSkill; }
 
-  // Built lazily on entering the city so the dummy can stand on real, loaded ground.
-  spawnDummy() {
+  // Built lazily on entering the city so the dummies can stand on real, loaded ground.
+  spawnDummies() {
     const d = TRAINING.dummy;
-    let spot = null;
-    for (let r = 0; r < 14 && !spot; r++) for (let a = 0; a < 8 && !spot; a++) {
-      const x = d.x + Math.sin(a * Math.PI / 4) * r * .8, z = d.z - Math.cos(a * Math.PI / 4) * r * .8;
-      if (this.canStand(x, z)) spot = new THREE.Vector3(x, this.groundHeight(x, z), z);
-    }
-    this.spot = spot ?? new THREE.Vector3(d.x, this.groundHeight(d.x, d.z), d.z);
-    // The FX root follows the player's ground height; seat it there before placing the dummy.
+    // The FX root follows the player's ground height; seat it there before placing the dummies.
     this.fx.root.position.y = this.player.position.y;
-    this.dummy = createDummy(this.fx, this.dummyLabels, this.spot, this.groundHeight, { hp: d.hp, onHit: e => this.record(e) });
+    this.dummies = d.spots.map(([dx, dz]) => {
+      let spot = null;
+      for (let r = 0; r < 8 && !spot; r++) for (let a = 0; a < 8 && !spot; a++) {
+        const x = dx + Math.sin(a * Math.PI / 4) * r * .5, z = dz - Math.cos(a * Math.PI / 4) * r * .5;
+        if (this.canStand(x, z)) spot = new THREE.Vector3(x, this.groundHeight(x, z), z);
+      }
+      spot ??= new THREE.Vector3(dx, this.groundHeight(dx, dz), dz);
+      return { spot, dummy: createDummy(this.fx, this.dummyLabels, spot, this.groundHeight, { hp: d.hp, onHit: e => this.record(e) }) };
+    });
   }
+  // The dummy nearest the player (the one skills hit) and where it stands.
+  get closest() {
+    if (!this.dummies) return null;
+    const p = this.player.position, d = e => Math.hypot(p.x - e.spot.x, p.z - e.spot.z);
+    return this.dummies.reduce((a, b) => (d(b) < d(a) ? b : a));
+  }
+  get dummy() { return this.closest?.dummy ?? null; }
+  get spot() { return this.closest?.spot ?? null; }
 
-  // The skills work on every map; the dummy (and its labels) only in TRAINING.map.
+  // The skills work on every map; the dummies (and their labels) only in TRAINING.map.
   enterMap(mapId) {
     this.inGround = mapId === TRAINING.map;
-    if (this.inGround && !this.dummy) this.spawnDummy();
-    if (this.dummy) this.dummy.group.visible = this.inGround;
+    if (this.inGround && !this.dummies) this.spawnDummies();
+    for (const e of this.dummies ?? []) e.dummy.group.visible = this.inGround;
     this.dummyLabels.hidden = !this.inGround;
     this.caster.cancel();
     if (!this.inGround) this.setNear(false);
   }
 
-  get near() { return this.inGround && !!this.spot && Math.hypot(this.player.position.x - this.spot.x, this.player.position.z - this.spot.z) <= TRAINING.range; }
+  get near() { const s = this.inGround && this.spot; return !!s && Math.hypot(this.player.position.x - s.x, this.player.position.z - s.z) <= TRAINING.range; }
   get busy() { return !!this.skills?.busy; }
   onManualMove() { this.caster.cancel(); }
 
@@ -141,7 +152,7 @@ export class TrainingGround {
     if (this.skills.busy && this.skills.facing !== null) this.player.group.rotation.y = this.skills.facing;
     if (this.combat) this.combat.hold = this.skills.busy;
     fx.update(sdt, this.clock, this.player.position.y);
-    if (this.inGround) this.dummy?.update(sdt);
+    if (this.inGround) for (const e of this.dummies ?? []) e.dummy.update(sdt);
     this.vignette.style.opacity = fx.mood.toFixed(3);
     if (this.dirty) { this.dirty = false; this.renderPanel(); }
   }

@@ -16,13 +16,16 @@
 // is loaded from the save, earns the kill rewards, pays MP for casts, and replays the
 // player's own actions (`op`); the browser's `ch` sheet is ignored for them. Guests still send
 // their sheet with `ch` (sanity-checked here) and keep their progress in their own browser.
-// Still the browser's: the player's own HP (monster swings are resolved there).
+// Phase 4: their HP is the server's too — a monster's swing is resolved here (`swing`) — and so
+// are their quests (`quests`, the browser's QuestSystem) and shop purchases (a shop of that
+// kind on their map, not in a fight).
 //
 //   const cs = new Combatants({ now })
 //   cs.set(playerId, data, cls)                      → true | false (data: Character.toJSON(), a guest's sheet)
-//   cs.load(playerId, saved, { account, slot })      → true | false (a signed-in character, in full)
-//   cs.op(playerId, msg) → true | false · cs.reward(playerId, kill) → { level? } · cs.respawn(playerId)
-//   cs.me(playerId) → the character's JSON (+ ack: actions replayed so far)
+//   cs.load(playerId, saved, { account, slot }, questsJson) → true | false (a signed-in character, in full)
+//   cs.op(playerId, msg, map) → true | false · cs.reward(playerId, kill) → { level? } · cs.respawn(playerId) → bool
+//   cs.swing(playerId, monsterDef, power) → { dodge } | { dmg, hp, dead } | null (guests resolve their own)
+//   cs.me(playerId) → the character's JSON (+ ack: actions replayed so far, quests: quest state)
 //   cs.cast(playerId, skillId)                      → { ok, buff? } | { ok: false, why }
 //   cs.blow(playerId, world, players, msg, phase)   → events (as MonsterWorld.damage)
 //   cs.tick(dt, night) · cs.drop(playerId)
@@ -34,7 +37,8 @@ import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
 import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from '../src/training/kitCombat.js';
-import { fromSave, applyOp } from './progress.js';
+import { fromSave, applyOp, questsFor, shopOn } from './progress.js';
+import { MONSTER_ACCURACY } from '../src/character/data/progression.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
@@ -79,18 +83,19 @@ export class Combatants {
     this.list.set(id, this.entry(c));
     return true;
   }
-  load(id, saved, persist) {
+  load(id, saved, persist, questsJson = '{}') {
     const c = fromSave(saved); if (!c) return false;
-    this.list.set(id, { ...this.entry(c), persist, ack: 0, dirty: false });
+    this.list.set(id, { ...this.entry(c), persist, ack: 0, dirty: false, quests: questsFor(c, questsJson) });
     return true;
   }
   entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
   // ---- signed-in characters ------------------------------------------------------------------
-  op(id, msg) {
+  op(id, msg, map = null) {
     const s = this.list.get(id); if (!s?.persist) return false;
     s.ack++;
-    const hp = Number(msg.hp); if (hp > 0) s.c.hp = Math.min(s.c.maxHp, Math.round(hp));   // HP is still the browser's (a potion needs the real HP)
-    const ok = applyOp(s.c, msg);
+    // buying: only where such a shop stands, and not in the middle of a fight
+    if (msg.op === 'buy' && (!shopOn(msg.shop, map) || this.now() - s.fightAt < RULES.combatTimeout)) return false;
+    const ok = applyOp(s.c, msg, s.quests);
     if (ok) s.dirty = true;
     return ok;
   }
@@ -99,16 +104,30 @@ export class Combatants {
     const c = s.c, before = c.level;
     c.gold += Math.max(0, k.gold | 0); c.gainExp(Math.max(0, k.exp | 0));
     for (const d of k.drops ?? []) c.addItem(d.id, d.qty);
+    if (k.type) s.quests.onKill(k.type);
     s.dirty = true;
     return c.level !== before ? { level: c.level } : {};
   }
+  // back up after a death (only when the server saw the death)
   respawn(id) {
-    const s = this.list.get(id); if (!s?.persist) return;
+    const s = this.list.get(id); if (!s?.persist || s.c.alive) return false;
     s.c.gold -= Math.floor(s.c.gold * RULES.deathGoldLoss); s.c.revive(RULES.reviveRatio); s.dirty = true;
+    return true;
+  }
+  // A monster's swing at a signed-in player, with the browser's formula (Combat.monsterAttack).
+  swing(id, def, power = 1) {
+    const s = this.list.get(id); if (!s?.persist || !def) return null;
+    const c = s.c; if (!c.alive) return null;
+    s.fightAt = this.now();
+    if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
+    const raw = def.atk * power * (.85 + this.r() * .3) * (def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
+    const dmg = c.damage(Math.max(1, raw - c.defense * .4));
+    s.dirty = true;
+    return { dmg, hp: c.hp, dead: !c.alive };
   }
   // the signed-in character in play for an account's slot (the save API asks), or null
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
-  me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), ack: s.ack } : null; }
+  me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), ack: s.ack, quests: s.quests.state } : null; }
 
   // Attacker stats for a roll, buffs included.
   stats(c) { return { ...c.derived, patk: c.patk, matk: c.matk, critRate: c.critChance, critDmg: c.critDamage, accuracy: c.accuracy }; }

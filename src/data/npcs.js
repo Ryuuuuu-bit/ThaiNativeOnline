@@ -96,9 +96,9 @@ export const NPCS = [
   { id: 'shopper_c', name: 'นางสาวกุหลาบ', occupation: 'villager', gender: 'f', home: { near: 'rn1' },
     dialogue: ['ผ้าทอลายนี้สวยที่สุดในตลาด', 'แม่ให้มาซื้อโคมไปแขวนหน้าบ้าน'],
     schedule: { morning: route(stop('stall_cloth_c', 'talk', 'talk', [6, 9]), stop('stall_herbs_c', 'idle', 'look', [4, 6]), stop('stall_o2_c', 'idle', 'look', [4, 6]), stop('stall_o3_c', 'idle', 'look', [4, 6])), day: route(stop('stall_lanterns_c', 'talk', 'talk', [6, 9]), stop('stall_o1_c', 'idle', 'look', [4, 6]), stop('stall_fruit_c', 'idle', 'look', [4, 6])), evening: HOME, night: HOME } },
-  { id: 'porter', name: 'นายคานหาบ', occupation: 'villager', home: { near: 'w3' }, props: ['pole'],
+  { id: 'porter', name: 'นายคานหาบ', occupation: 'villager', home: { near: 'w2' }, props: ['pole'],
     dialogue: ['ข้าวสารสองกระบุงนี้ต้องส่งให้ทันก่อนเที่ยง', 'หาบของมาสิบปี บ่าด้านเป็นหนัง'],
-    schedule: { morning: carry('w3', 'w2', 'w1', 'mkt_w', stop('stall_rice_c', 'work', 'lift', [4, 6]), 'mkt_s', 'shops_m', stop('general_customer', 'work', 'lift', [4, 6]), 'shops_m', 'bl1', 'bl2', 'bl3', 'bl4', 'w2'), day: carry('w2', 'w1', 'mkt_w', stop('stall_veg_c', 'work', 'lift', [4, 6]), 'mkt_s', 'shops_m', 'shops_s', 'south_rd', stop('fishW_b1', 'work', 'lift', [4, 6]), 'south_rd', 'sw_b', 'sw_a', 'port_w2', stop('warehouseA', 'work', 'lift', [4, 6]), 'port_w', 'port_w2', 'sw_a', 'sw_b', 'south_rd', 'shops_s', 'shops_m', 'mkt_s', 'pl_sw', 'mkt_w', 'w1'), evening: HOME, night: HOME } },
+    schedule: { morning: carry('w2', 'w1', 'mkt_w', stop('stall_rice_c', 'work', 'lift', [4, 6]), 'mkt_s', 'shops_m', stop('general_customer', 'work', 'lift', [4, 6]), 'shops_m', 'bl1', 'bl2', 'bl3', 'bl4', 'w2'), day: carry('w2', 'w1', 'mkt_w', stop('stall_veg_c', 'work', 'lift', [4, 6]), 'mkt_s', 'shops_m', 'shops_s', 'south_rd', stop('fishW_b1', 'work', 'lift', [4, 6]), 'south_rd', 'sw_b', 'sw_a', 'port_w2', stop('warehouseA', 'work', 'lift', [4, 6]), 'port_w', 'port_w2', 'sw_a', 'sw_b', 'south_rd', 'shops_s', 'shops_m', 'mkt_s', 'pl_sw', 'mkt_w', 'w1'), evening: HOME, night: HOME } },
   { id: 'guard_market', name: 'ขุนตลาด', occupation: 'guard', home: { near: 'mkt_e' }, faction: 'city_guard',
     dialogue: ['ตลาดนี้ห้ามวิวาท ใครฝ่าฝืนโดนจับ', 'ข้าจำหน้าคนที่มีกรรมหนักได้ทุกคน'],
     schedule: { morning: route(stop('mkt_n', 'idle', 'guard', [6, 10]), 'pl_ne', stop('mkt_e', 'idle', 'guard', [6, 10]), 'pl_se', stop('mkt_s', 'idle', 'guard', [6, 10]), 'pl_sw', stop('mkt_w', 'idle', 'guard', [6, 10]), 'pl_nw'), day: route(stop('mkt_n', 'idle', 'guard', [6, 10]), 'pl_ne', stop('mkt_e', 'idle', 'guard', [6, 10]), 'pl_se', stop('mkt_s', 'idle', 'guard', [6, 10]), 'pl_sw', stop('mkt_w', 'idle', 'guard', [6, 10]), 'pl_nw'), evening: guard(P(3.5, 6, Math.PI, 'mkt_n')), night: route('mkt_n', 'pl_ne', 'mkt_e', 'pl_se', 'mkt_s', stop('shops_m', 'idle', 'guard', [6, 10]), 'mkt_s', 'pl_sw', 'mkt_w', 'pl_nw') } },
@@ -164,7 +164,7 @@ export const NPCS = [
   // ---------- City centre and residential ----------
   { id: 'guard_center', name: 'ทหารหลักเมือง', occupation: 'guard', home: { near: 'center' }, faction: 'city_guard',
     dialogue: ['ศาลหลักเมืองคือหัวใจของนคร', 'ข้าเฝ้าที่นี่มาแล้วเจ็ดปี'],
-    schedule: { morning: guard(P(4.5, -27, Math.PI / 2, 'center')), day: guard(P(4.5, -27, Math.PI / 2, 'center')), evening: guard(P(4.5, -27, Math.PI / 2, 'center')), night: route(stop('center', 'idle', 'guard', [10, 14]), 'rw1', 'rw2', 'rw3', 'rw4', 'rw3', 'rw2', 'rw1') } },
+    schedule: { morning: guard(P(4.5, -27, Math.PI / 2, 'center')), day: guard(P(4.5, -27, Math.PI / 2, 'center')), evening: guard(P(4.5, -27, Math.PI / 2, 'center')), night: route(stop('center', 'idle', 'guard', [10, 14]), 'rw1', 'rw2', 'rw3', 'rw2', 'rw1') } },
   { id: 'pillar_devotee', name: 'ยายสมบุญ', occupation: 'villager', gender: 'f', home: { near: 'rw1' },
     dialogue: ['ไหว้หลักเมืองทุกเช้า ให้ลูกหลานปลอดภัย', 'เจ้าเป็นคนต่างถิ่นหรือ? ยินดีต้อนรับสู่อโยธยา'],
     schedule: { morning: idle('pillar_pray', 'pray'), day: route('center', 'br_n', 'br_s', 'mkt_n', stop('stall_o3_c', 'talk', 'talk', [8, 12]), 'mkt_n', 'br_s', 'br_n', stop('center_bench', 'sit', 'rest', [20, 30])), evening: idle('pillar_pray', 'pray'), night: HOME } },
@@ -186,9 +186,9 @@ export const NPCS = [
   { id: 'kid_b', name: 'เด็กชายมะลิ', occupation: 'child', home: { near: 'rw3' },
     dialogue: ['รอด้วย! วิ่งเร็วจัง', 'ข้าอยากเป็นทหารเหมือนพ่อ'],
     schedule: { morning: route('rn6', 'rn1', 'rw2', 'rw3', stop('rn6', 'idle', 'look', [2, 4])), day: route('rn6', 'rn1', 'rw2', 'rw3', stop('rn6', 'idle', 'look', [2, 4])), evening: route('rw2', 'rw3', stop('rw2', 'idle', 'look', [2, 4])), night: HOME } },
-  { id: 'basket_woman', name: 'นางแตง', occupation: 'villager', gender: 'f', home: { near: 'rw4' }, props: ['headBasket'],
+  { id: 'basket_woman', name: 'นางแตง', occupation: 'villager', gender: 'f', home: { near: 'rw3' }, props: ['headBasket'],
     dialogue: ['ผักบุ้งสด ๆ จากริมคลอง ไปขายที่ตลาด', 'ทูนกระจาดเดินไกลจนคอแข็ง'],
-    schedule: { morning: carry('rw4', 'rw3', 'wb_n', 'wb_s', 'w2', 'w1', 'mkt_w', stop('stall_veg_c', 'talk', 'talk', [8, 12]), 'mkt_w', 'w1', 'w2', 'wb_s', 'wb_n', 'rw3', stop('rw4', 'idle', 'look', [6, 10])), day: carry('rw4', 'rw3', 'rw2', 'rw1', 'center', 'br_n', 'br_s', 'mkt_n', stop('stall_o1_c', 'talk', 'talk', [8, 12]), 'mkt_n', 'br_s', 'br_n', 'center', 'rw1', 'rw2', 'rw3'), evening: HOME, night: HOME } },
+    schedule: { morning: carry('rw3', 'wb_n', 'wb_s', 'w2', 'w1', 'mkt_w', stop('stall_veg_c', 'talk', 'talk', [8, 12]), 'mkt_w', 'w1', 'w2', 'wb_s', 'wb_n', stop('rw3', 'idle', 'look', [6, 10])), day: carry('rw3', 'rw2', 'rw1', 'center', 'br_n', 'br_s', 'mkt_n', stop('stall_o1_c', 'talk', 'talk', [8, 12]), 'mkt_n', 'br_s', 'br_n', 'center', 'rw1', 'rw2', 'rw3'), evening: HOME, night: HOME } },
 
   // ---------- Temple ----------
   { id: 'monk_elder', name: 'พระอาจารย์มั่น', occupation: 'monk', home: 'kuti_a', map: 'city',
@@ -222,8 +222,8 @@ export const NPCS = [
     dialogue: ['ข้าตระเวนรอบเมืองวันละหลายรอบ', 'ยามค่ำคืนทหารจะออกตระเวนมากขึ้น'],
     schedule: { morning: route('center', 'br_n', 'br_s', 'mkt_n', 'pl_ne', 'mkt_e', 'pl_se', stop('mkt_s', 'idle', 'guard', [4, 7]), 'pl_sw', 'mkt_w', 'pl_nw', 'mkt_n', 'br_s', 'br_n', 'center', 'ave1', 'ave2', stop('gate_in', 'idle', 'guard', [5, 8]), 'ave2', 'ave1'),
       day: route('center', 'br_n', 'br_s', 'mkt_n', 'pl_ne', 'mkt_e', 'pl_se', stop('mkt_s', 'idle', 'guard', [4, 7]), 'pl_sw', 'mkt_w', 'pl_nw', 'mkt_n', 'br_s', 'br_n', 'center', 'ave1', 'ave2', stop('gate_in', 'idle', 'guard', [5, 8]), 'ave2', 'ave1'),
-      evening: route('gate_in', 'wr_w1', 'wr_w2', stop('wr_w3', 'idle', 'guard', [5, 8]), 'wr_w2', 'wr_w1', 'gate_in', 'wr_e1', 'wr_e2', stop('wr_e3', 'idle', 'guard', [5, 8]), 'wr_e2', 'wr_e1'),
-      night: route('gate_in', 'wr_w1', 'wr_w2', stop('wr_w3', 'idle', 'guard', [5, 8]), 'wr_w2', 'wr_w1', 'gate_in', 'wr_e1', 'wr_e2', stop('wr_e3', 'idle', 'guard', [5, 8]), 'wr_e2', 'wr_e1') } },
+      evening: route('gate_in', 'wr_w1', stop('wr_w2', 'idle', 'guard', [5, 8]), 'wr_w1', 'gate_in', 'wr_e1', 'wr_e2', stop('wr_e3', 'idle', 'guard', [5, 8]), 'wr_e2', 'wr_e1'),
+      night: route('gate_in', 'wr_w1', stop('wr_w2', 'idle', 'guard', [5, 8]), 'wr_w1', 'gate_in', 'wr_e1', 'wr_e2', stop('wr_e3', 'idle', 'guard', [5, 8]), 'wr_e2', 'wr_e1') } },
 
   // ---------- Fishing village ----------
   { id: 'net_mender', name: 'ป้าเหลือง', occupation: 'fisher', gender: 'f', home: { near: 'fv_m' },

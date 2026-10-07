@@ -24,6 +24,7 @@ import { ShopPanel } from '../ui/ShopPanel.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
 import { createViewPrefs } from '../ui/viewPrefs.js';
+import { createTouchControls } from '../ui/TouchControls.js';
 import { Sound } from '../audio/Sound.js';
 import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
 import { MUSIC_FOR } from '../data/audio.js';
@@ -73,6 +74,7 @@ export class Game {
     this.shop = new ShopPanel((text, kind) => (this.game?.hud?.feed ? this.game.hud.feed.log(text, kind === 'warn' ? 'bad' : kind) : this.hud.toast(text, '')));
     this.prefs = createViewPrefs();   // HUD scale and saved camera zoom (device-wide)
     this.input = new InputManager(host);
+    this.touch = createTouchControls($('app'), this.input);   // phones and tablets: joystick and thumb buttons (src/ui/TouchControls.js)
     this.bind();
     this.startCombat();
     this.maps.attachCombat(this.game);

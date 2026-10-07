@@ -357,15 +357,21 @@ export class Combat extends Emitter {
     return len - s;
   }
 
-  monsterAttack(m) {
+  // A monster's swing at the player. `res` is the server's result for a signed-in player
+  // online ({ dodge } | { dmg, hp }, src/net/NetCombat.js); otherwise it is rolled here.
+  monsterAttack(m, res = null) {
     const c = this.character;
     m.attackTimer = m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay;
     this.combatTimer = COMBAT_TIMEOUT;
     this.emit('monster-attack', m);
-    if (Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
-    const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
-    const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
-    const dealt = c.damage(Math.max(1, raw - c.defense * .4));
+    if (res ? res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
+    let dealt;
+    if (res) { c.hp = Math.max(1, Math.round(res.hp + res.dmg)); dealt = c.damage(res.hp > 0 ? res.dmg : c.hp); }   // land exactly on the server's HP
+    else {
+      const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
+      const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
+      dealt = c.damage(Math.max(1, raw - c.defense * .4));
+    }
     const p = this.world.playerPos();
     this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
     if (!c.alive) {

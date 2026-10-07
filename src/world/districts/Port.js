@@ -173,21 +173,18 @@ export function buildPort(ctx) {
   ctx.spot('trader_b', -12.4, 140.5, -Math.PI / 2, 'port_c');
 
   // Fishing village west of the port.
-  for (const [x, rot] of [[-113, 0], [-84, 0], [-70, .1]]) {
-    const z = bank(x) - 1.4;
-    ctx.place(stiltHouse(rng, { thatch: true }), x, z, Math.PI + rot);
-  }
-  for (const [x, z] of [[-104, 154], [-92, 156.5]]) ctx.place(netRack(rng), x, z, rng.range(-.2, .2));
-  ctx.place(fishRack(), -76, 152.5);
-  ctx.place(pier(9, 2.4, .5), -96, bank(-96) - 1.2);
-  ctx.spot('fv_net', -104, 155.6, 0, 'fv_m');
-  ctx.spot('fv_rack', -76, 150.9, Math.PI, 'fv_e');
-  ctx.spot('fv_dock', -95.6, bank(-96) + 7.5, 0, 'fv_m');
-  ctx.spot('fv_boat', -100, bank(-100) - 1.8, .3, 'fv_m');
+  // (a small corner between the west wall and the port since the city was trimmed)
+  ctx.place(stiltHouse(rng, { thatch: true }), -70, bank(-70) - 1.4, Math.PI + .1);
+  ctx.place(netRack(rng), -73.5, 155.5, rng.range(-.2, .2));
+  ctx.place(fishRack(), -66, 155.5);
+  ctx.place(pier(9, 2.4, .5), -71, bank(-71) - 1.2);
+  ctx.spot('fv_net', -73.5, 157.1, 0, 'fv_m');
+  ctx.spot('fv_rack', -66, 153.9, Math.PI, 'fv_e');
+  ctx.spot('fv_dock', -70.6, bank(-71) + 7.5, 0, 'fv_m');
+  ctx.spot('fv_boat', -74.5, bank(-74.5) - 1.8, .3, 'fv_m');
   const village = structure(null);
-  for (let i = 0; i < 8; i++) prop(village, 'trap', -110 + i * 1.1, 0, 151 + (i % 2), { ry: rng() * 3 });
-  for (let i = 0; i < 4; i++) prop(village, 'fishBasket', -88 + i * .8, 0, 151.2);
-  fence(village, M.darkWood, -117, 138, -107, 138);
+  for (let i = 0; i < 6; i++) prop(village, 'trap', -76 + i * 1.1, 0, 152 + (i % 2), { ry: rng() * 3 });
+  for (let i = 0; i < 4; i++) prop(village, 'fishBasket', -69.5 + i * .8, 0, 152.6);
   ctx.place(village, 0, 0);
 
   // Boatyard on the east bank.

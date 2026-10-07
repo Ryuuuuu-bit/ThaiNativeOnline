@@ -1,0 +1,83 @@
+/* Touch play (src/ui/TouchControls.js, body.ui-touch): a joystick bottom-left, thumb
+   buttons bottom-right, the skills in two rows of five beside them and the extras
+   (AUTO, potions, character / bag) in a row under the skills. Sizes follow --ui (the HUD
+   scale), never below 0.8 so fingers can hit them. Safe areas keep clear of notches. */
+.ui-touch { --t: max(var(--ui, 1), .8); --sl: env(safe-area-inset-left, 0px); --sr: env(safe-area-inset-right, 0px); --sb: env(safe-area-inset-bottom, 0px); }
+.ui-touch, .ui-touch button { -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+.ui-touch input, .ui-touch textarea { -webkit-user-select: text; user-select: text; }
+
+/* Joystick: a thumb anywhere in the lower-left area; the ring jumps under it. */
+.touch-zone { position: absolute; left: 0; bottom: 0; width: 42%; height: 58%; z-index: 3; touch-action: none; }
+.touch-stick { position: absolute; left: calc(var(--sl) + 96px * var(--t)); top: calc(100% - var(--sb) - 96px * var(--t)); width: calc(124px * var(--t)); height: calc(124px * var(--t)); transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(circle, #0d1a1555 40%, #0d1a1599 70%); border: 2px solid #e1c98355; box-shadow: 0 0 0 1px #0007, inset 0 0 18px #0006; opacity: .55; transition: opacity .2s; pointer-events: none; }
+.touch-stick.live { opacity: .95; transition: none; }
+.touch-stick i { position: absolute; left: 50%; top: 50%; width: 44%; height: 44%; margin: -22% 0 0 -22%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f6e2b0, #b8904a 70%, #6d5023); box-shadow: 0 3px 10px #000a; }
+
+/* Thumb buttons: ตี big in the corner, เป้า to its left, คุย above it. */
+.touch-pad { position: absolute; right: calc(var(--sr) + 14px); bottom: calc(var(--sb) + 14px); width: 168px; height: 160px; zoom: var(--t); z-index: 5; pointer-events: none; }
+.touch-btn { position: absolute; display: grid; place-items: center; border-radius: 50%; border: 2px solid #e1c98388; color: #fff3d6; font: 600 13px 'Noto Sans Thai', sans-serif; pointer-events: auto; touch-action: none;
+  background: radial-gradient(circle at 50% 35%, #3b4f45ee, #14231ded); box-shadow: 0 4px 14px #0009, inset 0 0 0 1px #0006; }
+.touch-btn.down { transform: scale(.92); border-color: #ffd88a; box-shadow: 0 0 16px #f1c069aa, inset 0 0 0 1px #0006; }
+.touch-btn.t-attack { right: 0; bottom: 0; width: 88px; height: 88px; font-size: 18px; border-color: #f0a46e; background: radial-gradient(circle at 50% 35%, #7a3a24f0, #2c120bf0); }
+.touch-btn.t-target { right: 98px; bottom: 6px; width: 60px; height: 60px; }
+.touch-btn.t-talk { right: 14px; bottom: 98px; width: 60px; height: 60px; }
+
+/* The skills: two rows of five, left of the thumb buttons. */
+.ui-touch .hotbar.action-bar { left: auto; right: calc(var(--sr) + 192px); bottom: calc(var(--sb) + 66px) !important; transform: none; zoom: var(--t); padding: 5px; gap: 6px; max-width: none; }
+.ui-touch .hotbar-row { flex-wrap: wrap; justify-content: center; width: calc(5 * 50px + 4 * 5px); overflow: visible; }
+.ui-touch .hotbar-row .hotbar-sep, .ui-touch .hotbar-attack, .ui-touch .hotbar-slot .key { display: none; }
+.ui-touch .hotbar-slot:hover { transform: none; }
+
+/* The extras in one row under the skills. */
+.touch-side { position: absolute; right: calc(var(--sr) + 192px); bottom: calc(var(--sb) + 12px); z-index: 5; zoom: var(--t); display: flex; gap: 5px; align-items: stretch; }
+.touch-side .hotbar-auto { min-width: 58px; padding: 2px 6px; }
+.touch-side .hotbar-auto kbd, .touch-side .hotbar-auto small, .touch-side .g-potion kbd, .touch-side .g-menu kbd { display: none; }
+.touch-side .hotbar-auto-cfg { width: 34px; }
+.touch-side .action-items, .touch-side .action-menus { display: flex; gap: 5px; }
+.touch-side .g-potion { position: relative; width: 44px; height: 44px; border: 0; border-radius: 4px; background: #0b1411; overflow: hidden; }
+.touch-side .g-potion small { position: absolute; right: 3px; bottom: 2px; }
+.touch-side .g-menu { position: relative; width: 44px; height: 44px; padding: 0; border: 1px solid #cabc8655; border-radius: 5px; background: linear-gradient(#24372f, #12201b); color: #f3eedb; font-size: 10px; }
+.photo-mode .touch-side, .photo-mode .touch-pad, .photo-mode .touch-zone { display: none; }
+
+/* What a keyboard player needs and a thumb does not. */
+.ui-touch .controls, .ui-touch .training-tip, .ui-touch .net-chat input + * { display: none; }
+.ui-touch .net-chat { left: calc(var(--sl) + 16px); top: 200px; bottom: auto; width: 230px; }
+.ui-touch .net-lines { max-height: 84px; }
+.ui-touch .training-panel { left: 50%; right: auto; top: 96px; bottom: auto; width: 250px; transform: translateX(-50%); }
+.ui-touch .training-panel .training-log, .ui-touch .training-panel .training-skills { display: none; }
+.ui-touch .interaction { bottom: auto; top: 58%; padding: 12px 18px; font-size: 14px; }
+.ui-touch .interaction kbd { display: none; }
+.ui-touch .interaction::before { content: '👆 '; }
+.ui-touch .zoom-ctl button { width: 40px; height: 40px; font-size: 22px; }
+.ui-touch .zoom-ctl { left: -50px; }
+.touch-fullscreen { font-size: 18px !important; }
+
+/* Upright phones: the skills and extras centre above the joystick and buttons.
+   (offsets on zoomed boxes are in unzoomed px: CSS zoom scales them too) */
+.ui-touch.ui-portrait .touch-zone { width: 55%; height: 30%; }
+.ui-touch.ui-portrait .hotbar.action-bar { right: auto; left: 50%; transform: translateX(-50%); bottom: calc(var(--sb) + 182px) !important; }
+.ui-touch.ui-portrait .touch-side { right: auto; left: 50%; transform: translateX(-50%); bottom: calc(var(--sb) + 305px); }
+.ui-touch.ui-portrait .net-chat { top: 170px; width: 200px; }
+.ui-touch.ui-portrait .training-panel { top: 290px; width: 220px; }
+.touch-rotate { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 12; display: flex; align-items: center; gap: 10px; padding: 12px 14px; width: min(320px, calc(100% - 32px)); font-size: 13px; }
+.touch-rotate span { font-size: 28px; color: #e1c983; }
+.touch-rotate p { margin: 0; flex: 1; line-height: 1.5; }
+.touch-rotate button { border: 0; background: none; color: #f3eedb; font-size: 22px; }
+
+/* Menus (login, character select, creation) on any screen: they scroll instead of cutting
+   off their top when taller than the screen, and short screens get a smaller model stage. */
+body .acc-screen,body .g-create{display:flex;flex-direction:column;align-items:stretch;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+body .acc-screen>*,body .g-create>*{margin:auto;max-width:100%}
+@media (max-height:520px){
+  body .acc-card{padding:16px 20px 14px;gap:7px}
+  body .acc-screen h2,body .g-create h2{font-size:20px;margin:2px 0 8px}
+  body .g-stage{min-height:220px}
+  body .acc-stage{height:180px}
+}
+@media (max-width:480px){
+  body .g-create h2{font-size:21px}
+  body .g-stage{min-height:260px}
+}
+
+/* Short screens: the place name in the header stays inside the screen. */
+@media (max-height:500px){ body .location h1{font-size:16px} body .location{top:-2px} }

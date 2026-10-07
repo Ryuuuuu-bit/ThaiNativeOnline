@@ -1,0 +1,112 @@
+import './touch.css';
+
+// Touch play for phones and tablets (body.ui-touch, see touch.css). Turned on for
+// touch-first screens (coarse pointer, no hover) or with ?touch=1 (?touch=0 turns it off):
+//   · a floating joystick: a thumb anywhere in the lower-left area walks the player that
+//     way (InputManager.stick); pushed to the rim it runs;
+//   · a right-thumb cluster: ตี (basic attack, Space), เป้า (next target, Tab) and คุย
+//     (talk / use, E), sent as the same keys the keyboard uses so every rule stays in one place;
+//   · the action bar is regrouped: the skills stay along the bottom, while AUTO, its
+//     settings, potions and the character / bag buttons move into a column on the right;
+//   · a full-screen button and, on a phone held upright, a one-time hint to turn it sideways.
+// Tapping the ground still walks there and two fingers still pinch-zoom (InputManager).
+//
+//   createTouchControls(root, input)  → null on a mouse-and-keyboard screen
+// (the action bar is regrouped as soon as it appears in `root`)
+const STICK_DEAD = .18, STICK_RUN = .86;
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+export function wantsTouch() {
+  const q = new URLSearchParams(location.search).get('touch');
+  if (q === '1') return true;
+  if (q === '0') return false;
+  return matchMedia('(pointer: coarse)').matches && !matchMedia('(hover: hover)').matches;
+}
+
+// A keyboard key, as if pressed (the game's own key handling does the rest).
+const press = code => {
+  window.dispatchEvent(new KeyboardEvent('keydown', { code, key: code, bubbles: true }));
+  window.dispatchEvent(new KeyboardEvent('keyup', { code, key: code, bubbles: true }));
+};
+
+export function createTouchControls(root, input) {
+  if (!wantsTouch()) return null;
+  document.body.classList.add('ui-touch');
+
+  // ---- joystick -----------------------------------------------------------------------
+  const zone = el('div', 'touch-zone'), base = el('div', 'touch-stick', '<i></i>'), knob = base.firstChild;
+  zone.setAttribute('aria-hidden', 'true');
+  zone.append(base); root.append(zone);
+  let id = null, cx = 0, cy = 0;
+  const radius = () => base.offsetWidth / 2 || 60;
+  const home = () => { base.style.left = ''; base.style.top = ''; base.classList.remove('live'); knob.style.transform = ''; };
+  const steer = (x, y) => {
+    const r = radius(); let dx = x - cx, dy = y - cy;
+    const len = Math.hypot(dx, dy); if (len > r) { dx *= r / len; dy *= r / len; }
+    knob.style.transform = `translate(${dx}px, ${dy}px)`;
+    const m = Math.min(1, len / r);
+    if (m < STICK_DEAD) { input.setStick(0, 0, false); return; }
+    input.setStick(dx / r, dy / r, m > STICK_RUN);
+  };
+  zone.addEventListener('pointerdown', e => {
+    if (id !== null) return;
+    id = e.pointerId; zone.setPointerCapture(id);
+    const z = zone.getBoundingClientRect();
+    cx = e.clientX; cy = e.clientY;
+    base.style.left = `${cx - z.left}px`; base.style.top = `${cy - z.top}px`; base.classList.add('live');
+    e.preventDefault();
+  });
+  zone.addEventListener('pointermove', e => { if (e.pointerId === id) steer(e.clientX, e.clientY); });
+  const release = e => { if (e.pointerId !== id) return; id = null; input.setStick(0, 0, false); home(); };
+  zone.addEventListener('pointerup', release); zone.addEventListener('pointercancel', release);
+  window.addEventListener('blur', () => { id = null; input.setStick(0, 0, false); home(); });
+
+  // ---- right-thumb buttons --------------------------------------------------------------
+  const pad = el('div', 'touch-pad');
+  const btn = (cls, label, code, title) => {
+    const b = el('button', `touch-btn ${cls}`, label); b.type = 'button'; b.title = title; b.setAttribute('aria-label', title);
+    b.addEventListener('pointerdown', e => { e.preventDefault(); b.classList.add('down'); press(code); });
+    for (const n of ['pointerup', 'pointercancel', 'pointerleave']) b.addEventListener(n, () => b.classList.remove('down'));
+    pad.append(b); return b;
+  };
+  btn('t-attack', '<b>ตี</b>', 'Space', 'ตีปกติใส่เป้าหมาย');
+  btn('t-target', '<b>เป้า</b>', 'Tab', 'เลือกเป้าหมายถัดไป');
+  btn('t-talk', '<b>คุย</b>', 'KeyE', 'คุย / ใช้ของตรงหน้า');
+  root.append(pad);
+
+  // ---- full screen and a hint to hold a phone sideways ----------------------------------------
+  const actions = document.querySelector('.top-actions');
+  const docEl = document.documentElement;
+  if (actions && (docEl.requestFullscreen || docEl.webkitRequestFullscreen)) {
+    const fs = el('button', 'touch-fullscreen', '⛶'); fs.type = 'button'; fs.title = 'เต็มจอ'; fs.setAttribute('aria-label', 'เต็มจอ');
+    fs.addEventListener('click', () => {
+      if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen ?? document.webkitExitFullscreen)?.call(document);
+      else (docEl.requestFullscreen ?? docEl.webkitRequestFullscreen).call(docEl, { navigationUI: 'hide' })?.then?.(() => screen.orientation?.lock?.('landscape').catch(() => {})).catch(() => {});
+    });
+    actions.prepend(fs);
+  }
+  const hint = el('div', 'touch-rotate glass', '<span>⟳</span><p>หมุนจอเป็นแนวนอนเพื่อเล่นได้สะดวกขึ้น</p><button type="button" aria-label="ปิด">×</button>');
+  hint.hidden = true; root.append(hint);
+  let hinted = false;
+  const checkTurn = () => {
+    const upright = innerHeight > innerWidth && innerWidth < 600;
+    if (upright && !hinted) { hinted = true; hint.hidden = false; setTimeout(() => { hint.hidden = true; }, 7000); }
+    if (!upright) hint.hidden = true;
+  };
+  hint.querySelector('button').addEventListener('click', () => { hint.hidden = true; });
+  addEventListener('resize', checkTurn); checkTurn();
+
+  // the action bar's extras go into a column on the right, above the buttons
+  const attachBar = () => {
+    const bar = root.querySelector('.action-bar');
+    if (!bar || bar.dataset.touch) return !!bar;
+    bar.dataset.touch = '1';
+    const side = el('div', 'touch-side');
+    for (const sel of ['.hotbar-auto', '.hotbar-auto-cfg', '.action-items', '.action-menus']) { const n = bar.querySelector(sel); if (n) side.append(n); }
+    bar.querySelectorAll(':scope > .hotbar-sep').forEach(n => n.remove());
+    root.append(side);
+    return true;
+  };
+  if (!attachBar()) { const mo = new MutationObserver(() => { if (attachBar()) mo.disconnect(); }); mo.observe(root, { childList: true }); }
+  return { zone, pad };
+}

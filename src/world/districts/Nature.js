@@ -1,4 +1,4 @@
-import { BOUNDS, ROADS, CANAL, CEMETERY, roadPoints, insideWalls, riverBank, farBank, wildness, smoothstep, resample } from '../CityMap.js';
+import { WALL, BOUNDS, ROADS, CANAL, CEMETERY, roadPoints, insideWalls, riverBank, farBank, wildness, smoothstep, resample } from '../CityMap.js';
 import { M } from '../materials.js';
 import { cyl, structure } from '../Architecture.js';
 import { OCC } from '../Terrain.js';
@@ -40,7 +40,7 @@ export function scatterNature(ctx) {
   }
   // Gardens and yards scattered through the city.
   for (let i = 0; i < 900; i++) {
-    const x = rng.range(-114, 114), z = rng.range(-108, 160);
+    const x = rng.range(WALL.west + 2, 114), z = rng.range(-108, 160);
     if (!insideWalls(x, z) || !free(x, z, 2)) continue;
     const r = rng(), y = h(x, z);
     if (r < .3) veg.banana(x, y, z, { s: rng.range(.8, 1.1) });
@@ -52,7 +52,9 @@ export function scatterNature(ctx) {
   }
   // Tree belts hide the map edges beside the walls and fields.
   for (let z = -255; z < 160; z += 3.2) for (const s of [-1, 1]) {
-    const x = s * rng.range(118, 124.5);
+    // (west of the city the belt follows the nearer wall, and is deeper: that side is open land)
+    const x = s > 0 || z < WALL.z ? s * rng.range(118, 124.5) : WALL.west - rng.range(2.5, 9);
+    if (s < 0 && z >= WALL.z && rng() < .5) { const x2 = WALL.west - rng.range(10, 24); if (occ.get(x2, z) === OCC.FREE) veg.broadleaf(x2, h(x2, z), z, { s: rng.range(1, 1.4), cards: 30, dark: .25 }); }
     if (occ.get(x, z) !== OCC.FREE && occ.get(x, z) !== OCC.YARD) continue;
     veg.broadleaf(x, h(x, z), z, { s: rng.range(.9, 1.3), cards: 30, dark: .2 });
   }

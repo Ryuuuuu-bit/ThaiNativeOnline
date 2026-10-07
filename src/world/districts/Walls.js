@@ -32,14 +32,14 @@ function fort(ctx, x, z, r = 3.4, h = 4.8) {
 }
 
 export function buildWalls(ctx) {
-  const X = WALL.x, Z = WALL.z, gate = 7.6;
-  wallRun(ctx, -X, Z, -gate, Z); wallRun(ctx, gate, Z, X, Z);
-  for (const s of [-1, 1]) {
+  const Z = WALL.z, gate = 7.6;
+  wallRun(ctx, WALL.west, Z, -gate, Z); wallRun(ctx, gate, Z, WALL.x, Z);
+  for (const X of [WALL.west, WALL.x]) {
     // Side walls leave a water gate where the canal passes through.
-    wallRun(ctx, s * X, Z, s * X, -17.5);
-    wallRun(ctx, s * X, 1.5, s * X, riverBank(s * X) - 3.5);
-    fort(ctx, s * X, Z); fort(ctx, s * X, riverBank(s * X) - 3.5, 2.8, 4.2);
-    for (const z of [-17.5, 1.5]) fort(ctx, s * X, z, 2, 4.2);
+    wallRun(ctx, X, Z, X, -17.5);
+    wallRun(ctx, X, 1.5, X, riverBank(X) - 3.5);
+    fort(ctx, X, Z); fort(ctx, X, riverBank(X) - 3.5, 2.8, 4.2);
+    for (const z of [-17.5, 1.5]) fort(ctx, X, z, 2, 4.2);
   }
 
   // North gate: two brick towers, a lintel and a gate pavilion above.

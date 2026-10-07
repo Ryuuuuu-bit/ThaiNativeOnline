@@ -68,7 +68,7 @@ export function attachNetCombat(net, game) {
     for (const d of msg.drops) c.addItem(d.id, d.qty);
     c.emit('change');
   });
-  net.on('ma', msg => { const m = byId.get(msg.id); if (m && c.alive) combat.monsterAttack(m); });
+  net.on('ma', msg => { const m = byId.get(msg.id); if (m && c.alive) combat.monsterAttack(m, msg.res ?? null); });   // res: resolved on the server (signed in)
   net.on('clock', msg => {
     serverPhase = phaseOf(msg.h);
     if (!game.clock.paused) game.clock.set(msg.h);

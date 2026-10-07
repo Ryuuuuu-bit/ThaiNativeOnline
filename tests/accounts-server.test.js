@@ -48,7 +48,7 @@ test('saves: only the known keys, a real character, and a size cap', async () =>
   assert.deepEqual([made.name, made.classId, made.gender, made.level], ['แดง', 'hunter', 'male', 1], 'a new slot starts as a fresh character (the level sent is ignored)');
   assert.ok((await A.save('ryuu', 0, save('ใหม่', { 'tno.quests.v1': '{"a":1}' }))).ok);
   assert.equal((await A.character('ryuu', 0)).name, 'แดง', 'the character stays the server\'s');
-  assert.equal((await A.slots('ryuu'))[0].data['tno.quests.v1'], '{"a":1}', 'the other keys are the browser\'s');
+  assert.equal((await A.slots('ryuu'))[0].data['tno.quests.v1'], '{}', 'quests are the server\'s too');
   assert.ok((await A.remove('ryuu', 0)).ok);
   assert.deepEqual(await A.slots('ryuu'), []);
   assert.equal(await A.character('ryuu', 0), null);
@@ -62,11 +62,12 @@ test('saves cannot change the character: the stored copy, or the one in play, wi
   await A.save('ryuu', 0, cheat);
   const c = await A.character('ryuu', 0);
   assert.equal(c.level, 1); assert.ok(c.gold < 1000); assert.ok(!c.inventory.some(s => s?.qty === 999));
-  assert.equal(c.hp, 50, 'HP is still the browser\'s');
-  await A.save('ryuu', 0, cheat, { ...c, level: 7, gold: 321 });   // the copy in play
+  assert.notEqual(c.hp, 50, 'HP is the server\'s too');
+  await A.save('ryuu', 0, cheat, { c: { ...c, level: 7, gold: 321 }, quests: '{"q":{"status":"done"}}' });   // the copy in play
   assert.deepEqual([(await A.character('ryuu', 0)).level, (await A.character('ryuu', 0)).gold], [7, 321]);
-  assert.ok(await A.putCharacter('ryuu', 0, { ...c, level: 8 }));
-  assert.equal((await A.character('ryuu', 0)).level, 8);
+  assert.equal(await A.quests('ryuu', 0), '{"q":{"status":"done"}}');
+  assert.ok(await A.putCharacter('ryuu', 0, { ...c, level: 8 }, '{}'));
+  assert.equal((await A.character('ryuu', 0)).level, 8); assert.equal(await A.quests('ryuu', 0), '{}');
 });
 
 test('accounts never see each other\'s saves', async () => {

@@ -3,18 +3,39 @@
 // the gear change only here — from kills (server/monsters.js), from a death, and from the
 // player's own actions, which the browser does locally and mirrors as `op` messages that
 // the server replays with the very same Character / shop code:
-//   buy {shop, id} · sell {id} · use {id} · equip {id} · unequip {slot} · alloc {key} · reset · sort
+//   buy {shop, id} · sell {id} · use {id} · equip {id} · unequip {slot} · alloc {key} · reset · sort ·
+//   quest_accept {id} · quest_complete {id} · talk {npc}
 // An action the server cannot replay (no gold, not in the bag, …) is refused and the
 // browser gets the server's copy back. The browser's save sync can no longer change the
-// character: the server's copy wins (only the client's HP is kept, as monster swings are
-// still resolved in the browser).
+// character or its quests: the server's copies win.
+// Phase 4: HP is the server's too (monster swings are resolved here), quest progress and
+// rewards run on the server (the same QuestSystem), and buying needs a shop of that kind on
+// the player's map and no fight going on.
 import { Character } from '../src/character/Character.js';
 import { CLASSES, CLASS_ALIASES, STATS } from '../src/character/data/classes.js';
 import { ITEMS } from '../src/character/data/items.js';
 import { buy } from '../src/shop/ShopSystem.js';
 import { sortBag } from '../src/character/bag.js';
+import { QuestSystem } from '../src/quest/QuestSystem.js';
+import { QUESTS } from '../src/data/quests.js';
+import { NPCS } from '../src/data/npcs.js';
 
 export const CHARACTER_KEY = /^tno\.character\.v\d+$/;
+export const QUESTS_KEY = 'tno.quests.v1';
+
+// Which maps have a shop of each kind (NPCs without a `map` live in the city).
+export const SHOP_MAPS = NPCS.reduce((o, n) => { if (n.shopType) (o[n.shopType] ??= new Set()).add(n.map ?? 'city'); return o; }, {});
+export const shopOn = (shop, map) => !!SHOP_MAPS[shop]?.has(map);
+
+// A character's quests on the server: the browser's QuestSystem over an in-memory store.
+export function questsFor(c, json = '{}', defs = QUESTS) {
+  let text = typeof json === 'string' ? json : '{}';
+  const storage = { getItem: () => text, setItem: (_, v) => { text = v; } };
+  const q = new QuestSystem(defs, { storage });
+  q.attach(c, null);
+  q.json = () => text;
+  return q;
+}
 
 // A Character from a stored save (unknown items dropped, like Character.load), or null.
 export function fromSave(data) {
@@ -25,7 +46,7 @@ export function fromSave(data) {
 }
 
 // Replays one browser action on the server's character → true when it went through.
-export function applyOp(c, msg = {}) {
+export function applyOp(c, msg = {}, quests = null) {
   const at = id => c.inventory.findIndex(s => s?.id === id);
   switch (msg.op) {
     case 'buy': return typeof msg.shop === 'string' && typeof msg.id === 'string' && buy(c, msg.shop, msg.id).ok;
@@ -36,14 +57,17 @@ export function applyOp(c, msg = {}) {
     case 'alloc': return STATS.includes(msg.key) && c.allocate(msg.key);
     case 'reset': c.resetStats(); return true;
     case 'sort': sortBag(c); return true;
+    case 'quest_accept': return !!quests?.defs.has(msg.id) && quests.accept(msg.id);
+    case 'quest_complete': return !!quests?.defs.has(msg.id) && quests.complete(msg.id);
+    case 'talk': if (typeof msg.npc !== 'string' || !quests) return false; quests.onTalk(msg.npc); return true;
     default: return false;
   }
 }
 
-// A save from the browser, with the character replaced by the server's (`server`: its JSON,
-// or null for a brand-new slot, which starts as a fresh character of the chosen class).
-// → the save object to store.
-export function reconcileSave(data, server) {
+// A save from the browser, with the character and quests replaced by the server's (`server`: its
+// JSON, or null for a brand-new slot, which starts as a fresh character of the chosen class
+// with no quests). → the save object to store.
+export function reconcileSave(data, server, quests = null) {
   const key = Object.keys(data).find(k => CHARACTER_KEY.test(k));
   let sent = {}; try { sent = JSON.parse(data[key]); } catch { /* checked by Accounts.check */ }
   let truth = server;
@@ -51,7 +75,5 @@ export function reconcileSave(data, server) {
     const classId = CLASS_ALIASES[sent.classId] || sent.classId;
     truth = Character.create(String(sent.name ?? '').slice(0, 16), CLASSES[classId] ? classId : 'muaythai', sent.gender === 'female' ? 'female' : 'male').toJSON();
   }
-  const hp = Number(sent.hp);
-  const merged = { ...truth, hp: server && hp > 0 ? Math.round(hp) : truth.hp };   // HP is still the browser's (capped on load)
-  return { ...data, [key]: JSON.stringify(merged) };
+  return { ...data, [key]: JSON.stringify(truth), [QUESTS_KEY]: server ? quests ?? '{}' : '{}' };
 }
