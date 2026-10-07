@@ -18,22 +18,39 @@
       <header class="topbar">
         <a class="brand" href="/" aria-label="Thai Native Online"><span class="brand-seal">ท</span><span>THAI NATIVE<span class="brand-sub">O N L I N E</span></span></a>
         <div class="location"><span class="tiny" id="region-sub">นครอโยธยา · ราชธานีริมแม่น้ำ</span><h1 id="region-name">นครอโยธยา</h1><span class="weather"><i id="sun-dot"></i><span id="clock">เช้า · 07:30</span></span></div>
-        <div class="top-actions"><button id="map-toggle" title="แผนที่ (M)" aria-label="แผนที่">⌖</button><button id="sound" title="เปิดเสียงบรรยากาศ" aria-label="เปิดเสียงบรรยากาศ" aria-pressed="false">♫</button><button id="settings-toggle" title="ตั้งค่า" aria-label="ตั้งค่า" aria-expanded="false">⚙</button></div>
+        <div class="top-actions"><button id="map-toggle" title="แผนที่ (M)" aria-label="แผนที่">⌖</button><button id="settings-toggle" title="ตั้งค่า" aria-label="ตั้งค่า" aria-expanded="false">⚙</button></div>
       </header>
       <aside class="character glass"><div class="portrait">♙</div><div class="character-info"><div class="character-name">ผู้เดินทาง <span>Lv. 1</span></div><div class="bar hp"><span></span></div><div class="bar energy"><span></span></div><small>ผู้มาเยือนแห่งนครอโยธยา</small></div></aside>
       <aside class="exploration glass"><span class="eyebrow">บันทึกการเดินทาง</span><h2 id="journal-title">เมืองแห่งสายน้ำ</h2><p id="journal-text">ตลาด วัด และลานฝึกริมแม่น้ำ<br>ประตูวาปทิศเหนือพาออกสู่ทุ่งนา</p><div class="quest-line"><span id="quest-symbol">◇</span><span id="quest-text">ค้นพบสถานที่ 0/0</span></div><span class="quest-hint" id="quest-hint">เดินสำรวจเมืองเพื่อค้นพบสถานที่สำคัญ</span><div id="quest-tracker"></div></aside>
       <aside class="minimap glass"><div class="zoom-ctl glass" role="group" aria-label="ซูมกล้อง"><button id="zoom-in" title="ซูมเข้า (+)" aria-label="ซูมเข้า">+</button><button id="zoom-out" title="ซูมออก (−)" aria-label="ซูมออก">−</button><button id="map-open" title="แผนที่ใหญ่ (M)" aria-label="เปิดแผนที่ใหญ่">⤢</button><button id="zoom-lock" title="ล็อกระยะกล้อง" aria-label="ล็อกระยะกล้อง" aria-pressed="false">🔓</button></div><div class="mini-title"><b><span id="mini-name">นครอโยธยา</span><i id="mini-lv" hidden></i><button id="mini-ch" type="button" title="เปลี่ยนแชนแนล" aria-label="แชนแนล" hidden>CH 1</button></b><small id="mini-sub">ราชธานีริมแม่น้ำ</small></div><div class="map-frame"><canvas id="minimap" aria-label="แผนที่ย่อ"></canvas></div><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
-      <section id="settings" class="settings glass" hidden>
-        <div class="panel-heading">บรรยากาศของโลก<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
-        <label>เวลาของโลก<select id="time-mode"><option value="auto">หมุนเวียนตามเวลา</option><option value="morning">เช้า</option><option value="day">กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
-        <label>ความเร็วเวลา<select id="time-speed"><option value="1">1 วัน = 24 นาที</option><option value="6">1 วัน = 4 นาที</option><option value="20">1 วัน = 72 วินาที</option></select></label>
-        <label>แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
-        <label>คุณภาพภาพ<select id="quality"><option value="high">สูง · Full HD</option><option value="medium">สมดุล</option></select></label>
-        <label>ระยะกล้อง <output id="zoom-value">100%</output><input id="zoom" type="range" min="50" max="170" step="5" value="100" /></label>
-        <label>ขนาดหน้าจอ (HUD)<select id="hud-size"><option value="0.85">เล็ก</option><option value="1" selected>พอดีจอ</option><option value="1.15">ใหญ่</option><option value="1.3">ใหญ่มาก</option></select></label>
-        <label class="check-label"><input id="particles" type="checkbox" checked /> ละอองแสง หิ่งห้อย และใบไม้</label>
-        <label class="check-label"><input id="debug-toggle" type="checkbox" /> โหมดผู้พัฒนา (F3)</label>
-        <p>มุมกล้อง Orthographic · 2.5D</p>
+      <section id="settings" class="settings glass" hidden aria-label="ตั้งค่า">
+        <div class="panel-heading">ตั้งค่า<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
+        <div class="set-body">
+          <nav class="set-tabs" role="tablist" aria-label="หมวดการตั้งค่า"><button role="tab" data-pane="gfx" aria-selected="true">ภาพ</button><button role="tab" data-pane="snd" aria-selected="false">เสียง</button><button role="tab" data-pane="play" aria-selected="false">การเล่น</button><button role="tab" data-pane="keys" aria-selected="false">ปุ่มลัด</button></nav>
+          <div class="set-pane" data-pane="gfx">
+            <label>คุณภาพภาพ<select id="quality"><option value="high">สูง · Full HD</option><option value="medium">สมดุล</option></select></label>
+            <label>ระยะกล้อง <output id="zoom-value">100%</output><input id="zoom" type="range" min="50" max="170" step="5" value="100" /></label>
+            <label>ขนาดหน้าจอ (HUD)<select id="hud-size"><option value="0.85">เล็ก</option><option value="1" selected>พอดีจอ</option><option value="1.15">ใหญ่</option><option value="1.3">ใหญ่มาก</option></select></label>
+            <label>แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
+            <label class="check-label"><input id="particles" type="checkbox" checked /> ละอองแสง หิ่งห้อย และใบไม้</label>
+          </div>
+          <div class="set-pane" data-pane="snd" hidden>
+            <div class="set-row">เสียงทั้งหมด<button id="sound" class="set-switch" title="เปิดเสียง" aria-label="เปิดเสียง" aria-pressed="false"></button></div>
+            <p class="set-note">ระดับเสียงแต่ละประเภทบันทึกไว้ในเครื่องนี้</p>
+          </div>
+          <div class="set-pane" data-pane="play" hidden>
+            <label>เวลาของโลก<select id="time-mode"><option value="auto">หมุนเวียนตามเวลา</option><option value="morning">เช้า</option><option value="day">กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
+            <label>ความเร็วเวลา<select id="time-speed"><option value="1">1 วัน = 24 นาที</option><option value="6">1 วัน = 4 นาที</option><option value="20">1 วัน = 72 วินาที</option></select></label>
+            <label class="check-label"><input id="debug-toggle" type="checkbox" /> โหมดผู้พัฒนา (F3)</label>
+          </div>
+          <div class="set-pane set-keys" data-pane="keys" hidden>
+            <span>เดิน<kbd>W A S D</kbd></span><span>วิ่ง<kbd>Shift</kbd></span><span>คุย<kbd>E</kbd></span><span>มองแผนที่<kbd>ลากเมาส์ขวา</kbd></span>
+            <span>ซูม<kbd>Scroll · + −</kbd></span><span>แผนที่<kbd>M</kbd></span><span>สกิล<kbd>1 – 0</kbd></span><span>ออโต้<kbd>G</kbd></span>
+            <span>เลือกเป้า<kbd>Tab</kbd></span><span>ดื่มยา<kbd>Q · F</kbd></span><span>ตัวละคร<kbd>C</kbd></span><span>สกิล<kbd>K</kbd></span><span>กระเป๋า<kbd>I</kbd></span>
+            <span>แชต<kbd>Enter</kbd></span><span>ปิดหน้าต่าง<kbd>Esc</kbd></span>
+            <button id="reset-camera" title="กลับมาที่ผู้เดินทาง">กลับมุมกล้อง<kbd>R</kbd></button><button id="photo-mode" title="ซ่อนหน้าจอเพื่อชมแผนที่">ชมวิว<kbd>H</kbd></button>
+          </div>
+        </div>
       </section>
       <div id="interaction" class="interaction" hidden><kbd>E</kbd><span id="interaction-text"></span></div>
       <section id="dialogue" class="dialogue glass" hidden aria-live="polite">
@@ -43,11 +60,21 @@
         <div id="dlg-quests"></div>
         <div class="dlg-actions"><button id="dlg-next"><kbd>E</kbd> คุยต่อ</button><button id="dlg-shop" hidden>◉ ซื้อขาย</button><span><kbd>Esc</kbd> ปิด</span></div>
       </section>
-      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><div class="controls glass"><span><kbd>W A S D</kbd> เดิน</span><span><kbd>Shift</kbd> วิ่ง</span><span><kbd>E</kbd> คุย</span><span><kbd>ลากเมาส์ขวา</kbd> มองแผนที่</span><span><kbd>Scroll</kbd><kbd>+ −</kbd> ซูม</span><button id="reset-camera" title="กลับมาที่ผู้เดินทาง"><kbd>R</kbd> กลับมุมกล้อง</button><button id="photo-mode" title="ซ่อนหน้าจอเพื่อชมแผนที่"><kbd>H</kbd> ชมวิว</button><span><kbd>M</kbd> แผนที่</span><span><kbd>1–0</kbd> สกิล</span><span><kbd>G</kbd> ออโต้</span><span><kbd>Tab</kbd> เลือกเป้า</span></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
+      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
       <section id="shop" class="shop glass" hidden aria-label="ร้านค้า"><div class="panel-heading"><span><b id="shop-title"></b><small id="shop-keeper"></small></span><button id="shop-close" aria-label="ปิดร้านค้า">×</button></div>
         <div class="shop-tabs"><button data-shop-tab="buy" aria-pressed="true">ซื้อ</button><button data-shop-tab="sell" aria-pressed="false">ขาย</button><button data-shop-tab="cards" aria-pressed="false" hidden>ถอดการ์ด</button><button data-shop-tab="refine" aria-pressed="false" hidden>ตีบวก</button><span id="shop-gold"></span></div>
         <div id="shop-list"></div></section>
       <section id="fullmap-panel" class="fullmap glass" hidden><div class="panel-heading">แผนที่นครอโยธยา<button id="fullmap-close" aria-label="ปิดแผนที่">×</button></div><div class="fullmap-body"><div class="map-frame"><canvas id="fullmap" aria-label="แผนที่"></canvas><div class="map-tip" hidden></div></div><ul id="fullmap-legend" class="map-legend" aria-label="สัญลักษณ์"></ul></div><p>สถานที่ที่ยังไม่ค้นพบแสดงเป็นเครื่องหมาย ? · บางแห่งจะปรากฏเมื่อไปถึงเท่านั้น · แตะ / คลิกสถานที่ หรือจุดใดก็ได้บนแผนที่ เพื่อเดินไปเอง (แผนที่เล็กมุมขวาก็แตะได้)</p></section>
+      <button id="menu-btn" class="mm-btn" type="button" aria-label="เมนู" aria-expanded="false" aria-controls="menu-grid"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>เมนู</span><i class="mm-dot" hidden></i></button>
+      <nav id="menu-grid" class="mm-grid glass" hidden aria-label="เมนูรวม">
+        <button type="button" data-act="sheet"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>ตัวละคร<kbd>C</kbd><i class="mm-dot" hidden></i></button>
+        <button type="button" data-act="skills"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.4 6.8 19.2l1-5.9L3.5 9.2l5.9-.8z"/></svg>สกิล<kbd>K</kbd></button>
+        <button type="button" data-act="bag"><svg viewBox="0 0 24 24"><path d="M6 8h12l1 13H5z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>กระเป๋า<kbd>I</kbd></button>
+        <button type="button" data-act="map"><svg viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>แผนที่<kbd>M</kbd></button>
+        <button type="button" data-act="auto"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v4h-4"/><path d="M10 9l5 3-5 3z"/></svg>AUTO<kbd>G</kbd></button>
+        <button type="button" data-act="photo"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>ชมวิว<kbd>H</kbd></button>
+        <button type="button" data-act="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>ตั้งค่า<kbd>Esc</kbd></button>
+      </nav>
       <pre id="debug" hidden></pre>
       <button id="restore-ui" hidden>แสดงหน้าจอ · H</button>
       <div id="toast" role="status" hidden><strong id="toast-title"></strong><span id="toast-text"></span><small id="toast-purpose"></small></div>

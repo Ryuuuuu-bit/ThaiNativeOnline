@@ -21,6 +21,8 @@ import { SHOPS } from '../data/shops.js';
 import { QuestSystem } from '../quest/QuestSystem.js';
 import { QuestUI } from '../ui/QuestUI.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
+import { PostFX } from '../world/PostFX.js';
+import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
 import { createViewPrefs } from '../ui/viewPrefs.js';
@@ -43,11 +45,12 @@ export class Game {
     catch (error) { document.body.dataset.error = 'webgl'; $('loading-text').textContent = 'ไม่สามารถเปิด WebGL ได้ กรุณาเปิด hardware acceleration แล้วลองใหม่'; throw error; }
     const r = this.renderer;
     host.appendChild(r.domElement);
-    r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFShadowMap;
+    r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
     r.outputColorSpace = THREE.SRGBColorSpace; r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.18;
     this.scene = new THREE.Scene();
     this.env = new Environment(this.scene, r);
     this.view = new CameraController(r, host);
+    this.postfx = new PostFX(r, this.scene, this.view.camera);   // src/world/PostFX.js (high quality)
     this.clock = new WorldClock({ hour: params.has('t') ? Number(params.get('t')) : 7.4 });
     if (params.has('t')) this.clock.paused = true;
     this.hud = new HUD();
@@ -99,7 +102,7 @@ export class Game {
 
   bind() {
     const input = this.input, view = this.view;
-    window.addEventListener('resize', () => view.resize());
+    window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => view.reset());
     input.on('photo', () => this.togglePhoto());
@@ -107,6 +110,9 @@ export class Game {
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (this.menu.open) return this.menu.toggle(false);
+      const autoPanel = document.querySelector('.auto-panel');
+      if (autoPanel && !autoPanel.hidden) { autoPanel.hidden = true; return; }
       if (this.shop.open) return this.shop.close();
       if (this.hud.dialogueOpen) return this.closeDialogue();
       if (!$('fullmap-panel').hidden) return this.toggleMap();
@@ -144,9 +150,23 @@ export class Game {
       const npc = this.talking, c = this.game?.character;
       if (!npc || !c) return;
       this.closeDialogue(); this.shop.show(npc, c);
+      const ui = this.game?.characterUI;
+      if (ui?.bag.hidden) ui.toggle('bag');
     });
     const settings = $('settings');
     $('settings-toggle').addEventListener('click', () => { settings.hidden = !settings.hidden; $('settings-toggle').setAttribute('aria-expanded', String(!settings.hidden)); });
+    bindSettingsTabs(settings);
+    // Main menu (bottom-right): the windows the old top-right icons and C / I buttons opened.
+    const characterUI = () => this.game?.characterUI;
+    this.menu = new MainMenu({
+      sheet: () => characterUI()?.toggle('sheet'),
+      skills: () => characterUI()?.toggle('skills'),
+      bag: () => characterUI()?.toggle('bag'),
+      map: () => this.toggleMap(),
+      auto: () => document.querySelector('.hotbar-auto-cfg')?.click(),
+      photo: () => this.togglePhoto(),
+      settings: () => $('settings-toggle').click(),
+    });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
     $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100, true));
     $('hud-size').value = String(this.prefs.hud);
@@ -163,10 +183,12 @@ export class Game {
     $('quality').addEventListener('change', e => {
       const high = e.target.value === 'high', sun = this.env.sun;
       this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, 2) : 1);
-      sun.shadow.mapSize.set(high ? 2048 : 1024, high ? 2048 : 1024);
+      sun.shadow.mapSize.set(high ? 4096 : 2048, high ? 4096 : 2048);
+      this.postfx.enabled = high;   // bloom, colour grade and vignette only on high
       if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
       this.world.grass.mesh.geometry.instanceCount = high ? 56000 : 34000;
       this.view.resize();
+      this.postfx.setSize(this.host.clientWidth, this.host.clientHeight);
     });
     // Sound (src/audio): the ♫ button mutes everything; volumes live in the settings panel.
     const syncSound = () => {
@@ -177,6 +199,10 @@ export class Game {
     $('sound').addEventListener('click', () => { Sound.setMuted(!Sound.muted); syncSound(); });
     syncSound();
     mountAudioSettings(settings);
+    // other modules add their rows to the panel: put them in their tabs (volumes in เสียง, account under the tab list)
+    const sndNote = settings.querySelector('.set-pane[data-pane="snd"] .set-note');
+    const audioRow = settings.querySelector('.audio-settings'); if (audioRow && sndNote) sndNote.before(audioRow);
+    const accRow = settings.querySelector('.acc-settings'); if (accRow) settings.querySelector('.set-tabs').append(accRow);
     Sound.onReady(s => this.audio.start(s.ctx, s.ambienceBus));
     Sound.music(MUSIC_FOR[this.clock.phase]);
     this.clock.onPhase(phase => Sound.music(MUSIC_FOR[phase]));
@@ -422,6 +448,7 @@ export class Game {
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
 
     const env = this.env.update(this.clock.hour, view.focus);
+    this.postfx.update(env);
     this.envNight = env.night;
     this.world.update(this.elapsed, dt, view.focus, env);
     this.npcs.update(dt, this.elapsed, p);
@@ -442,6 +469,7 @@ export class Game {
       this.hud.setRegion(regionAt(p.x, p.z, this.discovered.has('cemetery')));
       this.hud.setClock(this.clock.label, this.clock.phase, this.clock.hour);
       this.hud.setCoords(p);
+      this.menu.setAlert((this.game?.character?.points ?? 0) > 0);
       const mapState = this.minimapState();
       this.minimap.update(p, this.player.group.rotation.y, mapState);
       if (!$('fullmap-panel').hidden) this.minimap.drawFull(p, this.player.group.rotation.y, mapState);
@@ -455,6 +483,6 @@ export class Game {
 แผนที่ย่อ วาด ${this.minimap.stats.drawMs} ms · ปูพื้น ${this.minimap.stats.buildMs} ms`);
       }
     }
-    this.renderer.render(this.scene, view.camera);
+    this.postfx.render();
   }
 }

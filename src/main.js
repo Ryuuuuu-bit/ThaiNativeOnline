@@ -4,6 +4,7 @@ import { Sound } from './audio/Sound.js';
 import { bindUiSounds } from './audio/gameSounds.js';
 import { MUSIC_FOR } from './data/audio.js';
 import './style.css';
+import './ui/theme.css';   // the shared look for every in-game box (loaded last)
 
 // Login → character select → creation (src/account), then the world.
 document.body.classList.add('acc-flow');

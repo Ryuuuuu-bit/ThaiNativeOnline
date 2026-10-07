@@ -1,6 +1,6 @@
 // The one action bar, the same on every map and for every class (the hotbar look
 // from src/classes/fx/fx.css): up to ten skills on keys 1–0, AUTO on G, then the
-// potions (Q / F) and the character / bag buttons (C / I) from CharacterUI.
+// potions (Q / F) and the EXP bar from CharacterUI (the main menu opens the windows).
 //
 //   const bar = new ActionBar(host, { potions, menus });
 //   bar.setSkills(controller, label)   swap the skills (class kit or legacy combat skills)
@@ -26,7 +26,7 @@ const keyLabel = i => String((i + 1) % 10);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
 export class ActionBar {
-  constructor(host, { potions = [], menus = [] } = {}) {
+  constructor(host, { potions = [], menus = [], exp = null } = {}) {
     this.host = host; this.ctl = null; this.slots = []; this.auto = false; this.next = 0; this.autoWait = .4;
     this.bar = el('nav', 'hotbar action-bar ro-window panel'); this.bar.setAttribute('aria-label', 'แถบสกิล');
     this.row = el('div', 'hotbar-row');
@@ -42,6 +42,7 @@ export class ActionBar {
     this.atkBtn.title = 'ตีปกติใส่เป้าหมาย (เร็วขึ้นตาม AGI และบัฟ)';
     // the same as the Space key, so it also swings at the training dummy in the city
     this.atkBtn.addEventListener('click', () => window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' })));
+    if (exp) this.bar.append(exp);   // EXP across the top of the bar (src/character/ui/CharacterUI.js)
     this.bar.append(this.row, this.atkBtn, this.autoBtn, this.cfgBtn);
     if (potions.length) this.bar.append(el('span', 'hotbar-sep'), el('div', 'action-items'));
     this.bar.querySelector('.action-items')?.append(...potions);

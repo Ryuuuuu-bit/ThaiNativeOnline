@@ -1,0 +1,245 @@
+/* =========================================================================
+   Game UI theme: one look for every in-game box.
+   Dark glass panels, a gold hairline, thin Thai-style corner brackets,
+   rounded corners and flat buttons (design: docs/art, artifact "UI ใหม่").
+   Loaded last (src/main.js) so it restyles the older per-module CSS without
+   touching their behaviour. Layout moves are desktop-only (≥ 901 px); the
+   compact and portrait layouts in src/style.css keep their positions.
+   ========================================================================= */
+:root{
+  --t-panel:linear-gradient(180deg,rgba(28,37,50,.9),rgba(13,18,26,.93));
+  --t-panel-night:linear-gradient(180deg,rgba(22,28,52,.9),rgba(10,13,28,.94));
+  --t-ink:#eef1f6; --t-dim:#a9b3c2; --t-mute:#7d8796;
+  --t-gold:#e8c882; --t-gold-hi:#f7e2b0; --t-line:rgba(232,200,130,.26);
+  --t-acc:#3b82d6; --t-acc-2:#4a90e2; --t-good:#8fe08a; --t-bad:#ff9a85;
+  --t-card:rgba(255,255,255,.045); --t-card-line:rgba(255,255,255,.08);
+  --t-radius:16px;
+}
+
+/* ---------- panels ---------- */
+body :is(.glass,.ro-window,.auto-panel,.hotbar-tip,.net-chat .net-box){
+  background:var(--t-panel);border:0;border-radius:var(--t-radius);color:var(--t-ink);
+  box-shadow:0 0 0 1px var(--t-line),0 18px 44px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+body.g-night :is(.glass,.ro-window,.auto-panel,.hotbar-tip){background:var(--t-panel-night);box-shadow:0 0 0 1px rgba(170,190,240,.24),0 18px 44px rgba(2,4,13,.6),inset 0 1px 0 rgba(255,255,255,.06)}
+/* thin gold brackets in the four corners of the big windows */
+body :is(.settings,.shop,.fullmap,.dialogue,.g-panel,.auto-panel,.mm-grid)::before{content:"";position:absolute;inset:7px;pointer-events:none;opacity:.55;border-radius:10px;
+  background:linear-gradient(var(--t-gold),var(--t-gold)) left top/16px 1.5px no-repeat,linear-gradient(var(--t-gold),var(--t-gold)) left top/1.5px 16px no-repeat,
+             linear-gradient(var(--t-gold),var(--t-gold)) right top/16px 1.5px no-repeat,linear-gradient(var(--t-gold),var(--t-gold)) right top/1.5px 16px no-repeat,
+             linear-gradient(var(--t-gold),var(--t-gold)) left bottom/16px 1.5px no-repeat,linear-gradient(var(--t-gold),var(--t-gold)) left bottom/1.5px 16px no-repeat,
+             linear-gradient(var(--t-gold),var(--t-gold)) right bottom/16px 1.5px no-repeat,linear-gradient(var(--t-gold),var(--t-gold)) right bottom/1.5px 16px no-repeat}
+
+/* window title: centred, gold hairlines either side, round close button */
+body .panel-heading{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;margin:-4px -6px 14px;padding:2px 44px 12px;
+  font:600 18px 'Noto Serif Thai',serif;letter-spacing:.03em;color:#f8ecd0;border-bottom:1px solid rgba(232,200,130,.22)}
+body .panel-heading::before,body .panel-heading::after{content:"";flex:none;width:30px;height:1px;background:linear-gradient(90deg,transparent,var(--t-gold))}
+body .panel-heading::after{order:3;background:linear-gradient(90deg,var(--t-gold),transparent)}
+body .shop .panel-heading span{order:2;align-items:center}
+body .shop .panel-heading small{font:12px 'Noto Sans Thai',sans-serif;color:var(--t-dim)}
+body :is(.panel-heading button,#dlg-close,.auto-panel .auto-close){position:absolute;right:-2px;top:-4px;width:32px;height:32px;display:grid;place-items:center;padding:0;
+  border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#dfe5ee;font:400 18px/1 'Noto Sans Thai',sans-serif;transition:background .15s}
+body :is(.panel-heading button,#dlg-close,.auto-panel .auto-close):hover{background:#c8392b;border-color:#e45a49}
+
+/* ---------- controls ---------- */
+body kbd{font:600 11px 'Noto Sans Thai',sans-serif;color:var(--t-gold-hi);background:rgba(255,255,255,.07);border:1px solid rgba(232,200,130,.38);border-radius:5px;padding:1px 6px}
+body :is(#dlg-shop,#dlg-quests .quest button,.g-death button,.g-start,.g-reset:not(:disabled)){border:0;border-radius:10px;padding:7px 16px;font-size:13px;font-weight:600;color:#fff;
+  background:linear-gradient(180deg,var(--t-acc-2),#2f6fc4);box-shadow:0 2px 10px rgba(47,111,196,.35),inset 0 1px 0 rgba(255,255,255,.22)}
+body :is(.dlg-actions button:not(#dlg-shop),.g-bag-sort,.training-reset,.auto-range button,.shop-tabs button,.g-stat button){border:0;border-radius:9px;color:#e6ebf2;
+  background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}
+body :is(.shop-tabs button,.auto-range button)[aria-pressed="true"]{color:var(--t-gold-hi);background:rgba(232,200,130,.16);box-shadow:inset 0 0 0 1px rgba(232,200,130,.5);font-weight:600}
+body .g-stat button:not(:disabled){color:#fff;background:#2c8a43;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+body :is(.settings select,.g-bag-search,.net-chat input){border:0;border-radius:9px;background:rgba(0,0,0,.35);color:var(--t-ink);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);padding:7px 10px}
+body :is(.settings,.auto-panel) input[type=range]{accent-color:var(--t-acc)}
+body :is(.settings,.auto-panel,.g-bag) input[type=checkbox]{accent-color:var(--t-acc);width:16px;height:16px}
+
+/* bars: rounded pills */
+body .g-bar{height:14px;border:0;border-radius:999px;background:rgba(0,0,0,.45);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+body .g-bar span{border-radius:999px}
+body .g-bar em{font-size:10px;line-height:14px;font-weight:600}
+body .g-hp span,body .g-thp span{background:linear-gradient(180deg,#f07462,#c8322a)}
+body .g-mp span{background:linear-gradient(180deg,#6aa8ec,#2f6fc4)}
+body .g-exp span{background:linear-gradient(180deg,#c48af0,#8a3fcf)}
+
+/* item and skill slots */
+body :is(.g-slot,.g-equip button,.auto-slots button){border:1px solid rgba(255,255,255,.09);border-radius:11px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02))}
+body .g-slot.empty{background:rgba(255,255,255,.025)}
+body .g-slot:not(.empty):hover{background:rgba(255,255,255,.12)}
+body .g-slot:has(.icon-img){box-shadow:inset 0 0 0 1px var(--rar),0 0 8px color-mix(in srgb,var(--rar) 25%,transparent)}
+body :is(.hotbar-slot,.action-bar .g-potion){border-radius:11px;background:rgba(0,0,0,.4);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+body .hotbar-slot img{border-radius:10px}
+body .hotbar-slot .key,body .action-bar .g-potion kbd{border-radius:4px;font-size:10px;line-height:13px}
+body .hotbar-sep{background:rgba(255,255,255,.1)}
+
+/* ---------- HUD ---------- */
+body .g-player{border-radius:18px}
+body .g-portrait{border-radius:50%;border:2px solid var(--t-gold);box-shadow:0 0 0 3px rgba(13,18,26,.85)}
+body .g-portrait .cls-badge{border-radius:50%}
+body .g-lv{border-radius:999px;background:var(--t-acc);border-color:var(--t-gold-hi);color:#fff;font:700 11px/16px 'Noto Sans Thai',sans-serif}
+body .g-player-name{font-size:14px} body .g-player-name span{font-size:12px;color:var(--t-dim)}
+body .g-player .g-exp{display:none}                       /* EXP lives on the action bar */
+body .g-buffs i{border-radius:6px;background:rgba(0,0,0,.35);border-color:rgba(232,200,130,.4)}
+body .g-target{border-radius:14px}
+body .g-target-name{font-size:14px} body .g-target-name span{font-size:12px}
+body .hotbar{border-radius:20px;padding:8px 10px;gap:8px}
+body .action-bar{flex-wrap:wrap;row-gap:6px}
+body .action-exp{flex:0 0 100%;order:-1;height:12px;margin:0}
+body .action-exp em{font-size:10px;line-height:12px}
+body .hotbar-auto{border:0;border-radius:12px;background:linear-gradient(180deg,#3a4a5c,#232f3d);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);color:#fff}
+body .hotbar-auto.on{background:linear-gradient(180deg,#47b862,#2c8a43);animation:none;box-shadow:0 0 14px rgba(120,230,120,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+body .hotbar-auto small{font-size:11px;color:#d6dde6}
+body :is(.hotbar-auto-cfg,.hotbar-attack){border:0;border-radius:12px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13);color:var(--t-gold-hi)}
+body .hotbar-tip{border-radius:12px;font-size:13px}
+body .hotbar-tip .ro-title{border-radius:12px 12px 0 0;background:rgba(232,200,130,.12);color:var(--t-gold-hi)}
+body .minimap{border-radius:18px}
+body .map-frame{border-radius:12px;background:linear-gradient(135deg,#f0d690,#9a6a2a 45%,#f6e0a0 55%,#8a5a22)}
+body .map-frame canvas{border-radius:10px}
+body .mini-title b{font-size:14px} body .mini-title small{font-size:11px}
+body .mini-footer,body .mini-footer #safety,body .mini-footer #coords{font-size:11px}
+body .zoom-ctl{border-radius:12px}
+body .zoom-ctl button{border:0;border-radius:9px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+body .exploration{border-radius:16px}
+body #quest-tracker{font-size:13px;line-height:1.6;color:var(--t-ink)}
+body #quest-tracker b{font-size:14px;font-weight:600;color:var(--t-gold-hi)}
+body #quest-tracker span.done{color:var(--t-good)}
+body .g-log{font-size:12px;border-radius:8px;background:rgba(13,18,26,.78)}
+body .interaction{border:0;border-radius:12px;background:var(--t-panel);box-shadow:0 0 0 1px var(--t-line);font-size:14px}
+body #toast{border:0;border-radius:var(--t-radius);background:var(--t-panel);box-shadow:0 0 0 1px var(--t-line),0 18px 44px rgba(0,0,0,.5)}
+body .location h1{text-shadow:0 2px 10px rgba(0,0,0,.65)}
+body .location .tiny,body .weather{font-size:12px}
+
+/* chat: a glass box bottom-left */
+body .net-chat{font-size:13px}
+body .net-chat header{border:0;border-radius:9px 9px 0 0;background:rgba(13,18,26,.88);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);padding:4px 12px}
+body .net-chat header b{color:var(--t-gold-hi)}
+body .net-lines p{border-radius:7px;background:rgba(13,18,26,.72)}
+body .net-lines p b{color:#8fc3ff}
+
+/* main menu: one button bottom-right, a grid of tiles above it */
+.mm-btn{position:absolute;right:20px;bottom:20px;z-index:7;width:68px;height:68px;padding:0;border:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  color:var(--t-gold-hi);font-size:12px;background:var(--t-panel);box-shadow:0 0 0 1px rgba(232,200,130,.32),0 10px 24px rgba(0,0,0,.5);backdrop-filter:blur(10px);zoom:var(--ui,1)}
+.mm-btn svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+.mm-btn.on{box-shadow:0 0 0 2px var(--t-gold),0 0 18px rgba(232,200,130,.45)}
+.mm-dot{position:absolute;right:-4px;top:-4px;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#ff8a72,#c8281a);box-shadow:0 0 0 2px #0d121a}
+.mm-grid{position:absolute;right:20px;bottom:100px;z-index:7;display:grid;grid-template-columns:repeat(3,92px);gap:9px;padding:14px;zoom:var(--ui,1)}
+.mm-grid button{position:relative;height:88px;padding:0;border:1px solid rgba(255,255,255,.09);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  color:var(--t-ink);font-size:14px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));transition:transform .12s,border-color .12s}
+.mm-grid button:hover{transform:translateY(-2px);border-color:rgba(232,200,130,.6)}
+.mm-grid svg{width:30px;height:30px;stroke:#efd9a6;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mm-grid kbd{position:absolute;right:5px;top:5px;padding:0 5px;font-size:10px;line-height:16px;color:#1a1206;background:var(--t-gold);border:0}
+.mm-grid .mm-dot{right:-5px;top:-5px}
+.photo-mode .mm-btn,.photo-mode .mm-grid{display:none}
+/* the old top-right icons are hidden hooks now (map / settings are opened from the menu) */
+body .top-actions{display:none}
+
+/* ---------- windows ---------- */
+body .g-panel{padding:18px 18px 16px;font-size:13px;border-radius:var(--t-radius)}
+body .g-sheet-head b{font-size:16px} body .g-sheet-head small{font-size:12px}
+body .g-stat{font-size:14px;padding:4px 0} body .g-stat span small{font-size:11px}
+body .g-derived{font-size:12px;padding:10px 12px;border:0;border-radius:12px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line)}
+body .g-equip small{font-size:11px}
+body .g-gold{font-size:15px;font-weight:600;color:var(--t-gold-hi)}
+body .g-bag-tabs{padding:3px;gap:2px;border-radius:11px;background:rgba(0,0,0,.32)}
+body .g-bag-tabs button{border:0;border-radius:8px;background:none;font-size:12px;color:var(--t-dim)}
+body .g-bag-tabs button[aria-selected="true"]{color:var(--t-gold-hi);background:rgba(232,200,130,.16);box-shadow:inset 0 0 0 1px rgba(232,200,130,.5)}
+body .g-bag-auto{font-size:11px}
+body .g-hint{font-size:11px;color:var(--t-mute)}
+body .g-grid{gap:7px}
+.g-detail{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line)}
+.g-detail-icon{width:48px;height:48px;border-radius:10px;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--rar)}
+.g-detail-icon .icon-img{width:40px;height:40px;image-rendering:pixelated}
+.g-detail b{display:block;font:600 15px 'Noto Serif Thai',serif}
+.g-detail small{display:block;font-size:11px;color:var(--t-dim);line-height:1.5}
+.g-detail small .up{color:var(--t-good)} .g-detail small .down{color:var(--t-bad)}
+.g-detail-bonus{display:flex;flex-wrap:wrap;gap:2px 10px;font-size:12px;font-weight:600}
+.g-detail-bonus i{font-style:normal;color:var(--t-good)}
+
+body .settings{font-size:13px}
+body .settings label{font-size:13px;color:var(--t-ink)}
+body .settings output{font-size:12px;color:var(--t-gold-hi)}
+.set-body{display:grid;grid-template-columns:150px 1fr;gap:16px;min-height:0}
+.set-tabs{display:flex;flex-direction:column;gap:6px}
+.set-tabs button{padding:9px 12px;text-align:left;border:0;border-radius:10px;font-size:14px;color:var(--t-dim);background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.set-tabs button[aria-selected="true"]{color:var(--t-gold-hi);background:rgba(232,200,130,.15);box-shadow:inset 0 0 0 1px rgba(232,200,130,.5)}
+.set-pane{min-width:0;padding:12px 14px;border-radius:12px;background:rgba(0,0,0,.22);box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.set-pane label{margin-bottom:14px}
+.set-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:13px}
+.set-note{margin:6px 0 0;font-size:11px;color:var(--t-mute)}
+.set-pane .audio-settings label{display:block;margin-bottom:14px}
+.set-switch{position:relative;width:46px;height:26px;padding:0;border:0;border-radius:13px;background:rgba(255,255,255,.16);transition:background .15s}
+.set-switch::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#e8edf3;transition:left .15s}
+.set-switch[aria-pressed="true"]{background:var(--t-acc)} .set-switch[aria-pressed="true"]::after{left:23px;background:#fff}
+.set-keys{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;align-content:start}
+.set-keys span,.set-keys button{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.set-keys button{border:0;border-bottom:1px solid rgba(255,255,255,.06);background:none;text-align:left;color:var(--t-gold-hi);cursor:pointer}
+.set-keys kbd{margin:0}
+
+body .shop-row{border:0;border-radius:11px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line);padding:8px 10px}
+body .shop-row:hover:not(:disabled){box-shadow:inset 0 0 0 1px rgba(232,200,130,.55)}
+body .shop-row b{font-size:14px} body .shop-row small{font-size:12px} body .shop-row em{font-size:13px;color:var(--t-gold-hi)}
+body #shop-gold{font-size:14px;color:var(--t-gold-hi)}
+body .shop-tabs button{padding:6px 16px;font-size:13px}
+
+body .dialogue{border-radius:var(--t-radius)}
+body .dlg-head{position:relative}
+body .dlg-head h3{font-size:19px;color:var(--t-gold-hi)}
+body .dlg-head span{font-size:12px;color:var(--t-dim)}
+body .dlg-icon{width:46px;height:46px;font-size:20px;border:2px solid var(--t-gold);background:rgba(13,18,26,.9)}
+body #dlg-line{font-size:15px;line-height:1.8}
+body .service{border:0;border-radius:10px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line);font-size:12px}
+body #dlg-quests .quest{border:0;border-radius:12px;background:var(--t-card);box-shadow:inset 0 0 0 1px rgba(232,200,130,.3);font-size:13px;padding:11px 13px}
+body #dlg-quests .quest h4{font-size:15px;color:var(--t-gold-hi)}
+body #dlg-quests .quest .reward{font-size:12px;color:var(--t-gold)}
+body .dlg-actions{font-size:12px;color:var(--t-dim)}
+body .dlg-actions button{padding:6px 14px;font-size:13px}
+
+body .fullmap{border-radius:var(--t-radius)}
+body .fullmap p,body .map-legend{font-size:12px}
+body .map-legend{color:var(--t-ink)}
+
+body .auto-panel{font-size:13px;padding:16px 18px;border-radius:var(--t-radius)}
+body .auto-panel .ro-title{position:relative;justify-content:center;font:600 18px 'Noto Serif Thai',serif;color:#f8ecd0;margin:-2px -4px 10px;padding:0 40px 10px;border-bottom:1px solid rgba(232,200,130,.22)}
+body .auto-panel h4{font-size:13px;color:var(--t-gold);margin:12px 0 6px}
+body .auto-panel h4 small{font-size:11px}
+body .auto-slots{gap:6px}
+body .auto-slots button.survival{border-color:rgba(143,224,138,.7)}
+body .auto-row b{color:var(--t-gold-hi)}
+body .auto-note{font-size:11px;padding:8px 10px;border-radius:10px;background:var(--t-card)}
+
+body .training-panel{font-size:13px}
+body .training-sub,body .training-tip{font-size:11px}
+body .training-sum div{border:0;border-radius:9px;background:var(--t-card)}
+body .training-sum dt{font-size:11px}
+body .g-death button{padding:10px 26px;font-size:14px}
+
+/* ---------- desktop layout (the compact / portrait layouts keep src/style.css) ---------- */
+@media (min-width:901px){
+  body .topbar .brand{display:none}
+  body .bottom .version{display:none}
+  body .g-player{left:20px;top:20px;width:300px}
+  body .minimap{right:20px;top:20px;width:236px}
+  body .exploration{left:auto;right:20px;top:282px;width:236px;padding:12px 14px}
+  body .g-target{top:118px}
+  body:not(.ui-compact) .hotbar{bottom:18px}
+  body .net-chat{left:20px;bottom:20px;width:340px}
+  body .g-feed{right:20px;bottom:110px}
+  body .g-sheet{left:20px;top:130px;width:340px}
+  body .g-bag{right:20px;left:auto;top:130px;width:380px}
+  body .shop{left:20px;top:130px;transform:none;width:400px;max-height:calc(100dvh - 260px)}
+  body .settings{left:50%;top:50%;right:auto;transform:translate(-50%,-50%);width:min(760px,calc(100% - 40px));max-height:calc(100dvh - 80px);overflow:auto;padding:18px 20px 20px}
+  body .auto-panel{left:50%;top:50%;right:auto;bottom:auto;transform:translate(-50%,-50%);width:min(440px,calc(100% - 40px))}
+  body .dialogue{bottom:132px;width:min(620px,calc(100% - 40px));padding:18px 20px 16px}
+  body .training-panel{right:276px;top:20px}
+}
+@media (max-width:900px){
+  body .settings{left:12px;right:12px;width:auto;top:60px;max-height:calc(100dvh - 120px);overflow:auto}
+  .set-body{grid-template-columns:1fr}
+  .set-tabs{flex-direction:row;flex-wrap:wrap}
+  .mm-btn{right:12px;bottom:auto;top:60px;width:52px;height:52px;border-radius:14px}
+  .mm-btn span{display:none}
+  .mm-grid{right:12px;bottom:auto;top:120px;grid-template-columns:repeat(3,80px)}
+  .mm-grid button{height:76px;font-size:12px}
+}
+/* the account buttons (src/account) sit at the foot of the settings tab list */
+.set-tabs .acc-settings{display:flex;flex-direction:column;gap:6px;margin:auto 0 0;padding-top:10px}
+.set-tabs .acc-settings button{padding:8px 10px;border:0;border-radius:10px;font-size:12px;color:#e6ebf2;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}
+.set-tabs .acc-settings button:hover{box-shadow:inset 0 0 0 1px rgba(232,200,130,.55)}
