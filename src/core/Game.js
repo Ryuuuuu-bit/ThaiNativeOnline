@@ -1,3 +1,4 @@
+import { BackgroundTicker } from './BackgroundTicker.js';
 import * as THREE from 'three';
 import { MapManager } from '../world/MapManager.js';
 import { MAPS, walkBounds } from '../world/maps.js';
@@ -104,6 +105,13 @@ export class Game {
     this.frame(0, 1 / 60);
     $('loading').classList.add('done'); setTimeout(() => { $('loading').hidden = true; }, 700);
     this.renderer.setAnimationLoop(time => this.tick(time));
+    // A hidden tab gets no frames: a worker beat steps the game meanwhile (src/core/BackgroundTicker.js).
+    this.ticker = new BackgroundTicker(now => this.backgroundStep(now));
+    const onVisibility = () => {
+      if (document.hidden) { this.bgPrevious = performance.now(); this.ticker.start(); }
+      else { this.ticker.stop(); this.previous = null; }
+    };
+    document.addEventListener('visibilitychange', onVisibility); onVisibility();
     window.game = this;
   }
 
@@ -434,7 +442,14 @@ export class Game {
     this.frames++; this.fpsTime += dt;
     if (this.fpsTime > .5) { this.fps = this.frames / this.fpsTime; this.frames = 0; this.fpsTime = 0; }
   }
-  frame(time, dt) {
+  // One beat while the tab is hidden: the time since the last one in steps of at most 50 ms
+  // (as a frame would be), at most a second's worth, nothing drawn.
+  backgroundStep(now) {
+    let left = Math.min((now - this.bgPrevious) / 1000, 1);
+    this.bgPrevious = now;
+    while (left > 1e-4) { const dt = Math.min(left, .05); left -= dt; this.frame(now, dt, false); }
+  }
+  frame(time, dt, draw = true) {
     this.elapsed += dt;
     const p = this.player.position, view = this.view;
     this.clock.update(dt);
@@ -506,6 +521,6 @@ export class Game {
 แผนที่ย่อ วาด ${this.minimap.stats.drawMs} ms · ปูพื้น ${this.minimap.stats.buildMs} ms`);
       }
     }
-    this.postfx.render();
+    if (draw) this.postfx.render();
   }
 }
