@@ -131,6 +131,8 @@ export class ActionBar {
       if (kind && c.quickUse(kind)) this.potionWait = 1.5;
     }
     if (ctl.busy) return;
+    // the player is walking somewhere by hand: AUTO waits until they stop
+    if (this.combat?.world?.manualMove?.()) { this.autoWait = .3; return; }
     if ((this.autoWait -= dt) > 0) return;
     // the target, by the priority in the settings
     const cb = this.combat;

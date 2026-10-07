@@ -1,5 +1,5 @@
 /* Other players' name plates (src/net/RemotePlayers.js) and the chat box (src/net/Multiplayer.js). */
-.plate.is-player { color: #bfe6ff; border-color: #7fb7e855; }
+.plate.is-player { color: #bfe6ff; border-color: #7fb7e855; pointer-events: auto; cursor: pointer; }
 .plate.is-player small { color: #9ec3dc; }
 
 .net-chat { position: absolute; left: 34px; bottom: 250px; width: 300px; max-width: calc(100vw - 32px); z-index: 6; zoom: var(--ui, 1); pointer-events: none; font-size: 11px; color: #f0ead6; }
@@ -31,3 +31,70 @@
 .ch-pick button i{font:9px monospace;color:#b7c1a6;font-style:normal}
 .ch-pick .low span{color:#9fd49a}.ch-pick .mid span{color:#e8c986}.ch-pick .full span{color:#f08a6a}
 .ch-pick .here{border-color:#9cc0e8aa}
+
+/* parties and trade — src/net/Social.js */
+.net-lines p.party b { color: #8fe0a8; }
+.soc-menu { position: fixed; z-index: 12; min-width: 160px; padding: 8px; display: flex; flex-direction: column; gap: 4px; transform: translate(-50%, 8px); }
+.soc-menu header { font-size: 12px; color: #f0d79a; margin-bottom: 2px; }
+.soc-menu header small { display: block; font-size: 9px; color: #b7c1a6; }
+.soc-menu button, .soc-ask button, .soc-trade footer button, .soc-party header button { background: #2b4034; border: 1px solid #cdb37a66; border-radius: 3px; padding: 5px 9px; font-size: 11px; }
+.soc-menu button:hover, .soc-ask button:hover, .soc-trade footer button:hover:not(:disabled) { background: #3d5a48; }
+.soc-asks { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 11; display: flex; flex-direction: column; gap: 6px; zoom: var(--ui, 1); }
+.soc-ask { padding: 10px 14px; font-size: 12px; text-align: center; }
+.soc-ask p { margin: 0 0 8px; } .soc-ask b { color: #9fd0ff; font-weight: 600; }
+.soc-ask div { display: flex; gap: 8px; justify-content: center; }
+.soc-party { position: absolute; left: 34px; top: 196px; width: 220px; padding: 8px 10px; z-index: 4; zoom: var(--ui, 1); font-size: 11px; }
+.soc-party header { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.soc-party header b { color: #e1c983; font-weight: 600; } .soc-party header span { font-size: 9px; color: #b7c1a6; flex: 1; }
+.soc-party header button { padding: 1px 7px; font-size: 9px; }
+.soc-mem { display: grid; grid-template-columns: 1fr 56px auto; gap: 6px; align-items: center; padding: 3px 0; border-top: 1px solid #f0e3b314; }
+.soc-mem span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.soc-mem span i { font-style: normal; color: #f0c86a; margin-right: 3px; }
+.soc-mem small { display: block; font-size: 8px; color: #a9b49e; }
+.soc-mem em { height: 5px; border-radius: 2px; background: #091a17aa; overflow: hidden; }
+.soc-mem em b { display: block; height: 100%; background: linear-gradient(90deg, #b8483a, #e0705a); }
+.soc-mem em.none { background: none; }
+.soc-mem.me span { color: #f6efd8; } .soc-mem.dead { opacity: .55; }
+.soc-mem button { border: 0; background: none; color: #e89a8a; font-size: 13px; padding: 0 2px; }
+.soc-trade { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 60px); overflow: auto; padding: 14px; z-index: 10; font-size: 12px; }
+.soc-trade header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.soc-trade header b { color: #f0d79a; font-weight: 600; } .soc-trade header button { border: 0; background: none; font-size: 16px; }
+.soc-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.soc-sides section { background: #0b18148a; border: 1px solid #d3c48726; border-radius: 3px; padding: 8px; }
+.soc-sides h4 { margin: 0 0 6px; font-size: 11px; font-weight: 600; color: #e1c983; display: flex; justify-content: space-between; gap: 6px; }
+.soc-sides h4 i { font-style: normal; font-size: 9px; color: #e8c986; } .soc-sides h4 i.ok { color: #8fe0a8; } .soc-sides h4 i.no { color: #b7c1a6; }
+.soc-list { display: flex; flex-direction: column; gap: 3px; min-height: 60px; }
+.soc-list p { margin: 0; font-size: 10px; color: #8d9f8f; }
+.soc-list .soc-it { display: flex; align-items: center; gap: 6px; text-align: left; background: #ffffff0a; border: 1px solid var(--rar); border-radius: 3px; padding: 3px 6px; font-size: 11px; }
+.soc-list .soc-it span { width: 22px; height: 22px; display: grid; place-items: center; }
+.soc-list .soc-it:disabled { cursor: default; color: inherit; }
+.soc-sides label { display: flex; gap: 6px; align-items: center; margin-top: 8px; font-size: 11px; }
+.soc-sides input { width: 100%; background: #06110e; border: 1px solid #c9bd802d; color: #f3eedb; border-radius: 3px; padding: 4px 6px; }
+.soc-gold { margin: 8px 0 0; font-size: 11px; color: #f0d79a; }
+.soc-hint { font-size: 9px; color: #b7c1a6; margin: 8px 0; }
+.soc-bag { display: grid; grid-template-columns: repeat(auto-fill, 40px); gap: 4px; margin-bottom: 10px; }
+.soc-bag .soc-it { position: relative; width: 40px; height: 40px; border: 1px solid var(--rar); background: #0d1c17; border-radius: 3px; padding: 0; display: grid; place-items: center; }
+.soc-bag .soc-it small { position: absolute; right: 2px; bottom: 0; font-size: 9px; text-shadow: 0 0 3px #000; }
+.soc-bag .soc-it i { position: absolute; right: 2px; top: 0; font-style: normal; font-size: 9px; color: #ffd36b; text-shadow: 0 0 3px #000; }
+.soc-trade footer { display: flex; gap: 8px; justify-content: flex-end; }
+.soc-trade footer button:disabled { opacity: .4; cursor: default; }
+@media (max-width: 900px) { .soc-party { left: 20px; top: 180px; width: 190px; } }
+.photo-mode .soc-party, .photo-mode .soc-asks { display: none; }
+.soc-it .icon-img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.soc-bag .soc-it .icon-img { width: 32px; height: 32px; }
+
+.net-lines p.whisper b { color: #e8a8f0; }
+.soc-panel { position: absolute; right: 34px; top: 280px; width: 300px; max-height: calc(100dvh - 320px); display: flex; flex-direction: column; padding: 10px; z-index: 8; zoom: var(--ui, 1); font-size: 11px; }
+.soc-panel header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.soc-panel header b { color: #f0d79a; font-weight: 600; } .soc-panel header button { border: 0; background: none; font-size: 14px; }
+.soc-panel nav { display: flex; gap: 4px; margin-bottom: 6px; }
+.soc-panel nav button { flex: 1; background: #ffffff0a; border: 1px solid #d3c48726; border-radius: 3px; padding: 4px; font-size: 10px; }
+.soc-panel nav button[aria-pressed="true"] { background: #3d5a48; border-color: #cdb37a88; }
+.soc-rows { overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.soc-rows p { margin: 6px 0; font-size: 10px; color: #8d9f8f; }
+.soc-row { display: flex; align-items: center; gap: 4px; padding: 4px 2px; border-top: 1px solid #f0e3b314; }
+.soc-row span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.soc-row b { font-weight: 500; } .soc-row small { display: block; font-size: 8px; color: #a9b49e; }
+.soc-row.off { opacity: .55; } .soc-row em { font-style: normal; font-size: 9px; color: #a9b49e; }
+.soc-row button { background: #2b4034; border: 1px solid #cdb37a55; border-radius: 3px; padding: 2px 6px; font-size: 9px; }
+@media (max-width: 900px) { .soc-panel { right: 20px; top: 220px; width: 250px; } }

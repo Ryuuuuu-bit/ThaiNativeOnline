@@ -36,15 +36,19 @@ export function autoPotion(s, hpFrac, mpFrac) {
 }
 
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
-// The next monster to fight: keep a live current target in range; otherwise monsters
-// already hunting the player, then elites/bosses, then the nearest — all within range.
-export function pickTarget(monsters, me, s, current = null) {
+// "Attacking us" means it swung at this player in the last ATTACKER_SECS (Combat.monsterAttack
+// stamps `swungAtMe`; online a monster chasing someone else does not count). Among the rest
+// the nearest wins; with `elites` on, an elite or boss counts ELITE_PULL metres nearer.
+export const ATTACKER_SECS = 5, ELITE_PULL = 3;
+export function pickTarget(monsters, me, s, current = null, now = Date.now()) {
   const R = AUTO_RANGES[s.range] ?? AUTO_RANGES.mid;
-  if (current?.alive && dist(current, me) <= R + 2) return current;
+  const hitting = m => s.attackers && m.swungAtMe && now - m.swungAtMe < ATTACKER_SECS * 1000;
   const near = monsters.filter(m => m.alive && m.state !== 'dormant' && dist(m, me) <= R);
+  // a live current target in reach is kept, unless something else is hitting us and it is not
+  if (current?.alive && dist(current, me) <= R + 2 && (hitting(current) || !near.some(hitting))) return current;
   if (!near.length) return null;
-  const rank = m => (s.attackers && m.state === 'chase' ? 0 : 2) + (s.elites && (m.def?.boss || m.def?.elite) ? 0 : 1);
-  return near.sort((a, b) => rank(a) - rank(b) || dist(a, me) - dist(b, me))[0];
+  const score = m => (hitting(m) ? -1000 : 0) + dist(m, me) - (s.elites && (m.def?.boss || m.def?.elite) ? ELITE_PULL : 0);
+  return near.sort((a, b) => score(a) - score(b))[0];
 }
 
 // Slots to try this tick: enabled ones in bar order from `next`; when HP is under the

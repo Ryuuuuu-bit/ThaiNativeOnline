@@ -17,12 +17,13 @@ import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (s
 
 const SAVE_KEY = 'tno.character.v1';
 const INVENTORY_SIZE = 24;
+export const FRIENDS_MAX = 50;
 // Gear bonus keys passed to computeDerived besides the base stats.
 const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -41,6 +42,8 @@ export class Character extends Emitter {
     this.evo = {};
     for (const [id, pick] of Object.entries(evo ?? {})) if (EVOLUTIONS[id]?.[pick] && ids.includes(id)) this.evo[id] = pick;
     this.alloc = { ...emptyAlloc(), ...alloc };
+    // friends: other characters' names (server/index.js keeps the list; online / offline notices)
+    this.friends = Array.isArray(friends) ? [...new Set(friends.filter(n => typeof n === 'string' && n.trim()).map(n => n.slice(0, 16)))].slice(0, FRIENDS_MAX) : [];
     // gear in the bag may carry cards (src/character/data/cards.js): only real ones, no more than its slots
     // and a plus from ตีบวก (src/character/data/refine.js): only on gear that takes one
     this.inventory = inventory ? inventory.map(s => {
@@ -291,6 +294,16 @@ export class Character extends Emitter {
     this.emit('inventory');
     return true;
   }
+  // A whole item instance into the bag: gear keeps its cards and plus (a trade, server/trades.js).
+  addInstance(s) {
+    const def = ITEMS[s?.id]; if (!def) return false;
+    if (def.type !== 'equip') return this.addItem(s.id, s.qty);
+    const free = this.inventory.indexOf(null);
+    if (free < 0 || this.carryRoom(s.id) < 1) return false;
+    this.inventory[free] = { id: s.id, qty: 1, ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}) };
+    this.emit('inventory');
+    return true;
+  }
   removeAt(index, qty = 1) {
     const slot = this.inventory[index]; if (!slot) return;
     slot.qty -= qty; if (slot.qty <= 0) this.inventory[index] = null;
@@ -450,7 +463,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

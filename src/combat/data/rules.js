@@ -21,5 +21,5 @@ export const RULES = {
   // turns them into metres. Casts need the target within [minRange, maxRange] m
   // (melee kits dash the last metres themselves); farther, the player walks in for
   // up to approachTimeout s. A blow with no rules multiplier hits at fallbackMult.
-  kit: { pxPerMeter: 25, minRange: 3, maxRange: 12, approachTimeout: 6, fallbackMult: 1, targetRange: 14 },
+  kit: { pxPerMeter: 25, minRange: 2.2, maxRange: 12, approachTimeout: 6, fallbackMult: 1, targetRange: 14 },
 };

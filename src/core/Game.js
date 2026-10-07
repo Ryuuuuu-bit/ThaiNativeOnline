@@ -32,6 +32,8 @@ import { MUSIC_FOR } from '../data/audio.js';
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 
+// a local build (npm run dev / a server on this machine): the developer settings are open
+const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
@@ -89,7 +91,8 @@ export class Game {
     this.marker = new THREE.Mesh(new THREE.RingGeometry(.2, .27, 40), new THREE.MeshBasicMaterial({ color: '#fff0b2', transparent: true, opacity: .8, side: THREE.DoubleSide, depthWrite: false }));
     this.marker.rotation.x = -Math.PI / 2; this.marker.visible = false; this.scene.add(this.marker);
     if (params.get('ui') === '0') this.togglePhoto();
-    if (params.has('debug')) this.toggleDebug();
+    this.setDev(DEV_HOST);
+    if (params.has('debug') && this.devAllowed) this.toggleDebug();
     this.updateJournal();
     this.frame(0, 1 / 60);
     $('loading').classList.add('done'); setTimeout(() => { $('loading').hidden = true; }, 700);
@@ -191,6 +194,8 @@ export class Game {
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
       moveTo: (x, z) => { this.route = []; this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; this.walkBest = Infinity; this.walkStall = 0; },
       stop: () => this.stopWalk(),
+      // walking by hand (a click on the ground, keys, the joystick): AUTO and chasing wait for it
+      manualMove: () => (!!this.destination && !this.autoWalk) || this.input.keys.size > 0 || !!(this.input.stick.x || this.input.stick.y),
       respawnPoint: this.maps.respawn, spawns: this.maps.zones,
       isSafe: () => this.maps.map?.safe ?? true, // qa fix: no "danger" tip in the safe city at login
     });
@@ -315,7 +320,17 @@ export class Game {
       view: this.view.groundFootprint(), nav: this.nav,
     };
   }
+  // World time, wind and the developer view are for GMs (the server says so) and local builds;
+  // everyone else keeps the shared clock and the default wind.
+  setDev(on) {
+    this.devAllowed = !!on; document.body.classList.toggle('dev-mode', this.devAllowed);
+    if (on) return;
+    if ($('time-mode').value !== 'auto') { $('time-mode').value = 'auto'; $('time-mode').dispatchEvent(new Event('change')); }
+    if ($('time-speed').value !== '1') { $('time-speed').value = '1'; $('time-speed').dispatchEvent(new Event('change')); }
+    if (this.debugOn) this.toggleDebug();
+  }
   toggleDebug() {
+    if (!this.devAllowed && !this.debugOn) return;
     this.debugOn = !this.debugOn; $('debug').hidden = !this.debugOn; $('debug-toggle').checked = this.debugOn;
     if (!this.debugGroup) {
       // Navigation graph and future monster spawn areas.

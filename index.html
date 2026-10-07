@@ -24,16 +24,16 @@
       <aside class="exploration glass"><span class="eyebrow">บันทึกการเดินทาง</span><h2 id="journal-title">เมืองแห่งสายน้ำ</h2><p id="journal-text">ตลาด วัด และลานฝึกริมแม่น้ำ<br>ประตูวาปทิศเหนือพาออกสู่ทุ่งนา</p><div class="quest-line"><span id="quest-symbol">◇</span><span id="quest-text">ค้นพบสถานที่ 0/0</span></div><span class="quest-hint" id="quest-hint">เดินสำรวจเมืองเพื่อค้นพบสถานที่สำคัญ</span><div id="quest-tracker"></div></aside>
       <aside class="minimap glass"><div class="zoom-ctl glass" role="group" aria-label="ซูมกล้อง"><button id="zoom-in" title="ซูมเข้า (+)" aria-label="ซูมเข้า">+</button><button id="zoom-out" title="ซูมออก (−)" aria-label="ซูมออก">−</button><button id="map-open" title="แผนที่ใหญ่ (M)" aria-label="เปิดแผนที่ใหญ่">⤢</button><button id="zoom-lock" title="ล็อกระยะกล้อง" aria-label="ล็อกระยะกล้อง" aria-pressed="false">🔓</button></div><div class="mini-title"><b><span id="mini-name">นครอโยธยา</span><i id="mini-lv" hidden></i><button id="mini-ch" type="button" title="เปลี่ยนแชนแนล" aria-label="แชนแนล" hidden>CH 1</button></b><small id="mini-sub">ราชธานีริมแม่น้ำ</small></div><div class="map-frame"><canvas id="minimap" aria-label="แผนที่ย่อ"></canvas></div><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
       <section id="settings" class="settings glass" hidden>
-        <div class="panel-heading">บรรยากาศของโลก<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
-        <label>เวลาของโลก<select id="time-mode"><option value="auto">หมุนเวียนตามเวลา</option><option value="morning">เช้า</option><option value="day">กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
-        <label>ความเร็วเวลา<select id="time-speed"><option value="1">1 วัน = 24 นาที</option><option value="6">1 วัน = 4 นาที</option><option value="20">1 วัน = 72 วินาที</option></select></label>
-        <label>แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
+        <div class="panel-heading">ตั้งค่า<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
+        <label class="dev-only">เวลาของโลก<select id="time-mode"><option value="auto">หมุนเวียนตามเวลา</option><option value="morning">เช้า</option><option value="day">กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
+        <label class="dev-only">ความเร็วเวลา<select id="time-speed"><option value="1">1 วัน = 24 นาที</option><option value="6">1 วัน = 4 นาที</option><option value="20">1 วัน = 72 วินาที</option></select></label>
+        <label class="dev-only">แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
         <label>คุณภาพภาพ<select id="quality"><option value="high">สูง · Full HD</option><option value="medium">สมดุล</option></select></label>
         <label>ระยะกล้อง <output id="zoom-value">100%</output><input id="zoom" type="range" min="50" max="170" step="5" value="100" /></label>
         <label>ขนาดหน้าจอ (HUD)<select id="hud-size"><option value="0.85">เล็ก</option><option value="1" selected>พอดีจอ</option><option value="1.15">ใหญ่</option><option value="1.3">ใหญ่มาก</option></select></label>
         <label class="check-label"><input id="particles" type="checkbox" checked /> ละอองแสง หิ่งห้อย และใบไม้</label>
-        <label class="check-label"><input id="debug-toggle" type="checkbox" /> โหมดผู้พัฒนา (F3)</label>
-        <p>มุมกล้อง Orthographic · 2.5D</p>
+        <label class="check-label dev-only"><input id="debug-toggle" type="checkbox" /> โหมดผู้พัฒนา (F3)</label>
+        <p class="dev-only">มุมกล้อง Orthographic · 2.5D</p>
       </section>
       <div id="interaction" class="interaction" hidden><kbd>E</kbd><span id="interaction-text"></span></div>
       <section id="dialogue" class="dialogue glass" hidden aria-live="polite">

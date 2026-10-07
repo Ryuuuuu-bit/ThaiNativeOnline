@@ -23,6 +23,8 @@ export class RemotePlayers {
     model.group.visible = false;
     model.ready.then(() => { if (this.list.get(p.id)?.model === model) model.group.visible = true; }).catch(() => {});
     const plate = document.createElement('div'); plate.className = 'plate is-player'; this.layer.append(plate);
+    // a click on the name: what to do with that player (src/net/Social.js)
+    plate.addEventListener('click', e => { e.stopPropagation(); const r = this.list.get(p.id); if (r) this.onPick?.(r, e.clientX, e.clientY); });
     const r = { id: p.id, model, plate, name: p.name, cls: p.cls, lv: p.lv, x: p.x, z: p.z, f: p.f, m: p.m ?? 0, tx: p.x, tz: p.z, tf: p.f, time: 0 };
     model.group.position.set(p.x, this.heightAt(p.x, p.z), p.z);
     this.list.set(p.id, r); this.label(r);

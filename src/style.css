@@ -144,3 +144,7 @@ body:not(.ui-compact) .hotbar{bottom:84px}
 
 /* Zoom lock (🔒 under the zoom buttons). */
 #zoom-lock{font-size:15px}#zoom-lock.on{background:#6b4a22cc;border-color:#e1c983}
+
+/* settings only GMs and local builds see (src/core/Game.js setDev) */
+.settings .dev-only{display:none}.dev-mode .settings .dev-only{display:block}
+.dev-mode .settings label.check-label.dev-only{display:flex}

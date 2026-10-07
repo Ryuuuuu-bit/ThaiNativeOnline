@@ -37,7 +37,7 @@ export function createGame(o) {
     const combat = new Combat(character, {
       canStand: o.canStand,
       playerPos: () => o.player.group.position,
-      moveTo: o.moveTo, stop: o.stop,
+      moveTo: o.moveTo, stop: o.stop, manualMove: o.manualMove,
     }, o.spawns);
     const view = new CombatView(o.scene, combat, o.groundHeight);
     const layer = el('div', 'g-layer'); o.root.append(layer);
@@ -63,6 +63,7 @@ export function createGame(o) {
       combat.respawnPlayer(); character.save();
     };
     combat.on('player-death', () => { o.stop(); o.player.group.rotation.z = Math.PI / 2; });
+    combat.on('player-revived', () => { o.player.group.rotation.z = 0; character.save(); });
     combat.on('kill', () => character.save());
     character.on('levelup', () => character.save());
 

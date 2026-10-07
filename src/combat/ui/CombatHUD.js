@@ -74,6 +74,7 @@ export class CombatHUD {
     cb.on('spawn', m => { if (m.def.rare) { feed.log(`มีแสงประหลาดลอยอยู่ในป่า… ${m.name}ปรากฏตัว`, 'epic'); feed.banner(`${m.name}ปรากฏตัว`, 'Rare Monster · ล่าได้เฉพาะยามค่ำคืน'); } });
     cb.on('phase', phase => this.setPhase(phase));
     cb.on('player-death', () => { this.death.hidden = false; });
+    cb.on('player-revived', () => { this.death.hidden = true; feed.log('ฟื้นคืนชีพตรงจุดที่ล้ม', 'gold'); });
     cb.on('player-respawn', ({ goldLost }) => { this.death.hidden = true; if (goldLost) feed.log(`เสียทอง ${goldLost}`, 'bad'); });
   }
 

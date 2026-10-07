@@ -10,7 +10,7 @@ const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 import { RULES } from './data/rules.js';
 import { rollDamage } from '../rules/stats.js';
 import { followerAway } from '../classes/dog.js';
-import { MONSTER_ACCURACY } from '../character/data/progression.js';
+import { MONSTER_ACCURACY, killExp } from '../character/data/progression.js';
 import { afterHit, shoveTo } from './monsterHit.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 
@@ -210,8 +210,8 @@ export class Combat extends Emitter {
 
   kill(m) {
     m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn; m.debuffs = [];
-    const c = this.character, levelGap = m.level - c.level;
-    const exp = Math.round(m.def.exp * Math.max(.2, 1 + levelGap * .1) * (this.night ? NIGHT.expBonus : 1));
+    const c = this.character;
+    const exp = killExp(m.def.exp, c.level, m.level ?? m.def.level, !!(m.def.elite || m.def.boss), this.night ? NIGHT.expBonus : 1);
     const gold = randInt(...m.def.gold);
     const drops = [];
     for (const [id, chance, min, max] of LOOT[m.def.loot] || []) if (Math.random() < chance) drops.push({ id, qty: randInt(min, max) });
@@ -238,6 +238,8 @@ export class Combat extends Emitter {
 
     // Chase toward pending target, then fire. `hold` (set while a class kit skill
     // plays, src/training) pauses the player's own swings and chasing.
+    const byHand = !!this.world.manualMove?.();
+    if (byHand) { this.pending = null; this.autoAttack = false; }
     if (c.alive && this.pending && !this.hold) {
       const { skillId, target } = this.pending, skill = SKILLS[skillId];
       if (!target?.alive) this.pending = null;
@@ -368,6 +370,7 @@ export class Combat extends Emitter {
   monsterAttack(m, res = null, fx = null) {
     const c = this.character;
     m.attackTimer = m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay);
+    m.swungAtMe = Date.now();   // AUTO goes for the ones attacking us first (src/ui/autoSettings.js)
     this.combatTimer = COMBAT_TIMEOUT;
     this.emit('monster-attack', m);
     const at = this.world.playerPos();
@@ -396,6 +399,21 @@ export class Combat extends Emitter {
     }
   }
 
+  // Down at once (a GM's /gm hp 0, server/gm.js): the death screen, as if a monster did it.
+  knockOut() {
+    const c = this.character; if (!c.alive) return;
+    c.hp = 0; c.emit('change');
+    this.autoAttack = false; this.pending = null;
+    for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';
+    this.emit('player-death', null);
+  }
+  // Brought back where they fell (a healer's revive, src/net/Social.js): no gold lost.
+  reviveHere(ratio) {
+    if (this.character.alive) return false;
+    this.character.revive(ratio); this.combatTimer = 0;
+    this.emit('player-revived', { ratio });
+    return true;
+  }
   respawnPlayer() {
     const lost = Math.floor(this.character.gold * RULES.deathGoldLoss);
     this.character.gold -= lost;

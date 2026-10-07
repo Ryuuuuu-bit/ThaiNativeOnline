@@ -16,7 +16,7 @@
 //   inMap(room) and snapshot(room) take a room id (CH 1's room id is the map id).
 //   P.anim(conn, msg)     → relay message | null
 //   P.chat(conn, text)    → relay message | null
-//   P.leave(conn)         → { map, id } | null
+//   P.leave(conn)         → { map, id, name, account } | null
 //   P.allowJump(conn, m)  the next move may be m metres longer (thrown back / dragged by a monster)
 //   P.snapshot(map)       → [[id, x, z, f, m], …] of players who moved since the last one
 export const LIMITS = {
@@ -106,7 +106,7 @@ export class Presence {
   leave(conn) {
     const p = this.players.get(conn); if (!p) return null;
     this.players.delete(conn);
-    return { map: p.room, id: p.id };
+    return { map: p.room, id: p.id, name: p.name, account: p.account ?? null };
   }
   snapshot(room) {
     const out = [];
