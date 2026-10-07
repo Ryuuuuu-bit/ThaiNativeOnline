@@ -70,34 +70,45 @@ export class AutoPanel {
       if (e.target.closest('.auto-close')) { this.close(); return; }
       const slot = e.target.closest('[data-slot]');
       if (slot) { const i = Number(slot.dataset.slot), s = this.get(), off = s.off.includes(i) ? s.off.filter(x => x !== i) : [...s.off, i]; this.set({ off }); return; }
-      const rg = e.target.closest('[data-range]'); if (rg) this.set({ range: rg.dataset.range });
+      const step = e.target.closest('[data-step]');
+      if (step) { const [k, d] = step.dataset.step.split(':'); this.set({ [k]: clampPct(this.get()[k] + Number(d)) }); return; }
+      const rg = e.target.closest('[data-range]'); if (rg) { this.set({ range: rg.dataset.range }); return; }
+      if (e.target.closest('.auto-reset')) this.set({ ...DEFAULT_AUTO });
     });
-    this.root.addEventListener('input', e => { const k = e.target.dataset.key; if (!k) return; this.set({ [k]: e.target.type === 'checkbox' ? e.target.checked : Number(e.target.value) }, false); });
+    this.root.addEventListener('change', e => { const k = e.target.dataset.key; if (k) this.set({ [k]: e.target.checked }, false); });
     this.root.addEventListener('keydown', e => e.stopPropagation());
   }
-  set(patch, redraw = true) { this.onChange({ ...this.get(), ...patch }); if (redraw) this.render(); else this.labels(); }
+  set(patch, redraw = true) { this.onChange({ ...this.get(), ...patch }); if (redraw) this.render(); }
   get isOpen() { return !this.root.hidden; }
   open(slots) { this.slots = slots; this.root.hidden = false; this.render(); }
   close() { this.root.hidden = true; }
   toggle(slots) { if (this.isOpen) this.close(); else this.open(slots); }
-  labels() { const s = this.get(); for (const k of ['hpPotion', 'mpPotion', 'survive']) { const o = this.root.querySelector(`[data-out="${k}"]`); if (o) o.textContent = s[k] ? `${s[k]}%` : 'ปิด'; } }
+  // Laid out as the design "UI ใหม่" draws it: three columns of cards (skills · recovery ·
+  // targets), steppers for the thresholds, switches, the search radius in metres.
   render() {
     const s = this.get(), slots = this.slots ?? [];
-    const slider = (key, label, hint) => `<label class="auto-row" title="${hint}"><span>${label}</span><input type="range" min="0" max="90" step="5" value="${s[key]}" data-key="${key}"><b data-out="${key}"></b></label>`;
-    const check = (key, label) => `<label class="auto-check"><input type="checkbox" data-key="${key}" ${s[key] ? 'checked' : ''}> ${label}</label>`;
-    this.root.innerHTML = `<div class="ro-title">ตั้งค่า AUTO<button class="auto-close" aria-label="ปิด">×</button></div>
-      <h4>สกิลที่ใช้ <small>แตะเพื่อเปิด/ปิด</small></h4>
-      <div class="auto-slots">${slots.map((sl, i) => `<button type="button" data-slot="${i}" class="${s.off.includes(i) ? 'off' : ''}${sl.survival ? ' survival' : ''}" title="${sl.name}${sl.survival ? ' · สกิลเอาตัวรอด' : ''}">${sl.icon ? `<img src="${sl.icon}" alt="">` : `<span>${sl.html ?? ''}</span>`}<small>${(i + 1) % 10}</small></button>`).join('')}</div>
-      ${check('basic', 'ตีปกติระหว่างรอสกิล')}
-      <h4>ฟื้นฟู</h4>
-      ${slider('hpPotion', 'ดื่มยา HP เมื่อต่ำกว่า', 'ใช้ยาหม้อที่ดีที่สุดในกระเป๋า')}
-      ${slider('mpPotion', 'ดื่มยา MP เมื่อต่ำกว่า', 'ใช้น้ำผึ้งป่า')}
-      ${slider('survive', 'HP ต่ำกว่านี้ ใช้สกิลเอาตัวรอดก่อน', 'บัฟ/ฮีล (กรอบเขียว) ถูกใช้ก่อนสกิลโจมตี')}
-      <h4>เป้าหมาย</h4>
-      ${check('attackers', 'ตัวที่กำลังตีเราก่อน')}
-      ${check('elites', 'หัวหน้า / บอส ก่อน')}
-      <div class="auto-range"><span>ระยะหาเป้า</span>${Object.entries({ near: 'ใกล้', mid: 'กลาง', far: 'ไกล' }).map(([k, t]) => `<button type="button" data-range="${k}" aria-pressed="${s.range === k}">${t}</button>`).join('')}</div>
-      <p class="auto-note">AUTO ทำงานเฉพาะตอนออนไลน์ · ของที่ตกเข้ากระเป๋าเอง · ใช้สกิลเองเมื่อไหร่ AUTO จะหยุด</p>`;
-    this.labels();
+    const sw = (key, label, hint = '') => `<label class="auto-orow"><span>${label}${hint ? `<small>${hint}</small>` : ''}</span><input type="checkbox" class="auto-sw" data-key="${key}" ${s[key] ? 'checked' : ''}></label>`;
+    const stepper = (key, label, hint = '') => `<div class="auto-stepper"><span>${label}${hint ? `<small>${hint}</small>` : ''}</span><div class="auto-step"><button type="button" data-step="${key}:-5" aria-label="ลด">−</button><output>${s[key] ? `${s[key]}%` : 'ปิด'}</output><button type="button" data-step="${key}:5" aria-label="เพิ่ม">+</button></div></div>`;
+    const survivors = slots.filter(sl => sl.survival).map(sl => sl.name).join(' · ');
+    this.root.innerHTML = `<div class="ro-title"><kbd class="auto-kc">G</kbd>ตั้งค่า AUTO<button class="auto-close" aria-label="ปิด">×</button></div>
+      <div class="auto-grid">
+        <div class="auto-card"><h4>สกิล <small>แตะเพื่อเปิด/ปิด</small></h4>
+          <div class="auto-skills">${slots.map((sl, i) => { const off = s.off.includes(i); return `<button type="button" data-slot="${i}" class="${off ? 'off' : ''}${sl.survival ? ' survival' : ''}" title="${sl.name}${sl.survival ? ' · สกิลเอาตัวรอด' : ''}"><i class="k">${(i + 1) % 10}</i>${off ? '' : '<i class="ok">✓</i>'}${sl.icon ? `<img src="${sl.icon}" alt="">` : `<b>${sl.html ?? ''}</b>`}<span>${sl.name}</span></button>`; }).join('')}</div>
+          <div class="auto-legend"><span><i class="atk"></i>สกิลโจมตี</span><span><i class="sv"></i>สกิลเอาตัวรอด ใช้ก่อนเมื่อ HP ต่ำ</span></div>
+          ${sw('basic', 'ตีปกติระหว่างรอสกิล', 'ปิดไว้เพื่อประหยัด MP สำหรับสายเวท')}</div>
+        <div class="auto-card"><h4>ฟื้นฟู</h4>
+          ${stepper('hpPotion', 'ดื่มยา HP เมื่อต่ำกว่า', 'ใช้ยาหม้อที่ดีที่สุดในกระเป๋า')}
+          ${stepper('survive', 'ใช้สกิลเอาตัวรอดเมื่อ HP ต่ำกว่า', survivors)}
+          ${stepper('mpPotion', 'ดื่มยา MP เมื่อต่ำกว่า', 'ใช้น้ำผึ้งป่า')}
+          <p class="auto-note">ยาที่ใช้คือของในช่อง Q และ F · ตั้งเป็น "ปิด" ถ้าไม่อยากให้ AUTO ดื่มยาเอง</p></div>
+        <div class="auto-card"><h4>เป้าหมาย</h4>
+          ${sw('attackers', 'ตัวที่กำลังตีเราก่อน', 'AUTO สู้กลับมอนที่ตีเราอยู่')}
+          ${sw('elites', 'หัวหน้า / บอส ก่อน')}
+          <div class="auto-orow col"><span>ระยะหาเป้าหมาย<small>เดินหามอนรอบตัวในระยะนี้</small></span>
+            <div class="auto-radius">${Object.entries({ near: 'ใกล้', mid: 'กลาง', far: 'ไกล' }).map(([k, t]) => `<button type="button" data-range="${k}" aria-pressed="${s.range === k}">${t} ${AUTO_RANGES[k]} ม.</button>`).join('')}</div></div>
+          <div class="auto-orow"><span>ของที่ตก<small>เข้ากระเป๋าเองอยู่แล้ว</small></span><b class="auto-good">อัตโนมัติ</b></div>
+          <p class="auto-note">AUTO ทำงานเฉพาะตอนออนไลน์ · ใช้สกิลเองเมื่อไหร่ AUTO จะหยุด</p></div>
+      </div>
+      <div class="auto-foot"><span>บันทึกอัตโนมัติ</span><button type="button" class="auto-reset">คืนค่าเริ่มต้น</button></div>`;
   }
 }

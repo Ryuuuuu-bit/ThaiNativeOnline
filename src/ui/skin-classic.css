@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap');
+/* =========================================================================
+   Classic skin (design "UI ใหม่", ไม้คลาสสิก): carved wood with bronze trim and
+   rivets, blue ribbon titles, parchment for text you read, sunken item slots,
+   a stone action bar. On when body.skin-classic (src/ui/skin.js paints the
+   --tex-wood / --tex-parch / --tex-stone textures); layout is src/ui/layout.css.
+   ========================================================================= */
+body.skin-classic{
+  --t-ink:#f1e6cc; --t-dim:#bfae8e; --t-mute:#8b7c63;
+  --t-gold:#e3c27a; --t-gold-hi:#f6e2ae; --t-line:rgba(201,169,106,.55);
+  --t-acc:#2f6299; --t-acc-2:#4b87c8; --t-good:#9bd88f; --t-bad:#ef8f7f;
+  --t-card:rgba(0,0,0,.3); --t-card-line:rgba(201,169,106,.22); --t-radius:5px;
+  --c-wood:linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.42)),var(--tex-wood,none);
+  --c-frame:0 0 0 2px #120c06,0 0 0 4px #8a7048,0 0 0 5px #160f08,0 16px 40px rgba(0,0,0,.6),inset 0 0 0 1px rgba(201,169,106,.55),inset 0 0 22px rgba(0,0,0,.75);
+  --c-ribbon:linear-gradient(180deg,#2f6299,#173c66 55%,#0e2846);
+  --c-btn:linear-gradient(180deg,#4b87c8,#2a5f9c 48%,#1d4a80 52%,#24578f);
+  --c-wood-btn:linear-gradient(180deg,#4a3a29,#2c2117);
+  --c-parch:linear-gradient(rgba(255,245,220,.15),rgba(120,80,30,.12)),var(--tex-parch,none);
+}
+
+/* ---------- frames: wood, bronze ring, rivets ---------- */
+body.skin-classic :is(.glass,.ro-window,.auto-panel,.hotbar-tip,.g-player-info,.mm-btn,.net-chat,.interaction,.minimap .mini-title),body.skin-classic #toast{
+  background:var(--c-wood);background-color:#2a2017;border:0;border-radius:5px;color:var(--t-ink);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:var(--c-frame)}
+/* wrappers the layout keeps transparent */
+body.skin-classic .g-player.glass{background:none;box-shadow:none}
+body.skin-classic :is(.settings,.shop,.fullmap,.dialogue,.g-panel,.auto-panel,.mm-grid)::before{inset:5px;opacity:1;border-radius:0;z-index:2;
+  background:radial-gradient(circle,#e9cf93 0 2px,#6b532f 3px,transparent 4px) left top/10px 10px no-repeat,
+             radial-gradient(circle,#e9cf93 0 2px,#6b532f 3px,transparent 4px) right top/10px 10px no-repeat,
+             radial-gradient(circle,#e9cf93 0 2px,#6b532f 3px,transparent 4px) left bottom/10px 10px no-repeat,
+             radial-gradient(circle,#e9cf93 0 2px,#6b532f 3px,transparent 4px) right bottom/10px 10px no-repeat}
+
+/* ---------- blue ribbon titles, red round close buttons ---------- */
+body.skin-classic :is(.panel-heading,.auto-panel .ro-title,.dlg-head){margin:-6px -8px 14px;padding:7px 46px;border:0;border-radius:3px;
+  background:var(--c-ribbon);box-shadow:inset 0 1px 0 rgba(190,220,255,.45),inset 0 -2px 0 rgba(0,0,0,.35),0 0 0 1px #0a1626,0 0 0 2px rgba(201,169,106,.6),0 3px 6px rgba(0,0,0,.5);
+  font:700 18px 'Cinzel','Noto Serif Thai',serif;letter-spacing:.06em;color:#f3e6c4;text-shadow:0 2px 0 #0a1a2e,0 0 8px rgba(0,0,0,.6)}
+body.skin-classic .panel-heading::before,body.skin-classic .panel-heading::after{display:none}
+body.skin-classic .dlg-head h3{color:#f3e6c4;text-shadow:inherit}
+body.skin-classic :is(.dlg-head span,.shop .panel-heading small){color:#bcd2ee;text-shadow:none}
+body.skin-classic :is(.panel-heading button,#dlg-close,.auto-panel .auto-close){right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;padding:0;font:700 17px/1 'Noto Sans Thai',sans-serif;color:#ffe9d6;text-shadow:none;
+  background:radial-gradient(circle at 40% 35%,#ee6b55,#a5241a 60%,#5e100b);border:2px solid #d8b26a;box-shadow:0 0 0 2px #1a0f06,0 3px 6px rgba(0,0,0,.6)}
+body.skin-classic :is(.panel-heading button,#dlg-close,.auto-panel .auto-close):hover{background:radial-gradient(circle at 40% 35%,#ff8a72,#c8281a 60%,#6e140d);border-color:#f2d48c}
+body.skin-classic .exploration::before{margin:-4px -6px 8px;padding:4px 20px;border:0;border-radius:3px;font:700 14px 'Cinzel','Noto Serif Thai',serif;color:#f3e6c4;text-shadow:0 2px 0 #0a1a2e;
+  background:var(--c-ribbon);box-shadow:inset 0 1px 0 rgba(190,220,255,.45),0 0 0 1px #0a1626,0 0 0 2px rgba(201,169,106,.6)}
+
+/* ---------- controls ---------- */
+body.skin-classic kbd{color:var(--t-gold-hi);background:rgba(0,0,0,.35);border:1px solid rgba(201,169,106,.7);border-radius:4px}
+body.skin-classic :is(.dlg-actions button#dlg-shop,.dlg-wrap .quest button,.g-death button,.g-start,.g-reset:not(:disabled)){border:1px solid #0b1d33;border-radius:3px;color:#f3ead4;text-shadow:0 1px 1px rgba(0,0,0,.6);
+  background:var(--c-btn);box-shadow:inset 0 0 0 1px rgba(170,205,255,.45),0 0 0 1px rgba(201,169,106,.55),0 2px 3px rgba(0,0,0,.5)}
+body.skin-classic :is(.dlg-actions button:not([id="dlg-shop"]),.g-bag-sort,.training-reset,.auto-range button,.shop-tabs button,.set-tabs button,.set-tabs .acc-settings button,.g-pick-cancel){border:1px solid #140d07;border-radius:3px;color:var(--t-gold-hi);
+  background:var(--c-wood-btn);box-shadow:inset 0 0 0 1px rgba(201,169,106,.35),0 0 0 1px rgba(201,169,106,.35),0 2px 3px rgba(0,0,0,.5)}
+body.skin-classic :is(.auto-range button,.shop-tabs button)[aria-pressed="true"],body.skin-classic .set-tabs button[aria-selected="true"]{color:#fff;text-shadow:0 1px 1px #000;
+  background:var(--c-btn);border-color:#0b1d33;box-shadow:inset 0 0 0 1px rgba(170,205,255,.45),0 0 0 1px rgba(201,169,106,.55)}
+body.skin-classic .g-stat button{width:24px;height:24px;border-radius:50%;padding:0;border:1px solid #0e2a10;color:#fff;font-weight:700;background:radial-gradient(circle at 40% 35%,#5aa255,#25652a);box-shadow:0 0 0 1px rgba(201,169,106,.6)}
+body.skin-classic .g-stat button:disabled{background:radial-gradient(circle at 40% 35%,#8d8270,#4e4639)}
+body.skin-classic :is(.settings select,.g-bag-search,.net-chat input){border:0;border-radius:2px;color:#3d2b17;background:#e9dcbd;box-shadow:inset 0 1px 3px rgba(0,0,0,.4)}
+body.skin-classic .set-switch{background:linear-gradient(#1a130c,#2b2117);box-shadow:inset 0 2px 4px rgba(0,0,0,.7),0 0 0 1px rgba(201,169,106,.45)}
+body.skin-classic .set-switch::after{background:radial-gradient(circle at 40% 35%,#d9cbb0,#7e6f58)}
+body.skin-classic .set-switch[aria-pressed="true"]{background:linear-gradient(#24578f,#2f6aa8)}
+body.skin-classic .set-switch[aria-pressed="true"]::after{background:radial-gradient(circle at 40% 35%,#fff1cc,#c9a96a)}
+body.skin-classic .set-pane{border-radius:3px;background:rgba(0,0,0,.28);box-shadow:inset 0 0 14px rgba(0,0,0,.6)}
+body.skin-classic .set-keys :is(span,button){border-bottom-color:rgba(0,0,0,.45)}
+body.skin-classic .set-keys kbd{color:#3d2b17;background:linear-gradient(#f2e6c8,#cbb68a);border:0;box-shadow:0 2px 0 #6b5434,0 0 0 1px #3d2b17}
+
+/* ---------- bars and slots ---------- */
+body.skin-classic .g-bar{border-radius:2px;background:#0c0806;box-shadow:inset 0 1px 3px #000,0 0 0 1px rgba(201,169,106,.45)}
+body.skin-classic .g-bar span{border-radius:0}
+body.skin-classic :is(.g-hp,.g-thp) span{background:linear-gradient(180deg,#f07462,#c8322a 50%,#8d1c16)}
+body.skin-classic .g-mp span{background:linear-gradient(180deg,#71a9ec,#2f74c9 50%,#1b4b8c)}
+body.skin-classic .g-exp span{background:linear-gradient(180deg,#c48af0,#8a3fcf 50%,#5d2496)}
+body.skin-classic :is(.g-slot,.g-equip button,.auto-slots button){border:2px solid #120c07;border-radius:3px;
+  background:radial-gradient(circle at 50% 40%,#4a3c30,#2a211a 70%);box-shadow:inset 0 0 0 1px rgba(150,120,80,.55),inset 0 4px 10px rgba(0,0,0,.75),0 1px 0 rgba(255,220,160,.12)}
+body.skin-classic .g-slot:has(.icon-img){box-shadow:inset 0 0 0 1px var(--rar),inset 0 0 10px color-mix(in srgb,var(--rar) 35%,transparent),inset 0 4px 10px rgba(0,0,0,.6)}
+body.skin-classic .g-slot.empty{background:radial-gradient(circle at 50% 40%,#3a2f25,#211a14 70%)}
+body.skin-classic .g-slot:not(.empty):hover{background:radial-gradient(circle at 50% 40%,#5a4a3a,#33281e 70%)}
+body.skin-classic .auto-slots button.survival{border-color:#3f9a44}
+body.skin-classic .g-grid{padding:10px;border-radius:3px;background:rgba(0,0,0,.3);box-shadow:inset 0 0 12px rgba(0,0,0,.6)}
+
+/* ---------- HUD ---------- */
+body.skin-classic .g-player .g-portrait{box-shadow:0 0 0 3px #1a0f07,0 0 0 5px #8a7048,0 0 0 6px #120b05,0 6px 14px rgba(0,0,0,.6)}
+body.skin-classic .g-player .g-lv,body.skin-classic .g-lv{background:radial-gradient(circle at 40% 35%,#4b87c8,#173c66);border:2px solid #d8b26a;color:#fff;font-family:'Cinzel','Noto Sans Thai',serif;box-shadow:0 0 0 2px #120b05}
+body.skin-classic .g-buffs i{border-radius:3px;background:rgba(0,0,0,.45);border:0;box-shadow:0 0 0 1px #120b05,0 0 0 2px #8a7048}
+body.skin-classic .minimap .zoom-ctl button{border:0;color:var(--t-gold-hi);background:radial-gradient(circle at 40% 35%,#4a3a29,#1d1610);box-shadow:0 0 0 2px #120b05,0 0 0 3px #8a7048}
+body.skin-classic .hotbar.ro-window{border-radius:5px;background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.45)),var(--tex-stone,none);background-color:#2b2a27;
+  box-shadow:0 0 0 2px #0d0a07,0 0 0 4px #6c6150,0 0 0 5px #0d0a07,0 10px 26px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,255,255,.12),inset 0 0 20px rgba(0,0,0,.6)}
+body.skin-classic :is(.hotbar-slot,.action-bar .g-potion){border-radius:3px;background:#140f0a;box-shadow:0 0 0 2px #0d0905,inset 0 0 0 1px rgba(150,120,80,.55),0 1px 0 rgba(255,255,255,.1)}
+body.skin-classic .hotbar-slot img{border-radius:1px}
+body.skin-classic .hotbar-sep{background:linear-gradient(#0d0a07,#6c6150,#0d0a07)}
+body.skin-classic .hotbar-auto{border:2px solid #0d0905;border-radius:3px;background:var(--c-wood-btn);box-shadow:inset 0 0 0 1px rgba(201,169,106,.4)}
+body.skin-classic .hotbar-auto.on{border-color:#0b2a0e;background:linear-gradient(180deg,#3fa04a,#23722c 50%,#1a5c22);box-shadow:inset 0 0 0 1px rgba(170,255,170,.4),0 0 12px rgba(120,230,120,.35)}
+body.skin-classic :is(.hotbar-auto-cfg,.hotbar-attack){border:1px solid #140d07;border-radius:3px;background:var(--c-wood-btn);box-shadow:inset 0 0 0 1px rgba(201,169,106,.35)}
+body.skin-classic .mm-btn.on{box-shadow:0 0 0 2px #120c06,0 0 0 4px #c9a96a,0 0 0 5px #160f08,0 0 18px rgba(240,200,120,.55),inset 0 0 0 1px rgba(255,230,170,.8)}
+body.skin-classic .mm-grid button{border:1px solid #0d0905;border-radius:5px;color:var(--t-gold-hi);background:linear-gradient(180deg,#3b2e21,#1e1610);box-shadow:inset 0 0 0 1px rgba(201,169,106,.5),inset 0 10px 14px rgba(255,220,160,.05),0 2px 4px rgba(0,0,0,.5)}
+body.skin-classic .mm-grid button:hover{transform:none;background:linear-gradient(180deg,#4b3a28,#2a1f15);border-color:#0d0905}
+body.skin-classic .mm-grid kbd{border-radius:3px;color:#2a1806;background:linear-gradient(#f2d48c,#c39a48);box-shadow:0 0 0 1px #2a1806}
+body.skin-classic .g-log{border-radius:3px;background:rgba(29,22,16,.85);box-shadow:0 0 0 1px rgba(201,169,106,.3)}
+body.skin-classic .net-chat header{border-bottom-color:rgba(0,0,0,.45)}
+
+/* ---------- windows ---------- */
+body.skin-classic .g-doll{border-radius:3px;background:radial-gradient(ellipse at 50% 40%,#3a2f25,#14100b 75%);box-shadow:inset 0 0 0 1px rgba(150,120,80,.45),inset 0 0 30px #000}
+body.skin-classic .g-doll .g-portrait{box-shadow:0 0 0 3px #120b05,0 0 0 5px #8a7048,0 0 30px rgba(0,0,0,.8)}
+body.skin-classic .g-bag-tabs{padding:0 4px;gap:3px;border-radius:0;background:none;border-bottom:2px solid #0d0905}
+body.skin-classic .g-bag-tabs button{border-radius:4px 4px 0 0;color:var(--t-dim);background:linear-gradient(#33281c,#211912);box-shadow:inset 0 0 0 1px rgba(201,169,106,.3)}
+body.skin-classic .g-bag-tabs button[aria-selected="true"]{color:var(--t-gold-hi);background:linear-gradient(#5a4630,#2a2017);box-shadow:inset 0 0 0 1px rgba(201,169,106,.7)}
+body.skin-classic .g-bag-foot{font-family:'Cinzel','Noto Sans Thai',serif}
+body.skin-classic :is(.shop-row,.map-route li,.training-sum div){border-radius:2px;background:rgba(0,0,0,.3);box-shadow:inset 0 0 0 1px rgba(201,169,106,.22)}
+body.skin-classic .shop-row b{color:var(--t-gold-hi)}
+body.skin-classic .map-route .here{background:linear-gradient(90deg,rgba(201,169,106,.3),rgba(201,169,106,.05));box-shadow:inset 0 0 0 1px #c9a96a}
+body.skin-classic .g-sk-top{border-radius:4px;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 1px rgba(201,169,106,.25)}
+body.skin-classic .g-sk-top .g-skill-reset{border-radius:3px;background:linear-gradient(180deg,#e36450,#b3301f 48%,#92200f 52%,#a32a1a);box-shadow:inset 0 0 0 1px rgba(255,190,170,.45),0 0 0 1px rgba(201,169,106,.6)}
+body.skin-classic .dlg-icon{border:0;background:radial-gradient(circle at 40% 35%,#5a442a,#1e170e);color:#f6e2ae;box-shadow:0 0 0 4px #c9a96a,0 0 0 6px #5e4524,0 0 0 7px #2a1a0a}
+
+/* ---------- parchment: text you read ---------- */
+body.skin-classic :is(.g-parch,.g-detail,.dlg-main,.dlg-wrap .quest,.auto-card){
+  --t-ink:#3d2b17; --t-dim:#6c5434; --t-mute:#8d7553; --t-gold:#8a571a; --t-gold-hi:#6b3c0e; --t-good:#2e6a28; --t-bad:#9b2c1d; --t-card-line:rgba(90,60,25,.25);
+  color:#3d2b17;text-shadow:none;border:0;border-radius:3px;background:var(--c-parch);background-color:#e2cfa2;
+  box-shadow:inset 0 0 0 1px rgba(90,60,25,.55),inset 0 0 26px rgba(110,70,20,.45),0 0 0 2px #1a120a,0 0 0 3px rgba(201,169,106,.5)}
+body.skin-classic .g-parch kbd,body.skin-classic .dlg-main kbd{color:#3d2b17;background:#f2e6c8;border-color:#6b5434}
+/* stats */
+body.skin-classic .g-statbox :is(.g-stats-head,.g-derived){color:#6c5434;border-color:rgba(90,60,25,.25)}
+body.skin-classic .g-statbox .g-stats-head{font-family:'Cinzel','Noto Serif Thai',serif;font-weight:700}
+body.skin-classic .g-statbox :is(.g-stat,.g-stat b,.g-derived b){color:#3d2b17}
+body.skin-classic .g-statbox .g-stat span small{color:#8d7553}
+body.skin-classic .g-statbox :is(.g-has-points,.g-bonus){color:#2e6a28!important;font-weight:600}
+/* item detail */
+body.skin-classic .g-detail b{color:#3d2b17!important}
+body.skin-classic .g-detail small{color:#6c5434}
+body.skin-classic .g-detail-bonus i{color:#2e6a28}
+/* dialogue and quests */
+body.skin-classic .dlg-main #dlg-line{color:#3d2b17}
+body.skin-classic .dlg-main .service{color:#3d2b17;background:rgba(90,60,25,.08);box-shadow:inset 0 0 0 1px rgba(90,60,25,.25)}
+body.skin-classic .dlg-main .service b{color:#8a571a}
+body.skin-classic .dlg-main :is(.service span,#dlg-services small,.dlg-actions){color:#6c5434}
+body.skin-classic #dlg-quests .quest{color:#3d2b17}
+body.skin-classic #dlg-quests .quest h4{color:#1f4f86}
+body.skin-classic #dlg-quests .quest :is(p,ul){color:#3d2b17}
+body.skin-classic #dlg-quests .quest li.done{color:#2e6a28}
+body.skin-classic #dlg-quests .quest .reward{color:#8a571a;border-color:rgba(90,60,25,.25)}
+/* AUTO cards */
+body.skin-classic .auto-card h4{color:#3d2b17}
+body.skin-classic .auto-card .auto-note{color:#5a4426;background:rgba(255,250,235,.6);box-shadow:inset 0 0 0 1px rgba(90,60,25,.3)}
+body.skin-classic .auto-card input{accent-color:#2f6299}
+/* skill list */
+body.skin-classic .g-skills .g-skill-list li{color:#3d2b17;background:rgba(255,250,235,.45);border:1px solid rgba(90,60,25,.35)}
+body.skin-classic .g-skills .g-skill-list li.learnt{border-color:#8a571a;box-shadow:0 0 0 1px rgba(138,87,26,.4)}
+body.skin-classic .g-skills .g-skill-txt small{color:#6c5434}
+body.skin-classic .g-skills .g-evo small{color:#8d7553}
+body.skin-classic .g-skills .g-skill-list .g-evo button{color:#3d2b17;background:rgba(90,60,25,.08)}
+body.skin-classic .g-skills .g-pips i{border-color:#8a571a;background:rgba(90,60,25,.15)}
+body.skin-classic .g-skills .g-pips i.on{background:#2f74c9;border-color:#1f4f86}

@@ -8,6 +8,7 @@ import { BAG_TABS, inTab, compareToWorn, matchesSearch, sortBag, sortedInventory
 import { SkillPanel } from './SkillPanel.js';
 import { RACE_LABELS, ELEMENT_LABELS } from '../data/cards.js';
 import { refineBonus } from '../data/refine.js';
+import { MAX_JOB_LEVEL } from '../data/progression.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -87,22 +88,22 @@ export class CharacterUI {
     this.potionHp.title = 'ดื่มยาฟื้น HP'; this.potionHp.addEventListener('click', () => this.quickPotion('hp'));
     this.potionMp = el('button', 'g-skill g-potion mp', `<span class="g-skill-icon">${iconHtml(ITEMS.ether)}</span><kbd>F</kbd><small></small>`);
     this.potionMp.title = 'ดื่มน้ำผึ้งฟื้น MP'; this.potionMp.addEventListener('click', () => this.quickPotion('mp'));
-    this.trayExp = el('div', 'g-bar g-exp action-exp', '<span></span><em></em>'); this.trayExp.title = 'EXP';
-    this.quickButtons = { potions: [this.potionHp, this.potionMp], menus: [], exp: this.trayExp };
+    this.trayExp = el('div', 'g-bar g-exp action-exp', '<span></span><em></em>'); this.trayExp.title = 'Base EXP';
+    this.trayJexp = el('div', 'g-bar g-jexp action-jexp', '<span></span><em></em>');
+    const exps = el('div', 'action-exps'); exps.append(this.trayExp, this.trayJexp);
+    this.quickButtons = { potions: [this.potionHp, this.potionMp], menus: [], exp: exps };
   }
   buildPanels() {
     this.sheet = el('section', 'g-panel g-sheet glass', `<div class="panel-heading">ตัวละคร<button aria-label="ปิด">×</button></div><div class="g-sheet-body"></div>`);
     this.bag = el('section', 'g-panel g-bag glass', `<div class="panel-heading">กระเป๋า<button aria-label="ปิด">×</button></div>
-      <div class="g-gold"></div><div class="g-bar g-weight" title="น้ำหนักสัมภาระ (STR เพิ่มความจุ)"><span></span><em></em></div>
+<div class="g-bar g-weight" title="น้ำหนักสัมภาระ (STR เพิ่มความจุ)"><span></span><em></em></div>
       <div class="g-bag-tabs" role="tablist">${BAG_TABS.map((t, i) => `<button role="tab" data-tab="${t.id}" aria-selected="${i === 0}">${t.label}</button>`).join('')}</div>
       <div class="g-bag-tools"><input class="g-bag-search" type="search" placeholder="ค้นหา…" aria-label="ค้นหาไอเท็ม" /><button class="g-bag-sort" title="เรียงไอเท็มและรวมกองซ้ำ">เรียง</button><label class="g-bag-auto" title="เรียงให้เองทุกครั้งที่ได้ของ"><input type="checkbox" /> อัตโนมัติ</label></div>
       <div class="g-grid"></div><p class="g-bag-none" hidden>ไม่มีไอเท็มในหมวดนี้</p><div class="g-card-pick" hidden></div>
-      <div class="g-detail" hidden></div>
-      <label class="g-sell"><input type="checkbox" /> โหมดขาย (คลิกไอเท็มเพื่อขาย)</label><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่</p>`);
+      <div class="g-bag-foot"><span class="g-bag-count"></span><span class="g-gold"></span></div>
+      <div class="g-detail" hidden></div><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่ · ขายของได้ที่ร้านค้า (แท็บขาย)</p>`);
     for (const p of [this.sheet, this.bag]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { p.hidden = true; }); this.layer.append(p); }
-    this.skills = new SkillPanel(this.layer, this.c, this.feed);
-    this.sellMode = this.bag.querySelector('.g-sell input');
-    this.sellMode.addEventListener('change', () => this.bag.classList.toggle('selling', this.sellMode.checked));
+    this.skills = new SkillPanel(this.layer, this.c, this.feed, name => { if (this[name].hidden) this.toggle(name); });
     this.grid = this.bag.querySelector('.g-grid'); this.detail = this.bag.querySelector('.g-detail');
     this.grid.addEventListener('pointerover', e => this.showDetail(e.target.closest('[data-index]')));
     // tabs, search and sorting only change what the panel shows and the slot order
@@ -121,8 +122,7 @@ export class CharacterUI {
     this.grid.addEventListener('click', e => {
       const slot = e.target.closest('[data-index]'); if (!slot) return;
       const i = Number(slot.dataset.index), item = this.c.inventory[i]; if (!item) return;
-      if (this.sellMode.checked) { const gold = this.c.sellAt(i); this.feed.log(`ขาย ${ITEMS[item.id].name} ได้ ${gold} ทอง`, 'gold'); }
-      else if (ITEMS[item.id].type === 'card') this.openCardPick(i);
+      if (ITEMS[item.id].type === 'card') this.openCardPick(i);
       else if (!this.c.useAt(i) && ITEMS[item.id].type === 'use') this.feed.log('HP เต็มอยู่แล้ว');
     });
     // which item a card goes into (the card stays there for good)
@@ -181,14 +181,18 @@ export class CharacterUI {
     setBar(this.frame.querySelector('.g-hp'), c.hp, c.maxHp);
     setBar(this.frame.querySelector('.g-mp'), c.mp, c.maxMp);
     setBar(this.frame.querySelector('.g-exp'), c.exp, c.expNeeded, `EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%`);
-    setBar(this.trayExp, c.exp, c.expNeeded, `Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%`);
+    setBar(this.trayExp, c.exp, c.expNeeded, `Base Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%`);
+    const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
+    setBar(this.trayJexp, jobMax ? 1 : c.jobExp, jobMax ? 1 : c.jobExpNeeded, jobMax ? `Job Lv ${c.jobLevel} · สูงสุด` : `Job Lv ${c.jobLevel} · ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`);
+    this.trayJexp.title = this.trayJexp.querySelector('em').textContent;
+    this.frame.querySelector('.g-portrait').style.setProperty('--hp', Math.max(0, Math.min(100, c.hp / c.maxHp * 100)).toFixed(1));
     this.frame.classList.toggle('g-low', c.hp / c.maxHp < .3);
     this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml();
     this.frame.querySelector('.g-portrait').classList.toggle('g-points', c.points > 0);
     this.potionHp.querySelector('small').textContent = c.count('potion_s') + c.count('potion_m');
     this.potionMp.querySelector('small').textContent = c.count('ether');
     if (!this.sheet.hidden) this.refreshSheet();
-    this.bag.querySelector('.g-gold').textContent = `◉ ${c.gold.toLocaleString()} ทอง`;
+    this.bag.querySelector('.g-gold').textContent = `◉ ${c.gold.toLocaleString()}`;
     const w = c.weight, max = c.maxWeight, heavy = c.heavy, bar = this.bag.querySelector('.g-weight');
     setBar(bar, w, max, `น้ำหนัก ${w.toLocaleString()} / ${max.toLocaleString()}${heavy ? ' · หนัก: HP/MP ไม่ฟื้นเอง' : ''}`);
     bar.classList.toggle('heavy', heavy);
@@ -197,11 +201,20 @@ export class CharacterUI {
   }
   refreshSheet() {
     const c = this.c, s = c.stats;
+    // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
+    const slotHtml = slot => { const id = c.equipment[slot]; return `<div class="g-eqs"><button data-slot="${slot}" class="${id ? '' : 'empty'}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : slot === 'offhand' && c.twoHanded ? 'ว่าง · ถืออาวุธสองมืออยู่' : `${SLOT_LABELS[slot]} · ว่าง`}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${id ? esc(itemName(id, c.refine[slot])) : SLOT_LABELS[slot]}</small></div>`; };
+    const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
-      <div class="g-sheet-head"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 24 })}</span><div><b>${esc(c.name)}</b><small>${c.cls.name} · Lv. ${c.level} · Job Lv. ${c.jobLevel}</small></div></div>
-      <div class="g-equip">${Object.keys(SLOT_LABELS).map(slot => { const id = c.equipment[slot]; return `<button data-slot="${slot}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : slot === 'offhand' && c.twoHanded ? 'ว่าง · ถืออาวุธสองมืออยู่' : 'ว่าง'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span><small>${id ? itemName(id, c.refine[slot]) : SLOT_LABELS[slot]}</small>${id ? pips(id, c.cards[slot]) : ''}</button>`; }).join('')}</div>
+      <div class="g-doll-wrap g-equip">
+        <div class="g-eq-col">${['weapon', 'head', 'armor', 'cape'].map(slotHtml).join('')}</div>
+        <div class="g-doll"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 60 })}</span><div class="g-doll-nm"><b>${esc(c.name)}</b><span>${c.cls.name} · Lv ${c.level} · Job ${c.jobLevel}</span></div></div>
+        <div class="g-eq-col">${['offhand', 'shoes', 'charm', 'charm2'].map(slotHtml).join('')}</div>
+      </div>
+      <div class="g-bar g-exp g-sheet-exp"><span style="width:${Math.min(100, c.exp / c.expNeeded * 100)}%"></span><em>Base Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%</em></div>
+      <div class="g-bar g-jexp g-sheet-exp"><span style="width:${jobMax ? 100 : Math.min(100, c.jobExp / c.jobExpNeeded * 100)}%"></span><em>Job Lv ${c.jobLevel}${jobMax ? ' · สูงสุด' : ` · ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`}</em></div>
+      <div class="g-statbox g-parch">
       <div class="g-stats-head"><span>สถานะ</span><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
-      ${STATS.map(k => { const p = c.statParts(k); return `<div class="g-stat" title="${STAT_HINTS[k]}\nพื้นฐาน ${p.base} (1 + แต้มที่ลง ${p.base - 1}) · โบนัสอาชีพ/เลเวล ${p.cls >= 0 ? '+' : ''}${p.cls}${p.gear ? ` · อุปกรณ์ ${p.gear > 0 ? '+' : ''}${p.gear}` : ''} = ${s[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${p.base}${p.bonus ? `<i class="g-bonus">${p.bonus > 0 ? '+' : ''}${p.bonus}</i>` : ''}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`; }).join('')}
+      <div class="g-stat-grid">${STATS.map(k => { const p = c.statParts(k); return `<div class="g-stat" title="${STAT_HINTS[k]}\nพื้นฐาน ${p.base} (1 + แต้มที่ลง ${p.base - 1}) · โบนัสอาชีพ/เลเวล ${p.cls >= 0 ? '+' : ''}${p.cls}${p.gear ? ` · อุปกรณ์ ${p.gear > 0 ? '+' : ''}${p.gear}` : ''} = ${s[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${p.base}${p.bonus ? `<i class="g-bonus">${p.bonus > 0 ? '+' : ''}${p.bonus}</i>` : ''}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`; }).join('')}</div>
       <div class="g-derived">
         <span>HP</span><b>${c.maxHp}</b><span>MP</span><b>${c.maxMp}</b>
         <span title="พลังโจมตีกายภาพ (STR, ธนูใช้ DEX)">ATK</span><b>${c.patk}</b><span title="พลังเวท/ยา (INT)">MATK</span><b>${c.matk}</b>
@@ -209,6 +222,7 @@ export class CharacterUI {
         <span title="ความแม่นยำ (DEX, LUK)">แม่นยำ</span><b>${c.accuracy}</b><span title="โอกาสคริติคอล (LUK)">คริ</span><b>${(c.critChance * 100).toFixed(1)}%</b>
         <span title="ตัวคูณความแรงคริ (LUK)">แรงคริ</span><b>×${c.critDamage.toFixed(2)}</b><span title="ลดเวลาระหว่างการตีปกติ (AGI)">ความเร็วตี</span><b>+${Math.round(c.attackSpeed * 100)}%</b>
         <span title="ลดคูลดาวน์สกิล (DEX + อุปกรณ์ · สูงสุด 30%)">ลดคูลดาวน์</span><b>${Math.round(c.cooldownCut * 100)}%</b><span title="ลดเวลาร่ายสกิล (DEX + อุปกรณ์ · สูงสุด 50%)">ร่ายเร็ว</span><b>${Math.round(c.castSpeed * 100)}%</b><span title="น้ำหนักที่แบก (STR เพิ่มความจุ)">น้ำหนัก</span><b class="${c.heavy ? 'g-heavy' : ''}">${c.weight}/${c.maxWeight}</b>
+      </div>
       </div>
       <button class="g-reset" ${Object.values(c.alloc).some(Boolean) ? '' : 'disabled'}>รีเซ็ตแต้มสถานะ</button>`;
   }
@@ -228,6 +242,7 @@ export class CharacterUI {
       return `<button class="g-slot rar-${d.rarity || 'none'}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus))}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
+    this.bag.querySelector('.g-bag-count').textContent = `ช่อง ${inv.filter(Boolean).length} / ${inv.length}`;
     this.refresh();
   }
   // The card picker: gear of the card's kind with a free slot (worn first).

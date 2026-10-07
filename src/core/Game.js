@@ -23,6 +23,9 @@ import { QuestUI } from '../ui/QuestUI.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { PostFX } from '../world/PostFX.js';
 import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
+import { initSkin } from '../ui/skin.js';
+import { segmentSelects } from '../ui/segControls.js';
+import { renderRoute } from '../ui/worldRoute.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
 import { createViewPrefs } from '../ui/viewPrefs.js';
@@ -156,6 +159,8 @@ export class Game {
     const settings = $('settings');
     $('settings-toggle').addEventListener('click', () => { settings.hidden = !settings.hidden; $('settings-toggle').setAttribute('aria-expanded', String(!settings.hidden)); });
     bindSettingsTabs(settings);
+    initSkin($('ui-skin'));   // modern glass or classic wood (src/ui/skin.js)
+    segmentSelects(settings);   // the dropdowns as segmented buttons (src/ui/segControls.js)
     // Main menu (bottom-right): the windows the old top-right icons and C / I buttons opened.
     const characterUI = () => this.game?.characterUI;
     this.menu = new MainMenu({
@@ -330,7 +335,7 @@ export class Game {
     const panel = $('fullmap-panel'); panel.hidden = !panel.hidden;
     // QA fix: a hover tooltip left open when the panel closes (M, Esc, click-to-walk) never gets its mouseleave; reset it.
     const tip = panel.querySelector('.map-tip'); if (tip) tip.hidden = true;
-    if (!panel.hidden) this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState());
+    if (!panel.hidden) { this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); renderRoute($('fullmap-route'), this.maps.map?.id); }
   }
   // What the minimap draws on top of the painted map (refreshed with the HUD, ~8 times a second).
   minimapState() {
