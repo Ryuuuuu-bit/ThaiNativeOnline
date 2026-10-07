@@ -1,0 +1,37 @@
+/* Shared Thai-fantasy asset treatment. Source PNGs remain lossless and reusable.
+   Crop only their four-pixel baked rim; gameplay colours stay recognizable. */
+.asset-icon.icon-img {
+  --asset-gold: #c7a568;
+  position: relative;
+  display: inline-block;
+  width: 100%; height: 100%;
+  flex: none; min-height: 0;
+  overflow: hidden; vertical-align: middle;
+  border-radius: 14%;
+  background: radial-gradient(circle at 40% 30%, #385447, #132b25);
+  box-shadow: 0 0 0 1px #15231e;
+  isolation: isolate;
+}
+.asset-icon.icon-img > img {
+  position: absolute; left: -10%; top: -10%;
+  display: block; width: 120%; height: 120%; max-width: none;
+  object-fit: fill; image-rendering: pixelated;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.asset-icon.icon-img::after {
+  content: ''; position: absolute; inset: 0;
+  border: 1px solid var(--asset-gold); border-radius: inherit;
+  box-shadow: inset 0 0 0 1px #172b25, inset 0 2px 0 #ecd4a333;
+  background: linear-gradient(135deg, #f6e7bb0a, transparent 45%, #10251f18);
+  pointer-events: none;
+}
+.g-skslot > .asset-icon.icon-img { width: 34px; height: 34px; display: inline-block; }
+.auto-skills button > .asset-icon.icon-img { width: 46px; height: 46px; display: inline-block; }
+.g-node .g-ic, .g-skd-head .g-ic { background: #132b25; }
+.g-kit-skill > .asset-icon, .hotbar-slot > .asset-icon { display: block; }
+/* Counts, rarity borders, locks and cooldowns belong to the parent slot and
+   remain above this decorative frame. The frame itself never receives input. */
+/* Inventory's existing inner span needs an explicit box now that the art
+   uses a frame wrapper rather than an intrinsically sized image. */
+.g-slot > span:has(> .asset-icon) { width: 100%; height: 100%; display: grid; place-items: center; }
+.g-slot .asset-icon.icon-img { width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 14%; }

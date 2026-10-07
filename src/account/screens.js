@@ -12,11 +12,18 @@ import { renderGoogleButton } from './google.js';
 export function showLogin(root, store) {
   return new Promise(resolve => {
     let mode = 'login';
-    const overlay = el('section', 'acc-screen', `
-      <form class="acc-card glass" novalidate>
-        <span class="acc-seal" aria-hidden="true">ท</span>
-        <span class="eyebrow">THAI NATIVE ONLINE</span>
-        <h2>เข้าสู่ราชธานี</h2>
+    const overlay = el('section', 'acc-screen acc-login', `
+      <div class="acc-login-art" aria-hidden="true"></div>
+      <header class="acc-brand" aria-label="Thai Native Online"><img class="acc-brand-crest" src="/ui/login/native-crest.svg" alt="" width="64" height="70"><span class="acc-brand-title">THAI NATIVE<span class="acc-brand-online"><i></i>ONLINE<i></i></span></span></header>
+      <div class="acc-welcome">
+        <p class="acc-kicker">ตำนานบทใหม่ กำลังรอคุณ</p>
+        <h1>ไทยเนทีฟ<span>ออนไลน์</span></h1>
+        <div class="acc-rule" aria-hidden="true">◆</div>
+        <p class="acc-intro">ออกเดินทางสู่ดินแดนแห่งมนตรา<br>ผูกมิตร ฝึกวิชา และเขียนตำนานของคุณเอง</p>
+        <div class="acc-world-tags"><span>โลกแฟนตาซีไทย</span><i>·</i><span>การผจญภัยร่วมกัน</span></div>
+      </div>
+      <form class="acc-card" novalidate>
+        <div class="acc-form-heading"><span class="eyebrow">YOUR JOURNEY BEGINS</span><h2>ยินดีต้อนรับ ผู้เดินทาง</h2><p>ก้าวเข้าสู่โลกแห่งตำนานไทย</p></div>
         <div class="acc-tabs" role="tablist">
           <button type="button" role="tab" data-mode="login">เข้าสู่ระบบ</button>
           <button type="button" role="tab" data-mode="register">สมัครบัญชี</button>
@@ -28,9 +35,10 @@ export function showLogin(root, store) {
         <button type="submit" class="acc-primary">เข้าสู่ระบบ</button>
         <div class="acc-or"><span>หรือ</span></div>
         <div class="acc-google" hidden></div>
-        <button type="button" class="acc-guest">เล่นแบบผู้มาเยือน</button>
+        <button type="button" class="acc-guest">เล่นแบบผู้มาเยือน <span aria-hidden="true">↗</span></button>
         <p class="acc-note">บัญชีเก็บไว้ในเบราว์เซอร์เครื่องนี้เท่านั้น (ยังไม่มีเซิร์ฟเวอร์)</p>
-      </form>`);
+      </form>
+      <footer class="acc-login-footer"><span>THAI NATIVE ONLINE</span><span>ทุกการเดินทาง เริ่มต้นด้วยก้าวแรก</span></footer>`);
     const form = overlay.querySelector('form'), error = overlay.querySelector('.acc-error'), submit = overlay.querySelector('.acc-primary');
     const field = n => form.elements.namedItem(n);
     field('id').value = store.lastId ?? '';

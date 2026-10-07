@@ -1,3 +1,4 @@
+import { assetIcon } from '../../ui/icons.js';
 // Skill hotbar: ten slots (keys 1–0) with icon, cooldown sweep and a tooltip,
 // plus an Auto toggle that keeps casting the next ready skill on the dummy.
 // list: [{ id, name, lv, cd, desc, icon }] in bar order (see classes.js).
@@ -11,7 +12,7 @@ export function createHotbar(host, skills, list, label = 'สกิล') {
   const slots = list.map((s, i) => {
     const meta = s, b = document.createElement('button');
     b.type = 'button'; b.className = 'hotbar-slot' + (meta.lv >= 20 ? ' adv' : ''); b.setAttribute('aria-label', `${s.name} (ปุ่ม ${(i + 1) % 10})`);
-    b.innerHTML = `<img src="${s.icon}" alt=""><span class="key">${(i + 1) % 10}</span><span class="cd"></span><span class="cdt"></span>`;
+    b.innerHTML = `${assetIcon(s.icon)}<span class="key">${(i + 1) % 10}</span><span class="cd"></span><span class="cdt"></span>`;
     b.addEventListener('click', () => cast(i));
     b.addEventListener('pointerenter', () => showTip(i, b)); b.addEventListener('pointerleave', () => { tip.hidden = true; tipFor = null; });
     b.addEventListener('focus', () => showTip(i, b)); b.addEventListener('blur', () => { tip.hidden = true; });

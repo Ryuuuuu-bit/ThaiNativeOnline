@@ -60,3 +60,43 @@
 .acc-google{display:flex;justify-content:center;min-height:44px;margin:4px 0 8px}
 .acc-google-link{margin-top:8px;font-size:11px;color:#cfd8c4}
 .acc-settings .acc-linked{grid-column:1/-1;font-size:10px;color:#9fd7a8;padding:2px 0}
+
+/* Illustrated entrance; scoped so character selection keeps its own stage. */
+body .acc-screen.acc-login{isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:7vw;padding:100px max(5vw,24px) 84px;background:#18352e;color:#fff3d6}
+.acc-login-art{position:absolute;inset:0;z-index:-2;background:url('/ui/login/royal-dawn.webp') 43% center/cover no-repeat}
+.acc-login::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#102d2445 0%,#102d2410 42%,#102820a6 72%,#0c221bd9),linear-gradient(0deg,#0a201de6,transparent 42%,#10282024 75%,#10282080);pointer-events:none}
+.acc-brand{position:absolute;top:30px;left:5vw;display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:3px;color:#fff2d0}
+.acc-brand-crest{width:64px;height:70px;flex:none;filter:drop-shadow(0 2px 5px #10271bd9)}
+.acc-brand-title{font:500 21px/1.25 Georgia,'Times New Roman',serif;letter-spacing:3px;color:#fff0bf;text-shadow:0 2px 6px #10271b}
+.acc-brand-online{display:flex;align-items:center;gap:12px;margin-top:9px;font:10px/1 system-ui,sans-serif;letter-spacing:6px;color:#e9cf94}
+.acc-brand-online i{display:block;flex:1;height:1px;background:linear-gradient(90deg,transparent,#dbc086)}
+.acc-brand-online i:last-child{transform:rotate(180deg)}
+.acc-welcome{justify-self:start;align-self:end;padding:0 0 8vh 2vw;text-shadow:0 2px 22px #10261dc9}
+.acc-kicker{font-size:12px;letter-spacing:3px;color:#ffe6ae;margin:0 0 22px}
+.acc-welcome h1{font:600 clamp(56px,6.5vw,100px)/1.3 'Noto Serif Thai',serif;letter-spacing:-3px;margin:0;color:#fff5d8}
+.acc-welcome h1 span{display:block;font-size:.47em;letter-spacing:12px;color:#f1ce85;margin-top:4px}
+.acc-rule{display:flex;align-items:center;gap:16px;width:210px;margin:25px 0 21px;color:#ecc77d;font-size:9px}
+.acc-rule::before,.acc-rule::after{content:'';height:1px;flex:1;background:linear-gradient(90deg,#e7c57d,transparent)}
+.acc-rule::before{transform:rotate(180deg)}
+.acc-intro{font-size:16px;line-height:1.9;color:#fff1d3;margin:0}
+.acc-world-tags{display:flex;gap:14px;align-items:center;font-size:11px;letter-spacing:1px;color:#e1d8b9;margin-top:28px}.acc-world-tags i{color:#eacb86}
+.acc-login .acc-card{width:100%;padding:34px 32px 26px;gap:14px;border:1px solid #dfc88a59;border-radius:18px;background:linear-gradient(145deg,#173e34ed,#102b25f5);box-shadow:0 24px 90px #06191380,inset 0 1px #ffefc21f;backdrop-filter:blur(14px);align-self:center}
+.acc-form-heading{padding:0 0 10px}.acc-login .eyebrow{font-size:9px;letter-spacing:2.5px;color:#d4b875}
+.acc-login h2{font-size:24px;margin:12px 0 6px;color:#fff0cc}.acc-form-heading p{margin:0;color:#abc3b5;font-size:12px}
+.acc-login .acc-tabs{border:0;background:#071d1759;border-radius:8px;padding:4px;gap:3px}
+.acc-login .acc-tabs button{padding:10px 4px;border-radius:5px;background:transparent;font-size:12px;color:#a7bdb0}
+.acc-login .acc-tabs [aria-selected=true]{background:#335347;color:#f5dfa3;box-shadow:0 2px 6px #071d1733}
+.acc-login .acc-card label{font-size:12px;gap:8px;color:#dfdfc7}
+.acc-login .acc-card input{min-height:46px;padding:12px 14px;border-radius:7px;background:#0a241ea3;border-color:#a5b79940;font-size:15px}
+.acc-login .acc-primary{min-height:48px;border-radius:7px;background:linear-gradient(110deg,#e9d194,#c5a154);border-color:#efd79c;color:#293324;font-size:14px;box-shadow:0 5px 20px #c7a45019}
+.acc-login .acc-guest{min-height:44px;border-radius:7px;border-color:#b2c2a648;color:#e6e2c9;font-size:12px;background:#20433680}.acc-login .acc-guest span{margin-left:8px;color:#dec68a}
+.acc-login .acc-error{font-size:12px;min-height:0}.acc-login .acc-error:empty{display:none}
+.acc-login .acc-note{font-size:10px;line-height:1.7;color:#a6baaa;margin:0}
+.acc-login .acc-or{color:#94ac9b;font-size:11px}.acc-login .acc-google[hidden]{display:none}
+.acc-login-footer{position:absolute;bottom:24px;left:5vw;right:5vw;display:flex;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:1px;color:#c5d4bf}
+@media(min-width:1600px){body .acc-screen.acc-login{padding-right:9vw;grid-template-columns:minmax(0,1fr) 440px}}
+@media(max-width:900px){body .acc-screen.acc-login{grid-template-columns:minmax(0,1fr) 360px;gap:30px;padding-left:28px;padding-right:28px}.acc-login .acc-card{padding:28px 24px}.acc-welcome{padding-left:0}.acc-welcome h1{font-size:58px}.acc-intro{font-size:13px}}
+@media(max-width:650px){body .acc-screen.acc-login{display:flex;flex-direction:column;gap:26px;padding:90px 20px 70px;justify-content:flex-start}.acc-brand{top:20px;left:24px}.acc-login-art{background-position:36% center}.acc-login::before{background:linear-gradient(0deg,#102820f0,#10282065 70%,#10282026)}.acc-welcome{align-self:center;flex:none;padding:0;text-align:center}.acc-kicker{font-size:10px;margin-bottom:8px;letter-spacing:2px}.acc-welcome h1{font-size:44px;letter-spacing:-1px}.acc-welcome h1 span{font-size:23px;letter-spacing:8px}.acc-rule{width:140px;margin:12px auto}.acc-intro{font-size:12px;line-height:1.8}.acc-world-tags{display:none}.acc-login .acc-card{max-width:400px;flex:none;padding:26px 24px;gap:13px}.acc-login h2{font-size:22px}.acc-login-footer{position:static;flex-direction:column;align-items:center;margin-top:4px;gap:6px;font-size:9px}}
+
+body .acc-screen.acc-login>*{margin:0;max-width:none}
+body .acc-screen.acc-login .acc-card{max-width:440px}

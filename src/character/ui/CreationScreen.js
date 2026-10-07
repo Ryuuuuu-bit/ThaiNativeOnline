@@ -1,3 +1,4 @@
+import { assetIcon } from '../../ui/icons.js';
 import { CLASSES, STATS, STAT_LABELS } from '../data/classes.js';
 import { SKILLS } from '../../combat/data/skills.js';
 import { el, esc } from './dom.js';
@@ -56,7 +57,7 @@ export function showCreation(root) {
     const skillsHtml = id => {
       const kit = CLASS_KITS[AVATARS[id]?.skills];
       if (!kit) return CLASSES[id].skills.map(s => `<span title="${esc(SKILLS[s].name)}">${SKILLS[s].icon} ${esc(SKILLS[s].name)}</span>`).join('');
-      return kit.skills.map((s, i) => `<button type="button" class="g-kit-skill" data-skill="${i}" title="${esc(`${s.name} · Lv.${s.lv}\n${s.desc ?? ''}`)}" aria-label="${esc(s.name)}"><img src="${s.icon}" alt=""><small>${(i + 1) % 10}</small></button>`).join('');
+      return kit.skills.map((s, i) => `<button type="button" class="g-kit-skill" data-skill="${i}" title="${esc(`${s.name} · Lv.${s.lv}\n${s.desc ?? ''}`)}" aria-label="${esc(s.name)}">${assetIcon(s.icon)}<small>${(i + 1) % 10}</small></button>`).join('');
     };
     const sync = () => {
       list.querySelectorAll('.g-class:not(.g-class-locked)').forEach(b => b.setAttribute('aria-checked', String(b.dataset.id === chosen)));

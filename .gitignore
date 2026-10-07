@@ -7,3 +7,4 @@ dist/
 .DS_Store
 artifacts/
 .claude/worktrees/
+tools/monster-models/__pycache__/

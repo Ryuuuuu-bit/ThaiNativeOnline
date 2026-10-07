@@ -33,7 +33,7 @@ export function fillBuildings(ctx) {
           let g = null, ox, oz, rot, fp, fz, back = 0;
           for (const [shift, row] of [[0, 0], [3.2, 0], [-3.2, 0], [0, 1], [4, 1]]) {
             if (row && rng() < .35) continue;
-            const candidate = zone.type === 'shop' ? shophouseRow(rng, row ? 2 : rng.int(2, 3)) : stiltHouse(rng, { thatch: zone.type === 'farm' || rng.chance(.3), wide: row ? .85 : 1 });
+            const candidate = zone.type === 'shop' ? shophouseRow(rng, row ? 2 : rng.int(2, 3)) : stiltHouse(rng, { thatch: zone.type === 'farm' || rng.chance(.3), wide: row ? .85 : 1, detailed: zone.type === 'house' });
             fp = candidate.userData.footprint; fz = fp.z ?? 0;
             const dist = road.w / 2 + 1.3 + fz + fp.d / 2 + rng.range(0, 1) + row * (fp.d + 1.2);
             ox = px + tx * shift + nx * dist; oz = pz + tz * shift + nz * dist; rot = Math.atan2(-nx, -nz) + rng.range(-.08, .08) * (1 + row);

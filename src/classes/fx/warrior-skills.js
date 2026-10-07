@@ -1,3 +1,4 @@
+import { moveSkillPlayer } from './skillMovement.js';
 import * as THREE from 'three';
 import { lockTime } from '../tempo.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
@@ -45,7 +46,7 @@ function flagTex() {
   FLAG_TEX = new THREE.CanvasTexture(c); FLAG_TEX.colorSpace = THREE.SRGBColorSpace; return FLAG_TEX;
 }
 
-export function createWarriorSkills({ fx, character, player, dummy, groundHeight, labels, damage }) {
+export function createWarriorSkills({ fx, character, player, dummy, groundHeight, canStand, labels, damage }) {
   const MOVES = Object.fromEntries(WARRIOR_SKILLS.map(s => [s.id, s]));
   const R = { busyUntil: 0, facing: null, time: 0, range: 12 };
   const hero = { barY: 1.95, maxHp: 1000, hp: 760 };
@@ -167,7 +168,7 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
     const from = fx.toWorld(hero.pos()), dest = fx.toWorld(to); face(to);
     fx.addTask((dt, t) => {
       const u = clamp01(t / dur), e = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
-      player.position.x = from.x + (dest.x - from.x) * e; player.position.z = from.z + (dest.z - from.z) * e;
+      moveSkillPlayer(player.position, from.x + (dest.x - from.x) * e, from.z + (dest.z - from.z) * e, canStand);
       player.position.y = groundHeight(player.position.x, player.position.z) + Math.sin(Math.PI * u) * arc;
       if (trail && u < 1) for (let k = 0; k < 2; k++) fx.emit({ p: chest(hero).add(V(rand(-.2, .2), rand(-.5, .4), rand(-.2, .2))), c: trail, life: .3, size: .14, size1: .02 });
       if (u >= 1) { cb?.(); return false; }

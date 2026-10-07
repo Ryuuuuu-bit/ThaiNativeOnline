@@ -2,7 +2,7 @@
 // Pure logic so it can be reused by any world or a future server.
 import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
 import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
-import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
+import { MAX_LEVEL, expToNext, CARRY, RECOVERY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
 import { KIT_SKILL_IDS } from './data/kits.js';
 import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
 import { refinable, refineBonus, refineCost, plusOf } from './data/refine.js';
@@ -164,14 +164,14 @@ export class Character extends Emitter {
     let w = 0;
     for (const s of this.inventory) if (s) w += (ITEMS[s.id].weight || 0) * s.qty;
     for (const id of Object.values(this.equipment)) if (id) w += ITEMS[id].weight || 0;
-    return w;
+    return Math.round(w * 10) / 10;
   }
   get maxWeight() { return Math.round(CARRY.base + this.stat('str') * CARRY.perStr); }
   get heavy() { return this.weight >= this.maxWeight * CARRY.heavy; }
   // How many of an item still fit under the weight limit.
   carryRoom(id) {
     const w = ITEMS[id]?.weight || 0;
-    return w ? Math.max(0, Math.floor((this.maxWeight - this.weight) / w)) : Infinity;
+    return w ? Math.max(0, Math.floor((this.maxWeight * 10 - Math.round(this.weight * 10)) / Math.round(w * 10))) : Infinity;
   }
   get expNeeded() { return expToNext(this.level); }
   get alive() { return this.hp > 0; }
@@ -209,13 +209,17 @@ export class Character extends Emitter {
     const poison = this.buffSum('poison');
     if (poison && this.hp > 1) { this.hp = Math.max(1, this.hp - poison * dt); this.emit('change'); }
     // sitting (Combat.sit) doubles it out of a fight, as in RO
-    const rate = inCombat ? .004 : this.sitting ? .05 : .025;
+    const factor = inCombat ? RECOVERY.combat : this.sitting ? RECOVERY.sitting : 1;
     this.regen = (this.regen || 0) + dt;
-    if (this.regen >= 1 && !this.heavy) {   // a heavy bag stops natural regeneration
-      this.regen = 0;
+    if (this.regen >= 1) {
+      const seconds = Math.floor(this.regen); this.regen -= seconds;
+      if (this.heavy) return; // No accumulated recovery when weight is removed.
       if (this.hp < this.maxHp || this.mp < this.maxMp) {
-        this.hp = Math.min(this.maxHp, this.hp + Math.ceil(this.maxHp * rate));
-        this.mp = Math.min(this.maxMp, this.mp + Math.ceil(this.maxMp * rate * 1.5));
+        const vit = Math.max(0, this.stat('vit'));
+        const hp = Math.min(RECOVERY.hpCap, Math.min(RECOVERY.hpCap, RECOVERY.hpBase + vit * RECOVERY.hpPerVit) * factor);
+        const mp = Math.min(RECOVERY.mpCap, Math.min(RECOVERY.mpCap, RECOVERY.mpBase + vit * RECOVERY.mpPerVit) * factor);
+        this.hp = Math.min(this.maxHp, this.hp + hp * seconds);
+        this.mp = Math.min(this.maxMp, this.mp + mp * seconds);
         this.emit('change');
       }
     }

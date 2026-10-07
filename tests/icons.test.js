@@ -34,3 +34,12 @@ test('both playable classes show their own art on the city skill bar', () => {
 test('every item has framed art', () => {
   for (const [id, item] of Object.entries(ITEMS)) assert.ok(item.img && pub(item.img), `${id}: ${item.img}`);
 });
+import { assetIcon, iconHtml } from '../src/ui/icons.js';
+
+test('shared icon frame keeps URLs and escapes accessible labels', () => {
+  const html = assetIcon('/fx/shaman/icon_mage_yant.png', '"<ยันต์>&');
+  assert.match(html, /class="icon-img asset-icon"/);
+  assert.match(html, /src="\/fx\/shaman\/icon_mage_yant.png"/);
+  assert.match(html, /alt="&quot;&lt;ยันต์&gt;&amp;"/);
+  assert.equal(iconHtml({img:'ui/items/icon_ash.png'}), assetIcon('/ui/items/icon_ash.png'));
+});
