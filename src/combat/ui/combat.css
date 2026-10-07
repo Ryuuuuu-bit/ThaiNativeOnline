@@ -71,3 +71,9 @@
 /* Lock-on marker over the targeted monster. */
 .g-plate.targeted::before{content:'▼';display:block;margin-bottom:-2px;font-size:13px;line-height:1;color:#ff8a5c;text-shadow:0 0 6px #ff5a2a,0 1px 2px #000;animation:g-lock 1s ease-in-out infinite}
 @keyframes g-lock{50%{transform:translateY(-3px)}}
+/* evolution path name over the target, and the cast bar (src/training/KitCaster.js) */
+.g-float.evo{color:#f3dcff;font-size:13px;text-shadow:0 0 8px #c79af0,0 1px 2px #000}
+.g-castbar{position:absolute;left:50%;bottom:150px;transform:translateX(-50%);width:240px;padding:6px 10px;text-align:center;pointer-events:none;z-index:4}
+.g-castbar b{display:block;font-size:11px;font-weight:500;color:#f0d79a;margin-bottom:4px}
+.g-castbar .g-bar{height:6px;background:#091a1780;border-radius:3px;overflow:hidden}
+.g-castbar .g-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a7fd8,#d8c8ff);box-shadow:0 0 8px #c79af0}

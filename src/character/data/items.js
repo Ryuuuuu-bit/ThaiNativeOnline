@@ -1,7 +1,8 @@
 // Content data only: edit freely without touching game logic.
 import { CARD_ITEMS } from './cards.js';
 // slot: weapon | armor | head | offhand | cape | shoes | charm (two charm slots: charm, charm2); slots: card slots (RO style, 0–4: plain gear has more, strong gear fewer); use: consumable effect
-// bonus keys: base stats (str agi vit int dex luk) and atk matk def hp mp crit critDmg acc eva
+// bonus keys: base stats (str agi vit int dex luk) and atk matk def hp mp crit critDmg acc eva,
+//   cdr (skill cooldowns shorter), cast (cast times shorter), mpCost (skills cost more MP) — shares
 // weight: carried weight of one item (bag capacity: CARRY in progression.js)
 export const ITEMS = {
   potion_s: { name: 'ยาหม้อเล็ก', icon: '⚱', img: 'ui/items/icon_potion_s.png', weight: 7, type: 'use', use: { hp: 60 }, price: 10, desc: 'ฟื้นฟู HP 60' },
@@ -20,7 +21,7 @@ export const ITEMS = {
   bone_wand:  { name: 'ไม้เท้ากระดูก', icon: '⚚', img: 'ui/items/icon_bone_wand.png', weight: 40, type: 'equip', slot: 'weapon', slots: 2, bonus: { matk: 9, int: 3 }, rarity: 'rare', price: 75 },
   cloth_vest: { name: 'เสื้อผ้าฝ้าย', icon: '👕', img: 'ui/items/icon_cloth_vest.png', weight: 30, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 15 },
   hide_armor: { name: 'เกราะหนังสัตว์', icon: '🥋', img: 'ui/items/icon_hide_armor.png', weight: 110, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 8, vit: 2 }, rarity: 'rare', price: 70 },
-  takrut:     { name: 'ตะกรุดโทน', icon: '⌬', img: 'ui/items/icon_takrut.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 2, int: 2, hp: 20, matk: 3 }, rarity: 'rare', price: 60 },
+  takrut:     { name: 'ตะกรุดโทน', icon: '⌬', img: 'ui/items/icon_takrut.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 2, int: 2, hp: 20, matk: 3, cdr: .05 }, rarity: 'rare', price: 60 },
   tiger_fang: { name: 'เขี้ยวเสือสมิง', icon: '☾', img: 'ui/items/icon_tiger_fang.png', weight: 5, type: 'equip', slot: 'charm', slots: 0, bonus: { atk: 6, str: 3, agi: 3, luk: 3, crit: .08 }, rarity: 'epic', price: 300 },
   // ---- head · off hand · cape · shoes ----
   pha_khao:   { name: 'ผ้าโพกหัว', icon: '◠', img: 'ui/items/icon_pha_khao.png', weight: 5, type: 'equip', slot: 'head', slots: 1, bonus: { def: 1, vit: 1 }, rarity: 'common', price: 20 },
@@ -33,6 +34,10 @@ export const ITEMS = {
   sabai:      { name: 'สไบไหม', icon: '≋', img: 'ui/items/icon_sabai.png', weight: 5, type: 'equip', slot: 'cape', slots: 1, bonus: { def: 2, int: 1, mp: 20 }, rarity: 'rare', price: 90 },
   sandals:    { name: 'รองเท้าแตะหนัง', icon: '⏢', img: 'ui/items/icon_sandals.png', weight: 10, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 1, agi: 1 }, rarity: 'common', price: 20 },
   hide_boots: { name: 'รองเท้าหนังสัตว์', icon: '⏢', img: 'ui/items/icon_hide_boots.png', weight: 20, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 3, agi: 2 }, rarity: 'rare', price: 80 },
+  // ---- casting gear: cast speed and cooldowns (src/character/Character.js castSpeed / cooldownCut) ----
+  bia_kae:    { name: 'เบี้ยแก้', icon: '◉', img: 'ui/items/icon_bia_kae.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 1, cast: .1 }, rarity: 'rare', price: 90 },
+  pha_yant:   { name: 'ผ้ายันต์ห้าแถว', icon: '▤', img: 'ui/items/icon_pha_yant.png', weight: 5, type: 'equip', slot: 'cape', slots: 1, bonus: { int: 2, cdr: .08, mpCost: .1 }, rarity: 'rare', price: 140 },
+  prakam:     { name: 'ลูกประคำไม้กฤษณา', icon: '◌', img: 'ui/items/icon_prakam.png', weight: 5, type: 'equip', slot: 'charm', slots: 1, bonus: { int: 3, mp: 30, cast: .15, cdr: .05 }, rarity: 'epic', price: 400 },
   // monster cards (type 'card'): src/character/data/cards.js
   ...CARD_ITEMS,
 };

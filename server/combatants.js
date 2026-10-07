@@ -31,6 +31,8 @@
 //   cs.blow(playerId, world, players, msg, phase)   → events (as MonsterWorld.damage)
 //   cs.tick(dt, night) · cs.drop(playerId)
 //   cs.touch(playerId) (a blow or a swing: in a fight) · cs.fighting(playerId) → bool
+//   cs.casting(playerId, skillId) (a cast bar started; a skill with a cast time is refused before it could fill)
+// Skills on an evolution path roll with the path's rules ('<id>@A', src/rules/data/evolutions.js).
 import { Character } from '../src/character/Character.js';
 import { CLASSES, POINTS_PER_LEVEL } from '../src/character/data/classes.js';
 import { ITEMS, EQUIP_SLOTS, slotKind } from '../src/character/data/items.js';
@@ -76,7 +78,8 @@ export function sane(data, cls) {
   const skills = data.skills && typeof data.skills === 'object' ? data.skills : undefined;
   // cards in the worn gear: only real ones of the item's kind, no more than its slots (Character checks)
   const cards = data.cards && typeof data.cards === 'object' ? data.cards : undefined;
-  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills, cards }); } catch { return null; }
+  const evo = data.evo && typeof data.evo === 'object' ? data.evo : undefined;   // paths: Character checks
+  try { return new Character({ name: String(data.name ?? ''), classId: cls ?? data.classId, gender: data.gender, level, alloc, equipment, inventory: [], jobLevel, skills, cards, evo }); } catch { return null; }
 }
 
 export class Combatants {
@@ -101,7 +104,8 @@ export class Combatants {
     this.list.set(id, { ...this.entry(c), persist, ack: 0, dirty: false, quests: questsFor(c, questsJson) });
     return true;
   }
-  entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
+  entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
+  casting(id, skillId) { const s = this.list.get(id); if (s && typeof skillId === 'string') s.casting.set(skillId, this.now()); }
   // ---- signed-in characters ------------------------------------------------------------------
   op(id, msg, map = null) {
     const s = this.list.get(id); if (!s?.persist) return false;
@@ -164,20 +168,28 @@ export class Combatants {
     // a kit skill must be learnt (job levels and skill points)
     if (kitSkill && lvOf(c, skillId) < 1) return { ok: false, why: 'not_learnt' };
     const slv = kitSkill ? lvOf(c, skillId) : 1;
-    const cd = kitSkill ? castInfo(kitSkill, slv).cd * (1 - (c.cooldownCut || 0)) : (legacy.cd ?? 0);
+    const eff = kitSkill ? c.skillVariant?.(skillId) ?? skillId : skillId;   // its evolution path, if any
+    const info = kitSkill ? castInfo({ ...kitSkill, id: eff }, slv) : null;
+    const cd = kitSkill ? info.cd * (1 - (c.cooldownCut || 0)) : (legacy.cd ?? 0);
     if (now < (s.cds.get(skillId) ?? -Infinity)) return { ok: false, why: 'cooldown' };
+    // a cast time: the bar must have had (most of) its time since the browser said it started
+    if (info?.cast) {
+      const need = info.cast * (1 - (c.castSpeed || 0)), at = s.casting.get(skillId);
+      if (need > .25 && (at === undefined || now - at < need * .7 - .25)) return { ok: false, why: 'casting' };
+      s.casting.delete(skillId);
+    }
     // a signed-in character pays MP here (a little slack: the browser's regen ticks on its own clock)
-    const mp = kitSkill ? castInfo(kitSkill, slv).mp : legacy.mp ?? 0;
+    const mp = kitSkill ? Math.round(info.mp * (c.mpCostMul ?? 1)) : legacy.mp ?? 0;
     if (s.persist && mp) { if (c.mp + c.maxMp * .1 + 2 < mp) return { ok: false, why: 'mp' }; c.mp = Math.max(0, c.mp - mp); }
     s.cds.set(skillId, now + Math.max(0, cd * CD_SLACK - CD_LAG));
-    const base = SKILL_BY_ID[skillId];
+    const base = SKILL_BY_ID[eff];
     const blows = kitSkill
-      ? Math.max(kitSkill.hits?.length ?? 0, base?.hits ?? 0, base?.count ?? 0, 1) * 3 + 4   // the dog and multi-hit FX land a few extra
+      ? Math.max(kitSkill.hits?.length ?? 0, base?.hits ?? 0, base?.count ?? 0, 1) * 3 + 4 + (base?.chain ?? 0)   // the dog and multi-hit FX land a few extra
       : legacy.kind === 'aoe' ? 3 : 2;
     s.casts = s.casts.filter(k => now - k.at < CAST_WINDOW);
-    s.casts.push({ skill: skillId, at: now, left: blows, kit: !!kitSkill, hit: new Set(), splashed: new Set() });
+    s.casts.push({ skill: skillId, eff, at: now, left: blows, kit: !!kitSkill, hit: new Set(), splashed: new Set() });
     // the caster's side happens here: buffs raise the next rolls
-    if (kitSkill) { const e = selfEffects(skillId, slv, c.defense); if (e?.buff) c.addBuff(e.buff); }
+    if (kitSkill) { const e = selfEffects(eff, slv, c.defense); if (e?.buff) c.addBuff(e.buff); }
     else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     return { ok: true };
   }
@@ -210,12 +222,12 @@ export class Combatants {
     if (!cast) return [];
     const kitSkill = cast.kit ? KITS[c.classId].find(k => k.id === cast.skill) : null, legacy = cast.kit ? null : LEGACY[cast.skill];
     const slv = kitSkill ? Math.max(1, lvOf(c, cast.skill)) : 1;
-    const info = kitSkill ? castInfo(kitSkill, slv) : null;
+    const info = kitSkill ? castInfo({ ...kitSkill, id: cast.eff ?? cast.skill }, slv) : null;
     const reach = (info ? info.range + (info.splash?.length ?? info.splash?.radius ?? 0) : 10) + REACH_SLACK;
     if (dist(m, p) > reach) return [];
     cast.left--;
     const stats = this.stats(c);
-    const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o.def), cast.skill, slv, this.r)
+    const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o.def), cast.eff ?? cast.skill, slv, this.r)
       : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o.def), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
     const ev = this.strike(world, players, m, id, roll(m), cast, night);
     // area skills: the server picks who else is caught
@@ -224,6 +236,9 @@ export class Combatants {
       const live = world.monsters.filter(o => o.hp > 0);
       if (sp.line || sp.cone) {
         for (const o of inShape(live, p, m, sp, m)) if (!cast.splashed.has(o.id)) { cast.splashed.add(o.id); ev.push(...this.strike(world, players, o, id, roll(o), cast, night)); }
+      } else if (sp.chain) {
+        // a chain: the blow jumps on to the nearest few around the target, each once per cast
+        for (const o of within(live, m, sp.radius, m).filter(o => !cast.splashed.has(o.id)).slice(0, sp.chain)) { cast.splashed.add(o.id); ev.push(...this.strike(world, players, o, id, roll(o), cast, night)); }
       } else {
         for (const o of within(live, sp.around === 'self' ? p : m, sp.radius, m)) ev.push(...this.strike(world, players, o, id, roll(o), cast, night));
       }
@@ -239,7 +254,7 @@ export class Combatants {
     const ev = this.land(world, players, m, id, r, night);
     if (r.hit && m.hp > 0 && !cast.hit.has(m.id)) {
       cast.hit.add(m.id);
-      for (const d of cast.kit ? hitEffects(cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
+      for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
         world.debuff(m, { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, source: d.source || r.dmg, by: id, remaining: d.duration });
       }
     }

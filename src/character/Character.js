@@ -5,6 +5,10 @@ import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { MAX_LEVEL, expToNext, CARRY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
 import { KIT_SKILL_IDS } from './data/kits.js';
 import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
+import { EVOLUTIONS, EVO_LEVEL, EVO_SWITCH_GOLD, evoId } from '../rules/data/evolutions.js';
+// Skill timing from gear and DEX: cooldown cut (DEX + `cdr`, ≤ CDR_MAX) and cast speed
+// (DEX + `cast`, ≤ CAST_MAX); `mpCost` makes skills dearer (src/character/data/items.js).
+export const CDR_MAX = .3, CAST_MAX = .5, CAST_PER_DEX = .003;
 import { computeDerived, hitChanceOf, ASPD_BUFF_MAX } from '../rules/stats.js';
 import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
@@ -17,7 +21,7 @@ const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -32,6 +36,9 @@ export class Character extends Emitter {
     for (const [id, lv] of Object.entries(skills ?? {})) { const i = ids.indexOf(id); if (i >= 0 && lv > 0 && SKILL_UNLOCK_JOB[i] <= this.jobLevel) this.skills[id] = Math.min(MAX_SKILL_LEVEL, Math.floor(lv)); }
     if (ids[0] && !this.skills[ids[0]]) this.skills[ids[0]] = 1;
     while (this.skillPoints < 0) { const top = Object.keys(this.skills).filter(id => id !== ids[0] || this.skills[id] > 1).pop(); if (!top) break; if (--this.skills[top] <= 0) delete this.skills[top]; }
+    // skill evolution paths chosen ({ kit skill id: 'A' | 'B' }, src/rules/data/evolutions.js)
+    this.evo = {};
+    for (const [id, pick] of Object.entries(evo ?? {})) if (EVOLUTIONS[id]?.[pick] && ids.includes(id)) this.evo[id] = pick;
     this.alloc = { ...emptyAlloc(), ...alloc };
     // gear in the bag may carry cards (src/character/data/cards.js): only real ones, no more than its slots
     this.inventory = inventory ? inventory.map(s => { if (!s) return null; const { cards: held, ...rest } = s; const ok = socketCards(s.id, held, ITEMS); return ok.length ? { ...rest, cards: ok } : { ...rest }; }) : Array(INVENTORY_SIZE).fill(null);
@@ -95,7 +102,9 @@ export class Character extends Emitter {
   get critDamage() { return this.derived.critDmg; }
   // share cut from the basic-attack interval: AGI/DEX (≤30%) plus buffs, all together ≤45%
   get attackSpeed() { return Math.min(ASPD_BUFF_MAX, this.derived.aspd + this.buffSum('aspd')); }
-  get cooldownCut() { return this.derived.castRed; }     // share cut from skill cooldowns
+  get cooldownCut() { return Math.min(CDR_MAX, this.derived.castRed + this.equipBonus('cdr')); }   // share cut from skill cooldowns
+  get castSpeed() { return Math.min(CAST_MAX, this.stat('dex') * CAST_PER_DEX + this.equipBonus('cast')); }   // share cut from cast times
+  get mpCostMul() { return 1 + this.equipBonus('mpCost'); }
   // Chance to avoid a blow from an attacker with this accuracy (buffs such as smoke add on top).
   evadeChance(accuracy) { return Math.min(.9, 1 - hitChanceOf(accuracy, this.evasion) + this.buffSum('dodge')); }
   // Kept for callers without an attacker: evasion against an even-level monster.
@@ -187,7 +196,18 @@ export class Character extends Emitter {
     this.skills = this.kitSkills[0] ? { [this.kitSkills[0]]: 1 } : {};
     this.emit('skills'); this.emit('change');
     return true;
+  }  // The rules id a kit skill casts with: its evolution path once the skill is at EVO_LEVEL.
+  skillVariant(id) { const pick = this.evo?.[id]; return pick && this.skillLevel(id) >= EVO_LEVEL ? evoId(id, pick) : id; }
+  evoCost(id, pick) { return this.evo[id] && this.evo[id] !== pick ? EVO_SWITCH_GOLD : 0; }
+  // Take path A or B of a skill at EVO_LEVEL: free the first time, EVO_SWITCH_GOLD to switch.
+  chooseEvo(id, pick) {
+    if (!EVOLUTIONS[id]?.[pick] || this.skillLevel(id) < EVO_LEVEL || this.evo[id] === pick) return false;
+    const cost = this.evoCost(id, pick); if (this.gold < cost) return false;
+    this.gold -= cost; this.evo[id] = pick;
+    this.emit('skills'); this.emit('change');
+    return true;
   }
+
   gainJobExp(amount) {
     if (this.jobLevel >= MAX_JOB_LEVEL) return;
     this.jobExp += Math.round(amount);
@@ -359,7 +379,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

@@ -39,6 +39,7 @@ export function attachNetProgress(net, c, quests = null) {
   const reset = c.resetStats.bind(c); c.resetStats = () => { reset(); op({ op: 'reset' }); };
   wrap('learnSkill', id => ({ op: 'learn', id }));
   wrap('resetSkills', () => ({ op: 'skill_reset' }));
+  wrap('chooseEvo', (id, pick) => ({ op: 'evo', id, pick }));
   c.on('bought', e => op({ op: 'buy', shop: e.shop, id: e.id }));
   // taking cards out is a dice roll: online the server rolls it and sends the result and the character
   const strip = c.stripCards.bind(c);
@@ -59,8 +60,8 @@ export function attachNetProgress(net, c, quests = null) {
   }
 
   const adopt = s => {
-    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards } = s;
-    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
+    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards, evo = c.evo } = s;
+    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
     c.emit('skills');
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);
     c.emit('inventory'); c.emit('change'); c.save?.();

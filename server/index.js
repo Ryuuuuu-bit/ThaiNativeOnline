@@ -13,7 +13,7 @@
 //                    tick {p: [[id, x, z, f, m], …]} · a {id, clip, sp} · c {id, name, map, text} ·
 //                    lv {id, lv} · online {n} · full {}
 // Phase 3a (shared monsters, server/monsters.js) and 3b (damage rolled here, server/combatants.js):
-//   client → server  ch {data} (character sheet) · cast {skill} · blow {id, skill, pounce?} (skill: kit id | 'basic' | 'pet') · dead {v}
+//   client → server  ch {data} (character sheet) · casting {skill} (a cast bar starts) · cast {skill} · blow {id, skill, pounce?} (skill: kit id | 'basic' | 'pet') · dead {v}
 //   server → client  clock {h} · mlist {m: [...]} · mt {m: [[id, x, z, f, hp, st, mv], …]} · mspawn {m} ·
 //                    mgone {id, killed} · mh {id, amount, crit, dot, pet, by} | {id, miss, by} ·
 //                    ma {id, power} (a monster swings at you) · kill {id, exp, gold, drops} (your share of a kill) ·
@@ -179,6 +179,7 @@ wss.on('connection', ws => {
       case 'a': { const r = presence.anim(ws, m); if (r) toMap(r.map, r, ws); break; }
       case 'c': { const r = presence.chat(ws, m.text); if (r) toAll(r); break; }
       case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
+      case 'casting': { const p = presence.players.get(ws); if (p) combatants.casting(p.id, m.skill); break; }
       case 'cast': { const p = presence.players.get(ws); if (!p) return; const r = combatants.cast(p.id, m.skill); if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why }); break; }
       case 'blow': { const p = presence.players.get(ws); if (p) { combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); } break; }
       case 'dead': {

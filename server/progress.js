@@ -5,6 +5,7 @@
 // the server replays with the very same Character / shop code:
 //   buy {shop, id} · sell {id} · use {id} · equip {id} · unequip {slot} · alloc {key} · reset · sort ·
 //   quest_accept {id} · quest_complete {id} · talk {npc} · learn {id} (a skill point) · skill_reset ·
+//   evo {id, pick} (a skill's path A / B at Lv.5, src/rules/data/evolutions.js) ·
 //   card {id, worn: slot} | {id, item, has} (a card into the worn gear, or into bag gear `item` holding `has`).
 //   Gear is named by item id and the cards it holds (`cards`), so two swords with different cards differ.
 // An action the server cannot replay (no gold, not in the bag, …) is refused and the
@@ -68,6 +69,7 @@ export function applyOp(c, msg = {}, quests = null) {
     case 'sort': sortBag(c); return true;
     case 'learn': return typeof msg.id === 'string' && c.learnSkill(msg.id);
     case 'skill_reset': return c.resetSkills();
+    case 'evo': return typeof msg.id === 'string' && (msg.pick === 'A' || msg.pick === 'B') && c.chooseEvo(msg.id, msg.pick);
     case 'quest_accept': return !!quests?.defs.has(msg.id) && quests.accept(msg.id);
     case 'quest_complete': return !!quests?.defs.has(msg.id) && quests.complete(msg.id);
     case 'talk': if (typeof msg.npc !== 'string' || !quests) return false; quests.onTalk(msg.npc); return true;

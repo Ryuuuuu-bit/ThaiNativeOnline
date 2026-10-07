@@ -7,6 +7,7 @@ import { SKILL_BY_ID, skillStats } from '../rules/data/skills.js';
 import { rollDamage } from '../rules/stats.js';
 import { RULES } from '../combat/data/rules.js';
 import { rollSkill, skillMult } from './damage.js';
+import './../rules/data/evolutions.js';   // registers the A/B paths ('<id>@A') and cast times in SKILL_BY_ID
 
 const KIT = RULES.kit;
 const metres = px => px / KIT.pxPerMeter;
@@ -15,9 +16,12 @@ const SELF_TYPES = new Set(['buff', 'party', 'revive']);
 
 // Who else an area skill hits: { radius (m), around: 'self' | 'target' }, a piercing shot's
 // line { line: true, length, width } or a spread volley's fan { cone: true, length, angle }
-// (both from the caster toward the target), or null.
+// (both from the caster toward the target), a chain { chain: n, radius } to the n nearest
+// around the target (evolution paths), or null. A path may name its `splash` outright (metres).
 export function splashOf(base) {
   if (!base) return null;
+  if (base.splash) return { ...base.splash };
+  if (base.chain) return { chain: base.chain, radius: 4 };
   if (base.type === 'projectile' && base.pierce) return { line: true, length: metres(base.range ?? 280), width: 1.1 };
   if (base.type === 'projectile' && (base.count ?? 1) > 1 && (base.spread ?? 0) >= 20) return { cone: true, length: metres(base.range ?? 280), angle: base.spread * Math.PI / 180 };
   if ((base.type === 'aoe' || base.type === 'mortar') && base.radius) return { radius: metres(base.radius), around: base.offset ? 'target' : 'self' };
@@ -27,7 +31,8 @@ export function splashOf(base) {
 }
 
 // A kit hotbar entry ({ id, cd | cooldown, mp? }) at a skill level →
-// { mp, cd (s), range (m), needsTarget, splash }. The rules' mp/cd (scaled by skill level)
+// { mp, cd (s), cast (s, before cast speed), range (m), needsTarget, splash }. Pass an evolved id
+// ('<id>@A', src/rules/data/evolutions.js) for a skill on a path. The rules' mp/cd (scaled by skill level)
 // win, so kits and the rules never disagree; the kit's own only fill skills the rules lack.
 export function castInfo(kitSkill, lv = 1) {
   const base = SKILL_BY_ID[kitSkill.id], st = base ? skillStats(base, lv) : {};
@@ -35,6 +40,7 @@ export function castInfo(kitSkill, lv = 1) {
   return {
     mp: base ? st.mp ?? 0 : kitSkill.mp ?? 0,
     cd: st.cd ? st.cd / 1000 : kitSkill.cd ?? kitSkill.cooldown ?? 0,
+    cast: (base?.castMs ?? 0) / 1000,
     range: Math.min(KIT.maxRange, Math.max(KIT.minRange, metres(px))),
     needsTarget: !base || !SELF_TYPES.has(base.type),
     splash: splashOf(base),

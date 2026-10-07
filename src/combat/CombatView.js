@@ -252,6 +252,8 @@ export class CombatView {
       this.root.add(this.pet);
     }
     combat.on('heal', e => this.ring(e.x, e.z, 1.1, '#9df0a8'));
+    // a skill on an evolution path flashes in the path's colour (src/rules/data/evolutions.js)
+    combat.on('evo-fx', e => { this.ring(e.x, e.z, 1.6, e.color); this.ring(e.x, e.z, 2.4, e.color); });
     combat.on('buff', () => { const p = combat.world.playerPos(); this.ring(p.x, p.z, 1, '#a8d4ff'); });
   }
 

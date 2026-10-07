@@ -50,6 +50,8 @@ test('skills: only your own kit, cooldowns hold, a cast allows only so many blow
   m.x = 6; m.z = 0;
   assert.equal(cs.cast(1, 'boxer_jab').ok, false, 'another class\'s skill');
   assert.deepEqual(cs.blow(1, w, players, { id: m.id, skill: 'arch_snipe' }), [], 'no cast, no blow');
+  assert.equal(cs.cast(1, 'arch_snipe').why, 'casting', 'a cast bar first (arch_snipe has a cast time)');
+  cs.casting(1, 'arch_snipe'); now.add(1);
   assert.equal(cs.cast(1, 'arch_snipe').ok, true);
   assert.equal(cs.cast(1, 'arch_snipe').why, 'cooldown');
   let n = 0; for (let i = 0; i < 50; i++) n += cs.blow(1, w, players, { id: m.id, skill: 'arch_snipe' }).length;
@@ -57,6 +59,7 @@ test('skills: only your own kit, cooldowns hold, a cast allows only so many blow
   now.add(CAST_WINDOW + 1);
   const cd = castInfo(KITS.hunter.find(k => k.id === 'arch_snipe'), 1).cd;
   now.add(cd);
+  cs.casting(1, 'arch_snipe'); now.add(1);
   assert.equal(cs.cast(1, 'arch_snipe').ok, true, 'ready again after its cooldown');
 });
 

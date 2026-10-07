@@ -70,7 +70,28 @@ def shoe(main, sole, strap):
     return draw
 
 
+def bia_kae(d):    # a cowrie shell on a cord
+    d.line([(6, 4), (12, 9), (18, 4)], fill=c('#c8a070'))
+    d.ellipse([7, 9, 17, 20], fill=c('#efe4c8')); d.line([(12, 11), (12, 18)], fill=c('#8a7a5a'))
+    for y in (12, 14, 16): d.point((11, y), fill=c('#8a7a5a')); d.point((13, y), fill=c('#8a7a5a'))
+
+
+def pha_yant(d):   # a cloth covered in yantra rows
+    d.rectangle([5, 4, 19, 20], fill=c('#e8dcc0'))
+    for y in (7, 10, 13, 16, 19): d.line([(7, y), (17, y)], fill=c('#a83a2a'))
+    d.rectangle([10, 8, 14, 12], outline=c('#a83a2a'))
+
+
+def prakam(d):     # agarwood prayer beads
+    import math as m
+    for i in range(14):
+        a = i / 14 * 6.283; x, y = 12 + m.cos(a) * 7, 12 + m.sin(a) * 7
+        d.ellipse([x - 1.6, y - 1.6, x + 1.6, y + 1.6], fill=c('#7a4a2a'))
+    d.ellipse([10, 18, 14, 22], fill=c('#f0cf6a'))
+
+
 ICONS = {
+    'bia_kae': bia_kae, 'pha_yant': pha_yant, 'prakam': prakam,
     'pha_khao': pha_khao, 'ngob': ngob, 'chada': chada,
     'rattan_shield': shield(c('#c79a52'), c('#8a6430'), c('#5a3e1c')),
     'buffalo_shield': shield(c('#5a4a42'), c('#2e2622'), c('#d9cfb4')),

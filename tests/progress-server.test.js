@@ -54,9 +54,9 @@ test('signed-in characters: kill rewards, MP for casts, the browser\'s sheet ign
   const up = cs.reward(1, { exp, gold: 5, drops: [{ id: 'hide', qty: 2 }] });
   assert.equal(up.level, 2); assert.equal(c.gold, 25); assert.equal(c.count('hide'), 2); assert.equal(cs.get(1).dirty, true);
   c.mp = 0;
-  assert.equal(cs.cast(1, 'arch_meteor').why, 'mp');
+  assert.equal(cs.cast(1, 'arch_volley').why, 'mp');
   c.mp = c.maxMp; const before = c.mp;
-  assert.equal(cs.cast(1, 'arch_meteor').ok, true); assert.ok(c.mp < before, 'paid');
+  assert.equal(cs.cast(1, 'arch_volley').ok, true); assert.ok(c.mp < before, 'paid');
   c.hp = 0; cs.respawn(1); assert.equal(c.gold, 23, 'a death costs 10% of the gold');
   assert.equal(cs.op(1, { op: 'buy', shop: 'general', id: 'potion_s' }, 'city'), true);
   assert.equal(cs.me(1).ack, 1); assert.equal(cs.me(1).gold, 13);

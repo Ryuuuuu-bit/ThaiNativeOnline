@@ -230,3 +230,10 @@ body:has(.g-skills:not([hidden])) .training-panel{display:none}
 /* หมออาคม's card removal (src/ui/ShopPanel.js) */
 .shop-note{margin:2px 0 8px;font-size:10px;line-height:1.6;color:#d8c9a8}
 .shop-row.armed{border-color:#f08a6a;background:#5a221a66}
+/* skill evolution A/B (src/character/ui/SkillPanel.js) */
+.g-evo{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;align-items:center}
+.g-evo small{width:100%;font-size:9px;color:#a9b49e}
+.g-skill-list .g-evo button{flex:1 1 45%;min-width:0;width:auto;height:auto;display:block;font-size:9px;line-height:1.4;padding:2px 6px;border-radius:3px;border:1px solid color-mix(in srgb,var(--evo) 55%,transparent);background:#ffffff08;color:#e9e2c8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.g-skill-list .g-evo button b{color:var(--evo)}
+.g-skill-list .g-evo button.on{background:color-mix(in srgb,var(--evo) 25%,transparent);border-color:var(--evo);opacity:1}
+.g-skill-list .g-evo button:disabled:not(.on){opacity:.55;cursor:default}

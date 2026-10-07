@@ -17,7 +17,7 @@ export const inTab = (tab, id) => (BAG_TABS.find(t => t.id === tab) ?? BAG_TABS[
 // How much a piece of gear is worth to this character: its bonuses weighted for the
 // class (casters value MATK, everyone else ATK). Only used to compare like with like.
 const MAGIC_JOBS = new Set(['mage', 'healer']);
-const WEIGHTS = { def: 1.2, hp: .1, mp: .08, str: 1, agi: 1, vit: 1, int: 1, dex: 1, luk: .8, crit: 60, critDmg: 25, acc: .5, eva: .5 };
+const WEIGHTS = { def: 1.2, hp: .1, mp: .08, str: 1, agi: 1, vit: 1, int: 1, dex: 1, luk: .8, crit: 60, critDmg: 25, acc: .5, eva: .5, cdr: 40, cast: 30, mpCost: -15 };
 export function gearScore(cls, id) {
   const b = ITEMS[id]?.bonus; if (!b) return 0;
   const magic = MAGIC_JOBS.has(cls?.job);

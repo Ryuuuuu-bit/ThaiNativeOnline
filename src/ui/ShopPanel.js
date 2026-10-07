@@ -6,8 +6,9 @@ import { STRIP } from '../character/data/cards.js';
 const STRIP_WHY = { gold: 'ทองไม่พอ', ash: 'ขี้เถ้าธูปไม่พอ', bag_full: 'กระเป๋าเต็ม', no_cards: 'ไอเท็มนี้ไม่มีการ์ด', no_shop: 'ต้องอยู่ที่ร้านหมออาคม และไม่ได้อยู่ระหว่างต่อสู้' };
 
 const $ = id => document.getElementById(id);
-const BONUS = { atk: 'โจมตี', def: 'ป้องกัน', str: 'พลัง', agi: 'ว่องไว', int: 'ปัญญา', vit: 'อึด', hp: 'HP', crit: 'คริติคอล' };
-export const describeItem = def => def.desc ?? Object.entries(def.bonus ?? {}).map(([k, v]) => `${BONUS[k] ?? k} +${k === 'crit' ? `${Math.round(v * 100)}%` : v}`).join(' · ');
+const BONUS = { atk: 'โจมตี', matk: 'เวท', def: 'ป้องกัน', str: 'พลัง', agi: 'ว่องไว', int: 'ปัญญา', vit: 'อึด', dex: 'ชำนาญ', luk: 'โชค', hp: 'HP', mp: 'MP', eva: 'หลบ', crit: 'คริติคอล', cdr: 'ลดคูลดาวน์', cast: 'ร่ายเร็ว', mpCost: 'MP ที่ใช้' };
+const PCT = new Set(['crit', 'cdr', 'cast', 'mpCost']);
+export const describeItem = def => def.desc ?? Object.entries(def.bonus ?? {}).map(([k, v]) => `${BONUS[k] ?? k} +${PCT.has(k) ? `${Math.round(v * 100)}%` : v}`).join(' · ');
 
 // Vendor window: buy the shop's stock or sell from the bag; หมออาคม also takes cards out of gear
 // (src/character/data/cards.js STRIP — a dice roll the server makes when online).

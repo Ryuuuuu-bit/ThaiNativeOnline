@@ -26,6 +26,9 @@ export class CombatHUD {
   buildTarget() {
     this.target = el('div', 'g-target glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-thp"><span></span><em></em></div><div class="g-target-tags"></div>`);
     this.target.hidden = true; this.layer.append(this.target);
+    // the cast bar of a skill with a cast time (src/training/KitCaster.js)
+    this.castBar = el('div', 'g-castbar glass', '<b></b><div class="g-bar"><span></span></div>');
+    this.castBar.hidden = true; this.layer.append(this.castBar);
   }
   // One action bar on every map: the class's four combat skills until a class kit
   // (src/training) swaps in its ten skills with setSkills(); potions and menus stay.
@@ -56,6 +59,10 @@ export class CombatHUD {
     cb.on('player-hit', e => this.float(e.x, e.z, e.amount, 'hurt', 1.9));
     cb.on('heal', e => this.float(e.x, e.z, `+${e.amount}`, 'heal', 1.9));
     cb.on('fail', reason => feed.log(reason, 'bad', true));
+    cb.on('casting', e => { this.cast = { ...e, t: 0 }; this.castBar.querySelector('b').textContent = `กำลังร่าย ${e.name}`; this.castBar.hidden = false; this.castBar.classList.remove('done'); });
+    const endCast = () => { this.cast = null; this.castBar.hidden = true; };
+    cb.on('cast-done', endCast); cb.on('cast-cancel', endCast);
+    cb.on('evo-fx', e => this.float(e.x, e.z, e.name, 'evo', 2.4));
     cb.on('kill', ({ monster, exp, gold, drops }) => {
       feed.log(`ปราบ${monster.name} · +${exp} EXP · +${gold} ทอง`, 'exp');
       for (const d of drops) feed.log(`ได้รับ ${ITEMS[d.id].name}${d.qty > 1 ? ` ×${d.qty}` : ''}`, ITEMS[d.id].rarity === 'epic' || ITEMS[d.id].type === 'card' ? 'epic' : 'loot');
@@ -116,6 +123,7 @@ export class CombatHUD {
 
   // Per frame: the action bar, floating numbers and monster nameplates.
   update(dt, camera, size, groundHeight) {
+    if (this.cast) { this.cast.t += dt; this.castBar.querySelector('span').style.width = `${Math.min(100, this.cast.t / this.cast.total * 100)}%`; }
     const project = v => { const p = v.clone().project(camera); return [(p.x + 1) / 2 * size.width, (1 - p.y) / 2 * size.height]; };
     this.bar.update(dt);
     for (const f of this.floats) {
