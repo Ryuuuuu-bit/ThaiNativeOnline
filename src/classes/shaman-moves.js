@@ -1,7 +1,7 @@
 // หมอผี (จอมขมังเวทย์): ten skills (ids match the rules' mage skills in src/rules/data/skills.js)
 // mapped onto the shaman's clips in docs/art/classes/shaman/ANIMATIONS.md.
 // clip: animation in public/models/shaman.glb · hits: seconds from the clip start where each
-// spell lands or leaves the staff (n / 30 s, the clips are 30 fps).
+// spell lands or leaves the hands (n / 30 s, the clips are 30 fps).
 import { tempo, CLASS_TEMPO } from './tempo.js';
 export const SHAMAN_SKILLS = tempo([
   { id: 'mage_akom', key: 'Digit1', name: 'กระสุนวิญญาณ', clip: 'shaman_akom', fallback: 'shaman_akom', duration: 1.0, hits: [0.4], lv: 1, cd: 2.4, desc: 'ยิงหัวกะโหลกวิญญาณ 3 ดวงโค้งเข้าเป้า' },

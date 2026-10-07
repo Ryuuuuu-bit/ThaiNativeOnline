@@ -1,5 +1,5 @@
 // Builds the shaman's (หมอผี · จอมขมังเวทย์) animations on the owner's own Tripo rig (Mixamo
-// bone names, its own rest pose and weights; the skull staff parented to the right hand — see
+// bone names, its own rest pose and weights; unarmed two-hand seals — see
 // README.md). The procedural pose builder (fighter() below) works in world space, so it drives
 // this skeleton as it is; walk and run are the Muay Thai fighter's clips retargeted onto it.
 import { load, sample, clone, blend, worldPos, worldQuat, rotWorld, writeAnim, legIK, fist, hingeLimb, duration, THREE } from '../muaythai-anims/lib.mjs';
@@ -31,17 +31,15 @@ function retarget(pf) {
   p.get(HIPS).t.copy(REST_R.get(HIPS).t).add(hf.clone().sub(hf0).multiplyScalar(HIP_K));
   return p;
 }
-// walking and running he keeps the staff upright at his side (the right arm is re-posed
-// from the stance each frame; the rest of the body is the fighter's clip)
+// Unarmed locomotion: retain the retargeted arm swing, with relaxed hands.
 function retargetClip(name, anim) {
   const d = duration(anim), frames = [];
   for (let i = 0; i <= Math.round(d * FPS); i++) {
-    const p = retarget(sample(F, anim, i / FPS)), h = SSTANCE.Rh, head = worldPos(R, p, B('Head'));
-    armIK(p, 'R', head.clone().add(new THREE.Vector3(...h.at)), h.pole);
-    hand(p, 'R', bladePalm(p, 'R', h.blade)); fist(R, p, B, 'Right', 1); tiltBlade(p, 'R'); TILT.R = null;
+    const p = retarget(sample(F, anim, i / FPS));
+    fist(R, p, B, 'Left', .15); fist(R, p, B, 'Right', .15);
     frames.push(p);
   }
-  writeAnim(R, name, frames, FPS, ['staff']);
+  writeAnim(R, name, frames, FPS);
 }
 
 // --- poses -----------------------------------------------------------------
@@ -111,38 +109,6 @@ function hand(p, side, palm, flex = 0) {
   if (flex) { const ax2 = fore.clone().cross(v3(...palm)).normalize(); rotWorld(R, p, B(S + 'Hand'), ax2.toArray(), flex); }
   return p;
 }
-// The staff runs through the right fist and out of the thumb side, skull end first (see
-// README.md), so a `blade` (= staff, skull-ward) direction fixes the hand's roll:
-// left palm = forearm × blade, right palm = blade × forearm.
-// The blade need not stand square to the forearm: whatever it leans toward the forearm's
-// line (the sword lies diagonally across the palm, and the wrist cocks) is kept as `TILT`
-// and applied after the fist closes — split between the wrist and the grip.
-const TILT = {}, TOOL = { R: 'staff' };
-function bladePalm(p, S, blade) {
-  const fore = worldPos(R, p, B((S === 'L' ? 'Left' : 'Right') + 'Hand')).sub(worldPos(R, p, B((S === 'L' ? 'Left' : 'Right') + 'ForeArm'))).normalize();
-  const want = v3(...blade).normalize(), b = want.clone().sub(fore.clone().multiplyScalar(want.dot(fore)));
-  if (b.lengthSq() < 1e-6) b.set(0, 1, 0).sub(fore.clone().multiplyScalar(fore.y));
-  b.normalize();
-  TILT[S] = { perp: b, fore, want, a: THREE.MathUtils.clamp(Math.atan2(want.dot(fore), want.dot(b)), -0.45, 1.25) };
-  return (S === 'L' ? fore.clone().cross(b) : b.clone().cross(fore)).toArray();
-}
-function tiltBlade(p, S) {
-  const t = TILT[S]; if (!t || Math.abs(t.a) < 1e-3) return;
-  const axis = t.perp.clone().cross(t.fore).normalize().toArray();
-  rotWorld(R, p, B((S === 'L' ? 'Left' : 'Right') + 'Hand'), axis, t.a * 0.35);
-  if (TOOL[S]) rotWorld(R, p, TOOL[S], axis, t.a * 0.65);
-  // a staff turns loosely in the fist: whatever the hand still misses is taken up by the
-  // grip (≤ 45°), so the staff ends up where it was asked to point
-  if (TOOL[S]) {
-    const node = R.byName[TOOL[S]], d = STAFF_AXIS.clone().applyQuaternion(worldQuat(R, p, node));
-    const ang = d.angleTo(t.want); if (ang < 1e-3) return;
-    const ax = d.clone().cross(t.want).normalize().toArray();
-    rotWorld(R, p, TOOL[S], ax, Math.min(ang, 0.8));
-  }
-}
-// the staff's skull-ward axis in its own node frame (the rest world +Z, see README.md)
-const STAFF_AXIS = (() => { const n = R.byName.staff; const R0 = new Map(R.nodes.map(m => [m, { t: new THREE.Vector3(...m.getTranslation()), r: new THREE.Quaternion(...m.getRotation()), s: new THREE.Vector3(...m.getScale()) }]));
-  return new THREE.Vector3(0, 0, 1).applyQuaternion(worldQuat(R, R0, n).invert()); })();
 // Torso: hips at `hip` (world), turned `hipYaw`; spine turns a further `twist` and leans
 // `lean` forward; the head turns back so the eyes stay on the target (+Z), chin `chin` down.
 function torso(p, { hip, hipYaw = 0, twist = 0, lean = 0, side = 0, chin = 0, look = 1 }) {
@@ -204,13 +170,11 @@ function fighter(c) {
   for (const [S, h] of [['L', c.Lh], ['R', c.Rh]]) {
     if (h.sh) rotWorld(R, p, B((S === 'L' ? 'Left' : 'Right') + 'Shoulder'), [0, 0, 1], S === 'L' ? h.sh : -h.sh);
     armIK(p, S, head.clone().add(v3(...h.at)), h.pole);
-    hand(p, S, h.blade ? bladePalm(p, S, h.blade) : h.palm, h.flex ?? 0);
+    hand(p, S, h.palm, h.flex ?? 0);
   }
   const fk = c.fist ?? [1, 1];
   if (fk[0] > .01) fist(R, p, B, 'Left', fk[0]);
   if (fk[1] > .01) fist(R, p, B, 'Right', fk[1]);
-  for (const [S, h] of [['L', c.Lh], ['R', c.Rh]]) if (h.blade) tiltBlade(p, S);
-  TILT.L = TILT.R = null;
   return p;
 }
 // Deep-interpolate two parameter sets.
@@ -229,18 +193,7 @@ function norm(c) {
 // (the fighter's guard STANCE above is kept as the parameter template)
 // keys: [t, params, ease]; extra(t, params) may tweak the params per frame (a bounce, a
 // foot lifting on a step); post(t, pose) may change the finished pose (the fall in 'die').
-// DBG=1: how far each keyed staff direction is from what the hand can give it (degrees)
-const REST0 = new Map(R.nodes.map(n => [n, { t: new THREE.Vector3(...n.getTranslation()), r: new THREE.Quaternion(...n.getRotation()), s: new THREE.Vector3(...n.getScale()) }]));
-function checkStaff(name, keys) {
-  if (!process.env.DBG) return;
-  const node = R.byName.staff; if (!node) return;
-  const q0 = worldQuat(R, REST0, node);
-  keys.forEach(([t, c]) => { if (!c.Rh?.blade) return; const p = fighter(c), q1 = worldQuat(R, p, node);
-    const d = new THREE.Vector3(0, 0, 1).applyQuaternion(q0.clone().invert()).applyQuaternion(q1), w = new THREE.Vector3(...c.Rh.blade).normalize();
-    const err = THREE.MathUtils.radToDeg(d.angleTo(w)); if (err > 15) console.log(name, 't=' + t.toFixed(2), 'staff off by', err.toFixed(0) + '°', 'got', d.toArray().map(x => x.toFixed(2)).join(','), 'want', c.Rh.blade.join(',')); });
-}
 function buildP(name, dur, keys, extra, post) {
-  checkStaff(name, keys.map(([t, c]) => [t, norm(c)]));
   return build(name, dur, keys.map(([t, c, e]) => [t, norm(c), e]), null, (t, k, u) => { let c = mix(k.a, k.b, u); if (extra) c = extra(t, c) ?? c; const pz = fighter(c); post?.(t, pz); return pz; });
 }
 
@@ -288,126 +241,74 @@ function build(name, dur, keys, fx, gen) {
     if (FISTS.has(name)) { fist(R, p, B, 'Left'); fist(R, p, B, 'Right'); }
     frames.push(p);
   }
-  return writeAnim(R, name, frames, FPS, ['staff']);
+  return writeAnim(R, name, frames, FPS);
 }
 const spinY = (p, a) => rotWorld(R, p, B('Hips'), [0, 1, 0], a);
 const bump = (t, c, w) => Math.max(0, 1 - Math.abs(t - c) / w);               // triangle 0..1
 const arcLift = (t, t0, t1, h) => (t > t0 && t < t1 ? Math.sin(Math.PI * (t - t0) / (t1 - t0)) * h : 0);
 
 
-// --- the shaman ----------------------------------------------------------------------
-// The skull staff in the right fist (thumb side = skull end), the left hand free for the
-// mudras and the casting. Hands: { at (from the head), pole (elbow), palm } for the left,
-// { at, pole, blade (staff direction, skull-ward) } for the right. Clip timings (n / 30 s)
-// match src/classes/shaman-moves.js, where the FX lands each spell.
-const f = n => n / 30;
-const Hl = (at, pole, palm, sh = 0) => ({ at, pole, palm, sh });
-const Hr = (at, pole, blade, sh = 0) => ({ at, pole, blade, palm: [0, -1, 0], sh });
+// --- Unarmed Thai occult caster: two-handed seals, then a clear release. ---
+// Original gestures inspired by hand-sign spellcasting; no weapon or franchise symbols.
+const H = (at, palm, side) => ({ at, palm, pole: [side * .65, -.65, -.3], sh: 0, flex: 0 });
 const SSTANCE = {
-  hip: [0, 0.012, 0], hipYaw: -0.25, twist: -0.05, lean: 0.06, side: 0, chin: 0.12, look: 1, fist: [0.25, 1],
-  L: { x: 0.08, z: 0.05, yaw: -0.1, heel: 0, up: 0 },
-  R: { x: -0.085, z: -0.04, yaw: -0.45, heel: 0, up: 0 },
-  Lh: Hl([0.2, -0.45, 0.05], [0.3, -0.4, -1], [-1, 0, 0.2]),
-  Rh: Hr([-0.16, -0.33, 0.2], [-0.15, -1, -0.5], [0, 1, 0.02]),   // elbow at the side, forearm level: the staff stands upright
+  hip: [0, .012, 0], hipYaw: 0, twist: 0, lean: .025, side: 0, chin: .08, look: 1, fist: [.12, .12], seal: 0,
+  L: { x: .075, z: .02, yaw: .12, heel: 0, up: 0 },
+  R: { x: -.075, z: -.025, yaw: -.12, heel: 0, up: 0 },
+  Lh: H([.12, -.32, .12], [-1, .2, .2], 1),
+  Rh: H([-.12, -.32, .12], [1, .2, .2], -1),
 };
 const S = o => withP(SSTANCE, o);
-
+const sealA = S({ fist: [.85, .85], seal: 1, chin: .14,
+  Lh: H([.025, -.20, .145], [-1, 0, .2], 1), Rh: H([-.025, -.20, .145], [1, 0, .2], -1) });
+const sealB = S({ fist: [.75, .75], seal: 1, chin: .10,
+  Lh: H([.035, -.16, .17], [-1, 0, .1], 1), Rh: H([-.035, -.18, .14], [1, 0, .1], -1) });
+const release = (kind, variant = 0) => {
+  if (kind === 'guard') return S({ Lh: H([.14, -.17, .23], [0, 0, 1], 1), Rh: H([-.14, -.17, .23], [0, 0, 1], -1) });
+  if (kind === 'ground') return S({ lean: .28, chin: .24, hip: [0, .055, 0],
+    Lh: H([.14, -.42, .27], [0, -1, .1], 1), Rh: H([-.14, -.42, .27], [0, -1, .1], -1) });
+  if (kind === 'summon') return S({ chin: -.10,
+    Lh: H([.25, -.10, .15], [0, 1, .2], 1), Rh: H([-.25, -.10, .15], [0, 1, .2], -1) });
+  return S({ twist: variant * .08, lean: .08,
+    Lh: H([.10, -.22, .29], [0, 0, 1], 1), Rh: H([-.10, -.22, .29], [0, 0, 1], -1) });
+};
+// Straight index/middle fingers with curled ring/little fingers form the seal.
+function sealFingers(p, weight) {
+  for (const side of ['Left', 'Right']) for (const digit of ['Index', 'Middle']) for (let j = 1; j <= 3; j++) {
+    const n = R.byName[B(side + 'Hand' + digit + j)]; if (n) p.get(n).r.slerp(REST.get(n).r, weight);
+  }
+}
 buildP('idle', 2.6, [[0, SSTANCE], [2.6, SSTANCE]], (t, c) => {
-  const w = TAU * t / 2.6;
-  c.hip[1] += 0.004 * (1 - Math.cos(2 * w)) / 2; c.hipYaw += 0.03 * Math.sin(w); c.chin += 0.025 * Math.sin(2 * w);
-  c.Lh.at = c.Lh.at.map((x, i) => x + [0.004 * Math.sin(w), 0.006 * Math.sin(w + 1), 0][i]);
+  c.chin += .012 * Math.sin(TAU * t / 2.6); // feet and hips stay still
 });
-
-// 1 คาถาอาคม: draw the staff back, then drive the skull at the target; three fireballs leave it (0.4)
-{
-  const back = S({ twist: -0.25, lean: -0.04, Rh: Hr([-0.15, -0.08, -0.02], [-0.6, -0.3, -1], [0, 1, -0.35]), Lh: Hl([0.04, -0.24, 0.16], [0.6, -0.6, -0.4], [0, 0, 1]), fist: [0.1, 1] });
-  const thrust = S({ hip: [0, 0.03, 0.04], twist: 0.15, lean: 0.18, L: { ...SSTANCE.L, z: 0.12 },
-    Rh: Hr([-0.07, -0.22, 0.44], [-0.5, -0.6, -0.3], [0, 0.2, 1]), Lh: Hl([0.12, -0.28, 0.14], [0.6, -0.6, -0.4], [0, 0, 1]), fist: [0.1, 1] });
-  buildP('shaman_akom', 1.0, [[0, SSTANCE], [f(8), back, easeOut], [f(12), thrust, easeIn], [f(20), thrust], [1.0, SSTANCE, ease]]);
+const spells = [
+  ['shaman_akom', 1, .4, 'push'], ['shaman_yant', 1.1, .47, 'push'],
+  ['shaman_ward', 1.4, .7, 'guard'], ['shaman_thunder', 1.2, .6, 'ground'],
+  ['shaman_kalp', 2, .8, 'push'], ['shaman_holy', 1.8, .9, 'summon'],
+  ['shaman_ghostfire', 1.2, .5, 'summon'], ['shaman_curse', 1.4, .63, 'ground'],
+  ['shaman_storm', 2.2, .8, 'summon'],
+];
+for (const [name, dur, hit, kind] of spells) {
+  const end = release(kind);
+  buildP(name, dur, [[0, SSTANCE], [hit * .25, sealA], [hit * .55, sealB],
+    [hit * .76, sealA], [hit, end], [dur * .86, end], [dur, SSTANCE]], null,
+    (t, p) => { const w = t < hit * .76 ? Math.min(1, t / (hit * .25)) : Math.max(0, (hit - t) / (hit * .24)); sealFingers(p, w); });
 }
-// 2 ยันต์ตรึงวิญญาณ: the left hand draws three talismans from the right shoulder and flings them (0.47)
-{
-  const draw = S({ twist: -0.35, hipYaw: -0.4, Lh: Hl([-0.1, -0.14, 0.06], [0.5, -0.3, -1], [0, 0, -1]), fist: [0.4, 1] });
-  const fling = S({ twist: 0.3, hipYaw: -0.1, lean: 0.12, L: { ...SSTANCE.L, z: 0.11 }, Lh: Hl([0.33, -0.16, 0.34], [0.6, -0.8, 0], [0, -0.3, 1]), fist: [0, 1] });
-  buildP('shaman_yant', 1.1, [[0, SSTANCE], [f(9), draw, easeOut], [f(14), fling, easeIn], [f(22), fling], [1.1, SSTANCE, ease]]);
-}
-// 3 เกราะยันต์เก้ายอด: the staff planted before him, the left hand raised palm-out in a mudra (0.7)
-{
-  const ward = S({ hipYaw: -0.1, twist: 0, lean: 0.08, chin: 0.25, Rh: Hr([-0.08, -0.26, 0.3], [-0.4, -1, -0.4], [0, 1, 0]), Lh: Hl([0.08, -0.08, 0.24], [0.8, -0.6, -0.3], [0, 0, 1]), fist: [0, 1] });
-  buildP('shaman_ward', 1.4, [[0, SSTANCE], [f(14), withP(ward, { Rh: { ...ward.Rh, at: [-0.08, -0.18, 0.3] } }), ease], [f(21), ward, easeIn], [f(34), ward], [1.4, SSTANCE, ease]]);
-}
-// 4 อัสนีบาต: the staff thrust to the sky, then brought down to point at the target as the bolt falls (0.6)
-{
-  const sky = S({ lean: -0.12, chin: -0.35, Rh: Hr([-0.1, 0.3, 0.08], [-1, 0.1, -0.2], [0, 1, 0.2], 0.12), Lh: Hl([0.22, -0.3, 0.12], [0.6, -0.4, -0.6], [-0.5, -0.5, 0.5]), fist: [0.1, 1] });
-  const point = S({ lean: 0.12, chin: 0.05, Rh: Hr([-0.06, -0.06, 0.4], [-0.7, -0.4, -0.3], [0, 0.35, 1]), Lh: Hl([0.14, -0.3, 0.12], [0.6, -0.6, -0.4], [0, -1, 0.3]), fist: [0.1, 1] });
-  buildP('shaman_thunder', 1.2, [[0, SSTANCE], [f(12), sky, ease], [f(15), sky], [f(18), point, easeIn], [f(26), point], [1.2, SSTANCE, ease]]);
-}
-// 5 เพลิงกัลป์ปราบผี: both arms up, calling the fire, then the staff slammed down ahead; the left
-// palm pushes the four waves on (0.8, 1.03, 1.27, 1.5)
-{
-  const call = S({ lean: -0.15, chin: -0.4, Rh: Hr([-0.12, 0.28, 0.04], [-1, 0.2, -0.3], [0.25, 1, 0], 0.12), Lh: Hl([0.16, 0.28, 0.04], [1, 0.2, -0.3], [0, 0, 1], 0.12), fist: [0, 1] });
-  const slam = S({ hip: [0, 0.08, 0.05], lean: 0.3, chin: 0.1, L: { ...SSTANCE.L, z: 0.14 }, R: { ...SSTANCE.R, heel: 0.3 },
-    Rh: Hr([-0.06, -0.38, 0.36], [-0.7, -0.4, -0.4], [0, -0.1, 1]), Lh: Hl([0.12, -0.2, 0.42], [0.6, -0.8, 0], [0, 0, 1]), fist: [0, 1] });
-  buildP('shaman_kalp', 2.0, [[0, SSTANCE], [f(14), call, ease], [f(19), call], [f(23), slam, easeIn], [f(48), slam], [2.0, SSTANCE, ease]], (t, c) => {
-    for (const h of [24, 31, 38, 45]) { const u = bump(t, f(h), f(3)); c.Lh.at[2] += 0.05 * u; c.hip[1] += 0.01 * u; }
-  });
-}
-// 6 น้ำมนต์ธาราทิพย์: head bowed over a one-handed wai, the staff upright; then the left hand opens
-// and sprinkles the holy water out over the party (0.9)
-{
-  const pray = S({ hipYaw: -0.1, twist: 0, lean: 0.1, chin: 0.35, Rh: Hr([-0.13, -0.3, 0.22], [-0.3, -1, -0.5], [0, 1, 0]), Lh: Hl([0.02, -0.22, 0.14], [0.8, -0.6, -0.4], [-1, 0, 0]), fist: [0, 1] });
-  const sprinkle = S({ hipYaw: -0.1, twist: 0.1, lean: -0.04, chin: -0.1, Rh: Hr([-0.13, -0.3, 0.22], [-0.3, -1, -0.5], [0, 1, 0]), Lh: Hl([0.28, -0.08, 0.3], [0.8, -0.6, 0], [0, 1, 0.3]), fist: [0, 1] });
-  buildP('shaman_holy', 1.8, [[0, SSTANCE], [f(12), pray, ease], [f(23), pray], [f(27), sprinkle, easeOut], [f(40), sprinkle], [1.8, SSTANCE, ease]]);
-}
-// 7 ไฟผีห้าทิศ: the staff swept across in a flat arc, scattering five ghost fires (0.5)
-{
-  const wind = S({ twist: 0.45, hipYaw: -0.05, Rh: Hr([0.12, -0.2, 0.2], [-0.6, -0.6, -0.6], [1, 0.25, 0.4]), Lh: Hl([0.3, -0.35, -0.05], [0.4, -0.6, -1], [0, -1, 0]), fist: [0.1, 1] });
-  const sweep = S({ twist: -0.45, hipYaw: -0.4, lean: 0.12, Rh: Hr([-0.32, -0.2, 0.25], [-0.6, -0.6, 0], [-1, 0.25, 0.5]), Lh: Hl([0.25, -0.3, 0.15], [0.6, -0.6, -0.4], [0, -1, 0.3]), fist: [0.1, 1] });
-  buildP('shaman_ghostfire', 1.2, [[0, SSTANCE], [f(9), wind, easeOut], [f(15), sweep, easeIn], [f(23), sweep], [1.2, SSTANCE, ease]]);
-}
-// 8 คำสาปพรายตานี: both hands raised, then hunched forward — the staff's skull to the ground toward the
-// target, the left hand a clawing grip that drags the curse up (0.63)
-{
-  const raise = S({ lean: -0.1, chin: -0.2, Rh: Hr([-0.14, 0.12, 0.1], [-1, -0.2, -0.3], [0, 1, 0.3]), Lh: Hl([0.16, 0.12, 0.1], [1, -0.2, -0.3], [0, 0, 1]), fist: [0.2, 1] });
-  const curse = S({ hip: [0, 0.07, 0.03], lean: 0.4, chin: 0.15, L: { ...SSTANCE.L, z: 0.12 },
-    Rh: Hr([-0.06, -0.36, 0.36], [-0.7, -0.3, -0.4], [0, -0.65, 0.75]), Lh: Hl([0.12, -0.26, 0.44], [0.6, -0.8, 0], [0, -1, 0.2]), fist: [0.65, 1] });
-  buildP('shaman_curse', 1.4, [[0, SSTANCE], [f(11), raise, ease], [f(19), curse, easeIn], [f(32), curse], [1.4, SSTANCE, ease]], (t, c) => {
-    if (t > f(19) && t < f(32)) c.Lh.at[1] += 0.03 * Math.sin(Math.PI * (t - f(19)) / f(13));   // the claw drags upward
-  });
-}
-// 9 สมาธิกสิณไฟ: he sits cross-legged, the staff upright at his right, the left hand palm-up in his lap;
-// the fire kasina kindles before him (1.0)
-{
-  const sit = S({ hip: [0, 0.37, 0.0], hipYaw: 0, twist: 0, lean: 0.04, chin: 0.2,
-    L: { x: -0.07, z: 0.13, yaw: -1.35, heel: 0, up: 0.02, pole: [1, 0.5, 0.6] }, R: { x: 0.07, z: 0.08, yaw: 1.35, heel: 0, up: 0.02, pole: [-1, 0.5, 0.6] },
-    Rh: Hr([-0.2, -0.18, 0.16], [-0.4, -1, -0.4], [0, 1, 0]), Lh: Hl([0.04, -0.5, 0.17], [0.8, -0.4, -0.4], [0, 1, 0]), fist: [0, 1] });   // staff held up so its foot stays on the ground
-  buildP('shaman_meditate', 2.0, [[0, SSTANCE], [f(14), sit, ease], [f(46), sit], [2.0, SSTANCE, ease]], (t, c) => {
-    if (t > f(14) && t < f(46)) c.hip[1] -= 0.012 * Math.sin(TAU * (t - f(14)) / 1.1);   // breathing
-  });
-}
-// 10 พายุอัสนีเทพ: the staff held high, the left hand open to the sky, turning slowly as the storm
-// breaks round him in five waves (0.8 … 1.87)
-{
-  const storm = S({ hipYaw: 0, twist: 0, lean: -0.12, chin: -0.4, L: { x: 0.1, z: 0.04, yaw: 0, heel: 0, up: 0 }, R: { x: -0.1, z: -0.04, yaw: -0.2, heel: 0, up: 0 },
-    Rh: Hr([-0.1, 0.32, 0.04], [-1, 0.1, -0.2], [0, 1, 0.1], 0.12), Lh: Hl([0.28, 0.12, 0.08], [1, -0.2, -0.3], [0, 1, 0], 0.08), fist: [0, 1] });
-  buildP('shaman_storm', 2.2, [[0, SSTANCE], [f(14), storm, ease], [f(60), storm], [2.2, SSTANCE, ease]], (t, c) => {
-    for (const h of [24, 32, 40, 48, 56]) { const u = bump(t, f(h), f(3)); c.Rh.at[1] += 0.03 * u; c.hip[1] += 0.012 * u; }
-  });
-}
-// Hit and knock-out (from the shaman's stance)
-const SHURT = S({ hip: [-0.005, 0.03, -0.05], lean: -0.22, chin: -0.2, Lh: Hl([0.2, -0.3, 0.06], [0.5, -0.5, -0.6], [-1, 0, 0.3]), Rh: Hr([-0.17, -0.3, 0.14], [-0.2, -1, -0.5], [0, 1, 0.3]) });
-buildP('hurt', 0.5, [[0, SSTANCE], [0.08, SHURT, easeOut], [0.2, SHURT], [0.5, SSTANCE, ease]]);
-{
-  const slump = S({ hip: [0, 0.2, -0.06], lean: -0.1, Lh: Hl([0.2, -0.45, 0.0], [0.3, 0, -1], [-1, 0, 0]), Rh: Hr([-0.2, -0.45, -0.02], [-0.3, 0, -1], [0.3, 0.6, 0.6]) });
-  const spread = withP(slump, { hip: [0, 0.05, -0.04], L: { ...SSTANCE.L, heel: 0, yaw: 0.3 }, R: { ...SSTANCE.R, heel: 0, yaw: -0.4 },
-    Lh: Hl([0.32, -0.12, 0.0], [0, -1, -0.3], [-1, 0, 0]), Rh: Hr([-0.32, -0.12, -0.02], [0, -1, -0.3], [-0.6, 0, 0.8]) });
-  buildP('die', 1.6, [[0, SSTANCE], [0.25, SHURT, easeOut], [0.6, slump, ease], [1.0, spread, ease], [1.6, spread]], null, (t, p) => {
-    const u = ease(Math.min(1, Math.max(0, (t - 0.6) / 0.6)));
-    rotWorld(R, p, B('Hips'), [1, 0, 0], -1.45 * u);
-    const parts = ['Head', 'Spine2', 'Hips', 'LeftFoot', 'RightFoot', 'LeftLeg', 'RightLeg', 'LeftHand', 'RightHand'];
-    lift(p, (0.06 - Math.min(...parts.map(n => worldPos(R, p, B(n)).y))) * u);
-  });
-}
+const meditate = S({ hip: [0, .13, 0], chin: .20, fist: [0, 0],
+  Lh: H([.025, -.30, .16], [0, 1, 0], 1), Rh: H([-.025, -.31, .16], [0, 1, 0], -1) });
+buildP('shaman_meditate', 2, [[0, SSTANCE], [.35, sealA], [.7, meditate], [1.6, meditate], [2, SSTANCE]]);
+const hurt = S({ lean: -.18, chin: -.14, hip: [0, .02, -.035] });
+buildP('hurt', .5, [[0, SSTANCE], [.1, hurt], [.2, hurt], [.5, SSTANCE]]);
+const fallen = S({ hip: [0, .18, -.06], lean: -.10,
+  Lh: H([.25, -.30, 0], [-1, 0, 0], 1), Rh: H([-.25, -.30, 0], [1, 0, 0], -1) });
+buildP('die', 1.6, [[0, SSTANCE], [.2, hurt], [.65, fallen], [1.6, fallen]], null, (t, p) => {
+  const u = ease(Math.min(1, Math.max(0, (t - .45) / .7)));
+  rotWorld(R, p, B('Hips'), [1, 0, 0], -1.45 * u);
+  const parts = ['Head', 'Spine2', 'Hips', 'LeftFoot', 'RightFoot', 'LeftLeg', 'RightLeg', 'LeftHand', 'RightHand'];
+  lift(p, (.06 - Math.min(...parts.map(n => worldPos(R, p, B(n)).y))) * u);
+});
+// Strip the weapon only in the generated output. The supplied source stays intact.
+for (const node of R.root.listNodes()) if (/^staff$/i.test(node.getName())) node.dispose();
 
 retargetClip('walk', WALK); retargetClip('run', RUN);
 const { prune, dedup } = await import('@gltf-transform/functions');

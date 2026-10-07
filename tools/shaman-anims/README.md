@@ -24,3 +24,15 @@ keyed too (it turns in the grip to point where it is asked: `DBG=1` lists any ke
 more than 15°). Clip list and timings: `docs/art/classes/shaman/ANIMATIONS.md`.
 Portrait (`public/ui/portraits/shaman.png`): Eevee render of the full-resolution model.
 Skill icons: PixelLab 48×48 art in `tools/icons/source/shaman/`, framed by `tools/icons/normalize.py`.
+
+## Unarmed spellcasting revision
+
+The generated `public/models/shaman.glb` has no staff. The source GLB is preserved;
+`compose.mjs` strips the staff from its output after composing the new clips.
+All ten spells use two-handed seals followed by palm, ward, ground-curse or summoning
+releases at the existing effect timings. Index/middle fingers straighten while the
+other fingers curl. Walk/run retain their retargeted arm swing with relaxed hands.
+FX originate at the midpoint of the real hand bones, not a weapon socket.
+
+The character mesh and 512px texture remain the supplied model; this revision changes
+weapon presence and animation, not facial topology or costume texture quality.
