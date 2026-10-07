@@ -65,6 +65,8 @@ export class Presence {
     p.map = msg.map; p.x = num(msg.x) ?? p.x; p.z = num(msg.z) ?? p.z; p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = this.now(); p.dirty = true;
     return { left, id: p.id, roster: this.inMap(p.map).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map: p.map };
   }
+  // Down / back up (monsters stop chasing the dead).
+  setDead(conn, v) { const p = this.players.get(conn); if (p) p.dead = !!v; return p; }
   // Level shown on the name plate (from the client's own save for now).
   setLevel(conn, lv) { const p = this.players.get(conn); if (p) p.lv = Math.max(1, Math.min(150, Math.floor(Number(lv) || p.lv))); return p ? { id: p.id, lv: p.lv } : null; }
   // A move clip to play on everyone else's screen (names are checked by the client's model).

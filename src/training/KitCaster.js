@@ -75,6 +75,7 @@ export class KitCaster {
     this.cast_++; this.affected.clear(); this.splashed?.clear(); this.lastSkill = s.id;
     if (pick.monster) this.combat.combatTimer = Math.max(this.combat.combatTimer, RULES.combatTimeout);
     this.applySelf(s.id);
+    if (!pick.dummy) this.combat.emit('kit-cast', { id: s.id });   // online: the server opens the cast (src/net/NetCombat.js)
     this.onCast?.(this.kit.skills[i]);
     return true;
   }
@@ -116,7 +117,7 @@ export class KitCaster {
   adapter(m) {
     let a = this.adapters.get(m);
     if (!a) {
-      a = monsterTarget(m, { fx: this.fx, canStand: this.canStand, onHurt: (mm, amt, crit, exact) => this.hurt(mm, amt, crit, exact), onMiss: mm => this.combat.damageMonster(mm, 0, { miss: true }) });
+      a = monsterTarget(m, { fx: this.fx, canStand: this.canStand, onHurt: (mm, amt, crit, exact) => this.hurt(mm, amt, crit, exact), onMiss: mm => this.combat.damageMonster(mm, 0, { miss: true, skill: this.runner.current ?? this.lastSkill }) });
       this.adapters.set(m, a);
     }
     return a;
@@ -129,7 +130,7 @@ export class KitCaster {
     const r = exact ? { hit: true, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), id, this.skillLevel);
     this.strike(m, r, id);
     const info = this.infos[this.slots.findIndex(s => s.id === id)];
-    const sp = info?.splash;
+    const sp = this.combat.remote ? null : info?.splash;   // online the server finds who else an area skill catches
     if (sp?.line || sp?.cone) {
       // a piercing shot / a fan: everyone else on its path takes one blow per cast
       this.splashed ??= new Set();
@@ -141,8 +142,8 @@ export class KitCaster {
     return r.hit ? r.dmg : 0;
   }
   strike(m, r, id) {
-    if (!r.hit) { this.combat.damageMonster(m, 0, { miss: true }); return; }
-    const alive = this.combat.damageMonster(m, r.dmg, { crit: r.crit });
+    if (!r.hit) { this.combat.damageMonster(m, 0, { miss: true, skill: id }); return; }
+    const alive = this.combat.damageMonster(m, r.dmg, { crit: r.crit, skill: id });
     if (alive && !this.affected.has(m)) { this.affected.add(m); for (const d of hitEffects(id, r.dmg)) this.combat.debuff(m, d); }
   }
 }

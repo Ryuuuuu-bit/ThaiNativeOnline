@@ -185,7 +185,8 @@ export class Combat extends Emitter {
     const { hit, dmg: dealt, crit } = this.rollPlayerDamage(skill, m);
     // สัญชาตญาณหมาล่า: a hunter's landed basic hit may send the dog in at once (LUK helps)
     if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 }; }
-    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit }) && skill.debuff) this.debuff(m, { ...skill.debuff, source: this.character.attack });
+    const id = skill.basic ? 'basic' : Object.keys(SKILLS).find(k => SKILLS[k] === skill);
+    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff) this.debuff(m, { ...skill.debuff, source: this.character.attack });
   }
 
   // Apply an already rolled blow to a monster (hook for the class skill kits,
@@ -251,7 +252,8 @@ export class Combat extends Emitter {
       else this.pending = { skillId: basic, target: this.target };
     }
 
-    for (const m of this.monsters) this.updateMonster(m, dt, p);
+    // online (src/net/NetCombat.js) the server runs the monsters; offline they live here
+    if (!this.remote) for (const m of this.monsters) this.updateMonster(m, dt, p);
     if (this.pet) this.updatePet(dt, p);
   }
 
@@ -273,6 +275,7 @@ export class Combat extends Emitter {
           pet.attackTimer = (pet.frenzy > 0 ? .55 : 1.3) * (1 - c.attackSpeed);
           const skill = pet.pounce || { power: PET_BITE };
           pet.pounce = null;
+          if (this.remote) { this.damageMonster(target, 0, { skill: 'pet', pounce: skill.power > PET_BITE }); return; }   // online the server rolls the bite
           const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: c.critChance, critDmg: c.critDamage };
           const r = rollDamage(atk, { def: target.def.def, eva: target.def.eva ?? 0 }, 'physical', skill.power);
           if (!r.hit) { this.emit('miss', { x: target.x, z: target.z, monster: target }); this.aggro(target); return; }

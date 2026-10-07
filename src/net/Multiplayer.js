@@ -1,5 +1,7 @@
 import { NetClient, serverUrl } from './NetClient.js';
 import { RemotePlayers } from './RemotePlayers.js';
+import { attachNetCombat } from './NetCombat.js';
+import { attachNetProgress } from './NetProgress.js';
 import './net.css';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
@@ -30,6 +32,10 @@ export function startMultiplayer(game) {
     .on('status', on => { chat.setStatus(on); if (!on) remote.clear(); });
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
+  const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
+  attachNetProgress(net, c);                                                // a signed-in character's progress is the server's (3c)
+  // the same character opened in another tab or device: this one stops talking to the server
+  net.on('kicked', () => { net.close(); chat.add('ระบบ', 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
   net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, map, ...pos() }));
   // every move the player's model plays (skills, basic attacks) is mirrored to the others
   player.onAnim = (clip, sp) => net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) });
@@ -39,6 +45,7 @@ export function startMultiplayer(game) {
     enterMap(id) { map = id; last = null; remote.clear(); net.send({ t: 'map', map: id, ...pos() }); },
     update(dt, camera) {
       remote.update(dt, camera, document.getElementById('world'));
+      combat?.update(dt);
       if (!net.online) return;
       sendT += dt; keepT += dt;
       if (c.level !== lv) { lv = c.level; net.send({ t: 'lv', lv }); }

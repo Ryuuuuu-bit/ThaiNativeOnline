@@ -44,12 +44,29 @@ test('saves: only the known keys, a real character, and a size cap', async () =>
   assert.equal((await A.save('ryuu', 1, [])).code, 'bad_save');
   const slots = await A.slots('ryuu');
   assert.deepEqual(slots.map(s => s.slot), [0]);
-  assert.deepEqual(await A.character('ryuu', 0), { name: 'แดง', classId: 'hunter', gender: 'male', level: 3 });
-  assert.ok((await A.save('ryuu', 0, save('ใหม่'))).ok, 'a later save replaces the slot');
-  assert.equal((await A.character('ryuu', 0)).name, 'ใหม่');
+  const made = await A.character('ryuu', 0);
+  assert.deepEqual([made.name, made.classId, made.gender, made.level], ['แดง', 'hunter', 'male', 1], 'a new slot starts as a fresh character (the level sent is ignored)');
+  assert.ok((await A.save('ryuu', 0, save('ใหม่', { 'tno.quests.v1': '{"a":1}' }))).ok);
+  assert.equal((await A.character('ryuu', 0)).name, 'แดง', 'the character stays the server\'s');
+  assert.equal((await A.slots('ryuu'))[0].data['tno.quests.v1'], '{"a":1}', 'the other keys are the browser\'s');
   assert.ok((await A.remove('ryuu', 0)).ok);
   assert.deepEqual(await A.slots('ryuu'), []);
   assert.equal(await A.character('ryuu', 0), null);
+});
+
+test('saves cannot change the character: the stored copy, or the one in play, wins', async () => {
+  const A = new Accounts(new MemoryStore());
+  await A.register('ryuu', 'secret1');
+  await A.save('ryuu', 0, save());
+  const cheat = { 'tno.character.v1': JSON.stringify({ name: 'แดง', classId: 'hunter', level: 99, gold: 1e9, inventory: [{ id: 'potion_m', qty: 999 }], hp: 50 }) };
+  await A.save('ryuu', 0, cheat);
+  const c = await A.character('ryuu', 0);
+  assert.equal(c.level, 1); assert.ok(c.gold < 1000); assert.ok(!c.inventory.some(s => s?.qty === 999));
+  assert.equal(c.hp, 50, 'HP is still the browser\'s');
+  await A.save('ryuu', 0, cheat, { ...c, level: 7, gold: 321 });   // the copy in play
+  assert.deepEqual([(await A.character('ryuu', 0)).level, (await A.character('ryuu', 0)).gold], [7, 321]);
+  assert.ok(await A.putCharacter('ryuu', 0, { ...c, level: 8 }));
+  assert.equal((await A.character('ryuu', 0)).level, 8);
 });
 
 test('accounts never see each other\'s saves', async () => {

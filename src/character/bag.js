@@ -60,5 +60,5 @@ export function sortedInventory(inventory) {
 }
 export function sortBag(character) {
   character.inventory = sortedInventory(character.inventory);
-  character.emit?.('inventory');
+  character.emit?.('inventory'); character.emit?.('sorted');
 }

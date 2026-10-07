@@ -12,6 +12,15 @@
 //   server → client  welcome {you, roster, online} · join {p} · leave {id} ·
 //                    tick {p: [[id, x, z, f, m], …]} · a {id, clip, sp} · c {id, name, map, text} ·
 //                    lv {id, lv} · online {n} · full {}
+// Phase 3a (shared monsters, server/monsters.js) and 3b (damage rolled here, server/combatants.js):
+//   client → server  ch {data} (character sheet) · cast {skill} · blow {id, skill, pounce?} (skill: kit id | 'basic' | 'pet') · dead {v}
+//   server → client  clock {h} · mlist {m: [...]} · mt {m: [[id, x, z, f, hp, st, mv], …]} · mspawn {m} ·
+//                    mgone {id, killed} · mh {id, amount, crit, dot, pet, by} | {id, miss, by} ·
+//                    ma {id, power} (a monster swings at you) · kill {id, exp, gold, drops} (your share of a kill) ·
+//                    nope {skill, why} (a cast the server refused)
+// Phase 3c (a signed-in character's progress is the server's, server/progress.js):
+//   client → server  op {n, op, …, hp} (buy / sell / use / equip / unequip / alloc / reset / sort) · resync
+//   server → client  sync {c} (the server's character, c.ack = actions replayed) · me {mp, ack} (1×/s) · kicked {}
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
@@ -19,6 +28,9 @@ import { WebSocketServer } from 'ws';
 import { Presence, rateLimiter } from './presence.js';
 import { openStore } from './store.js';
 import { Accounts } from './accounts.js';
+import { MonsterWorld } from './monsters.js';
+import { Combatants } from './combatants.js';
+import { WorldClock } from '../src/core/WorldClock.js';
 
 const PORT = Number(process.env.PORT) || 8787;
 const ROOT = resolve(import.meta.dirname, '..', 'dist');
@@ -62,7 +74,12 @@ async function api(req, res, url) {
     if (req.method === 'POST' && url.pathname === '/api/google/link') { const r = await accounts.linkGoogle(id, (await readBody(req)).credential); return json(res, r.ok ? 200 : 400, r); }
     if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, slots: await accounts.slots(id) });
     const m = /^\/api\/slots\/(\d+)$/.exec(url.pathname);
-    if (m && req.method === 'PUT') { const r = await accounts.save(id, Number(m[1]), (await readBody(req)).data); return json(res, r.ok ? 200 : 400, r); }
+    if (m && req.method === 'PUT') {
+      const slot = Number(m[1]), live = combatants.live(id, slot);   // a character in play: its live copy is the truth
+      const r = await accounts.save(id, slot, (await readBody(req)).data, live ? live.c.toJSON() : null);
+      if (live) live.dirty = false;
+      return json(res, r.ok ? 200 : 400, r);
+    }
     if (m && req.method === 'DELETE') { const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
     return json(res, 404, { ok: false, code: 'not_found' });
   } catch (e) {
@@ -109,7 +126,15 @@ wss.on('connection', ws => {
         const r = presence.join(ws, m);
         if (!r) return;
         if (r.full) { send(ws, { t: 'full' }); ws.close(); return; }
-        send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count });
+        if (saved) {
+          // one tab per character: an older socket on the same slot is closed (its copy is saved first)
+          const old = combatants.live(id, m.slot);
+          if (old) for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { await flush(op.id); send(ows, { t: 'kicked' }); ows.close(); }
+          const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved;
+          combatants.load(r.you, fresh, { account: id, slot: m.slot });
+          send(ws, { t: 'sync', c: combatants.me(r.you) });
+        }
+        send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count }); arrive(ws, r.map);
         toMap(r.map, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
         break;
       }
@@ -117,27 +142,71 @@ wss.on('connection', ws => {
       case 'map': {
         const r = presence.changeMap(ws, m); if (!r) return;
         toMap(r.left, { t: 'leave', id: r.id }, ws);
-        send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count });
+        send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count }); arrive(ws, r.map);
         toMap(r.map, { t: 'join', p: r.joined }, ws);
         break;
       }
       case 'a': { const r = presence.anim(ws, m); if (r) toMap(r.map, r, ws); break; }
       case 'c': { const r = presence.chat(ws, m.text); if (r) toAll(r); break; }
-      case 'lv': { const r = presence.setLevel(ws, m.lv); const p = presence.players.get(ws); if (r && p) toMap(p.map, { t: 'lv', ...r }, ws); break; }
+      case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
+      case 'cast': { const p = presence.players.get(ws); if (!p) return; const r = combatants.cast(p.id, m.skill); if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why }); break; }
+      case 'blow': { const p = presence.players.get(ws); if (p) route(p.map, combatants.blow(p.id, worldOf(p.map), presence.inMap(p.map), m, clock.phase)); break; }
+      case 'dead': { const p = presence.setDead(ws, m.v); if (p && !m.v) combatants.respawn(p.id); break; }
+      case 'op': {
+        const p = presence.players.get(ws); if (!p || !combatants.get(p.id)?.persist) return;
+        if (!combatants.op(p.id, m)) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
+        break;
+      }
+      case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }
+      case 'lv': {
+        if (combatants.get(presence.players.get(ws)?.id)?.persist) return;   // a signed-in level comes from the server
+        const r = presence.setLevel(ws, m.lv); const p = presence.players.get(ws); if (r && p) toMap(p.map, { t: 'lv', ...r }, ws); break; }
     }
   });
   ws.on('close', () => {
     conns.delete(ws);
     const r = presence.leave(ws);
+    if (r) flush(r.id).finally(() => combatants.drop(r.id));
     if (r) { toMap(r.map, { t: 'leave', id: r.id }); toAll({ t: 'online', n: presence.count }); }
   });
 });
 
-// positions out 10× a second, per map; dead sockets dropped every 15 s
+// ---- shared monsters and the world clock (phase 3a) ------------------------------------
+const clock = new WorldClock({ hour: 7.5 });
+const combatants = new Combatants();   // each player's character sheet, cooldowns and buffs (3b)
+const worlds = new Map();   // map id → MonsterWorld, made when someone first arrives
+const worldOf = map => { if (!worlds.has(map)) worlds.set(map, new MonsterWorld(map)); return worlds.get(map); };
+const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
+// route what the monster world reports: map-wide news, or a message for one player
+function route(map, events, except = null) {
+  for (const e of events) {
+    if (e.t === 'kill') {
+      const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
+      const ws = socketOf(e.to); if (ws) send(ws, e);
+      if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
+    } else if (e.t === 'ma') { const ws = socketOf(e.to); if (ws) send(ws, e); }
+    else toMap(map, e, except);
+  }
+}
+const arrive = (ws, map) => { send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); };
+
+// positions and monsters out 10× a second, per map; dead sockets dropped every 15 s
 setInterval(() => {
+  clock.update(TICK / 1000);
+  combatants.tick(TICK / 1000, clock.phase === 'night');
   const maps = new Set([...presence.players.values()].map(p => p.map));
-  for (const map of maps) { const p = presence.snapshot(map); if (p.length) toMap(map, { t: 'tick', p }); }
+  for (const map of maps) {
+    const p = presence.snapshot(map); if (p.length) toMap(map, { t: 'tick', p });
+    const w = worldOf(map);
+    route(map, w.update(TICK / 1000, presence.inMap(map), clock.phase));
+    const m = w.snapshot(); if (m.length) toMap(map, { t: 'mt', m });
+  }
 }, TICK);
+setInterval(() => toAll({ t: 'clock', h: +clock.hour.toFixed(3) }), 10000);
+// signed-in characters: MP to the browser 1×/s, saved to the database every 30 s when changed
+const flush = async id => { const s = combatants.get(id); if (!s?.persist || !s.dirty) return; s.dirty = false; await accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON()).catch(e => { s.dirty = true; console.warn('save', e.message); }); };
+setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);
+setInterval(() => { for (const p of presence.players.values()) flush(p.id); }, 30000);
 setInterval(() => { for (const [ws] of conns) { if (!ws.alive) { ws.terminate(); continue; } ws.alive = false; ws.ping(); } }, 15000);
 
 server.listen(PORT, () => console.log(`ThaiNative Online on :${PORT} (dist ${existsSync(ROOT) ? 'ok' : 'missing — run npm run build'} · saves in ${store.kind})`));

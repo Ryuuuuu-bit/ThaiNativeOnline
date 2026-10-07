@@ -13,6 +13,7 @@ export function buy(character, shopType, itemId) {
   if (character.carryRoom(itemId) < 1) return { ok: false, reason: 'ของหนักเกินไป' };
   if (!character.addItem(itemId, 1)) return { ok: false, reason: 'กระเป๋าเต็ม' };
   character.gold -= price; character.emit('change'); character.save?.();
+  character.emit('bought', { shop: shopType, id: itemId });   // online, mirrored to the server (src/net/NetProgress.js)
   return { ok: true, price };
 }
 

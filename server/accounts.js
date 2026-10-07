@@ -4,18 +4,21 @@
 //   const A = new Accounts(store)
 //   A.register(id, pw) / A.login(id, pw) → { ok, token, id } | { ok: false, code, msg }
 //   A.auth(token) → account id | null · A.logout(token)
-//   A.slots(id) → [{ slot, data, updated }] · A.save(id, slot, data) · A.remove(id, slot)
+//   A.slots(id) → [{ slot, data, updated }] · A.save(id, slot, data, live?) · A.remove(id, slot)
+//   A.putCharacter(id, slot, json) — the server's own copy of a character (phase 3c)
 //   A.character(id, slot) → the saved character ({ name, classId, gender, level }) or null
 //   A.google(credential) → session for the Google account (an account is made on first use)
 //   A.linkGoogle(id, credential) → ties a Google account to a signed-in account
 // Google ID tokens are checked by `verifyGoogle` (Google's tokeninfo endpoint by default;
 // the tests pass their own): audience = GOOGLE_CLIENT_ID, issuer, expiry, verified email.
 // A save is the slot's storage keys (src/core/SaveSlot.js): { 'tno.character.v1': '…json…', … }.
-// The server keeps what the browser sends for now; from phase 3 on the character's
-// stats, items and gold are written by the server itself.
+// Since phase 3c the character inside a save is the server's (server/progress.js): the
+// browser's quests / location keys are kept, its character is replaced by the server's copy
+// (`live`, the one in play, else the stored one; a new slot starts as a fresh character).
 import { randomBytes, scrypt as scryptCb, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 import { ACCOUNTS } from '../src/data/accounts.js';
+import { reconcileSave, CHARACTER_KEY } from './progress.js';
 
 const scrypt = promisify(scryptCb);
 export const SESSION_DAYS = 30;
@@ -104,10 +107,16 @@ export class Accounts {
     for (const k of keys) { try { JSON.parse(data[k]); } catch { return 'bad_save'; } }
     return null;
   }
-  async save(id, slot, data) {
+  async save(id, slot, data, live = null) {
     if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง');
     const bad = this.check(data); if (bad) return fail(bad, 'ข้อมูลเซฟไม่ถูกต้อง');
-    await this.store.putSlot(id, slot, data); return { ok: true };
+    const server = live ?? (await this.character(id, slot));
+    await this.store.putSlot(id, slot, reconcileSave(data, server)); return { ok: true };
+  }
+  async putCharacter(id, slot, json) {
+    const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return false;
+    const key = Object.keys(s.data).find(k => CHARACTER_KEY.test(k)) ?? 'tno.character.v1';
+    await this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify(json) }); return true;
   }
   async remove(id, slot) { if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง'); await this.store.deleteSlot(id, slot); return { ok: true }; }
   async character(id, slot) {
