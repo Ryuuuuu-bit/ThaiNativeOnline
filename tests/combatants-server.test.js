@@ -28,7 +28,7 @@ test('character sheets: unknown classes and over-spent stat points are refused',
   assert.equal(sane({ level: 5 }, 'dragon'), null);
   assert.equal(sane({ level: 2, alloc: { str: 500 } }, 'warrior'), null);
   const c = sane({ level: 999, alloc: { str: 3 }, equipment: { weapon: 'no_such_sword' } }, 'warrior');
-  assert.equal(c.level, 150); assert.equal(c.equipment.weapon, null);
+  assert.equal(c.level, 99, 'the level cap'); assert.equal(c.equipment.weapon, null);
 });
 
 test('basic attacks: rolled here from the sheet, no faster than the attack speed allows, in reach', () => {
@@ -110,4 +110,34 @@ test('the dog bites only for hunters, at its own pace', () => {
   assert.ok(ev.some(e => e.t === 'mh' && (e.pet || e.miss)));
   h.cs.blow(1, w, [h.p], { id: m.id, skill: 'pet' });
   assert.deepEqual(h.cs.blow(1, w, [h.p], { id: m.id, skill: 'pet' }), [], 'too fast');
+});
+
+test('a modified client gains nothing: blows per monster are capped, MP must be there, old cast starts and the fallen do not cast', () => {
+  const { now, cs, p } = setup('warrior'), w = boars(3, 2), players = [p];
+  const c = cs.get(1).c; c.mp = 999;
+  const skill = KITS.warrior.find(k => !castInfo(k, 1).cast) ?? KITS.warrior[0];
+  const info = castInfo(skill, 1), per = Math.max(skill.hits?.length ?? 0, 1) + 1;
+  assert.ok(cs.cast(1, skill.id).ok);
+  let n = 0; for (let i = 0; i < 30; i++) n += hits(cs.blow(1, w, players, { id: w.monsters[0].id, skill: skill.id })).filter(e => e.id === w.monsters[0].id).length;
+  assert.ok(n <= per, `${n} blows on one boar from one cast (at most ${per})`);
+  // MP: a cast costs what it costs, a quarter of slack at most
+  now.add(60); const costly = KITS.warrior.map(k => [k, castInfo(k, 1)]).filter(([, i]) => i.mp >= 8 && !i.cast)[0];
+  cs.get(1).persist = { account: 'a', slot: 0 };   // a signed-in character pays MP on the server
+  if (costly) { c.mp = 0; assert.equal(cs.cast(1, costly[0].id).why, 'mp', 'no casting at 0 MP'); }
+  // a cast bar started long ago is not a cast now
+  const { cs: cs2, now: now2 } = setup('shaman'); cs2.get(1).c.mp = 999;
+  const bar = KITS.shaman.find(k => castInfo(k, 1).cast > .5);
+  cs2.casting(1, bar.id); now2.add(castInfo(bar, 1).cast * 3 + 10);
+  assert.equal(cs2.cast(1, bar.id).why, 'casting', 'stale start');
+  cs2.casting(1, 'nonsense'); assert.equal(cs2.get(1).casting.has('nonsense'), false, 'only own kit skills are remembered');
+  // dead: no casting at all
+  c.hp = 0; assert.equal(cs.cast(1, skill.id).why, 'dead');
+});
+
+test('the dog bites at its own pace and pounces by the rules, not by the browser', () => {
+  const { now, cs, p } = setup('hunter'), w = boars(), m = w.monsters[0], players = [p];
+  m.x = 4; cs.get(1).c.hp = cs.get(1).c.maxHp;
+  let bites = 0;
+  for (let i = 0; i < 100; i++) { now.add(.1); bites += hits(cs.blow(1, w, players, { id: m.id, skill: 'pet', pounce: 1 })).length; }
+  assert.ok(bites <= 10 + 2, `${bites} bites in 10 s`);   // 1.3 s each, two saved up
 });

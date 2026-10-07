@@ -98,6 +98,7 @@ export class MapManager {
   // Combat (src/combat) keeps one monster list for the whole game; this bridge
   // hides the monsters of maps that are not loaded. Call once after createGame.
   attachCombat(rpg) { this.rpg = rpg; }
+  attachTraining(training) { this.training = training; }   // the class skill runner (src/training): its moves hold a portal
   // Despawn every live monster whose zone is not on `mapId` (null: all of them)
   // and release the GPU buffers of their views. Uses Combat's own despawn path.
   releaseMonsters(mapId) {
@@ -124,7 +125,8 @@ export class MapManager {
     this.portals.update(elapsed);
     const p = this.player.position, portal = portalAt(this.map, p.x, p.z);
     if (!portal) this.armed = true;
-    else if (this.armed) { this.travel(portal); return; }
+    // a skill move carrying the player (a dash) ends first; the portal takes them once they stand
+    else if (this.armed && !this.training?.busy) { this.travel(portal); return; }
     if ((this.saveTimer += dt) > 3) { this.saveTimer = 0; this.save(); }
   }
 

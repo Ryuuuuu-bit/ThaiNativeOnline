@@ -201,8 +201,13 @@ export class CharacterUI {
     if (this.wasHeavy !== undefined && heavy !== this.wasHeavy) this.feed.log(heavy ? 'สัมภาระหนัก HP/MP จะไม่ฟื้นเอง' : 'สัมภาระเบาลงแล้ว', heavy ? 'bad' : '');
     this.wasHeavy = heavy;
   }
+  // Rebuilt only when something it shows changed: 'change' fires for every HP tick in a fight, and
+  // a sheet rebuilt between pointerdown and click eats the click on a + button.
   refreshSheet() {
     const c = this.c, s = c.stats;
+    const key = JSON.stringify([c.level, c.exp, c.jobLevel, c.jobExp, c.points, c.alloc, c.equipment, c.cards, c.refine, c.buffs.map(b => b.id), c.maxHp, c.maxMp, c.patk, c.matk, c.defense]);
+    if (key === this.sheetKey) return;
+    this.sheetKey = key;
     // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
     const slotHtml = slot => { const id = c.equipment[slot]; return `<div class="g-eqs"><button data-slot="${slot}" class="${id ? '' : 'empty'}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : slot === 'offhand' && c.twoHanded ? 'ว่าง · ถืออาวุธสองมืออยู่' : `${SLOT_LABELS[slot]} · ว่าง`}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${id ? esc(itemName(id, c.refine[slot])) : SLOT_LABELS[slot]}</small></div>`; };
     const jobMax = c.jobLevel >= MAX_JOB_LEVEL;

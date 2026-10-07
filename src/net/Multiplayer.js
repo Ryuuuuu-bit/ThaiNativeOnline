@@ -46,7 +46,7 @@ export function startMultiplayer(game) {
     .on('gmwarp', m => { const maps = game.maps; if (maps.map?.id === m.map) maps.place({ x: m.x, z: m.z, facing: game.player.group.rotation.y }); else maps.travel({ to: m.map, arrive: { x: m.x, z: m.z } }); })
     .on('gmhp', m => { if (m.pct === 0) { game.game.combat?.knockOut(); return; } c.hp = Math.round(c.maxHp * m.pct / 100); if (m.mp) c.mp = c.maxMp; c.emit('change'); })
     .on('online', m => chat.setOnline(m.n))
-    .on('status', on => { chat.setStatus(on); chan.online(on); if (!on) remote.clear(); });
+    .on('status', on => { chat.setStatus(on, net.closed); chan.online(on); if (!on) remote.clear(); });
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
@@ -122,12 +122,13 @@ class ChatBox {
     document.getElementById('app')?.append(this.root) ?? document.body.append(this.root);
     this.lines = this.root.querySelector('.net-lines'); this.input = this.root.querySelector('input'); this.online = this.root.querySelector('.net-online');
     window.addEventListener('keydown', e => {
-      if (e.code !== 'Enter' || e.target === this.input || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(e.target.tagName)) return;
+      if (e.code !== 'Enter' || e.target === this.input || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+      if (e.target.tagName === 'BUTTON') e.target.blur();   // a clicked button keeps the focus: Enter opens the chat, not the button again
       e.preventDefault(); this.open();
     });
     this.input.addEventListener('keydown', e => {
       e.stopPropagation();
-      if (e.code === 'Enter') { const t = this.input.value.trim(); if (t && !this.filter?.(t)) send(t); this.input.value = ''; this.close(); }
+      if (e.code === 'Enter') { const t = this.input.value.trim(); if (t && !this.online_) this.add('ระบบ', 'ออฟไลน์อยู่ · ข้อความยังส่งไม่ได้'); else if (t && !this.filter?.(t)) send(t); this.input.value = ''; this.close(); }
       if (e.code === 'Escape') this.close();
     });
     this.input.addEventListener('blur', () => this.close());
@@ -143,5 +144,5 @@ class ChatBox {
     setTimeout(() => line.classList.add('old'), 12000);
   }
   setOnline(n) { this.online.textContent = `ออนไลน์ ${n} คน`; }
-  setStatus(on) { this.root.classList.toggle('offline', !on); if (!on) this.online.textContent = 'ออฟไลน์ · กำลังเชื่อมต่อ'; }
+  setStatus(on, final = false) { this.online_ = on; this.root.classList.toggle('offline', !on); if (!on) this.online.textContent = final ? 'ออฟไลน์' : 'ออฟไลน์ · กำลังเชื่อมต่อ'; }
 }

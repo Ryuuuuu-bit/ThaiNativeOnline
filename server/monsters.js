@@ -157,7 +157,7 @@ export class MonsterWorld {
         }
       } else if (m.state === 'return') {
         m.hp = Math.min(m.maxHp, m.hp + m.maxHp * dt * .5); m.dirty = true;
-        if (this.step(m, m.home, speed * 1.3, dt) < .3) { m.state = 'idle'; m.hp = m.maxHp; m.contrib.clear(); m.summonAt = null; ev.push(...this.dismiss(m)); }
+        if (this.step(m, m.home, speed * 1.3, dt) < .3) { m.state = 'idle'; m.hp = m.maxHp; m.contrib.clear(); ev.push(...this.dismiss(m)); }   // its summons stay spent (summonAt) until it dies: no farming the minions by pulling it home
       }
       if (wasMoving !== m.moving) m.dirty = true;
     }

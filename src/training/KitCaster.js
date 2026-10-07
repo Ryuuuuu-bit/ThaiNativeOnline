@@ -65,13 +65,18 @@ export class KitCaster {
     // not learnt yet: not even at the training dummy (practice is free of MP, not of learning)
     if (!this.learned(i)) { if (!quiet) this.fail(`ยังไม่ได้เรียนสกิลนี้ · ปลดที่ Job Lv.${s.unlock ?? '?'} แล้วอัปด้วยแต้มสกิล (K)`); return false; }
     if (quiet && this.pending) return false;
+    if (quiet && !info.needsTarget) {
+      if (!this.combat.inCombat && !this.combat.target?.alive) return false;   // a buff or a heal on an empty field is MP for nothing
+      const e = selfEffects(this.eid(s.id), Math.max(1, this.lv(i)), c.defense, 0);
+      if ((e?.heal || e?.hp) && !e?.buff && c.hp >= c.maxHp * .9) return false;
+    }
     this.combat.sit?.(false);
     const pick = this.pick(info);
     if (!pick) { if (!quiet) this.fail(this.dummy() ? 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ' : 'ไม่มีเป้าหมายใกล้ๆ'); return false; }
     if (pick.monster && c.mp < this.mpOf(i)) { if (!quiet) this.fail('MP ไม่พอ'); return false; }
     // the skill's own reach, for a monster and for the training dummy alike: walk in first
     const at = this.spotOf(pick);
-    if (at && dist(at, this.player.position) > info.range) { this.pending = { i, ...pick, t: 0, quiet }; return true; }
+    if (at && dist(at, this.player.position) > info.range) { if (!quiet) this.combat.world.stop?.(); this.pending = { i, ...pick, t: 0, quiet }; return true; }
     this.pending = null;
     return this.fire(i, pick);
   }
@@ -152,7 +157,8 @@ export class KitCaster {
     if (dist(at, this.player.position) <= this.infos[p.i].range) {
       this.combat.world.stop?.();
       if (!this.runner.busy) { this.pending = null; this.fire(p.i, m ? { monster: m } : { dummy: true }); }
-    } else if (this.combat.world.moveTo?.(at.x, at.z) === false) {
+    } else if (this.combat.world.manualMove?.()) { /* the player is walking by hand: the walk-in waits */ }
+    else if (this.combat.world.moveTo?.(at.x, at.z) === false) {
       this.pending = null; if (m) m.unreachableAt = Date.now();
       if (!p.quiet) this.fail('ไปถึงไม่ได้');
     }

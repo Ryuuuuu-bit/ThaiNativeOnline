@@ -14,7 +14,7 @@ export function legacyCaster(combat) {
   });
   return {
     slots,
-    get busy() { return false; },
+    get busy() { return !!combat.pending && !SKILLS[combat.pending.skillId]?.basic; },   // a skill walking in is not replaced every tick
     cast(i, quiet) {
       const id = ids[i], s = SKILLS[id];
       if (quiet) {
@@ -22,6 +22,9 @@ export function legacyCaster(combat) {
         if ((c.cooldowns[id] || 0) > 0 || c.mp < s.mp || combat.gcd > 0 && !s.basic) return false;
         const needsTarget = s.kind !== 'buff' && s.kind !== 'heal' && !(s.kind === 'aoe' && s.around === 'self');
         if (needsTarget && !combat.target?.alive && !combat.cycleTarget()) return false;
+        // no MP for nothing: a self skill only in a fight, a heal only when hurt
+        if (!needsTarget && !combat.inCombat && !combat.target?.alive) return false;
+        if (s.kind === 'heal' && c.hp >= c.maxHp * .9) return false;
       }
       return !!combat.useSkill(id).ok;
     },

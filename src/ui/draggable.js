@@ -23,7 +23,21 @@ function scaleOf(el, x, y) {
 
 export function draggable(el, { key, handle = 'header' } = {}) {
   const pos = { x: 0, y: 0, ...load()[key] };
-  if (!touch()) shift(el, pos.x, pos.y);
+  // keep part of the window, and its title bar, on screen
+  const clamp = bar => {
+    if (!bar || el.hidden || !el.isConnected) return;
+    const s = scaleOf(el, pos.x, pos.y), r = el.getBoundingClientRect(), b = bar.getBoundingClientRect();
+    if (!r.width) return;
+    let fx = 0, fy = 0;
+    if (r.right < 80) fx = 80 - r.right; else if (r.left > innerWidth - 80) fx = innerWidth - 80 - r.left;
+    if (b.top < 0) fy = -b.top; else if (b.bottom > innerHeight) fy = innerHeight - b.bottom;
+    if (fx || fy) { pos.x += fx / s; pos.y += fy / s; shift(el, pos.x, pos.y); }
+  };
+  // a saved spot from a wider screen (or another HUD scale) is pulled back in when shown and when the window resizes
+  const settle = () => clamp(el.querySelector(handle));
+  if (!touch()) { shift(el, pos.x, pos.y); requestAnimationFrame(settle); }
+  addEventListener('resize', settle);
+  new MutationObserver(() => { if (!el.hidden) requestAnimationFrame(settle); }).observe(el, { attributes: true, attributeFilter: ['hidden', 'class'] });
   el.addEventListener('pointerdown', e => {
     const bar = e.target.closest(handle);
     if (e.button !== 0 || !bar || !el.contains(bar) || e.target.closest(NOT_GRAB) || touch()) return;
@@ -34,12 +48,7 @@ export function draggable(el, { key, handle = 'header' } = {}) {
       if (!moved && Math.hypot(dx, dy) < 4) return;
       if (!moved) { moved = true; el.classList.add('dragging'); }
       pos.x = x0 + dx / s; pos.y = y0 + dy / s; shift(el, pos.x, pos.y);
-      // keep part of the window, and its title bar, on screen
-      const r = el.getBoundingClientRect(), b = bar.getBoundingClientRect();
-      let fx = 0, fy = 0;
-      if (r.right < 80) fx = 80 - r.right; else if (r.left > innerWidth - 80) fx = innerWidth - 80 - r.left;
-      if (b.top < 0) fy = -b.top; else if (b.bottom > innerHeight) fy = innerHeight - b.bottom;
-      if (fx || fy) { pos.x += fx / s; pos.y += fy / s; shift(el, pos.x, pos.y); }
+      clamp(bar);
     };
     const up = () => {
       removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);

@@ -221,7 +221,7 @@ export class TrainingGround {
     this.setNear(this.near);
     // While a skill plays it moves and turns the avatar, and the combat basic attack waits.
     if (this.skills.busy && this.skills.facing !== null) this.player.group.rotation.y = this.skills.facing;
-    if (this.combat) this.combat.hold = this.skills.busy;
+    if (this.combat) this.combat.hold = this.skills.busy || !!this.caster.casting;   // a cast bar holds the swings and the chase too
     fx.update(sdt, this.clock, this.player.position.y);
     if (this.inGround) for (const e of this.dummies ?? []) e.dummy.update(sdt);
     // the attack interval runs down whether or not a swing is wanted (no faster swings by tapping)

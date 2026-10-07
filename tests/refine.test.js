@@ -64,7 +64,7 @@ test('worn gear refines in place; the plus counts, travels with the item and is 
   const odd = new Character({ ...c.toJSON(), refine: { charm: 5, weapon: 99 }, inventory: [{ id: 'potion_s', qty: 1, plus: 3 }, { id: 'krabi', qty: 1, plus: -2 }] });
   assert.deepEqual([odd.refine.charm, odd.refine.weapon, odd.inventory[0].plus, odd.inventory[1].plus], [0, REFINE_MAX, undefined, undefined]);
   // guests' sheets keep the worn pluses too
-  assert.equal(sane({ level: 5, equipment: { weapon: 'iron_dap' }, refine: { weapon: 3 } }, 'warrior').refine.weapon, 3);
+  assert.equal(sane({ level: 5, equipment: { weapon: 'iron_dap' }, refine: { weapon: 3 } }, 'warrior').refine.weapon, 0, 'a guest sheet\'s pluses are not taken at their word');
 });
 
 test('the server names gear by id, cards and plus, and rolls ตีบวก only at the forge', () => {
@@ -109,4 +109,19 @@ test('shop sites: every shop NPC has one, by its shop, on its map', () => {
   assert.equal(marsh.map, 'klong');
   assert.ok(nearShop('marsh', 'klong', marsh.x + SHOP_RANGE - 1, marsh.z)); assert.ok(!nearShop('marsh', 'klong', marsh.x + SHOP_RANGE + 1, marsh.z));
   assert.ok(!nearShop('marsh', 'city', marsh.x, marsh.z));
+});
+
+test('no free heal and no stand-up from stats or gear: HP stays as it is, clamped; the fallen handle nothing', () => {
+  const c = Character.create('เลือด', 'warrior'); c.points = 10; c.hp = 20;
+  for (let i = 0; i < 5; i++) c.allocate('vit');
+  assert.equal(c.hp, 20, 'more VIT raises max HP, not HP');
+  c.resetStats(); for (let i = 0; i < 5; i++) c.allocate('vit'); assert.equal(c.hp, 20, 'a respec heals nothing');
+  c.addItem('hide_armor'); const i = c.inventory.findIndex(s => s?.id === 'hide_armor');
+  c.equip(i); assert.equal(c.hp, 20); c.unequip('armor'); assert.equal(c.hp, 20);
+  c.hp = 0;
+  assert.equal(c.equip(c.inventory.findIndex(s => s?.id === 'hide_armor')), false, 'the dead wear nothing new');
+  assert.equal(c.refineGear('weapon').why, 'dead');
+  assert.equal(c.alive, false);
+  const m = Character.create('มานา', 'shaman'); m.addItem('ether'); const e = m.inventory.findIndex(s => s?.id === 'ether');
+  assert.equal(m.useAt(e), false, 'an MP potion at full MP is kept');
 });

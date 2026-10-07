@@ -107,7 +107,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
           const s = slots[Number(b.dataset.play)];
           for (const n of ['pointerenter', 'focus']) b.addEventListener(n, () => showSlot(s));
         });
-      }
+      } else if (preview) { preview.dispose(); preview = null; }   // the last character gone: no preview keeps rendering off-screen
       overlay.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => {
         const s = slots[Number(b.dataset.play)]; leave({ slot: s.slot, prefix: s.prefix, fresh: !s.character });
       }));

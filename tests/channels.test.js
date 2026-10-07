@@ -74,14 +74,14 @@ test('switching: out of a fight, alive, once a minute, into an open channel with
 test('presence groups players by room; channel counts per map', () => {
   const P = new Presence({ now: () => 0 }), a = {}, b = {}, c = {};
   P.join(a, { name: 'a', map: 'paddy' });
-  const rb = P.join(b, { name: 'b', map: 'paddy' }, 2);
+  const rb = P.join(b, { name: 'b', map: 'paddy', x: 0, z: -122 }, 2);   // by the warp back to the city
   assert.equal(rb.room, 'paddy#2'); assert.equal(rb.roster.length, 0, 'CH 1 players are not in CH 2');
   P.join(c, { name: 'c', map: 'paddy' }, 2);
   assert.deepEqual(P.counts('paddy'), { 1: 1, 2: 2 });
   const r = P.setChannel(a, 2);
   assert.deepEqual([r.left, r.room, r.roster.length], ['paddy', 'paddy#2', 2]);
   assert.equal(P.inMap('paddy').length, 0);
-  const m = P.changeMap(b, { map: 'city', x: 0, z: 0 }, 1);
+  const m = P.changeMap(b, { map: 'city', x: 0, z: -99 }, 1);
   assert.deepEqual([m.left, m.room], ['paddy#2', 'city']);
   assert.equal(P.anim(b, { clip: 'jab' }).map, 'city');
 });

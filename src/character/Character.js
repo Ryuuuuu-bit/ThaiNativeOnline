@@ -180,7 +180,7 @@ export class Character extends Emitter {
   damage(amount) {
     if (!this.alive) return 0;
     const dealt = Math.min(this.hp, Math.max(0, Math.round(amount)));
-    this.hp -= dealt; if (this.hp <= 0) this.fall();
+    this.hp -= dealt; if (this.hp <= 0 || (dealt && this.hp < 1)) this.fall();   // a blow that leaves a fraction (poison ticks) is a kill
     this.emit('change'); if (dealt) this.emit('damaged', dealt);
     if (this.hp <= 0) this.emit('death');
     return dealt;
@@ -286,20 +286,28 @@ export class Character extends Emitter {
     if (this.level >= MAX_LEVEL) this.exp = 0;
     this.emit('change');
   }
+  // A change of max HP / MP (stats, gear, cards, pluses) keeps the HP as it is, clamped: no free
+  // heal from re-allocating or re-equipping, and the fallen stay fallen.
+  clampVitals() { this.hp = Math.min(this.hp, this.maxHp); this.mp = Math.min(this.mp, this.maxMp); }
   allocate(key) {
     if (this.points <= 0 || !STATS.includes(key)) return false;
-    const hpRatio = this.hp / this.maxHp;
     this.points -= 1; this.alloc[key] += 1;
-    this.hp = Math.round(this.maxHp * hpRatio); this.emit('change');
+    this.clampVitals(); this.emit('change');
     return true;
   }
   resetStats() {
     this.points += Object.values(this.alloc).reduce((a, b) => a + b, 0);
     this.alloc = emptyAlloc();
-    this.hp = Math.min(this.hp, this.maxHp); this.mp = Math.min(this.mp, this.maxMp); this.emit('change');
+    this.clampVitals(); this.emit('change');
   }
 
   // ---- Inventory ----
+  // Would `qty` of `id` fit (weight, and a stack or free slots)? Checked before anything is paid.
+  canTake(id, qty = 1) {
+    const def = ITEMS[id]; if (!def || this.carryRoom(id) < qty) return false;
+    if (def.type !== 'equip') return this.inventory.some(s => s?.id === id) || this.inventory.includes(null);
+    return this.inventory.filter(s => !s).length >= qty;
+  }
   // Adds as many as fit; false (with 'overweight') when any are left behind.
   addItem(id, qty = 1) {
     const def = ITEMS[id]; if (!def) return false;
@@ -347,6 +355,7 @@ export class Character extends Emitter {
     if (def.type === 'card') { this.emit('card-choose', index); return false; }   // the bag asks which item (CharacterUI)
     if (def.type !== 'use') return false;
     if (def.use.hp && this.hp >= this.maxHp && !def.use.mp) return false;
+    if (def.use.mp && this.mp >= this.maxMp && !def.use.hp) return false;
     if (def.use.hp) this.heal(def.use.hp);
     if (def.use.mp) this.restoreMp(def.use.mp);
     this.removeAt(index);
@@ -370,14 +379,13 @@ export class Character extends Emitter {
     return { id, qty: 1, ...(this.cards[slot]?.length ? { cards: [...this.cards[slot]] } : {}), ...(this.refine?.[slot] ? { plus: this.refine[slot] } : {}) };
   }
   equip(index) {
-    const slot = this.inventory[index]; if (!slot) return false;
+    const slot = this.inventory[index]; if (!slot || !this.alive) return false;
     const def = ITEMS[slot.id]; if (def.type !== 'equip') return false;
     // the off hand is not free while a two-handed weapon is held
     if (def.slot === 'offhand' && this.twoHanded) { this.emit('two-hand', 'offhand'); return false; }
     // a two-handed weapon sends the off-hand item to the bag (it needs a free bag slot)
     const dropOff = def.slot === 'weapon' && def.twoHand && this.equipment.offhand;
     if (dropOff && !this.inventory.some((s, i) => !s && i !== index) && this.equipment.weapon) { this.emit('inventory-full', this.equipment.offhand); return false; }
-    const ratio = this.hp / this.maxHp;
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
     const previous = this.wornItem(to);
@@ -388,16 +396,16 @@ export class Character extends Emitter {
       this.inventory[free] = this.wornItem('offhand'); this.equipment.offhand = null; this.cards.offhand = []; this.refine.offhand = 0;
       this.emit('two-hand', 'weapon');
     }
-    this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.min(this.mp, this.maxMp);
+    this.clampVitals();
     this.emit('inventory'); this.emit('change');
     return true;
   }
   unequip(slotName) {
-    const id = this.equipment[slotName]; if (!id) return false;
+    const id = this.equipment[slotName]; if (!id || !this.alive) return false;
     const free = this.inventory.indexOf(null);
     if (free < 0) { this.emit('inventory-full', id); return false; }
     this.inventory[free] = this.wornItem(slotName); this.equipment[slotName] = null; this.cards[slotName] = []; this.refine[slotName] = 0;
-    this.hp = Math.min(this.hp, this.maxHp); this.emit('inventory'); this.emit('change');
+    this.clampVitals(); this.emit('inventory'); this.emit('change');
     return true;
   }
   // Items a card from the bag can go into: { worn: true, slot } and { index } for bag gear of the
@@ -416,14 +424,14 @@ export class Character extends Emitter {
   // A card into a free slot of a piece of gear, for good (RO style). where: a worn slot ('weapon',
   // 'charm2', …; 'worn' = the first worn item that fits) or a bag index.
   insertCard(cardIndex, where) {
-    const card = this.inventory[cardIndex], def = card && ITEMS[card.id]; if (def?.type !== 'card') return false;
+    const card = this.inventory[cardIndex], def = card && ITEMS[card.id]; if (def?.type !== 'card' || !this.alive) return false;
     const target = this.cardTargets(cardIndex).find(t => (typeof where === 'string' ? t.worn && (where === 'worn' || t.slot === where) : t.index === where));
     if (!target) { this.emit('card-no-slot', def.slot); return false; }
-    const cardId = card.id, ratio = this.hp / this.maxHp;
+    const cardId = card.id;
     if (target.worn) this.cards[target.slot] = [...this.cards[target.slot], cardId];
     else { const s = this.inventory[target.index]; s.cards = [...(s.cards ?? []), cardId]; }
     this.removeAt(cardIndex);
-    this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.min(this.mp, this.maxMp);
+    this.clampVitals();
     this.emit('card', { id: cardId, item: target.id, worn: !!target.worn }); this.emit('inventory'); this.emit('change');
     return true;
   }
@@ -439,6 +447,7 @@ export class Character extends Emitter {
     if (this.count('ash') < cost.ash) return fail('ash');
     const need = new Set(s.cards.filter(id => !this.inventory.some(x => x?.id === id))).size;
     if (this.inventory.filter(x => !x).length < need) return fail('bag_full');
+    for (const id of new Set(s.cards)) if (this.carryRoom(id) < s.cards.filter(x => x === id).length) return fail('bag_full');   // by weight too
     this.gold -= cost.gold;
     for (let left = cost.ash; left > 0;) { const i = this.inventory.findIndex(x => x?.id === 'ash'); const take = Math.min(left, this.inventory[i].qty); this.removeAt(i, take); left -= take; }
     const cards = [...s.cards], r = roll();
@@ -464,20 +473,21 @@ export class Character extends Emitter {
     const worn = typeof where === 'string', s = worn ? null : this.inventory[where];
     const id = worn ? this.equipment[where] : s?.id, plus = worn ? this.refine[where] ?? 0 : s?.plus ?? 0;
     const fail = why => { const r = { ok: false, why }; this.emit('refined', r); return r; };
+    if (!this.alive) return fail('dead');
     if (!id || (worn && !EQUIP_SLOTS.includes(where))) return fail('no_item');
     const cost = refineCost(ITEMS[id], plus);
     if (!cost) return fail(refinable(ITEMS[id]) ? 'max' : 'not_refinable');
     if (this.gold < cost.gold) return fail('gold');
     const ore = this.inventory.findIndex(x => x?.id === cost.ore); if (ore < 0) return fail('ore');
     this.gold -= cost.gold; this.removeAt(ore, 1);
-    const ratio = this.hp / this.maxHp, cards = worn ? [...this.cards[where]] : [...(s.cards ?? [])];
+    const cards = worn ? [...this.cards[where]] : [...(s.cards ?? [])];
     const up = !cost.risky || roll() < cost.rate;
     if (worn) {
       if (up) this.refine[where] = cost.to;
       else { this.equipment[where] = null; this.cards[where] = []; this.refine[where] = 0; }
     } else if (up) s.plus = cost.to;
     else this.inventory[where] = null;
-    this.hp = Math.max(1, Math.min(this.maxHp, Math.round(this.maxHp * ratio))); this.mp = Math.min(this.mp, this.maxMp);
+    this.clampVitals();
     const res = { ok: true, outcome: up ? 'up' : 'broke', item: id, to: cost.to, cards: up ? [] : cards };
     this.emit('inventory'); this.emit('change'); this.emit('refined', res);
     return res;

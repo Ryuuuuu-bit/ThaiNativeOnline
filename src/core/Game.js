@@ -89,6 +89,9 @@ export class Game {
       unlock: () => { this.game?.combat?.setTarget(null); this.training?.select?.(null); },
     });   // phones and tablets: joystick and thumb buttons (src/ui/TouchControls.js)
     this.bind();
+    // graphics as this device last set them (the world reads the controls when it loads)
+    $('particles').checked = this.prefs.particles; $('quality').value = this.prefs.quality;
+    if (this.prefs.quality === 'low') $('quality').dispatchEvent(new Event('change'));
     this.startCombat();
     this.maps.attachCombat(this.game);
     this.view.setZoom(params.has('zoom') ? Number(params.get('zoom')) : this.prefs.zoom);
@@ -192,7 +195,7 @@ export class Game {
     $('hud-size').value = String(this.prefs.hud);
     $('hud-size').addEventListener('change', e => this.prefs.set({ hud: Number(e.target.value) }));
     $('wind').addEventListener('input', e => { windUniforms.uWind.value = Number(e.target.value) / 100; $('wind-value').value = `${e.target.value}%`; });
-    $('particles').addEventListener('change', e => this.world.atmosphere.setEnabled(e.target.checked));
+    $('particles').addEventListener('change', e => { this.world.atmosphere.setEnabled(e.target.checked); this.prefs.set({ particles: e.target.checked }); });
     $('debug-toggle').addEventListener('change', e => { if (e.target.checked !== !!this.debugOn) this.toggleDebug(); });
     $('time-mode').addEventListener('change', e => {
       const mode = e.target.value;
@@ -202,11 +205,12 @@ export class Game {
     $('time-speed').addEventListener('change', e => { this.clock.rate = Number(e.target.value); });
     $('quality').addEventListener('change', e => {
       const high = e.target.value === 'high', sun = this.env.sun;
+      this.prefs.set({ quality: high ? 'high' : 'low' });
       this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, 2) : 1);
       sun.shadow.mapSize.set(high ? 4096 : 2048, high ? 4096 : 2048);
       this.postfx.enabled = high;   // bloom, colour grade and vignette only on high
       if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
-      this.world.grass.mesh.geometry.instanceCount = high ? 56000 : 34000;
+      if (this.world) this.world.grass.mesh.geometry.instanceCount = high ? 56000 : 34000;
       this.view.resize();
       this.postfx.setSize(this.host.clientWidth, this.host.clientHeight);
     });
@@ -269,7 +273,7 @@ export class Game {
       character: this.game.character,   // the dummy reads the player's real stats
       combat: this.game.combat, hud: this.game.hud,   // kit skills fight monsters and sit on the action bar
     });
-    this.training?.enterMap(this.maps.map.id);
+    this.training?.enterMap(this.maps.map.id); this.maps.attachTraining(this.training);
     // AUTO's basic attack also swings at the training dummy (the same pace as by hand)
     const bar = this.game.hud?.bar;
     if (bar) { bar.idleSwing = () => this.maps.map?.safe && this.training?.swing?.(); bar.idleStop = () => { if (this.training) this.training.autoSwing = false; }; }
@@ -348,13 +352,15 @@ export class Game {
   chaseTo(x, z) {
     const g = this.chaseGoal;
     if (this.autoWalk && this.destination && g && Math.hypot(g.x - x, g.z - z) < 1.5) return true;
+    const b = this.chaseBlocked;
+    if (b && this.elapsed < b.until && Math.hypot(b.x - x, b.z - z) < 2.5) return false;
     this.chaseGoal = { x, z };
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;   // a monster by a trunk: the nearest free spot beside it
     for (let r = .5; !goal && r <= 2; r += .5) for (let i = 0; i < 12 && !goal; i++) { const a = i / 12 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
     const route = goal && findPath(stand, this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 });
     if (!route) { this.stopWalk(); return false; }
-    this.route = route; this.autoWalk = true; this.nextWaypoint();
+    this.route = route; this.autoWalk = true; this.navGoal = null; this.marker.visible = false; this.nextWaypoint();   // a chase shows no marker of its own
     return true;
   }
   nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }
@@ -388,7 +394,7 @@ export class Game {
     if (this.debugOn) this.toggleDebug();
   }
   toggleDebug() {
-    if (!this.devAllowed && !this.debugOn) return;
+    if ((!this.devAllowed && !this.debugOn) || this.maps.busy || !this.npcs) return;
     this.debugOn = !this.debugOn; $('debug').hidden = !this.debugOn; $('debug-toggle').checked = this.debugOn;
     if (!this.debugGroup) {
       // Navigation graph and future monster spawn areas.
@@ -406,6 +412,7 @@ export class Game {
   }
 
   interact() {
+    if (this.maps.busy || !this.npcs) return;   // mid-travel: no NPCs to talk to yet
     if (this.hud.dialogueOpen && this.talking) {
       const d = this.talking.def; this.talkLine = (this.talkLine + 1) % d.dialogue.length;
       this.hud.openDialogue(this.talking, this.npcs.label(this.talking), d.dialogue[this.talkLine]);
@@ -499,6 +506,9 @@ export class Game {
     if (canMove && (!moved && dt > 0 || stalled) && this.destination) {
       // Combat auto-walk retries every frame; only a manual click reports a blocked path.
       if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
+      // a chase that got stuck (a route the grid allowed but the body cannot pass): that goal is
+      // off for a while, so the next chaseTo says no and AUTO turns to another monster
+      else if (this.chaseGoal) this.chaseBlocked = { ...this.chaseGoal, until: this.elapsed + 6 };
       this.stopWalk();
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();

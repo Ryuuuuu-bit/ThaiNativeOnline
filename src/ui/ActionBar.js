@@ -149,8 +149,10 @@ export class ActionBar {
     }
     if ((this.autoWait -= dt) > 0) return;
     // the target, by the priority in the settings
-    if (cb?.monsters && cb.world?.playerPos) {
-      const t = pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target, Date.now(), c?.cls?.range ?? 2);
+    if (c?.alive && cb?.monsters && cb.world?.playerPos) {
+      // a monster the player clicked themselves is kept for a few seconds while it lives
+      const stuck = cb.target?.alive && Date.now() - (cb.manualTargetAt ?? -Infinity) < 4000;
+      const t = stuck ? cb.target : pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target, Date.now(), c?.cls?.range ?? 2);
       if (t && t !== cb.target) cb.setTarget(t);
     }
     // the next enabled skill that is ready (survival skills first when HP is low)

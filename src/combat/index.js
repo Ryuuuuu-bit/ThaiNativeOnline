@@ -81,7 +81,8 @@ export function createGame(o) {
       const monster = (hit && view.monsterById(hit.object.userData.monsterId)) ?? nearOnScreen(event, rect);
       if (!monster) return;
       event.stopPropagation();
-      combat.setTarget(monster);
+      o.stop();   // the clicked walk gives way to the attack (else the walk cancels it next frame)
+      combat.setTarget(monster); combat.manualTargetAt = Date.now();
       combat.useSkill(combat.basicSkillId());
     }, { capture: true });
 

@@ -29,6 +29,13 @@ const placesOf = npc => {
 export const SHOP_SITES = {};
 for (const n of NPCS) if (n.shopType) for (const p of placesOf(n)) (SHOP_SITES[n.shopType] ??= []).push({ npc: n.id, ...p });
 
-export const nearShop = (shop, map, x, z) => (SHOP_SITES[shop] ?? []).some(s => s.map === map && Math.hypot(s.x - x, s.z - z) <= SHOP_RANGE);
+const sitesOf = shop => (typeof shop === 'string' && Object.hasOwn(SHOP_SITES, shop) ? SHOP_SITES[shop] : []);   // never a prototype key
+export const nearShop = (shop, map, x, z) => sitesOf(shop).some(s => s.map === map && Math.hypot(s.x - x, s.z - z) <= SHOP_RANGE);
+// Any NPC, by id: standing within SHOP_RANGE of one of their spots (quests are taken and handed
+// in, and things are sold, face to face).
+const NPC_SITES = {};
+for (const n of NPCS) NPC_SITES[n.id] = placesOf(n);
+export const nearNpc = (npcId, map, x, z) => (typeof npcId === 'string' && Object.hasOwn(NPC_SITES, npcId) ? NPC_SITES[npcId] : []).some(s => s.map === map && Math.hypot(s.x - x, s.z - z) <= SHOP_RANGE);
+export const nearAnyShop = (map, x, z) => Object.keys(SHOP_SITES).some(shop => nearShop(shop, map, x, z));
 // a spot right by a shop (tests, the UAT tools)
-export const shopSpot = shop => SHOP_SITES[shop]?.[0] ?? null;
+export const shopSpot = shop => sitesOf(shop)[0] ?? null;

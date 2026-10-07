@@ -65,6 +65,9 @@ export class QuestSystem extends Emitter {
   complete(id) {
     const q = this.defs.get(id), c = this.character;
     if (!q || this.status(id) !== 'active' || !this.isComplete(id) || !c) return false;
+    const r = q.rewards ?? {};
+    // the rewards must fit before anything is taken or paid (a full bag loses nothing)
+    if ((r.items ?? []).some(([item, qty = 1]) => !c.canTake(item, qty))) { this.emit('fail', 'กระเป๋าเต็ม · เก็บที่ว่างก่อนรับรางวัล'); return false; }
     for (const o of q.objectives) if (o.collect) {
       let left = o.count;
       for (let i = 0; i < c.inventory.length && left > 0; i++) {
@@ -73,7 +76,6 @@ export class QuestSystem extends Emitter {
         const take = Math.min(left, slot.qty); c.removeAt(i, take); left -= take;
       }
     }
-    const r = q.rewards ?? {};
     if (r.gold) { c.gold += r.gold; c.emit('change'); }
     for (const [item, qty = 1] of r.items ?? []) c.addItem(item, qty);
     if (r.exp) c.gainExp(r.exp);

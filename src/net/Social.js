@@ -22,7 +22,7 @@ import { friendsPane, titlesPane, rankPane, titleCount, MAP_TH } from './SocialP
 import './social.css';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const PARTY_WHY = { self: 'ชวนตัวเองไม่ได้', in_party: 'ผู้เล่นนั้นอยู่ในปาร์ตี้อื่นแล้ว', not_leader: 'หัวหน้าปาร์ตี้เท่านั้นที่ชวนได้', full: 'ปาร์ตี้เต็มแล้ว (6 คน)', expired: 'คำเชิญหมดอายุแล้ว', offline: 'ผู้เล่นนั้นออฟไลน์', declined: 'ปฏิเสธคำเชิญปาร์ตี้' };
+const PARTY_WHY = { guest: 'ผู้เล่นแบบผู้มาเยือนตั้งปาร์ตี้กับผู้เล่นที่เข้าสู่ระบบไม่ได้', self: 'ชวนตัวเองไม่ได้', in_party: 'ผู้เล่นนั้นอยู่ในปาร์ตี้อื่นแล้ว', not_leader: 'หัวหน้าปาร์ตี้เท่านั้นที่ชวนได้', full: 'ปาร์ตี้เต็มแล้ว (6 คน)', expired: 'คำเชิญหมดอายุแล้ว', offline: 'ผู้เล่นนั้นออฟไลน์', declined: 'ปฏิเสธคำเชิญปาร์ตี้' };
 const TRADE_WHY = { self: 'แลกกับตัวเองไม่ได้', busy: 'ตอนนี้แลกเปลี่ยนไม่ได้ (กำลังต่อสู้ หมดสติ หรือแลกกับคนอื่นอยู่)', offline: 'ผู้เล่นนั้นออฟไลน์', guest: 'ต้องเข้าสู่ระบบทั้งสองฝ่ายจึงแลกเปลี่ยนได้', far: 'ต้องยืนใกล้กัน (ไม่เกิน 8 เมตร) ในแชนแนลเดียวกัน', expired: 'คำขอหมดอายุแล้ว', declined: 'อีกฝ่ายปฏิเสธการแลกเปลี่ยน',
   gold: 'ทองไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
   cancelled: 'ยกเลิกการแลกเปลี่ยน', moved: 'การแลกเปลี่ยนถูกยกเลิก (ย้ายแมพหรือแชนแนล)', left: 'อีกฝ่ายออกจากเกม · ยกเลิกการแลกเปลี่ยน' };
@@ -59,16 +59,17 @@ export function attachSocial(net, c, chat, remote, game = null) {
 
   // ---- invites and requests ----
   const asks = node('soc-asks');
-  const ask = (text, yes, no, secs) => {
-    const card = document.createElement('div'); card.className = 'soc-ask glass';
+  const ask = (key, text, yes, no, secs) => {
+    asks.querySelector(`[data-ask="${key}"]`)?.remove();   // one card per sender: a repeated invite replaces the old one
+    const card = document.createElement('div'); card.className = 'soc-ask glass'; card.dataset.ask = key;
     card.innerHTML = `<p>${text}</p><div><button data-a="1">ตอบรับ</button><button data-a="0">ปฏิเสธ</button></div>`;
     const done = ok => { card.remove(); (ok ? yes : no)(); };
     card.addEventListener('click', e => { const b = e.target.closest('[data-a]'); if (b) done(b.dataset.a === '1'); });
-    setTimeout(() => card.isConnected && done(false), secs * 1000);
+    setTimeout(() => card.remove(), secs * 1000);   // unanswered: it just goes (the server lets it expire; no "declined")
     asks.append(card);
   };
-  net.on('pinv', m => ask(`<b>${esc(m.name)}</b> ชวนคุณเข้าปาร์ตี้`, () => net.send({ t: 'pans', from: m.from, ok: true }), () => net.send({ t: 'pans', from: m.from, ok: false }), 55));
-  net.on('treq', m => ask(`<b>${esc(m.name)}</b> ขอแลกเปลี่ยนกับคุณ`, () => net.send({ t: 'tans', from: m.from, ok: true }), () => net.send({ t: 'tans', from: m.from, ok: false }), 28));
+  net.on('pinv', m => ask(`p${m.from}`, `<b>${esc(m.name)}</b> ชวนคุณเข้าปาร์ตี้`, () => net.send({ t: 'pans', from: m.from, ok: true }), () => net.send({ t: 'pans', from: m.from, ok: false }), 55));
+  net.on('treq', m => ask(`t${m.from}`, `<b>${esc(m.name)}</b> ขอแลกเปลี่ยนกับคุณ`, () => net.send({ t: 'tans', from: m.from, ok: true }), () => net.send({ t: 'tans', from: m.from, ok: false }), 28));
   net.on('pno', m => chat.add('ระบบ', `${m.name ? `${m.name}: ` : ''}${PARTY_WHY[m.why] ?? 'ทำไม่ได้'}`));
   net.on('tno', m => chat.add('ระบบ', TRADE_WHY[m.why] ?? 'แลกเปลี่ยนไม่ได้'));
 
@@ -95,14 +96,18 @@ export function attachSocial(net, c, chat, remote, game = null) {
     }
     if (tab === 'party') renderSoc();
   };
+  let lastPartyId = null;   // across a reconnect: the same party is not "joined" again
   net.on('party', m => {
     const was = party?.id; party = m.id ? m : null;
-    if (party && !was) chat.add('ระบบ', 'เข้าร่วมปาร์ตี้แล้ว · พิมพ์ /p นำหน้าเพื่อคุยในปาร์ตี้ · EXP แบ่งกันเมื่อล่าใกล้กัน');
+    if (party && !was && party.id !== lastPartyId) chat.add('ระบบ', 'เข้าร่วมปาร์ตี้แล้ว · พิมพ์ /p นำหน้าเพื่อคุยในปาร์ตี้ · EXP แบ่งกันเมื่อล่าใกล้กัน');
     if (!party && was) chat.add('ระบบ', 'ออกจากปาร์ตี้แล้ว');
-    renderParty();
+    if (party) lastPartyId = party.id; else if (net.online) lastPartyId = null;
+    const key = JSON.stringify(m);
+    if (key !== lastPartyKey) { lastPartyKey = key; renderParty(); }   // the 1 Hz broadcast redraws only what changed
   });
+  let lastPartyKey = '';
   net.on('pc', m => chat.add(`[ปาร์ตี้] ${m.name}`, m.text, 'party'));
-  net.on('status', on => { if (!on) { party = null; renderParty(); closeTrade(); } });
+  net.on('status', on => { if (!on) { party = null; lastPartyKey = ''; renderParty(); closeTrade(); } });
   frame.addEventListener('click', e => { if (e.target.closest('.soc-pf')) { tab = 'party'; toggleSoc(true); } });
   // a healer's party / revive skill reached us (server/index.js support)
   net.on('aid', m => {
@@ -263,6 +268,9 @@ export function attachSocial(net, c, chat, remote, game = null) {
   const row = (e, i, mine) => { const d = ITEMS[e.id]; return `<button class="soc-it" ${mine ? `data-off="${i}"` : 'disabled'} style="--rar:${RARITY_COLORS[d?.rarity] ?? '#8d8a78'}"><span>${iconHtml(d)}</span>${esc(label(e))}</button>`; };
   const renderTrade = () => {
     win.hidden = !trade; if (!trade) return;
+    // a re-render (the other side changed something) keeps what is being typed and where the focus is
+    const typing = win.querySelector('[data-gold]') === document.activeElement ? win.querySelector('[data-gold]').value : null;
+    const focused = win.contains(document.activeElement) ? [...document.activeElement.attributes].map(a => a.name).find(n => n.startsWith('data-')) : null;
     offer = { items: trade.mine.items.map(e => ({ ...e })), gold: trade.mine.gold };
     const both = trade.locked.me && trade.locked.them;
     const state = (l, k) => (k ? '<i class="ok">ยืนยันแล้ว</i>' : l ? '<i>ล็อกแล้ว</i>' : '<i class="no">กำลังเลือก</i>');
@@ -276,6 +284,8 @@ export function attachSocial(net, c, chat, remote, game = null) {
       <p class="soc-hint">${trade.locked.me ? 'ล็อกข้อเสนอแล้ว · ถ้าแก้ไข ทั้งสองฝ่ายต้องล็อกใหม่' : 'คลิกของในกระเป๋าเพื่อใส่ (กด Shift ค้างเพื่อใส่ทั้งกอง) · คลิกของในข้อเสนอเพื่อเอาออก'}</p>
       ${trade.locked.me ? '' : `<div class="soc-bag">${c.inventory.map((s, i) => (s && left(s, i) ? `<button class="soc-it" data-bag="${i}" title="${esc(label({ ...s, qty: left(s, i) }))}" style="--rar:${RARITY_COLORS[ITEMS[s.id].rarity] ?? '#8d8a78'}"><span>${iconHtml(ITEMS[s.id])}</span>${s.plus ? `<i>+${s.plus}</i>` : ''}${left(s, i) > 1 ? `<small>${left(s, i)}</small>` : ''}</button>` : '')).join('')}</div>`}
       <footer><button data-lock ${trade.locked.me ? 'disabled' : ''}>ล็อกข้อเสนอ</button><button data-conf ${both && !trade.confirmed.me ? '' : 'disabled'}>ยืนยันแลกเปลี่ยน</button><button data-x>ยกเลิก</button></footer>`;
+    if (typing !== null && !trade.locked.me) { const g = win.querySelector('[data-gold]'); g.value = typing; g.focus(); }
+    else if (focused) win.querySelector(`[${focused}]`)?.focus();
   };
   const closeTrade = () => { trade = null; win.hidden = true; };
   net.on('trade', m => { trade = m; renderTrade(); });
@@ -291,7 +301,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     const g = e.target.closest('[data-gold]'); if (!g) return;
     offer.gold = Math.max(0, Math.min(c.gold, Math.floor(Number(g.value) || 0))); sendOffer();
   });
-  win.addEventListener('keydown', e => e.stopPropagation());   // typing gold does not walk the player
+  win.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) e.stopPropagation(); });   // typing gold does not walk the player; a clicked button still lets W A S D through
   return {
     get party() { return party; }, get trade() { return trade; },
     // the main menu's สังคม tile (src/ui/MainMenu.js): open on a tab, or close

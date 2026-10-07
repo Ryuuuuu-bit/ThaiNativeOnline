@@ -103,15 +103,16 @@ export class SkillPanel {
   // Re-drawn only when something it shows changed ('change' fires for every HP tick, and a
   // tree rebuilt under a finger would eat the tap).
   refresh() {
-    const c = this.c, key = JSON.stringify([this.sel, c.jobLevel, c.jobExp, c.skills, c.evo, c.gold >= c.skillResetCost, c.gold >= 500]);
+    const c = this.c, max = c.jobLevel >= MAX_JOB_LEVEL;
+    // the Job EXP bar moves on its own; the tree and card below are rebuilt only when they changed
+    this.root.querySelector('.g-sk-jt').textContent = max ? 'Job สูงสุด' : `Job EXP ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`;
+    setBar(this.root.querySelector('.g-jexp'), max ? 1 : c.jobExp, max ? 1 : c.jobExpNeeded, '');
+    const key = JSON.stringify([this.sel, c.jobLevel, c.skills, c.evo, c.gold >= c.skillResetCost, c.gold >= 500]);   // not jobExp: every kill would rebuild the tree under the pointer
     if (key === this.key) return;
     this.key = key;
-    const max = c.jobLevel >= MAX_JOB_LEVEL;
     this.root.querySelector('.g-sk-path').innerHTML = `<span class="g-pchip done">${classBadge(c.classId, c.cls, { size: 17 })}<span>ผู้ฝึกหัด<small>ผ่านแล้ว</small></span></span><i>»»</i>
       <span class="g-pchip cur">${classBadge(c.classId, c.cls, { size: 17 })}<span>${esc(c.cls?.name ?? '')}<small>ปัจจุบัน · Job Lv ${c.jobLevel} / ${MAX_JOB_LEVEL}</small></span></span><i>»»</i>
       <span class="g-pchip lock"><span class="g-q2">?</span><span>อาชีพขั้นสอง<small>ยังไม่เปิด</small></span></span>`;
-    this.root.querySelector('.g-sk-jt').textContent = max ? 'Job สูงสุด' : `Job EXP ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`;
-    setBar(this.root.querySelector('.g-jexp'), max ? 1 : c.jobExp, max ? 1 : c.jobExpNeeded, '');
     const pts = this.root.querySelector('.g-sk-pts'); pts.querySelector('b').textContent = c.skillPoints; pts.classList.toggle('g-has-points', c.skillPoints > 0);
     const reset = this.root.querySelector('.g-skill-reset');
     reset.innerHTML = `รีเซ็ตสกิล <span class="g-cost"><i class="g-coin"></i>${c.skillResetCost.toLocaleString()}</span>`; reset.disabled = c.skillPointsSpent <= 0;
