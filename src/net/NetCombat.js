@@ -95,6 +95,7 @@ export function attachNetCombat(net, game) {
     net.send({ t: 'blow', id: m.sid, skill: o.skill ?? 'basic', ...(o.pounce ? { pounce: 1 } : {}) });
     return true;   // side effects (stun, slow, damage over time) are the server's too
   };
+  combat.on('sit', on => net.send({ t: 'sit', v: !!on }));   // the server doubles the regen too (server/combatants.js sit)
   combat.on('kit-cast', e => { if (combat.remote) net.send({ t: 'cast', skill: e.id }); });
   combat.on('casting', e => { if (combat.remote && !e.practice) net.send({ t: 'casting', skill: e.id }); });   // a cast bar: the server times it
   combat.on('cast', e => { if (combat.remote && !e.skill?.basic) net.send({ t: 'cast', skill: e.skillId }); });

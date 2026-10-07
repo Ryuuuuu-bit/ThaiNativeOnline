@@ -234,7 +234,7 @@ export class Game {
     this.game = createGame({
       root: $('app'), host: this.host, scene: this.scene, camera: this.view.camera, player: this.player,
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
-      moveTo: (x, z) => { this.route = []; this.destination = new THREE.Vector3(x, 0, z); this.autoWalk = true; this.walkBest = Infinity; this.walkStall = 0; },
+      moveTo: (x, z) => this.chaseTo(x, z),
       stop: () => this.stopWalk(),
       // walking by hand (a click on the ground, keys, the joystick): AUTO and chasing wait for it
       manualMove: () => (!!this.destination && !this.autoWalk) || this.input.keys.size > 0 || !!(this.input.stick.x || this.input.stick.y),
@@ -339,6 +339,21 @@ export class Game {
     this.game?.onManualMove(); this.training?.onManualMove(); this.view.recenter();
     this.route = route; this.autoWalk = false; this.navGoal = { x: goal.x, z: goal.z }; this.nextWaypoint();
     this.marker.position.set(goal.x, this.world.heightAt(goal.x, goal.z) + .07, goal.z); this.marker.visible = true;
+    return true;
+  }
+  // Combat's walk-in (chasing a target, a skill walking into range): around trees and walls by
+  // a short route (findPath), redone only once the target has moved or the walk got stuck.
+  // false when there is no way there (the target is then dropped: src/combat/Combat.js).
+  chaseTo(x, z) {
+    const g = this.chaseGoal;
+    if (this.autoWalk && this.destination && g && Math.hypot(g.x - x, g.z - z) < 1.5) return true;
+    this.chaseGoal = { x, z };
+    const stand = (a, b) => this.world.canStand(a, b);
+    let goal = stand(x, z) ? { x, z } : null;   // a monster by a trunk: the nearest free spot beside it
+    for (let r = .5; !goal && r <= 2; r += .5) for (let i = 0; i < 12 && !goal; i++) { const a = i / 12 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
+    const route = goal && findPath(stand, this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 });
+    if (!route) { this.stopWalk(); return false; }
+    this.route = route; this.autoWalk = true; this.nextWaypoint();
     return true;
   }
   nextWaypoint() { const w = this.route.shift(); this.destination = new THREE.Vector3(w.x, 0, w.z); this.walkBest = Infinity; this.walkStall = 0; }

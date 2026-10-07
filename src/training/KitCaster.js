@@ -65,6 +65,7 @@ export class KitCaster {
     // not learnt yet: not even at the training dummy (practice is free of MP, not of learning)
     if (!this.learned(i)) { if (!quiet) this.fail(`ยังไม่ได้เรียนสกิลนี้ · ปลดที่ Job Lv.${s.unlock ?? '?'} แล้วอัปด้วยแต้มสกิล (K)`); return false; }
     if (quiet && this.pending) return false;
+    this.combat.sit?.(false);
     const pick = this.pick(info);
     if (!pick) { if (!quiet) this.fail(this.dummy() ? 'หุ่นซ้อมไกลเกินไป · เดินเข้าไปใกล้ ๆ' : 'ไม่มีเป้าหมายใกล้ๆ'); return false; }
     if (pick.monster && c.mp < this.mpOf(i)) { if (!quiet) this.fail('MP ไม่พอ'); return false; }
@@ -150,7 +151,10 @@ export class KitCaster {
     if (dist(at, this.player.position) <= this.infos[p.i].range) {
       this.combat.world.stop?.();
       if (!this.runner.busy) { this.pending = null; this.fire(p.i, m ? { monster: m } : { dummy: true }); }
-    } else this.combat.world.moveTo?.(at.x, at.z);
+    } else if (this.combat.world.moveTo?.(at.x, at.z) === false) {
+      this.pending = null; if (m) m.unreachableAt = Date.now();
+      if (!p.quiet) this.fail('ไปถึงไม่ได้');
+    }
   }
   cancel(why = 'ยกเลิกการร่าย') {
     if (this.pending) this.pending = null;

@@ -106,11 +106,21 @@ export class Combat extends Emitter {
   cancelPending() { this.pending = null; this.autoAttack = false; }
 
   // ---- Player actions ----
+  // Sitting to rest (AUTO, src/ui/ActionBar.js): double regen out of a fight (Character.tick).
+  // Any move, skill, blow or fight stands the player up. Emits 'sit' (src/net tells the server).
+  sit(on) {
+    const c = this.character; on = !!on && c.alive && !this.inCombat;
+    if (!!c.sitting === on) return;
+    c.sitting = on;
+    if (on) { this.world.stop?.(); this.pending = null; this.autoAttack = false; }
+    this.emit('sit', on);
+  }
   basicSkillId() { return this.character.cls.skills.find(id => SKILLS[id].basic); }
 
   useSkill(skillId) {
     const c = this.character, skill = SKILLS[skillId];
     if (!skill || !c.alive) return { ok: false };
+    this.sit(false);
     if (c.cooldowns[skillId] > 0) return this.fail('ยังใช้ไม่ได้');
     if (!skill.basic && this.gcd > 0) return { ok: false, reason: 'gcd' };
     if (c.mp < skill.mp) return this.fail('MP ไม่พอ');
@@ -239,6 +249,7 @@ export class Combat extends Emitter {
     // Chase toward pending target, then fire. `hold` (set while a class kit skill
     // plays, src/training) pauses the player's own swings and chasing.
     const byHand = !!this.world.manualMove?.();
+    if (c.sitting && (byHand || this.inCombat || !c.alive)) this.sit(false);
     if (byHand) { this.pending = null; this.autoAttack = false; }
     if (c.alive && this.pending && !this.hold) {
       const { skillId, target } = this.pending, skill = SKILLS[skillId];
@@ -248,7 +259,11 @@ export class Combat extends Emitter {
           this.world.stop?.();
           const waiting = skill.basic ? this.attackTimer > 0 : this.gcd > 0;
           if (!waiting) { this.pending = null; this.execute(skillId, target); }
-        } else this.world.moveTo?.(target.x, target.z);
+        } else if (this.world.moveTo?.(target.x, target.z) === false) {
+          // no way to it (behind trees or water): let it go for a while, AUTO picks another
+          target.unreachableAt = Date.now(); this.pending = null; this.autoAttack = false;
+          if (this.target === target) this.setTarget(null);
+        }
       }
     }
     // Auto attack keeps swinging at the current target while in range.

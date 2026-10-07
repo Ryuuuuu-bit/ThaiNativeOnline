@@ -188,7 +188,11 @@ wss.on('connection', ws => {
         if (saved) friendNews(presence.players.get(ws), true);
         break;
       }
-      case 's': presence.move(ws, m); break;
+      case 's': {   // a move: whoever walks off stops resting
+        const p = presence.players.get(ws), x = p?.x, z = p?.z; presence.move(ws, m);
+        if (p && Math.hypot(p.x - x, p.z - z) > .2) combatants.sit(p.id, false);
+        break;
+      }
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
       case 'treq': case 'tans': case 'toffer': case 'tlock': case 'tconf': case 'tcancel': tradeMsg(ws, m); break;
@@ -227,11 +231,12 @@ wss.on('connection', ws => {
       case 'casting': { const p = presence.players.get(ws); if (p) combatants.casting(p.id, m.skill); break; }
       case 'cast': {
         const p = presence.players.get(ws); if (!p) return;
-        const r = combatants.cast(p.id, m.skill);
+        combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill);
         if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why });
         else if (r.support) support(p, m.skill, r.support);
         break;
       }
+      case 'sit': { const p = presence.players.get(ws); if (p) combatants.sit(p.id, m.v); break; }
       case 'blow': { const p = presence.players.get(ws); if (p) { combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); } break; }
       case 'dead': {
         const p = presence.players.get(ws); if (!p) return;

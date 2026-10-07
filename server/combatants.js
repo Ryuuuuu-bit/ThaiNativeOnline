@@ -30,6 +30,7 @@
 //   cs.cast(playerId, skillId)                      → { ok, buff? } | { ok: false, why }
 //   cs.blow(playerId, world, players, msg, phase)   → events (as MonsterWorld.damage)
 //   cs.tick(dt, night) · cs.drop(playerId)
+//   cs.sit(playerId, on) (resting: double regen out of a fight)
 //   cs.touch(playerId) (a blow or a swing: in a fight) · cs.fighting(playerId) → bool
 //   cs.casting(playerId, skillId) (a cast bar started; a skill with a cast time is refused before it could fill)
 // Skills on an evolution path roll with the path's rules ('<id>@A', src/rules/data/evolutions.js).
@@ -89,7 +90,9 @@ export class Combatants {
     this.now = now; this.r = random; this.list = new Map();   // player id → state
   }
   get(id) { return this.list.get(id); }
-  touch(id) { const s = this.list.get(id); if (s) s.fightAt = this.now(); }
+  touch(id) { const s = this.list.get(id); if (s) { s.fightAt = this.now(); s.c.sitting = false; } }
+  // sitting to rest (Combat.sit): double regen, never in a fight; any blow or swing stands up
+  sit(id, on) { const s = this.list.get(id); if (s) s.c.sitting = !!on && s.c.alive && !this.fighting(id); }
   fighting(id) { const s = this.list.get(id); return !!s && this.now() - s.fightAt < RULES.combatTimeout; }
   drop(id) { this.list.delete(id); }
 
@@ -158,7 +161,7 @@ export class Combatants {
     const s = this.list.get(id); if (!s?.persist || !def) return null;
     const c = s.c; if (!c.alive) return null;
     if (s.god) return { dodge: true, hp: c.hp };   // /gm god (server/gm.js)
-    s.fightAt = this.now();
+    s.fightAt = this.now(); c.sitting = false;
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
     const raw = def.atk * power * (.85 + this.r() * .3) * (def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
     const dmg = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(def))));   // cards: less from that race / element
@@ -235,7 +238,7 @@ export class Combatants {
     if (!s || !p || p.dead || !m || m.hp <= 0) return [];
     const c = s.c, now = this.now(), night = phase === 'night';
     const def = monsterDefense(m.def);
-    s.fightAt = now;
+    s.fightAt = now; c.sitting = false;
     if (msg.skill === 'basic' || msg.skill === 'pet') {
       const pet = msg.skill === 'pet';
       if (pet && !c.cls.pet) return [];

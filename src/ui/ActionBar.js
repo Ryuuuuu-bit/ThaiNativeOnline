@@ -19,7 +19,7 @@
 // }
 import '../classes/fx/fx.css';
 import './actionbar.css';
-import { AutoPanel, autoPotion, castOrder, loadAuto, normalizeAuto, pickTarget, saveAuto } from './autoSettings.js';
+import { AutoPanel, autoPotion, autoRest, castOrder, loadAuto, normalizeAuto, pickTarget, saveAuto } from './autoSettings.js';
 
 export const AUTO_KEY = 'KeyG';
 const keyLabel = i => String((i + 1) % 10);
@@ -91,7 +91,9 @@ export class ActionBar {
   // Survival skills (quick buffs, heals) go first when HP is low: the kit's quick moves.
   survival(i) { const s = this.ctl?.slots[i]; return !!(s?.survival ?? this.ctl?.kit?.skills?.[i]?.quick); }
 
-  setAuto(on) { this.auto = on; this.autoBtn.setAttribute('aria-pressed', String(on)); this.autoBtn.classList.toggle('on', on); this.autoWait = .2; }
+  setAuto(on) {
+    if (!on && this.auto) { this.combat?.sit?.(false); this.autoBtn.classList.remove('resting'); this.autoBtn.querySelector('small').textContent = 'สกิลอัตโนมัติ'; }
+    this.auto = on; this.autoBtn.setAttribute('aria-pressed', String(on)); this.autoBtn.classList.toggle('on', on); this.autoWait = .2; }
   toggleAuto() { this.setAuto(!this.auto); }
 
   cast(i, fromAuto = false) {
@@ -126,17 +128,27 @@ export class ActionBar {
     this.atkBtn.classList.toggle('on', !!this.combat?.autoAttack && !!this.combat?.target?.alive);
     if (!this.auto) return;
     const c = this.character, cfg = this.autoCfg, hp = c ? c.hp / c.maxHp : 1;
-    // potions first, even mid-cast (one every 1.5 s at most)
-    if (c?.alive && (this.potionWait -= dt) <= 0) {
+    // potions first, even mid-cast (one every 1.5 s at most); out of a fight a rest saves them
+    const resting = !!c?.alive && !!this.combat?.sit && !this.combat.inCombat && autoRest(cfg, hp, c.mp / c.maxMp, !!c.sitting);
+    if (c?.alive && !resting && (this.potionWait -= dt) <= 0) {
       const kind = autoPotion(cfg, hp, c.mp / c.maxMp);
       if (kind && c.quickUse(kind)) this.potionWait = 1.5;
     }
     if (ctl.busy) return;
     // the player is walking somewhere by hand: AUTO waits until they stop
     if (this.combat?.world?.manualMove?.()) { this.autoWait = .3; return; }
+    const cb = this.combat;
+    // low after a fight: sit and rest until back up (a monster that hits stands us up: Combat.update)
+    if (c?.alive && cb?.sit) {
+      if (resting !== !!c.sitting) cb.sit(resting);
+      if (this.autoBtn.classList.contains('resting') !== !!c.sitting) {
+        this.autoBtn.classList.toggle('resting', !!c.sitting);
+        this.autoBtn.querySelector('small').textContent = c.sitting ? 'นั่งพักฟื้น ×2' : 'สกิลอัตโนมัติ';
+      }
+      if (c.sitting) { this.autoWait = .3; return; }
+    }
     if ((this.autoWait -= dt) > 0) return;
     // the target, by the priority in the settings
-    const cb = this.combat;
     if (cb?.monsters && cb.world?.playerPos) {
       const t = pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target, Date.now(), c?.cls?.range ?? 2);
       if (t && t !== cb.target) cb.setTarget(t);

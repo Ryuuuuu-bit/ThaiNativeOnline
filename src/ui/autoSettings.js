@@ -5,6 +5,7 @@
 //
 //   loadAuto() / saveAuto(s)                     per-browser settings
 //   autoPotion(s, hpFrac, mpFrac) → 'hp' | 'mp' | null
+//   autoRest(s, hpFrac, mpFrac, resting) → sit / keep sitting?
 //   pickTarget(monsters, me, s, current, now?, reach?) → monster | null
 //   castOrder(slots, s, hpFrac, next) → slot indices to try, in order
 //   new AutoPanel(host, getSettings, onChange).open(slots)
@@ -17,6 +18,9 @@ export const DEFAULT_AUTO = {
   hpPotion: 40,         // drink an HP potion below this % (0 = never)
   mpPotion: 25,         // drink an MP potion below this %
   survive: 45,          // below this % HP, survival skills (buffs, heals) go first
+  restHp: 30,           // out of a fight below this % HP: sit and rest (RO: double regen) …
+  restMp: 15,           // … or below this % MP
+  restTo: 90,           // … until HP and MP (whichever rest is on) are back to this %
   attackers: true,      // monsters hitting me come first
   elites: true,         // then elites and bosses
   range: 'mid',
@@ -24,7 +28,7 @@ export const DEFAULT_AUTO = {
 const clampPct = v => Math.max(0, Math.min(90, Math.round(Number(v) || 0)));
 export function normalizeAuto(s = {}) {
   const o = { ...DEFAULT_AUTO, ...s };
-  return { off: Array.isArray(o.off) ? o.off.filter(Number.isInteger) : [], hpPotion: clampPct(o.hpPotion), mpPotion: clampPct(o.mpPotion), survive: clampPct(o.survive),
+  return { off: Array.isArray(o.off) ? o.off.filter(Number.isInteger) : [], hpPotion: clampPct(o.hpPotion), mpPotion: clampPct(o.mpPotion), survive: clampPct(o.survive), restHp: clampPct(o.restHp), restMp: clampPct(o.restMp), restTo: Math.max(50, clampPct(o.restTo) || 90),
     basic: !!o.basic, attackers: !!o.attackers, elites: !!o.elites, range: AUTO_RANGES[o.range] ? o.range : DEFAULT_AUTO.range };
 }
 export function loadAuto() { try { return normalizeAuto(JSON.parse(localStorage.getItem(KEY) || '{}')); } catch { return normalizeAuto(); } }
@@ -36,6 +40,14 @@ export function autoPotion(s, hpFrac, mpFrac) {
   return null;
 }
 
+// Resting (sitting, Combat.sit): starts out of a fight once HP or MP is under its line, goes on
+// until every stat with a line is back to `restTo`.
+export function autoRest(s, hpFrac, mpFrac, resting = false) {
+  const hp = hpFrac * 100, mp = mpFrac * 100;
+  if (resting) return (!!s.restHp && hp < s.restTo) || (!!s.restMp && mp < s.restTo);
+  return (!!s.restHp && hp < s.restHp) || (!!s.restMp && mp < s.restMp);
+}
+
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 // "Attacking us" means it swung at this player in the last ATTACKER_SECS (Combat.monsterAttack
 // stamps `swungAtMe`; online a monster chasing someone else does not count). Among the rest
@@ -43,12 +55,14 @@ const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 // The current target is kept while we are already trading blows with it (within `reach`, the
 // player's attack range, + 1 m) or it is hitting us; one we are still walking to is dropped for
 // another that is SWITCH_GAIN metres nearer.
-export const ATTACKER_SECS = 5, ELITE_PULL = 3, SWITCH_GAIN = 2;
+// One with no way to it (Combat sets `unreachableAt`) is skipped for UNREACHABLE_SECS.
+export const ATTACKER_SECS = 5, ELITE_PULL = 3, SWITCH_GAIN = 2, UNREACHABLE_SECS = 6;
 export function pickTarget(monsters, me, s, current = null, now = Date.now(), reach = 2) {
   const R = AUTO_RANGES[s.range] ?? AUTO_RANGES.mid;
   const hitting = m => s.attackers && m.swungAtMe && now - m.swungAtMe < ATTACKER_SECS * 1000;
-  const near = monsters.filter(m => m.alive && m.state !== 'dormant' && dist(m, me) <= R);
-  const live = current?.alive && current.state !== 'dormant' && dist(current, me) <= R + 2 ? current : null;
+  const reachable = m => !(now - (m.unreachableAt ?? -Infinity) < UNREACHABLE_SECS * 1000);
+  const near = monsters.filter(m => m.alive && m.state !== 'dormant' && dist(m, me) <= R && reachable(m));
+  const live = current?.alive && current.state !== 'dormant' && reachable(current) && dist(current, me) <= R + 2 ? current : null;
   if (live && (hitting(live) || (dist(live, me) <= reach + 1 && !near.some(hitting)))) return live;
   const score = m => (hitting(m) ? -1000 : 0) + dist(m, me) - (s.elites && (m.def?.boss || m.def?.elite) ? ELITE_PULL : 0);
   const best = near.sort((a, b) => score(a) - score(b))[0] ?? null;
@@ -110,6 +124,9 @@ export class AutoPanel {
           ${stepper('hpPotion', 'ดื่มยา HP เมื่อต่ำกว่า', 'ใช้ยาหม้อที่ดีที่สุดในกระเป๋า')}
           ${stepper('survive', 'ใช้สกิลเอาตัวรอดเมื่อ HP ต่ำกว่า', survivors)}
           ${stepper('mpPotion', 'ดื่มยา MP เมื่อต่ำกว่า', 'ใช้น้ำผึ้งป่า')}
+          ${stepper('restHp', 'นั่งพักเมื่อ HP ต่ำกว่า', 'หลังจบการต่อสู้ · นั่งแล้วฟื้นเร็วขึ้น 2 เท่า')}
+          ${stepper('restMp', 'นั่งพักเมื่อ MP ต่ำกว่า')}
+          ${stepper('restTo', 'ลุกขึ้นสู้ต่อเมื่อฟื้นถึง', 'ถูกตีระหว่างนั่ง จะลุกขึ้นสู้ทันที')}
           <p class="auto-note">ยาที่ใช้คือของในช่อง Q และ F · ตั้งเป็น "ปิด" ถ้าไม่อยากให้ AUTO ดื่มยาเอง</p></div>
         <div class="auto-card"><h4>เป้าหมาย</h4>
           ${sw('attackers', 'ตัวที่กำลังตีเราก่อน', 'AUTO สู้กลับมอนที่ตีเราอยู่')}
