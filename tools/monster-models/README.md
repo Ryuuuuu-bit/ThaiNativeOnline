@@ -1,4 +1,4 @@
-# First Blender monster set
+# Blender monster assets
 
 Original Blender-designed assets, without Tripo or external model downloads.
 `source/boar.blend`, `source/pray.blend`, and `source/krasue.blend` retain editable
@@ -28,6 +28,21 @@ No runtime compression decoder is required.
 Open `/tools/monster-models/review.html` on the Vite dev server for the 2.5D review
 stage using the actual game loader. It is a development page, excluded from the
 production build. Run `npm test` and `npm run build` in the repository root.
+
+## Paddy expansion
+
+`build_paddy.py` authors fowl, cobra, crab, buffalo, monkey and phibpa through
+registered Blender Harness commands. Set `BLENDER_DESIGN_ROOT` to the plugin
+root, `BLENDER_SESSION_DESCRIPTOR` to a managed session descriptor, and
+`MONSTER_OUTPUT_ROOT` to a new directory within the approved output root.
+Run `python tools/monster-models/build_paddy.py <type>` and prepare the resulting
+GLB with `prepare.mjs` as above. Use a fresh managed session per creature:
+exporting buffalo after several unrelated rigs caused Blender 5.2.2 to exit;
+the same recipe exported successfully in an isolated scene. Source files are
+saved before export, and no existing output is overwritten by the generator.
+
+Open `/tools/monster-models/review.html?set=paddy` for the seven-creature gallery.
+See `docs/art/monsters/PADDY_SET.md` for budgets, screenshots and limitations.
 
 These are first-pass stylized, faceted models. They use rigid section weights,
 overlapping solids and some open curve ends; they are not watertight print meshes.

@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MONSTER_MODELS } from '../src/combat/MonsterModels.js';
 
-for (const type of ['boar', 'pray', 'krasue']) test(`${type}: exported skin, clips, loop seams and animated bounds are valid`, async () => {
+for (const type of Object.keys(MONSTER_MODELS)) test(`${type}: exported skin, clips, loop seams and animated bounds are valid`, async () => {
   const data = await readFile(new URL(`../public/models/monsters/${type}.glb`, import.meta.url));
   assert.equal(data.readUInt32LE(0), 0x46546c67);
   assert.equal(data.readUInt32LE(8), data.length);

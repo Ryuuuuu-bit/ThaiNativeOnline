@@ -18,10 +18,14 @@ const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:tru
 const camera=new THREE.OrthographicCamera(-6,6,3.6,-3.6,.1,60);camera.position.set(2,7,11);camera.lookAt(0,.55,0);
 scene.add(new THREE.HemisphereLight('#e8efdf','#4d6550',2));const sun=new THREE.DirectionalLight('#fff1d1',3);sun.position.set(-3,8,4);sun.castShadow=true;sun.shadow.bias=-.0003;sun.shadow.normalBias=.035;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-8;sun.shadow.camera.right=8;sun.shadow.camera.top=8;sun.shadow.camera.bottom=-8;scene.add(sun);
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.MeshStandardMaterial({color:'#536b45',roughness:1}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
-const models=['boar','pray','krasue'].map((type,i)=>{const g=makeMonsterModel(type,new THREE.Group(),i+1);g.position.x=(i-1)*3.7;g.rotation.y=.45;scene.add(g);return g;});
+const paddy=new URLSearchParams(location.search).get('set')==='paddy';
+const types=paddy?['boar','fowl','cobra','crab','buffalo','monkey','phibpa']:['boar','pray','krasue'];
+const names={boar:'หมูป่า',fowl:'ไก่ป่า',cobra:'งูเห่า',crab:'ปูนา',buffalo:'ควายป่า',monkey:'ลิงกัง',phibpa:'ผีป่า'};
+if(paddy){document.querySelector('h1').textContent='มอนสเตอร์ทุ่งนา';document.querySelector('.labels').innerHTML=types.map(type=>`<div><strong>${names[type]}</strong></div>`).join('');document.querySelector('.labels').style.bottom='110px';document.querySelectorAll('.labels strong').forEach(e=>e.style.fontSize='18px');}
+const models=types.map((type,i)=>{const g=makeMonsterModel(type,new THREE.Group(),i+1);g.position.x=paddy?(i-3)*2.1:(i-1)*3.7;g.rotation.y=.45;scene.add(g);return g;});
 let mode='idle',start=performance.now(),attackStart=-10;
 document.querySelectorAll('button').forEach(b=>b.onclick=()=>{mode=b.dataset.move;attackStart=(performance.now()-start)/1000;document.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));});
-function resize(){renderer.setSize(innerWidth,innerHeight);const aspect=innerWidth/innerHeight;camera.left=-3.6*aspect;camera.right=3.6*aspect;camera.updateProjectionMatrix();}resize();addEventListener('resize',resize);
+function resize(){renderer.setSize(innerWidth,innerHeight);const aspect=innerWidth/innerHeight,half=paddy?5:3.6;camera.left=-half*aspect;camera.right=half*aspect;camera.top=half;camera.bottom=-half;camera.updateProjectionMatrix();}resize();addEventListener('resize',resize);
 await Promise.all(models.map(g=>g.userData.ready));window.reviewReady=models.every(g=>g.userData.modelLoaded);
 function frame(){const t=(performance.now()-start)/1000;models.forEach(g=>g.userData.animate(t,mode==='walk',mode==='attack'&&((t-attackStart)%1.4)<.25));renderer.render(scene,camera);requestAnimationFrame(frame);}frame();
 </script></html>

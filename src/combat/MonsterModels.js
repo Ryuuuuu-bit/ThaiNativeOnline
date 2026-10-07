@@ -8,6 +8,12 @@ export const MONSTER_MODELS = {
   boar: { url: '/models/monsters/boar.glb', height: 1.25 },
   pray: { url: '/models/monsters/pray.glb', height: 1.9, lift: .16 },
   krasue: { url: '/models/monsters/krasue.glb', height: 1.55, lift: .45 },
+  fowl: { url: '/models/monsters/fowl.glb', height: 1.2 },
+  cobra: { url: '/models/monsters/cobra.glb', height: 1.05 },
+  crab: { url: '/models/monsters/crab.glb', height: .65 },
+  buffalo: { url: '/models/monsters/buffalo.glb', height: 1.6 },
+  monkey: { url: '/models/monsters/monkey.glb', height: 1.3 },
+  phibpa: { url: '/models/monsters/phibpa.glb', height: 1.8, lift: .12 },
 };
 const cache = new Map(), loader = new GLTFLoader();
 function load(url) {

@@ -49,7 +49,8 @@ FK and has not passed a planted-foot IK acceptance check. The models are compose
 of intersecting solids with some open curve ends. No performance claim is made
 for mobile devices; many simultaneous skinned monsters need profiling. Multiplayer
 combat and every ghost spawn/time-of-day combination have not been replayed.
-No UAT deployment is part of this change.
+The first three assets were deployed to UAT and their live file hashes verified.
+The paddy expansion is documented in `PADDY_SET.md`.
 
 Editable source files: `tools/monster-models/source/*.blend`. Blender milestone
 previews, receipts and SHA-256 records are retained locally under
