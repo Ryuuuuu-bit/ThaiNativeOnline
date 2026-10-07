@@ -65,7 +65,7 @@ export function gm(ctx, me, text) {
     case 'hp': {
       const e = mine(); if (e) return e;
       const pct = Math.max(0, Math.min(100, int(args[0], 100)));
-      c.hp = Math.round(c.maxHp * pct / 100); if (!pct) presence.setDead(byId(me.id).ws, true);
+      c.hp = Math.round(c.maxHp * pct / 100); if (!pct) { c.fall(); presence.setDead(byId(me.id).ws, true); }
       changed(); ctx.send(byId(me.id).ws, { t: 'gmhp', pct }); return pct ? `HP → ${pct}%` : 'หมดสติ (ทดสอบชุบชีวิต)';
     }
     case 'god': { if (!s) return 'ยังไม่มีตัวละครบนเซิร์ฟเวอร์'; s.god = !s.god; log(`god ${s.god}`); return s.god ? 'โหมดอมตะ: เปิด (มอนตีไม่เข้า · หายเมื่อออกเกม)' : 'โหมดอมตะ: ปิด'; }

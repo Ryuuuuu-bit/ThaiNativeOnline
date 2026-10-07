@@ -155,10 +155,13 @@ export class Character extends Emitter {
   damage(amount) {
     if (!this.alive) return 0;
     const dealt = Math.min(this.hp, Math.max(0, Math.round(amount)));
-    this.hp -= dealt; this.emit('change'); if (dealt) this.emit('damaged', dealt);
+    this.hp -= dealt; if (this.hp <= 0) this.fall();
+    this.emit('change'); if (dealt) this.emit('damaged', dealt);
     if (this.hp <= 0) this.emit('death');
     return dealt;
   }
+  // Down: every buff and every effect on the player ends (as in RO); revive() starts clean too.
+  fall() { this.hp = 0; this.buffs = []; this.sitting = false; }
   heal(amount) {
     if (!this.alive) return 0;
     const before = this.hp; this.hp = Math.min(this.maxHp, this.hp + Math.round(amount)); this.emit('change');

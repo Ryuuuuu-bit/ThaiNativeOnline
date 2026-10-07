@@ -103,6 +103,7 @@ export class KitCaster {
   release(i, pick) {
     const s = this.slots[i], info = this.infos[i], c = this.character;
     this.proxy.bind(pick.dummy ? this.dummy() : pick.monster ? this.adapter(pick.monster) : this.stub);
+    if (this.fx) this.fx.statusTarget = pick.monster ? this.adapter(pick.monster) : null;   // its effects are named by the rules (engine.js popup)
     this.runner.range = pick.dummy ? this.dummyRange : Infinity;
     // a skill drops any walk-in, but the basic attack keeps swinging after it (Combat.hold pauses it while the skill plays)
     if (pick.monster) { this.combat.setTarget(pick.monster); this.combat.pending = null; }

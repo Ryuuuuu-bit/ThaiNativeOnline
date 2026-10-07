@@ -214,7 +214,7 @@ export class Combat extends Emitter {
     this.aggro(m); return true;
   }
   // Debuff on a monster: { id, duration, slow?, stun?, dot?, source?, label? }; one of each id at a time.
-  debuff(m, d) { m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push({ ...d, remaining: d.duration }); }
+  debuff(m, d) { if (!m.alive) return; m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push({ ...d, remaining: d.duration }); this.emit('debuffed', { monster: m, debuff: d }); }
 
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
@@ -419,7 +419,7 @@ export class Combat extends Emitter {
   // Down at once (a GM's /gm hp 0, server/gm.js): the death screen, as if a monster did it.
   knockOut() {
     const c = this.character; if (!c.alive) return;
-    c.hp = 0; c.emit('change');
+    c.fall(); c.emit('change');
     this.autoAttack = false; this.pending = null;
     for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';
     this.emit('player-death', null);

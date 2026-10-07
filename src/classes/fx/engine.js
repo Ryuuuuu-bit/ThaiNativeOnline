@@ -104,7 +104,12 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
   Object.defineProperty(fx, 'tasks', { get: () => tasks.length });
 
   // ---- labels ----------------------------------------------------------------
+  // `fx.statusTarget` (set by src/training/KitCaster.js while a skill hits a monster): the rules
+  // name that monster's real effects over it (CombatHUD 'debuffed'), so the skill's own status
+  // line ('st') above it is left out, not shown twice.
   fx.popup = (p, text, cls = 'heal') => {
+    const st = fx.statusTarget;
+    if (cls === 'st' && st) { const tp = st.pos; if (Math.hypot(p.x - tp.x, p.z - tp.z) < 1.2) return; }
     const s = fx.toScreen(p); if (!s.vis) return;
     const el = document.createElement('div'); el.className = 'fx-pop ' + cls; el.textContent = text;
     el.style.left = (s.x + rand(-14, 14)) + 'px'; el.style.top = s.y + 'px'; labels.appendChild(el); setTimeout(() => el.remove(), 1300);
@@ -314,7 +319,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
   fx.speedLines = (p, dir, n = 6, col = C(1.8, 1.6, 1.3)) => { for (let k = 0; k < n; k++) fx.emit({ p: p.clone().add(V(rand(-.3, .3), rand(-.25, .25), rand(-.3, .3))), v: dir.clone().multiplyScalar(-rand(3, 6)), c: col, life: .18, size: .06, size1: .01, drag: 1 }); };
   fx.stunStars = (g, dur) => {
     g.stun = true;
-    fx.addTask((dt, t) => { for (let k = 0; k < 3; k++) { const an = t * 6 + k * 2.09, P = g.pos.clone().add(g.off); fx.emit({ p: V(P.x + Math.cos(an) * .35, g.barY + .05, P.z + Math.sin(an) * .35), c: C(2.2, 2, .6), life: .08, size: .16, shape: SH.star }); } if (t > dur) { g.stun = false; return false; } });
+    fx.addTask((dt, t) => { for (let k = 0; k < 3; k++) { const an = t * 6 + k * 2.09, P = g.pos.clone().add(g.off); fx.emit({ p: V(P.x + Math.cos(an) * .35, g.barY + .05, P.z + Math.sin(an) * .35), c: C(2.2, 2, .6), life: .08, size: .16, shape: SH.star }); } if (t > dur || g.alive === false) { g.stun = false; return false; } });   // no stars over the fallen
   };
   fx.glowSprite = (color, size) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: fx.glowTex, color, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })); s.scale.setScalar(size); return add(s); };
   fx.emojiSprite = (ch, tint, col) => {

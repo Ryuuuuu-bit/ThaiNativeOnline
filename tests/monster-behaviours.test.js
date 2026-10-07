@@ -118,3 +118,23 @@ test('knocks throw the player back, pulls drag them in; blocked ground shortens 
   assert.deepEqual(shoveTo(m, { x: 0, z: 2 }, { knock: true }, (x, z) => z < 3.5), { x: 0, z: 2 + KNOCK * .5 });
   assert.equal(shoveTo(m, { x: 0, z: 2 }, {}), null);
 });
+
+test('a fallen player keeps no effects: poison and buffs end at death, the monster\'s effects die with it', () => {
+  let t = 0; const cs = new Combatants({ now: () => t });
+  cs.load(1, hero('warrior'), { account: 'a', slot: 0 });
+  const c = cs.get(1).c;
+  c.addBuff({ id: 'iron', duration: 30, def: .2 });
+  cs.swing(1, { ...MONSTERS.cobra, acc: 999 }); t += 1;
+  for (let i = 0; i < 20 && !c.buffs.some(b => b.id === 'poison'); i++) cs.swing(1, { ...MONSTERS.cobra, acc: 999 });
+  assert.ok(c.buffs.some(b => b.id === 'poison'), 'poisoned');
+  c.sitting = true; c.damage(c.hp + 99);
+  assert.equal(c.alive, false); assert.deepEqual(c.buffs, [], 'nothing carries past death'); assert.equal(c.sitting, false);
+  const hp = c.hp; cs.tick(5, false); assert.equal(c.hp, hp, 'no poison tick on the fallen');
+  // a monster: killed or faded out, it carries no stun / slow / curse
+  const w = new MonsterWorld('test', { zones: [{ type: 'boar', x: 0, z: 0, radius: 0, count: 1, active: ['morning', 'day', 'evening', 'night'] }], random: () => .5 });
+  for (let s = 0; s < 3; s += .1) w.update(.1, [], 'day');
+  const m = w.monsters[0], p = { id: 1, x: 2, z: 0, lv: 1 };
+  w.debuff(m, { id: 'dot', dot: .3, source: 10, by: 1, remaining: 30 }); w.debuff(m, { id: 'stun', stun: true, remaining: 30 });
+  w.damage(m, 1, m.hp + 1, {}, [p]);
+  assert.deepEqual(m.debuffs, []);
+});

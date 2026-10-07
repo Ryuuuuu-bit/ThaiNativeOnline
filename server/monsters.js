@@ -99,7 +99,7 @@ export class MonsterWorld {
         continue;
       }
       // out of its time: fade away once it is not fighting
-      if (!isActive(m.spawn, phase) && m.state !== 'chase') { m.hp = 0; m.state = 'dormant'; m.respawn = rand(.5, 3, this.r); ev.push({ t: 'mgone', id: m.id, killed: false }); continue; }
+      if (!isActive(m.spawn, phase) && m.state !== 'chase') { m.hp = 0; m.state = 'dormant'; m.debuffs = []; m.respawn = rand(.5, 3, this.r); ev.push({ t: 'mgone', id: m.id, killed: false }); continue; }
       m.debuffs = m.debuffs.filter(d => (d.remaining -= dt) > 0);
       const dot = m.debuffs.find(d => d.dot);
       if (dot && (m.dotTimer += dt) >= 1) {
@@ -192,7 +192,7 @@ export class MonsterWorld {
   // a summoner going home (or down) takes its minions with it
   dismiss(m) {
     const ev = [];
-    for (const o of this.monsters) if (o.spawn.summoned && o.spawn.by === m.id && o.hp > 0) { o.hp = 0; o.state = 'dead'; ev.push({ t: 'mgone', id: o.id, killed: false }); }
+    for (const o of this.monsters) if (o.spawn.summoned && o.spawn.by === m.id && o.hp > 0) { o.hp = 0; o.state = 'dead'; o.debuffs = []; ev.push({ t: 'mgone', id: o.id, killed: false }); }
     return ev;
   }
 

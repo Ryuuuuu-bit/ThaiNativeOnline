@@ -31,7 +31,7 @@ export function attachNetCombat(net, game) {
     Object.assign(m, { x: info.x, z: info.z, tx: info.x, tz: info.z, facing: info.f ?? 0, hp: info.hp, maxHp: info.maxHp ?? m.maxHp, state: STATES[info.st] ?? 'idle', debuffs: [] });
     return m;
   };
-  const gone = m => { m.hp = 0; m.state = 'dead'; if (combat.target === m) combat.setTarget(null); };
+  const gone = m => { m.hp = 0; m.state = 'dead'; m.debuffs = []; if (combat.target === m) combat.setTarget(null); };
 
   net.on('mlist', msg => {
     // first list on this map: the local monsters step aside for the server's
@@ -56,6 +56,7 @@ export function attachNetCombat(net, game) {
     const m = byId.get(msg.id); if (!m) return;
     if (msg.miss) { combat.emit('miss', { x: m.x, z: m.z, monster: m }); return; }
     m.hp = Math.max(0, m.hp - msg.amount);
+    if (m.hp <= 0) m.debuffs = [];   // its effects die with it
     combat.emit('hit', { monster: m, amount: msg.amount, crit: msg.crit, dot: msg.dot, pet: msg.pet, x: m.x, z: m.z });
   });
   net.on('nope', msg => { const why = { cooldown: 'สกิลยังไม่พร้อม', mp: 'MP ไม่พอ', not_learnt: 'ยังไม่ได้เรียนสกิลนี้', casting: 'ร่ายไม่ทัน' }[msg.why]; if (why) combat.emit('fail', why); });
