@@ -5,14 +5,27 @@ import {
   thaiRoof, tieredRoof, shophouseRow, hangingLantern,
 } from '../Architecture.js';
 import { landmark } from '../../data/landmarks.js';
+import { timberWalls, porchFrame, shopCanopy, herbPlaque } from './ShopDetails.js';
 
 // Shops that NPC services will attach to later. Each building exposes anchors
 // for its keeper (work spot) and a customer spot in front.
 
-function forge() {
+export function forge() {
   const g = structure({ w: 10.5, d: 8.5 });
   for (const x of [-4.2, 0, 4.2]) for (const z of [-3.2, 3.2]) { cyl(g, M.darkWood, x, 1.6, z, .12, .14, 3.2, 6); post(g, x, z, .2); }
-  thaiRoof(g, { width: 8.2, depth: 10.2, height: 3.4, y: 3.1, ry: Math.PI / 2, material: M.thatchDark, gable: M.wood });
+  thaiRoof(g, { width: 8.2, depth: 10.2, height: 3.4, y: 3.1, ry: Math.PI / 2, material: M.tileDark, gable: M.wood });
+  porchFrame(g, 4.2, 3.2, 3.1);
+  for (const s of [-1, 1]) {
+    box(g, M.darkWood, s * 4.2, 2.95, 0, .18, .22, 6.5);
+    beam(g, M.wood, [s * 4.2, 2.2, -3.2], [s * 3.45, 2.95, -3.2], .07, 4);
+  }
+  for (let i = 0; i < 7; i++) box(g, i % 2 ? M.brickDark : M.brickOld, -3.8 + i * 1.25, .28, -3.18, 1.15, .23, .08);
+  // Brick hearth apron and a recessed iron arch around the furnace mouth.
+  box(g, M.brickOld, -2.6, .045, -1.1, 2.5, .09, 1.4);
+  for (const s of [-1, 1]) box(g, M.brickDark, -2.6 + s * .55, .75, -1.28, .22, .8, .15);
+  box(g, M.brickDark, -2.6, 1.18, -1.28, 1.3, .18, .15);
+  box(g, M.darkWood, 2.5, 2.65, 3.32, 1.65, .65, .12);
+  box(g, M.iron, 2.5, 2.72, 3.4, .64, .16, .04); box(g, M.woodPale, 2.5, 2.47, 3.4, .12, .4, .04);
   box(g, M.brick, 0, .7, -3.35, 9, 1.4, .3);
   // Furnace, chimney, bellows.
   box(g, M.brick, -2.6, .8, -2.2, 2.2, 1.6, 1.7);
@@ -64,13 +77,16 @@ function enhanceForge() {
   return g;
 }
 
-function herbShop() {
+export function herbShop() {
   const g = structure({ w: 8, d: 9 });
   box(g, M.woodLight, 0, .2, 0, 7.2, .4, 5.4);
-  box(g, M.woodLight, 0, 1.6, -2.6, 7, 2.8, .14);
-  for (const s of [-1, 1]) box(g, M.woodLight, s * 3.5, 1.6, 0, .14, 2.8, 5.2);
+  timberWalls(g, 7, 5.2, .2, 2.8);
+  porchFrame(g, 3.4, 2.6, 2.95, .4);
   for (const s of [-1, 1]) cyl(g, M.darkWood, s * 3.4, 1.5, 2.6, .1, .1, 2.6, 6);
-  thaiRoof(g, { width: 6.8, depth: 8.2, height: 3, y: 2.95, ry: Math.PI / 2, material: M.thatch, gable: M.woodLight });
+  thaiRoof(g, { width: 6.8, depth: 8.2, height: 3, y: 2.95, ry: Math.PI / 2, material: M.tile, gable: M.woodLight });
+  shopCanopy(g, 7.8, 3.1, 2.8, M.tileGreen);
+  herbPlaque(g);
+  for (let i = 0; i < 12; i++) box(g, M.darkWood, 0, .407, -2.45 + i * .44, 6.9, .014, .018);
   // Shelves of medicine jars.
   for (let level = 0; level < 3; level++) {
     box(g, M.darkWood, 0, .9 + level * .7, -2.3, 6.2, .06, .5);
@@ -88,7 +104,6 @@ function herbShop() {
   }
   for (let i = 0; i < 4; i++) prop(g, 'jar', -3 + i * .45, .4, 2.2, { s: .55 });
   prop(g, 'bigJar', 3.2, 0, 3.2);
-  box(g, M.darkWood, 0, 3, 2.75, 2.2, .5, .06); box(g, M.moss, 0, 3, 2.79, 1.8, .3, .02);
   hangingLantern(g, 2.4, 2.4, 2.4, M.lanternPaper);
   solid(g, 0, -1.4, 7.2, 2.6); solid(g, 0, .6, 2.6, 1.1);
   for (const s of [-1, 1]) solid(g, s * 3.5, 0, .3, 5.2);
@@ -97,11 +112,12 @@ function herbShop() {
   return g;
 }
 
-function charmShop() {
+export function charmShop() {
   const g = structure({ w: 7, d: 8 });
   box(g, M.darkWood, 0, .25, 0, 5.6, .5, 5);
-  box(g, M.teak, 0, 1.8, -2.35, 5.4, 2.6, .14);
-  for (const s of [-1, 1]) box(g, M.teak, s * 2.7, 1.8, 0, .14, 2.6, 4.8);
+  timberWalls(g, 5.4, 4.7, .5, 2.6, M.teak);
+  porchFrame(g, 2.6, 2.4, 3.05, .5, M.woodRed);
+  for (let i = 0; i < 10; i++) box(g, M.wood, 0, .507, -2.2 + i * .47, 5.2, .014, .018);
   for (const s of [-1, 1]) cyl(g, M.woodRed, s * 2.6, 1.6, 2.4, .1, .1, 2.6, 6);
   thaiRoof(g, { width: 6.4, depth: 6.6, height: 3.6, y: 3.05, ry: Math.PI / 2, material: M.tileDark, gable: M.woodRed, trim: M.woodRed });
   box(g, M.cloth.red, 0, 2.95, 3.1, 5.6, .04, 1.4, 0, .35);
