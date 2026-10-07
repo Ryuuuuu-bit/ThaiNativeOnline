@@ -162,7 +162,7 @@ export class CharacterUI {
     if (k === 'KeyQ') { this.quickPotion('hp'); return true; }
     if (k === 'KeyF') { this.quickPotion('mp'); return true; }
     if (k === 'KeyC') { this.toggle('sheet'); return true; }
-    if (k === 'KeyI' || k === 'KeyB') { this.toggle('bag'); return true; }
+    if (k === 'KeyI') { this.toggle('bag'); return true; }
     if (k === 'KeyK') { this.toggle('skills'); return true; }
     if (k === 'Escape' && (!this.sheet.hidden || !this.bag.hidden || !this.skills.hidden)) { this.sheet.hidden = true; this.bag.hidden = true; this.skills.root.hidden = true; return true; }
     return false;

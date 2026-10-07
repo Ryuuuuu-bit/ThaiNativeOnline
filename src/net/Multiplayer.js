@@ -4,6 +4,7 @@ import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
 import { attachSocial } from './Social.js';
+import { attachPvp } from './PvpPanel.js';
 import { attachRemoteSkills } from './RemoteSkills.js';
 import { attachCombatMeters } from './CombatMeters.js';
 import './net.css';
@@ -55,6 +56,17 @@ export function startMultiplayer(game) {
   game.game?.combat?.on('kit-fx', e => net.send({ t: 'fx', skill: e.id, ...(e.monster?.sid != null ? { tgt: e.monster.sid } : e.at ? { x: e.at.x, z: e.at.z } : {}) }));
   attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
   const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
+  const pvp = attachPvp(net, game, chat, social);
+  social.pvp = pvp;
+  net.on('position', async m => {
+    if (game.maps.busy) return;
+    if (m.map === game.maps.map.id && Math.hypot(player.position.x-m.x,player.position.z-m.z)<.15) return;
+    game.stopWalk(); game.game.combat.cancelPending(); game.game.combat.setTarget(null);
+    if (m.map !== game.maps.map.id) await game.maps.travel({to:m.map,arrive:{x:m.x,z:m.z,facing:m.f}});
+    else game.maps.place({x:m.x,z:m.z,facing:m.f});
+    last=null;
+  });
+  net.on('shutdown', m => { net.online=false; net.emit('status',false); chat.add('ระบบ',m.text+' · จะเชื่อมต่อใหม่อัตโนมัติ'); });
   const meters = attachCombatMeters(net, game, remote, social);                             // my name plate, the DPS meter
   // the same character opened in another tab or device: this one stops talking to the server
   net.on('kicked', m => { net.close(); chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
@@ -71,6 +83,8 @@ export function startMultiplayer(game) {
       skillsFx.update(dt);
       meters.update(dt, camera);
       combat?.update(dt);
+      pvp.update(dt);
+      if (game.maps.busy) return;
       if (!net.online) return;
       sendT += dt; keepT += dt;
       if (c.level !== lv) { lv = c.level; net.send({ t: 'lv', lv }); }

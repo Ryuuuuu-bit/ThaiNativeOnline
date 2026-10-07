@@ -70,6 +70,11 @@ import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
 import { ALLY_FOCUS } from '../src/training/kitCombat.js';
+import { navigation } from './navigation.js';
+import { MAPS as MAP_DATA } from '../src/world/maps.js';
+import { Pvp } from './pvp.js';
+import { recallWhy } from './recall.js';
+import { createShutdown } from './shutdown.js';
 import { WorldClock } from '../src/core/WorldClock.js';
 
 try { process.loadEnvFile(resolve(import.meta.dirname, '..', '.env')); } catch { /* no .env */ }
@@ -98,7 +103,9 @@ const readBody = req => new Promise((ok, bad) => {
 // login / register attempts: 10 a minute per address
 const tries = new Map();
 const tooMany = ip => { const now = Date.now(), t = (tries.get(ip) ?? []).filter(x => now - x < 60000); t.push(now); tries.set(ip, t); return t.length > 10; };
+let stopping = false;
 async function api(req, res, url) {
+  if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
   // behind Railway's proxy the LAST hop it appended is the client; the first entry is whatever the client sent
   const ip = req.headers['x-forwarded-for']?.split(',').pop().trim() || req.socket.remoteAddress;
   const token = (req.headers.authorization ?? '').replace(/^Bearer /, '');
@@ -116,6 +123,7 @@ async function api(req, res, url) {
       return json(res, r.ok ? 200 : 400, r);
     }
     const id = await accounts.auth(token);
+    if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
     if (!id) return json(res, 401, { ok: false, code: 'auth', msg: 'กรุณาเข้าสู่ระบบใหม่' });
     if (req.method === 'POST' && url.pathname === '/api/logout') { await accounts.logout(token); return json(res, 200, { ok: true }); }
     if (req.method === 'POST' && url.pathname === '/api/google/link') { const r = await accounts.linkGoogle(id, (await readBody(req)).credential); return json(res, r.ok ? 200 : 400, r); }
@@ -123,11 +131,16 @@ async function api(req, res, url) {
     if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, slots: await accounts.slots(id) });
     const m = /^\/api\/slots\/(\d+)$/.exec(url.pathname);
     if (m && req.method === 'PUT') {
-      const slot = Number(m[1]), live = combatants.live(id, slot);   // a character in play: its live copy is the truth
-      const r = await accounts.save(id, slot, (await readBody(req)).data, live ? { c: live.c.toJSON(), quests: live.quests.json() } : null);
+      const key = `${id}:${Number(m[1])}`;
+      if ((accounts.writes.queues.get(key)?.jobs.length ?? 0) >= 16) return json(res, 503, {ok:false,code:'save_busy'});
+      const slot = Number(m[1]);
+      const body = await readBody(req);
+      if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
+      const live = combatants.live(id, slot);   // resolve after reading: the old socket may have left meanwhile
+      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json() } : null);
       return json(res, r.ok ? 200 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
-    if (m && req.method === 'DELETE') { const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
+    if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
     return json(res, 404, { ok: false, code: 'not_found' });
   } catch (e) {
     console.warn('api', url.pathname, e.message);
@@ -150,7 +163,7 @@ const server = createServer((req, res) => {
 });
 
 // ---- realtime -----------------------------------------------------------------------------
-const presence = new Presence();
+const presence = new Presence({ navigation });
 const wss = new WebSocketServer({ server, path: '/ws', maxPayload: 2048 });
 const conns = new Map();   // ws → { allow() }
 const send = (ws, msg) => { if (ws.readyState === 1) ws.send(JSON.stringify(msg)); };
@@ -160,6 +173,7 @@ const chs = map => channels.list(map, presence.counts(map));
 const pickCh = map => (MAPS.includes(map) ? channels.pick(map, presence.counts(map)) : 1);
 // a player to another channel of the same map: like walking through a portal, minus the walk
 const moveTo = (ws, ch, why) => {
+  const p = presence.players.get(ws); if (p) resetPvp(p.id);
   const r = presence.setChannel(ws, ch); if (!r) return;
   toMap(r.left, { t: 'leave', id: r.id }, ws);
   send(ws, { t: 'chmove', ch: r.ch, why });
@@ -172,19 +186,25 @@ const toAll = msg => { const s = JSON.stringify(msg); for (const [ws] of conns) 
 process.on('unhandledRejection', e => console.error('unhandled', e));
 
 wss.on('connection', ws => {
+  if (stopping) { ws.close(1012, 'Restarting'); return; }
   conns.set(ws, { allow: rateLimiter() }); ws.alive = true;
   ws.on('pong', () => { ws.alive = true; });
   ws.on('message', raw => handle(ws, raw).catch(e => console.error('message', presence.players.get(ws)?.name ?? '?', e)));
 });
 // one socket's message: a thrown error is that message's alone, never the server's
 async function handle(ws, raw) {
-    if (!conns.get(ws)?.allow()) return;
+    if (stopping || !conns.get(ws)?.allow()) return;
     let m; try { m = JSON.parse(raw); } catch { return; }
     if (!m || typeof m !== 'object' || typeof m.t !== 'string') return;
     switch (m.t) {
       case 'hello': {
         // a signed-in player is shown as the character the server has saved (name, class, level)
         const id = await accounts.auth(m.token).catch(() => null);
+        if (id && Number.isInteger(m.slot)) {
+          try { await accounts.writes.wait(`${id}:${m.slot}`, 10000); }
+          catch { send(ws, {t:'kicked',why:'กำลังเซฟตัวละคร กรุณาลองเชื่อมต่อใหม่'}); ws.close(); return; }
+        }
+        if (stopping || ws.readyState !== 1) return;
         const saved = id && Number.isInteger(m.slot) ? await accounts.character(id, m.slot).catch(() => null) : null;
         if (saved) Object.assign(m, { name: saved.name, cls: saved.classId, gender: saved.gender, lv: saved.level });
         const r = presence.join(ws, m, pickCh(m.map));
@@ -197,26 +217,30 @@ async function handle(ws, raw) {
           // (so no op of its reaches the character any more), then saved and closed
           const kick = async () => {
             const old = combatants.live(id, m.slot); if (!old) return;
-            for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { combatants.drop(op.id); await flushEntry(old); send(ows, { t: 'kicked' }); ows.close(); }
+            for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { combatants.drop(op.id); old.dirty=true; flushEntry(old, op); send(ows, { t: 'kicked' }); ows.close(); await accounts.writes.wait(`${id}:${m.slot}`, 10000); }
           };
           await kick();
           const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved, quests = await accounts.quests(id, m.slot).catch(() => '{}');
           await kick();   // a twin that signed in during the reads
-          if (!presence.players.has(ws)) return;   // we were the one kicked meanwhile
+          if (stopping || !presence.players.has(ws)) return;   // we were the one kicked meanwhile
           combatants.load(r.you, fresh, { account: id, slot: m.slot }, quests);
           presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
         send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
         toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
+        correct(ws); pvpState(r.you);
         if (saved) friendNews(presence.players.get(ws), true);
         break;
       }
       case 's': {   // a move: whoever walks off stops resting
-        const p = presence.players.get(ws), x = p?.x, z = p?.z; presence.move(ws, m);
+        const p = presence.players.get(ws), x = p?.x, z = p?.z; if (!presence.move(ws, m)) correct(ws);
         if (p && Math.hypot(p.x - x, p.z - z) > .2) { combatants.sit(p.id, false); combatants.interrupt(p.id); }
         break;
       }
+      case 'recall': recall(ws); break;
+      case 'party_warp': recall(ws, true); break;
+      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pk': case 'pvp_hit': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
       case 'ttl': {   // wear a title: a signed-in character only one it has earned (src/data/titles.js)
@@ -235,8 +259,12 @@ async function handle(ws, raw) {
       }
       case 'treq': case 'tans': case 'toffer': case 'tlock': case 'tconf': case 'tcancel': tradeMsg(ws, m); break;
       case 'map': {
+        const p = presence.players.get(ws);
+        if (p?.map === m.map) { send(ws,{t:'welcome',you:p.id,roster:presence.inMap(p.room).filter(o=>o!==p).map(o=>presence.info(o)),online:presence.count,ch:p.ch,chs:chs(p.map)});arrive(ws,p.room);return; }
+        if (p && pvp.view(p.id).wait > 0) { correct(ws); return; }
         endTrade(presence.players.get(ws)?.id, 'moved');
-        const r = presence.changeMap(ws, m, pickCh(m.map)); if (!r) return;
+        const r = presence.changeMap(ws, m, pickCh(m.map)); if (!r) { correct(ws); return; }
+        resetPvp(r.id);
         toMap(r.left, { t: 'leave', id: r.id }, ws);
         send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
         toMap(r.room, { t: 'join', p: r.joined }, ws);
@@ -246,7 +274,7 @@ async function handle(ws, raw) {
       case 'chan': {
         const p = presence.players.get(ws); if (!p) return;
         const ch = Math.floor(Number(m.ch));
-        const why = channels.canSwitch(p.map, ch, presence.counts(p.map), { from: p.ch, fighting: combatants.fighting(p.id), dead: !!p.dead, lastAt: p.chanAt ?? -Infinity });
+        const why = channels.canSwitch(p.map, ch, presence.counts(p.map), { from: p.ch, fighting: combatants.fighting(p.id) || !!pvp.view(p.id).duel || pvp.view(p.id).wait > 0, dead: !!p.dead, lastAt: p.chanAt ?? -Infinity });
         if (why) { send(ws, { t: 'chno', why }); break; }
         p.chanAt = Date.now() / 1000; endTrade(p.id, 'moved'); moveTo(ws, ch, 'switch');
         break;
@@ -276,11 +304,11 @@ async function handle(ws, raw) {
         break;
       }
       case 'sit': { const p = presence.players.get(ws); if (p) combatants.sit(p.id, m.v); break; }
-      case 'blow': { const p = presence.players.get(ws); if (p) { combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); } break; }
+      case 'blow': { const p = presence.players.get(ws); if (p) { const target=worldOf(p.room).byId(m.id); if(target&&!navigation(p.map).clear(p,target,.05))return; combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); } break; }
       case 'dead': {
         const p = presence.players.get(ws); if (!p) return;
-        if (!combatants.get(p.id)?.persist) { presence.setDead(ws, m.v); if (!m.v) presence.allowJump(ws, 400); break; }
-        if (!m.v && combatants.respawn(p.id)) { presence.setDead(ws, false); presence.allowJump(ws, 400); }   // a signed-in death is the server's call; the walk to the respawn point is free
+        if (!combatants.get(p.id)?.persist) { presence.setDead(ws, m.v); if (!m.v) { Object.assign(p,MAP_DATA[p.map].spawn,{m:0,dirty:true});correct(ws); } break; }
+        if (!m.v && combatants.respawn(p.id)) { presence.setDead(ws, false); Object.assign(p, MAP_DATA[p.map].spawn, {m:0,dirty:true}); correct(ws); send(ws, {t:'sync',c:combatants.me(p.id)}); }   // a signed-in death is the server's call; the walk to the respawn point is free
         break;
       }
       case 'op': {
@@ -301,9 +329,10 @@ async function handle(ws, raw) {
 wss.on('connection', ws => {
   ws.on('close', () => {
     conns.delete(ws);
+    const departing = presence.players.get(ws);
     const r = presence.leave(ws);
-    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); if (r.account) friendNews(r, false); }
-    if (r) flush(r.id).finally(() => combatants.drop(r.id));
+    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); endDuel(pvp.leave(r.id)); if (r.account) friendNews(r, false); }
+    if (r) { const s=combatants.get(r.id); if(!stopping){if(s?.persist)s.dirty=true;flushEntry(s,departing);} combatants.drop(r.id); }
     if (r) { toMap(r.map, { t: 'leave', id: r.id }); toAll({ t: 'online', n: presence.count }); }
   });
 });
@@ -311,6 +340,67 @@ wss.on('connection', ws => {
 // ---- parties and trade --------------------------------------------------------------------
 const parties = new Parties(), trades = new Trades();
 const byId = id => { for (const [ws, p] of presence.players) if (p.id === id) return { ws, p }; return null; };
+const pvp = new Pvp();
+function correct(ws) {
+  const p = presence.players.get(ws);
+  if (p) send(ws, {t:'position',map:p.map,x:p.x,z:p.z,f:p.f});
+}
+function pvpPlayer(id) {
+  const p = byId(id)?.p, s = combatants.get(id);
+  return p ? {...p,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
+    busy:!!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
+}
+function pvpState(id) {
+  const p = byId(id)?.p;
+  if (p) toMap(p.room, {t:'pvp_state',id,...pvp.view(id)});
+}
+function endDuel(d) {
+  if (!d) return;
+  for (const id of [d.a,d.b]) { const o=byId(id); if(o) send(o.ws,{t:'duel_end',...d}); pvpState(id); }
+}
+function resetPvp(id) {
+  endDuel(pvp.finish(id,'moved'));
+  Object.assign(pvp.state(id),{pk:false}); pvpState(id);
+}
+function recall(ws, followLeader = false) {
+  const p=presence.players.get(ws); if(!p) return;
+  const leader=followLeader?byId(parties.get(parties.of(p.id))?.leader)?.p:null;
+  if(followLeader&&(!leader||leader.id===p.id||!combatants.get(p.id)?.persist||!combatants.get(leader.id)?.persist))return send(ws,{t:'recall_no',why:'offline'});
+  const dest=leader?.map??'city';
+  if (leader && leader.room !== p.room && (presence.counts(dest)[leader.ch]??0) >= channels.cap(dest)) return send(ws,{t:'recall_no',why:'full'});
+  const why=recallWhy(followLeader?{...p,map:'field'}:p,{fighting:combatants.fighting(p.id)||pvp.view(p.id).wait>0||!!leader&&(combatants.fighting(leader.id)||pvp.view(leader.id).wait>0||!!pvp.view(leader.id).duel),duel:!!pvp.view(p.id).duel,trade:!!trades.of(p.id)});
+  if(why) return send(ws,{t:'recall_no',why});
+  const left=p.room; resetPvp(p.id);
+  Object.assign(p,{map:dest,...MAP_DATA[dest].spawn,recallAt:Date.now()/1000,m:0,dirty:true,slack:0,budget:0});
+  const r=presence.enter(p,leader?.ch??pickCh(dest));
+  toMap(left,{t:'leave',id:p.id},ws);
+  send(ws,{t:'welcome',you:p.id,roster:r.roster,online:presence.count,ch:r.ch,chs:chs('city')});
+  toMap(r.room,{t:'join',p:r.joined},ws); correct(ws); arrive(ws,r.room);
+}
+function pvpMsg(ws,m) {
+  const p=presence.players.get(ws); if(!p) return;
+  const a=pvpPlayer(p.id), b=pvpPlayer(Number(m.id ?? m.from));
+  const no=why=>send(ws,{t:'pvp_no',why});
+  if(m.t==='pk') { if(typeof m.on!=='boolean')return; const why=pvp.toggle(a,m.on); if(why)return no(why); pvpState(p.id); }
+  else if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
+  else if(m.t==='duel_answer') {
+    if(m.ok!==true) {pvp.decline(p.id,Number(m.from));return;}
+    const r=pvp.accept(a,b); if(r.why)return no(r.why);
+    for(const id of [r.duel.a,r.duel.b]) {pvpState(id); const o=byId(id);send(o.ws,{t:'duel_start',...r.duel});}
+  } else if(m.t==='duel_cancel') endDuel(pvp.finish(p.id,'forfeit',pvp.view(p.id).duel?.a===p.id?pvp.view(p.id).duel?.b:pvp.view(p.id).duel?.a));
+  else if(m.t==='pvp_hit') {
+    const why=pvp.canAttack(a,b); if(why)return no(why);
+    const c=combatants.get(p.id).c;
+    if(Math.hypot(a.x-b.x,a.z-b.z)>c.cls.range+1.5)return no('far');
+    if(!navigation(a.map).clear(a,b,.05))return no('blocked');
+    const r=combatants.pvpBasic(a.id,b.id,{knockout:!!pvp.view(a.id).duel}); if(!r)return no('cooldown');
+    pvp.touch(a.id,b.id);
+    toMap(p.room,{t:'pvp_hit',from:a.id,id:b.id,...r});
+    if(r.dead) {presence.setDead(byId(b.id).ws,true);resetPvp(b.id);}
+    if(r.won)endDuel(pvp.finish(a.id,'won',a.id));
+    pvpState(a.id);pvpState(b.id);
+  }
+}
 const PARTY_WHY = new Set(['self', 'in_party', 'not_leader', 'full', 'expired', 'offline', 'guest']);
 function partyState(pid) {
   const party = parties.get(pid); if (!party) return { t: 'party', id: null };
@@ -358,7 +448,7 @@ function tradeWhy(a, b) {
   if (!b) return 'offline';
   if (!combatants.get(a.id)?.persist || !combatants.get(b.id)?.persist) return 'guest';
   if (a.room !== b.room || Math.hypot(a.x - b.x, a.z - b.z) > TRADE.range) return 'far';
-  if (a.dead || b.dead || combatants.fighting(a.id) || combatants.fighting(b.id)) return 'busy';
+  if (a.dead || b.dead || combatants.fighting(a.id) || combatants.fighting(b.id) || pvp.view(a.id).duel || pvp.view(b.id).duel || pvp.view(a.id).wait || pvp.view(b.id).wait) return 'busy';
   return null;
 }
 const offerOut = o => ({ items: o.items, gold: o.gold });
@@ -493,7 +583,7 @@ const clock = new WorldClock({ hour: 7.5 });
 const combatants = new Combatants();   // each player's character sheet, cooldowns and buffs (3b)
 const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
 const worldOf = room => {
-  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1 }); w.party = parties; worlds.set(room, w); }
+  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, navigation: navigation(map) }); w.party = parties; worlds.set(room, w); }
   return worlds.get(room);
 };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
@@ -509,6 +599,8 @@ function route(map, events, except = null) {
       if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
     } else if (e.t === 'ma') {
       const ws = socketOf(e.to); if (!ws) continue;
+      const p=presence.players.get(ws), monster=worldOf(map).byId(e.id);
+      if(monster&&p&&!navigation(p.map).clear(monster,p,.05))continue;
       combatants.touch(e.to);
       const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power);   // signed-in: resolved here
       if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
@@ -518,10 +610,12 @@ function route(map, events, except = null) {
     else toMap(map, e, except);
   }
 }
-const arrive = (ws, map) => { send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); };
+const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); };
 
 // positions and monsters out 10× a second, per map; dead sockets dropped every 15 s
 setInterval(() => {
+  if (stopping) return;
+  for (const d of pvp.sweep(id => byId(id)?.p)) endDuel(d);
   clock.update(TICK / 1000);
   combatants.tick(TICK / 1000, clock.phase === 'night');
   const rooms = new Set([...presence.players.values()].map(p => p.room));
@@ -538,7 +632,7 @@ setInterval(() => {
     const { warn, evict } = channels.update(map, presence.counts(map));
     for (const ch of warn) toMap(roomOf(map, ch), { t: 'chwarn', ch, secs: CHANNEL.warn });
     for (const ch of evict) for (const [ws, p] of presence.players) {
-      if (p.map !== map || p.ch !== ch || combatants.fighting(p.id)) continue;   // the ones fighting go once the fight is over
+      if (p.map !== map || p.ch !== ch || combatants.fighting(p.id) || pvp.view(p.id).duel || pvp.view(p.id).wait) continue;   // the ones fighting go once the fight is over
       moveTo(ws, channels.pick(map, presence.counts(map)), 'closed');
     }
   }
@@ -546,10 +640,20 @@ setInterval(() => {
 }, 1000);
 setInterval(() => toAll({ t: 'clock', h: +clock.hour.toFixed(3) }), 10000);
 // signed-in characters: MP to the browser 1×/s, saved to the database every 30 s when changed
-const flushEntry = async s => { if (!s?.persist || !s.dirty) return; s.dirty = false; await accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json()).catch(e => { s.dirty = true; console.warn('save', e.message); }); };
-const flush = id => flushEntry(combatants.get(id));
+const flushEntry = (s, p = null) => { if (!s?.persist || !s.dirty) return; s.dirty = false; return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), p ? {map:p.map,x:p.x,z:p.z,facing:p.f} : null).catch(e => { s.dirty = true; console.warn('save', e.message); }); };
+const flush = id => flushEntry(combatants.get(id), byId(id)?.p);
 setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);
-setInterval(() => { for (const p of presence.players.values()) flush(p.id); }, 30000);
+setInterval(() => { if (!stopping) for (const p of presence.players.values()) flush(p.id); }, 30000);
 setInterval(() => { for (const [ws] of conns) { if (!ws.alive) { ws.terminate(); continue; } ws.alive = false; ws.ping(); } }, 15000);
+
+const shutdown = createShutdown({
+  quiesce() { stopping = true; toAll({t:'shutdown',text:'เซิร์ฟเวอร์กำลังบันทึกข้อมูลและเริ่มใหม่'}); server.close(); },
+  save() { for (const p of presence.players.values()) {const s=combatants.get(p.id);if(s?.persist)s.dirty=true;flush(p.id);} },
+  drain: ms => accounts.writes.wait(null, ms),
+  async close() { for (const [ws] of conns) ws.terminate(); await store.pool?.end(); },
+});
+for (const signal of ['SIGINT','SIGTERM']) process.on(signal, () => {
+  shutdown().then(() => process.exit(0)).catch(e => { console.error('Shutdown failed; unsaved jobs:', accounts.writes.pending, e.message); process.exit(1); });
+});
 
 server.listen(PORT, () => console.log(`ThaiNative Online on :${PORT} (dist ${existsSync(ROOT) ? 'ok' : 'missing — run npm run build'} · saves in ${store.kind})`));
