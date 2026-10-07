@@ -20,6 +20,7 @@ import { buildTemple } from './districts/Temple.js';
 import { buildHalls } from './districts/Halls.js';
 import { buildCountryside } from './districts/Countryside.js';
 import { buildWilds } from './districts/Wilds.js';
+import { buildWatRang } from './districts/WatRang.js';
 import { fillBuildings } from './districts/Fill.js';
 import { scatterNature } from './districts/Nature.js';
 import { Boats } from '../entities/Boats.js';
@@ -133,6 +134,8 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const halls = buildHalls(ctx); lap('halls');
   progress('กำลังไถนาและปลูกป่า…'); await frame();
   buildCountryside(ctx); buildWilds(ctx);
+  // วัดร้าง temple ruins on its reserved site (own random sequences; spots before the links).
+  const watRang = buildWatRang(ctx);
   ctx.reserveSpotLinks(); lap('countryside+wilds');
   progress('กำลังสร้างบ้านเรือนชาวเมือง…'); await frame();
   const houses = fillBuildings(ctx); lap('houses');
@@ -160,7 +163,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const world = {
     map, root, ground, terrain, water, grass, atmosphere, boats, animals, collision, mask,
     spots: ctx.spots, footprints: ctx.footprints, market: ctx.market,
-    stats: { map: map.id, houses, halls, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
+    stats: { map: map.id, houses, halls, watRang, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
     contains: (x, z) => walkable(map, x, z),
     heightAt(x, z) { const d = collision.deckHeight(x, z), g = terrain.height(x, z); return d === null ? g : Math.max(d, g); },
     canStand(x, z) {

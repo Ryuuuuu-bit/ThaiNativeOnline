@@ -1,0 +1,169 @@
+<!doctype html><meta charset="utf-8"><title>minimap / zone maps probe</title>
+<body style="margin:0"><pre id="out">pending</pre>
+<script type="module">
+// QA probe for the painted minimap and the zone maps. Open via tests/browser/cdp.mjs
+// (docs/technical/VERIFY.md). Seeds a guest character, loads the game in an
+// iframe and, per map (city → paddy → deep_forest → wat_rang): minimap and full
+// map paint stats + pixel variance, legend rows, journal text, skill bar,
+// monsters; click-to-walk on a discovered landmark of the full map; the วัดร้าง
+// spots reached from cem_e with findPath; the wat_courtyard ghosts at evening and
+// night and whether anything chases the player at the wat_rang arrival point;
+// city layout counts; GPU memory over city ↔ paddy round trips; and the compact
+// layout (844×390). Flags: ?q=<game query> (default at=4,150&t=10), ?trips=N,
+// ?short=1 (stop after the paddy report).
+// Page-level screenshots: the page sets R.capture = name and waits for
+// window.__captured === name (a driver that supports it captures the viewport).
+import { Character } from '/src/character/Character.js';
+import { findPath } from '/src/core/GridPath.js';
+import { J } from '/src/world/CityMap.js';
+import { WAT_RANG } from '/src/data/sites.js';
+const R = { logs: [], steps: [], shots: {} };
+const outEl = document.getElementById('out');
+const flush = () => { outEl.textContent = 'QA_RESULT ' + JSON.stringify(R); };
+const step = (k, v) => { R.steps.push([k, v]); flush(); };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const until = async (fn, ms, every = 100) => { const t = performance.now(); while (performance.now() - t < ms) { try { if (fn()) return true; } catch {} await sleep(every); } return false; };
+localStorage.clear();
+Character.create('ทดสอบ', 'muaythai', 'male').save();
+sessionStorage.setItem('tno.session.v1', JSON.stringify({ id: 'guest', guest: true, prefix: '' }));
+const params = new URLSearchParams(location.search);
+const f = document.createElement('iframe');
+f.style.cssText = 'width:1600px;height:900px;border:0;display:block';
+f.src = '/?' + (params.get('q') ?? 'at=4,150&t=10');
+document.body.prepend(f);
+let hooked = null;
+setInterval(() => {
+  const w = f.contentWindow;
+  if (!w || w.location.href === 'about:blank' || hooked === w) return;
+  hooked = w;
+  for (const lvl of ['error', 'warn']) { const o = w.console[lvl].bind(w.console); w.console[lvl] = (...a) => { R.logs.push([lvl, a.map(String).join(' ').slice(0, 300)]); o(...a); }; }
+  w.addEventListener('error', e => R.logs.push(['uncaught', String(e.message)]));
+  w.addEventListener('unhandledrejection', e => R.logs.push(['rejection', String(e.reason?.stack ?? e.reason).slice(0, 300)]));
+}, 1);
+const W = () => f.contentWindow, G = () => W().game, $ = id => W().document.getElementById(id);
+const r1 = v => +(+v).toFixed(1);
+const capture = async name => { R.capture = name; flush(); await until(() => window.__captured === name, 20000, 200); delete R.capture; };
+// Pixel variance of a canvas: a blank or single-colour canvas scores ~0.
+const variance = c => {
+  const g = c.getContext('2d'), w = c.width, h = c.height; if (!w || !h) return 0;
+  const d = g.getImageData(0, 0, w, h).data; let s = 0, s2 = 0, n = 0;
+  for (let i = 0; i < d.length; i += 4 * 97) { const v = d[i] + d[i + 1] + d[i + 2]; s += v; s2 += v * v; n++; }
+  return Math.round(s2 / n - (s / n) ** 2);
+};
+try {
+  const ok = await until(() => G()?.maps?.map && G().game?.ready && G().training !== undefined, 240000, 250);
+  step('game ready', ok); if (!ok) throw new Error('game not ready');
+  const g = G(); await sleep(2000);
+  const mem = () => ({ ...g.renderer.info.memory, programs: g.renderer.info.programs?.length });
+  const pos = () => [r1(g.player.position.x), r1(g.player.position.z)];
+  const alive = () => g.game.combat.monsters.filter(m => m.alive).length;
+  const travel = async to => {
+    const p = g.maps.map.portals.find(q => q.to === to);
+    await g.maps.travel(p); await until(() => g.maps.map.id === to && !g.maps.busy, 60000, 200); await sleep(2500);
+  };
+  const mapReport = async name => {
+    const mm = g.minimap; await sleep(400);
+    g.toggleMap(); await sleep(400);
+    const fm = $('fullmap'), mini = $('minimap');
+    const hits = mm.hits ?? [];
+    step(`${name} minimap`, {
+      map: g.maps.map.id, at: pos(), theme: mm.theme?.key, title: $('mini-name').textContent, sub: $('mini-sub').textContent, lv: $('mini-lv').hidden ? null : $('mini-lv').textContent,
+      base: [mm.base.canvas.width, mm.base.canvas.height], buildMs: mm.stats.buildMs, drawMs: mm.stats.drawMs, fullMs: mm.stats.fullMs, trees: mm.stats.trees,
+      miniCanvas: [mini.width, mini.height], miniVar: variance(mini), fullCanvas: [fm.width, fm.height], fullVar: variance(fm),
+      tipVisible: !W().document.querySelector('.map-tip')?.hidden, legendRows: $('fullmap-legend').childElementCount, kranok: W().document.querySelectorAll('.kranok').length,
+      hits: hits.length, hitLandmarks: hits.filter(h => h.landmark).length, portalsHit: hits.filter(h => /→/.test(h.title)).map(h => h.title),
+      fullTitle: $('fullmap-panel').querySelector('.panel-heading').firstChild.textContent,
+      journal: $('quest-text').textContent + ' | ' + $('quest-hint').textContent,
+      skillbarHidden: g.game.hud.skillButtons.every(b => b.hidden), alive: alive(),
+      npcs: g.npcs.npcs.length, landmarks: g.maps.landmarks.map(l => l.id),
+    });
+    R.shots[`${name}_full`] = fm.toDataURL('image/jpeg', .8); R.shots[`${name}_mini`] = mini.toDataURL('image/png');
+    await capture(`${name}_fullmap_page`);
+    g.toggleMap(); await sleep(200);
+  };
+  // ---- city ----
+  step('city layout', { houses: g.world.stats.houses, footprints: g.world.footprints.length, spots: Object.keys(g.world.spots).length, buildMs: g.world.stats.buildMs, watRang: g.world.stats.watRang });
+  step('memory start', mem());
+  await mapReport('city');
+  // Click-to-walk on a discovered landmark from the full map.
+  {
+    const l = g.maps.landmarks.find(x => !x.hidden && Math.hypot(x.x - g.player.position.x, x.z - g.player.position.z) > 25 && Math.hypot(x.x - g.player.position.x, x.z - g.player.position.z) < 120);
+    g.discover(l, true); await sleep(200);
+    g.toggleMap(); await sleep(400);
+    const c = $('fullmap'), hit = g.minimap.hits.find(h => h.landmark?.id === l.id), rect = c.getBoundingClientRect();
+    const cx = rect.left + hit.x * rect.width / c.width, cy = rect.top + hit.y * rect.height / c.height;
+    c.dispatchEvent(new (W().MouseEvent)('mousemove', { clientX: cx, clientY: cy, bubbles: true }));
+    const tip = W().document.querySelector('.map-tip'); const tipText = tip && !tip.hidden ? tip.textContent : null;
+    c.dispatchEvent(new (W().MouseEvent)('click', { clientX: cx, clientY: cy, bubbles: true }));
+    await sleep(100);
+    const start = pos();
+    step('fullmap click-to-walk', { landmark: l.id, at: [l.x, l.z], tipText, panelHidden: $('fullmap-panel').hidden, route: g.route?.length, destination: g.destination && [r1(g.destination.x), r1(g.destination.z)], marker: g.marker.visible && [r1(g.marker.position.x), r1(g.marker.position.z)], start });
+    await sleep(8000);
+    step('fullmap click-to-walk after 8s', { at: pos(), moved: r1(Math.hypot(g.player.position.x - start[0], g.player.position.z - start[1])), walking: !!g.destination });
+    g.stopWalk();
+    // Unreachable pick (a point in the river) toasts and returns false.
+    const okFalse = g.walkTo(0, 255, 0); step('walkTo unreachable', { returned: okFalse, toast: $('toast-title').textContent });
+  }
+  // ---- wild maps ----
+  await travel('paddy'); await sleep(3000); await mapReport('paddy');
+  if (params.get('short')) throw new Error('short mode: stopped after paddy');
+  await travel('deep_forest'); await sleep(3000); await mapReport('deep_forest');
+  await travel('wat_rang'); await sleep(3000); await mapReport('wat_rang');
+  // The temple: spots reachable from cem_e.
+  {
+    const stand = (x, z) => g.world.canStand(x, z), from = { x: J.cem_e[0], z: J.cem_e[1] };
+    const targets = { gate: WAT_RANG.gate, courtyard: { x: WAT_RANG.parts.courtyard.x, z: WAT_RANG.parts.courtyard.z + 8 }, ...WAT_RANG.spots, wat_temple_landmark: g.maps.landmarks.find(l => l.id === 'wat_temple') };
+    const out = {};
+    for (const [k, p] of Object.entries(targets)) { if (!p) { out[k] = 'missing'; continue; } const t = performance.now(), r = findPath(stand, from, { x: p.x, z: p.z }); out[k] = { stand: stand(p.x, p.z), path: r ? r.length : null, ms: Math.round(performance.now() - t) }; }
+    step('wat temple paths from cem_e', { fromStand: stand(from.x, from.z), out });
+    const arrival = g.maps.map.spawn, rr = findPath(stand, { x: arrival.x, z: arrival.z }, { x: WAT_RANG.gate.x, z: WAT_RANG.gate.z });
+    step('wat arrival -> temple gate path', rr ? rr.length : null);
+    { const l = g.maps.landmarks.find(x => x.id === 'wat_temple'); const okWalk = g.walkTo(l.x, l.z, Math.min(l.radius ?? 6, 12)); step('walkTo wat_temple (full-map pick from the arrival)', { ok: okWalk, goal: g.marker.visible && [r1(g.marker.position.x), r1(g.marker.position.z)], route: g.route?.length }); g.stopWalk(); }
+    g.player.position.set(55, g.world.heightAt(55, -530), -530); g.view.snap?.(g.player.position); await sleep(1200);
+    g.frame?.(0, 1 / 60); g.renderer.render(g.scene, g.view.camera); R.shots.wat_temple_day = g.renderer.domElement.toDataURL('image/jpeg', .8);
+  }
+  // Ghosts in the courtyard at evening, then night; the player waits at the arrival point.
+  {
+    const arr = g.maps.map.spawn; g.player.position.set(arr.x, g.world.heightAt(arr.x, arr.z), arr.z); g.view.snap?.(g.player.position);
+    const court = () => g.game.combat.monsters.filter(m => m.spawn.area === 'wat_courtyard' || m.spawn.id === 'wat_courtyard');
+    const zoneIds = [...new Set(g.game.combat.monsters.map(m => m.spawn.area ?? m.spawn.id))];
+    step('wat combat zones', zoneIds);
+    for (const [hour, label] of [[18.5, 'evening'], [22, 'night']]) {
+      g.clock.set(hour);
+      await until(() => court().filter(m => m.alive).length >= 3, 90000, 500);
+      const cs = court();
+      const chasing = g.game.combat.monsters.filter(m => m.alive && m.state === 'chase').map(m => [m.spawn.area ?? m.spawn.id, m.type, r1(Math.hypot(m.x - arr.x, m.z - arr.z))]);
+      step(`wat courtyard ${label}`, { phase: g.clock.phase, combatPhase: g.game.combat.phase, alive: cs.filter(m => m.alive).length, total: cs.length, types: cs.map(m => m.type), at: cs.filter(m => m.alive).map(m => [r1(m.x), r1(m.z), m.state]), chasingPlayerAtArrival: chasing, player: pos(), hp: g.game.character?.hp });
+    }
+    g.player.position.set(60, g.world.heightAt(60, -528), -528); g.view.snap?.(g.player.position); await sleep(1500);
+    g.frame?.(0, 1 / 60); g.renderer.render(g.scene, g.view.camera); R.shots.wat_temple_night = g.renderer.domElement.toDataURL('image/jpeg', .8);
+    R.shots.wat_night_mini = $('minimap').toDataURL('image/png');
+    g.player.position.set(arr.x, g.world.heightAt(arr.x, arr.z), arr.z); g.view.snap?.(g.player.position);
+    g.clock.set(11); await sleep(1500);
+  }
+  // ---- back to the city ----
+  await travel('deep_forest'); await travel('paddy'); await travel('city');
+  step('back in city', { map: g.maps.map.id, at: pos(), alive: alive(), skillbarHidden: g.game.hud.skillButtons.every(b => b.hidden), journal: $('quest-text').textContent, mini: $('mini-name').textContent, lvHidden: $('mini-lv').hidden, layout: { houses: g.world.stats.houses, footprints: g.world.footprints.length, spots: Object.keys(g.world.spots).length } });
+  let roofs = 0; g.scene.traverse(o => { if (o.isMesh && o.material?.userData?.fadePatched) roofs++; });
+  step('roofs after warps', { fadePatched: roofs, programs: g.renderer.info.programs?.length, bad: (g.renderer.info.programs ?? []).filter(p => p.diagnostics && !p.diagnostics.runnable).length });
+  g.player.position.set(-40, g.world.heightAt(-40, -40), -40); g.view.snap?.(g.player.position); await sleep(1200);
+  g.frame?.(0, 1 / 60); g.renderer.render(g.scene, g.view.camera); R.shots.city_roofs = g.renderer.domElement.toDataURL('image/jpeg', .8);
+  step('memory city after full loop', mem());
+  // ---- GPU memory over round trips ----
+  const trips = +(params.get('trips') ?? 3);
+  for (let i = 0; i < trips; i++) { await travel('paddy'); const a = mem(); await travel('city'); step(`round trip ${i + 1}`, { paddy: a, city: mem() }); }
+  // ---- compact layout ----
+  f.style.width = '844px'; f.style.height = '390px'; W().dispatchEvent(new Event('resize')); await sleep(2500);
+  const rectOf = sel => { const e = W().document.querySelector(sel); if (!e || e.hidden) return null; const r = e.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)]; };
+  const sels = ['.minimap', '#minimap', '.mini-title', '.mini-footer', '.character', '.exploration', '.topbar', '.top-actions', '.controls', '#hud-skills', '.g-bar', '.zoom-ctl'];
+  step('compact layout', { body: W().document.body.className, rects: Object.fromEntries(sels.map(s => [s, rectOf(s)])), miniCanvas: [$('minimap').width, $('minimap').height] });
+  await capture('compact_city');
+  g.toggleMap(); await sleep(600);
+  step('compact fullmap', { panel: rectOf('#fullmap-panel'), canvas: rectOf('#fullmap'), legend: rectOf('#fullmap-legend'), fullCanvas: [$('fullmap').width, $('fullmap').height], fullVar: variance($('fullmap')) });
+  await capture('compact_fullmap');
+  g.toggleMap();
+  await travel('paddy'); await capture('compact_paddy');
+  step('memory end', mem());
+} catch (e) { step('probe error', String(e.stack ?? e)); }
+step('done', true);
+</script>

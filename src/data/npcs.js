@@ -1,4 +1,4 @@
-// NPC roster for นครอโยธยา and ทุ่งนอกเมือง. Each entry is pure data:
+// NPC roster for นครอโยธยา and the zone maps outside the wall. Each entry is pure data:
 //   id, name, occupation, gender, home, interactionRadius, dialogue, shopType / trainer,
 //   map (optional: which map of src/world/maps.js the NPC lives on; otherwise
 //   inferred from `home.near` or the first road junction in the schedule),
@@ -238,23 +238,40 @@ export const NPCS = [
   { id: 'boatwright', name: 'ช่างเรือเปีย', occupation: 'villager', home: { near: 'er_m' }, props: ['hammer'],
     dialogue: ['เรือลำนี้ใช้ไม้ตะเคียนทั้งลำ', 'วันหนึ่งเรือที่ข้าต่อจะพาผู้คนไปไกลถึงทะเล'],
     schedule: shopHours(work('boatyard', 'hammer')) },
-  // ---------- ทุ่งนอกเมือง (map `fields`): the farmers' village by the warp ----------
-  // The only shop outside the wall: restock and sell loot without warping back.
-  { id: 'village_trader', name: 'ยายเพียร', occupation: 'merchant', gender: 'f', map: 'fields', home: { near: 'fv2' }, shopType: 'village', props: ['basket'],
+  // ---------- ทุ่งนาข้าว (map `paddy`): the farmers' village by the warp ----------
+  // The paddies' shop: restock and sell loot without warping back.
+  { id: 'village_trader', name: 'ยายเพียร', occupation: 'merchant', gender: 'f', map: 'paddy', home: { near: 'fv2' }, shopType: 'village', props: ['basket'],
     dialogue: [
       'มาจากในเมืองรึลูก? ยายมียาหม้อกับน้ำผึ้งป่าพอให้ไปต่อได้อีกหน่อย',
       'หนังสัตว์ เขี้ยวหมูป่า ขี้เถ้าธูปจากผี เอามาขายยายได้ ไม่ต้องแบกกลับเข้าเมือง',
       'ตะวันตกดินเมื่อไรรีบกลับมาหมู่บ้านนะ ผีป่ามันออกมาจากชายป่า ไม่ปรานีใคร',
     ],
     schedule: shopHours(work(P(-69.5, -131, 0, 'fv2'), 'sell')) },
-  { id: 'farmer_a', name: 'นายมา', occupation: 'farmer', map: 'fields', home: { near: 'fv2' },
+  { id: 'farmer_a', name: 'นายมา', occupation: 'farmer', map: 'paddy', home: { near: 'fv2' },
     dialogue: ['ปีนี้น้ำดี ข้าวในทุ่งนาหลวงงามทั้งแปลง', 'หมูป่าลงมากินข้าวกล้าจากสวนผลไม้ทุกคืน ใครล่ามันได้ข้าขอบใจนัก'],
     schedule: { morning: work('paddy_a', 'plant'), day: work('paddy_a', 'plant'), evening: sit('village_yard'), night: HOME } },
-  { id: 'farmer_b', name: 'นางดวง', occupation: 'farmer', gender: 'f', map: 'fields', home: { near: 'fv2' },
+  { id: 'farmer_b', name: 'นางดวง', occupation: 'farmer', gender: 'f', map: 'paddy', home: { near: 'fv2' },
     dialogue: ['ดำนาตั้งแต่ไก่โห่ หลังแทบหัก', 'ตกค่ำได้ยินเสียงผีพรายหัวเราะจากชายป่า ปิดประตูนอนกันแต่หัวค่ำ'],
     schedule: { morning: work('paddy_b', 'plant'), day: work('paddy_b', 'plant'), evening: work('pounder', 'pound'), night: HOME } },
-  { id: 'farmer_c', name: 'ลุงคำ', occupation: 'farmer', map: 'fields', home: { near: 'fv3' }, props: ['pole'],
+  { id: 'farmer_c', name: 'ลุงคำ', occupation: 'farmer', map: 'paddy', home: { near: 'fv3' }, props: ['pole'],
     dialogue: ['ข้าวเปลือกสองกระบุงนี้ต้องขึ้นยุ้งก่อนฝนมา', 'แต่ก่อนขนข้าวเข้าเมืองทางประตูเหนือ ตอนนี้ประตูปิด ต้องรอแสงวาปของหมอผีจันทร์'],
     schedule: { morning: carry('fv2', 'fb2', stop('paddy_d', 'work', 'plant', [10, 14]), 'fb2', 'fv2', stop('village_yard', 'work', 'lift', [4, 6])), day: carry('fv2', 'fb2', 'fc2', stop('paddy_b', 'work', 'plant', [10, 14]), 'fc2', 'fb2', 'fv2', stop('village_yard', 'work', 'lift', [4, 6])), evening: sit('village_yard'), night: HOME } },
+  // ---------- ป่าลึก (map `deep_forest`) and วัดร้าง (map `wat_rang`) ----------
+  // One wandering supplier just inside each wild map's entrance, there day and night,
+  // so hunters can restock without walking back to the village (tests/two-maps-qa.test.js).
+  { id: 'forest_herbalist', name: 'หมอแสง', occupation: 'herbalist', gender: 'f', map: 'deep_forest', home: { near: 'fe' }, shopType: 'herbalist', props: ['basket'],
+    dialogue: [
+      'ข้าเก็บสมุนไพรอยู่แถวศาลปากป่านี่แหละ ยาหม้อยังอุ่นอยู่ จะเอาสักกี่ขวด',
+      'ข้ามสะพานขอนไม้ไปแล้วอย่าเดินออกนอกทาง ผีพรายมันชอบคนหลงทาง',
+      'เลยไพรลึกไปทางเหนือคือวัดร้าง ตกค่ำแล้วข้าเองยังไม่กล้าไป',
+    ],
+    schedule: { morning: work(P(-2.4, -317, Math.PI / 2, 'fe'), 'sell'), day: work(P(-2.4, -317, Math.PI / 2, 'fe'), 'sell'), evening: work(P(-2.4, -317, Math.PI / 2, 'fe'), 'sell'), night: work(P(-2.4, -317, Math.PI / 2, 'fe'), 'sell') } },
+  { id: 'wat_hermit', name: 'ตาฤๅษีพรหม', occupation: 'shaman', map: 'wat_rang', home: { near: 'f6' }, shopType: 'herbalist',
+    dialogue: [
+      'ข้าบำเพ็ญอยู่ปากทางวัดร้างมาหลายพรรษา ยาที่ข้าปรุงช่วยให้เจ้าเดินต่อได้',
+      'ศาลร้างทางตะวันตกกับป่าช้าข้างหน้า ตกเย็นวิญญาณเร่ร่อนจะออกมาเดินเต็มทาง',
+      'โบสถ์ร้างหลังป่าช้ามีของไม่ดีสิงอยู่ อย่าเข้าไปถ้ายังไม่แกร่งพอ',
+    ],
+    schedule: { morning: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray'), day: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray'), evening: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray'), night: sit(P(2.5, -466, -Math.PI / 2, 'f6'), 'pray') } },
 ];
 

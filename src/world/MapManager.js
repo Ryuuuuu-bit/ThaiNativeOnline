@@ -2,7 +2,7 @@ import { buildWorld } from './World.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { Portals } from './Portals.js';
 import { J } from './CityMap.js';
-import { MAPS, DEFAULT_MAP, mapOf, portalAt, landmarksOf, spawnsOf, npcsForMap, walkable } from './maps.js';
+import { MAPS, DEFAULT_MAP, mapOf, portalAt, landmarksOf, spawnsOf, npcsForMap, walkable, resolveLocation } from './maps.js';
 import { NPCManager } from '../npc/NPCManager.js';
 import { NPCS } from '../data/npcs.js';
 import { LANDMARKS } from '../data/landmarks.js';
@@ -45,8 +45,9 @@ export class MapManager {
       return { map, x, z, facing: Math.PI };
     }
     try {
-      const saved = JSON.parse(slotStorage.getItem(LOCATION_KEY) ?? 'null');
-      if (saved && MAPS[saved.map] && Number.isFinite(saved.x) && Number.isFinite(saved.z)) return saved;
+      // resolveLocation also moves saves of a retired map (`fields`) onto the zone map that owns the position.
+      const saved = resolveLocation(JSON.parse(slotStorage.getItem(LOCATION_KEY) ?? 'null'));
+      if (saved) return saved;
     } catch { /* storage unavailable */ }
     return { map: DEFAULT_MAP, ...MAPS[DEFAULT_MAP].spawn };
   }

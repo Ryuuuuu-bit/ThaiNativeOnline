@@ -2,6 +2,7 @@
 // Pure data and math (no three.js) so collision, painting, minimap and NPC
 // navigation all read the same source of truth. North is -z, the river is +z.
 import { HALLS } from '../data/halls.js';
+import { WAT_RANG } from '../data/sites.js';
 
 export const BOUNDS = { minX: -125, maxX: 125, minZ: -610, maxZ: 268 };
 export const WATER_Y = -0.32;
@@ -148,6 +149,9 @@ export const J = {
   cem: [0, -532], cem_w: [-18, -546], cem_e: [18, -546], cem_n: [0, -560],
   // ย่านสำนักครู: the lane between the class training halls (src/data/halls.js).
   hq_n: [95, 50], hq_1: [96, 62], hq_2: [96, 78], hq_3: [96, 92], hq_s: [97, 104],
+  // วัดร้าง approach (src/data/sites.js WAT_RANG): through a fallen stretch of the
+  // cemetery wall (wat_cw) to the ground before the temple's west gate (wat_g).
+  wat_cw: [34, -544.7], wat_g: [45, -540],
 };
 
 // kind: paved (brick/laterite), road (packed earth), bund (raised field path),
@@ -194,6 +198,10 @@ export const ROADS = [
   // Lane of the training-hall quarter. Kept last and of kind 'plaza' (no houses
   // or street trees along it) so the random layout of every road above is unchanged.
   { w: 4, kind: 'plaza', pts: ['e3', 'hq_n', 'hq_1', 'hq_2', 'hq_3', 'hq_s'] },
+  // Trail from the cemetery's east path to the วัดร้าง gate (environment-artist
+  // hook). After the lane so every layout above is unchanged; `site` keeps it out
+  // of the cemetery's own grave and tree spacing (districts/Wilds.js).
+  { w: 2.4, kind: 'trail', pts: ['cem_e', 'wat_cw', 'wat_g'], site: WAT_RANG.id },
 ];
 export const roadPoints = road => road.pts.map(p => (typeof p === 'string' ? J[p] : p));
 
@@ -211,4 +219,8 @@ export const PLAZAS = [
   { kind: 'grave', x: 0, z: -542, rx: 34, rz: 34 },
   // Reserved yards of the class training halls (rects: kept free of houses and gardens).
   ...HALLS.map(h => ({ kind: 'earth', ...h.yard, rect: true, hall: h.id })),
+  // วัดร้าง temple complex (src/data/sites.js): the whole reserved rectangle (facing
+  // west, so the depth runs along x). Kind 'ruin' paints a weathered yard around
+  // the courtyard and lets sparse grass through (Terrain.js).
+  { kind: 'ruin', x: WAT_RANG.x, z: WAT_RANG.z, rx: WAT_RANG.d / 2, rz: WAT_RANG.w / 2, rect: true, site: WAT_RANG.id, yard: WAT_RANG.parts.courtyard },
 ];

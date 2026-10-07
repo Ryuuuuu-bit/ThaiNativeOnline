@@ -92,27 +92,35 @@ export function buildWilds(ctx) {
 
   // สุสานเก่าแห่งอโยธยา: broken perimeter wall, graves, reliquary stupas and a ruined ordination hall.
   const C = CEMETERY, graves = structure(null), step = Math.PI * 2 / 40;
+  // Roads added later for a site (the วัดร้าง approach, CityMap `site`) break
+  // through the wall and clear graves off their line. They draw exactly the same
+  // random numbers as before (pieces go to a discarded group), so every later
+  // layout is unchanged.
+  const approach = ROADS.filter(r => r.site).map(roadPoints), onApproach = (x, z, m) => approach.some(t => polylineDistance(x, z, t) < m);
+  const discard = structure(null);
   for (let a = 0; a < Math.PI * 2 - .01; a += step) {
     if (Math.abs(a + step / 2 - Math.PI / 2) < step * .9 || rng() < .22) continue;
     const x1 = C.x + Math.cos(a) * C.r, z1 = C.z + Math.sin(a) * C.r, x2 = C.x + Math.cos(a + step) * C.r, z2 = C.z + Math.sin(a + step) * C.r;
     const len = Math.hypot(x2 - x1, z2 - z1), rot = Math.atan2(x2 - x1, z2 - z1), y = h((x1 + x2) / 2, (z1 + z2) / 2);
+    const breach = onApproach((x1 + x2) / 2, (z1 + z2) / 2, 2), into = breach ? discard : graves;
     const rows = rng.int(1, 4);
-    for (let r = 0; r < rows; r++) box(graves, rng() > .2 ? M.brickOld : M.moss, (x1 + x2) / 2, y + .2 + r * .4, (z1 + z2) / 2, .7, .4, len * rng.range(.6, 1), rot);
-    ctx.collision.addSegment(x1, z1, x2, z2, .45);
+    for (let r = 0; r < rows; r++) box(into, rng() > .2 ? M.brickOld : M.moss, (x1 + x2) / 2, y + .2 + r * .4, (z1 + z2) / 2, .7, .4, len * rng.range(.6, 1), rot);
+    if (!breach) ctx.collision.addSegment(x1, z1, x2, z2, .45);
   }
   for (const s of [-1, 1]) { box(graves, M.brickOld, s * 2.6, h(s * 2.6, -508) + 1.3, -508.2, 1.1, 2.6, 1.1); ctx.collision.addCircle(s * 2.6, -508.2, .8); }
   box(graves, M.brickOld, 3.6, h(3.6, -506) + .3, -506, 4.2, .6, .9, .5);
-  const trails = ROADS.filter(r => r.kind === 'trail' && r.pts.some(p => String(p).startsWith('cem') || p === 'cg')).map(roadPoints);
+  const trails = ROADS.filter(r => r.kind === 'trail' && !r.site && r.pts.some(p => String(p).startsWith('cem') || p === 'cg')).map(roadPoints);
   const placed = [];
   for (let i = 0; i < 420 && placed.length < 95; i++) {
     const a = rng() * Math.PI * 2, r = Math.sqrt(rng()) * (C.r - 3), x = C.x + Math.cos(a) * r, z = C.z + Math.sin(a) * r;
     if (trails.some(t => polylineDistance(x, z, t) < 2.6) || (Math.abs(x) < 7.5 && z < -558) || placed.some(([px, pz]) => Math.hypot(px - x, pz - z) < 2.3)) continue;
     placed.push([x, z]);
     const y = h(x, z), kind = rng(), tone = rng.pick(['#8f8d80', '#7c7a6e', '#9a968a', '#6f7560', '#85837a']);
-    if (kind < .38) { prop(graves, 'urn', x, y, z, { ry: rng() * 6, s: rng.range(.7, 1.15), rz: rng.range(-.08, .08), color: tone }); ctx.collision.addCircle(x, z, .55); }
-    else if (kind < .78) { prop(graves, 'slab', x, y - .05, z, { ry: rng.range(-.3, .3), rx: rng.range(-.35, .35), rz: rng.range(-.3, .3), s: rng.range(.8, 1.2), color: tone }); ctx.collision.addCircle(x, z, .45); }
-    else { chedi(graves, { x, z, scale: rng.range(.24, .42), body: M.plasterOld, base: M.brickOld, spire: M.stoneDark, low: true, broken: rng() < .5 ? 1 : 0 }).position.y = y; ctx.collision.addCircle(x, z, 1); }
-    if (rng() < .3) prop(graves, 'flower', x + .3, y, z + .3, { color: '#c9b9a0' });
+    const clear = onApproach(x, z, 2.6), g = clear ? discard : graves, col = clear ? () => {} : (cx, cz, cr) => ctx.collision.addCircle(cx, cz, cr);
+    if (kind < .38) { prop(g, 'urn', x, y, z, { ry: rng() * 6, s: rng.range(.7, 1.15), rz: rng.range(-.08, .08), color: tone }); col(x, z, .55); }
+    else if (kind < .78) { prop(g, 'slab', x, y - .05, z, { ry: rng.range(-.3, .3), rx: rng.range(-.35, .35), rz: rng.range(-.3, .3), s: rng.range(.8, 1.2), color: tone }); col(x, z, .45); }
+    else { chedi(g, { x, z, scale: rng.range(.24, .42), body: M.plasterOld, base: M.brickOld, spire: M.stoneDark, low: true, broken: rng() < .5 ? 1 : 0 }).position.y = y; col(x, z, 1); }
+    if (rng() < .3) prop(g, 'flower', x + .3, y, z + .3, { color: '#c9b9a0' });
   }
   ctx.place(graves, 0, 0);
   ctx.occ.markEllipse(C.x, C.z, C.r, C.r, OCC.YARD);

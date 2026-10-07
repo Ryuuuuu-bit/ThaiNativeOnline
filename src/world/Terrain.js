@@ -169,6 +169,7 @@ export function paintGround(footprints, extent = BOUNDS) {
   // Plazas.
   for (const p of PLAZAS) {
     if (p.kind === 'grave') continue;
+    if (p.kind === 'ruin') { if (near(p.x, p.z, Math.max(p.rx, p.rz))) paintRuin(ctx, p, px, pz, S); continue; }
     const colors = { paved: ['#b09a7470', '#b9a27e'], earth: ['#a8976e60', '#ad9b72'], temple: ['#c3b08a50', '#c6b48f'] }[p.kind];
     if (p.rect) { rect(p.x, p.z, p.rx * 2 + 2, p.rz * 2 + 2, 0, colors[0]); rect(p.x, p.z, p.rx * 2, p.rz * 2, 0, colors[1]); }
     else { ellipse(p.x, p.z, p.rx + 1.5, p.rz + 1.5, colors[0]); ellipse(p.x, p.z, p.rx, p.rz, colors[1]); }
@@ -191,6 +192,36 @@ export function paintGround(footprints, extent = BOUNDS) {
   return { texture, canvas };
 }
 
+// A ruined temple site (PLAZAS kind 'ruin'): weathered laterite ground over the
+// rectangle and broken brick paving in the courtyard. Its own random sequence, so
+// the rest of the ground keeps its detail.
+function paintRuin(ctx, p, px, pz, S) {
+  const rng = createRng(4471), x0 = p.x - p.rx, z0 = p.z - p.rz;
+  const blot = (x, z, rx, rz, rot, style) => { ctx.fillStyle = style; ctx.beginPath(); ctx.ellipse(px(x), pz(z), rx * S, rz * S, rot, 0, Math.PI * 2); ctx.fill(); };
+  ctx.fillStyle = '#5a4a3a38'; ctx.fillRect(px(x0 - 1.5), pz(z0 - 1.5), (p.rx * 2 + 3) * S, (p.rz * 2 + 3) * S);
+  ctx.fillStyle = '#6a5642'; ctx.fillRect(px(x0), pz(z0), p.rx * 2 * S, p.rz * 2 * S);
+  // Leaf litter and moss creeping in from the forest.
+  for (let i = 0; i < 520; i++) {
+    const x = x0 + rng() * p.rx * 2, z = z0 + rng() * p.rz * 2;
+    blot(x, z, rng.range(.6, 3.2), rng.range(.4, 1.8), rng() * 3, rng.pick(['#3e4a2c50', '#4c563440', '#2e352650', '#7a644a40']));
+  }
+  const y = p.yard;
+  if (!y) return;
+  blot(y.x, y.z, y.rx + 1.2, y.rz + 1.2, 0, '#7b604870');
+  blot(y.x, y.z, y.rx, y.rz, 0, '#8a6c52');
+  // Paving slabs: laterite and brick, many missing, grass in the cracks.
+  for (let i = 0; i < 2600; i++) {
+    const a = rng() * Math.PI * 2, r = Math.sqrt(rng()), x = y.x + Math.cos(a) * r * y.rx, z = y.z + Math.sin(a) * r * y.rz;
+    const style = rng.pick(['#9a7458', '#a67e5e', '#8a6248', '#7a5a44', '#b08a68', '#6e5240']), w = rng.range(.5, 1.1), d = rng.range(.4, .8);
+    if (rng() < .22) continue;
+    ctx.fillStyle = style; ctx.fillRect(px(x - w / 2), pz(z - d / 2), w * S * .92, d * S * .92);
+  }
+  for (let i = 0; i < 260; i++) {
+    const a = rng() * Math.PI * 2, r = Math.sqrt(rng()), x = y.x + Math.cos(a) * r * y.rx, z = y.z + Math.sin(a) * r * y.rz;
+    blot(x, z, rng.range(.4, 1.6), rng.range(.3, 1), rng() * 3, rng.pick(['#4a5a3070', '#3b4a2a80', '#5b5f3a60']));
+  }
+}
+
 // Grass density (R), height (G) and wildness (B) for the GPU grass field.
 // Covers the terrain's own grid (`terrain.rect`).
 export function buildGrassMask(terrain, footprints) {
@@ -207,6 +238,13 @@ export function buildGrassMask(terrain, footprints) {
   for (const road of ROADS) if (road.kind !== 'bridge') line(roadPoints(road), road.w + (road.kind === 'trail' ? -.4 : .6));
   for (const p of PLAZAS) {
     if (p.kind === 'grave') continue;
+    if (p.kind === 'ruin') {
+      // Abandoned ground: thin grass over the whole site, sparse tufts through the old paving.
+      ctx.fillStyle = '#3c3c3c'; ctx.fillRect(px(p.x - p.rx), pz(p.z - p.rz), p.rx * 2 * S, p.rz * 2 * S);
+      if (p.yard) { ctx.fillStyle = '#161616'; ctx.beginPath(); ctx.ellipse(px(p.yard.x), pz(p.yard.z), p.yard.rx * S, p.yard.rz * S, 0, 0, Math.PI * 2); ctx.fill(); }
+      ctx.fillStyle = '#000';
+      continue;
+    }
     if (p.rect) ctx.fillRect(px(p.x - p.rx), pz(p.z - p.rz), p.rx * 2 * S, p.rz * 2 * S);
     else { ctx.beginPath(); ctx.ellipse(px(p.x), pz(p.z), p.rx * S, p.rz * S, 0, 0, Math.PI * 2); ctx.fill(); }
   }

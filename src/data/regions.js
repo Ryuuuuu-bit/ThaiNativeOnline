@@ -1,4 +1,4 @@
-import { CEMETERY, riverBank, insideWalls } from '../world/CityMap.js';
+import { CEMETERY, STREAM, riverBank, insideWalls } from '../world/CityMap.js';
 
 // Regions name the area under the player and describe how safe it is.
 // safety: safe | wild | danger (dangerous at night).
@@ -19,15 +19,19 @@ const REG = {
   temple: R('temple', 'เขตวัดสุวรรณเจดีย์', 'นครอโยธยา · เขตพุทธาวาส'),
   city: R('city', 'นครอโยธยา', 'ราชธานีริมแม่น้ำ'),
   gate: R('gate', 'ประตูเมืองทิศเหนือ', 'ประตูวาป · ทางสู่ทุ่งและป่า'),
-  rice: R('rice', 'ทุ่งนาหลวง', 'ทุ่งนอกเมือง · เกษตรกรรม'),
-  orchards: R('orchards', 'สวนผลไม้และสมุนไพร', 'ทุ่งนอกเมือง · หมูป่าและลิงบุกสวน', 'wild'),
-  north_road: R('north_road', 'ถนนสู่ป่า', 'ทุ่งนอกเมือง'),
-  grassland: R('grassland', 'ทุ่งหญ้าชายป่า', 'ทุ่งนอกเมือง · ต้นไทรพันปี', 'wild'),
-  forest_edge: R('forest_edge', 'ชายป่า', 'ป่าโปร่ง', 'wild'),
-  forest: R('forest', 'ป่าทึบ', 'ไพรพฤกษ์', 'wild'),
-  deep: R('deep', 'ป่าลึก', 'ไพรพฤกษ์ · ที่ซึ่งแสงส่องไม่ถึง', 'danger'),
-  shrine: R('shrine', 'ศาลร้างกลางไพร', 'ป่าลึก', 'danger'),
-  cemetery: R('cemetery', 'สุสานเก่าแห่งอโยธยา', 'ดินแดนของผู้ล่วงลับ', 'danger'),
+  // ทุ่งนาข้าว (map `paddy`)
+  rice: R('rice', 'ทุ่งนาหลวง', 'ทุ่งนาข้าว · เกษตรกรรม'),
+  orchards: R('orchards', 'สวนผลไม้และสมุนไพร', 'ทุ่งนาข้าว · หมูป่าและลิงบุกสวน', 'wild'),
+  north_road: R('north_road', 'ถนนสู่ป่า', 'ทุ่งนาข้าว'),
+  grassland: R('grassland', 'ทุ่งหญ้าชายป่า', 'ทุ่งนาข้าว · ต้นไทรพันปี', 'wild'),
+  // ป่าลึก (map `deep_forest`)
+  forest_edge: R('forest_edge', 'ชายป่า', 'ป่าลึก · ป่าโปร่ง', 'wild'),
+  forest: R('forest', 'ป่าทึบ', 'ป่าลึก · ไพรพฤกษ์', 'wild'),
+  deep: R('deep', 'ไพรลึกเหนือลำธาร', 'ป่าลึก · ที่ซึ่งแสงส่องไม่ถึง', 'danger'),
+  // วัดร้าง (map `wat_rang`)
+  wat_wood: R('wat_wood', 'ดงวัดร้าง', 'วัดร้าง · ป่ารกล้อมซากวัด', 'danger'),
+  shrine: R('shrine', 'ศาลร้างกลางไพร', 'วัดร้าง', 'danger'),
+  cemetery: R('cemetery', 'สุสานเก่าแห่งอโยธยา', 'วัดร้าง · ดินแดนของผู้ล่วงลับ', 'danger'),
 };
 export const SAFETY = {
   safe: { label: 'พื้นที่สงบ', color: '#a3bb86' },
@@ -35,13 +39,23 @@ export const SAFETY = {
   danger: { label: 'อันตรายยามค่ำคืน', color: '#d98a74' },
 };
 
+// z of the forest stream at x (it separates the dense forest from the deep forest).
+function streamZ(x) {
+  const p = STREAM.pts;
+  for (let i = 1; i < p.length; i++) if (x <= p[i][0]) return p[i - 1][1] + (p[i][1] - p[i - 1][1]) * (x - p[i - 1][0]) / (p[i][0] - p[i - 1][0]);
+  return p[p.length - 1][1];
+}
+
+// Bands follow the zone maps (src/world/maps.js): wat_rang north of z -445,
+// deep_forest -445 … -296, paddy -296 … -112.
 export function regionAt(x, z, discoveredCemetery = true) {
   if (z > riverBank(x) + .5) return REG.river;
-  if (Math.hypot(x - CEMETERY.x, z - CEMETERY.z) < CEMETERY.r + 4) return discoveredCemetery ? REG.cemetery : REG.deep;
+  if (Math.hypot(x - CEMETERY.x, z - CEMETERY.z) < CEMETERY.r + 4) return discoveredCemetery ? REG.cemetery : REG.wat_wood;
   if (Math.hypot(x + 38, z + 478) < 16) return REG.shrine;
-  if (z < -440) return REG.deep;
+  if (z < -445) return REG.wat_wood;
+  if (z < streamZ(x)) return REG.deep;
   if (z < -360) return REG.forest;
-  if (z < -298) return REG.forest_edge;
+  if (z < -296) return REG.forest_edge;
   if (z < -256) return REG.grassland;
   if (z < -110.5) {
     if (Math.abs(x) < 9 && z > -128) return REG.gate;

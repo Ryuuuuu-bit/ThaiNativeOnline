@@ -32,11 +32,12 @@ anyone else changes them only through a small, documented hook.
 | `gameplay-engineer` | `src/core/**`, `src/main.js`, `src/entities/**`, `src/npc/**`, `src/quest/**`, `src/ui/**`, `src/character/**` (not `data/`), `src/combat/**` (not `data/`), `src/account/**`, `src/training/**`, `src/audio/**`, `src/classes/model.js`, `src/classes/index.js` |
 | `technical-artist` | `src/world/shaders.js`, `materials.js`, `Batching.js`, `Environment.js`, `Atmosphere.js`; `src/classes/model.js` clip handling; `src/classes/fx/**`; `tools/*-anims/**` |
 | `environment-artist` | `src/world/Architecture.js`, `Vegetation.js`, `props.js`, `Terrain.js`, `Water.js`, `World.js`, `districts/**` |
-| `world-designer` | `src/world/maps.js`, `CityMap.js`, `MapManager.js`, `Portals.js`, `Collision.js`; `src/data/landmarks.js`, `regions.js`, `halls.js`, spawn placement; `docs/world/WORLD_MAP.md` |
+| `world-designer` | `src/world/maps.js`, `CityMap.js`, `MapManager.js`, `Portals.js`, `Collision.js`; `src/data/landmarks.js`, `regions.js`, `halls.js`, `sites.js`, spawn placement; `docs/world/WORLD_MAP.md` |
 | `content-designer` | `src/data/**` (content values), `src/combat/data/**`, `src/character/data/**`, `src/classes/*-moves.js`, `docs/world/*.md` (not WORLD_MAP) |
 | `character-artist` | `docs/art/classes/**`, `public/models/**`, `public/fx/**` |
 | `art-director` | review only; `docs/art/*.md` guides |
 | `qa` | `tests/**`; small bug fixes anywhere, reported to the owner |
+| `gap-auditor` | review only: finds what is missing or uneven across maps, classes, content, UI and docs; reports gaps with their owner (`docs/audits/` when asked) |
 
 Every agent verifies with `docs/technical/VERIFY.md` (`npm test`, `npm run build`,
 screenshots) and reports exact results.
@@ -49,13 +50,17 @@ Do not change public interfaces without documenting it.
 ## Where things connect
 - `src/core/Game.js` hosts every system. Character and combat plug in through
   `createGame()` from `src/combat/index.js` (interface: `src/combat/README.md`).
-- Two maps (`src/world/maps.js`): `city` (นครอโยธยา, inside the walls, safe) and
-  `fields` (ทุ่งนอกเมือง, north of the wall, not safe). The North City Gate stays
-  closed; warps (ประตูวาป) link the maps. `src/world/MapManager.js` loads one at a
-  time (interface: `src/world/README.md`). Class training halls sit in the city
-  (`src/data/halls.js`).
-- `src/data/spawns.js` places monster zones (on `fields` only; the city is safe);
-  monster types come from `src/combat/data/monsters.js`.
+- Four maps, loaded one at a time and linked by portals (`src/world/maps.js`,
+  loaded by `src/world/MapManager.js`, interface: `src/world/README.md`): `city`
+  (นครอโยธยา, inside the walls, safe) and three zone maps beyond the closed North
+  City Gate: `paddy` ทุ่งนาข้าว (Lv 1-3, reached by the warp in the gate passage),
+  `deep_forest` ป่าลึก (Lv 2-5) and `wat_rang` วัดร้าง (Lv 4-7), joined by path
+  exits. Class training halls sit in the city (`src/data/halls.js`);
+  `src/data/sites.js` reserves ground for structures such as the วัดร้าง temple.
+- `src/data/spawns.js` places monster zones on the three zone maps (the city is
+  safe); monster types come from `src/combat/data/monsters.js`.
+- The minimap and full map (`src/ui/Minimap.js`, `src/ui/minimap/`) paint each
+  map from the built world and its data (`theme`, `levels`, portals, landmarks).
 - Characters are Tripo GLB models only (`public/models/`, `AVATARS` in
   `src/data/training.js`; classes without one wear the fallback model).
   `src/training/` (interface: `src/training/README.md`) puts the class model on
@@ -66,7 +71,11 @@ Do not change public interfaces without documenting it.
   interface: `src/account/README.md`). Per-character saves go through
   `slotStorage` from `src/core/SaveSlot.js`, never `localStorage` directly.
 - One UI look on every page: panels, topbar, controls bar and settings come
-  from `src/style.css`; skill FX and the hotbar from `src/classes/fx/fx.css`.
+  from `src/style.css`; skill FX from `src/classes/fx/fx.css`. One action bar on
+  every map: `src/ui/ActionBar.js` (owned by CombatHUD). Kit classes fill it through
+  `src/training/KitCaster.js` (kit skills hit the Tab target or monsters through
+  `Combat.damageMonster`, the dummy in the city); others through
+  `src/combat/LegacyCaster.js`. Keys: 1–0 skills, G auto, Q/F potions, C, I, Tab.
   A page's own CSS (`training.css`) holds only what differs.
   Icons go through `src/ui/icons.js`: class portraits/emblems (`classBadge`),
   skill art (`iconHtml`, data `img`) and potion gourds. Skill art is framed by

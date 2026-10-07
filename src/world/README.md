@@ -5,44 +5,74 @@ this page lists; changes to it must be documented here and in the PR.
 
 ## Maps (`maps.js`)
 
-The game has two maps, built one at a time (each will become one server room).
-The North City Gate (ประตูเมืองทิศเหนือ) stays closed and the walk areas end on
-either side of the wall; a pair of warps (ประตูวาป) links the maps. Layout,
-purposes and level bands: `docs/world/WORLD_MAP.md`.
+The game has four maps, built one at a time (each will become one server room),
+Ragnarok-style: the city inside the walls and three zone maps north of it, one
+loaded at a time and linked by portals. The North City Gate (ประตูเมืองทิศเหนือ)
+stays closed and the walk areas end on either side of the wall; a pair of
+warps (ประตูวาป) links the city with the paddies. The wild maps are joined by
+path exits on the trail. Layout, purposes and level bands:
+`docs/world/WORLD_MAP.md`.
 
-| id | Name | Contains |
-| --- | --- | --- |
-| `city` | นครอโยธยา | River and port, market, shops, temple, residential streets, the class training halls (ย่านสำนักครู), the closed north gate with the warp in its passage. Safe zone, no monsters |
-| `fields` | ทุ่งนอกเมือง | Rice fields, farmers' village, orchards, grassland, forest, deep forest, abandoned shrine and the old cemetery. Not safe: every monster area is here |
+| id | Name | Band (`owns`) | Walk | Theme | Levels | Contains |
+| --- | --- | --- | --- | --- | --- | --- |
+| `city` | นครอโยธยา | z ≥ -112 | x ±122, z -108.5 … 266 | `city` | — | River and port, market, shops, temple, residential streets, the class training halls (ย่านสำนักครู), the closed north gate with the warp in its passage. Safe zone, no monsters |
+| `paddy` | ทุ่งนาข้าว | -296 ≤ z < -112 | x ±122, z -293 … -113.5 | `paddy` | 1-3 | Rice fields, farmers' village (ยายเพียร's shop), orchards, grassland, the banyan |
+| `deep_forest` | ป่าลึก | -445 ≤ z < -296 | x ±122, z -442 … -298.5 | `forest` | 2-5 | Forest gate, dense forest and the ruined chedi, the stream and log bridge, the deep forest beyond it |
+| `wat_rang` | วัดร้าง | z < -445 | x ±122, z -592 … -447 | `wat` | 4-7 | Woods around the ruins, the abandoned shrine, the old cemetery, the reserved temple site (`src/data/sites.js`) |
 
-| Warp | On | Trigger `at` | `arrive` | `node` |
-| --- | --- | --- | --- | --- |
-| `warp_to_fields` | city | 0, -107, r 2.2 (gate passage) | fields 0, -130, facing π | `gate_in` |
-| `warp_to_city` | fields | 0, -122.5, r 2.2 (outside the gate) | city 0, -99, facing 0 | `gate_out` |
+Seams: `SEAM_Z` (-112), `FOREST_SEAM_Z` (-296), `WAT_SEAM_Z` (-445). Neighbouring
+walk areas stay at least 4 m apart.
+
+| Portal | Style | On | Trigger `at` | `arrive` | `node` |
+| --- | --- | --- | --- | --- | --- |
+| `warp_to_paddy` | warp | city | 0, -107, r 2.2 (gate passage) | paddy 0, -130, facing π | `gate_in` |
+| `warp_to_city` | warp | paddy | 0, -122.5, r 2.2 (outside the gate) | city 0, -99, facing 0 | `gate_out` |
+| `path_to_forest` | path | paddy | -0.9, -290, r 2.4 (north road past the banyan) | deep_forest 0, -311, facing π | `n6` |
+| `path_to_paddy` | path | deep_forest | 0, -301, r 2.4 (outside the forest gate rope) | paddy -1.6, -282, facing 0 | `fe` |
+| `path_to_wat` | path | deep_forest | 8.5, -439, r 2.4 (trail beyond the log bridge) | wat_rang -1.5, -459, facing π | `f5` |
+| `path_to_deep_forest` | path | wat_rang | 3, -450, r 2.4 (trail head) | deep_forest 10.5, -429, facing 0 | `f6` |
 
 Coordinates stay in world space (the same as `CityMap.js`), so landmarks,
 quests, spawns and NPC data need no conversion. Each `MAPS[id]` entry is data:
 
 | Field | Meaning |
 | --- | --- |
-| `name`, `sub`, `safe` | Display name, subtitle, whether the map is a safe zone |
-| `owns` | `{ minZ, maxZ }` band the map is responsible for. The city owns everything south of `SEAM_Z` (-112, just outside the wall), `fields` everything north of it; every landmark, spawn area and NPC home lies in exactly one band (`mapOf()` is null only outside the world) |
+| `name`, `sub`, `safe` | Display name, subtitle (the fade overlay shows both), whether the map is a safe zone |
+| `theme` | Display key for the HUD and minimap: `'city'` \| `'paddy'` \| `'forest'` \| `'wat'` (pick a palette per key; the map data holds no colours) |
+| `levels` | `[min, max]` monster level band on the map, `null` on safe maps (every placed monster's level lies inside it; tested) |
+| `owns` | `{ minZ, maxZ }` band the map is responsible for (see the seams above); every landmark, spawn area and NPC home lies in exactly one band (`mapOf()` is null only outside the world) |
 | `walk` | Rectangles the player may stand in (union). Leaving them is only possible through a portal |
-| `view` | Built extent: terrain, ground paint and scenery. Wider than `walk` so the camera never sees an edge; near the seam it shows the neighbouring map as non-interactive backdrop |
+| `view` | Built extent: terrain, ground paint and scenery. Wider than `walk` (at least 17 m past each seam) so the camera never sees an edge; near a seam it shows the neighbouring map as non-interactive backdrop |
 | `spawn`, `respawn` | Default arrival `{ x, z, facing }`; candidate respawn points after death |
 | `entities` | Optional scenery systems to build (`boats`, `animals`) |
 | `regions` | Region ids (`src/data/regions.js`) that occur on the map |
-| `portals` | `{ id, at: { x, z, radius }, to, arrive: { x, z, facing }, node, name, marker }`. Walking into `at` moves the player to map `to` at `arrive` (never inside a trigger there). `node` is the junction visiting NPCs walk to when they leave; `marker` is where the warp (`Portals.js`: ground ring, turning yantra ring, light veil, label) is drawn |
+| `portals` | `{ id, style, at: { x, z, radius }, to, arrive: { x, z, facing }, node, name, marker }`. Walking into `at` moves the player to map `to` at `arrive` (never inside a trigger there). `node` is the junction visiting NPCs walk to when they leave (`portals[0]` is the exit visitors use). `name` is the label's title; the label adds `→ <destination name>`. `style`: `'warp'` (default) draws the ประตูวาป at `marker` (ground ring, turning yantra ring, light veil, label); `'path'` draws chevrons on the ground at `at`, pointing out of the map, and a wooden signpost with a board label at `marker` (beside the trail) |
 | `visitors` | NPC ids from another map whose schedule also brings them here |
 
+`LEGACY_MAPS` lists retired map ids and the maps that replaced them (`fields` →
+`paddy`, `deep_forest`, `wat_rang`).
+
 Helpers: `mapOf(x, z)` (owning map), `walkable(map, x, z)`, `inView(map, x, z)`,
-`walkBounds(map)`, `portalAt(map, x, z)`, `landmarksOf(id, list)`,
-`spawnsOf(id, list)`, `npcHome(def)`, `npcMap(def)` (an NPC may declare `map`,
-otherwise it is inferred from `home.near` or its first schedule junction) and
+`walkBounds(map)`, `portalAt(map, x, z)`, `arrivalsOn(id)` (arrival points of
+the portals leading to a map), `resolveLocation(saved)` (a saved location made
+valid: a retired or unknown map id becomes the map owning the position, and a
+position between two walk areas moves to that map's nearest arrival point;
+`null` if nothing fits), `landmarksOf(id, list)`, `spawnsOf(id, list)`,
+`npcHome(def)`, `npcMap(def)` (an NPC may declare `map`, otherwise it is
+inferred from `home.near` or its first schedule junction) and
 `npcsForMap(defs, id, has)`, which returns a map's residents plus visitors with
 activities at spots that are not on the map turned into "home".
 
 Facing angles are yaws where `0` looks toward `+z` (south) and `π` looks north.
+
+### Data the minimap can read
+
+Per map: `name`, `sub`, `theme`, `levels`, `walkBounds(map)` / `walk`, `view`,
+`portals` (`at`, `marker`, `style`, `to`, `name`), `regions`. Per loaded map
+from `MapManager`: `landmarks` (with `hidden`, `icon`, `purpose`),
+`spawnAreas` (`SPAWNS` entries: `x, z, radius, monster, active`), `npcs`
+(the `NPCManager`) and `world.footprints`. Reserved sites for later structures
+come from `src/data/sites.js` (`SITES`, each with a `map`).
 
 ## `MapManager` (`MapManager.js`)
 
@@ -50,7 +80,7 @@ Keeps exactly one map in the scene and moves the player between maps.
 
 ```js
 const maps = new MapManager({ scene, clock, player, progress, onChange, onLeave });
-await maps.start(MapManager.startLocation(params)); // ?at=x,z[&map=id] (the map follows from z if omitted), saved location, or city spawn
+await maps.start(MapManager.startLocation(params)); // ?at=x,z[&map=id] (the map follows from z if omitted), saved location (through resolveLocation), or city spawn
 maps.attachCombat(rpg);   // after createGame(): hides monsters of maps that are not loaded
 maps.update(dt, elapsed); // every frame after the player moves: portals, autosave
 maps.busy                 // true while maps swap (skip movement and world updates)
@@ -72,7 +102,8 @@ state, inventory and quests live outside the map and are untouched.
 The current map and position are saved in the character's save slot
 (`slotStorage`, `src/core/SaveSlot.js`) under `tno.location.v1`
 (`{ map, x, z, facing }`) every 3 s, after each transition and on unload, so a
-reload returns to the same map.
+reload returns to the same map. Saves of the retired `fields` map load on the
+zone map that owns their position (`resolveLocation`).
 
 ## `buildWorld(scene, progress?, map?) → Promise<world>` (`World.js`)
 
@@ -131,6 +162,32 @@ The buildings are built by `districts/Halls.js` (`buildHalls(ctx)`, run after
 the temple and before the spot links and houses); it also registers the spots.
 `world.stats.halls` reports `{ count, triangles, props }`.
 
+## วัดร้าง temple ruins (`src/data/sites.js` `WAT_RANG`)
+
+Built by `districts/WatRang.js` (`buildWatRang(ctx)`, run after `buildWilds` and
+before the spot links) on the `wat_rang` map: ruined ordination hall (the boss
+arena; walkable deck, intact weathered seated Buddha on the dais), leaning
+main chedi, three bone stupas, half-fallen sala, bodhi tree growing out of a
+broken wall, low broken boundary wall with the ruined west gate, hunters' camp,
+spirit houses and cold `spirit-night` ghost lights. It draws only from its own
+random sequences (`createRng`, `veg.isolated(seed, fn)`), so the shared sequence
+and every later layout are unchanged. `world.stats.watRang` reports
+`{ triangles, props, glows }`.
+
+- `CityMap.js` (world-designer data, environment-artist hook): `PLAZAS` entry of
+  kind `'ruin'` over the whole site (`rect`, `site`, `yard` = the courtyard
+  ellipse); junctions `wat_cw` (the breach in the cemetery wall) and `wat_g`
+  (before the gate); the approach trail `cem_e → wat_cw → wat_g` is the last
+  `ROADS` entry and carries `site: 'wat_rang'`.
+- `Terrain.js`: kind `'ruin'` reserves the rectangle, paints weathered ground
+  with broken paving in the yard and lets thin grass through (mask, not bare).
+- `districts/Wilds.js`: roads with a `site` break the cemetery wall and clear
+  graves off their line without changing the random sequence.
+- Spots (`ctx.spot`, ids `wat_rang_<name>`): `boss` (90, -540) → `door` → `court_n`
+  → `yard_npc` (60, -522) → `court_w` → `gate` (46.5, -540) → `wat_g`;
+  `rare` (70, -562) → `court_s` → `court_w`; `gate_npc` (44.5, -536) and
+  `camp` (40, -548) → `wat_g`. Links go round the chedi, never through it.
+
 ## `Environment.update(hour, focus) → state` (`Environment.js`)
 
 Returns `{ hour, night, lantern, wild, cemetery }`, each `0..1` except `hour`.
@@ -152,7 +209,10 @@ The map split needed small hooks outside `src/world`:
 - `src/ui/Minimap.js`: optional `{ bounds, landmarks, portals, discovered }`.
 - `src/data/npcs.js`: NPCs homed at a district spot declare `map: 'city'`.
 - `src/core/Game.js`: `enterMap()` (and once the character exists) calls
-  `game.hud.setSafe(map.safe)`, so the combat skill bar shows only on maps with monsters.
+  `game.hud.setSafe(map.safe)`, so the fight tips (and Tab / Space) work only on maps with
+  monsters; the action bar itself is the same on every map.
+- `maps.js` `intro: { title, text }` (gameplay-engineer): the journal panel's heading and
+  lines for each map, set by `Game.updateJournal()` → `HUD.setJournal()`.
 - `src/world/Terrain.js` `seedOccupancy()`: `PLAZAS` with `rect: true` are marked as rectangles.
 
 Combat (`src/combat`) is not modified. Its spawn zones carry a `map` tag and
@@ -163,13 +223,23 @@ GPU. A `rpg.setActiveZones()` API in combat would make this bridge unnecessary.
 
 ## Checks
 
-`npm test` runs `tests/world.test.js` and `tests/maps.test.js` in Node. They
-check road and bridge placement against water, paddy generation, nav-graph
-connectivity, collision and deck behaviour, clock phases, region names, and for
-the maps: exactly `city` and `fields`, ownership partitions the world at the
-seam, the walk areas never touch, warps arrive on standable ground outside any
-trigger and lead back, every landmark/spawn area/NPC home lies on one map,
-monster areas are on the fields only with levels rising away from the warp,
-visitors leave through the warp, each map's regions and nav graph, and the
-training halls (one per class, inside the walls, reserved yards that do not
-overlap roads, water or each other, spots chained to the lane).
+`npm test` runs `tests/world.test.js`, `tests/maps.test.js` and
+`tests/two-maps-qa.test.js` in Node. They check road and bridge placement
+against water, paddy generation, nav-graph connectivity, collision and deck
+behaviour, clock phases, region names, and for the maps: exactly `city`,
+`paddy`, `deep_forest` and `wat_rang`; ownership partitions the world at the
+three seams; neighbouring walk areas stay 4 m apart and never overlap;
+portals (warp pair city↔paddy, path exits paddy↔deep_forest↔wat_rang) arrive
+on standable ground outside any trigger, lead back with the same style and sit
+on the crossing road; every landmark/spawn area/NPC home lies on one map;
+monster areas only on the zone maps, inside their walk area, with levels inside
+each map's `levels` band and rising map by map; no monster reaches a portal
+arrival; every unsafe map has a potion seller (the forest and wat suppliers
+stand by the entrance, day and night); every zone map has at least three
+landmarks; old `fields` saves resolve onto the right map; the วัดร้าง site stays
+clear of the cemetery, roads, spawns and landmarks; each map's regions and nav
+graph; and the training halls (one per class, inside the walls, reserved yards
+that do not overlap roads, water or each other, spots chained to the lane).
+
+Browser: `tests/browser/zones-probe.html` (see `docs/technical/VERIFY.md`)
+walks city → paddy → deep_forest → wat_rang and back through every trigger.

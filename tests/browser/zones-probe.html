@@ -1,0 +1,135 @@
+<!doctype html><meta charset="utf-8"><title>zones probe</title>
+<body style="margin:0"><pre id="out">pending</pre>
+<script type="module">
+// Probe for the zone maps (city → paddy → deep_forest → wat_rang and back).
+// Open via tests/browser/cdp.mjs (docs/technical/VERIFY.md). Seeds a guest
+// character, loads the game in an iframe, walks every portal through its
+// trigger and records map, NPCs, monsters, shops and screenshots per map.
+// Flags: ?q=<game query, URL-encoded> (default at=0,-98&t=11),
+// ?loc=<saved location JSON> (reload test), ?quick=1 (only the start state).
+import { Character } from '/src/character/Character.js';
+import { findPath } from '/src/core/GridPath.js';
+const R = { logs: [], steps: [], shots: {} };
+const step = (k, v) => { R.steps.push([k, v]); flush(); };
+const outEl = document.getElementById('out');
+const flush = () => { outEl.textContent = 'QA_RESULT ' + JSON.stringify(R); };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const until = async (fn, ms, every = 100) => { const t = performance.now(); while (performance.now() - t < ms) { try { if (fn()) return true; } catch {} await sleep(every); } return false; };
+localStorage.clear();
+Character.create('ทดสอบ', 'muaythai', 'male').save();
+const params = new URLSearchParams(location.search);
+if (params.get('loc')) localStorage.setItem('tno.location.v1', params.get('loc'));
+sessionStorage.setItem('tno.session.v1', JSON.stringify({ id: 'guest', guest: true, prefix: '' }));
+const f = document.createElement('iframe');
+f.style.cssText = 'width:1600px;height:900px;border:0';
+f.src = '/?' + (params.get('q') ?? 'at=0,-98&t=11');
+document.body.prepend(f);
+let hooked = null;
+const hook = setInterval(() => {
+  const w = f.contentWindow;
+  if (!w || w.location.href === 'about:blank' || hooked === w) return;
+  hooked = w;
+  for (const lvl of ['error', 'warn']) { const o = w.console[lvl].bind(w.console); w.console[lvl] = (...a) => { R.logs.push([lvl, a.map(String).join(' ').slice(0, 300)]); o(...a); }; }
+  w.addEventListener('error', e => R.logs.push(['uncaught', String(e.message)]));
+  w.addEventListener('unhandledrejection', e => R.logs.push(['rejection', String(e.reason?.stack ?? e.reason).slice(0, 300)]));
+}, 1);
+const W = () => f.contentWindow, G = () => W().game;
+const shot = name => { const g = G(); g.frame?.(0, 1 / 60); g.renderer.render(g.scene, g.view.camera); R.shots[name] = g.renderer.domElement.toDataURL('image/jpeg', .8); };
+const r1 = v => +v.toFixed(1);
+try {
+  const ok = await until(() => G()?.maps?.map && G().game?.ready && G().training !== undefined, 240000, 250);
+  step('game ready', ok); flush();
+  if (!ok) throw new Error('game not ready');
+  const g = G();
+  await sleep(1500);
+  const pos = () => [r1(g.player.position.x), r1(g.player.position.z)];
+  const alive = () => { const by = {}; for (const m of g.game.combat.monsters) if (m.alive) by[m.spawn.map ?? '?'] = (by[m.spawn.map ?? '?'] ?? 0) + 1; return by; };
+  const aliveTypes = () => { const by = {}; for (const m of g.game.combat.monsters) if (m.alive) by[`${m.spawn.area}:${m.type ?? m.spawn.type}`] = (by[`${m.spawn.area}:${m.type ?? m.spawn.type}`] ?? 0) + 1; return by; };
+  step('start', { map: g.maps.map.id, at: pos(), saved: params.get('loc') });
+  if (params.get('quick')) {
+    step('alive', alive()); step('npcs', g.npcs.npcs.map(n => n.id)); step('region', W().document.getElementById('region-name')?.textContent);
+    step('location save', W().localStorage.getItem('tno.location.v1'));
+    if (params.get('night')) {
+      g.clock.set(22); await until(() => (alive()[g.maps.map.id] ?? 0) >= 6, 120000, 500);
+      const c = g.game.combat;
+      step('after night', { clock: g.clock.phase, combat: c.phase, alive: alive(), dormant: c.monsters.filter(m => m.spawn.map === g.maps.map.id && !m.alive).map(m => [m.spawn.area, m.type, m.state, +m.respawnTimer.toFixed(1), c.isActive(m.spawn)]).slice(0, 12) });
+    }
+    g.view.snap?.(g.player.position); await sleep(800); shot('quick');
+    throw new Error('quick mode: stopped after the start state');
+  }
+  const openShop = npc => {
+    g.shop.show(npc, g.game.character);
+    const rows = [...W().document.querySelectorAll('#shop-list [data-buy]')].map(r => r.dataset.buy);
+    const title = W().document.getElementById('shop-title').textContent;
+    g.shop.close();
+    return { title, rows };
+  };
+  // Walk into a portal's trigger the way a player would: stand 4 m before it on
+  // the approach, plan a route with findPath, then step along it each frame.
+  const walkInto = async (portalId, label) => {
+    const from = g.maps.map.id, p = g.maps.map.portals.find(q => q.id === portalId);
+    // Approach point: 7 m from the trigger toward the map's interior.
+    const b = g.maps.map.walk[0], inward = (p.at.z - b.minZ) < (b.maxZ - p.at.z) ? 1 : -1;
+    const sx = p.at.x, sz = p.at.z + inward * 7;
+    g.player.position.set(sx, g.world.heightAt(sx, sz), sz); g.view.snap?.(g.player.position);
+    await sleep(400);
+    const standApproach = g.world.canStand(sx, sz);
+    const route = findPath((x, z) => g.world.canStand(x, z), { x: sx, z: sz }, { x: p.at.x, z: p.at.z });
+    const t0 = performance.now();
+    if (route) for (const wp of route) {
+      const s = { x: g.player.position.x, z: g.player.position.z }, n = Math.ceil(Math.hypot(wp.x - s.x, wp.z - s.z) / .4);
+      for (let i = 1; i <= n && g.maps.map?.id === from && !g.maps.busy; i++) { const x = s.x + (wp.x - s.x) * i / n, z = s.z + (wp.z - s.z) * i / n; g.player.position.set(x, g.world.heightAt(x, z), z); await sleep(30); }
+    }
+    const arrived = await until(() => g.maps.map?.id === p.to && !g.maps.busy, 60000, 200);
+    step(label, { from, to: p.to, approach: [r1(sx), r1(sz)], route: route ? route.length : null, standApproach, arrived, ms: Math.round(performance.now() - t0), travelMs: g.maps.lastTravelMs, at: pos() });
+    if (!arrived) { await g.maps.travel(p); step(label + ' (travel fallback)', g.maps.map.id); }
+    await sleep(2500);
+  };
+  const report = async (name, ids = []) => {
+    const m = g.maps.map, n = g.npcs.npcs;
+    step(`${name} state`, {
+      map: m.id, name: m.name, at: pos(), region: W().document.getElementById('region-name')?.textContent,
+      standArrival: g.world.canStand(g.player.position.x, g.player.position.z),
+      portals: { warps: g.maps.portals.items.length, paths: g.maps.portals.paths.length },
+      landmarks: g.maps.landmarks.map(l => l.id), npcs: n.map(x => x.id), alive: alive(), types: aliveTypes(),
+      zonesActive: g.maps.zones.filter(z => z.active.length).map(z => `${z.area}:${z.type}`),
+      skillbarHidden: g.game.hud.skillButtons.map(b => b.hidden).every(Boolean),
+      stats: { buildMs: g.world.stats.buildMs, houses: g.world.stats.houses, forestTrees: g.world.stats.forestTrees },
+    });
+    for (const id of ids) {
+      const npc = n.find(x => x.id === id);
+      if (!npc) { step(`${name} npc ${id}`, 'MISSING'); continue; }
+      step(`${name} npc ${id}`, { at: [r1(npc.x), r1(npc.z)], stand: g.world.canStand(npc.x, npc.z), shown: npc.shown, indoors: !!npc.indoors, distance: r1(npc.distance ?? -1), activity: npc.activity?.do ?? npc.state, shop: npc.def.shopType ? openShop(npc) : null });
+      if (npc.def.shopType && name !== 'paddy') { const px = g.player.position.x, pz = g.player.position.z; g.player.position.set(npc.x + 2.5, g.world.heightAt(npc.x + 2.5, npc.z + 2), npc.z + 2); g.view.snap?.(g.player.position); await sleep(1500); shot(`${name}_${id}`); g.player.position.set(px, g.world.heightAt(px, pz), pz); }
+    }
+    g.view.snap?.(g.player.position); await sleep(900); shot(`${name}_arrival`);
+  };
+  await report('city');
+  await walkInto('warp_to_paddy', 'city -> paddy');
+  await report('paddy', ['village_trader', 'guard_gate_w', 'farmer_a']);
+  await walkInto('path_to_forest', 'paddy -> deep_forest');
+  await report('deep_forest', ['forest_herbalist']);
+  await walkInto('path_to_wat', 'deep_forest -> wat_rang');
+  await report('wat_rang', ['wat_hermit']);
+  // Night on the wat: the dead come out.
+  // SwiftShader renders a frame in about a second and dt is clamped, so wait for the staggered spawns.
+  g.clock.set(22); await until(() => (alive().wat_rang ?? 0) >= 6, 120000, 500);
+  step('wat_rang night', { phase: g.clock.phase, alive: alive(), types: aliveTypes() });
+  g.view.snap?.(g.player.position); shot('wat_rang_night');
+  g.clock.set(11); await sleep(500);
+  // The cemetery and the reserved temple site, for the record.
+  g.player.position.set(30, g.world.heightAt(30, -540), -540); g.view.snap?.(g.player.position); await sleep(900); shot('wat_rang_site');
+  // And back the whole way.
+  await walkInto('path_to_deep_forest', 'wat_rang -> deep_forest');
+  step('back on deep_forest', { map: g.maps.map.id, at: pos(), alive: alive() });
+  await walkInto('path_to_paddy', 'deep_forest -> paddy');
+  step('back on paddy', { map: g.maps.map.id, at: pos(), alive: alive() });
+  g.view.snap?.(g.player.position); await sleep(600); shot('paddy_forest_exit');
+  await walkInto('warp_to_city', 'paddy -> city');
+  step('back in city', { map: g.maps.map.id, at: pos(), alive: alive(), skillbarHidden: g.game.hud.skillButtons.map(b => b.hidden).every(Boolean) });
+  step('location save', W().localStorage.getItem('tno.location.v1'));
+  step('memory', { ...g.renderer.info.memory, programs: g.renderer.info.programs?.length });
+} catch (e) { step('probe error', String(e.stack ?? e)); }
+step('done', true);
+flush();
+</script>

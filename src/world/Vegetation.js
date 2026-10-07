@@ -209,6 +209,13 @@ export class Vegetation {
   bush(x, y, z, { s = 1, dark = 0 } = {}) { this.bushes.add(x, y, z, { ry: this.rng() * 3, s, color: this.leafColor(dark - .1) }); }
   fern(x, y, z, { s = 1, dark = 0 } = {}) { this.ferns.add(x, y + .1, z, { ry: this.rng() * 6, s, color: this.frondColor(dark) }); }
   vine(x, y, z, { s = 1 } = {}) { this.vines.add(x, y, z, { ry: this.rng() * 3, sy: s, color: this.leafColor(.8) }); }
+  // Runs fn(veg) on a private random sequence (seed), so a district can add plants
+  // without shifting the shared sequence: every later tree keeps its look.
+  isolated(seed, fn) {
+    const shared = this.rng;
+    this.rng = createRng(seed);
+    try { return fn(this); } finally { this.rng = shared; }
+  }
   build(scene) {
     let n = 0;
     for (const set of [this.cards, ...this.trunks, ...this.giants, ...this.dead, ...this.palms.map(p => p.set), this.palmCrown, this.sugarCrown, this.sugarTrunk,

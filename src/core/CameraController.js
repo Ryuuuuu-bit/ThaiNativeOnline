@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { fadeUniforms } from '../world/shaders.js';
 import { spriteScale } from '../world/Atmosphere.js';
 
+const _dir = new THREE.Vector3(), _corner = new THREE.Vector3();
+
 // Orthographic 2.5D camera from the prototype: follows the player, right-drag
 // pans, wheel zooms. The view keeps the same angle everywhere in the city.
 export class CameraController {
@@ -42,6 +44,15 @@ export class CameraController {
   place(target) {
     this.camera.position.copy(this.focus).add(this.offset); this.camera.lookAt(this.focus);
     fadeUniforms.uFadeCenter.value.set(target.x, target.y + .9, target.z);
+  }
+  // The ground (y = 0) under the four screen corners: the minimap's view outline.
+  groundFootprint() {
+    const cam = this.camera, dir = cam.getWorldDirection(_dir), out = [];
+    for (const [x, y] of [[-1, 1], [1, 1], [1, -1], [-1, -1]]) {
+      const o = _corner.set(x, y, -1).unproject(cam), t = -o.y / dir.y;
+      out.push({ x: o.x + dir.x * t, z: o.z + dir.z * t });
+    }
+    return out;
   }
   // Ray from the screen to the terrain surface, refined against height.
   groundPoint(clientX, clientY, heightAt) {

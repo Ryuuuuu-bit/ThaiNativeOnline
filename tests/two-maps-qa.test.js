@@ -1,6 +1,6 @@
-// QA regression checks for the two-map split (city + fields) that the map and
+// QA regression checks for the map split (city + paddy, deep_forest, wat_rang) that the map and
 // content tests do not cover: data the HUD and journal read, and safety around
-// the warp arrival. Browser-only parts (the combat tip, the journal hint) were
+// every portal arrival. Browser-only parts (the combat tip, the journal hint) were
 // verified in headless Edge; see docs/technical/VERIFY.md.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -15,7 +15,7 @@ test('every landmark purpose has a label (the discovery toast prints it)', () =>
   for (const l of LANDMARKS) if (l.purpose) assert.ok(PURPOSES[l.purpose], `${l.id}: unknown purpose ${l.purpose}`);
 });
 
-test('no monster can aggro a player standing on a warp arrival point', () => {
+test('no monster can aggro a player standing on a portal arrival point', () => {
   for (const map of Object.values(MAPS)) for (const p of map.portals) {
     const { x, z } = p.arrive;
     for (const zone of combatSpawns()) {
@@ -34,6 +34,6 @@ test('each map that has monsters has a shop selling potions (restock without war
   }
 });
 
-test('both maps have something to discover', () => {
+test('every map has something to discover', () => {
   for (const id of Object.keys(MAPS)) assert.ok(landmarksOf(id, LANDMARKS).some(l => !l.hidden), `${id} has no visible landmark`);
 });

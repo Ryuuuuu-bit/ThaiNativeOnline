@@ -98,9 +98,9 @@ try {
   // Warp to the fields.
   const t0 = performance.now();
   g.player.position.set(0, g.world.heightAt(0, -107), -107); g.stopWalk?.();
-  let warped = await until(() => g.maps.map?.id === 'fields' && !g.maps.busy, 60000, 200);
-  step('warp city->fields via trigger', { warped, ms: Math.round(performance.now() - t0), travelMs: g.maps.lastTravelMs });
-  if (!warped) { await g.maps.travel(g.maps.map.portals[0]); warped = g.maps.map?.id === 'fields'; step('warp city->fields via travel()', warped); }
+  let warped = await until(() => g.maps.map?.id === 'paddy' && !g.maps.busy, 60000, 200);
+  step('warp city->paddy via trigger', { warped, ms: Math.round(performance.now() - t0), travelMs: g.maps.lastTravelMs });
+  if (!warped) { await g.maps.travel(g.maps.map.portals[0]); warped = g.maps.map?.id === 'paddy'; step('warp city->paddy via travel()', warped); }
   await sleep(6000);
   step('fields player at', [+g.player.position.x.toFixed(1), +g.player.position.z.toFixed(1)]);
   step('skillbar hidden on fields', g.game.hud.skillButtons.map(b => b.hidden));
@@ -123,7 +123,7 @@ try {
   const t1 = performance.now();
   g.player.position.set(0, g.world.heightAt(0, -122.5), -122.5);
   let back = await until(() => g.maps.map?.id === 'city' && !g.maps.busy, 60000, 200);
-  step('warp fields->city via trigger', { back, ms: Math.round(performance.now() - t1), travelMs: g.maps.lastTravelMs });
+  step('warp paddy->city via trigger', { back, ms: Math.round(performance.now() - t1), travelMs: g.maps.lastTravelMs });
   if (!back) { await g.maps.travel(g.maps.map.portals[0]); back = g.maps.map?.id === 'city'; step('warp back via travel()', back); }
   await sleep(2000);
   step('city player at', [+g.player.position.x.toFixed(1), +g.player.position.z.toFixed(1)]);

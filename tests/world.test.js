@@ -93,14 +93,14 @@ test('world clock phases and listeners', () => {
 });
 
 test('regions name the main districts', () => {
-  const cases = [[0, 28, 'market'], [6, 150, 'port'], [70, -60, 'temple'], [-60, -200, 'rice'], [0, -420, 'forest'], [0, -540, 'cemetery'], [0, 200, 'river']];
+  const cases = [[0, 28, 'market'], [6, 150, 'port'], [70, -60, 'temple'], [-60, -200, 'rice'], [0, -380, 'forest'], [0, -425, 'deep'], [0, -470, 'wat_wood'], [0, -540, 'cemetery'], [0, 200, 'river']];
   for (const [x, z, id] of cases) assert.equal(regionAt(x, z).id, id, `${x},${z}`);
-  assert.equal(regionAt(0, -540, false).id, 'deep', 'an undiscovered cemetery reads as deep forest');
+  assert.equal(regionAt(0, -540, false).id, 'wat_wood', 'an undiscovered cemetery reads as the woods of the wat');
 });
 
 test('landmarks and spawn areas sit inside the map; monsters stay out of the city', () => {
   for (const l of LANDMARKS) assert.ok(inBounds(l.x, l.z), l.id);
-  // Landmarks lie inside the walls (city) or clearly outside them (the fields map).
+  // Landmarks lie inside the walls (city) or clearly outside them (the zone maps).
   for (const l of LANDMARKS) assert.ok(l.z > WALL.z + 1 || l.z < WALL.z - 5, `${l.id} sits in the city wall`);
   for (const s of SPAWNS) {
     assert.ok(inBounds(s.x, s.z), s.id);
@@ -109,7 +109,7 @@ test('landmarks and spawn areas sit inside the map; monsters stay out of the cit
   assert.ok(Math.hypot(CEMETERY.x, CEMETERY.z - WALL.z) > 400, 'the cemetery is a journey away');
 });
 
-test('combat zones (on the fields map only) use known monsters', async () => {
+test('combat zones (on the zone maps only) use known monsters', async () => {
   const { combatSpawns } = await import('../src/data/spawns.js');
   const { MONSTERS } = await import('../src/combat/data/monsters.js');
   for (const z of combatSpawns()) {
