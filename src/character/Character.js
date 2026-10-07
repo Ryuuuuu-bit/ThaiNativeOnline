@@ -130,6 +130,9 @@ export class Character extends Emitter {
     if (!this.alive) return;
     const hot = this.buffs.reduce((n, b) => n + (b.hot || 0), 0);
     if (hot && this.hp < this.maxHp) { this.hp = Math.min(this.maxHp, this.hp + this.maxHp * hot * dt); this.emit('change'); }
+    // a monster's poison (src/combat/monsterHit.js): HP a second, never the last one
+    const poison = this.buffSum('poison');
+    if (poison && this.hp > 1) { this.hp = Math.max(1, this.hp - poison * dt); this.emit('change'); }
     const rate = inCombat ? .004 : .025;
     this.regen = (this.regen || 0) + dt;
     if (this.regen >= 1 && !this.heavy) {   // a heavy bag stops natural regeneration

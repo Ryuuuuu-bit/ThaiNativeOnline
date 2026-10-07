@@ -14,7 +14,7 @@ import { phaseOf } from '../core/WorldClock.js';
 // Offline nothing changes: Combat keeps its local monsters.
 //   const nc = attachNetCombat(net, game) · nc.update(dt)
 const EASE = 12, ID = sid => `s${sid}`;
-const STATES = ['dormant', 'idle', 'chase', 'return', 'dead'];
+const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
 
 export function attachNetCombat(net, game) {
   const combat = game.game.combat, c = game.game.character;
@@ -68,7 +68,10 @@ export function attachNetCombat(net, game) {
     for (const d of msg.drops) c.addItem(d.id, d.qty);
     c.emit('change');
   });
-  net.on('ma', msg => { const m = byId.get(msg.id); if (m && c.alive) combat.monsterAttack(m, msg.res ?? null); });   // res: resolved on the server (signed in)
+  net.on('ma', msg => {   // res: resolved on the server (signed in); knock / pull: where the hit throws the player
+    const m = byId.get(msg.id);
+    if (m && c.alive) combat.monsterAttack(m, msg.res ?? null, { knock: !!msg.knock, pull: !!msg.pull });
+  });
   net.on('clock', msg => {
     serverPhase = phaseOf(msg.h);
     if (!game.clock.paused) game.clock.set(msg.h);

@@ -23,11 +23,16 @@
 //   server → client  sync {c} (the server's character, c.ack = actions replayed, c.quests) · me {hp, mp, ack} (1×/s) · kicked {}
 // Phase 4 (signed-in players): ma {id, power, res: {dodge} | {dmg, hp, dead}} — the server resolved the swing;
 //   quest_accept / quest_complete / talk ops; buying needs a shop of that kind on the map, out of a fight.
+// Channels (server/channels.js): a busy map opens CH 2, 3, … with their own monsters (no elites or
+//   bosses past CH 1); quiet ones close after a warning. welcome carries {ch, chs}.
+//   client → server  chans (the list) · chan {ch} (switch: out of a fight, once a minute)
+//   server → client  chans {map, ch, list: [{ch, n, cap, closing}]} · chno {why} · chwarn {ch, secs} · chmove {ch, why}
 import { createServer } from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { WebSocketServer } from 'ws';
-import { Presence, rateLimiter } from './presence.js';
+import { Presence, rateLimiter, MAPS } from './presence.js';
+import { Channels, CHANNEL, roomOf, parseRoom } from './channels.js';
 import { openStore } from './store.js';
 import { Accounts } from './accounts.js';
 import { MonsterWorld } from './monsters.js';
@@ -109,7 +114,18 @@ const presence = new Presence();
 const wss = new WebSocketServer({ server, path: '/ws', maxPayload: 2048 });
 const conns = new Map();   // ws → { allow() }
 const send = (ws, msg) => { if (ws.readyState === 1) ws.send(JSON.stringify(msg)); };
-const toMap = (map, msg, except = null) => { const s = JSON.stringify(msg); for (const [ws] of conns) if (ws !== except && presence.players.get(ws)?.map === map && ws.readyState === 1) ws.send(s); };
+const toMap = (room, msg, except = null) => { const s = JSON.stringify(msg); for (const [ws] of conns) if (ws !== except && presence.players.get(ws)?.room === room && ws.readyState === 1) ws.send(s); };
+const channels = new Channels();
+const chs = map => channels.list(map, presence.counts(map));
+const pickCh = map => (MAPS.includes(map) ? channels.pick(map, presence.counts(map)) : 1);
+// a player to another channel of the same map: like walking through a portal, minus the walk
+const moveTo = (ws, ch, why) => {
+  const r = presence.setChannel(ws, ch); if (!r) return;
+  toMap(r.left, { t: 'leave', id: r.id }, ws);
+  send(ws, { t: 'chmove', ch: r.ch, why });
+  send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
+  toMap(r.room, { t: 'join', p: r.joined }, ws);
+};
 const toAll = msg => { const s = JSON.stringify(msg); for (const [ws] of conns) if (presence.players.has(ws) && ws.readyState === 1) ws.send(s); };
 
 wss.on('connection', ws => {
@@ -125,7 +141,7 @@ wss.on('connection', ws => {
         const id = await accounts.auth(m.token).catch(() => null);
         const saved = id && Number.isInteger(m.slot) ? await accounts.character(id, m.slot).catch(() => null) : null;
         if (saved) Object.assign(m, { name: saved.name, cls: saved.classId, gender: saved.gender, lv: saved.level });
-        const r = presence.join(ws, m);
+        const r = presence.join(ws, m, pickCh(m.map));
         if (!r) return;
         if (r.full) { send(ws, { t: 'full' }); ws.close(); return; }
         if (saved) {
@@ -136,23 +152,32 @@ wss.on('connection', ws => {
           combatants.load(r.you, fresh, { account: id, slot: m.slot }, await accounts.quests(id, m.slot).catch(() => '{}'));
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
-        send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count }); arrive(ws, r.map);
-        toMap(r.map, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
+        send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
+        toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
         break;
       }
       case 's': presence.move(ws, m); break;
       case 'map': {
-        const r = presence.changeMap(ws, m); if (!r) return;
+        const r = presence.changeMap(ws, m, pickCh(m.map)); if (!r) return;
         toMap(r.left, { t: 'leave', id: r.id }, ws);
-        send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count }); arrive(ws, r.map);
-        toMap(r.map, { t: 'join', p: r.joined }, ws);
+        send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
+        toMap(r.room, { t: 'join', p: r.joined }, ws);
+        break;
+      }
+      case 'chans': { const p = presence.players.get(ws); if (p) send(ws, { t: 'chans', map: p.map, ch: p.ch, list: chs(p.map) }); break; }
+      case 'chan': {
+        const p = presence.players.get(ws); if (!p) return;
+        const ch = Math.floor(Number(m.ch));
+        const why = channels.canSwitch(p.map, ch, presence.counts(p.map), { from: p.ch, fighting: combatants.fighting(p.id), dead: !!p.dead, lastAt: p.chanAt ?? -Infinity });
+        if (why) { send(ws, { t: 'chno', why }); break; }
+        p.chanAt = Date.now() / 1000; moveTo(ws, ch, 'switch');
         break;
       }
       case 'a': { const r = presence.anim(ws, m); if (r) toMap(r.map, r, ws); break; }
       case 'c': { const r = presence.chat(ws, m.text); if (r) toAll(r); break; }
       case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
       case 'cast': { const p = presence.players.get(ws); if (!p) return; const r = combatants.cast(p.id, m.skill); if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why }); break; }
-      case 'blow': { const p = presence.players.get(ws); if (p) route(p.map, combatants.blow(p.id, worldOf(p.map), presence.inMap(p.map), m, clock.phase)); break; }
+      case 'blow': { const p = presence.players.get(ws); if (p) { combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); } break; }
       case 'dead': {
         const p = presence.players.get(ws); if (!p) return;
         if (!combatants.get(p.id)?.persist) { presence.setDead(ws, m.v); break; }
@@ -167,7 +192,7 @@ wss.on('connection', ws => {
       case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }
       case 'lv': {
         if (combatants.get(presence.players.get(ws)?.id)?.persist) return;   // a signed-in level comes from the server
-        const r = presence.setLevel(ws, m.lv); const p = presence.players.get(ws); if (r && p) toMap(p.map, { t: 'lv', ...r }, ws); break; }
+        const r = presence.setLevel(ws, m.lv); const p = presence.players.get(ws); if (r && p) toMap(p.room, { t: 'lv', ...r }, ws); break; }
     }
   });
   ws.on('close', () => {
@@ -181,8 +206,8 @@ wss.on('connection', ws => {
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
 const clock = new WorldClock({ hour: 7.5 });
 const combatants = new Combatants();   // each player's character sheet, cooldowns and buffs (3b)
-const worlds = new Map();   // map id → MonsterWorld, made when someone first arrives
-const worldOf = map => { if (!worlds.has(map)) worlds.set(map, new MonsterWorld(map)); return worlds.get(map); };
+const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
+const worldOf = room => { if (!worlds.has(room)) { const { map, ch } = parseRoom(room); worlds.set(room, new MonsterWorld(map, { elites: ch === 1 })); } return worlds.get(room); };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
 // route what the monster world reports: map-wide news, or a message for one player
 function route(map, events, except = null) {
@@ -193,8 +218,10 @@ function route(map, events, except = null) {
       if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
     } else if (e.t === 'ma') {
       const ws = socketOf(e.to); if (!ws) continue;
+      combatants.touch(e.to);
       const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power);   // signed-in: resolved here
       if (res?.dead) presence.setDead(ws, true);
+      if ((e.knock || e.pull) && !res?.dodge) presence.allowJump(ws, e.pull ? 16 : 4);
       send(ws, res ? { ...e, res } : e);
     }
     else toMap(map, e, except);
@@ -206,14 +233,26 @@ const arrive = (ws, map) => { send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }
 setInterval(() => {
   clock.update(TICK / 1000);
   combatants.tick(TICK / 1000, clock.phase === 'night');
-  const maps = new Set([...presence.players.values()].map(p => p.map));
-  for (const map of maps) {
-    const p = presence.snapshot(map); if (p.length) toMap(map, { t: 'tick', p });
-    const w = worldOf(map);
-    route(map, w.update(TICK / 1000, presence.inMap(map), clock.phase));
-    const m = w.snapshot(); if (m.length) toMap(map, { t: 'mt', m });
+  const rooms = new Set([...presence.players.values()].map(p => p.room));
+  for (const room of rooms) {
+    const p = presence.snapshot(room); if (p.length) toMap(room, { t: 'tick', p });
+    const w = worldOf(room);
+    route(room, w.update(TICK / 1000, presence.inMap(room), clock.phase));
+    const m = w.snapshot(); if (m.length) toMap(room, { t: 'mt', m });
   }
 }, TICK);
+// channels open and close with the crowd (server/channels.js), checked once a second
+setInterval(() => {
+  for (const map of MAPS) {
+    const { warn, evict } = channels.update(map, presence.counts(map));
+    for (const ch of warn) toMap(roomOf(map, ch), { t: 'chwarn', ch, secs: CHANNEL.warn });
+    for (const ch of evict) for (const [ws, p] of presence.players) {
+      if (p.map !== map || p.ch !== ch || combatants.fighting(p.id)) continue;   // the ones fighting go once the fight is over
+      moveTo(ws, channels.pick(map, presence.counts(map)), 'closed');
+    }
+  }
+  for (const room of worlds.keys()) { const { map, ch } = parseRoom(room); if (ch > 1 && !channels.chans(map).has(ch)) worlds.delete(room); }
+}, 1000);
 setInterval(() => toAll({ t: 'clock', h: +clock.hour.toFixed(3) }), 10000);
 // signed-in characters: MP to the browser 1×/s, saved to the database every 30 s when changed
 const flush = async id => { const s = combatants.get(id); if (!s?.persist || !s.dirty) return; s.dirty = false; await accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json()).catch(e => { s.dirty = true; console.warn('save', e.message); }); };

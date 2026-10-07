@@ -2,7 +2,8 @@
 // Combat, KitCaster, rules damage and AUTO settings. No rendering, so minutes of play
 // run in a second. Use it after touching skill numbers, stats or monsters.
 //
-//   node tools/sim/farm-sim.mjs [zone=paddy] [level=2] [minutes=5] [runs=3]
+//   node tools/sim/farm-sim.mjs [zone=paddy] [level=2] [minutes=5] [runs=3] [area=all] [phase=day]
+// (area: one spawn area of src/data/spawns.js, e.g. wat_ruins; phase: morning / day / evening / night)
 //
 // Per class: kills per minute, deaths, potions drunk, lowest HP, and where the damage
 // came from (kit skills / basic attacks / the hunter's dog). Approximations: kit
@@ -23,7 +24,7 @@ import { HUNTER_SKILLS } from '../../src/classes/hunter-moves.js';
 import { SHAMAN_SKILLS } from '../../src/classes/shaman-moves.js';
 import { HERBALIST_SKILLS } from '../../src/classes/herbalist-moves.js';
 
-const [zone = 'paddy', level = '2', minutes = '5', runs = '3'] = process.argv.slice(2);
+const [zone = 'paddy', level = '2', minutes = '5', runs = '3', area = 'all', phase = 'day'] = process.argv.slice(2);
 const KITS = { muaythai: MUAYTHAI_SKILLS, warrior: WARRIOR_SKILLS, hunter: HUNTER_SKILLS, shaman: SHAMAN_SKILLS, herbalist: HERBALIST_SKILLS };
 const BUILD = { muaythai: ['str', 'agi'], warrior: ['str', 'vit'], hunter: ['dex', 'agi'], shaman: ['int', 'dex'], herbalist: ['int', 'vit'] };
 const DT = .05, WALK = 4.2;
@@ -61,13 +62,13 @@ function run(classId) {
   for (let i = 0; c.points > 0 && i < 400; i++) c.allocate(BUILD[classId][i % 2]);
   c.hp = c.maxHp; c.mp = c.maxMp;
   for (let i = 0; i < 10; i++) c.addItem('potion_s'); for (let i = 0; i < 5; i++) c.addItem('ether');
-  const zones = combatSpawns().filter(z => mapOf(z.x, z.z) === zone);
+  const zones = combatSpawns().filter(z => mapOf(z.x, z.z) === zone && (area === 'all' || z.area === area) && z.active.includes(phase));
   const start = zones[0];
   const player = { group: new THREE.Group() }; player.position = player.group.position; player.position.set(start.x + 3, 0, start.z + 3);
   let dest = null;
   const world = { canStand: () => true, playerPos: () => player.position, moveTo: (x, z) => { dest = { x, z }; }, stop() { dest = null; } };
   const combat = new Combat(c, world, zones);
-  combat.setPhase?.('day');
+  combat.setPhase?.(phase);
   const kit = KITS[classId];
   const fx = { K: 1, root: { position: { y: 0 } }, toLocal: v => v.clone(), addTask() {} };
   let runner = null;
@@ -76,8 +77,8 @@ function run(classId) {
     dummy: () => null, nearDummy: () => false, dummyDefense: () => ({ def: 0, eva: 0 }), dummyRange: 12,
     runnerFactory: (t, damage) => (runner = simRunner(t, damage, kit)) });
   const cfg = normalizeAuto({ range: 'far' });
-  const S = { kills: 0, deaths: 0, potions: 0, hpPot: 0, mpPot: 0, minHp: 1, skill: 0, basic: 0, pet: 0 };
-  combat.on('kill', () => S.kills++);
+  const S = { exp: 0, kills: 0, deaths: 0, potions: 0, hpPot: 0, mpPot: 0, minHp: 1, skill: 0, basic: 0, pet: 0 };
+  combat.on('kill', e => { S.kills++; S.exp += e.exp ?? 0; });
   combat.on('hit', e => { if (e.pet) S.pet += e.amount; else if (runner?.busy || caster.lastSkill && caster.affected.size) S.skill += e.amount; else S.basic += e.amount; });
   c.on('used', id => { S.potions++; if (id === 'ether') S.mpPot++; else S.hpPot++; });
   let potionWait = 0, autoWait = 0, next = 0, deadFor = 0;
@@ -103,14 +104,14 @@ function run(classId) {
     // the dog is never borrowed in the sim (no FX), so its own bites always run
   }
   const total = S.skill + S.basic + S.pet || 1;
-  return { kpm: S.kills / Number(minutes), deaths: S.deaths, potions: S.potions, hpPot: S.hpPot, mpPot: S.mpPot, minHp: S.minHp, mix: [S.skill / total, S.basic / total, S.pet / total] };
+  return { epm: S.exp / Number(minutes), kpm: S.kills / Number(minutes), deaths: S.deaths, potions: S.potions, hpPot: S.hpPot, mpPot: S.mpPot, minHp: S.minHp, mix: [S.skill / total, S.basic / total, S.pet / total] };
 }
 
 const pct = v => `${Math.round(v * 100)}%`;
-console.log(`zone ${zone} · Lv ${level} · ${minutes} min × ${runs} runs (AUTO, range far, potions 40%/25%)`);
-console.log('class       kills/min  deaths  HP pots  MP pots  lowest HP   damage: skills / basic / dog');
+console.log(`zone ${zone}${area === 'all' ? '' : ` / ${area}`} (${phase}) · Lv ${level} · ${minutes} min × ${runs} runs (AUTO, range far, potions 40%/25%)`);
+console.log('class       kills/min  EXP/min  deaths  HP pots  MP pots  lowest HP   damage: skills / basic / dog');
 for (const id of Object.keys(KITS)) {
   const rs = Array.from({ length: Number(runs) }, () => run(id)), avg = k => rs.reduce((n, r) => n + r[k], 0) / rs.length;
   const mix = [0, 1, 2].map(i => rs.reduce((n, r) => n + r.mix[i], 0) / rs.length);
-  console.log(`${id.padEnd(11)} ${avg('kpm').toFixed(1).padStart(9)}  ${avg('deaths').toFixed(1).padStart(6)}  ${avg('hpPot').toFixed(1).padStart(7)}  ${avg('mpPot').toFixed(1).padStart(7)}  ${pct(Math.min(...rs.map(r => r.minHp))).padStart(9)}   ${mix.map(pct).join(' / ')}`);
+  console.log(`${id.padEnd(11)} ${avg('kpm').toFixed(1).padStart(9)}  ${avg('epm').toFixed(0).padStart(7)}  ${avg('deaths').toFixed(1).padStart(6)}  ${avg('hpPot').toFixed(1).padStart(7)}  ${avg('mpPot').toFixed(1).padStart(7)}  ${pct(Math.min(...rs.map(r => r.minHp))).padStart(9)}   ${mix.map(pct).join(' / ')}`);
 }

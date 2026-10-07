@@ -12,6 +12,8 @@ import './net.css';
 //   const mp = startMultiplayer(game)   once the character exists (src/core/Game.js)
 //   mp.enterMap(mapId)                  after every map change
 //   mp.update(dt, camera)               once per frame
+// Channels (server/channels.js): the CH badge on the minimap shows this player's channel of the
+// map; clicking it lists the open ones to switch to (out of a fight, once a minute).
 const SEND_EVERY = .1, KEEPALIVE = 1;
 
 export function startMultiplayer(game) {
@@ -21,7 +23,12 @@ export function startMultiplayer(game) {
   const chat = new ChatBox(text => net.send({ t: 'c', text }));
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
-  net.on('welcome', m => { remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); })
+  const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
+  net.on('welcome', m => { remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+    .on('chans', m => chan.set(m.ch, m.list, true))
+    .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
+    .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
+    .on('chno', m => chat.add('ระบบ', CH_WHY[m.why] ?? 'ย้ายแชนแนลไม่ได้'))
     .on('join', m => remote.set(m.p))
     .on('leave', m => remote.remove(m.id))
     .on('tick', m => { for (const [id, x, z, f, mv] of m.p) remote.move(id, x, z, f, mv); })
@@ -29,7 +36,7 @@ export function startMultiplayer(game) {
     .on('lv', m => remote.level(m.id, m.lv))
     .on('c', m => chat.add(m.name, m.text))
     .on('online', m => chat.setOnline(m.n))
-    .on('status', on => { chat.setStatus(on); if (!on) remote.clear(); });
+    .on('status', on => { chat.setStatus(on); chan.online(on); if (!on) remote.clear(); });
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
@@ -57,6 +64,34 @@ export function startMultiplayer(game) {
       last = p; keepT = 0;
     },
   };
+}
+
+const CH_WHY = { fighting: 'ย้ายแชนแนลระหว่างต่อสู้ไม่ได้', cooldown: 'ย้ายแชนแนลได้นาทีละครั้ง', full: 'แชนแนลนั้นเต็ม', closed: 'แชนแนลนั้นปิดแล้ว', dead: 'ฟื้นก่อนแล้วค่อยย้ายแชนแนล', same: 'อยู่แชนแนลนี้อยู่แล้ว' };
+const load = (n, cap) => (n >= cap * .9 ? ['แน่น', 'full'] : n >= cap * .5 ? ['ปานกลาง', 'mid'] : ['โล่ง', 'low']);
+
+// The CH badge under the map name and its list of channels.
+class ChannelPicker {
+  constructor(choose, ask) {
+    this.btn = document.getElementById('mini-ch'); this.ch = 1;
+    this.box = document.createElement('div'); this.box.className = 'ch-pick glass'; this.box.hidden = true;
+    this.btn?.closest('.minimap')?.append(this.box);
+    this.btn?.addEventListener('click', e => { e.stopPropagation(); if (this.box.hidden) { this.box.hidden = false; this.box.innerHTML = '<p>กำลังโหลด…</p>'; ask(); } else this.box.hidden = true; });
+    this.box.addEventListener('click', e => {
+      e.stopPropagation();
+      const b = e.target.closest('button[data-ch]'); if (!b) return;
+      this.box.hidden = true; choose(Number(b.dataset.ch));
+    });
+    document.addEventListener('pointerdown', e => { if (!this.box.hidden && !this.box.contains(e.target) && e.target !== this.btn) this.box.hidden = true; });
+  }
+  online(on) { if (this.btn) this.btn.hidden = !on; if (!on) this.box.hidden = true; }
+  set(ch, list, render = false) {
+    this.ch = ch; if (this.btn) { this.btn.textContent = `CH ${ch}`; this.btn.hidden = false; }
+    if (!list || (!render && this.box.hidden)) return;
+    this.box.innerHTML = '<header>แชนแนล</header>' + list.map(c => {
+      const [word, cls] = load(c.n, c.cap), here = c.ch === ch;
+      return `<button type="button" data-ch="${c.ch}" class="${cls}${here ? ' here' : ''}" ${here || c.closing ? 'disabled' : ''}><b>CH ${c.ch}</b><span>${c.closing ? 'กำลังปิด' : here ? 'อยู่ที่นี่' : word}</span><i>${c.n}/${c.cap}</i></button>`;
+    }).join('') + '<p>แชนแนลใหม่เปิดเองเมื่อคนแน่น · บอสอยู่ CH 1</p>';
+  }
 }
 
 // Bottom-left chat: the last few lines fade out; Enter opens the input, Enter sends, Esc closes.

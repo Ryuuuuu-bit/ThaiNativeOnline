@@ -16,3 +16,18 @@
 .net-chat input { display: block; width: 100%; margin-top: 4px; padding: 6px 8px; border: 1px solid #e1c98366; border-radius: 3px; background: #06110eee; color: #f3eedb; pointer-events: auto; font-size: 12px; }
 @media (max-width: 900px) { .net-chat { left: 16px; bottom: 230px; width: 240px; } }
 .photo-mode .net-chat { display: none; }
+
+/* channel badge (minimap) and picker — src/net/Multiplayer.js ChannelPicker */
+#mini-ch{font:600 8px 'Noto Sans Thai',sans-serif;letter-spacing:.5px;color:#e8f0ff;background:#2b4a6acc;border:1px solid #9cc0e866;border-radius:8px;padding:1px 7px;line-height:1.4;white-space:nowrap}
+#mini-ch:hover{background:#3c628acc}
+.minimap{overflow:visible}
+.ch-pick{position:absolute;right:0;top:calc(100% + 6px);width:190px;padding:8px;z-index:6;display:flex;flex-direction:column;gap:4px}
+.ch-pick header{font-size:11px;color:#f0d79a;margin-bottom:2px}
+.ch-pick p{margin:2px 0 0;font-size:9px;color:#b7c1a6}
+.ch-pick button{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;background:#ffffff0d;border:1px solid #d3c48726;border-radius:3px;padding:6px 8px;font-size:11px}
+.ch-pick button:hover:not(:disabled){background:#ffffff1f}
+.ch-pick button:disabled{opacity:.6;cursor:default}
+.ch-pick button span{font-size:10px}
+.ch-pick button i{font:9px monospace;color:#b7c1a6;font-style:normal}
+.ch-pick .low span{color:#9fd49a}.ch-pick .mid span{color:#e8c986}.ch-pick .full span{color:#f08a6a}
+.ch-pick .here{border-color:#9cc0e8aa}

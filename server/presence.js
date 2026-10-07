@@ -8,12 +8,16 @@
 // player keeps their last good spot), and each socket is rate limited.
 //
 //   const P = new Presence({ now })
-//   P.join(conn, hello)   → { you, roster, joined }     (hello: name, cls, gender, lv, map, x, z, f)
+//   P.join(conn, hello, ch?) → { you, roster, joined, map, room, ch }   (hello: name, cls, gender, lv, map, x, z, f)
 //   P.move(conn, msg)     → true | false                (msg: x, z, f, m)
-//   P.changeMap(conn, m)  → { left: oldMap, roster, joined }
+//   P.changeMap(conn, m, ch?) → { left: old room, roster, joined, map, room, ch }
+//   P.setChannel(conn, ch)    → the same, staying on the map (server/channels.js)
+//   P.counts(map) → { [ch]: players } · players are grouped by room ('paddy', 'paddy#2', …):
+//   inMap(room) and snapshot(room) take a room id (CH 1's room id is the map id).
 //   P.anim(conn, msg)     → relay message | null
 //   P.chat(conn, text)    → relay message | null
 //   P.leave(conn)         → { map, id } | null
+//   P.allowJump(conn, m)  the next move may be m metres longer (thrown back / dragged by a monster)
 //   P.snapshot(map)       → [[id, x, z, f, m], …] of players who moved since the last one
 export const LIMITS = {
   name: 16, chat: 120, chatEvery: 0.8,      // characters; seconds between chat lines
@@ -23,6 +27,7 @@ export const LIMITS = {
 };
 export const CLASSES = ['muaythai', 'warrior', 'hunter', 'shaman', 'herbalist', 'assassin'];
 export const MAPS = ['city', 'paddy', 'deep_forest', 'wat_rang'];
+const roomOf = (map, ch) => (ch > 1 ? `${map}#${ch}` : map);
 
 const clean = (s, n) => String(s ?? '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
 const num = (v, lim = LIMITS.world) => (Number.isFinite(v) && Math.abs(v) <= lim ? v : null);
@@ -33,10 +38,16 @@ export class Presence {
     this.now = now; this.players = new Map(); this.nextId = 1;
   }
   get count() { return this.players.size; }
-  inMap(map) { return [...this.players.values()].filter(p => p.map === map); }
+  inMap(room) { return [...this.players.values()].filter(p => p.room === room); }
+  counts(map) { const o = {}; for (const p of this.players.values()) if (p.map === map) o[p.ch] = (o[p.ch] ?? 0) + 1; return o; }
+  // into room `ch` of the player's map (or of msg.map): who is there, and who to tell
+  enter(p, ch) {
+    p.ch = Math.max(1, Math.floor(ch) || 1); p.room = roomOf(p.map, p.ch);
+    return { id: p.id, roster: this.inMap(p.room).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map: p.map, room: p.room, ch: p.ch };
+  }
   info(p) { return { id: p.id, name: p.name, cls: p.cls, gender: p.gender, lv: p.lv, x: p.x, z: p.z, f: p.f, m: p.m }; }
 
-  join(conn, h = {}) {
+  join(conn, h = {}, ch = 1) {
     if (this.players.has(conn)) return null;
     if (this.players.size >= LIMITS.maxPlayers) return { full: true };
     const map = MAPS.includes(h.map) ? h.map : 'city';
@@ -46,7 +57,8 @@ export class Presence {
       map, x: num(h.x) ?? 0, z: num(h.z) ?? 0, f: num(h.f, 10) ?? 0, m: 0, t: this.now(), dirty: true, chatAt: -Infinity,
     };
     this.players.set(conn, p);
-    return { you: p.id, roster: this.inMap(map).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map };
+    const r = this.enter(p, ch);
+    return { you: p.id, ...r };
   }
   // A move is kept only if it is reachable on foot since the last accepted one.
   move(conn, msg = {}) {
@@ -54,17 +66,25 @@ export class Presence {
     const x = num(msg.x), z = num(msg.z), f = num(msg.f, 10), now = this.now();
     if (x === null || z === null) return false;
     const dt = Math.max(.05, now - p.t), d = Math.hypot(x - p.x, z - p.z);
-    if (d > LIMITS.speed * dt + .5) return false;
+    if (d > LIMITS.speed * dt + .5 + (p.slack || 0)) return false;
+    if (p.slack && (p.slackUntil < now || d > LIMITS.speed * dt + .5)) p.slack = 0;
     p.x = round(x); p.z = round(z); if (f !== null) p.f = round(f); p.m = [0, 1, 2].includes(msg.m) ? msg.m : 0; p.t = now; p.dirty = true;
     return true;
   }
   // Walking through a portal (or a respawn): a new room, and a jump the speed check allows once.
-  changeMap(conn, msg = {}) {
+  changeMap(conn, msg = {}, ch = 1) {
     const p = this.players.get(conn); if (!p || !MAPS.includes(msg.map)) return null;
-    const left = p.map;
+    const left = p.room;
     p.map = msg.map; p.x = num(msg.x) ?? p.x; p.z = num(msg.z) ?? p.z; p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = this.now(); p.dirty = true;
-    return { left, id: p.id, roster: this.inMap(p.map).filter(o => o !== p).map(o => this.info(o)), joined: this.info(p), map: p.map };
+    return { left, ...this.enter(p, ch) };
   }
+  // Another channel of the same map: same spot, new room.
+  setChannel(conn, ch) {
+    const p = this.players.get(conn); if (!p) return null;
+    const left = p.room; p.dirty = true;
+    return { left, ...this.enter(p, ch) };
+  }
+  allowJump(conn, metres) { const p = this.players.get(conn); if (p) { p.slack = Math.min(20, metres); p.slackUntil = this.now() + 3; } }
   // Down / back up (monsters stop chasing the dead).
   setDead(conn, v) { const p = this.players.get(conn); if (p) p.dead = !!v; return p; }
   // Level shown on the name plate (from the client's own save for now).
@@ -74,7 +94,7 @@ export class Presence {
     const p = this.players.get(conn); if (!p) return null;
     const clip = clean(msg.clip, 32); if (!/^[a-z0-9_]+$/.test(clip)) return null;
     const sp = Math.max(.5, Math.min(3, Number(msg.sp) || 1));
-    return { t: 'a', id: p.id, clip, sp, map: p.map };
+    return { t: 'a', id: p.id, clip, sp, map: p.room };
   }
   chat(conn, text) {
     const p = this.players.get(conn); if (!p) return null;
@@ -86,11 +106,11 @@ export class Presence {
   leave(conn) {
     const p = this.players.get(conn); if (!p) return null;
     this.players.delete(conn);
-    return { map: p.map, id: p.id };
+    return { map: p.room, id: p.id };
   }
-  snapshot(map) {
+  snapshot(room) {
     const out = [];
-    for (const p of this.players.values()) if (p.map === map && p.dirty) { out.push([p.id, p.x, p.z, p.f, p.m]); p.dirty = false; }
+    for (const p of this.players.values()) if (p.room === room && p.dirty) { out.push([p.id, p.x, p.z, p.f, p.m]); p.dirty = false; }
     return out;
   }
 }

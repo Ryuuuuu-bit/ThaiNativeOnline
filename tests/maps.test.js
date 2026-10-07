@@ -131,8 +131,10 @@ test('monster areas live only on the zone maps; the city stays a safe zone', () 
   }
   for (const z of combatSpawns()) {
     assert.ok(MONSTERS[z.type], `unknown monster ${z.type}`);
-    const map = MAPS[mapOf(z.x, z.z)], lv = MONSTERS[z.type].level;
-    assert.ok(lv >= map.levels[0] && lv <= map.levels[1], `${z.type} (Lv ${lv}) of ${z.area} is outside the ${map.id} band ${map.levels}`);
+    const map = MAPS[mapOf(z.x, z.z)], def = MONSTERS[z.type], lv = def.level;
+    // elites and bosses may stand a few levels above the band, in a spot of their own
+    const top = def.elite || def.boss ? map.levels[1] + 3 : map.levels[1];
+    assert.ok(lv >= map.levels[0] && lv <= top, `${z.type} (Lv ${lv}) of ${z.area} is outside the ${map.id} band ${map.levels}`);
     assert.ok(z.count > 0 && z.active.length, `${z.area}/${z.type} never spawns`);
   }
   assert.equal(spawnsOf('city', SPAWNS).length, 0);
@@ -141,13 +143,15 @@ test('monster areas live only on the zone maps; the city stays a safe zone', () 
     assert.ok(zones.length, `${id} has no monsters`);
     for (const phase of ['day', 'night']) assert.ok(zones.some(z => z.active.includes(phase)), `${id} is empty at ${phase}`);
   }
-  // Elites and bosses are not placed yet.
-  assert.ok(combatSpawns().every(z => !MONSTERS[z.type].elite && !MONSTERS[z.type].boss));
+  // Elites and bosses come back slowly (or by chance) and only one at a time.
+  for (const z of combatSpawns().filter(z => MONSTERS[z.type].elite || MONSTERS[z.type].boss)) {
+    assert.equal(z.count, 1, z.type); assert.ok(z.respawn >= 240, `${z.type} respawns too fast`);
+  }
 });
 
 test('monster levels rise map by map, away from the city', () => {
-  const levels = id => combatSpawns().filter(z => mapOf(z.x, z.z) === id).map(z => MONSTERS[z.type].level);
-  const warp = paddy.portals[0].at, near = combatSpawns().filter(z => mapOf(z.x, z.z) === 'paddy' && Math.hypot(z.x - warp.x, z.z - warp.z) < 140);
+  const levels = id => combatSpawns().filter(z => mapOf(z.x, z.z) === id && !MONSTERS[z.type].elite && !MONSTERS[z.type].boss).map(z => MONSTERS[z.type].level);
+  const warp = paddy.portals[0].at, near = combatSpawns().filter(z => mapOf(z.x, z.z) === 'paddy' && !MONSTERS[z.type].elite && Math.hypot(z.x - warp.x, z.z - warp.z) < 140);
   assert.ok(near.length);
   assert.ok(Math.max(...near.map(z => MONSTERS[z.type].level)) <= 2, 'the hunt next to the warp is for new characters');
   for (const z of near) assert.ok(!z.active.includes('night') || z.type !== 'boar', 'boars sleep at night');
@@ -254,7 +258,7 @@ test('the วัดร้าง site is reserved on wat_rang, clear of the cemet
   for (let x = x0; x <= x1; x += 1) for (let z = z0; z <= z1; z += 1) assert.equal(waterAt(x, z), 0, `water in the site at ${x},${z}`);
   for (const road of ROADS) for (const [x, z] of resample(roadPoints(road), 1)) assert.ok(!(x > x0 - 2 && x < x1 + 2 && z > z0 - 2 && z < z1 + 2), `${road.pts.join('→')} crosses the site`);
   // The temple's own yard zone and landmark belong inside it; nothing else may intrude.
-  const OWN = new Set(['wat_courtyard', 'wat_temple']);
+  const OWN = new Set(['wat_courtyard', 'wat_temple', 'wat_ubosot', 'wat_stupas']);
   for (const a of SPAWNS) if (OWN.has(a.id)) assert.ok(a.x > x0 && a.x < x1 && a.z > z0 && a.z < z1, `${a.id} sits in the site`); else assert.ok(a.x + a.radius < x0 || a.x - a.radius > x1 || a.z + a.radius < z0 || a.z - a.radius > z1, `${a.id} overlaps the site`);
   for (const l of LANDMARKS) if (!OWN.has(l.id)) assert.ok(!(l.x > x0 && l.x < x1 && l.z > z0 && l.z < z1), `${l.id} lies in the site`);
   for (const p of [s.gate, ...Object.values(s.spots)]) assert.ok(walkable(wat, p.x, p.z) && mapOf(p.x, p.z) === 'wat_rang', `site spot ${p.x},${p.z}`);

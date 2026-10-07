@@ -11,6 +11,7 @@ import { RULES } from './data/rules.js';
 import { rollDamage } from '../rules/stats.js';
 import { followerAway } from '../classes/dog.js';
 import { MONSTER_ACCURACY } from '../character/data/progression.js';
+import { afterHit, shoveTo } from './monsterHit.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -358,12 +359,16 @@ export class Combat extends Emitter {
   }
 
   // A monster's swing at the player. `res` is the server's result for a signed-in player
-  // online ({ dodge } | { dmg, hp }, src/net/NetCombat.js); otherwise it is rolled here.
-  monsterAttack(m, res = null) {
+  // online ({ dodge } | { dmg, hp, mp }, src/net/NetCombat.js); otherwise it is rolled here.
+  // fx: { knock, pull } from the server (offline a knock is rolled here); a landed hit also
+  // poisons / drains MP (src/combat/monsterHit.js).
+  monsterAttack(m, res = null, fx = null) {
     const c = this.character;
-    m.attackTimer = m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay;
+    m.attackTimer = m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay);
     this.combatTimer = COMBAT_TIMEOUT;
     this.emit('monster-attack', m);
+    const at = this.world.playerPos();
+    if (m.def.ranged) this.emit('projectile', { from: { x: m.x, z: m.z }, target: { x: at.x, z: at.z }, color: m.def.ranged, duration: .3 });
     if (res ? res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
     let dealt;
     if (res) { c.hp = Math.max(1, Math.round(res.hp + res.dmg)); dealt = c.damage(res.hp > 0 ? res.dmg : c.hp); }   // land exactly on the server's HP
@@ -374,6 +379,13 @@ export class Combat extends Emitter {
     }
     const p = this.world.playerPos();
     this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
+    if (c.alive) {
+      afterHit(c, m.def);
+      if (res?.mp !== undefined) c.mp = Math.min(c.maxMp, res.mp);   // the server's drain
+      const shove = fx ?? (m.def.knock && Math.random() < m.def.knock ? { knock: true } : null);
+      const to = shove && shoveTo(m, p, shove, this.world.canStand);
+      if (to) { p.x = to.x; p.z = to.z; this.emit('shoved', { monster: m, ...to, pull: !!shove.pull }); }
+    }
     if (!c.alive) {
       this.autoAttack = false; this.pending = null;
       for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';

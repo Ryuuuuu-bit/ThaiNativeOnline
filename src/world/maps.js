@@ -105,7 +105,7 @@ export const MAPS = {
     visitors: [],
   },
   wat_rang: {
-    id: 'wat_rang', name: 'วัดร้าง', sub: 'ศาลร้างกลางไพร · สุสานเก่า · โบสถ์ร้าง', safe: false, theme: 'wat', levels: [4, 7],
+    id: 'wat_rang', name: 'วัดร้าง', sub: 'ศาลร้างกลางไพร · สุสานเก่า · โบสถ์ร้าง', safe: false, theme: 'wat', levels: [4, 8],
     intro: { title: 'วัดร้างกลางไพร', text: 'ศาลร้าง สุสานเก่า และโบสถ์ร้าง\nวิญญาณเร่ร่อนชุมนุมยามราตรี' },
     owns: { minZ: BOUNDS.minZ, maxZ: WAT_SEAM_Z },
     walk: [

@@ -24,11 +24,13 @@
 //   cs.set(playerId, data, cls)                      → true | false (data: Character.toJSON(), a guest's sheet)
 //   cs.load(playerId, saved, { account, slot }, questsJson) → true | false (a signed-in character, in full)
 //   cs.op(playerId, msg, map) → true | false · cs.reward(playerId, kill) → { level? } · cs.respawn(playerId) → bool
-//   cs.swing(playerId, monsterDef, power) → { dodge } | { dmg, hp, dead } | null (guests resolve their own)
+//   cs.swing(playerId, monsterDef, power) → { dodge } | { dmg, hp, mp, dead } | null (guests resolve their own;
+//     a landed hit also poisons / drains MP as the monster does: src/combat/monsterHit.js)
 //   cs.me(playerId) → the character's JSON (+ ack: actions replayed so far, quests: quest state)
 //   cs.cast(playerId, skillId)                      → { ok, buff? } | { ok: false, why }
 //   cs.blow(playerId, world, players, msg, phase)   → events (as MonsterWorld.damage)
 //   cs.tick(dt, night) · cs.drop(playerId)
+//   cs.touch(playerId) (a blow or a swing: in a fight) · cs.fighting(playerId) → bool
 import { Character } from '../src/character/Character.js';
 import { CLASSES, POINTS_PER_LEVEL } from '../src/character/data/classes.js';
 import { ITEMS } from '../src/character/data/items.js';
@@ -39,6 +41,7 @@ import { rollDamage } from '../src/rules/stats.js';
 import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from '../src/training/kitCombat.js';
 import { fromSave, applyOp, questsFor, shopOn } from './progress.js';
 import { MONSTER_ACCURACY } from '../src/character/data/progression.js';
+import { afterHit, shielded, SHIELD } from '../src/combat/monsterHit.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
@@ -78,6 +81,8 @@ export class Combatants {
     this.now = now; this.r = random; this.list = new Map();   // player id → state
   }
   get(id) { return this.list.get(id); }
+  touch(id) { const s = this.list.get(id); if (s) s.fightAt = this.now(); }
+  fighting(id) { const s = this.list.get(id); return !!s && this.now() - s.fightAt < RULES.combatTimeout; }
   drop(id) { this.list.delete(id); }
 
   set(id, data, cls) {
@@ -127,8 +132,9 @@ export class Combatants {
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
     const raw = def.atk * power * (.85 + this.r() * .3) * (def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
     const dmg = c.damage(Math.max(1, raw - c.defense * .4));
+    if (c.alive) afterHit(c, def);
     s.dirty = true;
-    return { dmg, hp: c.hp, dead: !c.alive };
+    return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
   }
   // the signed-in character in play for an account's slot (the save API asks), or null
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
@@ -229,7 +235,9 @@ export class Combatants {
   }
   land(world, players, m, id, r, night, { pet = false } = {}) {
     if (!r.hit) { world.aggro(m, id); return [{ t: 'mh', id: m.id, miss: true, by: id }]; }
-    return world.damage(m, id, r.dmg, { crit: !!r.crit, pet }, players, night);
+    const p = players.find(x => x.id === id);
+    const dmg = m.def.shield && p && shielded(m, p) ? Math.max(1, Math.round(r.dmg * (1 - SHIELD))) : r.dmg;
+    return world.damage(m, id, dmg, { crit: !!r.crit, pet }, players, night);
   }
   // a rate bucket: one blow per `every` seconds, up to 2 saved up (network bunching)
   spend(b, now, every) {

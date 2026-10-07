@@ -10,11 +10,18 @@ const add = (parent, geometry, material, x = 0, y = 0, z = 0, scale) => {
   m.castShadow = true; parent.add(m); return m;
 };
 
-function quadruped(def, { stripes = false, tusks = false } = {}) {
+// options: stripes (tiger), tusks (boar), horns (buffalo), low (a lizard: long, flat, short legs),
+// lean (a wild dog: slim body, long legs, a bushy tail)
+function quadruped(def, { stripes = false, tusks = false, horns = false, low = false, lean = false } = {}) {
   const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
   const fur = std(def.color), dark = std(new THREE.Color(def.color).multiplyScalar(.55));
-  add(body, new THREE.SphereGeometry(.5, 14, 10), fur, 0, .62, 0, [.8, .7, 1.25]);
+  if (low) body.scale.set(1, .55, 1.35);
+  add(body, new THREE.SphereGeometry(.5, 14, 10), fur, 0, .62, 0, lean ? [.6, .6, 1.2] : [.8, .7, 1.25]);
   const head = new THREE.Group(); head.position.set(0, .75, .6); body.add(head);
+  if (horns) for (const s of [-1, 1]) {   // wide, swept-back buffalo horns
+    const horn = add(head, new THREE.ConeGeometry(.07, .6, 6), std('#d9cfb4'), s * .42, .2, -.08);
+    horn.rotation.set(-.5, 0, -s * 1.25);
+  }
   add(head, new THREE.SphereGeometry(.3, 12, 10), fur, 0, 0, .05, [1, .9, 1.1]);
   add(head, new THREE.SphereGeometry(.14, 10, 8), dark, 0, -.06, .3);
   for (const s of [-1, 1]) {
@@ -28,7 +35,8 @@ function quadruped(def, { stripes = false, tusks = false } = {}) {
     const leg = new THREE.Group(); leg.position.set(x, .45, z); body.add(leg);
     add(leg, new THREE.CylinderGeometry(.08, .06, .45, 6), dark, 0, -.22, 0); legs.push(leg);
   }
-  const tail = add(body, new THREE.CylinderGeometry(.03, .015, .5, 5), dark, 0, .75, -.68); tail.rotation.x = -.8;
+  const tail = lean ? add(body, new THREE.ConeGeometry(.09, .5, 6), dark, 0, .7, -.7) : low ? add(body, new THREE.ConeGeometry(.16, 1.2, 6), fur, 0, .55, -1.1) : add(body, new THREE.CylinderGeometry(.03, .015, .5, 5), dark, 0, .75, -.68);
+  tail.rotation.x = lean ? -2 : low ? -1.45 : -.8;
   g.userData.animate = (t, moving, attacking) => {
     legs.forEach((leg, i) => leg.rotation.x = moving ? Math.sin(t * 11 + (i % 3 ? Math.PI : 0)) * .5 : 0);
     head.rotation.x = attacking ? -.35 : Math.sin(t * 1.5) * .05;
@@ -57,17 +65,106 @@ function monkey(def) {
   return g;
 }
 
+// look (src/combat/data/monsters.js): oneLeg (กองกอย hops on one leg), tall (a thin, long
+// figure), hair (long hair to the ground), headless (carries its head), wings (กระหัง's winnowing
+// baskets), shield (a ghost soldier's shield and spear), elder (an old man's white beard and staff)
 function spirit(def) {
-  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const look = def.look ?? {}, g = new THREE.Group(), body = new THREE.Group(); g.add(body);
   const glow = new THREE.MeshStandardMaterial({ color: def.color, emissive: def.color, emissiveIntensity: .55, transparent: true, opacity: .72, roughness: .4 });
-  add(body, new THREE.ConeGeometry(.42, 1.3, 14, 1, true), glow, 0, .95, 0).castShadow = false;
-  add(body, new THREE.SphereGeometry(.24, 12, 10), glow, 0, 1.68, 0).castShadow = false;
-  add(body, new THREE.SphereGeometry(.26, 12, 8, 0, Math.PI * 2, 0, Math.PI * .5), std('#1b1b1f'), 0, 1.72, -.02, [1, 1.6, 1]);
-  for (const s of [-1, 1]) add(body, new THREE.SphereGeometry(.04, 6, 6), new THREE.MeshBasicMaterial({ color: '#ff5a4a' }), s * .08, 1.7, .21);
-  const halo = glowSprite(def.color, 2.2); halo.position.y = 1.3; body.add(halo);
+  const tall = look.tall ? 1.35 : 1, headY = 1.68 * tall;
+  add(body, new THREE.ConeGeometry(look.tall ? .3 : .42, 1.3 * tall, 14, 1, true), glow, 0, .95 * tall, 0).castShadow = false;
+  const head = new THREE.Group(); head.position.y = headY; body.add(head);
+  add(head, new THREE.SphereGeometry(.24, 12, 10), glow).castShadow = false;
+  add(head, new THREE.SphereGeometry(.26, 12, 8, 0, Math.PI * 2, 0, Math.PI * .5), std('#1b1b1f'), 0, .04, -.02, [1, 1.6, 1]);
+  for (const s of [-1, 1]) add(head, new THREE.SphereGeometry(.04, 6, 6), new THREE.MeshBasicMaterial({ color: '#ff5a4a' }), s * .08, .02, .21);
+  if (look.headless) { head.position.set(.38, 1.05, .25); head.scale.setScalar(.85); add(body, new THREE.CylinderGeometry(.1, .12, .08, 8), std('#5a1414'), 0, 1.6, 0); }
+  if (look.hair) add(head, new THREE.ConeGeometry(.3, 1.9, 10, 1, true), std('#111014', { roughness: .6 }), 0, -.85, -.12);
+  if (look.elder) {
+    add(head, new THREE.ConeGeometry(.16, .55, 8), std('#f4f1e6'), 0, -.36, .16).rotation.x = Math.PI;
+    add(body, new THREE.CylinderGeometry(.035, .035, 2, 6), std('#6b4a2b'), .48, 1, .2);
+  }
+  let wings = [];
+  if (look.wings) wings = [-1, 1].map(s => { const w = add(body, new THREE.CylinderGeometry(.42, .42, .05, 14), std('#c9a66b'), s * .55, 1.35, -.05); w.rotation.z = Math.PI / 2 + s * .5; return w; });
+  if (look.shield) {
+    add(body, new THREE.CylinderGeometry(.34, .34, .06, 16), std('#7a6a3a', { metalness: .4 }), -.36, 1.05, .32).rotation.x = Math.PI / 2;
+    add(body, new THREE.CylinderGeometry(.025, .025, 2.2, 5), std('#5a4630'), .4, 1.25, .1);
+    add(body, new THREE.ConeGeometry(.06, .28, 5), std('#b8b8c0', { metalness: .6 }), .4, 2.45, .1);
+  }
+  let leg = null;
+  if (look.oneLeg) leg = add(body, new THREE.CylinderGeometry(.07, .05, .7, 6), glow, 0, .1, 0);
+  const halo = glowSprite(def.color, 2.2); halo.position.y = 1.3 * tall; body.add(halo);
   g.userData.animate = (t, moving, attacking) => {
-    body.position.y = .25 + Math.sin(t * 2.4) * .12;
+    body.position.y = look.oneLeg ? .45 + Math.abs(Math.sin(t * (moving ? 9 : 3))) * .3 : .25 + Math.sin(t * 2.4) * .12;
     body.rotation.z = attacking ? Math.sin(t * 30) * .15 : Math.sin(t * 1.3) * .06;
+    wings.forEach((w, i) => w.rotation.x = Math.sin(t * (moving ? 14 : 5) + i * Math.PI) * .5);
+    if (leg) leg.scale.y = moving ? 1 + Math.sin(t * 9) * .15 : 1;
+  };
+  return g;
+}
+
+// ไก่ป่า: a small jungle fowl with a red comb and a dark tail.
+function bird(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const plume = std(def.color), dark = std('#1e2a26'), red = std('#d8312a');
+  add(body, new THREE.SphereGeometry(.32, 12, 10), plume, 0, .55, 0, [.85, .8, 1.1]);
+  const head = new THREE.Group(); head.position.set(0, .92, .26); body.add(head);
+  add(head, new THREE.SphereGeometry(.15, 10, 8), plume);
+  add(head, new THREE.BoxGeometry(.04, .12, .16), red, 0, .14, 0);
+  add(head, new THREE.ConeGeometry(.04, .14, 5), std('#e2b84a'), 0, -.02, .17).rotation.x = Math.PI / 2;
+  const tail = add(body, new THREE.ConeGeometry(.16, .55, 6), dark, 0, .8, -.33); tail.rotation.x = -.6;
+  const legs = [-1, 1].map(s => add(body, new THREE.CylinderGeometry(.025, .02, .3, 4), std('#c9a24a'), s * .1, .17, 0));
+  g.userData.animate = (t, moving, attacking) => {
+    legs.forEach((l, i) => l.rotation.x = moving ? Math.sin(t * 16 + i * Math.PI) * .7 : 0);
+    head.rotation.x = attacking ? .7 : moving ? Math.sin(t * 16) * .2 : Math.sin(t * 2) * .15;
+  };
+  return g;
+}
+
+// งูเห่านา: a coiled body with a raised hood.
+function snake(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const skin = std(def.color), belly = std('#c8b878');
+  add(body, new THREE.TorusGeometry(.35, .1, 8, 18), skin, 0, .1, -.1).rotation.x = Math.PI / 2;
+  const neck = new THREE.Group(); neck.position.set(0, .15, .2); body.add(neck);
+  add(neck, new THREE.CylinderGeometry(.08, .1, .6, 8), skin, 0, .3, 0);
+  add(neck, new THREE.SphereGeometry(.22, 10, 8), belly, 0, .62, .02, [1, 1.2, .25]);
+  add(neck, new THREE.SphereGeometry(.11, 10, 8), skin, 0, .72, .08, [1, .8, 1.3]);
+  for (const s of [-1, 1]) add(neck, new THREE.SphereGeometry(.025, 6, 6), new THREE.MeshBasicMaterial({ color: '#ffe066' }), s * .05, .76, .2);
+  g.userData.animate = (t, moving, attacking) => {
+    neck.rotation.x = attacking ? .5 : Math.sin(t * 2) * .08;
+    neck.rotation.z = Math.sin(t * (moving ? 8 : 1.5)) * .15;
+  };
+  return g;
+}
+
+// ปูนา: a flat shell, two claws.
+function crab(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const shell = std(def.color), dark = std(new THREE.Color(def.color).multiplyScalar(.6));
+  add(body, new THREE.SphereGeometry(.4, 14, 8), shell, 0, .3, 0, [1.2, .45, .9]);
+  for (const s of [-1, 1]) add(body, new THREE.SphereGeometry(.04, 6, 6), std('#111'), s * .12, .5, .3);
+  const claws = [-1, 1].map(s => { const c = new THREE.Group(); c.position.set(s * .38, .3, .3); body.add(c); add(c, new THREE.SphereGeometry(.15, 8, 6), dark, 0, 0, .12, [.8, .6, 1.2]); return c; });
+  const legs = [];
+  for (const s of [-1, 1]) for (let i = 0; i < 3; i++) { const l = add(body, new THREE.CylinderGeometry(.025, .02, .4, 4), dark, s * .5, .18, -.15 + i * .15); l.rotation.z = s * 1.1; legs.push(l); }
+  g.userData.animate = (t, moving, attacking) => {
+    claws.forEach((c, i) => c.rotation.y = (i ? -1 : 1) * (attacking ? .7 : Math.sin(t * 3) * .1));
+    body.position.x = moving ? Math.sin(t * 12) * .05 : 0;
+    legs.forEach((l, i) => l.rotation.x = moving ? Math.sin(t * 14 + i) * .4 : 0);
+  };
+  return g;
+}
+
+// ผีโขมด: a floating will-o'-the-wisp.
+function orb(def) {
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  const glow = new THREE.MeshStandardMaterial({ color: def.color, emissive: def.color, emissiveIntensity: 1.6, roughness: .2 });
+  add(body, new THREE.SphereGeometry(.28, 14, 12), glow, 0, 1.3, 0).castShadow = false;
+  const halo = glowSprite(def.color, 3); halo.position.y = 1.3; body.add(halo);
+  const sparks = [0, 1, 2].map(i => { const s = add(body, new THREE.SphereGeometry(.06, 6, 6), glow, 0, 1.3, 0); s.castShadow = false; return s; });
+  g.userData.animate = (t, moving, attacking) => {
+    body.position.y = Math.sin(t * 2) * .2;
+    sparks.forEach((s, i) => { const a = t * 3 + i * 2.1; s.position.set(Math.cos(a) * .45, 1.3 + Math.sin(a * 1.3) * .2, Math.sin(a) * .45); });
+    halo.material.opacity = .7 + Math.sin(t * 9) * .2 + (attacking ? .3 : 0);
   };
   return g;
 }
@@ -123,7 +220,10 @@ const BUILDERS = {
   krasue,
   boar: def => quadruped(def, { tusks: true }),
   tiger: def => quadruped(def, { stripes: true }),
-  monkey, spirit,
+  buffalo: def => quadruped(def, { horns: true }),
+  dog: def => quadruped(def, { lean: true }),
+  lizard: def => quadruped(def, { low: true }),
+  monkey, spirit, bird, snake, crab, orb,
 };
 
 export class CombatView {
@@ -205,7 +305,7 @@ export class CombatView {
       g.visible = true;
       g.position.set(m.x, this.groundHeight(m.x, m.z), m.z);
       g.rotation.y += Math.atan2(Math.sin(m.facing - g.rotation.y), Math.cos(m.facing - g.rotation.y)) * Math.min(1, dt * 10);
-      if (m.attackTimer > (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay) - .3) v.attackAnim = .25;
+      if (m.attackTimer > (m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay)) - .3) v.attackAnim = .25;
       v.attackAnim = Math.max(0, v.attackAnim - dt);
       g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0);
       v.flash = Math.max(0, v.flash - dt);

@@ -55,6 +55,8 @@ export function createGame(o) {
       const p = o.player.group.position;
       o.player.group.rotation.y = Math.atan2(target.x - p.x, target.z - p.z);
     });
+    // thrown back / dragged in by a monster (src/combat/monsterHit.js): back on the ground
+    combat.on('shoved', e => { o.player.group.position.y = o.groundHeight(e.x, e.z); });
     hud.onRespawn = () => {
       o.player.group.position.set(o.respawnPoint.x, o.groundHeight(o.respawnPoint.x, o.respawnPoint.z), o.respawnPoint.z);
       o.player.group.rotation.z = 0;

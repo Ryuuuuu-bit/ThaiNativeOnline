@@ -31,5 +31,5 @@ export const SKILLS = {
 };
 
 // Buff badges on the player frame: a framed image where the class has one, else a glyph.
-export const BUFF_ICONS = { guard: { icon: '⛨' }, waikru: { icon: '🙏', img: 'fx/muaythai/icon_boxer_waikru.png' }, regen: { icon: '✿', img: 'fx/herbalist/icon_heal_zone.png' }, smoke: { icon: '☁' } };
+export const BUFF_ICONS = { guard: { icon: '⛨' }, waikru: { icon: '🙏', img: 'fx/muaythai/icon_boxer_waikru.png' }, regen: { icon: '✿', img: 'fx/herbalist/icon_heal_zone.png' }, smoke: { icon: '☁' }, poison: { icon: '☠' } };
 
