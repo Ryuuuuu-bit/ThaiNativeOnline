@@ -190,7 +190,7 @@ export class Character extends Emitter {
   heal(amount) {
     if (!this.alive) return 0;
     const before = this.hp; this.hp = Math.min(this.maxHp, this.hp + Math.round(amount)); this.emit('change');
-    return this.hp - before;
+    return Math.round(this.hp - before);   // HP may carry a fraction from regen: the number shown is whole
   }
   restoreMp(amount) { this.mp = Math.min(this.maxMp, this.mp + Math.round(amount)); this.emit('change'); }
   spendMp(amount) { if (this.mp < amount) return false; this.mp -= amount; this.emit('change'); return true; }
