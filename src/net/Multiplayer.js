@@ -49,7 +49,7 @@ export function startMultiplayer(game) {
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
   // class skills: ours go out as `fx` (which skill, which monster); the others' play on their models
   const skillsFx = attachRemoteSkills(net, game, remote, combat);
-  game.game?.combat?.on('kit-fx', e => net.send({ t: 'fx', skill: e.id, ...(e.monster?.sid != null ? { tgt: e.monster.sid } : {}) }));
+  game.game?.combat?.on('kit-fx', e => net.send({ t: 'fx', skill: e.id, ...(e.monster?.sid != null ? { tgt: e.monster.sid } : e.at ? { x: e.at.x, z: e.at.z } : {}) }));
   attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
   const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
   // the same character opened in another tab or device: this one stops talking to the server

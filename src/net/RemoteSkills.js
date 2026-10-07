@@ -15,6 +15,16 @@ import { stubTarget, monsterTarget, createTargetProxy } from '../training/target
 // a remote runner makes (and every callback it schedules)
 const OWN_SCREEN = ['shake', 'stop', 'mood', 'moodTarget', 'moodHold', 'punchV'];
 
+// a spot that takes the blows and shows nothing (another player's training dummy: ours stays untouched)
+function spotTarget(fx, x, z) {
+  const pos = () => fx.toLocal(new THREE.Vector3(x, fx.root.position.y, z)).setY(0), off = new THREE.Vector3();
+  return {
+    get pos() { return pos(); }, off, alive: true, barY: 2.25, hp: 1, maxHp: 1, stun: false, mob: true,
+    chest: () => pos().setY(1.25), head: () => pos().setY(2.45),
+    hurt: () => 0, miss() {}, knock() {}, bleed() {},
+  };
+}
+
 export function attachRemoteSkills(net, game, remote, netCombat) {
   const runners = new Map();   // remote player id → { runner, proxy, stand, body }
   let quietFx = null;
@@ -57,7 +67,8 @@ export function attachRemoteSkills(net, game, remote, netCombat) {
     const e = runnerOf(r); if (!e) return;
     e.stand.position.copy(r.model.group.position); e.stand.rotation.y = r.tf;
     const mon = m.tgt != null ? netCombat?.monster(m.tgt) : null;
-    e.proxy.bind(mon?.alive ? monsterTarget(mon, { fx: e.fx, canStand: () => false, onHurt: () => 0, onMiss: () => {} }) : e.stub);
+    e.proxy.bind(mon?.alive ? monsterTarget(mon, { fx: e.fx, canStand: () => false, onHurt: () => 0, onMiss: () => {} })
+      : Number.isFinite(m.x) ? spotTarget(e.fx, m.x, m.z) : e.stub);
     r.skillUntil = performance.now() / 1000 + (e.runner.cast(m.skill, true) || 0);
   });
   net.on('leave', m => runners.delete(m.id));

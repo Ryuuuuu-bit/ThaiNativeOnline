@@ -9,7 +9,7 @@
 // Realtime messages are small JSON objects with a type `t`:
 //   client → server  hello {token?, slot?, name, cls, gender, lv, map, x, z, f} · s {x, z, f, m} ·
 //                    map {map, x, z, f} · a {clip, sp} · c {text} · lv {lv}
-//   client → server  fx {skill, tgt?} (a class skill went off, at monster tgt) → fx {from, skill, tgt?} to the room
+//   client → server  fx {skill, tgt? | x, z} (a class skill went off, at monster tgt or a spot: the training dummy) → fx {from, skill, tgt? | x, z} to the room
 //   server → client  welcome {you, roster, online} · join {p} · leave {id} ·
 //                    tick {p: [[id, x, z, f, m], …]} · a {id, clip, sp} · c {id, name, map, text} ·
 //                    lv {id, lv} · online {n} · full {}
@@ -212,7 +212,8 @@ wss.on('connection', ws => {
       // a class skill went off: the others play it on this player (src/net/RemoteSkills.js)
       case 'fx': {
         const p = presence.players.get(ws); if (!p || typeof m.skill !== 'string' || !/^[a-z_]{2,32}$/.test(m.skill)) return;
-        toMap(p.room, { t: 'fx', from: p.id, skill: m.skill, ...(Number.isInteger(m.tgt) ? { tgt: m.tgt } : {}) }, ws);
+        const at = Number.isFinite(m.x) && Number.isFinite(m.z) && Math.hypot(m.x - p.x, m.z - p.z) < 30 ? { x: m.x, z: m.z } : {};
+        toMap(p.room, { t: 'fx', from: p.id, skill: m.skill, ...(Number.isInteger(m.tgt) ? { tgt: m.tgt } : at) }, ws);
         break;
       }
       case 'c': {
