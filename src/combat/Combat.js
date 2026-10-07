@@ -334,7 +334,7 @@ export class Combat extends Emitter {
     const d = dist(m, p), fromHome = dist(m, m.home), speed = m.def.speed * m.speedFactor;
 
     if (m.state === 'idle') {
-      if (c.alive && d < m.def.aggro && (m.def.elite || m.level >= c.level - 2)) { m.state = 'chase'; this.emit('aggro', m); }
+      if (c.alive && d < m.def.aggro && (m.def.elite || m.def.bold || m.level >= c.level - 2)) { m.state = 'chase'; this.emit('aggro', m); }
       else if ((m.wanderTimer -= dt) <= 0) {
         m.wanderTimer = rand(3, 7);
         const a = Math.random() * Math.PI * 2, r = Math.random() * Math.min(m.spawn.radius, RULES.wanderRadius);

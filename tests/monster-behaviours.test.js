@@ -25,17 +25,20 @@ test('every monster names a shape the view can build and fields the server knows
   }
 });
 
-test('passive monsters do not start a fight; flee runs from the blow, then fights back', () => {
-  const w = world([{ type: 'fowl' }]), m = w.monsters[0], p = { id: 1, x: m.x + 1, z: m.z, lv: 1 };
+test('passive monsters do not start a fight; a bold ไก่ป่า charges any player near it', () => {
+  const w = world([{ type: 'buffalo' }, { type: 'fowl', x: 40 }]), [buffalo, fowl] = w.monsters;
+  const p = { id: 1, x: buffalo.x + 1, z: buffalo.z, lv: 1 };
   run(w, 2, [p]);
-  assert.equal(m.state, 'idle', 'a player standing next to it is left alone');
-  w.damage(m, 1, 5, {}, [p]);
-  assert.equal(m.state, 'flee');
-  const d0 = Math.hypot(m.x - p.x, m.z - p.z);
-  run(w, 1, [p]);
-  assert.ok(Math.hypot(m.x - p.x, m.z - p.z) > d0 + 1, 'it ran away');
-  run(w, 2, [p]);
-  assert.equal(m.state, 'chase', 'and turned to fight');
+  assert.equal(buffalo.state, 'idle', 'a player standing next to it is left alone');
+  w.damage(buffalo, 1, 5, {}, [p]);
+  assert.equal(buffalo.state, 'chase', 'until it is hit');
+  const q = { id: 2, x: fowl.x + 5, z: fowl.z, lv: 20 };
+  run(w, .5, [q]);
+  assert.equal(fowl.state, 'chase', 'even a far stronger player is charged');
+  assert.equal(fowl.target, 2);
+  const d0 = Math.hypot(fowl.x - q.x, fowl.z - q.z); run(w, .5, [q]);
+  assert.ok(Math.hypot(fowl.x - q.x, fowl.z - q.z) < d0, 'it runs at the player, not away');
+  assert.ok(!MONSTERS.fowl.flee && !MONSTERS.fowl.passive);
 });
 
 test('a pack answers a hit on one of its own; a wisp calls the spirits around it', () => {

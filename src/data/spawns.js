@@ -5,7 +5,7 @@
 // (src/combat/data/monsters.js).
 //
 //   SPAWNS: { id, monster, x, z, radius, active: [phases], max, boss? }
-//           (`monster` is the label of the debug ring; `max` the area's cap)
+//           (`monster` is the label of the debug ring; `max` the area's cap before DENSITY)
 //   ROSTER[area id]: [{ type (src/combat/data/monsters.js), count?, respawn?, chance?, active? }]
 // combatSpawns() turns both into zones for createGame({ spawns }).
 //
@@ -22,6 +22,12 @@
 // Elites and bosses hold a spot of their own with a long respawn: ควายป่า in the
 // paddies, นางตะเคียน in her tree, ผีปู่โสม in the ordination hall, กระสือ over the
 // stupas some nights. ปอบ is not placed yet.
+import { MONSTERS } from '../combat/data/monsters.js';
+
+// How full the maps are: every ordinary monster's count is multiplied by this (elites and
+// bosses stay one at a time). With RULES.monsterRespawn this sets how fast a map refills.
+export const DENSITY = 2;
+
 const DAYLIGHT = ['morning', 'day', 'evening'];
 const DUSK = ['evening', 'night'];
 const NIGHT = ['night'];
@@ -140,7 +146,9 @@ const ROSTER = {
 export function combatSpawns() {
   const zones = [];
   for (const area of SPAWNS) for (const entry of ROSTER[area.id] ?? []) {
-    zones.push({ x: area.x, z: area.z, radius: area.radius, area: area.id, active: entry.active ?? area.active, count: entry.count ?? area.max, ...entry });
+    const def = MONSTERS[entry.type], count = entry.count ?? area.max;
+    zones.push({ x: area.x, z: area.z, radius: area.radius, area: area.id, active: entry.active ?? area.active, ...entry,
+      count: def?.elite || def?.boss ? count : Math.round(count * DENSITY) });
   }
   return zones;
 }

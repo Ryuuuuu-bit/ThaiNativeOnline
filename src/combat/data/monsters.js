@@ -4,6 +4,7 @@
 // exp: about MONSTER_EXP_RATE(level) for a normal monster (progression.js), several times it for elites.
 // Behaviour (run on the server, server/monsters.js; offline the browser keeps the plain chase):
 //   passive        does not attack first (until hit)
+//   bold           attacks first whatever the player's level (not only those up to 2 levels above it)
 //   flee           runs from whoever hit it for a few seconds
 //   pack: r        when hit, others of its kind within r metres join in
 //   callSpirits: r when it starts a fight, every spirit within r metres joins in
@@ -30,7 +31,7 @@ export const MONSTERS = {
   phitaihong: { name: 'ผีตายโหง', race: 'spirit', element: 'dark', level: 7, hp: 520, atk: 32, def: 6, speed: 2.6, range: 1.5, aggro: 7, exp: 95, gold: [10, 20], color: '#e07070', size: 1.05, shape: 'spirit', loot: 'spirit' },
   pop:    { name: 'ปอบ', race: 'demon', element: 'dark', level: 10, hp: 3200, atk: 52, def: 10, speed: 2.9, range: 1.8, aggro: 9, exp: 600, gold: [90, 160], color: '#5d6b4f', size: 1.6, shape: 'monkey', loot: 'pop', elite: true, boss: true },
   // ---- ทุ่งนา ----
-  fowl:   { name: 'ไก่ป่า', race: 'beast', element: 'wind', level: 1, hp: 90, atk: 9, def: 1, speed: 3.8, range: 1.1, aggro: 0, exp: 16, gold: [1, 4], color: '#b5532c', size: .5, shape: 'bird', loot: 'beast', passive: true, flee: true },
+  fowl:   { name: 'ไก่ป่า', race: 'beast', element: 'wind', level: 1, hp: 90, atk: 9, def: 1, speed: 3.8, range: 1.1, aggro: 7, exp: 16, gold: [1, 4], color: '#b5532c', size: .5, shape: 'bird', loot: 'beast', bold: true },
   cobra:  { name: 'งูเห่านา', race: 'beast', element: 'earth', level: 2, hp: 110, atk: 14, def: 2, speed: 2.4, range: 3.2, aggro: 5, exp: 31, gold: [2, 7], color: '#3e3a26', size: .7, shape: 'snake', loot: 'beast', ranged: '#9cf07a', poison: { dot: 3, secs: 4 } },
   crab:   { name: 'ปูนา', race: 'beast', element: 'water', level: 2, hp: 150, atk: 13, def: 9, speed: 1.8, range: 1.1, aggro: 3.5, exp: 33, gold: [2, 7], color: '#5d6a5a', size: .6, shape: 'crab', loot: 'beast' },
   buffalo: { name: 'ควายป่า', race: 'beast', element: 'earth', level: 4, hp: 900, atk: 30, def: 7, speed: 2.8, range: 1.6, aggro: 0, exp: 160, gold: [15, 30], color: '#3d3a3a', size: 1.3, shape: 'buffalo', loot: 'boss', elite: true, passive: true, charge: true },

@@ -119,7 +119,7 @@ export class MonsterWorld {
         this.step(m, { x: m.x + dx / len * 4, z: m.z + dz / len * 4 }, speed * 1.15, dt);
         if ((m.fleeT -= dt) <= 0 || dist(m, m.home) > LEASH) { m.state = dist(m, m.home) > LEASH ? 'return' : 'chase'; m.dirty = true; }
       } else if (m.state === 'idle') {
-        const near = def.passive ? null : live.filter(p => dist(m, p) < def.aggro && (def.elite || def.level >= p.lv - 2)).sort((a, b) => dist(m, a) - dist(m, b))[0];
+        const near = def.passive ? null : live.filter(p => dist(m, p) < def.aggro && (def.elite || def.bold || def.level >= p.lv - 2)).sort((a, b) => dist(m, a) - dist(m, b))[0];
         if (near) { m.state = 'chase'; m.target = near.id; m.dirty = true; this.rally(m, near.id); }
         else {
           if ((m.wanderTimer -= dt) <= 0) {
