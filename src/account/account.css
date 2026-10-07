@@ -100,3 +100,38 @@ body .acc-screen.acc-login{isolation:isolate;display:grid;grid-template-columns:
 
 body .acc-screen.acc-login>*{margin:0;max-width:none}
 body .acc-screen.acc-login .acc-card{max-width:440px}
+/* Character selection shares the illustrated capital with the login entrance.
+   Decorative layers never intercept slot, delete or turntable input. */
+body .acc-screen.acc-character-select {
+  isolation:isolate; background:#18352e;
+  padding:40px 24px; justify-content:center;
+}
+.acc-select-art { position:absolute; inset:0; z-index:-2; pointer-events:none;
+  background:url('/ui/login/royal-dawn.webp') center center/cover no-repeat; }
+.acc-character-select::before { content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:linear-gradient(90deg,#0b251d33,#0b251d55 50%,#0b251d33),linear-gradient(0deg,#091e19ed, #112d2266 45%, #10282066); }
+.acc-character-select .acc-select { width:min(1040px,100%); position:relative;
+  text-shadow:0 2px 10px #0b201c; }
+.acc-character-select h2 { margin:8px 0; color:#fff0cc; font-size:clamp(26px,3vw,38px); }
+.acc-select-intro { margin:0 0 12px; font-size:12px; color:#e1d8bb; }
+.acc-character-select .eyebrow { color:#f0d79b; }
+.acc-character-select .acc-stage { max-width:660px; height:clamp(260px,35vh,360px);
+  border:0; border-radius:0;
+  background:radial-gradient(ellipse at 50% 85%,#e5d59c33,transparent 60%);
+  margin-bottom:18px; }
+.acc-character-select .acc-stage-name { bottom:0; font-size:14px; }
+.acc-character-select .acc-slot { border-radius:12px; border-color:#d8c48c66;
+  background:linear-gradient(145deg,#203c32ed,#10271fe8); box-shadow:0 10px 30px #071b194d;
+  backdrop-filter:blur(8px); min-height:180px; }
+.acc-character-select .acc-empty { background:linear-gradient(145deg,#18392dcc,#10271fc9); border-style:dashed; }
+.acc-character-select .acc-slot:hover { border-color:#f0d694; box-shadow:0 0 0 1px #e3c781,0 12px 30px #071b1966; }
+.acc-character-select .acc-delete { color:#c5cdb6; background:#0b2119b3; border-radius:4px; }
+.acc-character-select .acc-enter { background:linear-gradient(#e0c587,#baa063); color:#192d23; text-shadow:none; border-radius:5px; }
+.acc-character-select .acc-logout { border-radius:6px; background:#10271fe8; }
+@media(max-width:760px){
+  body .acc-screen.acc-character-select { padding:28px 16px; justify-content:flex-start; }
+  .acc-character-select .acc-stage { height:260px; margin-bottom:14px; }
+  .acc-character-select .acc-slot { min-height:165px; }
+  .acc-character-select .acc-icon .cls-badge { width:50px; height:50px; }
+  .acc-select-art { background-position:38% center; }
+}
