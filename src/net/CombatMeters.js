@@ -6,6 +6,7 @@
 //   attachCombatMeters(net, game, remote, social) → { update(dt, camera) }
 import * as THREE from 'three';
 import { CLASSES } from '../character/data/classes.js';
+import { titleHtml } from '../ui/titleTag.js';
 
 export const DPS_WINDOW = 10;   // s
 const KEY = 'thainative.meters';
@@ -80,7 +81,7 @@ export function attachCombatMeters(net, game, remote, social) {
     update(dt, camera) {
       // my plate over my head (the remote plates' projection)
       if (s.ownName && layer) {
-        const text = `${esc(c.name)}<small>${CLASSES[c.classId]?.name ?? ''} · Lv.${c.level}</small>`;
+        const text = `${titleHtml(c.title)}${esc(c.name)}<small>${CLASSES[c.classId]?.name ?? ''} · Lv.${c.level}</small>`;
         if (text !== plateText) { plate.innerHTML = text; plateText = text; }
         const p = game.player.position, host = document.getElementById('world');
         v.set(p.x, p.y + 2.15, p.z).project(camera);

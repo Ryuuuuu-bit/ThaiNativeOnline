@@ -62,10 +62,11 @@ export function createGame(o) {
       o.player.group.rotation.z = 0;
       combat.respawnPlayer(); character.save();
     };
-    combat.on('player-death', () => { o.stop(); o.player.group.rotation.z = Math.PI / 2; });
+    combat.on('player-death', () => { o.stop(); o.player.group.rotation.z = Math.PI / 2; character.note('deaths'); });
     combat.on('player-revived', () => { o.player.group.rotation.z = 0; character.save(); });
-    combat.on('kill', () => character.save());
-    character.on('levelup', () => character.save());
+    // the records behind the titles (src/data/titles.js); online, the server's copy comes back with sync
+    combat.on('kill', ({ monster }) => { character.noteKill(monster?.type); character.checkTitles(); character.save(); });
+    character.on('levelup', () => { character.checkTitles(); character.save(); });
 
     // Click a monster to target and attack it. Capture phase runs before the
     // world's click-to-move handler on the same element.

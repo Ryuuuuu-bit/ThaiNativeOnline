@@ -69,13 +69,20 @@ export function attachNetProgress(net, c, quests = null) {
   }
 
   const adopt = s => {
-    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards, evo = c.evo, refine: plus = c.refine } = s;
+    const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards, evo = c.evo, refine: plus = c.refine, title = c.title, titles = c.titles, rec = c.rec } = s;
     Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, refine: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, 0])), ...plus }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
     c.emit('skills');
+    takeTitles({ titles, title, rec });
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);
     c.emit('inventory'); c.emit('change'); c.save?.();
     if (quests && s.quests) { quests.state = JSON.parse(JSON.stringify(s.quests)); quests.save(); quests.emit('change'); }
   };
+  // the server's titles and records (src/data/titles.js): `got` = just earned (the social window toasts them)
+  const takeTitles = ({ titles, title, rec, got = [] }) => {
+    c.titles = [...titles]; c.title = title ?? null; c.rec = { ...rec, boss: { ...rec?.boss } };
+    c.emit('titles', got);
+  };
+  net.on('titles', m => { if (on) { takeTitles(m); c.save?.(); } });
   net.on('sync', m => {
     if (!m.c) return;
     on = true;

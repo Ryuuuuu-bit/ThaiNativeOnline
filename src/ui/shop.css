@@ -1,26 +1,20 @@
 /* Shop sign above a vendor (src/ui/HUD.js) and the shop window (src/ui/ShopPanel.js).
-   Sign: design B "กรอบทองหน้าบัน" (dark glass, gold frame, corner brackets, gold gable).
+   Sign: design C "ธงสีตามประเภทร้าน" (an icon block in the shop kind's colour, a dark body, a tail).
    Window: ThaiNative's shop layout (header, tab rail, grouped list + detail panel) in this game's skin. */
 
 /* ---- sign ---- */
-.plate.is-shop{transform-origin:50% 100%;padding-top:12px;text-shadow:none;--k:#8fd59a}
-.plate.is-shop.k-equipment{--k:#f0a06a}
-.plate.is-shop.k-upgrade{--k:#c9a2f2}
-.plate.is-shop.k-skills{--k:#8fbaf2}
+.plate.is-shop{transform-origin:50% 100%;padding-bottom:8px;text-shadow:none;--k:#3f9a55}
+.plate.is-shop.k-equipment{--k:#c0662e}
+.plate.is-shop.k-upgrade{--k:#8a5cc4}
+.plate.is-shop.k-skills{--k:#3d6fb0}
 .plate.is-shop .qm{display:block;margin:0 0 4px;font-size:16px;text-shadow:0 1px 3px #000c}
-.plate.is-shop .sign{position:relative;display:block;min-width:132px;padding:7px 16px 6px;text-align:center;
-  background:linear-gradient(180deg,rgba(28,37,50,.92),rgba(13,18,26,.95));border:1px solid rgba(232,200,130,.7);border-radius:4px;
-  box-shadow:0 0 0 1px #0008,0 0 14px rgba(232,200,130,.25),0 6px 16px #0009}
-.plate.is-shop .sign::before{content:"";position:absolute;left:50%;top:-14px;width:56px;height:15px;transform:translateX(-50%);
-  background:linear-gradient(180deg,#f7e2b0,#c99a3e);clip-path:polygon(50% 0,100% 100%,82% 100%,50% 30%,18% 100%,0 100%)}
-.plate.is-shop .sg-ic{position:absolute;left:50%;top:-10px;transform:translateX(-50%);margin:0;font-size:10px;font-weight:700;color:#2a1b0c;line-height:1}
-.plate.is-shop .sg-c{position:absolute;width:7px;height:7px;margin:0;border:2px solid #e8c882}
-.plate.is-shop .c1{left:-3px;top:-3px;border-right:0;border-bottom:0}.plate.is-shop .c2{right:-3px;top:-3px;border-left:0;border-bottom:0}
-.plate.is-shop .c3{left:-3px;bottom:-3px;border-right:0;border-top:0}.plate.is-shop .c4{right:-3px;bottom:-3px;border-left:0;border-top:0}
-.plate.is-shop .sign b{display:block;font:700 14px 'Noto Serif Thai',serif;color:#f7e2b0;letter-spacing:.4px}
-.plate.is-shop .sign small{display:block;font-size:10px;color:#a9b3c2;letter-spacing:0}
-.plate.is-shop .sign em{display:inline-block;margin-top:3px;padding:0 8px;border-radius:8px;font:9px 'Noto Sans Thai',sans-serif;font-style:normal;
-  color:var(--k);background:color-mix(in srgb,var(--k) 18%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--k) 55%,transparent)}
+.plate.is-shop .sign{position:relative;display:flex;align-items:stretch;text-align:left;filter:drop-shadow(0 6px 10px #0007)}
+.plate.is-shop .sg-ic{flex:none;width:30px;margin:0;display:grid;place-items:center;font-style:normal;font-size:14px;color:#fff;background:var(--k);border-radius:6px 0 0 6px}
+.plate.is-shop .sg-body{padding:4px 12px 4px 9px;background:linear-gradient(180deg,#1f2a36,#121821);border:1px solid color-mix(in srgb,var(--k) 70%,#000);border-left:0;border-radius:0 6px 6px 0}
+.plate.is-shop .sign b{display:block;font:700 13px 'Noto Serif Thai',serif;color:#fff;letter-spacing:.2px}
+.plate.is-shop .sign small{display:block;font-size:9px;color:#a9b3c2;letter-spacing:0}
+/* the little flag tail pointing down at the keeper */
+.plate.is-shop .sign::after{content:"";position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);border:7px solid transparent;border-top-color:color-mix(in srgb,var(--k) 75%,#000);border-bottom:0}
 
 /* ---- window ---- */
 body .shop.sh-v3{width:min(820px,calc(100% - 32px));height:min(560px,calc(100dvh - 150px));max-height:none}

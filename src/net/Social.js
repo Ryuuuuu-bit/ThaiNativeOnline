@@ -5,8 +5,10 @@
 //     HP / MP, who leads, far ones greyed with their map; the EXP bonus now. Click → the party tab
 //   · the trade window: my offer and theirs, my bag to add from, gold; ล็อก → ยืนยัน (both sides)
 //   · party chat: start a chat line with /p · /w name text whispers · /r answers
-//   · P: the social window — ปาร์ตี้ (member cards: HP / MP, buffs, where, near → shares EXP;
-//     whisper, hand over the lead, remove, leave) · ออนไลน์ · เพื่อน (signed in)
+//   · P (or เมนู → สังคม): the social window — ปาร์ตี้ (member cards: HP / MP, buffs, where, near → shares EXP;
+//     whisper, hand over the lead, remove, leave) · เพื่อน (signed in: list, search, add by name, players
+//     near you, notices) · ฉายา (src/data/titles.js: earn, preview, wear) · อันดับ (server/ranking.js boards);
+//     the three tabs are drawn by src/net/SocialPanes.js
 //   · a healer's party / revive skill heals, buffs and stands up the members near them (aid)
 //   attachSocial(net, character, chat, remote)
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
@@ -15,13 +17,15 @@ import { BUFF_ICONS } from '../combat/data/skills.js';
 import { iconHtml, classBadge } from '../ui/icons.js';
 import { sameGear } from '../character/data/refine.js';
 import { draggable } from '../ui/draggable.js';
+import { TITLE_BY_ID } from '../data/titles.js';
+import { friendsPane, titlesPane, rankPane, titleCount, MAP_TH } from './SocialPanes.js';
+import './social.css';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const PARTY_WHY = { self: 'ชวนตัวเองไม่ได้', in_party: 'ผู้เล่นนั้นอยู่ในปาร์ตี้อื่นแล้ว', not_leader: 'หัวหน้าปาร์ตี้เท่านั้นที่ชวนได้', full: 'ปาร์ตี้เต็มแล้ว (6 คน)', expired: 'คำเชิญหมดอายุแล้ว', offline: 'ผู้เล่นนั้นออฟไลน์', declined: 'ปฏิเสธคำเชิญปาร์ตี้' };
 const TRADE_WHY = { self: 'แลกกับตัวเองไม่ได้', busy: 'ตอนนี้แลกเปลี่ยนไม่ได้ (กำลังต่อสู้ หมดสติ หรือแลกกับคนอื่นอยู่)', offline: 'ผู้เล่นนั้นออฟไลน์', guest: 'ต้องเข้าสู่ระบบทั้งสองฝ่ายจึงแลกเปลี่ยนได้', far: 'ต้องยืนใกล้กัน (ไม่เกิน 8 เมตร) ในแชนแนลเดียวกัน', expired: 'คำขอหมดอายุแล้ว', declined: 'อีกฝ่ายปฏิเสธการแลกเปลี่ยน',
   gold: 'ทองไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
   cancelled: 'ยกเลิกการแลกเปลี่ยน', moved: 'การแลกเปลี่ยนถูกยกเลิก (ย้ายแมพหรือแชนแนล)', left: 'อีกฝ่ายออกจากเกม · ยกเลิกการแลกเปลี่ยน' };
-const MAP_TH = { city: 'นครอโยธยา', paddy: 'ทุ่งนา', deep_forest: 'ป่าลึก', wat_rang: 'วัดร้าง', klong: 'คลองหนองบึง' };
 const label = e => `${e.plus ? `+${e.plus} ` : ''}${ITEMS[e.id]?.name ?? e.id}${e.qty > 1 ? ` ×${e.qty}` : ''}${e.cards?.length ? ` ❖${e.cards.length}` : ''}`;
 // an HP / MP bar (empty when the server does not know it: a guest's)
 const bar = (kind, v, max, nums = false) => (max ? `<em class="soc-bar ${kind}"><i style="width:${(Math.max(0, Math.min(1, v / max)) * 100).toFixed(0)}%"></i>${nums ? `<b>${v} / ${max}</b>` : ''}</em>` : `<em class="soc-bar ${kind} none"></em>`);
@@ -39,8 +43,8 @@ export function attachSocial(net, c, chat, remote, game = null) {
   // ---- the menu on another player's name plate ----
   const menu = node('soc-menu glass'); menu.hidden = true;
   remote.onPick = (r, x, y) => {
-    menu.innerHTML = `<header>${esc(r.name)}<small>${CLASSES[r.cls]?.name ?? ''} · Lv.${r.lv}</small></header>
-      <button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกเปลี่ยน</button><button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button>`;
+    menu.innerHTML = `<header>${esc(r.name)} · ${CLASSES[r.cls]?.name ?? ''} Lv ${r.lv}</header>
+      <button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button><button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกของ</button>`;
     menu.dataset.id = r.id; menu.dataset.name = r.name; menu.style.left = `${Math.max(90, Math.min(innerWidth - 90, x))}px`; menu.style.top = `${Math.max(8, Math.min(innerHeight - 140, y))}px`; menu.hidden = false;
   };
   menu.addEventListener('click', e => {
@@ -130,18 +134,43 @@ export function attachSocial(net, c, chat, remote, game = null) {
     return false;
   };
   net.on('w', m => { if (!m.echo) lastFrom = m.from; chat.add(m.echo ? `[กระซิบถึง ${m.to}]` : `[กระซิบจาก ${m.from}]`, m.text, 'whisper'); });
-  net.on('fon', m => chat.add('ระบบ', `เพื่อน ${m.name} ออนไลน์แล้ว`));
+  // friends coming online and adding us: a chat line and the friends tab's notices
+  const notes = [];
+  const note = (kind, name, cls) => { notes.unshift({ kind, name, cls: cls ?? lists.friends.find(f => f.name === name)?.cls, at: Date.now() }); notes.length = Math.min(notes.length, 8); if (tab === 'friends') renderSoc(); };
+  net.on('fon', m => { chat.add('ระบบ', `เพื่อน ${m.name} ออนไลน์แล้ว`); note('online', m.name); });
   net.on('foff', m => chat.add('ระบบ', `เพื่อน ${m.name} ออฟไลน์`));
+  net.on('fnote', m => { chat.add('ระบบ', `${m.name} เพิ่มคุณเป็นเพื่อน · เพิ่มกลับได้ในหน้าสังคม (P)`); note('added', m.name, m.cls); });
 
-  // ---- the social window (P): party, who is online, friends ----
-  const soc = node('soc-panel glass'); soc.hidden = true;
-  draggable(soc, { key: 'social' });
-  let tab = 'who', lists = { who: [], friends: [] }, refresh = null;
+  // ---- titles (src/data/titles.js): a new one is announced; wearing one tells the others ----
+  const known = new Set(c.titles);
+  c.on('titles', () => {
+    for (const id of c.titles) if (!known.has(id)) { known.add(id); const t = TITLE_BY_ID[id]; if (t && !t.dynamic) chat.add('ระบบ', `ได้รับฉายาใหม่ «${t.name}» · ใส่ได้ที่หน้าสังคม (P) แท็บฉายา`, 'news'); }
+    for (const id of [...known]) if (!c.titles.includes(id)) known.delete(id);
+    if (tab === 'titles') renderSoc();
+  });
+  const wear = id => { if (!c.setTitle(id || null)) return; c.save?.(); net.send({ t: 'ttl', id: id || null }); renderSoc(); };
+
+  // ---- the social window (P): ปาร์ตี้ · เพื่อน · ฉายา · อันดับ (design "UI ใหม่") ----
+  const soc = node('soc-panel soc-win glass'); soc.hidden = true;
+  draggable(soc, { key: 'social', handle: 'header' });
+  let tab = 'friends', lists = { who: [], friends: [] }, refresh = null;
+  const fst = { filter: 'all', search: '' }, tst = { cat: 'all', sel: null }, rst = { board: 'power', cls: 'all', data: null, loading: false };
   const askLists = () => { net.send({ t: 'who' }); net.send({ t: 'friends' }); };
-  const nav = () => `<nav><button data-tab="party" aria-pressed="${tab === 'party'}">ปาร์ตี้ ${party ? `${party.members.length} / 6` : ''}</button><button data-tab="who" aria-pressed="${tab === 'who'}">ออนไลน์ (${lists.who.length})</button><button data-tab="friends" aria-pressed="${tab === 'friends'}">เพื่อน (${lists.friends.filter(f => f.online).length}/${lists.friends.length})</button></nav>`;
+  const askRank = () => { rst.loading = true; net.send({ t: 'rank' }); };
+  net.on('rank', m => { rst.data = m; rst.loading = false; if (tab === 'rank') renderSoc(); });
+  // the players around us (same map and channel), nearest first
+  const nearby = () => {
+    const p = game?.player?.position; if (!p) return [];
+    return [...remote.list.values()].map(r => ({ id: r.id, name: r.name, cls: r.cls, lv: r.lv, title: r.title, dist: Math.hypot(r.x - p.x, r.z - p.z) })).sort((a, b) => a.dist - b.dist);
+  };
+  const tabs = () => {
+    const on = lists.friends.filter(f => f.online).length, tc = titleCount(c);
+    return `<nav class="sw-tabs">${[['party', `ปาร์ตี้${party ? ` ${party.members.length} / 6` : ''}`], ['friends', `เพื่อน · ออนไลน์ ${on}`], ['titles', `ฉายา ${tc.got} / ${tc.all}`], ['rank', 'อันดับ']]
+      .map(([k, n]) => `<button data-tab="${k}" aria-pressed="${tab === k}">${n}</button>`).join('')}</nav>`;
+  };
   // the party tab: rules strip and one arch-topped card per member (design "UI ใหม่")
   const partyPane = () => {
-    if (!party) return '<p class="soc-none">ยังไม่ได้อยู่ในปาร์ตี้ · ชวนผู้เล่นจากแท็บออนไลน์ หรือคลิกชื่อผู้เล่นในโลก (ปาร์ตี้ได้สูงสุด 6 คน)</p>';
+    if (!party) return '<p class="soc-none">ยังไม่ได้อยู่ในปาร์ตี้ · ชวนผู้เล่นจากแท็บเพื่อน (ผู้เล่นใกล้คุณ) หรือคลิกชื่อผู้เล่นในโลก (ปาร์ตี้ได้สูงสุด 6 คน)</p>';
     const lead = party.leader === me, sh = share(), r = party.share;
     const cards = party.members.map(p => {
       const mine = p.id === me, near = nearOf(p);
@@ -154,52 +183,58 @@ export function attachSocial(net, c, chat, remote, game = null) {
         + `<div class="meta"><span>อยู่ที่ <b>${esc(MAP_TH[p.map] ?? p.map ?? '')}${p.ch > 1 ? ` · CH ${p.ch}` : ''}</b></span><span>${state}</span></div><div class="acts">${acts}</div></div>`;
     }).join('');
     const empty = Array.from({ length: 6 - party.members.length }, () => (lead
-      ? '<button class="soc-card empty" data-tab="who"><span class="plus">+</span><span>เชิญสมาชิก</span><small>จากแท็บออนไลน์<br>หรือคลิกชื่อผู้เล่น</small></button>'
+      ? '<button class="soc-card empty" data-tab="friends"><span class="plus">+</span><span>เชิญสมาชิก</span><small>จากแท็บเพื่อน<br>หรือคลิกชื่อผู้เล่น</small></button>'
       : '<div class="soc-card empty"><span class="plus">+</span><small>หัวหน้าปาร์ตี้เป็นคนชวน</small></div>')).join('');
     return `<div class="soc-strip"><b>ปาร์ตี้ของ ${esc(party.members.find(p => p.id === party.leader)?.name)}</b>`
       + `<span class="rule ok">อยู่ใกล้กัน (${r.range} ม.): แบ่ง EXP เท่ากัน</span><span class="rule ok">EXP +${Math.round(r.bonus * 100)}% ต่อเพื่อนที่อยู่ใกล้${sh.near && sh.even ? ` · ตอนนี้ +${Math.round(r.bonus * sh.near * 100)}%` : ''}</span>`
       + `<span class="rule${sh.even ? '' : ' bad'}">เลเวลห่างกันไม่เกิน ${r.gap}${sh.even ? '' : ' · ตอนนี้ห่างเกิน แยก EXP'}</span><span class="sp"></span>`
       + `<label>แจ้งเมื่อมีคนบัฟให้ <button class="soc-sw${prefs.buffNote ? ' on' : ''}" data-sw="buffNote" aria-pressed="${prefs.buffNote}"></button></label></div>`
-      + `<div class="soc-cards">${cards}${empty}</div>`;
+      + `<div class="soc-cards">${cards}${empty}</div><p class="soc-hint">แชท: /p ข้อความ = คุยในปาร์ตี้ · /w ชื่อ ข้อความ = กระซิบ · /r = ตอบกลับ</p>`;
   };
   const renderSoc = () => {
     if (soc.hidden) return;
-    soc.classList.toggle('wide', tab === 'party');
-    if (tab === 'party') {
-      soc.innerHTML = `<header><b>สังคม</b><button data-close>✕</button></header>${nav()}${partyPane()}<p class="soc-hint">แชท: /p ข้อความ = คุยในปาร์ตี้ · คลิกกรอบปาร์ตี้ใต้กรอบผู้เล่นเพื่อเปิดหน้านี้</p>`;
-      return;
-    }
-    const friendNames = new Set(lists.friends.map(f => f.name));
-    const rows = (tab === 'who' ? lists.who : lists.friends).map(p => {
-      const on = tab === 'who' || p.online, self = p.id === me;
-      return `<div class="soc-row${on ? '' : ' off'}"><span><b>${esc(p.name)}</b><small>${on ? `${CLASSES[p.cls]?.name ?? ''} · Lv.${p.lv} · ${MAP_TH[p.map] ?? p.map ?? ''}` : 'ออฟไลน์'}</small></span>`
-        + (self ? '<em>คุณ</em>' : `${on ? `<button data-w="${esc(p.name)}" title="กระซิบ">กระซิบ</button><button data-inv="${p.id}" title="ชวนเข้าปาร์ตี้">ปาร์ตี้</button>` : ''}`
-        + (tab === 'who' ? (friendNames.has(p.name) ? '' : `<button data-fadd="${esc(p.name)}" title="เพิ่มเพื่อน">+เพื่อน</button>`) : `<button data-fdel="${esc(p.name)}" title="ลบเพื่อน">ลบ</button>`)) + '</div>';
-    }).join('');
-    soc.innerHTML = `<header><b>สังคม</b><button data-close>✕</button></header>
-      ${nav()}
-      <div class="soc-rows">${rows || `<p>${tab === 'who' ? 'ไม่มีใครออนไลน์' : 'ยังไม่มีเพื่อน · เพิ่มจากแท็บออนไลน์ (ต้องเข้าสู่ระบบ)'}</p>`}</div>
-      <p class="soc-hint">แชท: /w ชื่อ ข้อความ = กระซิบ · /r = ตอบกลับ · /p = ปาร์ตี้</p>`;
+    // keep what is being typed and where the lists were scrolled
+    const typing = document.activeElement?.closest?.('.soc-win') ? document.activeElement.matches('[data-fsearch]') ? 'fsearch' : document.activeElement.matches('[data-fname]') ? 'fname' : null : null;
+    const fname = soc.querySelector('[data-fname]')?.value ?? '', scroll = [...soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table')].map(e => e.scrollTop);
+    const body = tab === 'party' ? partyPane()
+      : tab === 'friends' ? friendsPane({ ...fst, friends: lists.friends, party, me, nearby: nearby(), notes })
+        : tab === 'titles' ? titlesPane({ c, ...tst })
+          : rankPane({ ...rst, name: c.name, myCls: c.classId, myTitle: c.title });
+    soc.innerHTML = `<header><kbd>P</kbd><b>สังคม</b><button data-close aria-label="ปิด">✕</button></header>${tabs()}<div class="sw-body">${body}</div>`;
+    const fi = soc.querySelector('[data-fname]'); if (fi) fi.value = fname;
+    soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table').forEach((e, i) => { e.scrollTop = scroll[i] ?? 0; });
+    if (typing) { const el = soc.querySelector(`[data-${typing}]`); el?.focus(); el?.setSelectionRange?.(el.value.length, el.value.length); }
   };
-  const toggleSoc = (open = soc.hidden) => {
+  const toggleSoc = (open = soc.hidden, to = null) => {
+    if (to) tab = to;
     soc.hidden = !open; clearInterval(refresh);
-    if (open) { askLists(); refresh = setInterval(askLists, 5000); renderSoc(); }
+    if (open) { askLists(); if (tab === 'rank') askRank(); refresh = setInterval(() => { askLists(); if (tab === 'rank') askRank(); }, tab === 'rank' ? 30000 : 5000); renderSoc(); }
   };
-  net.on('who', m => { lists.who = m.list; renderSoc(); });
+  net.on('who', m => { lists.who = m.list; if (tab === 'friends' || tab === 'party') renderSoc(); });
   net.on('friends', m => { lists.friends = m.list; renderSoc(); });
   soc.addEventListener('click', e => {
-    const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.close !== undefined) toggleSoc(false);
-    else if (b.dataset.tab) { tab = b.dataset.tab; renderSoc(); }
-    else if (b.dataset.w) chat.open(`/w ${b.dataset.w} `);
-    else if (b.dataset.inv) { net.send({ t: 'pinv', id: Number(b.dataset.inv) }); chat.add('ระบบ', 'ส่งคำเชิญปาร์ตี้แล้ว'); }
-    else if (b.dataset.fadd) net.send({ t: 'fadd', name: b.dataset.fadd });
-    else if (b.dataset.fdel) net.send({ t: 'fdel', name: b.dataset.fdel });
-    else if (b.dataset.leave !== undefined) net.send({ t: 'pleave' });
-    else if (b.dataset.kick) net.send({ t: 'pkick', id: Number(b.dataset.kick) });
-    else if (b.dataset.lead) net.send({ t: 'plead', id: Number(b.dataset.lead) });
-    else if (b.dataset.sw) { prefs[b.dataset.sw] = !prefs[b.dataset.sw]; savePrefs(); renderSoc(); }
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    const d = b.dataset;
+    if (d.close !== undefined) toggleSoc(false);
+    else if (d.tab) { tab = d.tab; if (tab === 'rank') askRank(); toggleSoc(true); }
+    else if (d.w) chat.open(`/w ${d.w} `);
+    else if (d.inv) { net.send({ t: 'pinv', id: Number(d.inv) }); chat.add('ระบบ', 'ส่งคำเชิญปาร์ตี้แล้ว'); }
+    else if (d.fadd) net.send({ t: 'fadd', name: d.fadd });
+    else if (d.fnameGo !== undefined) { const name = soc.querySelector('[data-fname]')?.value.trim(); if (name) { net.send({ t: 'fadd', name }); soc.querySelector('[data-fname]').value = ''; } }
+    else if (d.fdel) net.send({ t: 'fdel', name: d.fdel });
+    else if (d.ff) { fst.filter = d.ff; renderSoc(); }
+    else if (d.tcat) { tst.cat = d.tcat; renderSoc(); }
+    else if (d.tsel) { tst.sel = d.tsel; renderSoc(); }
+    else if (d.twear !== undefined) wear(d.twear);
+    else if (d.rb) { rst.board = d.rb; renderSoc(); }
+    else if (d.rc) { rst.cls = d.rc; renderSoc(); }
+    else if (d.leave !== undefined) net.send({ t: 'pleave' });
+    else if (d.kick) net.send({ t: 'pkick', id: Number(d.kick) });
+    else if (d.lead) net.send({ t: 'plead', id: Number(d.lead) });
+    else if (d.sw) { prefs[d.sw] = !prefs[d.sw]; savePrefs(); renderSoc(); }
   });
+  soc.addEventListener('input', e => { if (e.target.matches('[data-fsearch]')) { fst.search = e.target.value; renderSoc(); } });
+  soc.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter' && e.target.matches('[data-fname]')) soc.querySelector('[data-fname-go]')?.click(); });   // typing does not walk the player
   window.addEventListener('keydown', e => {
     if (e.code !== 'KeyP' || e.repeat || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
     if (soc.hidden && party) tab = 'party';
@@ -257,5 +292,9 @@ export function attachSocial(net, c, chat, remote, game = null) {
     offer.gold = Math.max(0, Math.min(c.gold, Math.floor(Number(g.value) || 0))); sendOffer();
   });
   win.addEventListener('keydown', e => e.stopPropagation());   // typing gold does not walk the player
-  return { get party() { return party; }, get trade() { return trade; } };
+  return {
+    get party() { return party; }, get trade() { return trade; },
+    // the main menu's สังคม tile (src/ui/MainMenu.js): open on a tab, or close
+    toggle(to = null) { toggleSoc(soc.hidden || (!!to && to !== tab), to); },
+  };
 }
