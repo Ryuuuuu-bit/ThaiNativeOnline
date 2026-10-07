@@ -40,7 +40,8 @@ export class ActionBar {
     // the basic attack (Space): every class has one, its speed follows AGI and buffs
     this.atkBtn = el('button', 'ro-button hotbar-attack', '<b>โจมตี</b><kbd>Space</kbd>'); this.atkBtn.type = 'button'; this.atkBtn.hidden = true;
     this.atkBtn.title = 'ตีปกติใส่เป้าหมาย (เร็วขึ้นตาม AGI และบัฟ)';
-    this.atkBtn.addEventListener('click', () => { const cb = this.combat; if (cb?.basicSkillId?.()) cb.useSkill(cb.basicSkillId()); });
+    // the same as the Space key, so it also swings at the training dummy in the city
+    this.atkBtn.addEventListener('click', () => window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Space', key: ' ' })));
     this.bar.append(this.row, this.atkBtn, this.autoBtn, this.cfgBtn);
     if (potions.length) this.bar.append(el('span', 'hotbar-sep'), el('div', 'action-items'));
     this.bar.querySelector('.action-items')?.append(...potions);

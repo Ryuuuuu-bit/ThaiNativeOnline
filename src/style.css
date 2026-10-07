@@ -141,3 +141,6 @@ body:not(.ui-compact) .hotbar{bottom:84px}
 .exploration:not(:has(#quest-tracker > *)){display:none}
 /* No exploration overlays: the big map title bottom-left is gone too (the top header names the place). */
 .map-caption{display:none}
+
+/* Zoom lock (🔒 under the zoom buttons). */
+#zoom-lock{font-size:15px}#zoom-lock.on{background:#6b4a22cc;border-color:#e1c983}

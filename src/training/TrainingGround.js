@@ -3,7 +3,9 @@ import { makeModelCharacter } from '../classes/model.js';
 import { createFx, K as FOREST_K } from '../classes/fx/engine.js';
 import { createDummy } from '../classes/fx/dummy.js';
 import { CLASS_KITS } from '../classes/index.js';
-import { hitChanceOf } from '../rules/stats.js';
+import { hitChanceOf, rollDamage } from '../rules/stats.js';
+import { SKILLS as COMBAT_SKILLS } from '../combat/data/skills.js';
+import { RULES } from '../combat/data/rules.js';
 import { jobDerived } from './damage.js';
 import { KitCaster } from './KitCaster.js';
 import { AVATARS, avatarFor, TRAINING } from '../data/training.js';
@@ -140,6 +142,31 @@ export class TrainingGround {
     if (e) this.ring.position.set(e.spot.x, this.groundHeight(e.spot.x, e.spot.z) + .06, e.spot.z);
     return !!e;
   }
+  // Basic attack (Space / ตี) on the dummy: keeps swinging at the class's attack speed until
+  // the player walks off, like the basic attack on monsters. → true when it started.
+  swing() {
+    if (!this.near || !this.hero) return false;
+    if (!this.selected) this.select(this.closest);
+    this.autoSwing = true; this.swingTimer = Math.min(this.swingTimer ?? 0, 0);
+    return true;
+  }
+  doSwing() {
+    const c = this.hero, e = this.closest, p = this.player.position;
+    const id = c.cls.skills.find(k => COMBAT_SKILLS[k]?.basic), skill = COMBAT_SKILLS[id];
+    if (!skill || !e) { this.autoSwing = false; return; }
+    this.swingTimer = c.cls.attackSpeed * (1 - (c.attackSpeed || 0));   // AGI and buffs speed it up
+    const from = { x: p.x, z: p.z }, target = { x: e.spot.x, z: e.spot.z }, d = Math.hypot(target.x - from.x, target.z - from.z);
+    // the same events a swing at a monster sends: the clip, facing, the slash / the projectile
+    this.combat?.emit('cast', { skillId: id, skill, target, from });
+    const flight = skill.projectile ? d / RULES.projectileSpeed : .18;
+    if (skill.projectile) this.combat?.emit('projectile', { from, target, color: skill.projectile, duration: flight });
+    const r = rollDamage({ patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit ? 1 : c.critChance, critDmg: c.critDamage }, this.target, skill.scale === 'int' ? 'magic' : 'physical', skill.power);
+    this.fx.after(flight, () => {
+      if (!e.dummy.alive) return;
+      this.swingHit = true;
+      try { if (r.hit) e.dummy.hurt(r.dmg, r.crit, .2, undefined, true); else e.dummy.miss(); } finally { this.swingHit = false; }
+    });
+  }
   // A tap / click near a dummy on screen picks it (true: the tap was used).
   pickAt(clientX, clientY, touch) {
     if (!this.inGround || !this.dummies) return false;
@@ -168,12 +195,13 @@ export class TrainingGround {
 
   get near() { const s = this.inGround && this.spot; return !!s && Math.hypot(this.player.position.x - s.x, this.player.position.z - s.z) <= TRAINING.range; }
   get busy() { return !!this.skills?.busy; }
-  onManualMove() { this.caster.cancel(); }
+  onManualMove() { this.caster.cancel(); this.autoSwing = false; }
 
   setNear(on) {
     if (on === this.wasNear) return;
     this.wasNear = on;
-    this.panel.hidden = !on;   // at the dummy: the damage log
+    if (!on) this.dismissed = false;   // closed with ×: back next time the player walks up
+    this.panel.hidden = !on || this.dismissed;   // at the dummy: the damage log
   }
 
   update(dt) {
@@ -189,6 +217,10 @@ export class TrainingGround {
     if (this.combat) this.combat.hold = this.skills.busy;
     fx.update(sdt, this.clock, this.player.position.y);
     if (this.inGround) for (const e of this.dummies ?? []) e.dummy.update(sdt);
+    if (this.autoSwing) {
+      if (!this.near || !this.hero?.alive) this.autoSwing = false;
+      else if (!this.skills.busy && (this.swingTimer -= sdt) <= 0) this.doSwing();
+    }
     if (this.ring?.visible) { this.ring.rotation.z = this.clock; this.ring.scale.setScalar(1 + Math.sin(this.clock * 6) * .06); }
     this.vignette.style.opacity = fx.mood.toFixed(3);
     if (this.dirty) { this.dirty = false; this.renderPanel(); }
@@ -196,7 +228,7 @@ export class TrainingGround {
 
   // ---- damage log ---------------------------------------------------------
   record(e) {
-    const s = this.stats, now = performance.now() / 1000, id = e.bleed ? 'bleed' : this.lastSkill ?? '?';
+    const s = this.stats, now = performance.now() / 1000, id = e.bleed ? 'bleed' : this.swingHit ? 'basic' : this.lastSkill ?? '?';
     if (!s.first) s.first = now;
     s.last = now;
     if (e.miss) s.misses++;
@@ -214,13 +246,19 @@ export class TrainingGround {
     const panel = $el('aside', 'training-panel glass');
     panel.hidden = true;
     panel.innerHTML = `
-      <header><b>${this.kit.ground}</b><button type="button" class="training-reset" title="ล้างสถิติ">ล้าง</button></header>
+      <header><button type="button" class="training-fold" title="ย่อ / ขยาย" aria-expanded="true"><b>${this.kit.ground}</b><i>▾</i></button><span><button type="button" class="training-reset" title="ล้างสถิติ">ล้าง</button><button type="button" class="training-close" title="ซ่อนแผงนี้ (กลับมาเมื่อเดินไปหาหุ่นอีกครั้ง)" aria-label="ซ่อน">×</button></span></header>
       <p class="training-sub"></p>
       <dl class="training-sum"></dl>
       <ol class="training-log"></ol>
       <table class="training-skills"></table>
       <p class="training-tip">1–0 ใช้สกิล · G ออโต้ · ?lv=50&amp;skill=5&amp;ddef=40 ปรับค่าทดสอบ</p>`;
     panel.querySelector('.training-reset').addEventListener('click', () => this.reset());
+    // fold to one line (remembered on this device), or hide until the player comes back to the dummies
+    const fold = panel.querySelector('.training-fold'), setFold = on => { panel.classList.toggle('folded', on); fold.setAttribute('aria-expanded', String(!on)); try { localStorage.setItem('tno.trainingFold', on ? '1' : '0'); } catch { /* storage unavailable */ } };
+    let folded = null; try { folded = localStorage.getItem('tno.trainingFold'); } catch { /* storage unavailable */ }
+    setFold(folded === null ? document.body.classList.contains('ui-touch') : folded === '1');
+    fold.addEventListener('click', () => setFold(!panel.classList.contains('folded')));
+    panel.querySelector('.training-close').addEventListener('click', () => { this.dismissed = true; panel.hidden = true; });
     root.appendChild(panel);
     this.sub = panel.querySelector('.training-sub');
     this.sum = panel.querySelector('.training-sum'); this.logEl = panel.querySelector('.training-log'); this.table = panel.querySelector('.training-skills');
@@ -240,7 +278,7 @@ export class TrainingGround {
     this.sub.innerHTML = `${this.kit.name} Lv.${this.level} · สกิล Lv.${this.skillLevel} · ${magic ? `MATK ${d.matk}` : `ATK ${d.patk}`} · คริ ${(d.critRate * 100).toFixed(0)}% ×${d.critDmg.toFixed(2)} · โดน ${(hit * 100).toFixed(0)}%<br>หุ่น DEF ${this.target.def} · EVA ${this.target.eva}`;
   }
   renderPanel() {
-    const s = this.stats, span = Math.max(1, s.last - s.first), name = id => (id === 'bleed' ? 'เลือดไหล' : this.kit.skills.find(m => m.id === id)?.name ?? id);
+    const s = this.stats, span = Math.max(1, s.last - s.first), name = id => (id === 'bleed' ? 'เลือดไหล' : id === 'basic' ? 'ตีปกติ' : this.kit.skills.find(m => m.id === id)?.name ?? id);
     const tries = s.hits + s.misses;
     this.sum.innerHTML = `<div><dt>รวม</dt><dd>${s.total.toLocaleString()}</dd></div><div><dt>DPS</dt><dd>${s.hits ? Math.round(s.total / span).toLocaleString() : 0}</dd></div><div><dt>คริ</dt><dd>${s.hits ? Math.round(s.crits / s.hits * 100) : 0}%</dd></div><div><dt>พลาด</dt><dd>${tries ? Math.round(s.misses / tries * 100) : 0}%</dd></div>`;
     this.logEl.innerHTML = s.log.map(l => `<li class="${l.cls}"><span>${name(l.id) === 'ko' ? '' : name(l.id)}</span><b>${l.text}</b></li>`).join('');

@@ -93,3 +93,6 @@ body .acc-screen>*,body .g-create>*{margin:auto;max-width:100%}
 .touch-btn.t-target.locked { border-color: #ff8a5c; box-shadow: 0 0 0 2px #ff8a5c66, 0 0 14px #ff7b5c99; color: #ffd2bd; }
 .touch-btn.t-target.locked b::after { content: ' ●'; color: #ff8a5c; font-size: 10px; }
 .touch-btn.t-target.released { border-color: #9fd0ec; }
+
+.touch-side .touch-map { color: #f1d9a0; }
+.mini-title { cursor: pointer; }

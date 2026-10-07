@@ -111,6 +111,10 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
     const side = el('div', 'touch-side');
     for (const sel of ['.hotbar-auto', '.hotbar-auto-cfg', '.action-items', '.action-menus']) { const n = bar.querySelector(sel); if (n) side.append(n); }
     bar.querySelectorAll(':scope > .hotbar-sep').forEach(n => n.remove());
+    // the big map, one tap away (also ⌖ at the top and ⤢ by the minimap)
+    const map = el('button', 'g-menu touch-map', 'แผนที่'); map.type = 'button'; map.title = 'แผนที่ใหญ่';
+    map.addEventListener('click', () => input.emit('map'));
+    side.append(map);
     root.append(side);
     return true;
   };

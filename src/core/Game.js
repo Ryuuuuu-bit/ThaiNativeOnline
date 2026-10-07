@@ -119,8 +119,11 @@ export class Game {
     input.on('zoom', delta => this.zoomTo(view.zoom - delta * .001));
     input.on('zoomBy', ratio => this.zoomTo(view.zoom * ratio));
     input.on('zoomStep', dir => this.zoomTo(view.zoom * (dir > 0 ? 1.12 : 1 / 1.12)));
-    $('zoom-in').addEventListener('click', () => this.zoomTo(view.zoom * 1.15));
-    $('zoom-out').addEventListener('click', () => this.zoomTo(view.zoom / 1.15));
+    $('zoom-in').addEventListener('click', () => this.zoomTo(view.zoom * 1.15, true));
+    $('zoom-out').addEventListener('click', () => this.zoomTo(view.zoom / 1.15, true));
+    // 🔒 locks the camera distance: pinch, the wheel and + / − keys no longer change it
+    // (the + / − buttons and the settings slider still can, and unlock nothing)
+    $('zoom-lock').addEventListener('click', () => { this.prefs.set({ zoomLock: !this.prefs.zoomLock }); this.syncZoom(); this.note(this.prefs.zoomLock ? 'ล็อกระยะกล้องแล้ว · นิ้ว / ล้อเมาส์จะไม่ซูม' : 'ปลดล็อกระยะกล้อง'); });
     input.on('click', e => {
       if (this.maps.busy) return;
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
@@ -132,6 +135,9 @@ export class Game {
     $('map-toggle').addEventListener('click', () => this.toggleMap());
     $('fullmap-close').addEventListener('click', () => this.toggleMap());
     $('interaction').addEventListener('click', () => this.interact());
+    // the big map: the ⤢ button by the minimap, or a tap on the minimap's title (a tap on the map itself walks there)
+    $('map-open').addEventListener('click', () => this.toggleMap());
+    document.querySelector('.mini-title')?.addEventListener('click', () => this.toggleMap());
     $('dlg-next').addEventListener('click', () => this.interact());
     $('dlg-close').addEventListener('click', () => this.closeDialogue());
     $('dlg-shop').addEventListener('click', () => {
@@ -142,7 +148,7 @@ export class Game {
     const settings = $('settings');
     $('settings-toggle').addEventListener('click', () => { settings.hidden = !settings.hidden; $('settings-toggle').setAttribute('aria-expanded', String(!settings.hidden)); });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
-    $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100));
+    $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100, true));
     $('hud-size').value = String(this.prefs.hud);
     $('hud-size').addEventListener('change', e => this.prefs.set({ hud: Number(e.target.value) }));
     $('wind').addEventListener('input', e => { windUniforms.uWind.value = Number(e.target.value) / 100; $('wind-value').value = `${e.target.value}%`; });
@@ -196,6 +202,8 @@ export class Game {
       // Tab at the training ground locks onto the next dummy (monsters elsewhere: CombatHUD)
       if (e.code === 'Tab' && this.maps.map?.safe && this.training?.cycleDummy?.()) { e.preventDefault(); return; }
       if (e.code === 'Escape' && this.training?.selected) this.training.select(null);
+      // Space / ตี at the training ground: the basic attack on the dummy
+      if (e.code === 'Space' && this.maps.map?.safe && this.training?.swing?.()) { e.preventDefault(); return; }
       if (this.game.handleKey(e)) return; // action bar 1–0 / G, potions Q / F, C, I, Tab, Space
       // N jumps between night and morning; the clock keeps running unless locked in settings.
       if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);
@@ -219,9 +227,14 @@ export class Game {
 
   // Camera zoom from the wheel, pinch, + / − keys, the buttons by the minimap and the
   // settings slider; saved per device (src/ui/viewPrefs.js).
-  zoomTo(z) { this.view.setZoom(z); this.prefs.set({ zoom: this.view.zoom }); this.syncZoom(); }
+  // `deliberate`: the + / − buttons or the slider (they still work while the zoom is locked)
+  zoomTo(z, deliberate = false) {
+    if (this.prefs.zoomLock && !deliberate) return;
+    this.view.setZoom(z); this.prefs.set({ zoom: this.view.zoom }); this.syncZoom();
+  }
   syncZoom() {
-    const pct = Math.round(this.view.zoom * 100);
+    const pct = Math.round(this.view.zoom * 100), lock = $('zoom-lock');
+    if (lock) { lock.textContent = this.prefs.zoomLock ? '🔒' : '🔓'; lock.setAttribute('aria-pressed', String(!!this.prefs.zoomLock)); lock.classList.toggle('on', !!this.prefs.zoomLock); }
     $('zoom').value = pct; $('zoom-value').value = `${pct}%`;
     $('zoom-in').disabled = this.view.zoom >= 1.7; $('zoom-out').disabled = this.view.zoom <= .5;
   }
