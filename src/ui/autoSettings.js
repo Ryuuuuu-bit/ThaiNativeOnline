@@ -5,7 +5,7 @@
 //
 //   loadAuto() / saveAuto(s)                     per-browser settings
 //   autoPotion(s, hpFrac, mpFrac) → 'hp' | 'mp' | null
-//   pickTarget(monsters, me, s, current) → monster | null
+//   pickTarget(monsters, me, s, current, now?, reach?) → monster | null
 //   castOrder(slots, s, hpFrac, next) → slot indices to try, in order
 //   new AutoPanel(host, getSettings, onChange).open(slots)
 import { draggable } from './draggable.js';
@@ -40,16 +40,20 @@ const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 // "Attacking us" means it swung at this player in the last ATTACKER_SECS (Combat.monsterAttack
 // stamps `swungAtMe`; online a monster chasing someone else does not count). Among the rest
 // the nearest wins; with `elites` on, an elite or boss counts ELITE_PULL metres nearer.
-export const ATTACKER_SECS = 5, ELITE_PULL = 3;
-export function pickTarget(monsters, me, s, current = null, now = Date.now()) {
+// The current target is kept while we are already trading blows with it (within `reach`, the
+// player's attack range, + 1 m) or it is hitting us; one we are still walking to is dropped for
+// another that is SWITCH_GAIN metres nearer.
+export const ATTACKER_SECS = 5, ELITE_PULL = 3, SWITCH_GAIN = 2;
+export function pickTarget(monsters, me, s, current = null, now = Date.now(), reach = 2) {
   const R = AUTO_RANGES[s.range] ?? AUTO_RANGES.mid;
   const hitting = m => s.attackers && m.swungAtMe && now - m.swungAtMe < ATTACKER_SECS * 1000;
   const near = monsters.filter(m => m.alive && m.state !== 'dormant' && dist(m, me) <= R);
-  // a live current target in reach is kept, unless something else is hitting us and it is not
-  if (current?.alive && dist(current, me) <= R + 2 && (hitting(current) || !near.some(hitting))) return current;
-  if (!near.length) return null;
+  const live = current?.alive && current.state !== 'dormant' && dist(current, me) <= R + 2 ? current : null;
+  if (live && (hitting(live) || (dist(live, me) <= reach + 1 && !near.some(hitting)))) return live;
   const score = m => (hitting(m) ? -1000 : 0) + dist(m, me) - (s.elites && (m.def?.boss || m.def?.elite) ? ELITE_PULL : 0);
-  return near.sort((a, b) => score(a) - score(b))[0];
+  const best = near.sort((a, b) => score(a) - score(b))[0] ?? null;
+  if (live && (!best || score(live) - SWITCH_GAIN <= score(best))) return live;
+  return best;
 }
 
 // Slots to try this tick: enabled ones in bar order from `next`; when HP is under the

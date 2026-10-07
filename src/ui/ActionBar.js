@@ -138,7 +138,7 @@ export class ActionBar {
     // the target, by the priority in the settings
     const cb = this.combat;
     if (cb?.monsters && cb.world?.playerPos) {
-      const t = pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target);
+      const t = pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target, Date.now(), c?.cls?.range ?? 2);
       if (t && t !== cb.target) cb.setTarget(t);
     }
     // the next enabled skill that is ready (survival skills first when HP is low)

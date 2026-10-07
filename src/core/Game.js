@@ -336,7 +336,7 @@ export class Game {
     let route = null;
     for (const step of [.5, 1, 1.5]) if (goal && !route) route = findPath(stand, this.player.position, goal, { step, maxCells: 160000 });
     if (!route) { this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
-    this.game?.onManualMove(); this.view.recenter();
+    this.game?.onManualMove(); this.training?.onManualMove(); this.view.recenter();
     this.route = route; this.autoWalk = false; this.navGoal = { x: goal.x, z: goal.z }; this.nextWaypoint();
     this.marker.position.set(goal.x, this.world.heightAt(goal.x, goal.z) + .07, goal.z); this.marker.visible = true;
     return true;
@@ -456,11 +456,13 @@ export class Game {
     // While maps swap the fade overlay covers the screen; the clock keeps running.
     if (this.maps.busy || !this.world) return;
     // Movement: keys, or a straight walk to a clicked point.
-    const canMove = (this.game?.canMove ?? true) && !this.training?.busy;
-    if (!canMove) this.stopWalk();
+    // A skill move (training.busy) only holds the player in place: a walk the player clicked
+    // goes on once it ends; a combat auto-walk is dropped (combat sets a new one if needed).
+    const alive = this.game?.canMove ?? true, canMove = alive && !this.training?.busy;
+    if (!alive || (!canMove && this.autoWalk)) this.stopWalk();
     const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
     let stalled = false;
-    if (!dir.lengthSq() && this.destination) {
+    if (canMove && !dir.lengthSq() && this.destination) {
       dir.subVectors(this.destination, p); dir.y = 0;
       if (dir.length() < .2 && this.route.length) { this.nextWaypoint(); dir.subVectors(this.destination, p); dir.y = 0; }
       const remaining = dir.length();
@@ -478,7 +480,7 @@ export class Game {
     if (this.stepTime > (this.input.running ? .3 : .42)) { this.stepTime = 0; Sound.sfx('step'); }
     this.maps.update(dt, this.elapsed);
     if (this.maps.busy) return;
-    if ((!moved && dt > 0 || stalled) && this.destination) {
+    if (canMove && (!moved && dt > 0 || stalled) && this.destination) {
       // Combat auto-walk retries every frame; only a manual click reports a blocked path.
       if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
       this.stopWalk();

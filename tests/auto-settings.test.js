@@ -36,6 +36,10 @@ test('targets: the ones hitting us, then the nearest (elites a little nearer), w
   assert.equal(pickTarget([far], me, s, null, now), null);
   assert.equal(pickTarget([near, elite], me, s, near, now), near, 'keeps a live current target');
   assert.equal(pickTarget([near, hitter], me, s, near, now), hitter, 'unless something else is hitting us');
+  const walkingTo = { alive: true, x: 9, z: 0, state: 'idle', def: {} }, closer = { alive: true, x: 0, z: 7.5, state: 'idle', def: {} };
+  assert.equal(pickTarget([walkingTo, near], me, s, walkingTo, now, 2), near, 'one still being walked to gives way to a much nearer one');
+  assert.equal(pickTarget([walkingTo, closer], me, s, walkingTo, now, 2), walkingTo, 'but not for a metre or two');
+  assert.equal(pickTarget([walkingTo, near], me, s, walkingTo, now, 10), walkingTo, 'a target in attack range is kept');
 });
 
 test('cast order skips switched-off slots and puts survival skills first when HP is low', () => {
