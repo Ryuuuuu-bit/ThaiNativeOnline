@@ -26,6 +26,10 @@ export class CombatHUD {
   buildTarget() {
     this.target = el('div', 'g-target glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-thp"><span></span><em></em></div><div class="g-target-tags"></div>`);
     this.target.hidden = true; this.layer.append(this.target);
+    // the friend a heal goes to (Combat.ally, picked from the party frame or a name plate: src/net/Social.js)
+    this.ally = el('div', 'g-target g-ally glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-ahp"><span></span><em></em></div><div class="g-bar g-amp"><span></span><em></em></div><button class="g-ally-x" type="button" aria-label="เลิกเลือกเพื่อน" title="เลิกเลือก (Esc)">×</button>`);
+    this.ally.hidden = true; this.layer.append(this.ally);
+    this.ally.querySelector('.g-ally-x').addEventListener('click', () => this.clearAlly());
     // the cast bar of a skill with a cast time (src/training/KitCaster.js)
     this.castBar = el('div', 'g-castbar glass', '<b></b><div class="g-bar"><span></span></div>');
     this.castBar.hidden = true; this.layer.append(this.castBar);
@@ -105,7 +109,23 @@ export class CombatHUD {
     if (k === 'Tab') { e.preventDefault(); this.combat.cycleTarget(); return true; }
     if (k === 'Space') { e.preventDefault(); this.combat.useSkill(this.combat.basicSkillId()); return true; }
     if (k === 'Escape' && this.combat.target) { this.combat.setTarget(null); return true; }
+    if (k === 'Escape' && this.combat.ally) { this.clearAlly(); return true; }
     return false;
+  }
+
+  clearAlly() { this.combat.ally = null; this.combat.emit('ally', null); this.refreshAlly(); }
+  // the green frame of the friend picked: name, class and level, HP / MP (signed-in friends), and
+  // whether they are here (same map and channel) and up
+  refreshAlly() {
+    const pick = this.combat.ally, a = pick && this.combat.allies?.().find(x => x.id === pick.id);
+    this.ally.hidden = !pick;
+    if (!pick) return;
+    this.ally.querySelector('b').textContent = a?.name ?? 'เพื่อน';
+    this.ally.querySelector('.g-target-name span').textContent = !a ? 'อยู่คนละแผนที่ / แชนแนล' : !a.alive ? 'หมดสติ' : `เป้าฮีล · Lv ${a.lv}`;
+    this.ally.classList.toggle('away', !a?.alive);
+    // a guest friend's HP / MP is not known to the server: an empty bar
+    if (a?.maxHp) setBar(this.ally.querySelector('.g-ahp'), a.hp, a.maxHp); else setBar(this.ally.querySelector('.g-ahp'), 0, 1, '—');
+    if (a?.maxMp) setBar(this.ally.querySelector('.g-amp'), a.mp, a.maxMp); else setBar(this.ally.querySelector('.g-amp'), 0, 1, '—');
   }
 
   refreshTarget() {
@@ -153,5 +173,6 @@ export class CombatHUD {
     }
     for (const [id, plate] of this.plates) if (!seen.has(id)) { plate.remove(); this.plates.delete(id); }
     if (this.combat.target) this.refreshTarget();
+    if (this.combat.ally || !this.ally.hidden) this.refreshAlly();
   }
 }

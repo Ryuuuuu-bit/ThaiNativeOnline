@@ -89,6 +89,14 @@ export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0) {
   return heal || hp || mp || buff ? { heal, hp, mp, buff } : null;
 }
 
+// A heal aimed at one friend (the herbalist's vine and bouncing pill): with a party member picked
+// (Combat.ally) it goes to that friend alone, ALLY_FOCUS × as strong, instead of to everyone near.
+export const ALLY_FOCUS = 1.5;
+export function allyHeal(skillId) {
+  const base = SKILL_BY_ID[skillId];
+  return !!(base?.heals && base.hmult && (base.type === 'tether' || base.type === 'bounce'));
+}
+
 // A support skill's share for the party (ThaiNative's healer, server/index.js): the party and
 // revive skills reach every member within `radius` m — the same heal, MP and buff the caster
 // gets — and a revive skill brings the fallen ones back with `revive` of their HP. The healing

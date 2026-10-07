@@ -9,6 +9,14 @@
 .g-thp span{background:linear-gradient(90deg,#8d2b22,#d05440)}
 .g-target-tags{display:flex;gap:4px}
 .g-target-tags i{font-style:normal;font-size:8px;color:#cdb8ff}
+/* the friend a heal goes to: a green frame under the target frame (top- or bottom-anchored alike) */
+.g-target.g-ally{transform:translate(-50%,82px);border-color:#7fe08a66;box-shadow:0 0 18px #4fbf6a33}
+.g-ally .g-target-name span{color:#9fe0a8}
+.g-ahp span{background:linear-gradient(90deg,#2f7d3a,#6fd47c)}
+.g-amp{margin-top:4px;height:6px} .g-amp span{background:linear-gradient(90deg,#2a5f9c,#5aa0e8)} .g-amp em{display:none}
+.g-ally.away{opacity:.6}
+.g-ally-x{position:absolute;top:4px;right:6px;border:0;background:none;color:#a9b3c2;font-size:15px;line-height:1;padding:2px 4px;cursor:pointer}
+.g-ally .g-target-name{padding-right:16px}
 
 /* Skill bar */
 .g-skill{position:relative;width:50px;height:50px;border-radius:5px;border:1px solid #cabc8655;background:linear-gradient(#24372f,#12201b);overflow:hidden;padding:0;transition:transform .12s,border-color .12s}

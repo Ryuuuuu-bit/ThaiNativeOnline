@@ -36,7 +36,8 @@
 // Whisper, online list, friends (signed in; names): w {to, text} → w {from, text} (and {to, text, echo} back) ·
 //   who → who {list: [{id, name, cls, lv, map, ch}]} · friends → friends {list: [{name, online, id?, lv?, cls?, map?}]} ·
 //   fadd {name} (online now) · fdel {name} · fon / foff {name} when a friend comes or goes
-// Healer support: cast {skill} of a party / revive skill → aid {from, skill, heal, mp, buff, revive} to the party members near the caster
+// Healer support: cast {skill} of a party / revive skill → aid {from, skill, heal, mp, buff, revive} to the party members near the caster;
+//   cast {skill, ally} of a one-friend heal (the vine, the pill) → that party member alone, stronger (support() below)
 // Titles and ranking (src/data/titles.js, server/ranking.js): join / roster / c carry `title` (the one worn).
 //   client → server  ttl {id | null} (wear a title) · rank (the boards)
 //   server → client  ttl {id, title} (someone's worn title changed) · titles {titles, title, rec, got} (a signed-in
@@ -68,6 +69,7 @@ import { Trades, TRADE, swap } from './trades.js';
 import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
+import { ALLY_FOCUS } from '../src/training/kitCombat.js';
 import { WorldClock } from '../src/core/WorldClock.js';
 
 try { process.loadEnvFile(resolve(import.meta.dirname, '..', '.env')); } catch { /* no .env */ }
@@ -267,9 +269,10 @@ async function handle(ws, raw) {
       case 'casting': { const p = presence.players.get(ws); if (p) combatants.casting(p.id, m.skill); break; }
       case 'cast': {
         const p = presence.players.get(ws); if (!p) return;
-        combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill);
+        const ally = Number.isInteger(m.ally) && m.ally !== p.id ? m.ally : null;   // a heal aimed at one friend
+        combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill, { ally: ally !== null });
         if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why });
-        else if (r.support && combatants.get(p.id)?.c.alive) support(p, m.skill, r.support);
+        else if (r.support && combatants.get(p.id)?.c.alive) support(p, m.skill, r.support, r.single ? ally : null);
         break;
       }
       case 'sit': { const p = presence.players.get(ws); if (p) combatants.sit(p.id, m.v); break; }
@@ -423,12 +426,15 @@ setTimeout(() => ranking.refresh(), 3000);
 // a healer's party / revive skill (src/training/kitCombat.js supportOf): the other members in the
 // same room within its radius are healed, buffed and — for a revive — stood back up where they fell.
 // The caster hears who it reached: aided {skill, got: [{name, x, z, heal, revived}]}
-function support(caster, skill, sup) {
+// `only`: a heal aimed at one friend (kitCombat.allyHeal, the browser's pick): that party member
+// alone, ALLY_FOCUS × as strong, within the skill's reach (+ a little for lag).
+function support(caster, skill, sup, only = null) {
   const pid = parties.of(caster.id); if (!pid) return;
-  const got = [];
+  const got = [], reach = only === null ? sup.radius : sup.radius + 3;
+  if (only !== null) sup = { ...sup, hp: Math.round((sup.hp || 0) * ALLY_FOCUS) };
   for (const id of parties.members(pid)) {
-    if (id === caster.id) continue;
-    const o = byId(id); if (!o || o.p.room !== caster.room || Math.hypot(o.p.x - caster.x, o.p.z - caster.z) > sup.radius) continue;
+    if (id === caster.id || (only !== null && id !== only)) continue;
+    const o = byId(id); if (!o || o.p.room !== caster.room || Math.hypot(o.p.x - caster.x, o.p.z - caster.z) > reach) continue;
     const r = combatants.aid(id, sup);
     if (r?.revived) presence.setDead(o.ws, false);
     if (r || o.p.dead) send(o.ws, { t: 'aid', from: caster.name, skill, heal: sup.heal, hp: sup.hp, mp: sup.mp, buff: sup.buff, revive: o.p.dead || r?.revived ? sup.revive : 0 });

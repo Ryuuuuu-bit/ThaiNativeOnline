@@ -43,6 +43,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   // ---- the menu on another player's name plate ----
   const menu = node('soc-menu glass'); menu.hidden = true;
   remote.onPick = (r, x, y) => {
+    if (party?.members.some(p => p.id === r.id)) setAlly(r.id);   // a party member's name: also the friend heals go to
     menu.innerHTML = `<header>${esc(r.name)} · ${CLASSES[r.cls]?.name ?? ''} Lv ${r.lv}</header>
       <button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button><button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกของ</button>`;
     menu.dataset.id = r.id; menu.dataset.name = r.name; menu.style.left = `${Math.max(90, Math.min(innerWidth - 90, x))}px`; menu.style.top = `${Math.max(8, Math.min(innerHeight - 140, y))}px`; menu.hidden = false;
@@ -88,9 +89,9 @@ export function attachSocial(net, c, chat, remote, game = null) {
     frame.hidden = !party;
     if (party) {
       const sh = share(), bonus = sh.near && sh.even ? ` · EXP +${Math.round(party.share.bonus * sh.near * 100)}%` : sh.near ? ' · เลเวลห่างเกิน แยก EXP' : '';
-      frame.innerHTML = `<header>ปาร์ตี้ ${party.members.length} / 6${bonus}</header>` + party.members.filter(p => p.id !== me).map(p => {
+      frame.innerHTML = `<header title="เปิดหน้าต่างปาร์ตี้ (P)">ปาร์ตี้ ${party.members.length} / 6${bonus}</header>` + party.members.filter(p => p.id !== me).map(p => {
         const near = nearOf(p), where = p.dead ? 'หมดสติ' : near || p.map === self()?.map ? `Lv ${p.lv}` : MAP_TH[p.map] ?? p.map ?? '';
-        return `<div class="soc-pf glass${near ? '' : ' far'}${p.dead ? ' dead' : ''}" title="เปิดหน้าต่างปาร์ตี้ (P)">${classBadge(p.cls, CLASSES[p.cls])}<div>`
+        return `<div class="soc-pf glass${near ? '' : ' far'}${p.dead ? ' dead' : ''}${allyId() === p.id ? ' sel' : ''}" data-id="${p.id}" title="คลิก: เลือกเป็นเป้าฮีล · คลิกอีกครั้งเพื่อเลิกเลือก">${classBadge(p.cls, CLASSES[p.cls])}<div>`
           + `<div class="r1"><b>${p.id === party.leader ? CROWN : ''}${esc(p.name)}</b><small>${esc(where)}</small></div>${bar('hp', p.hp, p.maxHp)}${bar('mp', p.mp, p.maxMp)}</div></div>`;
       }).join('');
     }
@@ -102,13 +103,38 @@ export function attachSocial(net, c, chat, remote, game = null) {
     if (party && !was && party.id !== lastPartyId) chat.add('ระบบ', 'เข้าร่วมปาร์ตี้แล้ว · พิมพ์ /p นำหน้าเพื่อคุยในปาร์ตี้ · EXP แบ่งกันเมื่อล่าใกล้กัน');
     if (!party && was) chat.add('ระบบ', 'ออกจากปาร์ตี้แล้ว');
     if (party) lastPartyId = party.id; else if (net.online) lastPartyId = null;
+    if (allyId() != null && !party?.members.some(p => p.id === allyId())) setAlly(null);   // the friend picked left the party
     const key = JSON.stringify(m);
     if (key !== lastPartyKey) { lastPartyKey = key; renderParty(); }   // the 1 Hz broadcast redraws only what changed
   });
   let lastPartyKey = '';
   net.on('pc', m => chat.add(`[ปาร์ตี้] ${m.name}`, m.text, 'party'));
   net.on('status', on => { if (!on) { party = null; lastPartyKey = ''; renderParty(); closeTrade(); } });
-  frame.addEventListener('click', e => { if (e.target.closest('.soc-pf')) { tab = 'party'; toggleSoc(true); } });
+  // a member's frame picks them as the friend heals go to (again: unpick); the header opens the party tab
+  frame.addEventListener('click', e => {
+    const pf = e.target.closest('.soc-pf');
+    if (pf) { const id = Number(pf.dataset.id); setAlly(allyId() === id ? null : id); return; }
+    if (e.target.closest('header')) { tab = 'party'; toggleSoc(true); }
+  });
+
+  // ---- the friend a heal goes to (src/training/KitCaster.js allyPick, CombatHUD's green frame) ----
+  // Combat.ally = { id } (picked) · Combat.allies() → the party members in this room, where they stand now
+  const combatOf = () => game?.game?.combat ?? null;
+  const allyId = () => combatOf()?.ally?.id ?? null;
+  const allies = () => {
+    const s = self(); if (!s) return [];
+    return party.members.filter(p => p.id !== me && p.map === s.map && p.ch === s.ch).map(p => {
+      const r = remote.list.get(p.id);
+      return { id: p.id, name: p.name, cls: p.cls, lv: p.lv, x: r?.x ?? p.x, z: r?.z ?? p.z, hp: p.hp, maxHp: p.maxHp, mp: p.mp, maxMp: p.maxMp, alive: !p.dead && !!r };
+    });
+  };
+  function setAlly(id) {
+    const cb = combatOf(); if (!cb) return;
+    cb.ally = id == null ? null : { id };
+    cb.emit('ally', cb.ally);
+    renderParty();
+  }
+  if (combatOf()) combatOf().allies = allies;
   // a healer's party / revive skill reached us (server/index.js support)
   net.on('aid', m => {
     const combat = game?.game?.combat, p = game?.player?.position;
