@@ -70,8 +70,13 @@ Do not change public interfaces without documenting it.
 - `src/main.js` runs `src/account` first (login → character select → creation;
   interface: `src/account/README.md`). Per-character saves go through
   `slotStorage` from `src/core/SaveSlot.js`, never `localStorage` directly.
-- One UI look on every page: panels, topbar, controls bar and settings come
-  from `src/style.css`; skill FX from `src/classes/fx/fx.css`. One action bar on
+- One UI look on every page: layout and older rules live in `src/style.css` and
+  the per-module CSS; `src/ui/theme.css` (loaded last) gives every in-game box
+  the same skin (dark glass, gold hairline, corner brackets, flat buttons). The
+  windows open from one menu button bottom-right (`src/ui/MainMenu.js`); the
+  settings window is tabbed (ภาพ · เสียง · การเล่น · ปุ่มลัด) and holds the key
+  guide. On "high" quality `src/world/PostFX.js` adds bloom, a colour grade and a
+  vignette. Skill FX from `src/classes/fx/fx.css`. One action bar on
   every map: `src/ui/ActionBar.js` (owned by CombatHUD). Kit classes fill it through
   `src/training/KitCaster.js` (kit skills hit the Tab target or monsters through
   `Combat.damageMonster`, the dummy in the city); others through

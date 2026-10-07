@@ -19,6 +19,9 @@ const KEYS = [
   { h: 24, sun: '#9cb0f2', si: 1.4, el: 52, az: -140, sky: '#6878b8', ground: '#323a4e', hi: 1.7, fog: '#2c3852', exp: 1.06, water: '#30425c' },
 ];
 const c1 = new THREE.Color(), c3 = new THREE.Color();
+// Sky (fill) light against the sun: less fill than the keys alone gives deeper, readable
+// shadows (sky : sun went from about 0.8 : 1 to about 0.45 : 1 at midday).
+const SKY_GAIN = .62, SUN_GAIN = 1.12;
 const COLOR_KEYS = ['sun', 'sky', 'ground', 'fog', 'water'], NUM_KEYS = ['si', 'hi', 'el', 'az', 'exp'];
 // Parse the key colours once so per-frame sampling never touches hex strings.
 for (const key of KEYS) for (const c of COLOR_KEYS) key[c] = new THREE.Color(key[c]);
@@ -31,9 +34,9 @@ export class Environment {
     this.scene = scene; this.renderer = renderer;
     this.hemi = new THREE.HemisphereLight('#dde8d3', '#5e6244', 2.5); scene.add(this.hemi);
     this.sun = new THREE.DirectionalLight('#fff0c6', 3.1);
-    this.sun.castShadow = true; this.sun.shadow.mapSize.set(2048, 2048);
+    this.sun.castShadow = true; this.sun.shadow.mapSize.set(4096, 4096);
     Object.assign(this.sun.shadow.camera, { left: -36, right: 36, top: 36, bottom: -36, near: 1, far: 140 });
-    this.sun.shadow.bias = -.0004; this.sun.shadow.normalBias = .04;
+    this.sun.shadow.bias = -.0003; this.sun.shadow.normalBias = .035;
     scene.add(this.sun); scene.add(this.sun.target);
     scene.fog = new THREE.FogExp2('#b9c6a4', .012); scene.background = new THREE.Color('#b9c6a4');
     this.dir = new THREE.Vector3(); this.state = { hour: 9, night: 0, lantern: 0, wild: 0, cemetery: 0 };
@@ -55,10 +58,11 @@ export class Environment {
     // Deeper forest and the cemetery: darker, greener, foggier and quieter.
     k.fog.lerp(c1.copy(FOREST_FOG[0]).lerp(FOREST_FOG[1], night), w * .7).lerp(c3.copy(GRAVE_FOG[0]).lerp(GRAVE_FOG[1], night), cem * .75);
     this.scene.fog.color.copy(k.fog); this.scene.background.copy(k.fog);
-    this.scene.fog.density = .01 + w * .015 + cem * .007 + night * .003;
-    this.sun.color.copy(k.sun); this.sun.intensity = k.si * (1 - .5 * w - .25 * cem);
+    // thinner base haze than before: the orthographic camera puts the whole view at one fog depth
+    this.scene.fog.density = .006 + w * .015 + cem * .007 + night * .004;
+    this.sun.color.copy(k.sun); this.sun.intensity = k.si * SUN_GAIN * (1 - .5 * w - .25 * cem);
     this.hemi.color.copy(k.sky).lerp(c1.set('#5d7a5a'), w * .35); this.hemi.groundColor.copy(k.ground);
-    this.hemi.intensity = k.hi * (1 - .32 * w - .2 * cem);
+    this.hemi.intensity = k.hi * SKY_GAIN * (1 - .32 * w - .2 * cem);
     this.renderer.toneMappingExposure = k.exp * (1 - .07 * w);
 
     const el = THREE.MathUtils.degToRad(k.el), az = THREE.MathUtils.degToRad(k.az);

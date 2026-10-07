@@ -13,7 +13,7 @@ export class CombatHUD {
    * @param {HTMLElement} layer   container for panels
    * @param {import('../Combat.js').Combat} combat
    * @param {import('../../character/ui/Feed.js').Feed} feed
-   * @param {{potions: HTMLElement[], menus: HTMLElement[]}} [quickButtons]  potion and menu buttons for the action bar
+   * @param {{potions: HTMLElement[], menus: HTMLElement[], exp?: HTMLElement}} [quickButtons]  potion / menu buttons and the EXP bar for the action bar
    */
   constructor(root, layer, combat, feed, quickButtons = { potions: [], menus: [] }) {
     this.layer = layer; this.combat = combat; this.c = combat.character; this.feed = feed;
@@ -29,8 +29,8 @@ export class CombatHUD {
   // One action bar on every map: the class's four combat skills until a class kit
   // (src/training) swaps in its ten skills with setSkills(); potions and menus stay.
   // It sits in the app root (not this layer) so the --ui zoom applies once.
-  buildBar(root, { potions, menus }) {
-    this.bar = new ActionBar(root, { potions, menus });
+  buildBar(root, { potions, menus, exp }) {
+    this.bar = new ActionBar(root, { potions, menus, exp });
     this.bar.bindAuto({ character: this.c, combat: this.combat });
     this.setSkills(legacyCaster(this.combat), `สกิล${this.c.cls.name}`);
   }

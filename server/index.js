@@ -31,7 +31,9 @@ import { Accounts } from './accounts.js';
 import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
 import { WorldClock } from '../src/core/WorldClock.js';
+import { adminIds, runGm, GM_PREFIX } from './gm.js';
 
+try { process.loadEnvFile(resolve(import.meta.dirname, '..', '.env')); } catch { /* no .env */ }
 const PORT = Number(process.env.PORT) || 8787;
 const ROOT = resolve(import.meta.dirname, '..', 'dist');
 const TICK = 100;   // ms between position broadcasts
@@ -40,6 +42,12 @@ const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '
 
 const store = await openStore(process.env.DATABASE_URL);
 const accounts = new Accounts(store, { googleClientId: process.env.GOOGLE_CLIENT_ID || null });
+// GM accounts (server/gm.js): GM_ID + GM_PASSWORD is made here when missing
+const ADMINS = adminIds();
+if (process.env.GM_ID && process.env.GM_PASSWORD) {
+  const r = await accounts.register(process.env.GM_ID, process.env.GM_PASSWORD);
+  if (!r.ok && r.code !== 'taken') console.warn('GM account:', r.msg);
+}
 
 // ---- accounts API -------------------------------------------------------------------------
 const json = (res, code, body) => { res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); res.end(JSON.stringify(body)); };
@@ -147,7 +155,10 @@ wss.on('connection', ws => {
         break;
       }
       case 'a': { const r = presence.anim(ws, m); if (r) toMap(r.map, r, ws); break; }
-      case 'c': { const r = presence.chat(ws, m.text); if (r) toAll(r); break; }
+      case 'c': {
+        if (GM_PREFIX.test(String(m.text ?? '').trim())) { gm(ws, String(m.text).trim()); break; }
+        const r = presence.chat(ws, m.text); if (r) toAll(r); break;
+      }
       case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
       case 'cast': { const p = presence.players.get(ws); if (!p) return; const r = combatants.cast(p.id, m.skill); if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why }); break; }
       case 'blow': { const p = presence.players.get(ws); if (p) route(p.map, combatants.blow(p.id, worldOf(p.map), presence.inMap(p.map), m, clock.phase)); break; }
@@ -187,6 +198,17 @@ function route(map, events, except = null) {
     } else if (e.t === 'ma') { const ws = socketOf(e.to); if (ws) send(ws, e); }
     else toMap(map, e, except);
   }
+}
+// `/gm …` from an admin's signed-in character (server/gm.js); everyone else is told no
+function gm(ws, text) {
+  const p = presence.players.get(ws), s = p && combatants.get(p.id);
+  if (!s?.persist || !ADMINS.has(s.persist.account)) { send(ws, { t: 'c', id: 0, name: 'ระบบ', map: p?.map, text: 'คำสั่งนี้ใช้ได้เฉพาะ GM' }); return; }
+  const r = runGm(s.c, text);
+  send(ws, { t: 'c', id: 0, name: 'GM', map: p.map, text: r.msg });
+  if (r.say) toAll({ t: 'c', id: 0, name: 'ประกาศ', map: p.map, text: r.say });
+  if (!r.ok) return;
+  s.dirty = true; send(ws, { t: 'sync', c: combatants.me(p.id) });
+  if (r.level) { const l = presence.setLevel(ws, r.level); if (l) toMap(p.map, { t: 'lv', ...l }, ws); }
 }
 const arrive = (ws, map) => { send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); };
 
