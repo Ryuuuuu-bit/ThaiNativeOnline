@@ -30,6 +30,8 @@ import { RULES } from '../src/combat/data/rules.js';
 import { combatSpawns } from '../src/data/spawns.js';
 import { cardId, cardRate, hasCard } from '../src/character/data/cards.js';
 import { mapOf } from '../src/world/maps.js';
+import { PARTY, sharers, evenShare } from './parties.js';
+import { killExp } from '../src/character/data/progression.js';
 
 const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
 const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
@@ -221,22 +223,45 @@ export class MonsterWorld {
     return ev;
   }
   // Everyone who did at least 15% of the damage gets the EXP (for their own level);
-  // the top damager also gets the gold and the loot.
+  // the top damager also gets the gold and the loot. A party (server/parties.js, set as
+  // `this.party = { of, members }`) counts as one hunter: its nearby members share the EXP
+  // evenly (with a bonus a member) and its top damager takes the loot.
   rewards(m, players, night) {
-    const total = [...m.contrib.values()].reduce((a, b) => a + b, 0) || 1;
-    const ranked = [...m.contrib.entries()].sort((a, b) => b[1] - a[1]);
+    const party = this.party, pidOf = id => party?.of(id) ?? null;
+    const units = new Map();
+    for (const [id, dmg] of m.contrib) {
+      const pid = pidOf(id), key = pid ? `p${pid}` : `s${id}`;
+      const u = units.get(key) ?? { pid, dmg: 0, ids: [], top: null, topDmg: -1 };
+      u.dmg += dmg; u.ids.push(id); if (dmg > u.topDmg) { u.top = id; u.topDmg = dmg; }
+      units.set(key, u);
+    }
+    const total = [...units.values()].reduce((a, u) => a + u.dmg, 0) || 1;
+    const ranked = [...units.values()].sort((a, b) => b.dmg - a.dmg);
+    const nightMul = night ? NIGHT.expBonus : 1, big = !!(m.def.elite || m.def.boss), solo = p => killExp(m.def.exp, p.lv, m.def.level, big, nightMul);
     const out = [];
-    ranked.forEach(([id, dmg], i) => {
-      const p = players.find(x => x.id === id);
-      if (!p || (i > 0 && dmg / total < .15)) return;
-      const exp = Math.round(m.def.exp * Math.max(.2, 1 + (m.def.level - p.lv) * .1) * (night ? NIGHT.expBonus : 1));
+    ranked.forEach((u, i) => {
+      if (i > 0 && u.dmg / total < .15) return;
+      let paid;
+      if (u.pid) {
+        const share = sharers(party.members(u.pid), players, m);
+        if (evenShare(share)) {
+          const mul = (1 + PARTY.bonus * (share.length - 1)) / share.length;
+          paid = share.map(p => ({ p, exp: killExp(m.def.exp, p.lv, m.def.level, big, nightMul * mul) }));
+        } else paid = u.ids.map(id => players.find(x => x.id === id)).filter(Boolean).map(p => ({ p, exp: solo(p) }));
+      } else { const p = players.find(x => x.id === u.top); paid = p ? [{ p, exp: solo(p) }] : []; }
+      const lootTo = players.find(x => x.id === u.top);
+      if (lootTo && !paid.some(x => x.p === lootTo)) paid.push({ p: lootTo, exp: 0 });
       const top = i === 0, drops = [];
-      let card = null;
-      if (top) {
+      let card = null, gold = 0;
+      if (top && lootTo) {
         for (const [item, chance, min, max] of LOOT[m.def.loot] || []) if (this.r() < chance) drops.push({ id: item, qty: randInt(min, max, this.r) });
         if (hasCard(m.type) && this.r() < cardRate(m.def)) { card = cardId(m.type); drops.push({ id: card, qty: 1 }); }
+        gold = randInt(...m.def.gold, this.r);
       }
-      out.push({ t: 'kill', id: m.id, type: m.type, to: id, exp, gold: top ? randInt(...m.def.gold, this.r) : 0, drops, ...(card ? { card } : {}) });
+      for (const { p, exp } of paid) {
+        const mine = p === lootTo;
+        out.push({ t: 'kill', id: m.id, type: m.type, to: p.id, exp, gold: mine ? gold : 0, drops: mine ? drops : [], ...(mine && card ? { card } : {}), ...(u.pid ? { party: true } : {}) });
+      }
     });
     m.contrib = new Map();
     return out;

@@ -5,6 +5,7 @@
 //   store.createSession(token, id, expires) · getSession(token) · deleteSession(token)
 //   store.listSlots(id) → [{ slot, data, updated }] · putSlot(id, slot, data) · deleteSlot(id, slot)
 //   store.getGoogle(sub) → account id | null · linkGoogle(sub, id, email) → bool (false if that Google account is linked already)
+//   store.googleOf(id) → { email } of the Google account linked to an account, or null
 export async function openStore(url) {
   if (!url) return new MemoryStore();
   const { default: pg } = await import('pg');
@@ -15,7 +16,8 @@ export async function openStore(url) {
 export class MemoryStore {
   constructor() { this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; }
   async getGoogle(sub) { return this.google.get(sub) ?? null; }
-  async linkGoogle(sub, id) { if (this.google.has(sub)) return false; this.google.set(sub, id); return true; }
+  async linkGoogle(sub, id, email) { if (this.google.has(sub)) return false; this.google.set(sub, id); (this.googleEmail ??= new Map()).set(id, email ?? null); return true; }
+  async googleOf(id) { return [...this.google.values()].includes(id) ? { email: this.googleEmail?.get(id) ?? null } : null; }
   async getAccount(id) { return this.accounts.get(id) ?? null; }
   async createAccount(id, salt, hash) { if (this.accounts.has(id)) return false; this.accounts.set(id, { id, salt, hash, created: Date.now() }); return true; }
   async createSession(token, id, expires) { this.sessions.set(token, { token, account: id, expires }); }
@@ -45,5 +47,6 @@ export class PgStore {
   async putSlot(id, slot, data) { await this.q('insert into characters (account, slot, data, updated) values ($1, $2, $3, now()) on conflict (account, slot) do update set data = excluded.data, updated = now()', [id, slot, data]); }
   async deleteSlot(id, slot) { await this.q('delete from characters where account = $1 and slot = $2', [id, slot]); }
   async getGoogle(sub) { return (await this.q('select account from google_links where sub = $1', [sub])).rows[0]?.account ?? null; }
+  async googleOf(id) { const r = (await this.q('select email from google_links where account = $1 limit 1', [id])).rows[0]; return r ? { email: r.email } : null; }
   async linkGoogle(sub, id, email) { return (await this.q('insert into google_links (sub, account, email) values ($1, $2, $3) on conflict do nothing', [sub, id, email ?? null])).rowCount === 1; }
 }

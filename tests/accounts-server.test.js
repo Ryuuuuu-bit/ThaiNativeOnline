@@ -91,6 +91,8 @@ test('Google: first sign-in makes an account from the email, later ones open the
   const again = await A.google('good');
   assert.equal(again.id, 'somchaik'); assert.ok(!again.created);
   assert.equal((await A.login('somchaik', '')).ok, false, 'no password way in to a Google-made account');
+  assert.deepEqual(await A.store.googleOf('somchaik'), { email: 'Somchai.K@gmail.com' }, 'the settings know it is linked already');
+  await A.register('plain', 'secret1'); assert.equal(await A.store.googleOf('plain'), null);
 });
 
 test('Google: tokens for another app, expired, unverified or forged are refused', async () => {

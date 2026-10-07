@@ -1,4 +1,5 @@
 // Content data only: edit freely without touching game logic.
+import { expLevelMul } from '../../rules/stats.js';
 export const MAX_LEVEL = 99;
 // Ragnarok-style slow climb. The curve is EXP per minute of farming monsters of your level
 // (MONSTER_EXP_RATE below × ~9 kills a minute, measured with tools/sim/farm-sim.mjs) times the
@@ -9,6 +10,16 @@ export const expToNext = level => Math.round(80 * level ** 2.5);
 // What a normal monster of a level should give, so new monsters fit the curve
 // (elites and bosses: several times this).
 export const MONSTER_EXP_RATE = level => Math.round(18 * level ** .8);
+// The EXP of one kill for a player (ThaiNative's rule, src/rules/stats.js expLevelMul): full up to
+// 5 levels below the monster's, +2% a level for a monster up to 10 above (at most +20%), then −10%
+// a level (at most −80%); a monster more than 5 levels under you gives −10% a level (at least 10%).
+// One normal kill never gives more than KILL_EXP_CAP of the player's level (an elite or boss: a
+// whole level) — no rushing levels on monsters far above you. `mul`: night, party share.
+export const KILL_EXP_CAP = .2;
+export function killExp(base, playerLv, monsterLv, big = false, mul = 1) {
+  const raw = Math.max(0, base) * expLevelMul(playerLv, monsterLv) * mul;
+  return Math.round(Math.min(raw, Math.max(1, expToNext(Math.max(1, playerLv)) * (big ? 1 : KILL_EXP_CAP))));
+}
 // Job level (Ragnarok style): grows beside the base level from the same EXP (JOB_EXP_RATE of
 // every EXP gain), tops out at MAX_JOB_LEVEL, and each job level after the first gives one
 // skill point. The curve has Job 8 around base 10, Job 24 around base 30 and Job 50 around 65.

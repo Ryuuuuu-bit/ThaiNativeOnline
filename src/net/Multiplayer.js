@@ -2,6 +2,7 @@ import { NetClient, serverUrl } from './NetClient.js';
 import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
+import { attachSocial } from './Social.js';
 import './net.css';
 import { ITEMS } from '../character/data/items.js';
 
@@ -25,7 +26,7 @@ export function startMultiplayer(game) {
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
-  net.on('welcome', m => { remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+  net.on('welcome', m => { if (m.admin) game.setDev?.(true); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
     .on('chans', m => chan.set(m.ch, m.list, true))
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
@@ -36,21 +37,25 @@ export function startMultiplayer(game) {
     .on('tick', m => { for (const [id, x, z, f, mv] of m.p) remote.move(id, x, z, f, mv); })
     .on('a', m => remote.anim(m.id, m.clip, m.sp))
     .on('lv', m => remote.level(m.id, m.lv))
-    .on('c', m => chat.add(m.name, m.text))
+    .on('c', m => chat.add(m.name, m.text, m.kind ?? ''))
+    // a GM's commands (server/gm.js): sent somewhere, HP set
+    .on('gmwarp', m => { const maps = game.maps; if (maps.map?.id === m.map) maps.place({ x: m.x, z: m.z, facing: game.player.group.rotation.y }); else maps.travel({ to: m.map, arrive: { x: m.x, z: m.z } }); })
+    .on('gmhp', m => { if (m.pct === 0) { game.game.combat?.knockOut(); return; } c.hp = Math.round(c.maxHp * m.pct / 100); if (m.mp) c.mp = c.maxMp; c.emit('change'); })
     .on('online', m => chat.setOnline(m.n))
     .on('status', on => { chat.setStatus(on); chan.online(on); if (!on) remote.clear(); });
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
   attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
+  const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
   // the same character opened in another tab or device: this one stops talking to the server
-  net.on('kicked', () => { net.close(); chat.add('ระบบ', 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
+  net.on('kicked', m => { net.close(); chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
   net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, map, ...pos() }));
   // every move the player's model plays (skills, basic attacks) is mirrored to the others
   player.onAnim = (clip, sp) => net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) });
 
   return {
-    net, remote, chat,
+    net, remote, chat, social,
     enterMap(id) { map = id; last = null; remote.clear(); net.send({ t: 'map', map: id, ...pos() }); },
     update(dt, camera) {
       remote.update(dt, camera, document.getElementById('world'));
@@ -109,13 +114,13 @@ class ChatBox {
     });
     this.input.addEventListener('keydown', e => {
       e.stopPropagation();
-      if (e.code === 'Enter') { const t = this.input.value.trim(); if (t) send(t); this.input.value = ''; this.close(); }
+      if (e.code === 'Enter') { const t = this.input.value.trim(); if (t && !this.filter?.(t)) send(t); this.input.value = ''; this.close(); }
       if (e.code === 'Escape') this.close();
     });
     this.input.addEventListener('blur', () => this.close());
     this.root.querySelector('header').addEventListener('click', () => this.open());
   }
-  open() { this.input.hidden = false; this.root.classList.add('typing'); this.input.focus(); }
+  open(text = null) { this.input.hidden = false; this.root.classList.add('typing'); if (text !== null) this.input.value = text; this.input.focus(); }
   close() { this.input.hidden = true; this.root.classList.remove('typing'); this.input.blur(); }
   add(name, text, kind = '') {
     const line = document.createElement('p'); line.innerHTML = `<b></b> <span></span>`; if (kind) line.className = kind;

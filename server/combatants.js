@@ -40,7 +40,7 @@ import { SKILLS as LEGACY } from '../src/combat/data/skills.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
-import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from '../src/training/kitCombat.js';
+import { castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, within } from '../src/training/kitCombat.js';
 import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
 import { MONSTER_ACCURACY } from '../src/character/data/progression.js';
 import { afterHit, shielded, SHIELD } from '../src/combat/monsterHit.js';
@@ -157,6 +157,7 @@ export class Combatants {
   swing(id, def, power = 1) {
     const s = this.list.get(id); if (!s?.persist || !def) return null;
     const c = s.c; if (!c.alive) return null;
+    if (s.god) return { dodge: true, hp: c.hp };   // /gm god (server/gm.js)
     s.fightAt = this.now();
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
     const raw = def.atk * power * (.85 + this.r() * .3) * (def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
@@ -201,10 +202,31 @@ export class Combatants {
       : legacy.kind === 'aoe' ? 3 : 2;
     s.casts = s.casts.filter(k => now - k.at < CAST_WINDOW);
     s.casts.push({ skill: skillId, eff, at: now, left: blows, kit: !!kitSkill, hit: new Set(), splashed: new Set() });
-    // the caster's side happens here: buffs raise the next rolls
-    if (kitSkill) { const e = selfEffects(eff, slv, c.defense); if (e?.buff) c.addBuff(e.buff); }
-    else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
-    return { ok: true };
+    // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
+    // and MP land on the server's copy (the browser shows the same)
+    if (kitSkill) {
+      const e = selfEffects(eff, slv, c.defense);
+      if (e?.buff) c.addBuff(e.buff);
+      if (s.persist && e?.heal) c.heal(c.maxHp * e.heal);
+      if (s.persist && e?.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * e.mp);
+      if (e?.heal || e?.mp) s.dirty = true;
+    } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
+    // a party / revive skill: what the members near the caster get (server/index.js hands it out)
+    const support = kitSkill ? supportOf(eff, slv, c.defense) : null;
+    return support ? { ok: true, support } : { ok: true };
+  }
+  // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
+  // back where they lie. → what happened ({ heal, revived }) or null.
+  aid(id, sup) {
+    const s = this.list.get(id); if (!s) return null;
+    const c = s.c;
+    if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); s.dirty = true; return { revived: true }; }
+    const before = c.hp;
+    if (sup.heal) c.heal(c.maxHp * sup.heal);
+    if (sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
+    if (sup.buff) c.addBuff(sup.buff);
+    s.dirty = true;
+    return { heal: Math.round(c.hp - before) };
   }
 
   // One blow: msg { id (monster), skill: kit id | legacy id | 'basic' | 'pet', pounce? }.

@@ -71,6 +71,12 @@ function addSettingsButtons(session) {
     location.reload();
   });
   settings.appendChild(row);
+  // already linked to Google (or signed in with it): say so instead of offering the link
+  if (row.querySelector('[data-acc="google"]')) session.store.me?.().then(r => {
+    if (!r?.google) return;
+    const note = Object.assign(document.createElement('small'), { className: 'acc-linked', textContent: `✓ ผูกกับ Google แล้ว${r.google.email ? ` · ${r.google.email}` : ''}` });
+    row.querySelector('[data-acc="google"]').replaceWith(note);
+  }).catch(() => {});
 }
 
 // Settings → "ผูกบัญชี Google": Google's button, then the link on the server.

@@ -61,7 +61,7 @@ test('chat is cleaned and slowed down; animation names must be plain clip ids', 
   now.add(1); assert.equal(P.chat(a, 'x'.repeat(500)).text.length, LIMITS.chat);
   assert.equal(P.anim(a, { clip: 'hunter_shot', sp: 9 }).sp, 3);
   assert.equal(P.anim(a, { clip: '../etc' }), null);
-  assert.deepEqual(P.leave(a), { map: 'city', id: 1 });
+  assert.deepEqual(P.leave(a), { map: 'city', id: 1, name: 'แดง', account: null });
   assert.equal(P.leave(a), null);
 });
 

@@ -94,7 +94,7 @@ export function attachNetCombat(net, game) {
   // the character sheet the server rolls with: sent on join and whenever level, points or gear change
   let sheetKey = '';
   const sheet = (force = false) => {
-    const { name, classId, gender, level, points, alloc, equipment, jobLevel, skills, cards, evo } = c.toJSON(), data = { name, classId, gender, level, points, alloc, equipment, jobLevel, skills, cards, evo };
+    const { name, classId, gender, level, points, alloc, equipment, jobLevel, skills, cards, evo, refine } = c.toJSON(), data = { name, classId, gender, level, points, alloc, equipment, jobLevel, skills, cards, evo, refine };
     const key = JSON.stringify(data);
     if (!force && key === sheetKey) return;
     sheetKey = key; net.send({ t: 'ch', data });
@@ -103,6 +103,7 @@ export function attachNetCombat(net, game) {
   c.on('change', () => sheet()); c.on('inventory', () => sheet());
   combat.on('player-death', () => net.send({ t: 'dead', v: true }));
   combat.on('player-respawn', () => net.send({ t: 'dead', v: false }));
+  combat.on('player-revived', () => net.send({ t: 'dead', v: false }));
 
   return {
     // monsters glide toward the server's spots between updates

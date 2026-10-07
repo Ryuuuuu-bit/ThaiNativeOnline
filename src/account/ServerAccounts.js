@@ -82,6 +82,7 @@ export class ServerAccountStore extends AccountStore {
     this.token = r.token; this.remember(r.id); await this.pull(r.id);
     return { ok: true, id: r.id, token: r.token, created: !!r.created };
   }
+  async me() { return call('/api/me', { token: this.token }); }
   async linkGoogle(credential) { return call('/api/google/link', { method: 'POST', token: this.token, body: { credential } }); }
   // A reload in the same tab: the saved token, and the server's copy of the slots.
   async resume(id, token) { this.token = token; return this.pull(id); }

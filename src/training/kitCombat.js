@@ -77,6 +77,16 @@ export function selfEffects(skillId, lv = 1, ownDef = 10) {
   return heal || mp || buff ? { heal, mp, buff } : null;
 }
 
+// A support skill's share for the party (ThaiNative's healer, server/index.js): the party and
+// revive skills reach every member within `radius` m — the same heal, MP and buff the caster
+// gets — and a revive skill brings the fallen ones back with `revive` of their HP.
+export function supportOf(skillId, lv = 1, ownDef = 10) {
+  const base = SKILL_BY_ID[skillId];
+  if (!base || !(base.party || base.type === 'revive')) return null;
+  const e = selfEffects(skillId, lv, ownDef) ?? { heal: 0, mp: 0, buff: null };
+  return { radius: metres(base.radius ?? 200), heal: e.heal, mp: e.mp, buff: e.buff, revive: base.type === 'revive' ? Math.max(.2, e.heal || .3) : 0 };
+}
+
 // The target's side: Combat debuffs (src/combat/Combat.js debuff()) from the rules
 // `effect`; damage over time ticks each second for ratio × the first blow.
 const DOT_LABELS = { poison: 'ติดพิษ', bleed: 'เลือดไหล', burn: 'ไฟลุก' };

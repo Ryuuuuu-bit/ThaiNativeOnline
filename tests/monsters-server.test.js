@@ -42,7 +42,7 @@ test('dead players are left alone; a monster dragged too far goes home and heals
 
 test('a shared kill: EXP to helpers, gold and loot to the top damager', () => {
   const w = world(); run(w, [{ id: 1, x: 40, z: 0, lv: 1 }], 1);
-  const m = w.monsters[0], a = { id: 1, x: 2, z: 0, lv: 1 }, b = { id: 2, x: 0, z: 2, lv: 3 }, c = { id: 3, x: 1, z: 1, lv: 1 }, players = [a, b, c];
+  const m = w.monsters[0], a = { id: 1, x: 2, z: 0, lv: 1 }, b = { id: 2, x: 0, z: 2, lv: 12 }, c = { id: 3, x: 1, z: 1, lv: 1 }, players = [a, b, c];
   w.damage(m, 1, 70, {}, players);
   w.damage(m, 3, 5, {}, players);              // under 15%: no share
   assert.equal(m.state, 'chase', 'a blow draws it in');
@@ -52,7 +52,7 @@ test('a shared kill: EXP to helpers, gold and loot to the top damager', () => {
   assert.deepEqual(kills.map(k => k.to).sort(), [1, 2]);
   const top = kills.find(k => k.to === 1), helper = kills.find(k => k.to === 2);
   assert.ok(top.gold >= MONSTERS.boar.gold[0]); assert.equal(helper.gold, 0); assert.deepEqual(helper.drops, []);
-  assert.ok(top.exp > helper.exp, 'EXP follows each player\'s own level (higher level, less EXP)');
+  assert.ok(top.exp > helper.exp, 'EXP follows each player\'s own level (far above the monster, less EXP)');
   assert.equal(m.state, 'dead'); assert.equal(m.alive, false);
 });
 
