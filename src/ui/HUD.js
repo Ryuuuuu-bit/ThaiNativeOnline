@@ -8,8 +8,6 @@ import { STATE_NAMES } from '../npc/NPCSchedule.js';
 const $ = id => document.getElementById(id);
 export const SHOP_ICONS = { blacksmith: '⚒', enhance: '✦', general: '◆', supplies: '◆', village: '◆', herbalist: '✚', occult: '☯', fish: '◆', weapons: '⚔', armor: '⛨', fruit: '◆', rice: '◆', pottery: '◆', lanterns: '◆', charms: '☯', marsh: '◆' };
 const ICONS = SHOP_ICONS;
-// A shop's sign (framed, above the keeper): its kind from SHOPS[type].purpose, coloured in src/ui/shop.css.
-const KINDS = { equipment: 'อาวุธ · เกราะ', upgrade: 'ตีบวก', trade: 'ซื้อ-ขาย', skills: 'อาคม · เครื่องราง' };
 const v = new THREE.Vector3();
 
 // DOM overlay: region header, clock, journal, prompts, dialogue, nameplates.
@@ -71,9 +69,10 @@ export class HUD {
       if (v.x < -1.1 || v.x > 1.1 || v.y < -1.1 || v.y > 1.1) { el.hidden = true; return; }
       const mark = marker(n), key = `${n.id}${mark ?? ''}`;
       if (el.dataset.key !== key) {
+        // a shop's sign (design C): the kind's colour from SHOPS[type].purpose (src/ui/shop.css)
         const shop = SHOPS[n.def.shopType];
         el.dataset.key = key; el.className = `plate${n.def.shopType || n.def.trainer ? ' is-service' : ''}${n.def.faction ? ' is-guard' : ''}${shop ? ` is-shop k-${shop.purpose ?? 'trade'}` : ''}`;
-        if (shop) el.innerHTML = `${mark ? `<i class="qm">${mark}</i>` : ''}<span class="sign"><i class="sg-ic">${ICONS[n.def.shopType] ?? '◆'}</i><i class="sg-c c1"></i><i class="sg-c c2"></i><i class="sg-c c3"></i><i class="sg-c c4"></i><b>${shop.title}</b><small>${n.def.name}</small><em>${KINDS[shop.purpose] ?? KINDS.trade}</em></span>`;
+        if (shop) el.innerHTML = `${mark ? `<i class="qm">${mark}</i>` : ''}<span class="sign"><i class="sg-ic">${ICONS[n.def.shopType] ?? '◆'}</i><span class="sg-body"><b>${shop.title}</b><small>${n.def.name}</small></span></span>`;
         else el.innerHTML = `${mark ? `<i class="qm">${mark}</i>` : ''}${ICONS[n.def.shopType] ? `<i>${ICONS[n.def.shopType]}</i>` : n.def.trainer ? '<i>⚔</i>' : ''}${n.def.name}<small>${label(n)}</small>`;
       }
       el.hidden = false;
