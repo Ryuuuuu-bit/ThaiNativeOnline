@@ -24,6 +24,7 @@ export function attachNetCombat(net, game) {
   // ---- server → local monsters ---------------------------------------------------------
   const make = info => {
     let m = byId.get(info.id);
+    if (m && m.type !== info.type) { byId.delete(info.id); combat.monsters.splice(combat.monsters.indexOf(m), 1); m = null; }
     if (!m) {
       m = new Monster(info.type, { x: info.x, z: info.z, radius: 0, type: info.type }, info.x, info.z);
       m.id = ID(info.id); m.sid = info.id; byId.set(info.id, m); combat.monsters.push(m);
@@ -67,13 +68,25 @@ export function attachNetCombat(net, game) {
     m.debuffs.push({ ...msg.d, remaining: msg.d.secs });
     combat.emit('debuffed', { monster: m, debuff: msg.d });
   });
+  // the link dropped: the server's monsters go (they are its), nothing can be fought until it is back
+  net.on('status', on => {
+    if (on) return;
+    for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); }
+    combat.pending = null; combat.autoAttack = false;
+    combat.emit('fail', 'ขาดการเชื่อมต่อ · กำลังเชื่อมต่อใหม่');
+  });
+  // the server restarted (ids start over): forget the old monsters before the new list
+  net.on('welcome', () => { for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); } byId.clear(); combat.monsters.length = 0; });
   net.on('mgone', msg => { const m = byId.get(msg.id); if (!m || !m.alive && m.state === 'dead') return; combat.emit('despawn', m); gone(m); });
   // this player's share of a kill: the usual kill event (log, quests) and the rewards
   net.on('kill', msg => {
     const m = byId.get(msg.id) ?? { name: '', x: c.x ?? 0, z: c.z ?? 0, def: {} };
-    combat.emit('kill', { monster: m, exp: msg.exp, gold: msg.gold, drops: msg.drops });
+    const lost = msg.lost ?? [];   // drops the server could not fit in the bag
+    const kept = msg.drops.filter(d => !lost.includes(d) && !lost.some(l => l.id === d.id && l.qty === d.qty));
+    combat.emit('kill', { monster: m, exp: msg.exp, gold: msg.gold, drops: kept });
+    if (lost.length) combat.emit('fail', 'กระเป๋าเต็ม · ของที่ตกหายไป');
     c.gold += msg.gold; c.gainExp(msg.exp);
-    for (const d of msg.drops) c.addItem(d.id, d.qty);
+    for (const d of kept) c.addItem(d.id, d.qty);
     c.emit('change');
   });
   net.on('ma', msg => {   // res: resolved on the server (signed in); knock / pull: where the hit throws the player
@@ -91,7 +104,7 @@ export function attachNetCombat(net, game) {
   const damage = combat.damageMonster.bind(combat);
   combat.damageMonster = (m, amount, o = {}) => {
     if (!combat.remote || !m?.sid) return damage(m, amount, o);
-    if (!m.alive) return false;
+    if (!m.alive || !net.online) return false;
     combat.combatTimer = RULES.combatTimeout;
     net.send({ t: 'blow', id: m.sid, skill: o.skill ?? 'basic', ...(o.pounce ? { pounce: 1 } : {}) });
     return true;   // side effects (stun, slow, damage over time) are the server's too
@@ -109,7 +122,9 @@ export function attachNetCombat(net, game) {
     sheetKey = key; net.send({ t: 'ch', data });
   };
   net.on('welcome', () => sheet(true));
-  c.on('change', () => sheet()); c.on('inventory', () => sheet());
+  let sheetDue = false;   // at most once a frame-ish: 'change' fires every tick while poisoned or healing over time
+  const queueSheet = () => { if (sheetDue) return; sheetDue = true; setTimeout(() => { sheetDue = false; sheet(); }, 250); };
+  c.on('change', queueSheet); c.on('inventory', queueSheet);
   combat.on('player-death', () => net.send({ t: 'dead', v: true }));
   combat.on('player-respawn', () => net.send({ t: 'dead', v: false }));
   combat.on('player-revived', () => net.send({ t: 'dead', v: false }));

@@ -25,10 +25,12 @@ export function createViewPrefs() {
     zoom: Number.isFinite(saved.zoom) ? saved.zoom : 1,
     hud: Number.isFinite(saved.hud) ? saved.hud : 1,
     zoomLock: saved.zoomLock === true,   // 🔒 by the minimap: pinch, wheel and keys leave the zoom alone
+    quality: saved.quality === 'low' ? 'low' : 'high',   // graphics quality and particles: remembered too (a weak device stays on low)
+    particles: saved.particles !== false,
     scale: 1,
     set(change) {
       Object.assign(prefs, change);
-      try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, hud: prefs.hud, zoomLock: prefs.zoomLock })); } catch { /* storage unavailable */ }
+      try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, hud: prefs.hud, zoomLock: prefs.zoomLock, quality: prefs.quality, particles: prefs.particles })); } catch { /* storage unavailable */ }
       apply();
     },
   };

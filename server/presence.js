@@ -21,6 +21,7 @@
 //   P.snapshot(map)       → [[id, x, z, f, m], …] of players who moved since the last one
 //   P.setTitle(conn, id, trusted?) → { id, title } (the title worn above the name, src/data/titles.js)
 import { TITLE_BY_ID } from '../src/data/titles.js';
+import { MAPS as MAP_DATA } from '../src/world/maps.js';
 
 export const LIMITS = {
   name: 16, chat: 120, chatEvery: 0.8,      // characters; seconds between chat lines
@@ -30,6 +31,7 @@ export const LIMITS = {
 };
 export const CLASSES = ['muaythai', 'warrior', 'hunter', 'shaman', 'herbalist', 'assassin'];
 export const MAPS = ['city', 'paddy', 'deep_forest', 'wat_rang', 'klong'];
+export const PORTAL_SLACK = 6, BUDGET_SECS = 1.5;   // m: how far from a portal's spot a map change may start / arrive
 const roomOf = (map, ch) => (ch > 1 ? `${map}#${ch}` : map);
 
 const clean = (s, n) => String(s ?? '').replace(/[\u0000-\u001f\u007f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
@@ -70,17 +72,29 @@ export class Presence {
     const p = this.players.get(conn); if (!p) return false;
     const x = num(msg.x), z = num(msg.z), f = num(msg.f, 10), now = this.now();
     if (x === null || z === null) return false;
-    const dt = Math.max(.05, now - p.t), d = Math.hypot(x - p.x, z - p.z);
-    if (d > LIMITS.speed * dt + .5 + (p.slack || 0)) return false;
-    if (p.slack && (p.slackUntil < now || d > LIMITS.speed * dt + .5)) p.slack = 0;
+    const d = Math.hypot(x - p.x, z - p.z);
+    // a distance budget that fills at the top speed on the wall clock, so many small packets
+    // cannot add their slack together; an accepted move leaves at most BUDGET_SECS worth saved
+    // up (a lag spike), while a refused one lets it keep growing, so a client that fell behind
+    // (lost packets) catches up at the top speed instead of being stuck for good
+    const cap = LIMITS.speed * BUDGET_SECS;
+    p.budget = (p.budget ?? cap) + LIMITS.speed * Math.max(0, now - (p.budgetAt ?? p.t)); p.budgetAt = now;
+    if (d > p.budget + (p.slack || 0)) return false;
+    if (p.slack && (p.slackUntil < now || d > p.budget)) p.slack = 0;
+    p.budget = Math.min(cap, Math.max(0, p.budget - d));
     p.x = round(x); p.z = round(z); if (f !== null) p.f = round(f); p.m = [0, 1, 2].includes(msg.m) ? msg.m : 0; p.t = now; p.dirty = true;
     return true;
   }
   // Walking through a portal (or a respawn): a new room, and a jump the speed check allows once.
+  // Only another map, through one of this map's portals (standing by its spot; the portal
+  // decides where you arrive), and never while dead. A GM warp sets the position itself (server/gm.js).
   changeMap(conn, msg = {}, ch = 1) {
-    const p = this.players.get(conn); if (!p || !MAPS.includes(msg.map)) return null;
+    const p = this.players.get(conn); if (!p || !MAPS.includes(msg.map) || msg.map === p.map || p.dead) return null;
+    const near = (a, bx, bz) => Math.hypot(a.x - bx, a.z - bz) <= PORTAL_SLACK + (a.radius ?? 0);
+    const portal = (MAP_DATA[p.map]?.portals ?? []).find(o => o.to === msg.map && near(o.at, p.x, p.z));
+    if (!portal) return null;
     const left = p.room;
-    p.map = msg.map; p.x = num(msg.x) ?? p.x; p.z = num(msg.z) ?? p.z; p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = this.now(); p.dirty = true;
+    p.map = msg.map; p.x = portal.arrive.x; p.z = portal.arrive.z; p.budget = LIMITS.speed * BUDGET_SECS; p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = this.now(); p.dirty = true;
     return { left, ...this.enter(p, ch) };
   }
   // Another channel of the same map: same spot, new room.
@@ -89,7 +103,7 @@ export class Presence {
     const left = p.room; p.dirty = true;
     return { left, ...this.enter(p, ch) };
   }
-  allowJump(conn, metres) { const p = this.players.get(conn); if (p) { p.slack = Math.min(20, metres); p.slackUntil = this.now() + 3; } }
+  allowJump(conn, metres) { const p = this.players.get(conn); if (p) { p.slack = Math.min(400, metres); p.slackUntil = this.now() + 3; } }
   // Down / back up (monsters stop chasing the dead).
   setDead(conn, v) { const p = this.players.get(conn); if (p) p.dead = !!v; return p; }
   // Level shown on the name plate (from the client's own save for now).

@@ -137,6 +137,7 @@ export class Combat extends Emitter {
         return this.fail('เป้าหมายไกลเกินไป · เดินเข้าใกล้ก่อนโจมตี');
       }
       if (dist(target, this.world.playerPos()) > range) {
+        this.world.stop?.();   // the clicked walk gives way to this
         this.pending = { skillId, target };
         if (skill.basic) this.autoAttack = true;
         return { ok: true, moving: true };
@@ -179,7 +180,9 @@ export class Combat extends Emitter {
     if (skill.kind === 'aoe') {
       const center = skill.around === 'self' ? p : target;
       this.emit('aoe', { x: center.x, z: center.z, radius: skill.radius, skillId });
-      for (const m of this.monsters) if (m.alive && dist(m, center) <= skill.radius) this.hitMonster(m, skill);
+      const caught = this.monsters.filter(m => m.alive && dist(m, center) <= skill.radius).sort((a, b) => dist(a, center) - dist(b, center));
+      // online the server splashes from one blow; offline every monster in the circle is struck here
+      for (const m of this.remote ? caught.slice(0, 1) : caught) this.hitMonster(m, skill);
       return;
     }
     if (skill.projectile) {
@@ -366,7 +369,8 @@ export class Combat extends Emitter {
       }
       if (m.wanderTarget) { if (this.step(m, m.wanderTarget, speed * .35, dt) < .2) m.wanderTarget = null; }
     } else if (m.state === 'chase') {
-      if (!c.alive || fromHome > LEASH) { m.state = 'return'; return; }
+      // a rooted monster (speed 0: นางตะเคียน) cannot leash: it gives up once the player is well out of reach
+      if (!c.alive || fromHome > LEASH || (!(m.def.speed > 0) && d > m.def.range * 2 + 4)) { m.state = 'return'; return; }
       if (d > m.def.range) this.step(m, p, speed, dt);
       else {
         m.facing = Math.atan2(p.x - m.x, p.z - m.z);
@@ -419,7 +423,7 @@ export class Combat extends Emitter {
       if (to) { p.x = to.x; p.z = to.z; this.emit('shoved', { monster: m, ...to, pull: !!shove.pull }); }
     }
     if (!c.alive) {
-      this.autoAttack = false; this.pending = null;
+      this.autoAttack = false; this.pending = null; this.setTarget(null);
       for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';
       this.emit('player-death', m);
     }
@@ -429,7 +433,7 @@ export class Combat extends Emitter {
   knockOut() {
     const c = this.character; if (!c.alive) return;
     c.fall(); c.emit('change');
-    this.autoAttack = false; this.pending = null;
+    this.autoAttack = false; this.pending = null; this.setTarget(null);
     for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';
     this.emit('player-death', null);
   }
@@ -441,6 +445,7 @@ export class Combat extends Emitter {
     return true;
   }
   respawnPlayer() {
+    this.setTarget(null);
     const lost = Math.floor(this.character.gold * RULES.deathGoldLoss);
     this.character.gold -= lost;
     this.character.revive(RULES.reviveRatio);

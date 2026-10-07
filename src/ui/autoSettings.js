@@ -29,7 +29,7 @@ export const DEFAULT_AUTO = {
 const clampPct = v => Math.max(0, Math.min(90, Math.round(Number(v) || 0)));
 export function normalizeAuto(s = {}) {
   const o = { ...DEFAULT_AUTO, ...s };
-  return { off: Array.isArray(o.off) ? o.off.filter(Number.isInteger) : [], hpPotion: clampPct(o.hpPotion), mpPotion: clampPct(o.mpPotion), survive: clampPct(o.survive), restHp: clampPct(o.restHp), restMp: clampPct(o.restMp), restTo: Math.max(50, clampPct(o.restTo) || 90),
+  return { off: Array.isArray(o.off) ? o.off.filter(Number.isInteger) : [], hpPotion: clampPct(o.hpPotion), mpPotion: clampPct(o.mpPotion), survive: clampPct(o.survive), restHp: clampPct(o.restHp), restMp: clampPct(o.restMp), restTo: Math.min(100, Math.max(50, Math.round(Number(o.restTo)) || 90, clampPct(o.restHp) + 10, clampPct(o.restMp) + 10)),   // stands up well above where it sat down
     basic: !!o.basic, attackers: !!o.attackers, elites: !!o.elites, range: AUTO_RANGES[o.range] ? o.range : DEFAULT_AUTO.range };
 }
 export function loadAuto() { try { return normalizeAuto(JSON.parse(localStorage.getItem(KEY) || '{}')); } catch { return normalizeAuto(); } }
@@ -96,12 +96,13 @@ export class AutoPanel {
       const slot = e.target.closest('[data-slot]');
       if (slot) { const i = Number(slot.dataset.slot), s = this.get(), off = s.off.includes(i) ? s.off.filter(x => x !== i) : [...s.off, i]; this.set({ off }); return; }
       const step = e.target.closest('[data-step]');
-      if (step) { const [k, d] = step.dataset.step.split(':'); this.set({ [k]: clampPct(this.get()[k] + Number(d)) }); return; }
+      if (step) { const [k, d] = step.dataset.step.split(':'); const v = this.get()[k] + Number(d); this.set({ [k]: k === 'restTo' ? Math.max(50, Math.min(100, v)) : clampPct(v) }); return; }
       const rg = e.target.closest('[data-range]'); if (rg) { this.set({ range: rg.dataset.range }); return; }
       if (e.target.closest('.auto-reset')) this.set({ ...DEFAULT_AUTO });
     });
     this.root.addEventListener('change', e => { const k = e.target.dataset.key; if (k) this.set({ [k]: e.target.checked }, false); });
-    this.root.addEventListener('keydown', e => e.stopPropagation());
+    this.root.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) e.stopPropagation(); });
+    this.root.addEventListener('click', e => e.target.closest('button')?.blur());   // a clicked button does not keep the focus (Enter / Space would press it again)
   }
   set(patch, redraw = true) { this.onChange({ ...this.get(), ...patch }); if (redraw) this.render(); }
   get isOpen() { return !this.root.hidden; }

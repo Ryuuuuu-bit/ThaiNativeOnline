@@ -25,6 +25,8 @@ import { QuestSystem } from '../src/quest/QuestSystem.js';
 import { QUESTS } from '../src/data/quests.js';
 import { NPCS } from '../src/data/npcs.js';
 import { sameGear } from '../src/character/data/refine.js';
+import { RULES } from '../src/combat/data/rules.js';
+import { nearNpc } from '../src/data/shopSites.js';
 
 export const CHARACTER_KEY = /^tno\.character\.v\d+$/;
 export const QUESTS_KEY = 'tno.quests.v1';
@@ -49,11 +51,16 @@ export function fromSave(data) {
   if (!data || typeof data !== 'object' || !CLASSES[CLASS_ALIASES[data.classId] || data.classId]) return null;
   const inventory = Array.isArray(data.inventory) ? data.inventory.map(s => (s && ITEMS[s.id] && s.qty > 0 ? { id: s.id, qty: Math.floor(s.qty), ...(s.cards ? { cards: s.cards } : {}), ...(s.plus ? { plus: s.plus } : {}) } : null)) : undefined;   // cards, plus: checked by Character
   const equipment = data.equipment ? Object.fromEntries(Object.entries(data.equipment).map(([k, id]) => [k, id && ITEMS[id] ? id : null])) : undefined;
-  try { return new Character({ ...data, inventory, equipment, hp: data.hp > 0 ? data.hp : undefined }); } catch { return null; }
+  try {
+    const c = new Character({ ...data, inventory, equipment, hp: data.hp > 0 ? data.hp : undefined });
+    // saved while fallen (the tab closed on the death screen): the respawn happens now, penalty and all
+    if (!(data.hp > 0) && data.hp !== undefined) { c.gold -= Math.floor(c.gold * RULES.deathGoldLoss); c.revive(RULES.reviveRatio); c.respawnedOnLoad = true; }
+    return c;
+  } catch { return null; }
 }
 
 // Replays one browser action on the server's character → true when it went through.
-export function applyOp(c, msg = {}, quests = null) {
+export function applyOp(c, msg = {}, quests = null, here = null) {
   const at = (id, cards, plus) => c.inventory.findIndex(s => s?.id === id && (ITEMS[id]?.type !== 'equip' || sameGear(s, cards, plus)));
   switch (msg.op) {
     case 'buy': return typeof msg.shop === 'string' && typeof msg.id === 'string' && buy(c, msg.shop, msg.id).ok;
@@ -73,9 +80,10 @@ export function applyOp(c, msg = {}, quests = null) {
     case 'learn': return typeof msg.id === 'string' && c.learnSkill(msg.id);
     case 'skill_reset': return c.resetSkills();
     case 'evo': return typeof msg.id === 'string' && (msg.pick === 'A' || msg.pick === 'B') && c.chooseEvo(msg.id, msg.pick);
-    case 'quest_accept': return !!quests?.defs.has(msg.id) && quests.accept(msg.id);
-    case 'quest_complete': return !!quests?.defs.has(msg.id) && quests.complete(msg.id);
-    case 'talk': if (typeof msg.npc !== 'string' || !quests) return false; quests.onTalk(msg.npc); return true;
+    // quests and talks are face to face: `here` ({ map, x, z }) is checked against the NPC's spots
+    case 'quest_accept': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.giver, here.map, here.x, here.z)) && quests.accept(msg.id); }
+    case 'quest_complete': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.turnIn ?? q.giver, here.map, here.x, here.z)) && quests.complete(msg.id); }
+    case 'talk': if (typeof msg.npc !== 'string' || !quests || (here && !nearNpc(msg.npc, here.map, here.x, here.z))) return false; quests.onTalk(msg.npc); return true;
     default: return false;
   }
 }

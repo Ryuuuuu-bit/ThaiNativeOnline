@@ -1,5 +1,18 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
+
+// One parse per GLB: every character of a class (the player, each other player on the map) is a
+// clone of the same loaded scene, with its own materials (tints) over shared geometry and textures.
+const GLTF_CACHE = new Map();
+const loadShared = url => {
+  if (!GLTF_CACHE.has(url)) GLTF_CACHE.set(url, new GLTFLoader().loadAsync(url).catch(e => { GLTF_CACHE.delete(url); throw e; }));
+  return GLTF_CACHE.get(url).then(gltf => {
+    const scene = cloneSkinned(gltf.scene);
+    scene.traverse(o => { if (o.isMesh) o.material = Array.isArray(o.material) ? o.material.map(m => m.clone()) : o.material.clone(); });
+    return { scene, animations: gltf.animations };
+  });
+};
 
 // A 3D player character loaded from a GLB (e.g. a Tripo export). Interface:
 // { group, update(dt, time, moving, heading) },
@@ -49,7 +62,7 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
   let mixer = null, current = null, oneShot = null, tintFade = null;
   const tinted = [];
   const actions = {};
-  const ready = new GLTFLoader().loadAsync(url).then(gltf => {
+  const ready = loadShared(url).then(gltf => {
     const model = gltf.scene;
     const box = new THREE.Box3().setFromObject(model), size = box.getSize(new THREE.Vector3());
     const s = height / size.y;

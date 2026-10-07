@@ -39,7 +39,8 @@ export class RemotePlayers {
   remove(id) {
     const r = this.list.get(id); if (!r) return;
     this.scene.remove(r.model.group); r.plate.remove();
-    r.model.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); } });
+    // geometry and textures are shared with the loaded GLB (src/classes/model.js); the materials are this one's
+    r.model.group.traverse(o => { if (o.isMesh) for (const m of Array.isArray(o.material) ? o.material : [o.material]) m?.dispose(); });
     this.list.delete(id);
   }
   clear() { for (const id of [...this.list.keys()]) this.remove(id); }

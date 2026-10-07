@@ -55,8 +55,9 @@ export function attachCombatMeters(net, game, remote, social) {
   // ---- the meter ----
   const box = document.createElement('section'); box.className = 'dps-meter glass'; box.hidden = true;
   (document.getElementById('app') ?? document.body).append(box);
-  const nameOf = id => (id === me ? c.name : remote.list.get(id)?.name ?? social?.party?.members.find(p => p.id === id)?.name ?? `#${id}`);
-  const clsOf = id => (id === me ? c.classId : remote.list.get(id)?.cls ?? social?.party?.members.find(p => p.id === id)?.cls);
+  const seen = new Map();   // id → { name, cls } of whoever hit something, kept after they leave the map
+  const nameOf = id => (id === me ? c.name : remote.list.get(id)?.name ?? social?.party?.members.find(p => p.id === id)?.name ?? seen.get(id)?.name ?? `#${id}`);
+  const clsOf = id => (id === me ? c.classId : remote.list.get(id)?.cls ?? social?.party?.members.find(p => p.id === id)?.cls ?? seen.get(id)?.cls);
   function render() {
     const now = performance.now() / 1000, dps = dpsOf(log, now), party = new Set(social?.party?.members.map(p => p.id) ?? []);
     const kind = id => (id === me || id === 'me' ? 'me' : party.has(id) ? 'party' : 'other');
@@ -71,7 +72,7 @@ export function attachCombatMeters(net, game, remote, social) {
     }).join('');
   }
   // online: every blow on this map (the server's `mh`); offline: my own hits
-  net.on('mh', m => { if (!m.miss && m.amount > 0 && m.by != null) log.push({ t: performance.now() / 1000, by: m.by, amount: m.amount }); });
+  net.on('mh', m => { if (!m.miss && m.amount > 0 && m.by != null) { log.push({ t: performance.now() / 1000, by: m.by, amount: m.amount }); const r = remote.list.get(m.by); if (r) seen.set(m.by, { name: r.name, cls: r.cls }); } });
   combat?.on('hit', e => { if (!combat.remote && e.amount > 0) log.push({ t: performance.now() / 1000, by: me ?? 'me', amount: e.amount }); });
   apply();
 

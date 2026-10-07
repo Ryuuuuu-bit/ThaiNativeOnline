@@ -83,7 +83,13 @@ const SMOKE = { blue: C(.32, .38, .55), gold: C(.4, .35, .3), jade: C(.3, .4, .3
 export function createFx({ scene, camera, renderer, labels, size = K }) {
   const root = new THREE.Group(); root.scale.setScalar(size); scene.add(root);
   const add = o => { root.add(o); return o; };
-  const kill = o => { o.parent?.remove(o); o.traverse?.(n => { if (n.geometry && !n.geometry.userData.shared) n.geometry.dispose(); if (n.material) [].concat(n.material).forEach(m => m.dispose()); }); };
+  // Three.js deletes a shader program as soon as no material uses it, so every cast of a skill
+  // compiled its shaders again (the hitch when a skill went off). One material per program is kept
+  // (never drawn again) and the GPU keeps the compiled program for the next cast.
+  const kept = new Map();
+  const progKey = m => `${m.type}|${m.side}|${!!m.map}|${m.vertexColors}|${JSON.stringify(m.defines ?? null)}|${m.vertexShader ?? ''}|${m.fragmentShader ?? ''}`;
+  const release = m => { const k = progKey(m), was = kept.get(k); if (was === m) return; if (was) m.dispose(); else kept.set(k, m); };
+  const kill = o => { o.parent?.remove(o); o.traverse?.(n => { if (n.geometry && !n.geometry.userData.shared) n.geometry.dispose(); if (n.material) [].concat(n.material).forEach(release); }); };
   const fx = { root, K: size, shake: 0, kill, add, camera, gain: GAIN, mood: 0, moodTarget: 0, moodHold: 0, stop: 0, punchV: 0 };
 
   // ---- coordinates -----------------------------------------------------------
@@ -295,7 +301,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
       if (t > tSw + tHold) {
         const d = (t - tSw - tHold) / tDis; U.uDis.value = -.2 + d * 1.25; m.scale.setScalar(r * (1 + d * .08));
         if (!smoked) { smoked = true; for (let k = 0; k < 7; k++) { const q = local(rand(.55, 1), rand(.75, 1)); fx.emit({ p: q, v: V(rand(-.3, .3), rand(.2, .6), rand(-.3, .3)), c: SMOKE[palKey], life: rand(.6, .9), size: rand(.25, .4), size1: rand(.6, .9), shape: SH.soft, a: .55, drag: 1.5 }, PN); } }
-        if (d >= 1) { root.remove(G); m.material.dispose(); return false; }
+        if (d >= 1) { root.remove(G); release(m.material); return false; }
       }
     });
     return G;
@@ -363,6 +369,23 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
   fx.lightPillar = (p, col, h = 5, r = .55, life = .9) => {
     const m = add(new THREE.Mesh(new THREE.CylinderGeometry(r * .65, r, h, 28, 1, true), fx.pillarMat(col))); m.position.set(p.x, h / 2, p.z);
     fx.addTask((dt, t) => { m.material.uniforms.uTime.value = t; const f = t / life; m.material.uniforms.uA.value = Math.min(1, f * 6) * (1 - f) * fx.gain * .6; m.scale.set(1 + f * .5, Math.min(1, f * 5), 1 + f * .5); if (f >= 1) { kill(m); return false; } });
+  };
+
+  // ---- warm-up ---------------------------------------------------------------------
+  // Compile the shared effects' shaders before the first fight (behind the loading screen): one of
+  // each far off the map, compiled, then released into the kept set above. A class's own skill
+  // shaders compile on their first cast and stay kept after that.
+  fx.warm = () => {
+    const far = V(4000, 0, 4000), w = C(1, 1, 1), objs = [];
+    try {
+      fx.shock(far.x, far.z, 1, w); fx.lightPillar(far, w, 1, .5, .1); fx.hitSpark(far.clone().setY(1));
+      fx.slashArc(far.clone().setY(1), far.clone().add(V(0, 1, 1)), { dur: .02, hold: 0, dis: .02 });
+      const plane = mat => add(new THREE.Mesh(SPARK_GEO, mat));
+      objs.push(fx.lotus(w, w), fx.glowSprite(w, 1), plane(fx.fresnelMat(w)), plane(fx.tubeMat(w, w, 1)), plane(fx.pillarMat(w)), fx.yantPlane(fx.glowTex));
+      for (const o of objs) o.position.copy(far);
+      renderer.compile(scene, camera);
+    } catch (e) { console.warn('[fx] warm-up', e); }
+    objs.forEach(kill);
   };
 
   // ---- frame -----------------------------------------------------------------------

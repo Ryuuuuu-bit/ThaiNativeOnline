@@ -42,6 +42,26 @@ test('a portal moves you to another room (the jump is allowed once)', () => {
   const r = P.changeMap(a, { map: 'paddy', x: 0, z: -130 });
   assert.equal(r.left, 'city'); assert.equal(r.map, 'paddy'); assert.equal(r.roster.length, 1);
   assert.equal(P.changeMap(a, { map: 'nowhere' }), null);
+  // not through a portal: no map change, no free teleport
+  const c = {}; P.join(c, { map: 'paddy', x: 50, z: -200 });
+  assert.equal(P.changeMap(c, { map: 'city', x: 0, z: -99 }), null, 'far from the warp');
+  assert.equal(P.changeMap(c, { map: 'paddy', x: -90, z: -220 }), null, 'the same map is not a map change');
+  P.players.get(c).x = 0; P.players.get(c).z = -121; P.players.get(c).dead = true;
+  assert.equal(P.changeMap(c, { map: 'city', x: 0, z: -99 }), null, 'not while dead');
+  P.players.get(c).dead = false;
+  assert.equal(P.changeMap(c, { map: 'city', x: 40, z: -40 }).map, 'city', 'the portal decides where you arrive');
+  assert.deepEqual([P.players.get(c).x, P.players.get(c).z], [0, -99]);
+});
+test('many small moves cannot add up past the top speed', () => {
+  const now = clock(), P = new Presence({ now }), a = {};
+  P.join(a, { map: 'paddy', x: 0, z: 0 }); now.add(2);
+  let x = 0, ok = 0;
+  for (let i = 0; i < 40; i++) { now.add(.025); x += .9; if (P.move(a, { x, z: 0 })) ok++; }   // 36 m/s asked
+  assert.ok(P.players.get(a).x < 9 * 1 + 9 * 1.5 + .01, `${P.players.get(a).x} m in 1 s`); assert.ok(ok < 40);
+  // fallen behind (packets lost): the next move far from the last accepted one goes through once the time for it has passed
+  const b = {}; P.join(b, { map: 'paddy', x: 0, z: 0 }); now.add(2);
+  assert.equal(P.move(b, { x: 40, z: 0 }), false, 'not yet');
+  now.add(3.5); assert.equal(P.move(b, { x: 40, z: 0 }), true, '40 m in 5.5 s is a run');
 });
 
 test('snapshots carry only players who moved, per map', () => {
@@ -70,4 +90,13 @@ test('each socket has a message budget', () => {
   let ok = 0; for (let i = 0; i < 20; i++) if (allow()) ok++;
   assert.equal(ok, 5);
   now.add(1); assert.equal(allow(), true);
+});
+
+test('a saved death is a respawn on load: the penalty is paid, not skipped by a relog', async () => {
+  const { fromSave } = await import('../server/progress.js');
+  const { Character } = await import('../src/character/Character.js');
+  const c = Character.create('ตาย', 'warrior'); c.gold = 1000; c.hp = 0;
+  const back = fromSave(c.toJSON());
+  assert.ok(back.alive); assert.equal(back.gold, 900); assert.ok(back.respawnedOnLoad);
+  assert.equal(fromSave({ ...c.toJSON(), hp: 50 }).gold, 1000, 'alive: nothing taken');
 });
