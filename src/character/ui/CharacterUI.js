@@ -14,7 +14,7 @@ import { MAX_JOB_LEVEL } from '../data/progression.js';
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
 
-const SLOT_LABELS = { weapon: 'อาวุธ', offhand: 'มือรอง', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง', charm2: 'เครื่องราง 2' };
+const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง', charm2: 'เครื่องราง 2' };
 const BONUS_LABELS = { atk: 'ATK', matk: 'MATK', def: 'DEF', hp: 'HP', mp: 'MP', crit: 'คริ', critDmg: 'แรงคริ', acc: 'แม่นยำ', eva: 'หลบ', cdr: 'ลดคูลดาวน์', cast: 'ร่ายเร็ว', mpCost: 'MP ที่ใช้' };
 const PERCENT_BONUS = new Set(['crit', 'critDmg', 'cdr', 'cast', 'mpCost']);
 // card keys: vs_<race> (more damage against it), res_<race | element> (less damage from it)
@@ -151,7 +151,6 @@ export class CharacterUI {
     c.on('levelup', lv => { this.feed.banner(`เลเวลอัป · Lv. ${lv}`, `ได้รับแต้มสถานะ ${POINTS_PER_LEVEL} แต้ม กด C เพื่ออัปสถานะ`); this.feed.log(`เลเวลอัปเป็น ${lv}!`, 'gold'); });
     c.on('used', id => this.feed.log(`ใช้ ${ITEMS[id].name}`));
     c.on('card-choose', i => this.openCardPick(i));
-    c.on('two-hand', what => this.feed.log(what === 'offhand' ? 'ถืออาวุธสองมืออยู่ ใส่ของมือรองไม่ได้' : 'อาวุธสองมือ: เก็บของมือรองเข้ากระเป๋าแล้ว', what === 'offhand' ? 'bad' : ''));
     c.on('card-no-slot', slot => this.feed.log(`ไม่มี${SLOT_LABELS[slot]}ที่มีช่องการ์ดว่าง`, 'bad'));
     c.on('damaged', () => { this.frame.classList.remove('g-shake'); void this.frame.offsetWidth; this.frame.classList.add('g-shake'); });
   }
@@ -209,13 +208,13 @@ export class CharacterUI {
     if (key === this.sheetKey) return;
     this.sheetKey = key;
     // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
-    const slotHtml = slot => { const id = c.equipment[slot]; return `<div class="g-eqs"><button data-slot="${slot}" class="${id ? '' : 'empty'}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : slot === 'offhand' && c.twoHanded ? 'ว่าง · ถืออาวุธสองมืออยู่' : `${SLOT_LABELS[slot]} · ว่าง`}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${id ? esc(itemName(id, c.refine[slot])) : SLOT_LABELS[slot]}</small></div>`; };
+    const slotHtml = slot => { const id = c.equipment[slot]; return `<div class="g-eqs"><button data-slot="${slot}" class="${id ? '' : 'empty'}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : `${SLOT_LABELS[slot]} · ว่าง`}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${id ? esc(itemName(id, c.refine[slot])) : SLOT_LABELS[slot]}</small></div>`; };
     const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
       <div class="g-doll-wrap g-equip">
         <div class="g-eq-col">${['weapon', 'head', 'armor', 'cape'].map(slotHtml).join('')}</div>
         <div class="g-doll"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 60 })}</span><div class="g-doll-nm"><b>${esc(c.name)}</b><span>${c.cls.name} · Lv ${c.level} · Job ${c.jobLevel}</span></div></div>
-        <div class="g-eq-col">${['offhand', 'shoes', 'charm', 'charm2'].map(slotHtml).join('')}</div>
+        <div class="g-eq-col">${['shoes', 'charm', 'charm2'].map(slotHtml).join('')}</div>
       </div>
       <div class="g-bar g-exp g-sheet-exp"><span style="width:${Math.min(100, c.exp / c.expNeeded * 100)}%"></span><em>Base Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%</em></div>
       <div class="g-bar g-jexp g-sheet-exp"><span style="width:${jobMax ? 100 : Math.min(100, c.jobExp / c.jobExpNeeded * 100)}%"></span><em>Job Lv ${c.jobLevel}${jobMax ? ' · สูงสุด' : ` · ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`}</em></div>

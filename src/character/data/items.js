@@ -1,7 +1,7 @@
 // Content data only: edit freely without touching game logic.
 import { CARD_ITEMS } from './cards.js';
-// twoHand: a weapon held in both hands (bows, paired knives): the off hand stays empty
-// slot: weapon | armor | head | offhand | cape | shoes | charm (two charm slots: charm, charm2); slots: card slots (RO style, 0–4: plain gear has more, strong gear fewer); use: consumable effect
+// twoHand: visual description only; all weapons share one equipment slot
+// slot: weapon | armor | head | cape | shoes | charm (two charm slots: charm, charm2); slots: card slots (RO style, 0–4: plain gear has more, strong gear fewer); use: consumable effect
 // bonus keys: base stats (str agi vit int dex luk) and atk matk def hp mp crit critDmg acc eva,
 //   cdr (skill cooldowns shorter), cast (cast times shorter), mpCost (skills cost more MP) — shares
 // Abstract carry units, not kilograms: recovery supplies 0, materials 0.1,
@@ -23,7 +23,8 @@ export const ITEMS = {
   wood_sword: { name: 'ดาบไม้ซ้อม', icon: '🗡', img: 'ui/items/icon_wood_sword.png', weight: 20, type: 'equip', slot: 'weapon', slots: 3, bonus: { atk: 3 }, rarity: 'common', price: 15 },
   iron_dap:   { name: 'ดาบเหล็กลาย', icon: '🗡', img: 'ui/items/icon_iron_dap.png', weight: 40, type: 'equip', slot: 'weapon', slots: 2, bonus: { atk: 9, str: 2 }, rarity: 'rare', price: 80 },
   short_bow:  { name: 'ธนูไม้ซ้อม', icon: '🏹', img: 'ui/items/icon_short_bow.png', weight: 15, type: 'equip', slot: 'weapon', twoHand: true, slots: 3, bonus: { atk: 3, dex: 1 }, rarity: 'common', price: 15, desc: 'ธนูฝึกหัดของนายพรานใหม่' },
-  reed_wand:  { name: 'ไม้เท้าอ้อ', icon: '⚚', img: 'ui/items/icon_reed_wand.png', weight: 8, type: 'equip', slot: 'weapon', slots: 3, bonus: { matk: 4, int: 1 }, rarity: 'common', price: 15, desc: 'ไม้เท้าต้นอ้อของหมอผีฝึกหัด' },
+  // Keep the saved item ID so existing shamans receive the talisman without losing gear or upgrades.
+  reed_wand:  { name: 'ยันต์ฝึกอาคม', icon: '▤', img: 'ui/items/icon_pha_yant.png', weight: 8, type: 'equip', slot: 'weapon', slots: 3, bonus: { matk: 4, int: 1 }, rarity: 'common', price: 15, desc: 'ยันต์ประจำกายหมอผีฝึกหัด ใช้มือร่ายอาคม ไม่ใช้แล้วหมดไป' },
   bamboo_bow: { name: 'ธนูไม้ไผ่', icon: '🏹', img: 'ui/items/icon_bamboo_bow.png', weight: 20, type: 'equip', slot: 'weapon', twoHand: true, slots: 2, bonus: { atk: 7, dex: 2 }, rarity: 'rare', price: 75 },
   bone_wand:  { name: 'ไม้เท้ากระดูก', icon: '⚚', img: 'ui/items/icon_bone_wand.png', weight: 15, type: 'equip', slot: 'weapon', slots: 2, bonus: { matk: 9, int: 3 }, rarity: 'rare', price: 75 },
   cloth_vest: { name: 'เสื้อผ้าฝ้าย', icon: '👕', img: 'ui/items/icon_cloth_vest.png', weight: 10, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 15 },
@@ -34,9 +35,9 @@ export const ITEMS = {
   pha_khao:   { name: 'ผ้าโพกหัว', icon: '◠', img: 'ui/items/icon_pha_khao.png', weight: 2, type: 'equip', slot: 'head', slots: 1, bonus: { def: 1, vit: 1 }, rarity: 'common', price: 20 },
   ngob:       { name: 'งอบใบลาน', icon: '◭', img: 'ui/items/icon_ngob.png', weight: 3, type: 'equip', slot: 'head', slots: 1, bonus: { def: 2 }, rarity: 'common', price: 30 },
   chada:      { name: 'ชฎาทองเหลือง', icon: '♔', img: 'ui/items/icon_chada.png', weight: 8, type: 'equip', slot: 'head', slots: 1, bonus: { def: 3, int: 2, matk: 3 }, rarity: 'rare', price: 150 },
-  rattan_shield: { name: 'โล่หวาย', icon: '◍', img: 'ui/items/icon_rattan_shield.png', weight: 15, type: 'equip', slot: 'offhand', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 25 },
-  mo_knife:   { name: 'มีดหมอ', icon: '🗡', img: 'ui/items/icon_mo_knife.png', weight: 8, type: 'equip', slot: 'offhand', slots: 1, bonus: { atk: 3, agi: 1 }, rarity: 'common', price: 40 },
-  buffalo_shield: { name: 'โล่หนังควาย', icon: '◍', img: 'ui/items/icon_buffalo_shield.png', weight: 30, type: 'equip', slot: 'offhand', slots: 1, bonus: { def: 6, vit: 2 }, rarity: 'rare', price: 120 },
+  rattan_shield: { name: 'โล่หวาย', icon: '◍', img: 'ui/items/icon_rattan_shield.png', refinable: true, weight: 15, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 25 },
+  mo_knife:   { name: 'มีดหมอ', icon: '🗡', img: 'ui/items/icon_mo_knife.png', weight: 8, type: 'equip', slot: 'weapon', slots: 1, bonus: { atk: 3, agi: 1 }, rarity: 'common', price: 40 },
+  buffalo_shield: { name: 'โล่หนังควาย', icon: '◍', img: 'ui/items/icon_buffalo_shield.png', refinable: true, weight: 30, type: 'equip', slot: 'charm', slots: 1, bonus: { def: 6, vit: 2 }, rarity: 'rare', price: 120 },
   pakhaoma:   { name: 'ผ้าขาวม้า', icon: '▦', img: 'ui/items/icon_pakhaoma.png', weight: 2, type: 'equip', slot: 'cape', slots: 1, bonus: { def: 1, eva: 2 }, rarity: 'common', price: 20 },
   sabai:      { name: 'สไบไหม', icon: '≋', img: 'ui/items/icon_sabai.png', weight: 2, type: 'equip', slot: 'cape', slots: 1, bonus: { def: 2, int: 1, mp: 20 }, rarity: 'rare', price: 90 },
   sandals:    { name: 'รองเท้าแตะหนัง', icon: '⏢', img: 'ui/items/icon_sandals.png', weight: 4, type: 'equip', slot: 'shoes', slots: 1, bonus: { def: 1, agi: 1 }, rarity: 'common', price: 20 },
@@ -62,5 +63,5 @@ export const RARITY_COLORS = { common: '#d9d3bd', rare: '#7fb7e8', epic: '#c79af
 
 
 // What a character wears: one item per slot; a charm fits either charm slot.
-export const EQUIP_SLOTS = ['weapon', 'armor', 'head', 'offhand', 'cape', 'shoes', 'charm', 'charm2'];
+export const EQUIP_SLOTS = ['weapon', 'armor', 'head', 'cape', 'shoes', 'charm', 'charm2'];
 export const slotKind = slot => (slot === 'charm2' ? 'charm' : slot);

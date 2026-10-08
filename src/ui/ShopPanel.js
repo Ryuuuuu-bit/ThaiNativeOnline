@@ -7,7 +7,7 @@ import { STRIP } from '../character/data/cards.js';
 import { REFINE_SHOP, REFINE_SAFE, REFINE_MAX, refineCost, refineBonus } from '../character/data/refine.js';
 import './shop.css';
 const REFINE_WHY = { gold: 'ทองไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
-const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', offhand: 'มือรอง', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง' };
+const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง' };
 const plusName = (id, plus) => `${plus ? `+${plus} ` : ''}${ITEMS[id].name}`;
 const STRIP_WHY = { gold: 'ทองไม่พอ', ash: 'ขี้เถ้าธูปไม่พอ', bag_full: 'กระเป๋าเต็ม', no_cards: 'ไอเท็มนี้ไม่มีการ์ด', no_shop: 'ต้องอยู่ที่ร้านหมออาคม และไม่ได้อยู่ระหว่างต่อสู้' };
 

@@ -108,16 +108,16 @@ test('server rolls: cards add damage against a race and take it off monster swin
   const def = { ...MONSTERS.winyan, acc: 1e9 };
   const hurt1 = cs.swing(1, def, 1).dmg, hurt2 = cs.swing(2, def, 1).dmg;
   assert.ok(hurt1 < hurt2, `resisted (${hurt1} < ${hurt2})`);
-  assert.deepEqual(sane({ level: 5, equipment: { weapon: 'wood_sword', armor: 'cloth_vest' }, cards: { weapon: ['card_pray'], armor: ['card_pray'] } }, 'warrior').cards, { weapon: ['card_pray'], armor: [], head: [], offhand: [], cape: [], shoes: [], charm: [], charm2: [] }, 'a guest sheet is checked too');
+  assert.deepEqual(sane({ level: 5, equipment: { weapon: 'wood_sword', armor: 'cloth_vest' }, cards: { weapon: ['card_pray'], armor: ['card_pray'] } }, 'warrior').cards, { weapon: ['card_pray'], armor: [], head: [], cape: [], shoes: [], charm: [], charm2: [] }, 'a guest sheet is checked too');
 });
 
-test('eight equipment slots: head, off hand, cape, shoes and two charms', async () => {
+test('seven equipment slots: shields share the two charm slots', async () => {
   const { EQUIP_SLOTS } = await import('../src/character/data/items.js');
   const c = Character.create('ทดสอบ', 'muaythai');
   assert.deepEqual(Object.keys(c.equipment), EQUIP_SLOTS);
   const def = c.defense;
   for (const id of ['pha_khao', 'rattan_shield', 'pakhaoma', 'sandals']) { c.addItem(id); c.useAt(c.inventory.findIndex(s => s?.id === id)); }
-  assert.deepEqual([c.equipment.head, c.equipment.offhand, c.equipment.cape, c.equipment.shoes], ['pha_khao', 'rattan_shield', 'pakhaoma', 'sandals']);
+  assert.deepEqual([c.equipment.head, c.equipment.charm, c.equipment.cape, c.equipment.shoes], ['pha_khao', 'rattan_shield', 'pakhaoma', 'sandals']);
   assert.ok(c.defense > def);
   // two charms side by side; a third replaces the first
   for (const id of ['takrut', 'tiger_fang', 'mongkol']) c.addItem(id);

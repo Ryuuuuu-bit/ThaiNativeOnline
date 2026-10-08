@@ -63,11 +63,15 @@ export class Character extends Emitter {
     for (const slot of Object.keys(this.cards)) if (this.equipment[slot]) this.cards[slot] = socketCards(this.equipment[slot], cards?.[slot], ITEMS);
     // the plus of the worn gear, per slot
     this.refine = Object.fromEntries(EQUIP_SLOTS.map(s => [s, this.equipment[s] && refinable(ITEMS[this.equipment[s]]) ? plusOf(refine?.[s]) : 0]));
-    // a two-handed weapon leaves the off hand empty: an older save's shield goes back to the bag
-    if (this.twoHanded && this.equipment.offhand) {
-      const free = this.inventory.indexOf(null);
-      if (free >= 0) this.inventory[free] = this.wornItem('offhand');
-      this.equipment.offhand = null; this.cards.offhand = []; this.refine.offhand = 0;
+    // Retire the saved offhand slot without losing its gear, cards or refinement.
+    // A full legacy bag gets one recovery slot, retained through subsequent saves.
+    const legacyId = equipment?.offhand;
+    if (ITEMS[legacyId]?.type === 'equip') {
+      const held = Array.isArray(cards?.offhand) ? cards.offhand.filter(id => ITEMS[id]?.type === 'card') : [];
+      const valid = socketCards(legacyId, held, ITEMS);
+      const recovered = [{ id: legacyId, qty: 1, ...(valid.length ? { cards: valid } : {}), ...(plusOf(refine?.offhand) ? { plus: plusOf(refine.offhand) } : {}) },
+        ...held.filter((id, i) => held.slice(0, i + 1).filter(x => x === id).length > valid.filter(x => x === id).length).map(id => ({ id, qty: 1 }))];
+      for (const item of recovered) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     }
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
@@ -384,22 +388,12 @@ export class Character extends Emitter {
   }
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
-    const def = ITEMS[slot.id]; if (def.type !== 'equip') return false;
-    // the off hand is not free while a two-handed weapon is held
-    if (def.slot === 'offhand' && this.twoHanded) { this.emit('two-hand', 'offhand'); return false; }
-    // a two-handed weapon sends the off-hand item to the bag (it needs a free bag slot)
-    const dropOff = def.slot === 'weapon' && def.twoHand && this.equipment.offhand;
-    if (dropOff && !this.inventory.some((s, i) => !s && i !== index) && this.equipment.weapon) { this.emit('inventory-full', this.equipment.offhand); return false; }
+    const def = ITEMS[slot.id]; if (def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
     const previous = this.wornItem(to);
     this.equipment[to] = slot.id; this.cards[to] = [...(slot.cards ?? [])]; this.refine[to] = slot.plus ?? 0;
     this.inventory[index] = previous;
-    if (dropOff) {
-      const free = this.inventory.indexOf(null);
-      this.inventory[free] = this.wornItem('offhand'); this.equipment.offhand = null; this.cards.offhand = []; this.refine.offhand = 0;
-      this.emit('two-hand', 'weapon');
-    }
     this.clampVitals();
     this.emit('inventory'); this.emit('change');
     return true;
