@@ -62,6 +62,8 @@ const CARD_DEFS = {
   chalawan: { slot: 'armor', bonus: { vit: 6, hp: 200, res_beast: .15 } },
 };
 
+for(const [id,m] of Object.entries(MONSTERS))if(!CARD_DEFS[id])CARD_DEFS[id]={slot:m.boss?'charm':'weapon',bonus:m.boss?{hp:Math.round(m.level*3),res_dark:.1}:{atk:Math.round(m.level*.2),matk:Math.round(m.level*.2)}};
+
 export const cardId = monsterType => `card_${monsterType}`;
 export const cardRate = def => (def.boss ? CARD_RATE.boss : def.elite ? CARD_RATE.elite : CARD_RATE.normal);
 export const hasCard = monsterType => !!CARD_DEFS[monsterType];
@@ -69,7 +71,7 @@ export const hasCard = monsterType => !!CARD_DEFS[monsterType];
 // The cards as items (merged into ITEMS by src/character/data/items.js).
 export const CARD_ITEMS = Object.fromEntries(Object.entries(CARD_DEFS).map(([type, c]) => {
   const m = MONSTERS[type], big = m.elite || m.boss;
-  return [cardId(type), { name: `การ์ด${m.name}`, icon: '❖', img: `ui/items/icon_card_${type}.png`, weight: 1, type: 'card', slot: c.slot, bonus: c.bonus, rarity: big ? 'epic' : 'rare', price: big ? 400 : 120, monster: type }];
+  return [cardId(type), { name: `การ์ด${m.name}`, icon: '❖', img: `ui/items/icon_card_${Object.hasOwn(CARD_DEFS,type)&&type.includes("_")?"winyan":type}.png`, weight: 1, type: 'card', slot: c.slot, bonus: c.bonus, rarity: big ? 'epic' : 'rare', price: big ? 400 : 120, monster: type }];
 }));
 
 // The cards an item may really hold: cards of its kind, no more than its slots.

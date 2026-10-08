@@ -1,3 +1,4 @@
+import { buildExpeditionWorld } from './ExpeditionWorld.js';
 import * as THREE from 'three';
 import { J, WATER_Y, MARSH_WATER_Y } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, inView, walkable } from './maps.js';
@@ -26,6 +27,8 @@ import { fillBuildings } from './districts/Fill.js';
 import { scatterNature } from './districts/Nature.js';
 import { Boats } from '../entities/Boats.js';
 import { Animals } from '../entities/Animals.js';
+import { portalPillars } from './portal-layout.js';
+import { huntingFor, huntingSign } from '../data/hunting.js';
 
 // Shared state while the districts build: placement, collision, batching and
 // the NPC anchors ("spots") that schedules refer to. Every district runs for
@@ -35,7 +38,7 @@ import { Animals } from '../entities/Animals.js';
 class WorldContext {
   constructor(scene, terrain, occ, map) {
     const keep = (x, z) => inView(map, x, z);
-    Object.assign(this, { scene, terrain, occ, map, keep, rng: createRng(20260), collision: new Collision(8, map.view), batcher: new StaticBatcher(40, keep), props: new PropLibrary(keep), veg: new Vegetation(keep) });
+    Object.assign(this, { scene, terrain, occ, map, keep, rng: createRng(20260), collision: new Collision(8, map.view), batcher: new StaticBatcher(40, keep), props: new PropLibrary(keep), veg: new Vegetation((x,z) => keep(x,z) && !map.portals.some(p => Math.hypot(x-p.at.x,z-p.at.z)<18)) });
     Object.assign(this, { footprints: [], glows: [], smokes: [], spots: {}, sets: [], market: [], ribbons: [], pens: [], chickenSpots: [], doors: 0 });
   }
   // Place a local-space structure: batch its meshes and register everything it declares.
@@ -111,6 +114,7 @@ function disposeTree(root) {
 // MAPS entry; the default is the city.
 export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP) {
   const map = typeof mapId === 'string' ? MAPS[mapId] : mapId;
+  if(map.expedition)return buildExpeditionWorld(scene,map);
   const started = performance.now(), timings = {};
   let mark = started;
   const lap = name => { const now = performance.now(); timings[name] = Math.round(now - mark); mark = now; };
@@ -155,7 +159,9 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   progress('กำลังประกอบฉาก…'); await frame();
   const staticMeshes = await ctx.batcher.buildAsync(scene), propMeshes = ctx.props.build(scene), vegMeshes = ctx.veg.build(scene);
   for (const set of ctx.sets) set.build(scene);
-  for (const [x, z, r] of ctx.veg.obstacles) ctx.collision.addCircle(x, z, r);
+  for (const [x, z, r] of ctx.veg.obstacles) if(!map.portals.some(p=>Math.hypot(x-p.at.x,z-p.at.z)<18)) ctx.collision.addCircle(x, z, r);
+  for(const portal of map.portals)for(const p of portalPillars(map,portal))ctx.collision.addCircle(p.x,p.z,p.r);
+  for(const camp of huntingFor(map.id)){const p=huntingSign(camp);ctx.collision.addCircle(p.x,p.z,.13);}
   lap('batching');
   ctx.market = ctx.market.filter(m => ctx.keep(m.x, m.z));
   ctx.chickenSpots = ctx.chickenSpots.filter(([x, z]) => ctx.keep(x, z));

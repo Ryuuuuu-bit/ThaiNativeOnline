@@ -13,6 +13,7 @@ import { followerAway } from '../classes/dog.js';
 import { MONSTER_ACCURACY, killExp } from '../character/data/progression.js';
 import { afterHit, shoveTo } from './monsterHit.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
+import { resetBossSkills, cancelBossSkill, tickBossSkills } from './bossSkills.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -80,6 +81,7 @@ export class Combat extends Emitter {
       const monster = existing || new Monster(spawn.type, spawn, x, z);
       if (existing) Object.assign(existing, { x, z, home: { x, z }, hp: existing.maxHp, state: 'idle', debuffs: [], attackTimer: 0 });
       else this.monsters.push(monster);
+      resetBossSkills(monster);
       this.emit('spawn', monster);
       return monster;
     }
@@ -227,6 +229,7 @@ export class Combat extends Emitter {
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
   kill(m) {
+    for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
     m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn; m.debuffs = [];
     const c = this.character;
     const exp = killExp(m.def.exp, c.level, m.level ?? m.def.level, !!(m.def.elite || m.def.boss), this.night ? NIGHT.expBonus : 1);
@@ -332,6 +335,7 @@ export class Combat extends Emitter {
 
   updateMonster(m, dt, p) {
     const c = this.character;
+    if (m.skillCast && m.state !== 'chase') for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
     if (m.state === 'dead' || m.state === 'dormant') {
       if (!this.isActive(m.spawn)) { m.state = 'dormant'; return; }
       if ((m.respawnTimer -= dt) <= 0 && !this.spawnMonster(m.spawn, m)) {
@@ -341,6 +345,7 @@ export class Combat extends Emitter {
     }
     // Out of its time: fade away once it is no longer fighting.
     if (!this.isActive(m.spawn) && m.state !== 'chase') {
+      for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
       m.hp = 0; m.state = 'dormant'; m.debuffs = [];
       if (this.target === m) this.setTarget(null);
       this.emit('despawn', m);
@@ -357,7 +362,10 @@ export class Combat extends Emitter {
     }
     m.attackTimer = Math.max(0, m.attackTimer - dt);
     m.moving = false;
-    if (m.debuffs.some(d => d.stun) && m.state !== 'return') return;   // stunned: no move, no attack
+    if (m.debuffs.some(d => d.stun) && m.state !== 'return') {
+      for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
+      return;
+    }   // stunned: no move, no attack
     const d = dist(m, p), fromHome = dist(m, m.home), speed = m.def.speed * m.speedFactor;
 
     if (m.state === 'idle') {
@@ -370,7 +378,17 @@ export class Combat extends Emitter {
       if (m.wanderTarget) { if (this.step(m, m.wanderTarget, speed * .35, dt) < .2) m.wanderTarget = null; }
     } else if (m.state === 'chase') {
       // a rooted monster (speed 0: นางตะเคียน) cannot leash: it gives up once the player is well out of reach
-      if (!c.alive || fromHome > LEASH || (!(m.def.speed > 0) && d > m.def.range * 2 + 4)) { m.state = 'return'; return; }
+      if (!c.alive || fromHome > LEASH || (!(m.def.speed > 0) && d > m.def.range * 2 + 4)) {
+        for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
+        m.state = 'return'; return;
+      }
+      const power = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
+      const skill = tickBossSkills(m, dt, p, [{ ...p, id: 'local', dead: !c.alive }], power);
+      for (const e of skill.events) {
+        if (e.t === 'mskill') this.emit('boss-skill', { ...e, monster: m });
+        else if (e.t === 'ma') this.monsterAttack(m, null, { skill: e.skill, power: e.power });
+      }
+      if (skill.busy) return;
       if (d > m.def.range) this.step(m, p, speed, dt);
       else {
         m.facing = Math.atan2(p.x - m.x, p.z - m.z);
@@ -410,7 +428,7 @@ export class Combat extends Emitter {
     if (res) { c.hp = Math.max(1, Math.round(res.hp + res.dmg)); dealt = c.damage(res.hp > 0 ? res.dmg : c.hp); }   // land exactly on the server's HP
     else {
       const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
-      const raw = m.def.atk * night * rand(.85, 1.15) * (m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
+      const raw = m.def.atk * (fx?.power ?? night) * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
       dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def))));
     }
     const p = this.world.playerPos();

@@ -1,6 +1,6 @@
 // Content data only: edit freely without touching game logic.
 import { expLevelMul } from '../../rules/stats.js';
-export const MAX_LEVEL = 99;
+export const MAX_LEVEL = 100;
 // Ragnarok-style slow climb. The curve is EXP per minute of farming monsters of your level
 // (MONSTER_EXP_RATE below × ~9 kills a minute, measured with tools/sim/farm-sim.mjs) times the
 // minutes a level should take: about 1 min at Lv.1, 25 min at Lv.10, 1.3 h at 20, 2.7 h at 30,

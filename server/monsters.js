@@ -33,6 +33,7 @@ import { cardId, cardRate, hasCard } from '../src/character/data/cards.js';
 import { mapOf } from '../src/world/maps.js';
 import { PARTY, sharers, evenShare } from './parties.js';
 import { killExp } from '../src/character/data/progression.js';
+import { resetBossSkills, cancelBossSkill, tickBossSkills } from '../src/combat/bossSkills.js';
 
 const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
 const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
@@ -49,8 +50,8 @@ const swingDelay = def => def.attackDelay ?? (def.elite ? ELITE_DELAY : ATTACK_D
 
 let nextId = 1;
 export class MonsterWorld {
-  constructor(mapId, { random = Math.random, elites = true, navigation = null, zones = combatSpawns().filter(z => mapOf(z.x, z.z) === mapId) } = {}) {
-    this.navigation = navigation; this.map = mapId; this.r = random; this.monsters = [];
+  constructor(mapId, { random = Math.random, elites = true, navigation = null, idleRadius = 0, zones = combatSpawns().filter(z => mapOf(z.x, z.z) === mapId) } = {}) {
+    this.idleRadius=idleRadius; this.navigation = navigation; this.map = mapId; this.r = random; this.monsters = [];
     if (!elites) zones = zones.filter(z => !MONSTERS[z.type]?.elite && !MONSTERS[z.type]?.boss);
     for (const spawn of zones) for (let i = 0; i < (spawn.count ?? 1); i++) { const m = this.make(spawn); if (m) this.monsters.push(m); }
   }
@@ -61,7 +62,7 @@ export class MonsterWorld {
       chargeCd: 0, fleeCd: 0, pullCd: 0 };
   }
   byId(id) { return this.monsters.find(m => m.id === id); }
-  info(m) { return { id: m.id, type: m.type, x: round(m.x), z: round(m.z), f: round(m.f), hp: Math.round(m.hp), maxHp: m.maxHp, st: STATES.indexOf(m.state) }; }
+  info(m) { return { id: m.id, type: m.type, x: round(m.x), z: round(m.z), f: round(m.f), hp: Math.round(m.hp), maxHp: m.maxHp, st: STATES.indexOf(m.state), ...(m.skillCast ? { skillCast: { ...m.skillCast } } : {}) }; }
   list() { return this.monsters.filter(m => m.hp > 0).map(m => this.info(m)); }
   snapshot() {
     const out = [];
@@ -79,6 +80,7 @@ export class MonsterWorld {
       if (!found) { m.hp = 0; m.state = 'dormant'; return false; }
     }
     m.home = { x: m.x, z: m.z };
+    resetBossSkills(m);
     return true;
   }
   step(m, to, speed, dt) {
@@ -97,6 +99,7 @@ export class MonsterWorld {
   update(dt, players, phase = 'day') {
     const ev = [], live = players.filter(p => !p.dead), night = phase === 'night';
     for (const m of this.monsters) {
+      if (m.skillCast && m.state !== 'chase') ev.push(...cancelBossSkill(m));
       const wasMoving = m.moving; m.moving = false;
       if (m.spawn.summoned && (m.state === 'dead' || m.state === 'dormant')) { m.gone = true; continue; }   // minions do not come back
       if (m.state === 'dead' || m.state === 'dormant') {
@@ -109,6 +112,7 @@ export class MonsterWorld {
       }
       // out of its time: fade away once it is not fighting
       if (!isActive(m.spawn, phase) && m.state !== 'chase') { m.hp = 0; m.state = 'dormant'; m.debuffs = []; m.respawn = rand(.5, 3, this.r); ev.push({ t: 'mgone', id: m.id, killed: false }); continue; }
+      if(this.idleRadius && m.state==='idle' && !m.debuffs.length && live.every(p=>dist(m,p)>this.idleRadius)){m.wanderTarget=null;if(wasMoving)m.dirty=true;continue;}
       m.debuffs = m.debuffs.filter(d => (d.remaining -= dt) > 0);
       const dot = m.debuffs.find(d => d.dot);
       if (dot && (m.dotTimer += dt) >= 1) {
@@ -119,7 +123,7 @@ export class MonsterWorld {
       }
       m.attackTimer = Math.max(0, m.attackTimer - dt);
       m.chargeCd = Math.max(0, m.chargeCd - dt); m.fleeCd = Math.max(0, m.fleeCd - dt); m.pullCd = Math.max(0, m.pullCd - dt);
-      if (m.debuffs.some(d => d.stun) && m.state !== 'return') { m.charging = false; if (wasMoving) m.dirty = true; continue; }
+      if (m.debuffs.some(d => d.stun) && m.state !== 'return') { ev.push(...cancelBossSkill(m)); m.charging = false; if (wasMoving) m.dirty = true; continue; }
       const def = m.def, speed = def.speed * (1 - Math.max(0, ...m.debuffs.map(d => d.slow || 0)));
       const power = night && isGhost(def) ? NIGHT.ghostPower : 1;
       if (m.state === 'flee') {
@@ -143,25 +147,31 @@ export class MonsterWorld {
         // the target left, died or ran: turn on whoever else hit it and is close, else go home
         if (!tg) { const other = live.filter(p => m.contrib.has(p.id) && dist(m, p) < LEASH).sort((a, b) => dist(m, a) - dist(m, b))[0]; if (other) { m.target = other.id; tg = other; } }
         const d = tg && dist(m, tg), rooted = !(def.speed > 0);
-        if (!tg || dist(m, m.home) > LEASH || (rooted && d > PULL_REACH + 2)) { m.state = 'return'; m.target = null; m.charging = false; m.dirty = true; }
-        else if (d > def.range) {
-          if (rooted) {
-            // a rooted monster lashes out and drags its target in
-            if (def.pull && m.pullCd <= 0 && d <= PULL_REACH) {
-              m.pullCd = PULL_EVERY; m.attackTimer = swingDelay(def); m.f = Math.atan2(tg.x - m.x, tg.z - m.z); m.dirty = true;
-              ev.push({ t: 'ma', id: m.id, to: tg.id, power, pull: 1 });
+        if (!tg || dist(m, m.home) > LEASH || (rooted && d > PULL_REACH + 2)) { ev.push(...cancelBossSkill(m)); m.state = 'return'; m.target = null; m.charging = false; m.dirty = true; }
+        else {
+          const mayCast = m.skillCast || !this.navigation || this.navigation.clear(m, tg, .05);
+          const skill = mayCast ? tickBossSkills(m, dt, tg, live, power) : { busy: false, events: [] };
+          ev.push(...skill.events);
+          if (skill.busy) { m.charging = false; m.f = m.skillCast?.facing ?? m.f; if (wasMoving) m.dirty = true; continue; }
+          if (d > def.range) {
+            if (rooted) {
+              // a rooted monster lashes out and drags its target in
+              if (def.pull && m.pullCd <= 0 && d <= PULL_REACH) {
+                m.pullCd = PULL_EVERY; m.attackTimer = swingDelay(def); m.f = Math.atan2(tg.x - m.x, tg.z - m.z); m.dirty = true;
+                ev.push({ t: 'ma', id: m.id, to: tg.id, power, pull: 1 });
+              }
+            } else {
+              if (def.charge && !m.charging && m.chargeCd <= 0 && d >= CHARGE.min && d <= CHARGE.max) m.charging = true;
+              this.step(m, tg, speed * (m.charging ? CHARGE.speed : 1), dt);
             }
           } else {
-            if (def.charge && !m.charging && m.chargeCd <= 0 && d >= CHARGE.min && d <= CHARGE.max) m.charging = true;
-            this.step(m, tg, speed * (m.charging ? CHARGE.speed : 1), dt);
-          }
-        } else {
-          m.f = Math.atan2(tg.x - m.x, tg.z - m.z);
-          if (m.charging) { m.charging = false; m.chargeCd = CHARGE.every; m.attackTimer = 0; m.charged = true; }
-          if (m.attackTimer <= 0) {
-            const charged = m.charged; m.charged = false;
-            m.attackTimer = swingDelay(def);
-            ev.push({ t: 'ma', id: m.id, to: tg.id, power: power * (charged ? CHARGE.power : 1), ...(def.knock && this.r() < def.knock ? { knock: 1 } : {}) });
+            m.f = Math.atan2(tg.x - m.x, tg.z - m.z);
+            if (m.charging) { m.charging = false; m.chargeCd = CHARGE.every; m.attackTimer = 0; m.charged = true; }
+            if (m.attackTimer <= 0) {
+              const charged = m.charged; m.charged = false;
+              m.attackTimer = swingDelay(def);
+              ev.push({ t: 'ma', id: m.id, to: tg.id, power: power * (charged ? CHARGE.power : 1), ...(def.knock && this.r() < def.knock ? { knock: 1 } : {}) });
+            }
           }
         }
       } else if (m.state === 'return') {
@@ -231,6 +241,7 @@ export class MonsterWorld {
       return ev;
     }
     m.state = 'dead'; m.respawn = m.spawn.respawn ?? RESPAWN; m.debuffs = []; m.target = null; m.charging = false;
+    ev.push(...cancelBossSkill(m));
     ev.push({ t: 'mgone', id: m.id, killed: true });
     ev.push(...this.dismiss(m));
     ev.push(...this.rewards(m, players, night));

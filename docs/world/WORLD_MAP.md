@@ -152,3 +152,44 @@ random deep forest; the builder reserves it (a `rect` PLAZAS entry, like the
 hall yards) and adds the approach road after the last `ROADS` entry.
 
 Next zone: a dungeon below the ruined ordination hall.
+## Gateway and hunting navigation update (October 2026)
+
+The implemented registry contains five maps: city → paddy → deep_forest →
+wat_rang → klong. All eight existing connections now have walk-through Thai
+fantasy gateway frames. Destination and trigger coordinates are unchanged;
+`path` remains the route classification for the wild connections.
+
+Gate materials follow the map: sandstone/brass in the city, wood in the paddies,
+moss stone in the forest, muted violet stone in the ruins and teal stone by the
+marsh. Gentle ground inscriptions and wisps use unlit effects without point lights.
+Nearby labels show destination level bands or the city's safe status.
+Vegetation stays back around the gateways so their silhouettes remain visible.
+The shared pillar anchors are baked into server collision with a clear centre.
+
+Two new hunting signs per outdoor map show names and monster level bands. Gold
+crossed-sword markers appear on both maps; clicking a marker on the full map
+walks to its clear approach point. The city has no hunting spawns.
+
+## Expedition geography through level 100
+
+Current registry: 13 maps and 24 directed portal connections. Eight expedition
+maps continue the existing chain after klong; IDs and palettes live in
+`src/world/expeditions.js`. Each has a 240 m ownership band starting at z=-820,
+then -1060, -1300, -1540, -1780, -2020, -2260 and -2500. Walk rectangles are
+x=-112…112, top-236…top-4. Built views include a margin and remain inside the
+server's 3000 m coordinate bound. Original city geography is not stretched.
+
+`ExpeditionWorld.js` builds the expedition scene independently, with shared
+sampled terrain for client/server, three loop trails, theme props, Thai rest
+pavilion, supplier and gateway anchors. Rest clearings avoid monster aggro but
+are not a new PK-protected subzone. Expedition ownership is resolved by the same
+map registry as saves, server rooms, parties, social labels and minimap routes.
+
+The first gate from klong is (0,-795), arriving at bamboo_grave (0,-844).
+Returning arrives at (18,-782), outside existing marsh aggro areas. Subsequent
+gates are at x=0, top-232 (forward) and top-8 (back), with arrivals top-24 and
+previous top-216. The final map has the return gate only. Every connection has a
+standable centre, colliding pillars and a reachable approach.
+
+The initial scenes use procedural scenery and need further art polish. No new
+water traversal or underwater breathing system is implied by นครบาดาล.

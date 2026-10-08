@@ -1,3 +1,4 @@
+import { MAPS, mapOf, walkable } from '../src/world/maps.js';
 // World data and navigation checks that run in Node (node --test), without a browser.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,7 +13,7 @@ import { regionAt } from '../src/data/regions.js';
 import { LANDMARKS } from '../src/data/landmarks.js';
 import { SPAWNS } from '../src/data/spawns.js';
 
-const inBounds = (x, z) => x > BOUNDS.minX && x < BOUNDS.maxX && z > BOUNDS.minZ && z < BOUNDS.maxZ;
+const inBounds = (x,z) => {const id=mapOf(x,z);return id&&walkable(MAPS[id],x,z);};
 
 test('every road references a known junction', () => {
   for (const road of ROADS) for (const p of road.pts) assert.ok(J[p], `unknown junction ${p}`);

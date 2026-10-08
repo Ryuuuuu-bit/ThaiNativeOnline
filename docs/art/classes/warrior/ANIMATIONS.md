@@ -1,7 +1,8 @@
 # นักรบ (ขุนศึกดาบคู่) — animations
 
-Model: `public/models/warrior.glb`, built by `tools/warrior-anims/compose.mjs` from
-`tools/warrior-anims/warrior-tripo.glb` (see `tools/warrior-anims/README.md`). Twin curved
+Model: `public/models/warrior.glb`, the original Tripo warrior restored from
+`6ac984c`, with the original portrait and authored clips. Rebuild directly with
+`tools/warrior-anims/compose.mjs` (see `tools/warrior-anims/README.md`). Twin curved
 swords, one in each fist (parented to the hands), blades out of the thumb side. Battle
 stance from `warrior.webp`: wide and low, left foot leading, left blade out toward the
 target, right blade cocked high by the shoulder.
@@ -20,4 +21,4 @@ target, right blade cocked high by the shoulder.
 | 0 | ดาบประหารอสูร | `sword_execute` | 2.0 | 1.20 | both blades raised overhead (lightning), held, one cleave into a deep lunge |
 
 Also `idle` (battle stance, breathing), `walk` / `run` (the fighter's Tripo locomotion,
-same skeleton), `hurt`, `die`.
+on the original prepared skeleton), `hurt`, `die`.

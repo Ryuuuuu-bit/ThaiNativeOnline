@@ -29,12 +29,13 @@ export function attachNetCombat(net, game) {
       m = new Monster(info.type, { x: info.x, z: info.z, radius: 0, type: info.type }, info.x, info.z);
       m.id = ID(info.id); m.sid = info.id; byId.set(info.id, m); combat.monsters.push(m);
     }
-    Object.assign(m, { x: info.x, z: info.z, tx: info.x, tz: info.z, facing: info.f ?? 0, hp: info.hp, maxHp: info.maxHp ?? m.maxHp, state: STATES[info.st] ?? 'idle', debuffs: [] });
+    Object.assign(m, { x: info.x, z: info.z, tx: info.x, tz: info.z, facing: info.f ?? 0, hp: info.hp, maxHp: info.maxHp ?? m.maxHp, state: STATES[info.st] ?? 'idle', debuffs: [], skillCast: info.skillCast ?? null });
     return m;
   };
   const gone = m => { m.hp = 0; m.state = 'dead'; m.debuffs = []; if (combat.target === m) combat.setTarget(null); };
 
   net.on('mlist', msg => {
+    combat.emit('boss-skills-clear');
     // first list on this map: the local monsters step aside for the server's
     if (!combat.remote) {
       combat.remote = true;
@@ -44,7 +45,10 @@ export function attachNetCombat(net, game) {
       combat.setPhase = phase => setPhase(serverPhase ?? phase);   // the server's clock decides who spawns
     }
     for (const m of combat.monsters) if (m.alive && !msg.m.some(i => ID(i.id) === m.id)) { combat.emit('despawn', m); gone(m); }
-    for (const info of msg.m) combat.emit('spawn', make(info));
+    for (const info of msg.m) {
+      const monster = make(info); combat.emit('spawn', monster);
+      if (info.skillCast) { monster.skillCast = info.skillCast; combat.emit('boss-skill', { monster, stage: 'windup', cast: info.skillCast }); }
+    }
   });
   net.on('mspawn', msg => combat.emit('spawn', make(msg.m)));
   net.on('mt', msg => {
@@ -71,6 +75,7 @@ export function attachNetCombat(net, game) {
   // the link dropped: the server's monsters go (they are its), nothing can be fought until it is back
   net.on('status', on => {
     if (on) return;
+    combat.emit('boss-skills-clear');
     for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); }
     combat.pending = null; combat.autoAttack = false;
     combat.emit('fail', 'ขาดการเชื่อมต่อ · กำลังเชื่อมต่อใหม่');
@@ -91,7 +96,12 @@ export function attachNetCombat(net, game) {
   });
   net.on('ma', msg => {   // res: resolved on the server (signed in); knock / pull: where the hit throws the player
     const m = byId.get(msg.id);
-    if (m && c.alive) combat.monsterAttack(m, msg.res ?? null, { knock: !!msg.knock, pull: !!msg.pull });
+    if (m && c.alive) combat.monsterAttack(m, msg.res ?? null, { knock: !!msg.knock, pull: !!msg.pull, power: msg.power ?? 1, skill: msg.skill });
+  });
+  net.on('mskill', msg => {
+    const monster = byId.get(msg.id); if (!monster) return;
+    monster.skillCast = msg.stage === 'windup' ? msg.cast : null;
+    combat.emit('boss-skill', { monster, stage: msg.stage, cast: msg.cast });
   });
   net.on('clock', msg => {
     serverPhase = phaseOf(msg.h);

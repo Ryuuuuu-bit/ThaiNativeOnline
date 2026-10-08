@@ -157,6 +157,7 @@ export function markerSample(g, kind, x, y, r) {
   else if (kind === 'hall') badge(g, x, y, r * .85, 'class:muaythai', 'hall');
   else if (kind === 'shop') badge(g, x, y, r * .8, 'trade', 'shop');
   else if (kind === 'guard') { npcDot(g, x - r * .5, y, r * .35, 'guard'); npcDot(g, x + r * .5, y, r * .3); }
+  else if (kind === 'hunt') badge(g,x,y,r*.85,'combat','gold');
   else if (kind === 'monster') monsterMark(g, x, y, r * .4);
 }
 

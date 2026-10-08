@@ -1,3 +1,4 @@
+import { EXPEDITIONS } from '../world/expeditions.js';
 // Where each shop NPC stands, for the server's range check (server/combatants.js): buying,
 // taking cards out and ตีบวก need the player within SHOP_RANGE metres of an NPC of that shop
 // on their map. NPCs placed with P(x, z) in src/data/npcs.js are read from there; the ones on
@@ -16,6 +17,8 @@ export const SPOT_SITES = {
   forge_smith: ['city', -27.8, 62.8], enhance_master: ['city', -50, 89.9], general_keeper: ['city', -5.8, 62],
   herb_keeper: ['city', 10.3, 65], herb_gather: ['paddy', 48, -130.8], occult_keeper: ['city', 9.8, 86],
 };
+
+for(const e of EXPEDITIONS)SPOT_SITES[`${e.id}_supply`]=[e.id,18,e.top-24];
 
 const placesOf = npc => {
   const out = [];

@@ -1,7 +1,8 @@
 # นายพราน — animations
 
-Model: `public/models/hunter.glb`, built by `tools/hunter-anims/compose.mjs` from
-`tools/hunter-anims/hunter-tripo.glb` (see `tools/hunter-anims/README.md`). The bow is
+Model: `public/models/hunter.glb`, the user's `tools/hunter-anims/rangers-user.glb`
+with legacy clips/weapons retargeted by `tools/class-models/retarget.mjs`
+(see `tools/class-models/README.md`). The bow is
 part of the model, parented to the left hand. Right-handed archer: bow in the left hand,
 string drawn to an anchor under the jaw with the right.
 
@@ -19,4 +20,4 @@ string drawn to an anchor under the jaw with the right.
 | 0 | ศรเพลิงอัคนีบาต | `hunter_meteor` | 2.0 | 1.10 | step back, leaning far back, arrow straight up |
 
 Also `idle` (bow held upright at the left hip), `walk` / `run` (the fighter's Tripo
-locomotion, same skeleton), `hurt`, `die`.
+locomotion retargeted to the replacement skeleton), `hurt`, `die`.

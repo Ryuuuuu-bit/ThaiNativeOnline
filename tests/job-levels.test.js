@@ -9,8 +9,8 @@ import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
 import { Combatants } from '../server/combatants.js';
 import { applyOp, fromSave } from '../server/progress.js';
 
-test('base level caps at 99; every EXP gain also feeds the job level', () => {
-  assert.equal(MAX_LEVEL, 99);
+test('base level caps at 100; every EXP gain also feeds the job level', () => {
+  assert.equal(MAX_LEVEL, 100);
   const c = Character.create('ก', 'hunter');
   assert.deepEqual([c.jobLevel, c.skillPoints, c.skills], [1, 0, { arch_quick: 1 }], 'the first skill is known from the start');
   c.gainExp(jobExpToNext(1) / JOB_EXP_RATE + 1);

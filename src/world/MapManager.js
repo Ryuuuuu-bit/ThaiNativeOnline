@@ -2,6 +2,7 @@ import { loadingMarkup } from '../ui/Brand.js';
 import { buildWorld } from './World.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { Portals } from './Portals.js';
+import { HuntingGrounds } from './HuntingGrounds.js';
 import { J } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, mapOf, portalAt, landmarksOf, spawnsOf, npcsForMap, walkable, resolveLocation } from './maps.js';
 import { NPCManager } from '../npc/NPCManager.js';
@@ -62,12 +63,13 @@ export class MapManager {
 
   async load(mapId) {
     const map = MAPS[mapId] ?? MAPS[DEFAULT_MAP];
-    const report = text => { this.progress(text); if (this.busy && this.overlay) this.overlay.children[1].textContent = text; };
+    const report = text => { this.progress(text); if (this.busy && this.overlay) this.overlay.querySelector('[data-loading-text]').textContent = text; };
     const world = await buildWorld(this.scene, report, map);
     report('ชาวเมืองกำลังออกจากบ้าน…'); await wait(0);
     const has = id => !!world.spots[id] || (!!J[id] && walkable(map, ...J[id]));
     const npcs = new NPCManager(world.root, world, npcsForMap(NPCS, map.id, has), this.clock);
     this.portals = new Portals(world.root, map, (x, z) => world.heightAt(x, z));
+    this.hunting = new HuntingGrounds(world.root,map,(x,z)=>world.heightAt(x,z));
     Object.assign(this, { map, world, npcs });
     this.landmarks = landmarksOf(map.id, LANDMARKS);
     this.spawnAreas = spawnsOf(map.id, SPAWNS);
@@ -82,7 +84,7 @@ export class MapManager {
     this.releaseMonsters(null);
     this.npcs?.dispose();
     const freed = this.world?.dispose();
-    Object.assign(this, { world: null, npcs: null, portals: null, map: null });
+    Object.assign(this, { world: null, npcs: null, portals: null, hunting: null, map: null });
     return freed;
   }
 
@@ -123,7 +125,8 @@ export class MapManager {
   // Per frame: animate portals, travel when the player steps into one, save the location.
   update(dt, elapsed) {
     if (this.busy || !this.world) return;
-    this.portals.update(elapsed);
+    this.portals.update(elapsed,this.player.position);
+    this.hunting?.update(this.player.position);
     const p = this.player.position, portal = portalAt(this.map, p.x, p.z);
     if (!portal) this.armed = true;
     // a skill move carrying the player (a dash) ends first; the portal takes them once they stand

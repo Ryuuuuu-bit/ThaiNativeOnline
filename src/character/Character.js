@@ -454,6 +454,7 @@ export class Character extends Emitter {
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
     const def = ITEMS[slot.id]; if (def.retired || def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
+    if(this.level<(def.minLevel??1)){this.emit('cannot-wield',slot.id);return false;}
     if (!this.canWield(slot.id)) { this.emit('cannot-wield', slot.id); return false; }
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
@@ -561,6 +562,23 @@ export class Character extends Emitter {
     const value = Math.max(1, Math.floor(ITEMS[slot.id].price / 2));
     this.gold += value; this.removeAt(index); this.emit('change');
     return value;
+  }
+
+  // One validated basket mutation and one inventory notification, regardless of stack size.
+  sellBatch(lines) {
+    if (!Array.isArray(lines) || !lines.length || lines.length > this.inventory.length) return 0;
+    const seen = new Set(); let gold = 0;
+    for (const line of lines) {
+      const { index, qty } = line ?? {}, s = this.inventory[index];
+      if (!Number.isInteger(index) || seen.has(index) || !s || !Number.isSafeInteger(qty) || qty < 1 || qty > s.qty) return 0;
+      seen.add(index); gold += Math.max(1, Math.floor(ITEMS[s.id].price / 2)) * qty;
+    }
+    if (!Number.isSafeInteger(gold) || !Number.isSafeInteger(this.gold + gold)) return 0;
+    for (const { index, qty } of lines) {
+      this.inventory[index].qty -= qty;
+      if (!this.inventory[index].qty) this.inventory[index] = null;
+    }
+    this.gold += gold; this.emit('inventory'); this.emit('change'); return gold;
   }
 
   // ---- Persistence ----

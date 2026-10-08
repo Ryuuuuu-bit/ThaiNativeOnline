@@ -29,6 +29,10 @@ body.ui-touch .net-chat:not(.typing) header::after{content:'›';font-size:20px;
 body.ui-touch .net-chat.typing{width:calc(100vw - 24px)!important;max-width:420px;border-radius:12px;z-index:15}
 body.ui-touch .net-chat.typing .net-lines{display:block;max-height:min(30dvh,180px);overflow:auto}
 body.ui-touch .soc-party,body.ui-touch .exploration,body.ui-touch .touch-rotate{display:none!important}
+/* Boss information belongs below the top cluster, clear of skills and thumb controls. */
+body.ui-touch .g-target.boss-target{top:calc(var(--mobile-top) + 160px);bottom:auto;width:calc(100vw - 48px);max-width:360px;padding:8px 12px;pointer-events:none}
+body.ui-touch .boss-target .g-target-name{font-size:11px}
+body.ui-touch .boss-target .g-boss-warning{font-size:10px}
 body.ui-touch .mm-grid{position:absolute;right:12px;top:calc(var(--mobile-top) + 66px);bottom:auto;grid-template-columns:repeat(3,minmax(0,1fr));width:min(350px,calc(100vw - 24px));max-height:calc(100dvh - var(--mobile-top) - 80px);overflow:auto;z-index:18;padding:12px;gap:8px}
 body.ui-touch .mm-grid>button{min-width:0;min-height:56px}
 .touch-utilities{grid-column:1/-1;border-top:1px solid #cbb87744;padding-top:10px;display:flex;flex-direction:column;gap:10px}

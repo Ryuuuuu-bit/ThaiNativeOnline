@@ -5,6 +5,7 @@ import { makeDog } from '../classes/dog.js';
 import { makeMonsterModel } from './MonsterModels.js';
 import { makeMonsterSprite, preloadMonsterSprites, MONSTER_SPRITES } from './MonsterSprites.js';
 import { seedOf } from '../core/seed.js';
+import { BossTelegraphs } from './BossTelegraphs.js';
 
 // How monsters are drawn: 'pixel' (RO-style sprite billboards, src/combat/MonsterSprites.js) or
 // '3d' (Blender GLB models / built meshes). Per device (src/ui/viewPrefs.js); CombatView.restyle().
@@ -268,6 +269,11 @@ export class CombatView {
     this.scene = scene; this.combat = combat; this.groundHeight = groundHeight;
     this.views = new Map(); this.effects = [];
     this.root = new THREE.Group(); this.root.name = 'combat'; scene.add(this.root);
+    this.bossTelegraphs = new BossTelegraphs(this.root, groundHeight);
+    combat.on('boss-skill', e => this.bossTelegraphs.event(e));
+    combat.on('boss-skills-clear', () => this.bossTelegraphs.clear());
+    combat.on('despawn', m => this.bossTelegraphs.clear(m.id));
+    combat.on('kill', ({ monster }) => this.bossTelegraphs.clear(monster.id));
 
     this.targetRing = new THREE.Mesh(new THREE.RingGeometry(.55, .66, 40), new THREE.MeshBasicMaterial({ color: '#ff7b5c', transparent: true, opacity: .85, side: THREE.DoubleSide, depthWrite: false }));
     this.targetRing.rotation.x = -Math.PI / 2; this.targetRing.visible = false; this.root.add(this.targetRing);
@@ -381,6 +387,7 @@ export class CombatView {
   }
 
   update(dt, elapsed, camera = null) {
+    this.bossTelegraphs.update(dt, this.combat.world.playerPos(), this.combat.target?.id);
     const target = this.combat.target;
     const camYaw = camera ? Math.atan2(camera.matrixWorld.elements[8], camera.matrixWorld.elements[10]) : 0;   // the camera's yaw: the way it looks along the ground
     // a view whose monster has left the fight list (online: a server id never comes back; offline:
@@ -402,7 +409,7 @@ export class CombatView {
       v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
       v.animationState.tint = m.debuffs.some(d => d.dot) ? '#b78ad0' : m.debuffs.some(d => d.stun) ? '#e6d27a' : m.debuffs.some(d => d.slow) ? '#8fb4d8' : null;
       g.userData.face?.(camYaw);
-      g.userData.animate?.(elapsed + (v.seed ??= seedOf(m.id) * .37), m.moving, v.attackAnim > 0, v.animationState);
+      g.userData.animate?.(elapsed + (v.seed ??= seedOf(m.id) * .37), m.moving, v.attackAnim > 0 || !!m.skillCast, v.animationState);
       v.flash = Math.max(0, v.flash - dt);
       if (v.dying) {
         v.dying = Math.max(0, v.dying - dt * 1.4);
