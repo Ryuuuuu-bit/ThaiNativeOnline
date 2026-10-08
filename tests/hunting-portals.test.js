@@ -53,4 +53,3 @@ test('server spawns every hunting pocket on walkable ground during day and night
     }
   }
 });
-
