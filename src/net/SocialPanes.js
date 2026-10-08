@@ -1,3 +1,4 @@
+import { MAPS } from '../world/maps.js';
 // The social window's friends, titles and ranking tabs (design "UI ใหม่"), as HTML from the
 // state Social.js keeps. No events here: Social.js reads the data-* attributes on click.
 //   friendsPane(st) · titlesPane(st) · rankPane(st)
@@ -8,7 +9,7 @@ import { TITLES, TITLE_BY_ID, TITLE_CATS } from '../data/titles.js';
 import { FRIENDS_MAX } from '../character/Character.js';
 
 export const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-export const MAP_TH = { city: 'นครอโยธยา', paddy: 'ทุ่งนาข้าว', deep_forest: 'ป่าลึก', wat_rang: 'วัดร้าง', klong: 'คลองหนองบึง' };
+export const MAP_TH = Object.fromEntries(Object.values(MAPS).map(m=>[m.id,m.name]));
 const fmt = n => Math.round(n || 0).toLocaleString();
 const por = (cls, size = 36, off = false) => `<span class="sw-por${off ? ' off' : ''}">${classBadge(cls, CLASSES[cls], { size })}</span>`;
 const clsName = cls => CLASSES[cls]?.name ?? '';

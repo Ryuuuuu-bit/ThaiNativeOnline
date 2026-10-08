@@ -30,7 +30,7 @@ export const LIMITS = {
   msgsPerSec: 40, maxPlayers: 300,
 };
 export const CLASSES = ['muaythai', 'warrior', 'hunter', 'shaman', 'herbalist', 'assassin'];
-export const MAPS = ['city', 'paddy', 'deep_forest', 'wat_rang', 'klong'];
+export const MAPS = Object.keys(MAP_DATA);
 export const PORTAL_SLACK = 6, BUDGET_SECS = 1.5;   // m: how far from a portal's spot a map change may start / arrive
 const roomOf = (map, ch) => (ch > 1 ? `${map}#${ch}` : map);
 

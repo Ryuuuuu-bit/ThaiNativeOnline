@@ -8,8 +8,8 @@ import { portalPillars } from '../src/world/portal-layout.js';
 import { navigation } from '../server/navigation.js';
 import { findPath } from '../src/core/GridPath.js';
 
-test('eight hunting pockets share ordinary monster rosters and valid level signs',()=>{
-  assert.equal(HUNTING_GROUNDS.length,8);assert.equal(huntingFor('city').length,0);
+test('all 136 hunting pockets share ordinary monster rosters and valid level signs',()=>{
+  assert.equal(HUNTING_GROUNDS.length,136);assert.equal(huntingFor('city').length,0);
   const ids=new Set();let slots=0;
   for(const c of HUNTING_GROUNDS){
     assert.ok(!ids.has(c.id));ids.add(c.id);assert.equal(mapOf(c.x,c.z),c.map);
@@ -17,7 +17,7 @@ test('eight hunting pockets share ordinary monster rosters and valid level signs
     for(const z of zones){const m=MONSTERS[z.type];assert.ok(!m.boss&&!m.elite);assert.ok(m.level>=c.levels[0]&&m.level<=c.levels[1]);assert.equal(z.respawn,24);slots+=z.count;}
     assert.ok(zones.some(z=>z.active.includes('night')),c.id+' night option');
   }
-  assert.equal(slots,32);
+  assert.equal(slots,HUNTING_GROUNDS.reduce((n,c)=>n+c.roster.reduce((n,r)=>n+r.count*2,0),0));
 });
 test('camp signs are reachable from map spawn and their posts block movement',()=>{
   for(const c of HUNTING_GROUNDS){
@@ -27,7 +27,7 @@ test('camp signs are reachable from map spawn and their posts block movement',()
     assert.ok(findPath(nav.canStand,MAPS[c.map].spawn,c.approach,{step:1,margin:35}),c.id+' route');
   }
 });
-test('all eight portal centres stay clear while their pillars block movement',()=>{
+test('all 24 portal centres stay clear while their pillars block movement',()=>{
   let count=0;
   for(const map of Object.values(MAPS))for(const p of map.portals){
     const nav=navigation(map.id);count++;
@@ -35,7 +35,7 @@ test('all eight portal centres stay clear while their pillars block movement',()
     for(const pillar of portalPillars(map,p))assert.ok(!nav.canStand(pillar.x,pillar.z),p.id+' solid pillar');
     assert.ok(findPath(nav.canStand,map.spawn,p.at,{step:1,margin:35}),map.id+':'+p.id+' route');
   }
-  assert.equal(count,8);
+  assert.equal(count,24);
 });
 import { MonsterWorld } from '../server/monsters.js';
 import { createRng } from '../src/world/rng.js';

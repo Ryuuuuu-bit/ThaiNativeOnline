@@ -1,3 +1,4 @@
+import { EXPEDITIONS } from '../src/world/expeditions.js';
 // Map registry checks (src/world/maps.js): นครอโยธยา inside the walls and three
 // zone maps north of them (paddy → deep_forest → wat_rang), linked only by
 // portals. Content must belong to exactly one map, portals must deliver the
@@ -24,7 +25,7 @@ const bandOf = z => (z >= SEAM_Z ? 'city' : z >= FOREST_SEAM_Z ? 'paddy' : z >= 
 const owners = (x, z) => MAP_IDS.filter(id => z >= MAPS[id].owns.minZ && z < MAPS[id].owns.maxZ);
 
 test('the registry has the city and four zone maps, linked by portals both ways', () => {
-  assert.deepEqual([...MAP_IDS].sort(), ['city', 'deep_forest', 'klong', 'paddy', 'wat_rang']);
+  assert.equal(MAP_IDS.length,13);assert.deepEqual(MAP_IDS.filter(id=>!MAPS[id].expedition).sort(), ['city', 'deep_forest', 'klong', 'paddy', 'wat_rang']);
   assert.equal(DEFAULT_MAP, 'city');
   for (const map of Object.values(MAPS)) {
     assert.ok(map.name && map.sub && map.walk.length && map.view && map.owns && map.spawn, `${map.id} is incomplete`);
@@ -35,13 +36,13 @@ test('the registry has the city and four zone maps, linked by portals both ways'
       assert.ok(['warp', 'path'].includes(p.style), `${p.id} style ${p.style}`);
       assert.ok(p.name, `${p.id} has no label`);
       assert.ok(MAPS[p.to].portals.some(q => q.to === map.id && q.style === p.style), `${p.to} has no ${p.style} back to ${map.id}`);
-      assert.ok(J[p.node] && walkable(map, ...J[p.node]), `${p.id} exit node ${p.node} is not a junction on ${map.id}`);
+      assert.ok(map.expedition ? p.node.startsWith(map.id) : J[p.node] && walkable(map, ...J[p.node]), `${p.id} exit node ${p.node} is not a junction on ${map.id}`);
     }
   }
   assert.ok(city.safe && city.levels === null);
   for (const id of WILD) assert.ok(!MAPS[id].safe && MAPS[id].levels?.length === 2, id);
   // The city and the paddies are linked by the warp pair; the wild maps by path exits in a chain.
-  const links = Object.values(MAPS).flatMap(m => m.portals.map(p => `${m.id}>${p.to}:${p.style}`)).sort();
+  const links = Object.values(MAPS).flatMap(m => m.portals.filter(p=>!m.expedition&&!MAPS[p.to].expedition).map(p => `${m.id}>${p.to}:${p.style}`)).sort();
   assert.deepEqual(links, ['city>paddy:warp', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'klong>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'wat_rang>deep_forest:path', 'wat_rang>klong:path']);
   // Visitors from the city leave the paddies through the warp (npcsForMap uses portals[0]).
   assert.equal(paddy.portals[0].to, 'city');
@@ -58,7 +59,7 @@ test('ownership partitions the world at the seams: outside the wall, before the 
 test('walkable areas stay inside the world, the built view and their own band', () => {
   for (const map of Object.values(MAPS)) {
     const b = walkBounds(map);
-    assert.ok(b.minX >= BOUNDS.minX && b.maxX <= BOUNDS.maxX && b.minZ >= BOUNDS.minZ && b.maxZ <= BOUNDS.maxZ, `${map.id} walks outside the world`);
+    assert.ok(b.minX >= BOUNDS.minX && b.maxX <= BOUNDS.maxX && b.minZ >= (map.expedition?-3000:BOUNDS.minZ) && b.maxZ <= BOUNDS.maxZ, `${map.id} walks outside the world`);
     assert.ok(b.minZ >= map.owns.minZ && b.maxZ <= map.owns.maxZ, `${map.id} walks outside its band`);
     for (const r of map.walk) for (const [x, z] of [[r.minX, r.minZ], [r.maxX, r.maxZ], [r.minX, r.maxZ], [r.maxX, r.minZ]]) assert.ok(inView(map, x, z), `${map.id} can walk to ${x},${z} outside its view`);
     // The camera never sees the edge of the built ground near a seam.
@@ -217,8 +218,9 @@ test('region names on each map come from that map\'s region list', () => {
   }
 });
 
-test('each map\'s nav graph is one connected network', () => {
+test('each original map\'s road graph is one connected network', () => {
   for (const map of Object.values(MAPS)) {
+    if(map.expedition)continue;
     const g = NavGraph.fromRoads((x, z) => walkable(map, x, z)), ids = [...g.nodes.keys()];
     assert.ok(ids.length > 20, `${map.id} nav graph is tiny`);
     const start = map.portals[0].node, seen = new Set([start]), queue = [start];

@@ -1,3 +1,4 @@
+import { expeditionAt } from '../world/expeditions.js';
 import { CEMETERY, STREAM, NONGS, riverBank, insideWalls, nongDistance, klongDistance } from '../world/CityMap.js';
 
 // Regions name the area under the player and describe how safe it is.
@@ -54,6 +55,7 @@ function streamZ(x) {
 // Bands follow the zone maps (src/world/maps.js): wat_rang north of z -445,
 // deep_forest -445 … -296, paddy -296 … -112.
 export function regionAt(x, z, discoveredCemetery = true) {
+  const expedition=expeditionAt(z);if(expedition)return {id:expedition.id,name:expedition.name,sub:'พื้นที่ล่าปาร์ตี้',safety:'danger'};
   if (z > riverBank(x) + .5) return REG.river;
   if (z < -600) {
     const lagoon = NONGS.find(n => n.lagoon);

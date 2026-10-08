@@ -29,7 +29,7 @@ test('character sheets: unknown classes and over-spent stat points are refused',
   assert.equal(sane({ level: 5 }, 'dragon'), null);
   assert.equal(sane({ level: 2, alloc: { str: 500 } }, 'warrior'), null);
   const c = sane({ level: 999, alloc: { str: 3 }, equipment: { weapon: 'no_such_sword' } }, 'warrior');
-  assert.equal(c.level, 99, 'the level cap'); assert.equal(c.equipment.weapon, null);
+  assert.equal(c.level, 100, 'the level cap'); assert.equal(c.equipment.weapon, null);
 });
 
 test('basic attacks: rolled here from the sheet, no faster than the attack speed allows, in reach', () => {

@@ -49,8 +49,8 @@ const swingDelay = def => def.attackDelay ?? (def.elite ? ELITE_DELAY : ATTACK_D
 
 let nextId = 1;
 export class MonsterWorld {
-  constructor(mapId, { random = Math.random, elites = true, navigation = null, zones = combatSpawns().filter(z => mapOf(z.x, z.z) === mapId) } = {}) {
-    this.navigation = navigation; this.map = mapId; this.r = random; this.monsters = [];
+  constructor(mapId, { random = Math.random, elites = true, navigation = null, idleRadius = 0, zones = combatSpawns().filter(z => mapOf(z.x, z.z) === mapId) } = {}) {
+    this.idleRadius=idleRadius; this.navigation = navigation; this.map = mapId; this.r = random; this.monsters = [];
     if (!elites) zones = zones.filter(z => !MONSTERS[z.type]?.elite && !MONSTERS[z.type]?.boss);
     for (const spawn of zones) for (let i = 0; i < (spawn.count ?? 1); i++) { const m = this.make(spawn); if (m) this.monsters.push(m); }
   }
@@ -109,6 +109,7 @@ export class MonsterWorld {
       }
       // out of its time: fade away once it is not fighting
       if (!isActive(m.spawn, phase) && m.state !== 'chase') { m.hp = 0; m.state = 'dormant'; m.debuffs = []; m.respawn = rand(.5, 3, this.r); ev.push({ t: 'mgone', id: m.id, killed: false }); continue; }
+      if(this.idleRadius && m.state==='idle' && !m.debuffs.length && live.every(p=>dist(m,p)>this.idleRadius)){m.wanderTarget=null;if(wasMoving)m.dirty=true;continue;}
       m.debuffs = m.debuffs.filter(d => (d.remaining -= dt) > 0);
       const dot = m.debuffs.find(d => d.dot);
       if (dot && (m.dotTimer += dt) >= 1) {

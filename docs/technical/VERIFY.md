@@ -118,3 +118,13 @@ Actual:
 Evidence: test output, console error, screenshot path
 Suspected Area: file:line, owning agent
 ```
+
+## Party expedition verification
+
+The current branch adds 8 expedition maps (13 total) and hunting through Lv.100.
+See `docs/art/party-hunts-100/REVIEW.md` for captures and exact checks. Run the
+full suite plus `tests/expeditions.test.js` when changing map registrations,
+interest filtering, gear or level limits. Collision exports include all 13 maps;
+regional hunting data is included in the source hash. Local WebSocket smoke tests
+covered all eight new map rooms, monster lifecycle and nearby update packets.
+This is not a measured production capacity or a physical-device FPS result.

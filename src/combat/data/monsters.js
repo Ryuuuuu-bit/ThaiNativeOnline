@@ -1,3 +1,4 @@
+import { EXPEDITION_MONSTERS } from './expedition-monsters.js';
 // Content data only: edit freely without touching game logic.
 // Optional per monster: acc (accuracy; default MONSTER_ACCURACY(level) in
 // src/character/data/progression.js) and eva (evasion against player ATK, default 0).
@@ -22,6 +23,7 @@
 // Both only matter through cards (src/character/data/cards.js): damage against a race,
 // less damage taken from a race or an element. Every monster drops its own card.
 export const MONSTERS = {
+  ...EXPEDITION_MONSTERS,
   boar:   { name: 'หมูป่า', race: 'beast', element: 'earth', level: 1, hp: 125, atk: 13, def: 2, speed: 2.6, range: 1.3, aggro: 4.5, exp: 18, gold: [2, 6], color: '#6b5241', size: .8, shape: 'boar', loot: 'beast' },
   monkey: { name: 'ลิงกัง', race: 'beast', element: 'wind', level: 2, hp: 120, atk: 15, def: 1, speed: 3.4, range: 1.2, aggro: 6, exp: 31, gold: [3, 8], color: '#8d7350', size: .6, shape: 'monkey', loot: 'beast' },
   pray:   { name: 'ผีพราย', race: 'spirit', element: 'water', level: 4, hp: 280, atk: 22, def: 4, speed: 2.2, range: 1.4, aggro: 6.5, exp: 54, gold: [6, 14], color: '#a8d3c6', size: .9, shape: 'spirit', loot: 'spirit' },

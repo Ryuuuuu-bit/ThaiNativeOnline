@@ -454,6 +454,7 @@ export class Character extends Emitter {
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
     const def = ITEMS[slot.id]; if (def.retired || def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
+    if(this.level<(def.minLevel??1)){this.emit('cannot-wield',slot.id);return false;}
     if (!this.canWield(slot.id)) { this.emit('cannot-wield', slot.id); return false; }
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;

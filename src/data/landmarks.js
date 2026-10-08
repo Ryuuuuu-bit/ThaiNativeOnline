@@ -1,3 +1,4 @@
+import { EXPEDITIONS } from '../world/expeditions.js';
 import { HALLS } from './halls.js';
 
 // Points of interest. Every district has a future gameplay purpose; `hidden`
@@ -51,3 +52,5 @@ export const LANDMARKS = [
   { id: 'chalawan_lagoon', name: 'บึงชาละวัน', x: 66, z: -778, radius: 18, icon: '☠', purpose: 'boss', text: 'บึงน้ำดำใต้ต้นไม้ตาย กระดูกขาวเกลื่อนฝั่ง ถ้ำใต้น้ำของพญาจระเข้ชาละวัน' },
 ];
 export const landmark = id => LANDMARKS.find(l => l.id === id);
+
+for(const e of EXPEDITIONS)LANDMARKS.push({id:`rest_${e.id}`,name:'ศาลาพักปาร์ตี้',x:18,z:e.top-24,radius:8,icon:'◆',purpose:'trade',text:`เสบียงก่อนออกล่า ${e.name} · เลือกวงล่าตามระดับทีม`},{id:`arena_${e.id}`,name:`ลานบอส ${e.name}`,x:92,z:e.top-211,radius:10,icon:'☠',purpose:'boss',text:`บอส Lv.${e.levels[1]} · เตรียมทีมให้พร้อม`});

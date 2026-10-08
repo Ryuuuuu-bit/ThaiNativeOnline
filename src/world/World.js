@@ -1,3 +1,4 @@
+import { buildExpeditionWorld } from './ExpeditionWorld.js';
 import * as THREE from 'three';
 import { J, WATER_Y, MARSH_WATER_Y } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, inView, walkable } from './maps.js';
@@ -113,6 +114,7 @@ function disposeTree(root) {
 // MAPS entry; the default is the city.
 export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP) {
   const map = typeof mapId === 'string' ? MAPS[mapId] : mapId;
+  if(map.expedition)return buildExpeditionWorld(scene,map);
   const started = performance.now(), timings = {};
   let mark = started;
   const lap = name => { const now = performance.now(); timings[name] = Math.round(now - mark); mark = now; };

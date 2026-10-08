@@ -31,6 +31,7 @@
 //   intro  — the journal panel's heading and two short lines for the map
 //            ({ title, text }, `\n` breaks the line; gameplay-engineer hook,
 //            read by Game.updateJournal → HUD.setJournal).
+import { expeditionMaps } from './expeditions.js';
 import { J, BOUNDS, WALL } from './CityMap.js';
 
 // The city wall runs along z = -110 (WALL.z); the seam sits just outside it.
@@ -140,9 +141,11 @@ export const MAPS = {
     regions: ['marsh', 'reeds', 'klong_bank', 'lagoon'],
     portals: [
       { id: 'path_to_wat', style: 'path', at: { x: -40, z: -605.5, radius: 2.4 }, to: 'wat_rang', arrive: { x: -41, z: -580, facing: 0 }, node: 'k0', name: 'ทางกลับวัดร้าง', marker: { x: -44.5, z: -606 } },
+      { id:'klong_to_bamboo',style:'warp',name:'ประตูป่าช้า',node:'k0',at:{x:0,z:-795,radius:2.4},to:'bamboo_grave',arrive:{x:0,z:-844,facing:Math.PI}},
     ],
     visitors: [],
   },
+  ...expeditionMaps(),
 };
 // Map ids from older saves: `fields` (all the land outside the wall) was split
 // into paddy, deep_forest and wat_rang. resolveLocation() moves such saves.

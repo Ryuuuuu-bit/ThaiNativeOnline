@@ -1,3 +1,4 @@
+import { EXPEDITIONS } from '../world/expeditions.js';
 // Monster spawn areas. นครอโยธยา is a safe city: every area lies on one of the
 // three wild zone maps north of the wall (src/world/maps.js), which map an area
 // belongs to follows from its position (mapOf). Placement is world-designer's
@@ -154,6 +155,12 @@ export function combatSpawns() {
   return zones;
 }
 for (const camp of HUNTING_GROUNDS) {
-  SPAWNS.push({id:camp.id,monster:camp.roster.map(r=>MONSTERS[r.type].name).join(' · '),x:camp.x,z:camp.z,radius:camp.radius,active:ALWAYS,max:camp.roster.reduce((sum,r)=>sum+r.count,0)});
+  if(!SPAWNS.some(s=>s.id===camp.id))SPAWNS.push({id:camp.id,monster:camp.roster.map(r=>MONSTERS[r.type].name).join(' · '),x:camp.x,z:camp.z,radius:camp.radius,active:ALWAYS,max:camp.roster.reduce((sum,r)=>sum+r.count,0)});
   ROSTER[camp.id]=camp.roster.map(r=>({respawn:24,...r}));
+}
+
+for(const e of EXPEDITIONS){
+ const id=`boss_${e.id}`,type=`${e.id}_3`;
+ SPAWNS.push({id,monster:MONSTERS[type].name,x:92,z:e.top-211,radius:6,active:ALWAYS,max:1,boss:true});
+ ROSTER[id]=[{type,count:1,respawn:900}];
 }

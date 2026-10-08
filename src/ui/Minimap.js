@@ -60,6 +60,11 @@ export class Minimap {
   markers(g, to, k, ui, state, { full = false, p } = {}) {
     const hits = full ? [] : null, cw = g.canvas.width, ch = g.canvas.height, onScreen = (x, y, m = 12) => x > -m && y > -m && x < cw + m && y < ch + m;
     const t = state.t ?? 0, targets = state.targets ?? new Set();
+    // Three navigable hunting circuits, matching the expedition's painted trails.
+    if(this.map?.expedition){
+      g.save();g.strokeStyle='rgba(110,75,36,.55)';g.lineWidth=Math.max(1,ui*.12);g.setLineDash([ui*.35,ui*.2]);
+      for(const x of [-76,0,76]){g.beginPath();for(const [n,[px,pz]] of [[x-17,this.map.top-55],[x-17,this.map.top-183],[x+17,this.map.top-183],[x+17,this.map.top-55]].entries()){const [sx,sy]=to(px,pz);n?g.lineTo(sx,sy):g.moveTo(sx,sy);}g.closePath();g.stroke();}g.restore();
+    }
     // View footprint of the camera (what the screen shows).
     if (state.view?.length === 4) {
       g.save(); g.beginPath(); state.view.forEach((v, i) => { const [x, y] = to(v.x, v.z); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.closePath();
@@ -109,7 +114,7 @@ export class Minimap {
       const r=ui*.55;
       badge(g,x,y,r,'combat','gold');
       label(g,full ? `${camp.name} · ${huntingLevel(camp)}` : huntingLevel(camp),x,y+r*1.8,Math.round(ui*.5),{weight:600});
-      hits?.push({x,y,r:ui,title:`${camp.name} · ${huntingLevel(camp)} · จุดเก็บเลเวล`,goal:camp.approach});
+      hits?.push({x,y,r:ui,title:`${camp.name} · ${huntingLevel(camp)} · จุดเก็บเลเวล${camp.party?` · ทีม ${camp.party[0]}–${camp.party[1]} คน`:""}`,goal:camp.approach});
     }
     // Warps (glowing rings) and trail exits (signposts), with the destination on the full map.
     for (const w of this.portals) {

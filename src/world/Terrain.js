@@ -1,3 +1,4 @@
+import { expeditionHeight } from './expeditions.js';
 import * as THREE from 'three';
 import {
   BOUNDS, ROADS, PLAZAS, PADDIES, CHANNELS, CANAL, STREAM, POND, CEMETERY, OLD_MIN_Z, KLONG, NONGS,
@@ -18,8 +19,8 @@ export class TerrainData {
     this.gw = w + 1; this.gh = h + 1;
     this.heights = new Float32Array(this.gw * this.gh); this.deep = new Float32Array(this.gw * this.gh); this.shallow = new Uint8Array(this.gw * this.gh);
     for (let j = 0; j < this.gh; j++) for (let i = 0; i < this.gw; i++) {
-      const x = x0 + i, z = z0 + j, k = j * this.gw + i, water = waterAt(x, z);
-      this.heights[k] = terrainHeight(x, z); this.deep[k] = water === 2 ? 1 : 0; this.shallow[k] = water === 1 ? 1 : 0;
+      const x = x0 + i, z = z0 + j, k = j * this.gw + i, water = rect.maxZ <= -800 ? 0 : waterAt(x, z);
+      this.heights[k] = rect.maxZ <= -800 ? expeditionHeight(x,z) : terrainHeight(x, z); this.deep[k] = water === 2 ? 1 : 0; this.shallow[k] = water === 1 ? 1 : 0;
     }
   }
   inside(x, z) { return x >= this.x0 && x <= this.x0 + this.w && z >= this.z0 && z <= this.z0 + this.h; }

@@ -1,3 +1,5 @@
+import { EXPEDITIONS } from '../world/expeditions.js';
+import { expeditionGearIds } from '../character/data/expedition-gear.js';
 // Shop and training services. NPCs reference these by `shopType` or `trainer`.
 // `stock` lists item ids from src/character/data/items.js the shop sells at their price;
 // every shop with stock also buys anything from the bag at half price (sell tab),
@@ -38,3 +40,5 @@ export const TRAINERS = {
   shaman: { title: 'ตำหนักหมอผี', classId: 'shaman', class: 'หมอผี', skills: ['ลูกไฟอาคม', 'ยันต์เพลิง', 'คุณไสย', 'น้ำมนต์'] },
   bandit: { title: 'เรือนโจรป่า', classId: 'assassin', class: 'โจรป่า', skills: ['แทงมีด', 'จู่โจมเงา', 'ม่านควัน', 'มีดอาบยาพิษ'] },
 };
+
+for(const e of EXPEDITIONS)SHOPS[`supplies_${e.id}`]={title:`ศาลาเสบียง ${e.name}`,purpose:'trade',stock:['potion_s','potion_m','ether',...expeditionGearIds(e)],services:['เติมเสบียงปาร์ตี้','อุปกรณ์ตามช่วงเลเวล','รับซื้อของป่า']};

@@ -1,3 +1,4 @@
+import { monsterInterest } from './interest.js';
 // ThaiNative Online server: serves the built game (dist/) and the realtime link at /ws.
 //   npm run build && npm start          (PORT, default 8787)
 // Phase 1 (docs/technical/SERVER_SPLIT.md): presence and chat. Phase 2: accounts and
@@ -595,9 +596,10 @@ const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
 const clock = new WorldClock({ hour: 7.5 }); clock.sync();   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
 const combatants = new Combatants();   // each player's character sheet, cooldowns and buffs (3b)
+const monsterInterests = new WeakMap();
 const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
 const worldOf = room => {
-  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, navigation: navigation(map) }); w.party = parties; worlds.set(room, w); }
+  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; worlds.set(room, w); }
   return worlds.get(room);
 };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
@@ -637,7 +639,8 @@ setInterval(() => {
     const p = presence.snapshot(room); if (p.length) toMap(room, { t: 'tick', p });
     const w = worldOf(room);
     route(room, w.update(TICK / 1000, presence.inMap(room), clock.phase));
-    const m = w.snapshot(); if (m.length) toMap(room, { t: 'mt', m });
+    const m=w.snapshot();
+    for(const [ws,p] of presence.players){if(p.room!==room)continue;const before=monsterInterests.get(ws);const next=monsterInterest(w.monsters,m,p,before?.room===room?before.visible:new Set());monsterInterests.set(ws,{room,visible:next.visible});if(next.rows.length)send(ws,{t:'mt',m:next.rows});}
   }
 }, TICK);
 // channels open and close with the crowd (server/channels.js), checked once a second

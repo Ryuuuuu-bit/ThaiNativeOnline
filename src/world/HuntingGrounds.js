@@ -14,7 +14,7 @@ export class HuntingGrounds {
       const c=document.createElement('canvas');c.width=512;c.height=192;const g=c.getContext('2d');
       g.fillStyle='#142f26ee';g.strokeStyle='#cbb16a';g.lineWidth=4;g.beginPath();g.roundRect(5,5,502,182,18);g.fill();g.stroke();
       g.textAlign='center';g.fillStyle='#ead49c';g.font='bold 36px "Noto Sans Thai",sans-serif';g.fillText(camp.name,256,65);
-      g.fillStyle='#fff0bc';g.font='32px "Noto Sans Thai",sans-serif';g.fillText(`จุดล่า · ${huntingLevel(camp)}`,256,112);
+      g.fillStyle='#fff0bc';g.font='32px "Noto Sans Thai",sans-serif';g.fillText(`จุดล่า · ${huntingLevel(camp)}${camp.party?` · ${camp.party[0]}–${camp.party[1]} คน`:""}`,256,112,470);
       g.fillStyle='#b8c7a4';g.font='23px "Noto Sans Thai",sans-serif';g.fillText('ดูมอนสเตอร์และเส้นทางบนแผนที่',256,153);
       const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;
       const label=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,depthWrite:false,transparent:true,fog:false}));

@@ -1,3 +1,5 @@
+import { EXPEDITIONS } from '../../world/expeditions.js';
+import { expeditionGearIds } from '../../character/data/expedition-gear.js';
 // Content data only: edit freely without touching game logic.
 // Each entry: [itemId, chance 0..1, min, max] — every entry rolls on its own, so a kill can drop several.
 // Every table carries a little HP potion and น้ำผึ้งป่า (MP): hunting pays for its own supplies, a bit.
@@ -15,3 +17,5 @@ export const LOOT = {
   chalawan: [['potion_m', 1, 3, 5], ['ether', 1, 2, 3], ['croc_scale', 1, 4, 8], ['chalawan_fang', .3, 1, 1], ['croc_armor', .5, 1, 1], ['kris', .3, 1, 1], ['horn_bow', .3, 1, 1], ['croc_wrap', .3, 1, 1], ['croc_dagger', .3, 1, 1], ['bog_book', .2, 1, 1], ['bog_yant', .2, 1, 1]],
   boss:   [['potion_m', 1, 1, 2], ['ether', .8, 1, 1], ['tiger_fang', .35, 1, 1], ['iron_dap', .25, 1, 1], ['bamboo_bow', .25, 1, 1], ['tiger_wrap', .25, 1, 1], ['bone_dagger', .25, 1, 1], ['palm_book', .2, 1, 1], ['bone_yant', .2, 1, 1], ['hide_armor', .3, 1, 1]],
 };
+
+for(const e of EXPEDITIONS)for(const boss of [false,true])LOOT[`${boss?'boss':'hunt'}_${e.id}`]=[['ash',.6,1,3],['potion_m',boss?1:.2,1,boss?3:1],['ether',boss?1:.2,1,2],...expeditionGearIds(e).map(id=>[id,boss?.12:.006,1,1])];
