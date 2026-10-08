@@ -22,6 +22,8 @@ export const ITEMS = {
   mongkol:    { name: 'มงคลครูมวย', icon: '◯', img: 'ui/items/icon_mongkol.png', weight: 1, type: 'equip', slot: 'charm', slots: 1, bonus: { atk: 5, str: 2, agi: 2, luk: 1 }, rarity: 'rare', price: 70 },
   wood_sword: { name: 'ดาบไม้ซ้อม', icon: '🗡', img: 'ui/items/icon_wood_sword.png', weight: 20, type: 'equip', slot: 'weapon', slots: 3, bonus: { atk: 3 }, rarity: 'common', price: 15 },
   iron_dap:   { name: 'ดาบเหล็กลาย', icon: '🗡', img: 'ui/items/icon_iron_dap.png', weight: 40, type: 'equip', slot: 'weapon', slots: 2, bonus: { atk: 9, str: 2 }, rarity: 'rare', price: 80 },
+  short_bow:  { name: 'ธนูไม้ซ้อม', icon: '🏹', img: 'ui/items/icon_short_bow.png', weight: 15, type: 'equip', slot: 'weapon', twoHand: true, slots: 3, bonus: { atk: 3, dex: 1 }, rarity: 'common', price: 15, desc: 'ธนูฝึกหัดของนายพรานใหม่' },
+  reed_wand:  { name: 'ไม้เท้าอ้อ', icon: '⚚', img: 'ui/items/icon_reed_wand.png', weight: 8, type: 'equip', slot: 'weapon', slots: 3, bonus: { matk: 4, int: 1 }, rarity: 'common', price: 15, desc: 'ไม้เท้าต้นอ้อของหมอผีฝึกหัด' },
   bamboo_bow: { name: 'ธนูไม้ไผ่', icon: '🏹', img: 'ui/items/icon_bamboo_bow.png', weight: 20, type: 'equip', slot: 'weapon', twoHand: true, slots: 2, bonus: { atk: 7, dex: 2 }, rarity: 'rare', price: 75 },
   bone_wand:  { name: 'ไม้เท้ากระดูก', icon: '⚚', img: 'ui/items/icon_bone_wand.png', weight: 15, type: 'equip', slot: 'weapon', slots: 2, bonus: { matk: 9, int: 3 }, rarity: 'rare', price: 75 },
   cloth_vest: { name: 'เสื้อผ้าฝ้าย', icon: '👕', img: 'ui/items/icon_cloth_vest.png', weight: 10, type: 'equip', slot: 'armor', slots: 1, bonus: { def: 3 }, rarity: 'common', price: 15 },

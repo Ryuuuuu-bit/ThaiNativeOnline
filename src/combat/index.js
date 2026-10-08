@@ -40,6 +40,7 @@ export function createGame(o) {
       moveTo: o.moveTo, stop: o.stop, manualMove: o.manualMove,
     }, o.spawns);
     const view = new CombatView(o.scene, combat, o.groundHeight);
+    if (o.monsterStyle) view.restyle(o.monsterStyle);   // pixel sprites or 3D models (settings, src/ui/viewPrefs.js)
     const layer = el('div', 'g-layer'); o.root.append(layer);
     const feed = new Feed(layer);
     const characterUI = new CharacterUI(layer, character, feed, { buffIcons: BUFF_ICONS });
@@ -112,7 +113,7 @@ export function createGame(o) {
     const size = { width: 0, height: 0 };
     game.update = (dt, elapsed) => {
       combat.update(dt);
-      view.update(dt, elapsed);
+      view.update(dt, elapsed, o.camera);
       size.width = o.host.clientWidth; size.height = o.host.clientHeight;
       hud.update(dt, o.camera, size, o.groundHeight);
       characterUI.update(dt);

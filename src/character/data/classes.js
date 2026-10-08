@@ -75,7 +75,8 @@ export const CLASS_ALIASES = { swordsman: 'warrior' };
 
 
 export const START_ITEMS = {
-  muaythai: ['hand_wrap'], warrior: ['wood_sword', 'cloth_vest'], hunter: ['cloth_vest'],
-  shaman: ['cloth_vest'], herbalist: ['herb_staff', 'cloth_vest'], assassin: ['krabi'],
+  // every class starts with its weapon and a cloth vest (RO: a novice's first set)
+  muaythai: ['hand_wrap', 'cloth_vest'], warrior: ['wood_sword', 'cloth_vest'], hunter: ['short_bow', 'cloth_vest'],
+  shaman: ['reed_wand', 'cloth_vest'], herbalist: ['herb_staff', 'cloth_vest'], assassin: ['krabi', 'cloth_vest'],
 };
 

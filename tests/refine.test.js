@@ -86,7 +86,7 @@ test('the server names gear by id, cards and plus, and rolls ตีบวก onl
 
 test('two-handed weapons: bows and paired knives leave the off hand empty', () => {
   for (const id of ['bamboo_bow', 'horn_bow', 'krabi']) assert.ok(ITEMS[id].twoHand, id);
-  const c = setup('hunter'); c.addItem('rattan_shield'); c.addItem('bamboo_bow');
+  const c = setup('hunter'); c.unequip('weapon'); c.addItem('rattan_shield'); c.addItem('bamboo_bow');   // the starter bow is two-handed too
   c.refineGear(idx(c, 'rattan_shield'));
   assert.equal(c.equip(idx(c, 'rattan_shield')), true);
   assert.equal(c.equip(idx(c, 'bamboo_bow')), true);

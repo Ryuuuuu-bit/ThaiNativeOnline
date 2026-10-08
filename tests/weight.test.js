@@ -14,7 +14,7 @@ test('every item has a weight', () => {
 
 test('weight counts bag stacks and equipped items; STR raises the limit', () => {
   const c = Character.create('ทดสอบ', 'muaythai');
-  const expected = ITEMS.hand_wrap.weight + ITEMS.potion_s.weight * 5 + ITEMS.ether.weight * 2;
+  const expected = ITEMS.hand_wrap.weight + ITEMS.cloth_vest.weight + ITEMS.potion_s.weight * 5 + ITEMS.ether.weight * 2;
   assert.equal(c.weight, expected);
   assert.equal(c.maxWeight, CARRY.base + c.stat('str') * CARRY.perStr);
   const before = c.maxWeight;

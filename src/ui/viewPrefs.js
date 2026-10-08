@@ -27,10 +27,11 @@ export function createViewPrefs() {
     zoomLock: saved.zoomLock === true,   // 🔒 by the minimap: pinch, wheel and keys leave the zoom alone
     quality: saved.quality === 'low' ? 'low' : 'high',   // graphics quality and particles: remembered too (a weak device stays on low)
     particles: saved.particles !== false,
+    monsters: saved.monsters === '3d' ? '3d' : 'pixel',   // how monsters are drawn: pixel sprites (RO style) or 3D models
     scale: 1,
     set(change) {
       Object.assign(prefs, change);
-      try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, hud: prefs.hud, zoomLock: prefs.zoomLock, quality: prefs.quality, particles: prefs.particles })); } catch { /* storage unavailable */ }
+      try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, hud: prefs.hud, zoomLock: prefs.zoomLock, quality: prefs.quality, particles: prefs.particles, monsters: prefs.monsters })); } catch { /* storage unavailable */ }
       apply();
     },
   };
