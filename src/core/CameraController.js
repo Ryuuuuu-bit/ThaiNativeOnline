@@ -1,3 +1,4 @@
+import { ZOOM_MIN, ZOOM_MAX, ZOOM_DEFAULT } from '../ui/viewPrefs.js';
 import * as THREE from 'three';
 import { fadeUniforms } from '../world/shaders.js';
 import { spriteScale } from '../world/Atmosphere.js';
@@ -12,7 +13,7 @@ export class CameraController {
     this.camera = new THREE.OrthographicCamera(-20, 20, 12, -12, .1, 220);
     this.offset = new THREE.Vector3(15, 23, 22);
     this.focus = new THREE.Vector3(); this.desired = new THREE.Vector3(); this.panOffset = new THREE.Vector3();
-    this.zoom = 1; this.panned = false;
+    this.zoom = ZOOM_DEFAULT; this.panned = false;
     this.forward = new THREE.Vector3(-this.offset.x, 0, -this.offset.z).normalize();
     this.right = new THREE.Vector3().crossVectors(this.forward, new THREE.Vector3(0, 1, 0)).normalize();
     fadeUniforms.uFadeDir.value.copy(this.offset).normalize();
@@ -26,7 +27,7 @@ export class CameraController {
     spriteScale.value = height * this.renderer.getPixelRatio() / (half * 2);
   }
   resize() { this.renderer.setSize(this.host.clientWidth, this.host.clientHeight); this.updateProjection(); }
-  setZoom(z) { this.zoom = THREE.MathUtils.clamp(z, .5, 1.7); this.updateProjection(); }
+  setZoom(z) { this.zoom = THREE.MathUtils.clamp(z, ZOOM_MIN, ZOOM_MAX); this.updateProjection(); }
   reset() { this.recenter(); this.setZoom(1); }
   // Drops a right-drag pan so the camera follows the player again (zoom is kept).
   recenter() { this.panned = false; this.panOffset.set(0, 0, 0); }
