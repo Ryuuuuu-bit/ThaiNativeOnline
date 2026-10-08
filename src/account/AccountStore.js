@@ -8,6 +8,7 @@
 // Slot prefixes: guest slot 0 is '' so saves from before accounts existed show
 // up as the guest's first character; every other slot is 'tno.<account>.<n>/'.
 import { ACCOUNTS } from '../data/accounts.js';
+import { checkName, nameKey } from '../data/character-names.js';
 
 const KEY = 'tno.accounts.v1', CHARACTER_KEY = 'tno.character.v1', GUEST = 'guest';
 const enc = new TextEncoder();
@@ -45,6 +46,17 @@ export class AccountStore {
     return { ok: true, id };
   }
   guest() { return { ok: true, id: GUEST, guest: true }; }
+  async createCharacter(id, slot, character) {
+    const n = checkName(character.name); if (!n.ok) return n;
+    if (!Number.isInteger(slot) || slot < 0 || slot >= ACCOUNTS.slots || this.slots(id)[slot]?.character) return {ok:false,code:'slot_taken',msg:'ช่องตัวละครนี้ถูกใช้แล้ว'};
+    for (let i=0;i<(this.storage?.length ?? 0);i++) {
+      const key = this.storage.key(i); if (!/(?:^|\/)tno\.character\.v\d+$/.test(key)) continue;
+      try { if (nameKey(JSON.parse(this.storage.getItem(key)).name) === n.key) return {ok:false,code:'name_taken',msg:'มีผู้ใช้ชื่อนี้แล้ว กรุณาเลือกชื่ออื่น'}; } catch { /* broken local save */ }
+    }
+    try { this.storage.setItem(this.slotPrefix(id,slot)+CHARACTER_KEY,JSON.stringify({...character,name:n.name})); }
+    catch { return {ok:false,msg:'บันทึกตัวละครไม่ได้ กรุณาตรวจพื้นที่เก็บข้อมูล'}; }
+    return {ok:true};
+  }
 
   slotPrefix(id, slot) { return id === GUEST && slot === 0 ? '' : `tno.${id}.${slot}/`; }
   // Summaries for the select screen: { slot, prefix, character|null }.

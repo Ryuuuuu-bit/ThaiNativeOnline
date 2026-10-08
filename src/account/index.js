@@ -11,7 +11,7 @@
 import { AccountStore } from './AccountStore.js';
 import { ServerAccountStore, serverAccounts, startSaveSync } from './ServerAccounts.js';
 import { renderGoogleButton } from './google.js';
-import { showLogin, showCharacterSelect } from './screens.js';
+import { showLogin, showCharacterSelect, showNameRecovery } from './screens.js';
 import { SaveSlot } from '../core/SaveSlot.js';
 import { Character } from '../character/Character.js';
 import { showCreation } from '../character/ui/CreationScreen.js';
@@ -30,7 +30,7 @@ export async function enterGame(root) {
   if (remote && session?.id && !session.guest && !(session.token && await store.resume(session.id, session.token).catch(() => false))) { session = null; writeSession(null); }
 
   // Same tab, same character: skip the screens.
-  if (session?.prefix !== undefined && store.slots(session.id).some(s => s.prefix === session.prefix && s.character)) {
+  if (session?.prefix !== undefined && store.slots(session.id).some(s => s.prefix === session.prefix && s.character && !s.needsRename)) {
     SaveSlot.use(session.prefix);
   } else {
     let pick = null;
@@ -41,8 +41,10 @@ export async function enterGame(root) {
     }
     SaveSlot.use(pick.prefix);
     if (pick.fresh) {
-      const { name, classId, gender } = await showCreation(root);
-      Character.create(name, classId, gender).save();
+      await showCreation(root, {onConfirm:choice=>store.createCharacter(session.id,pick.slot,Character.create(choice.name,choice.classId,choice.gender).toJSON())});
+    } else if (store.slots(session.id).find(s=>s.slot === pick.slot)?.needsRename) {
+      const slot = store.slots(session.id).find(s=>s.slot === pick.slot);
+      await showNameRecovery(root,slot.character.name,name=>store.renameCharacter(session.id,pick.slot,name));
     }
     session = { id: session.id, guest: !!session.guest, prefix: pick.prefix, slot: pick.slot, token: store.token ?? undefined };
     writeSession(session);

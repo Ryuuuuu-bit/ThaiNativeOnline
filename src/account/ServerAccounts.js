@@ -24,7 +24,8 @@ export async function serverAccounts() {
 }
 
 export class ServerAccountStore extends AccountStore {
-  constructor(storage, { googleClientId = null } = {}) { super(storage); this.token = null; this.online = true; this.remote = true; this.googleClientId = googleClientId; }
+  constructor(storage, { googleClientId = null } = {}) { super(storage); this.token = null; this.online = true; this.remote = true; this.googleClientId = googleClientId; this.renameSlots = new Set(); }
+  slots(id) { return super.slots(id).map(s => ({...s,needsRename:id !== 'guest' && this.renameSlots.has(s.slot)})); }
 
   // The slot's keys as one save object, and back.
   bundle(id, slot) {
@@ -41,8 +42,20 @@ export class ServerAccountStore extends AccountStore {
   async pull(id) {
     const r = await call('/api/slots', { token: this.token });
     if (!r.ok) return false;
+    this.renameSlots = new Set(r.slots.filter(s=>s.needsRename).map(s=>s.slot));
     for (let slot = 0; slot < ACCOUNTS.slots; slot++) { const s = r.slots.find(x => x.slot === slot); if (s) this.unbundle(id, slot, s.data); else super.deleteSlot(id, slot); }
     return true;
+  }
+  async createCharacter(id, slot, character) {
+    if (id === 'guest') return super.createCharacter(id,slot,character);
+    const r = await call(`/api/slots/${slot}`, {method:'PUT',token:this.token,body:{data:{'tno.character.v1':JSON.stringify(character)}}});
+    if (r.ok && !await this.pull(id)) return {ok:false,msg:'สร้างตัวละครแล้ว แต่โหลดข้อมูลไม่ได้ กรุณาโหลดหน้าใหม่'};
+    return r;
+  }
+  async renameCharacter(id, slot, name) {
+    const r = await call(`/api/slots/${slot}/name`, {method:'POST',token:this.token,body:{name}});
+    if (r.ok && !await this.pull(id)) return {ok:false,msg:'เปลี่ยนชื่อแล้ว แต่โหลดข้อมูลไม่ได้ กรุณาโหลดหน้าใหม่'};
+    return r;
   }
   async push(id, slot) {
     const data = this.bundle(id, slot);

@@ -20,6 +20,8 @@ import { SaveQueue } from './save-queue.js';
 import { promisify } from 'node:util';
 import { ACCOUNTS } from '../src/data/accounts.js';
 import { reconcileSave, CHARACTER_KEY, QUESTS_KEY } from './progress.js';
+import { checkName, nameKey } from '../src/data/character-names.js';
+import { characterRecord, renameData, isNameConflict } from './character-names.js';
 
 const scrypt = promisify(scryptCb);
 export const SESSION_DAYS = 30;
@@ -118,7 +120,28 @@ export class Accounts {
       const stored = live ? null : (await this.store.listSlots(id)).find(x => x.slot === slot)?.data;
       const server = live?.c ?? (stored ? JSON.parse(stored[Object.keys(stored).find(k => CHARACTER_KEY.test(k))]) : null);
       const quests = live ? live.quests : stored?.[QUESTS_KEY] ?? '{}';
-      await this.store.putSlot(id, slot, reconcileSave(data, server, quests)); return { ok: true };
+      if (!server) {
+        const n = checkName(characterRecord(data).character?.name); if (!n.ok) return n;
+        data = renameData(data, n.name);
+      }
+      try {
+        const saved = await this.store.putSlot(id, slot, reconcileSave(data, server, quests), {createOnly:!server});
+        return saved ? { ok: true } : fail('slot_taken', 'ช่องตัวละครนี้ถูกใช้แล้ว กรุณาเลือกตัวละครอีกครั้ง');
+      } catch (e) { if (isNameConflict(e)) return fail('name_taken', 'มีผู้ใช้ชื่อนี้แล้ว กรุณาเลือกชื่ออื่น'); throw e; }
+    });
+  }
+  async rename(id, slot, value) {
+    if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง');
+    const n = checkName(value); if (!n.ok) return n;
+    return this.writes.run(`${id}:${slot}`, async () => {
+      try {
+        if (await this.store.renameSlot(id,slot,n.name)) return {ok:true};
+        const row=(await this.store.listSlots(id)).find(s=>s.slot===slot);
+        // A lost success response can be retried without granting another rename.
+        if (row && !row.needsRename && nameKey(characterRecord(row.data).character?.name) === n.key) return {ok:true};
+        return fail('rename_unavailable','ตัวละครนี้ไม่ต้องเปลี่ยนชื่อ กรุณาโหลดหน้าเลือกตัวละครใหม่');
+      }
+      catch(e) { if (isNameConflict(e)) return fail('name_taken','มีผู้ใช้ชื่อนี้แล้ว กรุณาเลือกชื่ออื่น'); throw e; }
     });
   }
   async putCharacter(id, slot, json, quests = null, location = null) {
@@ -127,7 +150,8 @@ export class Accounts {
     return this.writes.run(`${id}:${slot}`, async () => {
       const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return false;
       const key = Object.keys(s.data).find(k => CHARACTER_KEY.test(k)) ?? 'tno.character.v1';
-      await this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify(json), ...(quests != null ? { [QUESTS_KEY]: quests } : {}), ...(location ? {'tno.location.v1':JSON.stringify(location)} : {}) }); return true;
+      const name = characterRecord(s.data).character?.name;
+      await this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify({ ...json, name }), ...(quests != null ? { [QUESTS_KEY]: quests } : {}), ...(location ? {'tno.location.v1':JSON.stringify(location)} : {}) }); return true;
     }, { snapshot: true });
   }
   async quests(id, slot) { return (await this.store.listSlots(id)).find(x => x.slot === slot)?.data?.[QUESTS_KEY] ?? '{}'; }

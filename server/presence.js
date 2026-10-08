@@ -22,6 +22,7 @@
 //   P.setTitle(conn, id, trusted?) → { id, title } (the title worn above the name, src/data/titles.js)
 import { TITLE_BY_ID } from '../src/data/titles.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
+import { guestName } from '../src/data/character-names.js';
 
 export const LIMITS = {
   name: 16, chat: 120, chatEvery: 0.8,      // characters; seconds between chat lines
@@ -53,7 +54,7 @@ export class Presence {
   }
   info(p) { return { id: p.id, name: p.name, cls: p.cls, gender: p.gender, lv: p.lv, title: p.title ?? null, x: p.x, z: p.z, f: p.f, m: p.m }; }
 
-  join(conn, h = {}, ch = 1) {
+  join(conn, h = {}, ch = 1, {guest = false} = {}) {
     if (this.players.has(conn)) return null;
     if (this.players.size >= LIMITS.maxPlayers) return { full: true };
     const map = MAPS.includes(h.map) ? h.map : 'city';
@@ -63,6 +64,7 @@ export class Presence {
       map, x: num(h.x) ?? 0, z: num(h.z) ?? 0, f: num(h.f, 10) ?? 0, m: 0, t: this.now(), dirty: true, chatAt: -Infinity,
       title: guestTitle(h.title),
     };
+    if (guest) p.name = guestName(p.name,p.id);
     if (this.navigation && !this.navigation(map).canStand(p.x, p.z)) Object.assign(p, { x: MAP_DATA[map].spawn.x, z: MAP_DATA[map].spawn.z });
     this.players.set(conn, p);
     const r = this.enter(p, ch);

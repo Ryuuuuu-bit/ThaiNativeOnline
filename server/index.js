@@ -130,6 +130,15 @@ async function api(req, res, url) {
     if (req.method === 'POST' && url.pathname === '/api/google/link') { const r = await accounts.linkGoogle(id, (await readBody(req)).credential); return json(res, r.ok ? 200 : 400, r); }
     if (req.method === 'GET' && url.pathname === '/api/me') return json(res, 200, { ok: true, id, google: await store.googleOf(id) });
     if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, slots: await accounts.slots(id) });
+    const rename = /^\/api\/slots\/(\d+)\/name$/.exec(url.pathname);
+    if (rename && req.method === 'POST') {
+      const slot = Number(rename[1]);
+      const body = await readBody(req);
+      if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
+      if (combatants.live(id,slot) || accounts.writes.queues.has(`${id}:${slot}`)) return json(res,409,{ok:false,code:'in_play',msg:'กรุณาออกจากเกมก่อนเปลี่ยนชื่อ'});
+      const r = await accounts.rename(id,slot,body.name);
+      return json(res,r.ok ? 200 : r.code === 'name_taken' ? 409 : 400,r);
+    }
     const m = /^\/api\/slots\/(\d+)$/.exec(url.pathname);
     if (m && req.method === 'PUT') {
       const key = `${id}:${Number(m[1])}`;
@@ -139,7 +148,7 @@ async function api(req, res, url) {
       if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
       const live = combatants.live(id, slot);   // resolve after reading: the old socket may have left meanwhile
       const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json() } : null);
-      return json(res, r.ok ? 200 : 400, r);   // the live copy stays `dirty`: its own flush decides
+      return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
     if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
     return json(res, 404, { ok: false, code: 'not_found' });
@@ -220,9 +229,13 @@ async function handle(ws, raw) {
           catch { send(ws, {t:'kicked',why:'กำลังเซฟตัวละคร กรุณาลองเชื่อมต่อใหม่'}); ws.close(); return; }
         }
         if (stopping || ws.readyState !== 1) return;
+        if (id && (await accounts.slots(id)).find(s => s.slot === m.slot)?.needsRename) {
+          send(ws,{t:'kicked',code:'rename_required',why:'ชื่อตัวละครซ้ำ กรุณาเลือกชื่อใหม่ฟรีที่หน้าเลือกตัวละคร'}); ws.close(); return;
+        }
         const saved = id && Number.isInteger(m.slot) ? await accounts.character(id, m.slot).catch(() => null) : null;
+        if (stopping || ws.readyState !== 1) return;
         if (saved) Object.assign(m, { name: saved.name, cls: saved.classId, gender: saved.gender, lv: saved.level });
-        const r = presence.join(ws, m, pickCh(m.map));
+        const r = presence.join(ws, m, pickCh(m.map), {guest:!saved});
         if (!r) return;
         if (r.full) { send(ws, { t: 'full' }); ws.close(); return; }
         if (id) Object.assign(presence.players.get(ws), { account: id, admin: ADMINS.has(String(id).toLowerCase()) });
@@ -242,7 +255,7 @@ async function handle(ws, raw) {
           presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
-        send(ws, { t: 'welcome', you: r.you, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
+        send(ws, { t: 'welcome', you: r.you, name:r.joined.name, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
         toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
         correct(ws); pvpState(r.you);
         if (saved) friendNews(presence.players.get(ws), true);

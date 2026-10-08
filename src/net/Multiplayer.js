@@ -11,6 +11,7 @@ import { attachRemoteSkills } from './RemoteSkills.js';
 import { attachCombatMeters } from './CombatMeters.js';
 import './net.css';
 import { ITEMS } from '../character/data/items.js';
+import { readSession, writeSession } from '../account/session.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
 // on this map and talk to everyone. The player's own position goes out ~10× a second
@@ -32,7 +33,7 @@ export function startMultiplayer(game) {
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
-  net.on('welcome', m => { if (m.admin) game.setDev?.(true); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+  net.on('welcome', m => { if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } if (m.admin) game.setDev?.(true); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
     .on('chans', m => chan.set(m.ch, m.list, true))
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
@@ -72,7 +73,7 @@ export function startMultiplayer(game) {
   net.on('shutdown', m => { net.online=false; net.emit('status',false); chat.add('ระบบ',m.text+' · จะเชื่อมต่อใหม่อัตโนมัติ'); });
   const meters = attachCombatMeters(net, game, remote, social);                             // my name plate, the DPS meter
   // the same character opened in another tab or device: this one stops talking to the server
-  net.on('kicked', m => { net.close(); chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
+  net.on('kicked', m => { net.close(); if (m.code === 'rename_required') { const s=readSession(); if(s){delete s.prefix;writeSession(s);} location.reload(); return; } chat.add('ระบบ', m.why ?? 'ตัวละครนี้ถูกเปิดเล่นจากที่อื่น · โหลดหน้าใหม่เพื่อเล่นต่อที่นี่'); });
   net.connect(() => ({ ...session(), name: c.name, cls: c.classId, gender: c.gender, lv: c.level, title: c.title, map, ...pos() }));
   // every move the player's model plays (skills, basic attacks) is mirrored to the others
   // (a class skill's own clips are not: the others play the whole skill from its `fx`)

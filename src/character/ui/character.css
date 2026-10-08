@@ -68,6 +68,9 @@
 .g-banner.show{animation:g-rise .5s ease-out}
 .g-start{margin-top:14px;padding:10px 26px;border:1px solid #d7b671;background:#3b4b33;border-radius:3px;font-size:13px;color:#fff3cc}
 .g-start:hover{background:#56693f}
+.g-start:disabled{opacity:.6;cursor:wait}
+.g-name-hint{margin:0;font-size:10px;color:#b8c7ac}
+.g-name-error{margin:0;font-size:12px;color:#ffac91;min-height:1.4em}
 
 /* Character creation */
 .g-create{position:absolute;inset:0;z-index:15;display:grid;place-items:center;background:radial-gradient(#1b3029cc,#0b1712f2);padding:16px;overflow:auto}

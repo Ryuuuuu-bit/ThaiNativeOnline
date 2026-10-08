@@ -8,13 +8,14 @@ import { CLASS_KITS } from '../../classes/index.js';
 import { ModelPreview } from '../../ui/ModelPreview.js';
 import { classBadge, classEmblem } from '../../ui/icons.js';
 import { playSkillSound } from '../../audio/gameSounds.js';
+import { checkName, NAME_HINT } from '../../data/character-names.js';
 
 // Character creation; resolves with { name, classId, gender }.
 // A 3D stage shows the chosen class's model (src/ui/ModelPreview.js); its ten
 // skills (CLASS_KITS) are listed with icons, and clicking one plays that move.
 // Classes that are not ready yet (src/data/training.js) show as a locked black
 // silhouette with "?"; ?classes=all unlocks them for testing.
-export function showCreation(root) {
+export function showCreation(root, { onConfirm = async () => ({ok:true}) } = {}) {
   return new Promise(resolve => {
     const all = new URLSearchParams(location.search).get('classes') === 'all';
     const open = id => all || classReady(id);
@@ -31,6 +32,8 @@ export function showCreation(root) {
               <label class="g-name">ชื่อตัวละคร<input maxlength="16" value="ผู้เดินทาง" autocomplete="off" /></label>
               <div class="g-gender" role="radiogroup" aria-label="เพศ"><button data-g="male" role="radio">ชาย</button><button data-g="female" role="radio">หญิง</button></div>
             </div>
+            <p class="g-name-hint">${NAME_HINT}</p>
+            <p class="g-name-error" role="alert" aria-live="polite"></p>
             <div class="g-classes" role="radiogroup" aria-label="เลือกอาชีพ"></div>
             <div class="g-class-detail"></div>
             <button class="g-start">เริ่มการเดินทาง</button>
@@ -82,12 +85,23 @@ export function showCreation(root) {
     };
     sync();
     const input = overlay.querySelector('input');
-    const start = () => {
-      const name = input.value.trim() || 'ผู้เดินทาง';
-      preview?.dispose(); overlay.remove(); resolve({ name, classId: chosen, gender });
+    const button = overlay.querySelector('.g-start'), error = overlay.querySelector('.g-name-error');
+    let busy = false;
+    const start = async () => {
+      if (busy) return;
+      const n = checkName(input.value);
+      if (!n.ok) { error.textContent=n.msg; input.focus(); return; }
+      const choice = {name:n.name,classId:chosen,gender};
+      busy = true; button.disabled = true; button.textContent='กำลังสร้างตัวละคร…'; error.textContent='';
+      try {
+        const r = await onConfirm(choice);
+        if (!r?.ok) { error.textContent=r?.msg ?? 'สร้างตัวละครไม่สำเร็จ กรุณาลองใหม่'; input.focus(); return; }
+        preview?.dispose(); overlay.remove(); resolve(choice);
+      } catch { error.textContent='เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่'; }
+      finally { busy=false; button.disabled=false; button.textContent='เริ่มการเดินทาง'; }
     };
     overlay.querySelector('.g-start').addEventListener('click', start);
-    input.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') start(); });
+    input.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); start(); } });
     root.append(overlay);
     input.focus(); input.select();
   });
