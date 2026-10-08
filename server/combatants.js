@@ -166,13 +166,13 @@ export class Combatants {
     return true;
   }
   // A monster's swing at a signed-in player, with the browser's formula (Combat.monsterAttack).
-  swing(id, def, power = 1) {
+  swing(id, def, power = 1, { skill = false } = {}) {
     const s = this.list.get(id); if (!s?.persist || !def) return null;
     const c = s.c; if (!c.alive) return null;
     if (s.god) return { dodge: true, hp: c.hp };   // /gm god (server/gm.js)
     s.fightAt = this.now(); c.sitting = false;
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
-    const raw = def.atk * power * (.85 + this.r() * .3) * (def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
+    const raw = def.atk * power * (.85 + this.r() * .3) * (!skill && def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
     const dmg = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(def))));   // cards: less from that race / element
     if (c.alive) afterHit(c, def);
     s.dirty = true;

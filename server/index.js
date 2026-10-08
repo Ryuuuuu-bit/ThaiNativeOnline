@@ -616,9 +616,9 @@ function route(map, events, except = null) {
     } else if (e.t === 'ma') {
       const ws = socketOf(e.to); if (!ws) continue;
       const p=presence.players.get(ws), monster=worldOf(map).byId(e.id);
-      if(monster&&p&&!navigation(p.map).clear(monster,p,.05))continue;
+      if(monster&&p&&!navigation(p.map).clear(e.origin ?? monster,p,.05))continue;
       combatants.touch(e.to);
-      const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power);   // signed-in: resolved here
+      const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power, { skill: !!e.skill });   // signed-in: resolved here
       if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
       if ((e.knock || e.pull) && !res?.dodge) presence.allowJump(ws, e.pull ? 16 : 4);
       send(ws, res ? { ...e, res } : e);

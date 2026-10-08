@@ -79,3 +79,11 @@ membership bonus), skill tree and loot ownership remain unchanged. This is a
 playable hunting route, not a completed quest/dungeon progression or a claim of
 final time-to-level balance. Tune clear speed, potion usage, EXP per hour and
 loot supply with actual 3–5 player parties before deploying broadly.
+
+## Map boss skills
+
+Each of the 12 hunting maps has one designated primary boss at its existing
+encounter site. Each primary has two themed, dodgeable attacks, with a fixed-aim
+warning, recovery and a faster cadence below half HP. Ordinary hunting pockets
+do not receive duplicate boss spawns. Full roster, attack timings, authority and
+limitations: `docs/technical/BOSS_ENCOUNTERS.md`.

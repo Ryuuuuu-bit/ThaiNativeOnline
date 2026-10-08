@@ -6,6 +6,7 @@ import { ITEMS } from '../../character/data/items.js';
 import { el, pct, setBar } from '../../character/ui/dom.js';
 import { ActionBar } from '../../ui/ActionBar.js';
 import { legacyCaster } from '../LegacyCaster.js';
+import { bossSkillsFor, bossPhase, BOSS_SKILL_HINTS } from '../bossSkills.js';
 import './combat.css';
 
 export class CombatHUD {
@@ -24,7 +25,7 @@ export class CombatHUD {
   }
 
   buildTarget() {
-    this.target = el('div', 'g-target glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-thp"><span></span><em></em></div><div class="g-target-tags"></div>`);
+    this.target = el('div', 'g-target glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-thp"><span></span><em></em></div><div class="g-boss-warning" hidden></div><div class="g-target-tags"></div>`);
     this.target.hidden = true; this.layer.append(this.target);
     // the friend a heal goes to (Combat.ally, picked from the party frame or a name plate: src/net/Social.js)
     this.ally = el('div', 'g-target g-ally glass', `<div class="g-target-name"><b></b><span></span></div><div class="g-bar g-ahp"><span></span><em></em></div><div class="g-bar g-amp"><span></span><em></em></div><button class="g-ally-x" type="button" aria-label="เลิกเลือกเพื่อน" title="เลิกเลือก (Esc)">×</button>`);
@@ -144,11 +145,16 @@ export class CombatHUD {
     const m = this.combat.target;
     this.target.hidden = !m;
     if (!m) return;
+    const boss = bossSkillsFor(m).length > 0;
+    this.target.classList.toggle('boss-target', boss);
     this.target.querySelector('b').textContent = m.name;
     const kind = [RACE_LABELS[m.def.race], ELEMENT_LABELS[m.def.element]].filter(Boolean).join('·');
-    this.target.querySelector('.g-target-name span').textContent = `Lv. ${m.level}${m.def.boss ? ' · บอส' : m.def.elite ? ' · หัวหน้า' : ''}${kind ? ` · ${kind}` : ''}`;
+    this.target.querySelector('.g-target-name span').textContent = `Lv. ${m.level}${boss ? ` · บอส · ระยะ ${bossPhase(m)}` : m.def.elite ? ' · หัวหน้า' : ''}${kind && !boss ? ` · ${kind}` : ''}`;
     this.target.classList.toggle('elite', !!m.def.elite);
     setBar(this.target.querySelector('.g-thp'), m.hp, m.maxHp);
+    const warning = this.target.querySelector('.g-boss-warning');
+    warning.hidden = !m.skillCast;
+    warning.textContent = m.skillCast ? `${m.skillCast.name} · ${BOSS_SKILL_HINTS[m.skillCast.shape]}` : '';
     this.target.querySelector('.g-target-tags').innerHTML = m.debuffs.map(d => `<i>${d.label ?? (d.slow ? 'ติดบ่วง' : 'ต้องคุณไสย')}</i>`).join('');
   }
   float(x, z, text, kind, height = 1.6) {

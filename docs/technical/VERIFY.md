@@ -128,3 +128,14 @@ interest filtering, gear or level limits. Collision exports include all 13 maps;
 regional hunting data is included in the source hash. Local WebSocket smoke tests
 covered all eight new map rooms, monster lifecycle and nearby update packets.
 This is not a measured production capacity or a physical-device FPS result.
+
+## Boss encounter verification
+
+Run `node --test tests/boss-skills.test.js` plus the full suite when changing boss
+attacks, geometry or network events. The suite currently has 334 passing tests.
+All 12 primary boss encounters exercise both attacks. Coverage includes fixed
+aim / dodging, ring safe zones, cancelling, respawn, phase cadence, special damage,
+late-join network state and GPU disposal. Local real sockets and a networked
+browser verify warning delivery and impact damage. See
+`docs/technical/BOSS_ENCOUNTERS.md` and `docs/art/boss-skills/REVIEW.md` for captures,
+scope and limits. Physical-device and live-party balance checks remain pending.
