@@ -66,12 +66,12 @@ test('a healer\'s party skill reaches the members near them; a revive stands the
   assert.deepEqual(cs.aid(2, k.support), { revived: true }); assert.ok(friend.alive);
 });
 
-test('sitting to rest doubles the regen out of a fight; a fight or a step stands the player up', () => {
+test('sitting no longer speeds the regen (no rest-to-recover); a fight or a step still stands the player up', () => {
   let t = 0; const cs = new Combatants({ now: () => t });
   cs.load(1, Character.create('พัก', 'warrior').toJSON(), { account: 'a', slot: 0 });
   const c = cs.get(1).c, regen = sitting => { c.hp = 1; c.mp = 0; cs.sit(1, sitting); for (let i = 0; i < 10; i++) { t += 1; cs.tick(1, false); } return c.hp - 1; };
   const stand = regen(false), sit = regen(true);
-  assert.ok(sit >= stand * 1.8, `${sit} vs ${stand}`);
+  assert.equal(sit, stand, `${sit} vs ${stand}`);
   cs.touch(1); assert.equal(c.sitting, false, 'a blow stands up');
   cs.sit(1, true); assert.equal(c.sitting, false, 'no sitting in a fight');
   t += 10; cs.sit(1, true); assert.equal(c.sitting, true);

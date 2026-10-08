@@ -8,13 +8,16 @@
 //   attacking, { hurt, dying, tint }) and userData.face(cameraYaw): the plane turns to the camera
 //   and picks the frame for the monster's facing relative to it.
 import * as THREE from 'three';
+import { cachedLoader } from '../core/retry.js';
+import { versioned } from '../core/version.js';
 
 export const SPRITE_ROOT = `${import.meta.env?.BASE_URL ?? '/'}sprites/monsters/`;
-// Heights in metres for a 64 px cell; a bigger cell scales with it (the sheet says its cell size).
+// The standing creature's height in metres (the sheet says how much of its cell the creature
+// fills, so the canvas size does not matter). The player is about 1.8 m.
 export const MONSTER_SPRITES = {
-  boar: { height: 1.3 }, monkey: { height: 1.3 }, fowl: { height: 1.0 }, cobra: { height: 1.0 }, crab: { height: .8 },
-  buffalo: { height: 1.9 }, dhole: { height: 1.2 }, monitor: { height: 1.1 }, leech: { height: .8 }, croc: { height: 1.3 },
-  python: { height: 1.2 }, kumphi: { height: 2.2 }, tiger: { height: 1.8 },
+  boar: { height: 1.1 }, monkey: { height: 1.0 }, fowl: { height: .75 }, cobra: { height: .9 }, crab: { height: .6 },
+  buffalo: { height: 1.7 }, dhole: { height: 1.0 }, monitor: { height: .8 }, leech: { height: .55 }, croc: { height: .9 },
+  python: { height: .9 }, kumphi: { height: 2.1 }, tiger: { height: 1.4 },
   pray: { height: 1.9, lift: .15 }, phibpa: { height: 1.8, lift: .1 }, krasue: { height: 1.6, lift: .5 }, winyan: { height: 1.8, lift: .1 },
   phitaihong: { height: 1.9 }, pop: { height: 1.7 }, kongkoi: { height: 1.7 }, khamot: { height: 1.2, lift: .6 }, takian: { height: 2.4 },
   headless: { height: 2.0 }, pret: { height: 2.6 }, krahang: { height: 2.0, lift: .4 }, soldier: { height: 2.0 }, pusom: { height: 2.2 },
@@ -24,18 +27,26 @@ const DIRS = ['south', 'south-east', 'east', 'north-east', 'north', 'north-west'
 const MIRROR = { 'north-west': 'north-east', west: 'east', 'south-west': 'south-east' };
 const FPS = { idle: 4, walk: 10, attack: 12, die: 10 };
 
-const sheets = new Map();   // type → Promise<{ texture, layout } | null>
+// One texture per type, shared by every monster of it (a texture of its own per monster would
+// be uploaded to the GPU once per monster: on a phone that is the stall that keeps the
+// placeholders up). Each monster picks its frame by its own plane's UVs. Loads retry, and a
+// failure is forgotten after a while so the next monster asks again.
 const loader = new THREE.TextureLoader();
+const loadSheetOnce = cachedLoader(async type => {
+  const res = await fetch(versioned(`${SPRITE_ROOT}${type}.json`));
+  if (!res.ok) throw new Error(`no sheet for ${type} (${res.status})`);
+  const layout = await res.json();
+  if (!layout?.rows?.length) throw new Error(`bad sheet for ${type}`);
+  const texture = await loader.loadAsync(versioned(`${SPRITE_ROOT}${type}.png`));
+  texture.magFilter = THREE.NearestFilter; texture.minFilter = THREE.NearestFilter; texture.generateMipmaps = false; texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+  return { texture, layout };
+});
 function loadSheet(type) {
-  if (!sheets.has(type)) sheets.set(type, (async () => {
-    const res = await fetch(`${SPRITE_ROOT}${type}.json`); if (!res.ok) throw new Error(`no sheet for ${type}`);
-    const layout = await res.json();
-    const texture = await loader.loadAsync(`${SPRITE_ROOT}${type}.png`);
-    texture.magFilter = THREE.NearestFilter; texture.minFilter = THREE.NearestFilter; texture.generateMipmaps = false; texture.colorSpace = THREE.SRGBColorSpace;
-    return { texture, layout };
-  })().catch(e => { console.warn(`Monster sprite ${type} unavailable; using its mesh.`, e.message); return null; }));
-  return sheets.get(type);
+  return loadSheetOnce(type).catch(e => { console.warn(`Monster sprite ${type} unavailable; using its mesh.`, e.message); return null; });
 }
+// Fetch the sheets a map will need before its monsters appear (CombatView calls this with the spawn list).
+export function preloadMonsterSprites(types) { for (const t of new Set(types)) if (MONSTER_SPRITES[t]) loadSheet(t); }
 
 // The row of `anim` for `dir`: the sheet's own, its mirror (flipped), or else the nearest side
 // the sheet does have (a sheet with only south / east / north draws the diagonals from those).
@@ -75,19 +86,21 @@ export function makeMonsterSprite(type, def, monsterId, fallback) {
   group.userData.ready = loadSheet(type).then(sheet => {
     if (!sheet) return null;
     const { texture, layout } = sheet, cell = layout.cell, cols = texture.image.width / cell, rowsN = texture.image.height / cell;
-    const tex = texture.clone(); tex.needsUpdate = true;
-    tex.repeat.set(1 / cols, 1 / rowsN); tex.wrapS = THREE.ClampToEdgeWrapping;
-    const material = new THREE.MeshBasicMaterial({ map: tex, transparent: true, alphaTest: .35, side: THREE.DoubleSide, depthWrite: true });
-    const h = spec.height * (layout.scale ?? 1), plane = new THREE.Mesh(new THREE.PlaneGeometry(h, h), material);
+    const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, alphaTest: .35, side: THREE.DoubleSide, depthWrite: true });
+    const h = spec.height / (layout.fill || 1) * (layout.scale ?? 1), plane = new THREE.Mesh(new THREE.PlaneGeometry(h, h), material);
     plane.position.y = h / 2 + (spec.lift ?? 0) + (layout.lift ?? 0); plane.userData.monsterId = monsterId; plane.castShadow = true;
     const pivot = new THREE.Group(); pivot.add(plane); group.remove(fallback); group.add(pivot);
     fallback.traverse(o => { if (o.isMesh) { o.geometry.dispose(); o.material?.dispose?.(); } });
     group.userData.modelLoaded = true;
     let anim = 'idle', frame = 0, t0 = 0, previous = null, dirIndex = 0, flipped = false, dieDone = false, camYaw = 0, lastAttack = false, hurtT = 0;
+    // the frame is a window of the shared sheet, written into this plane's UVs (flipped = mirrored x)
+    const uv = plane.geometry.attributes.uv; let shown = '';
     const show = (row, f, flip) => {
-      const x = Math.min(f, row.frames - 1), col = flip ? (x + 1) : x;
-      tex.offset.set(x / cols, 1 - (row.y + 1) / rowsN);
-      tex.repeat.x = (flip ? -1 : 1) / cols; if (flip) tex.offset.x = (x + 1) / cols;
+      const x = Math.min(f, row.frames - 1), key = `${row.y}/${x}/${flip ? 1 : 0}`;
+      if (key === shown) return; shown = key;
+      const u0 = x / cols, u1 = (x + 1) / cols, v1 = 1 - row.y / rowsN, v0 = 1 - (row.y + 1) / rowsN;
+      const l = flip ? u1 : u0, r = flip ? u0 : u1;
+      uv.setXY(0, l, v1); uv.setXY(1, r, v1); uv.setXY(2, l, v0); uv.setXY(3, r, v0); uv.needsUpdate = true;
     };
     const setAnim = (a, time) => { if (anim !== a) { anim = a; t0 = time; frame = 0; } };
     face = yaw => { camYaw = yaw; pivot.rotation.y = yaw; };   // turned to the camera: the plane is upright and facing it

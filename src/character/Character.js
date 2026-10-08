@@ -2,8 +2,10 @@
 // Pure logic so it can be reused by any world or a future server.
 import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
 import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
-import { MAX_LEVEL, expToNext, CARRY, RECOVERY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_UNLOCK_JOB, SKILL_RESET_GOLD } from './data/progression.js';
-import { KIT_SKILL_IDS } from './data/kits.js';
+import { MAX_LEVEL, expToNext, CARRY, RECOVERY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_RESET_GOLD } from './data/progression.js';
+import { KIT_SKILL_IDS, KIT_MOVES } from './data/kits.js';
+import { reqOf, passivesOf } from './data/skilltree.js';
+import { KIT_PASSIVES, kitPassiveBonus } from '../rules/data/kitpassives.js';
 import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
 import { refinable, refineBonus, refineCost, plusOf } from './data/refine.js';
 import { EVOLUTIONS, EVO_LEVEL, EVO_SWITCH_GOLD, evoId } from '../rules/data/evolutions.js';
@@ -39,9 +41,11 @@ export class Character extends Emitter {
     this.jobLevel = Math.max(1, Math.min(MAX_JOB_LEVEL, Math.floor(jobLevel ?? Math.min(MAX_JOB_LEVEL, Math.floor((level - 1) * .85) + 1))));
     this.jobExp = Math.max(0, jobExp || 0);
     this.skills = {};
-    const ids = KIT_SKILL_IDS[classId] ?? [];
-    for (const [id, lv] of Object.entries(skills ?? {})) { const i = ids.indexOf(id); if (i >= 0 && lv > 0 && SKILL_UNLOCK_JOB[i] <= this.jobLevel) this.skills[id] = Math.min(MAX_SKILL_LEVEL, Math.floor(lv)); }
+    const ids = KIT_SKILL_IDS[classId] ?? [], learnable = [...ids, ...passivesOf(classId)];
+    for (const [id, lv] of Object.entries(skills ?? {})) if (learnable.includes(id) && lv > 0) this.skills[id] = Math.min(MAX_SKILL_LEVEL, Math.floor(lv));
     if (ids[0] && !this.skills[ids[0]]) this.skills[ids[0]] = 1;
+    // a skill whose tree requirements are not met (an edited save, a tree that changed) is forgotten, until none is left like that
+    for (let dropped = true; dropped;) { dropped = false; for (const id of Object.keys(this.skills)) if (id !== ids[0] && this.skillTreeBlock(id)) { delete this.skills[id]; dropped = true; } }
     while (this.skillPoints < 0) { const top = Object.keys(this.skills).filter(id => id !== ids[0] || this.skills[id] > 1).pop(); if (!top) break; if (--this.skills[top] <= 0) delete this.skills[top]; }
     // skill evolution paths chosen ({ kit skill id: 'A' | 'B' }, src/rules/data/evolutions.js)
     this.evo = {};
@@ -123,6 +127,7 @@ export class Character extends Emitter {
   get derived() {
     const s = this.stats, bonus = {};
     for (const key of DERIVED_BONUS) bonus[key] = this.equipBonus(key);
+    for (const [k, v] of Object.entries(this.passiveBonus)) bonus[k] = (bonus[k] || 0) + v;   // the tree's passive skills
     const base = Object.fromEntries(STATS.map(k => [k.toUpperCase(), s[k]]));
     return computeDerived(base, JOBS[this.cls.job] ?? JOBS.boxer, this.level, bonus, { ranged: this.cls.ranged });
   }
@@ -200,7 +205,7 @@ export class Character extends Emitter {
   spendMp(amount) { if (this.mp < amount) return false; this.mp -= amount; this.emit('change'); return true; }
   revive(ratio = .5) { this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.round(this.maxMp * ratio); this.buffs = []; this.emit('change'); }
 
-  // Slow natural regeneration, faster out of combat, faster again sitting (`sitting`, not saved).
+  // Slow natural regeneration, slower in combat (no sitting bonus: recovery is potions and healers).
   tick(dt, inCombat) {
     for (const key of Object.keys(this.cooldowns)) if ((this.cooldowns[key] -= dt) <= 0) delete this.cooldowns[key];
     const before = this.buffs.length;
@@ -212,8 +217,7 @@ export class Character extends Emitter {
     // a monster's poison (src/combat/monsterHit.js): HP a second, never the last one
     const poison = this.buffSum('poison');
     if (poison && this.hp > 1) { this.hp = Math.max(1, this.hp - poison * dt); this.emit('change'); }
-    // sitting (Combat.sit) doubles it out of a fight, as in RO
-    const factor = inCombat ? RECOVERY.combat : this.sitting ? RECOVERY.sitting : 1;
+    const factor = inCombat ? RECOVERY.combat : 1;
     this.regen = (this.regen || 0) + dt;
     if (this.regen >= 1) {
       const seconds = Math.floor(this.regen); this.regen -= seconds;
@@ -233,19 +237,39 @@ export class Character extends Emitter {
   // ---- Job level and skills ----
   get jobExpNeeded() { return jobExpToNext(this.jobLevel); }
   get kitSkills() { return KIT_SKILL_IDS[this.classId] ?? []; }
+  // The tree's passives (src/rules/data/kitpassives.js): learnt like skills, never on the hotbar.
+  get kitPassives() { return passivesOf(this.classId); }
+  get learnableSkills() { return [...this.kitSkills, ...this.kitPassives]; }
+  // What the learnt passives add to the derived stats ({ patkMul, hp, petMul, … }).
+  get passiveBonus() { return kitPassiveBonus(this.skills); }
+  get healPow() { return this.derived.healPow ?? 1; }
+  get petBiteMul() { return 1 + (this.passiveBonus.petMul || 0); }
   // Points spent: every learnt level beyond the free first skill's first level.
   get skillPointsSpent() { return Object.entries(this.skills).reduce((n, [id, lv]) => n + lv - (id === this.kitSkills[0] ? 1 : 0), 0); }
   get skillPoints() { return this.jobLevel - 1 - this.skillPointsSpent; }
   skillLevel(id) { return this.skills[id] ?? 0; }
-  skillUnlockJob(id) { const i = this.kitSkills.indexOf(id); return i < 0 ? Infinity : SKILL_UNLOCK_JOB[i]; }
+  skillName(id) { return KIT_MOVES[this.classId]?.find(s => s.id === id)?.name ?? KIT_PASSIVES[id]?.nameTh ?? id; }
+  // The tree's terms for a skill (src/character/data/skilltree.js): the skills before it and the job floor.
+  skillReqs(id) { return reqOf(this.classId, id); }
+  skillUnlockJob(id) { return this.learnableSkills.includes(id) ? this.skillReqs(id).job ?? 1 : Infinity; }
+  // The first unmet tree requirement of a skill (null: it is open): the job floor, then each skill before it.
+  skillTreeBlock(id) {
+    const { req = {}, job = 1 } = this.skillReqs(id);
+    if (this.jobLevel < job) return `ต้องถึง Job Lv.${job}`;
+    for (const [k, lv] of Object.entries(req)) if (this.skillLevel(k) < lv) return `ต้องมี ${this.skillName(k)} Lv.${lv}`;
+    return null;
+  }
+  skillOpen(id) { return this.learnableSkills.includes(id) && !this.skillTreeBlock(id); }
   // Why a skill cannot go up one level now (null: it can).
   skillBlock(id) {
-    if (!this.kitSkills.includes(id)) return 'ไม่ใช่สกิลของอาชีพนี้';
+    if (!this.learnableSkills.includes(id)) return 'ไม่ใช่สกิลของอาชีพนี้';
     if (this.skillLevel(id) >= MAX_SKILL_LEVEL) return 'เลเวลสูงสุดแล้ว';
-    if (this.jobLevel < this.skillUnlockJob(id)) return `ต้องถึง Job Lv.${this.skillUnlockJob(id)}`;
+    const tree = this.skillTreeBlock(id); if (tree) return tree;
     if (this.skillPoints <= 0) return 'แต้มสกิลไม่พอ';
     return null;
   }
+  // Skills that would open now but for one more level of `id` (the panel announces them).
+  skillOpensNext(id) { return this.learnableSkills.filter(k => !this.skillLevel(k) && !this.skillOpen(k) && Object.entries(this.skillReqs(k).req ?? {}).some(([r, lv]) => r === id && this.skillLevel(id) + 1 === lv) && !Object.entries(this.skillReqs(k).req).some(([r, lv]) => r !== id && this.skillLevel(r) < lv) && this.jobLevel >= (this.skillReqs(k).job ?? 1)); }
   learnSkill(id) {
     if (this.skillBlock(id)) return false;
     this.skills[id] = this.skillLevel(id) + 1; this.emit('skills'); this.emit('change');

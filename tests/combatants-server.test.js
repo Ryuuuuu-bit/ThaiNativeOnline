@@ -15,8 +15,9 @@ const boars = (n = 1, spread = 0) => {
   return w;
 };
 import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
+import { fullKit } from '../src/character/data/skilltree.js';
 // every kit skill learnt at Lv.1 (job level 50 has the points)
-const sheet = (classId, level = 10) => ({ ...Character.create('ทดสอบ', classId).toJSON(), level, jobLevel: 50, skills: Object.fromEntries((KIT_SKILL_IDS[classId] ?? []).map(id => [id, 1])) });
+const sheet = (classId, level = 10) => ({ ...Character.create('ทดสอบ', classId).toJSON(), level, jobLevel: 50, skills: fullKit(classId, KIT_SKILL_IDS[classId] ?? []) });
 const setup = (classId = 'hunter', o = {}) => {
   const now = clock(), cs = new Combatants({ now, random: () => .3 });
   assert.equal(cs.set(1, sheet(classId), classId), true);

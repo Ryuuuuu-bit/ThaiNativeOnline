@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { J } from './CityMap.js';
+import { J, WATER_Y, MARSH_WATER_Y } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, inView, walkable } from './maps.js';
 import { TerrainData, Occupancy, OCC, seedOccupancy, paintGround, buildGrassMask, makeGround, makeGrassField } from './Terrain.js';
 import { StaticBatcher } from './Batching.js';
@@ -84,6 +84,8 @@ class WorldContext {
 }
 
 const frame = () => new Promise(resolve => setTimeout(resolve, 0));
+// How far below the water's surface the ground may be and still be walked on (a wade, knee-deep).
+export const WADE = .22;
 
 // Free everything a built map put on the GPU. Shared module materials and
 // textures are only released (three re-uploads them if another map uses them).
@@ -141,7 +143,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const klong = buildKlong(ctx);
   ctx.reserveSpotLinks(); lap('countryside+wilds');
   progress('กำลังสร้างบ้านเรือนชาวเมือง…'); await frame();
-  const houses = fillBuildings(ctx); lap('houses');
+  const houses = await fillBuildings(ctx); lap('houses');
   const forestTrees = scatterNature(ctx); lap('nature');
 
   progress('กำลังวาดผืนดิน…'); await frame();
@@ -151,7 +153,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const water = buildWater(scene, map.view); lap('water');
 
   progress('กำลังประกอบฉาก…'); await frame();
-  const staticMeshes = ctx.batcher.build(scene), propMeshes = ctx.props.build(scene), vegMeshes = ctx.veg.build(scene);
+  const staticMeshes = await ctx.batcher.buildAsync(scene), propMeshes = ctx.props.build(scene), vegMeshes = ctx.veg.build(scene);
   for (const set of ctx.sets) set.build(scene);
   for (const [x, z, r] of ctx.veg.obstacles) ctx.collision.addCircle(x, z, r);
   lap('batching');
@@ -169,10 +171,17 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
     stats: { map: map.id, houses, halls, watRang, klong, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
     contains: (x, z) => walkable(map, x, z),
     heightAt(x, z) { const d = collision.deckHeight(x, z), g = terrain.height(x, z); return d === null ? g : Math.max(d, g); },
-    canStand(x, z) {
+    // `pad`: the body's radius (the player's .28; route planning asks with more room so a walk
+    // does not scrape along walls). Water: a deck carries over anything; otherwise deep water is
+    // out, and so is any water deeper than a wade (WADE below the surface) — the river bank,
+    // the canal and the pond edges stop at the knee instead of letting the player walk in.
+    canStand(x, z, pad) {
       if (!walkable(map, x, z)) return false;
-      if (collision.blocked(x, z)) return false;
-      return !terrain.isDeep(x, z) || collision.deckHeight(x, z) !== null;
+      if (collision.blocked(x, z, pad)) return false;
+      if (collision.deckHeight(x, z) !== null) return true;
+      if (terrain.isDeep(x, z)) return false;
+      const surface = z < -600 ? MARSH_WATER_Y : WATER_Y;
+      return terrain.height(x, z) >= surface - WADE;
     },
     speedAt(x, z) { return terrain.isShallow(x, z) && collision.deckHeight(x, z) === null ? .62 : 1; },
     update(t, dt, focus, env) {

@@ -71,11 +71,12 @@ export function healPower(skillId, lv = 1, matk = 0) {
 // The caster's side of a cast: { heal (share of max HP), hp (flat heal, healPower), mp (share of
 // max MP), buff } or null. buff is a Character buff ({ id, duration, atk?, def?, crit? },
 // src/character/Character.js); a flat rules DEF bonus becomes a share of the caster's own DEF (`ownDef`).
-export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0) {
+// `healPow`: the caster's healing power (Character.healPow: the herbalist's ตำรับโอสถ and gear), on every heal.
+export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1) {
   const base = SKILL_BY_ID[skillId];
   if (!base) return null;
   const st = skillStats(base, lv), b = st.buff, seconds = (st.duration ?? 0) / 1000;
-  const heal = typeof st.heal === 'number' ? st.heal : 0, mp = st.mpHeal ?? 0;
+  const heal = typeof st.heal === 'number' ? +(st.heal * healPow).toFixed(4) : 0, mp = st.mpHeal ?? 0;
   let buff = null;
   if (b && seconds > 0) {
     buff = { id: `kit_${skillId}`, duration: seconds };
@@ -85,7 +86,7 @@ export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0) {
     if (b.critAdd) buff.crit = b.critAdd;
     if (b.aspd) buff.aspd = b.aspd;
   }
-  const hp = healPower(skillId, lv, matk);
+  const hp = Math.round(healPower(skillId, lv, matk) * healPow);
   return heal || hp || mp || buff ? { heal, hp, mp, buff } : null;
 }
 
@@ -101,11 +102,11 @@ export function allyHeal(skillId) {
 // revive skills reach every member within `radius` m — the same heal, MP and buff the caster
 // gets — and a revive skill brings the fallen ones back with `revive` of their HP. The healing
 // skills (vine, pill, mortar: rules `heals` + `hmult`) give the members in reach the same flat `hp`.
-export function supportOf(skillId, lv = 1, ownDef = 10, matk = 0) {
+export function supportOf(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1) {
   const base = SKILL_BY_ID[skillId];
   const area = base && (base.party || base.type === 'revive'), healing = !!(base?.heals && base.hmult);
   if (!area && !healing) return null;
-  const e = selfEffects(skillId, lv, ownDef, matk) ?? { heal: 0, hp: 0, mp: 0, buff: null };
+  const e = selfEffects(skillId, lv, ownDef, matk, healPow) ?? { heal: 0, hp: 0, mp: 0, buff: null };
   const radius = metres(area ? base.radius ?? 200 : Math.max(base.range ?? 0, 220));
   return { radius, heal: e.heal, hp: e.hp, mp: e.mp, buff: e.buff, revive: base.type === 'revive' ? Math.max(.2, e.heal || .3) : 0 };
 }

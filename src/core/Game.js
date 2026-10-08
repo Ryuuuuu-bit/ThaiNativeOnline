@@ -37,6 +37,8 @@ import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
 import { MUSIC_FOR } from '../data/audio.js';
 
 const $ = id => document.getElementById(id);
+// Route planning keeps this much room from obstacles (the body itself needs .28, src/world/Collision.js).
+const ROOMY = .5;
 const params = new URLSearchParams(location.search);
 
 // a local build (npm run dev / a server on this machine): the developer settings are open
@@ -208,7 +210,8 @@ export class Game {
       const high = e.target.value === 'high', sun = this.env.sun;
       this.prefs.set({ quality: high ? 'high' : 'low' });
       this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, 1.5) : 1);   // above 1.5× the GPU cost outgrows what shows at full HD
-      sun.shadow.mapSize.set(high ? 4096 : 2048, high ? 4096 : 2048);
+      sun.shadow.mapSize.set(high ? 4096 : 1024, high ? 4096 : 1024);
+      this.setWorldShadows(high);
       this.postfx.enabled = high;   // bloom, colour grade and vignette only on high
       if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
       if (this.world) this.world.grass.mesh.geometry.instanceCount = high ? 56000 : 34000;
@@ -312,6 +315,8 @@ export class Game {
       onPick: l => { if (this.walkTo(l.x, l.z, Math.min(l.radius ?? 6, 12))) this.toggleMap(); },
       // navigation: a tap on the minimap / full map walks to that spot (the nearest ground there)
       onWalk: (x, z, fromFull) => { const ok = this.walkTo(x, z, 10); if (ok && fromFull) this.toggleMap(); return ok; },
+      onOpen: () => this.toggleMap(),   // a tap on the minimap opens the big map
+
     }).activate();
     Minimap.mountLegend($('fullmap-legend'));
     const lv = levelText(map.levels);
@@ -326,6 +331,7 @@ export class Game {
     }
     world.atmosphere.setEnabled($('particles').checked);
     world.grass.mesh.geometry.instanceCount = $('quality').value === 'high' ? 56000 : 34000;
+    this.setWorldShadows($('quality').value === 'high');
     if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
     if (this.questUI) this.updateJournal();
     this.training?.enterMap(map.id);
@@ -335,15 +341,18 @@ export class Game {
 
   // Click-to-walk (ground clicks and landmarks picked on the full map): plans a
   // route with findPath to (x, z), or to the nearest standable point within `near`.
-  walkTo(x, z, near = 0) {
+  // The route is planned with more room than the body needs (ROOMY) so it keeps off walls and
+  // trunks; only when that finds nothing does it plan at the body's own width.
+  walkTo(x, z, near = 0, { replan = false } = {}) {
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;
     for (let r = 1; !goal && r <= near; r++) for (let i = 0; i < 16 && !goal; i++) { const a = i / 16 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
     // long trips (a tap on the map across the city) plan on a coarser grid so the search stays small
     let route = null;
-    for (const step of [.5, 1, 1.5]) if (goal && !route) route = findPath(stand, this.player.position, goal, { step, maxCells: 160000 });
-    if (!route) { this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
+    for (const pad of [ROOMY, undefined]) for (const step of [.5, 1, 1.5]) if (goal && !route) route = findPath((a, b) => this.world.canStand(a, b, pad), this.player.position, goal, { step, maxCells: 160000 });
+    if (!route) { if (!replan) this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
     this.game?.onManualMove(); this.training?.onManualMove(); this.view.recenter();
+    if (!replan) this.replans = 0;
     this.route = route; this.autoWalk = false; this.navGoal = { x: goal.x, z: goal.z }; this.nextWaypoint();
     this.marker.position.set(goal.x, this.world.heightAt(goal.x, goal.z) + .07, goal.z); this.marker.visible = true;
     return true;
@@ -360,7 +369,7 @@ export class Game {
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;   // a monster by a trunk: the nearest free spot beside it
     for (let r = .5; !goal && r <= 2; r += .5) for (let i = 0; i < 12 && !goal; i++) { const a = i / 12 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
-    const route = goal && findPath(stand, this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 });
+    const route = goal && (findPath((a, b) => this.world.canStand(a, b, ROOMY), this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 }) || findPath(stand, this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 }));
     if (!route) { this.stopWalk(); return false; }
     this.route = route; this.autoWalk = true; this.navGoal = null; this.marker.visible = false; this.nextWaypoint();   // a chase shows no marker of its own
     return true;
@@ -459,13 +468,32 @@ export class Game {
     this.hud.setJournal(known.filter(l => this.discovered.has(l.id)).length, known.length, next?.name, this.maps.map.name, this.maps.map.intro);
   }
 
+  // Low quality: only the characters and monsters throw shadows; the map (houses, trees, props,
+  // grass) keeps receiving them. On a phone the shadow pass over the whole map is the dearest
+  // thing after resolution, and the player's own shadow is what reads.
+  setWorldShadows(on) {
+    const root = this.world?.root; if (!root) return;
+    root.traverse(o => {
+      if (!o.isMesh) return;
+      if (o.userData.castShadow0 === undefined) o.userData.castShadow0 = o.castShadow;
+      o.castShadow = on && o.userData.castShadow0;
+    });
+  }
+
   tick(time) {
     if (document.hidden) { this.previous = null; return; }
     const dt = this.previous === null ? 0 : Math.min((time - this.previous) / 1000, .05);
     this.previous = time;
     this.frame(time, dt);
     this.frames++; this.fpsTime += dt;
-    if (this.fpsTime > .5) { this.fps = this.frames / this.fpsTime; this.frames = 0; this.fpsTime = 0; }
+    if (this.fpsTime > .5) {
+      this.fps = this.frames / this.fpsTime; this.frames = 0; this.fpsTime = 0;
+      // a machine that cannot hold 28 fps on high for eight seconds running goes to low once (the player can set it back)
+      if (this.prefs.quality === 'high' && !this.autoLowered && this.game) {
+        this.slowFor = this.fps < 28 ? (this.slowFor ?? 0) + .5 : 0;
+        if (this.slowFor >= 8) { this.autoLowered = true; $('quality').value = 'low'; $('quality').dispatchEvent(new Event('change')); this.hud.toast('ปรับกราฟิกเป็น "ประหยัด" ให้อัตโนมัติ เพราะเครื่องเริ่มกระตุก · เปลี่ยนกลับได้ในตั้งค่า', ''); }
+      }
+    }
   }
   // One beat while the tab is hidden: the time since the last one in steps of at most 50 ms
   // (as a frame would be), at most a second's worth, nothing drawn.
@@ -506,12 +534,18 @@ export class Game {
     this.maps.update(dt, this.elapsed);
     if (this.maps.busy) return;
     if (canMove && (!moved && dt > 0 || stalled) && this.destination) {
-      // Combat auto-walk retries every frame; only a manual click reports a blocked path.
-      if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
-      // a chase that got stuck (a route the grid allowed but the body cannot pass): that goal is
-      // off for a while, so the next chaseTo says no and AUTO turns to another monster
-      else if (this.chaseGoal) this.chaseBlocked = { ...this.chaseGoal, until: this.elapsed + 6 };
-      this.stopWalk();
+      // a walk the player asked for that ran into something the grid missed: plan again from
+      // here (a few times) before giving up and saying so
+      let replanned = false;
+      if (!this.autoWalk && this.navGoal && (this.replans = (this.replans ?? 0) + 1) <= 3) { const g = this.navGoal; this.stopWalk(); replanned = this.walkTo(g.x, g.z, 10, { replan: true }); }
+      if (!replanned) {
+        // Combat auto-walk retries every frame; only a manual click reports a blocked path.
+        if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
+        // a chase that got stuck (a route the grid allowed but the body cannot pass): that goal is
+        // off for a while, so the next chaseTo says no and AUTO turns to another monster
+        else if (this.chaseGoal) this.chaseBlocked = { ...this.chaseGoal, until: this.elapsed + 6 };
+        this.stopWalk();
+      }
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
 

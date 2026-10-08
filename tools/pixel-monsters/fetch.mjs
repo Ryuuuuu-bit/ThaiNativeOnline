@@ -109,7 +109,14 @@ async function build(type) {
   }));
   mkdirSync(OUT, { recursive: true });
   writeFileSync(resolve(OUT, `${type}.png`), PNG.sync.write(sheet));
-  const layout = { cell, cols, rows: rows.map((r, y) => ({ anim: r.anim, dir: r.dir, y, frames: r.frames.length, fps: FPS[r.anim] ?? 8 })), source: { kind: spec.kind, id: spec.id } };
+  // fill: how much of the cell the standing monster occupies (its opaque height / cell), so the
+  // game can scale the sprite by the creature's height rather than the canvas's
+  let top = cell;
+  for (const row of rows.filter(r => r.anim === 'idle')) for (const f of row.frames) {
+    for (let j = 0; j < f.height && j < top; j++) for (let i = 0; i < f.width; i++) if (f.data[(j * f.width + i) * 4 + 3] > 40) { top = Math.min(top, j + (cell - f.height)); break; }
+  }
+  const fill = +((cell - top) / cell).toFixed(3);
+  const layout = { cell, cols, fill, rows: rows.map((r, y) => ({ anim: r.anim, dir: r.dir, y, frames: r.frames.length, fps: FPS[r.anim] ?? 8 })), source: { kind: spec.kind, id: spec.id } };
   writeFileSync(resolve(OUT, `${type}.json`), JSON.stringify(layout));
   const anims = [...new Set(rows.map(r => r.anim))];
   console.log(`${rows.length} rows (${anims.join(', ')}), cell ${cell}px, ${sheet.width}×${sheet.height}`);

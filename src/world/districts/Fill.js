@@ -16,9 +16,13 @@ function zoneOf(x, z) {
   return null;
 }
 
-export function fillBuildings(ctx) {
+// Houses are the longest build step (every candidate is modelled before its site is checked), so
+// the loop hands the browser a frame every BREATH_MS: the loading screen keeps moving and a
+// phone never gets a one-second freeze. The random sequence is untouched by the pauses.
+const BREATH_MS = 24, breathe = () => new Promise(resolve => setTimeout(resolve, 0));
+export async function fillBuildings(ctx) {
   const { rng, occ, veg } = ctx;
-  let count = 0;
+  let count = 0, last = performance.now();
   for (const road of ROADS) {
     if (['bridge', 'plaza', 'trail', 'bund'].includes(road.kind)) continue;
     const pts = roadPoints(road);
@@ -42,6 +46,7 @@ export function fillBuildings(ctx) {
           if (!g) continue;
           ctx.place(g, ox, oz, rot, { home: !back });
           count++;
+          if (performance.now() - last > BREATH_MS) { await breathe(); last = performance.now(); }
           if (zone.type === 'shop') continue;
           // Banana and coconut beside the house, chickens in some yards.
           for (const s of [-1, 1]) {

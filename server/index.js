@@ -155,10 +155,24 @@ const server = createServer((req, res) => {
   if (url.pathname.startsWith('/api/')) { api(req, res, url); return; }
   let path = normalize(join(ROOT, decodeURIComponent(url.pathname)));
   if (!path.startsWith(ROOT)) { res.writeHead(403); res.end(); return; }
-  if (!existsSync(path) || statSync(path).isDirectory()) path = join(ROOT, 'index.html');   // the game is one page
+  if (!existsSync(path) || statSync(path).isDirectory()) {
+    // a missing file (a model, a sprite sheet, a sound) is a 404, so a loader fails plainly
+    // instead of parsing the game page; any other path is the game, which is one page
+    if (extname(url.pathname)) { res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-cache' }); res.end('not found'); return; }
+    path = join(ROOT, 'index.html');
+  }
   if (!existsSync(path)) { res.writeHead(503, { 'content-type': 'text/plain; charset=utf-8' }); res.end('ยังไม่ได้ build เกม (npm run build)'); return; }
-  const hashed = /\/assets\//.test(path);
-  res.writeHead(200, { 'content-type': TYPES[extname(path).toLowerCase()] ?? 'application/octet-stream', 'cache-control': hashed ? 'public, max-age=31536000, immutable' : 'no-cache' });
+  // Vite's hashed bundles never change; models, sprites, icons and sounds are big and change
+  // rarely, so the browser keeps them a day and asks with the ETag after that (a 304, not a
+  // re-download); the page itself and small JSON are always re-checked.
+  const stat = statSync(path), hashed = /\/assets\//.test(path), heavy = /\.(glb|gltf|bin|png|jpe?g|webp|mp3|ogg|wav|woff2)$/i.test(path);
+  const etag = `W/"${stat.size.toString(16)}-${Math.floor(stat.mtimeMs).toString(16)}"`;
+  const headers = { 'content-type': TYPES[extname(path).toLowerCase()] ?? 'application/octet-stream', etag, 'last-modified': stat.mtime.toUTCString(),
+    'cache-control': hashed ? 'public, max-age=31536000, immutable' : heavy ? 'public, max-age=86400, stale-while-revalidate=604800' : 'no-cache' };
+  if (req.headers['if-none-match'] === etag) { res.writeHead(304, headers); res.end(); return; }
+  headers['content-length'] = stat.size;
+  if (req.method === 'HEAD') { res.writeHead(200, headers); res.end(); return; }
+  res.writeHead(200, headers);
   createReadStream(path).pipe(res);
 });
 

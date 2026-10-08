@@ -1,7 +1,8 @@
 // ============================================================
 //  ระบบสกิล (5 อาชีพ × 6 สกิล + ขุนศึก/จอมขมังเวทย์ มีสกิลขั้นสูงเพิ่มอีก 4) + Skill Tree
 //  ▸ เรียน/อัปเลเวลสกิลด้วย Skill Point (SP): Lv.1–60 ได้ 1 SP ต่อเลเวล · หลัง Lv.60 ได้ 1 SP ทุก 2 เลเวล (spAt)
-//  ▸ สกิลละ 5 เลเวล: ตัวคูณดาเมจ +15%/เลเวล, คูลดาวน์ -4%/เลเวล, MP +10%/เลเวล
+//  ▸ สกิลละ 10 เลเวล (MAX_SKILL_LV): ตัวคูณดาเมจ/ฮีล +8%/เลเวล, คูลดาวน์ -2.5%/เลเวล, MP +6%/เลเวล, ระยะเวลา +6%/เลเวล
+//    (Lv.10 ≈ ×1.72 ดาเมจ · ต้นไม้สกิล: src/character/data/skilltree.js)
 //  ▸ ติดตั้งลง Hotbar Q W E R T (ลาก-วาง หรือคลิกเลือก)
 //
 //  type:
@@ -28,6 +29,7 @@
 // ============================================================
 import { SUB_CAP } from './classes.js';
 import { PASSIVES, KEYSTONE, BRANCHES, branchPoints, PASSIVES_ON } from './passives.js';
+import { KIT_PASSIVES } from './kitpassives.js';
 
 // Hotbar 10 ช่อง (ปุ่มตัวเลขแถวบน 1–0) · ใส่ได้ทั้งสกิล (id สกิล) และไอเทม ('it:<id ไอเทม>')
 export const SKILL_SLOTS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -35,7 +37,7 @@ export const OLD_SKILL_SLOTS = ['Q', 'W', 'E', 'R', 'T'];          // เซฟ�
 export const SLOT_KEYNAME = { 1: 'ONE', 2: 'TWO', 3: 'THREE', 4: 'FOUR', 5: 'FIVE', 6: 'SIX', 7: 'SEVEN', 8: 'EIGHT', 9: 'NINE', 0: 'ZERO' };
 export const isItemSlot = (v) => typeof v === 'string' && v.startsWith('it:');
 export const slotItemId = (v) => (isItemSlot(v) ? v.slice(3) : null);
-export const MAX_SKILL_LV = 5;
+export const MAX_SKILL_LV = 10;
 export const SP_PER_LEVEL = 1;
 export const START_SP = 1;
 /** แต้มสกิลช่วงหลัง: Lv.1–60 ได้ 1 SP ทุกเลเวล · หลัง Lv.60 ได้ 1 SP ทุก 2 เลเวล (Lv.150 รวม 105 → ตันสายหลัก + เหลือ ~45 ให้สายรอง ต้องเลือก) */
@@ -103,7 +105,7 @@ export const SKILLS = {
       desc: 'ฝังเมล็ดบนเพื่อน 4 วิแล้วบานรักษาก้อนใหญ่ · ถ้าเลือดต่ำกว่า 30% บานทันที' },
     { id: 'heal_tiger', nameTh: 'ยาต้มพยัคฆ์เหิน', icon: '🐯', reqLv: 6, type: 'party', party: true, element: 'fire',
       mp: 18, cd: 16000, radius: 200, buff: { defMul: 0.2, speed: 0.25, cleanse: true }, grow: { defMul: 0.03, speed: 0.025 }, duration: 8000, sfx: 'buff',
-      desc: '[ทีม] ต้มยาพยัคฆ์ ไอยาแผ่ 200 รอบตัว · ป้องกัน +20% วิ่งเร็ว +25% ลบอาการช้า 8 วิ (เลเวล 5 = +32% / +35%)' },
+      desc: '[ทีม] ต้มยาพยัคฆ์ ไอยาแผ่ 200 รอบตัว · ป้องกัน +20% วิ่งเร็ว +25% ลบอาการช้า 8 วิ (เลเวล 10 = +32% / +35%)' },
     { id: 'heal_khwan', nameTh: 'พิธีสู่ขวัญ', icon: '🪷', reqLv: 8, type: 'revive', ultimate: true, element: 'light', heals: true,
       mp: 35, cd: 40000, radius: 220, castMs: 1200, heal: 0.4, undying: 10000, sfx: 'buff',
       desc: '★ ร่าย 1.2 วิ บายศรีสู่ขวัญ รักษา 40% ทุกคนในวง · ชุบชีวิตเพื่อนที่สลบ · ขวัญกันตาย 10 วิ (เลือดไม่ลดต่ำกว่า 1)' },
@@ -275,8 +277,11 @@ export const SKILLS = {
 };
 
 /** ค้นหาสกิลด้วย id */
-export const SKILL_BY_ID = Object.fromEntries(
-  Object.entries(SKILLS).flatMap(([job, list]) => list.map((s) => [s.id, { ...s, job }])));
+export const SKILL_BY_ID = Object.fromEntries([
+  ...Object.entries(SKILLS).flatMap(([job, list]) => list.map((s) => [s.id, { ...s, job }])),
+  // the classes' tree passives (src/rules/data/kitpassives.js): no job, so the legacy weapon check never applies them twice
+  ...Object.entries(KIT_PASSIVES).map(([id, p]) => [id, { id, nameTh: p.nameTh, icon: p.icon, type: 'passive', kind: 'support', desc: p.desc, passive: p.bonus }]),
+]);
 
 /** ใช้สกิลนี้ได้ไหมเมื่อถืออาวุธแนว job (เคล็ดวิชาผสมใช้ได้ทั้งสองแนว) */
 export const skillUsable = (base, job) => !!base && (base.job === job || (base.jobs || []).includes(job));
@@ -298,16 +303,18 @@ export const masteryOf = (c, id) => skillMastery(c?.skx?.[id] || 0).m;
 /** ค่าจริงของสกิลตามเลเวล (1–5) + ขั้นความชำนาญ (0–10) */
 export function skillStats(skill, lv = 1, mastery = 0) {
   const L = Math.max(1, Math.min(MAX_SKILL_LV, lv)) - 1, M = Math.max(0, Math.min(MASTERY_MAX, mastery | 0));
+  // `grow` is written per level of the old five-level skills: spread over the nine steps so Lv.10 lands where Lv.5 did
+  const G = L * 4 / (MAX_SKILL_LV - 1);
   return {
     ...skill,
     lv: L + 1, mastery: M,
-    mult: skill.mult ? +(skill.mult * (1 + 0.15 * L) * (1 + 0.02 * M)).toFixed(3) : undefined,
-    mp: skill.mp ? Math.round(skill.mp * (1 + 0.1 * L)) : 0,
-    cd: skill.cd ? Math.round(skill.cd * (1 - 0.04 * L) * (1 - 0.01 * M)) : 0,
-    duration: skill.duration ? Math.round(skill.duration * (1 + 0.1 * L)) : undefined,
-    heal: typeof skill.heal === 'number' ? +(skill.heal * (1 + 0.1 * L)).toFixed(3) : skill.heal,
-    hmult: skill.hmult ? +(skill.hmult * (1 + 0.15 * L) * (1 + 0.02 * M)).toFixed(3) : undefined,
-    buff: skill.buff && skill.grow ? Object.fromEntries(Object.entries(skill.buff).map(([k, v]) => [k, typeof v === 'number' ? +(v + (skill.grow[k] || 0) * L).toFixed(3) : v])) : skill.buff,
+    mult: skill.mult ? +(skill.mult * (1 + 0.08 * L) * (1 + 0.02 * M)).toFixed(3) : undefined,
+    mp: skill.mp ? Math.round(skill.mp * (1 + 0.06 * L)) : 0,
+    cd: skill.cd ? Math.round(skill.cd * (1 - 0.025 * L) * (1 - 0.01 * M)) : 0,
+    duration: skill.duration ? Math.round(skill.duration * (1 + 0.06 * L)) : undefined,
+    heal: typeof skill.heal === 'number' ? +(skill.heal * (1 + 0.06 * L)).toFixed(3) : skill.heal,
+    hmult: skill.hmult ? +(skill.hmult * (1 + 0.08 * L) * (1 + 0.02 * M)).toFixed(3) : undefined,
+    buff: skill.buff && skill.grow ? Object.fromEntries(Object.entries(skill.buff).map(([k, v]) => [k, typeof v === 'number' ? +(v + (skill.grow[k] || 0) * G).toFixed(3) : v])) : skill.buff,
   };
 }
 

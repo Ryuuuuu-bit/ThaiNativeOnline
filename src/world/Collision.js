@@ -29,6 +29,7 @@ export class Collision {
   }
   cellList(map, x, z) { return map.get(Math.floor(x / this.cell) * 100003 + Math.floor(z / this.cell)); }
   blocked(x, z, pad = .28) {
+    if (!(pad >= 0)) pad = .28;
     const list = this.cellList(this.shapes, x, z);
     if (!list) return false;
     for (const s of list) {

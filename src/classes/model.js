@@ -1,13 +1,15 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
+import { cachedLoader } from '../core/retry.js';
+import { versioned } from '../core/version.js';
 
 // One parse per GLB: every character of a class (the player, each other player on the map) is a
 // clone of the same loaded scene, with its own materials (tints) over shared geometry and textures.
-const GLTF_CACHE = new Map();
+// A load is retried a few times (phones drop connections), see src/core/retry.js.
+const loadOnce = cachedLoader(url => new GLTFLoader().loadAsync(versioned(url)));
 const loadShared = url => {
-  if (!GLTF_CACHE.has(url)) GLTF_CACHE.set(url, new GLTFLoader().loadAsync(url).catch(e => { GLTF_CACHE.delete(url); throw e; }));
-  return GLTF_CACHE.get(url).then(gltf => {
+  return loadOnce(url).then(gltf => {
     const scene = cloneSkinned(gltf.scene);
     scene.traverse(o => { if (o.isMesh) o.material = Array.isArray(o.material) ? o.material.map(m => m.clone()) : o.material.clone(); });
     return { scene, animations: gltf.animations };

@@ -18,7 +18,8 @@ import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monste
 //               the palette follows map.minimap.theme / map.theme / map.id (mapStyle.js)
 //   regionAt    (x, z) → region, for zone names on the full map
 //   onPick      (landmark) => void, clicking a discovered landmark on the full map
-//   onWalk      (x, z) => bool, a tap / click anywhere else on the minimap or the full map:
+//   onOpen      () => void, a tap / click on the minimap (opens the big map)
+//   onWalk      (x, z) => bool, a tap / click anywhere else on the full map:
 //               walk there (navigation); state.nav = { goal, route } draws the way
 // Per refresh (Game calls it every ~120 ms, never per frame):
 //   update(p, yaw, state)  /  drawFull(p, yaw, state)
@@ -28,8 +29,8 @@ import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monste
 const VIEW_UNITS = 120, MONSTER_RADIUS = 48;
 
 export class Minimap {
-  constructor(canvas, fullCanvas, footprints, { bounds, landmarks = LANDMARKS, portals = [], discovered = new Set(), world = null, map = null, regionAt = null, onPick = null, onWalk = null } = {}) {
-    Object.assign(this, { canvas, full: fullCanvas, landmarks, portals, discovered, world, map, regionAt, onPick, onWalk });
+  constructor(canvas, fullCanvas, footprints, { bounds, landmarks = LANDMARKS, portals = [], discovered = new Set(), world = null, map = null, regionAt = null, onPick = null, onWalk = null, onOpen = null } = {}) {
+    Object.assign(this, { canvas, full: fullCanvas, landmarks, portals, discovered, world, map, regionAt, onPick, onWalk, onOpen });
     this.bounds = bounds ?? world?.map?.view;
     this.theme = themeFor(map ?? world?.map ?? {});
     this.ctx = canvas.getContext('2d');
@@ -215,11 +216,11 @@ export class Minimap {
       if (h?.landmark) return m?.onPick?.(h.landmark);
       const at = m?.worldAt(c, e); if (at) m.onWalk?.(at.x, at.z, true);
     });
-    // the minimap: a tap walks there (its canvas is shared across map changes too)
+    // the minimap: a tap opens the big map (walk by tapping there); its canvas is shared across map changes too
     const mini = this.canvas;
     if (mini && !mini.dataset.bound) {
-      mini.dataset.bound = '1'; mini.style.cursor = 'pointer'; mini.title = 'แตะ / คลิกเพื่อเดินไปจุดนั้น';
-      mini.addEventListener('click', e => { const m = mini._minimap, at = m?.worldAt(mini, e); if (at) m.onWalk?.(at.x, at.z, false); });
+      mini.dataset.bound = '1'; mini.style.cursor = 'pointer'; mini.title = 'แตะ / คลิกเพื่อเปิดแผนที่ใหญ่ (M)';
+      mini.addEventListener('click', () => mini._minimap?.onOpen?.());
     }
   }
   // The full map's canvas is shared across map changes; route events to the live minimap.

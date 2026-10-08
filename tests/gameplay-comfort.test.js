@@ -19,7 +19,7 @@ test('material tenths fit exactly at capacity and refuse one extra', () => {
   assert.equal(c.carryRoom('hide'), 0);
   assert.equal(c.addItem('hide', 1), false);
 });
-test('VIT improves automatic recovery but large stats and sitting obey hard caps', () => {
+test('VIT improves automatic recovery but large stats obey hard caps; sitting adds nothing', () => {
   const low = hero(), high = hero();
   low.alloc.vit = 0; high.alloc.vit = 10000;
   for (const c of [low, high]) { c.hp = 1; c.mp = 0; }
@@ -27,7 +27,7 @@ test('VIT improves automatic recovery but large stats and sitting obey hard caps
   assert.ok(high.hp > low.hp); assert.ok(high.mp > low.mp);
   assert.equal(high.hp - 1, RECOVERY.hpCap); assert.equal(high.mp, RECOVERY.mpCap);
   high.sitting = true; const hp = high.hp, mp = high.mp; high.tick(1, false);
-  assert.ok(high.hp - hp <= RECOVERY.hpCap); assert.ok(high.mp - mp <= RECOVERY.mpCap);
+  assert.equal(high.hp - hp, RECOVERY.hpCap); assert.equal(high.mp - mp, RECOVERY.mpCap, 'no faster sitting: recovery is potions and healers');
 });
 test('recovery keeps subsecond time and combat heals less', () => {
   const a = hero(), b = hero(); a.hp = b.hp = 1; a.mp = b.mp = 0;

@@ -3,7 +3,8 @@ import * as THREE from 'three';
 import { RULES } from './data/rules.js';
 import { makeDog } from '../classes/dog.js';
 import { makeMonsterModel } from './MonsterModels.js';
-import { makeMonsterSprite, MONSTER_SPRITES } from './MonsterSprites.js';
+import { makeMonsterSprite, preloadMonsterSprites, MONSTER_SPRITES } from './MonsterSprites.js';
+import { seedOf } from '../core/seed.js';
 
 // How monsters are drawn: 'pixel' (RO-style sprite billboards, src/combat/MonsterSprites.js) or
 // '3d' (Blender GLB models / built meshes). Per device (src/ui/viewPrefs.js); CombatView.restyle().
@@ -300,6 +301,7 @@ export class CombatView {
   // Redraw every monster in another style (the settings' "โมเดลมอนสเตอร์").
   restyle(style) {
     MONSTER_STYLE = style === '3d' ? '3d' : 'pixel';
+    if (MONSTER_STYLE === 'pixel') preloadMonsterSprites(this.combat.monsters.map(m => m.type));   // the map's sheets, before its monsters wake
     for (const [id, v] of this.views) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
     for (const m of this.combat.monsters) if (m.alive) this.ensure(m);
   }
@@ -381,6 +383,14 @@ export class CombatView {
   update(dt, elapsed, camera = null) {
     const target = this.combat.target;
     const camYaw = camera ? Math.atan2(camera.matrixWorld.elements[8], camera.matrixWorld.elements[10]) : 0;   // the camera's yaw: the way it looks along the ground
+    // a view whose monster has left the fight list (online: a server id never comes back; offline:
+    // a respawn reuses the Monster) is dropped once its death has played, or the map would keep
+    // every skinned clone and sprite it ever drew
+    if ((this.pruneAt = (this.pruneAt ?? 0) + dt) > 2) {
+      this.pruneAt = 0;
+      const live = new Set(this.combat.monsters);
+      for (const [id, v] of this.views) if (!live.has(v.monster) && !v.dying) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
+    }
     for (const v of this.views.values()) {
       const m = v.monster, g = v.group;
       if (!m.alive && !v.dying) { g.visible = false; continue; }
@@ -392,7 +402,7 @@ export class CombatView {
       v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
       v.animationState.tint = m.debuffs.some(d => d.dot) ? '#b78ad0' : m.debuffs.some(d => d.stun) ? '#e6d27a' : m.debuffs.some(d => d.slow) ? '#8fb4d8' : null;
       g.userData.face?.(camYaw);
-      g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0, v.animationState);
+      g.userData.animate?.(elapsed + (v.seed ??= seedOf(m.id) * .37), m.moving, v.attackAnim > 0, v.animationState);
       v.flash = Math.max(0, v.flash - dt);
       if (v.dying) {
         v.dying = Math.max(0, v.dying - dt * 1.4);
