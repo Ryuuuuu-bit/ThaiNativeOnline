@@ -51,12 +51,17 @@ export class Player {
   move(direction, dt, world, running) {
     const p = this.group.position;
     if (!direction.lengthSq()) { this.animate(dt, 0); return true; }
-    const speed = (running ? RUN_SPEED : WALK_SPEED) * world.speedAt(p.x, p.z), step = speed * dt;
-    const x = p.x + direction.x * step, z = p.z + direction.z * step, startX = p.x, startZ = p.z;
-    if (world.canStand(x, z)) { p.x = x; p.z = z; }
-    else {
-      if (world.canStand(x, p.z)) p.x = x;
-      if (world.canStand(p.x, z)) p.z = z;
+    const speed = (running ? RUN_SPEED : WALK_SPEED) * world.speedAt(p.x, p.z), step = speed * dt, startX = p.x, startZ = p.z;
+    // in pieces no longer than a body's width, so a long frame (a hidden tab's catch-up, a slow
+    // phone) cannot carry the player through a fence post or a wall between two tests
+    const pieces = Math.max(1, Math.ceil(step / .12));
+    for (let i = 0; i < pieces; i++) {
+      const s = step / pieces, x = p.x + direction.x * s, z = p.z + direction.z * s;
+      if (world.canStand(x, z)) { p.x = x; p.z = z; continue; }
+      let slid = false;
+      if (world.canStand(x, p.z)) { p.x = x; slid = true; }
+      if (world.canStand(p.x, z)) { p.z = z; slid = true; }
+      if (!slid) break;
     }
     // Real displacement: a slide attempt that keeps the same x or z is not progress.
     const moved = Math.hypot(p.x - startX, p.z - startZ) > step * .05;

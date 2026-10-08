@@ -37,6 +37,8 @@ import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
 import { MUSIC_FOR } from '../data/audio.js';
 
 const $ = id => document.getElementById(id);
+// Route planning keeps this much room from obstacles (the body itself needs .28, src/world/Collision.js).
+const ROOMY = .5;
 const params = new URLSearchParams(location.search);
 
 // a local build (npm run dev / a server on this machine): the developer settings are open
@@ -313,6 +315,8 @@ export class Game {
       onPick: l => { if (this.walkTo(l.x, l.z, Math.min(l.radius ?? 6, 12))) this.toggleMap(); },
       // navigation: a tap on the minimap / full map walks to that spot (the nearest ground there)
       onWalk: (x, z, fromFull) => { const ok = this.walkTo(x, z, 10); if (ok && fromFull) this.toggleMap(); return ok; },
+      onOpen: () => this.toggleMap(),   // a tap on the minimap opens the big map
+
     }).activate();
     Minimap.mountLegend($('fullmap-legend'));
     const lv = levelText(map.levels);
@@ -337,15 +341,18 @@ export class Game {
 
   // Click-to-walk (ground clicks and landmarks picked on the full map): plans a
   // route with findPath to (x, z), or to the nearest standable point within `near`.
-  walkTo(x, z, near = 0) {
+  // The route is planned with more room than the body needs (ROOMY) so it keeps off walls and
+  // trunks; only when that finds nothing does it plan at the body's own width.
+  walkTo(x, z, near = 0, { replan = false } = {}) {
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;
     for (let r = 1; !goal && r <= near; r++) for (let i = 0; i < 16 && !goal; i++) { const a = i / 16 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
     // long trips (a tap on the map across the city) plan on a coarser grid so the search stays small
     let route = null;
-    for (const step of [.5, 1, 1.5]) if (goal && !route) route = findPath(stand, this.player.position, goal, { step, maxCells: 160000 });
-    if (!route) { this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
+    for (const pad of [ROOMY, undefined]) for (const step of [.5, 1, 1.5]) if (goal && !route) route = findPath((a, b) => this.world.canStand(a, b, pad), this.player.position, goal, { step, maxCells: 160000 });
+    if (!route) { if (!replan) this.note('ไปที่นั่นไม่ได้ · ไม่มีทางเดินถึงจุดนั้น'); return false; }
     this.game?.onManualMove(); this.training?.onManualMove(); this.view.recenter();
+    if (!replan) this.replans = 0;
     this.route = route; this.autoWalk = false; this.navGoal = { x: goal.x, z: goal.z }; this.nextWaypoint();
     this.marker.position.set(goal.x, this.world.heightAt(goal.x, goal.z) + .07, goal.z); this.marker.visible = true;
     return true;
@@ -362,7 +369,7 @@ export class Game {
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;   // a monster by a trunk: the nearest free spot beside it
     for (let r = .5; !goal && r <= 2; r += .5) for (let i = 0; i < 12 && !goal; i++) { const a = i / 12 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
-    const route = goal && findPath(stand, this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 });
+    const route = goal && (findPath((a, b) => this.world.canStand(a, b, ROOMY), this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 }) || findPath(stand, this.player.position, goal, { step: .5, margin: 6, maxCells: 40000 }));
     if (!route) { this.stopWalk(); return false; }
     this.route = route; this.autoWalk = true; this.navGoal = null; this.marker.visible = false; this.nextWaypoint();   // a chase shows no marker of its own
     return true;
@@ -527,12 +534,18 @@ export class Game {
     this.maps.update(dt, this.elapsed);
     if (this.maps.busy) return;
     if (canMove && (!moved && dt > 0 || stalled) && this.destination) {
-      // Combat auto-walk retries every frame; only a manual click reports a blocked path.
-      if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
-      // a chase that got stuck (a route the grid allowed but the body cannot pass): that goal is
-      // off for a while, so the next chaseTo says no and AUTO turns to another monster
-      else if (this.chaseGoal) this.chaseBlocked = { ...this.chaseGoal, until: this.elapsed + 6 };
-      this.stopWalk();
+      // a walk the player asked for that ran into something the grid missed: plan again from
+      // here (a few times) before giving up and saying so
+      let replanned = false;
+      if (!this.autoWalk && this.navGoal && (this.replans = (this.replans ?? 0) + 1) <= 3) { const g = this.navGoal; this.stopWalk(); replanned = this.walkTo(g.x, g.z, 10, { replan: true }); }
+      if (!replanned) {
+        // Combat auto-walk retries every frame; only a manual click reports a blocked path.
+        if (!this.autoWalk) this.note('เส้นทางถูกกีดขวาง · ลองเดินอ้อมด้วย W A S D');
+        // a chase that got stuck (a route the grid allowed but the body cannot pass): that goal is
+        // off for a while, so the next chaseTo says no and AUTO turns to another monster
+        else if (this.chaseGoal) this.chaseBlocked = { ...this.chaseGoal, until: this.elapsed + 6 };
+        this.stopWalk();
+      }
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
 
