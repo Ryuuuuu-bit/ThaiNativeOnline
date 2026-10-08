@@ -1,4 +1,5 @@
 import { AVATARS } from '../data/training.js';
+import { versioned } from '../core/version.js';
 
 // One place that turns icon data into HUD markup, so every screen shows
 // classes, skills, buffs and potions the same way:
@@ -29,7 +30,7 @@ const emblem = (id, size) => `<svg viewBox="0 0 24 24" width="${size}" height="$
 // `cls` is the class data (name, color); `size` the emblem's pixel size.
 export function classBadge(id, cls, { size = 26 } = {}) {
   const portrait = AVATARS[id]?.portrait;
-  const inner = portrait ? `<img src="${BASE}${portrait}" alt="">` : emblem(id, size);
+  const inner = portrait ? `<img src="${escapeAttr(versioned(`${BASE}${portrait}`))}" alt="">` : emblem(id, size);
   return `<span class="cls-badge${portrait ? ' has-portrait' : ''}" style="--cls:${cls?.color ?? '#cabc86'}">${inner}</span>`;
 }
 // Just the art, for places that draw their own frame (the locked silhouettes).

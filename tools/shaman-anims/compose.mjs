@@ -3,7 +3,7 @@
 // README.md). The procedural pose builder (fighter() below) works in world space, so it drives
 // this skeleton as it is; walk and run are the Muay Thai fighter's clips retargeted onto it.
 import { load, sample, clone, blend, worldPos, worldQuat, rotWorld, writeAnim, legIK, fist, hingeLimb, duration, THREE } from '../muaythai-anims/lib.mjs';
-const R = await load(process.argv[2] ?? 'tools/shaman-anims/shaman-tripo.glb');
+const R = await load(process.argv[2] ?? 'tools/shaman-anims/wizzard-tripo.glb');
 const F = await load('tools/muaythai-anims/fighter-tripo.glb');
 const findF = re => Object.values(F.anims).find(a => re.test(a.getName()));
 const TEEP = findF(/teep/), WALK = findF(/^walk/), RUN = findF(/^run/);

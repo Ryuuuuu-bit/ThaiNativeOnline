@@ -25,7 +25,20 @@ more than 15°). Clip list and timings: `docs/art/classes/shaman/ANIMATIONS.md`.
 Portrait (`public/ui/portraits/shaman.png`): Eevee render of the full-resolution model.
 Skill icons: PixelLab 48×48 art in `tools/icons/source/shaman/`, framed by `tools/icons/normalize.py`.
 
-## Unarmed spellcasting revision
+## Supplied model refresh — 2026-10-08
+
+The default source is now `wizzard-tripo.glb`, an unchanged copy of the user's
+`wizzard.glb` (SHA-256 `e753d883064a88c67aa70f96b09d9c8effcf1bb369c5ed378b0d4ecb4502b944`).
+It has a Mixamo skin but no animations. `compose.mjs` generates the existing 15
+clips directly on this new skeleton. The older source is retained for recovery.
+
+Rebuild with `node tools/shaman-anims/compose.mjs`, then shrink embedded textures
+to 1024px/quality 90 with `tools/models/shrink-glb-textures.py` and pack only
+`public/models/shaman.glb` with gltfpack (`-cc -kn -ke`). The runtime asset is
+1,414,356 bytes; the source mesh is not decimated. Updated portrait and browser
+review images are documented in `docs/art/reviews/CLASS_MODEL_REFRESH.md`.
+
+### Previous unarmed animation implementation
 
 The generated `public/models/shaman.glb` has no staff. The source GLB is preserved;
 `compose.mjs` strips the staff from its output after composing the new clips.

@@ -2,7 +2,7 @@
 // walk/run are retargeted from the Muay Thai fighter's clips by bone direction
 // (the two rigs' rest orientations differ), the casting moves are posed by hand.
 import { load, sample, clone, blend, worldPos, worldQuat, rotWorld, writeAnim, legIK, fist, hingeLimb, THREE } from '../muaythai-anims/lib.mjs';
-const H = await load(process.argv[2] ?? 'tools/herbalist-anims/herbalist-tripo.glb');
+const H = await load(process.argv[2] ?? 'tools/herbalist-anims/sup-tripo.glb');
 const A = await load(process.argv[4] ?? 'tools/muaythai-anims/fighter-tripo.glb');
 const find = re => Object.values(A.anims).find(a => re.test(a.getName()));
 const WALK = find(/^walk/), RUN = find(/^run/);
