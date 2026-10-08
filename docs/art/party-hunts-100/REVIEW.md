@@ -63,6 +63,30 @@ geometry families and reused icons. They are not a bespoke finished art pack.
 
 ## Screenshots
 
+### Environment refinement — 2026-10-08
+
+First design pass after feedback that the expedition scenes need more care:
+
+- Added `src/world/ExpeditionArt.js`; `ExpeditionWorld.js` now delegates terrain
+  painting and themed dressing to this reusable kit.
+- Replaced opaque, square trail stripes with rounded loops, layered translucent
+  shoulders, broad ground-color washes and low-contrast litter. Geographic loop
+  positions are preserved so the minimap still describes the actual route.
+- Bamboo now has segmented stems, lateral branches and narrow pointed leaves.
+  Himmapan vegetation has branching trunks and layered broad crowns. Foliage
+  materials are separate from the ground palette.
+- Existing obstacle sites gain mine timbers, basin algae bands, fort capstones,
+  broken masonry, valley markings or muted rift mineral seams. Decorations stay
+  at those sites rather than filling the clear combat floor.
+- Collision export refreshed; all 13 shape counts remain unchanged. Rechecked
+  all eight scenes in the browser, including mobile. 322 tests and build pass;
+  the existing bundle-size warning remains. Screenshots below show this pass.
+
+This is a focused environment refinement, not final art approval. Maps still
+share the three-circuit layout; unique regional landmarks, deeper environmental
+storytelling and bespoke monsters remain unfinished. No independent Art Director
+score or physical-device performance result is implied.
+
 ![Bamboo hunting](party100-bamboo_grave.png)
 ![Mine](party100-sealed_mine.png)
 ![Basin](party100-sunken_city.png)

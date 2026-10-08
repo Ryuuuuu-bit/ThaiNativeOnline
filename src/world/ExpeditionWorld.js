@@ -8,13 +8,14 @@ import { huntingFor, huntingSign } from '../data/hunting.js';
 import { createRng } from './rng.js';
 import { box, cyl, cone } from './Architecture.js';
 import { mergeObject } from './Batching.js';
+import { expeditionArt, vegetation, dressObstacle, paintExpeditionGround } from './ExpeditionArt.js';
 
 // Expedition scenes use an independent layout, never stretch/repeat the old city.
 export function buildExpeditionWorld(scene, map) {
  const started=performance.now(),root=new THREE.Group();root.name=`map:${map.id}`;scene.add(root);
  const terrain=new TerrainData(map.view),collision=new Collision(8,map.view),camps=huntingFor(map.id);
  const rng=createRng(800+map.index),stone=new THREE.MeshLambertMaterial({color:map.ground}),trim=new THREE.MeshLambertMaterial({color:map.accent}),wood=new THREE.MeshLambertMaterial({color:'#68523c'});
- const statics=new THREE.Group(),glows=[],spots={};
+ const statics=new THREE.Group(),glows=[],spots={},palette=expeditionArt(map);
  const h=(x,z)=>terrain.height(x,z);
  const addPillar=(x,z,height=3)=>{cyl(statics,stone,x,h(x,z)+height/2,z,.45,.6,height,8);cone(statics,trim,x,h(x,z)+height+.3,z,.55,.6,8);collision.addCircle(x,z,.6);};
  // Gate nodes, a connected trail spine, and the supply NPC's rest clearing.
@@ -34,15 +35,14 @@ export function buildExpeditionWorld(scene, map) {
   const x=rng.range(-132,132),z=rng.range(map.top-248,map.top+8);if(clear(x,z))continue;
   const scale=rng.range(.8,1.6),yy=h(x,z);
   if(['bamboo','forest'].includes(map.scenery)){
-   for(let j=0;j<3;j++)cyl(statics,wood,x+j*.35,yy+2.5*scale,z,.09,.13,5*scale,5);
-   for(let j=0;j<3;j++)cone(statics,stone,x,yy+(3+j)*scale,z,1.6*scale,(2.5-j*.4)*scale,7);
+   vegetation(statics,palette,x,yy,z,scale,map.scenery==='bamboo');
    collision.addCircle(x,z,.55);
   }else if(['fort','ruins','water'].includes(map.scenery)){
    addPillar(x,z,rng.range(2,5));if(i%3===0)box(statics,stone,x,yy+.6,z,3.5,1.2,1.4,rng()*3);
   }else{
    const rock=new THREE.Mesh(new THREE.IcosahedronGeometry(1,0),stone);rock.position.set(x,yy+scale,z);rock.scale.set(scale*2,scale*(map.scenery==='rift'?3:1.5),scale*1.4);statics.add(rock);collision.addCircle(x,z,scale*1.4);
-   if(i%4===0)cone(statics,trim,x,yy+scale*2,z,.25,.8,5);
   }
+  dressObstacle(statics,map,palette,stone,trim,wood,x,yy,z,scale,i);
  }
  // Stone / lantern landmarks punctuate each loop without occupying its combat floor.
  for(const c of camps){for(const side of [-1,1]){const x=c.x+side*14,z=c.z-12;addPillar(x,z,2);glows.push({x,y:h(x,z)+2.3,z,color:map.accent,size:.5,kind:'lantern'});}}
@@ -51,13 +51,8 @@ export function buildExpeditionWorld(scene, map) {
  const merged=mergeObject(statics);root.add(merged);
  // mergeObject clones source geometry; release originals once, retaining shared materials.
  const originals=new Set();statics.traverse(o=>{if(o.geometry)originals.add(o.geometry);});for(const g of originals)g.dispose();
- const canvas=document.createElement('canvas');canvas.width=canvas.height=768;const g=canvas.getContext('2d'),r=map.view;
- const tx=x=>(x-r.minX)/(r.maxX-r.minX)*768,tz=z=>(z-r.minZ)/(r.maxZ-r.minZ)*768;
- g.fillStyle=map.ground;g.fillRect(0,0,768,768);g.strokeStyle=map.accent;g.lineWidth=18;g.lineJoin='round';
- for(const x of [-76,0,76]){g.beginPath();g.moveTo(tx(x-17),tz(map.top-55));g.lineTo(tx(x-17),tz(map.top-183));g.lineTo(tx(x+17),tz(map.top-183));g.lineTo(tx(x+17),tz(map.top-55));g.closePath();g.stroke();}
- g.lineWidth=22;for(const z of [map.top-40,map.top-195]){g.beginPath();g.moveTo(tx(-93),tz(z));g.lineTo(tx(93),tz(z));g.stroke();}
- g.beginPath();g.moveTo(tx(0),tz(map.top));g.lineTo(tx(0),tz(map.top-240));g.stroke();
- for(let i=0;i<1800;i++){g.fillStyle=i%2?'#ffffff08':'#00000008';g.fillRect(rng()*768,rng()*768,rng()*8+1,2);}
+ const canvas=document.createElement('canvas');canvas.width=canvas.height=768;const r=map.view;
+ paintExpeditionGround(canvas,map,camps);
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
  const ground=makeGround(root,terrain,texture);
  const width=280,height=280,data=new Uint8Array(width*height*4);
