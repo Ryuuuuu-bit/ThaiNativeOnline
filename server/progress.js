@@ -55,6 +55,7 @@ export function fromSave(data) {
     const c = new Character({ ...data, inventory, equipment, hp: data.hp > 0 ? data.hp : undefined });
     // saved while fallen (the tab closed on the death screen): the respawn happens now, penalty and all
     if (!(data.hp > 0) && data.hp !== undefined) { c.gold -= Math.floor(c.gold * RULES.deathGoldLoss); c.revive(RULES.reviveRatio); c.respawnedOnLoad = true; }
+    c.starterEquipmentMigrated = c.grantMissingStarterEquipment();
     return c;
   } catch { return null; }
 }

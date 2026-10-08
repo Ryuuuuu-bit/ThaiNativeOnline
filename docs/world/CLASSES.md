@@ -28,3 +28,8 @@ The offhand equipment slot is retired. Shields now use either charm slot; the ri
 Rattan shield, buffalo shield and ritual knife (`rattan_shield`, `buffalo_shield`, `mo_knife`) are retired after removal of the offhand system. Their definitions remain only for save compatibility. They cannot be acquired and are removed from vendor stock; no current loot or quest rewards produce them. Materials, cards and active class weapons remain available.
 
 On character load, each retired item in the bag, charm slots or legacy offhand is redeemed for its full listed price plus 100 × n(n+1)/2 gold in successful refinement fees and n ores at listed price, where n is its current refinement level. Socketed cards are returned even with a full bag. Saving the migrated character prevents repeated compensation. Historic failed refinement costs cannot be reconstructed. Animations are unchanged.
+
+## Existing-character starter backfill
+
+Saved characters without starterEquipmentVersion 1 receive missing starter weapon/cloth armor once on load. Occupied equipment slots and starter items already in the bag are preserved. Full bags receive recovery capacity; alive characters equip newly granted items into empty slots. Consumables are not refilled. New characters start with the marker. Server migrations mark the character dirty for queued persistence. Applies on next login after deployment, including each saved slot independently.
+

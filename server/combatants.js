@@ -108,7 +108,7 @@ export class Combatants {
   }
   load(id, saved, persist, questsJson = '{}') {
     const c = fromSave(saved); if (!c) return false;
-    this.list.set(id, { ...this.entry(c), persist, ack: 0, dirty: false, quests: questsFor(c, questsJson) });
+    this.list.set(id, { ...this.entry(c), persist, ack: 0, dirty: !!c.starterEquipmentMigrated, quests: questsFor(c, questsJson) });
     return true;
   }
   entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }

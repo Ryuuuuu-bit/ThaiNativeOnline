@@ -30,10 +30,11 @@ const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0 } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
+    this.starterEquipmentVersion = starterEquipmentVersion === 1 ? 1 : 0;
     this.name = name; this.classId = classId; this.gender = gender; this.night = false; this.level = level; this.exp = exp; this.gold = gold;
     this.points = points; // unspent stat points
     // Job level and learnt skills ({ kit skill id: level }). Saves from before job levels get a
@@ -104,9 +105,24 @@ export class Character extends Emitter {
   static create(name, classId, gender = 'male') {
     const c = new Character({ name, classId, gender });
     for (const id of START_ITEMS[classId] || []) { c.addItem(id); c.equip(c.inventory.findIndex(s => s?.id === id)); }
+    c.starterEquipmentVersion = 1;
     c.addItem('potion_s', 5); c.addItem('ether', 2);
     c.hp = c.maxHp; c.mp = c.maxMp;
     return c;
+  }
+
+  // One-time backfill for saved characters, never an item refill after sale/breakage.
+  grantMissingStarterEquipment() {
+    if (this.starterEquipmentVersion >= 1) return false;
+    for (const id of START_ITEMS[this.classId] ?? []) {
+      const def = ITEMS[id];
+      if (this.equipment[def.slot] || this.inventory.some(item => item?.id === id)) continue;
+      const free = this.inventory.indexOf(null), item = { id, qty: 1 };
+      if (free < 0) this.inventory.push(item); else this.inventory[free] = item;
+      if (this.alive) this.equip(free < 0 ? this.inventory.length - 1 : free);
+    }
+    this.starterEquipmentVersion = 1;
+    return true;
   }
 
   get cls() { return CLASSES[this.classId]; }
@@ -538,7 +554,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {
@@ -549,7 +565,7 @@ export class Character extends Emitter {
       data.inventory = data.inventory?.map(s => (s && ITEMS[s.id] ? s : null));
       if (data.equipment) data.equipment = Object.fromEntries(Object.entries(data.equipment).map(([k, id]) => [k, id && ITEMS[id] ? id : null]));
       if (!(data.hp > 0)) data.hp = undefined;   // never come back stuck at 0 HP (full HP instead)
-      return new Character(data);
+      const c = new Character(data); c.grantMissingStarterEquipment(); return c;
     } catch { return null; }
   }
   static clearSave() { try { slotStorage.removeItem(SAVE_KEY); } catch { /* ignore */ } }
