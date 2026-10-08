@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { gltfLoader } from '/src/core/gltf.js';
-import { makeMonsterModel, MONSTER_MODELS } from '/src/combat/MonsterModels.js';
+import { MONSTER_MODELS } from '/src/combat/MonsterModels.js';
 import { MONSTERS } from '/src/combat/data/monsters.js';
 
 const types = ['boar', 'fowl', 'crab'];
@@ -58,10 +58,13 @@ for (const id of types) {
   model.position.set(-(bounds.min.x + bounds.max.x) / 2, -bounds.min.y, -(bounds.min.z + bounds.max.z) / 2);
   group.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
   models.push(group); scene.add(group);
-  const original = makeMonsterModel(id, new THREE.Group(), 'reference-' + id);
-  old.push(original); scene.add(original);
+  const baseline = await loader.loadAsync(`./baseline/${id}.glb`), original = baseline.scene;
+  original.updateMatrixWorld(true);
+  const oldBox = new THREE.Box3().setFromObject(original), oldSize = oldBox.getSize(new THREE.Vector3());
+  const oldGroup = new THREE.Group(); oldGroup.scale.setScalar(MONSTER_MODELS[id].height / oldSize.y);
+  original.position.set(-(oldBox.min.x + oldBox.max.x) / 2, -oldBox.min.y, -(oldBox.min.z + oldBox.max.z) / 2);
+  oldGroup.add(original); old.push(oldGroup); scene.add(oldGroup);
 }
-await Promise.all(old.map(m => m.userData.ready));
 document.querySelector('#status').textContent = 'โมเดล 3D จริง · เปลี่ยนมุมกล้องเพื่อตรวจรอบตัว';
 document.querySelectorAll('[data-type]').forEach(b => b.onclick = () => { type = b.dataset.type; arrange(); });
 document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => {

@@ -2,6 +2,7 @@
 // Blender exports identity mesh nodes sharing one skin; consolidate by material
 // and split the authored timeline into independent game clips at 24 fps.
 import { NodeIO } from '@gltf-transform/core';
+import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { dedup, prune, resample, joinPrimitives, weld } from '@gltf-transform/functions';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -9,7 +10,7 @@ import { Quaternion } from 'three';
 
 const [input, output] = process.argv.slice(2);
 if (!input || !output) throw new Error('Usage: prepare.mjs input.glb output.glb');
-const io = new NodeIO(), doc = await io.read(input), root = doc.getRoot();
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS), doc = await io.read(input), root = doc.getRoot();
 const nodes = root.listNodes().filter(n => n.getMesh());
 const skin = nodes[0]?.getSkin();
 if (!skin || nodes.some(n => n.getSkin() !== skin || n.getTranslation().some(v => Math.abs(v) > 1e-6) || n.getScale().some(v => Math.abs(v-1) > 1e-6) || n.getRotation().some((v,i) => Math.abs(v-(i===3?1:0)) > 1e-6))) {
@@ -56,5 +57,6 @@ for (const animation of authored) animation.dispose();
 await doc.transform(weld(), resample(), dedup(), prune());
 await fs.mkdir(path.dirname(output),{recursive:true});
 await io.write(output,doc);
-const triangles=mesh.listPrimitives().reduce((sum,p)=>sum+p.getIndices().getCount()/3,0);
-console.log(JSON.stringify({output,bytes:(await fs.stat(output)).size,triangles,drawCalls:mesh.listPrimitives().length,clips:root.listAnimations().map(a=>a.getName())}));
+const primitives=root.listMeshes().flatMap(m=>m.listPrimitives());
+const triangles=primitives.reduce((sum,p)=>sum+p.getIndices().getCount()/3,0);
+console.log(JSON.stringify({output,bytes:(await fs.stat(output)).size,triangles,drawCalls:primitives.length,clips:root.listAnimations().map(a=>a.getName())}));

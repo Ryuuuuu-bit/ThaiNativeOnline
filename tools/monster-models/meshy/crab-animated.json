@@ -1,0 +1,14 @@
+{
+  "type": "crab",
+  "bytes": 1226568,
+  "sha256": "feffd3d663ef90ada186ceb5eaded5499c450ac6ff80494f16883c7dafc9834e",
+  "triangles": 12551,
+  "bones": 32,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

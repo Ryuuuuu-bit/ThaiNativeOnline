@@ -10,8 +10,8 @@ const roster = stages.map(([min, max]) => ({
     .map(([id, m]) => ({
       id, name: m.name, level: m.level,
       role: m.boss ? 'boss' : m.elite ? 'elite' : m.ranged ? 'ranged' : m.passive ? 'passive' : 'melee',
-      status: candidates.has(id) ? 'static candidate generated; rig and motion QA pending' : 'planned',
-      ...(candidates.has(id) ? { candidate: `${id}.glb` } : {}),
+      status: candidates.has(id) ? 'animated model integrated; ready for review' : 'planned',
+      ...(candidates.has(id) ? { candidate: `${id}.glb`, runtime: `/models/monsters/${id}.glb` } : {}),
     })),
 }));
 await fs.writeFile(new URL('queue.json', import.meta.url), JSON.stringify(roster, null, 2) + '\n');

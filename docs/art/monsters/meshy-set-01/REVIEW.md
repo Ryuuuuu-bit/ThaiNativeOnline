@@ -1,5 +1,10 @@
 # Meshy monster study 01 — levels 1–2
 
+Historical generation review: the static-candidate statements below describe
+the original milestone. These three creatures now have animal rigs and replace
+the runtime assets on this branch. See the [motion and integration review](../meshy-motion-01/REVIEW.md)
+for current animation QA, in-game captures, clips and remaining limits.
+
 ## Summary
 
 Replace the visual direction of faceted prototype creatures with richer,
