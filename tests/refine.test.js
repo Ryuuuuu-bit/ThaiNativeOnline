@@ -84,27 +84,26 @@ test('the server names gear by id, cards and plus, and rolls ตีบวก onl
   assert.equal(cs.op(1, { op: 'refine', id: 'iron_dap', plus: 7 }, at), false); assert.equal(cs.get(1).refined.why, 'no_item');
 });
 
-test('removed offhand migrates upgraded gear and cards even when the bag is full', () => {
+test('retired offhand gear redeems with full bags, cards and refinement exactly once', () => {
   const c = setup('hunter');
-  const data = { ...c.toJSON(), inventory: Array.from({ length: 24 }, () => ({ id: 'wood_sword', qty: 1 })), equipment: { ...c.equipment, offhand: 'buffalo_shield' }, cards: { ...c.cards, offhand: ['card_crab'] }, refine: { ...c.refine, offhand: 4 } };
-  const old = new Character(data);
+  const old = new Character({ ...c.toJSON(), inventory: Array.from({ length: 24 }, () => ({ id: 'wood_sword', qty: 1 })), equipment: { ...c.equipment, offhand: 'buffalo_shield' }, cards: { offhand: ['card_crab'] }, refine: { offhand: 4 } });
   assert.equal('offhand' in old.equipment, false);
-  assert.deepEqual(old.inventory[24], { id: 'buffalo_shield', qty: 1, cards: ['card_crab'], plus: 4 });
+  assert.ok(old.inventory.some(x => x?.id === 'card_crab'));
+  assert.ok(!old.inventory.some(x => x?.id === 'buffalo_shield'));
+  assert.equal(old.gold, c.gold + 120 + 1000 + 200);
   const reloaded = new Character(old.toJSON());
-  assert.equal(reloaded.inventory.filter(x => x?.id === 'buffalo_shield').length, 1);
-  assert.equal(reloaded.equip(24), true);
-  assert.equal(reloaded.equipment.charm, 'buffalo_shield');
-  assert.equal(reloaded.refine.charm, 4);
-  assert.equal(reloaded.equipment.weapon, c.equipment.weapon);
+  assert.equal(reloaded.gold, old.gold);
+  assert.equal(reloaded.inventory.filter(x => x?.id === 'card_crab').length, 1);
 });
 
-test('legacy offhand knife returns incompatible socket cards to the bag', () => {
+test('retired gear in bags and charm slots redeems and cannot be acquired', () => {
   const c = setup('shaman');
-  const old = new Character({ ...c.toJSON(), equipment: { ...c.equipment, offhand: 'mo_knife' }, cards: { offhand: ['card_soldier'] }, refine: { offhand: 2 } });
+  const old = new Character({ ...c.toJSON(), inventory: [{ id: 'mo_knife', qty: 1, plus: 2, cards: ['card_boar'] }], equipment: { ...c.equipment, charm: 'rattan_shield' }, cards: { charm: ['card_soldier'] }, refine: { charm: 1 } });
+  assert.equal(old.gold, c.gold + 40 + 300 + 120 + 25 + 100 + 50);
+  assert.equal(old.equipment.charm, null);
+  assert.ok(old.inventory.some(x => x?.id === 'card_boar'));
   assert.ok(old.inventory.some(x => x?.id === 'card_soldier'));
-  const knife = old.inventory.find(x => x?.id === 'mo_knife');
-  assert.equal(knife.plus, 2); assert.equal(knife.cards, undefined);
-  assert.equal(ITEMS.mo_knife.slot, 'weapon');
+  for (const id of ['mo_knife', 'rattan_shield', 'buffalo_shield']) assert.equal(old.addItem(id), false);
 });
 
 test('shop sites: every shop NPC has one, by its shop, on its map', () => {
@@ -132,4 +131,13 @@ test('no free heal and no stand-up from stats or gear: HP stays as it is, clampe
   assert.equal(c.alive, false);
   const m = Character.create('มานา', 'shaman'); m.addItem('ether'); const e = m.inventory.findIndex(s => s?.id === 'ether');
   assert.equal(m.useAt(e), false, 'an MP potion at full MP is kept');
+});
+
+test('retired equipment is absent from every shop, loot table and starter kit', async () => {
+  const { SHOPS } = await import('../src/data/shops.js');
+  const { LOOT } = await import('../src/combat/data/loot.js');
+  const { START_ITEMS } = await import('../src/character/data/classes.js');
+  for (const shop of Object.values(SHOPS)) for (const id of shop.stock ?? []) assert.ok(!ITEMS[id].retired, id);
+  for (const table of Object.values(LOOT)) for (const [id] of table) assert.ok(!ITEMS[id].retired, id);
+  for (const kit of Object.values(START_ITEMS)) for (const id of kit) assert.ok(!ITEMS[id].retired, id);
 });

@@ -30,10 +30,11 @@ const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0 } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
+    this.starterEquipmentVersion = starterEquipmentVersion === 1 ? 1 : 0;
     this.name = name; this.classId = classId; this.gender = gender; this.night = false; this.level = level; this.exp = exp; this.gold = gold;
     this.points = points; // unspent stat points
     // Job level and learnt skills ({ kit skill id: level }). Saves from before job levels get a
@@ -77,6 +78,20 @@ export class Character extends Emitter {
         ...held.filter((id, i) => held.slice(0, i + 1).filter(x => x === id).length > valid.filter(x => x === id).length).map(id => ({ id, qty: 1 }))];
       for (const item of recovered) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     }
+    // Retired equipment is redeemed once: its price plus successful refine fees/ores.
+    // Cards are returned without capacity checks; the removed gear frees its bag cell.
+    const returnedCards = [];
+    const redeem = item => {
+      if (!item || !ITEMS[item.id]?.retired) return false;
+      const def = ITEMS[item.id], qty = Number.isInteger(item.qty) && item.qty > 0 ? item.qty : 1;
+      const plus = plusOf(item.plus), ore = ITEMS[def.slot === 'weapon' ? 'sacred_ore' : 'gold_leaf'].price;
+      this.gold += qty * (def.price + 100 * plus * (plus + 1) / 2 + ore * plus);
+      for (const id of item.cards ?? []) if (ITEMS[id]?.type === 'card') returnedCards.push({ id, qty: 1 });
+      return true;
+    };
+    this.inventory = this.inventory.map(item => redeem(item) ? null : item);
+    for (const slot of EQUIP_SLOTS) if (redeem(this.wornItem(slot))) { this.equipment[slot] = null; this.cards[slot] = []; this.refine[slot] = 0; }
+    for (const item of returnedCards) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
     // ฉายา (src/data/titles.js): the ids earned, the one worn (null = none) and the records behind them
@@ -90,9 +105,24 @@ export class Character extends Emitter {
   static create(name, classId, gender = 'male') {
     const c = new Character({ name, classId, gender });
     for (const id of START_ITEMS[classId] || []) { c.addItem(id); c.equip(c.inventory.findIndex(s => s?.id === id)); }
+    c.starterEquipmentVersion = 1;
     c.addItem('potion_s', 5); c.addItem('ether', 2);
     c.hp = c.maxHp; c.mp = c.maxMp;
     return c;
+  }
+
+  // One-time backfill for saved characters, never an item refill after sale/breakage.
+  grantMissingStarterEquipment() {
+    if (this.starterEquipmentVersion >= 1) return false;
+    for (const id of START_ITEMS[this.classId] ?? []) {
+      const def = ITEMS[id];
+      if (this.equipment[def.slot] || this.inventory.some(item => item?.id === id)) continue;
+      const free = this.inventory.indexOf(null), item = { id, qty: 1 };
+      if (free < 0) this.inventory.push(item); else this.inventory[free] = item;
+      if (this.alive) this.equip(free < 0 ? this.inventory.length - 1 : free);
+    }
+    this.starterEquipmentVersion = 1;
+    return true;
   }
 
   get cls() { return CLASSES[this.classId]; }
@@ -342,7 +372,7 @@ export class Character extends Emitter {
   }
   // Adds as many as fit; false (with 'overweight') when any are left behind.
   addItem(id, qty = 1) {
-    const def = ITEMS[id]; if (!def) return false;
+    const def = ITEMS[id]; if (!def || def.retired) return false;
     const room = this.carryRoom(id);
     if (room < qty) {
       this.emit('overweight', id);
@@ -365,7 +395,7 @@ export class Character extends Emitter {
   }
   // A whole item instance into the bag: gear keeps its cards and plus (a trade, server/trades.js).
   addInstance(s) {
-    const def = ITEMS[s?.id]; if (!def) return false;
+    const def = ITEMS[s?.id]; if (!def || def.retired) return false;
     if (def.type !== 'equip') return this.addItem(s.id, s.qty);
     const free = this.inventory.indexOf(null);
     if (free < 0 || this.carryRoom(s.id) < 1) return false;
@@ -412,7 +442,7 @@ export class Character extends Emitter {
   }
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
-    const def = ITEMS[slot.id]; if (def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
+    const def = ITEMS[slot.id]; if (def.retired || def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
     const previous = this.wornItem(to);
@@ -524,7 +554,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {
@@ -535,7 +565,7 @@ export class Character extends Emitter {
       data.inventory = data.inventory?.map(s => (s && ITEMS[s.id] ? s : null));
       if (data.equipment) data.equipment = Object.fromEntries(Object.entries(data.equipment).map(([k, id]) => [k, id && ITEMS[id] ? id : null]));
       if (!(data.hp > 0)) data.hp = undefined;   // never come back stuck at 0 HP (full HP instead)
-      return new Character(data);
+      const c = new Character(data); c.grantMissingStarterEquipment(); return c;
     } catch { return null; }
   }
   static clearSave() { try { slotStorage.removeItem(SAVE_KEY); } catch { /* ignore */ } }

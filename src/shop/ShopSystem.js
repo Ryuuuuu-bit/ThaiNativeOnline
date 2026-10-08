@@ -4,7 +4,7 @@ import { ITEMS } from '../character/data/items.js';
 import { SHOPS } from '../data/shops.js';
 
 export const sellPrice = id => Math.max(1, Math.floor(ITEMS[id].price / 2));
-export const stockOf = shopType => (SHOPS[shopType]?.stock ?? []).filter(id => ITEMS[id]);
+export const stockOf = shopType => (SHOPS[shopType]?.stock ?? []).filter(id => ITEMS[id] && !ITEMS[id].retired);
 
 export function buy(character, shopType, itemId) {
   if (!stockOf(shopType).includes(itemId)) return { ok: false, reason: 'ร้านนี้ไม่มีสินค้านี้' };

@@ -5,7 +5,7 @@
 // Shops without stock (and trainers) still show their future services.
 export const SHOPS = {
   // ลุงดำ's forge: blades, the bow and leather armour; cloth, staves and wands stay at the stalls, with the herbalist and occultist.
-  blacksmith: { title: 'โรงตีเหล็กลุงดำ', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'krabi', 'bamboo_bow', 'hide_armor', 'hide_boots'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'โล่หนังควาย'] },
+  blacksmith: { title: 'โรงตีเหล็กลุงดำ', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'krabi', 'bamboo_bow', 'hide_armor', 'hide_boots'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'เกราะหนังควาย'] },
   // หมื่นเพชรศาสตรา refines gear (ตีบวก, src/character/data/refine.js) and sells the ores for it.
   enhance: { title: 'โรงหลอมศาสตรา', purpose: 'upgrade', stock: ['sacred_ore', 'gold_leaf'], services: ['ตีบวกอุปกรณ์', 'หลอมขัดเกลา (Refine)', 'อัปเกรดด้วยวัตถุดิบพิเศษ'], preview: ['แร่ศักดิ์สิทธิ์', 'ทองคำเปลว', 'น้ำมนต์หลอม'] },
   general: { title: 'ร้านของชำ', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether'], services: ['ซื้อ-ขายของทั่วไป'], preview: ['ยาสามัญ', 'ข้าวห่อใบตอง', 'คบไฟ', 'เชือก', 'เครื่องมือพื้นฐาน'] },
@@ -17,8 +17,8 @@ export const SHOPS = {
   occult: { title: 'ร้านหมออาคม', purpose: 'skills', stock: ['takrut', 'bone_wand', 'ether', 'sabai', 'bia_kae', 'pha_yant'], services: ['เครื่องราง', 'ผ้ายันต์ · ตะกรุด', 'วัตถุดิบอาคม', 'ของประกอบวิชา'], preview: ['ตะกรุดโทน', 'ผ้ายันต์แดง', 'เทียนขี้ผึ้ง', 'ใบลานจารอักขระ'] },
   // แม่บัวผัน's boat in คลองหนองบึง: potions, honey and marsh-tier gear for hunters past Lv 10.
   marsh: { title: 'เรือแม่ค้าคลองหนองบึง', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether', 'kris', 'mangrove_staff', 'horn_bow', 'croc_boots'], services: ['ยาและน้ำผึ้งป่า', 'อาวุธชาวบึง', 'รับซื้อของจากหนอง'], preview: ['ปลาย่าง', 'ข้าวห่อใบบัว'] },
-  weapons: { title: 'แผงอาวุธ', purpose: 'equipment', stock: ['wood_sword', 'krabi', 'hand_wrap', 'herb_staff', 'mo_knife', 'rattan_shield'], services: ['ซื้อ-ขายอาวุธ'], preview: ['ดาบสั้น', 'ง้าว', 'มีดพร้า'] },
-  armor: { title: 'แผงเกราะ', purpose: 'equipment', stock: ['cloth_vest', 'hide_armor', 'pha_khao', 'ngob', 'rattan_shield', 'pakhaoma', 'sandals'], services: ['ซื้อ-ขายเกราะ'], preview: ['เสื้อเกราะหนัง', 'หมวกลอมพอก', 'โล่หวาย'] },
+  weapons: { title: 'แผงอาวุธ', purpose: 'equipment', stock: ['wood_sword', 'krabi', 'hand_wrap', 'herb_staff'], services: ['ซื้อ-ขายอาวุธ'], preview: ['ดาบสั้น', 'ง้าว', 'มีดพร้า'] },
+  armor: { title: 'แผงเกราะ', purpose: 'equipment', stock: ['cloth_vest', 'hide_armor', 'pha_khao', 'ngob', 'pakhaoma', 'sandals'], services: ['ซื้อ-ขายเกราะ'], preview: ['เสื้อเกราะหนัง', 'หมวกลอมพอก', 'ผ้าคลุม'] },
   fruit: { title: 'แผงผลไม้', purpose: 'trade', services: ['วัตถุดิบทำอาหาร'], preview: ['มะม่วง', 'กล้วยน้ำว้า', 'มะพร้าว'] },
   rice: { title: 'แผงข้าวสาร', purpose: 'trade', services: ['วัตถุดิบทำอาหาร'], preview: ['ข้าวเปลือก', 'ข้าวสาร', 'ข้าวเหนียว'] },
   fish: { title: 'แผงปลา', purpose: 'trade', services: ['วัตถุดิบทำอาหาร', 'รับซื้อปลาจากผู้เล่น (อนาคต)'], preview: ['ปลาช่อน', 'ปลาตะเพียน', 'กุ้งแม่น้ำ'] },
