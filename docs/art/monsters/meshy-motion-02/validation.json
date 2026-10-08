@@ -1,0 +1,69 @@
+{
+  "tests": {
+    "pass": 362,
+    "fail": 0
+  },
+  "build": {
+    "passed": true,
+    "modules": 227,
+    "warning": "Existing main bundle exceeds 500kB"
+  },
+  "motion": [
+    {
+      "type": "cobra",
+      "neutralError": 0.0008900372638562122,
+      "idleDrift": 0,
+      "minimum": 1.2331065587279762e-09,
+      "segmentError": 1.904840319610912e-05
+    },
+    {
+      "type": "monkey",
+      "neutralError": 0.0006582647880992018,
+      "idleDrift": 0.0014332637414190244,
+      "minimum": -0.00015069044150055712,
+      "segmentError": 0
+    }
+  ],
+  "browser": {
+    "errors": [],
+    "instances": {
+      "geometryShared": true,
+      "textureShared": true,
+      "materialsIndependent": true,
+      "skeletonIndependent": true,
+      "idsDistinct": true
+    },
+    "noOverflow": true,
+    "load": [
+      {
+        "type": "cobra",
+        "loaded": true,
+        "textures": true,
+        "bones": 11
+      },
+      {
+        "type": "monkey",
+        "loaded": true,
+        "textures": true,
+        "bones": 17
+      }
+    ]
+  },
+  "videos": {
+    "videos": [
+      {
+        "type": "cobra",
+        "width": 1388,
+        "height": 580,
+        "duration": 6.292992
+      },
+      {
+        "type": "monkey",
+        "width": 1388,
+        "height": 580,
+        "duration": 6.284233
+      }
+    ],
+    "errors": []
+  }
+}

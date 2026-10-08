@@ -1,10 +1,10 @@
 # Rice-field creature study 01 — Meshy
 
-Three textured Meshy creatures with species-specific Blender rigs and five game
-clips: boar (Lv.1), fowl (Lv.1), crab (Lv.2). The animated files replace the existing
-`public/models/monsters/{boar,fowl,crab}.glb` assets in the game's **3D monster mode**.
+Five textured Meshy creatures with species-specific Blender rigs and five game
+clips: boar (Lv.1), fowl (Lv.1), crab, cobra and macaque (Lv.2). The animated files replace the existing
+`public/models/monsters/{boar,fowl,crab,cobra,monkey}.glb` assets in the game's **3D monster mode**.
 Static geometry candidates remain here for provenance and rig reconstruction.
-The next level-ordered candidates are cobra, monkey, dhole and phibpa.
+The next level-ordered candidates are dhole and phibpa (Lv.3).
 `queue.json` contains all 65 current monster identities through level 100; planned
 entries have not been generated. Regenerate it with `node tools/monster-models/meshy/queue.mjs`.
 
@@ -97,4 +97,41 @@ tolerance. Walk clips are authored in place, without world-speed matching or
 terrain-slope foot IK. Death uses a grounded crouch/settle; claw gaps are preserved
 without individual finger articulation. Physical-phone crowd profiling and
 online combat acceptance remain separate checks. See the current review for
-evidence and limits; the batch is not deployed by this PR.
+evidence and limits; deployment verification is recorded separately.
+
+## Lv.2 cobra and macaque batch
+
+Open `motion.html?set=2` or `review.html?set=2`. Narrow screens select the first
+creature in the chosen batch; `?set=2&type=monkey` selects the macaque explicitly.
+Evidence and limitations: `docs/art/monsters/meshy-motion-02/REVIEW.md`.
+Exact concept prompts, selected references and provenance are retained; two
+successful Meshy tasks used 70 credits total.
+
+Use a fresh managed Harness/output root approved for this batch. The committed
+macaque candidate already includes the neutral head correction, so it needs no
+further correction during an ordinary rig rebuild. Set the Harness descriptor
+and plugin-root variables as above, then:
+
+```powershell
+$env:MESHY_RIG_OUTPUT='artifacts/meshy-rig-02'
+node tools/monster-models/meshy/unpack.mjs cobra monkey
+python tools/monster-models/meshy/rig_level2.py cobra v3
+python tools/monster-models/meshy/rig_level2.py monkey v2
+node tools/monster-models/prepare.mjs artifacts/meshy-rig-02/cobra-rig-v3.glb artifacts/meshy-rig-02/cobra-animated.glb
+node tools/monster-models/prepare.mjs artifacts/meshy-rig-02/monkey-rig-v2.glb artifacts/meshy-rig-02/monkey-animated.glb
+node tools/monster-models/meshy/publish.mjs cobra v3
+node tools/monster-models/meshy/publish.mjs monkey v2
+```
+
+`pole-angles-level2.json` retains the measured macaque rest-plane angles. Optional
+`poles_level2.mjs` re-derives them from the initial v1 export, not a posed mesh.
+The snake uses planar ground joints and smooth lower-neck weights, with no feet
+or human retargeting. `rigs/{cobra,monkey}.json` records the final bone layouts.
+
+For source reconstruction from the ignored Meshy original, prepare/unpack the
+monkey first, run `correct_monkey.py v4`, then prepare using its fresh
+`monkey-neutral-corrected-v4.glb` as the third argument and unpack again. The
+temporary correction rotates the complete head through -1.25 radians with a
+smooth lower-neck transition; its modifier is baked before the final rig.
+Keep existing editable snapshots and use a new authorized output directory for
+rebuilds rather than overwriting previous Blender exports.

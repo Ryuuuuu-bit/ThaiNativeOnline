@@ -28,7 +28,9 @@
         "name": "งูเห่านา",
         "level": 2,
         "role": "ranged",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "cobra.glb",
+        "runtime": "/models/monsters/cobra.glb"
       },
       {
         "id": "crab",
@@ -44,7 +46,9 @@
         "name": "ลิงกัง",
         "level": 2,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "monkey.glb",
+        "runtime": "/models/monsters/monkey.glb"
       },
       {
         "id": "dhole",

@@ -3,11 +3,14 @@ import { gltfLoader } from '/src/core/gltf.js';
 import { MONSTER_MODELS } from '/src/combat/MonsterModels.js';
 import { MONSTERS } from '/src/combat/data/monsters.js';
 
-const types = ['boar', 'fowl', 'crab'];
+const params=new URLSearchParams(location.search),secondSet=params.get('set')==='2';
+const types = secondSet?['cobra','monkey']:['boar','fowl','crab'];
+document.querySelector('.creatures').innerHTML='<button data-type="all" class="active">ดูทั้งชุด</button>'+types.map(id=>`<button data-type="${id}">${MONSTERS[id].name} · Lv.${MONSTERS[id].level}</button>`).join('');
+if(secondSet){document.querySelector('header p').textContent='ชุด Lv.2 · งูเห่านา และลิงกัง';document.querySelector('header .badge').href='./motion.html?set=2';}
 const canvas = document.querySelector('canvas'), host = canvas.parentElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.18;
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#73845b');
@@ -30,7 +33,7 @@ function arrange() {
   const away = new THREE.Vector3(-right.z, 0, right.x).multiplyScalar(-2.5);
   models.forEach((m, i) => {
     m.visible = selected.includes(types[i]);
-    m.position.copy(right).multiplyScalar(type === 'all' ? (i - 1) * 3.4 : (comparison ? 1.5 : 0));
+    m.position.copy(right).multiplyScalar(type === 'all' ? (i - (types.length-1)/2) * 3.4 : (comparison ? 1.5 : 0));
     old[i].visible = comparison && m.visible;
     old[i].position.copy(type === 'all' ? m.position.clone().add(away) : right.clone().multiplyScalar(-1.5));
   });
@@ -41,7 +44,7 @@ function arrange() {
 function resize() {
   renderer.setSize(host.clientWidth, host.clientHeight, false);
   const aspect = host.clientWidth / host.clientHeight;
-  const width = type === 'all' ? 10.4 : comparison ? 5.6 : 3.2;
+  const width = type === 'all' ? 3.4*types.length+.2 : comparison ? 5.6 : 3.2;
   const half = Math.max(width / 2 / aspect, type === 'all' ? 1.7 : 1.15);
   Object.assign(camera, { left: -half * aspect, right: half * aspect, top: half, bottom: -half });
   const offset = new THREE.Vector3(...directions[view]);

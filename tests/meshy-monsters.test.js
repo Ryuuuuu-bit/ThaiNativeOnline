@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import * as THREE from 'three';
 import { gltfLoader } from '../src/core/gltf.js';
 
-for (const type of ['boar', 'fowl', 'crab']) test(`Meshy ${type}: candidate has embedded textures, valid geometry and a reproducible hash`, async () => {
+for (const type of ['boar', 'fowl', 'crab', 'cobra', 'monkey']) test(`Meshy ${type}: candidate has embedded textures, valid geometry and a reproducible hash`, async () => {
   const base = new URL('../tools/monster-models/meshy/', import.meta.url);
   const bytes = await fs.readFile(new URL(`${type}.glb`, base));
   const report = JSON.parse(await fs.readFile(new URL(`${type}-prepared.json`, base)));

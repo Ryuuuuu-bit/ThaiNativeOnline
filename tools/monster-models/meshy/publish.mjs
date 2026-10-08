@@ -8,9 +8,11 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 const type=process.argv[2];
-if(!['boar','fowl','crab'].includes(type))throw Error('Unknown creature');
+if(!['boar','fowl','crab','cobra','monkey'].includes(type))throw Error('Unknown creature');
 const require=createRequire(import.meta.url), io=new NodeIO().registerExtensions(ALL_EXTENSIONS);
-const input=`artifacts/meshy-rig-01/${type}-animated.glb`,doc=await io.read(input),root=doc.getRoot();
+const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
+const rigVersion=process.argv[3]??'v5';
+const input=`${outputRoot}/${type}-animated.glb`,doc=await io.read(input),root=doc.getRoot();
 if(root.listSkins().length!==1 || root.listMeshes().length!==1)throw Error('Expected one reviewed skinned surface');
 if(root.listAnimations().map(a=>a.getName()).sort().join(',')!=='attack,die,hurt,idle,walk')throw Error('Five independent game clips are required');
 for(const node of root.listNodes())if(/(?:Target|Pole)$/.test(node.getName()))node.dispose();
@@ -18,7 +20,7 @@ for(const material of root.listMaterials()){
  const texture=material.getBaseColorTexture();
  if(texture&&texture.getMimeType()!=='image/jpeg')texture.setImage(await sharp(texture.getImage()).jpeg({quality:92,chromaSubsampling:'4:4:4'}).toBuffer()).setMimeType('image/jpeg');
 }
-root.setExtras({creature:type,provider:'Meshy',rig:'species-specific Blender Harness',rigVersion:'v5',clips:['idle','walk','attack','hurt','die']});
+root.setExtras({creature:type,provider:'Meshy',rig:'species-specific Blender Harness',rigVersion,clips:['idle','walk','attack','hurt','die']});
 await doc.transform(prune());await io.write(input,doc);
 const output=`public/models/monsters/${type}.glb`;
 const packed=spawnSync(process.execPath,[require.resolve('gltfpack/cli.js'),'-i',input,'-o',output,'-cc','-kn','-ke'],{encoding:'utf8'});

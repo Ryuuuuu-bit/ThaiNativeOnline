@@ -1,0 +1,39 @@
+{
+  "creature": "cobra",
+  "bytes": 1089200,
+  "triangles": 12586,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.37114647030830383,
+      0,
+      -0.9509294033050537
+    ],
+    "max": [
+      0.37114647030830383,
+      1.1050029397010803,
+      0.9509294033050537
+    ]
+  },
+  "sha256": "65c84740aec5bd6a4d2bcbb7f12a4ac233a7ade170c405744d3e0ba183cf3385",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}
