@@ -120,7 +120,7 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
   };
   // A menu open (settings, character / bag, shop, full map, AUTO settings): the joystick,
   // buttons and skills step aside so the menu is whole and nothing under it gets pressed.
-  const MENUS = '.settings:not([hidden]), .g-panel:not([hidden]), .shop:not([hidden]), .fullmap:not([hidden]), .auto-panel:not([hidden])';
+  const MENUS = '.settings:not([hidden]), .g-panel:not([hidden]), .shop:not([hidden]), .fullmap:not([hidden]), .auto-panel:not([hidden]), .soc-panel:not([hidden])';
   setInterval(() => {
     const open = !!root.querySelector(MENUS);
     if (open !== document.body.classList.contains('touch-menu')) {

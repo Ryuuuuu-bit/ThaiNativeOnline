@@ -96,3 +96,45 @@ body .acc-screen>*,body .g-create>*{margin:auto;max-width:100%}
 
 .touch-side .touch-map { color: #f1d9a0; }
 .mini-title { cursor: pointer; }
+
+/* Skill window on a phone: a sheet that fills the screen (the desktop centring and fixed size
+   are undone), scrolls as one, tree above the card, and the learn button stays in reach at the
+   bottom while the tree is scrolled. The layer is zoomed by --ui, so the insets are in its px. */
+body.ui-touch .g-skills { position: absolute; left: calc(var(--sl) + 6px); right: calc(var(--sr) + 6px); top: 6px; bottom: calc(var(--sb) + 6px); width: auto; height: auto; max-height: none; transform: none; translate: none !important; overflow: auto; padding: 10px 10px 12px; gap: 8px; }
+body.ui-touch .g-skills .g-sk-tabs .g-seg button { padding: 6px 12px; font-size: 13px; }
+body.ui-touch .g-skills .g-sk-top { gap: 8px; padding: 6px 8px; }
+body.ui-touch .g-skills .g-sk-top .g-sk-job { flex: 1 1 160px; min-width: 0; }
+body.ui-touch .g-skills .g-sk-top .g-sk-job small { display: none; }
+body.ui-touch .g-skills .g-pchip.done, body.ui-touch .g-skills .g-pchip.lock, body.ui-touch .g-skills .g-sk-path i { display: none; }
+body.ui-touch .g-skills .g-sk-main { display: flex; flex-direction: column; gap: 8px; min-height: 0; flex: none; }
+body.ui-touch .g-skills .g-sk-tree { grid-template-columns: 36px repeat(3, minmax(0, 1fr)); grid-template-rows: 52px repeat(var(--rows), minmax(78px, auto)); padding: 6px 4px; overflow: visible; }
+body.ui-touch .g-skills .g-colh { margin: 0 2px 4px; padding: 4px 4px; }
+body.ui-touch .g-skills .g-colh b { font-size: 13px; }
+body.ui-touch .g-skills .g-colh small { font-size: 10px; }
+body.ui-touch .g-skills .g-rowl span { width: 34px; height: 34px; font-size: 10px; }
+body.ui-touch .g-skills .g-node .g-nm { font-size: 10px; }
+body.ui-touch .g-skills .g-node.g-pnode { transform: scale(.72); margin-right: -14px; }
+body.ui-touch .g-skills .g-sk-card { overflow: visible; padding: 10px 12px; }
+body.ui-touch .g-skills .g-skd-up { position: sticky; bottom: -12px; z-index: 2; box-shadow: 0 -8px 16px rgba(0, 0, 0, .45); }
+body.ui-touch .g-skills .g-sk-bar { display: none; }   /* the action bar itself is on screen */
+/* the character sheet and bag: the same sheet, so nothing hangs past the edge */
+body.ui-touch .g-sheet, body.ui-touch .g-bag { left: calc(var(--sl) + 6px); right: calc(var(--sr) + 6px); top: 6px; width: auto; max-height: calc(100dvh / var(--ui, 1) - 12px); transform: none; translate: none !important; }
+/* a full window open: the floating menu button steps aside too (it sat on the window's corner) */
+.ui-touch.touch-menu .mm-btn { display: none; }
+/* the social window: fills the phone and its tab body scrolls */
+body.ui-touch .soc-panel { left: calc(var(--sl) + 6px); right: calc(var(--sr) + 6px); top: 6px; width: auto; max-height: calc(100dvh / var(--ui, 1) - 12px); transform: none; translate: none !important; }
+body.ui-touch .soc-panel .sw-body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+body.ui-touch .soc-panel .soc-rows { max-height: none; }
+/* settings and AUTO on a phone: the whole width; a setting's control wraps under its label when the
+   row is too narrow (upright phones) instead of running past the edge */
+body.ui-touch .settings { left: calc(var(--sl) + 6px); right: calc(var(--sr) + 6px); top: 6px; width: auto; min-height: 0; max-height: calc(100dvh / var(--ui, 1) - 12px); transform: none; translate: none !important; }
+body.ui-touch.ui-portrait .settings .set-body { grid-template-columns: 1fr; gap: 8px; }
+body.ui-touch.ui-portrait .settings .set-tabs { flex-direction: row; flex-wrap: wrap; }
+body.ui-touch.ui-portrait .settings .set-tabs button { flex: 1 1 auto; text-align: center; padding: 7px 8px; font-size: 13px; }
+body.ui-touch.ui-portrait .settings .set-row { flex-wrap: wrap; gap: 6px; }
+body.ui-touch.ui-portrait .settings .set-pane > label { grid-template-columns: 1fr 56px; font-size: 14px; gap: 8px 12px; }
+body.ui-touch.ui-portrait .settings .set-pane > label > .g-seg { grid-column: 1 / 3; grid-row: 2; justify-self: stretch; flex-wrap: wrap; display: flex; }
+body.ui-touch.ui-portrait .settings .set-pane > label > .g-seg button { flex: 1 1 auto; padding: 6px 10px; font-size: 13px; }
+body.ui-touch.ui-portrait .settings .set-pane > label > input[type=range] { grid-column: 1; grid-row: 2; }
+body.ui-touch.ui-portrait .settings .set-pane > label > output { grid-column: 2; grid-row: 2; }
+body.ui-touch .auto-panel { left: calc(var(--sl) + 6px); right: calc(var(--sr) + 6px); top: 6px; width: auto; max-width: none; max-height: calc(100dvh / var(--ui, 1) - 12px); transform: none; translate: none !important; }
