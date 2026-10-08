@@ -99,3 +99,11 @@ body.ui-touch.touch-menu:has(.mm-grid:not([hidden])) .mm-btn{display:flex}
 body.ui-touch.ui-portrait .hotbar.action-bar{bottom:calc(var(--mobile-bottom) + 210px)!important}
 body.ui-touch.ui-portrait .touch-side{bottom:calc(var(--mobile-bottom) + 328px)!important}
 @media(max-width:350px){body.ui-touch .map-frame,body.ui-touch #minimap{width:60px;height:60px}}
+/* Keep the combat tray against the thumb controls, rather than the character. */
+body.ui-touch .touch-combat-dock{position:absolute;left:50%;bottom:calc(var(--mobile-bottom) + 190px);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;z-index:5}
+body.ui-touch .touch-combat-dock :is(.hotbar.action-bar,.touch-side){position:static!important;left:auto!important;right:auto!important;bottom:auto!important;transform:none!important;translate:none!important;pointer-events:auto}
+body.ui-touch .touch-skill-pages[data-single-page=true]{display:none}
+body.ui-touch .touch-combat-dock .hotbar.action-bar{padding:5px 6px;gap:0;background:#102b22b3;box-shadow:none}
+body.ui-touch .touch-combat-dock .hotbar-row{min-height:44px}
+body.ui-touch.touch-menu .touch-combat-dock,body.photo-mode.ui-touch .touch-combat-dock{display:none!important}
+@media(orientation:landscape){body.ui-touch .touch-combat-dock{bottom:calc(var(--mobile-bottom) + 30px)}}
