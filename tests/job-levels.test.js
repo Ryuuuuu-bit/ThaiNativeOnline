@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { Character } from '../src/character/Character.js';
 import { MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, MAX_LEVEL } from '../src/character/data/progression.js';
 import { SKILL_TREE, reqOf, fullKit } from '../src/character/data/skilltree.js';
+import { KIT_PASSIVES } from '../src/rules/data/kitpassives.js';
 import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
 import { Combatants } from '../server/combatants.js';
 import { applyOp, fromSave } from '../server/progress.js';
@@ -79,4 +80,24 @@ test('server: an unlearnt skill cannot be cast; learning is replayed; levels rai
   const s = fromSave(c.toJSON()); assert.equal(s.skillLevel('arch_poison'), 1);
   assert.equal(applyOp(s, { op: 'skill_reset' }), false, 'reset costs gold');
   s.gold = s.skillResetCost; assert.equal(applyOp(s, { op: 'skill_reset' }), true);
+});
+
+test('tree passives: one on each line, open at the line\'s first skill Lv.3, never on the hotbar, and they add to the stats', () => {
+  for (const [cls, ids] of Object.entries(KIT_SKILL_IDS)) for (const l of SKILL_TREE[cls].lines) {
+    assert.ok(KIT_PASSIVES[l.passive]?.cls === cls, `${cls} ${l.name} has its passive`);
+    assert.deepEqual(reqOf(cls, l.passive).req, { [l.skills[0]]: 3 }, `${cls} ${l.passive} waits on ${l.skills[0]} Lv.3`);
+    assert.ok(!ids.includes(l.passive), 'not a hotbar skill');
+  }
+  const c = new Character({ name: 'ช', classId: 'warrior', jobLevel: 20, skills: { sword_twin: 3, sword_guard: 3 } });
+  const before = c.derived;
+  assert.equal(c.skillBlock('sword_t_hide'), null); assert.equal(c.learnSkill('sword_t_hide'), true); assert.equal(c.learnSkill('sword_t_hide'), true);
+  assert.ok(c.derived.maxHp > before.maxHp && c.derived.def === before.def + 2, 'หนังเหนียว Lv.2: more HP, +2 DEF');
+  assert.match(c.skillBlock('sword_t_mastery'), /แทงทะลวง Lv\.3/);
+  const h = new Character({ name: 'ซ', classId: 'hunter', jobLevel: 20, skills: { arch_quick: 3, arch_poison: 3, arch_t_bond: 5 } });
+  assert.equal(h.petBiteMul, 1.2, 'สายใยคู่หู Lv.5: the dog bites 20% harder');
+  const d = new Character({ name: 'ฌ', classId: 'herbalist', jobLevel: 20, skills: { heal_vine: 3, heal_mist: 3, heal_t_recipe: 4 } });
+  assert.equal(d.healPow, 1.1, 'ตำรับโอสถ Lv.4: heals 10% stronger');
+  // a saved passive without its line is dropped like any skill
+  const o = new Character({ name: 'ญ', classId: 'shaman', jobLevel: 20, skills: { mage_akom: 1, mage_t_fire: 3 } });
+  assert.equal(o.skillLevel('mage_t_fire'), 0);
 });

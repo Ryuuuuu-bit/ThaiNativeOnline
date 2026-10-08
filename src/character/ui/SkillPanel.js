@@ -16,6 +16,7 @@ import { castInfo } from '../../training/kitCombat.js';
 import { EVOLUTIONS, EVO_LEVEL } from '../../rules/data/evolutions.js';
 import { MAX_SKILL_LEVEL, MAX_JOB_LEVEL } from '../data/progression.js';
 import { treeOf } from '../data/skilltree.js';
+import { KIT_PASSIVES } from '../../rules/data/kitpassives.js';
 import { classBadge } from '../../ui/icons.js';
 import { el, esc, setBar } from './dom.js';
 import { draggable } from '../../ui/draggable.js';
@@ -28,6 +29,10 @@ const statsAt = (kitSkill, lv, id = kitSkill.id) => {
   const base = SKILL_BY_ID[id], L = Math.max(1, lv), st = base ? skillStats(base, L) : null, info = castInfo({ ...kitSkill, id }, L);
   return { mult: st?.mult, hmult: st?.hmult, hits: Array.isArray(kitSkill.hits) ? kitSkill.hits.length : 0, mp: info.mp, cd: info.cd, cast: info.cast, dur: st?.duration ? st.duration / 1000 : 0 };
 };
+// Tree passives: the bonus keys as the card shows them (src/rules/data/kitpassives.js).
+const pct = v => `+${Math.round(v * 1000) / 10}%`;
+const BONUS_TH = { patkMul: 'พลังโจมตีกายภาพ', matkMul: 'พลังเวทย์', hpMul: 'HP สูงสุด', mpMul: 'MP สูงสุด', hp: 'HP', mp: 'MP', def: 'ป้องกัน', eva: 'หลบหลีก', aspd: 'ความเร็วโจมตี', crit: 'อัตราคริ', critDmg: 'แรงคริ', castRed: 'ลดคูลดาวน์สกิล', healMul: 'พลังรักษา', petMul: 'น้องหมากัดแรงขึ้น', acc: 'แม่นยำ', atk: 'พลังโจมตี', matk: 'พลังเวทย์' };
+const BONUS_FMT = { patkMul: pct, matkMul: pct, hpMul: pct, mpMul: pct, aspd: pct, crit: pct, critDmg: pct, castRed: pct, healMul: pct, petMul: pct, hp: v => `+${v}`, mp: v => `+${v}`, def: v => `+${v}`, eva: v => `+${v}`, acc: v => `+${v}`, atk: v => `+${v}`, matk: v => `+${v}` };
 const ROWS = [
   ['ดาเมจต่อครั้ง', s => s.mult, s => `${Math.round(s.mult * 100)}% ATK${s.hits > 1 ? ` × ${s.hits}` : ''}`],
   ['รักษา', s => s.hmult, s => `${Math.round(s.hmult * 100)}% พลังเวทย์`],
@@ -86,7 +91,9 @@ export class SkillPanel {
   }
   get hidden() { return this.root.hidden; }
   toggle() { this.root.hidden = !this.root.hidden; if (!this.root.hidden) { this.key = null; this.refresh(); } }
-  name(id) { return this.kit?.skills.find(s => s.id === id)?.name ?? id; }
+  name(id) { return this.kit?.skills.find(s => s.id === id)?.name ?? KIT_PASSIVES[id]?.nameTh ?? id; }
+  // A tree passive as the panel's skill entry ({ id, name, icon, desc, passive: true }).
+  entry(id) { const p = KIT_PASSIVES[id]; return p ? { id, name: p.nameTh, icon: p.icon, desc: p.desc, passive: true } : this.kit?.skills.find(s => s.id === id); }
 
   // Rows of the tree: the root alone on top (middle column), then row i holds step i of each
   // line. A row is labelled with the lowest job floor among its skills.
@@ -95,8 +102,8 @@ export class SkillPanel {
     const depth = Math.max(0, ...lines.map(l => l.skills.length));
     const rows = [{ job: 1, root: true, cells: [, byId[this.kit.skills[0].id]] }];
     for (let i = 0; i < depth; i++) {
-      const cells = lines.map(l => byId[l.skills[i]]);
-      rows.push({ job: Math.min(...cells.filter(Boolean).map(s => this.c.skillUnlockJob(s.id))), cells });
+      const cells = lines.map(l => byId[l.skills[i]]), side = lines.map(l => i === 0 && l.passive ? this.entry(l.passive) : null);
+      rows.push({ job: Math.min(...cells.filter(Boolean).map(s => this.c.skillUnlockJob(s.id))), cells, side });
     }
     return rows;
   }
@@ -122,12 +129,12 @@ export class SkillPanel {
 
     // tree: the root on top, the three lines below it
     const lines = this.tree?.lines ?? [], rows = this.layout();
-    const cells = ['<div></div>', ...lines.map(l => `<div class="g-colh" style="--c:${l.color}"><b>${esc(l.name)}</b><small>${esc(l.role)} · ลงแล้ว ${l.skills.reduce((n, id) => n + c.skillLevel(id), 0)} แต้ม</small></div>`)];
-    const node = s => {
+    const cells = ['<div></div>', ...lines.map(l => `<div class="g-colh" style="--c:${l.color}"><b>${esc(l.name)}</b><small>${esc(l.role)} · ลงแล้ว ${[...l.skills, l.passive].filter(Boolean).reduce((n, id) => n + c.skillLevel(id), 0)} แต้ม</small></div>`)];
+    const node = (s, small = false) => {
       const lv = c.skillLevel(s.id), open = c.skillOpen(s.id), state = lv ? 'learned' : open ? 'avail' : 'locked';
       const ult = SKILL_BY_ID[s.id]?.ultimate, evo = c.evo[s.id], { req = {}, job = 1 } = c.skillReqs(s.id);
       const unmet = Object.entries(req).find(([k, n]) => c.skillLevel(k) < n), needText = c.jobLevel < job ? `Job ${job}` : unmet ? `ต้อง Lv.${unmet[1]}` : '';
-      return `<button type="button" class="g-node ${state}${s.id === this.sel ? ' sel' : ''}" data-sk="${s.id}" title="${esc(s.name)}${state === 'locked' ? ` · ${esc(c.skillTreeBlock(s.id) ?? '')}` : ''}">
+      return `<button type="button" class="g-node ${state}${s.id === this.sel ? ' sel' : ''}${small ? ' g-pnode' : ''}" data-sk="${s.id}" title="${esc(s.name)}${small ? ' · ติดตัว' : ''}${state === 'locked' ? ` · ${esc(c.skillTreeBlock(s.id) ?? '')}` : ''}">
           <span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><b class="g-lvp">${state === 'locked' ? needText : `${lv}/${MAX_SKILL_LEVEL}`}</b>
           <span class="g-nm">${esc(s.name)}</span>${ult ? '<span class="g-bdg ult">★</span>' : evo ? `<span class="g-bdg" style="--evo:${EVOLUTIONS[s.id][evo].color}">${evo}</span>` : ''}${c.skillBlock(s.id) ? '' : '<span class="g-plus">+</span>'}</button>`;
     };
@@ -136,27 +143,29 @@ export class SkillPanel {
       lines.forEach((l, col) => {
         const s = row.cells[col];
         if (row.root) { cells.push(`<div class="g-cell fork ${col === 0 ? 'left' : col === lines.length - 1 ? 'right' : 'mid'}">${s ? node(s) : ''}</div>`); return; }
-        const last = r >= l.skills.length, line = last ? (r === l.skills.length ? ' line last' : '') : ' line';
-        cells.push(`<div class="g-cell${line}">${s ? node(s) : ''}</div>`);
+        const last = r >= l.skills.length, line = last ? (r === l.skills.length ? ' line last' : '') : ' line', p = row.side?.[col];
+        cells.push(`<div class="g-cell${line}${p ? ' dual' : ''}">${s ? node(s) : ''}${p ? `<i class="g-tie"></i>${node(p, true)}` : ''}</div>`);
       });
     });
     tree.style.setProperty('--rows', rows.length);
     tree.innerHTML = cells.join('');
 
     // the selected skill's card
-    const s = this.kit.skills.find(k => k.id === this.sel) ?? this.kit.skills[0];
+    const s = this.entry(this.sel) ?? this.kit.skills[0];
     const lv = c.skillLevel(s.id), need = c.skillUnlockJob(s.id), treeBlock = c.skillTreeBlock(s.id), locked = !!treeBlock, maxed = lv >= MAX_SKILL_LEVEL, block = c.skillBlock(s.id);
     const reqs = Object.entries(c.skillReqs(s.id).req ?? {});
-    const now = statsAt(s, lv, c.skillVariant(s.id)), nx = statsAt(s, lv + 1);
-    const cmp = ROWS.filter(([, has]) => has(now) || has(nx)).map(([k, has, f]) => `<div><span>${k}</span><b>${!lv || maxed ? f(lv ? now : nx) : `${f(now)} → <i>${f(nx)}</i>`}</b></div>`).join('');
+    const now = s.passive ? null : statsAt(s, lv, c.skillVariant(s.id)), nx = s.passive ? null : statsAt(s, lv + 1);
+    const cmp = s.passive
+      ? Object.entries(KIT_PASSIVES[s.id].bonus(Math.max(1, lv))).map(([k, v]) => { const next = KIT_PASSIVES[s.id].bonus(lv + 1)[k], f = v => BONUS_FMT[k] ? BONUS_FMT[k](v) : v; return `<div><span>${BONUS_TH[k] ?? k}</span><b>${!lv || maxed ? f(lv ? v : next) : `${f(v)} → <i>${f(next)}</i>`}</b></div>`; }).join('')
+      : ROWS.filter(([, has]) => has(now) || has(nx)).map(([k, has, f]) => `<div><span>${k}</span><b>${!lv || maxed ? f(lv ? now : nx) : `${f(now)} → <i>${f(nx)}</i>`}</b></div>`).join('');
     const pips = Array.from({ length: MAX_SKILL_LEVEL }, (_, i) => `<i class="${i < lv ? 'on' : ''}"></i>`).join('');
-    const paths = EVOLUTIONS[s.id], ready = lv >= EVO_LEVEL;
+    const paths = s.passive ? null : EVOLUTIONS[s.id], ready = lv >= EVO_LEVEL;
     const evoHtml = !paths ? '' : `<div class="g-sk-evo"><span>สายวิวัฒน์ ${ready ? '' : `<small>เปิดที่สกิล Lv.${EVO_LEVEL}</small>`}</span>${['A', 'B'].map(p => {
       const on = c.evo[s.id] === p, cost = c.evoCost(s.id, p);
       return `<button type="button" data-evo="${s.id}:${p}" class="${on ? 'on' : ''}" ${ready && !on ? '' : 'disabled'} title="${esc(paths[p].desc)}" style="--evo:${paths[p].color}"><b>${p}</b> ${esc(paths[p].name)}${on ? ' ✓' : cost && ready ? ` · ${cost} ทอง` : ''}<small>${esc(paths[p].desc)}</small></button>`;
     }).join('')}</div>`;
     const label = locked ? esc(treeBlock) : maxed ? 'เลเวลสูงสุดแล้ว' : block ?? (lv ? 'อัปเลเวล <small>ใช้ 1 แต้ม</small>' : 'เรียนสกิล <small>ใช้ 1 แต้ม</small>');
-    card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${TYPE_TH[SKILL_BY_ID[s.id]?.type] ?? 'สกิล'} · ${SKILL_BY_ID[s.id]?.kind === 'physical' ? 'กายภาพ' : SKILL_BY_ID[s.id]?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}</small><div class="g-pips">${pips}</div></div>
+    card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${s.passive ? 'ติดตัว · ไม่ต้องร่าย ไม่กินช่องลัด' : `${TYPE_TH[SKILL_BY_ID[s.id]?.type] ?? 'สกิล'} · ${SKILL_BY_ID[s.id]?.kind === 'physical' ? 'กายภาพ' : SKILL_BY_ID[s.id]?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}`}</small><div class="g-pips">${pips}</div></div>
         <span class="g-skd-lv">Lv ${lv}/${MAX_SKILL_LEVEL}<small>${locked ? 'ยังไม่ปลด' : lv ? 'เรียนแล้ว' : 'เรียนได้'}</small></span></div>
       ${cmp ? `<div class="g-cmp">${cmp}</div>` : ''}
       ${s.desc ? `<p class="g-skd-desc">${esc(s.desc)}</p>` : ''}

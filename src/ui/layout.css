@@ -196,6 +196,11 @@ body .g-sk-top .g-skill-reset:disabled{filter:grayscale(.8);opacity:.45;cursor:d
 .g-cell.fork::after{content:"";position:absolute;top:50%;height:3px;transform:translateY(-50%);background:rgba(255,255,255,.12)}
 .g-cell.fork.left::after{left:50%;right:0} .g-cell.fork.right::after{left:0;right:50%} .g-cell.fork.mid::after{left:0;right:0}
 .g-cell.fork .g-node{position:relative;z-index:1}
+/* a line's passive beside its first skill: a short tie and a smaller node */
+.g-cell.dual{display:flex;gap:4px;justify-content:center;align-items:center}
+.g-cell.dual .g-tie{width:14px;height:3px;background:rgba(255,255,255,.12);flex:none}
+.g-node.g-pnode{transform:scale(.82);transform-origin:left center;margin-right:-10px}
+.g-node.g-pnode .g-nm{color:#c9d8c2}
 .g-node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:0;border:0;background:none;cursor:pointer;font:inherit;color:var(--t-ink)}
 .g-node .g-ic{position:relative;width:48px;height:48px;border-radius:6px;overflow:hidden;display:grid;place-items:center;background:#1a130c;box-shadow:0 0 0 2px #120b05,0 0 0 4px #8a7048,0 3px 6px rgba(0,0,0,.4)}
 .g-node .g-ic img{width:100%;height:100%;object-fit:cover}

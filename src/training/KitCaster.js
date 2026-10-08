@@ -67,7 +67,7 @@ export class KitCaster {
     if (quiet && this.pending) return false;
     if (quiet && !info.needsTarget) {
       if (!this.combat.inCombat && !this.combat.target?.alive) return false;   // a buff or a heal on an empty field is MP for nothing
-      const e = selfEffects(this.eid(s.id), Math.max(1, this.lv(i)), c.defense, 0);
+      const e = selfEffects(this.eid(s.id), Math.max(1, this.lv(i)), c.defense, 0, c.healPow ?? 1);
       if ((e?.heal || e?.hp) && !e?.buff && c.hp >= c.maxHp * .9) return false;
     }
     this.combat.sit?.(false);
@@ -147,7 +147,7 @@ export class KitCaster {
   }
 
   applySelf(id) {
-    const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense, this.stats()?.matk ?? 0);
+    const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense, this.stats()?.matk ?? 0, c.healPow ?? 1);
     if (!e) return;
     const p = this.player.position;
     if (e.heal || e.hp) { const amount = c.heal(c.maxHp * e.heal + e.hp); if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z }); }

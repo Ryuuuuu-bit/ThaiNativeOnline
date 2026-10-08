@@ -227,14 +227,14 @@ export class Combatants {
     // and MP land on the server's copy (the browser shows the same)
     const single = !!kitSkill && ally && allyHeal(eff);
     if (kitSkill) {
-      const e = selfEffects(eff, slv, c.defense, c.matk);
+      const e = selfEffects(eff, slv, c.defense, c.matk, c.healPow ?? 1);
       if (e?.buff) c.addBuff(e.buff);
       if (s.persist && !single && (e?.heal || e?.hp)) c.heal(c.maxHp * e.heal + e.hp);
       if (s.persist && e?.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * e.mp);
       if (e?.heal || e?.hp || e?.mp) s.dirty = true;
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
-    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk) : null;
+    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1) : null;
     return support ? { ok: true, support, ...(single ? { single: true } : {}) } : { ok: true };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
@@ -266,7 +266,7 @@ export class Combatants {
       if (dist(m, p) > reach) return [];
       const every = pet ? (now < (s.pet.frenzyUntil ?? -Infinity) ? PET_FRENZY : PET_EVERY) * (1 - c.attackSpeed) : c.cls.attackSpeed * (1 - c.attackSpeed);
       if (!this.spend(pet ? s.pet : s.basic, now, every)) return [];
-      let power = pet ? RULES.petBite : skill.power;
+      let power = pet ? RULES.petBite * (c.petBiteMul ?? 1) : skill.power;   // สายใยคู่หู: the dog bites harder
       // a pounce (สัญชาตญาณหมาล่า) is rolled here, not taken from the browser
       if (pet && msg.pounce && now - s.pet.pounceAt >= POUNCE_EVERY && this.r() < RULES.petInstinct + (c.stat?.('luk') || 0) * .002) { s.pet.pounceAt = now; power *= 1.5; }
       const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit && !pet ? 1 : c.critChance, critDmg: c.critDamage };

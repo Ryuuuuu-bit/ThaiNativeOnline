@@ -204,7 +204,7 @@ export class Combat extends Emitter {
     if (!m.alive) return;
     const { hit, dmg: dealt, crit } = this.rollPlayerDamage(skill, m);
     // สัญชาตญาณหมาล่า: a hunter's landed basic hit may send the dog in at once (LUK helps)
-    if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 }; }
+    if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 * (this.character.petBiteMul ?? 1) }; }
     const id = skill.basic ? 'basic' : Object.keys(SKILLS).find(k => SKILLS[k] === skill);
     if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff && !this.remote) this.debuff(m, { ...skill.debuff, source: this.character.attack });
   }
@@ -308,9 +308,9 @@ export class Combat extends Emitter {
         // a skill has the dog out on an errand (its bites are the skill's own): no second set of bites
         if (pet.attackTimer <= 0 && !followerAway()) {
           pet.attackTimer = (pet.frenzy > 0 ? .55 : 1.3) * (1 - c.attackSpeed);
-          const skill = pet.pounce || { power: PET_BITE };
+          const pounce = !!pet.pounce, skill = pet.pounce || { power: PET_BITE * (c.petBiteMul ?? 1) };   // สายใยคู่หู: a stronger bite
           pet.pounce = null;
-          if (this.remote) { this.damageMonster(target, 0, { skill: 'pet', pounce: skill.power > PET_BITE }); return; }   // online the server rolls the bite
+          if (this.remote) { this.damageMonster(target, 0, { skill: 'pet', pounce }); return; }   // online the server rolls the bite
           const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: c.critChance, critDmg: c.critDamage };
           const r = rollDamage(atk, { def: target.def.def, eva: target.def.eva ?? 0 }, 'physical', skill.power);
           if (!r.hit) { this.emit('miss', { x: target.x, z: target.z, monster: target }); this.aggro(target); return; }

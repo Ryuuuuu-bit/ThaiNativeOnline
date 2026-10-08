@@ -29,6 +29,7 @@
 // ============================================================
 import { SUB_CAP } from './classes.js';
 import { PASSIVES, KEYSTONE, BRANCHES, branchPoints, PASSIVES_ON } from './passives.js';
+import { KIT_PASSIVES } from './kitpassives.js';
 
 // Hotbar 10 ช่อง (ปุ่มตัวเลขแถวบน 1–0) · ใส่ได้ทั้งสกิล (id สกิล) และไอเทม ('it:<id ไอเทม>')
 export const SKILL_SLOTS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -276,8 +277,11 @@ export const SKILLS = {
 };
 
 /** ค้นหาสกิลด้วย id */
-export const SKILL_BY_ID = Object.fromEntries(
-  Object.entries(SKILLS).flatMap(([job, list]) => list.map((s) => [s.id, { ...s, job }])));
+export const SKILL_BY_ID = Object.fromEntries([
+  ...Object.entries(SKILLS).flatMap(([job, list]) => list.map((s) => [s.id, { ...s, job }])),
+  // the classes' tree passives (src/rules/data/kitpassives.js): no job, so the legacy weapon check never applies them twice
+  ...Object.entries(KIT_PASSIVES).map(([id, p]) => [id, { id, nameTh: p.nameTh, icon: p.icon, type: 'passive', kind: 'support', desc: p.desc, passive: p.bonus }]),
+]);
 
 /** ใช้สกิลนี้ได้ไหมเมื่อถืออาวุธแนว job (เคล็ดวิชาผสมใช้ได้ทั้งสองแนว) */
 export const skillUsable = (base, job) => !!base && (base.job === job || (base.jobs || []).includes(job));
