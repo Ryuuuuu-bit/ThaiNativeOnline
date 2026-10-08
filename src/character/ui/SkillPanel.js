@@ -18,7 +18,7 @@ import { EVOLUTIONS, EVO_LEVEL } from '../../rules/data/evolutions.js';
 import { MAX_SKILL_LEVEL, MAX_JOB_LEVEL } from '../data/progression.js';
 import { treeOf } from '../data/skilltree.js';
 import { KIT_PASSIVES, KIT_PASSIVE_IDS } from '../../rules/data/kitpassives.js';
-import { healPower } from '../../training/kitCombat.js';
+import { healPower, supportOf, allyHeal, ALLY_FOCUS } from '../../training/kitCombat.js';
 import { scaleOf } from '../data/statguide.js';
 import { classBadge } from '../../ui/icons.js';
 import { el, esc, setBar } from './dom.js';
@@ -71,6 +71,12 @@ function yourNumbers(c, kitSkill, id, lv) {
     const ticks = Math.max(1, Math.round(heal / Math.max(1, st.hmult * c.matk * c.healPow)));
     rows.push(['รักษา', `MATK ${fmt(c.matk)} × ${Math.round(st.hmult * 100)}%${ticks > 1 ? ` × ${ticks} ครั้ง` : ''}${c.healPow !== 1 ? ` × พลังรักษา ${c.healPow.toFixed(2)}` : ''} ≈ <b>${fmt(heal)}</b>`]);
     tips.push('INT ยิ่งสูงยิ่งคุ้ม', 'อุปกรณ์ MATK / พลังรักษา');
+  }
+  // who else gets it: party members in reach (supportOf), and the picked friend for the aimed heals
+  const sup = supportOf(id, L, c.defense, c.matk, c.healPow);
+  if (sup && (sup.hp || sup.heal || sup.mp || sup.buff || sup.revive)) {
+    rows.push(['เพื่อนในปาร์ตี้', `ในระยะ <b>${Math.round(sup.radius)} ม.</b> ได้${sup.revive ? 'ชุบชีวิต + ' : ''}${sup.hp ? 'ฮีลเท่ากัน' : sup.heal ? 'ฟื้น HP เท่ากัน' : sup.buff ? 'บัฟเดียวกัน' : 'ผลเดียวกัน'}`]);
+    if (allyHeal(id)) rows.push(['เลือกเป้าฮีล', `คลิกเพื่อนในหน้าต่างปาร์ตี้ → ฮีลคนนั้นคนเดียว <b>×${ALLY_FOCUS}</b>`]);
   }
   if (typeof st.heal === 'number' && st.heal > 0) rows.push(['ฟื้น HP', `${Math.round(st.heal * 100)}% ของ HP สูงสุด ≈ <b>${fmt(c.maxHp * st.heal)}</b>`]);
   if (st.mpHeal) rows.push(['ฟื้น MP', `${Math.round(st.mpHeal * 100)}% ≈ <b>${fmt(c.maxMp * st.mpHeal)}</b>`]);
