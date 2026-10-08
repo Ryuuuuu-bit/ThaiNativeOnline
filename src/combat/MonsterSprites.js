@@ -10,11 +10,12 @@
 import * as THREE from 'three';
 
 export const SPRITE_ROOT = `${import.meta.env?.BASE_URL ?? '/'}sprites/monsters/`;
-// Heights in metres for a 64 px cell; a bigger cell scales with it (the sheet says its cell size).
+// The standing creature's height in metres (the sheet says how much of its cell the creature
+// fills, so the canvas size does not matter). The player is about 1.8 m.
 export const MONSTER_SPRITES = {
-  boar: { height: 1.3 }, monkey: { height: 1.3 }, fowl: { height: 1.0 }, cobra: { height: 1.0 }, crab: { height: .8 },
-  buffalo: { height: 1.9 }, dhole: { height: 1.2 }, monitor: { height: 1.1 }, leech: { height: .8 }, croc: { height: 1.3 },
-  python: { height: 1.2 }, kumphi: { height: 2.2 }, tiger: { height: 1.8 },
+  boar: { height: 1.1 }, monkey: { height: 1.0 }, fowl: { height: .75 }, cobra: { height: .9 }, crab: { height: .6 },
+  buffalo: { height: 1.7 }, dhole: { height: 1.0 }, monitor: { height: .8 }, leech: { height: .55 }, croc: { height: .9 },
+  python: { height: .9 }, kumphi: { height: 2.1 }, tiger: { height: 1.4 },
   pray: { height: 1.9, lift: .15 }, phibpa: { height: 1.8, lift: .1 }, krasue: { height: 1.6, lift: .5 }, winyan: { height: 1.8, lift: .1 },
   phitaihong: { height: 1.9 }, pop: { height: 1.7 }, kongkoi: { height: 1.7 }, khamot: { height: 1.2, lift: .6 }, takian: { height: 2.4 },
   headless: { height: 2.0 }, pret: { height: 2.6 }, krahang: { height: 2.0, lift: .4 }, soldier: { height: 2.0 }, pusom: { height: 2.2 },
@@ -78,7 +79,7 @@ export function makeMonsterSprite(type, def, monsterId, fallback) {
     const tex = texture.clone(); tex.needsUpdate = true;
     tex.repeat.set(1 / cols, 1 / rowsN); tex.wrapS = THREE.ClampToEdgeWrapping;
     const material = new THREE.MeshBasicMaterial({ map: tex, transparent: true, alphaTest: .35, side: THREE.DoubleSide, depthWrite: true });
-    const h = spec.height * (layout.scale ?? 1), plane = new THREE.Mesh(new THREE.PlaneGeometry(h, h), material);
+    const h = spec.height / (layout.fill || 1) * (layout.scale ?? 1), plane = new THREE.Mesh(new THREE.PlaneGeometry(h, h), material);
     plane.position.y = h / 2 + (spec.lift ?? 0) + (layout.lift ?? 0); plane.userData.monsterId = monsterId; plane.castShadow = true;
     const pivot = new THREE.Group(); pivot.add(plane); group.remove(fallback); group.add(pivot);
     fallback.traverse(o => { if (o.isMesh) { o.geometry.dispose(); o.material?.dispose?.(); } });
