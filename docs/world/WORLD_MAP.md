@@ -152,3 +152,20 @@ random deep forest; the builder reserves it (a `rect` PLAZAS entry, like the
 hall yards) and adds the approach road after the last `ROADS` entry.
 
 Next zone: a dungeon below the ruined ordination hall.
+## Gateway and hunting navigation update (October 2026)
+
+The implemented registry contains five maps: city → paddy → deep_forest →
+wat_rang → klong. All eight existing connections now have walk-through Thai
+fantasy gateway frames. Destination and trigger coordinates are unchanged;
+`path` remains the route classification for the wild connections.
+
+Gate materials follow the map: sandstone/brass in the city, wood in the paddies,
+moss stone in the forest, muted violet stone in the ruins and teal stone by the
+marsh. Gentle ground inscriptions and wisps use unlit effects without point lights.
+Nearby labels show destination level bands or the city's safe status.
+Vegetation stays back around the gateways so their silhouettes remain visible.
+The shared pillar anchors are baked into server collision with a clear centre.
+
+Two new hunting signs per outdoor map show names and monster level bands. Gold
+crossed-sword markers appear on both maps; clicking a marker on the full map
+walks to its clear approach point. The city has no hunting spawns.

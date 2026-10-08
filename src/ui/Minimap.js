@@ -1,3 +1,4 @@
+import { huntingFor, huntingLevel } from '../data/hunting.js';
 import { LANDMARKS } from '../data/landmarks.js';
 import { HALLS } from '../data/halls.js';
 import { SHOPS, TRAINERS } from '../data/shops.js';
@@ -102,9 +103,17 @@ export class Minimap {
     }
     landmarks(true);
     for (const [x, y, m, n] of quests) { questMark(g, x, y, ui * .5, m.glyph, t); hits?.push({ x, y, r: ui, title: `${n.def.name} · ${m.glyph === '?' ? 'ส่งเควส' : 'มีเควส'}` }); }
+    // Hunting markers walk to the sign's clear approach point, outside the spawn centre.
+    for(const camp of huntingFor(this.map?.id)) {
+      const [x,y]=to(camp.x,camp.z);if(!onScreen(x,y,30))continue;
+      const r=ui*.55;
+      badge(g,x,y,r,'combat','gold');
+      label(g,full ? `${camp.name} · ${huntingLevel(camp)}` : huntingLevel(camp),x,y+r*1.8,Math.round(ui*.5),{weight:600});
+      hits?.push({x,y,r:ui,title:`${camp.name} · ${huntingLevel(camp)} · จุดเก็บเลเวล`,goal:camp.approach});
+    }
     // Warps (glowing rings) and trail exits (signposts), with the destination on the full map.
     for (const w of this.portals) {
-      const at = w.marker ?? w.at, [x, y] = to(at.x, at.z), path = portalStyle(w) === 'path';
+      const at = w.at, [x, y] = to(at.x, at.z), path = portalStyle(w) === 'path';
       if (onScreen(x, y, 30)) {
         // The signpost arrow points out of the map: north for exits in the north half, else south.
         if (path) pathMark(g, x, y, ui * (full ? .5 : .44), w.at.z < (this.bounds.minZ + this.bounds.maxZ) / 2 ? -Math.PI / 2 : Math.PI / 2);
@@ -131,7 +140,7 @@ export class Minimap {
     this.markers(g, to, k, ui, state, { p });
     // Off-screen warps and quest targets: arrows on the edge.
     const edge = (x, z, color) => { const e = edgePoint((x - p.x) * k, (z - p.z) * k, cw / 2, ch / 2, ui * .55); if (e) edgeArrow(g, cw / 2 + e.x, ch / 2 + e.y, e.angle, ui * .38, color); };
-    for (const w of this.portals) { const at = w.marker ?? w.at; edge(at.x, at.z, portalStyle(w) === 'path' ? '#e2b469' : '#ffe08a'); }
+    for (const w of this.portals) { const at = w.at; edge(at.x, at.z, portalStyle(w) === 'path' ? '#e2b469' : '#ffe08a'); }
     for (const l of this.landmarks) if (state.targets?.has(l.id) && !this.discovered.has(l.id) && (!l.hidden)) edge(l.x, l.z, '#e2643a');
     playerMark(g, cw / 2, ch / 2, ui * .5, yaw);
     compassRose(g, cw - ui * .95, ui * .95, ui * .72, state.night > .5);
@@ -173,7 +182,7 @@ export class Minimap {
     const ui = Math.max(14, Math.min(cw, ch) / 26), to = (x, z) => [left + (x - R.minX) * k, top + (z - R.minZ) * k];
     // Zone names: large spaced serif, skipped where a discovered landmark label sits.
     // Zone names: large serif, nudged off the place markers and each other; skipped where none fits.
-    const size = Math.round(ui * .62), boxes = [...this.landmarks.filter(l => !l.hidden || this.discovered.has(l.id)), ...this.portals.map(w => w.marker ?? w.at), p]
+    const size = Math.round(ui * .62), boxes = [...this.landmarks.filter(l => !l.hidden || this.discovered.has(l.id)), ...this.portals.map(w => w.at), ...huntingFor(this.map?.id), p]
       .map(l => { const [x, y] = to(l.x, l.z); return { x, y, hw: ui * .7, hh: ui * .7 }; });
     g.font = `500 ${size}px "Noto Serif Thai", serif`;
     for (const z of B.zones) {
@@ -202,10 +211,10 @@ export class Minimap {
     const tip = c.parentElement?.querySelector('.map-tip');
     const find = e => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) * c.width / r.width, y = (e.clientY - r.top) * c.height / r.height; return [...(c._minimap?.hits ?? [])].reverse().find(h => Math.hypot(h.x - x, h.y - y) < h.r) ?? null; };
     c.addEventListener('mousemove', e => {
-      const h = find(e); c.style.cursor = h?.landmark ? 'pointer' : 'default';
+      const h = find(e); c.style.cursor = (h?.landmark || h?.goal) ? 'pointer' : 'default';
       if (!tip) { c.title = h?.title ?? ''; return; }
       tip.hidden = !h; if (!h) return;
-      tip.textContent = h.title + (h.landmark ? ' · คลิกเพื่อเดินไป' : '');
+      tip.textContent = h.title + ((h.landmark || h.goal) ? ' · คลิกเพื่อเดินไป' : '');
       const pr = c.parentElement.getBoundingClientRect(), z = pr.width / c.parentElement.offsetWidth || 1;
       tip.style.left = `${(e.clientX - pr.left) / z + 14}px`; tip.style.top = `${(e.clientY - pr.top) / z + 10}px`;
     });
@@ -213,6 +222,7 @@ export class Minimap {
     // a discovered place walks to it; anywhere else on the map walks to that spot
     c.addEventListener('click', e => {
       const m = c._minimap, h = find(e);
+      if (h?.goal) return m?.onWalk?.(h.goal.x,h.goal.z,true);
       if (h?.landmark) return m?.onPick?.(h.landmark);
       const at = m?.worldAt(c, e); if (at) m.onWalk?.(at.x, at.z, true);
     });

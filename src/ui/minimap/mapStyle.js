@@ -181,5 +181,5 @@ export const portalStyle = portal => (portal?.style === 'path' ? 'path' : 'warp'
 // Legend rows of the full map (UI text).
 export const LEGEND = [
   ['player', 'ตำแหน่งของคุณ'], ['portal', 'ประตูวาป'], ['path', 'ทางออกสู่แผนที่อื่น'], ['quest', 'เควส / เป้าหมาย'], ['landmark', 'สถานที่ที่ค้นพบ'],
-  ['unknown', 'ยังไม่ค้นพบ'], ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'],
+  ['unknown', 'ยังไม่ค้นพบ'], ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'], ['hunt', 'จุดเก็บเลเวล (Lv.)'],
 ];

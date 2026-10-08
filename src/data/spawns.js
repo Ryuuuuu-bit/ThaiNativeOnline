@@ -23,6 +23,7 @@
 // paddies, นางตะเคียน in her tree, ผีปู่โสม in the ordination hall, กระสือ over the
 // stupas some nights. ปอบ is not placed yet.
 import { MONSTERS } from '../combat/data/monsters.js';
+import { HUNTING_GROUNDS } from './hunting.js';
 
 // How full the maps are: every ordinary monster's count is multiplied by this (elites and
 // bosses stay one at a time). With RULES.monsterRespawn this sets how fast a map refills.
@@ -151,4 +152,8 @@ export function combatSpawns() {
       count: def?.elite || def?.boss ? count : Math.round(count * DENSITY) });
   }
   return zones;
+}
+for (const camp of HUNTING_GROUNDS) {
+  SPAWNS.push({id:camp.id,monster:camp.roster.map(r=>MONSTERS[r.type].name).join(' · '),x:camp.x,z:camp.z,radius:camp.radius,active:ALWAYS,max:camp.roster.reduce((sum,r)=>sum+r.count,0)});
+  ROSTER[camp.id]=camp.roster.map(r=>({respawn:24,...r}));
 }
