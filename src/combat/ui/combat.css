@@ -85,3 +85,5 @@
 .g-castbar b{display:block;font-size:11px;font-weight:500;color:#f0d79a;margin-bottom:4px}
 .g-castbar .g-bar{height:6px;background:#091a1780;border-radius:3px;overflow:hidden}
 .g-castbar .g-bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#8a7fd8,#d8c8ff);box-shadow:0 0 8px #c79af0}
+.g-death .g-death-wait{font-size:13px;color:#9fe3a8;margin-top:6px}
+.g-death button:disabled{opacity:.55;cursor:default}

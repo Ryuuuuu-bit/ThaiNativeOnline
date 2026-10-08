@@ -250,6 +250,8 @@ export class Game {
       respawnPoint: this.maps.respawn, spawns: this.maps.zones,
       monsterStyle: this.prefs.monsters,
       isSafe: () => this.maps.map?.safe ?? true, // qa fix: no "danger" tip in the safe city at login
+      // the death screen asks whether a party healer could still stand us up (src/net/Social.js sets it): { secs, who } or null
+      reviveWait: () => this.reviveWait?.() ?? null,
     });
     this.game.setPhase(this.clock.phase);
     this.clock.onPhase(phase => this.game.setPhase(phase));

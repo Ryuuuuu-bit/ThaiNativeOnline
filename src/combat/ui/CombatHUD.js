@@ -44,12 +44,24 @@ export class CombatHUD {
   }
   setSkills(controller, label) { this.bar.setSkills(controller, label); }
   // Safe zone (the city): no fighting tips, Tab / Space do nothing; the bar stays the same.
+  // With a healer who can revive in the party (wait = { secs, who }), the respawn button waits
+  // `secs` seconds first — a revive on the spot costs no gold — then opens as the fallback.
+  deathWait(wait) {
+    clearInterval(this.deathTick); this.deathTick = null;
+    const btn = this.death.querySelector('button'), hint = this.death.querySelector('.g-death-wait');
+    if (!wait) { btn.disabled = false; btn.textContent = 'ฟื้นคืนชีพ'; hint.hidden = true; return; }
+    let left = Math.max(0, Math.round(wait.secs));
+    hint.hidden = false; hint.textContent = `${wait.who} อยู่ในปาร์ตี้ · รอให้ชุบชีวิตตรงนี้ได้ ไม่เสียทอง`;
+    const paint = () => { btn.disabled = left > 0; btn.textContent = left > 0 ? `ฟื้นที่จุดปลอดภัย (${left})` : 'ฟื้นที่จุดปลอดภัย'; };
+    paint();
+    this.deathTick = setInterval(() => { left -= 1; paint(); if (left <= 0) { clearInterval(this.deathTick); this.deathTick = null; } }, 1000);
+  }
   setSafe(on) {
     if (!on && !this.tipped) { this.tipped = true; this.feed?.log('พื้นที่อันตราย · Tab เลือกเป้า · 1–0 ใช้สกิล · G ออโต้ · Q / F ดื่มยา', 'bad'); }
     this.safe = on;
   }
   buildDeath() {
-    this.death = el('section', 'g-death', `<h2>คุณหมดสติ</h2><p>วิญญาณยังไม่ไปไหน กลับไปตั้งหลักที่จุดปลอดภัย<br><small>เสียทอง 10% ที่ติดตัว</small></p><button>ฟื้นคืนชีพ</button>`);
+    this.death = el('section', 'g-death', `<h2>คุณหมดสติ</h2><p>วิญญาณยังไม่ไปไหน กลับไปตั้งหลักที่จุดปลอดภัย<br><small>เสียทอง 10% ที่ติดตัว</small></p><p class="g-death-wait" hidden></p><button>ฟื้นคืนชีพ</button>`);
     this.death.hidden = true; this.layer.append(this.death);
     this.death.querySelector('button').addEventListener('click', () => this.onRespawn?.());
   }
@@ -79,9 +91,9 @@ export class CombatHUD {
     cb.on('aggro', m => { if (m.def.elite) feed.log(`${m.name} จ้องมองคุณ!`, 'bad'); });
     cb.on('spawn', m => { if (m.def.rare) { feed.log(`มีแสงประหลาดลอยอยู่ในป่า… ${m.name}ปรากฏตัว`, 'epic'); feed.banner(`${m.name}ปรากฏตัว`, 'Rare Monster · ล่าได้เฉพาะยามค่ำคืน'); } });
     cb.on('phase', phase => this.setPhase(phase));
-    cb.on('player-death', () => { this.death.hidden = false; });
-    cb.on('player-revived', () => { this.death.hidden = true; feed.log('ฟื้นคืนชีพตรงจุดที่ล้ม', 'gold'); });
-    cb.on('player-respawn', ({ goldLost }) => { this.death.hidden = true; if (goldLost) feed.log(`เสียทอง ${goldLost}`, 'bad'); });
+    cb.on('player-death', () => { this.death.hidden = false; this.deathWait(this.reviveWait?.() ?? null); });
+    cb.on('player-revived', () => { this.death.hidden = true; this.deathWait(null); feed.log('ฟื้นคืนชีพตรงจุดที่ล้ม', 'gold'); });
+    cb.on('player-respawn', ({ goldLost }) => { this.death.hidden = true; this.deathWait(null); if (goldLost) feed.log(`เสียทอง ${goldLost}`, 'bad'); });
   }
 
   // Night switches the whole UI to a moonlit theme (body.g-night).

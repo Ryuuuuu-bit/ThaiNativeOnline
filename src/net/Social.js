@@ -13,6 +13,8 @@
 //   attachSocial(net, character, chat, remote)
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
 import { CLASSES } from '../character/data/classes.js';
+import { CLASS_KITS } from '../classes/index.js';
+import { SKILL_BY_ID } from '../rules/data/skills.js';
 import { BUFF_ICONS } from '../combat/data/skills.js';
 import { iconHtml, classBadge } from '../ui/icons.js';
 import { sameGear } from '../character/data/refine.js';
@@ -98,6 +100,21 @@ export function attachSocial(net, c, chat, remote, game = null) {
     }
     if (tab === 'party') renderSoc();
   };
+  // the death screen: a living member of a class that has a revive skill, in our room → wait for them
+  const REVIVERS = new Set(Object.keys(CLASS_KITS).filter(cls => CLASS_KITS[cls]?.skills?.some(k => SKILL_BY_ID[k.id]?.type === 'revive')));
+  const REVIVE_WAIT = 10;
+  if (game) game.reviveWait = () => {
+    const s = self(); if (!party || !s) return null;
+    const healer = party.members.find(p => p.id !== me && !p.dead && p.map === s.map && p.ch === s.ch && REVIVERS.has(p.cls));
+    return healer ? { secs: REVIVE_WAIT, who: `${CLASSES[healer.cls]?.name ?? 'หมอ'} ${healer.name}` } : null;
+  };
+  // a member going down is said in the chat, so the healer looks round
+  let wasDown = new Set();
+  const noteFallen = () => {
+    const down = new Set((party?.members ?? []).filter(p => p.dead && p.id !== me).map(p => p.id));
+    for (const id of down) if (!wasDown.has(id)) { const p = party.members.find(x => x.id === id); if (p) chat.add('ระบบ', `${p.name} หมดสติ${REVIVERS.has(c.classId) ? ' · เข้าไปใกล้แล้วใช้สกิลชุบชีวิต' : ''}`, 'party'); }
+    wasDown = down;
+  };
   let lastPartyId = null;   // across a reconnect: the same party is not "joined" again
   net.on('party', m => {
     const was = party?.id; party = m.id ? m : null;
@@ -106,7 +123,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     if (party) lastPartyId = party.id; else if (net.online) lastPartyId = null;
     if (allyId() != null && !party?.members.some(p => p.id === allyId())) setAlly(null);   // the friend picked left the party
     const key = JSON.stringify(m);
-    if (key !== lastPartyKey) { lastPartyKey = key; renderParty(); }   // the 1 Hz broadcast redraws only what changed
+    if (key !== lastPartyKey) { lastPartyKey = key; renderParty(); noteFallen(); }   // the 1 Hz broadcast redraws only what changed
   });
   let lastPartyKey = '';
   net.on('pc', m => chat.add(`[ปาร์ตี้] ${m.name}`, m.text, 'party'));
