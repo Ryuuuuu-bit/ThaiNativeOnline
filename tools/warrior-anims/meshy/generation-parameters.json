@@ -1,0 +1,16 @@
+{
+  "target_polycount": 20000,
+  "ai_model": "meshy-7.1",
+  "enable_pbr": true,
+  "target_formats": [
+    "glb"
+  ],
+  "image_enhancement": false,
+  "should_remesh": true,
+  "should_texture": true,
+  "texture_resolution": "2k",
+  "pose_mode": "t-pose",
+  "topology": "triangle",
+  "model_type": "standard",
+  "geometry_resolution": "standard"
+}
