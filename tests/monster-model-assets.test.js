@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { gltfLoader } from '../src/core/gltf.js';   // the game's loader (meshopt decoder: the models are gltfpack-ed)
 import { MONSTER_MODELS } from '../src/combat/MonsterModels.js';
 
 for (const type of Object.keys(MONSTER_MODELS)) test(`${type}: exported skin, clips, loop seams and animated bounds are valid`, async () => {
   const data = await readFile(new URL(`../public/models/monsters/${type}.glb`, import.meta.url));
   assert.equal(data.readUInt32LE(0), 0x46546c67);
   assert.equal(data.readUInt32LE(8), data.length);
-  const gltf = await new GLTFLoader().parseAsync(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), '');
+  const gltf = await gltfLoader().parseAsync(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), '');
   assert.deepEqual(gltf.animations.map(c => c.name).sort(), ['attack','die','hurt','idle','walk']);
   const meshes = []; gltf.scene.traverse(o => { if (o.isMesh) meshes.push(o); assert.ok(!o.isCamera && !o.isLight, 'studio objects must not ship'); });
   assert.ok(meshes.length <= 11, 'consolidate meshes by material');

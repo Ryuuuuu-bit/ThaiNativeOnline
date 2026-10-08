@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { lockTime } from '../tempo.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { gltfLoader } from '../../core/gltf.js';
 import { V, C, rand, clamp01, easeOutBack, SH, COL } from './engine.js';
 import { HERBALIST_SKILLS } from '../herbalist-moves.js';
 
@@ -106,7 +106,7 @@ function makeBook(fx) {
   root.traverse(o => { if (o.isMesh && o !== sigil) o.castShadow = true; });
   // the closed tome: Tripo model, cover turned outward (away from the caster), ~0.48 tall
   const closed = new THREE.Group(); closed.rotation.y = Math.PI; root.add(closed);
-  new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}models/herbalist-book.glb`).then(g => {
+  gltfLoader().loadAsync(`${import.meta.env.BASE_URL}models/herbalist-book.glb`).then(g => {
     const m = g.scene, box = new THREE.Box3().setFromObject(m), sz = box.getSize(new THREE.Vector3()), k = .48 / sz.y;
     m.scale.setScalar(k); m.position.copy(box.getCenter(new THREE.Vector3()).multiplyScalar(-k));
     m.traverse(o => { if (o.isMesh) { o.castShadow = true; if (o.material.emissive) { o.material.emissive.set(0x2a2208); } } });

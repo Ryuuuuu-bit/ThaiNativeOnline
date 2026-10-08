@@ -30,7 +30,7 @@ import { segmentSelects } from '../ui/segControls.js';
 import { renderRoute } from '../ui/worldRoute.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
-import { createViewPrefs } from '../ui/viewPrefs.js';
+import { ZOOM_MIN, ZOOM_MAX, createViewPrefs } from '../ui/viewPrefs.js';
 import { createTouchControls } from '../ui/TouchControls.js';
 import { Sound } from '../audio/Sound.js';
 import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
@@ -250,6 +250,8 @@ export class Game {
       respawnPoint: this.maps.respawn, spawns: this.maps.zones,
       monsterStyle: this.prefs.monsters,
       isSafe: () => this.maps.map?.safe ?? true, // qa fix: no "danger" tip in the safe city at login
+      // the death screen asks whether a party healer could still stand us up (src/net/Social.js sets it): { secs, who } or null
+      reviveWait: () => this.reviveWait?.() ?? null,
     });
     this.game.setPhase(this.clock.phase);
     this.clock.onPhase(phase => this.game.setPhase(phase));
@@ -296,7 +298,7 @@ export class Game {
     const pct = Math.round(this.view.zoom * 100), lock = $('zoom-lock');
     if (lock) { lock.textContent = this.prefs.zoomLock ? '🔒' : '🔓'; lock.setAttribute('aria-pressed', String(!!this.prefs.zoomLock)); lock.classList.toggle('on', !!this.prefs.zoomLock); }
     $('zoom').value = pct; $('zoom-value').value = `${pct}%`;
-    $('zoom-in').disabled = this.view.zoom >= 1.7; $('zoom-out').disabled = this.view.zoom <= .5;
+    $('zoom-in').disabled = this.view.zoom >= ZOOM_MAX; $('zoom-out').disabled = this.view.zoom <= ZOOM_MIN;
   }
 
   // Map changes (src/world/MapManager.js): close what belongs to the old map,

@@ -28,10 +28,15 @@ export function weakDevice() {
   } catch { return false; }
 }
 
+// Camera zoom (CameraController.setZoom): twice as close as the first builds, never pulled out
+// past 100 % — the old 50 % view showed too much map for the sprites to read.
+export const ZOOM_MIN = 1, ZOOM_MAX = 3, ZOOM_DEFAULT = 2;
+
 export function createViewPrefs() {
   const saved = load();
   const prefs = {
-    zoom: Number.isFinite(saved.zoom) ? saved.zoom : 1,
+    // the camera zoom; saves from before the closer camera (no zoomV) start over at the new default
+    zoom: Number.isFinite(saved.zoom) && saved.zoomV === 2 ? saved.zoom : ZOOM_DEFAULT,
     hud: Number.isFinite(saved.hud) ? saved.hud : 1,
     zoomLock: saved.zoomLock === true,   // 🔒 by the minimap: pinch, wheel and keys leave the zoom alone
     // graphics quality (remembered): a phone, or a machine with little memory or few cores, starts on low
@@ -41,7 +46,7 @@ export function createViewPrefs() {
     scale: 1,
     set(change) {
       Object.assign(prefs, change);
-      try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, hud: prefs.hud, zoomLock: prefs.zoomLock, quality: prefs.quality, particles: prefs.particles, monsters: prefs.monsters })); } catch { /* storage unavailable */ }
+      try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, zoomV: 2, hud: prefs.hud, zoomLock: prefs.zoomLock, quality: prefs.quality, particles: prefs.particles, monsters: prefs.monsters })); } catch { /* storage unavailable */ }
       apply();
     },
   };

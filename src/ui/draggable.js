@@ -38,6 +38,8 @@ export function draggable(el, { key, handle = 'header', lockable = false } = {})
     const label = () => { btn.title = locked ? 'ปลดล็อกเพื่อย้ายหน้าต่าง' : 'ล็อกตำแหน่ง'; btn.setAttribute('aria-label', btn.title); btn.setAttribute('aria-pressed', String(locked)); btn.textContent = locked ? '🔒' : '🔓'; };
     btn.addEventListener('click', e => { e.stopPropagation(); locked = !locked; label(); paint(); persist(); });
     label(); bar?.append(btn);
+    // a window that redraws its title bar (innerHTML, like the party frame) gets the padlock back
+    new MutationObserver(() => { if (btn.isConnected) return; const b = el.querySelector(handle); if (b) { b.append(btn); paint(); } }).observe(el, { childList: true, subtree: true });
   }
   // keep part of the window, and its title bar, on screen
   const clamp = bar => {

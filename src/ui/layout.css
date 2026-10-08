@@ -234,6 +234,27 @@ body .g-skd-head .g-pips i.on{background:linear-gradient(#7fb7f0,#2f74c9)}
 .g-cmp b{font-size:15px;font-variant-numeric:tabular-nums;text-align:right}
 .g-cmp b i{font-style:normal;color:#7ee07a}
 .g-skd-desc{margin:0;font-size:15px;line-height:1.65}
+.g-yours{padding:10px 12px;border-radius:12px;background:rgba(201,160,76,.08);border:1px solid rgba(201,160,76,.3);display:flex;flex-direction:column;gap:4px}
+.g-yours-h{font-size:12px;letter-spacing:.04em;color:var(--t-gold);text-transform:uppercase;margin-bottom:2px}
+.g-yours div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px}
+.g-yours div span{color:var(--t-dim);flex:0 0 auto}
+.g-yours div em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:#dfe8f3}
+.g-yours div em b{color:#ffe9a8;font-size:14px}
+.g-yours small{margin-top:4px;font-size:12px;color:var(--t-mute);line-height:1.5}
+.g-guide-btn{margin-left:auto;font:inherit;font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid rgba(201,160,76,.45);background:rgba(201,160,76,.1);color:var(--t-gold-hi);cursor:pointer}
+.g-guide-btn[aria-expanded="true"]{background:rgba(201,160,76,.28)}
+.g-guide{margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(201,160,76,.25);font-size:13px;line-height:1.55;display:flex;flex-direction:column;gap:8px}
+.g-guide h5{margin:0;font:700 14px 'Noto Serif Thai',serif;color:var(--t-gold-hi)}
+.g-guide ul{margin:0;padding-left:18px;color:#cfd8e3}
+.g-guide ul li{margin:2px 0}
+.g-build{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;padding:7px 9px;border-radius:10px;background:rgba(255,255,255,.04)}
+.g-build b{color:#fff}
+.g-build .g-plan{display:flex;gap:4px;flex-wrap:wrap}
+.g-build .g-plan i{font-style:normal;font-size:11px;padding:1px 6px;border-radius:999px;background:rgba(201,160,76,.18);color:var(--t-gold-hi)}
+.g-build small{grid-column:1;color:var(--t-dim)}
+.g-build button{grid-column:2;grid-row:1/3;font:inherit;font-size:12px;padding:5px 9px;border-radius:8px;border:1px solid rgba(126,224,122,.5);background:rgba(126,224,122,.12);color:#bff5bb;cursor:pointer;white-space:nowrap}
+.g-build button:disabled{opacity:.4;cursor:default}
+
 .g-sk-evo{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .g-sk-evo > span{grid-column:1/-1;font-size:13px;color:var(--t-gold)}
 .g-sk-evo > span small{color:var(--t-mute);margin-left:6px}
@@ -264,13 +285,14 @@ body .net-chat .net-lines{min-height:96px;max-height:132px}
 body .net-chat .net-lines p{background:none;padding:1px 2px}
 body .net-chat .net-lines p.old{opacity:.55}
 body .net-chat header{display:flex;padding:2px 2px 4px;border-radius:0;background:none;box-shadow:none;border-bottom:1px solid var(--t-card-line)}
-body .net-chat header .drag-lock{margin-left:auto;padding:0 4px;border:0;background:none;font-size:12px;line-height:1;opacity:.55;cursor:pointer}
-body .net-chat header .drag-lock:hover{opacity:1}
-body .net-chat header:not(.drag-locked){cursor:grab}
+body .net-chat header .drag-lock,body .soc-party > header .drag-lock{margin-left:auto;padding:0 4px;border:0;background:none;font-size:12px;line-height:1;opacity:.55;cursor:pointer;color:inherit}
+body .net-chat header .drag-lock:hover,body .soc-party > header .drag-lock:hover{opacity:1}
+body .net-chat header:not(.drag-locked),body .soc-party > header:not(.drag-locked){cursor:grab}
+body .soc-party > header{display:flex;align-items:center;gap:6px}
 body .net-chat.dragging header{cursor:grabbing}
 body .net-chat .net-online{margin-left:auto}
 body .net-chat .net-online + .drag-lock{margin-left:6px}
-.ui-touch .net-chat header .drag-lock{font-size:15px;padding:2px 6px;opacity:.8}
+.ui-touch .net-chat header .drag-lock,.ui-touch .soc-party > header .drag-lock{font-size:15px;padding:2px 6px;opacity:.8}
 
 /* settings: titled groups of rows, label on the left, a segmented control, slider or
    switch on the right (the selects become .g-seg rows, src/ui/segControls.js) */

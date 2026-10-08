@@ -45,6 +45,7 @@ export function createGame(o) {
     const feed = new Feed(layer);
     const characterUI = new CharacterUI(layer, character, feed, { buffIcons: BUFF_ICONS });
     const hud = new CombatHUD(o.root, layer, combat, feed, characterUI.quickButtons);
+    hud.reviveWait = o.reviveWait ?? null;
     // A world with no monster zones (the safe city today): no fight hints, Tab / Space idle.
     // isSafe() (the loaded map) wins: spawns may exist on another map while the player is in a safe one.
     const safe = o.isSafe ? o.isSafe() : !o.spawns?.length; hud.setSafe(safe);

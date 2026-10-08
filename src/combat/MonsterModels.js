@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { gltfLoader } from '../core/gltf.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 import { cachedLoader } from '../core/retry.js';
 import { versioned } from '../core/version.js';
@@ -20,7 +20,7 @@ export const MONSTER_MODELS = {
 };
 // One parse per file, shared; a load is retried, and a failure is forgotten after a while so
 // the next monster of the type asks the server again (src/core/retry.js).
-const loader = new GLTFLoader();
+const loader = gltfLoader();
 const load = cachedLoader(url => loader.loadAsync(versioned(url)));
 
 export function makeMonsterModel(type, fallback, monsterId) {

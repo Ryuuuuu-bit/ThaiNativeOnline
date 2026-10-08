@@ -13,10 +13,13 @@ import { assetIcon } from '../../ui/icons.js';
 import { CLASS_KITS } from '../../classes/index.js';
 import { SKILL_BY_ID, skillStats } from '../../rules/data/skills.js';
 import { castInfo } from '../../training/kitCombat.js';
+import { RULES } from '../../combat/data/rules.js';
 import { EVOLUTIONS, EVO_LEVEL } from '../../rules/data/evolutions.js';
 import { MAX_SKILL_LEVEL, MAX_JOB_LEVEL } from '../data/progression.js';
 import { treeOf } from '../data/skilltree.js';
-import { KIT_PASSIVES } from '../../rules/data/kitpassives.js';
+import { KIT_PASSIVES, KIT_PASSIVE_IDS } from '../../rules/data/kitpassives.js';
+import { healPower, supportOf, allyHeal, ALLY_FOCUS } from '../../training/kitCombat.js';
+import { scaleOf } from '../data/statguide.js';
 import { classBadge } from '../../ui/icons.js';
 import { el, esc, setBar } from './dom.js';
 import { draggable } from '../../ui/draggable.js';
@@ -41,6 +44,52 @@ const ROWS = [
   ['คูลดาวน์', s => s.cd, s => `${(+s.cd).toFixed(1)} วิ`],
   ['ร่าย', s => s.cast, s => `${(+s.cast).toFixed(1)} วิ`],
 ];
+
+// The card's "ของคุณตอนนี้" block: the skill's numbers worked out from this character's stats, so a
+// player sees where a skill's strength comes from (rules: src/rules/stats.js rollDamage —
+// power × multiplier × 90–110 % − armour, × crit damage on a crit).
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const BUFF_TH = { atkMul: ['พลังโจมตี', v => `+${Math.round(v * 100)}%`], critAdd: ['โอกาสคริ', v => `+${Math.round(v * 100)}%`], def: ['ป้องกัน', v => `+${v}`], aspd: ['ความเร็วตี', v => `+${Math.round(v * 100)}%`], eva: ['หลบหลีก', v => `+${v}`], speed: ['ความเร็ววิ่ง', v => `+${Math.round(v * 100)}%`], regen: ['ฟื้น HP', v => `${Math.round(v * 100)}%/วิ`] };
+function yourNumbers(c, kitSkill, id, lv) {
+  const base = SKILL_BY_ID[id]; if (!base) return '';
+  const L = Math.max(1, lv), st = skillStats(base, L), kind = base.kind || 'physical', ranged = !!c.cls.ranged;
+  const hits = Array.isArray(kitSkill.hits) ? Math.max(1, kitSkill.hits.length) : 1;
+  const rows = [], tips = [];
+  const scale = scaleOf(kind, ranged);
+  const power = kind === 'magic' ? c.matk : kind === 'best' ? Math.max(c.patk, c.matk) : c.patk;
+  const mult = st.mult ?? (base.type !== 'buff' && base.type !== 'party' && base.type !== 'revive' && !base.heals ? RULES.kit.fallbackMult : null);
+  if (mult) {
+    const per = power * mult, crit = per * c.critDamage;
+    rows.push(['ดาเมจต่อครั้ง', `${scale.label} ${fmt(power)} × ${Math.round(mult * 100)}% ≈ <b>${fmt(per)}</b>`]);
+    if (hits > 1) rows.push([`รวม ${hits} ครั้ง`, `≈ <b>${fmt(per * hits)}</b>`]);
+    rows.push([`ติดคริ (${Math.round(c.critChance * 100)}%)`, `× ${c.critDamage.toFixed(2)} ≈ <b>${fmt(crit)}</b> ต่อครั้ง`]);
+    rows.push(['ก่อนหักเกราะ', `ผีลด ${kind === 'magic' ? 'DEF × 0.25' : 'DEF × 0.5'} ต่อครั้ง · สุ่ม 90–110%`]);
+    tips.push(`${scale.how}`, kind === 'magic' ? 'อุปกรณ์ MATK' : 'อุปกรณ์ ATK');
+  }
+  if (base.heals && st.hmult) {
+    const heal = Math.round(healPower(id, L, c.matk) * c.healPow);
+    const ticks = Math.max(1, Math.round(heal / Math.max(1, st.hmult * c.matk * c.healPow)));
+    rows.push(['รักษา', `MATK ${fmt(c.matk)} × ${Math.round(st.hmult * 100)}%${ticks > 1 ? ` × ${ticks} ครั้ง` : ''}${c.healPow !== 1 ? ` × พลังรักษา ${c.healPow.toFixed(2)}` : ''} ≈ <b>${fmt(heal)}</b>`]);
+    tips.push('INT ยิ่งสูงยิ่งคุ้ม', 'อุปกรณ์ MATK / พลังรักษา');
+  }
+  // who else gets it: party members in reach (supportOf), and the picked friend for the aimed heals
+  const sup = supportOf(id, L, c.defense, c.matk, c.healPow);
+  if (sup && (sup.hp || sup.heal || sup.mp || sup.buff || sup.revive)) {
+    rows.push(['เพื่อนในปาร์ตี้', `ในระยะ <b>${Math.round(sup.radius)} ม.</b> ได้${sup.revive ? 'ชุบชีวิต + ' : ''}${sup.hp ? 'ฮีลเท่ากัน' : sup.heal ? 'ฟื้น HP เท่ากัน' : sup.buff ? 'บัฟเดียวกัน' : 'ผลเดียวกัน'}`]);
+    if (allyHeal(id)) rows.push(['เลือกเป้าฮีล', `คลิกเพื่อนในหน้าต่างปาร์ตี้ → ฮีลคนนั้นคนเดียว <b>×${ALLY_FOCUS}</b>`]);
+  }
+  if (typeof st.heal === 'number' && st.heal > 0) rows.push(['ฟื้น HP', `${Math.round(st.heal * 100)}% ของ HP สูงสุด ≈ <b>${fmt(c.maxHp * st.heal)}</b>`]);
+  if (st.mpHeal) rows.push(['ฟื้น MP', `${Math.round(st.mpHeal * 100)}% ≈ <b>${fmt(c.maxMp * st.mpHeal)}</b>`]);
+  if (st.buff) for (const [k, v] of Object.entries(st.buff)) { if (typeof v !== 'number') continue; const [th, f] = BUFF_TH[k] ?? [k, v => v]; rows.push([th, `<b>${f(v)}</b>${k === 'atkMul' ? ` (ATK ${fmt(c.patk)} → ${fmt(c.patk * (1 + v))})` : ''}`]); }
+  if (st.cd) { const cut = c.cooldownCut, real = st.cd / 1000 * (1 - cut); rows.push(['คูลดาวน์ของคุณ', `<b>${real.toFixed(1)} วิ</b>${cut ? ` (DEX/อุปกรณ์ ลด ${Math.round(cut * 100)}%)` : ''}`]); }
+  if (base.castMs) { const cs = c.castSpeed, real = base.castMs / 1000 * (1 - cs); rows.push(['ร่ายของคุณ', `<b>${real.toFixed(1)} วิ</b>${cs ? ` (ร่ายเร็ว ${Math.round(cs * 100)}%)` : ''}`]); }
+  // the tree passive of this class that feeds this skill
+  const key = base.heals ? 'healMul' : kind === 'magic' ? 'matkMul' : 'patkMul';
+  const pas = (KIT_PASSIVE_IDS[c.classId] ?? []).find(pid => KIT_PASSIVES[pid].bonus(1)[key]);
+  if (pas) tips.push(`${KIT_PASSIVES[pas].nameTh} (ติดตัว)`);
+  if (!rows.length) return '';
+  return `<div class="g-yours"><span class="g-yours-h">ของคุณตอนนี้ · Lv ${L}</span>${rows.map(([k, v]) => `<div><span>${k}</span><em>${v}</em></div>`).join('')}${tips.length ? `<small>แรงขึ้นได้จาก: ${[...new Set(tips)].join(' · ')}</small>` : ''}</div>`;
+}
 
 export class SkillPanel {
   constructor(layer, character, feed, open) {
@@ -168,6 +217,7 @@ export class SkillPanel {
     card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${s.passive ? 'ติดตัว · ไม่ต้องร่าย ไม่กินช่องลัด' : `${TYPE_TH[SKILL_BY_ID[s.id]?.type] ?? 'สกิล'} · ${SKILL_BY_ID[s.id]?.kind === 'physical' ? 'กายภาพ' : SKILL_BY_ID[s.id]?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}`}</small><div class="g-pips">${pips}</div></div>
         <span class="g-skd-lv">Lv ${lv}/${MAX_SKILL_LEVEL}<small>${locked ? 'ยังไม่ปลด' : lv ? 'เรียนแล้ว' : 'เรียนได้'}</small></span></div>
       ${cmp ? `<div class="g-cmp">${cmp}</div>` : ''}
+      ${s.passive ? '' : yourNumbers(c, s, c.skillVariant(s.id), lv)}
       ${s.desc ? `<p class="g-skd-desc">${esc(s.desc)}</p>` : ''}
       ${evoHtml}
       <div class="g-reqs"><span><b class="g-lvtag">ปลด</b><span class="${c.jobLevel >= need ? 'ok' : 'no'}">${c.jobLevel >= need ? '✓' : '✗'} Job Lv ${need}</span></span>${reqs.map(([k, n]) => `<span><b class="g-lvtag">ก่อน</b><span class="${c.skillLevel(k) >= n ? 'ok' : 'no'}">${c.skillLevel(k) >= n ? '✓' : '✗'} ${esc(this.name(k))} Lv ${n}</span></span>`).join('')}<span><b class="g-lvtag">แต้ม</b><span class="${c.skillPoints > 0 ? 'ok' : 'no'}">${c.skillPoints > 0 ? '✓' : '✗'} เหลือ ${c.skillPoints} แต้ม</span></span></div>
