@@ -27,6 +27,9 @@ for (const [id, skills, budget, weapons, count] of [
   assert.ok(bodies[0].skeleton.bones.length >= 60);
   assert.ok(meshes.reduce((n, m) => n + m.geometry.index.count / 3, 0) < 40000);
   const hips = bodies[0].skeleton.bones.find(b => /Hips$/.test(b.name));
+  const bone = name => bodies[0].skeleton.bones.find(b => b.name.endsWith(name));
+  gltf.scene.updateMatrixWorld(true);
+  const headBindInverse = bone('Head').getWorldQuaternion(new THREE.Quaternion()).invert();
   for (const [name, hand] of Object.entries(weapons)) {
     const node = gltf.scene.getObjectByName(name);
     assert.ok(node, name);
@@ -46,6 +49,21 @@ for (const [id, skills, budget, weapons, count] of [
         for (let i = 0; i < mesh.geometry.attributes.position.count; i += 47) {
           mesh.getVertexPosition(i, v); mesh.localToWorld(v);
           assert.ok(v.toArray().every(Number.isFinite) && v.distanceTo(center) < 2, `${clip.name}: body/weapon bounds`);
+        }
+      }
+    }
+    if (id === 'warrior' && !['hurt', 'die'].includes(clip.name)) {
+      // Finite vertices alone missed the previous visibly bent wrists/head.
+      // Inspect every authored frame, including spin and leap transitions.
+      for (let t = 0; t < clip.duration; t += 1 / 30) {
+        mixer.setTime(t); gltf.scene.updateMatrixWorld(true);
+        const headDelta = bone('Head').getWorldQuaternion(new THREE.Quaternion()).multiply(headBindInverse);
+        const e = new THREE.Euler().setFromQuaternion(headDelta, 'YXZ');
+        assert.ok(Math.abs(e.z) < .05 && Math.abs(e.x) < .185, `${clip.name}: head tilt`);
+        for (const side of ['Left', 'Right']) {
+          const p = name => bone(side + name).getWorldPosition(new THREE.Vector3());
+          const fore = p('Hand').sub(p('ForeArm')), knuckles = p('HandMiddle1').sub(p('Hand'));
+          assert.ok(fore.angleTo(knuckles) < .53, `${clip.name}: wrist bends beyond sword grip limit`);
         }
       }
     }

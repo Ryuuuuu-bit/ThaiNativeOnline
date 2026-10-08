@@ -32,6 +32,12 @@ bone rotation deltas are transferred parent-first, hips translation is rescaled,
 and walk/run horizontal travel is removed. Weapon orientation and hand-relative
 grip are transferred independently to account for different bone rolls.
 
+Twin-sword rigs additionally align anatomical bone/child and palm/sole axes,
+rebuild finger curls on the supplied hand, and seat swords at the new finger
+centres. Head/neck pitch and roll are restrained for combat and locomotion;
+authored yaw and hurt/death poses are retained. These corrections are selected
+by the `sword_L sword_R` prop pair; the hunter's existing transfer is unchanged.
+
 All original clip names and 30fps timing remain available to the game. There are
 15 warrior clips and 14 hunter clips. The unchanged class model URLs are shared
 by character selection, the local player and remote players. Portraits were

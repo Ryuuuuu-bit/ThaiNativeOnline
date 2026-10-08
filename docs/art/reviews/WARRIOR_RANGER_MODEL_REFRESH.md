@@ -21,7 +21,7 @@ damage, tempo, VFX, loader, class height or runtime dependency changes.
 
 | Class | Unchanged source copy | Runtime file | Clips | Triangles including weapons | Runtime bytes |
 | --- | --- | --- | --- | --- | --- |
-| Warrior | `tools/warrior-anims/warrior-user.glb` | `public/models/warrior.glb` | 15 | 13,995 | 1,935,040 |
+| Warrior | `tools/warrior-anims/warrior-user.glb` | `public/models/warrior.glb` | 15 | 13,995 | 1,944,552 |
 | Hunter/ranger | `tools/hunter-anims/rangers-user.glb` | `public/models/hunter.glb` | 14 | 12,567 | 1,593,048 |
 
 Source SHA-256:
@@ -31,7 +31,7 @@ Source SHA-256:
 
 Runtime SHA-256:
 
-- Warrior: `992d0fc0e04895954c4e6879c8694d352c0a7d6e7922506150b6c78c150c8b68`
+- Warrior: `5825ffc356c9a5875a9087261cd45d9dcfddc38b5ecd4b1e887a0661f26b99c3`
 - Hunter: `bb25e4fe001801ec58b6bd3985d1e59de06118b95a7938e9779bc9b5662d7706`
 
 Downloads originals remain unchanged. Runtime textures are limited to 1024px
@@ -71,6 +71,35 @@ the previous prepared models remain animation and weapon donors.
 ![Warrior mobile viewport](warrior-model/in-game-mobile.png)
 
 ![Hunter mobile viewport](hunter-model/in-game-mobile.png)
+
+## Warrior wrist and head correction
+
+The first transfer preserved only world rotation deltas. Different bind bone
+directions and palm axes in the new warrior then produced excessive wrist bends;
+the donor head pitch/roll also made the anime head look crooked. The initial
+finite-geometry checks did not catch this visual defect.
+
+For twin-sword rigs the transfer now aligns anatomical bone-to-child directions
+and palm/sole frames before applying animation. Finger grips are rebuilt using
+the supplied skeleton, and weapon grips follow the new finger centres. Head and
+neck pitch/roll are limited relative to the supplied bind pose during normal
+combat/locomotion. Authored yaw remains free so spin attacks turn the head with
+the body. Hurt/death retain their falling poses. The hunter transfer is unchanged.
+
+Measurements across every 30fps frame, excluding hurt/death:
+
+| Measurement | Before | After |
+| --- | --- | --- |
+| Largest forearm-to-knuckles wrist angle | 67.75 degrees | 29.92 degrees |
+| Largest head pitch relative to bind pose | 27.81 degrees | 10.38 degrees |
+| Largest head roll relative to bind pose | 7.68 degrees | 2.64 degrees |
+
+Asset tests now reject excessive head tilt and wrist bend at every sampled
+authored frame. All 15 clips were rendered again; idle, attack, rear, portrait
+and desktop/mobile game screenshots were refreshed. Full tests remain 345/345
+passing and the production build passes with the same existing bundle warning.
+
+![Every warrior clip at its midpoint](warrior-model/all-poses.png)
 
 ## Known limitations
 
