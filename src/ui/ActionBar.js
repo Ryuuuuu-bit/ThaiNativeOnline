@@ -90,6 +90,7 @@ export class ActionBar {
     const key = `${this.page}:${pages.flat().join(',')}`;
     if (key === this.pageKey) return;
     this.pageKey = key;
+    this.pager.dataset.singlePage = String(pages.length === 1 && pages[0].length > 0);
     this.slots.forEach(({ b }, i) => { b.dataset.touchHidden = String(!pages[this.page].includes(i)); });
     this.pager.querySelector('span').textContent = pages[0].length ? `${this.page + 1} / ${pages.length}` : 'เรียนสกิลในเมนูวิชา';
     for (const button of this.pager.querySelectorAll('button')) button.disabled = pages.length <= 1;

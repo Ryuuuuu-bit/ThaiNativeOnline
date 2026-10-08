@@ -46,3 +46,20 @@ Local art review: consistent jade/brass hierarchy, less map occlusion and clear
 thumb-control separation. Independent art review, physical iPhone/Android tests
 and on-device keyboard/notch behavior remain pending. The existing large bundle
 warning remains. This task does not deploy the change.
+
+## Follow-up: clear the player's feet
+
+The deployed screenshot showed that non-overlapping panels still occupied too
+much of the central play area. TouchControls now groups the utility row and skill
+tray in a bottom-anchored dock. Single learned-skill pages omit the pager; empty
+kits retain their learning hint, and multi-page kits retain navigation.
+
+At 390x844 with three learned skills, the tray is 58.8px tall (previously 98px),
+and the utility row starts at y543 (previously y472). The tray ends at y654,
+above the attack cluster at y660. QA passed at 390x844, 320x640, 844x390 and
+non-touch desktop, including original casting index on page two, menu gating,
+no overflow and no page errors. All 306 tests and production build pass.
+Screenshot: artifacts/mobile-hud-three-skills.png; learned levels are temporarily
+stubbed locally for layout coverage. Physical-device safe areas and keyboard
+behavior still need user verification. The existing bundle-size warning remains.
+Changed files: ActionBar.js, TouchControls.js, mobile-hud.css and this review.

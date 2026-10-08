@@ -117,7 +117,8 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
     const map = el('button', 'g-menu touch-map', 'แผนที่'); map.type = 'button'; map.title = 'แผนที่ใหญ่';
     map.addEventListener('click', () => input.emit('map'));
     side.append(map);
-    root.append(side);
+    const dock = el('div', 'touch-combat-dock');
+    dock.append(side, bar); root.append(dock);
     return true;
   };
   // A menu open (settings, character / bag, shop, full map, AUTO settings): the joystick,
