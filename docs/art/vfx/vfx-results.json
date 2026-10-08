@@ -1,0 +1,255 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "class": "muaythai",
+      "skill": "boxer_croc",
+      "live": 0,
+      "calls": 46,
+      "casts": [
+        {
+          "skill": "boxer_jab",
+          "duration": 0.833
+        },
+        {
+          "skill": "boxer_kick",
+          "duration": 0.917
+        },
+        {
+          "skill": "boxer_croc",
+          "duration": 1.167
+        },
+        {
+          "skill": "boxer_waikru",
+          "duration": 0.45
+        },
+        {
+          "skill": "boxer_ngouy",
+          "duration": 1.333
+        },
+        {
+          "skill": "boxer_drum",
+          "duration": 0.45
+        },
+        {
+          "skill": "boxer_elbow",
+          "duration": 0.75
+        },
+        {
+          "skill": "boxer_knee",
+          "duration": 1
+        },
+        {
+          "skill": "boxer_iron",
+          "duration": 0.45
+        },
+        {
+          "skill": "boxer_hanuman",
+          "duration": 2.417
+        }
+      ],
+      "finite": true,
+      "geometries": 9
+    },
+    {
+      "class": "warrior",
+      "skill": "sword_pikat",
+      "live": 0,
+      "calls": 58,
+      "casts": [
+        {
+          "skill": "sword_twin",
+          "duration": 0.8
+        },
+        {
+          "skill": "sword_thrust",
+          "duration": 0.8
+        },
+        {
+          "skill": "sword_wind",
+          "duration": 0.88
+        },
+        {
+          "skill": "sword_guard",
+          "duration": 0.45
+        },
+        {
+          "skill": "sword_pikat",
+          "duration": 1.6
+        },
+        {
+          "skill": "sword_banner",
+          "duration": 0.45
+        },
+        {
+          "skill": "sword_whirl",
+          "duration": 1.1199999999999999
+        },
+        {
+          "skill": "sword_leap",
+          "duration": 1.2
+        },
+        {
+          "skill": "sword_berserk",
+          "duration": 0.45
+        },
+        {
+          "skill": "sword_execute",
+          "duration": 1.6
+        }
+      ],
+      "finite": true,
+      "geometries": 13
+    },
+    {
+      "class": "hunter",
+      "skill": "arch_rain",
+      "live": 0,
+      "calls": 176,
+      "casts": [
+        {
+          "skill": "arch_quick",
+          "duration": 0.64
+        },
+        {
+          "skill": "arch_poison",
+          "duration": 0.8
+        },
+        {
+          "skill": "arch_pierce",
+          "duration": 0.88
+        },
+        {
+          "skill": "arch_hawk",
+          "duration": 0.45
+        },
+        {
+          "skill": "arch_rain",
+          "duration": 0.96
+        },
+        {
+          "skill": "arch_garuda",
+          "duration": 1.28
+        },
+        {
+          "skill": "arch_volley",
+          "duration": 1.12
+        },
+        {
+          "skill": "arch_trap",
+          "duration": 1.12
+        },
+        {
+          "skill": "arch_snipe",
+          "duration": 1.6
+        },
+        {
+          "skill": "arch_meteor",
+          "duration": 1.6
+        }
+      ],
+      "finite": true,
+      "geometries": 14
+    },
+    {
+      "class": "shaman",
+      "skill": "mage_kalp",
+      "live": 0,
+      "calls": 27,
+      "casts": [
+        {
+          "skill": "mage_akom",
+          "duration": 0.769
+        },
+        {
+          "skill": "mage_yant",
+          "duration": 0.846
+        },
+        {
+          "skill": "mage_shield",
+          "duration": 0.45
+        },
+        {
+          "skill": "mage_thunder",
+          "duration": 0.923
+        },
+        {
+          "skill": "mage_kalp",
+          "duration": 1.538
+        },
+        {
+          "skill": "mage_holy",
+          "duration": 0.45
+        },
+        {
+          "skill": "mage_ghostfire",
+          "duration": 0.923
+        },
+        {
+          "skill": "mage_curse",
+          "duration": 1.0769230769230769
+        },
+        {
+          "skill": "mage_meditate",
+          "duration": 0.45
+        },
+        {
+          "skill": "mage_storm",
+          "duration": 1.692
+        }
+      ],
+      "finite": true,
+      "geometries": 11
+    },
+    {
+      "class": "herbalist",
+      "skill": "heal_khwan",
+      "live": 0,
+      "calls": 70,
+      "casts": [
+        {
+          "skill": "heal_vine",
+          "duration": 1.2307692307692308
+        },
+        {
+          "skill": "heal_pill",
+          "duration": 0.769
+        },
+        {
+          "skill": "heal_zone",
+          "duration": 1.846
+        },
+        {
+          "skill": "heal_tiger",
+          "duration": 0.45
+        },
+        {
+          "skill": "heal_khwan",
+          "duration": 1.692
+        },
+        {
+          "skill": "heal_mortar",
+          "duration": 1.692
+        },
+        {
+          "skill": "heal_mist",
+          "duration": 0.45
+        },
+        {
+          "skill": "heal_tonic",
+          "duration": 0.45
+        },
+        {
+          "skill": "heal_mother",
+          "duration": 1.846
+        },
+        {
+          "skill": "heal_amrita",
+          "duration": 1.692
+        }
+      ],
+      "finite": true,
+      "geometries": 20
+    }
+  ]
+}

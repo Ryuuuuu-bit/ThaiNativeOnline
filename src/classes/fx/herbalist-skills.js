@@ -11,7 +11,7 @@ import { HERBALIST_SKILLS } from '../herbalist-moves.js';
 // to the front, bursts open into the spell-book with the sigil, then closes and orbits on.
 // Positions are FX-local units (see engine.js K).
 const { GOLD, WHITE, DUST } = COL;
-const HERB = C(.45, 1.6, .55), HERB_HOT = C(1.4, 3, 1.3), LEAF = C(.35, 1.0, .35), GOLD_SOFT = C(1.2, .9, .35),
+const HERB = C(.45, 1.6, .55), HERB_HOT = C(1.1, 2.0, 1.0), LEAF = C(.35, 1.0, .35), GOLD_SOFT = C(1.2, .9, .35),
   EMBER = C(2.6, 1.0, .25), WATER = C(.5, 1.4, 2.4), MPBLUE = C(.4, .8, 2.4);
 const BASE = import.meta.env.BASE_URL + 'fx/herbalist/';
 const TIGER_W = 280, TIGER_H = 393, TIGER_ASPECT = TIGER_W / TIGER_H;
