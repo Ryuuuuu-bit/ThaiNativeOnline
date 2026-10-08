@@ -38,6 +38,34 @@ to 1024px/quality 90 with `tools/models/shrink-glb-textures.py` and pack only
 1,414,356 bytes; the source mesh is not decimated. Updated portrait and browser
 review images are documented in `docs/art/reviews/CLASS_MODEL_REFRESH.md`.
 
+### Anime ready stance — 2026-10-08
+
+The ready pose is asymmetric: staggered planted feet, a small hip/chest turn,
+relaxed left arm and a raised right-hand two-finger seal. Breathing only affects
+the upper torso/head. All spell start/end keys share this pose, including finger
+curl; effect release times are unchanged.
+
+The optional fourth CLI argument selects the locomotion donor. This revision used
+`tools/muaythai-anims/fighter-tripo.glb` from commit `533ba9b` so that decoded walk/run
+body tracks remain identical to the previous runtime model; finger rotations now
+use the corrected palm-facing hinges. Extract that historical
+file to a temporary path before rebuilding, and pass it explicitly:
+
+```sh
+node tools/shaman-anims/compose.mjs tools/shaman-anims/wizzard-tripo.glb artifacts/shaman-idle.glb artifacts/shaman-original-donor.glb
+```
+
+Then shrink textures and pack as above. Do not replace the current fighter source
+with the historical donor. Review: `docs/art/reviews/SHAMAN_IDLE.md`.
+
+The supplied rig has three joints per finger, without the donor's fourth tip nodes.
+The shared fist helper assumes those tip nodes exist, so it must not be used for
+this source: a missing tip resolves to the origin and can choose backwards flexion.
+`curlHand()` derives local flexion axes from the rest palm plane and real segments,
+limits MCP/PIP/DIP rotation, and handles thumb opposition separately. This applies
+to spell, idle and locomotion fingers. Regression checks sample all clips at 30 fps
+for positive flexion, bounded angles and no sideways finger twist.
+
 ### Previous unarmed animation implementation
 
 The generated `public/models/shaman.glb` has no staff. The source GLB is preserved;

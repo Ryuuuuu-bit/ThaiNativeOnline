@@ -4,7 +4,7 @@
 // this skeleton as it is; walk and run are the Muay Thai fighter's clips retargeted onto it.
 import { load, sample, clone, blend, worldPos, worldQuat, rotWorld, writeAnim, legIK, fist, hingeLimb, duration, THREE } from '../muaythai-anims/lib.mjs';
 const R = await load(process.argv[2] ?? 'tools/shaman-anims/wizzard-tripo.glb');
-const F = await load('tools/muaythai-anims/fighter-tripo.glb');
+const F = await load(process.argv[4] ?? 'tools/muaythai-anims/fighter-tripo.glb');
 const findF = re => Object.values(F.anims).find(a => re.test(a.getName()));
 const TEEP = findF(/teep/), WALK = findF(/^walk/), RUN = findF(/^run/);
 const B = n => 'mixamorig:' + n;
@@ -36,7 +36,7 @@ function retargetClip(name, anim) {
   const d = duration(anim), frames = [];
   for (let i = 0; i <= Math.round(d * FPS); i++) {
     const p = retarget(sample(F, anim, i / FPS));
-    fist(R, p, B, 'Left', .15); fist(R, p, B, 'Right', .15);
+    curlHand(p, 'Left', .15); curlHand(p, 'Right', .15);
     frames.push(p);
   }
   writeAnim(R, name, frames, FPS);
@@ -88,6 +88,37 @@ function armIK(p, side, target, pole) {
 // Hand in line with the forearm (straight wrist), rolled so the palm faces `palm` (world
 // dir); `flex` then bends the wrist (− = back, e.g. the wai).
 const PALM_LOCAL = {};
+const FINGER_AXES = new Map();
+// This supplied rig has three phalanges, without the donor's *4 end bones.
+// Derive each flexion axis from its actual rest segment and palm plane. Never
+// choose a curl sign by measuring a missing fingertip (which resolves to origin).
+function curlHand(p, side, weight) {
+  const P = suffix => worldPos(R, REST, B(side + suffix));
+  const along = P('HandMiddle1').sub(P('Hand')).normalize();
+  const across = P('HandPinky1').sub(P('HandIndex1')).normalize();
+  const palm = along.clone().cross(across).normalize();
+  if (palm.y > 0) palm.negate(); // source T-pose palms face down
+  for (const digit of ['Index', 'Middle', 'Ring', 'Pinky']) for (let j = 1; j <= 3; j++) {
+    const name = B(side + 'Hand' + digit + j), node = R.byName[name];
+    if (!FINGER_AXES.has(name)) {
+      const a = P('Hand' + digit + j);
+      const dir = j < 3 ? P('Hand' + digit + (j + 1)).sub(a) : a.clone().sub(P('Hand' + digit + '2'));
+      FINGER_AXES.set(name, dir.normalize().cross(palm).normalize().applyQuaternion(worldQuat(R, REST, node).invert()));
+    }
+    p.get(node).r.copy(REST.get(node).r).multiply(new THREE.Quaternion().setFromAxisAngle(FINGER_AXES.get(name), [1.15, 1.4, .85][j - 1] * weight));
+  }
+  // Thumb opposition is separate from the four finger hinges, with smaller bends.
+  for (const [j, angle] of [[1, .25], [2, .45], [3, .45]]) {
+    const name = B(side + 'HandThumb' + j), node = R.byName[name];
+    if (!FINGER_AXES.has(name)) {
+      const at = P('HandThumb' + j);
+      const dir = j < 3 ? P('HandThumb' + (j + 1)).sub(at) : at.clone().sub(P('HandThumb2'));
+      const toward = P('HandMiddle1').sub(at).addScaledVector(palm, .012);
+      FINGER_AXES.set(name, dir.normalize().cross(toward.normalize()).normalize().applyQuaternion(worldQuat(R, REST, node).invert()));
+    }
+    p.get(node).r.copy(REST.get(node).r).multiply(new THREE.Quaternion().setFromAxisAngle(FINGER_AXES.get(name), angle * weight));
+  }
+}
 function hand(p, side, palm, flex = 0) {
   const S = side === 'L' ? 'Left' : 'Right', node = R.byName[B(S + 'Hand')];
   if (!PALM_LOCAL[S]) PALM_LOCAL[S] = v3(0, -1, 0).applyQuaternion(worldQuat(R, REST, node).invert());   // T-pose: palms down
@@ -173,8 +204,9 @@ function fighter(c) {
     hand(p, S, h.palm, h.flex ?? 0);
   }
   const fk = c.fist ?? [1, 1];
-  if (fk[0] > .01) fist(R, p, B, 'Left', fk[0]);
-  if (fk[1] > .01) fist(R, p, B, 'Right', fk[1]);
+  if (fk[0] > .01) curlHand(p, 'Left', fk[0]);
+  if (fk[1] > .01) curlHand(p, 'Right', fk[1]);
+  if (c.readySeal) sealFingers(p, c.readySeal, ['Right']);
   return p;
 }
 // Deep-interpolate two parameter sets.
@@ -252,34 +284,36 @@ const arcLift = (t, t0, t1, h) => (t > t0 && t < t1 ? Math.sin(Math.PI * (t - t0
 // Original gestures inspired by hand-sign spellcasting; no weapon or franchise symbols.
 const H = (at, palm, side) => ({ at, palm, pole: [side * .65, -.65, -.3], sh: 0, flex: 0 });
 const SSTANCE = {
-  hip: [0, .012, 0], hipYaw: 0, twist: 0, lean: .025, side: 0, chin: .08, look: 1, fist: [.12, .12], seal: 0,
-  L: { x: .075, z: .02, yaw: .12, heel: 0, up: 0 },
-  R: { x: -.075, z: -.025, yaw: -.12, heel: 0, up: 0 },
-  Lh: H([.12, -.32, .12], [-1, .2, .2], 1),
-  Rh: H([-.12, -.32, .12], [1, .2, .2], -1),
+  hip: [-.009, .012, 0], hipYaw: -.12, twist: .08, lean: .012, side: 0, chin: .02, look: 1, fist: [.22, .78], seal: 0, readySeal: 1,
+  L: { x: .085, z: .065, yaw: .10, heel: 0, up: 0 },
+  R: { x: -.085, z: -.055, yaw: -.24, heel: 0, up: 0 },
+  Lh: H([.16, -.43, .035], [-1, 0, .1], 1),
+  Rh: H([-.11, -.07, .075], [.15, 0, 1], -1),
 };
 const S = o => withP(SSTANCE, o);
-const sealA = S({ fist: [.85, .85], seal: 1, chin: .14,
+const sealA = S({ fist: [.85, .85], seal: 1, readySeal: 0, chin: .14,
   Lh: H([.025, -.20, .145], [-1, 0, .2], 1), Rh: H([-.025, -.20, .145], [1, 0, .2], -1) });
-const sealB = S({ fist: [.75, .75], seal: 1, chin: .10,
+const sealB = S({ fist: [.75, .75], seal: 1, readySeal: 0, chin: .10,
   Lh: H([.035, -.16, .17], [-1, 0, .1], 1), Rh: H([-.035, -.18, .14], [1, 0, .1], -1) });
 const release = (kind, variant = 0) => {
-  if (kind === 'guard') return S({ Lh: H([.14, -.17, .23], [0, 0, 1], 1), Rh: H([-.14, -.17, .23], [0, 0, 1], -1) });
-  if (kind === 'ground') return S({ lean: .28, chin: .24, hip: [0, .055, 0],
+  if (kind === 'guard') return S({ readySeal: 0, Lh: H([.14, -.17, .23], [0, 0, 1], 1), Rh: H([-.14, -.17, .23], [0, 0, 1], -1) });
+  if (kind === 'ground') return S({ readySeal: 0, lean: .28, chin: .24, hip: [0, .055, 0],
     Lh: H([.14, -.42, .27], [0, -1, .1], 1), Rh: H([-.14, -.42, .27], [0, -1, .1], -1) });
-  if (kind === 'summon') return S({ chin: -.10,
+  if (kind === 'summon') return S({ readySeal: 0, chin: -.10,
     Lh: H([.25, -.10, .15], [0, 1, .2], 1), Rh: H([-.25, -.10, .15], [0, 1, .2], -1) });
-  return S({ twist: variant * .08, lean: .08,
+  return S({ readySeal: 0, twist: variant * .08, lean: .08,
     Lh: H([.10, -.22, .29], [0, 0, 1], 1), Rh: H([-.10, -.22, .29], [0, 0, 1], -1) });
 };
 // Straight index/middle fingers with curled ring/little fingers form the seal.
-function sealFingers(p, weight) {
-  for (const side of ['Left', 'Right']) for (const digit of ['Index', 'Middle']) for (let j = 1; j <= 3; j++) {
+function sealFingers(p, weight, sides = ['Left', 'Right']) {
+  for (const side of sides) for (const digit of ['Index', 'Middle']) for (let j = 1; j <= 3; j++) {
     const n = R.byName[B(side + 'Hand' + digit + j)]; if (n) p.get(n).r.slerp(REST.get(n).r, weight);
   }
 }
 buildP('idle', 2.6, [[0, SSTANCE], [2.6, SSTANCE]], (t, c) => {
-  c.chin += .012 * Math.sin(TAU * t / 2.6); // feet and hips stay still
+  // Breathing stays above the hips: no root sway or moving foot contacts.
+  c.lean += .004 * Math.sin(TAU * t / 2.6);
+  c.chin += .004 * Math.sin(TAU * t / 2.6);
 });
 const spells = [
   ['shaman_akom', 1, .4, 'push'], ['shaman_yant', 1.1, .47, 'push'],
@@ -294,12 +328,12 @@ for (const [name, dur, hit, kind] of spells) {
     [hit * .76, sealA], [hit, end], [dur * .86, end], [dur, SSTANCE]], null,
     (t, p) => { const w = t < hit * .76 ? Math.min(1, t / (hit * .25)) : Math.max(0, (hit - t) / (hit * .24)); sealFingers(p, w); });
 }
-const meditate = S({ hip: [0, .13, 0], chin: .20, fist: [0, 0],
+const meditate = S({ readySeal: 0, hip: [0, .13, 0], chin: .20, fist: [0, 0],
   Lh: H([.025, -.30, .16], [0, 1, 0], 1), Rh: H([-.025, -.31, .16], [0, 1, 0], -1) });
 buildP('shaman_meditate', 2, [[0, SSTANCE], [.35, sealA], [.7, meditate], [1.6, meditate], [2, SSTANCE]]);
 const hurt = S({ lean: -.18, chin: -.14, hip: [0, .02, -.035] });
 buildP('hurt', .5, [[0, SSTANCE], [.1, hurt], [.2, hurt], [.5, SSTANCE]]);
-const fallen = S({ hip: [0, .18, -.06], lean: -.10,
+const fallen = S({ readySeal: 0, hip: [0, .18, -.06], lean: -.10,
   Lh: H([.25, -.30, 0], [-1, 0, 0], 1), Rh: H([-.25, -.30, 0], [1, 0, 0], -1) });
 buildP('die', 1.6, [[0, SSTANCE], [.2, hurt], [.65, fallen], [1.6, fallen]], null, (t, p) => {
   const u = ease(Math.min(1, Math.max(0, (t - .45) / .7)));
