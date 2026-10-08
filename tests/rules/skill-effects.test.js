@@ -7,8 +7,8 @@ import { DOT_KINDS } from '../../src/rules/effects.js';
 
 const all = Object.values(SKILL_BY_ID);
 
-test('catalogue: 55 active / 10 weapon passives + 15 tree passives', () => {
-  assert.equal(all.filter((s) => s.type !== 'passive').length, 55);
+test('catalogue: 56 active / 10 weapon passives + 15 tree passives', () => {
+  assert.equal(all.filter((s) => s.type !== 'passive').length, 56);
   assert.equal(all.filter((s) => s.type === 'passive' && s.job).length, 10);
   assert.equal(all.filter((s) => s.type === 'passive' && !s.job).length, 15, 'one tree passive on each line of each class (src/rules/data/kitpassives.js)');
 });

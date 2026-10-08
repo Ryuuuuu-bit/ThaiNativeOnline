@@ -28,8 +28,8 @@ test('every kit skill of every class gets a cost and a reach (rules entry or def
     assert.ok(info.range >= KIT.minRange && info.range <= KIT.maxRange, `${s.id} range ${info.range}`);
     assert.ok(info.mp >= 0 && Number.isFinite(info.mp), `${s.id} mp`);
   }
-  // Only วงหนาดปราบผี has no rules entry today: its blows hit at RULES.kit.fallbackMult.
-  assert.deepEqual(missing, ['heal_zone']);
+  // every kit skill has a rules entry (none falls back to RULES.kit.fallbackMult)
+  assert.deepEqual(missing, []);
 });
 
 test('cast info: melee reach is the minimum, ranged skills reach far, buffs need no target', () => {
@@ -41,7 +41,8 @@ test('cast info: melee reach is the minimum, ranged skills reach far, buffs need
   assert.equal(castInfo({ id: 'boxer_kick', mp: 7, cd: 4.5 }).mp, SKILL_BY_ID.boxer_kick.mp);
   assert.equal(castInfo({ id: 'boxer_kick', mp: 7, cd: 4.5 }).cd, SKILL_BY_ID.boxer_kick.cd / 1000);
   assert.ok(castInfo({ id: 'boxer_kick' }, 5).cd < castInfo({ id: 'boxer_kick' }, 1).cd);
-  assert.equal(castInfo({ id: 'heal_zone', mp: 9, cd: 18 }).cd, 18);
+  assert.equal(castInfo({ id: 'heal_zone', mp: 9, cd: 18 }).cd, SKILL_BY_ID.heal_zone.cd / 1000);
+  assert.equal(castInfo({ id: 'heal_zone' }).splash.around, 'target');
   assert.equal(castInfo({ id: 'heal_pill', cd: 6 }).mp, SKILL_BY_ID.heal_pill.mp);
 });
 
