@@ -19,8 +19,8 @@ test('search matches item names', () => {
 });
 
 test('gear is weighed for the class: casters want MATK, fighters ATK', () => {
-  assert.ok(gearScore(caster, 'bone_wand') > gearScore(caster, 'iron_dap'));
-  assert.ok(gearScore(fighter, 'iron_dap') > gearScore(fighter, 'bone_wand'));
+  assert.ok(gearScore(caster, 'palm_book') > gearScore(caster, 'iron_dap'));
+  assert.ok(gearScore(fighter, 'iron_dap') > gearScore(fighter, 'palm_book'));
 });
 
 test('arrows compare with what is worn in the same slot', () => {

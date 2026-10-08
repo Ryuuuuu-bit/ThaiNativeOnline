@@ -1,6 +1,6 @@
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
 // Pure logic so it can be reused by any world or a future server.
-import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL } from './data/classes.js';
+import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL, WEAPON_KINDS, WEAPON_KIND_TH } from './data/classes.js';
 import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { MAX_LEVEL, expToNext, CARRY, RECOVERY, MONSTER_ACCURACY, MAX_JOB_LEVEL, JOB_EXP_RATE, jobExpToNext, MAX_SKILL_LEVEL, SKILL_RESET_GOLD } from './data/progression.js';
 import { KIT_SKILL_IDS, KIT_MOVES } from './data/kits.js';
@@ -29,12 +29,15 @@ const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'e
 const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 
+// Bumped when the starter set changes; saves below it get the missing starter pieces once (grantMissingStarterEquipment).
+export const STARTER_VERSION = 2;
+
 export class Character extends Emitter {
   constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0 } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
-    this.starterEquipmentVersion = starterEquipmentVersion === 1 ? 1 : 0;
+    this.starterEquipmentVersion = Math.max(0, Math.min(STARTER_VERSION, Math.floor(Number(starterEquipmentVersion) || 0)));
     this.name = name; this.classId = classId; this.gender = gender; this.night = false; this.level = level; this.exp = exp; this.gold = gold;
     this.points = points; // unspent stat points
     // Job level and learnt skills ({ kit skill id: level }). Saves from before job levels get a
@@ -92,6 +95,8 @@ export class Character extends Emitter {
     this.inventory = this.inventory.map(item => redeem(item) ? null : item);
     for (const slot of EQUIP_SLOTS) if (redeem(this.wornItem(slot))) { this.equipment[slot] = null; this.cards[slot] = []; this.refine[slot] = 0; }
     for (const item of returnedCards) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
+    // a weapon of another class's kind (worn before the kinds existed, or a save edited by hand) goes to the bag
+    if (this.equipment.weapon && !this.canWield(this.equipment.weapon)) { const item = this.wornItem('weapon'); this.equipment.weapon = null; this.cards.weapon = []; this.refine.weapon = 0; const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
     // ฉายา (src/data/titles.js): the ids earned, the one worn (null = none) and the records behind them
@@ -105,15 +110,17 @@ export class Character extends Emitter {
   static create(name, classId, gender = 'male') {
     const c = new Character({ name, classId, gender });
     for (const id of START_ITEMS[classId] || []) { c.addItem(id); c.equip(c.inventory.findIndex(s => s?.id === id)); }
-    c.starterEquipmentVersion = 1;
+    c.starterEquipmentVersion = STARTER_VERSION;
     c.addItem('potion_s', 5); c.addItem('ether', 2);
     c.hp = c.maxHp; c.mp = c.maxMp;
     return c;
   }
 
-  // One-time backfill for saved characters, never an item refill after sale/breakage.
+  // One-time backfill for saved characters, never an item refill after sale/breakage. Runs again
+  // when the starter set changes (STARTER_VERSION 2: the herbalist's staff became a book) — it only
+  // ever fills a slot that is empty with nothing of the kind in the bag.
   grantMissingStarterEquipment() {
-    if (this.starterEquipmentVersion >= 1) return false;
+    if (this.starterEquipmentVersion >= STARTER_VERSION) return false;
     for (const id of START_ITEMS[this.classId] ?? []) {
       const def = ITEMS[id];
       if (this.equipment[def.slot] || this.inventory.some(item => item?.id === id)) continue;
@@ -121,7 +128,7 @@ export class Character extends Emitter {
       if (free < 0) this.inventory.push(item); else this.inventory[free] = item;
       if (this.alive) this.equip(free < 0 ? this.inventory.length - 1 : free);
     }
-    this.starterEquipmentVersion = 1;
+    this.starterEquipmentVersion = STARTER_VERSION;
     return true;
   }
 
@@ -435,6 +442,10 @@ export class Character extends Emitter {
   }
   // a weapon held in both hands (items.js twoHand): no shield or off-hand knife with it
   get twoHanded() { return !!ITEMS[this.equipment.weapon]?.twoHand; }
+  // A weapon this class wields (its kind in WEAPON_KINDS); gear of other slots, and weapons with no kind, always.
+  canWield(id) { const def = ITEMS[id]; if (!def || def.slot !== 'weapon' || !def.weapon) return true; return (WEAPON_KINDS[this.classId] ?? []).includes(def.weapon); }
+  // The kinds this class wields, in words (the bag's tooltip and the refusal).
+  get weaponKindsTh() { return (WEAPON_KINDS[this.classId] ?? []).map(k => WEAPON_KIND_TH[k] ?? k).join(' / '); }
   // the worn item of a slot as a bag item (its cards and plus go with it)
   wornItem(slot) {
     const id = this.equipment[slot]; if (!id) return null;
@@ -443,6 +454,7 @@ export class Character extends Emitter {
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
     const def = ITEMS[slot.id]; if (def.retired || def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
+    if (!this.canWield(slot.id)) { this.emit('cannot-wield', slot.id); return false; }
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
     const previous = this.wornItem(to);

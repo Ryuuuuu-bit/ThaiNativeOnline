@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Character } from '../src/character/Character.js';
+import { Character, STARTER_VERSION } from '../src/character/Character.js';
 import { CLASSES, START_ITEMS } from '../src/character/data/classes.js';
 import { fromSave } from '../server/progress.js';
 import { Combatants } from '../server/combatants.js';
@@ -10,7 +10,7 @@ test('every old class receives missing starter equipment once through server loa
     const old = new Character({ name: 'Old', classId });
     const migrated = fromSave(old.toJSON());
     for (const id of START_ITEMS[classId]) assert.ok(Object.values(migrated.equipment).includes(id), `${classId}: ${id}`);
-    assert.equal(migrated.starterEquipmentVersion, 1);
+    assert.equal(migrated.starterEquipmentVersion, STARTER_VERSION);
     migrated.unequip('weapon');
     const index = migrated.inventory.findIndex(x => x?.id === START_ITEMS[classId][0]);
     migrated.inventory[index] = null;
@@ -36,5 +36,21 @@ test('server queues migrated old characters for saving and new characters are al
   const cs = new Combatants();
   cs.load(1, new Character({ name: 'Old', classId: 'hunter' }).toJSON(), { account: 'old', slot: 0 });
   assert.equal(cs.get(1).dirty, true);
-  assert.equal(Character.create('New', 'hunter').starterEquipmentVersion, 1);
+  assert.equal(Character.create('New', 'hunter').starterEquipmentVersion, STARTER_VERSION);
+});
+
+test('a class wields only its weapon kinds: a hunter cannot equip a book, a herbalist starts with one, an old staff is redeemed', () => {
+  const h = Character.create('พราน', 'hunter');
+  h.addItem('herb_book'); const i = h.inventory.findIndex(x => x?.id === 'herb_book');
+  let refused = null; h.on('cannot-wield', id => { refused = id; });
+  assert.equal(h.equip(i), false); assert.equal(refused, 'herb_book'); assert.equal(h.equipment.weapon, 'short_bow');
+  assert.ok(h.canWield('bamboo_bow') && !h.canWield('wood_sword') && h.canWield('cloth_vest'));
+  assert.equal(Character.create('หมอ', 'herbalist').equipment.weapon, 'herb_book');
+  // an old herbalist: the staff is retired (gold back), the book arrives through the backfill
+  const old = fromSave({ ...new Character({ name: 'เก่า', classId: 'herbalist', equipment: { weapon: 'herb_staff', armor: 'cloth_vest' }, starterEquipmentVersion: 1 }).toJSON(), equipment: { weapon: 'herb_staff', armor: 'cloth_vest' }, starterEquipmentVersion: 1 });
+  assert.equal(old.equipment.weapon, 'herb_book');
+  assert.ok(!old.inventory.some(x => x?.id === 'herb_staff'));
+  // a weapon of another kind in the worn slot of a save goes to the bag
+  const odd = new Character({ name: 'แปลก', classId: 'warrior', equipment: { weapon: 'short_bow' } });
+  assert.equal(odd.equipment.weapon, null); assert.ok(odd.inventory.some(x => x?.id === 'short_bow'));
 });
