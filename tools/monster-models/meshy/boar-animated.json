@@ -1,0 +1,14 @@
+{
+  "type": "boar",
+  "bytes": 1462528,
+  "sha256": "cf77c100bbbcf5f23b14b611f8b165ce77bb2915a88928c1991918381126166d",
+  "triangles": 12505,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

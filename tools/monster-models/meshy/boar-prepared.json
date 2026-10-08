@@ -1,0 +1,39 @@
+{
+  "creature": "boar",
+  "bytes": 1396036,
+  "triangles": 12505,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.47223252058029175,
+      0,
+      -0.9482730627059937
+    ],
+    "max": [
+      0.47223252058029175,
+      1.4381341338157654,
+      0.9482730627059937
+    ]
+  },
+  "sha256": "5d54a9f9f45a41ce82861aef87071e4db7096826b367cc25a8b40af5a126f6be",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

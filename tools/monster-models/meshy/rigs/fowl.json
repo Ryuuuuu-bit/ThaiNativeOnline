@@ -1,0 +1,290 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0.2,
+        0
+      ],
+      "parent": null,
+      "deform": true
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0.0,
+        0.72
+      ],
+      "tail": [
+        0,
+        0.16,
+        0.72
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "Neck",
+      "head": [
+        0,
+        -0.22,
+        0.88
+      ],
+      "tail": [
+        0,
+        -0.39,
+        1.18
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        -0.39,
+        1.18
+      ],
+      "tail": [
+        0,
+        -0.51,
+        1.41
+      ],
+      "parent": "Neck",
+      "deform": true
+    },
+    {
+      "name": "Tail",
+      "head": [
+        0,
+        0.34,
+        0.82
+      ],
+      "tail": [
+        0,
+        0.7,
+        1.24
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "WingL",
+      "head": [
+        -0.2,
+        -0.1,
+        0.85
+      ],
+      "tail": [
+        -0.34,
+        0.26,
+        0.62
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegLUpper",
+      "head": [
+        -0.22,
+        -0.18,
+        0.62
+      ],
+      "tail": [
+        -0.22,
+        -0.27,
+        0.31
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegLLower",
+      "head": [
+        -0.22,
+        -0.27,
+        0.31
+      ],
+      "tail": [
+        -0.22,
+        -0.4,
+        0.065
+      ],
+      "parent": "LegLUpper",
+      "deform": true
+    },
+    {
+      "name": "LegLFoot",
+      "head": [
+        -0.22,
+        -0.4,
+        0.065
+      ],
+      "tail": [
+        -0.22,
+        -0.61,
+        0.065
+      ],
+      "parent": "LegLLower",
+      "deform": true
+    },
+    {
+      "name": "WingR",
+      "head": [
+        0.2,
+        -0.1,
+        0.85
+      ],
+      "tail": [
+        0.34,
+        0.26,
+        0.62
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegRUpper",
+      "head": [
+        0.22,
+        -0.18,
+        0.62
+      ],
+      "tail": [
+        0.22,
+        -0.27,
+        0.31
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegRLower",
+      "head": [
+        0.22,
+        -0.27,
+        0.31
+      ],
+      "tail": [
+        0.22,
+        -0.4,
+        0.065
+      ],
+      "parent": "LegRUpper",
+      "deform": true
+    },
+    {
+      "name": "LegRFoot",
+      "head": [
+        0.22,
+        -0.4,
+        0.065
+      ],
+      "tail": [
+        0.22,
+        -0.61,
+        0.065
+      ],
+      "parent": "LegRLower",
+      "deform": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL",
+      "hip": [
+        -0.22,
+        -0.18,
+        0.62
+      ],
+      "knee": [
+        -0.22,
+        -0.27,
+        0.31
+      ],
+      "ankle": [
+        -0.22,
+        -0.4,
+        0.065
+      ],
+      "toe": [
+        -0.22,
+        -0.61,
+        0.065
+      ],
+      "pole": [
+        -0.22,
+        0.15,
+        0.3
+      ],
+      "phase": 0,
+      "angle": -3.141592653589793,
+      "control": "FowlV5LegLTarget",
+      "poleName": "FowlV5LegLPole"
+    },
+    {
+      "name": "LegR",
+      "hip": [
+        0.22,
+        -0.18,
+        0.62
+      ],
+      "knee": [
+        0.22,
+        -0.27,
+        0.31
+      ],
+      "ankle": [
+        0.22,
+        -0.4,
+        0.065
+      ],
+      "toe": [
+        0.22,
+        -0.61,
+        0.065
+      ],
+      "pole": [
+        0.22,
+        0.15,
+        0.3
+      ],
+      "phase": 0.5,
+      "angle": -3.141592653589793,
+      "control": "FowlV5LegRTarget",
+      "poleName": "FowlV5LegRPole"
+    }
+  ],
+  "weightGroups": 308,
+  "limbLength": {
+    "maxRelativeError": 4.1252271610943914e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "FowlV5Rig",
+      "bone": "LegLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "FowlV5Rig",
+      "bone": "LegRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "version": "v5",
+  "editableSource": "artifacts/meshy-rig-01/fowl-rig-v5.blend",
+  "snapshotId": "snapshot-552c6262074a7cb80c10e813"
+}

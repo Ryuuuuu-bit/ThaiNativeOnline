@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="th">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thai Native Online · Rice-field creatures</title>
+<link rel="stylesheet" href="./review.css">
+<body>
+<header><div><small>THAI NATIVE ONLINE · CREATURE STUDY 01</small><h1>สัตว์แห่งท้องนา</h1><p>ชุดเริ่มต้น Lv.1–2 · โมเดล 3D จาก Meshy</p></div><a class="badge" href="./motion.html">ดูชุดแอนิเมชันที่ใช้งานในเกม →</a></header>
+<main>
+  <section class="stage" aria-label="ตัวอย่างโมเดลสามมิติ"><canvas id="stage"></canvas><span id="status" role="status">กำลังโหลดโมเดล…</span><div class="labels" id="labels"></div></section>
+  <nav aria-label="เลือกมอนสเตอร์" class="creatures"><button data-type="all" class="active">ดูทั้งชุด</button><button data-type="boar">หมูป่า · Lv.1</button><button data-type="fowl">ไก่ป่า · Lv.1</button><button data-type="crab">ปูนา · Lv.2</button></nav>
+  <nav aria-label="เลือกมุมกล้อง" class="views"><button data-view="game" class="active">มุมเกม 2.5D</button><button data-view="front">ด้านหน้า</button><button data-view="side">ด้านข้าง</button><button data-view="back">ด้านหลัง</button><button data-view="top">ด้านบน</button><button id="spin" aria-pressed="false">หมุนรอบตัว</button></nav>
+  <footer><span>สัดส่วนและวัสดุใช้ตัวโหลดเดียวกับเกม · ขนาดเทียบกับตัวเดิม</span><label><input id="compare" type="checkbox"> แสดงโมเดลเดิมเพื่อเทียบ</label></footer>
+</main>
+<script type="module" src="./review.js"></script>
+</body></html>

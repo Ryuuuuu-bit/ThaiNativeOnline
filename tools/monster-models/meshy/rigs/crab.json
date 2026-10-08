@@ -1,0 +1,809 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0.2,
+        0
+      ],
+      "parent": null,
+      "deform": true
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.35
+      ],
+      "tail": [
+        0,
+        0.15,
+        0.35
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "EyeL",
+      "head": [
+        -0.17,
+        -0.29,
+        0.36
+      ],
+      "tail": [
+        -0.18,
+        -0.34,
+        0.57
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "ClawL",
+      "head": [
+        -0.24,
+        -0.27,
+        0.3
+      ],
+      "tail": [
+        -0.44,
+        -0.45,
+        0.32
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "PalmL",
+      "head": [
+        -0.44,
+        -0.45,
+        0.32
+      ],
+      "tail": [
+        -0.34,
+        -0.61,
+        0.31
+      ],
+      "parent": "ClawL",
+      "deform": true
+    },
+    {
+      "name": "LegL1Upper",
+      "head": [
+        -0.31,
+        -0.22,
+        0.3
+      ],
+      "tail": [
+        -0.5227999999999999,
+        -0.36,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegL1Lower",
+      "head": [
+        -0.5227999999999999,
+        -0.36,
+        0.17
+      ],
+      "tail": [
+        -0.6649999999999999,
+        -0.47,
+        0.025
+      ],
+      "parent": "LegL1Upper",
+      "deform": true
+    },
+    {
+      "name": "LegL1Foot",
+      "head": [
+        -0.6649999999999999,
+        -0.47,
+        0.025
+      ],
+      "tail": [
+        -0.69,
+        -0.47,
+        0.025
+      ],
+      "parent": "LegL1Lower",
+      "deform": true
+    },
+    {
+      "name": "LegL2Upper",
+      "head": [
+        -0.38,
+        -0.06,
+        0.3
+      ],
+      "tail": [
+        -0.6824000000000001,
+        -0.1496,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegL2Lower",
+      "head": [
+        -0.6824000000000001,
+        -0.1496,
+        0.17
+      ],
+      "tail": [
+        -0.895,
+        -0.22,
+        0.025
+      ],
+      "parent": "LegL2Upper",
+      "deform": true
+    },
+    {
+      "name": "LegL2Foot",
+      "head": [
+        -0.895,
+        -0.22,
+        0.025
+      ],
+      "tail": [
+        -0.92,
+        -0.22,
+        0.025
+      ],
+      "parent": "LegL2Lower",
+      "deform": true
+    },
+    {
+      "name": "LegL3Upper",
+      "head": [
+        -0.38,
+        0.13,
+        0.3
+      ],
+      "tail": [
+        -0.6936,
+        0.1524,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegL3Lower",
+      "head": [
+        -0.6936,
+        0.1524,
+        0.17
+      ],
+      "tail": [
+        -0.9149999999999999,
+        0.17,
+        0.025
+      ],
+      "parent": "LegL3Upper",
+      "deform": true
+    },
+    {
+      "name": "LegL3Foot",
+      "head": [
+        -0.9149999999999999,
+        0.17,
+        0.025
+      ],
+      "tail": [
+        -0.94,
+        0.17,
+        0.025
+      ],
+      "parent": "LegL3Lower",
+      "deform": true
+    },
+    {
+      "name": "LegL4Upper",
+      "head": [
+        -0.29,
+        0.28,
+        0.3
+      ],
+      "tail": [
+        -0.5028,
+        0.47040000000000004,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegL4Lower",
+      "head": [
+        -0.5028,
+        0.47040000000000004,
+        0.17
+      ],
+      "tail": [
+        -0.645,
+        0.62,
+        0.025
+      ],
+      "parent": "LegL4Upper",
+      "deform": true
+    },
+    {
+      "name": "LegL4Foot",
+      "head": [
+        -0.645,
+        0.62,
+        0.025
+      ],
+      "tail": [
+        -0.67,
+        0.62,
+        0.025
+      ],
+      "parent": "LegL4Lower",
+      "deform": true
+    },
+    {
+      "name": "EyeR",
+      "head": [
+        0.17,
+        -0.29,
+        0.36
+      ],
+      "tail": [
+        0.18,
+        -0.34,
+        0.57
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "ClawR",
+      "head": [
+        0.24,
+        -0.27,
+        0.3
+      ],
+      "tail": [
+        0.44,
+        -0.45,
+        0.32
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "PalmR",
+      "head": [
+        0.44,
+        -0.45,
+        0.32
+      ],
+      "tail": [
+        0.34,
+        -0.61,
+        0.31
+      ],
+      "parent": "ClawR",
+      "deform": true
+    },
+    {
+      "name": "LegR1Upper",
+      "head": [
+        0.31,
+        -0.22,
+        0.3
+      ],
+      "tail": [
+        0.5227999999999999,
+        -0.36,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegR1Lower",
+      "head": [
+        0.5227999999999999,
+        -0.36,
+        0.17
+      ],
+      "tail": [
+        0.6649999999999999,
+        -0.47,
+        0.025
+      ],
+      "parent": "LegR1Upper",
+      "deform": true
+    },
+    {
+      "name": "LegR1Foot",
+      "head": [
+        0.6649999999999999,
+        -0.47,
+        0.025
+      ],
+      "tail": [
+        0.69,
+        -0.47,
+        0.025
+      ],
+      "parent": "LegR1Lower",
+      "deform": true
+    },
+    {
+      "name": "LegR2Upper",
+      "head": [
+        0.38,
+        -0.06,
+        0.3
+      ],
+      "tail": [
+        0.6824000000000001,
+        -0.1496,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegR2Lower",
+      "head": [
+        0.6824000000000001,
+        -0.1496,
+        0.17
+      ],
+      "tail": [
+        0.895,
+        -0.22,
+        0.025
+      ],
+      "parent": "LegR2Upper",
+      "deform": true
+    },
+    {
+      "name": "LegR2Foot",
+      "head": [
+        0.895,
+        -0.22,
+        0.025
+      ],
+      "tail": [
+        0.92,
+        -0.22,
+        0.025
+      ],
+      "parent": "LegR2Lower",
+      "deform": true
+    },
+    {
+      "name": "LegR3Upper",
+      "head": [
+        0.38,
+        0.13,
+        0.3
+      ],
+      "tail": [
+        0.6936,
+        0.1524,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegR3Lower",
+      "head": [
+        0.6936,
+        0.1524,
+        0.17
+      ],
+      "tail": [
+        0.9149999999999999,
+        0.17,
+        0.025
+      ],
+      "parent": "LegR3Upper",
+      "deform": true
+    },
+    {
+      "name": "LegR3Foot",
+      "head": [
+        0.9149999999999999,
+        0.17,
+        0.025
+      ],
+      "tail": [
+        0.94,
+        0.17,
+        0.025
+      ],
+      "parent": "LegR3Lower",
+      "deform": true
+    },
+    {
+      "name": "LegR4Upper",
+      "head": [
+        0.29,
+        0.28,
+        0.3
+      ],
+      "tail": [
+        0.5028,
+        0.47040000000000004,
+        0.17
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "LegR4Lower",
+      "head": [
+        0.5028,
+        0.47040000000000004,
+        0.17
+      ],
+      "tail": [
+        0.645,
+        0.62,
+        0.025
+      ],
+      "parent": "LegR4Upper",
+      "deform": true
+    },
+    {
+      "name": "LegR4Foot",
+      "head": [
+        0.645,
+        0.62,
+        0.025
+      ],
+      "tail": [
+        0.67,
+        0.62,
+        0.025
+      ],
+      "parent": "LegR4Lower",
+      "deform": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL1",
+      "hip": [
+        -0.31,
+        -0.22,
+        0.3
+      ],
+      "knee": [
+        -0.5227999999999999,
+        -0.36,
+        0.17
+      ],
+      "ankle": [
+        -0.6649999999999999,
+        -0.47,
+        0.025
+      ],
+      "toe": [
+        -0.69,
+        -0.47,
+        0.025
+      ],
+      "pole": [
+        -0.8899999999999999,
+        -0.47,
+        0.65
+      ],
+      "phase": 0.0,
+      "angle": 1.5707963267948966,
+      "control": "CrabV5LegL1Target",
+      "poleName": "CrabV5LegL1Pole"
+    },
+    {
+      "name": "LegL2",
+      "hip": [
+        -0.38,
+        -0.06,
+        0.3
+      ],
+      "knee": [
+        -0.6824000000000001,
+        -0.1496,
+        0.17
+      ],
+      "ankle": [
+        -0.895,
+        -0.22,
+        0.025
+      ],
+      "toe": [
+        -0.92,
+        -0.22,
+        0.025
+      ],
+      "pole": [
+        -1.12,
+        -0.22,
+        0.65
+      ],
+      "phase": 0.5,
+      "angle": 1.5707963267948966,
+      "control": "CrabV5LegL2Target",
+      "poleName": "CrabV5LegL2Pole"
+    },
+    {
+      "name": "LegL3",
+      "hip": [
+        -0.38,
+        0.13,
+        0.3
+      ],
+      "knee": [
+        -0.6936,
+        0.1524,
+        0.17
+      ],
+      "ankle": [
+        -0.9149999999999999,
+        0.17,
+        0.025
+      ],
+      "toe": [
+        -0.94,
+        0.17,
+        0.025
+      ],
+      "pole": [
+        -1.14,
+        0.17,
+        0.65
+      ],
+      "phase": 0.0,
+      "angle": 1.5707963267948966,
+      "control": "CrabV5LegL3Target",
+      "poleName": "CrabV5LegL3Pole"
+    },
+    {
+      "name": "LegL4",
+      "hip": [
+        -0.29,
+        0.28,
+        0.3
+      ],
+      "knee": [
+        -0.5028,
+        0.47040000000000004,
+        0.17
+      ],
+      "ankle": [
+        -0.645,
+        0.62,
+        0.025
+      ],
+      "toe": [
+        -0.67,
+        0.62,
+        0.025
+      ],
+      "pole": [
+        -0.8700000000000001,
+        0.62,
+        0.65
+      ],
+      "phase": 0.5,
+      "angle": 1.5707963267948966,
+      "control": "CrabV5LegL4Target",
+      "poleName": "CrabV5LegL4Pole"
+    },
+    {
+      "name": "LegR1",
+      "hip": [
+        0.31,
+        -0.22,
+        0.3
+      ],
+      "knee": [
+        0.5227999999999999,
+        -0.36,
+        0.17
+      ],
+      "ankle": [
+        0.6649999999999999,
+        -0.47,
+        0.025
+      ],
+      "toe": [
+        0.69,
+        -0.47,
+        0.025
+      ],
+      "pole": [
+        0.8899999999999999,
+        -0.47,
+        0.65
+      ],
+      "phase": 0.5,
+      "angle": -1.5707963267948966,
+      "control": "CrabV5LegR1Target",
+      "poleName": "CrabV5LegR1Pole"
+    },
+    {
+      "name": "LegR2",
+      "hip": [
+        0.38,
+        -0.06,
+        0.3
+      ],
+      "knee": [
+        0.6824000000000001,
+        -0.1496,
+        0.17
+      ],
+      "ankle": [
+        0.895,
+        -0.22,
+        0.025
+      ],
+      "toe": [
+        0.92,
+        -0.22,
+        0.025
+      ],
+      "pole": [
+        1.12,
+        -0.22,
+        0.65
+      ],
+      "phase": 0.0,
+      "angle": -1.5707963267948966,
+      "control": "CrabV5LegR2Target",
+      "poleName": "CrabV5LegR2Pole"
+    },
+    {
+      "name": "LegR3",
+      "hip": [
+        0.38,
+        0.13,
+        0.3
+      ],
+      "knee": [
+        0.6936,
+        0.1524,
+        0.17
+      ],
+      "ankle": [
+        0.9149999999999999,
+        0.17,
+        0.025
+      ],
+      "toe": [
+        0.94,
+        0.17,
+        0.025
+      ],
+      "pole": [
+        1.14,
+        0.17,
+        0.65
+      ],
+      "phase": 0.5,
+      "angle": -1.5707963267948966,
+      "control": "CrabV5LegR3Target",
+      "poleName": "CrabV5LegR3Pole"
+    },
+    {
+      "name": "LegR4",
+      "hip": [
+        0.29,
+        0.28,
+        0.3
+      ],
+      "knee": [
+        0.5028,
+        0.47040000000000004,
+        0.17
+      ],
+      "ankle": [
+        0.645,
+        0.62,
+        0.025
+      ],
+      "toe": [
+        0.67,
+        0.62,
+        0.025
+      ],
+      "pole": [
+        0.8700000000000001,
+        0.62,
+        0.65
+      ],
+      "phase": 0.0,
+      "angle": -1.5707963267948966,
+      "control": "CrabV5LegR4Target",
+      "poleName": "CrabV5LegR4Pole"
+    }
+  ],
+  "weightGroups": 765,
+  "limbLength": {
+    "maxRelativeError": 5.295230435155476e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegL1Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegL2Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegL3Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegL4Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegR1Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegR2Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegR3Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "CrabV5Rig",
+      "bone": "LegR4Foot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "version": "v5",
+  "editableSource": "artifacts/meshy-rig-01/crab-rig-v5.blend",
+  "snapshotId": "snapshot-f0d1ed0ff372ea06aee8e3b8"
+}

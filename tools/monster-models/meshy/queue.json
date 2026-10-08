@@ -1,0 +1,519 @@
+[
+  {
+    "levels": [
+      1,
+      3
+    ],
+    "creatures": [
+      {
+        "id": "boar",
+        "name": "หมูป่า",
+        "level": 1,
+        "role": "melee",
+        "status": "animated model integrated; ready for review",
+        "candidate": "boar.glb",
+        "runtime": "/models/monsters/boar.glb"
+      },
+      {
+        "id": "fowl",
+        "name": "ไก่ป่า",
+        "level": 1,
+        "role": "melee",
+        "status": "animated model integrated; ready for review",
+        "candidate": "fowl.glb",
+        "runtime": "/models/monsters/fowl.glb"
+      },
+      {
+        "id": "cobra",
+        "name": "งูเห่านา",
+        "level": 2,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "crab",
+        "name": "ปูนา",
+        "level": 2,
+        "role": "melee",
+        "status": "animated model integrated; ready for review",
+        "candidate": "crab.glb",
+        "runtime": "/models/monsters/crab.glb"
+      },
+      {
+        "id": "monkey",
+        "name": "ลิงกัง",
+        "level": 2,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "dhole",
+        "name": "หมาไน",
+        "level": 3,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "phibpa",
+        "name": "ผีป่า",
+        "level": 3,
+        "role": "melee",
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "levels": [
+      4,
+      10
+    ],
+    "creatures": [
+      {
+        "id": "buffalo",
+        "name": "ควายป่า",
+        "level": 4,
+        "role": "elite",
+        "status": "planned"
+      },
+      {
+        "id": "kongkoi",
+        "name": "ผีกองกอย",
+        "level": 4,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "monitor",
+        "name": "เหี้ย",
+        "level": 4,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "pray",
+        "name": "ผีพราย",
+        "level": 4,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "khamot",
+        "name": "ผีโขมด",
+        "level": 5,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "winyan",
+        "name": "วิญญาณเร่ร่อน",
+        "level": 5,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "headless",
+        "name": "ผีหัวขาด",
+        "level": 6,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "pret",
+        "name": "เปรตน้อย",
+        "level": 6,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "takian",
+        "name": "นางตะเคียน",
+        "level": 6,
+        "role": "elite",
+        "status": "planned"
+      },
+      {
+        "id": "tiger",
+        "name": "เสือสมิง",
+        "level": 6,
+        "role": "elite",
+        "status": "planned"
+      },
+      {
+        "id": "krahang",
+        "name": "ผีกระหัง",
+        "level": 7,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "krasue",
+        "name": "กระสือ",
+        "level": 7,
+        "role": "elite",
+        "status": "planned"
+      },
+      {
+        "id": "phitaihong",
+        "name": "ผีตายโหง",
+        "level": 7,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "soldier",
+        "name": "ทหารผีเฝ้าวัด",
+        "level": 8,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "pop",
+        "name": "ปอบ",
+        "level": 10,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "pusom",
+        "name": "ผีปู่โสม",
+        "level": 10,
+        "role": "boss",
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "levels": [
+      11,
+      25
+    ],
+    "creatures": [
+      {
+        "id": "leech",
+        "name": "ปลิงควาย",
+        "level": 11,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "wraith",
+        "name": "ผีพรายน้ำ",
+        "level": 12,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "croc",
+        "name": "จระเข้บึง",
+        "level": 13,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "python",
+        "name": "งูเหลือมดงอ้อ",
+        "level": 14,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "phong",
+        "name": "ผีโพง",
+        "level": 15,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "klom",
+        "name": "ผีตายทั้งกลม",
+        "level": 17,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "kumphi",
+        "name": "กุมภีล์",
+        "level": 19,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "tani",
+        "name": "นางตานี",
+        "level": 20,
+        "role": "elite",
+        "status": "planned"
+      },
+      {
+        "id": "nangram",
+        "name": "ผีนางรำ",
+        "level": 22,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "bamboo_grave_0",
+        "name": "ผีตาโขน",
+        "level": 23,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "chalawan",
+        "name": "ชาละวัน",
+        "level": 25,
+        "role": "boss",
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "levels": [
+      26,
+      40
+    ],
+    "creatures": [
+      {
+        "id": "bamboo_grave_1",
+        "name": "กระดูกอาคม",
+        "level": 27,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "bamboo_grave_2",
+        "name": "เงาผีไผ่",
+        "level": 30,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "bamboo_grave_3",
+        "name": "เจ้าป่าช้า",
+        "level": 30,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "sealed_mine_0",
+        "name": "วิญญาณคนงาน",
+        "level": 30,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "sealed_mine_1",
+        "name": "แมงมุมผลึก",
+        "level": 35,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "sealed_mine_2",
+        "name": "อสูรศิลา",
+        "level": 40,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "sealed_mine_3",
+        "name": "ผู้พิทักษ์เหมือง",
+        "level": 40,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "sunken_city_0",
+        "name": "พรายบาดาล",
+        "level": 40,
+        "role": "melee",
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "levels": [
+      41,
+      60
+    ],
+    "creatures": [
+      {
+        "id": "sunken_city_1",
+        "name": "ทหารบาดาล",
+        "level": 45,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "dusk_fort_0",
+        "name": "ทหารยักษ์",
+        "level": 50,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "sunken_city_2",
+        "name": "นาคบริวาร",
+        "level": 50,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "sunken_city_3",
+        "name": "นาคราชเฝ้าประตู",
+        "level": 50,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "dusk_fort_1",
+        "name": "กระสือเพลิง",
+        "level": 55,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "dusk_fort_2",
+        "name": "อสูรเกราะดำ",
+        "level": 60,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "dusk_fort_3",
+        "name": "เจ้าอสูรสนธยา",
+        "level": 60,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "giant_valley_0",
+        "name": "ยักษ์ลาดตระเวน",
+        "level": 60,
+        "role": "melee",
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "levels": [
+      61,
+      80
+    ],
+    "creatures": [
+      {
+        "id": "giant_valley_1",
+        "name": "ควายธนู",
+        "level": 65,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "giant_valley_2",
+        "name": "อสูรหิน",
+        "level": 70,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "giant_valley_3",
+        "name": "ยักษ์เฝ้าหุบเขา",
+        "level": 70,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "himmapan_0",
+        "name": "มักกะลีผลต้องสาป",
+        "level": 70,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "himmapan_1",
+        "name": "อสูรปักษา",
+        "level": 75,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "fallen_city_0",
+        "name": "ทหารอาคม",
+        "level": 80,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "himmapan_2",
+        "name": "พยัคฆ์อาคม",
+        "level": 80,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "himmapan_3",
+        "name": "พญาปักษาทมิฬ",
+        "level": 80,
+        "role": "boss",
+        "status": "planned"
+      }
+    ]
+  },
+  {
+    "levels": [
+      81,
+      100
+    ],
+    "creatures": [
+      {
+        "id": "fallen_city_1",
+        "name": "หุ่นยันต์",
+        "level": 85,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "demon_rift_0",
+        "name": "อสูรรอยแยก",
+        "level": 90,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "fallen_city_2",
+        "name": "ราชองครักษ์วิญญาณ",
+        "level": 90,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "fallen_city_3",
+        "name": "ขุนพลอาคม",
+        "level": 90,
+        "role": "boss",
+        "status": "planned"
+      },
+      {
+        "id": "demon_rift_1",
+        "name": "ยักษ์เกราะดำ",
+        "level": 95,
+        "role": "ranged",
+        "status": "planned"
+      },
+      {
+        "id": "demon_rift_2",
+        "name": "เงากลืนวิญญาณ",
+        "level": 100,
+        "role": "melee",
+        "status": "planned"
+      },
+      {
+        "id": "demon_rift_3",
+        "name": "เจ้าอสูรรอยแยก",
+        "level": 100,
+        "role": "boss",
+        "status": "planned"
+      }
+    ]
+  }
+]

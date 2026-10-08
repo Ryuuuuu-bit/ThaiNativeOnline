@@ -9,7 +9,9 @@ for (const type of Object.keys(MONSTER_MODELS)) test(`${type}: exported skin, cl
   const data = await readFile(new URL(`../public/models/monsters/${type}.glb`, import.meta.url));
   assert.equal(data.readUInt32LE(0), 0x46546c67);
   assert.equal(data.readUInt32LE(8), data.length);
-  const gltf = await gltfLoader().parseAsync(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), '');
+  // Node has no image decoder; browser QA checks the embedded texture pixels.
+  const loader = gltfLoader().register(() => ({name:'QA_TEXTURES', loadTexture:() => Promise.resolve(new THREE.Texture())}));
+  const gltf = await loader.parseAsync(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), '');
   assert.deepEqual(gltf.animations.map(c => c.name).sort(), ['attack','die','hurt','idle','walk']);
   const meshes = []; gltf.scene.traverse(o => { if (o.isMesh) meshes.push(o); assert.ok(!o.isCamera && !o.isLight, 'studio objects must not ship'); });
   assert.ok(meshes.length <= 11, 'consolidate meshes by material');

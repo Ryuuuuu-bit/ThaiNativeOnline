@@ -1,0 +1,39 @@
+{
+  "creature": "fowl",
+  "bytes": 1433480,
+  "triangles": 12231,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.4284925013780594,
+      0,
+      -0.9487589597702026
+    ],
+    "max": [
+      0.4284925013780594,
+      1.5801399946212769,
+      0.9487589597702026
+    ]
+  },
+  "sha256": "5ec6ea9fadba5782ffe9cdaf617c2c7f7168f351634d432865edc8ca5bbe269d",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

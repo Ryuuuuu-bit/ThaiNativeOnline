@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11c12-9f29-72d8-8d3b-30b6dadbc35f",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/fowl.png",
+  "referenceSha256": "9f0a0af18be5898fc61604ec3dec7cd2f0eebb94912430b4b74f515d64629dab",
+  "originalSha256": "84b76bf8b36be38bf45a491b6ec12d4760a46cf03fb7abbc62b43ed1c12a502e",
+  "originalBytes": 11861436,
+  "originalLocalPath": "artifacts/meshy-monsters/fowl/original.glb"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "fowl",
+  "bytes": 1497328,
+  "sha256": "435e56dc2fd46e4c7c182e437202b1f1013a5d1ab43716814a2e9c546c74b962",
+  "triangles": 12231,
+  "bones": 13,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}
