@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11c13-7b55-709d-a63a-83e2d6db56ee",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/crab.png",
+  "referenceSha256": "8c48f7d709750c121c160ed3d216e45a11ac703e390b933273119e35c29ae575",
+  "originalSha256": "7fd14cc423f4e040d5cf893a7ac9cef8cf4af85c8630c45f879d0c0fbc2c271a",
+  "originalBytes": 10614076,
+  "originalLocalPath": "artifacts/meshy-monsters/crab/original.glb"
+}

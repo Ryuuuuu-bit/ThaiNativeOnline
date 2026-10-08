@@ -1,0 +1,39 @@
+{
+  "creature": "crab",
+  "bytes": 1142960,
+  "triangles": 12551,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.9503350853919983,
+      0,
+      -0.7218035459518433
+    ],
+    "max": [
+      0.9503350853919983,
+      0.6785030663013458,
+      0.7218035459518433
+    ]
+  },
+  "sha256": "f608cbc2d3eb8a8f311552e83e55be439a541266b66efe1db5f80982e9d1d9f3",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}
