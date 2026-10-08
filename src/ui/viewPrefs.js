@@ -19,13 +19,23 @@ export function hudScale(width, height, size = 1) {
   return +clamp(auto * size, LIMIT.min, LIMIT.max).toFixed(3);
 }
 
+// A device that should start on the low graphics setting: a touch screen (phones, tablets),
+// 4 GB or less of memory, or four cores or fewer. The player can still pick high in settings.
+export function weakDevice() {
+  try {
+    const touch = matchMedia?.('(pointer: coarse)')?.matches;
+    return !!touch || (navigator.deviceMemory ?? 8) <= 4 || (navigator.hardwareConcurrency ?? 8) <= 4;
+  } catch { return false; }
+}
+
 export function createViewPrefs() {
   const saved = load();
   const prefs = {
     zoom: Number.isFinite(saved.zoom) ? saved.zoom : 1,
     hud: Number.isFinite(saved.hud) ? saved.hud : 1,
     zoomLock: saved.zoomLock === true,   // 🔒 by the minimap: pinch, wheel and keys leave the zoom alone
-    quality: saved.quality === 'low' ? 'low' : 'high',   // graphics quality and particles: remembered too (a weak device stays on low)
+    // graphics quality (remembered): a phone, or a machine with little memory or few cores, starts on low
+    quality: saved.quality === 'low' || saved.quality === 'high' ? saved.quality : weakDevice() ? 'low' : 'high',
     particles: saved.particles !== false,
     monsters: saved.monsters === '3d' ? '3d' : 'pixel',   // how monsters are drawn: pixel sprites (RO style) or 3D models
     scale: 1,

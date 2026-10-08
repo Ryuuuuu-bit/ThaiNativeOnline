@@ -465,7 +465,14 @@ export class Game {
     this.previous = time;
     this.frame(time, dt);
     this.frames++; this.fpsTime += dt;
-    if (this.fpsTime > .5) { this.fps = this.frames / this.fpsTime; this.frames = 0; this.fpsTime = 0; }
+    if (this.fpsTime > .5) {
+      this.fps = this.frames / this.fpsTime; this.frames = 0; this.fpsTime = 0;
+      // a machine that cannot hold 28 fps on high for eight seconds running goes to low once (the player can set it back)
+      if (this.prefs.quality === 'high' && !this.autoLowered && this.game) {
+        this.slowFor = this.fps < 28 ? (this.slowFor ?? 0) + .5 : 0;
+        if (this.slowFor >= 8) { this.autoLowered = true; $('quality').value = 'low'; $('quality').dispatchEvent(new Event('change')); this.hud.toast('ปรับกราฟิกเป็น "ประหยัด" ให้อัตโนมัติ เพราะเครื่องเริ่มกระตุก · เปลี่ยนกลับได้ในตั้งค่า', ''); }
+      }
+    }
   }
   // One beat while the tab is hidden: the time since the last one in steps of at most 50 ms
   // (as a frame would be), at most a second's worth, nothing drawn.

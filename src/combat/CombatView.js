@@ -383,6 +383,14 @@ export class CombatView {
   update(dt, elapsed, camera = null) {
     const target = this.combat.target;
     const camYaw = camera ? Math.atan2(camera.matrixWorld.elements[8], camera.matrixWorld.elements[10]) : 0;   // the camera's yaw: the way it looks along the ground
+    // a view whose monster has left the fight list (online: a server id never comes back; offline:
+    // a respawn reuses the Monster) is dropped once its death has played, or the map would keep
+    // every skinned clone and sprite it ever drew
+    if ((this.pruneAt = (this.pruneAt ?? 0) + dt) > 2) {
+      this.pruneAt = 0;
+      const live = new Set(this.combat.monsters);
+      for (const [id, v] of this.views) if (!live.has(v.monster) && !v.dying) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
+    }
     for (const v of this.views.values()) {
       const m = v.monster, g = v.group;
       if (!m.alive && !v.dying) { g.visible = false; continue; }
