@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><title>Collision export</title>
+<script type="module">
+import * as THREE from '/node_modules/three/build/three.module.js';
+import {buildWorld} from '/src/world/World.js';
+import {MAPS} from '/src/world/maps.js';
+window.exportCollision=async()=>{const result={};for(const id of Object.keys(MAPS)){const w=await buildWorld(new THREE.Scene(),()=>{},id);result[id]={shapes:[...new Set([...w.collision.shapes.values()].flat())],decks:[...new Set([...w.collision.decks.values()].flat())]};w.dispose();}return result;};
+</script>

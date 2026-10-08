@@ -329,6 +329,24 @@ export class Combatants {
     dmg = Math.max(1, Math.round(dmg));
     return world.damage(m, id, dmg, { crit: !!r.crit, pet }, players, night);
   }
+  // PvP uses the same class stats and basic-attack rate bucket as PvE.
+  // Clients supply a target only, never damage or attacker stats.
+  pvpBasic(attacker, target, { knockout = false } = {}) {
+    const a = this.list.get(attacker), b = this.list.get(target);
+    if (!a?.persist || !b?.persist || !a.c.alive || !b.c.alive) return null;
+    const c = a.c, t = b.c, basic = LEGACY[c.cls.skills.find(k => LEGACY[k]?.basic)];
+    if (!basic || !this.spend(a.basic, this.now(), c.cls.attackSpeed * (1 - c.attackSpeed))) return null;
+    this.touch(attacker); this.touch(target); c.sitting = false; t.sitting = false;
+    const roll = rollDamage(this.stats(c), { def: t.defense, eva: t.evasion }, basic.scale === 'int' ? 'magic' : 'physical', basic.power, this.r);
+    if (!roll.hit) return { miss: true, hp: t.hp, maxHp: t.maxHp };
+    const amount = Math.min(t.hp - (knockout ? 1 : 0), Math.max(1, Math.round(roll.dmg * .5)));
+    const won = knockout && t.hp - amount <= 1;
+    t.hp = Math.max(knockout ? 1 : 0, t.hp - amount);
+    if (!t.hp) t.fall();
+    a.dirty = true; b.dirty = true;
+    return { amount, crit: !!roll.crit, hp: t.hp, maxHp: t.maxHp, dead: !t.alive, won };
+  }
+
   // a rate bucket: one blow per `every` seconds, up to 2 saved up (network bunching)
   spend(b, now, every) {
     b.credit = Math.min(2, b.credit + (now - b.at) / Math.max(.15, every * .9)); b.at = now;
@@ -341,7 +359,7 @@ export class Combatants {
     const now = this.now();
     for (const s of this.list.values()) {
       s.c.night = night;
-      if (s.persist) s.c.tick(dt, now - s.fightAt < RULES.combatTimeout);
+      if (s.persist) { const hp=s.c.hp,mp=s.c.mp; s.c.tick(dt, now - s.fightAt < RULES.combatTimeout); if(s.c.hp!==hp||s.c.mp!==mp)s.dirty=true; }
       else if (s.c.buffs.length) s.c.buffs = s.c.buffs.filter(b => (b.remaining -= dt) > 0);
     }
   }

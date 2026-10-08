@@ -49,8 +49,8 @@ const swingDelay = def => def.attackDelay ?? (def.elite ? ELITE_DELAY : ATTACK_D
 
 let nextId = 1;
 export class MonsterWorld {
-  constructor(mapId, { random = Math.random, elites = true, zones = combatSpawns().filter(z => mapOf(z.x, z.z) === mapId) } = {}) {
-    this.map = mapId; this.r = random; this.monsters = [];
+  constructor(mapId, { random = Math.random, elites = true, navigation = null, zones = combatSpawns().filter(z => mapOf(z.x, z.z) === mapId) } = {}) {
+    this.navigation = navigation; this.map = mapId; this.r = random; this.monsters = [];
     if (!elites) zones = zones.filter(z => !MONSTERS[z.type]?.elite && !MONSTERS[z.type]?.boss);
     for (const spawn of zones) for (let i = 0; i < (spawn.count ?? 1); i++) { const m = this.make(spawn); if (m) this.monsters.push(m); }
   }
@@ -73,6 +73,11 @@ export class MonsterWorld {
     if (m.spawn.chance && this.r() > m.spawn.chance) return false;
     const a = this.r() * Math.PI * 2, rr = Math.sqrt(this.r()) * (m.spawn.radius ?? 0);
     Object.assign(m, { x: m.spawn.x + Math.cos(a) * rr, z: m.spawn.z + Math.sin(a) * rr, hp: m.maxHp, state: 'idle', debuffs: [], attackTimer: 0, target: null, contrib: new Map(), dirty: true, charging: false, summonAt: null });
+    if (this.navigation && !this.navigation.canStand(m.x, m.z)) {
+      let found = false;
+      for (let i = 0; i < 80; i++) { const a = this.r() * Math.PI * 2, r = this.r() * Math.max(6, m.spawn.radius ?? 6); const x = m.spawn.x + Math.cos(a) * r, z = m.spawn.z + Math.sin(a) * r; if (this.navigation.canStand(x, z)) { m.x = x; m.z = z; found = true; break; } }
+      if (!found) { m.hp = 0; m.state = 'dormant'; return false; }
+    }
     m.home = { x: m.x, z: m.z };
     return true;
   }
@@ -81,8 +86,12 @@ export class MonsterWorld {
     const dx = to.x - m.x, dz = to.z - m.z, len = Math.hypot(dx, dz);
     if (len < 1e-3) return 0;
     const s = Math.min(len, speed * dt);
-    m.x += dx / len * s; m.z += dz / len * s; m.f = Math.atan2(dx, dz); m.moving = true; m.dirty = true;
-    return len - s;
+    const next = { x: m.x + dx / len * s, z: m.z + dz / len * s };
+    if (!this.navigation || this.navigation.clear(m, next)) { m.x = next.x; m.z = next.z; }
+    else if (this.navigation.clear(m, { x: next.x, z: m.z })) m.x = next.x;
+    else if (this.navigation.clear(m, { x: m.x, z: next.z })) m.z = next.z;
+    else return len; m.f = Math.atan2(dx, dz); m.moving = true; m.dirty = true;
+    return Math.hypot(to.x - m.x, to.z - m.z);
   }
 
   update(dt, players, phase = 'day') {

@@ -15,7 +15,7 @@ export const REFINE_RATE = [1, 1, 1, 1, 1, .6, .5, .4, .3, .2, .1];
 export const REFINE_ORE = { weapon: 'sacred_ore', gear: 'gold_leaf' };
 const WEAPON_STEP = { common: 2, rare: 3, epic: 5 };
 
-export const refinable = def => def?.type === 'equip' && def.slot !== 'charm';
+export const refinable = def => def?.type === 'equip' && (def.slot !== 'charm' || def.refinable === true);
 export const oreFor = def => (def.slot === 'weapon' ? REFINE_ORE.weapon : REFINE_ORE.gear);
 export const refineFee = to => 100 * to;
 export const plusOf = n => (Number.isInteger(n) && n > 0 ? Math.min(REFINE_MAX, n) : 0);

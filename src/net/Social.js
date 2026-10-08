@@ -45,7 +45,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   remote.onPick = (r, x, y) => {
     if (party?.members.some(p => p.id === r.id)) setAlly(r.id);   // a party member's name: also the friend heals go to
     menu.innerHTML = `<header>${esc(r.name)} · ${CLASSES[r.cls]?.name ?? ''} Lv ${r.lv}</header>
-      <button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button><button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกของ</button>`;
+      <button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button><button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกของ</button><button data-act="duel_request">ท้าดวล</button><button data-act="pvp_target">เลือกเป้าหมาย PK</button>`;
     menu.dataset.id = r.id; menu.dataset.name = r.name; menu.style.left = `${Math.max(90, Math.min(innerWidth - 90, x))}px`; menu.style.top = `${Math.max(8, Math.min(innerHeight - 140, y))}px`; menu.hidden = false;
   };
   menu.addEventListener('click', e => {
@@ -53,8 +53,9 @@ export function attachSocial(net, c, chat, remote, game = null) {
     menu.hidden = true;
     if (b.dataset.act === 'w') { chat.open(`/w ${menu.dataset.name} `); return; }
     if (b.dataset.act === 'fadd') { net.send({ t: 'fadd', name: menu.dataset.name }); return; }
+    if (b.dataset.act === 'pvp_target') { game.net?.social?.pvp?.pick(Number(menu.dataset.id),menu.dataset.name); return; }
     net.send({ t: b.dataset.act, id: Number(menu.dataset.id) });
-    chat.add('ระบบ', b.dataset.act === 'pinv' ? 'ส่งคำเชิญปาร์ตี้แล้ว' : 'ส่งคำขอแลกเปลี่ยนแล้ว');
+    chat.add('ระบบ', b.dataset.act === 'pinv' ? 'ส่งคำเชิญปาร์ตี้แล้ว' : b.dataset.act === 'duel_request' ? 'ส่งคำท้าดวลแล้ว' : 'ส่งคำขอแลกเปลี่ยนแล้ว');
   });
   document.addEventListener('pointerdown', e => { if (!menu.hidden && !menu.contains(e.target) && !e.target.closest('.plate.is-player')) menu.hidden = true; });
 

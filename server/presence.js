@@ -40,8 +40,8 @@ const round = v => Math.round(v * 100) / 100;
 const guestTitle = id => (TITLE_BY_ID[id] && !TITLE_BY_ID[id].dynamic ? id : null);
 
 export class Presence {
-  constructor({ now = () => Date.now() / 1000 } = {}) {
-    this.now = now; this.players = new Map(); this.nextId = 1;
+  constructor({ now = () => Date.now() / 1000, navigation = null } = {}) {
+    this.now = now; this.navigation = navigation; this.players = new Map(); this.nextId = 1;
   }
   get count() { return this.players.size; }
   inMap(room) { return [...this.players.values()].filter(p => p.room === room); }
@@ -63,6 +63,7 @@ export class Presence {
       map, x: num(h.x) ?? 0, z: num(h.z) ?? 0, f: num(h.f, 10) ?? 0, m: 0, t: this.now(), dirty: true, chatAt: -Infinity,
       title: guestTitle(h.title),
     };
+    if (this.navigation && !this.navigation(map).canStand(p.x, p.z)) Object.assign(p, { x: MAP_DATA[map].spawn.x, z: MAP_DATA[map].spawn.z });
     this.players.set(conn, p);
     const r = this.enter(p, ch);
     return { you: p.id, ...r };
@@ -71,7 +72,8 @@ export class Presence {
   move(conn, msg = {}) {
     const p = this.players.get(conn); if (!p) return false;
     const x = num(msg.x), z = num(msg.z), f = num(msg.f, 10), now = this.now();
-    if (x === null || z === null) return false;
+    if (x === null || z === null || p.dead) return false;
+    if (this.navigation && !this.navigation(p.map).clear(p, { x: round(x), z: round(z) })) return false;
     const d = Math.hypot(x - p.x, z - p.z);
     // a distance budget that fills at the top speed on the wall clock, so many small packets
     // cannot add their slack together; an accepted move leaves at most BUDGET_SECS worth saved

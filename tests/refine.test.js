@@ -84,19 +84,27 @@ test('the server names gear by id, cards and plus, and rolls ตีบวก onl
   assert.equal(cs.op(1, { op: 'refine', id: 'iron_dap', plus: 7 }, at), false); assert.equal(cs.get(1).refined.why, 'no_item');
 });
 
-test('two-handed weapons: bows and paired knives leave the off hand empty', () => {
-  for (const id of ['bamboo_bow', 'horn_bow', 'krabi']) assert.ok(ITEMS[id].twoHand, id);
-  const c = setup('hunter'); c.unequip('weapon'); c.addItem('rattan_shield'); c.addItem('bamboo_bow');   // the starter bow is two-handed too
-  c.refineGear(idx(c, 'rattan_shield'));
-  assert.equal(c.equip(idx(c, 'rattan_shield')), true);
-  assert.equal(c.equip(idx(c, 'bamboo_bow')), true);
-  assert.deepEqual([c.equipment.weapon, c.equipment.offhand], ['bamboo_bow', null]);
-  assert.equal(c.inventory[idx(c, 'rattan_shield')].plus, 1, 'the shield went back to the bag, plus and all');
-  let said; c.on('two-hand', w => { said = w; });
-  assert.equal(c.equip(idx(c, 'rattan_shield')), false); assert.equal(said, 'offhand');
-  // an older save with both is mended: the shield goes to the bag
-  const old = new Character({ ...c.toJSON(), equipment: { ...c.equipment, offhand: 'buffalo_shield' } });
-  assert.equal(old.equipment.offhand, null); assert.ok(old.inventory.some(s => s?.id === 'buffalo_shield'));
+test('removed offhand migrates upgraded gear and cards even when the bag is full', () => {
+  const c = setup('hunter');
+  const data = { ...c.toJSON(), inventory: Array.from({ length: 24 }, () => ({ id: 'wood_sword', qty: 1 })), equipment: { ...c.equipment, offhand: 'buffalo_shield' }, cards: { ...c.cards, offhand: ['card_crab'] }, refine: { ...c.refine, offhand: 4 } };
+  const old = new Character(data);
+  assert.equal('offhand' in old.equipment, false);
+  assert.deepEqual(old.inventory[24], { id: 'buffalo_shield', qty: 1, cards: ['card_crab'], plus: 4 });
+  const reloaded = new Character(old.toJSON());
+  assert.equal(reloaded.inventory.filter(x => x?.id === 'buffalo_shield').length, 1);
+  assert.equal(reloaded.equip(24), true);
+  assert.equal(reloaded.equipment.charm, 'buffalo_shield');
+  assert.equal(reloaded.refine.charm, 4);
+  assert.equal(reloaded.equipment.weapon, c.equipment.weapon);
+});
+
+test('legacy offhand knife returns incompatible socket cards to the bag', () => {
+  const c = setup('shaman');
+  const old = new Character({ ...c.toJSON(), equipment: { ...c.equipment, offhand: 'mo_knife' }, cards: { offhand: ['card_soldier'] }, refine: { offhand: 2 } });
+  assert.ok(old.inventory.some(x => x?.id === 'card_soldier'));
+  const knife = old.inventory.find(x => x?.id === 'mo_knife');
+  assert.equal(knife.plus, 2); assert.equal(knife.cards, undefined);
+  assert.equal(ITEMS.mo_knife.slot, 'weapon');
 });
 
 test('shop sites: every shop NPC has one, by its shop, on its map', () => {
