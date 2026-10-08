@@ -77,7 +77,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
 
   // ---- the party frame ----
   const frame = node('soc-party'); frame.hidden = true;
-  draggable(frame, { key: 'party' });
+  draggable(frame, { key: 'party', lockable: true });   // movable like the chat box; the padlock in its title bar (phones start locked)
   const CROWN = '<i class="soc-crown" title="หัวหน้าปาร์ตี้">♛</i>';
   const self = () => party?.members.find(p => p.id === me);
   // near: same map and channel, alive, within the share range (server/parties.js sharers) → shares the EXP

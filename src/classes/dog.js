@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { gltfLoader } from '../core/gltf.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 
 // น้องหมาของนายพราน: a Thai Ridgeback-style hunting dog (fawn coat, the darker ridge
@@ -138,7 +138,7 @@ function primitiveDog({ coat = '#b8733c', glowColor = '#5dffa8' } = {}) {
 const URL = (import.meta.env?.BASE_URL ?? '/') + 'models/hunter-dog.glb';
 const SCALE = 1.25;   // model shoulder ≈ .45 → ≈ .56, same as the stand-in
 let source = null;
-const loadSource = () => (source ??= new GLTFLoader().loadAsync(URL).then(gltf => {
+const loadSource = () => (source ??= gltfLoader().loadAsync(URL).then(gltf => {
   gltf.scene.traverse(o => { if (o.isMesh) { o.geometry.userData.shared = true; o.castShadow = true; o.frustumCulled = false; } });
   return gltf.scene;
 }).catch(e => { console.warn('hunter-dog.glb:', e?.message ?? e); return null; }));

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { gltfLoader } from '../../core/gltf.js';
 import { V, C, rand, SH } from './engine.js';
 
 // A straw training dummy (หุ่นซ้อม) to hit with skills. It lives in the FX root,
@@ -11,7 +11,7 @@ import { V, C, rand, SH } from './engine.js';
 // opts: { hp, onHit(event) } — onHit gets { amount, crit, miss, bleed, killed } for damage logs.
 const HEIGHT = 2.05;   // FX units, the same as the old straw dummy
 let model = null;
-const loadModel = () => (model ??= new GLTFLoader().loadAsync(`${import.meta.env.BASE_URL}models/training-dummy.glb`).then(g => g.scene));
+const loadModel = () => (model ??= gltfLoader().loadAsync(`${import.meta.env.BASE_URL}models/training-dummy.glb`).then(g => g.scene));
 
 export function createDummy(fx, labels, at, groundHeight, { hp = 2600, onHit } = {}) {
   const group = new THREE.Group(); fx.add(group);

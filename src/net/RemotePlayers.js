@@ -55,10 +55,16 @@ export class RemotePlayers {
       const g = r.model.group; g.position.set(r.x, this.heightAt(r.x, r.z), r.z);
       // while a skill plays its runner turns them (and a dash is not a walk)
       const casting = (r.skillUntil ?? 0) > performance.now() / 1000;
-      r.model.update(dt, r.time, r.m > 0 && !casting, r.skillFacing ?? r.tf);
       // name plate above the head
       v.set(r.x, g.position.y + 2.15, r.z).project(camera);
       const off = v.z > 1 || v.x < -1.1 || v.x > 1.1 || v.y < -1.1 || v.y > 1.1 || !g.visible;
+      // the animation (mixer + skinning) is the costly part: players far from the camera, or off
+      // screen, advance it every 2nd / 4th / 8th frame with the time saved up, so a crowd in town
+      // costs little and nobody's pose drifts (the position ease and the plate still run every frame)
+      const d = Math.hypot(r.x - camera.position.x, r.z - camera.position.z);
+      const every = off ? 8 : d < 22 ? 1 : d < 45 ? 2 : 4;
+      r.acc = (r.acc ?? 0) + dt; r.tick = (r.tick ?? (Number(r.id) % 8 || 0)) + 1;
+      if (every === 1 || r.tick % every === 0) { r.model.update(r.acc, r.time, r.m > 0 && !casting, r.skillFacing ?? r.tf); r.acc = 0; }
       r.plate.hidden = off;
       if (!off) r.plate.style.transform = `translate(${(v.x * .5 + .5) * w}px, ${(-v.y * .5 + .5) * h}px) translate(-50%, -100%)`;
     }
