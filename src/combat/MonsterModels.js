@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
+import { cachedLoader } from '../core/retry.js';
+import { versioned } from '../core/version.js';
+import { seedOf } from '../core/seed.js';
 
 // Geometry, textures and clips are cached; each monster owns its skeleton,
 // animation clock and materials so damage flashes never affect its neighbours.
@@ -15,11 +18,10 @@ export const MONSTER_MODELS = {
   monkey: { url: '/models/monsters/monkey.glb', height: 1.3 },
   phibpa: { url: '/models/monsters/phibpa.glb', height: 1.8, lift: .12 },
 };
-const cache = new Map(), loader = new GLTFLoader();
-function load(url) {
-  if (!cache.has(url)) cache.set(url, loader.loadAsync(url));
-  return cache.get(url);
-}
+// One parse per file, shared; a load is retried, and a failure is forgotten after a while so
+// the next monster of the type asks the server again (src/core/retry.js).
+const loader = new GLTFLoader();
+const load = cachedLoader(url => loader.loadAsync(versioned(url)));
 
 export function makeMonsterModel(type, fallback, monsterId) {
   const spec = MONSTER_MODELS[type];
@@ -59,7 +61,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
       if (!next || next === current) return;
       current?.fadeOut(.12); next.reset().fadeIn(.12).play(); current = next;
     }
-    play('idle'); mixer.update((monsterId % 19) / 19);
+    play('idle'); mixer.update((seedOf(monsterId) % 19) / 19);
     animate = (time, moving, attacking, { hurt = false, dying = false } = {}) => {
       const dt = previousTime === null ? 0 : THREE.MathUtils.clamp(time - previousTime, 0, .1);
       previousTime = time;

@@ -3,7 +3,8 @@ import * as THREE from 'three';
 import { RULES } from './data/rules.js';
 import { makeDog } from '../classes/dog.js';
 import { makeMonsterModel } from './MonsterModels.js';
-import { makeMonsterSprite, MONSTER_SPRITES } from './MonsterSprites.js';
+import { makeMonsterSprite, preloadMonsterSprites, MONSTER_SPRITES } from './MonsterSprites.js';
+import { seedOf } from '../core/seed.js';
 
 // How monsters are drawn: 'pixel' (RO-style sprite billboards, src/combat/MonsterSprites.js) or
 // '3d' (Blender GLB models / built meshes). Per device (src/ui/viewPrefs.js); CombatView.restyle().
@@ -300,6 +301,7 @@ export class CombatView {
   // Redraw every monster in another style (the settings' "โมเดลมอนสเตอร์").
   restyle(style) {
     MONSTER_STYLE = style === '3d' ? '3d' : 'pixel';
+    if (MONSTER_STYLE === 'pixel') preloadMonsterSprites(this.combat.monsters.map(m => m.type));   // the map's sheets, before its monsters wake
     for (const [id, v] of this.views) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
     for (const m of this.combat.monsters) if (m.alive) this.ensure(m);
   }
@@ -392,7 +394,7 @@ export class CombatView {
       v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
       v.animationState.tint = m.debuffs.some(d => d.dot) ? '#b78ad0' : m.debuffs.some(d => d.stun) ? '#e6d27a' : m.debuffs.some(d => d.slow) ? '#8fb4d8' : null;
       g.userData.face?.(camYaw);
-      g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0, v.animationState);
+      g.userData.animate?.(elapsed + (v.seed ??= seedOf(m.id) * .37), m.moving, v.attackAnim > 0, v.animationState);
       v.flash = Math.max(0, v.flash - dt);
       if (v.dying) {
         v.dying = Math.max(0, v.dying - dt * 1.4);
