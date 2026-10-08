@@ -10,6 +10,6 @@ export const LOOT = {
   spirit2: [['ash', .7, 1, 3], ['ether', .35, 1, 2], ['potion_m', .2, 1, 1], ['pakhaoma', .04, 1, 1], ['sabai', .03, 1, 1], ['mangrove_staff', .015, 1, 1]],
   rare2:   [['potion_m', 1, 2, 3], ['ash', 1, 3, 6], ['mangrove_staff', .3, 1, 1], ['chada', .3, 1, 1], ['prakam', .15, 1, 1]],
   chalawan: [['potion_m', 1, 3, 5], ['croc_scale', 1, 4, 8], ['chalawan_fang', .3, 1, 1], ['croc_armor', .5, 1, 1], ['kris', .4, 1, 1], ['horn_bow', .3, 1, 1]],
-  boss:   [['potion_m', 1, 1, 2], ['tiger_fang', .35, 1, 1], ['iron_dap', .3, 1, 1], ['bamboo_bow', .3, 1, 1], ['hide_armor', .3, 1, 1], ['buffalo_shield', .35, 1, 1]],
+  boss:   [['potion_m', 1, 1, 2], ['tiger_fang', .35, 1, 1], ['iron_dap', .3, 1, 1], ['bamboo_bow', .3, 1, 1], ['hide_armor', .3, 1, 1]],
 };
 

@@ -77,6 +77,20 @@ export class Character extends Emitter {
         ...held.filter((id, i) => held.slice(0, i + 1).filter(x => x === id).length > valid.filter(x => x === id).length).map(id => ({ id, qty: 1 }))];
       for (const item of recovered) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     }
+    // Retired equipment is redeemed once: its price plus successful refine fees/ores.
+    // Cards are returned without capacity checks; the removed gear frees its bag cell.
+    const returnedCards = [];
+    const redeem = item => {
+      if (!item || !ITEMS[item.id]?.retired) return false;
+      const def = ITEMS[item.id], qty = Number.isInteger(item.qty) && item.qty > 0 ? item.qty : 1;
+      const plus = plusOf(item.plus), ore = ITEMS[def.slot === 'weapon' ? 'sacred_ore' : 'gold_leaf'].price;
+      this.gold += qty * (def.price + 100 * plus * (plus + 1) / 2 + ore * plus);
+      for (const id of item.cards ?? []) if (ITEMS[id]?.type === 'card') returnedCards.push({ id, qty: 1 });
+      return true;
+    };
+    this.inventory = this.inventory.map(item => redeem(item) ? null : item);
+    for (const slot of EQUIP_SLOTS) if (redeem(this.wornItem(slot))) { this.equipment[slot] = null; this.cards[slot] = []; this.refine[slot] = 0; }
+    for (const item of returnedCards) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
     // ฉายา (src/data/titles.js): the ids earned, the one worn (null = none) and the records behind them
@@ -342,7 +356,7 @@ export class Character extends Emitter {
   }
   // Adds as many as fit; false (with 'overweight') when any are left behind.
   addItem(id, qty = 1) {
-    const def = ITEMS[id]; if (!def) return false;
+    const def = ITEMS[id]; if (!def || def.retired) return false;
     const room = this.carryRoom(id);
     if (room < qty) {
       this.emit('overweight', id);
@@ -365,7 +379,7 @@ export class Character extends Emitter {
   }
   // A whole item instance into the bag: gear keeps its cards and plus (a trade, server/trades.js).
   addInstance(s) {
-    const def = ITEMS[s?.id]; if (!def) return false;
+    const def = ITEMS[s?.id]; if (!def || def.retired) return false;
     if (def.type !== 'equip') return this.addItem(s.id, s.qty);
     const free = this.inventory.indexOf(null);
     if (free < 0 || this.carryRoom(s.id) < 1) return false;
@@ -412,7 +426,7 @@ export class Character extends Emitter {
   }
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
-    const def = ITEMS[slot.id]; if (def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
+    const def = ITEMS[slot.id]; if (def.retired || def.type !== 'equip' || !EQUIP_SLOTS.includes(def.slot)) return false;
     // a charm goes into the free charm slot (the first one when both are taken)
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
     const previous = this.wornItem(to);

@@ -112,13 +112,13 @@ test('server rolls: cards add damage against a race and take it off monster swin
   assert.deepEqual(sane({ level: 5, equipment: { weapon: 'wood_sword', armor: 'cloth_vest' }, cards: { weapon: ['card_pray'], armor: ['card_pray'] } }, 'warrior').cards, { weapon: ['card_pray'], armor: [], head: [], cape: [], shoes: [], charm: [], charm2: [] }, 'a guest sheet is checked too');
 });
 
-test('seven equipment slots: shields share the two charm slots', async () => {
+test('seven equipment slots: armor and two charms', async () => {
   const { EQUIP_SLOTS } = await import('../src/character/data/items.js');
   const c = Character.create('ทดสอบ', 'muaythai');
   assert.deepEqual(Object.keys(c.equipment), EQUIP_SLOTS);
   const def = c.defense;
-  for (const id of ['pha_khao', 'rattan_shield', 'pakhaoma', 'sandals']) { c.addItem(id); c.useAt(c.inventory.findIndex(s => s?.id === id)); }
-  assert.deepEqual([c.equipment.head, c.equipment.charm, c.equipment.cape, c.equipment.shoes], ['pha_khao', 'rattan_shield', 'pakhaoma', 'sandals']);
+  for (const id of ['pha_khao', 'pakhaoma', 'sandals']) { c.addItem(id); c.useAt(c.inventory.findIndex(s => s?.id === id)); }
+  assert.deepEqual([c.equipment.head, c.equipment.cape, c.equipment.shoes], ['pha_khao', 'pakhaoma', 'sandals']);
   assert.ok(c.defense > def);
   // two charms side by side; a third replaces the first
   for (const id of ['takrut', 'tiger_fang', 'mongkol']) c.addItem(id);
