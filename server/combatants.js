@@ -142,8 +142,8 @@ export class Combatants {
       return s.refined.ok;
     }
     // selling is done at a shop counter too; the fallen handle no items and no stats
-    if (msg.op === 'sell' && !nearAnyShop(at.map, at.x, at.z)) return false;
-    if (!s.c.alive && ['sell', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
+    if (['sell', 'sell_batch'].includes(msg.op) && !nearAnyShop(at.map, at.x, at.z)) return false;
+    if (!s.c.alive && ['sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
     const ok = applyOp(s.c, msg, s.quests, at.map ? at : null);
     if (ok) s.dirty = true;
     return ok;

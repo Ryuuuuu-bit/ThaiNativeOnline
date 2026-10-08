@@ -64,7 +64,15 @@ export function fromSave(data) {
 export function applyOp(c, msg = {}, quests = null, here = null) {
   const at = (id, cards, plus) => c.inventory.findIndex(s => s?.id === id && (ITEMS[id]?.type !== 'equip' || sameGear(s, cards, plus)));
   switch (msg.op) {
-    case 'buy': return typeof msg.shop === 'string' && typeof msg.id === 'string' && buy(c, msg.shop, msg.id).ok;
+    case 'buy': return typeof msg.shop === 'string' && typeof msg.id === 'string' && buy(c, msg.shop, msg.id, msg.qty ?? 1).ok;
+    case 'sell_batch': {
+      if (!Array.isArray(msg.lines) || !msg.lines.length || msg.lines.length > c.inventory.length) return false;
+      for (const line of msg.lines) {
+        const s = c.inventory[line?.index];
+        if (!s || s.id !== line.id || !sameGear(s, line.cards, line.plus)) return false;
+      }
+      return c.sellBatch(msg.lines) > 0;
+    }
     case 'sell': { const i = at(msg.id, msg.cards, msg.plus); return i >= 0 && c.sellAt(i) > 0; }
     case 'use': { const i = at(msg.id, msg.cards, msg.plus); return i >= 0 && c.useAt(i); }
     case 'equip': { const i = ITEMS[msg.id]?.type === 'equip' ? at(msg.id, msg.cards, msg.plus) : -1; return i >= 0 && c.equip(i); }

@@ -10,11 +10,11 @@
 // Phase 4: HP is the server's too (its swings arrive with NetCombat's `ma`; regen follows
 // `me`), and so are quests: accepting, handing in and talking are mirrored, and `sync`
 // carries the server's quest state.
-// A `sync` older than this browser's last action is not applied: it asks for a fresh one.
+// A stale `sync` is discarded; once `me` acknowledges all actions, request one fresh copy.
 // Guests (no `sync`) keep everything local, as before.
 //   attachNetProgress(net, character, quests?)
 export function attachNetProgress(net, c, quests = null) {
-  let on = false, sent = 0, depth = 0;
+  let on = false, sent = 0, depth = 0, resyncPending = false;
   const op = msg => { if (on && net.online) { sent++; net.send({ t: 'op', n: sent, ...msg }); } };
   // the character's own actions (by index here, by item id on the server); an action done
   // inside another (using a sword equips it) is not sent twice
@@ -31,6 +31,7 @@ export function attachNetProgress(net, c, quests = null) {
   // gear is named with the cards it holds and its plus (two swords that differ are different items)
   const held = i => ({ ...(c.inventory[i]?.cards?.length ? { cards: [...c.inventory[i].cards] } : {}), ...(c.inventory[i]?.plus ? { plus: c.inventory[i].plus } : {}) });
   wrap('useAt', i => idAt(i) && { op: 'use', id: idAt(i), ...held(i) });
+  wrap('sellBatch', lines => Array.isArray(lines) && { op: 'sell_batch', lines: lines.map(l => ({ index: l?.index, qty: l?.qty, id: idAt(l?.index), ...held(l?.index) })) });
   wrap('sellAt', i => idAt(i) && { op: 'sell', id: idAt(i), ...held(i) });
   wrap('equip', i => idAt(i) && { op: 'equip', id: idAt(i), ...held(i) });
   wrap('insertCard', (i, where) => idAt(i) && (typeof where === 'string' ? { op: 'card', id: idAt(i), worn: where } : { op: 'card', id: idAt(i), item: idAt(where), has: [...(c.inventory[where]?.cards ?? [])], ...(c.inventory[where]?.plus ? { plus: c.inventory[where].plus } : {}) }));
@@ -40,7 +41,7 @@ export function attachNetProgress(net, c, quests = null) {
   wrap('learnSkill', id => ({ op: 'learn', id }));
   wrap('resetSkills', () => ({ op: 'skill_reset' }));
   wrap('chooseEvo', (id, pick) => ({ op: 'evo', id, pick }));
-  c.on('bought', e => op({ op: 'buy', shop: e.shop, id: e.id }));
+  c.on('bought', e => op({ op: 'buy', shop: e.shop, id: e.id, qty: e.qty ?? 1 }));
   // taking cards out is a dice roll: online the server rolls it and sends the result and the character
   const strip = c.stripCards.bind(c);
   c.stripCards = i => {
@@ -86,14 +87,15 @@ export function attachNetProgress(net, c, quests = null) {
   net.on('sync', m => {
     if (!m.c) return;
     on = true;
-    if (m.c.ack < sent) { net.send({ t: 'resync' }); return; }   // our latest action is still on its way
-    adopt(m.c);
+    if (m.c.ack < sent) { resyncPending = true; return; }   // our latest action is still on its way
+    resyncPending = false; adopt(m.c);
   });
   net.on('me', m => {
     if (!on || m.ack < sent) return;
+    if (resyncPending) { resyncPending = false; net.send({ t: 'resync' }); }
     if (Math.abs(c.mp - m.mp) > Math.max(5, c.maxMp * .08)) { c.mp = Math.min(c.maxMp, m.mp); c.emit('change'); }
     if (c.alive && m.hp > 0 && Math.abs(c.hp - m.hp) > Math.max(5, c.maxHp * .05)) { c.hp = Math.min(c.maxHp, m.hp); c.emit('change'); }
   });
-  net.on('status', online => { if (!online) { on = false; sent = 0; } });   // a new connection replays from 0
+  net.on('status', online => { if (!online) { on = false; sent = 0; resyncPending = false; } });   // a new connection replays from 0
   return { get active() { return on; } };
 }

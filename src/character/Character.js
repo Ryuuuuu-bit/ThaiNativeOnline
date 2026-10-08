@@ -564,6 +564,23 @@ export class Character extends Emitter {
     return value;
   }
 
+  // One validated basket mutation and one inventory notification, regardless of stack size.
+  sellBatch(lines) {
+    if (!Array.isArray(lines) || !lines.length || lines.length > this.inventory.length) return 0;
+    const seen = new Set(); let gold = 0;
+    for (const line of lines) {
+      const { index, qty } = line ?? {}, s = this.inventory[index];
+      if (!Number.isInteger(index) || seen.has(index) || !s || !Number.isSafeInteger(qty) || qty < 1 || qty > s.qty) return 0;
+      seen.add(index); gold += Math.max(1, Math.floor(ITEMS[s.id].price / 2)) * qty;
+    }
+    if (!Number.isSafeInteger(gold) || !Number.isSafeInteger(this.gold + gold)) return 0;
+    for (const { index, qty } of lines) {
+      this.inventory[index].qty -= qty;
+      if (!this.inventory[index].qty) this.inventory[index] = null;
+    }
+    this.gold += gold; this.emit('inventory'); this.emit('change'); return gold;
+  }
+
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;

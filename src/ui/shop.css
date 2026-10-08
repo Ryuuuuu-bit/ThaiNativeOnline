@@ -96,6 +96,49 @@ body .sh-dhead .sh-ic .icon-img{width:46px;height:46px}
   .sh-chip small{display:none}
 }
 
+/* Trading counter: quiet jade panels, warm brass edges, and a persistent receipt. */
+body .shop.sh-v3{width:min(1040px,calc(100% - 32px));height:min(680px,calc(100dvh - 80px));background:linear-gradient(145deg,#203b32f7,#10251ffb 60%);border-color:#aa915c80;border-radius:20px;padding:20px;box-shadow:0 24px 100px #0009,inset 0 1px #f4dca829}
+.sh-trade{height:100%;min-height:0;display:flex;flex-direction:column;gap:12px}
+.sh-trade .sh-split{flex:1;min-height:0;grid-template-columns:minmax(0,1fr) 280px}
+.sh-tools{display:flex;flex-direction:column;gap:10px}
+.sh-search{display:flex;align-items:center;gap:10px;border:1px solid #baaa7752;background:#061a1480;border-radius:10px;padding:0 12px;color:#ead59e}
+.sh-search span{font-size:26px}.sh-search input{width:100%;min-width:0;padding:10px 0;background:none;border:0;color:#f0e6c9;font:inherit;outline:none}.sh-search:focus-within{border-color:#d9bd77}
+.sh-search input::placeholder{color:#b4bcaa}
+.sh-filters{display:flex;gap:6px;overflow-x:auto;flex:none;padding-bottom:3px}
+.sh-filters button{flex:none;min-height:36px;border:1px solid #c7b78630;border-radius:20px;background:#ffffff05;color:#c3cebc;padding:5px 13px;font:inherit;font-size:12px}
+.sh-filters button.on{color:#f2dfa4;border-color:#c1a768;background:#c7a76220}
+.sh-trade .sh-rows{grid-template-columns:1fr;gap:7px}
+.sh-trade .sh-row{min-height:66px;border:1px solid #c4b17e21;box-shadow:none;background:#36504745;border-radius:10px;padding:9px;gap:10px;text-align:left;color:#eee5cf}
+.sh-trade .sh-row:hover{background:#45615365}.sh-trade .sh-row.on{background:#b89b4620;border-color:#d8b96b}
+.sh-trade .sh-tx b{font-size:14px;color:#f1e7ce}.sh-trade .sh-tx small{color:#b1bfac;font-size:11px}
+.sh-trade .sh-right{border:1px solid #c2a86c45;box-shadow:none;background:linear-gradient(165deg,#314b3f85,#0c211bc9);border-radius:14px;padding:16px;gap:12px}
+.sh-trade .sh-go{min-height:46px;background:linear-gradient(#ecd290,#bfa261);box-shadow:0 4px 15px #0003;color:#283528;border-radius:9px;font-size:14px}
+.sh-trade .sh-go.alt{background:#d2b56c25;color:#f8df9e;border:1px solid #cdb26f}
+.sh-receipt{flex:none;margin:0;min-height:20px;color:#c5cbb5;font-size:11px;line-height:1.5;border-top:1px solid #c6ac6c30;padding-top:8px}
+.sh-check{flex:none;display:grid;place-items:center;width:20px;height:20px;border:1px solid #9f9c70;border-radius:5px;color:#f0d996;background:#061a1450;font-size:14px}
+.sh-sale-row .sh-pr{display:flex;flex-direction:column;font-size:14px;align-items:flex-end}.sh-sale-row .sh-pr::before{display:none}.sh-sale-row .sh-pr small{font-size:10px;font-weight:400;color:#acbaa3}
+.sh-basket-title{display:flex;align-items:center;justify-content:space-between;color:#f1daa0;font-size:16px}.sh-basket-title i{font-style:normal;font-size:12px;background:#d2b56b25;border-radius:6px;padding:2px 7px}
+.sh-basket-title button{background:none;border:0;color:#cdbb8d;text-decoration:underline;font:inherit;font-size:12px;min-height:32px}.sh-basket-title button:disabled{opacity:.4}
+.sh-basket-list{flex:1;min-height:70px;overflow:auto}
+.sh-basket-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #c7b47725}.sh-basket-row span{flex:1;min-width:0;display:flex;flex-direction:column}.sh-basket-row b{font-size:12px;font-weight:500;overflow-wrap:anywhere;color:#ecdfbf}.sh-basket-row small{font-size:11px;color:#b5c3a8}
+.sh-basket-row input{width:68px;min-height:38px;box-sizing:border-box;border:1px solid #b7a46d65;border-radius:7px;color:#f5e4b8;background:#071b16aa;text-align:center;font:inherit;font-size:13px}
+.sh-after{font-size:11px;color:#b8c3aa;text-align:right}.sh-basket .sh-total b{font-size:22px}
+@media(max-width:760px){
+ body .shop.sh-v3{zoom:1;box-sizing:border-box;left:8px;top:calc(16px + env(safe-area-inset-top));transform:none;translate:none;width:calc(100% - 16px);height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:12px;border-radius:15px}
+ .sh-trade{gap:7px}.sh-trade .sh-split{grid-template-columns:1fr;grid-template-rows:minmax(100px,1fr) auto;gap:8px}
+ .sh-trade .sh-right{padding:12px;gap:8px;max-height:42dvh}.sh-trade .sh-right.sh-basket{max-height:38dvh}
+ .sh-basket-list{min-height:0;max-height:14dvh}.sh-basket-title{font-size:14px}.sh-basket-row{padding:6px 0}.sh-basket .sh-total b{font-size:20px}
+ .sh-search input{padding:8px 0;font-size:13px}.sh-tools{gap:7px}.sh-trade .sh-row{min-height:61px}.sh-trade .sh-tx b{font-size:13px}
+ .sh-trade .sh-quick button{min-height:30px}.sh-trade .sh-dhead .sh-ic{width:38px;height:38px}.sh-trade .sh-dhead b{font-size:14px}.sh-trade .sh-dhead small{font-size:11px}
+ .sh-trade .sh-have{display:none}.sh-receipt{font-size:10px;min-height:15px;padding-top:5px}
+ body .shop.sh-v3 .sh-head{gap:8px}.sh-port{width:34px;height:34px;font-size:16px}.sh-id b{font-size:16px}body .shop.sh-v3 .sh-id small{font-size:11px}body .shop.sh-v3 .sh-chip{padding:7px}body .shop.sh-v3 #shop-gold{font-size:13px}
+}
+@media(max-height:520px) and (min-width:761px){
+ body .shop.sh-v3{zoom:1;box-sizing:border-box;left:8px;top:8px;transform:none;translate:none;width:calc(100% - 16px);height:calc(100dvh - 16px);padding:12px}
+ .sh-tools{flex-direction:row;gap:8px}.sh-search,.sh-filters{flex:1;min-width:0}.sh-trade{gap:5px}
+ .sh-trade .sh-right{gap:6px;padding:10px}.sh-basket-list{min-height:0}.sh-trade .sh-split{grid-template-rows:minmax(0,1fr)}
+}
+
 /* ---- ตีบวก (ThaiNative's forge layout, ShopUI.enhance) ---- */
 .enh.t1{color:#5dade2;text-shadow:0 0 6px #5dade2} .enh.t2{color:#c39bd3;text-shadow:0 0 6px #af7ac5}
 .enh.t3{color:#f4d03f;text-shadow:0 0 6px #f4d03f} .enh.t4{color:#ff6f59;text-shadow:0 0 8px #e74c3c}
