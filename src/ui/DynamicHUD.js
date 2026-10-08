@@ -22,8 +22,17 @@ export function attachDynamicHUD(game, net) {
     window.addEventListener('keydown',e=>{if(e.code==='Escape'){drawer.hidden=true;toggle.setAttribute('aria-expanded','false');}});
   }
   const minimap=document.querySelector('.minimap');
+  // Touch utilities live inside the main menu; retain existing delegated handlers.
+  const menu=document.getElementById('menu-grid'), zoom=document.querySelector('.zoom-ctl');
+  if(document.body.classList.contains('ui-touch') && menu){
+    const utilities=document.createElement('section');utilities.className='touch-utilities';
+    utilities.setAttribute('aria-label','เดินทางและมุมกล้อง');
+    if(tools)utilities.append(tools);
+    if(zoom)utilities.append(zoom);
+    menu.append(utilities);
+  }
   const layout=()=>{
-    if(!tools||!minimap)return;
+    if(!tools||!minimap||document.body.classList.contains('ui-touch'))return;
     const origin=tools.offsetParent?.getBoundingClientRect().top??0;
     tools.style.top=`${Math.round(minimap.getBoundingClientRect().bottom-origin+8)}px`;
     const quests=document.querySelector('.exploration');

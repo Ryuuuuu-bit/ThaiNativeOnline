@@ -108,6 +108,8 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
     const bar = root.querySelector('.action-bar');
     if (!bar || bar.dataset.touch) return !!bar;
     bar.dataset.touch = '1';
+    const exps = bar.querySelector('.action-exps');
+    if (exps) { exps.classList.add('touch-exps'); root.append(exps); }
     const side = el('div', 'touch-side');
     for (const sel of ['.hotbar-auto', '.hotbar-auto-cfg', '.action-items', '.action-menus']) { const n = bar.querySelector(sel); if (n) side.append(n); }
     bar.querySelectorAll(':scope > .hotbar-sep').forEach(n => n.remove());
@@ -120,7 +122,7 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
   };
   // A menu open (settings, character / bag, shop, full map, AUTO settings): the joystick,
   // buttons and skills step aside so the menu is whole and nothing under it gets pressed.
-  const MENUS = '.settings:not([hidden]), .g-panel:not([hidden]), .shop:not([hidden]), .fullmap:not([hidden]), .auto-panel:not([hidden]), .soc-panel:not([hidden])';
+  const MENUS = '.settings:not([hidden]), .g-panel:not([hidden]), .shop:not([hidden]), .fullmap:not([hidden]), .auto-panel:not([hidden]), .soc-panel:not([hidden]), .mm-grid:not([hidden]), .net-chat.typing';
   setInterval(() => {
     const open = !!root.querySelector(MENUS);
     if (open !== document.body.classList.contains('touch-menu')) {

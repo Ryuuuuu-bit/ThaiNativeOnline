@@ -1,0 +1,101 @@
+/* Touch-only layout in physical CSS pixels: independent of desktop HUD zoom. */
+.touch-skill-pages{display:none}
+body.ui-touch{--mobile-bottom:env(safe-area-inset-bottom,0px);--mobile-top:env(safe-area-inset-top,0px)}
+body.ui-touch :is(.g-layer,.topbar,.minimap,.hotbar,.touch-side,.touch-pad,.net-chat,.mm-btn,.mm-grid){zoom:1!important}
+body.ui-touch .g-player{left:max(12px,env(safe-area-inset-left));top:calc(var(--mobile-top) + 16px);width:calc(100vw - 172px);max-width:260px;transform:none!important;translate:none!important}
+body.ui-touch .g-player .g-portrait{width:54px;height:54px;padding:3px;box-shadow:0 0 0 1px #e0c48c,0 0 0 4px #102b27}
+body.ui-touch .g-player-info{width:calc(100% - 36px);min-width:0;margin-left:-18px;padding:7px 9px 7px 24px;gap:3px;border-radius:6px 16px 16px 6px}
+body.ui-touch .g-player-name b{font-size:13px}body.ui-touch .g-player-name>span{display:none}
+body.ui-touch .g-player .g-lv{width:24px;height:24px;font-size:11px}
+body.ui-touch .g-player .g-bar{height:14px}body.ui-touch .g-player .g-bar em{font-size:9px;line-height:14px}
+body.ui-touch .g-player .g-bar::after{font-size:8px;line-height:14px}
+body.ui-touch .hud-vitals-footer{font-size:8px}.ui-touch .hud-wallet{display:none}
+body.ui-touch .g-player .g-buffs{top:calc(100% + 4px);left:42px}
+body.ui-touch .minimap{position:absolute;right:60px;top:calc(var(--mobile-top) + 12px);width:86px;padding:5px;border-radius:12px}
+body.ui-touch #minimap{height:72px;width:74px;border-radius:7px}
+body.ui-touch .mini-title{font-size:8px;margin-bottom:3px;justify-content:flex-end}
+body.ui-touch .mini-title>span:first-child,body.ui-touch .mini-footer{display:none}
+body.ui-touch .mm-btn{top:calc(var(--mobile-top) + 14px);right:max(10px,env(safe-area-inset-right));bottom:auto;width:42px;height:44px;border-radius:12px}
+body.ui-touch .mm-btn span{display:none}
+body.ui-touch .topbar{pointer-events:none;top:calc(var(--mobile-top) + 114px);left:auto;right:12px;width:144px}
+body.ui-touch .topbar .brand,body.ui-touch .top-actions,body.ui-touch .location .tiny,body.ui-touch .location .weather{display:none}
+body.ui-touch .location{position:static;min-width:0;transform:none;text-align:right}
+body.ui-touch .location h1{font-size:11px;letter-spacing:0;margin:0;color:#eee0b9}
+body.ui-touch .net-chat{position:absolute;left:12px!important;top:calc(var(--mobile-top) + 104px)!important;bottom:auto!important;width:calc(100vw - 172px)!important;max-width:260px;max-height:none;border-radius:18px;translate:none!important;transform:none!important;opacity:.95;padding:5px 8px}
+body.ui-touch .net-chat header{font-size:10px;min-height:26px;gap:5px}
+body.ui-touch .net-chat header .drag-lock{display:none}
+body.ui-touch .net-chat:not(.typing) :is(.net-lines,input){display:none}
+body.ui-touch .net-chat:not(.typing) header::after{content:'›';font-size:20px;margin-left:auto}
+body.ui-touch .net-chat.typing{width:calc(100vw - 24px)!important;max-width:420px;border-radius:12px;z-index:15}
+body.ui-touch .net-chat.typing .net-lines{display:block;max-height:min(30dvh,180px);overflow:auto}
+body.ui-touch .soc-party,body.ui-touch .exploration,body.ui-touch .touch-rotate{display:none!important}
+body.ui-touch .mm-grid{position:absolute;right:12px;top:calc(var(--mobile-top) + 66px);bottom:auto;grid-template-columns:repeat(3,minmax(0,1fr));width:min(350px,calc(100vw - 24px));max-height:calc(100dvh - var(--mobile-top) - 80px);overflow:auto;z-index:18;padding:12px;gap:8px}
+body.ui-touch .mm-grid>button{min-width:0;min-height:56px}
+.touch-utilities{grid-column:1/-1;border-top:1px solid #cbb87744;padding-top:10px;display:flex;flex-direction:column;gap:10px}
+body.ui-touch .touch-utilities .online-actions{position:static!important;display:flex;flex-wrap:wrap;max-width:none;width:auto;box-shadow:none;padding:0;background:none;zoom:1}
+body.ui-touch .touch-utilities .online-actions button{min-height:44px;font-size:11px}
+body.ui-touch .touch-utilities .online-actions kbd{display:none}
+body.ui-touch .touch-utilities .zoom-ctl{position:static;display:flex;gap:6px;padding:0;zoom:1}
+body.ui-touch .touch-utilities .zoom-ctl button{width:44px;height:44px}
+body.ui-touch .hotbar.action-bar{left:50%!important;right:auto!important;bottom:calc(var(--mobile-bottom) + 210px)!important;transform:translateX(-50%)!important;translate:none!important;width:max-content;max-width:calc(100vw - 20px);padding:7px 8px 5px;border-radius:16px;gap:4px;overflow:visible;background:linear-gradient(145deg,#183a31f0,#0c2420ef);border:1px solid #d3bb7b80;box-shadow:0 5px 20px #0006}
+body.ui-touch .hotbar-row{display:flex;flex-wrap:nowrap;width:auto;gap:6px;min-height:48px;touch-action:pan-y}
+body.ui-touch .hotbar-slot{width:clamp(44px,12vw,54px);height:clamp(44px,12vw,54px);flex:none;border-radius:9px}
+body.ui-touch .hotbar-slot[data-touch-hidden=true]{display:none}
+body.ui-touch .hotbar-slot:is(:hover,:focus){transform:none}
+body.ui-touch .touch-skill-pages{display:flex;justify-content:center;align-items:center;gap:12px;height:32px;font-size:10px;color:#ebd59b}
+body.ui-touch .touch-skill-pages button{width:44px;height:32px;border:0;background:none;color:#efd69c;font-size:22px;border-radius:6px}
+body.ui-touch .touch-skill-pages button:disabled{opacity:.25}
+body.ui-touch .action-exps{position:fixed;bottom:calc(-1 * (202px - 12px));left:50%;transform:translateX(-50%);width:min(350px,calc(100vw - 32px));pointer-events:none}
+body.ui-touch .action-exp{height:7px}body.ui-touch .action-exp em{font-size:7px;line-height:7px}
+body.ui-touch .action-jexp{height:2px}
+body.ui-touch .touch-side{left:50%!important;right:auto!important;bottom:calc(var(--mobile-bottom) + 328px)!important;transform:translateX(-50%)!important;translate:none!important;width:min(300px,calc(100vw - 32px));height:44px;gap:6px;align-items:center}
+body.ui-touch .touch-side .action-items{order:-1;margin-right:auto;gap:7px}
+body.ui-touch .touch-side .g-potion{width:44px;height:44px;border:1px solid #d6bd7b88;border-radius:9px}
+body.ui-touch .touch-side .g-potion img{width:100%;height:100%;object-fit:contain}
+body.ui-touch .touch-side .g-potion small{font-size:10px;text-shadow:0 1px 3px #000}
+body.ui-touch .touch-side .hotbar-auto{height:44px;min-width:66px;border:1px solid #dac28688;border-radius:22px;background:#15392eea;font-size:12px}
+body.ui-touch .touch-side .hotbar-auto-cfg{width:32px;height:44px;background:#14362ad9;border:1px solid #d1bb7d44;border-radius:10px}
+body.ui-touch .touch-side .action-menus,body.ui-touch .touch-side .touch-map{display:none}
+body.ui-touch .touch-pad{right:max(12px,env(safe-area-inset-right));bottom:calc(var(--mobile-bottom) + 30px);width:164px;height:154px}
+body.ui-touch .touch-btn{font-size:13px;border:1px solid #e6cf8c;background:radial-gradient(circle at 45% 30%,#315848ed,#0e2823f5);box-shadow:0 3px 12px #0006,inset 0 0 0 3px #dcc38718}
+body.ui-touch .touch-btn.t-attack{width:86px;height:86px;right:0;bottom:0;border:2px solid #eed39a;background:radial-gradient(circle at 40% 30%,#a95e39f0,#4c2016f5);font-size:20px}
+body.ui-touch .touch-btn.t-target{width:58px;height:58px;right:96px;bottom:0}
+body.ui-touch .touch-btn.t-talk{width:58px;height:58px;right:12px;bottom:96px}
+body.ui-touch .touch-zone{width:44%;height:184px;bottom:calc(var(--mobile-bottom) + 22px)}
+body.ui-touch .touch-stick{width:112px;height:112px;left:max(76px,calc(env(safe-area-inset-left) + 66px));top:calc(100% - 72px);border:1px solid #dec58c99;opacity:.65}
+body.ui-touch .hotbar-tip{display:none!important}
+body.ui-touch.touch-menu :is(.touch-zone,.touch-pad,.touch-side,.hotbar.action-bar){display:none!important}
+@media(orientation:landscape){
+ body.ui-touch .hotbar.action-bar{bottom:calc(var(--mobile-bottom) + 30px)!important}
+ body.ui-touch .touch-side{bottom:calc(var(--mobile-bottom) + 144px)!important;width:290px}
+ body.ui-touch .action-exps{bottom:-18px}
+ body.ui-touch .touch-pad{bottom:calc(var(--mobile-bottom) + 16px)}
+ body.ui-touch .touch-zone{bottom:calc(var(--mobile-bottom) + 10px);height:170px;width:25%}
+ body.ui-touch .g-player{max-width:240px}
+}
+@media(max-width:350px){body.ui-touch .g-player{width:calc(100vw - 152px)}body.ui-touch .minimap{right:58px;width:72px}body.ui-touch #minimap{width:60px;height:60px}body.ui-touch .g-player .g-portrait{width:44px;height:44px}body.ui-touch .g-player-name b{font-size:11px}}
+body.photo-mode.ui-touch :is(.touch-utilities,.touch-skill-pages){display:none}
+/* Override legacy row wrapping and portrait offsets explicitly. */
+body.ui-touch .hotbar.action-bar{display:flex;flex-direction:column;flex-wrap:nowrap;width:max-content!important}
+body.ui-touch .action-bar .hotbar-row{width:max-content!important;max-width:none;flex:none;flex-wrap:nowrap;min-height:48px}
+body.ui-touch .touch-skill-pages{width:100%;flex:none}
+body.ui-touch .mini-title :is(#mini-name,#mini-lv,small){display:none!important}
+body.ui-touch .mini-title{height:18px;padding:0;min-height:0;display:block}
+body.ui-touch .mini-title b{display:flex;justify-content:flex-end;min-height:0}
+body.ui-touch #mini-ch{font-size:9px;padding:1px 4px;margin:0}
+body.ui-touch .map-frame{height:72px;width:74px;border:0;padding:0;box-shadow:none;border-radius:7px;overflow:hidden}
+body.ui-touch .map-frame::before,body.ui-touch .map-frame::after{display:none}
+body.ui-touch .touch-exps{position:absolute;bottom:calc(var(--mobile-bottom) + 9px);left:20px;right:20px;width:auto;transform:none;zoom:1;pointer-events:none;z-index:5;display:flex;flex-direction:column;gap:2px}
+body.ui-touch .touch-exps .g-bar{height:7px;margin:0;border-radius:4px;overflow:hidden}
+body.ui-touch .touch-exps .g-jexp{height:2px}
+body.ui-touch .touch-exps em{font-size:7px;line-height:7px}
+body.ui-touch.ui-portrait .touch-zone{width:44%;height:184px;bottom:calc(var(--mobile-bottom) + 22px)}
+body.ui-touch .g-feed{top:calc(var(--mobile-top) + 162px);bottom:auto;max-width:calc(100vw - 24px)}
+body.photo-mode.ui-touch .touch-exps{display:none}
+body.ui-touch .mm-grid kbd{display:none}
+body.ui-touch .touch-utilities .zoom-ctl{flex-direction:row;width:auto;height:auto;min-height:0;background:none;border:0;box-shadow:none}
+body.ui-touch .touch-utilities .online-actions{min-height:0;height:auto;flex:none}
+body.ui-touch.touch-menu:has(.mm-grid:not([hidden])) .mm-btn{display:flex}
+body.ui-touch.ui-portrait .hotbar.action-bar{bottom:calc(var(--mobile-bottom) + 210px)!important}
+body.ui-touch.ui-portrait .touch-side{bottom:calc(var(--mobile-bottom) + 328px)!important}
+@media(max-width:350px){body.ui-touch .map-frame,body.ui-touch #minimap{width:60px;height:60px}}
