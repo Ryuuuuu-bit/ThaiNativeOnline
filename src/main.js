@@ -11,6 +11,7 @@ import './ui/icon-theme.css';
 import './ui/skin-classic.css';   // carved-wood skin, on when body.skin-classic (src/ui/skin.js)
 import './ui/dynamic-hud.css';
 import './ui/brand.css';
+import './ui/mobile-hud.css';
 mountEntryBrand();
 
 // Login → character select → creation (src/account), then the world.

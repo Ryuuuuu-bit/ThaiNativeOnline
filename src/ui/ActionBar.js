@@ -1,4 +1,5 @@
 import { assetIcon } from './icons.js';
+import { skillPages } from './SkillPager.js';
 // The one action bar, the same on every map and for every class (the hotbar look
 // from src/classes/fx/fx.css): up to ten skills on keys 1–0, AUTO on G, then the
 // potions (Q / F) and the EXP bar from CharacterUI (the main menu opens the windows).
@@ -50,6 +51,18 @@ export class ActionBar {
     if (menus.length) { const m = el('div', 'action-menus'); m.append(...menus); this.bar.append(m); }
     this.tip = el('div', 'hotbar-tip ro-window'); this.tip.hidden = true;
     host.append(this.bar, this.tip);
+    this.page = 0; this.pageKey = '';
+    this.pager = el('div', 'touch-skill-pages');
+    this.pager.innerHTML = '<button type="button" aria-label="สกิลหน้าก่อน">‹</button><span aria-live="polite"></span><button type="button" aria-label="สกิลหน้าถัดไป">›</button>';
+    this.bar.append(this.pager);
+    const turn = delta => { this.page += delta; this.pageKey = ''; this.syncTouchPage(); this.hideTip(); };
+    this.pager.firstChild.addEventListener('click', () => turn(-1));
+    this.pager.lastChild.addEventListener('click', () => turn(1));
+    let swipe = null;
+    this.row.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') swipe = { x: e.clientX, y: e.clientY }; });
+    this.row.addEventListener('pointerup', e => { if (swipe && Math.abs(e.clientX - swipe.x) > 45 && Math.abs(e.clientY - swipe.y) < 35) { this.suppressTap = true; turn(e.clientX < swipe.x ? 1 : -1); setTimeout(() => { this.suppressTap = false; }, 0); } swipe = null; });
+    this.row.addEventListener('pointercancel', () => { swipe = null; });
+    this.row.addEventListener('click', e => { if (this.suppressTap) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
   }
 
   setSkills(controller, label) {
@@ -67,6 +80,19 @@ export class ActionBar {
       this.row.append(b);
       return { b, cdt: b.querySelector('.cdt'), mp: b.querySelector('.mp'), slv: b.querySelector('.slv'), shown: '' };
     });
+    this.page = 0; this.pageKey = ''; this.syncTouchPage();
+  }
+
+  syncTouchPage() {
+    if (!this.ctl) return;
+    const pages = skillPages(this.ctl.slots, i => this.ctl.level?.(i));
+    this.page = ((this.page % pages.length) + pages.length) % pages.length;
+    const key = `${this.page}:${pages.flat().join(',')}`;
+    if (key === this.pageKey) return;
+    this.pageKey = key;
+    this.slots.forEach(({ b }, i) => { b.dataset.touchHidden = String(!pages[this.page].includes(i)); });
+    this.pager.querySelector('span').textContent = pages[0].length ? `${this.page + 1} / ${pages.length}` : 'เรียนสกิลในเมนูวิชา';
+    for (const button of this.pager.querySelectorAll('button')) button.disabled = pages.length <= 1;
   }
 
   showTip(i, b) {
@@ -115,6 +141,7 @@ export class ActionBar {
   update(dt) {
     const ctl = this.ctl;
     if (!ctl) return;
+    this.syncTouchPage();
     this.slots.forEach((sl, i) => {
       const { b, cdt } = sl;
       // MP cost and skill level (they change as skills are learnt)
