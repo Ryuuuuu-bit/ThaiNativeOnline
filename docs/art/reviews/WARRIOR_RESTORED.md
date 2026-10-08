@@ -38,3 +38,6 @@ replacement rig's artificially stabilized head limits to the original animation.
 This restores the earlier asset exactly; it does not claim a new anatomical or
 cutting-edge correction. No physical-phone benchmark or signed-in multiplayer
 check was performed. This local restoration has not itself been deployed.
+
+Final combined recovery branch validation: 346/346 tests and npm run build pass.
+
