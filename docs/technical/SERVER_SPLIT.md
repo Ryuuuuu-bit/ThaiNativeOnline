@@ -85,6 +85,40 @@ client uses for prediction.
   - `src/account/index.js` picks the server store whenever `/api/health` answers.
 - **Guests:** they stay in their browser.
 
+### Character names
+
+- Registered characters reserve one global, case-insensitive NFKC name key. Trimmed
+  edges and repeated spaces do not make another name. Creation validates 1–16 UTF-16
+  code units, starts with a letter/number and permits letters, marks, numbers,
+  spaces, `_` and `-`. Invisible/control characters and guest-label brackets are refused.
+- `characters.name_key` has a unique database index: competing creations on different
+  instances cannot both claim a name. Conflicts return HTTP 409 / `name_taken`,
+  without retrying a permanent conflict in the save queue. Deleting frees the key.
+- Creation waits for the server's save and authoritative slot pull before entering
+  the world; a rejected name stays on the creation screen with an inline message.
+- Startup migration `unique_character_names_v1` runs once in an advisory-locked
+  transaction. For existing duplicates, the oldest account keeps its name (ties:
+  account ID in C order, then slot). Character creation dates were not recorded,
+  so this deliberately uses account registration dates. Save JSON is not rewritten.
+  Other duplicates and invalid legacy names get `rename_required`, with a null key.
+  Such characters are excluded from saved rankings and cannot join online play.
+- The select screen offers **เลือกชื่อใหม่ฟรี**. Authenticated `POST /api/slots/:n/name`
+  claims the new key and changes only the saved name, retaining equipment, gold,
+  level, quests and location. This is available only for flagged, offline characters;
+  repeating a successful request with the same name is safe. Captured snapshots
+  preserve the currently stored name. Normal client saves cannot rename characters.
+- A database trigger preserves the current saved name on ordinary data writes;
+  an older process's delayed snapshot cannot undo a recovery rename while leaving
+  a different reserved key. Only the recovery operation changes that key.
+- An old process inserting during a rolling deploy defaults to `rename_required`;
+  the new process requires confirmation before letting that character play.
+- Guests receive a server-assigned `[G<number>]` suffix for the connection's identity,
+  shared by the local HUD and other players. They do not reserve persistent names.
+  The ID lasts for the server process; this is not a durable guest identity.
+- Deploying this revision applies the migration before the server accepts players.
+  A schema rollback is separate from rolling the application back; older code must
+  not be deployed for normal play while unresolved names still require recovery.
+
 ## Phase 3a details
 
 - **`server/monsters.js` `MonsterWorld`:** pure; tested in `tests/monsters-server.test.js`.

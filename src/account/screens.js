@@ -5,6 +5,7 @@ import { el, esc } from '../character/ui/dom.js';
 import { ModelPreview } from '../ui/ModelPreview.js';
 import { classBadge } from '../ui/icons.js';
 import { renderGoogleButton } from './google.js';
+import { checkName, NAME_HINT } from '../data/character-names.js';
 
 // Login and character-select screens. Both are overlays over #app and resolve
 // a Promise; src/account/index.js chains them before the world starts.
@@ -137,7 +138,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
   });
 }
 
-function slotCard({ slot, character: c }) {
+function slotCard({ slot, character: c, needsRename }) {
   if (!c) return `<button type="button" class="acc-slot acc-empty" data-play="${slot}"><span class="acc-plus">+</span><b>สร้างตัวละครใหม่</b><em>ช่องว่าง</em></button>`;
   const cls = CLASSES[CLASS_ALIASES[c.classId] || c.classId];
   return `<div class="acc-slot" style="--cls:${cls?.color ?? '#cabc86'}">
@@ -146,9 +147,37 @@ function slotCard({ slot, character: c }) {
       <b>${esc(c.name)}</b>
       <em>${esc(cls?.name ?? c.classId)} · Lv.${c.level ?? 1}</em>
       <small>${c.gender === 'female' ? 'หญิง' : 'ชาย'} · ${(c.gold ?? 0).toLocaleString()} ทอง</small>
-      <span class="acc-enter">เข้าเกม</span>
+      <span class="acc-enter">${needsRename ? 'เลือกชื่อใหม่ฟรี' : 'เข้าเกม'}</span>
     </button>
     <button type="button" class="acc-delete" data-delete="${slot}" title="ลบตัวละคร" aria-label="ลบ ${esc(c.name)}">ลบ</button>
   </div>`;
+}
+
+export function showNameRecovery(root, oldName, onConfirm) {
+  return new Promise(resolve=>{
+    const overlay=el('section','acc-screen acc-rename',`
+      <div class="acc-select-art" aria-hidden="true"></div>
+      <header class="acc-brand">${brandMarkup()}</header>
+      <form class="acc-card">
+        <span class="eyebrow">การเดินทางเดิม ชื่อบทใหม่</span><h2>เลือกชื่อใหม่ฟรี</h2>
+        <p>เลือกชื่อเฉพาะให้ผู้เดินทาง “${esc(oldName)}”<br>เลเวล อุปกรณ์ และเควสของคุณยังอยู่ครบ</p>
+        <label>ชื่อตัวละครใหม่<input name="name" maxlength="16" autocomplete="off" spellcheck="false" required aria-describedby="rename-hint" /></label>
+        <p class="acc-note" id="rename-hint">${NAME_HINT}</p>
+        <p class="acc-error" role="alert" aria-live="polite"></p>
+        <button class="acc-primary" type="submit">ยืนยันชื่อและเข้าเกม</button>
+      </form>`);
+    const form=overlay.querySelector('form'),input=form.elements.namedItem('name'),error=form.querySelector('.acc-error'),button=form.querySelector('button');
+    let busy=false;
+    form.addEventListener('keydown',e=>e.stopPropagation());
+    form.addEventListener('submit',async e=>{
+      e.preventDefault();if(busy)return;
+      const n=checkName(input.value);if(!n.ok){error.textContent=n.msg;return;}
+      busy=true;button.disabled=true;error.textContent='';
+      try { const r=await onConfirm(n.name);if(!r?.ok){error.textContent=r?.msg ?? 'เปลี่ยนชื่อไม่สำเร็จ';return;}overlay.remove();resolve(n.name); }
+      catch {error.textContent='เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่';}
+      finally {busy=false;button.disabled=false;}
+    });
+    root.append(overlay);input.focus();
+  });
 }
 
