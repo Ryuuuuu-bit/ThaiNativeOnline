@@ -38,6 +38,6 @@ export const SKILL_RESET_GOLD = 40;
 // At `heavy` (share of max) HP/MP stop regenerating; past max nothing more can be picked up.
 export const CARRY = { base: 5000, perStr: 30, heavy: .7 };
 // Per second; VIT improves both resources, but never scales with maximum HP/MP.
-export const RECOVERY = { hpBase: 1, hpPerVit: .1, hpCap: 8, mpBase: .5, mpPerVit: .05, mpCap: 4, combat: .25, sitting: 2 };
+export const RECOVERY = { hpBase: 1, hpPerVit: .1, hpCap: 8, mpBase: .5, mpPerVit: .05, mpCap: 4, combat: .25 };
 // Accuracy of a monster at a level (src/rules hitChanceOf: 90 vs 0 evasion = 95% hit).
 export const MONSTER_ACCURACY = level => 88 + level;

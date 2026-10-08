@@ -208,7 +208,8 @@ export class Game {
       const high = e.target.value === 'high', sun = this.env.sun;
       this.prefs.set({ quality: high ? 'high' : 'low' });
       this.renderer.setPixelRatio(high ? Math.min(devicePixelRatio, 1.5) : 1);   // above 1.5× the GPU cost outgrows what shows at full HD
-      sun.shadow.mapSize.set(high ? 4096 : 2048, high ? 4096 : 2048);
+      sun.shadow.mapSize.set(high ? 4096 : 1024, high ? 4096 : 1024);
+      this.setWorldShadows(high);
       this.postfx.enabled = high;   // bloom, colour grade and vignette only on high
       if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
       if (this.world) this.world.grass.mesh.geometry.instanceCount = high ? 56000 : 34000;
@@ -326,6 +327,7 @@ export class Game {
     }
     world.atmosphere.setEnabled($('particles').checked);
     world.grass.mesh.geometry.instanceCount = $('quality').value === 'high' ? 56000 : 34000;
+    this.setWorldShadows($('quality').value === 'high');
     if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
     if (this.questUI) this.updateJournal();
     this.training?.enterMap(map.id);
@@ -457,6 +459,18 @@ export class Game {
     const known = this.maps.landmarks.filter(l => !l.hidden || this.discovered.has(l.id)), p = this.player.position;
     const next = known.filter(l => !this.discovered.has(l.id)).sort((a, b) => Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z))[0];
     this.hud.setJournal(known.filter(l => this.discovered.has(l.id)).length, known.length, next?.name, this.maps.map.name, this.maps.map.intro);
+  }
+
+  // Low quality: only the characters and monsters throw shadows; the map (houses, trees, props,
+  // grass) keeps receiving them. On a phone the shadow pass over the whole map is the dearest
+  // thing after resolution, and the player's own shadow is what reads.
+  setWorldShadows(on) {
+    const root = this.world?.root; if (!root) return;
+    root.traverse(o => {
+      if (!o.isMesh) return;
+      if (o.userData.castShadow0 === undefined) o.userData.castShadow0 = o.castShadow;
+      o.castShadow = on && o.userData.castShadow0;
+    });
   }
 
   tick(time) {

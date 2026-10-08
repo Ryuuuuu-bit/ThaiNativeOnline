@@ -1,7 +1,7 @@
 // AUTO settings logic (src/ui/autoSettings.js): potions, target priority, cast order.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { DEFAULT_AUTO, normalizeAuto, loadAuto, autoPotion, autoRest, pickTarget, castOrder } from '../src/ui/autoSettings.js';
+import { DEFAULT_AUTO, normalizeAuto, loadAuto, autoPotion, pickTarget, castOrder } from '../src/ui/autoSettings.js';
 
 test('settings are clamped and fall back to defaults (no storage in node)', () => {
   assert.deepEqual(loadAuto(), normalizeAuto(DEFAULT_AUTO));
@@ -53,11 +53,7 @@ test('cast order skips switched-off slots and puts survival skills first when HP
   assert.deepEqual(castOrder(slots, s, .3, 0), [1, 0, 3]);
 });
 
-test('rest: sit once HP or MP is under its line, stand once both are back up', () => {
+test('rest settings are gone: normalizeAuto keeps no rest lines', () => {
   const s = normalizeAuto({ restHp: 30, restMp: 20, restTo: 90 });
-  assert.equal(autoRest(s, .5, .5), false);
-  assert.equal(autoRest(s, .25, .5), true); assert.equal(autoRest(s, .5, .1), true);
-  assert.equal(autoRest(s, .6, .95, true), true, 'keeps sitting until HP is at 90%');
-  assert.equal(autoRest(s, .95, .92, true), false);
-  assert.equal(autoRest(normalizeAuto({ restHp: 0, restMp: 0 }), .05, .05), false, 'off');
+  assert.equal('restHp' in s || 'restTo' in s, false);
 });

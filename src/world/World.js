@@ -141,7 +141,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const klong = buildKlong(ctx);
   ctx.reserveSpotLinks(); lap('countryside+wilds');
   progress('กำลังสร้างบ้านเรือนชาวเมือง…'); await frame();
-  const houses = fillBuildings(ctx); lap('houses');
+  const houses = await fillBuildings(ctx); lap('houses');
   const forestTrees = scatterNature(ctx); lap('nature');
 
   progress('กำลังวาดผืนดิน…'); await frame();
@@ -151,7 +151,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const water = buildWater(scene, map.view); lap('water');
 
   progress('กำลังประกอบฉาก…'); await frame();
-  const staticMeshes = ctx.batcher.build(scene), propMeshes = ctx.props.build(scene), vegMeshes = ctx.veg.build(scene);
+  const staticMeshes = await ctx.batcher.buildAsync(scene), propMeshes = ctx.props.build(scene), vegMeshes = ctx.veg.build(scene);
   for (const set of ctx.sets) set.build(scene);
   for (const [x, z, r] of ctx.veg.obstacles) ctx.collision.addCircle(x, z, r);
   lap('batching');

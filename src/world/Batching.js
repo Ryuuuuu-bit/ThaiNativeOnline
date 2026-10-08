@@ -35,19 +35,31 @@ export class StaticBatcher {
   }
   build(scene) {
     let meshes = 0;
+    for (const bucket of this.buckets.values()) if (this.buildBucket(scene, bucket)) meshes++;
+    this.buckets.clear();
+    return meshes;
+  }
+  // The same, handing the browser a frame every ~24 ms of merging (the map build's longest
+  // single step after the houses): the loading screen keeps moving on a slow phone.
+  async buildAsync(scene) {
+    let meshes = 0, last = performance.now();
     for (const bucket of this.buckets.values()) {
-      const parts = bucket.items.map(([g, m]) => prepare(g).clone().applyMatrix4(m));
-      const merged = mergeGeometries(parts, false);
-      for (const p of parts) p.dispose();
-      if (!merged) continue;
-      merged.computeBoundingSphere();
-      if (Number.isNaN(merged.boundingSphere.radius)) console.warn('[batch] NaN geometry for material', bucket.material.color.getHexString(), bucket.items.map(([g]) => g.type).join(','));
-      const mesh = new THREE.Mesh(merged, bucket.material);
-      mesh.castShadow = bucket.castShadow; mesh.receiveShadow = true; mesh.matrixAutoUpdate = false;
-      scene.add(mesh); meshes++;
+      if (this.buildBucket(scene, bucket)) meshes++;
+      if (performance.now() - last > 24) { await new Promise(resolve => setTimeout(resolve, 0)); last = performance.now(); }
     }
     this.buckets.clear();
     return meshes;
+  }
+  buildBucket(scene, bucket) {
+    const parts = bucket.items.map(([g, m]) => prepare(g).clone().applyMatrix4(m));
+    const merged = mergeGeometries(parts, false);
+    for (const p of parts) p.dispose();
+    if (!merged) return false;
+    merged.computeBoundingSphere();
+    if (Number.isNaN(merged.boundingSphere.radius)) console.warn('[batch] NaN geometry for material', bucket.material.color.getHexString(), bucket.items.map(([g]) => g.type).join(','));
+    const mesh = new THREE.Mesh(merged, bucket.material);
+    mesh.castShadow = bucket.castShadow; mesh.receiveShadow = true; mesh.matrixAutoUpdate = false;
+    scene.add(mesh); return true;
   }
 }
 

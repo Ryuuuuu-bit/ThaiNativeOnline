@@ -201,7 +201,7 @@ export class Character extends Emitter {
   spendMp(amount) { if (this.mp < amount) return false; this.mp -= amount; this.emit('change'); return true; }
   revive(ratio = .5) { this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.round(this.maxMp * ratio); this.buffs = []; this.emit('change'); }
 
-  // Slow natural regeneration, faster out of combat, faster again sitting (`sitting`, not saved).
+  // Slow natural regeneration, slower in combat (no sitting bonus: recovery is potions and healers).
   tick(dt, inCombat) {
     for (const key of Object.keys(this.cooldowns)) if ((this.cooldowns[key] -= dt) <= 0) delete this.cooldowns[key];
     const before = this.buffs.length;
@@ -213,8 +213,7 @@ export class Character extends Emitter {
     // a monster's poison (src/combat/monsterHit.js): HP a second, never the last one
     const poison = this.buffSum('poison');
     if (poison && this.hp > 1) { this.hp = Math.max(1, this.hp - poison * dt); this.emit('change'); }
-    // sitting (Combat.sit) doubles it out of a fight, as in RO
-    const factor = inCombat ? RECOVERY.combat : this.sitting ? RECOVERY.sitting : 1;
+    const factor = inCombat ? RECOVERY.combat : 1;
     this.regen = (this.regen || 0) + dt;
     if (this.regen >= 1) {
       const seconds = Math.floor(this.regen); this.regen -= seconds;

@@ -6,7 +6,6 @@ import { assetIcon } from './icons.js';
 //
 //   loadAuto() / saveAuto(s)                     per-browser settings
 //   autoPotion(s, hpFrac, mpFrac) → 'hp' | 'mp' | null
-//   autoRest(s, hpFrac, mpFrac, resting) → sit / keep sitting?
 //   pickTarget(monsters, me, s, current, now?, reach?) → monster | null
 //   castOrder(slots, s, hpFrac, next) → slot indices to try, in order
 //   new AutoPanel(host, getSettings, onChange).open(slots)
@@ -19,9 +18,6 @@ export const DEFAULT_AUTO = {
   hpPotion: 40,         // drink an HP potion below this % (0 = never)
   mpPotion: 25,         // drink an MP potion below this %
   survive: 45,          // below this % HP, survival skills (buffs, heals) go first
-  restHp: 30,           // out of a fight below this % HP: sit and rest (RO: double regen) …
-  restMp: 15,           // … or below this % MP
-  restTo: 90,           // … until HP and MP (whichever rest is on) are back to this %
   attackers: true,      // monsters hitting me come first
   elites: true,         // then elites and bosses
   range: 'mid',
@@ -29,7 +25,7 @@ export const DEFAULT_AUTO = {
 const clampPct = v => Math.max(0, Math.min(90, Math.round(Number(v) || 0)));
 export function normalizeAuto(s = {}) {
   const o = { ...DEFAULT_AUTO, ...s };
-  return { off: Array.isArray(o.off) ? o.off.filter(Number.isInteger) : [], hpPotion: clampPct(o.hpPotion), mpPotion: clampPct(o.mpPotion), survive: clampPct(o.survive), restHp: clampPct(o.restHp), restMp: clampPct(o.restMp), restTo: Math.min(100, Math.max(50, Math.round(Number(o.restTo)) || 90, clampPct(o.restHp) + 10, clampPct(o.restMp) + 10)),   // stands up well above where it sat down
+  return { off: Array.isArray(o.off) ? o.off.filter(Number.isInteger) : [], hpPotion: clampPct(o.hpPotion), mpPotion: clampPct(o.mpPotion), survive: clampPct(o.survive),
     basic: !!o.basic, attackers: !!o.attackers, elites: !!o.elites, range: AUTO_RANGES[o.range] ? o.range : DEFAULT_AUTO.range };
 }
 export function loadAuto() { try { return normalizeAuto(JSON.parse(localStorage.getItem(KEY) || '{}')); } catch { return normalizeAuto(); } }
@@ -39,14 +35,6 @@ export function autoPotion(s, hpFrac, mpFrac) {
   if (s.hpPotion && hpFrac * 100 < s.hpPotion) return 'hp';
   if (s.mpPotion && mpFrac * 100 < s.mpPotion) return 'mp';
   return null;
-}
-
-// Resting (sitting, Combat.sit): starts out of a fight once HP or MP is under its line, goes on
-// until every stat with a line is back to `restTo`.
-export function autoRest(s, hpFrac, mpFrac, resting = false) {
-  const hp = hpFrac * 100, mp = mpFrac * 100;
-  if (resting) return (!!s.restHp && hp < s.restTo) || (!!s.restMp && mp < s.restTo);
-  return (!!s.restHp && hp < s.restHp) || (!!s.restMp && mp < s.restMp);
 }
 
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
@@ -96,7 +84,7 @@ export class AutoPanel {
       const slot = e.target.closest('[data-slot]');
       if (slot) { const i = Number(slot.dataset.slot), s = this.get(), off = s.off.includes(i) ? s.off.filter(x => x !== i) : [...s.off, i]; this.set({ off }); return; }
       const step = e.target.closest('[data-step]');
-      if (step) { const [k, d] = step.dataset.step.split(':'); const v = this.get()[k] + Number(d); this.set({ [k]: k === 'restTo' ? Math.max(50, Math.min(100, v)) : clampPct(v) }); return; }
+      if (step) { const [k, d] = step.dataset.step.split(':'); const v = this.get()[k] + Number(d); this.set({ [k]: clampPct(v) }); return; }
       const rg = e.target.closest('[data-range]'); if (rg) { this.set({ range: rg.dataset.range }); return; }
       if (e.target.closest('.auto-reset')) this.set({ ...DEFAULT_AUTO });
     });
@@ -126,9 +114,6 @@ export class AutoPanel {
           ${stepper('hpPotion', 'ดื่มยา HP เมื่อต่ำกว่า', 'ใช้ยาหม้อที่ดีที่สุดในกระเป๋า')}
           ${stepper('survive', 'ใช้สกิลเอาตัวรอดเมื่อ HP ต่ำกว่า', survivors)}
           ${stepper('mpPotion', 'ดื่มยา MP เมื่อต่ำกว่า', 'ใช้น้ำผึ้งป่า')}
-          ${stepper('restHp', 'นั่งพักเมื่อ HP ต่ำกว่า', 'หลังจบการต่อสู้ · นั่งแล้วฟื้นเร็วขึ้น 2 เท่า')}
-          ${stepper('restMp', 'นั่งพักเมื่อ MP ต่ำกว่า')}
-          ${stepper('restTo', 'ลุกขึ้นสู้ต่อเมื่อฟื้นถึง', 'ถูกตีระหว่างนั่ง จะลุกขึ้นสู้ทันที')}
           <p class="auto-note">ยาที่ใช้คือของในช่อง Q และ F · ตั้งเป็น "ปิด" ถ้าไม่อยากให้ AUTO ดื่มยาเอง</p></div>
         <div class="auto-card"><h4>เป้าหมาย</h4>
           ${sw('attackers', 'ตัวที่กำลังตีเราก่อน', 'AUTO สู้กลับมอนที่ตีเราอยู่')}
