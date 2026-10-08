@@ -3,6 +3,11 @@ import * as THREE from 'three';
 import { RULES } from './data/rules.js';
 import { makeDog } from '../classes/dog.js';
 import { makeMonsterModel } from './MonsterModels.js';
+import { makeMonsterSprite, MONSTER_SPRITES } from './MonsterSprites.js';
+
+// How monsters are drawn: 'pixel' (RO-style sprite billboards, src/combat/MonsterSprites.js) or
+// '3d' (Blender GLB models / built meshes). Per device (src/ui/viewPrefs.js); CombatView.restyle().
+export let MONSTER_STYLE = 'pixel';
 
 const std = (color, extra) => new THREE.MeshStandardMaterial({ color, roughness: .85, ...extra });
 const add = (parent, geometry, material, x = 0, y = 0, z = 0, scale) => {
@@ -292,11 +297,18 @@ export class CombatView {
     combat.on('buff', () => { const p = combat.world.playerPos(); this.ring(p.x, p.z, 1, '#a8d4ff'); });
   }
 
+  // Redraw every monster in another style (the settings' "โมเดลมอนสเตอร์").
+  restyle(style) {
+    MONSTER_STYLE = style === '3d' ? '3d' : 'pixel';
+    for (const [id, v] of this.views) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
+    for (const m of this.combat.monsters) if (m.alive) this.ensure(m);
+  }
   ensure(m) {
     if (this.views.has(m.id)) return this.views.get(m.id);
     const fallback = (BUILDERS[m.def.shape] || quadruped)(m.def);
-    const group = makeMonsterModel(m.type, fallback, m.id);
-    group.scale.setScalar(m.def.size);
+    const pixel = MONSTER_STYLE === 'pixel' && MONSTER_SPRITES[m.type];
+    const group = pixel ? makeMonsterSprite(m.type, m.def, m.id, fallback) : makeMonsterModel(m.type, fallback, m.id);
+    if (!pixel) group.scale.setScalar(m.def.size);   // a sprite carries its own height
     group.traverse(o => { if (o.isMesh) { o.userData.monsterId = m.id; o.material = o.material.clone(); } });
     const pick = new THREE.Mesh(new THREE.CylinderGeometry(.75, .75, 1.8, 8), new THREE.MeshBasicMaterial({ visible: false }));
     pick.position.y = .9; pick.userData.monsterId = m.id; group.add(pick);
@@ -366,8 +378,9 @@ export class CombatView {
     this.effects.push({ mesh, t: 0, duration: .22, update: (e, k) => { mesh.rotation.z = -a - Math.PI * .5 + k * Math.PI * .8; mesh.material.opacity = 1 - k; } });
   }
 
-  update(dt, elapsed) {
+  update(dt, elapsed, camera = null) {
     const target = this.combat.target;
+    const camYaw = camera ? Math.atan2(camera.matrixWorld.elements[8], camera.matrixWorld.elements[10]) : 0;   // the camera's yaw: the way it looks along the ground
     for (const v of this.views.values()) {
       const m = v.monster, g = v.group;
       if (!m.alive && !v.dying) { g.visible = false; continue; }
@@ -377,6 +390,8 @@ export class CombatView {
       if (m.attackTimer > (m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay)) - .3) v.attackAnim = .25;
       v.attackAnim = Math.max(0, v.attackAnim - dt);
       v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
+      v.animationState.tint = m.debuffs.some(d => d.dot) ? '#b78ad0' : m.debuffs.some(d => d.stun) ? '#e6d27a' : m.debuffs.some(d => d.slow) ? '#8fb4d8' : null;
+      g.userData.face?.(camYaw);
       g.userData.animate?.(elapsed + m.id, m.moving, v.attackAnim > 0, v.animationState);
       v.flash = Math.max(0, v.flash - dt);
       if (v.dying) {

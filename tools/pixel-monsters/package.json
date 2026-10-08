@@ -1,0 +1,6 @@
+{
+  "name": "thai-native-pixel-monsters",
+  "private": true,
+  "type": "module",
+  "dependencies": { "pngjs": "7.0.0" }
+}
