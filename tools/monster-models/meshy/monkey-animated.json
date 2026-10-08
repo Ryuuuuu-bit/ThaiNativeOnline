@@ -1,0 +1,14 @@
+{
+  "type": "monkey",
+  "bytes": 1472928,
+  "sha256": "e0f9f051768d3e33cde7438aa9d4ecc515e3c58ae473d720546eee1de0802ea2",
+  "triangles": 12459,
+  "bones": 17,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

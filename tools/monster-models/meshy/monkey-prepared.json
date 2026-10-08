@@ -1,0 +1,39 @@
+{
+  "creature": "monkey",
+  "bytes": 1394252,
+  "triangles": 12459,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5626671612262726,
+      0,
+      -1.028121531009674
+    ],
+    "max": [
+      0.5626671612262726,
+      1.5899901390075684,
+      1.028121531009674
+    ]
+  },
+  "sha256": "5645a118cdfec43046d0a2b53deda445778f7e235152f7dbc921311244a2ff5d",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

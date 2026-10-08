@@ -1,0 +1,14 @@
+{
+  "type": "cobra",
+  "bytes": 1128688,
+  "sha256": "de3c9d1d66adaaf32ee0818b8cb0762ce15eac8afc81b4ab304e543665f53d5a",
+  "triangles": 12586,
+  "bones": 11,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

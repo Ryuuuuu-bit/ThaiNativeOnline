@@ -10,14 +10,24 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
+import { Quaternion, Vector3 } from 'three';
 
 const name = process.argv[2];
-if (!['boar', 'fowl', 'crab'].includes(name)) throw Error('Expected boar, fowl or crab');
+if (!['boar', 'fowl', 'crab', 'cobra', 'monkey'].includes(name)) throw Error('Unknown study creature');
 const dest = new URL('./', import.meta.url), tmp = new URL(`../../../artifacts/meshy-monsters/${name}/`, import.meta.url);
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-const doc = await io.read(fileURLToPath(new URL('original.glb', tmp)));
+const correctedInput=process.argv[3];
+const doc = await io.read(correctedInput??fileURLToPath(new URL('original.glb', tmp)));
 const root = doc.getRoot();
 if (root.listSkins().length || root.listAnimations().length) throw Error('Expected the untouched static generation');
+// Meshy reconstructed the macaque's torso along -X. The game faces +Z.
+if(name==='monkey'&&!correctedInput){
+  const yaw=new Quaternion().setFromAxisAngle(new Vector3(0,1,0),Math.PI/2);
+  for(const scene of root.listScenes())for(const node of scene.listChildren()){
+    node.setRotation(yaw.clone().multiply(new Quaternion().fromArray(node.getRotation())).toArray());
+    node.setTranslation(new Vector3(...node.getTranslation()).applyQuaternion(yaw).toArray());
+  }
+}
 // Organic creatures have no metal. Controlled broad roughness and a gentler
 // normal map fit the game's hand-painted materials under its strong daylight.
 for (const material of root.listMaterials()) material.setMetallicRoughnessTexture(null)

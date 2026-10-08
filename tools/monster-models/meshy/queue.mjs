@@ -1,7 +1,7 @@
 // Regenerate the level-ordered production backlog from the active game roster.
 import { MONSTERS } from '../../../src/combat/data/monsters.js';
 import fs from 'node:fs/promises';
-const candidates = new Set(['boar', 'fowl', 'crab']);
+const candidates = new Set(['boar', 'fowl', 'crab', 'cobra', 'monkey']);
 const stages = [[1, 3], [4, 10], [11, 25], [26, 40], [41, 60], [61, 80], [81, 100]];
 const roster = stages.map(([min, max]) => ({
   levels: [min, max],

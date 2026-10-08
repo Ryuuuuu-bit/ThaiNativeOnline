@@ -1,0 +1,180 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0.2,
+        0
+      ],
+      "parent": null,
+      "deform": true
+    },
+    {
+      "name": "Body",
+      "head": [
+        0.12,
+        0.9,
+        0.12
+      ],
+      "tail": [
+        0.32,
+        0.65,
+        0.12
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "Coil1",
+      "head": [
+        0.32,
+        0.65,
+        0.12
+      ],
+      "tail": [
+        0.25,
+        0.4,
+        0.12
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "Coil2",
+      "head": [
+        0.25,
+        0.4,
+        0.12
+      ],
+      "tail": [
+        -0.1,
+        0.1,
+        0.12
+      ],
+      "parent": "Coil1",
+      "deform": true
+    },
+    {
+      "name": "Coil3",
+      "head": [
+        -0.1,
+        0.1,
+        0.12
+      ],
+      "tail": [
+        0.12,
+        -0.25,
+        0.12
+      ],
+      "parent": "Coil2",
+      "deform": true
+    },
+    {
+      "name": "Coil4",
+      "head": [
+        0.12,
+        -0.25,
+        0.12
+      ],
+      "tail": [
+        0.09,
+        -0.55,
+        0.12
+      ],
+      "parent": "Coil3",
+      "deform": true
+    },
+    {
+      "name": "Coil5",
+      "head": [
+        0.09,
+        -0.55,
+        0.12
+      ],
+      "tail": [
+        -0.06,
+        -0.78,
+        0.12
+      ],
+      "parent": "Coil4",
+      "deform": true
+    },
+    {
+      "name": "NeckLower",
+      "head": [
+        -0.06,
+        -0.78,
+        0.12
+      ],
+      "tail": [
+        -0.1,
+        -0.78,
+        0.43
+      ],
+      "parent": "Coil5",
+      "deform": true
+    },
+    {
+      "name": "NeckUpper",
+      "head": [
+        -0.1,
+        -0.78,
+        0.43
+      ],
+      "tail": [
+        -0.07,
+        -0.64,
+        0.66
+      ],
+      "parent": "NeckLower",
+      "deform": true
+    },
+    {
+      "name": "Hood",
+      "head": [
+        -0.07,
+        -0.64,
+        0.66
+      ],
+      "tail": [
+        -0.07,
+        -0.66,
+        0.91
+      ],
+      "parent": "NeckUpper",
+      "deform": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        -0.07,
+        -0.66,
+        0.91
+      ],
+      "tail": [
+        -0.07,
+        -0.94,
+        1.0
+      ],
+      "parent": "Hood",
+      "deform": true
+    }
+  ],
+  "legs": [],
+  "weightGroups": 289,
+  "limbLength": {
+    "maxRelativeError": 2.743468541100682e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [],
+  "version": "v3",
+  "editableSource": "artifacts/meshy-rig-02/cobra-rig-v3.blend",
+  "snapshotId": "snapshot-9359a89beb7b5db5b2484028"
+}
