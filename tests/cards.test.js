@@ -9,9 +9,10 @@ import { MonsterWorld } from '../server/monsters.js';
 import { Combatants, sane } from '../server/combatants.js';
 import { applyOp, fromSave } from '../server/progress.js';
 import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
+import { fullKit } from '../src/character/data/skilltree.js';
 
 const KEYS = new Set(['str', 'agi', 'vit', 'int', 'dex', 'luk', 'atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva', 'cdr', 'cast', 'mpCost']);
-const hero = (classId = 'warrior', o = {}) => ({ ...Character.create('ทดสอบ', classId).toJSON(), jobLevel: 50, skills: Object.fromEntries((KIT_SKILL_IDS[classId] ?? []).map(id => [id, 1])), ...o });
+const hero = (classId = 'warrior', o = {}) => ({ ...Character.create('ทดสอบ', classId).toJSON(), jobLevel: 50, skills: fullKit(classId, KIT_SKILL_IDS[classId] ?? []), ...o });
 
 test('every monster has a race, an element and its own card; card bonuses are known keys', () => {
   for (const [id, m] of Object.entries(MONSTERS)) {

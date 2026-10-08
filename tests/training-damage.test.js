@@ -40,9 +40,10 @@ test('evasion can make a blow miss', () => {
   assert.deepEqual(r, { hit: false, crit: false, dmg: 0 });
 });
 
-test('skill level raises the multiplier 15% per level', () => {
+test('skill level raises the multiplier 8% per level (Lv.10 = ×1.72)', () => {
   assert.equal(skillMult('boxer_ngouy', 1), M('boxer_ngouy'));
-  assert.equal(skillMult('boxer_ngouy', 5), +(M('boxer_ngouy') * 1.6).toFixed(3));
+  assert.equal(skillMult('boxer_ngouy', 5), +(M('boxer_ngouy') * 1.32).toFixed(3));
+  assert.equal(skillMult('boxer_ngouy', 10), +(M('boxer_ngouy') * 1.72).toFixed(3));
 });
 
 test('buffs roll a harmless zero', () => {

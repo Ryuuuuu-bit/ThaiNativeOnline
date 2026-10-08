@@ -9,7 +9,8 @@ import { Combatants } from '../server/combatants.js';
 import { Character } from '../src/character/Character.js';
 
 import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
-const hero = (classId = 'hunter', o = {}) => ({ ...Character.create('ทดสอบ', classId).toJSON(), jobLevel: 50, skills: Object.fromEntries((KIT_SKILL_IDS[classId] ?? []).map(id => [id, 1])), ...o });
+import { fullKit } from '../src/character/data/skilltree.js';
+const hero = (classId = 'hunter', o = {}) => ({ ...Character.create('ทดสอบ', classId).toJSON(), jobLevel: 50, skills: fullKit(classId, KIT_SKILL_IDS[classId] ?? []), ...o });
 
 test('saves from storage: unknown items are dropped, a bad class is refused', () => {
   assert.equal(fromSave({ name: 'x', classId: 'dragon' }), null);

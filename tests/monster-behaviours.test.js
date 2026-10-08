@@ -8,6 +8,7 @@ import { Character } from '../src/character/Character.js';
 import { MONSTERS } from '../src/combat/data/monsters.js';
 import { afterHit, shielded, shoveTo, KNOCK, PULL_TO } from '../src/combat/monsterHit.js';
 import { KIT_SKILL_IDS } from '../src/character/data/kits.js';
+import { fullKit } from '../src/character/data/skilltree.js';
 
 const ALL = ['morning', 'day', 'evening', 'night'];
 const world = (zones, random = () => .5) => {
@@ -16,7 +17,7 @@ const world = (zones, random = () => .5) => {
   return w;
 };
 const run = (w, secs, players, dt = .1) => { const ev = []; for (let t = 0; t < secs; t += dt) ev.push(...w.update(dt, players, 'day')); return ev; };
-const hero = (classId = 'warrior') => ({ ...Character.create('ทดสอบ', classId).toJSON(), jobLevel: 50, skills: Object.fromEntries((KIT_SKILL_IDS[classId] ?? []).map(id => [id, 1])) });
+const hero = (classId = 'warrior') => ({ ...Character.create('ทดสอบ', classId).toJSON(), jobLevel: 50, skills: fullKit(classId, KIT_SKILL_IDS[classId] ?? []) });
 
 test('every monster names a shape the view can build and fields the server knows', () => {
   for (const [id, m] of Object.entries(MONSTERS)) {
