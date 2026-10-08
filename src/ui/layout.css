@@ -254,6 +254,13 @@ body .net-chat .net-lines{min-height:96px;max-height:132px}
 body .net-chat .net-lines p{background:none;padding:1px 2px}
 body .net-chat .net-lines p.old{opacity:.55}
 body .net-chat header{display:flex;padding:2px 2px 4px;border-radius:0;background:none;box-shadow:none;border-bottom:1px solid var(--t-card-line)}
+body .net-chat header .drag-lock{margin-left:auto;padding:0 4px;border:0;background:none;font-size:12px;line-height:1;opacity:.55;cursor:pointer}
+body .net-chat header .drag-lock:hover{opacity:1}
+body .net-chat header:not(.drag-locked){cursor:grab}
+body .net-chat.dragging header{cursor:grabbing}
+body .net-chat .net-online{margin-left:auto}
+body .net-chat .net-online + .drag-lock{margin-left:6px}
+.ui-touch .net-chat header .drag-lock{font-size:15px;padding:2px 6px;opacity:.8}
 
 /* settings: titled groups of rows, label on the left, a segmented control, slider or
    switch on the right (the selects become .g-seg rows, src/ui/segControls.js) */

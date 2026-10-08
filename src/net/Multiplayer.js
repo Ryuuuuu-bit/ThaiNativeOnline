@@ -1,5 +1,6 @@
 import { NetClient, serverUrl } from './NetClient.js';
 import { titleHtml } from '../ui/titleTag.js';
+import { draggable } from '../ui/draggable.js';
 import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
@@ -133,6 +134,7 @@ class ChatBox {
     });
     this.input.addEventListener('blur', () => this.close());
     this.root.querySelector('header').addEventListener('click', () => this.open());
+    draggable(this.root, { key: 'chat', lockable: true });   // movable by its title bar; the padlock keeps it put (phones start locked)
   }
   open(text = null) { this.input.hidden = false; this.root.classList.add('typing'); if (text !== null) this.input.value = text; this.input.focus(); }
   close() { this.input.hidden = true; this.root.classList.remove('typing'); this.input.blur(); }
