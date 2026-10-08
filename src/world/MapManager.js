@@ -1,3 +1,4 @@
+import { loadingMarkup } from '../ui/Brand.js';
 import { buildWorld } from './World.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { Portals } from './Portals.js';
@@ -162,11 +163,11 @@ export class MapManager {
         position: 'fixed', inset: '0', zIndex: '25', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
         background: '#0e1a15', color: '#f3ead0', opacity: '0', transition: 'opacity .28s ease', pointerEvents: 'none', textShadow: '0 2px 14px #000a',
       });
-      el.innerHTML = '<div style="font:500 28px \'Noto Serif Thai\',serif;letter-spacing:2px"></div><div style="font-size:12px;color:#c9c2a4"></div>';
+      el.innerHTML = loadingMarkup().replace('id="loading-text"', 'data-loading-text');
       document.body.append(el);
     }
     const el = this.overlay;
-    if (on) { el.children[0].textContent = to.name; el.children[1].textContent = to.sub ?? ''; }
+    if (on) { el.querySelector('[data-loading-title]').textContent = to.name; el.querySelector('[data-loading-text]').textContent = to.sub ?? 'กำลังเดินทาง…'; }
     el.style.pointerEvents = on ? 'auto' : 'none';
     el.style.opacity = on ? '1' : '0';
   }

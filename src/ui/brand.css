@@ -1,0 +1,31 @@
+body.acc-flow #loading{visibility:hidden}
+.tno-brand{display:inline-flex;align-items:center;gap:14px;color:#fff0c8;text-decoration:none;text-align:left;filter:drop-shadow(0 3px 12px #061c19aa)}
+.tno-brand img{width:58px;height:64px;object-fit:contain;flex:none}
+.tno-brand-name{font:500 22px/1.2 Georgia,'Times New Roman',serif;letter-spacing:3px;white-space:nowrap}
+.tno-brand-online{display:flex;align-items:center;gap:12px;font:10px/1.3 system-ui,sans-serif;letter-spacing:6px;margin-top:9px;color:#dfc58a}
+.tno-brand-online::before,.tno-brand-online::after{content:'';height:1px;flex:1;background:linear-gradient(90deg,transparent,#d7b974)}
+.tno-brand-online::after{transform:rotate(180deg)}
+body .acc-brand{top:24px;left:32px;z-index:2;letter-spacing:normal}
+.acc-character-select .acc-brand,.g-create>.entry-brand{position:absolute;left:32px;top:24px;z-index:2}
+body .acc-screen.acc-character-select{padding-top:118px}
+body .g-create{padding-top:118px}
+.topbar .brand{letter-spacing:normal;font-size:inherit}
+.topbar .tno-brand img{width:36px;height:40px}.topbar .tno-brand-name{font-size:15px;letter-spacing:2px}.topbar .tno-brand-online{font-size:8px;letter-spacing:4px;margin-top:5px}
+body #loading,body #map-fade{isolation:isolate;overflow:hidden;background:#102b26;gap:0;text-align:center}
+.tno-loading-scene{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#0b211b40,#0b211b55 40%,#071c19ee),url('/ui/login/royal-dawn.webp') center/cover no-repeat;transform:scale(1.025);animation:tno-dawn 18s ease-in-out infinite alternate}
+.tno-loading-scene::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,transparent 15%,#08221bb0 95%)}
+.tno-loading-content{position:relative;display:flex;flex-direction:column;align-items:center;width:min(560px,calc(100% - 40px));padding:48px 28px;color:#f4ebd4}
+.tno-loading-content::before{content:'';position:absolute;inset:0;z-index:-1;border:1px solid #dec68733;background:linear-gradient(145deg,#0e302bc9,#0a211bbf);box-shadow:0 24px 90px #071d1bb0;backdrop-filter:blur(16px);border-radius:90px 90px 12px 12px}
+.tno-loading-content .tno-brand{margin:0 0 34px}.tno-loading-content .tno-brand img{width:76px;height:84px}.tno-loading-content .tno-brand-name{font-size:27px}
+.tno-loading-kicker{font:9px/1.5 system-ui,sans-serif;letter-spacing:4px;color:#c7b781}
+body #loading h2,body #map-fade h2{font:500 clamp(26px,4vw,36px)/1.5 'Noto Serif Thai',serif;margin:12px 0 6px;color:#ffedbd}
+body #loading p,body #map-fade p{font-size:12px;line-height:1.8;color:#c5d3c4;min-height:22px;margin:0 0 26px}
+.tno-loading-track{height:3px;width:220px;max-width:80%;background:#d8bf7a26;overflow:hidden;border-radius:3px}
+.tno-loading-track i{display:block;width:40%;height:100%;background:linear-gradient(90deg,transparent,#f1d391,#afcaad);animation:tno-loading 1.8s ease-in-out infinite}
+.tno-loading-note{font-size:10px;letter-spacing:1px;color:#9cad9f;margin-top:28px}
+body[data-error] .tno-loading-track{display:none}body[data-error] #loading p{color:#ffcab4}
+@keyframes tno-loading{from{transform:translateX(-110%)}to{transform:translateX(360%)}}
+@keyframes tno-dawn{to{transform:scale(1.09) translateY(-1%)}}
+@media(max-width:650px){body .acc-brand,.acc-character-select .acc-brand,.g-create>.entry-brand{left:20px;top:18px}.tno-brand img{width:42px;height:46px}.tno-brand-name{font-size:18px;letter-spacing:2px}.tno-brand-online{font-size:8px;letter-spacing:5px;margin-top:7px}body .acc-screen.acc-character-select,body .g-create{padding-top:92px}.tno-loading-content{padding:38px 16px}.tno-loading-content .tno-brand{gap:8px}.tno-loading-content .tno-brand img{width:55px;height:62px}.tno-loading-content .tno-brand-name{font-size:22px}}
+@media(max-height:500px){.tno-loading-content{padding:22px}.tno-loading-content .tno-brand{margin-bottom:12px}.tno-loading-content .tno-brand img{width:44px;height:48px}.tno-loading-note{margin-top:14px}body #loading p,body #map-fade p{margin-bottom:14px}}
+@media(prefers-reduced-motion:reduce){.tno-loading-scene,.tno-loading-track i{animation:none}.tno-loading-track i{width:100%;opacity:.65}body #loading,body #map-fade{transition:none!important}}
