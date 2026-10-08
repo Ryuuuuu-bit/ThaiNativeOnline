@@ -1,3 +1,4 @@
+import { brandMarkup } from '../ui/Brand.js';
 import { ACCOUNTS } from '../data/accounts.js';
 import { CLASSES, CLASS_ALIASES } from '../character/data/classes.js';
 import { el, esc } from '../character/ui/dom.js';
@@ -14,7 +15,7 @@ export function showLogin(root, store) {
     let mode = 'login';
     const overlay = el('section', 'acc-screen acc-login', `
       <div class="acc-login-art" aria-hidden="true"></div>
-      <header class="acc-brand" aria-label="Thai Native Online"><img class="acc-brand-crest" src="/ui/login/native-crest.svg" alt="" width="64" height="70"><span class="acc-brand-title">THAI NATIVE<span class="acc-brand-online"><i></i>ONLINE<i></i></span></span></header>
+      <header class="acc-brand">${brandMarkup()}</header>
       <div class="acc-welcome">
         <p class="acc-kicker">ตำนานบทใหม่ กำลังรอคุณ</p>
         <h1>ไทยเนทีฟ<span>ออนไลน์</span></h1>
@@ -93,6 +94,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
       const slots = store.slots(session.id);
       overlay.innerHTML = `
         <div class="acc-select-art" aria-hidden="true"></div>
+        <header class="acc-brand">${brandMarkup()}</header>
         <div class="acc-select">
           <span class="eyebrow">${session.guest ? esc(ACCOUNTS.guestName) : `บัญชี ${esc(session.id)}`}</span>
           <h2>เลือกผู้เดินทาง</h2>

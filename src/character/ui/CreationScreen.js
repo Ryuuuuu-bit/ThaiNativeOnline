@@ -1,3 +1,4 @@
+import { brandMarkup } from '../../ui/Brand.js';
 import { assetIcon } from '../../ui/icons.js';
 import { CLASSES, STATS, STAT_LABELS } from '../data/classes.js';
 import { SKILLS } from '../../combat/data/skills.js';
@@ -19,6 +20,7 @@ export function showCreation(root) {
     const open = id => all || classReady(id);
     let chosen = Object.keys(CLASSES).find(open) ?? 'muaythai', gender = 'male';
     const overlay = el('section', 'g-create', `
+      <header class="entry-brand">${brandMarkup()}</header>
       <div class="g-create-card">
         <span class="eyebrow">สร้างผู้เดินทาง · วิถีไทย ในโลกที่กว้างกว่าเดิม</span>
         <h2>จากแผ่นดินนี้ สู่เรื่องราวของคุณ</h2>
