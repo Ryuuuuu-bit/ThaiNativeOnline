@@ -1,5 +1,6 @@
 // Character interface: player frame, quick potions, character sheet and bag.
 import { STATS, STAT_LABELS, STAT_HINTS, POINTS_PER_LEVEL } from '../data/classes.js';
+import { STAT_GUIDE, spreadPoints } from '../data/statguide.js';
 import { ITEMS, RARITY_COLORS } from '../data/items.js';
 import { el, esc, setBar } from './dom.js';
 import './character.css';
@@ -137,6 +138,15 @@ export class CharacterUI {
     });
     this.sheet.addEventListener('click', e => {
       const add = e.target.closest('[data-stat]'); if (add) this.c.allocate(add.dataset.stat);
+      // the stat guide (คู่มือลงแต้ม): open/close, and "ลงตามแผน" spends the points left by a build's ratio
+      const gb = e.target.closest('.g-guide-btn'); if (gb) { this.guideOpen = !this.guideOpen; this.sheetKey = null; this.refreshSheet(); }
+      const plan = e.target.closest('[data-plan]');
+      if (plan) {
+        const build = STAT_GUIDE.classes[this.c.classId]?.builds[Number(plan.dataset.plan)]; if (!build || !this.c.points) return;
+        const add = spreadPoints(this.c.stats, this.c.points, build.plan);
+        for (const [k, n] of Object.entries(add)) for (let i = 0; i < n; i++) this.c.allocate(k);
+        this.feed.log(`ลงแต้มตามแผน ${build.name}: ${Object.entries(add).map(([k, n]) => `${k.toUpperCase()} +${n}`).join(' · ')}`);
+      }
       const slot = e.target.closest('[data-slot]'); if (slot) this.c.unequip(slot.dataset.slot);
       if (e.target.closest('.g-reset')) this.c.resetStats();
     });
@@ -219,7 +229,8 @@ export class CharacterUI {
       <div class="g-bar g-exp g-sheet-exp"><span style="width:${Math.min(100, c.exp / c.expNeeded * 100)}%"></span><em>Base Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%</em></div>
       <div class="g-bar g-jexp g-sheet-exp"><span style="width:${jobMax ? 100 : Math.min(100, c.jobExp / c.jobExpNeeded * 100)}%"></span><em>Job Lv ${c.jobLevel}${jobMax ? ' · สูงสุด' : ` · ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`}</em></div>
       <div class="g-statbox g-parch">
-      <div class="g-stats-head"><span>สถานะ</span><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
+      <div class="g-stats-head"><span>สถานะ</span><button type="button" class="g-guide-btn" aria-expanded="${!!this.guideOpen}">คู่มือลงแต้ม ${this.guideOpen ? '▴' : '▾'}</button><span class="${c.points ? 'g-has-points' : ''}">แต้มคงเหลือ ${c.points}</span></div>
+      ${this.guideOpen ? this.guideHtml() : ''}
       <div class="g-stat-grid">${STATS.map(k => { const p = c.statParts(k); return `<div class="g-stat" title="${STAT_HINTS[k]}\nพื้นฐาน ${p.base} (1 + แต้มที่ลง ${p.base - 1}) · โบนัสอาชีพ/เลเวล ${p.cls >= 0 ? '+' : ''}${p.cls}${p.gear ? ` · อุปกรณ์ ${p.gear > 0 ? '+' : ''}${p.gear}` : ''} = ${s[k]}"><span>${k.toUpperCase()} <small>${STAT_LABELS[k]}</small></span><b>${p.base}${p.bonus ? `<i class="g-bonus">${p.bonus > 0 ? '+' : ''}${p.bonus}</i>` : ''}</b><button data-stat="${k}" ${c.points ? '' : 'disabled'} aria-label="เพิ่ม${STAT_LABELS[k]}">+</button></div>`; }).join('')}</div>
       <div class="g-derived">
         <span>HP</span><b>${c.maxHp}</b><span>MP</span><b>${c.maxMp}</b>
@@ -231,6 +242,16 @@ export class CharacterUI {
       </div>
       </div>
       <button class="g-reset" ${Object.values(c.alloc).some(Boolean) ? '' : 'disabled'}>รีเซ็ตแต้มสถานะ</button>`;
+  }
+  // คู่มือลงแต้ม: what the stats do for this class and two or three builds (src/character/data/statguide.js)
+  guideHtml() {
+    const c = this.c, g = STAT_GUIDE.classes[c.classId];
+    const builds = (g?.builds ?? []).map((b, i) => `<div class="g-build"><b>${esc(b.name)}</b><span class="g-plan">${Object.entries(b.plan).map(([k, w]) => `<i>${k.toUpperCase()} ${w}</i>`).join('')}</span><small>${esc(b.why)}</small><button type="button" data-plan="${i}" ${c.points ? '' : 'disabled'} title="ลงแต้มที่เหลือ ${c.points} แต้มตามสัดส่วนนี้">ลงตามแผน${c.points ? ` (${c.points})` : ''}</button></div>`).join('');
+    return `<div class="g-guide">
+      ${g ? `<h5>${esc(c.cls.name)} สเกลจาก ${g.main.toUpperCase()} ${esc(STAT_LABELS[g.main])}</h5><ul>${g.lines.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
+      ${builds ? `<h5>แผนลงแต้มที่แนะนำ</h5>${builds}` : ''}
+      <h5>กติกาที่ควรรู้</h5><ul>${STAT_GUIDE.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+    </div>`;
   }
   refreshInventory() {
     const inv = this.c.inventory;

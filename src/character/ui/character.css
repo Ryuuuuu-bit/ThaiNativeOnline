@@ -36,7 +36,7 @@
 .g-equip{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px}
 .g-equip button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 3px;border:1px solid var(--rar);border-radius:4px;background:#0e1f1a99}
 .g-equip span{font-size:20px}.g-equip small{font-size:8px;color:#cfc8ac;text-align:center}
-.g-stats-head{display:flex;justify-content:space-between;font-size:10px;color:#cfc8ac;border-bottom:1px solid #f0e3b31a;padding-bottom:5px;margin-bottom:6px}
+.g-stats-head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;color:#cfc8ac;border-bottom:1px solid #f0e3b31a;padding-bottom:5px;margin-bottom:6px}
 .g-has-points{color:#f2cf75}
 .g-stat{display:grid;grid-template-columns:1fr 64px 26px;align-items:center;font-size:12px;padding:3px 0}
 .g-stat b{text-align:right;font-weight:500;padding-right:8px}
