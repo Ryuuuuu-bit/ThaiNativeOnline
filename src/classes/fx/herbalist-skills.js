@@ -14,6 +14,7 @@ const { GOLD, WHITE, DUST } = COL;
 const HERB = C(.45, 1.6, .55), HERB_HOT = C(1.4, 3, 1.3), LEAF = C(.35, 1.0, .35), GOLD_SOFT = C(1.2, .9, .35),
   EMBER = C(2.6, 1.0, .25), WATER = C(.5, 1.4, 2.4), MPBLUE = C(.4, .8, 2.4);
 const BASE = import.meta.env.BASE_URL + 'fx/herbalist/';
+const TIGER_W = 280, TIGER_H = 393, TIGER_ASPECT = TIGER_W / TIGER_H;
 // วงหนาดปราบผี is new in the prototype and has no game icon: draw one (ward circle with a cross sigil)
 function zoneIcon() {
   const c = document.createElement('canvas'); c.width = c.height = 48; const g = c.getContext('2d');
@@ -72,8 +73,15 @@ function textures() {
     }
     ringText(470, 30, 26, .1);
   }, false);
-  const tiger = canvasTex(256, 256, g => { g.font = '190px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('🐯', 128, 140);
-    g.globalCompositeOperation = 'source-atop'; g.fillStyle = 'rgba(255,140,40,.55)'; g.fillRect(0, 0, 256, 256); }, false);
+  // the yant tiger (สักยันต์เสือ, yant_tiger.png): black ink on white becomes a white mask, so the
+  // additive sprite glows in its own colour; the frame's edge lines are cropped off
+  const tiger = canvasTex(TIGER_W, TIGER_H, () => {}, false), img = new Image();
+  img.onload = () => { const g = tiger.image.getContext('2d', { willReadFrequently: true }), m = 8;
+    g.drawImage(img, m, m, img.width - m * 2, img.height - m * 2, 0, 0, TIGER_W, TIGER_H);
+    const d = g.getImageData(0, 0, TIGER_W, TIGER_H), p = d.data;
+    for (let i = 0; i < p.length; i += 4) { const ink = 1 - (p[i] + p[i + 1] + p[i + 2]) / 765; p[i] = p[i + 1] = p[i + 2] = 255; p[i + 3] = Math.min(255, Math.max(0, (ink - .25) * 340)); }
+    g.putImageData(d, 0, 0); tiger.needsUpdate = true; };
+  img.src = BASE + 'yant_tiger.png';
   TEX = { cover, page, sigil, ward, tiger }; return TEX;
 }
 
@@ -298,7 +306,7 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
       at('heal_tiger', () => {
         const sp = fx.add(new THREE.Sprite(new THREE.SpriteMaterial({ map: textures().tiger, color: C(2.2, 1.3, .6), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true })));
         fx.flash(cpos, 0xff8a2a, 60, .8); fx.shake = .18; fx.punch(.5); fx.popup(cpos.clone().setY(3.2), 'ฮึ่ม!', 'st big');
-        fx.addTask((dt, t) => { const u = clamp01(t / 1.1); sp.position.set(cpos.x + fwd.x * u * 1.6, 1.2 + Math.sin(u * Math.PI) * 1.4 + u * .4, cpos.z + fwd.z * u * 1.6); sp.scale.setScalar(1 + u * 2.6);
+        fx.addTask((dt, t) => { const u = clamp01(t / 1.1); sp.position.set(cpos.x + fwd.x * u * 1.6, 1.2 + Math.sin(u * Math.PI) * 1.4 + u * .4, cpos.z + fwd.z * u * 1.6); const s = 1.4 + u * 2.8; sp.scale.set(s * TIGER_ASPECT, s, 1);
           sp.material.opacity = Math.sin(u * Math.PI) * .95; if (Math.random() < .6) fx.emit({ p: sp.position.clone().add(V(rand(-.6, .6), rand(-.5, .5), 0)), v: V(0, rand(.2, .8), 0), c: EMBER, life: .6, size: .12 }); if (u >= 1) { fx.kill(sp); return false; } });
         const hp = hero.pos(), Rt = 3.5; fx.decal(3, hp.x, hp.z, Rt, EMBER, C(1.4, .3, .05), { life: 1.6, grow: .5 }); fx.shock(hp.x, hp.z, Rt, C(2.6, 1.4, .4), EMBER, .7); fx.lightPillar(hp, C(2, .8, .2), 5, .7, 1);
         fx.after(.15, () => { fx.popup(headP(hero).add(V(0, .4, 0)), 'ป้องกัน +20% · เร็ว +25%', 'st'); character.tint?.(C(1, .6, .2), .4, 1.5);
