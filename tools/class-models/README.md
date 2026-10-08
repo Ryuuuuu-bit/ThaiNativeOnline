@@ -1,5 +1,11 @@
 # Retarget supplied warrior and ranger models
 
+The warrior replacement is now inactive: the user requested the original Tripo
+warrior again. Its runtime file and portrait were restored from `6ac984c`.
+The warrior commands below document the historical replacement workflow;
+do not run them against the current public warrior. See `tools/warrior-anims/README.md`.
+The hunter replacement remains active.
+
 The unchanged user files are `tools/warrior-anims/warrior-user.glb` (Downloads/warrior.glb)
 and `tools/hunter-anims/rangers-user.glb` (Downloads/rangers.glb). They contain
 Mixamo skins but no animations or separate weapons. The legacy prepared models

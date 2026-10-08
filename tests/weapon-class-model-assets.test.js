@@ -53,13 +53,14 @@ for (const [id, skills, budget, weapons, count] of [
       }
     }
     if (id === 'warrior' && !['hurt', 'die'].includes(clip.name)) {
-      // Finite vertices alone missed the previous visibly bent wrists/head.
-      // Inspect every authored frame, including spin and leap transitions.
+      // The restored original has authored head turns/leans (up to 28 degrees),
+      // unlike the replacement rig's artificially stabilized gaze. Keep bounded
+      // tilt and the same strict wrist check across every authored frame.
       for (let t = 0; t < clip.duration; t += 1 / 30) {
         mixer.setTime(t); gltf.scene.updateMatrixWorld(true);
         const headDelta = bone('Head').getWorldQuaternion(new THREE.Quaternion()).multiply(headBindInverse);
         const e = new THREE.Euler().setFromQuaternion(headDelta, 'YXZ');
-        assert.ok(Math.abs(e.z) < .05 && Math.abs(e.x) < .185, `${clip.name}: head tilt`);
+        assert.ok(Math.abs(e.z) < .15 && Math.abs(e.x) < .5, `${clip.name}: head tilt`);
         for (const side of ['Left', 'Right']) {
           const p = name => bone(side + name).getWorldPosition(new THREE.Vector3());
           const fore = p('Hand').sub(p('ForeArm')), knuckles = p('HandMiddle1').sub(p('Hand'));
