@@ -35,6 +35,7 @@ export function gearScore(cls, id) {
 // An empty slot makes any piece better.
 export function compareToWorn(character, id) {
   const d = ITEMS[id]; if (d?.type !== 'equip') return 0;
+  if (d.slot === 'weapon' && character.canWield && !character.canWield(id)) return 0;   // another class's weapon: no arrow
   // charms: against the weaker of the two worn (an empty charm slot makes any charm better)
   const worn = d.slot === 'charm' ? [character.equipment?.charm, character.equipment?.charm2].sort((a, b) => (a ? gearScore(character.cls, a) : -1) - (b ? gearScore(character.cls, b) : -1))[0] : character.equipment?.[d.slot];
   if (!worn) return 1;

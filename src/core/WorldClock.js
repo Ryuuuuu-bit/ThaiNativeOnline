@@ -11,12 +11,24 @@ export function phaseOf(hour) {
   return 'night';
 }
 
+// The shared world runs on Thai wall time (server/index.js): a game day is DAY_MS of real time and
+// days are counted from midnight in Thailand (UTC+7), so the hour is the same for everyone, the
+// same after a restart, and a new day starts at :00, :24, :48, :12, :36 past every Thai hour.
+export const THAI_OFFSET_MS = 7 * 3600e3, DAY_MS = 24 * 60e3;
+export function wallHour(now = Date.now(), dayMs = DAY_MS) {
+  const t = (now + THAI_OFFSET_MS) % 864e5;   // ms since Thai midnight
+  return (t % dayMs) / dayMs * 24;
+}
+export const wallDay = (now = Date.now(), dayMs = DAY_MS) => Math.floor(((now + THAI_OFFSET_MS) % 864e5) / dayMs) + 1;
+
 export class WorldClock {
   constructor({ hour = 7.5, minutesPerSecond = 1 } = {}) {
     this.hour = hour; this.rate = minutesPerSecond; this.paused = false; this.day = 1;
     this.phase = phaseOf(hour); this.listeners = [];
   }
   set(hour) { this.hour = ((hour % 24) + 24) % 24; this.check(); }
+  // Follow the wall clock (Thai time) instead of counting: the server's tick.
+  sync(now = Date.now()) { this.day = wallDay(now); this.set(wallHour(now)); }
   update(dt) {
     if (!this.paused) {
       this.hour += dt * this.rate / 60;

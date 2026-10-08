@@ -12,7 +12,7 @@ import { Minimap } from '../ui/Minimap.js';
 import { questTargets, levelText } from '../ui/minimap/mapStyle.js';
 import { CameraController } from './CameraController.js';
 import { InputManager } from './InputManager.js';
-import { WorldClock, PHASE_HOURS } from './WorldClock.js';
+import { WorldClock, PHASE_HOURS, wallHour } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
 import { findPath } from './GridPath.js';
 import { createGame } from '../combat/index.js';
@@ -60,7 +60,8 @@ export class Game {
     this.env = new Environment(this.scene, r);
     this.view = new CameraController(r, host);
     this.postfx = new PostFX(r, this.scene, this.view.camera);   // src/world/PostFX.js (high quality)
-    this.clock = new WorldClock({ hour: params.has('t') ? Number(params.get('t')) : 7.4 });
+    // offline the clock starts where the shared world's would be (Thai wall time); online the server's ticks lead it
+    this.clock = new WorldClock({ hour: params.has('t') ? Number(params.get('t')) : wallHour() });
     if (params.has('t')) this.clock.paused = true;
     this.hud = new HUD();
     this.audio = new AudioAmbience();

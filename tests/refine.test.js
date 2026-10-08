@@ -26,7 +26,7 @@ test('the rules: +10 at most, safe to +4, ores and fees for sale at the forge', 
   assert.ok(!refinable(ITEMS.takrut), 'charms are not refined'); assert.ok(!refinable(ITEMS.potion_s));
   assert.equal(oreFor(ITEMS.iron_dap), 'sacred_ore'); assert.equal(oreFor(ITEMS.hide_armor), 'gold_leaf');
   for (const ore of ['sacred_ore', 'gold_leaf']) assert.ok(SHOPS.enhance.stock.includes(ore) && ITEMS[ore].img);
-  assert.deepEqual(refineBonus(ITEMS.iron_dap, 4), { atk: 12 }); assert.deepEqual(refineBonus(ITEMS.bone_wand, 2), { matk: 6 });
+  assert.deepEqual(refineBonus(ITEMS.iron_dap, 4), { atk: 12 }); assert.deepEqual(refineBonus(ITEMS.palm_book, 2), { matk: 6 });
   assert.deepEqual(refineBonus(ITEMS.hide_boots, 7), { def: 7 });
   assert.equal(refineCost(ITEMS.iron_dap, REFINE_MAX), null);
   assert.deepEqual(refineCost(ITEMS.iron_dap, 4), { to: 5, gold: 500, ore: 'sacred_ore', rate: REFINE_RATE[5], risky: true });

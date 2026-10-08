@@ -1,4 +1,6 @@
-"""Draw the icons of the head / off-hand / cape / shoes gear (offline tool; needs Python + Pillow).
+"""Draw the few item icons that still come from code (offline tool; needs Python + Pillow).
+Most item art is PixelLab's now (tools/icons/source/items/ → tools/icons/frame_items.py); the ids
+left here have no PixelLab art yet.
 
     python tools/icons/draw_gear.py
 
@@ -136,17 +138,8 @@ def gold_leaf(d):  # a stack of thin gold leaves
 
 
 ICONS = {
-    'sacred_ore': sacred_ore, 'gold_leaf': gold_leaf,
-    'croc_scale': croc_scale, 'kris': kris, 'mangrove_staff': mangrove_staff, 'horn_bow': horn_bow,
-    'croc_armor': croc_armor, 'croc_boots': shoe(c('#3e5232'), c('#22301c'), c('#7a9a5a')), 'chalawan_fang': chalawan_fang,
+    'sacred_ore': sacred_ore, 'chalawan_fang': chalawan_fang,
     'bia_kae': bia_kae, 'pha_yant': pha_yant, 'prakam': prakam,
-    'pha_khao': pha_khao, 'ngob': ngob, 'chada': chada,
-    'rattan_shield': shield(c('#c79a52'), c('#8a6430'), c('#5a3e1c')),
-    'buffalo_shield': shield(c('#5a4a42'), c('#2e2622'), c('#d9cfb4')),
-    'mo_knife': mo_knife,
-    'pakhaoma': cloth(c('#4a7ec0'), c('#d24a4a')), 'sabai': sabai,
-    'sandals': shoe(c('#a87a48'), c('#5a3e1c'), c('#e0c08a')),
-    'hide_boots': shoe(c('#7a5a3a'), c('#3e2a16'), c('#c8a070')),
 }
 
 

@@ -77,6 +77,11 @@ export const CLASS_ALIASES = { swordsman: 'warrior' };
 export const START_ITEMS = {
   // every class starts with its weapon and a cloth vest (RO: a novice's first set)
   muaythai: ['hand_wrap', 'cloth_vest'], warrior: ['wood_sword', 'cloth_vest'], hunter: ['short_bow', 'cloth_vest'],
-  shaman: ['reed_wand', 'cloth_vest'], herbalist: ['herb_staff', 'cloth_vest'], assassin: ['krabi', 'cloth_vest'],
+  shaman: ['reed_wand', 'cloth_vest'], herbalist: ['herb_book', 'cloth_vest'], assassin: ['krabi', 'cloth_vest'],
 };
 
+
+// The weapon kinds each class wields (ITEMS[id].weapon). RO style: a bow is a hunter's, a book a
+// herbalist's; anything else stays in the bag (Character.canWield).
+export const WEAPON_KINDS = { muaythai: ['wrap'], warrior: ['sword'], hunter: ['bow'], shaman: ['talisman'], herbalist: ['book'], assassin: ['dagger'] };
+export const WEAPON_KIND_TH = { sword: 'ดาบ', bow: 'ธนู', wrap: 'ผ้าพันมือ', dagger: 'มีดคู่', talisman: 'ผ้ายันต์', book: 'ตำรา' };

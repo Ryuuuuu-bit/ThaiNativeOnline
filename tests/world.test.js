@@ -7,7 +7,7 @@ import {
 import { TerrainData } from '../src/world/Terrain.js';
 import { Collision } from '../src/world/Collision.js';
 import { NavGraph } from '../src/npc/NavGraph.js';
-import { WorldClock, phaseOf } from '../src/core/WorldClock.js';
+import { WorldClock, phaseOf, wallHour, wallDay, DAY_MS } from '../src/core/WorldClock.js';
 import { regionAt } from '../src/data/regions.js';
 import { LANDMARKS } from '../src/data/landmarks.js';
 import { SPAWNS } from '../src/data/spawns.js';
@@ -116,4 +116,16 @@ test('combat zones (on the zone maps only) use known monsters', async () => {
     assert.ok(MONSTERS[z.type], `unknown monster ${z.type}`);
     assert.ok(z.active.length > 0);
   }
+});
+
+test('the shared clock follows Thai wall time: 24 real minutes a day, days counted from Thai midnight', () => {
+  const thaiMidnight = Date.UTC(2026, 9, 8, 17, 0, 0);   // 2026-10-09 00:00 in Thailand (UTC+7)
+  assert.equal(wallHour(thaiMidnight), 0);
+  assert.equal(wallDay(thaiMidnight), 1);
+  assert.ok(Math.abs(wallHour(thaiMidnight + 12 * 60e3) - 12) < 1e-9);   // 12 real minutes in: noon
+  assert.ok(Math.abs(wallHour(thaiMidnight + DAY_MS) - 0) < 1e-9);       // 24 minutes: the next day
+  assert.equal(wallDay(thaiMidnight + DAY_MS), 2);
+  assert.equal(wallDay(thaiMidnight - 1), 60);                            // the last of the 60 game days of a Thai day
+  const clock = new WorldClock({ hour: 7.5 }); clock.sync(thaiMidnight + 20 * 60e3);
+  assert.equal(clock.phase, 'night'); assert.equal(clock.label, '20:00');
 });

@@ -593,7 +593,7 @@ const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(
 const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase };
 
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
-const clock = new WorldClock({ hour: 7.5 });
+const clock = new WorldClock({ hour: 7.5 }); clock.sync();   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
 const combatants = new Combatants();   // each player's character sheet, cooldowns and buffs (3b)
 const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
 const worldOf = room => {
@@ -630,7 +630,7 @@ const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'
 setInterval(() => {
   if (stopping) return;
   for (const d of pvp.sweep(id => byId(id)?.p)) endDuel(d);
-  clock.update(TICK / 1000);
+  clock.sync();
   combatants.tick(TICK / 1000, clock.phase === 'night');
   const rooms = new Set([...presence.players.values()].map(p => p.room));
   for (const room of rooms) {

@@ -32,7 +32,7 @@ test('both playable classes show their own art on the city skill bar', () => {
 });
 
 test('every item has framed art', () => {
-  for (const [id, item] of Object.entries(ITEMS)) assert.ok(item.img && pub(item.img), `${id}: ${item.img}`);
+  for (const [id, item] of Object.entries(ITEMS)) if (!item.retired) assert.ok(item.img && pub(item.img), `${id}: ${item.img}`);   // retired gear is redeemed on load, never drawn
 });
 import { assetIcon, iconHtml } from '../src/ui/icons.js';
 

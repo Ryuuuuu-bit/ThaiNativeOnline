@@ -1,5 +1,5 @@
 // Character interface: player frame, quick potions, character sheet and bag.
-import { STATS, STAT_LABELS, STAT_HINTS, POINTS_PER_LEVEL } from '../data/classes.js';
+import { STATS, STAT_LABELS, STAT_HINTS, POINTS_PER_LEVEL, WEAPON_KINDS, WEAPON_KIND_TH, CLASSES } from '../data/classes.js';
 import { STAT_GUIDE, spreadPoints } from '../data/statguide.js';
 import { ITEMS, RARITY_COLORS } from '../data/items.js';
 import { el, esc, setBar } from './dom.js';
@@ -37,8 +37,10 @@ const cardsLine = (id, cards = []) => {
 function itemTip(id, cards = [], plus = 0) {
   const d = ITEMS[id];
   const where = d.type === 'card' ? ` (การ์ด${SLOT_LABELS[d.slot]})` : d.slot ? ` (${SLOT_LABELS[d.slot]})` : '';
+  // a weapon says its kind and who wields it (RO style: a bow is a hunter's)
+  const wield = d.weapon ? `\n${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
   const refine = plus ? `\nตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}` : '';
-  return `${itemName(id, plus)}${where}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
+  return `${itemName(id, plus)}${where}${wield}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
 }
 const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
 
@@ -157,6 +159,7 @@ export class CharacterUI {
     c.on('change', () => this.refresh());
     c.on('inventory', () => this.refreshInventory());
     c.on('inventory-full', id => this.feed.log(`กระเป๋าเต็ม ทิ้ง ${ITEMS[id].name}`, 'bad'));
+    c.on('cannot-wield', id => this.feed.log(`${c.cls.name}ใช้${ITEMS[id].name}ไม่ได้ · ใช้ได้เฉพาะ${c.weaponKindsTh}`, 'bad'));
     c.on('overweight', id => this.feed.log(`หนักเกินไป ถือ ${ITEMS[id].name} ไม่ไหว`, 'bad'));
     c.on('levelup', lv => { this.feed.banner(`เลเวลอัป · Lv. ${lv}`, `ได้รับแต้มสถานะ ${POINTS_PER_LEVEL} แต้ม กด C เพื่ออัปสถานะ`); this.feed.log(`เลเวลอัปเป็น ${lv}!`, 'gold'); });
     c.on('used', id => this.feed.log(`ใช้ ${ITEMS[id].name}`));
