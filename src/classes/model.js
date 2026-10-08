@@ -66,6 +66,8 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
   const actions = {};
   const ready = loadShared(url).then(gltf => {
     const model = gltf.scene;
+    // Refresh cloned skin bind inverses before Box3 samples quantised vertices.
+    model.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(model), size = box.getSize(new THREE.Vector3());
     const s = height / size.y;
     model.scale.setScalar(s);

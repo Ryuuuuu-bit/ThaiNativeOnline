@@ -1,0 +1,30 @@
+<!doctype html><html lang="th"><meta charset="utf-8"><title>Class VFX review</title>
+<style>body{margin:0;background:#9b9873;font:14px system-ui;color:#ffedbf}canvas{display:block}header{position:absolute;top:20px;left:24px;text-shadow:0 2px 5px #000}h1{margin:4px 0;font-size:22px}#labels{position:absolute;inset:0;pointer-events:none}#quality{position:absolute;right:20px;top:20px}nav{position:absolute;bottom:18px;left:20px;right:20px;display:flex;gap:6px;flex-wrap:wrap}button{background:#17392d;color:#f4dfab;border:1px solid #a88c51;border-radius:6px;padding:9px;cursor:pointer}</style>
+<header><small>THAI NATIVE · VFX REVIEW · โมเดลและเอฟเฟกต์จริง</small><h1></h1></header>
+<select id="quality"><option value="high">รายละเอียดสูง</option><option value="low">ประหยัด</option></select><div id="labels"></div><nav></nav>
+<script type="module">
+import * as THREE from 'three';
+import { CLASS_KITS } from '/src/classes/index.js';
+import { AVATARS } from '/src/data/training.js';
+import { makeModelCharacter } from '/src/classes/model.js';
+import { createFx } from '/src/classes/fx/engine.js';
+import { createDummy } from '/src/classes/fx/dummy.js';
+const q=new URLSearchParams(location.search),id=CLASS_KITS[q.get('class')]?q.get('class'):'shaman',kit=CLASS_KITS[id],avatar=AVATARS[id];
+document.querySelector('h1').textContent=kit.name+' · รายละเอียดเสริม';
+const scene=new THREE.Scene();scene.background=new THREE.Color('#aba683');
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(1);renderer.toneMapping=THREE.ACESFilmicToneMapping;document.body.prepend(renderer.domElement);
+const aspect=innerWidth/innerHeight,camera=new THREE.OrthographicCamera(-3.6*aspect,3.6*aspect,3.6,-3.6,.1,80);camera.position.set(6,9,10);camera.lookAt(0,.65,0);
+scene.add(new THREE.HemisphereLight('#fff1da','#6e775e',2));const sun=new THREE.DirectionalLight('#fff1dd',2.8);sun.position.set(-5,10,7);scene.add(sun);
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(80,80),new THREE.MeshStandardMaterial({color:'#a29c73',roughness:1}));ground.rotation.x=-Math.PI/2;scene.add(ground);
+const grid=new THREE.GridHelper(24,48,'#aaa17b','#aaa17b');grid.position.y=.001;grid.material.transparent=true;grid.material.opacity=.15;scene.add(grid);
+const character=makeModelCharacter(scene,()=>{},{url:'/'+avatar.url,height:avatar.height});await character.ready;const player=character.group;player.position.set(0,0,1);
+const labels=document.getElementById('labels'),fx=createFx({scene,camera,renderer,labels,size:1.35*avatar.height/2.6});
+const dummy=createDummy(fx,labels,new THREE.Vector3(0,0,-.7),()=>0,{hp:1e8});
+const runner=kit.createSkills({fx,character,player,dummy,groundHeight:()=>0,canStand:()=>true,labels,dim:document.createElement('div')});
+let time=0,auto=false,last=performance.now();
+function step(seconds){for(let t=0;t<seconds;t+=1/60){const dt=Math.min(1/60,seconds-t);time+=dt;runner.update(dt);character.update(dt,time,false,runner.facing);dummy.update(dt);fx.update(dt,time,0);}renderer.render(scene,camera);}
+function cast(skill){dummy.alive=true;dummy.hp=1e8;player.position.set(0,0,1);return runner.cast(skill,true);}
+for(const skill of kit.skills){const b=document.createElement('button');b.textContent=skill.name;b.onclick=()=>{cast(skill.id);auto=true;};document.querySelector('nav').append(b);}
+function frame(now){if(auto)step(Math.min(.05,(now-last)/1000));last=now;requestAnimationFrame(frame);}requestAnimationFrame(frame);
+step(.05);window.vfxReview={ready:true,id,kit,runner,fx,renderer,scene,camera,character,step,cast,setAuto:v=>auto=v};
+</script></html>

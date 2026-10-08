@@ -8,6 +8,7 @@ import { WARRIOR_SKILLS } from './warrior-moves.js';
 import { createWarriorSkills, warriorIconUrl } from './fx/warrior-skills.js';
 import { SHAMAN_SKILLS } from './shaman-moves.js';
 import { createShamanSkills, shamanIconUrl } from './fx/shaman-skills.js';
+import { withClassDetail } from './fx/class-detail.js';
 
 // Class skill kits for the city training ground (src/training): the ten skills of
 // each playable class with their FX runner and hotbar entries. AVATARS in
@@ -41,3 +42,4 @@ export const CLASS_KITS = {
   },
 };
 export const KIT_IDS = Object.keys(CLASS_KITS);
+for (const [id, kit] of Object.entries(CLASS_KITS)) kit.createSkills = withClassDetail(id, kit.createSkills);

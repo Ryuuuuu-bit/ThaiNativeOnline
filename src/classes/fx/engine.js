@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import './fx.css';
+import { particleProjection } from './particle-projection.js';
 
 // Skill FX engine, ported from prototypes/skill-fx/src/boxer_fx.src.html.
 // Everything lives in `root`, a group scaled by K, so the prototype's units
@@ -25,10 +26,10 @@ export const SH = { glow: 0, leaf: 1, petal: 2, star: 3, soft: 4 };
 
 const PV = `
 attribute vec3 aColor; attribute float aSize, aAlpha, aShape, aRot;
-varying vec3 vC; varying float vA, vS, vR; uniform float uScale;
+varying vec3 vC; varying float vA, vS, vR; uniform float uScale,uOrtho;
 void main(){ vC=aColor; vA=aAlpha; vS=aShape; vR=aRot;
   vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv;
-  gl_PointSize=aSize*uScale/max(.1,-mv.z); }`;
+  gl_PointSize=aSize*uScale/(uOrtho>.5?1.:max(.1,-mv.z)); }`;
 const PF = `
 varying vec3 vC; varying float vA, vS, vR; uniform float uNorm;
 void main(){
@@ -40,7 +41,7 @@ void main(){
   else if(vS<3.5){ float l=length(p); a=max(0.,1.-abs(p.x)*9.)*max(0.,1.-abs(p.y))+max(0.,1.-abs(p.y)*9.)*max(0.,1.-abs(p.x)); a=a*.9+exp(-l*l*14.); a*=1.-smoothstep(.85,1.,l); }
   else { float r=dot(p,p); a=(1.-smoothstep(0.,1.,r))*.7; }
   if(a<.01) discard;
-  if(uNorm>.5) gl_FragColor=vec4(vC,a*vA); else gl_FragColor=vec4(vC*a*vA,1.);
+  if(uNorm>.5) gl_FragColor=vec4(vC,a*vA); else gl_FragColor=vec4((vC/(1.+vC))*a*vA,1.);
 }`;
 
 const DV = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`;
@@ -67,16 +68,17 @@ void main(){
     float sp=step(.96,fract(an/6.2832*16.+.5))*smoothstep(.2,.3,r)*smoothstep(.95,.85,r); a+=sp*.35;
     a+=smoothstep(1.,0.,r)*.07; col=mix(uC2,uC1,smoothstep(.1,.9,r)); }
   a*=step(r,1.);
-  if(uNorm>.5) gl_FragColor=vec4(col,clamp(a,0.,1.)*uAlpha); else gl_FragColor=vec4(col*a*uAlpha,1.);
+  if(uNorm>.5) gl_FragColor=vec4(col,clamp(a,0.,1.)*uAlpha); else gl_FragColor=vec4((col/(1.+col))*a*uAlpha,1.);
 }`;
 
 const PALS = {
+  copper: [C(2.4, 1.9, 1.2), C(1.7, .75, .32), C(.45, .16, .06)],
   blue: [C(2.0, 2.6, 3.0), C(.25, .85, 2.2), C(.04, .12, .55)],
   gold: [C(2.8, 2.4, 1.4), C(2.2, 1.2, .25), C(.5, .2, .03)],
   jade: [C(1.8, 2.8, 1.6), C(.4, 1.6, .7), C(.04, .3, .12)],
   red: [C(2.8, 2.2, 2), C(2.2, .35, .25), C(.45, .03, .03)],
 };
-const SMOKE = { blue: C(.32, .38, .55), gold: C(.4, .35, .3), jade: C(.3, .4, .35), red: C(.35, .25, .25) };
+const SMOKE = { copper: C(.42, .3, .22), blue: C(.32, .38, .55), gold: C(.4, .35, .3), jade: C(.3, .4, .35), red: C(.35, .25, .25) };
 
 // `size` (default K) overrides the world size of one FX unit, e.g. to fit the effects
 // to a smaller character in the entry-screen preview; the game uses K.
@@ -106,7 +108,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
   let tasks = [];
   fx.addTask = fn => tasks.push({ fn, t: 0 });
   fx.after = (s, fn) => fx.addTask((dt, t) => { if (t >= s) { fn(); return false; } });
-  fx.clearTasks = () => { tasks = []; };
+  fx.clearTasks = () => { tasks = []; if (fx.detailState) fx.detailState.live = 0; };
   Object.defineProperty(fx, 'tasks', { get: () => tasks.length });
 
   // ---- labels ----------------------------------------------------------------
@@ -136,7 +138,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
     for (const [n, arr, k] of [['position', pos, 3], ['aColor', col, 3], ['aSize', size, 1], ['aAlpha', alpha, 1], ['aShape', shape, 1], ['aRot', rot, 1]])
       geo.setAttribute(n, new THREE.BufferAttribute(arr, k).setUsage(THREE.DynamicDrawUsage));
     const mat = new THREE.ShaderMaterial({ vertexShader: PV, fragmentShader: PF, transparent: true, depthWrite: false,
-      blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, uniforms: { uScale: { value: 400 }, uNorm: { value: additive ? 0 : 1 } } });
+      blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, uniforms: { uScale: { value: 400 }, uOrtho: { value: camera.isOrthographicCamera ? 1 : 0 }, uNorm: { value: additive ? 0 : 1 } } });
     const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; pts.renderOrder = additive ? 5 : 4; add(pts);
     return { N, cur: 0, pos, col, size, alpha, shape, rot, mat, geo, v: new Float32Array(N * 3), age: new Float32Array(N), life: new Float32Array(N),
       s0: new Float32Array(N), s1: new Float32Array(N), a0: new Float32Array(N), drag: new Float32Array(N), grav: new Float32Array(N), vr: new Float32Array(N),
@@ -194,7 +196,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
     const m = new THREE.Mesh(decalGeo, new THREE.ShaderMaterial({ vertexShader: DV, fragmentShader: DF, transparent: true, depthWrite: false, blending: opt.normal ? THREE.NormalBlending : THREE.AdditiveBlending,
       uniforms: { uNorm: { value: opt.normal ? 1 : 0 }, uTime: { value: 0 }, uT: { value: 0 }, uType: { value: type }, uAlpha: { value: (opt.alpha ?? 1) * (opt.normal ? 1 : fx.gain) }, uC1: { value: c1 }, uC2: { value: c2 || c1 } } }));
     m.rotation.x = -Math.PI / 2; m.position.set(x, opt.y ?? .05 + decals.length * .003, z); m.scale.setScalar(radius); m.renderOrder = 3; add(m);
-    const d = { m, u: m.material.uniforms, life: opt.life ?? 1, t: 0, grow: opt.grow ?? 0, auto: opt.auto ?? true, r: radius, normal: !!opt.normal };
+    const d = { m, u: m.material.uniforms, alpha: opt.alpha ?? 1, life: opt.life ?? 1, t: 0, grow: opt.grow ?? 0, auto: opt.auto ?? true, r: radius, normal: !!opt.normal };
     decals.push(d); return d;
   };
   function stepDecals(dt, time) {
@@ -203,7 +205,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
       if (!d.auto) continue;
       const f = d.t / d.life; d.u.uT.value = Math.min(1, f);
       if (d.grow) d.m.scale.setScalar(d.r * Math.min(1, easeOutBack(Math.min(1, d.t / d.grow))));
-      if (d.u.uType.value > .5 && !d.normal) d.u.uAlpha.value = fx.gain * Math.min(1, d.t / .15) * (1 - Math.max(0, (f - .8) / .2));
+      if (d.u.uType.value > .5 && !d.normal) d.u.uAlpha.value = d.alpha * fx.gain * Math.min(1, d.t / .15) * (1 - Math.max(0, (f - .8) / .2));
       if (f >= 1) { kill(d.m); decals.splice(i, 1); }
     }
   }
@@ -221,7 +223,7 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
     uniforms: { uC: { value: c }, uA: { value: 1 }, uTime: { value: 0 } },
     vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
     fragmentShader: `varying vec2 vUv; uniform vec3 uC; uniform float uA,uTime;
-      void main(){ float y=vUv.y; float a=pow(1.-y,1.6)*(.55+.45*sin(vUv.x*37.7+uTime*6.+y*8.)); a+=pow(1.-y,8.)*.3; a*=.6; gl_FragColor=vec4(uC*a*uA,1.); }` });
+      void main(){ float y=vUv.y; float a=pow(1.-y,1.6)*(.55+.45*sin(vUv.x*37.7+uTime*6.+y*8.)); a+=pow(1.-y,8.)*.3; a*=.6; gl_FragColor=vec4((uC/(1.+uC))*a*uA,1.); }` });
   fx.fresnelMat = c => new THREE.ShaderMaterial({ transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     uniforms: { uC: { value: c }, uA: { value: 1 }, uTime: { value: 0 } },
     vertexShader: `varying vec3 vN; varying vec3 vV; varying float vY; void main(){ vec4 w=modelViewMatrix*vec4(position,1.); vN=normalize(normalMatrix*normal); vV=normalize(-w.xyz); vY=position.y; gl_Position=projectionMatrix*w; }`,
@@ -281,7 +283,11 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
         col=mix(col,uC1*.85,edge);
         col*=1.-st*.7*(1.-edge);
         col+=uC1*exp(-pow((f-uP)/.05,2.))*edge*1.3;
-        gl_FragColor=vec4(col*a*uA,1.);
+        // Thin separated filaments add detail without widening the attack silhouette.
+        float fil=exp(-pow((w-.80-.035*sin(f*45.+uSeed))/.022,2.));
+        fil+=exp(-pow((w-.94)/.009,2.))*.55;
+        col+=uC1*fil*.35;
+        gl_FragColor=vec4((col/(1.+col))*a*uA,1.);
       }` });
   // centre p, aim = point it faces, sweep radians; roll tilts the plane, pitch tips it, dir ±1 swing direction.
   fx.slashArc = (p, aim, o = {}) => {
@@ -391,10 +397,11 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
   // ---- frame -----------------------------------------------------------------------
   fx.resize = () => {
     const h = renderer.domElement.clientHeight || innerHeight;
-    const us = h * renderer.getPixelRatio() / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * size;
+    const us = particleProjection(camera, h, renderer.getPixelRatio(), size);
     PA.mat.uniforms.uScale.value = us; PN.mat.uniforms.uScale.value = us;
   };
   fx.update = (dt, time, groundY) => {
+    fx.resize(); // Zoom may change without a browser resize.
     root.position.y += (groundY - root.position.y) * Math.min(1, dt * 10);
     for (let i = tasks.length - 1; i >= 0; i--) { const k = tasks[i]; k.t += dt; if (k.fn(dt, k.t) === false) tasks.splice(i, 1); }
     stepPS(PA, dt); stepPS(PN, dt); stepDecals(dt, time); stepLights(dt);

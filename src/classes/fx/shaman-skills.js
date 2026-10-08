@@ -9,13 +9,13 @@ import { SHAMAN_SKILLS } from '../shaman-moves.js';
 // offering, wandering souls, the curse of violent death, meditation in the graveyard, the
 // gate of the underworld. Timed to the shaman's clips (spell times from shaman-moves.js);
 // positions are FX-local units. Spells leave the midpoint of the hands (castOrigin, from the real
-// staff in his hand) or his free left hand.
+// casting hands) or his free left hand.
 const { WHITE } = COL;
 const BASE = import.meta.env.BASE_URL + 'fx/shaman/';
 export const shamanIconUrl = id => BASE + 'icon_' + id + '.png';
 
-// death palette: soul green, underworld violet, bone, blood, ember of hell
-const SOUL = C(.7, 2.4, 1.5), DEATH = C(1.4, .35, 2.2), BONE = C(2.2, 2.1, 1.7), BLOOD = C(2.2, .15, .15), HELL = C(2, .4, 1.6), HELLFIRE = C(2.4, .5, .9), PALE = C(1.3, 1.8, 2.2);
+// Indigo souls, aged talisman gold, bone and amber fire; blood remains a status cue.
+const SOUL = C(1.3, .85, 2.0), DEATH = C(.8, .45, 1.4), BONE = C(1.8, 1.5, 1.0), BLOOD = C(2.2, .15, .15), HELL = C(1.7, .8, .3), HELLFIRE = C(2.2, 1.2, .55), PALE = C(1.8, 1.65, 1.2);
 const SMOKE = C(.1, .06, .12), INK = C(.05, .03, .06);
 const ADD = { transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide };
 
@@ -24,15 +24,20 @@ let TEX = null;
 function textures() {
   if (TEX) return TEX;
   TEX = {
-    // a ritual circle of death: ticked rings, a pentagram, skull marks round the band
+    // Stylised Thai-inspired spiral marks and lotus lobes, with an open centre.
     sigil: canvasTex(512, 512, (g, S) => {
       g.translate(S / 2, S / 2); g.strokeStyle = g.fillStyle = '#fff'; g.lineCap = 'round';
       const circ = (r, w) => { g.lineWidth = w; g.beginPath(); g.arc(0, 0, r, 0, Math.PI * 2); g.stroke(); };
       circ(246, 6); circ(230, 2); circ(170, 3); circ(60, 3);
       for (let i = 0; i < 72; i++) { const a = i / 72 * Math.PI * 2, r0 = i % 6 ? 234 : 214; g.lineWidth = i % 6 ? 2 : 4; g.beginPath(); g.moveTo(Math.cos(a) * r0, Math.sin(a) * r0); g.lineTo(Math.cos(a) * 243, Math.sin(a) * 243); g.stroke(); }
-      g.lineWidth = 3; g.beginPath(); for (let i = 0; i <= 5; i++) { const a = -Math.PI / 2 + i * 4 * Math.PI / 5, x = Math.cos(a) * 168, y = Math.sin(a) * 168; i ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke();
-      for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, x = Math.cos(a) * 200, y = Math.sin(a) * 200; g.beginPath(); g.arc(x, y - 3, 11, 0, 7); g.fill(); g.fillRect(x - 6, y + 4, 12, 8); }
-      const gr = g.createRadialGradient(0, 0, 0, 0, 0, 70); gr.addColorStop(0, 'rgba(255,255,255,.9)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, 70, 0, 7); g.fill();
+      g.lineWidth = 3;
+      for (let i = 0; i < 8; i++) {
+        g.save(); g.rotate(i / 8 * Math.PI * 2);
+        g.beginPath(); g.moveTo(0, 68); g.bezierCurveTo(-40, 110, -28, 147, 0, 166); g.bezierCurveTo(28, 147, 40, 110, 0, 68); g.stroke();
+        g.translate(0, 200); g.beginPath();
+        for (let a = 0; a < Math.PI * 3.8; a += .12) { const r = 1 + a * .7; const x = Math.cos(a) * r, y = Math.sin(a) * r; a ? g.lineTo(x, y) : g.moveTo(x, y); }
+        g.lineTo(10,-16); g.stroke(); g.restore();
+      }
     }),
     // a skull: white bone with the sockets, nose and teeth cut out (glows when added)
     skull: canvasTex(128, 128, (g) => {
