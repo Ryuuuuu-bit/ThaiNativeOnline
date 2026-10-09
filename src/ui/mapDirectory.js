@@ -4,14 +4,40 @@ import { NPCS } from '../data/npcs.js';
 import { SHOP_SITES, SHOP_APPROACHES } from '../data/shopSites.js';
 import { SHOPS, SHOP_HOSTS } from '../data/shops.js';
 import { huntingFor, huntingLevel } from '../data/hunting.js';
-import { MAPS, MAP_IDS } from '../world/maps.js';
+import { MAPS, MAP_IDS, spawnsOf } from '../world/maps.js';
 import { WARP_SERVICES, getWarpDestination } from '../data/warpServices.js';
+import { SPAWNS, combatSpawns } from '../data/spawns.js';
+import { MONSTERS } from '../combat/data/monsters.js';
 
 export const MAP_FILTERS = [
   ['all', 'ทั้งหมด'], ['shops', 'ร้านค้า'], ['training', 'ครู'],
-  ['travel', 'เดินทาง'], ['hunting', 'จุดล่า'], ['places', 'สถานที่'],
+  ['travel', 'เดินทาง'], ['hunting', 'จุดล่า'], ['bosses', 'ถิ่นบอส'], ['places', 'สถานที่'],
 ];
-export const CATEGORY_ICONS = { shops: '◉', training: '⚔', travel: '↗', hunting: '✦', places: '◆' };
+export const CATEGORY_ICONS = { shops: '◉', training: '⚔', travel: '↗', hunting: '✦', bosses: '♛', places: '◆' };
+
+// The authoritative area flag decides what is a lair, including rare bosses
+// whose monster definition is not a primary encounter. No live/discovery input.
+export function bossLairsForMap(map) {
+  if (!map?.id || map.id === 'city' || map.safe) return [];
+  const zones = combatSpawns(), phases = ['morning', 'day', 'evening', 'night'];
+  const phaseNames = { morning: 'เช้า', day: 'กลางวัน', evening: 'เย็น', night: 'กลางคืน' };
+  return spawnsOf(map.id, SPAWNS).filter(spawn => spawn.boss).flatMap(spawn => {
+    const roster = zones.filter(zone => zone.area === spawn.id), types = [...new Set(roster.map(entry => entry.type))];
+    return types.flatMap(type => {
+      const def = MONSTERS[type]; if (!def) return [];
+      // combatSpawns resolves roster.active ?? area.active, just as the server.
+      const active = phases.filter(phase => roster.some(entry => entry.type === type && (!entry.active || entry.active.includes(phase))));
+      const activation = active.length === phases.length ? 'ทุกช่วงเวลา' : active.map(phase => phaseNames[phase]).join(' / ') || 'ไม่มีช่วงเวลาเกิด';
+      const channel = def.elite || def.boss ? 1 : null;
+      return [{ id: `boss:${spawn.id}:${type}`, name: `${def.name} · Lv ${def.level}`,
+        bossName: def.name, level: def.level, monsterType: type, spawnId: spawn.id,
+        active, channel,
+        x: spawn.x, z: spawn.z, purpose: 'boss', category: 'bosses', glyph: 'boss-lair',
+        tag: `ถิ่นบอส · ${activation}`, detail: `ถิ่นบอส · ${activation}${channel ? ' · ออนไลน์เฉพาะ CH1' : ''} · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้`,
+        goal: { x: spawn.x, z: spawn.z } }];
+    });
+  });
+}
 
 // The atlas is public information. Reading it never adds discoveries or completes quests.
 export function mapDirectory(map, landmarks, portals = map.portals ?? [], spots = {}) {
@@ -51,6 +77,7 @@ export function mapDirectory(map, landmarks, portals = map.portals ?? [], spots 
     detail: `คุยกับเจ้าหน้าที่เพื่อเลือกจุดสำคัญในเมืองหรือแผนที่ผจญภัย${s.map === 'city' ? ' · คลังร่วม 120 ช่อง' : ''}`,
     goal: getWarpDestination(s.arrivalId), npcId: s.npcId,
   });
+  entries.push(...bossLairsForMap(map));
   return entries;
 }
 

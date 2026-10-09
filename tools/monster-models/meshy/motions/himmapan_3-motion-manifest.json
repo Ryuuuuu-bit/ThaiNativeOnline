@@ -1,0 +1,459 @@
+{
+  "version": 1,
+  "provider": "Meshy",
+  "rigTaskId": "01a11b9d-af9e-770f-b66d-b8ccb4fbdf43",
+  "animationTaskId": "01a1213d-1018-725f-9018-1e81e24c9a8a",
+  "actionIds": [
+    0,
+    125,
+    126,
+    219
+  ],
+  "credits": 12,
+  "type": "himmapan_3",
+  "sourceSHA256": "a1dc3dd947907f1d3b14fa905eedda60cd67fcbc83dd14497a607f10fbcb807b",
+  "bodySHA256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+  "motionSHA256": "fa14a242189c80d913d0442b9ce68cde244d0fd9c7419226937d0a226a11f79b",
+  "bytes": 75644,
+  "skeletonOnly": true,
+  "originalBodyClips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ],
+  "gain": 0.5,
+  "sampleRate": 24,
+  "caps": {
+    "Body": 0.03,
+    "Head": 0.06,
+    "ArmLUpper": 0.08,
+    "ArmRUpper": 0.08,
+    "ArmLLower": 0.12,
+    "ArmRLower": 0.12
+  },
+  "boneMap": {
+    "Body": "Spine",
+    "Head": "Head",
+    "ArmLUpper": "LeftArm",
+    "ArmRUpper": "RightArm",
+    "ArmLLower": "LeftForeArm",
+    "ArmRLower": "RightForeArm"
+  },
+  "method": "first-key-relative rotations; world-axis conjugation; bounded additive overlay; sine-squared endpoint envelope; donor phase mapped to unchanged base timing",
+  "clips": [
+    {
+      "id": 0,
+      "clip": "Idle",
+      "name": "idle-meshy",
+      "base": "idle",
+      "baseDuration": 2,
+      "sourceDuration": 4,
+      "upperBody": [
+        {
+          "bone": "Body",
+          "sourceBone": "Spine",
+          "cap": 0.03,
+          "maximumDelta": 0.014999999999962729,
+          "keys": 181
+        },
+        {
+          "bone": "ArmLUpper",
+          "sourceBone": "LeftArm",
+          "cap": 0.08,
+          "maximumDelta": 0.04000000000000221,
+          "keys": 145
+        },
+        {
+          "bone": "ArmLLower",
+          "sourceBone": "LeftForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.05999999999999081,
+          "keys": 145
+        },
+        {
+          "bone": "ArmRUpper",
+          "sourceBone": "RightArm",
+          "cap": 0.08,
+          "maximumDelta": 0.039999999999991105,
+          "keys": 145
+        },
+        {
+          "bone": "ArmRLower",
+          "sourceBone": "RightForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.059999999999998214,
+          "keys": 145
+        },
+        {
+          "bone": "Head",
+          "sourceBone": "Head",
+          "cap": 0.06,
+          "maximumDelta": 0.030000000000015844,
+          "keys": 181
+        }
+      ],
+      "protectedTracks": [
+        {
+          "bone": "Root",
+          "path": "translation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "0631d1cd495c736e03e0737034fbdd0d26a1e960502c66c516a301fd0006391c",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "eb36771d77901b6fbeedce225809443751c91cb0160cb1cd4ebb1967bfad594b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "2a2bd761d1e7933f254e2d815f1e92543180c0507bfd44e1e9b28c0cdb6a3c1d",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "370373c3d536126656c42a3aec6071350f7c0b77edb3e95a60eb36ef80709467",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "a0acab074b2cf17f8b481b98fba0c88c59bf7b7e0aed231cf527b5eab6b53500",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "55eff349c3abc90a90c2a8212ce529818364456663cda4cae761c2afb961184c",
+          "interpolation": "LINEAR"
+        }
+      ]
+    },
+    {
+      "id": 125,
+      "clip": "Charged_Spell_Cast",
+      "name": "cast-meshy",
+      "base": "attack",
+      "baseDuration": 1,
+      "sourceDuration": 2.6666667461395264,
+      "upperBody": [
+        {
+          "bone": "Body",
+          "sourceBone": "Spine",
+          "cap": 0.03,
+          "maximumDelta": 2.9802322387695312e-8,
+          "keys": 50
+        },
+        {
+          "bone": "ArmLUpper",
+          "sourceBone": "LeftArm",
+          "cap": 0.08,
+          "maximumDelta": 0.04000000000000221,
+          "keys": 123
+        },
+        {
+          "bone": "ArmLLower",
+          "sourceBone": "LeftForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.059999999999998214,
+          "keys": 123
+        },
+        {
+          "bone": "ArmRUpper",
+          "sourceBone": "RightArm",
+          "cap": 0.08,
+          "maximumDelta": 0.04000000000000221,
+          "keys": 123
+        },
+        {
+          "bone": "ArmRLower",
+          "sourceBone": "RightForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.05999999999999081,
+          "keys": 123
+        },
+        {
+          "bone": "Head",
+          "sourceBone": "Head",
+          "cap": 0.06,
+          "maximumDelta": 0.02999999999997143,
+          "keys": 99
+        }
+      ],
+      "protectedTracks": [
+        {
+          "bone": "Root",
+          "path": "translation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "0631d1cd495c736e03e0737034fbdd0d26a1e960502c66c516a301fd0006391c",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "eb36771d77901b6fbeedce225809443751c91cb0160cb1cd4ebb1967bfad594b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "2a2bd761d1e7933f254e2d815f1e92543180c0507bfd44e1e9b28c0cdb6a3c1d",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "370373c3d536126656c42a3aec6071350f7c0b77edb3e95a60eb36ef80709467",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "a0acab074b2cf17f8b481b98fba0c88c59bf7b7e0aed231cf527b5eab6b53500",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "55eff349c3abc90a90c2a8212ce529818364456663cda4cae761c2afb961184c",
+          "interpolation": "LINEAR"
+        }
+      ]
+    },
+    {
+      "id": 126,
+      "clip": "Charged_Spell_Cast_1",
+      "name": "ritual-meshy",
+      "base": "attack",
+      "baseDuration": 1,
+      "sourceDuration": 4.300000190734863,
+      "upperBody": [
+        {
+          "bone": "Body",
+          "sourceBone": "Spine",
+          "cap": 0.03,
+          "maximumDelta": 0,
+          "keys": 50
+        },
+        {
+          "bone": "ArmLUpper",
+          "sourceBone": "LeftArm",
+          "cap": 0.08,
+          "maximumDelta": 0.03999999999998,
+          "keys": 178
+        },
+        {
+          "bone": "ArmLLower",
+          "sourceBone": "LeftForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.059999999999998214,
+          "keys": 178
+        },
+        {
+          "bone": "ArmRUpper",
+          "sourceBone": "RightArm",
+          "cap": 0.08,
+          "maximumDelta": 0.0399999999999689,
+          "keys": 178
+        },
+        {
+          "bone": "ArmRLower",
+          "sourceBone": "RightForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.05999999999998341,
+          "keys": 178
+        },
+        {
+          "bone": "Head",
+          "sourceBone": "Head",
+          "cap": 0.06,
+          "maximumDelta": 0.02999999999997143,
+          "keys": 153
+        }
+      ],
+      "protectedTracks": [
+        {
+          "bone": "Root",
+          "path": "translation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "0631d1cd495c736e03e0737034fbdd0d26a1e960502c66c516a301fd0006391c",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "eb36771d77901b6fbeedce225809443751c91cb0160cb1cd4ebb1967bfad594b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "2a2bd761d1e7933f254e2d815f1e92543180c0507bfd44e1e9b28c0cdb6a3c1d",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "370373c3d536126656c42a3aec6071350f7c0b77edb3e95a60eb36ef80709467",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "a0acab074b2cf17f8b481b98fba0c88c59bf7b7e0aed231cf527b5eab6b53500",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "55eff349c3abc90a90c2a8212ce529818364456663cda4cae761c2afb961184c",
+          "interpolation": "LINEAR"
+        }
+      ]
+    },
+    {
+      "id": 219,
+      "clip": "Right_Hand_Sword_Slash",
+      "name": "slash-meshy",
+      "base": "attack",
+      "baseDuration": 1,
+      "sourceDuration": 1.5,
+      "upperBody": [
+        {
+          "bone": "Body",
+          "sourceBone": "Spine",
+          "cap": 0.03,
+          "maximumDelta": 2.9802322387695312e-8,
+          "keys": 50
+        },
+        {
+          "bone": "ArmLUpper",
+          "sourceBone": "LeftArm",
+          "cap": 0.08,
+          "maximumDelta": 0.039999999999991105,
+          "keys": 87
+        },
+        {
+          "bone": "ArmLLower",
+          "sourceBone": "LeftForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.05999999999999081,
+          "keys": 87
+        },
+        {
+          "bone": "ArmRUpper",
+          "sourceBone": "RightArm",
+          "cap": 0.08,
+          "maximumDelta": 0.03999999999998,
+          "keys": 87
+        },
+        {
+          "bone": "ArmRLower",
+          "sourceBone": "RightForeArm",
+          "cap": 0.12,
+          "maximumDelta": 0.05999999999998341,
+          "keys": 87
+        },
+        {
+          "bone": "Head",
+          "sourceBone": "Head",
+          "cap": 0.06,
+          "maximumDelta": 0.02999999999997143,
+          "keys": 67
+        }
+      ],
+      "protectedTracks": [
+        {
+          "bone": "Root",
+          "path": "translation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "0631d1cd495c736e03e0737034fbdd0d26a1e960502c66c516a301fd0006391c",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "eb36771d77901b6fbeedce225809443751c91cb0160cb1cd4ebb1967bfad594b",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegLFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "2a2bd761d1e7933f254e2d815f1e92543180c0507bfd44e1e9b28c0cdb6a3c1d",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRUpper",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "370373c3d536126656c42a3aec6071350f7c0b77edb3e95a60eb36ef80709467",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRLower",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "a0acab074b2cf17f8b481b98fba0c88c59bf7b7e0aed231cf527b5eab6b53500",
+          "interpolation": "LINEAR"
+        },
+        {
+          "bone": "LegRFoot",
+          "path": "rotation",
+          "inputSHA256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+          "outputSHA256": "55eff349c3abc90a90c2a8212ce529818364456663cda4cae761c2afb961184c",
+          "interpolation": "LINEAR"
+        }
+      ]
+    }
+  ]
+}

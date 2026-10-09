@@ -1,0 +1,89 @@
+{
+  "frozen": true,
+  "source": "tools/monster-models/meshy/motions/meshy-boss-actions.glb",
+  "sourceSHA256": "a1dc3dd947907f1d3b14fa905eedda60cd67fcbc83dd14497a607f10fbcb807b",
+  "focusedTests": "14/14",
+  "build": "passed",
+  "candidates": [
+    {
+      "type": "chalawan",
+      "path": "artifacts/boss-motion-polish/candidates/chalawan-motion.glb",
+      "bytes": 80128,
+      "motionSHA256": "4ce5729d87b1264991f566d5148a54b1e784013d5bd71734b9ff64582e9a238f",
+      "bodySHA256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "manifest": "artifacts/boss-motion-polish/candidates/chalawan-motion-manifest.json"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "path": "artifacts/boss-motion-polish/candidates/bamboo_grave_3-motion.glb",
+      "bytes": 74576,
+      "motionSHA256": "4df1f8505cb38a5eb8e073b24b25738661a71219b7811763464aae7e25e46f0d",
+      "bodySHA256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "manifest": "artifacts/boss-motion-polish/candidates/bamboo_grave_3-motion-manifest.json"
+    },
+    {
+      "type": "sealed_mine_3",
+      "path": "artifacts/boss-motion-polish/candidates/sealed_mine_3-motion.glb",
+      "bytes": 75228,
+      "motionSHA256": "0d124a3f5a61d45073533245779566e62ae999a5c051c6c73a40ba5e11fb9195",
+      "bodySHA256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "manifest": "artifacts/boss-motion-polish/candidates/sealed_mine_3-motion-manifest.json",
+      "actionGains": {
+        "125": 0.1,
+        "219": 0.1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "path": "artifacts/boss-motion-polish/candidates/dusk_fort_3-motion.glb",
+      "bytes": 75244,
+      "motionSHA256": "0f834062414177bdf28dc65cf56b498fa32e7e2ff4ac57c035c0db078046422e",
+      "bodySHA256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "manifest": "artifacts/boss-motion-polish/candidates/dusk_fort_3-motion-manifest.json"
+    },
+    {
+      "type": "giant_valley_3",
+      "path": "artifacts/boss-motion-polish/candidates/giant_valley_3-motion.glb",
+      "bytes": 75528,
+      "motionSHA256": "507c9950426aed0bae1e156d4bb7bdebd5e8fdd545424f9faf4c1dba122aedbd",
+      "bodySHA256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "manifest": "artifacts/boss-motion-polish/candidates/giant_valley_3-motion-manifest.json",
+      "actionGains": {
+        "125": 0.1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "path": "artifacts/boss-motion-polish/candidates/himmapan_3-motion.glb",
+      "bytes": 75644,
+      "motionSHA256": "fa14a242189c80d913d0442b9ce68cde244d0fd9c7419226937d0a226a11f79b",
+      "bodySHA256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "manifest": "artifacts/boss-motion-polish/candidates/himmapan_3-motion-manifest.json"
+    },
+    {
+      "type": "fallen_city_3",
+      "path": "artifacts/boss-motion-polish/candidates/fallen_city_3-motion.glb",
+      "bytes": 75564,
+      "motionSHA256": "7080a45db16eefb9865944969bce7a9c06b570b344655e9bab00d67df290fc69",
+      "bodySHA256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "manifest": "artifacts/boss-motion-polish/candidates/fallen_city_3-motion-manifest.json"
+    },
+    {
+      "type": "demon_rift_3",
+      "path": "artifacts/boss-motion-polish/candidates/demon_rift_3-motion.glb",
+      "bytes": 75364,
+      "motionSHA256": "03fbbbe88d3c206466ce663db886765c66aa64f6b064eb38b7be73a95e88bfe5",
+      "bodySHA256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "manifest": "artifacts/boss-motion-polish/candidates/demon_rift_3-motion-manifest.json",
+      "actionGains": {
+        "125": 0.025,
+        "219": 0.025
+      }
+    }
+  ],
+  "pendingDeformationQA": [
+    "sealed_mine_3",
+    "giant_valley_3",
+    "demon_rift_3"
+  ]
+}

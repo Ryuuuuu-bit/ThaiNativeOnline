@@ -6,6 +6,7 @@ import { versioned } from '../core/version.js';
 import { seedOf } from '../core/seed.js';
 import { disposeCombatModel, markCachedCombatGeometry } from './CombatResources.js';
 import { applyBossFog } from './BossMaterial.js';
+import { BossMotion, BOSS_MOTION_PROFILES, createBossAnimator } from './BossMotion.js';
 
 // Geometry, textures and clips are cached; each monster owns its skeleton,
 // animation clock and materials so damage flashes never affect its neighbours.
@@ -51,13 +52,77 @@ const load = cachedLoader(url => loader.loadAsync(versioned(url)).then(gltf => {
   return gltf;
 }));
 
-export function makeMonsterModel(type, fallback, monsterId) {
+// Optional animation libraries must never delay or reject the body load. A
+// missing library is cached as null and warns once, including on older deploys.
+const motionLoads = new Map();
+function loadMotionLibrary(url) {
+  if (!motionLoads.has(url)) motionLoads.set(url, loader.loadAsync(versioned(url)).catch(error => {
+    console.warn(`Optional boss motions ${url} unavailable; using body clips.`, error);
+    return null;
+  }));
+  return motionLoads.get(url);
+}
+
+export function makeMonsterModel(type, fallback, monsterId, { bossMotion, loadModel = load, loadMotions = loadMotionLibrary } = {}) {
   const spec = MONSTER_MODELS[type];
   if (!spec) return fallback;
   const group = new THREE.Group(); group.add(fallback);
+  const motion = BOSS_MOTION_PROFILES[type] ? bossMotion ?? new BossMotion(type) : null;
+  let disposed = false, ownedMixer = null, previousFrame = null, latestArgs = null, bossAnimator = null;
+  let snapshotSerial = null, snapshotRemaining = null;
+  const sampledState = {}, frameArgs = [0, false, false, null];
   let animate = (...args) => fallback.userData.animate?.(...args);
-  group.userData.animate = (...args) => animate(...args);
-  group.userData.ready = load(spec.url).then(gltf => {
+  group.userData.bossMotionEvent = event => motion?.event(event) ?? false;
+  group.userData.animationState = () => motion?.state() ?? {};
+  group.userData.dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    ownedMixer?.stopAllAction();
+    if (ownedMixer) ownedMixer.uncacheRoot(ownedMixer.getRoot());
+    latestArgs = null;
+  };
+  group.userData.animate = (time, moving, attacking, state = {}) => {
+    if (disposed) return;
+    const dt = previousFrame === null ? 0 : THREE.MathUtils.clamp(time - previousFrame, 0, .1);
+    previousFrame = time;
+    let predictionDt = dt;
+    if (motion && state.bossCast) {
+      const cast = state.bossCast;
+      motion.event({ stage: 'windup', cast, snapshot: true });
+      // Fresh remaining already describes this frame. A repeated network
+      // snapshot still needs local prediction; a stale/terminal cast must not
+      // stop a newer windup or authoritative release clock.
+      if (Number.isFinite(cast.remaining) && cast.remaining >= 0
+        && motion.active?.stage === 'windup' && motion.serial === cast.serial
+        && (snapshotSerial !== cast.serial || snapshotRemaining !== cast.remaining)) predictionDt = 0;
+      snapshotSerial = cast.serial; snapshotRemaining = cast.remaining;
+    }
+    const sampled = motion ? state.bossMotion ?? motion.update(predictionDt, state) : null;
+    frameArgs[0] = time; frameArgs[1] = moving; frameArgs[2] = attacking;
+    if (sampled) { Object.assign(sampledState, state); sampledState.bossMotion = sampled; frameArgs[3] = sampledState; }
+    else frameArgs[3] = state;
+    latestArgs = frameArgs;
+    animate(...latestArgs);
+  };
+  // Start separately; even a never-settling optional request cannot hold ready.
+  const library = BOSS_MOTION_PROFILES[type]?.meshy
+    ? Promise.resolve().then(() => loadMotions(`/models/monsters/motions/${type}.glb`)).catch(() => null)
+    : Promise.resolve(null);
+  let optionalClips = [];
+  group.userData.motionsReady = library.then(gltf => {
+    if (disposed) return false;
+    optionalClips = (gltf?.animations ?? []).filter(c => ['idle-meshy', 'cast-meshy', 'ritual-meshy', 'slash-meshy'].includes(c.name));
+    installOptionalClips();
+    return optionalClips.length > 0;
+  });
+  let bodyActions = null;
+  function installOptionalClips() {
+    if (!ownedMixer || !bodyActions || disposed) return;
+    for (const clip of optionalClips) bodyActions[clip.name] = ownedMixer.clipAction(clip);
+    bossAnimator?.refresh();
+  }
+  group.userData.ready = Promise.resolve().then(() => loadModel(spec.url)).then(gltf => {
+    if (disposed) return null;
     const model = cloneSkinned(gltf.scene);
     model.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(model), size = box.getSize(new THREE.Vector3());
@@ -88,24 +153,30 @@ export function makeMonsterModel(type, fallback, monsterId) {
       o.material = Array.isArray(o.material) ? o.material.map(copy) : copy(o.material);
     });
     const mixer = new THREE.AnimationMixer(model), actions = {};
+    ownedMixer = mixer; bodyActions = actions;
     for (const clip of gltf.animations) actions[clip.name] = mixer.clipAction(clip);
+    installOptionalClips();
     for (const name of ['attack','hurt','die']) if (actions[name]) {
       actions[name].setLoop(THREE.LoopOnce, 1); actions[name].clampWhenFinished = true;
     }
     let current = null, previousTime = null, wasAttacking = false, wasHurt = false, deathTime = 0;
-    group.userData.animationState = () => ({ clip: current?.getClip().name, time: current?.time, timeScale: current?.timeScale });
+    bossAnimator = createBossAnimator(type, mixer, actions);
+    group.userData.animationState = () => bossAnimator ? bossAnimator.state() : ({ clip: current?.getClip().name, clipTime: current?.time, time: current?.time, timeScale: current?.timeScale });
     if (actions.die) actions.die.timeScale = 1.4;
     function play(name) {
       const next = actions[name] ?? actions.idle;
       if (!next || next === current) return;
       current?.fadeOut(.12); next.reset().fadeIn(.12).play(); current = next;
     }
-    play('idle'); mixer.update((seedOf(monsterId) % 19) / 19);
-    animate = (time, moving, attacking, { hurt = false, dying = false } = {}) => {
+    if (!bossAnimator) play('idle');
+    mixer.update((seedOf(monsterId) % 19) / 19);
+    animate = (time, moving, attacking, state = {}) => {
+      const { hurt = false, dying = false } = state;
       const dt = previousTime === null ? 0 : THREE.MathUtils.clamp(time - previousTime, 0, .1);
       previousTime = time;
       deathTime = dying ? Math.min(1, deathTime + dt * 1.4) : 0;
       for (const { material, color } of deathColors) material.color.copy(color).multiplyScalar(1 - spec.deathDim * deathTime);
+      if (bossAnimator) { bossAnimator.update(dt, moving, attacking, state); return; }
       if (dying) play('die');
       else if (attacking && !wasAttacking && actions.attack) { play('attack'); actions.attack.reset().play(); }
       else if (hurt && !wasHurt && current !== actions.attack && actions.hurt) { play('hurt'); actions.hurt.reset().play(); }
@@ -115,6 +186,8 @@ export function makeMonsterModel(type, fallback, monsterId) {
     group.remove(fallback); group.add(pivot);
     disposeCombatModel(fallback);
     group.userData.modelLoaded = true;
+    // Replay the latest visual sample, not the original windup, after a slow load.
+    if (latestArgs) animate(...latestArgs);
     return model;
   }).catch(error => {
     console.warn(`Monster model ${type} unavailable; using its existing mesh.`, error);

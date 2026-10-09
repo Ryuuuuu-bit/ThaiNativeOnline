@@ -1,0 +1,599 @@
+{
+  "status": "passed",
+  "sourceQAPath": "artifacts/boss-motion-polish/boss-meshy-motion-qa.json",
+  "sourceQASHA256": "09c7442491b3cd316f0a4392f1ea4bac21d8221bb938b2995f3610c6554396f1",
+  "sampleHz": 24,
+  "additionalPhaseBoundaries": true,
+  "coordinateSpace": "approved-body source metres",
+  "limits": {
+    "sampleHz": 24,
+    "minEdge": 0.005,
+    "ratio": 2,
+    "extension": 0.01,
+    "armError": 0.005,
+    "feetDrift": 0.0015,
+    "floor": -0.01,
+    "rigidError": 0.0001,
+    "protectedTransformError": 0.000001
+  },
+  "candidates": [
+    {
+      "type": "chalawan",
+      "status": "passed",
+      "bodySHA256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "motionSHA256": "4ce5729d87b1264991f566d5148a54b1e784013d5bd71734b9ff64582e9a238f",
+      "metrics": {
+        "type": "chalawan",
+        "samples": 203,
+        "vertices": 19774,
+        "edges": 28257,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 2.0109636,
+        "maxExtension": 0.0255804,
+        "armError": 0.0000015,
+        "feetDrift": 0.0002072,
+        "floor": -0.0002894,
+        "rigidError": 0,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "jaw/cast-meshy",
+          "samples": 94,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.9624925470686652,
+          "maxExtension": 0.02558040547348136,
+          "armError": 0.0000014530597028938885,
+          "feetDrift": 0.00020720581731246314,
+          "floor": 0.00037123166923985973,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 45,
+            "hold": 7,
+            "release": 8,
+            "recovery": 21
+          }
+        },
+        {
+          "name": "tide/ritual-meshy",
+          "samples": 109,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 2.0109636059615768,
+          "maxExtension": 0.02551034013122392,
+          "armError": 1.5145606602207096e-8,
+          "feetDrift": 0.00020720581254520993,
+          "floor": -0.00028937643499374674,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 59,
+            "hold": 8,
+            "release": 7,
+            "recovery": 22
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "bamboo_grave_3",
+      "status": "passed",
+      "bodySHA256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "motionSHA256": "4df1f8505cb38a5eb8e073b24b25738661a71219b7811763464aae7e25e46f0d",
+      "metrics": {
+        "type": "bamboo_grave_3",
+        "samples": 207,
+        "vertices": 19400,
+        "edges": 27860,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 2.4736382,
+        "maxExtension": 0.043812,
+        "armError": 0.0000031,
+        "feetDrift": 0.00012,
+        "floor": -0.0000416,
+        "rigidError": 0,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "grave/cast-meshy",
+          "samples": 98,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 2.4736382022546044,
+          "maxExtension": 0.04381202454188554,
+          "armError": 0.000003059850496034411,
+          "feetDrift": 0.00011998919270742586,
+          "floor": -0.00004163958738708079,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 49,
+            "hold": 7,
+            "release": 9,
+            "recovery": 20
+          }
+        },
+        {
+          "name": "spirits/ritual-meshy",
+          "samples": 109,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 2.3271961206258647,
+          "maxExtension": 0.038126662820948926,
+          "armError": 3.726388619895715e-8,
+          "feetDrift": 0.00011998919270742586,
+          "floor": -0.00004163958738708079,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 59,
+            "hold": 8,
+            "release": 8,
+            "recovery": 21
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "sealed_mine_3",
+      "status": "passed",
+      "bodySHA256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "motionSHA256": "0d124a3f5a61d45073533245779566e62ae999a5c051c6c73a40ba5e11fb9195",
+      "metrics": {
+        "type": "sealed_mine_3",
+        "samples": 192,
+        "vertices": 18846,
+        "edges": 27767,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 1.9360573,
+        "maxExtension": 0.0319572,
+        "armError": 0.0000113,
+        "feetDrift": 0.0002419,
+        "floor": 0.0000263,
+        "rigidError": 0,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "hammer/cast-meshy",
+          "samples": 94,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.9360573446566154,
+          "maxExtension": 0.03195724843870612,
+          "armError": 0.000011304463096384332,
+          "feetDrift": 0.00024192518412513242,
+          "floor": 0.00002627364969932995,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 45,
+            "hold": 7,
+            "release": 8,
+            "recovery": 21
+          }
+        },
+        {
+          "name": "collapse/cast-meshy",
+          "samples": 98,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.9360573446566154,
+          "maxExtension": 0.03195724843870612,
+          "armError": 2.346452238066732e-8,
+          "feetDrift": 0.00024192518412513242,
+          "floor": 0.00002627364969932995,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 12,
+            "windup": 49,
+            "hold": 7,
+            "release": 7,
+            "recovery": 23
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "dusk_fort_3",
+      "status": "passed",
+      "bodySHA256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "motionSHA256": "0f834062414177bdf28dc65cf56b498fa32e7e2ff4ac57c035c0db078046422e",
+      "metrics": {
+        "type": "dusk_fort_3",
+        "samples": 192,
+        "vertices": 19997,
+        "edges": 28557,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 1.2764855,
+        "maxExtension": 0.0168279,
+        "armError": 0.0000017,
+        "feetDrift": 0.0002741,
+        "floor": -7e-7,
+        "rigidError": 0,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "blade/cast-meshy",
+          "samples": 94,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.276485502997502,
+          "maxExtension": 0.0168279492894286,
+          "armError": 0.0000016702260603462804,
+          "feetDrift": 0.00027410765174279466,
+          "floor": -6.789003449546131e-7,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 45,
+            "hold": 7,
+            "release": 6,
+            "recovery": 23
+          }
+        },
+        {
+          "name": "brand/cast-meshy",
+          "samples": 98,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.276485502997502,
+          "maxExtension": 0.0168279492894286,
+          "armError": 2.1025775565064464e-9,
+          "feetDrift": 0.0002732755211114287,
+          "floor": 0.000017116420234955348,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 12,
+            "windup": 49,
+            "hold": 7,
+            "release": 7,
+            "recovery": 23
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "giant_valley_3",
+      "status": "passed",
+      "bodySHA256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "motionSHA256": "507c9950426aed0bae1e156d4bb7bdebd5e8fdd545424f9faf4c1dba122aedbd",
+      "metrics": {
+        "type": "giant_valley_3",
+        "samples": 203,
+        "vertices": 18102,
+        "edges": 27421,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 1.8338579,
+        "maxExtension": 0.0253919,
+        "armError": 0.0000128,
+        "feetDrift": 0.000292,
+        "floor": 0.0000214,
+        "rigidError": 1e-7,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "club/slash-meshy",
+          "samples": 94,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.8338579466787432,
+          "maxExtension": 0.025391939171291872,
+          "armError": 0.00001284067723300586,
+          "feetDrift": 0.00029201114706778184,
+          "floor": 0.000021374986830610174,
+          "rigidError": 1.1920928955078125e-7,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 45,
+            "hold": 7,
+            "release": 9,
+            "recovery": 20
+          }
+        },
+        {
+          "name": "quake/ritual-meshy",
+          "samples": 109,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.829025055625162,
+          "maxExtension": 0.025329801284130038,
+          "armError": 5.710372619205373e-9,
+          "feetDrift": 0.000292011140350041,
+          "floor": 0.000021374986830610174,
+          "rigidError": 1.2293457984924316e-7,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 59,
+            "hold": 8,
+            "release": 10,
+            "recovery": 19
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "himmapan_3",
+      "status": "passed",
+      "bodySHA256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "motionSHA256": "fa14a242189c80d913d0442b9ce68cde244d0fd9c7419226937d0a226a11f79b",
+      "metrics": {
+        "type": "himmapan_3",
+        "samples": 192,
+        "vertices": 21570,
+        "edges": 29445,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 1.5989998,
+        "maxExtension": 0.0160413,
+        "armError": 0.0000065,
+        "feetDrift": 0.0001437,
+        "floor": -0.0000024,
+        "rigidError": 4e-7,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "feathers/cast-meshy",
+          "samples": 94,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.598999791245152,
+          "maxExtension": 0.0160413026611511,
+          "armError": 0.000006497176776421032,
+          "feetDrift": 0.00014372242599748486,
+          "floor": -0.0000023690773280248776,
+          "rigidError": 4.470348358154297e-7,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 45,
+            "hold": 7,
+            "release": 7,
+            "recovery": 22
+          }
+        },
+        {
+          "name": "gust/cast-meshy",
+          "samples": 98,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.598999791245152,
+          "maxExtension": 0.0160413026611511,
+          "armError": 1.4587187457948403e-8,
+          "feetDrift": 0.00014372242599748486,
+          "floor": -0.0000014864151502515309,
+          "rigidError": 4.470348358154297e-7,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 12,
+            "windup": 49,
+            "hold": 7,
+            "release": 6,
+            "recovery": 24
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "fallen_city_3",
+      "status": "passed",
+      "bodySHA256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "motionSHA256": "7080a45db16eefb9865944969bce7a9c06b570b344655e9bab00d67df290fc69",
+      "metrics": {
+        "type": "fallen_city_3",
+        "samples": 203,
+        "vertices": 17040,
+        "edges": 26571,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 1.5920982,
+        "maxExtension": 0.0220086,
+        "armError": 0.0000119,
+        "feetDrift": 0.0003605,
+        "floor": -0.0000262,
+        "rigidError": 1e-7,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "command/slash-meshy",
+          "samples": 94,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.592098221193264,
+          "maxExtension": 0.02200857883590742,
+          "armError": 0.000011927589923271809,
+          "feetDrift": 0.0003604820220112976,
+          "floor": -0.00002616850838982763,
+          "rigidError": 1.0849907994270325e-7,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 45,
+            "hold": 7,
+            "release": 7,
+            "recovery": 22
+          }
+        },
+        {
+          "name": "mandala/ritual-meshy",
+          "samples": 109,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.5308153504324098,
+          "maxExtension": 0.018365087850895287,
+          "armError": 2.5190262209484615e-8,
+          "feetDrift": 0.00036048201371831237,
+          "floor": -0.000026168507786603585,
+          "rigidError": 1.1175870895385742e-7,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 59,
+            "hold": 8,
+            "release": 6,
+            "recovery": 23
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    },
+    {
+      "type": "demon_rift_3",
+      "status": "passed",
+      "bodySHA256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "motionSHA256": "03fbbbe88d3c206466ce663db886765c66aa64f6b064eb38b7be73a95e88bfe5",
+      "metrics": {
+        "type": "demon_rift_3",
+        "samples": 207,
+        "vertices": 19205,
+        "edges": 28107,
+        "nonFiniteVertices": 0,
+        "edgeViolations": 0,
+        "maxRatio": 1.9937775,
+        "maxExtension": 0.03891,
+        "armError": 0.0000111,
+        "feetDrift": 0.0001042,
+        "floor": 0.0000051,
+        "rigidError": 0,
+        "handError": 0,
+        "rootError": 0,
+        "protocolFailures": 0
+      },
+      "skills": [
+        {
+          "name": "rupture/cast-meshy",
+          "samples": 98,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.9937774587526789,
+          "maxExtension": 0.03891004222837316,
+          "armError": 0.000011117823793260762,
+          "feetDrift": 0.00010420703259299766,
+          "floor": 0.000005071110461127885,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 49,
+            "hold": 7,
+            "release": 9,
+            "recovery": 20
+          }
+        },
+        {
+          "name": "eclipse/ritual-meshy",
+          "samples": 109,
+          "nonFiniteVertices": 0,
+          "edgeViolations": 0,
+          "maxRatio": 1.9752800806108621,
+          "maxExtension": 0.037147322046767545,
+          "armError": 3.1796109856152555e-8,
+          "feetDrift": 0.00010420703259299766,
+          "floor": 0.000005071110461127885,
+          "rigidError": 0,
+          "handError": 0,
+          "rootError": 0,
+          "protocolFailures": 0,
+          "phaseSamples": {
+            "none": 13,
+            "windup": 59,
+            "hold": 8,
+            "release": 8,
+            "recovery": 21
+          }
+        }
+      ],
+      "worstEdge": null,
+      "phaseFailures": [],
+      "failure": null
+    }
+  ],
+  "hashesStable": true,
+  "totalSamples": 1599
+}

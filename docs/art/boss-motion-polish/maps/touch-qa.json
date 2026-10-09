@@ -1,0 +1,315 @@
+{
+  "at": "2026-10-09T16:06:50.817Z",
+  "scope": "Loaded production map worlds and atlas; local guest, no live boss availability claim. Software-rendered desktop and genuine coarse-pointer touch emulation. Static lairs tested with no alive boss data. Selected card must remain inside clipping sidebar and entire Walk target must receive hit tests.",
+  "rows": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true,
+      "map": "klong",
+      "bosses": [
+        {
+          "id": "boss:tani_grove:tani",
+          "name": "นางตานี · Lv 20",
+          "tag": "ถิ่นบอส · กลางคืน",
+          "x": -44,
+          "z": -742
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "name": "ชาละวัน · Lv 25",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 62,
+          "z": -774
+        }
+      ],
+      "rows": [
+        "boss:chalawan_lagoon:chalawan",
+        "boss:tani_grove:tani"
+      ],
+      "hits": [
+        {
+          "id": "boss:tani_grove:tani",
+          "title": "นางตานี · Lv 20 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "title": "ชาละวัน · Lv 25 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:tani_grove:tani",
+          "title": "นางตานี · Lv 20 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "title": "ชาละวัน · Lv 25 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": true,
+      "coarse": true,
+      "overflow": false,
+      "at": {
+        "x": -40,
+        "z": -612
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:tani_grove:tani",
+        "detail": "ถิ่นบอส · กลางคืน · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": -40,
+          "z": -612
+        },
+        "destination": false,
+        "card": {
+          "x": 14,
+          "y": 634.8125,
+          "width": 362,
+          "height": 175.1875,
+          "top": 634.8125,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "go": {
+          "x": 25,
+          "y": 755,
+          "width": 340,
+          "height": 44,
+          "top": 755,
+          "right": 365,
+          "bottom": 799,
+          "left": 25
+        },
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 832,
+          "top": 6,
+          "right": 384,
+          "bottom": 838,
+          "left": 6
+        },
+        "sidebar": {
+          "x": 14,
+          "y": 586.8125,
+          "width": 362,
+          "height": 223.1875,
+          "top": 586.8125,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "actionHitTests": [
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true,
+      "map": "wat_rang",
+      "bosses": [
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "name": "ผีปู่โสม · Lv 10",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 90,
+          "z": -540
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "name": "กระสือ · Lv 7",
+          "tag": "ถิ่นบอส · กลางคืน",
+          "x": 70,
+          "z": -562
+        }
+      ],
+      "rows": [
+        "boss:wat_stupas:krasue",
+        "boss:wat_ubosot:pusom"
+      ],
+      "hits": [
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "title": "ผีปู่โสม · Lv 10 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "title": "กระสือ · Lv 7 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "title": "ผีปู่โสม · Lv 10 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "title": "กระสือ · Lv 7 · ถิ่นบอส · กลางคืน"
+        }
+      ],
+      "touch": true,
+      "coarse": true,
+      "overflow": false,
+      "at": {
+        "x": -1.5,
+        "z": -459
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:wat_ubosot:pusom",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": -1.5,
+          "z": -459
+        },
+        "destination": false,
+        "card": {
+          "x": 14,
+          "y": 619,
+          "width": 362,
+          "height": 191,
+          "top": 619,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "go": {
+          "x": 25,
+          "y": 755,
+          "width": 340,
+          "height": 44,
+          "top": 755,
+          "right": 365,
+          "bottom": 799,
+          "left": 25
+        },
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 832,
+          "top": 6,
+          "right": 384,
+          "bottom": 838,
+          "left": 6
+        },
+        "sidebar": {
+          "x": 14,
+          "y": 571,
+          "width": 362,
+          "height": 239,
+          "top": 571,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "actionHitTests": [
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true,
+      "map": "demon_rift",
+      "bosses": [
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "name": "เจ้าอสูรรอยแยก · Lv 100",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -2711
+        }
+      ],
+      "rows": [
+        "boss:boss_demon_rift:demon_rift_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "title": "เจ้าอสูรรอยแยก · Lv 100 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "title": "เจ้าอสูรรอยแยก · Lv 100 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": true,
+      "coarse": true,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -2524
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_demon_rift:demon_rift_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -2524
+        },
+        "destination": false,
+        "card": {
+          "x": 14,
+          "y": 619,
+          "width": 362,
+          "height": 191,
+          "top": 619,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "go": {
+          "x": 25,
+          "y": 755,
+          "width": 340,
+          "height": 44,
+          "top": 755,
+          "right": 365,
+          "bottom": 799,
+          "left": 25
+        },
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 832,
+          "top": 6,
+          "right": 384,
+          "bottom": 838,
+          "left": 6
+        },
+        "sidebar": {
+          "x": 14,
+          "y": 571,
+          "width": 362,
+          "height": 239,
+          "top": 571,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "actionHitTests": [
+          true,
+          true,
+          true
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

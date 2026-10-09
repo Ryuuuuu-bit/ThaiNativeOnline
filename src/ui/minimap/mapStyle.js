@@ -117,6 +117,29 @@ export function landmarkMarker(l, discovered, halls = []) {
   const hall = halls.find(h => h.id === l.id);
   return { kind: 'landmark', glyph: hall ? 'hall' : (l.purpose ?? 'story'), classId: hall?.classId ?? null, found };
 }
+// Suppress only a matching live dot which visually overlaps a displayed lair.
+// A chasing boss away from its lair, another type or a filtered-out lair keeps
+// its usual live marker. This does not infer spawn availability for the atlas.
+export function overlapsBossLair(monster, lairs, to, pixels) {
+  const [x, y] = to(monster.x, monster.z);
+  return lairs.some(lair => {
+    if (lair.monsterType !== monster.type || (monster.spawn?.area && monster.spawn.area !== lair.spawnId)) return false;
+    const [lx, ly] = to(lair.x, lair.z);
+    return Math.hypot(x - lx, y - ly) <= pixels;
+  });
+}
+// A small bounded placement pass keeps the lair badge clear of compass/warps.
+// It moves presentation pixels only; a leader retains the authored location.
+export function placeBossBadge(x, y, radius, width, height, obstacles) {
+  const step = radius * 2 + 4, offsets = [[0, 0]];
+  for (const n of [1, 2, 3]) for (const [dx, dy] of [[0, 1], [-1, 0], [1, 0], [0, -1], [-1, 1], [1, 1], [-1, -1], [1, -1]]) offsets.push([dx * step * n, dy * step * n]);
+  const clip = (value, size) => Math.max(radius + 2, Math.min(size - radius - 2, value));
+  for (const [dx, dy] of offsets) {
+    const px = clip(x + dx, width), py = clip(y + dy, height);
+    if (obstacles.every(box => px + radius <= box.x || px - radius >= box.x + box.w || py + radius <= box.y || py - radius >= box.y + box.h)) return { x: px, y: py };
+  }
+  return { x: clip(x, width), y: clip(y, height) };
+}
 // Landmark ids the active quests still want discovered.
 export function questTargets(active = []) {
   const ids = new Set();
@@ -182,4 +205,5 @@ export const portalStyle = portal => (portal?.style === 'path' ? 'path' : 'warp'
 export const LEGEND = [
   ['player', 'ตำแหน่งของคุณ'], ['portal', 'ประตูวาป'], ['path', 'ทางออกสู่แผนที่อื่น'], ['quest', 'เควส / เป้าหมาย'], ['landmark', 'สถานที่'],
   ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['warp', 'NPC บริการวาร์ป'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'], ['hunt', 'จุดเก็บเลเวล (Lv.)'],
+  ['boss', 'ถิ่นบอส · ไม่แสดงสถานะเกิด'],
 ];

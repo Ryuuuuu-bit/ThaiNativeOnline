@@ -2,11 +2,11 @@ import { huntingFor, huntingLevel } from '../data/hunting.js';
 import { LANDMARKS } from '../data/landmarks.js';
 import { HALLS } from '../data/halls.js';
 import { SHOPS, TRAINERS } from '../data/shops.js';
-import { themeFor, npcMarker, landmarkMarker, edgePoint, portalStyle, LEGEND } from './minimap/mapStyle.js';
+import { themeFor, npcMarker, landmarkMarker, edgePoint, portalStyle, overlapsBossLair, placeBossBadge, LEGEND } from './minimap/mapStyle.js';
 import { paintBase } from './minimap/paintBase.js';
 import { mapDirectory, filterPlaces } from './mapDirectory.js';
 import { fittedCamera, mapTransform, placeLabels, clampCamera, clusterMarkers } from './minimap/mapLayout.js';
-import { badge, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample, routeLine, goalFlag } from './minimap/glyphs.js';
+import { badge, bossLairMark, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample, routeLine, goalFlag } from './minimap/glyphs.js';
 
 // Painted north-up map of the loaded map (minimap + the M full map).
 //
@@ -41,6 +41,7 @@ export class Minimap {
     this.hits = []; this.stats = { buildMs: 0, drawMs: 0, fullMs: 0, trees: 0 };
     this.world = world ?? { footprints, map: { walk: [this.bounds] } };
     this.directory = mapDirectory(map ?? world?.map ?? { id: 'city' }, landmarks, portals, this.world.spots);
+    this.bossLairs = this.directory.filter(e => e.category === 'bosses');
     this.build();
     this.bindFull();
     for (const c of [canvas, fullCanvas]) decorateFrame(c?.parentElement);
@@ -88,6 +89,7 @@ export class Minimap {
     // Monsters only on unsafe maps, near the player.
     if (this.map?.safe === false && p) for (const m of state.monsters ?? []) {
       if (!m.alive || Math.hypot(m.x - p.x, m.z - p.z) > MONSTER_RADIUS) continue;
+      if (overlapsBossLair(m, this.bossLairs, to, ui * .85)) continue;
       const [x, y] = to(m.x, m.z); if (onScreen(x, y)) monsterMark(g, x, y, ui * .26, !!(m.def?.elite || m.def?.boss));
     }
     // Public landmark badges; discovery state only controls active quest targets.
@@ -132,7 +134,51 @@ export class Minimap {
       if (full) label(g, `${w.name ?? 'ประตูวาป'} → ${w.toName ?? w.to}`, x, y - ui * 1.25, Math.round(ui * .5), { color: '#5a2e08', weight: 600 });
       hits?.push({ x, y, r: ui, title: `${w.name ?? 'ประตูวาป'} → ${w.toName ?? w.to}` });
     }
+    this.miniBossMarkers(g, to, ui, p);
     if (hits) this.hits = hits;
+  }
+
+  // Permanent lairs, even when no monster is loaded/alive. Off-screen lairs
+  // sit on the border; nearby border badges cluster instead of stacking text.
+  miniBossMarkers(g, to, ui, p) {
+    const lairs = this.bossLairs ?? [], cw = g.canvas.width, ch = g.canvas.height, r = ui * .62;
+    const points = lairs.map(entry => {
+      let [x, y] = to(entry.x, entry.z);
+      const edge = edgePoint(x - cw / 2, y - ch / 2, cw / 2, ch / 2, r * 1.4);
+      if (edge) { x = cw / 2 + edge.x; y = ch / 2 + edge.y; }
+      return { x, y, entry };
+    });
+    const labels = [], obstacles = [
+      { x: cw / 2 - ui, y: ch / 2 - ui, w: ui * 2, h: ui * 2 },
+      { x: cw - ui * 1.8, y: 0, w: ui * 1.8, h: ui * 1.8 },
+    ];
+    for (const portal of this.portals ?? []) {
+      let [x, y] = to(portal.at.x, portal.at.z);
+      const edge = edgePoint(x - cw / 2, y - ch / 2, cw / 2, ch / 2, ui * .55);
+      if (edge) { x = cw / 2 + edge.x; y = ch / 2 + edge.y; }
+      obstacles.push({ x: x - ui * .6, y: y - ui * .6, w: ui * 1.2, h: ui * 1.2 });
+    }
+    for (const group of clusterMarkers(points, r * 2.2)) {
+      const entries = group.points.map(point => point.entry).sort((a, b) => Math.hypot(a.x - p.x, a.z - p.z) - Math.hypot(b.x - p.x, b.z - p.z));
+      const e = entries[0]; let { x, y } = group;
+      const ox = x, oy = y, placed = placeBossBadge(x, y, r + 2, cw, ch, obstacles);
+      x = placed.x; y = placed.y;
+      if (x !== ox || y !== oy) {
+        g.save(); g.strokeStyle = '#711f26'; g.lineWidth = 1;
+        g.beginPath(); g.moveTo(ox, oy); g.lineTo(x, y); g.stroke(); g.restore();
+      }
+      bossLairMark(g, x, y, r);
+      if (entries.length > 1) label(g, String(entries.length), x + r * .85, y - r * .7, ui * .5, { color: '#ffe0a0', halo: '#711f26', serif: false, weight: 700 });
+      obstacles.push({ x: x - r - 2, y: y - r - 2, w: r * 2 + 4, h: r * 2 + 4 });
+      const text = `${e.bossName} · Lv ${e.level}`, size = Math.round(ui * .62);
+      g.font = `600 ${size}px "Noto Sans Thai", sans-serif`;
+      labels.push({ x, y, text, radius: r, size, width: g.measureText(text).width + 6, height: size * 1.6,
+        priority: -Math.hypot(e.x - p.x, e.z - p.z) });
+    }
+    for (const placed of placeLabels(labels, obstacles, cw, ch)) {
+      const box = placed.box;
+      label(g, placed.text, box.x + box.w / 2, box.y + box.h / 2, placed.size, { color: '#711f26', serif: false, weight: 600 });
+    }
   }
 
   fullMarkers(g, to, ui, state, p) {
@@ -145,7 +191,7 @@ export class Minimap {
     const onScreen = (x, y) => x > -r && y > -r && x < cw + r && y < ch + r;
     const groups = clusterMarkers(entries.map(e => { const [x, y] = to(e.x, e.z); return { x, y, entry: e }; }).filter(p => onScreen(p.x, p.y)), r * 2.15);
     for (const group of groups) {
-      const members = group.points.map(p => p.entry), selected = members.find(e => e.id === this.selectedId), e = selected ?? members[0];
+      const members = group.points.map(p => p.entry), selected = members.find(e => e.id === this.selectedId), e = selected ?? members.find(e => e.category === 'bosses') ?? members[0];
       let { x, y } = group;
       // Keep the player arrow clear. A fine leader preserves the actual map position.
       const [px, py] = to(p.x, p.z), away = Math.hypot(x - px, y - py), separation = r + ui * .65;
@@ -157,7 +203,8 @@ export class Minimap {
       if (e.portal) {
         if (portalStyle(e.portal) === 'path') pathMark(g, x, y, r, e.z < (this.bounds.minZ + this.bounds.maxZ) / 2 ? -Math.PI / 2 : Math.PI / 2);
         else portalMark(g, x, y, r, state.t ?? 0);
-      } else badge(g, x, y, r, e.glyph, e.category === 'training' ? 'hall' : e.category === 'shops' ? 'shop' : 'gold');
+      } else if (e.category === 'bosses') bossLairMark(g, x, y, r);
+      else badge(g, x, y, r, e.glyph, e.category === 'training' ? 'hall' : e.category === 'shops' ? 'shop' : 'gold');
       if (members.length > 1) {
         g.save(); g.fillStyle = '#142e28'; g.beginPath(); g.arc(x + r * .65, y - r * .65, r * .68, 0, Math.PI * 2); g.fill(); g.restore();
         label(g, String(members.length), x + r * .65, y - r * .65, ui * .5, { color: '#fff0b7', halo: '#142e28', serif: false, weight: 700 });
@@ -167,18 +214,21 @@ export class Minimap {
         g.beginPath(); g.arc(x, y, r * 1.4, 0, Math.PI * 2); g.stroke(); g.restore();
       }
       const cluster = members.length > 1;
-      const title = cluster ? `${members.every(m => m.category === 'training') ? 'สำนักครู' : 'สถานที่'} · ${members.length} จุด` : e.name;
+      const boss = members.find(m => m.category === 'bosses');
+      const title = cluster ? boss ? `${boss.name} · +${members.length - 1} จุด` : `${members.every(m => m.category === 'training') ? 'สำนักครู' : 'สถานที่'} · ${members.length} จุด` : e.name;
       const hit = { x, y, r: r * 1.5, title: `${title} · ${e.tag ?? ''}`, entry: cluster ? { cluster: members } : e, landmark: cluster ? null : e.landmark, goal: cluster ? null : e.goal };
       this.hits.push(hit);
       obstacles.push({ x: x - r - 3, y: y - r - 3, w: 2 * r + 6, h: 2 * r + 6 });
       const size = Math.round(ui * .6); g.font = `600 ${size}px "Noto Sans Thai", sans-serif`;
       const text = selected ? selected.name : title;
       labels.push({ x, y, text, hit, radius: r, size, width: g.measureText(text).width + 12, height: size * 1.65,
-        priority: e.id === this.selectedId ? 200 : e.purpose === 'upgrade' ? 100 : e.category === 'shops' ? 80 : e.category === 'travel' ? 70 : 20 });
+        priority: e.id === this.selectedId ? 200 : e.purpose === 'upgrade' ? 100 : e.category === 'bosses' ? 90 : e.category === 'shops' ? 80 : e.category === 'travel' ? 70 : 20 });
     }
     const [px, py] = to(p.x, p.z); obstacles.push({ x: px - ui, y: py - ui, w: ui * 2, h: ui * 2 });
+    const displayedLairs = entries.filter(e => e.category === 'bosses');
     if (this.map?.safe === false) for (const m of state.monsters ?? []) {
       if (!m.alive || Math.hypot(m.x - p.x, m.z - p.z) > MONSTER_RADIUS) continue;
+      if (overlapsBossLair(m, displayedLairs, to, ui * .85)) continue;
       const [x, y] = to(m.x, m.z); if (onScreen(x, y)) monsterMark(g, x, y, ui * .26, !!(m.def?.elite || m.def?.boss));
     }
     for (const n of state.npcs ?? []) {
