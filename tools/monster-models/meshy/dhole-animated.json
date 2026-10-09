@@ -1,0 +1,14 @@
+{
+  "type": "dhole",
+  "bytes": 1514444,
+  "sha256": "6b672bd3a26fc1d2d0b9e61e6e03ba5beb9d032e74fea811df1319b96b531152",
+  "triangles": 12515,
+  "bones": 20,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

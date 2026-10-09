@@ -1,0 +1,39 @@
+{
+  "creature": "dhole",
+  "bytes": 1423008,
+  "triangles": 12515,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.26702049374580383,
+      0,
+      -0.9516214728355408
+    ],
+    "max": [
+      0.26702049374580383,
+      1.2611581683158875,
+      0.9516214728355408
+    ]
+  },
+  "sha256": "35f7357ae1c05f67340a43a48660a3a53b8ee263dc523ca284e0663976e1c7f4",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

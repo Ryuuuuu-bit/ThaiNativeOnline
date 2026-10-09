@@ -1,10 +1,10 @@
 # Rice-field creature study 01 — Meshy
 
-Five textured Meshy creatures with species-specific Blender rigs and five game
-clips: boar (Lv.1), fowl (Lv.1), crab, cobra and macaque (Lv.2). The animated files replace the existing
-`public/models/monsters/{boar,fowl,crab,cobra,monkey}.glb` assets in the game's **3D monster mode**.
+Seven textured Meshy creatures with species-specific Blender rigs and five game
+clips: boar and fowl (Lv.1), crab, cobra and macaque (Lv.2), dhole and forest spirit (Lv.3).
+The animated files in `public/models/monsters/` are used in the game's **3D monster mode**.
 Static geometry candidates remain here for provenance and rig reconstruction.
-The next level-ordered candidates are dhole and phibpa (Lv.3).
+The next level-ordered candidates are buffalo and kongkoi (Lv.4).
 `queue.json` contains all 65 current monster identities through level 100; planned
 entries have not been generated. Regenerate it with `node tools/monster-models/meshy/queue.mjs`.
 
@@ -135,3 +135,34 @@ temporary correction rotates the complete head through -1.25 radians with a
 smooth lower-neck transition; its modifier is baked before the final rig.
 Keep existing editable snapshots and use a new authorized output directory for
 rebuilds rather than overwriting previous Blender exports.
+
+## Lv.3 dhole and forest spirit batch
+
+Open `motion.html?set=3` or `review.html?set=3`. The dhole comparison is an export
+of its original procedural `CombatView` fallback, not an earlier external GLB.
+The spirit comparison is the exact previous runtime file. Screenshots, recordings,
+measurements and limitations: `docs/art/monsters/meshy-motion-03/REVIEW.md`.
+Exact prompts are in `prompts-set-03.json`; two successful Meshy tasks used 70 credits.
+
+Use a fresh managed session/output root with the usual approved asset directories.
+For this run the existing session's approved root also covers its `level3` child.
+
+```powershell
+$env:MESHY_RIG_OUTPUT='artifacts/meshy-rig-02/level3'
+node tools/monster-models/meshy/unpack.mjs dhole phibpa
+python tools/monster-models/meshy/rig_level3.py dhole v5
+python tools/monster-models/meshy/rig_level3.py phibpa v1
+node tools/monster-models/prepare.mjs artifacts/meshy-rig-02/level3/dhole-rig-v5.glb artifacts/meshy-rig-02/level3/dhole-animated.glb
+node tools/monster-models/prepare.mjs artifacts/meshy-rig-02/level3/phibpa-rig-v1.glb artifacts/meshy-rig-02/level3/phibpa-animated.glb
+node tools/monster-models/meshy/publish.mjs dhole v5
+node tools/monster-models/meshy/publish.mjs phibpa v1
+```
+
+The canine rig retains four feet and two hind pastern segments. Connected limb
+bones prevent the contact constraint from separating joints. Rest-plane pole
+angles and complete distal rotations are in `pole-angles-level3.json`; optional
+`poles_level3.mjs` re-derives them from the local initial v1 export. It converts
+world bases to Blender coordinates and accounts for Blender's XYZ Euler order.
+The spirit uses two segmented arms, rigid open hands, a rigid mask/crown and
+three root clusters. Hovering has positive vertical displacement; there is no
+human lower-body retarget or separately bent finger animation.

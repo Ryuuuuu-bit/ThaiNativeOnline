@@ -1,0 +1,39 @@
+{
+  "creature": "phibpa",
+  "bytes": 1389096,
+  "triangles": 12273,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.502067506313324,
+      0,
+      -0.24406254291534424
+    ],
+    "max": [
+      0.502067506313324,
+      1.899548053741455,
+      0.24406254291534424
+    ]
+  },
+  "sha256": "037b3713cf854dbaddad9018dff3ecc06565e2bdec8c87de30307528c5b61a22",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

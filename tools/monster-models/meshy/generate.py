@@ -33,7 +33,7 @@ def request(path, body=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey'])
+    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa'])
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--submit', action='store_true')
     action.add_argument('--collect', action='store_true')

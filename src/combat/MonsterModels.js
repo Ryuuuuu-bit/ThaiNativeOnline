@@ -16,6 +16,7 @@ export const MONSTER_MODELS = {
   crab: { url: '/models/monsters/crab.glb', height: .65 },
   buffalo: { url: '/models/monsters/buffalo.glb', height: 1.6 },
   monkey: { url: '/models/monsters/monkey.glb', height: 1.3 },
+  dhole: { url: '/models/monsters/dhole.glb', height: 1.065 },
   phibpa: { url: '/models/monsters/phibpa.glb', height: 1.8, lift: .12 },
 };
 // One parse per file, shared; a load is retried, and a failure is forgotten after a while so
