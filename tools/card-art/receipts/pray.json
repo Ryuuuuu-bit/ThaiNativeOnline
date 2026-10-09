@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "pray",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผีพราย monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: deep Thai tropical forest, softly painted foliage and tree roots. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "pray.png",
+  "sourceSha256": "26b497e9f5fe1deb98633abf117827acd17806b2a7943066354f6ea1a5e3a804",
+  "reference": "artifacts/card-model-references/pray.png",
+  "referenceSha256": "95c555180dcb6fcdad4dc5c568295a23b79909c1291294a7a4f8b9c77ef2f25e",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/pray.glb",
+      "sha256": "31f9145d0a28adc0ad4fd5b9aff7f7ec0cd2d56d2e7af70f118fba9e8211e3b2"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/pray.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 78824,
+    "sha256": "ed5274354f76b202a1106ebcc8bd87d36c4c949abc844b5fb4a753d0bfc8d808"
+  },
+  "icon": {
+    "path": "public/ui/card-art/pray-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5942,
+    "sha256": "ad1d2fc2b2856a7062ef3375cddb968ec7839be1fa0d26749faaf79ab24388cf"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: watercolor/gouache, ink and soft forms",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Pale ghost woman with green hair, leaf collar, pale aqua wrap, dark belt, two hands and floating robe tail; no feet.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}

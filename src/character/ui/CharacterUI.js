@@ -28,13 +28,14 @@ const bonusLabel = (k, v) => {
   return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${Math.round(v * 100)}%` : v}`;
 };
 export const bonusText = b => (b ? Object.entries(b).map(([k, v]) => bonusLabel(k, v)).join(' · ') : '');
+const cardAbilityText = d => d?.special ? `${d.special.name} · ${d.special.description}` : '';
 
 // "+4 ดาบเหล็กลาย [2]" — RO style, the plus from ตีบวก and the number of card slots
 export const itemName = (id, plus = 0) => { const d = ITEMS[id]; return `${plus ? `+${plus} ` : ''}${d.type === 'equip' && d.slots ? `${d.name} [${d.slots}]` : d.name}`; };
 const cardsLine = (id, cards = []) => {
   const n = ITEMS[id]?.slots ?? 0; if (ITEMS[id]?.type !== 'equip') return '';
   if (!n) return '\nไม่มีช่องการ์ด';
-  return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
+  return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)}${ITEMS[c].special ? ` · ${cardAbilityText(ITEMS[c])}` : ''})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
 };
 function itemTip(id, cards = [], plus = 0) {
   const d = ITEMS[id];
@@ -42,7 +43,7 @@ function itemTip(id, cards = [], plus = 0) {
   // a weapon says its kind and who wields it (RO style: a bow is a hunter's)
   const wield = d.weapon ? `\n${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
   const refine = plus ? `\nตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}` : '';
-  return `${itemName(id, plus)}${where}${wield}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
+  return `${itemName(id, plus)}${where}${wield}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\n${cardAbilityText(d)}\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง · ถอดได้ที่หมออาคม มีค่าใช้จ่ายและความเสี่ยง` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
 }
 const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
 
@@ -56,8 +57,8 @@ function itemCard({ id, cards = [], plus = 0, locked = false }, cmp) {
   const slots = cardsLine(id, cards).trim();
   const tag = [d.type === 'card' ? `การ์ด${SLOT_LABELS[d.slot]}` : d.slot && SLOT_LABELS[d.slot], RARITY_TH[d.rarity], `น้ำหนัก ${d.weight || 0}`].filter(Boolean).join(' · ');
   const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
-  const act = d.type === 'equip' ? 'คลิกเพื่อสวมใส่' : d.type === 'use' ? 'คลิกเพื่อใช้' : d.type === 'card' ? 'คลิกเพื่อใส่การ์ด (ถอดไม่ได้)' : 'ขายได้ที่ร้านค้า';
-  return `<span class="g-detail-icon" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}">${iconHtml(d)}</span><div><b style="color:${RARITY_COLORS[d.rarity] || 'inherit'}">${esc(itemName(id, plus))}</b><small>${tag}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small><span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
+  const act = d.type === 'equip' ? 'คลิกเพื่อสวมใส่' : d.type === 'use' ? 'คลิกเพื่อใช้' : d.type === 'card' ? 'คลิกเพื่อใส่การ์ด · ถอดได้ที่หมออาคม มีค่าใช้จ่ายและความเสี่ยง' : 'ขายได้ที่ร้านค้า';
+  return `<span class="g-detail-icon" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}">${iconHtml(d)}</span><div><b style="color:${RARITY_COLORS[d.rarity] || 'inherit'}">${esc(itemName(id, plus))}</b><small>${tag}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small><span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${cardAbilityText(d) ? `<small>${esc(cardAbilityText(d))}</small>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
 
 export class CharacterUI {
@@ -337,10 +338,10 @@ export class CharacterUI {
     const card = ITEMS[this.c.inventory[i]?.id]; if (!card) return;
     if (this.bag.hidden) this.toggle('bag');
     const targets = this.c.cardTargets(i); this.pickCard = i;
-    this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${bonusText(card.bonus)}</small></header>`
+    this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${esc(bonusText(card.bonus))}</small>${cardAbilityText(card) ? `<small>${esc(cardAbilityText(card))}</small>` : ''}</header>`
       + (targets.length ? targets.map(t => `<button data-where="${t.worn ? 'worn' : t.index}"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id, t.worn ? this.c.refine[t.slot] : this.c.inventory[t.index]?.plus))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
         : `<p>ไม่มี${SLOT_LABELS[card.slot]}ที่มีช่องการ์ดว่าง</p>`)
-      + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><button class="g-pick-cancel">ยกเลิก</button>';
+      + '<p class="g-pick-warn">การ์ดติดกับอุปกรณ์ชิ้นนี้ · ถอดได้ที่หมออาคม มีค่าใช้จ่ายและเสี่ยงอุปกรณ์หรือการ์ดแตก</p><button class="g-pick-cancel">ยกเลิก</button>';
     this.cardPick.hidden = false;
   }
   showDetail(slot) {

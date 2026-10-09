@@ -16,6 +16,7 @@ import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 import { resetBossSkills, cancelBossSkill, tickBossSkills } from './bossSkills.js';
 import { effectiveDefense, monsterAttackMul } from './statusEffects.js';
 import { BOSS_EFFECT_MUL } from '../rules/effects.js';
+import { bossCardOutgoingMul, bossCardIncomingMul, bossCardProcStateFor, applyBossCardHit, applyBossCardKill } from './bossCardEffects.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -45,6 +46,8 @@ export class Combat extends Emitter {
     this.pending = null; // { skillId, target } waiting to get in range
     this.attackTimer = 0; this.gcd = 0; this.combatTimer = 0; this.projectiles = []; this.hold = false;
     this.phase = 'day';
+    this.bossCardProcs = bossCardProcStateFor(character);
+    this.bossCardSources = new WeakMap(); this.bossCardDeaths = new WeakSet();
     character.on('cleansed', () => {
       // Rule conditions may live outside Character.buffs. Clear only existing
       // player-side fields; monster debuffs and positive buffs are unaffected.
@@ -225,12 +228,22 @@ export class Combat extends Emitter {
   // Apply an already rolled blow to a monster (hook for the class skill kits,
   // src/training/KitCaster.js): emits hit/miss, then kills (EXP, gold, loot) or aggroes.
   // → true when the monster took the blow and is still alive.
-  damageMonster(m, amount, { crit = false, miss = false } = {}) {
+  damageMonster(m, amount, { crit = false, miss = false, pet = false, dot = false } = {}) {
     if (!m?.alive) return false;
     if (miss) { this.emit('miss', { x: m.x, z: m.z, monster: m }); this.aggro(m); return false; }
+    const hp = m.hp, base = amount, cardMul = bossCardOutgoingMul(this.character, m, { dot });
     amount *= 1 + this.character.vsRace(m.def);   // cards (offline; online the server rolls)
+    amount *= cardMul;
     m.hp = Math.max(0, m.hp - Math.max(0, Math.round(amount)));
-    this.emit('hit', { monster: m, amount: Math.round(amount), crit, x: m.x, z: m.z });
+    this.bossCardSources.set(m, { base, source: base * cardMul });
+    const removed = hp - m.hp;
+    if (removed > 0 && m.hp <= 0) this.bossCardDeaths.add(m);
+    if (!this.remote && !this.serverOwned) {
+      const healed = applyBossCardHit(this.character, this.bossCardProcs, Date.now() / 1000, removed, { pet, dot });
+      if (healed) { const p = this.world.playerPos(); this.emit('heal', { amount: healed, x: p.x, z: p.z }); }
+    }
+    if (pet) this.emit('pet-bite', { monster: m, amount: Math.round(amount) });
+    this.emit('hit', { monster: m, amount: Math.round(amount), crit, x: m.x, z: m.z, ...(pet ? { pet: true } : {}), ...(dot ? { dot: true } : {}) });
     if (m.hp <= 0) { this.kill(m); return false; }
     this.aggro(m); return true;
   }
@@ -238,7 +251,11 @@ export class Combat extends Emitter {
   // DoT ticks retain the same duration as the shared rules/effects.js path.
   debuff(m, d) {
     if (!m.alive) return;
-    const effect = { ...d, remaining: d.duration * (m.def.boss && !d.dot ? BOSS_EFFECT_MUL : 1) };
+    // KitCaster and legacy skills supply the original roll. Its card multiplier
+    // is captured before lifesteal can change an HP-threshold condition.
+    const roll = this.bossCardSources.get(m);
+    const source = d.dot && roll && d.source === roll.base ? roll.source : d.source;
+    const effect = { ...d, ...(source !== undefined ? { source } : {}), remaining: d.duration * (m.def.boss && !d.dot ? BOSS_EFFECT_MUL : 1) };
     m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(effect);
     this.emit('debuffed', { monster: m, debuff: effect });
   }
@@ -246,6 +263,7 @@ export class Combat extends Emitter {
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
   kill(m) {
+    const realDeath = this.bossCardDeaths.delete(m);
     for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
     m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn; m.debuffs = [];
     const c = this.character;
@@ -254,6 +272,8 @@ export class Combat extends Emitter {
     const drops = [];
     for (const [id, chance, min, max] of LOOT[m.def.loot] || []) if (Math.random() < chance) drops.push({ id, qty: randInt(min, max) });
     if (hasCard(m.type) && Math.random() < cardRate(m.def)) drops.push({ id: cardId(m.type), qty: 1 });
+    if (realDeath && m.hp <= 0 && (gold > 0 || drops.length) && !this.remote && !this.serverOwned && this.monsters.includes(m))
+      applyBossCardKill(c, this.bossCardProcs, Date.now() / 1000);
     this.emit('kill', { monster: m, exp, gold, drops });
     c.gold += gold; c.gainExp(exp);
     for (const d of drops) c.addItem(d.id, d.qty);
@@ -334,11 +354,7 @@ export class Combat extends Emitter {
           const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: c.critChance, critDmg: c.critDamage };
           const r = rollDamage(atk, effectiveDefense(target), 'physical', skill.power);
           if (!r.hit) { this.emit('miss', { x: target.x, z: target.z, monster: target }); this.aggro(target); return; }
-          const dealt = r.dmg;
-          target.hp = Math.max(0, target.hp - dealt);
-          this.emit('pet-bite', { monster: target, amount: dealt });
-          this.emit('hit', { monster: target, amount: dealt, crit: r.crit, pet: true, x: target.x, z: target.z });
-          if (target.hp <= 0) this.kill(target); else this.aggro(target);
+          this.damageMonster(target, r.dmg, { crit: r.crit, pet: true });
         }
       }
       return;
@@ -373,7 +389,9 @@ export class Combat extends Emitter {
     if (dot && (m.dotTimer += dt) >= 1) {
       m.dotTimer = 0;
       const amount = Math.max(1, Math.round(dot.source * dot.dot));
+      const hp = m.hp;
       m.hp = Math.max(0, m.hp - amount);
+      if (hp > 0 && m.hp <= 0) this.bossCardDeaths.add(m);
       this.emit('hit', { monster: m, amount, dot: true, x: m.x, z: m.z });
       if (m.hp <= 0) { this.kill(m); return; }
     }
@@ -462,7 +480,7 @@ export class Combat extends Emitter {
       // Remote guest packets already include weakness in their supplied power.
       const weak = this.remote && Number.isFinite(fx?.power) ? 1 : monsterAttackMul(m);
       const raw = m.def.atk * (fx?.power ?? night) * weak * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
-      dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def))));
+      dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def)) * bossCardIncomingMul(c)));
     }
     const p = this.world.playerPos();
     if (!dodged) this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });

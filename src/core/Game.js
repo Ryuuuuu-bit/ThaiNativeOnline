@@ -31,6 +31,7 @@ import { WorldMapPanel } from '../ui/WorldMapPanel.js';
 import { WarpPanel } from '../ui/WarpPanel.js';
 import { StoragePanel } from '../ui/StoragePanel.js';
 import { BestiaryPanel } from '../ui/BestiaryPanel.js';
+import { CardCompendiumPanel } from '../ui/CardCompendiumPanel.js';
 import { nextPortal } from '../ui/mapDirectory.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
@@ -48,7 +49,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get serviceModalOpen() { return !!(this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get serviceModalOpen() { return !!(this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -94,12 +95,29 @@ export class Game {
       level: () => this.game?.character?.level ?? 1, prepare: () => { this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null); },
       note: text => this.game?.hud?.feed?.log(text, 'gold', true) });
     this.guide = new BestiaryPanel({ level: () => this.game?.character?.level ?? 1,
-      prepare: () => { this.closeDialogue(); this.warp.close(); this.storage?.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); },
+      prepare: () => { this.cardBook?.close(); this.closeDialogue(); this.warp.close(); this.storage?.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); },
       locate: (monster, location) => this.locateMonster(monster, location) });
     this.storage = new StoragePanel({ character: () => this.game?.character,
-      prepare: () => { this.closeDialogue(); this.warp.close(); this.guide.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
+      prepare: () => { this.cardBook?.close(); this.closeDialogue(); this.warp.close(); this.guide.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
         const ui = this.game?.characterUI; if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; } },
       note: text => this.game?.hud?.feed?.log(text, 'gold', true) });
+    this.cardBook = new CardCompendiumPanel({ character: () => this.game?.character,
+      prepare: () => {
+        this.closeDialogue(); this.warp.close(); this.guide.close(); this.storage.close(); this.shop.close();
+        this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
+        const ui = this.game?.characterUI;
+        if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; }
+        $('fullmap-panel').hidden = true; $('settings').hidden = true;
+        $('settings-toggle').setAttribute('aria-expanded', 'false');
+        this.input?.keys.clear();
+      },
+      locate: (monster, location) => this.locateMonster(monster, location),
+      openGuideAction: action => {
+        this.cardBook.close();
+        if (action === 'bestiary') this.guide.show();
+        else if (action === 'map') this.toggleMap();
+        else if (['sheet', 'bag', 'skills', 'loadouts'].includes(action)) this.game?.characterUI?.toggle(action);
+      } });
     this.prefs = createViewPrefs();   // HUD scale and saved camera zoom (device-wide)
     this.input = new InputManager(host);
     this.touch = createTouchControls($('app'), this.input, {
@@ -140,12 +158,13 @@ export class Game {
     const input = this.input, view = this.view;
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.stopWalk(); view.recenter(); });
-    input.on('resetCamera', () => view.reset());
-    input.on('photo', () => this.togglePhoto());
+    input.on('resetCamera', () => { if (!this.serviceModalOpen) view.reset(); });
+    input.on('photo', () => { if (!this.serviceModalOpen) this.togglePhoto(); });
     input.on('interact', () => this.interact());
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (this.cardBook.open) return this.cardBook.close();
       if (this.storage.open) return this.storage.close();
       if (this.guide.open) return this.guide.close();
       if (this.warp.open) return this.warp.close();
@@ -160,11 +179,11 @@ export class Game {
       if (this.photo) this.togglePhoto();
     });
     let panStart = null;
-    input.on('panStart', () => { panStart = view.panOffset.clone(); });
-    input.on('pan', (dx, dy) => view.pan(dx, dy, panStart));
-    input.on('zoom', delta => this.zoomTo(view.zoom - delta * .001));
-    input.on('zoomBy', ratio => this.zoomTo(view.zoom * ratio));
-    input.on('zoomStep', dir => this.zoomTo(view.zoom * (dir > 0 ? 1.12 : 1 / 1.12)));
+    input.on('panStart', () => { if (!this.serviceModalOpen) panStart = view.panOffset.clone(); });
+    input.on('pan', (dx, dy) => { if (!this.serviceModalOpen && panStart) view.pan(dx, dy, panStart); });
+    input.on('zoom', delta => { if (!this.serviceModalOpen) this.zoomTo(view.zoom - delta * .001); });
+    input.on('zoomBy', ratio => { if (!this.serviceModalOpen) this.zoomTo(view.zoom * ratio); });
+    input.on('zoomStep', dir => { if (!this.serviceModalOpen) this.zoomTo(view.zoom * (dir > 0 ? 1.12 : 1 / 1.12)); });
     $('zoom-in').addEventListener('click', () => this.zoomTo(view.zoom * 1.15, true));
     $('zoom-out').addEventListener('click', () => this.zoomTo(view.zoom / 1.15, true));
     // 🔒 locks the camera distance: pinch, the wheel and + / − keys no longer change it
@@ -216,6 +235,8 @@ export class Game {
       map: () => this.toggleMap(),
       social: () => (this.net?.social ? this.net.social.toggle() : this.hud.toast('สังคม', 'ต้องเชื่อมต่อเซิร์ฟเวอร์ก่อน (ออนไลน์)')),
       bestiary: () => this.guide.show(),
+      cards: () => this.cardBook.show('cards'),
+      guide: () => this.cardBook.show('guide'),
       loadouts: () => { this.stopWalk(); this.game?.combat?.cancelPending(); characterUI()?.toggle('loadouts'); },
       auto: () => document.querySelector('.hotbar-auto-cfg')?.click(),
       photo: () => this.togglePhoto(),
@@ -333,6 +354,7 @@ export class Game {
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
   // then rebuild the minimap and debug overlay and reapply settings for the new one.
   leaveMap() {
+    this.cardBook?.close();
     this.guide?.close();
     this.storage?.close();
     this.warp?.close();

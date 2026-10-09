@@ -25,6 +25,12 @@
   background: linear-gradient(135deg, #f6e7bb0a, transparent 45%, #10251f18);
   pointer-events: none;
 }
+/* Painted card portraits have no baked rim. Preserve their proportions and
+   full silhouette rather than applying the pixel-icon rim crop. */
+.card-illustration-icon.icon-img > img {
+  left: 0; top: 0; width: 100%; height: 100%;
+  object-fit: contain; image-rendering: auto;
+}
 .g-skslot > .asset-icon.icon-img { width: 34px; height: 34px; display: inline-block; }
 .auto-skills button > .asset-icon.icon-img { width: 46px; height: 46px; display: inline-block; }
 .g-node .g-ic, .g-skd-head .g-ic { background: #132b25; }

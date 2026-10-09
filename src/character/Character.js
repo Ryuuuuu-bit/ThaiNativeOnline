@@ -19,6 +19,7 @@ import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (s
 import { TITLE_BY_ID, BOSS_TITLES, checkTitles } from '../data/titles.js';
 import { isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
 import { cleanMasteries, masteryBonus } from './data/masteries.js';
+import { cleanCardBook, collectCardBook } from './cardCollection.js';
 
 const SAVE_KEY = 'tno.character.v1';
 const INVENTORY_SIZE = 24;
@@ -39,7 +40,7 @@ export const isHarmfulBuff = buff => NEGATIVE_BUFF_FIELDS.some(key => !!buff?.[k
 export const STARTER_VERSION = 2;
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, loadouts, hotbar, masteries } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, cardBook, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, loadouts, hotbar, masteries } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -107,6 +108,12 @@ export class Character extends Emitter {
     this.hotbar = cleanHotbar(this, hotbar);
     this.loadouts = cleanLoadouts(this, loadouts);
     this.masteries = cleanMasteries(this.classId, masteries);
+    const savedBook = cleanCardBook(cardBook);
+    this.cardBook = collectCardBook(savedBook, this.inventory, this.equipment, this.cards);
+    this.cardBookMigrated = Object.keys(this.cardBook).some(id => savedBook[id] !== true);
+    // Observe successful bag mutations before UI/quest listeners. This also covers
+    // socketed trade items and authoritative warehouse inventory replacements.
+    this.on('inventory', () => { this.cardBook = collectCardBook(this.cardBook, this.inventory, this.equipment, this.cards); });
     this.inCombat = false; // transient local hint; the server supplies its own combat state
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
@@ -407,10 +414,11 @@ export class Character extends Emitter {
   // Adds as many as fit; false (with 'overweight') when any are left behind.
   addItem(id, qty = 1) {
     const def = ITEMS[id]; if (!def || def.retired) return false;
+    if (def.type === 'card' && (!Number.isSafeInteger(qty) || qty < 1)) return false;
     const room = this.carryRoom(id);
     if (room < qty) {
       this.emit('overweight', id);
-      if (room === 0) return false;
+      if (room === 0 || def.type === 'card') return false;   // failed card batches cannot partially acquire/unlock
       this.addItem(id, room);
       return false;
     }
@@ -686,7 +694,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: [...this.hotbar], loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: [...this.hotbar], loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cardBook: cleanCardBook(this.cardBook), cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

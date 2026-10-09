@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "kongkoi",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผีกองกอย monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: deep Thai tropical forest, softly painted foliage and tree roots. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "kongkoi.png",
+  "sourceSha256": "afb6a79e26706efe94fe5fac7bbbceaf97524960a90a1fbf404c37c44669f657",
+  "reference": "artifacts/card-model-references/kongkoi.png",
+  "referenceSha256": "ed515f1361a0df08d03c5053867e5bb7c3c1f7962c0e1b573fec107c152e0d55",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/kongkoi.glb",
+      "sha256": "b3e1f91631c4aa959ad433a20469cc46cb2ed35e286bdc277ecbccb615ef76be"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/kongkoi.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 78974,
+    "sha256": "f1db4a6367c7212de5a5fbd2e8ab38f69e94abe9164c75a38d8240bbfafe68fd"
+  },
+  "icon": {
+    "path": "public/ui/card-art/kongkoi-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 6066,
+    "sha256": "9751b33e5f416e598ec81e46004ca4d2d33fd79cdc52e3e5ccd18099bfbceacb"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: approved watercolor/gouache and ink treatment",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Purple leaf crown, wood spirals, pointed ears, gold waist cloth, two arms and exactly one leg match the production reference.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}
