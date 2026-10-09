@@ -13,7 +13,7 @@ import { spawnSync } from 'node:child_process';
 import { Quaternion, Vector3 } from 'three';
 
 const name = process.argv[2];
-if (!['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa'].includes(name)) throw Error('Unknown study creature');
+if (!['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo'].includes(name)) throw Error('Unknown study creature');
 const dest = new URL('./', import.meta.url), tmp = new URL(`../../../artifacts/meshy-monsters/${name}/`, import.meta.url);
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const correctedInput=process.argv[3];
@@ -21,8 +21,9 @@ const doc = await io.read(correctedInput??fileURLToPath(new URL('original.glb', 
 const root = doc.getRoot();
 if (root.listSkins().length || root.listAnimations().length) throw Error('Expected the untouched static generation');
 // Meshy reconstructed the macaque's torso along -X. The game faces +Z.
-if(name==='monkey'&&!correctedInput){
-  const yaw=new Quaternion().setFromAxisAngle(new Vector3(0,1,0),Math.PI/2);
+if((name==='monkey'||name==='buffalo')&&!correctedInput){
+  // Align the buffalo's reconstructed shoulder/hip axis with game forward.
+  const yaw=new Quaternion().setFromAxisAngle(new Vector3(0,1,0),name==='monkey'?Math.PI/2:-.38);
   for(const scene of root.listScenes())for(const node of scene.listChildren()){
     node.setRotation(yaw.clone().multiply(new Quaternion().fromArray(node.getRotation())).toArray());
     node.setTranslation(new Vector3(...node.getTranslation()).applyQuaternion(yaw).toArray());

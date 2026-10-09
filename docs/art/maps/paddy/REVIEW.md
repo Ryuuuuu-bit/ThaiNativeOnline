@@ -1,5 +1,9 @@
 # Map 01 — Paddy / ทุ่งนอกกำแพง
 
+The subsequent [buffalo model pass](../../monsters/meshy-paddy-boss/REVIEW.md)
+completes all seven animated Meshy creature identities for Paddy. The environment
+review and screenshots below describe the earlier pass with the prototype boss.
+
 ## Result
 
 First environment pass for the user's new **map-by-map production workflow**.

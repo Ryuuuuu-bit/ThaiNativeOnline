@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11e30-b304-7208-a905-0c0ad10444a6",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/buffalo.png",
+  "referenceSha256": "da79f151bd7709eeaf79c0959d94c0104656bf560b03d346a26cfbccfb400e74",
+  "originalSha256": "a2c14fd18570fe04a54f8895bd3d96169f05a066fed3a3c11368640c381d2a88",
+  "originalBytes": 10302312,
+  "originalLocalPath": "artifacts/meshy-monsters/buffalo/original.glb"
+}

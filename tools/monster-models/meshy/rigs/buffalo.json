@@ -1,0 +1,505 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0.42,
+        0.72
+      ],
+      "tail": [
+        0,
+        -0.24,
+        0.78
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Neck",
+      "head": [
+        0,
+        -0.24,
+        0.78
+      ],
+      "tail": [
+        0.025,
+        -0.44,
+        0.86
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        0.025,
+        -0.44,
+        0.86
+      ],
+      "tail": [
+        0.1,
+        -0.8,
+        0.75
+      ],
+      "parent": "Neck",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "TailBase",
+      "head": [
+        0.03,
+        0.78,
+        0.83
+      ],
+      "tail": [
+        0.1,
+        0.92,
+        0.63
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "TailTip",
+      "head": [
+        0.1,
+        0.92,
+        0.63
+      ],
+      "tail": [
+        0.32,
+        0.9,
+        0.29
+      ],
+      "parent": "TailBase",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeLUpper",
+      "head": [
+        -0.27,
+        -0.3,
+        0.7
+      ],
+      "tail": [
+        -0.27,
+        -0.13,
+        0.38
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ForeLLower",
+      "head": [
+        -0.27,
+        -0.13,
+        0.38
+      ],
+      "tail": [
+        -0.3,
+        -0.19,
+        0.065
+      ],
+      "parent": "ForeLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeLFoot",
+      "head": [
+        -0.3,
+        -0.19,
+        0.065
+      ],
+      "tail": [
+        -0.31,
+        -0.32,
+        0.065
+      ],
+      "parent": "ForeLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeRUpper",
+      "head": [
+        0.25,
+        -0.27,
+        0.7
+      ],
+      "tail": [
+        0.24,
+        -0.1,
+        0.38
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ForeRLower",
+      "head": [
+        0.24,
+        -0.1,
+        0.38
+      ],
+      "tail": [
+        0.26,
+        -0.15,
+        0.065
+      ],
+      "parent": "ForeRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeRFoot",
+      "head": [
+        0.26,
+        -0.15,
+        0.065
+      ],
+      "tail": [
+        0.265,
+        -0.28,
+        0.065
+      ],
+      "parent": "ForeRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLUpper",
+      "head": [
+        -0.18,
+        0.57,
+        0.7
+      ],
+      "tail": [
+        -0.2,
+        0.45,
+        0.43
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HindLLower",
+      "head": [
+        -0.2,
+        0.45,
+        0.43
+      ],
+      "tail": [
+        -0.13,
+        0.73,
+        0.23
+      ],
+      "parent": "HindLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLPastern",
+      "head": [
+        -0.13,
+        0.73,
+        0.23
+      ],
+      "tail": [
+        -0.16,
+        0.75,
+        0.065
+      ],
+      "parent": "HindLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLFoot",
+      "head": [
+        -0.16,
+        0.75,
+        0.065
+      ],
+      "tail": [
+        -0.16,
+        0.64,
+        0.065
+      ],
+      "parent": "HindLPastern",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRUpper",
+      "head": [
+        0.27,
+        0.58,
+        0.7
+      ],
+      "tail": [
+        0.3,
+        0.55,
+        0.43
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HindRLower",
+      "head": [
+        0.3,
+        0.55,
+        0.43
+      ],
+      "tail": [
+        0.3,
+        0.8,
+        0.23
+      ],
+      "parent": "HindRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRPastern",
+      "head": [
+        0.3,
+        0.8,
+        0.23
+      ],
+      "tail": [
+        0.31,
+        0.78,
+        0.065
+      ],
+      "parent": "HindRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRFoot",
+      "head": [
+        0.31,
+        0.78,
+        0.065
+      ],
+      "tail": [
+        0.31,
+        0.67,
+        0.065
+      ],
+      "parent": "HindRPastern",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "ForeL",
+      "hip": [
+        -0.27,
+        -0.3,
+        0.7
+      ],
+      "knee": [
+        -0.27,
+        -0.13,
+        0.38
+      ],
+      "joint": [
+        -0.3,
+        -0.19,
+        0.065
+      ],
+      "ankle": [
+        -0.3,
+        -0.19,
+        0.065
+      ],
+      "toe": [
+        -0.31,
+        -0.32,
+        0.065
+      ],
+      "pole": [
+        -0.27,
+        0.4,
+        0.4
+      ],
+      "phase": 0,
+      "control": "BuffaloV1ForeLTarget"
+    },
+    {
+      "name": "ForeR",
+      "hip": [
+        0.25,
+        -0.27,
+        0.7
+      ],
+      "knee": [
+        0.24,
+        -0.1,
+        0.38
+      ],
+      "joint": [
+        0.26,
+        -0.15,
+        0.065
+      ],
+      "ankle": [
+        0.26,
+        -0.15,
+        0.065
+      ],
+      "toe": [
+        0.265,
+        -0.28,
+        0.065
+      ],
+      "pole": [
+        0.24,
+        0.4,
+        0.4
+      ],
+      "phase": 0.5,
+      "control": "BuffaloV1ForeRTarget"
+    },
+    {
+      "name": "HindL",
+      "hip": [
+        -0.18,
+        0.57,
+        0.7
+      ],
+      "knee": [
+        -0.2,
+        0.45,
+        0.43
+      ],
+      "joint": [
+        -0.13,
+        0.73,
+        0.23
+      ],
+      "ankle": [
+        -0.16,
+        0.75,
+        0.065
+      ],
+      "toe": [
+        -0.16,
+        0.64,
+        0.065
+      ],
+      "pole": [
+        -0.2,
+        -0.3,
+        0.4
+      ],
+      "phase": 0.75,
+      "control": "BuffaloV1HindLTarget"
+    },
+    {
+      "name": "HindR",
+      "hip": [
+        0.27,
+        0.58,
+        0.7
+      ],
+      "knee": [
+        0.3,
+        0.55,
+        0.43
+      ],
+      "joint": [
+        0.3,
+        0.8,
+        0.23
+      ],
+      "ankle": [
+        0.31,
+        0.78,
+        0.065
+      ],
+      "toe": [
+        0.31,
+        0.67,
+        0.065
+      ],
+      "pole": [
+        0.3,
+        -0.3,
+        0.4
+      ],
+      "phase": 0.25,
+      "control": "BuffaloV1HindRTarget"
+    }
+  ],
+  "weightGroups": 545,
+  "limbLength": {
+    "maxRelativeError": 1.2246467300541707e-06,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "BuffaloV1Rig",
+      "bone": "ForeLFoot",
+      "maxDrift": 1.959941750461743e-07,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "BuffaloV1Rig",
+      "bone": "ForeRFoot",
+      "maxDrift": 2.1542358837725164e-07,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "BuffaloV1Rig",
+      "bone": "HindLFoot",
+      "maxDrift": 2.421152116249788e-07,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "BuffaloV1Rig",
+      "bone": "HindRFoot",
+      "maxDrift": 1.959941750461743e-07,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "version": "v1",
+  "editableSource": "artifacts\\meshy-rig-02\\paddy-buffalo\\buffalo-rig-v1.blend",
+  "snapshotId": "snapshot-b43006e827d0462b8cce77ef"
+}

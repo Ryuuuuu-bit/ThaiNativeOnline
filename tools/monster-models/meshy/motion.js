@@ -3,9 +3,10 @@ import { gltfLoader } from '/src/core/gltf.js';
 import { makeMonsterModel, MONSTER_MODELS } from '/src/combat/MonsterModels.js';
 import { MONSTERS } from '/src/combat/data/monsters.js';
 const params=new URLSearchParams(location.search),set=params.get('set')||'1';
-const types=({'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa']}[set]||['boar','fowl','crab']), canvas=document.querySelector('canvas'),host=canvas.parentElement;
+const types=({'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa'],'4':['buffalo']}[set]||['boar','fowl','crab']), canvas=document.querySelector('canvas'),host=canvas.parentElement;
 document.querySelector('.creatures').innerHTML='<button data-type="all" class="active">ดูทั้งชุด</button>'+types.map(id=>`<button data-type="${id}">${MONSTERS[id].name} · Lv.${MONSTERS[id].level}</button>`).join('');
 if(set==='2'||set==='3'){document.querySelector('header p').textContent=set==='2'?'งูเห่านา · ลิงกัง — Lv.2':'หมาไน · ผีป่า — Lv.3';document.querySelector('header small').textContent=`THAI NATIVE ONLINE · CREATURE MOTION 0${set}`;}
+if(set==='4'){document.querySelector('header p').textContent='บอสทุ่งนา · ควายป่า Lv.4';document.querySelector('header small').textContent='THAI NATIVE ONLINE · PADDY BOSS';}
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,preserveDrawingBuffer:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;
@@ -27,8 +28,8 @@ function arrange(){
  const offset=new THREE.Vector3(...dirs[view]),right=new THREE.Vector3(offset.z||1,0,-offset.x).normalize();
  for(let i=0;i<types.length;i++){models[i].visible=type==='all'||types[i]===type;models[i].position.copy(right).multiplyScalar(type==='all'?(i-(types.length-1)/2)*3.4:comparison?1.4:0);originals[i].visible=comparison&&models[i].visible;originals[i].position.copy(models[i].position).add(type==='all'?new THREE.Vector3(-right.z,0,right.x).multiplyScalar(-2.4):right.clone().multiplyScalar(-2.8));}
  document.querySelector('#labels').innerHTML=(type==='all'?types:[type]).map(id=>`<div><strong>${MONSTERS[id].name}</strong><span>Lv.${MONSTERS[id].level} · ${MONSTERS[id].hp} HP</span></div>`).join('');
- renderer.setSize(host.clientWidth,host.clientHeight,false);const aspect=host.clientWidth/host.clientHeight,width=type==='all'?3.4*types.length+.2:comparison?5.6:3.2,half=Math.max(width/2/aspect,type==='all'?1.7:set==='3'?1.35:1.15);
- Object.assign(camera,{left:-half*aspect,right:half*aspect,top:half,bottom:-half});camera.up.set(0,1,0);if(view==='top')camera.up.set(0,0,-1);const target=new THREE.Vector3(0,set==='3'?.85:.5,0);camera.position.copy(target).add(offset);camera.lookAt(target);camera.updateProjectionMatrix();
+ renderer.setSize(host.clientWidth,host.clientHeight,false);const aspect=host.clientWidth/host.clientHeight,width=type==='all'?3.4*types.length+.2:comparison?5.6:3.2,half=Math.max(width/2/aspect,type==='all'?1.7:set==='3'||set==='4'?1.4:1.15,view==='top'&&set==='4'?1.8:0);
+ Object.assign(camera,{left:-half*aspect,right:half*aspect,top:half,bottom:-half});camera.up.set(0,1,0);if(view==='top')camera.up.set(0,0,-1);const target=new THREE.Vector3(0,set==='3'||set==='4'?.85:.5,0);camera.position.copy(target).add(offset);camera.lookAt(target);camera.updateProjectionMatrix();
 }
 function update(dt){clock+=dt;const phase=clock-start;
  for(const model of models){model.userData.animate(clock,clip==='walk',clip==='attack'&&phase%1.4<.7,{hurt:clip==='hurt'&&phase%.8<.4,dying:clip==='die'});if(spin)model.rotation.y+=dt*.35;}

@@ -1,18 +1,22 @@
 # Rice-field creature study 01 — Meshy
 
-Seven textured Meshy creatures with species-specific Blender rigs and five game
-clips: boar and fowl (Lv.1), crab, cobra and macaque (Lv.2), dhole and forest spirit (Lv.3).
+Eight textured Meshy creatures with species-specific Blender rigs and five game
+clips: boar and fowl (Lv.1), crab, cobra and macaque (Lv.2), dhole and forest spirit (Lv.3), and buffalo (Lv.4).
 The animated files in `public/models/monsters/` are used in the game's **3D monster mode**.
 Static geometry candidates remain here for provenance and rig reconstruction.
 Production now advances one complete map at a time, starting with **paddy**:
 environment, its existing creatures, primary boss, portals, anatomy/motion review,
-and gameplay-camera QA. The next missing bespoke paddy model is **buffalo (Lv.4)**;
-finish that map set before advancing to deep forest. Dhole belongs to deep forest.
+and gameplay-camera QA. **Paddy's seven creature identities, including the Lv.4
+buffalo boss, now have reviewed animated Meshy models.** Next is deep forest;
+retain shared approved models and complete its missing identities together.
+Dhole belongs to deep forest.
 `map-queue.json` groups actual runtime membership and boss assignments (shared
 creatures appear on every inhabited map). Rebuild it with
 `node tools/monster-models/meshy/map-queue.mjs`. This is an authoring manifest;
 it does not submit generation jobs. Current map layout and evidence:
 `docs/art/maps/paddy/REVIEW.md`; interactive plan: `/tools/paddy-map-review.html`.
+Buffalo anatomy, motion and gameplay evidence: `docs/art/monsters/meshy-paddy-boss/REVIEW.md`;
+interactive model: `/tools/monster-models/meshy/motion.html?set=4`.
 `queue.json` contains all 65 current monster identities through level 100; planned
 entries have not been generated. Regenerate it with `node tools/monster-models/meshy/queue.mjs`.
 
