@@ -55,12 +55,15 @@ test('NPC markers: quest first, then trainers, shops, guards, others', () => {
   for (const n of NPCS) if (n.trainer) assert.ok(npcMarker(n, ctx).classId, `${n.id} trainer has a class emblem`);
 });
 
-test('landmark markers: hidden until found, halls use the class emblem', () => {
+test('public atlas reveals every landmark without granting quest discoveries; halls retain class emblems', () => {
   const none = new Set(), hall = LANDMARKS.find(l => HALLS.some(h => h.id === l.id));
   const hidden = LANDMARKS.find(l => l.hidden), open = LANDMARKS.find(l => !l.hidden && !HALLS.some(h => h.id === l.id));
-  assert.equal(landmarkMarker(hidden, none, HALLS).kind, 'hidden');
+  assert.equal(landmarkMarker(hidden, none, HALLS).kind, 'landmark');
+  assert.equal(landmarkMarker(hidden, none, HALLS).found, false);
   assert.equal(landmarkMarker(hidden, new Set([hidden.id]), HALLS).kind, 'landmark');
-  assert.equal(landmarkMarker(open, none, HALLS).kind, 'unknown');
+  assert.equal(landmarkMarker(open, none, HALLS).kind, 'landmark');
+  for (const l of LANDMARKS) assert.equal(landmarkMarker(l, none, HALLS).kind, 'landmark');
+  assert.equal(none.size, 0, 'looking up every place must not mutate discoveries');
   assert.equal(landmarkMarker(open, new Set([open.id]), HALLS).glyph, open.purpose);
   if (hall) assert.equal(landmarkMarker(hall, new Set([hall.id]), HALLS).classId, HALLS.find(h => h.id === hall.id).classId);
   assert.deepEqual([...questTargets([{ objectives: [{ discover: 'market' }, { kill: 'boar' }] }, { objectives: [{ discover: 'port' }] }])], ['market', 'port']);

@@ -110,12 +110,11 @@ export function npcMarker(def, { shops = {}, trainers = {}, quest = null } = {})
   if (def.faction) return { kind: 'guard' };
   return { kind: 'npc' };
 }
-// How a landmark is drawn: 'hidden' (not on the map), 'unknown' (faded) or its purpose glyph.
+// Atlas visibility is independent of having visited a place for quest progression.
 export function landmarkMarker(l, discovered, halls = []) {
   const found = discovered.has(l.id);
-  if (l.hidden && !found) return { kind: 'hidden' };
   const hall = halls.find(h => h.id === l.id);
-  return { kind: found ? 'landmark' : 'unknown', glyph: hall ? 'hall' : (l.purpose ?? 'story'), classId: hall?.classId ?? null, found };
+  return { kind: 'landmark', glyph: hall ? 'hall' : (l.purpose ?? 'story'), classId: hall?.classId ?? null, found };
 }
 // Landmark ids the active quests still want discovered.
 export function questTargets(active = []) {
@@ -180,6 +179,6 @@ export const portalStyle = portal => (portal?.style === 'path' ? 'path' : 'warp'
 
 // Legend rows of the full map (UI text).
 export const LEGEND = [
-  ['player', 'ตำแหน่งของคุณ'], ['portal', 'ประตูวาป'], ['path', 'ทางออกสู่แผนที่อื่น'], ['quest', 'เควส / เป้าหมาย'], ['landmark', 'สถานที่ที่ค้นพบ'],
-  ['unknown', 'ยังไม่ค้นพบ'], ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'], ['hunt', 'จุดเก็บเลเวล (Lv.)'],
+  ['player', 'ตำแหน่งของคุณ'], ['portal', 'ประตูวาป'], ['path', 'ทางออกสู่แผนที่อื่น'], ['quest', 'เควส / เป้าหมาย'], ['landmark', 'สถานที่'],
+  ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'], ['hunt', 'จุดเก็บเลเวล (Lv.)'],
 ];

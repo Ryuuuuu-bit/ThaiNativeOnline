@@ -6,8 +6,8 @@ import { expeditionGearIds } from '../character/data/expedition-gear.js';
 // so loot (hide, tusk, ash) sells at any of them.
 // Shops without stock (and trainers) still show their future services.
 export const SHOPS = {
-  // ลุงดำ's forge: blades, the bow and leather armour; cloth, staves and wands stay at the stalls, with the herbalist and occultist.
-  blacksmith: { title: 'โรงตีเหล็กลุงดำ', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'krabi', 'bamboo_bow', 'hide_armor', 'hide_boots'], services: ['ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'เกราะหนังควาย'] },
+  // ลุงดำ is the single equipment counter; legacy weapons/armor stock is merged below.
+  blacksmith: { title: 'โรงตีเหล็กลุงดำ', purpose: 'equipment', stock: ['wood_sword', 'iron_dap', 'krabi', 'bamboo_bow', 'hide_armor', 'hide_boots'], services: ['ซื้อ-ขายอาวุธและเกราะ', 'ตีอาวุธ', 'ซ่อมอาวุธ', 'สร้างอุปกรณ์'], preview: ['ดาบเหล็กกล้า', 'หอกทหาร', 'มีดเหน็บ', 'เกราะหนังควาย'] },
   // หมื่นเพชรศาสตรา refines gear (ตีบวก, src/character/data/refine.js) and sells the ores for it.
   enhance: { title: 'โรงหลอมศาสตรา', purpose: 'upgrade', stock: ['sacred_ore', 'gold_leaf'], services: ['ตีบวกอุปกรณ์', 'หลอมขัดเกลา (Refine)', 'อัปเกรดด้วยวัตถุดิบพิเศษ'], preview: ['แร่ศักดิ์สิทธิ์', 'ทองคำเปลว', 'น้ำมนต์หลอม'] },
   general: { title: 'ร้านของชำ', purpose: 'trade', stock: ['potion_s', 'potion_m', 'ether'], services: ['ซื้อ-ขายของทั่วไป'], preview: ['ยาสามัญ', 'ข้าวห่อใบตอง', 'คบไฟ', 'เชือก', 'เครื่องมือพื้นฐาน'] },
@@ -28,6 +28,11 @@ export const SHOPS = {
   lanterns: { title: 'แผงโคมไฟ', purpose: 'trade', services: ['เครื่องให้แสง'], preview: ['โคมกระดาษ', 'ตะเกียงน้ำมัน'] },
   charms: { title: 'แผงเครื่องราง', purpose: 'trade', stock: ['takrut'], services: ['เครื่องรางพื้นฐาน'], preview: ['สายสิญจน์', 'พระเครื่องดินเผา'] },
 };
+// Retain former shop IDs and restricted inventories for older buy requests.
+// Proximity comes from the surviving counter, never a removed vendor.
+export const SHOP_HOSTS = Object.freeze({ weapons: 'blacksmith', armor: 'blacksmith', charms: 'occult' });
+SHOPS.blacksmith.stock = [...new Set([...SHOPS.blacksmith.stock, ...SHOPS.weapons.stock, ...SHOPS.armor.stock])];
+
 // One master per playable class (src/character/data/classes.js), each at the
 // class's hall (src/data/halls.js). `classId` links the trainer to its class;
 // `skills` names come from the class's real kit (src/classes/*-moves.js where a

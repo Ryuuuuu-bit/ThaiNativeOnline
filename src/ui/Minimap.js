@@ -4,45 +4,49 @@ import { HALLS } from '../data/halls.js';
 import { SHOPS, TRAINERS } from '../data/shops.js';
 import { themeFor, npcMarker, landmarkMarker, edgePoint, portalStyle, LEGEND } from './minimap/mapStyle.js';
 import { paintBase } from './minimap/paintBase.js';
-import { badge, unknownMark, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample, routeLine, goalFlag } from './minimap/glyphs.js';
+import { mapDirectory, filterPlaces } from './mapDirectory.js';
+import { fittedCamera, mapTransform, placeLabels, clampCamera, clusterMarkers } from './minimap/mapLayout.js';
+import { badge, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample, routeLine, goalFlag } from './minimap/glyphs.js';
 
 // Painted north-up map of the loaded map (minimap + the M full map).
 //
 //   new Minimap(canvas, fullCanvas, footprints, options)
 // options (all optional; the map hook documented in src/world/README.md):
 //   bounds      walk bounds of the map (walkBounds(map))
-//   landmarks   this map's landmarks; hidden ones appear only once discovered
+//   landmarks   public atlas locations; discovery quests still require visiting
 //   portals     warps, drawn as glowing rings labelled with `toName`
 //   discovered  Set of discovered landmark ids (outlives a map change)
 //   world, map  buildWorld() result and its MAPS entry: the ground, water, trees,
 //               walls and roofs are painted once from them (src/ui/minimap/paintBase.js);
 //               the palette follows map.minimap.theme / map.theme / map.id (mapStyle.js)
 //   regionAt    (x, z) → region, for zone names on the full map
-//   onPick      (landmark) => void, clicking a discovered landmark on the full map
+//   onPick      (landmark) => void, legacy navigation callback
+//   onSelect    (entry) => void, select a public place or a cluster's member list
 //   onOpen      () => void, a tap / click on the minimap (opens the big map)
 //   onWalk      (x, z) => bool, a tap / click anywhere else on the full map:
 //               walk there (navigation); state.nav = { goal, route } draws the way
 // Per refresh (Game calls it every ~120 ms, never per frame):
 //   update(p, yaw, state)  /  drawFull(p, yaw, state)
 //   state: { t, night 0..1, npcs, monsters, quest(npcId), targets: Set, view: [{x,z}×4] }
-// Call invalidate() when something painted into the base changes (a hidden place found).
+// Call invalidate() when something painted into the base changes.
 // `stats` = { buildMs, drawMs, fullMs, trees }.
 const VIEW_UNITS = 120, MONSTER_RADIUS = 48;
 
 export class Minimap {
-  constructor(canvas, fullCanvas, footprints, { bounds, landmarks = LANDMARKS, portals = [], discovered = new Set(), world = null, map = null, regionAt = null, onPick = null, onWalk = null, onOpen = null } = {}) {
-    Object.assign(this, { canvas, full: fullCanvas, landmarks, portals, discovered, world, map, regionAt, onPick, onWalk, onOpen });
+  constructor(canvas, fullCanvas, footprints, { bounds, landmarks = LANDMARKS, portals = [], discovered = new Set(), world = null, map = null, regionAt = null, onPick = null, onWalk = null, onOpen = null, onSelect = null } = {}) {
+    Object.assign(this, { canvas, full: fullCanvas, landmarks, portals, discovered, world, map, regionAt, onPick, onWalk, onOpen, onSelect });
     this.bounds = bounds ?? world?.map?.view;
     this.theme = themeFor(map ?? world?.map ?? {});
     this.ctx = canvas.getContext('2d');
     this.hits = []; this.stats = { buildMs: 0, drawMs: 0, fullMs: 0, trees: 0 };
     this.world = world ?? { footprints, map: { walk: [this.bounds] } };
+    this.directory = mapDirectory(map ?? world?.map ?? { id: 'city' }, landmarks, portals, this.world.spots);
     this.build();
     this.bindFull();
     for (const c of [canvas, fullCanvas]) decorateFrame(c?.parentElement);
   }
   build() {
-    const regionAt = this.regionAt ? (x, z) => this.regionAt(x, z, this.discovered.has('cemetery')) : null;
+    const regionAt = this.regionAt ? (x, z) => this.regionAt(x, z, true) : null;
     this.base = paintBase({ world: this.world, bounds: this.bounds, theme: this.theme, regionAt });
     this.stats.buildMs = this.base.ms; this.stats.trees = this.base.trees;
   }
@@ -58,6 +62,7 @@ export class Minimap {
   // ---- shared marker pass ----
   // `to(x, z)` maps world → canvas; `k` = pixels per world unit; `ui` = base marker size.
   markers(g, to, k, ui, state, { full = false, p } = {}) {
+    if (full) return this.fullMarkers(g, to, ui, state, p);
     const hits = full ? [] : null, cw = g.canvas.width, ch = g.canvas.height, onScreen = (x, y, m = 12) => x > -m && y > -m && x < cw + m && y < ch + m;
     const t = state.t ?? 0, targets = state.targets ?? new Set();
     // Three navigable hunting circuits, matching the expedition's painted trails.
@@ -85,14 +90,13 @@ export class Minimap {
       if (!m.alive || Math.hypot(m.x - p.x, m.z - p.z) > MONSTER_RADIUS) continue;
       const [x, y] = to(m.x, m.z); if (onScreen(x, y)) monsterMark(g, x, y, ui * .26, !!(m.def?.elite || m.def?.boss));
     }
-    // Landmarks: unknown ones (faded) under the service badges, discovered ones above; hidden skipped.
+    // Public landmark badges; discovery state only controls active quest targets.
     const landmarks = found => { for (const l of this.landmarks) {
       const m = landmarkMarker(l, this.discovered, HALLS);
-      if (m.kind === 'hidden' || !!m.found !== found) continue;
+      if (!!m.found !== found) continue;
       const [x, y] = to(l.x, l.z); if (!onScreen(x, y, 20)) continue;
       const r = ui * (full ? .62 : .55);
-      if (m.found) badge(g, x, y, r, m.glyph === 'hall' ? `class:${m.classId}` : m.glyph, m.glyph === 'hall' ? 'hall' : 'gold');
-      else unknownMark(g, x, y, r * .85);
+      badge(g, x, y, r, m.glyph === 'hall' ? `class:${m.classId}` : m.glyph, m.glyph === 'hall' ? 'hall' : 'gold');
       if (targets.has(l.id) && !m.found) questMark(g, x, y - r * 1.9, r * .7, '!', t);
       if (full && m.found) label(g, l.name, x, y + r * 1.75, Math.round(ui * .5), { weight: 600 });
       hits?.push({ x, y, r: r * 1.5, title: m.found ? `${l.name}${l.text ? ` — ${l.text}` : ''}` : 'สถานที่ที่ยังไม่ค้นพบ', landmark: m.found ? l : null });
@@ -101,6 +105,7 @@ export class Minimap {
     const placed = [];
     for (const [x, y, m, n] of services) {
       const r = ui * (full ? .52 : .48);
+      if (this.landmarks.some(l => (l.purpose === m.purpose || l.classId === m.classId && m.classId) && Math.hypot(l.x - n.x, l.z - n.z) < 14)) continue;
       if (placed.some(([a, b]) => Math.hypot(a - x, b - y) < r * 1.5)) continue; // stalls side by side: one badge
       placed.push([x, y]);
       badge(g, x, y, r, m.kind === 'trainer' ? `class:${m.classId}` : m.purpose, m.kind === 'trainer' ? 'hall' : 'shop');
@@ -128,6 +133,69 @@ export class Minimap {
       hits?.push({ x, y, r: ui, title: `${w.name ?? 'ประตูวาป'} → ${w.toName ?? w.to}` });
     }
     if (hits) this.hits = hits;
+  }
+
+  fullMarkers(g, to, ui, state, p) {
+    const cw = g.canvas.width, ch = g.canvas.height, r = ui * .52;
+    const entries = filterPlaces(this.directory, this.filter, this.search, p), labels = [], obstacles = [
+      { x: cw / 2 - 145 * devicePixelRatio, y: ch - 64 * devicePixelRatio, w: 290 * devicePixelRatio, h: 64 * devicePixelRatio },
+      { x: cw - 65 * devicePixelRatio, y: 0, w: 65 * devicePixelRatio, h: 65 * devicePixelRatio },
+    ];
+    this.hits = [];
+    const onScreen = (x, y) => x > -r && y > -r && x < cw + r && y < ch + r;
+    const groups = clusterMarkers(entries.map(e => { const [x, y] = to(e.x, e.z); return { x, y, entry: e }; }).filter(p => onScreen(p.x, p.y)), r * 2.15);
+    for (const group of groups) {
+      const members = group.points.map(p => p.entry), selected = members.find(e => e.id === this.selectedId), e = selected ?? members[0];
+      let { x, y } = group;
+      // Keep the player arrow clear. A fine leader preserves the actual map position.
+      const [px, py] = to(p.x, p.z), away = Math.hypot(x - px, y - py), separation = r + ui * .65;
+      if (away < separation) {
+        const dx = away > 1 ? (x - px) / away : 0, dy = away > 1 ? (y - py) / away : 1;
+        const ox = x, oy = y; x = px + dx * separation; y = py + dy * separation;
+        g.save(); g.strokeStyle = '#5c462b'; g.lineWidth = devicePixelRatio; g.beginPath(); g.moveTo(ox, oy); g.lineTo(x, y); g.stroke(); g.restore();
+      }
+      if (e.portal) {
+        if (portalStyle(e.portal) === 'path') pathMark(g, x, y, r, e.z < (this.bounds.minZ + this.bounds.maxZ) / 2 ? -Math.PI / 2 : Math.PI / 2);
+        else portalMark(g, x, y, r, state.t ?? 0);
+      } else badge(g, x, y, r, e.glyph, e.category === 'training' ? 'hall' : e.category === 'shops' ? 'shop' : 'gold');
+      if (members.length > 1) {
+        g.save(); g.fillStyle = '#142e28'; g.beginPath(); g.arc(x + r * .65, y - r * .65, r * .68, 0, Math.PI * 2); g.fill(); g.restore();
+        label(g, String(members.length), x + r * .65, y - r * .65, ui * .5, { color: '#fff0b7', halo: '#142e28', serif: false, weight: 700 });
+      }
+      if (selected) {
+        g.save(); g.strokeStyle = '#fff4bc'; g.lineWidth = 2 * devicePixelRatio;
+        g.beginPath(); g.arc(x, y, r * 1.4, 0, Math.PI * 2); g.stroke(); g.restore();
+      }
+      const cluster = members.length > 1;
+      const title = cluster ? `${members.every(m => m.category === 'training') ? 'สำนักครู' : 'สถานที่'} · ${members.length} จุด` : e.name;
+      const hit = { x, y, r: r * 1.5, title: `${title} · ${e.tag ?? ''}`, entry: cluster ? { cluster: members } : e, landmark: cluster ? null : e.landmark, goal: cluster ? null : e.goal };
+      this.hits.push(hit);
+      obstacles.push({ x: x - r - 3, y: y - r - 3, w: 2 * r + 6, h: 2 * r + 6 });
+      const size = Math.round(ui * .6); g.font = `600 ${size}px "Noto Sans Thai", sans-serif`;
+      const text = selected ? selected.name : title;
+      labels.push({ x, y, text, hit, radius: r, size, width: g.measureText(text).width + 12, height: size * 1.65,
+        priority: e.id === this.selectedId ? 200 : e.purpose === 'upgrade' ? 100 : e.category === 'shops' ? 80 : e.category === 'travel' ? 70 : 20 });
+    }
+    const [px, py] = to(p.x, p.z); obstacles.push({ x: px - ui, y: py - ui, w: ui * 2, h: ui * 2 });
+    if (this.map?.safe === false) for (const m of state.monsters ?? []) {
+      if (!m.alive || Math.hypot(m.x - p.x, m.z - p.z) > MONSTER_RADIUS) continue;
+      const [x, y] = to(m.x, m.z); if (onScreen(x, y)) monsterMark(g, x, y, ui * .26, !!(m.def?.elite || m.def?.boss));
+    }
+    for (const n of state.npcs ?? []) {
+      const quest = state.quest?.(n.id); if (!quest || n.indoors) continue;
+      const m = npcMarker(n.def, { quest }); if (m.kind !== 'quest') continue;
+      const [x, y] = to(n.x, n.z); if (!onScreen(x, y)) continue;
+      questMark(g, x, y - r * 1.8, r * .7, m.glyph, state.t ?? 0);
+      this.hits.push({ x, y: y - r * 1.8, r, title: `${n.def.name} · ${m.glyph === '?' ? 'ส่งเควส' : 'มีเควส'}`, goal: { x: n.x, z: n.z } });
+      obstacles.push({ x: x - r, y: y - r * 2.8, w: r * 2, h: r * 2 });
+    }
+    this.fullLabels = placeLabels(labels, obstacles, cw, ch);
+    for (const l of this.fullLabels) {
+      const b = l.box; g.save(); g.fillStyle = 'rgba(247,237,209,.91)'; g.strokeStyle = 'rgba(101,75,37,.35)'; g.lineWidth = devicePixelRatio;
+      g.beginPath(); g.roundRect(b.x, b.y, b.w, b.h, 4 * devicePixelRatio); g.fill(); g.stroke(); g.restore();
+      label(g, l.text, b.x + b.w / 2, b.y + b.h / 2, l.size, { serif: false, weight: 600 });
+      this.hits.push({ ...l.hit, box: b });
+    }
   }
 
   // ---- minimap ----
@@ -175,58 +243,90 @@ export class Minimap {
   // ---- full map (M) ----
   drawFull(p, yaw, state = {}) {
     const t0 = performance.now(), c = this.full, [cw, ch] = this.fit(c), g = c.getContext('2d'), B = this.base, R = B.rect;
-    const margin = Math.min(cw, ch) * .03, k = Math.min((cw - margin * 2) / (R.maxX - R.minX), (ch - margin * 2) / (R.maxZ - R.minZ));
-    const w = (R.maxX - R.minX) * k, h = (R.maxZ - R.minZ) * k, left = (cw - w) / 2, top = (ch - h) / 2;
+    this.fullState = { p, yaw, state };
+    if (!this.fullCamera) this.resetFull();
+    clampCamera(R, cw, ch, this.fullCamera);
+    const { k, w, h, left, top } = mapTransform(R, cw, ch, this.fullCamera);
     g.clearRect(0, 0, cw, ch);
-    g.fillStyle = 'rgba(20,12,4,.45)'; g.fillRect(left + 4, top + 6, w, h);
+    g.fillStyle = '#d3c6a0'; g.fillRect(0, 0, cw, ch);
     g.imageSmoothingEnabled = true; g.drawImage(B.canvas, left, top, w, h);
-    g.save(); g.beginPath(); g.rect(left, top, w, h); g.clip();
-    this.nightTint(g, cw, ch, state.night);
-    g.restore();
+    // The atlas remains readable at night, independent of the world's lighting.
     g.strokeStyle = '#6b4a22'; g.lineWidth = Math.max(1, devicePixelRatio); g.strokeRect(left, top, w, h);
-    const ui = Math.max(14, Math.min(cw, ch) / 26), to = (x, z) => [left + (x - R.minX) * k, top + (z - R.minZ) * k];
-    // Zone names: large spaced serif, skipped where a discovered landmark label sits.
-    // Zone names: large serif, nudged off the place markers and each other; skipped where none fits.
-    const size = Math.round(ui * .62), boxes = [...this.landmarks.filter(l => !l.hidden || this.discovered.has(l.id)), ...this.portals.map(w => w.at), ...huntingFor(this.map?.id), p]
-      .map(l => { const [x, y] = to(l.x, l.z); return { x, y, hw: ui * .7, hh: ui * .7 }; });
-    g.font = `500 ${size}px "Noto Serif Thai", serif`;
-    for (const z of B.zones) {
-      if (z.name === this.map?.name) continue;
-      const [x, y0] = to(z.x, z.z), hw = g.measureText(z.name).width / 2 + 4, hh = size * .6;
-      const y = [0, 1, -1, 2, -2].map(o => y0 + o * ui * .95).find(y => !boxes.some(b => Math.abs(b.x - x) < b.hw + hw && Math.abs(b.y - y) < b.hh + hh));
-      if (y === undefined) continue;
-      label(g, z.name, x, y, size, { color: 'rgba(70,44,18,.78)', halo: 'rgba(246,236,208,.55)', weight: 500 });
-      boxes.push({ x, y, hw, hh });
-    }
+    const ui = 22 * devicePixelRatio, to = (x, z) => [left + (x - R.minX) * k, top + (z - R.minZ) * k];
     this.fullView = { left, top, k, minX: R.minX, minZ: R.minZ, w, h };
     this.drawNav(g, to, ui * .8, state, p);
     this.markers(g, to, k, ui, state, { full: true, p });
     playerMark(g, ...to(p.x, p.z), ui * .55, yaw);
-    compassRose(g, left + w - ui * 1.6, top + ui * 1.6, ui * 1.15, state.night > .5);
+    compassRose(g, cw - ui * 1.5, ui * 1.5, ui, 0);
     // Scale bar: 50 units.
-    const sx = left + ui, sy = top + h - ui, len = 50 * k;
+    const sx = ui, sy = ch - ui, units = 50 * k < cw * .35 ? 50 : 10, len = units * k;
     g.fillStyle = '#3a2612'; g.fillRect(sx, sy, len, Math.max(2, ui * .12)); g.fillRect(sx, sy - ui * .2, 2, ui * .4); g.fillRect(sx + len - 2, sy - ui * .2, 2, ui * .4);
-    label(g, '50 วา', sx + len / 2, sy - ui * .45, Math.round(ui * .45), { serif: false });
+    label(g, `${units} วา`, sx + len / 2, sy - ui * .6, Math.round(ui * .55), { serif: false });
     this.stats.fullMs = +(performance.now() - t0).toFixed(2);
+  }
+  redrawFull() { if (this.fullState) this.drawFull(this.fullState.p, this.fullState.yaw, this.fullState.state); }
+  resetFull(whole = false) {
+    const [w, h] = this.fit(this.full), R = this.base.rect;
+    const short = h / devicePixelRatio < 300;
+    const focus = !whole && this.map?.id === 'city' ? short ? { minX: -70, maxX: 116, minZ: 8, maxZ: 122 } : { minX: Math.max(R.minX, -92), maxX: R.maxX, minZ: -119, maxZ: 177 } : R;
+    this.fullCamera = fittedCamera(R, w, h, focus); this.redrawFull();
+  }
+  focusFull(p) {
+    if (!this.fullCamera) this.resetFull();
+    this.fullCamera.x = p.x; this.fullCamera.z = p.z; this.redrawFull();
+  }
+  zoomFull(factor, point = null) {
+    if (!this.fullCamera) this.resetFull();
+    const before = this.fullCamera.zoom, after = Math.max(.7, Math.min(6, before * factor));
+    if (point) { this.fullCamera.x = point.x + (this.fullCamera.x - point.x) * before / after; this.fullCamera.z = point.z + (this.fullCamera.z - point.z) * before / after; }
+    this.fullCamera.zoom = after; this.redrawFull();
   }
   // Tooltips and click-to-walk on the full map.
   bindFull() {
     const c = this.full; if (!c || c.dataset.bound) return;
     c.dataset.bound = '1';
     const tip = c.parentElement?.querySelector('.map-tip');
-    const find = e => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) * c.width / r.width, y = (e.clientY - r.top) * c.height / r.height; return [...(c._minimap?.hits ?? [])].reverse().find(h => Math.hypot(h.x - x, h.y - y) < h.r) ?? null; };
+    const find = e => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) * c.width / r.width, y = (e.clientY - r.top) * c.height / r.height; return [...(c._minimap?.hits ?? [])].reverse().find(h => h.box ? x >= h.box.x && x <= h.box.x + h.box.w && y >= h.box.y && y <= h.box.y + h.box.h : Math.hypot(h.x - x, h.y - y) < h.r) ?? null; };
+    let drag = null, dragged = false, pinchDistance = 0; const pointers = new Map();
+    const span = () => { const [a, b] = [...pointers.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+    c.addEventListener('pointerdown', e => {
+      if (e.button !== 0) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointers.size === 1) { drag = { x: e.clientX, y: e.clientY }; dragged = false; }
+      else { drag = null; dragged = true; pinchDistance = span(); }
+      c.setPointerCapture(e.pointerId);
+    });
+    c.addEventListener('pointermove', e => {
+      if (pointers.has(e.pointerId)) pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointers.size === 2) {
+        const distance = span(), [a, b] = [...pointers.values()], m = c._minimap;
+        if (pinchDistance > 0) m?.zoomFull(distance / pinchDistance, m.worldAt(c, { clientX: (a.x + b.x) / 2, clientY: (a.y + b.y) / 2 }));
+        pinchDistance = distance; return;
+      }
+      if (!drag) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!dragged && Math.hypot(dx, dy) < 6) return;
+      dragged = true; const m = c._minimap, rect = c.getBoundingClientRect();
+      if (m?.fullView) { m.fullCamera.x -= dx * c.width / rect.width / m.fullView.k; m.fullCamera.z -= dy * c.height / rect.height / m.fullView.k; m.redrawFull(); }
+      drag = { x: e.clientX, y: e.clientY };
+    });
+    c.addEventListener('pointerup', e => { pointers.delete(e.pointerId); drag = null; pinchDistance = 0; });
+    c.addEventListener('pointercancel', e => { pointers.delete(e.pointerId); drag = null; dragged = true; pinchDistance = 0; });
+    c.addEventListener('wheel', e => { e.preventDefault(); const m = c._minimap; m?.zoomFull(e.deltaY < 0 ? 1.15 : 1 / 1.15, m.worldAt(c, e)); }, { passive: false });
     c.addEventListener('mousemove', e => {
-      const h = find(e); c.style.cursor = (h?.landmark || h?.goal) ? 'pointer' : 'default';
+      const h = find(e); c.style.cursor = (h?.entry || h?.landmark || h?.goal) ? 'pointer' : 'grab';
       if (!tip) { c.title = h?.title ?? ''; return; }
       tip.hidden = !h; if (!h) return;
-      tip.textContent = h.title + ((h.landmark || h.goal) ? ' · คลิกเพื่อเดินไป' : '');
+      tip.textContent = h.title + ((h.landmark || h.goal) ? ' · เลือกสถานที่' : '');
       const pr = c.parentElement.getBoundingClientRect(), z = pr.width / c.parentElement.offsetWidth || 1;
       tip.style.left = `${(e.clientX - pr.left) / z + 14}px`; tip.style.top = `${(e.clientY - pr.top) / z + 10}px`;
     });
     c.addEventListener('mouseleave', () => { if (tip) tip.hidden = true; });
-    // a discovered place walks to it; anywhere else on the map walks to that spot
+    // Select authored destinations. Ground clicks retain the existing navigation fallback.
     c.addEventListener('click', e => {
+      if (dragged) { dragged = false; return; }
       const m = c._minimap, h = find(e);
+      if (h?.entry && m?.onSelect) return m.onSelect(h.entry);
       if (h?.goal) return m?.onWalk?.(h.goal.x,h.goal.z,true);
       if (h?.landmark) return m?.onPick?.(h.landmark);
       const at = m?.worldAt(c, e); if (at) m.onWalk?.(at.x, at.z, true);

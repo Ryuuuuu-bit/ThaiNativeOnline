@@ -15,6 +15,24 @@ farther from the city, the wilder, darker and stronger it gets.
 
 ## Maps
 
+### Public atlas and city services
+
+The atlas and minimap show all authored landmarks immediately, including secret-area
+locations. Reading the map does not complete discovery objectives: the player must
+still visit on foot. The atlas provides a full directory, search/category filters,
+pan/zoom, and selection followed by **เดินไปที่นี่**. Touching crowded badges opens
+their member list; zooming in separates the badges. World routes follow the actual
+portal graph and suggest the next exit, without granting teleportation.
+
+City equipment sales are consolidated at **ลุงดำ**: the former weapon/armor stalls
+and forge retain their complete combined inventory at one counter. Charms remain at
+the occult shop. The cargo merchant and eastern fish seller are ambient townsfolk;
+their redundant shop roles are removed. **หมื่นเพชรศาสตรา** is the sole refinement
+NPC, distinct from the equipment seller. Existing city geometry, quest destinations,
+prices and server proximity limits are retained. Customer navigation approaches and
+server keeper coordinates share the shop-site registry. Future services are labelled
+as future services and are excluded from the atlas's active shop filter.
+
 | id | Name | Band | Walk area | Safe | Levels | Who / why |
 | --- | --- | --- | --- | --- | --- | --- |
 | `city` | นครอโยธยา | `z ≥ -112` (`SEAM_Z`) | x ±122, z -108.5 … 266 (inside the walls, port, river bank) | yes | — | everyone: trade, equipment, quests, class halls, training dummy |

@@ -73,7 +73,21 @@
       <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
       <section id="shop" class="shop sh-v3 glass" hidden aria-label="ร้านค้า"><div class="panel-heading sh-head"><i id="shop-port" class="sh-port"></i><span class="sh-id"><b id="shop-title"></b><small id="shop-keeper"></small></span><span class="sh-chip">◉<span><small>ทองของคุณ</small><b id="shop-gold"></b></span></span><button id="shop-close" aria-label="ปิดร้านค้า">×</button></div>
         <div class="sh-body"><nav id="shop-rail" class="sh-rail" aria-label="แท็บร้านค้า"></nav><div id="shop-list" class="sh-main"></div></div></section>
-      <section id="fullmap-panel" class="fullmap glass" hidden><div class="panel-heading">แผนที่นครอโยธยา<button id="fullmap-close" aria-label="ปิดแผนที่">×</button></div><div class="fullmap-body"><div class="map-frame"><canvas id="fullmap" aria-label="แผนที่"></canvas><div class="map-tip" hidden></div></div><div class="map-side"><h4 class="map-side-h">เส้นทางทั้งโลก</h4><ol id="fullmap-route" class="map-route" aria-label="เส้นทางทั้งโลก"></ol><h4 class="map-side-h">สัญลักษณ์</h4><ul id="fullmap-legend" class="map-legend" aria-label="สัญลักษณ์"></ul></div></div><p>สถานที่ที่ยังไม่ค้นพบแสดงเป็นเครื่องหมาย ? · บางแห่งจะปรากฏเมื่อไปถึงเท่านั้น · แตะ / คลิกสถานที่ หรือจุดใดก็ได้บนแผนที่ เพื่อเดินไปเอง (แผนที่เล็กมุมขวาก็แตะได้)</p></section>
+      <section id="fullmap-panel" class="fullmap atlas glass" hidden aria-label="แผนที่โลก">
+        <div class="panel-heading atlas-heading"><div><small>บันทึกเส้นทาง · อโยธยา</small><h2 id="map-title">นครอโยธยา</h2><span id="map-subtitle">เมืองปลอดภัย · ร้านค้าและสำนักครู</span></div><button id="fullmap-close" aria-label="ปิดแผนที่">×</button></div>
+        <div class="atlas-toolbar"><nav id="map-filters" aria-label="ประเภทสถานที่"></nav><span id="map-count" aria-live="polite"></span></div>
+        <div class="fullmap-body">
+          <div class="map-frame"><canvas id="fullmap" aria-label="แผนที่ · ลากเพื่อเลื่อน แตะเพื่อเลือกสถานที่"></canvas><div class="map-tip" hidden></div>
+            <div class="atlas-view"><button data-map-view="city">ใจกลางเมือง</button><button data-map-view="fit">ทั้งแผนที่</button><button data-map-view="player" aria-label="ไปยังตำแหน่งของคุณ">◎</button><button data-map-view="zoom-out" aria-label="ย่อแผนที่">−</button><button data-map-view="zoom-in" aria-label="ขยายแผนที่">+</button></div>
+          </div>
+          <aside class="map-side"><div class="atlas-tabs" role="tablist" aria-label="ข้อมูลแผนที่"><button role="tab" data-map-tab="places" aria-controls="map-places">สถานที่</button><button role="tab" data-map-tab="world" aria-controls="fullmap-route">เส้นทางโลก</button></div>
+            <label class="atlas-search"><span>ค้นหาสถานที่</span><input id="map-search" type="search" placeholder="ร้านตีบวก, หมอยา, ประตู…" autocomplete="off"></label>
+            <div id="map-places" class="atlas-places" role="tabpanel" aria-label="สถานที่ทั้งหมด"></div><ol id="fullmap-route" class="map-route" role="tabpanel" aria-label="เส้นทางทั้งโลก" hidden></ol>
+            <div id="map-selection" class="atlas-selection" hidden><div class="atlas-selection-head"><b></b><button id="map-clear" aria-label="เลือกจุดอื่น">×</button></div><p></p><small></small><button id="map-walk">เดินไปที่นี่ <span>↗</span></button></div>
+          </aside>
+        </div>
+        <footer class="atlas-footer"><span>ลากเพื่อเลื่อน · เลือกสถานที่แล้วกดเดินไป</span><details><summary>สัญลักษณ์</summary><ul id="fullmap-legend" class="map-legend" aria-label="สัญลักษณ์"></ul></details></footer>
+      </section>
       <button id="menu-btn" class="mm-btn" type="button" aria-label="เมนู" aria-expanded="false" aria-controls="menu-grid"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>เมนู</span><i class="mm-dot" hidden></i></button>
       <nav id="menu-grid" class="mm-grid glass" hidden aria-label="เมนูรวม">
         <button type="button" data-act="sheet"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></svg>ตัวละคร<kbd>C</kbd><i class="mm-dot" hidden></i></button>
