@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11e62-ad09-7607-b655-e505d9cc08ea",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/takian.png",
+  "referenceSha256": "14e5c9a2d504ca3711c235542385b26169e5772a85ebefcb7c2bbb9c1e64265a",
+  "originalSha256": "8d2fbe0b2533f724a7b71c0f764e5386073d960da95aff787916c5e2ab2e5289",
+  "originalBytes": 12166548,
+  "originalLocalPath": "artifacts/meshy-monsters/takian/original.glb"
+}

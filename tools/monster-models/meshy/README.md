@@ -178,3 +178,55 @@ world bases to Blender coordinates and accounts for Blender's XYZ Euler order.
 The spirit uses two segmented arms, rigid open hands, a rigid mask/crown and
 three root clusters. Hovering has positive vertical displacement; there is no
 human lower-body retarget or separately bent finger animation.
+
+## Deep Forest — complete existing roster
+
+`motion.html?set=5` and `review.html?set=5` show Kongkoi, water monitor,
+Pray, Khamot, Winyan and the Takian boss. Together with the shared macaque,
+dhole and forest spirit, these cover all **nine runtime identities**. The
+legacy tiger entry is filtered out of this map's actual combat spawns.
+Environment art is a separate queued pass. See
+`docs/art/monsters/meshy-deep-forest/REVIEW.md` for final evidence and limits.
+
+Seven successful Image-to-3D tasks cost 245 credits, including two rejected
+two-legged Kongkoi reconstructions. The selected second reconstruction was
+repaired locally with `correct_kongkoi.mjs`: one rear leg removed, the newly
+cut boundary capped and the retained leg centered. Cloth hems were preserved.
+The corrected static candidate is committed, so ordinary rebuilds do not need
+the raw Meshy downloads or another paid generation.
+
+Use a fresh approved managed Harness session and output directory, configured
+as above. Unpack all six static candidates. Both planted creatures require a
+`rest` rig, terminal export receipts, extraction with `TYPE:rest`, then
+`poles_forest.mjs TYPE`. Calibrations retain exact distal rotations, pole
+angles and bone-local vertical offsets. The other four need no IK calibration.
+
+```powershell
+$env:MESHY_RIG_OUTPUT='artifacts/meshy-rig-03/deep-forest'
+node tools/monster-models/meshy/unpack.mjs kongkoi monitor pray khamot winyan takian
+python tools/monster-models/meshy/rig_forest.py kongkoi v3
+python tools/monster-models/meshy/rig_forest.py monitor v4
+python tools/monster-models/meshy/rig_forest.py pray v4
+python tools/monster-models/meshy/rig_forest.py khamot v1
+python tools/monster-models/meshy/rig_forest.py winyan v4
+python tools/monster-models/meshy/rig_forest.py takian v4
+python tools/monster-models/meshy/collect_forest.py pray
+node tools/monster-models/meshy/extract_batch.mjs artifacts/meshy-rig-03/deep-forest/jobs/job_pray_v4_glb/artifact.glb artifacts/meshy-rig-03/deep-forest pray:v4
+node tools/monster-models/prepare.mjs artifacts/meshy-rig-03/deep-forest/pray-rig-production.glb artifacts/meshy-rig-03/deep-forest/pray-animated.glb
+node tools/monster-models/meshy/publish.mjs pray v4
+```
+
+Repeat collection/extraction/preparation/publication for each creature. A
+nonzero collector exit means exports are still pending; do not pack a stale
+file. Export delivery uses the registered **L3 snapshot-bound `job.submit`
+EXPORT** route, never the bridge's L1 `export.file`. Export jobs retain hidden
+authoring objects; extraction keeps only the requested rig subtree and baked
+action. If exporting all six in one snapshot, all six must be visible so their
+actions bake correctly. Use fresh job IDs/version names for subsequent runs.
+
+Humanoid skin weights use merged UV-seam surface connectivity, geodesic bone
+labels, diffusion, anatomical admissibility and conserved influence transfers.
+Top-four selection and quantization are checked on the compressed public GLBs
+with `tests/meshy-forest-skin.test.js`, across every clip/key and a 24Hz grid.
+Bone-length/contact checks alone are insufficient to catch torn sleeves/hands.
+Hands retain the generated digits without individual finger bending.

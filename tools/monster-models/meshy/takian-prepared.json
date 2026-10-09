@@ -1,0 +1,39 @@
+{
+  "creature": "takian",
+  "bytes": 1332568,
+  "triangles": 12447,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.6286724805831909,
+      0,
+      -0.5809149444103241
+    ],
+    "max": [
+      0.6286724805831909,
+      1.8995507955551147,
+      0.5809149444103241
+    ]
+  },
+  "sha256": "93f04266c56434f077eda79dbb9df0cb4edca21fe3f641639a2cbdef562dc941",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

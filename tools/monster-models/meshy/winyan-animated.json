@@ -1,0 +1,14 @@
+{
+  "type": "winyan",
+  "bytes": 1319596,
+  "sha256": "eb90752105525c639d052d22a33992786b008fb06ff98f99c886401dc9097433",
+  "triangles": 11977,
+  "bones": 12,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11e69-d8f1-74fd-a48d-5ebdca5c1a93",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/kongkoi-anatomy-v2.png",
+  "referenceSha256": "50047f6647c92c600d45d79bace5456a42ebccd00de5116418b9e717c950eea7",
+  "originalSha256": "2e3dada40d07c21a0dc980510447e0253c0a6ca53b06190f1311887123b7316c",
+  "originalBytes": 12889420,
+  "originalLocalPath": "artifacts/meshy-monsters/kongkoi/anatomy-v2/original.glb"
+}

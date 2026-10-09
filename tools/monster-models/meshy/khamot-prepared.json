@@ -1,0 +1,39 @@
+{
+  "creature": "khamot",
+  "bytes": 1096828,
+  "triangles": 12368,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.6000674962997437,
+      0,
+      -0.6370345056056976
+    ],
+    "max": [
+      0.6000674962997437,
+      1.9017399549484253,
+      0.6370345056056976
+    ]
+  },
+  "sha256": "1bade746d7c07a13221a3b9462d083055b6db1887a899cde046f60495e8ffa3f",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

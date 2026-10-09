@@ -1,0 +1,15 @@
+{
+  "reason": "Both Meshy reconstructions invented a second leg; repair the reviewed anatomy locally, with no further paid generation.",
+  "sourceSha256": "a02940f66cfb2036da8b6372de646d6958f2115199effddd84a6d823d1860a2b",
+  "removedTriangles": 688,
+  "capTriangles": 19,
+  "capLoops": 1,
+  "preservedOriginalClothBoundaries": true,
+  "singleLegShift": [
+    0.06,
+    0,
+    -0.08
+  ],
+  "triangles": 11548,
+  "outputSha256": "0564a911ea24b424d8fecd99b0c14f0cfaab58869fe1edbbdfdc6e87b5d95119"
+}

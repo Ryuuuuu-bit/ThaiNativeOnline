@@ -1,0 +1,14 @@
+{
+  "type": "khamot",
+  "bytes": 1116524,
+  "sha256": "7d532a91a1648e66fc21429f49c4dd90441cc191fe839631cdd3302f7bdbafce",
+  "triangles": 12368,
+  "bones": 4,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

@@ -90,35 +90,45 @@
         "name": "ผีกองกอย",
         "level": 4,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "kongkoi.glb",
+        "runtime": "/models/monsters/kongkoi.glb"
       },
       {
         "id": "monitor",
         "name": "เหี้ย",
         "level": 4,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "monitor.glb",
+        "runtime": "/models/monsters/monitor.glb"
       },
       {
         "id": "pray",
         "name": "ผีพราย",
         "level": 4,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "pray.glb",
+        "runtime": "/models/monsters/pray.glb"
       },
       {
         "id": "khamot",
         "name": "ผีโขมด",
         "level": 5,
         "role": "ranged",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "khamot.glb",
+        "runtime": "/models/monsters/khamot.glb"
       },
       {
         "id": "winyan",
         "name": "วิญญาณเร่ร่อน",
         "level": 5,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "winyan.glb",
+        "runtime": "/models/monsters/winyan.glb"
       },
       {
         "id": "headless",
@@ -139,7 +149,9 @@
         "name": "นางตะเคียน",
         "level": 6,
         "role": "elite",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "takian.glb",
+        "runtime": "/models/monsters/takian.glb"
       },
       {
         "id": "tiger",

@@ -7,7 +7,7 @@ import fs from 'node:fs/promises';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
 await MeshoptDecoder.ready;
 const types=process.argv.slice(2).length?process.argv.slice(2):['boar','fowl','crab'];
-if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo'].includes(type)))throw Error('Unknown creature');
+if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian'].includes(type)))throw Error('Unknown creature');
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 await fs.mkdir(`${outputRoot}/input`, { recursive: true });
 for (const type of types) {
@@ -26,5 +26,6 @@ for (const type of types) {
   const p = doc.getRoot().listMeshes()[0].listPrimitives()[0];
   const points = Array.from({ length: p.getAttribute('POSITION').getCount() }, (_, i) => p.getAttribute('POSITION').getElement(i, []));
   await fs.writeFile(`${outputRoot}/input/${type}-positions.json`, JSON.stringify(points));
+  await fs.writeFile(`${outputRoot}/input/${type}-indices.json`, JSON.stringify(Array.from(p.getIndices().getArray())));
   console.log(type, points.length);
 }

@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11e62-6f44-748f-bd13-adb51b17b2d3",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/monitor.png",
+  "referenceSha256": "45d31a25a18acc2db181b020e79c6a1152a8804075514408cec3fc6eb0255bcb",
+  "originalSha256": "5138dcc34c272a43aae45be3be559ed23334f97dddd518a5cac13348f3307cc1",
+  "originalBytes": 11786364,
+  "originalLocalPath": "artifacts/meshy-monsters/monitor/original.glb"
+}
