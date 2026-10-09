@@ -5,6 +5,7 @@ import {
   roadPoints, terrainHeight, waterAt, riverBank, farBank, wildness, insideWalls,
 } from './CityMap.js';
 import { createRng } from './rng.js';
+import { inPaddy, paddyGrass, paintPaddyLayout } from './paddy-layout.js';
 
 const W = BOUNDS.maxX - BOUNDS.minX, H = BOUNDS.maxZ - BOUNDS.minZ;
 const span = rect => ({ x0: rect.minX, z0: rect.minZ, w: rect.maxX - rect.minX, h: rect.maxZ - rect.minZ });
@@ -199,6 +200,7 @@ export function paintGround(footprints, extent = BOUNDS) {
     layers.forEach((style, l) => line(pts, road.w + (layers.length - 1 - l) * .9, style));
   }
   for (const f of footprints) if (f.paint) rect(f.x, f.z, f.w + 1.6, f.d + 1.6, f.rot, { earth: '#a2936c', paved: '#bba580', dark: '#5d5a4a', stone: '#a49d84' }[f.paint] + 'b0');
+  if (extent.minZ < -112 && extent.maxZ > -296) paintPaddyLayout({ line, ellipse });
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace; texture.anisotropy = 8;
@@ -280,6 +282,11 @@ export function buildGrassMask(terrain, footprints) {
       data[k] = deep[Math.round(fz) * gw + Math.round(fx)] > .5 || z > banks[i] ? 0 : image[k];
       data[k + 1] = Math.round(Math.min(1, Math.max(0, (h + 3) / 6)) * 255);
       data[k + 2] = wild; data[k + 3] = 255;
+      if (inPaddy(x0+fx,z)) {
+        const profile=paddyGrass(x0+fx,z);
+        data[k]=Math.round(data[k]*profile.density);
+        data[k+3]=Math.round(255*profile.height);
+      }
     }
   }
   const texture = new THREE.DataTexture(data, canvas.width, canvas.height, THREE.RGBAFormat);
@@ -357,7 +364,7 @@ export function makeGrassField(scene, mask, wind) {
         float edge = 1. - smoothstep(uSize * .36, uSize * .5, length(gxz - uCenter));
         float sc = mix(.55, 1.3, fract(rnd * 13.7)) * step(rnd, gm.r * .97) * edge;
         float ang = fract(rnd * 61.3) * 6.2832;
-        vec3 bp = position * vec3(sc, sc * mix(.75, 1.6, fract(rnd * 7.31)), sc);
+        vec3 bp = position * vec3(sc, sc * mix(.75, 1.6, fract(rnd * 7.31)) * gm.a, sc);
         bp.xz = vec2(bp.x * cos(ang) - bp.z * sin(ang), bp.x * sin(ang) + bp.z * cos(ang));
         float bend = pow(max(position.y, 0.) / .49, 1.5);
         float gust = sin(uTime * 1.35 + gxz.x * .32 + gxz.y * .24) + .4 * sin(uTime * 2.1 + gxz.y * .7);

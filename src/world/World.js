@@ -20,6 +20,8 @@ import { buildShops } from './districts/Shops.js';
 import { buildTemple } from './districts/Temple.js';
 import { buildHalls } from './districts/Halls.js';
 import { buildCountryside } from './districts/Countryside.js';
+import { buildPaddyDetails } from './districts/PaddyDetails.js';
+import { paddyPlantAllowed } from './paddy-layout.js';
 import { buildWilds } from './districts/Wilds.js';
 import { buildWatRang } from './districts/WatRang.js';
 import { buildKlong } from './districts/Klong.js';
@@ -38,7 +40,7 @@ import { huntingFor, huntingSign } from '../data/hunting.js';
 class WorldContext {
   constructor(scene, terrain, occ, map) {
     const keep = (x, z) => inView(map, x, z);
-    Object.assign(this, { scene, terrain, occ, map, keep, rng: createRng(20260), collision: new Collision(8, map.view), batcher: new StaticBatcher(40, keep), props: new PropLibrary(keep), veg: new Vegetation((x,z) => keep(x,z) && !map.portals.some(p => Math.hypot(x-p.at.x,z-p.at.z)<18)) });
+    Object.assign(this, { scene, terrain, occ, map, keep, rng: createRng(20260), collision: new Collision(8, map.view), batcher: new StaticBatcher(40, keep), props: new PropLibrary(keep), veg: new Vegetation((x,z) => keep(x,z) && !map.portals.some(p => Math.hypot(x-p.at.x,z-p.at.z)<18), paddyPlantAllowed) });
     Object.assign(this, { footprints: [], glows: [], smokes: [], spots: {}, sets: [], market: [], ribbons: [], pens: [], chickenSpots: [], doors: 0 });
   }
   // Place a local-space structure: batch its meshes and register everything it declares.
@@ -149,6 +151,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   progress('กำลังสร้างบ้านเรือนชาวเมือง…'); await frame();
   const houses = await fillBuildings(ctx); lap('houses');
   const forestTrees = scatterNature(ctx); lap('nature');
+  buildPaddyDetails(ctx);
 
   progress('กำลังวาดผืนดิน…'); await frame();
   const ground = makeGround(scene, terrain, paintGround(ctx.footprints, map.view).texture); lap('ground paint');

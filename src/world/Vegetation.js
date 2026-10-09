@@ -96,10 +96,13 @@ const CARD = 2.5;
 export class Vegetation {
   // keep(x, z): optional filter for the map being built; every call still draws
   // the same random numbers, so layouts match between maps.
-  constructor(keep = null) {
+  constructor(keep = null, placementFilter = null) {
     const rng = createRng(4242);
     this.rng = rng;
-    const InstanceSet = class extends BaseSet { constructor(g, m, o = {}) { super(g, m, { keep, ...o }); } };
+    this.placementVisible = true;
+    const owner = this;
+    const keepInstance = (x,z) => owner.placementVisible && (!keep || keep(x,z));
+    const InstanceSet = class extends BaseSet { constructor(g, m, o = {}) { super(g, m, { keep: keepInstance, ...o }); } };
     const leaves = () => patchFoliage(mat('#ffffff', { map: leafData, alphaTest: .45, side: THREE.DoubleSide, roughness: .9 }));
     const leafMat = patchMaterial(leaves(), { wind: .16, instanced: true, fade: true });
     const frondMat = patchMaterial(mat('#ffffff', { map: frondTexture, alphaTest: .4, side: THREE.DoubleSide }), { wind: .1, instanced: true, fade: true });
@@ -123,6 +126,20 @@ export class Vegetation {
     this.fruit = new InstanceSet(new THREE.IcosahedronGeometry(.11, 0), mat('#ffffff'), { castShadow: false });
     this.obstacles = [];
     this.d = new THREE.Object3D(); this.c = new THREE.Color();
+    // Execute rejected plants too, preserving both RNG streams and every later
+    // map's layout. Suppress the whole plant and its collider as one placement.
+    if (placementFilter) for (const name of ['broadleaf','giant','fruitTree','palm','sugarPalm','banana','bambooGrove','deadTree','bush','fern','vine']) {
+      const build = this[name].bind(this);
+      this[name] = (x,y,z,...args) => {
+        const previous = this.placementVisible, obstacles = this.obstacles.length;
+        this.placementVisible = previous && placementFilter(x,z,name);
+        try { return build(x,y,z,...args); }
+        finally {
+          if (!this.placementVisible) this.obstacles.length = obstacles;
+          this.placementVisible = previous;
+        }
+      };
+    }
   }
   // Fronds (palm, sugar palm, fern) keep the original palette: their textures carry colour.
   frondColor(dark) {

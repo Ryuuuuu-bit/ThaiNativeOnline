@@ -1,0 +1,46 @@
+[
+  {
+    "route": "paddy → city → paddy",
+    "arrival": {
+      "map": "city",
+      "at": {
+        "x": 0,
+        "z": -99
+      },
+      "standable": true,
+      "remote": true
+    },
+    "returned": {
+      "map": "paddy",
+      "at": {
+        "x": 0,
+        "z": -130
+      },
+      "standable": true,
+      "remote": true
+    },
+    "errors": []
+  },
+  {
+    "route": "paddy → deep_forest → paddy",
+    "arrival": {
+      "map": "deep_forest",
+      "at": {
+        "x": 0,
+        "z": -311
+      },
+      "standable": true,
+      "remote": true
+    },
+    "returned": {
+      "map": "paddy",
+      "at": {
+        "x": -1.6,
+        "z": -282
+      },
+      "standable": true,
+      "remote": true
+    },
+    "errors": []
+  }
+]

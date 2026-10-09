@@ -1,0 +1,347 @@
+{
+  "results": [
+    {
+      "name": "orchard",
+      "at": {
+        "x": 66,
+        "z": -178
+      },
+      "standable": true,
+      "remote": true,
+      "bosses": 1,
+      "draw": {
+        "frame": 113,
+        "calls": 283,
+        "triangles": 750230,
+        "points": 7871,
+        "lines": 0
+      },
+      "geometry": {
+        "geometries": 121,
+        "textures": 58
+      },
+      "signs": 1,
+      "stats": {
+        "map": "paddy",
+        "houses": 112,
+        "halls": {
+          "count": 6,
+          "triangles": 24868,
+          "props": 124
+        },
+        "watRang": {
+          "triangles": 21190,
+          "props": 52,
+          "glows": 18
+        },
+        "klong": 545,
+        "forestTrees": 1287,
+        "staticMeshes": 321,
+        "propMeshes": 138,
+        "vegMeshes": 422,
+        "glows": 31,
+        "buildMs": 2160,
+        "timings": {
+          "terrain": 69,
+          "walls+port": 218,
+          "market+shops+temple": 30,
+          "halls": 6,
+          "countryside+wilds": 76,
+          "houses": 1026,
+          "nature": 214,
+          "ground paint": 168,
+          "grass mask": 183,
+          "water": 6,
+          "batching": 159,
+          "entities": 5
+        }
+      }
+    },
+    {
+      "name": "boss-meadow",
+      "at": {
+        "x": 72,
+        "z": -244
+      },
+      "standable": true,
+      "remote": true,
+      "bosses": 1,
+      "draw": {
+        "frame": 114,
+        "calls": 253,
+        "triangles": 638129,
+        "points": 7871,
+        "lines": 0
+      },
+      "geometry": {
+        "geometries": 145,
+        "textures": 76
+      },
+      "signs": 0,
+      "stats": {
+        "map": "paddy",
+        "houses": 112,
+        "halls": {
+          "count": 6,
+          "triangles": 24868,
+          "props": 124
+        },
+        "watRang": {
+          "triangles": 21190,
+          "props": 52,
+          "glows": 18
+        },
+        "klong": 545,
+        "forestTrees": 1287,
+        "staticMeshes": 321,
+        "propMeshes": 138,
+        "vegMeshes": 422,
+        "glows": 31,
+        "buildMs": 2160,
+        "timings": {
+          "terrain": 69,
+          "walls+port": 218,
+          "market+shops+temple": 30,
+          "halls": 6,
+          "countryside+wilds": 76,
+          "houses": 1026,
+          "nature": 214,
+          "ground paint": 168,
+          "grass mask": 183,
+          "water": 6,
+          "batching": 159,
+          "entities": 5
+        }
+      }
+    },
+    {
+      "name": "rice-fields",
+      "at": {
+        "x": -65,
+        "z": -169
+      },
+      "standable": true,
+      "remote": true,
+      "bosses": 1,
+      "draw": {
+        "frame": 115,
+        "calls": 249,
+        "triangles": 648799,
+        "points": 7871,
+        "lines": 0
+      },
+      "geometry": {
+        "geometries": 210,
+        "textures": 85
+      },
+      "signs": 0,
+      "stats": {
+        "map": "paddy",
+        "houses": 112,
+        "halls": {
+          "count": 6,
+          "triangles": 24868,
+          "props": 124
+        },
+        "watRang": {
+          "triangles": 21190,
+          "props": 52,
+          "glows": 18
+        },
+        "klong": 545,
+        "forestTrees": 1287,
+        "staticMeshes": 321,
+        "propMeshes": 138,
+        "vegMeshes": 422,
+        "glows": 31,
+        "buildMs": 2160,
+        "timings": {
+          "terrain": 69,
+          "walls+port": 218,
+          "market+shops+temple": 30,
+          "halls": 6,
+          "countryside+wilds": 76,
+          "houses": 1026,
+          "nature": 214,
+          "ground paint": 168,
+          "grass mask": 183,
+          "water": 6,
+          "batching": 159,
+          "entities": 5
+        }
+      }
+    },
+    {
+      "name": "water-lift",
+      "at": {
+        "x": -88,
+        "z": -206
+      },
+      "standable": true,
+      "remote": true,
+      "bosses": 1,
+      "draw": {
+        "frame": 116,
+        "calls": 188,
+        "triangles": 591673,
+        "points": 7871,
+        "lines": 0
+      },
+      "geometry": {
+        "geometries": 215,
+        "textures": 95
+      },
+      "signs": 0,
+      "stats": {
+        "map": "paddy",
+        "houses": 112,
+        "halls": {
+          "count": 6,
+          "triangles": 24868,
+          "props": 124
+        },
+        "watRang": {
+          "triangles": 21190,
+          "props": 52,
+          "glows": 18
+        },
+        "klong": 545,
+        "forestTrees": 1287,
+        "staticMeshes": 321,
+        "propMeshes": 138,
+        "vegMeshes": 422,
+        "glows": 31,
+        "buildMs": 2160,
+        "timings": {
+          "terrain": 69,
+          "walls+port": 218,
+          "market+shops+temple": 30,
+          "halls": 6,
+          "countryside+wilds": 76,
+          "houses": 1026,
+          "nature": 214,
+          "ground paint": 168,
+          "grass mask": 183,
+          "water": 6,
+          "batching": 159,
+          "entities": 5
+        }
+      }
+    },
+    {
+      "name": "forest-gate",
+      "at": {
+        "x": -2,
+        "z": -280
+      },
+      "standable": true,
+      "remote": true,
+      "bosses": 1,
+      "draw": {
+        "frame": 117,
+        "calls": 364,
+        "triangles": 709608,
+        "points": 7871,
+        "lines": 0
+      },
+      "geometry": {
+        "geometries": 280,
+        "textures": 116
+      },
+      "signs": 0,
+      "stats": {
+        "map": "paddy",
+        "houses": 112,
+        "halls": {
+          "count": 6,
+          "triangles": 24868,
+          "props": 124
+        },
+        "watRang": {
+          "triangles": 21190,
+          "props": 52,
+          "glows": 18
+        },
+        "klong": 545,
+        "forestTrees": 1287,
+        "staticMeshes": 321,
+        "propMeshes": 138,
+        "vegMeshes": 422,
+        "glows": 31,
+        "buildMs": 2160,
+        "timings": {
+          "terrain": 69,
+          "walls+port": 218,
+          "market+shops+temple": 30,
+          "halls": 6,
+          "countryside+wilds": 76,
+          "houses": 1026,
+          "nature": 214,
+          "ground paint": 168,
+          "grass mask": 183,
+          "water": 6,
+          "batching": 159,
+          "entities": 5
+        }
+      }
+    },
+    {
+      "name": "village",
+      "at": {
+        "x": -61.5,
+        "z": -132
+      },
+      "standable": true,
+      "remote": true,
+      "bosses": 1,
+      "draw": {
+        "frame": 118,
+        "calls": 339,
+        "triangles": 592511,
+        "points": 7871,
+        "lines": 0
+      },
+      "geometry": {
+        "geometries": 319,
+        "textures": 116
+      },
+      "signs": 0,
+      "stats": {
+        "map": "paddy",
+        "houses": 112,
+        "halls": {
+          "count": 6,
+          "triangles": 24868,
+          "props": 124
+        },
+        "watRang": {
+          "triangles": 21190,
+          "props": 52,
+          "glows": 18
+        },
+        "klong": 545,
+        "forestTrees": 1287,
+        "staticMeshes": 321,
+        "propMeshes": 138,
+        "vegMeshes": 422,
+        "glows": 31,
+        "buildMs": 2160,
+        "timings": {
+          "terrain": 69,
+          "walls+port": 218,
+          "market+shops+temple": 30,
+          "halls": 6,
+          "countryside+wilds": 76,
+          "houses": 1026,
+          "nature": 214,
+          "ground paint": 168,
+          "grass mask": 183,
+          "water": 6,
+          "batching": 159,
+          "entities": 5
+        }
+      }
+    }
+  ],
+  "errors": []
+}
