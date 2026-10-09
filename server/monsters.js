@@ -34,6 +34,7 @@ import { mapOf } from '../src/world/maps.js';
 import { PARTY, sharers, evenShare } from './parties.js';
 import { killExp } from '../src/character/data/progression.js';
 import { resetBossSkills, cancelBossSkill, tickBossSkills } from '../src/combat/bossSkills.js';
+import { BOSS_EFFECT_MUL } from '../src/rules/effects.js';
 
 const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
 const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
@@ -215,10 +216,14 @@ export class MonsterWorld {
     return ev;
   }
 
-  // → the event that shows it to the players on the map ({ t: 'md', id, d: { id, stun, slow, dot, label, secs } })
+  // Callers pass full durations; match rules/effects.js boss control resistance.
+  // → md preserves the status strengths and the actual remaining seconds.
   debuff(m, d) {
-    m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(d);
-    return { t: 'md', id: m.id, d: { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, ...(d.label ? { label: d.label } : {}), secs: d.remaining } };
+    const effect = { ...d, remaining: (d.remaining ?? d.duration) * (m.def.boss && !d.dot ? BOSS_EFFECT_MUL : 1) };
+    m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(effect);
+    return { t: 'md', id: m.id, d: { id: effect.id, stun: !!effect.stun, slow: effect.slow || 0, dot: effect.dot || 0,
+      armorBreak: effect.armorBreak || 0, weak: effect.weak || 0,
+      ...(effect.label ? { label: effect.label } : {}), secs: effect.remaining } };
   }
   aggro(m, playerId) {
     if (m.state === 'return' || m.state === 'flee') return;

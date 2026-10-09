@@ -6,13 +6,14 @@
 import { SKILL_BY_ID, skillStats } from '../rules/data/skills.js';
 import { rollDamage } from '../rules/stats.js';
 import { RULES } from '../combat/data/rules.js';
+import { effectiveDefense } from '../combat/statusEffects.js';
 import { rollSkill, skillMult } from './damage.js';
 import './../rules/data/evolutions.js';   // registers the A/B paths ('<id>@A') and cast times in SKILL_BY_ID
 
 const KIT = RULES.kit;
 const metres = px => px / KIT.pxPerMeter;
 // Rules skill types that act on the caster (no target needed).
-const SELF_TYPES = new Set(['buff', 'party', 'revive']);
+const SELF_TYPES = new Set(['buff', 'party', 'revive', 'tether']);
 
 // Who else an area skill hits: { radius (m), around: 'self' | 'target' }, a piercing shot's
 // line { line: true, length, width } or a spread volley's fan { cone: true, length, angle }
@@ -47,7 +48,8 @@ export function castInfo(kitSkill, lv = 1) {
   };
 }
 
-export const monsterDefense = def => ({ def: def?.def ?? 0, eva: def?.eva ?? 0 });
+// Accept a live monster (including its active debuffs) or a bare definition.
+export const monsterDefense = effectiveDefense;
 
 // One blow of `skillId` against a defense { def, eva } → { hit, crit, dmg }.
 // A skill without a rules damage multiplier (a buff whose effect still strikes)
@@ -57,8 +59,9 @@ export function rollBlow(derived, defense, skillId, lv = 1, rng = Math.random) {
   return rollDamage(derived, defense, SKILL_BY_ID[skillId]?.kind || 'physical', KIT.fallbackMult, rng);
 }
 
-// A healing skill's flat heal (the rules `hmult` × the caster's MATK): the tether ticks for its
-// whole duration, the bouncing pill lands on a friend every other hop, the mortar's powder once.
+// A healing skill's total potential heal, also shown by the skill panel: the tether ticks for
+// its whole duration, the bouncing pill lands every other hop, the mortar's powder once.
+// selfEffects schedules tether ticks separately; this estimate is never its immediate heal.
 export function healPower(skillId, lv = 1, matk = 0) {
   const base = SKILL_BY_ID[skillId];
   if (!base?.heals || !base.hmult || !(matk > 0)) return 0;
@@ -68,26 +71,45 @@ export function healPower(skillId, lv = 1, matk = 0) {
   return Math.round(st.hmult * matk * ticks);
 }
 
-// The caster's side of a cast: { heal (share of max HP), hp (flat heal, healPower), mp (share of
-// max MP), buff } or null. buff is a Character buff ({ id, duration, atk?, def?, crit? },
-// src/character/Character.js); a flat rules DEF bonus becomes a share of the caster's own DEF (`ownDef`).
+// Ordinary buffs leave a gap before their next effective cooldown, even at high skill levels.
+// Tether and undying durations use their own timers and are not capped by this uptime.
+export const BUFF_UPTIME = .8;
+
+// The caster's side: { heal (share of max HP), hp (immediate flat heal), mp (share of max MP),
+// buff, tether? } or null. Buff DEF stays flat (`defFlat`) or proportional (`def`), so recipients
+// can apply it to their own defense. `ownDef` remains a compatibility argument only.
 // `healPow`: the caster's healing power (Character.healPow: the herbalist's ตำรับโอสถ and gear), on every heal.
-export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1) {
+export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1, cooldownCut = 0) {
   const base = SKILL_BY_ID[skillId];
   if (!base) return null;
   const st = skillStats(base, lv), b = st.buff, seconds = (st.duration ?? 0) / 1000;
   const heal = typeof st.heal === 'number' ? +(st.heal * healPow).toFixed(4) : 0, mp = st.mpHeal ?? 0;
   let buff = null;
   if (b && seconds > 0) {
-    buff = { id: `kit_${skillId}`, duration: seconds };
-    if (b.atkMul) buff.atk = b.atkMul;
-    const def = (b.defMul ?? 0) + (b.def ? b.def / Math.max(10, ownDef) : 0);
-    if (def) buff.def = +def.toFixed(3);
-    if (b.critAdd) buff.crit = b.critAdd;
-    if (b.aspd) buff.aspd = b.aspd;
+    const cut = Number.isFinite(cooldownCut) ? Math.max(0, Math.min(1, cooldownCut)) : 0;
+    const duration = Math.min(seconds, (st.cd ?? 0) / 1000 * (1 - cut) * BUFF_UPTIME);
+    if (duration > 0) {
+      buff = { id: `kit_${skillId}`, duration };
+      if (b.atkMul) buff.atk = b.atkMul;
+      if (b.def) buff.defFlat = b.def;
+      if (b.defMul) buff.def = b.defMul;
+      if (b.critAdd) buff.crit = b.critAdd;
+      if (b.aspd) buff.aspd = b.aspd;
+      if (b.speed) buff.speed = b.speed;
+      if (b.cleanse) buff.cleanse = b.cleanse;
+    }
   }
-  const hp = Math.round(healPower(skillId, lv, matk) * healPow);
-  return heal || hp || mp || buff ? { heal, hp, mp, buff } : null;
+  if (base.undying > 0) buff = { ...buff, id: `kit_${skillId}`, duration: base.undying / 1000, undying: true };
+  const tether = base.type === 'tether' ? {
+    amount: Math.round(st.hmult * matk * healPow),
+    every: base.tick / 1000,
+    duration: st.duration / 1000,
+    near: metres(base.near),
+    nearMul: base.nearMul ?? 1,
+    breakAt: metres(base.breakAt),
+  } : null;
+  const hp = tether ? 0 : Math.round(healPower(skillId, lv, matk) * healPow);
+  return heal || hp || mp || buff || tether ? { heal, hp, mp, buff, ...(tether ? { tether } : {}) } : null;
 }
 
 // A heal aimed at one friend (the herbalist's vine and bouncing pill): with a party member picked
@@ -101,14 +123,14 @@ export function allyHeal(skillId) {
 // A support skill's share for the party (ThaiNative's healer, server/index.js): the party and
 // revive skills reach every member within `radius` m — the same heal, MP and buff the caster
 // gets — and a revive skill brings the fallen ones back with `revive` of their HP. The healing
-// skills (vine, pill, mortar: rules `heals` + `hmult`) give the members in reach the same flat `hp`.
-export function supportOf(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1) {
+// skills give members in reach the same immediate `hp` or the tether's timed schedule.
+export function supportOf(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1, cooldownCut = 0) {
   const base = SKILL_BY_ID[skillId];
   const area = base && (base.party || base.type === 'revive'), healing = !!(base?.heals && base.hmult);
   if (!area && !healing) return null;
-  const e = selfEffects(skillId, lv, ownDef, matk, healPow) ?? { heal: 0, hp: 0, mp: 0, buff: null };
+  const e = selfEffects(skillId, lv, ownDef, matk, healPow, cooldownCut) ?? { heal: 0, hp: 0, mp: 0, buff: null };
   const radius = metres(area ? base.radius ?? 200 : Math.max(base.range ?? 0, 220));
-  return { radius, heal: e.heal, hp: e.hp, mp: e.mp, buff: e.buff, revive: base.type === 'revive' ? Math.max(.2, e.heal || .3) : 0 };
+  return { radius, heal: e.heal, hp: e.hp, mp: e.mp, buff: e.buff, ...(e.tether ? { tether: e.tether } : {}), revive: base.type === 'revive' ? Math.min(1, Math.max(.2, e.heal || .3)) : 0 };
 }
 
 // The target's side: Combat debuffs (src/combat/Combat.js debuff()) from the rules
@@ -120,6 +142,8 @@ export function hitEffects(skillId, firstBlow) {
   const out = [];
   if (e.stun) out.push({ id: 'stun', stun: true, duration: e.stun.ms / 1000, label: 'มึน' });
   if (e.slow) out.push({ id: 'slow', slow: e.slow.pct, duration: e.slow.ms / 1000, label: 'เชื่องช้า' });
+  if (e.armorBreak) out.push({ id: 'armorBreak', armorBreak: e.armorBreak.pct, duration: e.armorBreak.ms / 1000, label: 'เกราะแตก' });
+  if (e.weak) out.push({ id: 'weak', weak: e.weak.pct, duration: e.weak.ms / 1000, label: 'อ่อนแรง' });
   for (const k of Object.keys(DOT_LABELS)) {
     const d = e[k];
     if (d) out.push({ id: k, dot: +(d.ratio * 1000 / d.every).toFixed(3), duration: d.ticks * d.every / 1000, source: firstBlow, label: DOT_LABELS[k] });

@@ -1,6 +1,7 @@
 import { Monster } from '../combat/Combat.js';
 import { RULES } from '../combat/data/rules.js';
 import { phaseOf } from '../core/WorldClock.js';
+import { applyCombatState } from './combatState.js';
 
 // Shared monsters (phases 3a–3b of docs/technical/SERVER_SPLIT.md). Once the server sends
 // a map's monsters, the browser's Combat (src/combat/Combat.js) stops running its own:
@@ -20,6 +21,28 @@ export function attachNetCombat(net, game) {
   const combat = game.game.combat, c = game.game.character;
   const byId = new Map();
   let serverPhase = null;
+  const takeState = (state, options) => {
+    if (state?.owned && Number.isFinite(state.hp)) {
+      if (state.hp <= 0 && c.alive) combat.knockOut();
+      else if (state.hp > 0 && !c.alive) combat.reviveHere(state.hp / c.maxHp);
+    }
+    return applyCombatState(c, state, options);
+  };
+  net.on('sync', () => { combat.serverOwned = true; });
+  net.on('skill-state', msg => {
+    if (!msg.state) return;
+    combat.serverOwned ||= !!msg.state.owned;
+    const before = c.hp;
+    takeState(msg.state, { cleanse: !!msg.cleanse });
+    // Guest vitals stay local, but self effects are paid only after acceptance.
+    if (!msg.state.owned && msg.self) {
+      if (msg.self.heal || msg.self.hp) c.heal(c.maxHp * (msg.self.heal || 0) + (msg.self.hp || 0));
+      if (msg.self.mp) { c.mp = Math.min(c.maxMp, c.mp + c.maxMp * msg.self.mp); c.emit('change'); }
+    }
+    const p = combat.world.playerPos();
+    if (c.hp > before) combat.emit('heal', { amount: Math.round(c.hp - before), x: p.x, z: p.z });
+  });
+  net.on('me', msg => { if (msg.state) takeState(msg.state); });
 
   // ---- server → local monsters ---------------------------------------------------------
   const make = info => {
@@ -75,6 +98,7 @@ export function attachNetCombat(net, game) {
   // the link dropped: the server's monsters go (they are its), nothing can be fought until it is back
   net.on('status', on => {
     if (on) return;
+    combat.serverOwned = false;
     combat.emit('boss-skills-clear');
     for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); }
     combat.pending = null; combat.autoAttack = false;

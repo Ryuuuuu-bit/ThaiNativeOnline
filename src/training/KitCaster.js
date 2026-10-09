@@ -3,6 +3,7 @@ import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, self
 import { rollSkill } from './damage.js';
 import { allyTarget, createTargetProxy, monsterTarget, stubTarget } from './targets.js';
 import { evoOf } from '../rules/data/evolutions.js';
+import { createTether, advanceTether } from './tether.js';
 
 // Casts a class kit's ten skills (src/classes CLASS_KITS) on any map, as the
 // action bar's controller (src/ui/ActionBar.js). Each cast picks its target:
@@ -29,7 +30,7 @@ const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 export class KitCaster {
   constructor(o) {
     Object.assign(this, o);
-    this.cd = new Map(); this.pending = null; this.cast_ = 0; this.affected = new Set();
+    this.cd = new Map(); this.pending = null; this.cast_ = 0; this.affected = new Set(); this.tether = null;
     this.slots = o.kit.skills.map(s => ({ id: s.id, name: s.name, icon: s.icon, lv: s.lv, desc: s.desc, cd: 0, mp: 0 }));
     this.refreshLevels();
     // learning a skill (or a reset) changes its numbers: MP, cooldown, reach
@@ -67,8 +68,8 @@ export class KitCaster {
     if (quiet && this.pending) return false;
     if (quiet && !info.needsTarget) {
       if (!this.combat.inCombat && !this.combat.target?.alive) return false;   // a buff or a heal on an empty field is MP for nothing
-      const e = selfEffects(this.eid(s.id), Math.max(1, this.lv(i)), c.defense, 0, c.healPow ?? 1);
-      if ((e?.heal || e?.hp) && !e?.buff && c.hp >= c.maxHp * .9) return false;
+      const e = selfEffects(this.eid(s.id), Math.max(1, this.lv(s.id)), c.defense, this.stats()?.matk ?? 0, c.healPow ?? 1, c.cooldownCut);
+      if ((e?.heal || e?.hp || e?.tether) && !e?.buff && c.hp >= c.maxHp * .9 && !this.allyPick(s.id, info)) return false;
     }
     this.combat.sit?.(false);
     const pick = this.allyPick(s.id, info) ?? this.pick(info);
@@ -104,6 +105,7 @@ export class KitCaster {
   // Target for a cast: { monster } | { dummy } | { self } | null.
   pick(info) {
     const cb = this.combat, t = cb.target;
+    if (!info.needsTarget) return this.nearDummy() ? { dummy: true } : { self: true };
     if (t?.alive && dist(t, this.player.position) <= KIT.targetRange) return { monster: t };
     if (this.nearDummy()) return { dummy: true };
     if (info.needsTarget) { const m = cb.cycleTarget(); return m ? { monster: m } : null; }
@@ -137,7 +139,7 @@ export class KitCaster {
     this.cd.set(s.id, info.cd * (1 - (c.cooldownCut || 0)));   // DEX / cards shorten skill cooldowns
     this.cast_++; this.affected.clear(); this.splashed?.clear(); this.lastSkill = s.id;
     if (pick.monster) this.combat.combatTimer = Math.max(this.combat.combatTimer, RULES.combatTimeout);
-    if (!friend) this.applySelf(s.id);   // a heal sent to a friend lands on them (server/index.js), not on the caster
+    if (!friend && !pick.dummy && !this.combat.remote && !this.combat.serverOwned) this.applySelf(s.id);
     // online: the server opens the cast (src/net/NetCombat.js); `ally` = the friend the heal goes to
     if (!pick.dummy) this.combat.emit('kit-cast', { id: s.id, ...(friend ? { ally: friend.id } : {}) });
     const evo = evoOf(this.eid(s.id));
@@ -147,17 +149,29 @@ export class KitCaster {
   }
 
   applySelf(id) {
-    const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense, this.stats()?.matk ?? 0, c.healPow ?? 1);
+    const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense, this.stats()?.matk ?? 0, c.healPow ?? 1, c.cooldownCut);
     if (!e) return;
     const p = this.player.position;
     if (e.heal || e.hp) { const amount = c.heal(c.maxHp * e.heal + e.hp); if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z }); }
     if (e.mp) { c.mp = Math.min(c.maxMp, Math.round(c.mp + c.maxMp * e.mp)); c.emit('change'); }
     if (e.buff) c.addBuff(e.buff);
+    if (e.tether) this.tether = createTether(e.tether);
   }
 
   // Per frame: cooldowns tick, a pending cast walks the player into range.
   update(dt) {
     for (const [id, v] of this.cd) this.cd.set(id, Math.max(0, v - dt));
+    if (this.tether) {
+      if (!this.character.alive || this.combat.remote || this.combat.serverOwned) this.tether = null;
+      else {
+        const result = advanceTether(this.tether, dt, 0);
+        if (result.hp) {
+          const amount = this.character.heal(result.hp), p = this.player.position;
+          if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z });
+        }
+        if (result.done) this.tether = null;
+      }
+    }
     const k = this.casting;
     if (k) {
       const m = k.pick.monster, a = k.pick.ally ? this.allyOf(k.pick.ally) : null, far = x => dist(x, this.player.position) > this.infos[k.i].range + 1.5;
@@ -192,7 +206,7 @@ export class KitCaster {
   // runners show MISS (they fall back to the effect's own number when dmg is 0).
   roll(id) {
     this.lastSkill = id;
-    const t = this.proxy.current, defense = t?.monster ? monsterDefense(t.monster.def) : this.dummyDefense();
+    const t = this.proxy.current, defense = t?.monster ? monsterDefense(t.monster) : this.dummyDefense();
     const r = rollSkill(this.stats(), defense, this.eid(id), Math.max(1, this.lv(id)));
     return r.hit ? r : { ...r, dmg: -1 };
   }
@@ -209,21 +223,21 @@ export class KitCaster {
   hurt(m, amount, crit, exact) {
     if (!m.alive) return 0;
     const id = this.runner.current ?? this.lastSkill, eff = this.eid(id), lv = Math.max(1, this.lv(id));
-    const r = exact ? { hit: true, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), eff, lv);
+    const r = exact ? { hit: true, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m), eff, lv);
     this.strike(m, r, id);
     const info = this.infos[this.slots.findIndex(s => s.id === id)];
     const sp = this.combat.remote ? null : info?.splash;   // online the server finds who else an area skill catches
     if (sp?.line || sp?.cone) {
       // a piercing shot / a fan: everyone else on its path takes one blow per cast
       this.splashed ??= new Set();
-      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!this.splashed.has(o)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id); }
+      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!this.splashed.has(o)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o), eff, lv), id); }
     } else if (sp?.chain) {
       // a chain (an evolution path): the blow jumps on to the nearest few, each once per cast
       this.splashed ??= new Set();
-      for (const o of within(this.combat.monsters, m, sp.radius, m).filter(o => !this.splashed.has(o)).slice(0, sp.chain)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id); }
+      for (const o of within(this.combat.monsters, m, sp.radius, m).filter(o => !this.splashed.has(o)).slice(0, sp.chain)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o), eff, lv), id); }
     } else if (sp) {
       const center = sp.around === 'self' ? this.player.position : m;
-      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id);
+      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o), eff, lv), id);
     }
     return r.hit ? r.dmg : 0;
   }

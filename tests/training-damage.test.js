@@ -5,6 +5,7 @@ import { boxerDerived, jobDerived, skillMult, rollSkill } from '../src/training/
 import { TRAINING } from '../src/data/training.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
+import { PLAYER_DAMAGE_MULT } from '../src/rules/stats.js';
 
 const M = id => SKILL_BY_ID[id].mult;   // Lv1 multiplier from the rules table
 
@@ -22,17 +23,17 @@ test('every hotbar skill exists in the rules; only buffs deal no damage', () => 
   }
 });
 
-test('a plain hit is patk × mult (mid variance, no armour, no crit)', () => {
+test('a plain hit is patk × mult × player damage tuning (mid variance, no armour, no crit)', () => {
   const r = rollSkill(d, { def: 0, eva: 0 }, 'boxer_kick', 1, seq([0, .5, .99]));
-  assert.deepEqual(r, { hit: true, crit: false, dmg: Math.round(d.patk * M('boxer_kick')) });
+  assert.deepEqual(r, { hit: true, crit: false, dmg: Math.round(d.patk * M('boxer_kick') * PLAYER_DAMAGE_MULT) });
 });
 
 test('a crit multiplies by critDmg; armour subtracts half of DEF', () => {
   const crit = rollSkill(d, { def: 0, eva: 0 }, 'boxer_jab', 1, seq([0, .5, 0]));
   assert.equal(crit.crit, true);
-  assert.equal(crit.dmg, Math.round(d.patk * M('boxer_jab') * d.critDmg));
+  assert.equal(crit.dmg, Math.round(d.patk * M('boxer_jab') * d.critDmg * PLAYER_DAMAGE_MULT));
   const armoured = rollSkill(d, { def: 40, eva: 0 }, 'boxer_kick', 1, seq([0, .5, .99]));
-  assert.equal(armoured.dmg, Math.round(d.patk * M('boxer_kick') - 20));
+  assert.equal(armoured.dmg, Math.round((d.patk * M('boxer_kick') - 20) * PLAYER_DAMAGE_MULT));
 });
 
 test('evasion can make a blow miss', () => {

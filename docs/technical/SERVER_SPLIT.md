@@ -149,6 +149,49 @@ client uses for prediction.
 
 ## Phase 3c details
 
+### Live class effects
+
+- Signed-in casts publish `skill-state {skill, state, cleanse}`; periodic `me` and
+  party `aid` also carry `state {owned, hp, mp, buffs}`. These transient snapshots
+  apply independently of pending inventory acknowledgements. The browser follows
+  exact vitals/effect expiry and recovers the death/revive UI lifecycle from a
+  snapshot if an individual hit is absent. Buffs are never serialized into saves.
+- Guest vitals remain local. Successful casts carry incremental `self` healing/MP;
+  guest tether pulses arrive through `aid`. Online self effects wait for cast
+  acceptance, so a refused cast cannot grant a predicted heal or buff. Kit snapshots
+  preserve local harmful statuses until an explicit cleanse. Guest death clears
+  server buffs/links, and revival restores its ratio once before applying protection.
+- Herbalist vines heal one target on the declared interval, with no upfront payout.
+  Each caster keeps one link, replaced on recast/retarget. Near targets receive the
+  declared proximity multiplier; leaving range, room/channel or party, dying, or
+  disconnecting cancels the link. Offline self healing uses the same timer.
+- Attack ratios sum to at most +60%. Defense uses
+  `(derived defense + sum of flat buffs) × (1 + ratio sum capped at +60%)`, so buff
+  order and the caster's defense cannot change a recipient's result. Movement
+  bonuses sum to +50%; the server passes only its own live bonus to movement
+  validation, and expiry removes excess saved movement credit.
+- Ordinary buff lifetime is capped at 80% of its effective cooldown, including
+  DEX/gear reductions. Buff cooldown validation has no early network slack.
+  Tether and undying timers retain their separately declared durations.
+- Armor break and weaken use the strongest live instance, capped at 60%; shared
+  monster definitions remain unchanged. Normal, pet and kit blows use reduced
+  defense; normal/boss attacks use reduced attack exactly once. Boss control
+  duration is halved once on insertion, matching the shared rules; DoT lifetime
+  stays unchanged.
+- Cleanse removes negative statuses and announces external player condition
+  removal. Revive applies its protection after restoring HP/MP; undying preserves
+  1 HP until expiry and clears on death/revive. A resolved online hit overrides
+  stale local protection. Amplified revival cannot exceed full HP/MP.
+- Current kit classes can cast only their learned kit actives. Obsolete legacy
+  active aliases are refused on both sides; basic attacks and the unimplemented
+  class's legacy fallback keep their existing routes. Job-tree unlocks and learned
+  skill allocations are unchanged. Self skills do not chase a selected enemy;
+  dummy practice grants no live effects, and AUTO skips a full-health vine unless
+  it can heal a wounded party member.
+- Regression coverage: character/adapter/monster/movement/tether unit tests,
+  client state reconciliation tests, and `class-effects-online.integration.test.js`
+  using real HTTP/WebSocket party, guest, heal and revive handlers.
+
 - **`server/progress.js`:** `fromSave` (a stored character, unknown items dropped), `applyOp` (replays one action), `reconcileSave` (a browser save with the server's character in it). Tested in `tests/progress-server.test.js`.
 - **`server/combatants.js`:** `load()` a signed-in character in full; `op`, `reward`, `respawn`, `me` (its JSON + `ack`, the number of actions replayed), `live(account, slot)`; MP is paid on cast and regenerates in `tick`. The `ch` sheet is ignored for these characters.
 - **`server/accounts.js`:** `save(id, slot, data, live)` keeps the browser's other keys and the server's character; `putCharacter` stores the server's copy.
