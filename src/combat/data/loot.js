@@ -1,11 +1,24 @@
 import { EXPEDITIONS } from '../../world/expeditions.js';
 import { expeditionGearIds } from '../../character/data/expedition-gear.js';
+import { ITEMS } from '../../character/data/items.js';
 // Content data only: edit freely without touching game logic.
 // Each entry: [itemId, chance 0..1, min, max] — every entry rolls on its own, so a kill can drop several.
 // Every table carries a little HP potion and น้ำผึ้งป่า (MP): hunting pays for its own supplies, a bit.
-// Gear is rare (RO style, 1–4 % from ordinary monsters) and each tier has one weapon of every kind
+// Ordinary hunts offer 2–3% per weapon, and each tier has one weapon of every kind
 // (sword · bow · wrap · dagger · talisman · book) so no class farms for nothing.
-export const LOOT = {
+const WEAPON_POOLS = {
+  low: ['tiger_wrap', 'bone_dagger', 'iron_dap', 'bamboo_bow', 'palm_book', 'bone_yant'],
+  mid: ['kris', 'horn_bow', 'croc_wrap', 'croc_dagger', 'bog_book', 'bog_yant'],
+};
+const WEAPON_DROPS = {
+  beast: ['low', .03], spirit: ['low', .03],
+  marsh: ['mid', .025], spirit2: ['mid', .025],
+  rare: ['low', .30], boss: ['low', .35], pop: ['low', .45],
+  rare2: ['mid', .30], chalawan: ['mid', .40],
+};
+
+// Keep the existing supplies and gear roster, then apply the shared balance recipe.
+const REGIONAL_LOOT = {
   beast:  [['hide', .6, 1, 2], ['tusk', .35, 1, 1], ['potion_s', .22, 1, 1], ['ether', .1, 1, 1], ['cloth_vest', .04, 1, 1], ['hide_armor', .03, 1, 1], ['mongkol', .02, 1, 1], ['sandals', .04, 1, 1], ['hide_boots', .02, 1, 1], ['tiger_wrap', .012, 1, 1], ['bone_dagger', .012, 1, 1]],
   spirit: [['ash', .6, 1, 2], ['ether', .25, 1, 1], ['potion_s', .2, 1, 1], ['takrut', .06, 1, 1], ['palm_book', .02, 1, 1], ['bone_yant', .02, 1, 1], ['iron_dap', .012, 1, 1], ['bamboo_bow', .012, 1, 1], ['pakhaoma', .04, 1, 1], ['sabai', .02, 1, 1]],
   rare:   [['potion_m', 1, 2, 3], ['ether', .8, 1, 2], ['takrut', .6, 1, 1], ['tiger_fang', .2, 1, 1], ['palm_book', .25, 1, 1], ['bone_yant', .25, 1, 1], ['tiger_wrap', .2, 1, 1], ['bone_dagger', .2, 1, 1], ['ash', 1, 3, 5], ['chada', .3, 1, 1], ['prakam', .15, 1, 1]],
@@ -18,4 +31,28 @@ export const LOOT = {
   boss:   [['potion_m', 1, 1, 2], ['ether', .8, 1, 1], ['tiger_fang', .35, 1, 1], ['iron_dap', .25, 1, 1], ['bamboo_bow', .25, 1, 1], ['tiger_wrap', .25, 1, 1], ['bone_dagger', .25, 1, 1], ['palm_book', .2, 1, 1], ['bone_yant', .2, 1, 1], ['hide_armor', .3, 1, 1]],
 };
 
-for(const e of EXPEDITIONS)for(const boss of [false,true])LOOT[`${boss?'boss':'hunt'}_${e.id}`]=[['ash',.6,1,3],['potion_m',boss?1:.2,1,boss?3:1],['ether',boss?1:.2,1,2],...expeditionGearIds(e).map(id=>[id,boss?.12:.006,1,1])];
+function regionalDrops(entries, [tier, requestedChance]) {
+  const pool = WEAPON_POOLS[tier];
+  // Equal chances may rise to preserve an existing higher rate, but never fall.
+  const weaponChance = Math.max(requestedChance, ...entries.filter(([id]) => pool.includes(id)).map(([, chance]) => chance));
+  const drops = new Map(entries.map(([id, chance, min, max]) => {
+    const item = ITEMS[id];
+    const boosted = item?.type === 'equip' && item.slot !== 'weapon' ? Math.min(1, chance * 1.5) : chance;
+    return [id, [id, boosted, min, max]];
+  }));
+  for (const id of pool) drops.set(id, [id, weaponChance, 1, 1]);
+  return [...drops.values()]; // one independent roll per ID, including existing weapons
+}
+
+export const LOOT = Object.fromEntries(Object.entries(REGIONAL_LOOT).map(([name, entries]) => [name, regionalDrops(entries, WEAPON_DROPS[name])]));
+
+for (const expedition of EXPEDITIONS) {
+  for (const boss of [false, true]) {
+    LOOT[`${boss ? 'boss' : 'hunt'}_${expedition.id}`] = [
+      ['ash', .6, 1, 3],
+      ['potion_m', boss ? 1 : .2, 1, boss ? 3 : 1],
+      ['ether', boss ? 1 : .2, 1, 2],
+      ...expeditionGearIds(expedition).map(id => [id, boss ? .25 : .02, 1, 1]),
+    ];
+  }
+}

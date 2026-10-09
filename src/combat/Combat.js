@@ -218,7 +218,8 @@ export class Combat extends Emitter {
     // สัญชาตญาณหมาล่า: a hunter's landed basic hit may send the dog in at once (LUK helps)
     if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 * (this.character.petBiteMul ?? 1) }; }
     const id = skill.basic ? 'basic' : Object.keys(SKILLS).find(k => SKILLS[k] === skill);
-    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff && !this.remote) this.debuff(m, { ...skill.debuff, source: this.character.attack });
+    // Match server skill DoTs: the landed roll already includes player damage tuning.
+    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff && !this.remote) this.debuff(m, { ...skill.debuff, source: dealt });
   }
 
   // Apply an already rolled blow to a monster (hook for the class skill kits,

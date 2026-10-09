@@ -40,7 +40,7 @@ Owner: game-director, the lead (see CLAUDE.md). Character and Combat consume thi
   - `critDmg = 1.5 + soft(0.005·LUK + bonus.critDmg, 1.0)`
   - `aspd = min(0.3, 0.002·AGI + 0.0004·DEX) + bonus.aspd`; `castRed ≤ 0.25`
 - `hitChanceOf(acc, eva) = clamp(0.95 + (acc − 90 − eva)/100, 0.6, 0.99)`
-- `rollDamage(atk, def, kind = 'physical'|'magic'|'best', mult = 1, rng = Math.random) → { hit, crit, dmg }`. Player magic always hits. Damage = max(1, power·mult·U(0.9, 1.1) − DEF·(magic ? 0.25 : 0.5)), multiplied by critDmg on a crit.
+- `rollDamage(atk, def, kind = 'physical'|'magic'|'best', mult = 1, rng = Math.random) → { hit, crit, dmg }`. Player magic always hits. Damage = max(1, power·mult·U(0.9, 1.1) − DEF·(magic ? 0.25 : 0.5)), multiplied by critDmg on a crit, then by `PLAYER_DAMAGE_MULT = 1.2` before final rounding. This outgoing player modifier also covers skills and pets; `atk.mob` opts out and retains monster hit/evasion rules. Derived stats and healing do not receive this modifier. Integer rounding can make an individual hit differ from an exact 20% increase.
 - `attackInterval(baseCd, aspd)` (min 260 ms, aspd ≤ 0.45), `skillCooldown(cd, castRed)`, `buffAspd(buffs, now)`, `createBaseStats(job)`, `clamp`, constants `ASPD_MAX`, `ASPD_BUFF_MAX`, `CAST_RED_MAX`, `CRIT_SOFT`, `CRITDMG_SOFT`, `EXP_*`
 
 ### charmodel.js

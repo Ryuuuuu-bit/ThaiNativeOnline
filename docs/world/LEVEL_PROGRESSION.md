@@ -87,3 +87,35 @@ encounter site. Each primary has two themed, dodgeable attacks, with a fixed-aim
 warning, recovery and a faster cadence below half HP. Ordinary hunting pockets
 do not receive duplicate boss spawns. Full roster, attack timings, authority and
 limitations: `docs/technical/BOSS_ENCOUNTERS.md`.
+
+## Damage and equipment drops — 10 October 2026
+
+All six classes receive a shared outgoing damage multiplier of 1.2 after armor
+and critical scaling, before final rounding. Basic attacks, damaging skills,
+pet bites and damage-over-time sourced from a landed hit inherit it once. PvP
+basics retain their existing separate damage reduction. Healing, derived stats,
+attack intervals and monster damage are unchanged. Individual integer hits may
+not increase by exactly 20% because of rounding.
+
+Every hunting loot table offers all six weapon kinds at equal per-kind rates:
+sword, bow, wraps, dagger, talisman and book. Existing items, level requirements,
+quantities and loot ownership remain in use.
+
+| Loot category | Chance per weapon/item |
+| --- | --- |
+| Beast / spirit | 3% per weapon |
+| Marsh / spirit2 | 2.5% per weapon |
+| Rare / rare2 | 30% per weapon |
+| Regional boss | 35% per weapon |
+| Pop | 45% per weapon |
+| Chalawan | 40% per weapon |
+| Expedition hunts, all eight tiers | 2% per equipment item (previously 0.6%) |
+| Expedition bosses, all eight tiers | 25% per equipment item (previously 12%) |
+
+Regional nonweapon equipment chances increase by 50%, capped at 100%. Material,
+potion and separate card rolls are unchanged. Each item rolls independently:
+these percentages are not the overall chance to get any gear or a guarantee of
+one item per kill. Expedition bosses roll eight equipment items, averaging two
+pieces per kill at base rates. Monitor resale supply, bag space and party clear
+speed during playtesting; this tuning does not establish final economy or
+time-to-level balance.
