@@ -1,0 +1,252 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.61
+      ],
+      "tail": [
+        0,
+        0,
+        1.05
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        1.15
+      ],
+      "tail": [
+        0,
+        0,
+        1.62
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        -0.24,
+        0,
+        1.02
+      ],
+      "tail": [
+        -0.36,
+        -0.01,
+        0.82
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        -0.36,
+        -0.01,
+        0.82
+      ],
+      "tail": [
+        -0.46,
+        -0.04,
+        0.64
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        -0.46,
+        -0.04,
+        0.64
+      ],
+      "tail": [
+        -0.46,
+        -0.04,
+        0.49
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        0.24,
+        0,
+        1.02
+      ],
+      "tail": [
+        0.36,
+        -0.01,
+        0.82
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        0.36,
+        -0.01,
+        0.82
+      ],
+      "tail": [
+        0.46,
+        -0.04,
+        0.64
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        0.46,
+        -0.04,
+        0.64
+      ],
+      "tail": [
+        0.46,
+        -0.04,
+        0.49
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegUpper",
+      "head": [
+        0,
+        0,
+        0.61
+      ],
+      "tail": [
+        0,
+        -0.04,
+        0.36
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLower",
+      "head": [
+        0,
+        -0.04,
+        0.36
+      ],
+      "tail": [
+        0,
+        0,
+        0.08
+      ],
+      "parent": "LegUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegFoot",
+      "head": [
+        0,
+        0,
+        0.08
+      ],
+      "tail": [
+        0,
+        -0.22,
+        0.08
+      ],
+      "parent": "LegLower",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "Leg",
+      "hip": [
+        0,
+        0,
+        0.61
+      ],
+      "knee": [
+        0,
+        -0.04,
+        0.36
+      ],
+      "joint": [
+        0,
+        0,
+        0.08
+      ],
+      "ankle": [
+        0,
+        0,
+        0.08
+      ],
+      "toe": [
+        0,
+        -0.22,
+        0.08
+      ],
+      "pole": [
+        0,
+        -0.4,
+        0.32
+      ],
+      "phase": 0,
+      "control": "KongkoiV3LegTarget"
+    }
+  ],
+  "weightGroups": 535,
+  "limbLength": {
+    "maxRelativeError": 1.942203345571647e-05,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "KongkoiV3Rig",
+      "bone": "LegFoot",
+      "maxDrift": 3.2835428043336134e-07,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "version": "v3",
+  "editableSource": "artifacts\\meshy-rig-03\\deep-forest\\jobs\\job_kongkoi_v3_blend\\artifact.blend",
+  "snapshotId": "snapshot-ee5645bda6b85def6b4cd563",
+  "sceneRevision": 22011
+}

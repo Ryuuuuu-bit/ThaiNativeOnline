@@ -1,0 +1,14 @@
+{
+  "type": "pray",
+  "bytes": 1363060,
+  "sha256": "31f9145d0a28adc0ad4fd5b9aff7f7ec0cd2d56d2e7af70f118fba9e8211e3b2",
+  "triangles": 12483,
+  "bones": 12,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

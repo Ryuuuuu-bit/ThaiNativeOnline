@@ -1,0 +1,160 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.9
+      ],
+      "tail": [
+        0,
+        0,
+        1.45
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        1.56
+      ],
+      "tail": [
+        0,
+        0,
+        1.77
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        -0.18,
+        0,
+        1.41
+      ],
+      "tail": [
+        -0.25,
+        -0.01,
+        1.22
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        -0.25,
+        -0.01,
+        1.22
+      ],
+      "tail": [
+        -0.31,
+        -0.02,
+        1.05
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        -0.31,
+        -0.02,
+        1.05
+      ],
+      "tail": [
+        -0.32,
+        -0.025,
+        0.94
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        0.18,
+        0,
+        1.41
+      ],
+      "tail": [
+        0.25,
+        -0.01,
+        1.22
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        0.25,
+        -0.01,
+        1.22
+      ],
+      "tail": [
+        0.31,
+        -0.02,
+        1.05
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        0.31,
+        -0.02,
+        1.05
+      ],
+      "tail": [
+        0.32,
+        -0.025,
+        0.94
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [],
+  "weightGroups": 475,
+  "limbLength": {
+    "maxRelativeError": 5.163566382313283e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [],
+  "version": "v4",
+  "editableSource": "artifacts\\meshy-rig-03\\deep-forest\\jobs\\job_takian_v4_blend\\artifact.blend",
+  "snapshotId": "snapshot-31c451ae8c43419519598953",
+  "sceneRevision": 32126
+}

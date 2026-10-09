@@ -1,0 +1,14 @@
+{
+  "type": "kongkoi",
+  "bytes": 1469344,
+  "sha256": "b3e1f91631c4aa959ad433a20469cc46cb2ed35e286bdc277ecbccb615ef76be",
+  "triangles": 11548,
+  "bones": 12,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

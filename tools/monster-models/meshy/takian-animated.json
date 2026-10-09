@@ -1,0 +1,14 @@
+{
+  "type": "takian",
+  "bytes": 1392948,
+  "sha256": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+  "triangles": 12447,
+  "bones": 9,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

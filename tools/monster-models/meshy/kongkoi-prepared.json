@@ -1,0 +1,39 @@
+{
+  "creature": "kongkoi",
+  "bytes": 1393940,
+  "triangles": 11548,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.48237502574920654,
+      0,
+      -0.3553030341863632
+    ],
+    "max": [
+      0.48237502574920654,
+      1.8983117477037013,
+      0.3553030341863632
+    ]
+  },
+  "sha256": "390184777de5d26f8dd51d705150a9bf1d2afab08af7bb6cffda544e5678eed2",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

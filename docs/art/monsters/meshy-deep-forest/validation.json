@@ -1,0 +1,2496 @@
+{
+  "map": "deep_forest",
+  "runtimeIdentities": 9,
+  "newModels": 6,
+  "tests": {
+    "passed": 394,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "modules": 229,
+    "existingChunkSizeWarning": true
+  },
+  "credits": {
+    "tasks": 7,
+    "spent": 245,
+    "remaining": 520
+  },
+  "models": [
+    {
+      "type": "kongkoi",
+      "bytes": 1469344,
+      "sha256": "b3e1f91631c4aa959ad433a20469cc46cb2ed35e286bdc277ecbccb615ef76be",
+      "triangles": 11548,
+      "bones": 12,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "monitor",
+      "bytes": 1257936,
+      "sha256": "ffc781c94efd27e5e0a562e6f7aaaa655fc38f0303486aa683428d662c2757e5",
+      "triangles": 12521,
+      "bones": 19,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "pray",
+      "bytes": 1363060,
+      "sha256": "31f9145d0a28adc0ad4fd5b9aff7f7ec0cd2d56d2e7af70f118fba9e8211e3b2",
+      "triangles": 12483,
+      "bones": 12,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "khamot",
+      "bytes": 1116524,
+      "sha256": "7d532a91a1648e66fc21429f49c4dd90441cc191fe839631cdd3302f7bdbafce",
+      "triangles": 12368,
+      "bones": 4,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "winyan",
+      "bytes": 1319596,
+      "sha256": "eb90752105525c639d052d22a33992786b008fb06ff98f99c886401dc9097433",
+      "triangles": 11977,
+      "bones": 12,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "takian",
+      "bytes": 1392948,
+      "sha256": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "triangles": 12447,
+      "bones": 9,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    }
+  ],
+  "surface": [
+    {
+      "type": "kongkoi",
+      "sha256": "b3e1f91631c4aa959ad433a20469cc46cb2ed35e286bdc277ecbccb615ef76be",
+      "surfaceEdges": 17259,
+      "thresholds": {
+        "minEdgeMetres": 0.005,
+        "maxRatio": 2,
+        "minExtensionMetres": 0.01
+      },
+      "frames": [
+        {
+          "clip": "neutral",
+          "samples": 1,
+          "maxRatio": 1,
+          "failingEdges": 0
+        },
+        {
+          "clip": "idle",
+          "samples": 106,
+          "maxRatio": 1.02942,
+          "failingEdges": 0
+        },
+        {
+          "clip": "walk",
+          "samples": 53,
+          "maxRatio": 1.19558,
+          "failingEdges": 0
+        },
+        {
+          "clip": "attack",
+          "samples": 53,
+          "maxRatio": 2.09535,
+          "failingEdges": 0
+        },
+        {
+          "clip": "hurt",
+          "samples": 24,
+          "maxRatio": 1.06492,
+          "failingEdges": 0
+        },
+        {
+          "clip": "die",
+          "samples": 53,
+          "maxRatio": 1.68893,
+          "failingEdges": 0
+        }
+      ],
+      "worst": null
+    },
+    {
+      "type": "pray",
+      "sha256": "31f9145d0a28adc0ad4fd5b9aff7f7ec0cd2d56d2e7af70f118fba9e8211e3b2",
+      "surfaceEdges": 18684,
+      "thresholds": {
+        "minEdgeMetres": 0.005,
+        "maxRatio": 2,
+        "minExtensionMetres": 0.01
+      },
+      "frames": [
+        {
+          "clip": "neutral",
+          "samples": 1,
+          "maxRatio": 1,
+          "failingEdges": 0
+        },
+        {
+          "clip": "idle",
+          "samples": 106,
+          "maxRatio": 1.06499,
+          "failingEdges": 0
+        },
+        {
+          "clip": "walk",
+          "samples": 53,
+          "maxRatio": 1.06499,
+          "failingEdges": 0
+        },
+        {
+          "clip": "attack",
+          "samples": 53,
+          "maxRatio": 1.76618,
+          "failingEdges": 0
+        },
+        {
+          "clip": "hurt",
+          "samples": 24,
+          "maxRatio": 1.13062,
+          "failingEdges": 0
+        },
+        {
+          "clip": "die",
+          "samples": 53,
+          "maxRatio": 1.71041,
+          "failingEdges": 0
+        }
+      ],
+      "worst": null
+    },
+    {
+      "type": "winyan",
+      "sha256": "eb90752105525c639d052d22a33992786b008fb06ff98f99c886401dc9097433",
+      "surfaceEdges": 17803,
+      "thresholds": {
+        "minEdgeMetres": 0.005,
+        "maxRatio": 2,
+        "minExtensionMetres": 0.01
+      },
+      "frames": [
+        {
+          "clip": "neutral",
+          "samples": 1,
+          "maxRatio": 1,
+          "failingEdges": 0
+        },
+        {
+          "clip": "idle",
+          "samples": 106,
+          "maxRatio": 1.04921,
+          "failingEdges": 0
+        },
+        {
+          "clip": "walk",
+          "samples": 53,
+          "maxRatio": 1.04921,
+          "failingEdges": 0
+        },
+        {
+          "clip": "attack",
+          "samples": 53,
+          "maxRatio": 2.16738,
+          "failingEdges": 0
+        },
+        {
+          "clip": "hurt",
+          "samples": 24,
+          "maxRatio": 1.08367,
+          "failingEdges": 0
+        },
+        {
+          "clip": "die",
+          "samples": 53,
+          "maxRatio": 1.78043,
+          "failingEdges": 0
+        }
+      ],
+      "worst": null
+    },
+    {
+      "type": "takian",
+      "sha256": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "surfaceEdges": 18624,
+      "thresholds": {
+        "minEdgeMetres": 0.005,
+        "maxRatio": 2,
+        "minExtensionMetres": 0.01
+      },
+      "frames": [
+        {
+          "clip": "neutral",
+          "samples": 1,
+          "maxRatio": 1,
+          "failingEdges": 0
+        },
+        {
+          "clip": "idle",
+          "samples": 106,
+          "maxRatio": 1.04579,
+          "failingEdges": 0
+        },
+        {
+          "clip": "walk",
+          "samples": 53,
+          "maxRatio": 1.04578,
+          "failingEdges": 0
+        },
+        {
+          "clip": "attack",
+          "samples": 53,
+          "maxRatio": 1.85919,
+          "failingEdges": 0
+        },
+        {
+          "clip": "hurt",
+          "samples": 24,
+          "maxRatio": 1.07919,
+          "failingEdges": 0
+        },
+        {
+          "clip": "die",
+          "samples": 53,
+          "maxRatio": 1.31106,
+          "failingEdges": 0
+        }
+      ],
+      "worst": null
+    }
+  ],
+  "motion": [
+    {
+      "type": "kongkoi",
+      "neutralError": 0.0002581529064014178,
+      "idleDrift": 0.0003779413443913784,
+      "minimum": -0.008943930866457447,
+      "segmentError": 3.306210040604496E-05,
+      "deathFootLift": 0,
+      "clipGround": {
+        "idle": {
+          "minimum": -9.976892376055912E-05,
+          "frame": 44,
+          "vertex": 9293,
+          "maximumDisplacement": 0.012854063602711668
+        },
+        "walk": {
+          "minimum": -6.198989140738499E-05,
+          "frame": 0,
+          "vertex": 9293,
+          "maximumDisplacement": 0.17563787215550958
+        },
+        "attack": {
+          "minimum": -0.00010835060101220594,
+          "frame": 6,
+          "vertex": 9293,
+          "maximumDisplacement": 0.18040462881282515
+        },
+        "hurt": {
+          "minimum": -0.0001093061462866065,
+          "frame": 8,
+          "vertex": 9293,
+          "maximumDisplacement": 0.08304284122702164
+        },
+        "die": {
+          "minimum": -0.008943930866457447,
+          "frame": 24,
+          "vertex": 9422,
+          "maximumDisplacement": 0.43237938862936104
+        }
+      }
+    },
+    {
+      "type": "monitor",
+      "neutralError": 0.0002691459303973185,
+      "idleDrift": 0,
+      "minimum": -0.008980444162198705,
+      "segmentError": 7.414246330994523E-06,
+      "deathFootLift": 0,
+      "clipGround": {
+        "idle": {
+          "minimum": -4.178113982869437E-05,
+          "frame": 0,
+          "vertex": 83,
+          "maximumDisplacement": 0.03358768770769659
+        },
+        "walk": {
+          "minimum": -6.955888260450566E-05,
+          "frame": 12,
+          "vertex": 83,
+          "maximumDisplacement": 0.03330799910870339
+        },
+        "attack": {
+          "minimum": -4.178113982869437E-05,
+          "frame": 2,
+          "vertex": 83,
+          "maximumDisplacement": 0.06814114734074012
+        },
+        "hurt": {
+          "minimum": -4.178113982869437E-05,
+          "frame": 0,
+          "vertex": 83,
+          "maximumDisplacement": 0.03290131307062138
+        },
+        "die": {
+          "minimum": -0.008980444162198705,
+          "frame": 24,
+          "vertex": 3788,
+          "maximumDisplacement": 0.07738478608696683
+        }
+      }
+    },
+    {
+      "type": "pray",
+      "neutralError": 0.0003092275470402814,
+      "idleDrift": 0,
+      "minimum": -3.106994661550288E-10,
+      "segmentError": 1.9557941831449543E-05,
+      "deathFootLift": 0,
+      "clipGround": {
+        "idle": {
+          "minimum": -3.106994661550288E-10,
+          "frame": 0,
+          "vertex": 13157,
+          "maximumDisplacement": 0.02443443463558384
+        },
+        "walk": {
+          "minimum": -3.106994661550288E-10,
+          "frame": 0,
+          "vertex": 13157,
+          "maximumDisplacement": 0.03392099929494286
+        },
+        "attack": {
+          "minimum": -3.106994661550288E-10,
+          "frame": 0,
+          "vertex": 13157,
+          "maximumDisplacement": 0.23208819714289908
+        },
+        "hurt": {
+          "minimum": -3.106994661550288E-10,
+          "frame": 0,
+          "vertex": 13157,
+          "maximumDisplacement": 0.0742073743069019
+        },
+        "die": {
+          "minimum": -3.106994661550288E-10,
+          "frame": 0,
+          "vertex": 13157,
+          "maximumDisplacement": 0.2864300255048915
+        }
+      }
+    },
+    {
+      "type": "khamot",
+      "neutralError": 2.6234757956876334E-08,
+      "idleDrift": 0,
+      "minimum": -0.0019641258644303022,
+      "segmentError": 0,
+      "deathFootLift": 0,
+      "clipGround": {
+        "idle": {
+          "minimum": 5.199889963058978E-10,
+          "frame": 0,
+          "vertex": 5785,
+          "maximumDisplacement": 0.0512983141516212
+        },
+        "walk": {
+          "minimum": 5.199889963058978E-10,
+          "frame": 0,
+          "vertex": 5785,
+          "maximumDisplacement": 0.07114094744098157
+        },
+        "attack": {
+          "minimum": 5.199889963058978E-10,
+          "frame": 0,
+          "vertex": 5785,
+          "maximumDisplacement": 0.14994605052491478
+        },
+        "hurt": {
+          "minimum": 5.199889963058978E-10,
+          "frame": 0,
+          "vertex": 5785,
+          "maximumDisplacement": 0.09951798130834819
+        },
+        "die": {
+          "minimum": -0.0019641258644303022,
+          "frame": 9,
+          "vertex": 5785,
+          "maximumDisplacement": 0.295072664155461
+        }
+      }
+    },
+    {
+      "type": "winyan",
+      "neutralError": 0.0003696707732650001,
+      "idleDrift": 0,
+      "minimum": -1.7546351604784596E-10,
+      "segmentError": 1.386224958238591E-05,
+      "deathFootLift": 0,
+      "clipGround": {
+        "idle": {
+          "minimum": -1.7546351604784596E-10,
+          "frame": 0,
+          "vertex": 9686,
+          "maximumDisplacement": 0.023150798084420866
+        },
+        "walk": {
+          "minimum": -1.7546351604784596E-10,
+          "frame": 0,
+          "vertex": 9686,
+          "maximumDisplacement": 0.033398893013304363
+        },
+        "attack": {
+          "minimum": -1.7546351604784596E-10,
+          "frame": 0,
+          "vertex": 9686,
+          "maximumDisplacement": 0.21073919861220988
+        },
+        "hurt": {
+          "minimum": -1.7546351604784596E-10,
+          "frame": 0,
+          "vertex": 9686,
+          "maximumDisplacement": 0.07421273513097987
+        },
+        "die": {
+          "minimum": -1.7546351604784596E-10,
+          "frame": 0,
+          "vertex": 9686,
+          "maximumDisplacement": 0.2936568960876635
+        }
+      }
+    },
+    {
+      "type": "takian",
+      "neutralError": 0.00011232696740197482,
+      "idleDrift": 0,
+      "minimum": 0,
+      "segmentError": 1.4326602691877577E-05,
+      "deathFootLift": 0,
+      "clipGround": {
+        "idle": {
+          "minimum": 0,
+          "frame": 0,
+          "vertex": 0,
+          "maximumDisplacement": 0.009955712051969762
+        },
+        "walk": {
+          "minimum": 0,
+          "frame": 0,
+          "vertex": 0,
+          "maximumDisplacement": 0.009924282346403142
+        },
+        "attack": {
+          "minimum": 0,
+          "frame": 0,
+          "vertex": 0,
+          "maximumDisplacement": 0.17947811922288678
+        },
+        "hurt": {
+          "minimum": 0,
+          "frame": 0,
+          "vertex": 0,
+          "maximumDisplacement": 0.05571970197445074
+        },
+        "die": {
+          "minimum": 0,
+          "frame": 0,
+          "vertex": 0,
+          "maximumDisplacement": 0.22789033672264125
+        }
+      }
+    }
+  ],
+  "browser": {
+    "errors": [],
+    "instances": [
+      {
+        "type": "kongkoi",
+        "geometryShared": true,
+        "textureShared": true,
+        "materialsIndependent": true,
+        "skeletonIndependent": true,
+        "idsDistinct": true
+      },
+      {
+        "type": "monitor",
+        "geometryShared": true,
+        "textureShared": true,
+        "materialsIndependent": true,
+        "skeletonIndependent": true,
+        "idsDistinct": true
+      },
+      {
+        "type": "pray",
+        "geometryShared": true,
+        "textureShared": true,
+        "materialsIndependent": true,
+        "skeletonIndependent": true,
+        "idsDistinct": true
+      },
+      {
+        "type": "khamot",
+        "geometryShared": true,
+        "textureShared": true,
+        "materialsIndependent": true,
+        "skeletonIndependent": true,
+        "idsDistinct": true
+      },
+      {
+        "type": "winyan",
+        "geometryShared": true,
+        "textureShared": true,
+        "materialsIndependent": true,
+        "skeletonIndependent": true,
+        "idsDistinct": true
+      },
+      {
+        "type": "takian",
+        "geometryShared": true,
+        "textureShared": true,
+        "materialsIndependent": true,
+        "skeletonIndependent": true,
+        "idsDistinct": true
+      }
+    ],
+    "noOverflow": true,
+    "load": [
+      {
+        "type": "kongkoi",
+        "loaded": true,
+        "textures": 1024,
+        "bones": 12
+      },
+      {
+        "type": "monitor",
+        "loaded": true,
+        "textures": 1024,
+        "bones": 19
+      },
+      {
+        "type": "pray",
+        "loaded": true,
+        "textures": 1024,
+        "bones": 12
+      },
+      {
+        "type": "khamot",
+        "loaded": true,
+        "textures": 1024,
+        "bones": 4
+      },
+      {
+        "type": "winyan",
+        "loaded": true,
+        "textures": 1024,
+        "bones": 12
+      },
+      {
+        "type": "takian",
+        "loaded": true,
+        "textures": 1024,
+        "bones": 9
+      }
+    ]
+  },
+  "game": {
+    "results": [
+      {
+        "type": "kongkoi",
+        "lowestContact": -0.007611464636512827,
+        "map": "deep_forest",
+        "remote": true,
+        "count": 8,
+        "at": {
+          "x": -42.39204776847649,
+          "z": -375.41783281033224
+        },
+        "loaded": true,
+        "bones": 12,
+        "texture": 1024,
+        "draw": {
+          "frame": 97,
+          "calls": 245,
+          "triangles": 1077913,
+          "points": 7848,
+          "lines": 0
+        }
+      },
+      {
+        "type": "monitor",
+        "lowestContact": -0.03146217916631061,
+        "map": "deep_forest",
+        "remote": true,
+        "count": 6,
+        "at": {
+          "x": -80.8,
+          "z": -404.15
+        },
+        "loaded": true,
+        "bones": 19,
+        "texture": 1024,
+        "draw": {
+          "frame": 98,
+          "calls": 227,
+          "triangles": 908995,
+          "points": 7848,
+          "lines": 0
+        }
+      },
+      {
+        "type": "pray",
+        "lowestContact": 0.1494296609716178,
+        "map": "deep_forest",
+        "remote": true,
+        "count": 28,
+        "at": {
+          "x": 24.485059710595607,
+          "z": -319.8850597105956
+        },
+        "loaded": true,
+        "bones": 12,
+        "texture": 1024,
+        "draw": {
+          "frame": 99,
+          "calls": 237,
+          "triangles": 717284,
+          "points": 7848,
+          "lines": 0
+        }
+      },
+      {
+        "type": "khamot",
+        "lowestContact": 0.2530646075726688,
+        "map": "deep_forest",
+        "remote": true,
+        "count": 4,
+        "at": {
+          "x": 70.78,
+          "z": -392.5
+        },
+        "loaded": true,
+        "bones": 4,
+        "texture": 1024,
+        "draw": {
+          "frame": 100,
+          "calls": 210,
+          "triangles": 899100,
+          "points": 7848,
+          "lines": 0
+        }
+      },
+      {
+        "type": "winyan",
+        "lowestContact": 0.12220938155473499,
+        "map": "deep_forest",
+        "remote": true,
+        "count": 10,
+        "at": {
+          "x": 52.49,
+          "z": -415.7
+        },
+        "loaded": true,
+        "bones": 12,
+        "texture": 1024,
+        "draw": {
+          "frame": 101,
+          "calls": 244,
+          "triangles": 949963,
+          "points": 7848,
+          "lines": 0
+        }
+      },
+      {
+        "type": "takian",
+        "lowestContact": -0.012673157357032921,
+        "map": "deep_forest",
+        "remote": true,
+        "count": 1,
+        "at": {
+          "x": -70.02,
+          "z": -338.5
+        },
+        "loaded": true,
+        "bones": 9,
+        "texture": 1024,
+        "draw": {
+          "frame": 102,
+          "calls": 216,
+          "triangles": 711020,
+          "points": 7848,
+          "lines": 0
+        }
+      }
+    ],
+    "errors": [],
+    "controlledLocalServerReview": true,
+    "reviewSetup": "Server roster retained; camera repositioned locally and incoming player damage paused in the headless review page"
+  },
+  "video": [
+    {
+      "type": "kongkoi",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        1.2,
+        2.9,
+        5.8
+      ]
+    },
+    {
+      "type": "monitor",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        1.2,
+        2.9,
+        5.8
+      ]
+    },
+    {
+      "type": "pray",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        1.2,
+        2.9,
+        5.8
+      ]
+    },
+    {
+      "type": "khamot",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        1.2,
+        2.9,
+        5.8
+      ]
+    },
+    {
+      "type": "winyan",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        1.2,
+        2.9,
+        5.8
+      ]
+    },
+    {
+      "type": "takian",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        1.2,
+        2.9,
+        5.8
+      ]
+    }
+  ],
+  "deathFade": {
+    "initial": [
+      1,
+      1,
+      1
+    ],
+    "dimmed": [
+      0.30000000000000004,
+      0.30000000000000004,
+      0.30000000000000004
+    ],
+    "neighbour": [
+      1,
+      1,
+      1
+    ],
+    "unchanged": [
+      1,
+      1,
+      1
+    ],
+    "restored": [
+      1,
+      1,
+      1
+    ]
+  },
+  "blender": {
+    "exports": [
+      {
+        "receiptVersion": "2.0.0",
+        "jobId": "job_forest_verified_glb",
+        "kind": "EXPORT",
+        "snapshot": {
+          "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_forest_verified_glb/source.blend",
+          "sha256": "038ea36350078912464d2eb008ca87cf7174511b8bdcf029d6924289e1a7501a",
+          "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+        },
+        "attempt": 1,
+        "state": "completed",
+        "pid": 18100,
+        "artifact": {
+          "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_forest_verified_glb/artifact.glb",
+          "format": "glb",
+          "bytes": 26694488,
+          "sha256": "dbd97d3ad9e8093a930b440be940874595b58f400515909ed5ad52a6ca661773",
+          "validation": {
+            "status": "passed",
+            "checks": [
+              "exists",
+              "non_empty",
+              "sha256"
+            ]
+          }
+        }
+      },
+      {
+        "receiptVersion": "2.0.0",
+        "jobId": "job_forest_verified_blend",
+        "kind": "EXPORT",
+        "snapshot": {
+          "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_forest_verified_blend/source.blend",
+          "sha256": "d792369369ef87920924403e2e1229e49d43bf6fd6af687c167d1e64c8537bfe",
+          "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+        },
+        "attempt": 1,
+        "state": "completed",
+        "pid": 25420,
+        "artifact": {
+          "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_forest_verified_blend/artifact.blend",
+          "format": "blend",
+          "bytes": 37483567,
+          "sha256": "d3bd4d2662ab96ffdaece4287be6603c47da6c499b376045f2763b821de5ef92",
+          "validation": {
+            "status": "passed",
+            "checks": [
+              "exists",
+              "non_empty",
+              "sha256"
+            ]
+          }
+        }
+      }
+    ],
+    "individualExports": [
+      {
+        "type": "kongkoi",
+        "version": "v3",
+        "snapshotId": "snapshot-ee5645bda6b85def6b4cd563",
+        "sceneRevision": 22011,
+        "jobs": [
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_kongkoi_v3_glb",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_kongkoi_v3_glb/source.blend",
+              "sha256": "f3b9cf7c17cfb37d206d8e4f852fa027d8907a8759b5cd5cefca5c46f755e1ca",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 41420,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_kongkoi_v3_glb/artifact.glb",
+              "format": "glb",
+              "bytes": 20213288,
+              "sha256": "028575edd86c64496da508ad61d1b91bad9c362faf0aec9023b882ee61b1ecfb",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_kongkoi_v3_blend",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_kongkoi_v3_blend/source.blend",
+              "sha256": "f02603e7ecd42df08137d39daaf48c87b66e60100c95686d14877b1c7c8021de",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 41968,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_kongkoi_v3_blend/artifact.blend",
+              "format": "blend",
+              "bytes": 24219309,
+              "sha256": "d10e4e1c04cb0e74c2406065930ba475d87c3c2d8c6dbb769d662c1ebe856cbc",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          }
+        ],
+        "extraction": {
+          "type": "kongkoi",
+          "version": "v3",
+          "sourceSha256": "028575edd86c64496da508ad61d1b91bad9c362faf0aec9023b882ee61b1ecfb",
+          "outputSha256": "4b96a8d629c1676dd13f430dd0f7cb3e281eaeb370c64912911866294a0fa1b3",
+          "bones": 12
+        }
+      },
+      {
+        "type": "monitor",
+        "version": "v4",
+        "snapshotId": "snapshot-abda2c786fc0d00f711f6c80",
+        "sceneRevision": 34321,
+        "jobs": [
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_monitor_v4_glb",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_monitor_v4_glb/source.blend",
+              "sha256": "47b32218af4497001db0b35219c513308f1b10268653bb0c7c1faf711ae3a9bb",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 13432,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_monitor_v4_glb/artifact.glb",
+              "format": "glb",
+              "bytes": 26602128,
+              "sha256": "8edea0498b38abc5bdfe5f848fed3c08b58287f06f36ce791587129b721f5e2a",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_monitor_v4_blend",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_monitor_v4_blend/source.blend",
+              "sha256": "1e8dafd3541c34ef4d0a2b0f383ca3b7002032964e72887bd6f621d7b741f14a",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 11324,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_monitor_v4_blend/artifact.blend",
+              "format": "blend",
+              "bytes": 37482217,
+              "sha256": "d0779382a29c5b649b97c18c441c6908152c56f8456788f93542aa8f5d243c42",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          }
+        ],
+        "extraction": {
+          "type": "monitor",
+          "version": "v4",
+          "sourceSha256": "8edea0498b38abc5bdfe5f848fed3c08b58287f06f36ce791587129b721f5e2a",
+          "outputSha256": "faa022ad71a8515e1593a638501b07a2172a34b3810b9ad95e1000b3f431ea84",
+          "bones": 19
+        }
+      },
+      {
+        "type": "pray",
+        "version": "v4",
+        "snapshotId": "snapshot-a31ab79507d24c38bae58d57",
+        "sceneRevision": 29078,
+        "jobs": [
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_pray_v4_glb",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_pray_v4_glb/source.blend",
+              "sha256": "2efd7ef5e08b9121e608e3448bf466b5fe46a3efb643c304fd7893afdaa9f494",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 32052,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_pray_v4_glb/artifact.glb",
+              "format": "glb",
+              "bytes": 23954352,
+              "sha256": "29b8dab67011bae40eb30301ba8ed41a24fab38a77ab33a4fe850ad64bcd11fd",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_pray_v4_blend",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_pray_v4_blend/source.blend",
+              "sha256": "9d31a493d2ed9cf679c4917389f829db55aae4b6f9aed9e198c387a646c31311",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 35924,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_pray_v4_blend/artifact.blend",
+              "format": "blend",
+              "bytes": 32571869,
+              "sha256": "ba179af2d4a0382d1b082a8c98c8876400c05b01e5e9922fb907be5edf0ad813",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          }
+        ],
+        "extraction": {
+          "type": "pray",
+          "version": "v4",
+          "sourceSha256": "29b8dab67011bae40eb30301ba8ed41a24fab38a77ab33a4fe850ad64bcd11fd",
+          "outputSha256": "26155817c5286e6cca3907ce271f3b8e2382f57571753cc4e819098602a51665",
+          "bones": 12
+        }
+      },
+      {
+        "type": "khamot",
+        "version": "v1",
+        "batchExport": {
+          "receiptVersion": "2.0.0",
+          "jobId": "job_forest_l3_visible_glb",
+          "kind": "EXPORT",
+          "snapshot": {
+            "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_forest_l3_visible_glb/source.blend",
+            "sha256": "7b939bd950ef2da1739b95db2e87d5c7960d8e588b0770260a52c047535cdf54",
+            "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+          },
+          "attempt": 1,
+          "state": "completed",
+          "pid": 27720,
+          "artifact": {
+            "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_forest_l3_visible_glb/artifact.glb",
+            "format": "glb",
+            "bytes": 13572868,
+            "sha256": "89f0d5c81d63170730ca19c230ccbf0fde71fac1c65612218ac0850cbabd4a10",
+            "validation": {
+              "status": "passed",
+              "checks": [
+                "exists",
+                "non_empty",
+                "sha256"
+              ]
+            }
+          }
+        },
+        "extraction": {
+          "type": "khamot",
+          "version": "v1",
+          "sourceSha256": "89f0d5c81d63170730ca19c230ccbf0fde71fac1c65612218ac0850cbabd4a10",
+          "outputSha256": "4e9c5193c59b1956e20871d6e043fef101ae122a930796ac16f47291ea10d104",
+          "bones": 4
+        }
+      },
+      {
+        "type": "winyan",
+        "version": "v4",
+        "snapshotId": "snapshot-105fd38907358c10ec5b5538",
+        "sceneRevision": 30721,
+        "jobs": [
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_winyan_v4_glb",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_winyan_v4_glb/source.blend",
+              "sha256": "8956b2cf66a36598a16611f9461d65f4d1d7ebe20f6dfc4606c5ef976179d566",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 32036,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_winyan_v4_glb/artifact.glb",
+              "format": "glb",
+              "bytes": 24986788,
+              "sha256": "2f74cb87b31dd6a670c03fd165bbe5f8a01357d70da8e3a41fcee9d33e036e44",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_winyan_v4_blend",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_winyan_v4_blend/source.blend",
+              "sha256": "fc2bc3bd7693a810e282892294a943ab233d4a8e364f530739721c704f4dc1d1",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 36476,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_winyan_v4_blend/artifact.blend",
+              "format": "blend",
+              "bytes": 33488676,
+              "sha256": "2105cb2c6fb06bdf16e2a389d93e3412ccfb6d3743f49470ba0dcb4df6618dfc",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          }
+        ],
+        "extraction": {
+          "type": "winyan",
+          "version": "v4",
+          "sourceSha256": "2f74cb87b31dd6a670c03fd165bbe5f8a01357d70da8e3a41fcee9d33e036e44",
+          "outputSha256": "3368ffd7e18ca330f15915da0850e49b9c99a7727febde32eb37b29cfe987dbc",
+          "bones": 12
+        }
+      },
+      {
+        "type": "takian",
+        "version": "v4",
+        "snapshotId": "snapshot-31c451ae8c43419519598953",
+        "sceneRevision": 32126,
+        "jobs": [
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_takian_v4_glb",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_takian_v4_glb/source.blend",
+              "sha256": "03c3cf10dea2c5ad38c09a38d54dd18808b1b81130c49e16dfbb0deaabdddea9",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 6584,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_takian_v4_glb/artifact.glb",
+              "format": "glb",
+              "bytes": 25958808,
+              "sha256": "f0edf22608336090a6f0816355ef872cadf696ba17cde37d6886a50523f935f7",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          {
+            "receiptVersion": "2.0.0",
+            "jobId": "job_takian_v4_blend",
+            "kind": "EXPORT",
+            "snapshot": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_takian_v4_blend/source.blend",
+              "sha256": "baf9bf9cb56780400350e88d669bb4aafd63f35e57ac46147978d103ddae9c09",
+              "sceneFile": "artifacts/meshy-rig-03/deep-forest/monitor-rig-v2.blend"
+            },
+            "attempt": 1,
+            "state": "completed",
+            "pid": 41248,
+            "artifact": {
+              "path": "artifacts/meshy-rig-03/deep-forest/jobs/job_takian_v4_blend/artifact.blend",
+              "format": "blend",
+              "bytes": 35236861,
+              "sha256": "513c6dedb7f2a5cb0fb3af0bd4a9efbe1a5890f66f5fd2b4d8f64667c983fde1",
+              "validation": {
+                "status": "passed",
+                "checks": [
+                  "exists",
+                  "non_empty",
+                  "sha256"
+                ]
+              }
+            }
+          }
+        ],
+        "extraction": {
+          "type": "takian",
+          "version": "v4",
+          "sourceSha256": "f0edf22608336090a6f0816355ef872cadf696ba17cde37d6886a50523f935f7",
+          "outputSha256": "fec3941421adbce6f429d0afb7f60a4bfd4a77afb700ec1111d178e13397ece3",
+          "bones": 9
+        }
+      }
+    ],
+    "previewCount": 96,
+    "previews": [
+      {
+        "type": "kongkoi",
+        "frame": 1,
+        "sceneRevision": 34489,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "kongkoi-frame-1",
+        "snapshotId": "snapshot-6693a11627040583293b6776",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-6693a11627040583293b6776/camera.png",
+            "sha256": "5e94e9b9bc2a1a5327171b8867bba713520756f342b1afde8975f99251d84996"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-6693a11627040583293b6776/front.png",
+            "sha256": "a17aee12d0d1d75c0129db4cf8496bddabc86a8a171aa805eba68f2389f3aac5"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-6693a11627040583293b6776/side.png",
+            "sha256": "6695c864e3d161423b4a25f928c6c94244da9ca89b3761aa08084ca52579fca3"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-6693a11627040583293b6776/top.png",
+            "sha256": "d2491012cab60a45f3992a68fc65fd912798e8382fa4a634159d8410227a410d"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "kongkoi",
+        "frame": 51,
+        "sceneRevision": 34489,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "kongkoi-frame-51",
+        "snapshotId": "snapshot-5a4b3863bc87852e43001137",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-5a4b3863bc87852e43001137/camera.png",
+            "sha256": "b71ca9d97dc3baf8d40cf94f40bc75b85b2ae20b9b3348a47438b78f890b5507"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-5a4b3863bc87852e43001137/front.png",
+            "sha256": "f3d552a29a9dfb60758a5f544c9e092902fd04251cee24c9e550c637743990fc"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-5a4b3863bc87852e43001137/side.png",
+            "sha256": "e778d21bf88bf6be2739e05c0ac2568dda3f5499f6e698a5555ea24e09f40d65"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-5a4b3863bc87852e43001137/top.png",
+            "sha256": "5cf4a436cdb6fe9365a519b661f842fb3e4568de0950dd1b6c255c760ea60333"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "kongkoi",
+        "frame": 63,
+        "sceneRevision": 34489,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "kongkoi-frame-63",
+        "snapshotId": "snapshot-4ca53e039dd7842986062714",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-4ca53e039dd7842986062714/camera.png",
+            "sha256": "a6583190697a70dc7b47bb96e77a13bdd7337696213ba96a322218a2f7af90f5"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-4ca53e039dd7842986062714/front.png",
+            "sha256": "c9d33eca249c4825c306c87ae5d8ba51449d39d7978ece937f92927be354f1c7"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-4ca53e039dd7842986062714/side.png",
+            "sha256": "22d978d6ca0c4c736807cd84eb08450a2318cbce5ffd22b29089411a52a415a8"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-4ca53e039dd7842986062714/top.png",
+            "sha256": "d7da4eb1c2470c23e9ff1a6dad738eff9167d3765059d9a08e948d820a946391"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "kongkoi",
+        "frame": 75,
+        "sceneRevision": 34489,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "kongkoi-frame-75",
+        "snapshotId": "snapshot-32b482a1b3f1bb3426ec4c55",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-32b482a1b3f1bb3426ec4c55/camera.png",
+            "sha256": "4c4f1c8563222d86f7275a3b9f425fec187f83ff0a8d762d002c7fba37f2d2be"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-32b482a1b3f1bb3426ec4c55/front.png",
+            "sha256": "760dfb2d03962dc320ec100a7d4b6040780f87a25a6bc68a35976949abd8b350"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-32b482a1b3f1bb3426ec4c55/side.png",
+            "sha256": "c4a39bb9c3cea190d301113a73fbc250d101defa3e39aa1621b1ede2c5b8c33d"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-32b482a1b3f1bb3426ec4c55/top.png",
+            "sha256": "c42d4606801a730b0e844bb19687ca60eb3c962eec27006d5c26ca4c7aba7de6"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "monitor",
+        "frame": 1,
+        "sceneRevision": 34572,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "monitor-frame-1",
+        "snapshotId": "snapshot-d6d6e5cad952d9d351d967ef",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-d6d6e5cad952d9d351d967ef/camera.png",
+            "sha256": "f9ec26f5ec611ac2b5dd121613e170f26b13f2cc3259cf69480bd79164673029"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-d6d6e5cad952d9d351d967ef/front.png",
+            "sha256": "a3e65daf152fb584008c2b1c472f2171222151e99a8db4212a7d85c6b4ee6864"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-d6d6e5cad952d9d351d967ef/side.png",
+            "sha256": "1fb5a8660432aabb62b27169d6c66cdc27cd7f3a3995730d2f49efd887080a28"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-d6d6e5cad952d9d351d967ef/top.png",
+            "sha256": "86453b65104852604cfbdbf0a8b33b742d4b4fe791dc9e1630454b65ee73aa3e"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "monitor",
+        "frame": 51,
+        "sceneRevision": 34572,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "monitor-frame-51",
+        "snapshotId": "snapshot-8202595c65fbbab5c04db114",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-8202595c65fbbab5c04db114/camera.png",
+            "sha256": "fb8594bd2dbb7529eacba19c442b3a323a5234c995372ac7d16485dca0f8185a"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-8202595c65fbbab5c04db114/front.png",
+            "sha256": "3ba8b415ebf87757a53e3cd772348d17f09709a6f2a75272321fe54873353eaf"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-8202595c65fbbab5c04db114/side.png",
+            "sha256": "7fd282716c9228134b6c34c8476fe56d893a0d7ae4b369e75e62c251abf35e1e"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-8202595c65fbbab5c04db114/top.png",
+            "sha256": "c306f83ebc0cbd0b210602f4041f59b7d935ca270dce00b9a823a9da1d398d10"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "monitor",
+        "frame": 63,
+        "sceneRevision": 34572,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "monitor-frame-63",
+        "snapshotId": "snapshot-513cf2cc80cad35e44452a42",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-513cf2cc80cad35e44452a42/camera.png",
+            "sha256": "0b2840c863f6f0a5729f34f357ac8ef636afc3a58d693e5bbb9cce1646058bcc"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-513cf2cc80cad35e44452a42/front.png",
+            "sha256": "94b58c4e3ad779dccdd5485a9ebe07435b71a0f1ae35449b09a38db7131574ea"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-513cf2cc80cad35e44452a42/side.png",
+            "sha256": "0c2dd3aa94dc2dd6720283b3f96b9daa272b07239bbb486eb696bfa817eecba9"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-513cf2cc80cad35e44452a42/top.png",
+            "sha256": "2e889d7df333d8fe93191ce7983c85117240a78a045008ce4671d7fc0a1755a3"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "monitor",
+        "frame": 75,
+        "sceneRevision": 34572,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "monitor-frame-75",
+        "snapshotId": "snapshot-3f7b8ce02c2a12996385ef30",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-3f7b8ce02c2a12996385ef30/camera.png",
+            "sha256": "fb84ad8d7d2961b950ad97d5f07b1fd18ee3e453dda4c0fca4ababaf7307e494"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-3f7b8ce02c2a12996385ef30/front.png",
+            "sha256": "721d88f92464ad7a5f749354703060613330547b8e7ea17434251eb2d4a67558"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-3f7b8ce02c2a12996385ef30/side.png",
+            "sha256": "ac776c2e2f2f7c408589eebedbf019a31b86cb3578595ed2e8cbaed2498180cc"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-3f7b8ce02c2a12996385ef30/top.png",
+            "sha256": "e53fc06687a07990ac16b3a1b8d2840c4fcb02451306eccfd219e710cd4fa311"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "pray",
+        "frame": 1,
+        "sceneRevision": 34655,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "pray-frame-1",
+        "snapshotId": "snapshot-0d3da42f36afcc3c0df2ca3c",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-0d3da42f36afcc3c0df2ca3c/camera.png",
+            "sha256": "c83b629353d256200d7cb8abd4e7f91921d575090d943d306d45a3c8c539a5a0"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-0d3da42f36afcc3c0df2ca3c/front.png",
+            "sha256": "18d43f3f5151a75af0569560a6145746d0443cf88b69e3bc1532e0d6d991eae9"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-0d3da42f36afcc3c0df2ca3c/side.png",
+            "sha256": "6745e24934ffa8fcf0357a89908f809eb41d886c326da4526ef1e0e1226872d1"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-0d3da42f36afcc3c0df2ca3c/top.png",
+            "sha256": "70c6c535a5e6b42dbf3c65aebdce29182b85ff83ed4cd7a510aee664a30485d2"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "pray",
+        "frame": 51,
+        "sceneRevision": 34655,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "pray-frame-51",
+        "snapshotId": "snapshot-ade08476baf47d2b0f83dc9c",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-ade08476baf47d2b0f83dc9c/camera.png",
+            "sha256": "80814fd2a60f42815c128f543d02e9c02649065e50c52aa507ab40617d2f2979"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-ade08476baf47d2b0f83dc9c/front.png",
+            "sha256": "0f41758432ed70148cfda2e3ff68c604727fffc085b3d46de2c43c4c32f09121"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-ade08476baf47d2b0f83dc9c/side.png",
+            "sha256": "5255095ab5a819d915bf129b16d259d11aa57db9c638d899b6b3060c653e5397"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-ade08476baf47d2b0f83dc9c/top.png",
+            "sha256": "02f24f69af3d77bab3c5a2386f62f543c4521baab62738e0e8cd7d700238099e"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "pray",
+        "frame": 63,
+        "sceneRevision": 34655,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "pray-frame-63",
+        "snapshotId": "snapshot-578d948c9c3c365e9853248f",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-578d948c9c3c365e9853248f/camera.png",
+            "sha256": "c5653c6e7b3d87d7663116fa1133dc7e73ecaf5e8265e3d495c327469021b26b"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-578d948c9c3c365e9853248f/front.png",
+            "sha256": "e6da52071730e07b9b9917bb337b6dfc60acdd0e48a6eb6942af03688c0712b6"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-578d948c9c3c365e9853248f/side.png",
+            "sha256": "2172447e3240b2f3b4f6069403e4309c47104173ecf0abb7d135adc34dd4062e"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-578d948c9c3c365e9853248f/top.png",
+            "sha256": "516759e8a90255142d537ef7930c552d7bfbe317ccecad43656469d00be18c95"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "pray",
+        "frame": 75,
+        "sceneRevision": 34655,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "pray-frame-75",
+        "snapshotId": "snapshot-f8887775255d4fd2791d633f",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8887775255d4fd2791d633f/camera.png",
+            "sha256": "7dbe777ad9e7f1bece698316152838de0cc9f37fb7bda20ab9aa04c0b5648aa6"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8887775255d4fd2791d633f/front.png",
+            "sha256": "a26aac1120445ad1f57b35066217ed591fbe05fbc7a5cfba0b8aa1fd78d301e2"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8887775255d4fd2791d633f/side.png",
+            "sha256": "6d13469b85b1f8810c3bb188efdbb24834fb530e94829db3c098836a08f2efc1"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8887775255d4fd2791d633f/top.png",
+            "sha256": "2fa614615544bdd2bbd0b22fff94f903cf97ce0bac97a041840d6a3e5c9cac01"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "khamot",
+        "frame": 1,
+        "sceneRevision": 34738,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "khamot-frame-1",
+        "snapshotId": "snapshot-9c9a75820e38c9ca1db628a5",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9c9a75820e38c9ca1db628a5/camera.png",
+            "sha256": "532986c27c2568265947cc6776009e1f4f357db56647e382f74a48daba6f14a7"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9c9a75820e38c9ca1db628a5/front.png",
+            "sha256": "2bb1c9b06241f62c844035a3d76bf54c3e6418f9dde213984ad91ef97414bcc1"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9c9a75820e38c9ca1db628a5/side.png",
+            "sha256": "34c4a0795605d00ef2d8196533232fd7ae8a3f10944c16d855379e01b7545d46"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9c9a75820e38c9ca1db628a5/top.png",
+            "sha256": "4a5575c8727efeb718c8daa00c17779a6e1c2f84d14891c9d6c35a0a77818c4d"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "khamot",
+        "frame": 51,
+        "sceneRevision": 34738,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "khamot-frame-51",
+        "snapshotId": "snapshot-94717a0727af40d87eb5b669",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-94717a0727af40d87eb5b669/camera.png",
+            "sha256": "56ad1aa9f0374c0cbc8a90feef59d6171530b7fa2f310fb85e6c993f47f74c8f"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-94717a0727af40d87eb5b669/front.png",
+            "sha256": "b1e408bd541990881b4883279ad69d80cef5dfedc8f583221f26ca4076ce06a9"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-94717a0727af40d87eb5b669/side.png",
+            "sha256": "e77c07513ae4fb56c7d6a8f9e65d04e0e857111529fb0b0329204d98035d8b94"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-94717a0727af40d87eb5b669/top.png",
+            "sha256": "88136b9209d8575fd69e6c0b700c97b55a9ddceaaa74ec963cc8b42a4ba02b61"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "khamot",
+        "frame": 63,
+        "sceneRevision": 34738,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "khamot-frame-63",
+        "snapshotId": "snapshot-02eaa0545cfc52bbc7df1576",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-02eaa0545cfc52bbc7df1576/camera.png",
+            "sha256": "c5ac718c22e055cb4978bca465993ca9aab8d83f3bf63f789eea6e202c1c6829"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-02eaa0545cfc52bbc7df1576/front.png",
+            "sha256": "edccba142c1cf70f30854b99131bc45d7a13c9983334a42f61dad4dbd0d0aa7e"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-02eaa0545cfc52bbc7df1576/side.png",
+            "sha256": "324ae86fc25c77ff79ca8e96f9c7428490792d4a639f7de71459e656e4eb1267"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-02eaa0545cfc52bbc7df1576/top.png",
+            "sha256": "d86b1676f95e7bbda42aef1dc9f5bbaed15e3a32b1a6f6e0184d055dcb7a5733"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "khamot",
+        "frame": 75,
+        "sceneRevision": 34738,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "khamot-frame-75",
+        "snapshotId": "snapshot-9d1b8cf0eb241d73843bcf15",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9d1b8cf0eb241d73843bcf15/camera.png",
+            "sha256": "a5afc1675f47ce1b197948a0522fce77cfc74e0e2b4da7a15594fdee9025dbad"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9d1b8cf0eb241d73843bcf15/front.png",
+            "sha256": "408e7d8176cab6f0e3e0f6517fad34dee9074198667728e7a5a639aa77847898"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9d1b8cf0eb241d73843bcf15/side.png",
+            "sha256": "24f6193b3f9f93884505b07b34f9c3c7f11a5bfdf5f394e5c355314b5a3fc973"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-9d1b8cf0eb241d73843bcf15/top.png",
+            "sha256": "c48d96210147ff12e8e43b4689d4722c8e6fdffe600f02e67ae185f70ae03e84"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "winyan",
+        "frame": 1,
+        "sceneRevision": 34821,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "winyan-frame-1",
+        "snapshotId": "snapshot-f8a04525799d4a1cca95368a",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8a04525799d4a1cca95368a/camera.png",
+            "sha256": "2e59bf3ce8e6cdeae600093001eb5f4435cf1cd7817b10ebcaeedee0db8e413a"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8a04525799d4a1cca95368a/front.png",
+            "sha256": "fa0f8bcbf267411d6fbd28a49631fefa9779bb143b306887049cad54318083b5"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8a04525799d4a1cca95368a/side.png",
+            "sha256": "c9a3b06784b222b572eb36696a78a78a0eb01bf0b16b369d851326c294654418"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-f8a04525799d4a1cca95368a/top.png",
+            "sha256": "f124d2ffcfbe4c25cf30611c84ee5460199c7c86501a99ff3b79e626f85594a3"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "winyan",
+        "frame": 51,
+        "sceneRevision": 34821,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "winyan-frame-51",
+        "snapshotId": "snapshot-417b4e4beef089ef467838d3",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-417b4e4beef089ef467838d3/camera.png",
+            "sha256": "a142c71f97163c04a5e68d1b782ee2b624eed66f1f778dc3034ab16a90c6f18a"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-417b4e4beef089ef467838d3/front.png",
+            "sha256": "3aeaa3671553064b98932ae07b56e1fac2724870f823a3f715f85da2ae21f70a"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-417b4e4beef089ef467838d3/side.png",
+            "sha256": "c9ea8ec9a8e59a2404808db3f8be0ef6ca6be8c095763689b5002ba1f84767d4"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-417b4e4beef089ef467838d3/top.png",
+            "sha256": "12e0110639b1e7531adec493a1692301804fd0844aaaaa5a49071df0acd6e3cb"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "winyan",
+        "frame": 63,
+        "sceneRevision": 34821,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "winyan-frame-63",
+        "snapshotId": "snapshot-2fc9310971f44ac452aeca6a",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-2fc9310971f44ac452aeca6a/camera.png",
+            "sha256": "21ebf5f30d0daa183e4ae482e18a5c170fae8df82b80072caeaf4ce00a6aa031"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-2fc9310971f44ac452aeca6a/front.png",
+            "sha256": "561539a199ceee84bb379dc7715496535cdd02d0c8227e336f12fcaf8a81738c"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-2fc9310971f44ac452aeca6a/side.png",
+            "sha256": "1a30182ace959fbdb23db480e4c0ff8d38d61f2e1cb25658c0822772ed480c47"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-2fc9310971f44ac452aeca6a/top.png",
+            "sha256": "3be6a4b12f29042035177aededda916cc83c2111843a6f723284d015681ba45a"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "winyan",
+        "frame": 75,
+        "sceneRevision": 34821,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "winyan-frame-75",
+        "snapshotId": "snapshot-263b7dcb7db7d799b050ca44",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-263b7dcb7db7d799b050ca44/camera.png",
+            "sha256": "5cd5b7634bdadf030a2651177f14d87076f06a6df1781c0da0175182ce396400"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-263b7dcb7db7d799b050ca44/front.png",
+            "sha256": "a1fead4ca9b482f5e5f92ac1ed4d12a3f177b108c079e2620428a983772a3076"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-263b7dcb7db7d799b050ca44/side.png",
+            "sha256": "c27b88d15f3e2b13e79320a062c58b095f7a716cca6b72aef836dcd9960464d7"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-263b7dcb7db7d799b050ca44/top.png",
+            "sha256": "05c2f27b4c68d5fac8b5d1f2cf8b00e3d543c8777c3638fea59a349fdaea9b09"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "takian",
+        "frame": 1,
+        "sceneRevision": 34904,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "takian-frame-1",
+        "snapshotId": "snapshot-bb44befb1830a3aa71f5905c",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-bb44befb1830a3aa71f5905c/camera.png",
+            "sha256": "42a3ca7346c5702767d28927935205a190cff69e1e49621efbc13540935ccd92"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-bb44befb1830a3aa71f5905c/front.png",
+            "sha256": "b135fc4327be9dd22ab8cba4cef52975707b19f73dcbb5050dd30501888f9d55"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-bb44befb1830a3aa71f5905c/side.png",
+            "sha256": "7af76635a6e703d2e86762f980b8de936ba6a227e30d5e1872d125568d178fff"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-bb44befb1830a3aa71f5905c/top.png",
+            "sha256": "87a168914d46bbd1166201585b08ef2a8c2dfc88ad9381ca49700a280e2d73e8"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "takian",
+        "frame": 51,
+        "sceneRevision": 34904,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "takian-frame-51",
+        "snapshotId": "snapshot-a902ca005d8fd2459c34e943",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-a902ca005d8fd2459c34e943/camera.png",
+            "sha256": "027de6a06118e35b30f636b469863c207f0c5c773a3ee6482f9c00eadd009e66"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-a902ca005d8fd2459c34e943/front.png",
+            "sha256": "aea0aec4a7e0461d95848a9291edf71008c93ee5bbf059695136a9e348913801"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-a902ca005d8fd2459c34e943/side.png",
+            "sha256": "8e6d7a6555c0eae3ae1ca82117fbd53e1cb6862a4210a88699d629af18ef58ec"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-a902ca005d8fd2459c34e943/top.png",
+            "sha256": "e8fe4bb0f403cb3ed326ecb2c7e0bf2e87342dec4f3c75132a78e432deb97f27"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "takian",
+        "frame": 63,
+        "sceneRevision": 34904,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "takian-frame-63",
+        "snapshotId": "snapshot-806a822a553c39465addde72",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-806a822a553c39465addde72/camera.png",
+            "sha256": "42655fe8bd742810cc04c63f925df7bd3aab9caec14202f34424bd0afb809c86"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-806a822a553c39465addde72/front.png",
+            "sha256": "e30a858069cba4bc36a7ebabdbafce3edd39147943672b57de676b6cbf6bc91e"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-806a822a553c39465addde72/side.png",
+            "sha256": "67795fb45e9bca2aac4aa63b19680219fe4545a048929f1bcbaddda776b968d1"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-806a822a553c39465addde72/top.png",
+            "sha256": "284fdd75e2d6a76eae24487dba5f35268c78a9d57976b46548f6dba295780b95"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "type": "takian",
+        "frame": 75,
+        "sceneRevision": 34904,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "takian-frame-75",
+        "snapshotId": "snapshot-fa7452c882a02e52913f4a80",
+        "views": [
+          {
+            "name": "camera",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-fa7452c882a02e52913f4a80/camera.png",
+            "sha256": "af20f016f9cd90b22967136ad228469bbbdfc9a4c52cb5d3db037cb823f9fab2"
+          },
+          {
+            "name": "front",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-fa7452c882a02e52913f4a80/front.png",
+            "sha256": "0c21ddb3c50a15facacf9a2a0d1768de2fecf4e90bfd295e2833e9b877e7e97b"
+          },
+          {
+            "name": "side",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-fa7452c882a02e52913f4a80/side.png",
+            "sha256": "5eefc53c3af7120e1b4c49f757eef063658ac1285c7ca84eb0d82cbe9394f9cc"
+          },
+          {
+            "name": "top",
+            "path": "artifacts/meshy-rig-03/deep-forest/milestones/snapshot-fa7452c882a02e52913f4a80/top.png",
+            "sha256": "7f584b9b27462dd1d094351bc73948732c703a1ef20747984091258633da1ec8"
+          }
+        ],
+        "sceneSummary": {
+          "objects": 83,
+          "materials": 24,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      }
+    ],
+    "reopened": {
+      "opened": true,
+      "sha256": "d3bd4d2662ab96ffdaece4287be6603c47da6c499b376045f2763b821de5ef92",
+      "bytes": 37483567,
+      "requiredRigsPresent": [
+        "KongkoiV3",
+        "MonitorV4",
+        "PrayV4",
+        "KhamotV1",
+        "WinyanV4",
+        "TakianV4"
+      ],
+      "dependencyInspection": "Unavailable: asset.dependencies is denied under review_only in this bridge; textures verified through runtime browser decoding."
+    }
+  },
+  "evidence": [
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/gallery.png",
+      "bytes": 269904,
+      "sha256": "4d20f85877ddc73b75a868b5e235f7e2ff8442b1acbd6d493070a3263e4debce"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/in-game-mobile.png",
+      "bytes": 528569,
+      "sha256": "77f6e98062a370dd9a0f62a79b0754b5be542c0df269a4e530d198bf563c5cff"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-attack.png",
+      "bytes": 122577,
+      "sha256": "c06cce8a0c9ee7406f1ff6621fa003ff5326ad5e89c0662175aa8596fa00950b"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-die.png",
+      "bytes": 110996,
+      "sha256": "4244eaa0c898c13a8db28f6a1c2e094d85fc9792ec95acf99f70fe47c4906f7a"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-front.png",
+      "bytes": 135213,
+      "sha256": "5b707ea330f8a7e80271f2ae02051213dd2bc837f1bdb1194f9e046b3828aca4"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-in-game.png",
+      "bytes": 2117295,
+      "sha256": "80a835995ce2923cc700346da1b2c8f33ce0dd29f367a3da99721c329fb979d7"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-motion.webm",
+      "bytes": 1455669,
+      "sha256": "880794d0ff0aabf0eb9c3c16115e58b8a13f7b60f35679ac616b390083c46738"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-render.png",
+      "bytes": 39959,
+      "sha256": "1eff62e7e82812976d7b45a99ebba30c2ad99a76cf6db8436ded915eb4a952f5"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/khamot-side.png",
+      "bytes": 122880,
+      "sha256": "b77e1575fd32e4f56afab4e096e696564837064d7060640ee0611b06214a95d8"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-attack.png",
+      "bytes": 100804,
+      "sha256": "054bd3d77e88bd7e66d2c94cc0686ffe34a846bc870503115747aced2a3960a6"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-die.png",
+      "bytes": 94854,
+      "sha256": "29a1387d7c298d075265294ba923e767c17986aa925e1c2402166a9ace6c85b5"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-front.png",
+      "bytes": 122596,
+      "sha256": "ccadb7464d30c4d8c166294c2aaba1c7bd59fc91dc8628db6c5185a50ac39595"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-in-game.png",
+      "bytes": 2176485,
+      "sha256": "1663f2bba5bca93d5e0855754d119dd060ef4455c6ec906586f699c8822952f9"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-motion.webm",
+      "bytes": 941339,
+      "sha256": "d53180dbe7ff4c9ad2cb25fc31784aaa7295505354967fab9a7475764f54f3df"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-render.png",
+      "bytes": 44287,
+      "sha256": "97fd00259a96936462efa7aec38c468784343c5a2fd748bc6b1a7e9fe8ce411e"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/kongkoi-side.png",
+      "bytes": 99716,
+      "sha256": "a1b7991c6ca74e3edb894bb3ba2cdc563b4ab5e022296d669f84af78666a4596"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/mobile.png",
+      "bytes": 64111,
+      "sha256": "c9461e209df3bf3b987ad6e8afcb9ef84926128919b6cfd0edaefc8d83232e67"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-attack.png",
+      "bytes": 267996,
+      "sha256": "560addd6cbfcfe5e37e47e46ce927759729cb7270946204e9930cbc72b334376"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-die.png",
+      "bytes": 263549,
+      "sha256": "2544539067ca654cfd2467d3c9d602274c66b148f0dc704529aea51033a5eac5"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-front.png",
+      "bytes": 148841,
+      "sha256": "0f06a0ca6337cbcb6be69f4529f5d765f9102ce0c924d5d357abfce8853cacf8"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-in-game.png",
+      "bytes": 1908977,
+      "sha256": "b3f9f04e0b0987711b550f84fa4e2f2e855b0634204834ad1857f995c022153a"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-motion.webm",
+      "bytes": 1573513,
+      "sha256": "7a875e69a5e59073dc24da4966605a8e37bb7a5d76d1984956e1172abdc8e09c"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-render.png",
+      "bytes": 48162,
+      "sha256": "6b779eba626b023dedba558b9f94b785f75f3fbb7c3af46175e1a45bc0e55277"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/monitor-side.png",
+      "bytes": 268417,
+      "sha256": "c64c96fe063eb1261636ddaa2bdbcb481b5f10827e2eec3e2a4dc639080b4461"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-attack.png",
+      "bytes": 117754,
+      "sha256": "892e0af8f0f8a2b8e34f4efe71c6dbbe67710e5b30c2381f9641ea28deb3351c"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-die.png",
+      "bytes": 118066,
+      "sha256": "6f9672ffb9588e3b736ba764c5562bf491ba3a6499999cb1a87e32f44d04e4df"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-front.png",
+      "bytes": 147662,
+      "sha256": "1819ecd214fa96e4dd2f15de5c71726db112bd04ab8e002839050a538a998463"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-in-game.png",
+      "bytes": 1991986,
+      "sha256": "9a7ddb5ec6595da4049f6c4c53196570707f2b367984361fbaa3bee1203abf11"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-motion.webm",
+      "bytes": 1431102,
+      "sha256": "407c916d327d91ea28fa387858bab2c2150aaa269256b913674086c8127d3084"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-render.png",
+      "bytes": 55627,
+      "sha256": "9d25a405618539c943990c6177e0d20155597e9a84507c0e661b8f85b1c2f20f"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/pray-side.png",
+      "bytes": 120060,
+      "sha256": "a03c9ec9d22875c813d2cba9224a90d76f42f356f8dd627fb8691f2fe8348712"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-attack.png",
+      "bytes": 114203,
+      "sha256": "4dbae8e075873124ab2657e2eb1f302403d8b4cee15f65c5c3c411fc5f002738"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-die.png",
+      "bytes": 114704,
+      "sha256": "2b58b4706c79485289b76e5223218a517213117a9c7ca6cc81da89f1b716a6c5"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-front.png",
+      "bytes": 133314,
+      "sha256": "9bac4f2e58a8d1b78585e559d469c8148e5f7ebdb3805703e974ddb9a96a780b"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-in-game.png",
+      "bytes": 2156121,
+      "sha256": "79b7f232aab037002f930de2b4c013b956d954f45193bd0a2529cb43a1ce454b"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-motion.webm",
+      "bytes": 1373469,
+      "sha256": "87f7967fe4be4edb507512031cef210893d3227934a4834428ace55722e01ed1"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-render.png",
+      "bytes": 52571,
+      "sha256": "9a8ba0ecfe93cbbfe1a5ac3bcbc065236603a9b3b3ac7cb75a879dca8ab33b88"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/takian-side.png",
+      "bytes": 113561,
+      "sha256": "6bf8b9d99c2d26f575e56f55a271befc3fe8db17bd8a63dde11be4bba28fad2d"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-attack.png",
+      "bytes": 110402,
+      "sha256": "464340a00d58b2bb7954c8371a2a9ac22e6cfa0a6d57f54813869b6490c5e9f1"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-die.png",
+      "bytes": 111405,
+      "sha256": "05c5bbaf9a635cb8f319241c8fb758ee741b3da0e73bdf28693b63715fbc1981"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-front.png",
+      "bytes": 144894,
+      "sha256": "05621352b2c21882ba95b0f1bb4270a393affd96b95a2a0198542b9cc58c29bd"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-in-game.png",
+      "bytes": 1932276,
+      "sha256": "5f03d0f72ec7fecbab25b245d64788f1bad2ddb2890ea4291b17691f85cab436"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-motion.webm",
+      "bytes": 1407817,
+      "sha256": "985115dff64be8091ae9c639ce3fe40f22a57309ccbf7268234f9c040c66ff39"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-render.png",
+      "bytes": 51483,
+      "sha256": "78476630069e12b0e0bc212a7d953c79a2fae49ce097c4d6678e33217623e25c"
+    },
+    {
+      "path": "docs/art/monsters/meshy-deep-forest/winyan-side.png",
+      "bytes": 111717,
+      "sha256": "2e7d16a4907054f11cac479bd7593ca4a1cc68d3b30d8086390fc2964ef22fbf"
+    }
+  ],
+  "independentArtReview": {
+    "verifiedBlenderHashes": 96,
+    "followUps": [
+      "Monitor terrain contact reaches -3.15cm",
+      "Canopy visibility belongs to environment art pass"
+    ],
+    "scores": [
+      {
+        "readability": 8.5,
+        "type": "kongkoi",
+        "technical": 8.5,
+        "style": 8.5
+      },
+      {
+        "readability": 8,
+        "type": "monitor",
+        "technical": 8,
+        "style": 8
+      },
+      {
+        "readability": 8.5,
+        "type": "pray",
+        "technical": 8.5,
+        "style": 8.5
+      },
+      {
+        "readability": 9,
+        "type": "khamot",
+        "technical": 9,
+        "style": 9
+      },
+      {
+        "readability": 8,
+        "type": "winyan",
+        "technical": 8.5,
+        "style": 8.5
+      },
+      {
+        "readability": 8.5,
+        "type": "takian",
+        "technical": 8.5,
+        "style": 8
+      }
+    ],
+    "verdict": "PASS for six assets",
+    "testsRerun": 18,
+    "verifiedEvidenceHashes": 45,
+    "reviewer": "Volta",
+    "scope": "Scores cover unobstructed 2.5D asset views; no unrestricted scene-readability approval"
+  }
+}

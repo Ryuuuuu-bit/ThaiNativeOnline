@@ -1,0 +1,76 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.85
+      ],
+      "tail": [
+        0,
+        0,
+        1.25
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "FlameTip",
+      "head": [
+        0,
+        0,
+        1.45
+      ],
+      "tail": [
+        0,
+        0,
+        1.86
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "FlameTail",
+      "head": [
+        0,
+        0,
+        0.42
+      ],
+      "tail": [
+        0,
+        0,
+        0.08
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    }
+  ],
+  "legs": [],
+  "weightGroups": 96,
+  "limbLength": null,
+  "idleFeet": [],
+  "version": "v1",
+  "editableSource": "artifacts\\meshy-rig-03\\deep-forest\\khamot-rig-v1.blend",
+  "snapshotId": "snapshot-618a2538dd32e8931e26c89e",
+  "sceneRevision": 4733
+}

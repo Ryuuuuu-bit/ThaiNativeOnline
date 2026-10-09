@@ -33,20 +33,23 @@ def request(path, body=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo'])
+    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian'])
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--submit', action='store_true')
     action.add_argument('--collect', action='store_true')
+    parser.add_argument('--variant', choices=['anatomy-v2'], help='Explicit separately reviewed correction; never an automatic POST retry')
     args = parser.parse_args()
     name = args.creature
     tmp = TMP / name
+    if args.variant:
+        tmp = tmp / args.variant
     tmp.mkdir(parents=True, exist_ok=True)
     job_path = tmp / 'task.json'
     if args.submit:
         intent_path = tmp / 'submit-intent.json'
         if job_path.exists() or intent_path.exists():
             raise RuntimeError('Task already exists; collect it instead of spending credits again.')
-        reference = DEST / 'references' / (name + '.png')
+        reference = DEST / 'references' / (name + ('-' + args.variant if args.variant else '') + '.png')
         parameters = json.loads((DEST / 'parameters.json').read_text())
         parameters['image_url'] = 'data:image/png;base64,' + base64.b64encode(reference.read_bytes()).decode()
         intent_path.write_text(json.dumps({'referenceSha256': hashlib.sha256(reference.read_bytes()).hexdigest(),
@@ -71,8 +74,8 @@ def main():
         'provider': 'Meshy', 'endpoint': 'image-to-3d', 'taskId': task_id,
         'status': task['status'], 'credits': task.get('consumed_credits'),
         'parameters': json.loads((DEST / 'parameters.json').read_text()),
-        'reference': 'references/' + name + '.png',
-        'referenceSha256': hashlib.sha256((DEST / 'references' / (name + '.png')).read_bytes()).hexdigest(),
+        'reference': 'references/' + name + ('-' + args.variant if args.variant else '') + '.png',
+        'referenceSha256': hashlib.sha256((DEST / 'references' / (name + ('-' + args.variant if args.variant else '') + '.png')).read_bytes()).hexdigest(),
         'originalSha256': hashlib.sha256(output.read_bytes()).hexdigest(),
         'originalBytes': output.stat().st_size,
         'originalLocalPath': str(output.relative_to(ROOT)).replace('\\', '/'),

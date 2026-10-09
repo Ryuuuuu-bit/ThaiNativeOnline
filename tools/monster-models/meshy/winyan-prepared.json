@@ -1,0 +1,39 @@
+{
+  "creature": "winyan",
+  "bytes": 1216764,
+  "triangles": 11977,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5972369313240051,
+      0,
+      -0.4256959855556488
+    ],
+    "max": [
+      0.5972369313240051,
+      1.8983328938484192,
+      0.4256959855556488
+    ]
+  },
+  "sha256": "d078de8e098a4905d3280347d7f522e8bfe48acaaeb021d8a9a1227a55de93ca",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

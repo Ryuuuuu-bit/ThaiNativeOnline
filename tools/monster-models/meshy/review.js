@@ -4,10 +4,11 @@ import { MONSTER_MODELS } from '/src/combat/MonsterModels.js';
 import { MONSTERS } from '/src/combat/data/monsters.js';
 
 const params=new URLSearchParams(location.search),set=params.get('set')||'1';
-const types = {'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa'],'4':['buffalo']}[set]||['boar','fowl','crab'];
+const types = {'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa'],'4':['buffalo'],'5':['kongkoi','monitor','pray','khamot','winyan','takian']}[set]||['boar','fowl','crab'];
 document.querySelector('.creatures').innerHTML='<button data-type="all" class="active">ดูทั้งชุด</button>'+types.map(id=>`<button data-type="${id}">${MONSTERS[id].name} · Lv.${MONSTERS[id].level}</button>`).join('');
 if(set==='2'||set==='3'){document.querySelector('header p').textContent=set==='2'?'ชุด Lv.2 · งูเห่านา และลิงกัง':'ชุด Lv.3 · หมาไน และผีป่า';document.querySelector('header .badge').href=`./motion.html?set=${set}`;document.querySelector('header small').textContent=`THAI NATIVE ONLINE · CREATURE STUDY 0${set}`;}
 if(set==='4'){document.querySelector('header p').textContent='บอสทุ่งนา · ควายป่า Lv.4';document.querySelector('header .badge').href='./motion.html?set=4';document.querySelector('header small').textContent='THAI NATIVE ONLINE · PADDY BOSS';}
+if(set==='5'){document.querySelector('header h1').textContent='ผู้พิทักษ์แห่งป่าลึก';document.querySelector('header p').textContent='ชุดป่าลึก · มอนสเตอร์ Lv.4–6';document.querySelector('header .badge').href='./motion.html?set=5';document.querySelector('header small').textContent='THAI NATIVE ONLINE · DEEP FOREST';}
 const canvas = document.querySelector('canvas'), host = canvas.parentElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -24,7 +25,7 @@ ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground)
 const camera = new THREE.OrthographicCamera(-5, 5, 3, -3, .05, 100);
 const directions = { game: [15, 23, 22], front: [0, 3, 28], side: [28, 3, 0], back: [0, 3, -28], top: [.001, 28, 0] };
 const models = [], old = [];
-let type = new URLSearchParams(location.search).get('type') || 'all', view = 'game', spin = false, comparison = false;
+let type = params.get('type') || (set==='5'&&innerWidth<650?types[0]:'all'), view = 'game', spin = false, comparison = false;
 if (!types.includes(type)) type = 'all';
 const loader = gltfLoader();
 function arrange() {
@@ -45,11 +46,13 @@ function arrange() {
 function resize() {
   renderer.setSize(host.clientWidth, host.clientHeight, false);
   const aspect = host.clientWidth / host.clientHeight;
-  const width = type === 'all' ? 3.4*types.length+.2 : comparison ? 5.6 : 3.2;
-  const half = Math.max(width / 2 / aspect, type === 'all' ? 1.7 : set==='3'||set==='4'?1.4:1.15, view==='top'&&set==='4'?1.8:0);
+  const height=type==='all'?2:MONSTER_MODELS[type].height;
+  const forestSingle=set==='5'&&type!=='all';
+  const width = type === 'all' ? 3.4*types.length+.2 : comparison ? 5.6 : forestSingle?(type==='monitor'?3.8:Math.max(2.4,height*1.35)):3.2;
+  const half = Math.max(width / 2 / aspect, forestSingle?height*.70+.12:set==='5'?1.8:type === 'all' ? 1.7 : set==='3'||set==='4'?1.4:1.15, view==='top'?(type==='monitor'?1.9:set==='4'?1.8:0):0);
   Object.assign(camera, { left: -half * aspect, right: half * aspect, top: half, bottom: -half });
   const offset = new THREE.Vector3(...directions[view]);
-  const target = new THREE.Vector3(0, set==='3'||set==='4'?.85:.5, 0);
+  const target = new THREE.Vector3(0, forestSingle?height*.55:set==='5'?1.0:set==='3'||set==='4'?.85:.5, 0);
   if (comparison && type === 'all') target.add(new THREE.Vector3(-offset.x, 0, -offset.z).normalize().multiplyScalar(1.1));
   if (view === 'top') camera.up.set(0, 0, -1); else camera.up.set(0, 1, 0);
   camera.position.copy(target).add(new THREE.Vector3(...directions[view])); camera.lookAt(target); camera.updateProjectionMatrix();

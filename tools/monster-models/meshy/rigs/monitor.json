@@ -1,0 +1,490 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0.08,
+        0.23
+      ],
+      "tail": [
+        0,
+        -0.4,
+        0.28
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Neck",
+      "head": [
+        0,
+        -0.4,
+        0.28
+      ],
+      "tail": [
+        0.045,
+        -0.6,
+        0.4
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        0.045,
+        -0.6,
+        0.4
+      ],
+      "tail": [
+        0.045,
+        -0.87,
+        0.48
+      ],
+      "parent": "Neck",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "TailBase",
+      "head": [
+        0,
+        0.16,
+        0.2
+      ],
+      "tail": [
+        -0.02,
+        0.44,
+        0.12
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "TailMid",
+      "head": [
+        -0.02,
+        0.44,
+        0.12
+      ],
+      "tail": [
+        -0.08,
+        0.72,
+        0.08
+      ],
+      "parent": "TailBase",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "TailTip",
+      "head": [
+        -0.08,
+        0.72,
+        0.08
+      ],
+      "tail": [
+        -0.15,
+        0.91,
+        0.13
+      ],
+      "parent": "TailMid",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeLUpper",
+      "head": [
+        -0.12,
+        -0.47,
+        0.26
+      ],
+      "tail": [
+        -0.23,
+        -0.43,
+        0.14
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ForeLLower",
+      "head": [
+        -0.23,
+        -0.43,
+        0.14
+      ],
+      "tail": [
+        -0.222,
+        -0.6,
+        0.035
+      ],
+      "parent": "ForeLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeLFoot",
+      "head": [
+        -0.222,
+        -0.6,
+        0.035
+      ],
+      "tail": [
+        -0.222,
+        -0.7,
+        0.035
+      ],
+      "parent": "ForeLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLUpper",
+      "head": [
+        -0.12,
+        0.025,
+        0.24
+      ],
+      "tail": [
+        -0.23,
+        0.08,
+        0.13
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HindLLower",
+      "head": [
+        -0.23,
+        0.08,
+        0.13
+      ],
+      "tail": [
+        -0.24,
+        -0.03,
+        0.035
+      ],
+      "parent": "HindLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLFoot",
+      "head": [
+        -0.24,
+        -0.03,
+        0.035
+      ],
+      "tail": [
+        -0.24,
+        -0.12,
+        0.035
+      ],
+      "parent": "HindLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeRUpper",
+      "head": [
+        0.12,
+        -0.47,
+        0.26
+      ],
+      "tail": [
+        0.23,
+        -0.43,
+        0.14
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ForeRLower",
+      "head": [
+        0.23,
+        -0.43,
+        0.14
+      ],
+      "tail": [
+        0.262,
+        -0.6,
+        0.035
+      ],
+      "parent": "ForeRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeRFoot",
+      "head": [
+        0.262,
+        -0.6,
+        0.035
+      ],
+      "tail": [
+        0.262,
+        -0.7,
+        0.035
+      ],
+      "parent": "ForeRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRUpper",
+      "head": [
+        0.12,
+        0.025,
+        0.24
+      ],
+      "tail": [
+        0.23,
+        0.08,
+        0.13
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HindRLower",
+      "head": [
+        0.23,
+        0.08,
+        0.13
+      ],
+      "tail": [
+        0.268,
+        -0.03,
+        0.035
+      ],
+      "parent": "HindRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRFoot",
+      "head": [
+        0.268,
+        -0.03,
+        0.035
+      ],
+      "tail": [
+        0.268,
+        -0.12,
+        0.035
+      ],
+      "parent": "HindRLower",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "ForeL",
+      "hip": [
+        -0.12,
+        -0.47,
+        0.26
+      ],
+      "knee": [
+        -0.23,
+        -0.43,
+        0.14
+      ],
+      "joint": [
+        -0.222,
+        -0.6,
+        0.035
+      ],
+      "ankle": [
+        -0.222,
+        -0.6,
+        0.035
+      ],
+      "toe": [
+        -0.222,
+        -0.7,
+        0.035
+      ],
+      "pole": [
+        -0.55,
+        -0.3,
+        0.16
+      ],
+      "phase": 0,
+      "control": "MonitorV4ForeLTarget"
+    },
+    {
+      "name": "HindL",
+      "hip": [
+        -0.12,
+        0.025,
+        0.24
+      ],
+      "knee": [
+        -0.23,
+        0.08,
+        0.13
+      ],
+      "joint": [
+        -0.24,
+        -0.03,
+        0.035
+      ],
+      "ankle": [
+        -0.24,
+        -0.03,
+        0.035
+      ],
+      "toe": [
+        -0.24,
+        -0.12,
+        0.035
+      ],
+      "pole": [
+        -0.55,
+        0.25,
+        0.14
+      ],
+      "phase": 0.75,
+      "control": "MonitorV4HindLTarget"
+    },
+    {
+      "name": "ForeR",
+      "hip": [
+        0.12,
+        -0.47,
+        0.26
+      ],
+      "knee": [
+        0.23,
+        -0.43,
+        0.14
+      ],
+      "joint": [
+        0.262,
+        -0.6,
+        0.035
+      ],
+      "ankle": [
+        0.262,
+        -0.6,
+        0.035
+      ],
+      "toe": [
+        0.262,
+        -0.7,
+        0.035
+      ],
+      "pole": [
+        0.55,
+        -0.3,
+        0.16
+      ],
+      "phase": 0.5,
+      "control": "MonitorV4ForeRTarget"
+    },
+    {
+      "name": "HindR",
+      "hip": [
+        0.12,
+        0.025,
+        0.24
+      ],
+      "knee": [
+        0.23,
+        0.08,
+        0.13
+      ],
+      "joint": [
+        0.268,
+        -0.03,
+        0.035
+      ],
+      "ankle": [
+        0.268,
+        -0.03,
+        0.035
+      ],
+      "toe": [
+        0.268,
+        -0.12,
+        0.035
+      ],
+      "pole": [
+        0.55,
+        0.25,
+        0.14
+      ],
+      "phase": 0.25,
+      "control": "MonitorV4HindRTarget"
+    }
+  ],
+  "weightGroups": 536,
+  "limbLength": {
+    "maxRelativeError": 1.0050692071513249e-06,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "MonitorV4Rig",
+      "bone": "ForeLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "MonitorV4Rig",
+      "bone": "HindLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "MonitorV4Rig",
+      "bone": "ForeRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "MonitorV4Rig",
+      "bone": "HindRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "version": "v4",
+  "editableSource": "artifacts\\meshy-rig-03\\deep-forest\\jobs\\job_monitor_v4_blend\\artifact.blend",
+  "snapshotId": "snapshot-abda2c786fc0d00f711f6c80",
+  "sceneRevision": 34321
+}

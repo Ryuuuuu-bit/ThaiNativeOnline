@@ -1,0 +1,14 @@
+{
+  "type": "monitor",
+  "bytes": 1257936,
+  "sha256": "ffc781c94efd27e5e0a562e6f7aaaa655fc38f0303486aa683428d662c2757e5",
+  "triangles": 12521,
+  "bones": 19,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

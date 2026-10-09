@@ -1,0 +1,17 @@
+{
+  "map": "deep_forest",
+  "purpose": "Finish the six missing model identities without changing spawns, combat, loot or progression.",
+  "style": "Soft stylized Thai fantasy, broad hand-painted colours, readable from the 2.5D game camera; no gore or noisy microdetail.",
+  "credits": {"maximumNewImageTo3dTasks": 7, "estimatedCredits": 245, "purchaseCredits": false, "correctionReason": "First kongkoi reconstruction had an unwanted second leg visible from the side; rejected before rigging."},
+  "assets": [
+    {"id":"kongkoi","role":"fast hopping melee spirit","design":"Violet bark goblin, one central leg by design, two arms, broad rounded mask face, ochre loincloth. One-legged anatomy is intentional, never a broken two-legged human.","motion":"Planted idle, one-foot hop, short arm swipe, recoil and seated settle."},
+    {"id":"monitor","role":"stream-side sturdy melee beast","design":"Olive water monitor, long tapered tail, four sprawled articulated limbs and five short clawed toes per foot; broad reptile muzzle, no mammal ears.","motion":"Low four-legged walk, restrained breathing, head lunge, recoil and grounded crouch."},
+    {"id":"pray","role":"water-element melee spirit","design":"Pale jade drowned-forest spirit, rounded mask face, two arms and one continuous reed-and-water robe hem; no human feet.","motion":"Hover, glide, two-arm reach, recoil and forward settle."},
+    {"id":"khamot","role":"fire-element ranged caller","design":"Golden flame seed with one mask face and a single tapered flame tail; compact opaque solid sculpt, no disconnected particles or limbs.","motion":"Gentle hovering, trailing tail, forward casting pulse, recoil and dimmed settle."},
+    {"id":"winyan","role":"dark wandering melee spirit","design":"Desaturated blue hooded wanderer with rounded ivory mask, two arms and opaque tapering cloth hem, restrained indigo Thai cloth trim.","motion":"Hover, glide, reaching strike, recoil and bowed settle."},
+    {"id":"takian","role":"stationary map boss with root pull","design":"Tall female teak-tree guardian, rounded human-like face, dark flowing hair, moss-green Thai draped costume, two arms and continuous rooted lower body; attached broad leaf crown and roots.","motion":"Rooted idle, unused restrained walk fallback, deliberate reaching curse, recoil and bowed root-bound death."}
+  ],
+  "deliverables": ["selected references and exact prompts", "Meshy provenance and static GLBs", "editable Blender rigs", "five runtime clips per model", "front/side/back/top and gameplay screenshots", "anatomy and compressed-runtime validation", "production build and PR"],
+  "acceptance": {"trianglesPerModel":15000,"materialDrawsPerModel":1,"maxRuntimeBytes":1800000,"clips":["idle","walk","attack","hurt","die"],"maxSkinInfluences":4,"minimumSkinY":-0.01,"idleFootDriftMetres":0.005,"limbRelativeError":0.005},
+  "limitations": ["Single-view reconstruction infers hidden surfaces", "No per-foot terrain slope IK", "No separately articulated fingers, jaws or facial animation", "Physical-phone crowd profiling remains separate"]
+}

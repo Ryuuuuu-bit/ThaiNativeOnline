@@ -1,0 +1,39 @@
+{
+  "creature": "pray",
+  "bytes": 1289912,
+  "triangles": 12483,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5507294833660126,
+      0,
+      -0.47618597745895386
+    ],
+    "max": [
+      0.5507294833660126,
+      1.9025459289550781,
+      0.47618597745895386
+    ]
+  },
+  "sha256": "ce0f25433f5be4d3d5a09f843088512e3760c7d557caf884a0f9ee320bc4cfcc",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

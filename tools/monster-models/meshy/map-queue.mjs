@@ -12,7 +12,7 @@ const maps=Object.values(MAPS).filter(m=>!m.safe).map(m=>{
  const members=zones.filter(z=>mapOf(z.x,z.z)===m.id);
  const ids=[...new Set(members.map(z=>z.type))].sort((a,b)=>MONSTERS[a].level-MONSTERS[b].level||a.localeCompare(b));
  return {id:m.id,name:m.name,levels:m.levels,primaryBoss:MAP_BOSSES[m.id],
-  stage:m.id==='paddy'?(ids.every(id=>status.get(id)?.startsWith('animated model integrated'))?'environment pass 1; monster set complete':'environment pass 1; boss model pending'):'queued',
+  stage:m.id==='paddy'?(ids.every(id=>status.get(id)?.startsWith('animated model integrated'))?'environment pass 1; monster set complete':'environment pass 1; boss model pending'):m.id==='deep_forest'&&ids.every(id=>status.get(id)?.startsWith('animated model integrated'))?'monster set complete; environment art pass queued':'queued',
   creatures:ids.map(id=>({id,name:MONSTERS[id].name,level:MONSTERS[id].level,primaryBoss:id===MAP_BOSSES[m.id],status:status.get(id)??'planned',areas:[...new Set(members.filter(z=>z.type===id).map(z=>z.area))]}))};
 });
 writeFileSync(new URL('./map-queue.json',import.meta.url),JSON.stringify({workflow:'Complete one map set: environment, existing monster roster, boss, portals, anatomy/animation review, gameplay camera QA, PR.',maps},null,2)+'\n');

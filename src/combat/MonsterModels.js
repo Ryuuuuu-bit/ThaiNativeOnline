@@ -18,6 +18,11 @@ export const MONSTER_MODELS = {
   monkey: { url: '/models/monsters/monkey.glb', height: 1.3 },
   dhole: { url: '/models/monsters/dhole.glb', height: 1.065 },
   phibpa: { url: '/models/monsters/phibpa.glb', height: 1.8, lift: .12 },
+  kongkoi: { url: '/models/monsters/kongkoi.glb', height: 1.55 },
+  monitor: { url: '/models/monsters/monitor.glb', height: .8 },
+  khamot: { url: '/models/monsters/khamot.glb', height: .85, lift: .3, deathDim: .7 },
+  winyan: { url: '/models/monsters/winyan.glb', height: 1.85, lift: .14 },
+  takian: { url: '/models/monsters/takian.glb', height: 2.5 },
 };
 // One parse per file, shared; a load is retried, and a failure is forgotten after a while so
 // the next monster of the type asks the server again (src/core/retry.js).
@@ -38,11 +43,13 @@ export function makeMonsterModel(type, fallback, monsterId) {
     const pivot = new THREE.Group(); pivot.add(model); pivot.scale.setScalar(scale);
     pivot.position.y = spec.lift ?? 0;
     model.position.set(-(box.min.x + box.max.x) / 2, -box.min.y, -(box.min.z + box.max.z) / 2);
+    const deathColors = [];
     model.traverse(o => {
       if (!o.isMesh) return;
       o.userData.monsterId = monsterId; o.castShadow = true; o.receiveShadow = true;
       const copy = m => {
         const material = m.clone();
+        if (spec.deathDim) deathColors.push({ material, color: material.color.clone() });
         if (/Glow|Eye|Core/.test(material.name) && material.emissive) {
           material.emissive.copy(material.color); material.emissiveIntensity = .35;
         }
@@ -55,7 +62,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
     for (const name of ['attack','hurt','die']) if (actions[name]) {
       actions[name].setLoop(THREE.LoopOnce, 1); actions[name].clampWhenFinished = true;
     }
-    let current = null, previousTime = null, wasAttacking = false, wasHurt = false;
+    let current = null, previousTime = null, wasAttacking = false, wasHurt = false, deathTime = 0;
     if (actions.die) actions.die.timeScale = 1.4;
     function play(name) {
       const next = actions[name] ?? actions.idle;
@@ -66,6 +73,8 @@ export function makeMonsterModel(type, fallback, monsterId) {
     animate = (time, moving, attacking, { hurt = false, dying = false } = {}) => {
       const dt = previousTime === null ? 0 : THREE.MathUtils.clamp(time - previousTime, 0, .1);
       previousTime = time;
+      deathTime = dying ? Math.min(1, deathTime + dt * 1.4) : 0;
+      for (const { material, color } of deathColors) material.color.copy(color).multiplyScalar(1 - spec.deathDim * deathTime);
       if (dying) play('die');
       else if (attacking && !wasAttacking && actions.attack) { play('attack'); actions.attack.reset().play(); }
       else if (hurt && !wasHurt && current !== actions.attack && actions.hurt) { play('hurt'); actions.hurt.reset().play(); }

@@ -1,0 +1,208 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.65
+      ],
+      "tail": [
+        0,
+        0,
+        1.3
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        1.41
+      ],
+      "tail": [
+        0,
+        0,
+        1.76
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        -0.23,
+        0,
+        1.28
+      ],
+      "tail": [
+        -0.34,
+        -0.01,
+        1.04
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        -0.34,
+        -0.01,
+        1.04
+      ],
+      "tail": [
+        -0.47,
+        -0.07,
+        0.88
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        -0.47,
+        -0.07,
+        0.88
+      ],
+      "tail": [
+        -0.51,
+        -0.07,
+        0.77
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        0.23,
+        0,
+        1.28
+      ],
+      "tail": [
+        0.34,
+        -0.01,
+        1.04
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        0.34,
+        -0.01,
+        1.04
+      ],
+      "tail": [
+        0.47,
+        -0.07,
+        0.88
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        0.47,
+        -0.07,
+        0.88
+      ],
+      "tail": [
+        0.51,
+        -0.07,
+        0.77
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "Hem0",
+      "head": [
+        -0.2,
+        0,
+        0.58
+      ],
+      "tail": [
+        -0.2,
+        0,
+        0.1
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Hem1",
+      "head": [
+        0,
+        0,
+        0.58
+      ],
+      "tail": [
+        0,
+        0,
+        0.1
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Hem2",
+      "head": [
+        0.2,
+        0,
+        0.58
+      ],
+      "tail": [
+        0.2,
+        0,
+        0.1
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    }
+  ],
+  "legs": [],
+  "weightGroups": 577,
+  "limbLength": {
+    "maxRelativeError": 4.6846076628973707e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [],
+  "version": "v4",
+  "editableSource": "artifacts\\meshy-rig-03\\deep-forest\\jobs\\job_pray_v4_blend\\artifact.blend",
+  "snapshotId": "snapshot-a31ab79507d24c38bae58d57",
+  "sceneRevision": 29078
+}

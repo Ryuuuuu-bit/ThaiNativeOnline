@@ -101,7 +101,7 @@
         5
       ],
       "primaryBoss": "takian",
-      "stage": "queued",
+      "stage": "monster set complete; environment art pass queued",
       "creatures": [
         {
           "id": "monkey",
@@ -142,7 +142,7 @@
           "name": "ผีกองกอย",
           "level": 4,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "dense_forest",
             "wisp_hollow"
@@ -153,7 +153,7 @@
           "name": "เหี้ย",
           "level": 4,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "monitor_stream"
           ]
@@ -163,7 +163,7 @@
           "name": "ผีพราย",
           "level": 4,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "forest_edge",
             "dense_forest",
@@ -179,7 +179,7 @@
           "name": "ผีโขมด",
           "level": 5,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "wisp_hollow"
           ]
@@ -189,7 +189,7 @@
           "name": "วิญญาณเร่ร่อน",
           "level": 5,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "deep_forest",
             "deep_west",
@@ -201,7 +201,7 @@
           "name": "นางตะเคียน",
           "level": 6,
           "primaryBoss": true,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "takhian_tree"
           ]
@@ -223,7 +223,7 @@
           "name": "ผีพราย",
           "level": 4,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "wat_grove"
           ]
@@ -233,7 +233,7 @@
           "name": "วิญญาณเร่ร่อน",
           "level": 5,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "wat_grove",
             "abandoned_shrine",

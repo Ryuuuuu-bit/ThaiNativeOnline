@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11e62-8ef4-73a4-8e1c-361cd39dfd2a",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/khamot.png",
+  "referenceSha256": "8efe0d66d627632fa3e6b3408aae31c29d02abd7dff69da8da515a643f8b4e22",
+  "originalSha256": "b044586e27b4ba42a0e55662b994b31c4311fe4b67b35811bbf6f75857eae2ef",
+  "originalBytes": 10116684,
+  "originalLocalPath": "artifacts/meshy-monsters/khamot/original.glb"
+}
