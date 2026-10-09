@@ -26,6 +26,7 @@ import { QUESTS } from '../src/data/quests.js';
 import { sameGear } from '../src/character/data/refine.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { nearNpc, SHOP_SITES } from '../src/data/shopSites.js';
+import { lockFields, isItemLocked } from '../src/character/itemState.js';
 
 export const CHARACTER_KEY = /^tno\.character\.v\d+$/;
 export const QUESTS_KEY = 'tno.quests.v1';
@@ -49,7 +50,7 @@ export function questsFor(c, json = '{}', defs = QUESTS) {
 // A Character from a stored save (unknown items dropped, like Character.load), or null.
 export function fromSave(data) {
   if (!data || typeof data !== 'object' || !CLASSES[CLASS_ALIASES[data.classId] || data.classId]) return null;
-  const inventory = Array.isArray(data.inventory) ? data.inventory.map(s => (s && ITEMS[s.id] && s.qty > 0 ? { id: s.id, qty: Math.floor(s.qty), ...(s.cards ? { cards: s.cards } : {}), ...(s.plus ? { plus: s.plus } : {}) } : null)) : undefined;   // cards, plus: checked by Character
+  const inventory = Array.isArray(data.inventory) ? data.inventory.map(s => (s && ITEMS[s.id] && s.qty > 0 ? { id: s.id, qty: Math.floor(s.qty), ...(s.cards ? { cards: s.cards } : {}), ...(s.plus ? { plus: s.plus } : {}), ...lockFields(s) } : null)) : undefined;   // cards, plus: checked by Character
   const equipment = data.equipment ? Object.fromEntries(Object.entries(data.equipment).map(([k, id]) => [k, id && ITEMS[id] ? id : null])) : undefined;
   try {
     const c = new Character({ ...data, inventory, equipment, hp: data.hp > 0 ? data.hp : undefined });
@@ -61,8 +62,8 @@ export function fromSave(data) {
 }
 
 // Replays one browser action on the server's character → true when it went through.
-export function applyOp(c, msg = {}, quests = null, here = null) {
-  const at = (id, cards, plus) => c.inventory.findIndex(s => s?.id === id && (ITEMS[id]?.type !== 'equip' || sameGear(s, cards, plus)));
+export function applyOp(c, msg = {}, quests = null, here = null, state = null) {
+  const at = (id, cards, plus, locked = false) => c.inventory.findIndex(s => s?.id === id && isItemLocked(s) === (locked === true) && (ITEMS[id]?.type !== 'equip' || sameGear(s, cards, plus)));
   switch (msg.op) {
     case 'buy': return typeof msg.shop === 'string' && typeof msg.id === 'string' && buy(c, msg.shop, msg.id, msg.qty ?? 1).ok;
     case 'sell_batch': {
@@ -73,16 +74,32 @@ export function applyOp(c, msg = {}, quests = null, here = null) {
       }
       return c.sellBatch(msg.lines) > 0;
     }
-    case 'sell': { const i = at(msg.id, msg.cards, msg.plus); return i >= 0 && c.sellAt(i) > 0; }
-    case 'use': { const i = at(msg.id, msg.cards, msg.plus); return i >= 0 && c.useAt(i); }
-    case 'equip': { const i = ITEMS[msg.id]?.type === 'equip' ? at(msg.id, msg.cards, msg.plus) : -1; return i >= 0 && c.equip(i); }
+    case 'sell': { const i = at(msg.id, msg.cards, msg.plus, msg.locked); return i >= 0 && c.sellAt(i) > 0; }
+    case 'use': { const i = at(msg.id, msg.cards, msg.plus, msg.locked); return i >= 0 && c.useAt(i); }
+    case 'equip': { const i = ITEMS[msg.id]?.type === 'equip' ? at(msg.id, msg.cards, msg.plus, msg.locked) : -1; return i >= 0 && c.equip(i); }
     case 'card': {
-      const i = ITEMS[msg.id]?.type === 'card' ? at(msg.id) : -1; if (i < 0) return false;
+      const i = ITEMS[msg.id]?.type === 'card' ? at(msg.id, undefined, undefined, msg.locked) : -1; if (i < 0) return false;
       if (msg.worn) return c.insertCard(i, EQUIP_SLOTS.includes(msg.worn) ? msg.worn : 'worn');
       const g = ITEMS[msg.item]?.type === 'equip' ? at(msg.item, msg.has, msg.plus) : -1;
       return g >= 0 && c.insertCard(i, g);
     }
     case 'unequip': return EQUIP_SLOTS.includes(msg.slot) && c.unequip(msg.slot);
+    case 'item_lock': {
+      if (typeof msg.lock !== 'boolean') return false;
+      const worn = typeof msg.worn === 'string', where = worn ? msg.worn : msg.index;
+      const item = worn ? c.wornItem(where) : Number.isInteger(where) && c.inventory[where];
+      if (!item || item.id !== msg.id || !sameGear(item, msg.cards, msg.plus) || isItemLocked(item) !== (msg.locked === true)) return false;
+      return c.setItemLock(where, msg.lock);
+    }
+    case 'hotbar_order': return c.setHotbar(msg.order);
+    case 'loadout_save': return c.saveLoadout(msg.index, msg.name);
+    case 'loadout_rename': return c.renameLoadout(msg.index, msg.name);
+    // This context is supplied by the server, never copied from the browser message.
+    case 'loadout_apply': {
+      const result = !state || state.fighting !== false || state.busy ? { ok: false, why: 'combat' } : c.applyLoadout(msg.index, state);
+      c.loadoutResult = { ...result, index: msg.index, n: msg.n };
+      return result.ok;
+    }
     case 'alloc': return STATS.includes(msg.key) && c.allocate(msg.key);
     case 'reset': c.resetStats(); return true;
     case 'sort': sortBag(c); return true;

@@ -1,0 +1,386 @@
+{
+  "at": "2026-10-09T13:52:01.649Z",
+  "results": [
+    {
+      "name": "desktop",
+      "size": {
+        "width": 1440,
+        "height": 900
+      },
+      "panel": {
+        "x": 295,
+        "y": 135,
+        "w": 850,
+        "h": 630,
+        "b": 765,
+        "r": 1145
+      },
+      "go": {
+        "x": 874,
+        "y": 669,
+        "w": 246,
+        "h": 48,
+        "b": 717,
+        "r": 1120
+      },
+      "list": 6,
+      "scroll": true,
+      "selected": "city_forge"
+    },
+    {
+      "name": "mobile",
+      "size": {
+        "width": 390,
+        "height": 844
+      },
+      "panel": {
+        "x": 12,
+        "y": 52,
+        "w": 366,
+        "h": 740,
+        "b": 792,
+        "r": 378
+      },
+      "go": {
+        "x": 29,
+        "y": 730,
+        "w": 332,
+        "h": 48,
+        "b": 778,
+        "r": 361
+      },
+      "list": 6,
+      "scroll": true,
+      "selected": "city_forge"
+    },
+    {
+      "name": "landscape",
+      "size": {
+        "width": 844,
+        "height": 390
+      },
+      "panel": {
+        "x": 12,
+        "y": 12,
+        "w": 820,
+        "h": 366,
+        "b": 378,
+        "r": 832
+      },
+      "go": {
+        "x": 611,
+        "y": 247.09375,
+        "w": 206,
+        "h": 44,
+        "b": 291.09375,
+        "r": 817
+      },
+      "list": 6,
+      "scroll": true,
+      "selected": "city_forge"
+    },
+    {
+      "name": "small-landscape",
+      "size": {
+        "width": 667,
+        "height": 375
+      },
+      "panel": {
+        "x": 12,
+        "y": 12,
+        "w": 643,
+        "h": 351,
+        "b": 363,
+        "r": 655
+      },
+      "go": {
+        "x": 434,
+        "y": 247.09375,
+        "w": 206,
+        "h": 44,
+        "b": 291.09375,
+        "r": 640
+      },
+      "list": 6,
+      "scroll": true,
+      "selected": "city_forge"
+    }
+  ],
+  "warp": {
+    "receipts": [
+      {
+        "map": "city",
+        "x": -36,
+        "z": 78,
+        "destination": "city_forge"
+      },
+      {
+        "map": "paddy",
+        "x": 0,
+        "z": -130,
+        "destination": "map_paddy"
+      }
+    ],
+    "p": {
+      "x": 0,
+      "z": -130
+    },
+    "map": "paddy"
+  },
+  "maps": [
+    {
+      "id": "city",
+      "npcs": [
+        {
+          "id": "warp_city_market",
+          "present": true,
+          "stand": true
+        },
+        {
+          "id": "warp_city_port",
+          "present": true,
+          "stand": true
+        },
+        {
+          "id": "warp_city_forge",
+          "present": true,
+          "stand": true
+        },
+        {
+          "id": "warp_city_training",
+          "present": true,
+          "stand": true
+        },
+        {
+          "id": "warp_city_temple",
+          "present": true,
+          "stand": true
+        },
+        {
+          "id": "warp_city_gate",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "city_market",
+          "stand": true
+        },
+        {
+          "id": "city_port",
+          "stand": true
+        },
+        {
+          "id": "city_forge",
+          "stand": true
+        },
+        {
+          "id": "city_training",
+          "stand": true
+        },
+        {
+          "id": "city_temple",
+          "stand": true
+        },
+        {
+          "id": "city_gate",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "paddy",
+      "npcs": [
+        {
+          "id": "warp_paddy",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_paddy",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "deep_forest",
+      "npcs": [
+        {
+          "id": "warp_deep_forest",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_deep_forest",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "wat_rang",
+      "npcs": [
+        {
+          "id": "warp_wat_rang",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_wat_rang",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "klong",
+      "npcs": [
+        {
+          "id": "warp_klong",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_klong",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "bamboo_grave",
+      "npcs": [
+        {
+          "id": "warp_bamboo_grave",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_bamboo_grave",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "sealed_mine",
+      "npcs": [
+        {
+          "id": "warp_sealed_mine",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_sealed_mine",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "sunken_city",
+      "npcs": [
+        {
+          "id": "warp_sunken_city",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_sunken_city",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "dusk_fort",
+      "npcs": [
+        {
+          "id": "warp_dusk_fort",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_dusk_fort",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "giant_valley",
+      "npcs": [
+        {
+          "id": "warp_giant_valley",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_giant_valley",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "himmapan",
+      "npcs": [
+        {
+          "id": "warp_himmapan",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_himmapan",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "fallen_city",
+      "npcs": [
+        {
+          "id": "warp_fallen_city",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_fallen_city",
+          "stand": true
+        }
+      ]
+    },
+    {
+      "id": "demon_rift",
+      "npcs": [
+        {
+          "id": "warp_demon_rift",
+          "present": true,
+          "stand": true
+        }
+      ],
+      "arrivals": [
+        {
+          "id": "map_demon_rift",
+          "stand": true
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

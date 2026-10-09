@@ -13,6 +13,7 @@
 import { Character } from '../src/character/Character.js';
 import { ITEMS } from '../src/character/data/items.js';
 import { sameGear } from '../src/character/data/refine.js';
+import { isItemLocked } from '../src/character/itemState.js';
 
 export const TRADE = { range: 8, maxItems: 10, requestSecs: 30 };
 const empty = () => ({ items: [], gold: 0 });
@@ -85,12 +86,12 @@ export function offerWhy(c, o) {
 // Takes one offer entry out of a bag (an array of slots, changed in place) → the instance, or null.
 function take(bag, e) {
   if (ITEMS[e.id].type === 'equip') {
-    const i = bag.findIndex(s => s?.id === e.id && sameGear(s, e.cards, e.plus)); if (i < 0) return null;
+    const i = bag.findIndex(s => s?.id === e.id && !isItemLocked(s) && sameGear(s, e.cards, e.plus)); if (i < 0) return null;
     const s = bag[i]; bag[i] = null; return s;
   }
-  if (bag.reduce((n, s) => n + (s?.id === e.id ? s.qty : 0), 0) < e.qty) return null;
+  if (bag.reduce((n, s) => n + (s?.id === e.id && !isItemLocked(s) ? s.qty : 0), 0) < e.qty) return null;
   for (let left = e.qty, i = 0; left > 0; i++) {
-    const s = bag[i]; if (s?.id !== e.id) continue;
+    const s = bag[i]; if (s?.id !== e.id || isItemLocked(s)) continue;
     const n = Math.min(left, s.qty); s.qty -= n; left -= n; if (!s.qty) bag[i] = null;
   }
   return { id: e.id, qty: e.qty };

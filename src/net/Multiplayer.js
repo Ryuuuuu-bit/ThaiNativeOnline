@@ -60,6 +60,8 @@ export function startMultiplayer(game) {
   attachNetProgress(net, c, game.quests);                                              // a signed-in character's progress is the server's (3c)
   const social = attachSocial(net, c, chat, remote, game);                                   // parties and trade (src/net/Social.js)
   const pvp = attachPvp(net, game, chat, social);
+  game.warp.connect(net);
+  game.storage.connect(net);
   social.pvp = pvp;
   const dynamicHUD = attachDynamicHUD(game, net);
   net.on('position', async m => {

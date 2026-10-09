@@ -5,10 +5,11 @@
 //     HP / MP, who leads, far ones greyed with their map; the EXP bonus now. Click → the party tab
 //   · the trade window: my offer and theirs, my bag to add from, gold; ล็อก → ยืนยัน (both sides)
 //   · party chat: start a chat line with /p · /w name text whispers · /r answers
-//   · P (or เมนู → สังคม): the social window — ปาร์ตี้ (member cards: HP / MP, buffs, where, near → shares EXP;
+//   · P (or เมนู → สังคม): the social window — หาปาร์ตี้ (public board, server-authoritative roster,
+//     leader approval → pinv → pans consent); ปาร์ตี้ (member cards: HP / MP, buffs, where, near → shares EXP;
 //     whisper, hand over the lead, remove, leave) · เพื่อน (signed in: list, search, add by name, players
 //     near you, notices) · ฉายา (src/data/titles.js: earn, preview, wear) · อันดับ (server/ranking.js boards);
-//     the three tabs are drawn by src/net/SocialPanes.js
+//     the other panes are drawn by src/net/SocialPanes.js
 //   · a healer's party / revive skill heals, buffs and stands up the members near them (aid)
 //   attachSocial(net, character, chat, remote)
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
@@ -20,11 +21,15 @@ import { iconHtml, classBadge } from '../ui/icons.js';
 import { sameGear } from '../character/data/refine.js';
 import { draggable } from '../ui/draggable.js';
 import { TITLE_BY_ID } from '../data/titles.js';
-import { friendsPane, titlesPane, rankPane, titleCount, MAP_TH } from './SocialPanes.js';
+import { friendsPane, titlesPane, rankPane, partyBoardPane, titleCount, MAP_TH } from './SocialPanes.js';
 import './social.css';
 
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const PARTY_WHY = { guest: 'ผู้เล่นแบบผู้มาเยือนตั้งปาร์ตี้กับผู้เล่นที่เข้าสู่ระบบไม่ได้', self: 'ชวนตัวเองไม่ได้', in_party: 'ผู้เล่นนั้นอยู่ในปาร์ตี้อื่นแล้ว', not_leader: 'หัวหน้าปาร์ตี้เท่านั้นที่ชวนได้', full: 'ปาร์ตี้เต็มแล้ว (6 คน)', expired: 'คำเชิญหมดอายุแล้ว', offline: 'ผู้เล่นนั้นออฟไลน์', declined: 'ปฏิเสธคำเชิญปาร์ตี้' };
+const BOARD_WHY = { ...PARTY_WHY, guest: 'ต้องเข้าสู่ระบบเพื่อใช้กระดานหาปาร์ตี้', no_party: 'สร้างปาร์ตี้ก่อนลงประกาศ',
+  dead: 'หมดสติอยู่ จึงลงประกาศหรือส่งคำขอไม่ได้', bad_listing: 'กรอกช่วงเลเวลที่ถูกต้องและเป้าหมายการล่า', bad_request: 'คำขอไม่ถูกต้อง',
+  level: 'เลเวลของคุณอยู่นอกช่วงรับสมัคร', pending: 'ส่งคำขอนี้แล้ว', busy: 'มีคำขอรออยู่มากเกินไป ลองใหม่ภายหลัง',
+  expired: 'ประกาศหรือคำขอหมดอายุแล้ว', declined: 'หัวหน้าปาร์ตี้ปฏิเสธคำขอ' };
 const TRADE_WHY = { self: 'แลกกับตัวเองไม่ได้', busy: 'ตอนนี้แลกเปลี่ยนไม่ได้ (กำลังต่อสู้ หมดสติ หรือแลกกับคนอื่นอยู่)', offline: 'ผู้เล่นนั้นออฟไลน์', guest: 'ต้องเข้าสู่ระบบทั้งสองฝ่ายจึงแลกเปลี่ยนได้', far: 'ต้องยืนใกล้กัน (ไม่เกิน 8 เมตร) ในแชนแนลเดียวกัน', expired: 'คำขอหมดอายุแล้ว', declined: 'อีกฝ่ายปฏิเสธการแลกเปลี่ยน',
   gold: 'ทองไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
   cancelled: 'ยกเลิกการแลกเปลี่ยน', moved: 'การแลกเปลี่ยนถูกยกเลิก (ย้ายแมพหรือแชนแนล)', left: 'อีกฝ่ายออกจากเกม · ยกเลิกการแลกเปลี่ยน' };
@@ -98,7 +103,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
           + `<div class="r1"><b>${p.id === party.leader ? CROWN : ''}${esc(p.name)}</b><small>${esc(where)}</small></div>${bar('hp', p.hp, p.maxHp)}${bar('mp', p.mp, p.maxMp)}</div></div>`;
       }).join('');
     }
-    if (tab === 'party') renderSoc();
+    if (tab === 'party' || tab === 'board') renderSoc();
   };
   // the death screen: a living member of a class that has a revive skill, in our room → wait for them
   const REVIVERS = new Set(Object.keys(CLASS_KITS).filter(cls => CLASS_KITS[cls]?.skills?.some(k => SKILL_BY_ID[k.id]?.type === 'revive')));
@@ -127,7 +132,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   });
   let lastPartyKey = '';
   net.on('pc', m => chat.add(`[ปาร์ตี้] ${m.name}`, m.text, 'party'));
-  net.on('status', on => { if (!on) { party = null; lastPartyKey = ''; renderParty(); closeTrade(); } });
+  net.on('status', on => { if (!on) { party = null; lastPartyKey = ''; bst.data = null; bst.loading = false; bst.notice = ''; bst.draftFor = null; renderParty(); closeTrade(); } });
   // a member's frame picks them as the friend heals go to (again: unpick); the header opens the party tab
   frame.addEventListener('click', e => {
     const pf = e.target.closest('.soc-pf');
@@ -199,11 +204,32 @@ export function attachSocial(net, c, chat, remote, game = null) {
   });
   const wear = id => { if (!c.setTitle(id || null)) return; c.save?.(); net.send({ t: 'ttl', id: id || null }); renderSoc(); };
 
-  // ---- the social window (P): ปาร์ตี้ · เพื่อน · ฉายา · อันดับ (design "UI ใหม่") ----
+  // ---- the social window (P): ปาร์ตี้ · หาปาร์ตี้ · เพื่อน · ฉายา · อันดับ ----
   const soc = node('soc-panel soc-win glass'); soc.hidden = true;
   draggable(soc, { key: 'social', handle: 'header' });
   let tab = 'friends', lists = { who: [], friends: [] }, refresh = null;
   const fst = { filter: 'all', search: '' }, tst = { cat: 'all', sel: null }, rst = { board: 'power', cls: 'all', data: null, loading: false };
+  const bst = { data: null, loading: false, notice: '', draftFor: null,
+    filters: { map: 'all', level: '', role: 'all', cls: 'all' }, draft: { minLv: 1, maxLv: 100, purpose: '' } };
+  const askBoard = () => { if (!net.online) return; bst.loading = true; net.send({ t: 'party_board_list' }); };
+  net.on('party_board', m => {
+    const was = new Set((bst.data?.requests ?? []).map(r => r.from));
+    if ((m.requests ?? []).some(r => !was.has(r.from))) chat.add('ระบบ', 'มีคำขอเข้าปาร์ตี้ · เปิดสังคม (P) → หาปาร์ตี้ เพื่อส่งคำเชิญ');
+    bst.data = m; bst.loading = false;
+    if (m.mine && bst.draftFor !== m.mine.party) {
+      bst.draft = { minLv: m.mine.minLv, maxLv: m.mine.maxLv, purpose: m.mine.purpose }; bst.draftFor = m.mine.party;
+    }
+    if (tab === 'board') renderSoc();
+  });
+  net.on('party_board_result', m => {
+    const success = { party_create: 'สร้างปาร์ตี้แล้ว · ลงประกาศได้เลย', party_board_publish: 'ลงประกาศหาปาร์ตี้แล้ว', party_board_remove: 'ถอนประกาศแล้ว',
+      party_board_request: 'ส่งคำขอแล้ว · รอหัวหน้าส่งคำเชิญและกดตอบรับ', party_board_answer: 'ตอบคำขอแล้ว · ผู้สมัครต้องตอบรับคำเชิญจึงเข้าปาร์ตี้' };
+    bst.notice = m.ok ? success[m.action] ?? 'สำเร็จ' : m.why === 'cooldown' ? `รออีก ${m.retryAfter ?? 1} วินาที` : BOARD_WHY[m.why] ?? 'ทำรายการไม่ได้';
+    if (m.ok && m.action === 'party_board_publish') bst.draftFor = party?.id ?? null;
+    if (!m.ok) chat.add('ระบบ', bst.notice);
+    if (tab === 'board') renderSoc();
+  });
+  net.on('welcome', () => { if (!soc.hidden && tab === 'board') askBoard(); });
   const askLists = () => { net.send({ t: 'who' }); net.send({ t: 'friends' }); };
   const askRank = () => { rst.loading = true; net.send({ t: 'rank' }); };
   net.on('rank', m => { rst.data = m; rst.loading = false; if (tab === 'rank') renderSoc(); });
@@ -214,7 +240,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   };
   const tabs = () => {
     const on = lists.friends.filter(f => f.online).length, tc = titleCount(c);
-    return `<nav class="sw-tabs">${[['party', `ปาร์ตี้${party ? ` ${party.members.length} / 6` : ''}`], ['friends', `เพื่อน · ออนไลน์ ${on}`], ['titles', `ฉายา ${tc.got} / ${tc.all}`], ['rank', 'อันดับ']]
+    return `<nav class="sw-tabs">${[['party', `ปาร์ตี้${party ? ` ${party.members.length} / 6` : ''}`], ['board', 'หาปาร์ตี้'], ['friends', `เพื่อน · ออนไลน์ ${on}`], ['titles', `ฉายา ${tc.got} / ${tc.all}`], ['rank', 'อันดับ']]
       .map(([k, n]) => `<button data-tab="${k}" aria-pressed="${tab === k}">${n}</button>`).join('')}</nav>`;
   };
   // the party tab: rules strip and one arch-topped card per member (design "UI ใหม่")
@@ -243,21 +269,24 @@ export function attachSocial(net, c, chat, remote, game = null) {
   const renderSoc = () => {
     if (soc.hidden) return;
     // keep what is being typed and where the lists were scrolled
-    const typing = document.activeElement?.closest?.('.soc-win') ? document.activeElement.matches('[data-fsearch]') ? 'fsearch' : document.activeElement.matches('[data-fname]') ? 'fname' : null : null;
-    const fname = soc.querySelector('[data-fname]')?.value ?? '', scroll = [...soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table')].map(e => e.scrollTop);
+    const active = soc.contains(document.activeElement) ? document.activeElement : null;
+    const typing = active ? [...active.attributes].map(a => a.name).find(n => n === 'data-fsearch' || n === 'data-fname' || n.startsWith('data-board-')) : null;
+    const selection = active && typeof active.selectionStart === 'number' ? [active.selectionStart, active.selectionEnd] : null;
+    const fname = soc.querySelector('[data-fname]')?.value ?? '', scroll = [...soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table, .sb-list, .sb-side')].map(e => e.scrollTop);
     const body = tab === 'party' ? partyPane()
+      : tab === 'board' ? partyBoardPane({ ...bst, party, me, online: net.online })
       : tab === 'friends' ? friendsPane({ ...fst, friends: lists.friends, party, me, nearby: nearby(), notes })
         : tab === 'titles' ? titlesPane({ c, ...tst })
           : rankPane({ ...rst, name: c.name, myCls: c.classId, myTitle: c.title });
     soc.innerHTML = `<header><kbd>P</kbd><b>สังคม</b><button data-close aria-label="ปิด">✕</button></header>${tabs()}<div class="sw-body">${body}</div>`;
     const fi = soc.querySelector('[data-fname]'); if (fi) fi.value = fname;
-    soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table').forEach((e, i) => { e.scrollTop = scroll[i] ?? 0; });
-    if (typing) { const el = soc.querySelector(`[data-${typing}]`); el?.focus(); el?.setSelectionRange?.(el.value.length, el.value.length); }
+    soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table, .sb-list, .sb-side').forEach((e, i) => { e.scrollTop = scroll[i] ?? 0; });
+    if (typing) { const el = soc.querySelector(`[${typing}]`); el?.focus(); if (el && selection && ['text', 'search', 'textarea'].includes(el.type)) el.setSelectionRange(...selection); }
   };
   const toggleSoc = (open = soc.hidden, to = null) => {
     if (to) tab = to;
     soc.hidden = !open; clearInterval(refresh);
-    if (open) { askLists(); if (tab === 'rank') askRank(); refresh = setInterval(() => { askLists(); if (tab === 'rank') askRank(); }, tab === 'rank' ? 30000 : 5000); renderSoc(); }
+    if (open) { askLists(); if (tab === 'rank') askRank(); if (tab === 'board') askBoard(); refresh = setInterval(() => { askLists(); if (tab === 'rank') askRank(); if (tab === 'board') askBoard(); }, tab === 'rank' ? 30000 : 5000); renderSoc(); }
   };
   net.on('who', m => { lists.who = m.list; if (tab === 'friends' || tab === 'party') renderSoc(); });
   net.on('friends', m => { lists.friends = m.list; renderSoc(); });
@@ -266,6 +295,12 @@ export function attachSocial(net, c, chat, remote, game = null) {
     const d = b.dataset;
     if (d.close !== undefined) toggleSoc(false);
     else if (d.tab) { tab = d.tab; if (tab === 'rank') askRank(); toggleSoc(true); }
+    else if (d.boardRefresh !== undefined) askBoard();
+    else if (d.boardCreate !== undefined) net.send({ t: 'party_create' });
+    else if (d.boardPublish !== undefined) net.send({ t: 'party_board_publish', minLv: Number(bst.draft.minLv), maxLv: Number(bst.draft.maxLv), purpose: bst.draft.purpose });
+    else if (d.boardRemove !== undefined) net.send({ t: 'party_board_remove' });
+    else if (d.boardRequest !== undefined) net.send({ t: 'party_board_request', party: Number(d.boardRequest) });
+    else if (d.boardApprove !== undefined || d.boardDecline !== undefined) net.send({ t: 'party_board_answer', from: Number(d.boardApprove ?? d.boardDecline), ok: d.boardApprove !== undefined });
     else if (d.w) chat.open(`/w ${d.w} `);
     else if (d.inv) { net.send({ t: 'pinv', id: Number(d.inv) }); chat.add('ระบบ', 'ส่งคำเชิญปาร์ตี้แล้ว'); }
     else if (d.fadd) net.send({ t: 'fadd', name: d.fadd });
@@ -282,7 +317,19 @@ export function attachSocial(net, c, chat, remote, game = null) {
     else if (d.lead) net.send({ t: 'plead', id: Number(d.lead) });
     else if (d.sw) { prefs[d.sw] = !prefs[d.sw]; savePrefs(); renderSoc(); }
   });
-  soc.addEventListener('input', e => { if (e.target.matches('[data-fsearch]')) { fst.search = e.target.value; renderSoc(); } });
+  soc.addEventListener('input', e => {
+    const d = e.target.dataset, value = e.target.value;
+    if (e.target.matches('[data-fsearch]')) { fst.search = value; renderSoc(); }
+    else if (d.boardMin !== undefined) bst.draft.minLv = value;
+    else if (d.boardMax !== undefined) bst.draft.maxLv = value;
+    else if (d.boardPurpose !== undefined) bst.draft.purpose = value;
+    else if (d.boardLevel !== undefined) { bst.filters.level = value; renderSoc(); }
+  });
+  soc.addEventListener('change', e => {
+    const d = e.target.dataset;
+    const key = d.boardMap !== undefined ? 'map' : d.boardRole !== undefined ? 'role' : d.boardClass !== undefined ? 'cls' : null;
+    if (key) { bst.filters[key] = e.target.value; renderSoc(); }
+  });
   soc.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter' && e.target.matches('[data-fname]')) soc.querySelector('[data-fname-go]')?.click(); });   // typing does not walk the player
   window.addEventListener('keydown', e => {
     if (e.code !== 'KeyP' || e.repeat || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;

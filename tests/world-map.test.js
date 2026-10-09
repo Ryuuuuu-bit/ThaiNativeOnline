@@ -4,6 +4,7 @@ import { mapDirectory, filterPlaces, worldOrder, nextPortal } from '../src/ui/ma
 import { fittedCamera, mapTransform, placeLabels, clampCamera, clusterMarkers } from '../src/ui/minimap/mapLayout.js';
 import { LANDMARKS } from '../src/data/landmarks.js';
 import { MAPS, MAP_IDS, landmarksOf } from '../src/world/maps.js';
+import { WARP_SERVICES } from '../src/data/warpServices.js';
 
 test('atlas lists all maps and secret places; gate and portal are one selectable destination', () => {
   for (const id of MAP_IDS) {
@@ -22,7 +23,9 @@ test('shop search and categories find upgrade independently of distance; world u
   assert.equal(places.find(e => e.id === 'market').category, 'places');
   assert.equal(places.find(e => e.id === 'fish_market').tag, 'บริการในอนาคต');
   assert.ok(!filterPlaces(places, 'shops').some(e => e.shopType === 'fish'));
-  assert.equal(filterPlaces(places, 'travel').length, MAPS.city.portals.length);
+  const travel = filterPlaces(places, 'travel');
+  assert.equal(travel.filter(e => e.portal).length, MAPS.city.portals.length);
+  assert.equal(travel.filter(e => e.npcId).length, WARP_SERVICES.filter(s => s.map === 'city').length);
   assert.equal(worldOrder()[0].id, 'city'); assert.equal(worldOrder().at(-1).id, 'demon_rift');
   assert.equal(nextPortal('city', 'demon_rift').to, 'paddy');
   assert.equal(nextPortal('demon_rift', 'city').to, 'fallen_city');

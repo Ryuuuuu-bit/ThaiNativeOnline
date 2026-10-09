@@ -8,6 +8,8 @@
 //                 leader passes on; before: who was in it) · P.kick(leader, id) → the same
 //   P.promote(leader, id) → party | null   (the leader hands the lead to a member)
 //   P.of(id) → party id | null · P.members(pid) → [ids] · P.get(pid) → { id, leader, members }
+//   P.create(id) → { ok, party }   explicit one-person party for recruitment
+//   P.onChange(fn) → unsubscribe   lifecycle observers (party board); fn({ kind, id, party })
 //
 // The EXP of a kill (server/monsters.js rewards): a party counts as one hunter. Every member on
 // the same map and channel, alive and within PARTY.shareRange of the monster, shares it evenly,
@@ -20,10 +22,26 @@ export const PARTY = { max: 6, inviteSecs: 60, shareRange: 30, levelGap: 15, bon
 export class Parties {
   constructor({ now = () => Date.now() / 1000 } = {}) {
     this.now = now; this.parties = new Map(); this.byPlayer = new Map(); this.invites = new Map(); this.nextId = 1;
+    this.listeners = new Set();
   }
   of(id) { return this.byPlayer.get(id) ?? null; }
   get(pid) { return this.parties.get(pid) ?? null; }
   members(pid) { return this.parties.get(pid)?.members ?? []; }
+  onChange(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); }
+  changed(kind, id, party) { for (const fn of this.listeners) fn({ kind, id, party }); }
+  create(id) {
+    if (this.of(id)) return { ok: false, why: 'in_party' };
+    const party = { id: this.nextId++, leader: id, members: [id] };
+    this.parties.set(party.id, party); this.byPlayer.set(id, party.id);
+    this.changed('create', id, party);
+    return { ok: true, party };
+  }
+  revokeFrom(id) {
+    for (const [to, list] of this.invites) {
+      const kept = list.filter(i => i.from !== id);
+      if (kept.length) this.invites.set(to, kept); else this.invites.delete(to);
+    }
+  }
 
   invite(from, to) {
     if (from === to) return { ok: false, why: 'self' };
@@ -32,7 +50,7 @@ export class Parties {
     if (party && party.leader !== from) return { ok: false, why: 'not_leader' };
     if (party && party.members.length >= PARTY.max) return { ok: false, why: 'full' };
     const list = (this.invites.get(to) ?? []).filter(i => this.now() - i.at < PARTY.inviteSecs && i.from !== from);
-    list.push({ from, at: this.now() }); this.invites.set(to, list);
+    list.push({ from, at: this.now(), party: pid }); this.invites.set(to, list);
     return { ok: true };
   }
   accept(to, from) {
@@ -41,22 +59,29 @@ export class Parties {
     if (!inv) return { ok: false, why: 'expired' };
     if (this.of(to)) return { ok: false, why: 'in_party' };
     let pid = this.of(from);
-    if (pid && this.get(pid).leader !== from) return { ok: false, why: 'expired' };
+    if (inv.party != null && inv.party !== pid) return { ok: false, why: 'expired' };
+    if (pid && this.get(pid)?.leader !== from) return { ok: false, why: 'expired' };
     if (!pid) { pid = this.nextId++; this.parties.set(pid, { id: pid, leader: from, members: [from] }); this.byPlayer.set(from, pid); }
     const party = this.get(pid);
     if (party.members.length >= PARTY.max) return { ok: false, why: 'full' };
     party.members.push(to); this.byPlayer.set(to, pid); this.invites.delete(to);
+    this.changed('accept', to, party);
     return { ok: true, party };
   }
   decline(to, from) { this.invites.set(to, (this.invites.get(to) ?? []).filter(i => i.from !== from)); }
   // → the party left behind (null when it is gone), and who was in it before
   leave(id) {
     this.invites.delete(id);
+    this.revokeFrom(id);
     const pid = this.of(id); if (!pid) return null;
     const party = this.get(pid), before = [...party.members];
     party.members = party.members.filter(m => m !== id); this.byPlayer.delete(id);
     if (party.leader === id) party.leader = party.members[0];
-    if (party.members.length < 2) { for (const m of party.members) this.byPlayer.delete(m); this.parties.delete(pid); return { party: null, before }; }
+    if (party.members.length < 2) {
+      for (const m of party.members) { this.byPlayer.delete(m); this.revokeFrom(m); }
+      this.parties.delete(pid); this.changed('leave', id, null); return { party: null, before };
+    }
+    this.changed('leave', id, party);
     return { party, before };
   }
   kick(leader, id) {
@@ -67,7 +92,7 @@ export class Parties {
   promote(leader, id) {
     const pid = this.of(leader), party = pid && this.get(pid);
     if (!party || party.leader !== leader || leader === id || !party.members.includes(id)) return null;
-    party.leader = id; return party;
+    this.revokeFrom(leader); party.leader = id; this.changed('promote', leader, party); return party;
   }
 }
 

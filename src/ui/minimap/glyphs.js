@@ -4,6 +4,7 @@ import { EMBLEMS } from '../icons.js';
 // symbol, the player arrow, warps, monsters, NPC dots and a compass rose.
 // Symbols are SVG path data in a 24×24 box (stroke = ink), turned into Path2D once.
 const SYMBOLS = {
+  warp: ['M12 2a10 10 0 1 0 .01 0 M12 5l2.5 4.5L19 12l-4.5 2.5L12 19l-2.5-4.5L5 12l4.5-2.5z', false],
   trade: ['M9 3.5h6l-1.6 3.2h-2.8z M8.6 7.6h6.8c3.8 2.6 4.8 11.9-3.4 11.9S4.8 10.2 8.6 7.6z', true],
   equipment: ['M18.5 3.5 20.5 5.5 10 16l-2-2z M6.5 13.5l4 4-1.5 1.5-1.2-1.2-2.6 2.6-1.6-1.6 2.6-2.6-1.2-1.2z', true],
   upgrade: ['M12 2.5l2.3 7.2 7.2 2.3-7.2 2.3L12 21.5l-2.3-7.2L2.5 12l7.2-2.3z', true],
@@ -156,6 +157,7 @@ export function markerSample(g, kind, x, y, r) {
   else if (kind === 'unknown') unknownMark(g, x, y, r * .8);
   else if (kind === 'hall') badge(g, x, y, r * .85, 'class:muaythai', 'hall');
   else if (kind === 'shop') badge(g, x, y, r * .8, 'trade', 'shop');
+  else if (kind === 'warp') badge(g, x, y, r * .8, 'warp', 'gold');
   else if (kind === 'guard') { npcDot(g, x - r * .5, y, r * .35, 'guard'); npcDot(g, x + r * .5, y, r * .3); }
   else if (kind === 'hunt') badge(g,x,y,r*.85,'combat','gold');
   else if (kind === 'monster') monsterMark(g, x, y, r * .4);

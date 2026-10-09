@@ -1,5 +1,5 @@
 import { MAPS } from '../world/maps.js';
-// The social window's friends, titles and ranking tabs (design "UI ใหม่"), as HTML from the
+// The social window's recruitment, friends, titles and ranking tabs, as HTML from the
 // state Social.js keeps. No events here: Social.js reads the data-* attributes on click.
 //   friendsPane(st) · titlesPane(st) · rankPane(st)
 import { CLASSES } from '../character/data/classes.js';
@@ -7,6 +7,7 @@ import { classBadge } from '../ui/icons.js';
 import { titleHtml } from '../ui/titleTag.js';
 import { TITLES, TITLE_BY_ID, TITLE_CATS } from '../data/titles.js';
 import { FRIENDS_MAX } from '../character/Character.js';
+import { MAX_LEVEL } from '../character/data/progression.js';
 
 export const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const MAP_TH = Object.fromEntries(Object.values(MAPS).map(m=>[m.id,m.name]));
@@ -14,6 +15,56 @@ const fmt = n => Math.round(n || 0).toLocaleString();
 const por = (cls, size = 36, off = false) => `<span class="sw-por${off ? ' off' : ''}">${classBadge(cls, CLASSES[cls], { size })}</span>`;
 const clsName = cls => CLASSES[cls]?.name ?? '';
 const ago = t => { const s = (Date.now() - t) / 1000; return s < 60 ? 'เมื่อสักครู่' : s < 3600 ? `${Math.floor(s / 60)} นาทีที่แล้ว` : `${Math.floor(s / 3600)} ชั่วโมงที่แล้ว`; };
+
+// Recruitment roles come from actual member classes, never an advertised class claim.
+export const PARTY_ROLES = { tank: 'รับหน้าศัตรู', damage: 'ทำดาเมจ', support: 'รักษา / สนับสนุน' };
+export const partyRole = cls => cls === 'warrior' ? 'tank' : cls === 'herbalist' ? 'support' : CLASSES[cls] ? 'damage' : null;
+export function filterPartyListings(list, filters = {}) {
+  const { map = 'all', level = '', role = 'all', cls = 'all' } = filters;
+  return list.filter(l => l.members?.length > 0 && l.members.length < l.capacity
+    && (map === 'all' || l.map === map)
+    && (level === '' || (Number(level) >= l.minLv && Number(level) <= l.maxLv))
+    && l.members.some(p => !p.dead && (cls === 'all' || p.cls === cls) && (role === 'all' || partyRole(p.cls) === role)));
+}
+
+// ---- หาปาร์ตี้ ------------------------------------------------------------------------
+// Server state is authoritative; filters read the returned live roster on the client.
+export function partyBoardPane(st) {
+  const { data, filters: f, draft, party, me, online } = st;
+  const opt = (k, n, chosen) => `<option value="${esc(k)}"${k === chosen ? ' selected' : ''}>${esc(n)}</option>`;
+  const max = data?.maxLevel ?? MAX_LEVEL, limit = data?.purposeLimit ?? 80;
+  const list = filterPartyListings(data?.list ?? [], f);
+  const pending = new Map((data?.pending ?? []).map(r => [r.party, r.status]));
+  const lead = party?.leader === me;
+  const rows = list.map(l => {
+    const mine = l.leader === me, status = pending.get(l.party);
+    const disabled = !online || !data?.signed || !!party || !!status;
+    const text = mine ? 'ประกาศของคุณ' : status === 'invited' ? 'รอตอบรับคำเชิญ' : status ? 'ส่งคำขอแล้ว' : 'ขอเข้าร่วม';
+    const roster = l.members.map(p => `<li${p.dead ? ' class="off"' : ''}>${por(p.cls, 30)}<span><b>${esc(p.name)}${p.id === l.leader ? ' ♛' : ''}</b><small>${esc(clsName(p.cls))} · Lv ${esc(p.lv)}${p.dead ? ' · หมดสติ' : ''}</small></span></li>`).join('');
+    return `<article class="sb-card"><div class="sb-card-head"><span><b>ปาร์ตี้ของ ${esc(l.name)}</b><small>${esc(MAP_TH[l.map] ?? l.map)} · CH ${esc(l.ch)} · ${l.members.length} / ${esc(l.capacity)} คน</small></span><span class="sb-level">รับ Lv ${esc(l.minLv)}–${esc(l.maxLv)}</span></div>
+      <p class="sb-purpose">${esc(l.purpose)}</p><ul class="sb-roster">${roster}</ul><button class="sw-btn jade" data-board-request="${l.party}"${disabled ? ' disabled' : ''}>${text}</button></article>`;
+  }).join('');
+  const requests = (data?.requests ?? []).map(r => `<div class="sb-request">${por(r.cls, 30)}<span><b>${esc(r.name)}</b><small>${esc(clsName(r.cls))} · Lv ${esc(r.lv)}<br>${esc(MAP_TH[r.map] ?? r.map)} · CH ${esc(r.ch)}</small></span><div><button class="sw-btn jade" data-board-approve="${r.from}">ส่งคำเชิญ</button><button class="sw-btn dark" data-board-decline="${r.from}">ปฏิเสธ</button></div></div>`).join('');
+  const publish = !online ? '<p class="sw-note">เชื่อมต่อเซิร์ฟเวอร์เพื่อหาปาร์ตี้</p>'
+    : !data ? '<p class="sw-note">กำลังโหลดสิทธิ์ปาร์ตี้…</p>'
+      : !data.signed ? '<p class="sw-note">เข้าสู่ระบบเพื่อสร้างปาร์ตี้ ลงประกาศ และส่งคำขอ</p>'
+        : !party ? `<p class="sw-note">สร้างปาร์ตี้ของคุณก่อนลงประกาศ หรือขอเข้าร่วมจากรายการ</p><button class="sw-btn brass wide" data-board-create${data.canCreate ? '' : ' disabled'}>สร้างปาร์ตี้</button>`
+          : !lead ? '<p class="sw-note">หัวหน้าปาร์ตี้เป็นผู้ลงประกาศและตอบคำขอ</p>'
+            : `<p class="sw-note">ประกาศแผนที่และ CH ปัจจุบันของหัวหน้า · ปาร์ตี้เต็มหรือหัวหน้าหมดสติจะถอนประกาศ</p>
+              <div class="sb-level-inputs"><label>Lv ต่ำสุด<input data-board-min type="number" min="1" max="${max}" value="${esc(draft.minLv)}"></label><label>Lv สูงสุด<input data-board-max type="number" min="1" max="${max}" value="${esc(draft.maxLv)}"></label></div>
+              <label class="sb-purpose-input">เป้าหมาย<textarea data-board-purpose rows="2" maxlength="${limit}" placeholder="เช่น ล่าบอส / เก็บเลเวลด้วยกัน">${esc(draft.purpose)}</textarea></label>
+              <button class="sw-btn brass wide" data-board-publish${data.canPublish ? '' : ' disabled'}>${data.mine ? 'อัปเดตประกาศ' : 'ลงประกาศ'}</button>${data.mine ? '<button class="sw-btn dark wide" data-board-remove>ถอนประกาศ</button>' : ''}`;
+  return `<div class="sb-board"><section class="sb-browser sw-box"><div class="sb-title"><b class="sw-h">หาปาร์ตี้ · ${list.length} ประกาศ</b><button class="sw-btn dark" data-board-refresh${online ? '' : ' disabled'}>รีเฟรช</button></div>
+    <div class="sb-filters"><label>แผนที่<select data-board-map>${opt('all', 'ทุกแผนที่', f.map)}${Object.entries(MAP_TH).map(([k, n]) => opt(k, n, f.map)).join('')}</select></label>
+      <label>Lv ของผู้สมัคร<input data-board-level type="number" min="1" max="${max}" placeholder="ทุกเลเวล" value="${esc(f.level)}"></label>
+      <label>บทบาทสมาชิก<select data-board-role>${opt('all', 'ทุกบทบาท', f.role)}${Object.entries(PARTY_ROLES).map(([k, n]) => opt(k, n, f.role)).join('')}</select></label>
+      <label>อาชีพสมาชิก<select data-board-class>${opt('all', 'ทุกอาชีพ', f.cls)}${Object.entries(CLASSES).map(([k, d]) => opt(k, d.name, f.cls)).join('')}</select></label></div>
+    <p class="sw-note">บทบาทและอาชีพค้นจากสมาชิกจริงที่ยังไม่หมดสติ · Lv ตรงช่วงรับสมัคร</p>
+    <div class="sb-notice" role="status" aria-live="polite">${esc(st.notice)}</div>
+    <div class="sb-list">${!online ? '<p class="sw-empty">ออฟไลน์ · เชื่อมต่อเพื่อดูประกาศ</p>' : !data ? `<p class="sw-empty">${st.loading ? 'กำลังโหลดประกาศ…' : 'รอข้อมูลจากเซิร์ฟเวอร์'}</p>` : rows || '<p class="sw-empty">ยังไม่มีประกาศที่ตรงกับตัวกรอง</p>'}</div></section>
+    <aside class="sb-side"><section class="sw-box"><b class="sw-h">${lead ? 'ประกาศของคุณ' : 'เริ่มปาร์ตี้'}</b>${publish}<p class="sw-note">ส่งคำขอ → หัวหน้าส่งคำเชิญ → คุณกดตอบรับ จึงเข้าปาร์ตี้ · ลงประกาศได้ทุก 10 วินาที</p></section>
+      ${lead ? `<section class="sw-box"><b class="sw-h">คำขอเข้าร่วม · ${data?.requests?.length ?? 0}</b>${requests || '<p class="sw-empty sm">ยังไม่มีคำขอ · คำขอรอได้ 2 นาที</p>'}</section>` : ''}</aside></div>`;
+}
 
 // ---- เพื่อน ----------------------------------------------------------------------------
 // st: { friends, filter, search, party, me, nearby: [{ id, name, cls, lv, dist }], notes: [{ kind, name, cls, at }] }

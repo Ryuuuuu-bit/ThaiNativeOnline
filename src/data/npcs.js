@@ -1,4 +1,5 @@
 import { EXPEDITIONS } from '../world/expeditions.js';
+import { WARP_NPCS } from './warpServices.js';
 // NPC roster for นครอโยธยา and the zone maps outside the wall. Each entry is pure data:
 //   id, name, occupation, gender, home, interactionRadius, dialogue, shopType / trainer,
 //   map (optional: which map of src/world/maps.js the NPC lives on; otherwise
@@ -25,6 +26,7 @@ const allDay = activity => ({ morning: activity, day: activity, evening: activit
 const shopHours = activity => ({ morning: activity, day: activity, evening: activity, night: HOME });
 
 export const NPCS = [
+  ...WARP_NPCS,
   // ---------- Port ----------
   { id: 'fisher_pier', name: 'ตาเพิ่ม', occupation: 'fisher', home: { near: 'fv_m' }, props: ['rod'],
     dialogue: ['ปลาช่อนแถวท่าน้ำนี่ตัวโตนัก ถ้าใจเย็นพอ', 'วันหน้าข้าจะสอนเอ็งตกปลาเอง'],

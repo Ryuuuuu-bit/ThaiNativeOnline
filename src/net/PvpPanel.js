@@ -10,7 +10,7 @@ export function attachPvp(net,game,chat,social) {
   const note=t=>chat.add('ระบบ',t), el=s=>root.querySelector(s);
   const follow=new PartyFollow(game,()=>social.party,()=>me,note);
   const pick=(id,name)=>{target=id;el('[data-target]').hidden=false;el('[data-target] b').textContent=name;};
-  const recall=()=>{follow.stop();if(net.online)net.send({t:'recall'});else note('เชื่อมต่อเซิร์ฟเวอร์ก่อนวาร์ป');};
+  const recall=()=>{if(game.serviceModalOpen)return;follow.stop();if(net.online)net.send({t:'recall'});else note('เชื่อมต่อเซิร์ฟเวอร์ก่อนวาร์ป');};
   root.addEventListener('click',e=>{
     if(e.target.closest('[data-recall]'))recall();
     if(e.target.closest('[data-pk]'))net.send({t:'pk',on:!pk});

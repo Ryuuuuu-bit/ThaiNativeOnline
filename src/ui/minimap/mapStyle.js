@@ -105,6 +105,7 @@ export function cellColor(pal, s) {
 // What an NPC is on the map. `quest` is the quest marker ('!', '?', '…' or null).
 export function npcMarker(def, { shops = {}, trainers = {}, quest = null } = {}) {
   if (quest === '!' || quest === '?') return { kind: 'quest', glyph: quest };
+  if (def.warpService) return { kind: 'travel', purpose: 'warp' };
   if (def.trainer && trainers[def.trainer]) return { kind: 'trainer', classId: trainers[def.trainer].classId ?? null };
   if (def.shopType && shops[def.shopType]) return { kind: 'shop', purpose: shops[def.shopType].purpose ?? 'trade', stock: !!shops[def.shopType].stock?.length };
   if (def.faction) return { kind: 'guard' };
@@ -180,5 +181,5 @@ export const portalStyle = portal => (portal?.style === 'path' ? 'path' : 'warp'
 // Legend rows of the full map (UI text).
 export const LEGEND = [
   ['player', 'ตำแหน่งของคุณ'], ['portal', 'ประตูวาป'], ['path', 'ทางออกสู่แผนที่อื่น'], ['quest', 'เควส / เป้าหมาย'], ['landmark', 'สถานที่'],
-  ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'], ['hunt', 'จุดเก็บเลเวล (Lv.)'],
+  ['hall', 'สำนักครู'], ['shop', 'ร้านค้า'], ['warp', 'NPC บริการวาร์ป'], ['guard', 'ทหาร / ชาวเมือง'], ['monster', 'มอนสเตอร์'], ['hunt', 'จุดเก็บเลเวล (Lv.)'],
 ];

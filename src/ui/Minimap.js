@@ -82,7 +82,7 @@ export class Minimap {
       const [x, y] = to(n.x, n.z); if (!onScreen(x, y)) continue;
       const m = npcMarker(n.def, { shops: SHOPS, trainers: TRAINERS, quest: state.quest?.(n.id) ?? null });
       if (m.kind === 'quest') quests.push([x, y, m, n]);
-      else if (m.kind === 'shop' || m.kind === 'trainer') services.push([x, y, m, n]);
+      else if (m.kind === 'shop' || m.kind === 'trainer' || m.kind === 'travel') services.push([x, y, m, n]);
       else if (k > 1.1 || full) npcDot(g, x, y, ui * (full ? .2 : .22), m.kind);
     }
     // Monsters only on unsafe maps, near the player.

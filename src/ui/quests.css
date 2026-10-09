@@ -1,0 +1,36 @@
+/* Quest cards inherit the active jade/brass or parchment skin. */
+body #dlg-quests .quest { min-width:0; overflow-wrap:anywhere; }
+body #dlg-quests .quest :is(.quest-requirements,.quest-guide) { margin:6px 0; font-size:12px; line-height:1.65; }
+body #dlg-quests .quest .quest-guide { padding:7px 9px; border-left:3px solid var(--t-gold); background:var(--t-card); }
+body #dlg-quests .quest small { display:block; margin:3px 0 7px; font-size:12px; line-height:1.6; }
+body #dlg-quests .quest button { min-height:44px; min-width:44px; max-width:100%; padding:9px 14px; white-space:normal; }
+body #dlg-quests .quest button:focus-visible { outline:2px solid var(--t-gold); outline-offset:3px; }
+body #dlg-quests .quest-locked { border:1px dashed var(--t-card-line); }
+body #dlg-quests .quest button:disabled { opacity:.65; cursor:default; }
+body #quest-tracker :is(b,.quest-return) { display:block; overflow-wrap:anywhere; }
+body #quest-tracker .quest-return { color:var(--t-good); margin-bottom:3px; }
+/* Lessons keep real touch sizes instead of inheriting the HUD zoom. */
+body #dialogue:has(#dlg-quests > *) {
+  zoom:1; z-index:23; box-sizing:border-box;
+  left:50%; top:50%; bottom:auto; transform:translate(-50%,-50%);
+  width:min(1000px,calc(100vw - 32px)); max-height:calc(100dvh - 32px);
+  display:flex; flex-direction:column;
+}
+body #dialogue:has(#dlg-quests > *)[hidden] { display:none; }
+body #dialogue:has(#dlg-quests > *) .dlg-head { flex-shrink:0; }
+body #dialogue:has(#dlg-quests > *) #dlg-close { width:44px; height:44px; min-width:44px; }
+body #dialogue:has(#dlg-quests > *) .dlg-wrap { min-height:0; overflow:auto; overscroll-behavior:contain; }
+body #dialogue:has(#dlg-quests > *) .dlg-actions button { min-height:44px; }
+@media (max-width:900px) {
+  body #dialogue:has(#dlg-quests > *) { width:min(620px,calc(100vw - 24px)); max-height:calc(100dvh - 24px); padding:12px; }
+  body #dialogue:has(#dlg-quests > *) .dlg-wrap { grid-template-columns:1fr; gap:10px; }
+  body #dialogue:has(#dlg-quests > *) #dlg-quests { max-height:none; overflow:visible; }
+  body #dialogue:has(#dlg-quests > *) .dlg-main { grid-template-columns:38px 1fr; gap:6px 10px; padding:10px; }
+  body #dialogue:has(#dlg-quests > *) .dlg-icon { width:38px; height:38px; font-size:20px; }
+  body #dialogue:has(#dlg-quests > *) #dlg-line { font-size:13px; }
+}
+@media (max-height:500px) {
+  body #dialogue:has(#dlg-quests > *) .dlg-head { margin-bottom:8px; padding-bottom:8px; }
+  body #dialogue:has(#dlg-quests > *) .dlg-wrap { grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); align-items:start; }
+  body #dialogue:has(#dlg-quests > *) #dlg-quests { max-height:none; overflow:visible; }
+}

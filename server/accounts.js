@@ -40,6 +40,7 @@ export async function googleTokenInfo(credential) {
 export class Accounts {
   constructor(store, { now = () => Date.now(), googleClientId = null, verifyGoogle = googleTokenInfo } = {}) {
     this.writes = new SaveQueue({ onError: () => console.warn('Character save failed; retry queued') });
+    this.inventoryRevisions = new Map();
     this.store = store; this.now = now; this.googleClientId = googleClientId; this.verifyGoogle = verifyGoogle;
   }
   // A Google ID token's claims if it was issued to this game and is still good, else null.
@@ -116,8 +117,10 @@ export class Accounts {
     if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง');
     const bad = this.check(data); if (bad) return fail(bad, 'ข้อมูลเซฟไม่ถูกต้อง');
     data = structuredClone(data); live = live ? structuredClone(live) : null;
+    const expectedRevision = live?.inventoryRevision ?? this.inventoryRevisions.get(`${id}:${slot}`);
     return this.writes.run(`${id}:${slot}`, async () => {
-      const stored = live ? null : (await this.store.listSlots(id)).find(x => x.slot === slot)?.data;
+      const row = (await this.store.listSlots(id)).find(x => x.slot === slot);
+      const stored = live ? null : row?.data;
       const server = live?.c ?? (stored ? JSON.parse(stored[Object.keys(stored).find(k => CHARACTER_KEY.test(k))]) : null);
       const quests = live ? live.quests : stored?.[QUESTS_KEY] ?? '{}';
       if (!server) {
@@ -125,8 +128,8 @@ export class Accounts {
         data = renameData(data, n.name);
       }
       try {
-        const saved = await this.store.putSlot(id, slot, reconcileSave(data, server, quests), {createOnly:!server});
-        return saved ? { ok: true } : fail('slot_taken', 'ช่องตัวละครนี้ถูกใช้แล้ว กรุณาเลือกตัวละครอีกครั้ง');
+        const saved = await this.store.putSlot(id, slot, reconcileSave(data, server, quests), {createOnly:!server, inventoryRevision: expectedRevision ?? row?.inventoryRevision ?? 0});
+        return saved ? { ok: true } : fail(server ? 'stale_save' : 'slot_taken', 'ข้อมูลเซฟเปลี่ยนแล้ว กรุณารอข้อมูลล่าสุด');
       } catch (e) { if (isNameConflict(e)) return fail('name_taken', 'มีผู้ใช้ชื่อนี้แล้ว กรุณาเลือกชื่ออื่น'); throw e; }
     });
   }
@@ -144,20 +147,36 @@ export class Accounts {
       catch(e) { if (isNameConflict(e)) return fail('name_taken','มีผู้ใช้ชื่อนี้แล้ว กรุณาเลือกชื่ออื่น'); throw e; }
     });
   }
-  async putCharacter(id, slot, json, quests = null, location = null) {
+  async putCharacter(id, slot, json, quests = null, location = null, { inventoryRevision = this.inventoryRevisions.get(`${id}:${slot}`) } = {}) {
     json = structuredClone(json);
     location = location ? structuredClone(location) : null;
     return this.writes.run(`${id}:${slot}`, async () => {
       const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return false;
       const key = Object.keys(s.data).find(k => CHARACTER_KEY.test(k)) ?? 'tno.character.v1';
-      const name = characterRecord(s.data).character?.name;
-      await this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify({ ...json, name }), ...(quests != null ? { [QUESTS_KEY]: quests } : {}), ...(location ? {'tno.location.v1':JSON.stringify(location)} : {}) }); return true;
+      const saved = characterRecord(s.data).character, name = saved?.name;
+      return this.store.putSlot(id, slot, { ...s.data, [key]: JSON.stringify({ ...saved, ...json, name }), ...(quests != null ? { [QUESTS_KEY]: quests } : {}), ...(location ? {'tno.location.v1':JSON.stringify(location)} : {}) }, { inventoryRevision: inventoryRevision ?? s.inventoryRevision ?? 0 });
     }, { snapshot: true });
   }
+  async moveStash(id, slot, move, fingerprint, { capture, plan, adopt }) {
+    // A failed/uncertain SQL commit retries this same prepared snapshot/request.
+    // The durable receipt resolves an already-committed transaction without repeating it.
+    let prepared, adopted = false;
+    return this.writes.run(`${id}:${slot}`, async () => {
+      prepared ??= capture();
+      const r = await this.store.transferStash(id, slot, move, fingerprint, prepared, plan);
+      if (r.ok && !adopted && r.inventoryRevision === prepared.inventoryRevision + 1) {
+        adopt(r.inventory, r.inventoryRevision); adopted = true;
+        this.inventoryRevisions.set(`${id}:${slot}`, r.inventoryRevision);
+      }
+      return r;
+    });
+  }
+  inventoryRevision(id, slot) { return this.inventoryRevisions.get(`${id}:${slot}`) ?? 0; }
   async quests(id, slot) { return (await this.store.listSlots(id)).find(x => x.slot === slot)?.data?.[QUESTS_KEY] ?? '{}'; }
-  async remove(id, slot) { if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง'); await this.writes.run(`${id}:${slot}`, () => this.store.deleteSlot(id, slot)); return { ok: true }; }
+  async remove(id, slot) { if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง'); await this.writes.run(`${id}:${slot}`, () => this.store.deleteSlot(id, slot)); this.inventoryRevisions.delete(`${id}:${slot}`); return { ok: true }; }
   async character(id, slot) {
     const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return null;
+    this.inventoryRevisions.set(`${id}:${slot}`, s.inventoryRevision ?? 0);
     const k = Object.keys(s.data).find(x => x.startsWith('tno.character.'));
     try { return k ? JSON.parse(s.data[k]) : null; } catch { return null; }
   }

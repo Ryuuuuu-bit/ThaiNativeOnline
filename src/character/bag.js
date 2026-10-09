@@ -3,6 +3,7 @@
 // item table (src/character/data/items.js); no DOM. Nothing here touches what items do,
 // cost or weigh — only how the bag shows and orders them.
 import { ITEMS } from './data/items.js';
+import { isItemLocked, lockFields } from './itemState.js';
 
 // Tabs: id → label and which items belong (all shows every slot, empty ones too).
 export const BAG_TABS = [
@@ -54,9 +55,13 @@ export function sortedInventory(inventory) {
   for (const s of inventory) {
     if (!s) continue;
     if (ITEMS[s.id]?.type === 'equip') gear.push({ ...s });
-    else stacks.set(s.id, (stacks.get(s.id) ?? 0) + s.qty);
+    else {
+      const key = `${s.id}:${isItemLocked(s)}`;
+      const old = stacks.get(key);
+      if (old) old.qty += s.qty; else stacks.set(key, { id: s.id, qty: s.qty, ...lockFields(s) });
+    }
   }
-  const items = [...gear, ...[...stacks].map(([id, qty]) => ({ id, qty }))];
+  const items = [...gear, ...stacks.values()];
   const key = s => { const d = ITEMS[s.id] ?? {}; return [TYPE_ORDER[d.type] ?? 2, SLOT_ORDER[d.slot] ?? 3, RARITY_ORDER[d.rarity] ?? 3, d.name ?? s.id]; };
   items.sort((a, b) => { const A = key(a), B = key(b); for (let i = 0; i < A.length; i++) { if (A[i] < B[i]) return -1; if (A[i] > B[i]) return 1; } return 0; });
   return [...items, ...Array(Math.max(0, inventory.length - items.length)).fill(null)];
