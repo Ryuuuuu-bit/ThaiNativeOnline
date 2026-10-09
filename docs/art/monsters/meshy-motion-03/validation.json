@@ -1,0 +1,71 @@
+{
+  "tests": {
+    "passed": 367,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "modules": 227,
+    "existingChunkSizeWarning": true
+  },
+  "anatomy": [
+    {
+      "type": "dhole",
+      "neutralError": 0.00033179462379957634,
+      "idleDrift": 0.0009699574958021375,
+      "minimum": -0.000406116030116259,
+      "segmentError": 1.4859020504409681e-05,
+      "deathFootLift": 0.00021702551783808754
+    },
+    {
+      "type": "phibpa",
+      "neutralError": 0.0002557273435617063,
+      "idleDrift": 0,
+      "minimum": 2.2604140781368185e-10,
+      "segmentError": 1.0091505155712666e-05,
+      "deathFootLift": 0
+    }
+  ],
+  "browser": {
+    "errors": [],
+    "instances": {
+      "geometryShared": true,
+      "textureShared": true,
+      "materialsIndependent": true,
+      "skeletonIndependent": true,
+      "idsDistinct": true
+    },
+    "noOverflow": true,
+    "load": [
+      {
+        "type": "dhole",
+        "loaded": true,
+        "textures": true,
+        "bones": 20
+      },
+      {
+        "type": "phibpa",
+        "loaded": true,
+        "textures": true,
+        "bones": 12
+      }
+    ]
+  },
+  "video": {
+    "videos": [
+      {
+        "type": "dhole",
+        "width": 1388,
+        "height": 580,
+        "duration": 6.307435
+      },
+      {
+        "type": "phibpa",
+        "width": 1388,
+        "height": 580,
+        "duration": 6.314554
+      }
+    ],
+    "errors": []
+  }
+}

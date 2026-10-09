@@ -1,0 +1,195 @@
+{
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": true
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.64
+      ],
+      "tail": [
+        0,
+        0,
+        1.18
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        1.28
+      ],
+      "tail": [
+        0,
+        0,
+        1.57
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        -0.25,
+        0,
+        1.17
+      ],
+      "tail": [
+        -0.36,
+        -0.015,
+        0.96
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        -0.36,
+        -0.015,
+        0.96
+      ],
+      "tail": [
+        -0.445,
+        -0.035,
+        0.75
+      ],
+      "parent": "ArmLUpper",
+      "deform": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        -0.445,
+        -0.035,
+        0.75
+      ],
+      "tail": [
+        -0.45,
+        -0.025,
+        0.59
+      ],
+      "parent": "ArmLLower",
+      "deform": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        0.25,
+        0,
+        1.17
+      ],
+      "tail": [
+        0.36,
+        -0.015,
+        0.96
+      ],
+      "parent": "Body",
+      "deform": true
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        0.36,
+        -0.015,
+        0.96
+      ],
+      "tail": [
+        0.445,
+        -0.035,
+        0.75
+      ],
+      "parent": "ArmRUpper",
+      "deform": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        0.445,
+        -0.035,
+        0.75
+      ],
+      "tail": [
+        0.45,
+        -0.025,
+        0.59
+      ],
+      "parent": "ArmRLower",
+      "deform": true
+    },
+    {
+      "name": "RootTassel0",
+      "head": [
+        -0.22,
+        0,
+        0.59
+      ],
+      "tail": [
+        -0.22,
+        0,
+        0.15
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "RootTassel1",
+      "head": [
+        0,
+        0,
+        0.59
+      ],
+      "tail": [
+        0,
+        0,
+        0.15
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "RootTassel2",
+      "head": [
+        0.22,
+        0,
+        0.59
+      ],
+      "tail": [
+        0.22,
+        0,
+        0.15
+      ],
+      "parent": "Root",
+      "deform": true
+    }
+  ],
+  "legs": [],
+  "weightGroups": 331,
+  "limbLength": {
+    "maxRelativeError": 2.9433136093085366e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [],
+  "version": "v1",
+  "editableSource": "artifacts\\meshy-rig-02\\level3\\phibpa-rig-v1.blend",
+  "snapshotId": "snapshot-d4c336a57bd20b346038aff6"
+}

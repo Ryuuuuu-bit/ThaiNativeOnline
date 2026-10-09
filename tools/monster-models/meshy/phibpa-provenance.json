@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11dfc-4835-7405-932b-e06e21763736",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/phibpa.png",
+  "referenceSha256": "453ba8601d0b400de76faf9a391a471a2470bfc421ea758fef45470adeab6011",
+  "originalSha256": "7d8543d95d655cecee8c40f7c21afedcb596d14605050458d5675d849c141086",
+  "originalBytes": 12856476,
+  "originalLocalPath": "artifacts/meshy-monsters/phibpa/original.glb"
+}

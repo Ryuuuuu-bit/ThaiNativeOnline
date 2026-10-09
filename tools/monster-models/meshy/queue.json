@@ -55,14 +55,18 @@
         "name": "หมาไน",
         "level": 3,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "dhole.glb",
+        "runtime": "/models/monsters/dhole.glb"
       },
       {
         "id": "phibpa",
         "name": "ผีป่า",
         "level": 3,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "phibpa.glb",
+        "runtime": "/models/monsters/phibpa.glb"
       }
     ]
   },

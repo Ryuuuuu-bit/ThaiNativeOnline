@@ -1,0 +1,14 @@
+{
+  "type": "phibpa",
+  "bytes": 1443812,
+  "sha256": "7737069f1cba7a15905789484c04f79999477e174aa70c89cd15766042adf7f8",
+  "triangles": 12273,
+  "bones": 12,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}
