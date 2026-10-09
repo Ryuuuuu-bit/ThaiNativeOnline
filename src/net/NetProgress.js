@@ -15,6 +15,7 @@
 //   attachNetProgress(net, character, quests?)
 import { lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, gearReference } from '../character/itemState.js';
 import { cleanMasteries } from '../character/data/masteries.js';
+import { collectCardBook } from '../character/cardCollection.js';
 export function attachNetProgress(net, c, quests = null) {
   let on = false, sent = 0, depth = 0, resyncPending = false;
   let pendingLoadout = null;
@@ -109,6 +110,8 @@ export function attachNetProgress(net, c, quests = null) {
     Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, refine: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, 0])), ...plus }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
     c.equipmentLocks = cleanEquipmentLocks(c.equipment, s.equipmentLocks);
     c.hotbar = cleanHotbar(c, s.hotbar); c.loadouts = cleanLoadouts(c, s.loadouts); c.masteries = cleanMasteries(c.classId, s.masteries);
+    // Replace predicted/local history with the server's book; never union client claims.
+    c.cardBook = collectCardBook(s.cardBook, c.inventory, c.equipment, c.cards);
     c.emit('skills');
     takeTitles({ titles, title, rec });
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);

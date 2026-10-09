@@ -14,12 +14,32 @@
 //   res_<race> / res_<element>   less damage taken from it (0.1 = −10%, all together at most 50%)
 // Races and elements: src/combat/data/monsters.js.
 import { MONSTERS } from '../../combat/data/monsters.js';
+import { CARD_ILLUSTRATIONS } from './card-illustrations.js';
+import { EXPEDITION_CARD_DEFS } from './expedition-cards.js';
 
 export const CARD_RATE = { normal: .0002, elite: .0025, boss: .005 };   // 1 in 5000 · 1 in 400 · 1 in 200
 export const RESIST_CAP = .5;
 export const STRIP = { gold: 200, ash: 1, ok: .9, itemBreaks: .07, shop: 'occult' };   // the rest (3%): the cards break
 export const RACE_LABELS = { beast: 'สัตว์', spirit: 'ผี', demon: 'อสูร' };
 export const ELEMENT_LABELS = { earth: 'ดิน', water: 'น้ำ', fire: 'ไฟ', wind: 'ลม', dark: 'มืด' };
+
+// Explicit PvE abilities, separate from the original flat socket bonuses.
+// Copies of the same boss ability never stack; a collection entry grants nothing.
+export const BOSS_CARD_EFFECTS = {
+  buffalo: { id: 'buffalo_might', name: 'แรงเจ้าทุ่ง', description: 'ความเสียหายต่อเผ่าสัตว์เพิ่มขึ้น 12%', kind: 'outgoing', bonus: .12, race: 'beast' },
+  takian: { id: 'takian_ward', name: 'อาคมพิทักษ์ตะเคียน', description: 'ความเสียหายต่อเผ่าอสูรเพิ่มขึ้น 12%', kind: 'outgoing', bonus: .12, race: 'demon' },
+  pop: { id: 'pop_drain', name: 'กินแรงคืนชีวิต', description: 'โจมตีโดนฟื้น HP 3% ของความเสียหายจริง สูงสุด 2% ของ HP สูงสุด ทุก 2 วินาที ไม่รวมสัตว์คู่ใจและพิษ', kind: 'lifesteal', ratio: .03, maxHpRatio: .02, cooldown: 2 },
+  pusom: { id: 'pusom_spirit', name: 'ปู่โสมคืนพลัง', description: 'เมื่อเป็นผู้ได้รับรางวัลไอเทมจากมอนสเตอร์ ฟื้น SP 2% ของ SP สูงสุด ทุก 5 วินาที', kind: 'killMp', ratio: .02, cooldown: 5 },
+  chalawan: { id: 'chalawan_guard', name: 'เกล็ดชาละวัน', description: 'รับความเสียหายจากมอนสเตอร์ลดลง 15% เมื่อ HP ไม่เกิน 40%', kind: 'incoming', reduction: .15, hpAtMost: .4 },
+  bamboo_grave_3: { id: 'bamboo_spirit', name: 'ข่มวิญญาณป่าช้า', description: 'ความเสียหายต่อเผ่าผีเพิ่มขึ้น 18%', kind: 'outgoing', bonus: .18, race: 'spirit' },
+  sealed_mine_3: { id: 'mine_guard', name: 'เกราะเหมืองผนึก', description: 'รับความเสียหายจากมอนสเตอร์ลดลง 10% เมื่อ HP ตั้งแต่ 80%', kind: 'incoming', reduction: .1, hpAtLeast: .8 },
+  sunken_city_3: { id: 'sunken_water', name: 'ศาสตรานครบาดาล', description: 'ความเสียหายต่อธาตุน้ำเพิ่มขึ้น 18%', kind: 'outgoing', bonus: .18, element: 'water' },
+  dusk_fort_3: { id: 'dusk_resolve', name: 'ฮึดสู้ยามสนธยา', description: 'ความเสียหายเพิ่มขึ้น 15% เมื่อ HP ไม่เกิน 50%', kind: 'outgoing', bonus: .15, hpAtMost: .5 },
+  giant_valley_3: { id: 'giant_slayer', name: 'ปราบเจ้าแห่งหุบผา', description: 'ความเสียหายต่อบอสเพิ่มขึ้น 18%', kind: 'outgoing', bonus: .18, boss: true },
+  himmapan_3: { id: 'himmapan_wind', name: 'ศาสตราหิมพานต์', description: 'ความเสียหายต่อธาตุลมเพิ่มขึ้น 18%', kind: 'outgoing', bonus: .18, element: 'wind' },
+  fallen_city_3: { id: 'fallen_dark', name: 'แสงนครล่ม', description: 'ความเสียหายต่อธาตุมืดเพิ่มขึ้น 18%', kind: 'outgoing', bonus: .18, element: 'dark' },
+  demon_rift_3: { id: 'rift_pact', name: 'พันธสัญญารอยแยก', description: 'ความเสียหายเพิ่มขึ้น 25% แต่รับความเสียหายจากมอนสเตอร์เพิ่มขึ้น 10%', kind: 'outgoing', bonus: .25, incomingPenalty: .1 },
+};
 
 // monster id → { slot, bonus }
 const CARD_DEFS = {
@@ -62,6 +82,7 @@ const CARD_DEFS = {
   chalawan: { slot: 'armor', bonus: { vit: 6, hp: 200, res_beast: .15 } },
 };
 
+Object.assign(CARD_DEFS, EXPEDITION_CARD_DEFS);
 for(const [id,m] of Object.entries(MONSTERS))if(!CARD_DEFS[id])CARD_DEFS[id]={slot:m.boss?'charm':'weapon',bonus:m.boss?{hp:Math.round(m.level*3),res_dark:.1}:{atk:Math.round(m.level*.2),matk:Math.round(m.level*.2)}};
 
 export const cardId = monsterType => `card_${monsterType}`;
@@ -71,7 +92,8 @@ export const hasCard = monsterType => !!CARD_DEFS[monsterType];
 // The cards as items (merged into ITEMS by src/character/data/items.js).
 export const CARD_ITEMS = Object.fromEntries(Object.entries(CARD_DEFS).map(([type, c]) => {
   const m = MONSTERS[type], big = m.elite || m.boss;
-  return [cardId(type), { name: `การ์ด${m.name}`, icon: '❖', img: `ui/items/icon_card_${Object.hasOwn(CARD_DEFS,type)&&type.includes("_")?"winyan":type}.png`, weight: 1, type: 'card', slot: c.slot, bonus: c.bonus, rarity: big ? 'epic' : 'rare', price: big ? 400 : 120, monster: type }];
+  const art = CARD_ILLUSTRATIONS[type];
+  return [cardId(type), { name: `การ์ด${m.name}`, icon: '❖', img: art?.icon ?? `ui/items/icon_card_${type.includes('_') ? 'winyan' : type}.png`, ...(art ? { illustration: art.image } : {}), weight: 1, type: 'card', slot: c.slot, bonus: c.bonus, rarity: big ? 'epic' : 'rare', price: big ? 400 : 120, monster: type, ...(BOSS_CARD_EFFECTS[type] ? { special: BOSS_CARD_EFFECTS[type] } : {}) }];
 }));
 
 // The cards an item may really hold: cards of its kind, no more than its slots.

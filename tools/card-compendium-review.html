@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thai Native — สมุดการ์ดและคู่มือ</title>
+  <style>
+    :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 30% 30%,#547358,#18372c 45%,#081912);color:#eddfbd;font-family:'Noto Sans Thai',sans-serif;min-height:100dvh}main{padding:28px;max-width:920px;margin:auto}h1{font-family:'Noto Serif Thai',serif}button{font:inherit;padding:12px 20px;background:#18392d;color:#f3e2b6;border:1px solid #bca16a;border-radius:10px;cursor:pointer}p{line-height:1.7;color:#bed0b7}.review-note{font-size:12px;max-width:660px}nav{display:flex;gap:10px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <main id="app">
+    <small>THAI NATIVE ONLINE · บันทึกผู้เดินทาง</small>
+    <h1>สมุดการ์ดและคู่มือ</h1>
+    <p class="review-note">หน้าทดสอบ UI จริงด้วยตัวละครตัวอย่าง · ข้อมูลการ์ด แหล่งล่า และความสามารถอ่านจากเกม · ของตัวอย่างใช้เฉพาะหน้านี้</p>
+    <nav><button id="review-cards">เปิดสมุดการ์ด</button><button id="review-guide">เปิดคู่มือ</button></nav>
+    <p id="review-route" role="status"></p>
+  </main>
+  <script type="module">
+    import { Character } from '/src/character/Character.js';
+    import { CardCompendiumPanel } from '/src/ui/CardCompendiumPanel.js';
+    import { cardId } from '/src/character/data/cards.js';
+    import '/src/ui/theme.css';
+    const character = Character.create('ผู้บันทึก', 'warrior');
+    for (const type of ['boar','cobra','winyan','pop','chalawan','pusom','bamboo_grave_3','sealed_mine_3']) character.addItem(cardId(type));
+    const index = character.inventory.findIndex(item => item?.id === cardId('pop'));
+    character.insertCard(index, 'worn');
+    const panel = new CardCompendiumPanel({ character: () => character, prepare: () => {},
+      locate: (monster, location) => { document.getElementById('review-route').textContent = `${monster.name} · ${location.name} · หน้าทดสอบไม่มีตัวละครเดินทาง`; },
+      openGuideAction: action => { document.getElementById('review-route').textContent = `ทางลัด ${action} · ใช้จากเมนูในเกมจริงได้`; }
+    });
+    document.getElementById('review-cards').onclick = () => panel.show('cards');
+    document.getElementById('review-guide').onclick = () => panel.show('guide');
+    window.cardReview = { character, panel, ready: true };
+    panel.show(new URLSearchParams(location.search).get('tab') === 'guide' ? 'guide' : 'cards');
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "id": "monitor",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game เหี้ย monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: deep Thai tropical forest, softly painted foliage and tree roots. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "monitor.png",
+  "sourceSha256": "37f9d6682054551331cf5a8baa8371350e69850cceeeef6062e4a0a29bfd584b",
+  "reference": "artifacts/card-model-references/monitor.png",
+  "referenceSha256": "8402e120bac5b7c7a3735e52e778443b5cddf07b380fe92ecb449bf7059d03c0",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/monitor.glb",
+      "sha256": "ffc781c94efd27e5e0a562e6f7aaaa655fc38f0303486aa683428d662c2757e5"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/monitor.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 79116,
+    "sha256": "3bd6242de46c2d70c97a05d44fd3f29ff0ed05fddea585e77b1debb9b61c7adc"
+  },
+  "icon": {
+    "path": "public/ui/card-art/monitor-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5968,
+    "sha256": "2af0d6587cd763af9b343dbd39c8c61b8d1ffbc0bd8d3bcfce9866e2954221d0"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: watercolor/gouache, ink and soft forms",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Brown/black spotted monitor lizard with cream underside, four clawed limbs and one long tail.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true,
+    "limitations": [
+      "Wide body occupies less of the portrait height; silhouette remains recognizable in the normalized icon."
+    ]
+  }
+}

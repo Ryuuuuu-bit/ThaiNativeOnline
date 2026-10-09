@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "krahang",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผีกระหัง monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: weathered Thai temple courtyard, mossy brick and quiet spirit lamps. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "krahang.png",
+  "sourceSha256": "119bf321ba46d976abbafb6f9a06bcf7127a7dfa001dc9a2f1ec34ee49364602",
+  "reference": "artifacts/card-model-references/krahang.png",
+  "referenceSha256": "fecfff4f561d1b774c988d990239a1f0e2c1e41288256978ed7f3d39769f8e1e",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/krahang.glb",
+      "sha256": "488d30a8d7241c241f567d12ecead1faa69e3ea31ac10b78a908fd0b5b85d7f7"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/krahang.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 70458,
+    "sha256": "781a63de4985965d9eef3b703c4f23c8a84774c73382ffbdd48662a4916001fe"
+  },
+  "icon": {
+    "path": "public/ui/card-art/krahang-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5518,
+    "sha256": "d2300bb78ee9aebb7c37977b5605c023a63c42849474b9acc616d804dc291c7d"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: watercolor/gouache, ink and soft forms",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Bare-chested Thai man, straw headband, cream diagonal wrap, dark teal dhoti and red sash; two arms holding exactly two woven round trays, two bare feet.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}

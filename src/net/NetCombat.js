@@ -2,6 +2,7 @@ import { Monster } from '../combat/Combat.js';
 import { RULES } from '../combat/data/rules.js';
 import { phaseOf } from '../core/WorldClock.js';
 import { applyCombatState } from './combatState.js';
+import { applyBossCardHit, applyBossCardKill } from '../combat/bossCardEffects.js';
 
 // Shared monsters (phases 3a–3b of docs/technical/SERVER_SPLIT.md). Once the server sends
 // a map's monsters, the browser's Combat (src/combat/Combat.js) stops running its own:
@@ -20,8 +21,10 @@ const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
 export function attachNetCombat(net, game) {
   const combat = game.game.combat, c = game.game.character;
   const byId = new Map();
-  let serverPhase = null;
+  const cardLives = new Map();
+  let serverPhase = null, me = null, hitSeqSeen = 0, killSeqSeen = 0;
   const takeState = (state, options) => {
+    if (state?.owned) combat.serverOwned = true;
     if (state?.owned && Number.isFinite(state.hp)) {
       if (state.hp <= 0 && c.alive) combat.knockOut();
       else if (state.hp > 0 && !c.alive) combat.reviveHere(state.hp / c.maxHp);
@@ -45,13 +48,16 @@ export function attachNetCombat(net, game) {
   net.on('me', msg => { if (msg.state) takeState(msg.state); });
 
   // ---- server → local monsters ---------------------------------------------------------
-  const make = info => {
+  const make = (info, spawned = false) => {
     let m = byId.get(info.id);
     if (m && m.type !== info.type) { byId.delete(info.id); combat.monsters.splice(combat.monsters.indexOf(m), 1); m = null; }
     if (!m) {
       m = new Monster(info.type, { x: info.x, z: info.z, radius: 0, type: info.type }, info.x, info.z);
       m.id = ID(info.id); m.sid = info.id; byId.set(info.id, m); combat.monsters.push(m);
+      cardLives.delete(info.id);
     }
+    const life = cardLives.get(info.id);
+    if (!life || spawned || (info.hp > 0 && (m.hp <= 0 || life.killed))) cardLives.set(info.id, { killed: false, claimed: false });
     Object.assign(m, { x: info.x, z: info.z, tx: info.x, tz: info.z, facing: info.f ?? 0, hp: info.hp, maxHp: info.maxHp ?? m.maxHp, state: STATES[info.st] ?? 'idle', debuffs: [], skillCast: info.skillCast ?? null });
     return m;
   };
@@ -73,7 +79,7 @@ export function attachNetCombat(net, game) {
       if (info.skillCast) { monster.skillCast = info.skillCast; combat.emit('boss-skill', { monster, stage: 'windup', cast: info.skillCast }); }
     }
   });
-  net.on('mspawn', msg => combat.emit('spawn', make(msg.m)));
+  net.on('mspawn', msg => combat.emit('spawn', make(msg.m, true)));
   net.on('mt', msg => {
     for (const [sid, x, z, f, hp, st, mv] of msg.m) {
       const m = byId.get(sid); if (!m) continue;
@@ -81,10 +87,24 @@ export function attachNetCombat(net, game) {
     }
   });
   net.on('mh', msg => {
+    const ownReceipt = net.online && me != null && msg.by === me && Number.isSafeInteger(msg.hitSeq) && msg.hitSeq > 0;
+    if (ownReceipt && msg.hitSeq <= hitSeqSeen) return;
+    // Consume before every eligibility check, including missing monsters,
+    // miss/pet/DoT, cooldown, full/dead wearers, absent cards and invalid removal.
+    if (ownReceipt) hitSeqSeen = msg.hitSeq;
     const m = byId.get(msg.id); if (!m) return;
     if (msg.miss) { combat.emit('miss', { x: m.x, z: m.z, monster: m }); return; }
+    const hp = m.hp, life = cardLives.get(msg.id);
     m.hp = Math.max(0, m.hp - msg.amount);
+    if (life && hp > 0 && m.hp <= 0) life.killed = true;
     if (m.hp <= 0) m.debuffs = [];   // its effects die with it
+    if (!combat.serverOwned && ownReceipt) {
+      // The display snapshot can precede this event. Only the server's exact
+      // HP removal is eligible; a rolled overkill or stale local delta is not.
+      const removed = Number.isFinite(msg.removed) && msg.removed > 0 && msg.removed <= m.maxHp ? msg.removed : 0;
+      const healed = applyBossCardHit(c, combat.bossCardProcs, Date.now() / 1000, removed, { pet: !!msg.pet, dot: !!msg.dot });
+      if (healed) { const p = combat.world.playerPos(); combat.emit('heal', { amount: healed, x: p.x, z: p.z }); }
+    }
     combat.emit('hit', { monster: m, amount: msg.amount, crit: msg.crit, dot: msg.dot, pet: msg.pet, x: m.x, z: m.z });
   });
   net.on('nope', msg => { const why = { cooldown: 'สกิลยังไม่พร้อม', mp: 'MP ไม่พอ', not_learnt: 'ยังไม่ได้เรียนสกิลนี้', casting: 'ร่ายไม่ทัน' }[msg.why]; if (why) combat.emit('fail', why); });
@@ -98,18 +118,43 @@ export function attachNetCombat(net, game) {
   // the link dropped: the server's monsters go (they are its), nothing can be fought until it is back
   net.on('status', on => {
     if (on) return;
+    me = null; hitSeqSeen = killSeqSeen = 0; cardLives.clear();
     combat.serverOwned = false;
     combat.emit('boss-skills-clear');
     for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); }
     combat.pending = null; combat.autoAttack = false;
     combat.emit('fail', 'ขาดการเชื่อมต่อ · กำลังเชื่อมต่อใหม่');
   });
-  // the server restarted (ids start over): forget the old monsters before the new list
-  net.on('welcome', () => { for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); } byId.clear(); combat.monsters.length = 0; });
-  net.on('mgone', msg => { const m = byId.get(msg.id); if (!m || !m.alive && m.state === 'dead') return; combat.emit('despawn', m); gone(m); });
+  // Map/channel welcomes refresh monsters within the same character session.
+  // Only a new identity (or the disconnect handler) resets HP/SP receipts.
+  net.on('welcome', msg => {
+    if (msg.you !== me) hitSeqSeen = killSeqSeen = 0;
+    me = msg.you; cardLives.clear();
+    for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); }
+    byId.clear(); combat.monsters.length = 0;
+  });
+  net.on('mgone', msg => {
+    const m = byId.get(msg.id); if (!m) return;
+    const life = cardLives.get(msg.id);
+    if (msg.killed && life) life.killed = true;
+    if (!m.alive && m.state === 'dead') return;
+    combat.emit('despawn', m); gone(m);
+  });
   // this player's share of a kill: the usual kill event (log, quests) and the rewards
   net.on('kill', msg => {
+    const ownReceipt = net.online && me != null && msg.to === me && Number.isSafeInteger(msg.killSeq) && msg.killSeq > 0;
+    if (ownReceipt && msg.killSeq <= killSeqSeen) return;
+    // Consume genuine owner receipts before life/card/vital/cooldown checks.
+    // Same-session welcomes and replayed death messages cannot reuse them.
+    if (ownReceipt) killSeqSeen = msg.killSeq;
     const m = byId.get(msg.id) ?? { name: '', x: c.x ?? 0, z: c.z ?? 0, def: {} };
+    const life = cardLives.get(msg.id);
+    if (!combat.serverOwned && ownReceipt && life?.killed && !life.claimed && m.hp <= 0) {
+      // Consume this life even if the wearer is dead/full or has unequipped.
+      // An EXP-only helper share does not carry the loot owner's ability.
+      life.claimed = true;
+      if (msg.gold > 0 || msg.drops?.length > 0) applyBossCardKill(c, combat.bossCardProcs, Date.now() / 1000);
+    }
     const lost = msg.lost ?? [];   // drops the server could not fit in the bag
     const kept = msg.drops.filter(d => !lost.includes(d) && !lost.some(l => l.id === d.id && l.qty === d.qty));
     combat.emit('kill', { monster: m, exp: msg.exp, gold: msg.gold, drops: kept });
@@ -140,7 +185,8 @@ export function attachNetCombat(net, game) {
     if (!combat.remote || !m?.sid) return damage(m, amount, o);
     if (!m.alive || !net.online) return false;
     combat.combatTimer = RULES.combatTimeout;
-    net.send({ t: 'blow', id: m.sid, skill: o.skill ?? 'basic', ...(o.pounce ? { pounce: 1 } : {}) });
+    const hpFraction = c.maxHp > 0 && Number.isFinite(c.hp) ? Math.max(0, Math.min(1, c.hp / c.maxHp)) : 0;
+    net.send({ t: 'blow', id: m.sid, skill: o.skill ?? 'basic', ...(o.pounce ? { pounce: 1 } : {}), ...(!combat.serverOwned ? { hpFraction } : {}) });
     return true;   // side effects (stun, slow, damage over time) are the server's too
   };
   combat.on('sit', on => net.send({ t: 'sit', v: !!on }));   // the server doubles the regen too (server/combatants.js sit)

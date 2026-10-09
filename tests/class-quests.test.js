@@ -217,10 +217,9 @@ test('actual server skill blows: once per cast, two different skills, live targe
 });
 
 test('offline guest combo witnesses actual production damage once per cast; remote/dummy/miss effects do not count', () => {
-  const c = hero(), combat = new Emitter();
+  const c = hero(), combat = new Combat(c, { playerPos: () => ({ x: 0, z: 0 }), canStand: () => true });
   const a = {hp:1000,get alive(){return this.hp>0;},def:MONSTERS.boar,x:1,z:0}, b = {hp:1000,get alive(){return this.hp>0;},def:MONSTERS.boar,x:2,z:0};
   Object.assign(combat,{character:c,remote:false,monsters:[a,b],combatTimer:6,aggro:()=>{},kill:()=>{}});
-  combat.damageMonster = Combat.prototype.damageMonster;
   const q = new QuestSystem(CLASS_QUESTS,{storage:null}); q.attach(c,combat);
   const def = quest('warrior','advanced'); doneIntro(q,'warrior'); q.accept(def.id);
   combat.emit('kit-fx',{id:'sword_twin'}); combat.damageMonster(a,10,{skill:'sword_twin'});

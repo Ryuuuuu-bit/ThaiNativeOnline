@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "id": "boar",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nReference image role: identity reference captured from the ACTUAL in-game 3D monster model. Draw the same recognizable creature as a polished 2D anime watercolor card illustration. Keep its exact species/body form, face, hairstyle, clothing colors, existing armor, proportions, number of limbs and any tail, horns or tusks from the model. Do not redesign the monster, add a weapon, add a crown, or substitute a different mythological being. Pose may become a natural relaxed ready stance while preserving anatomy. Habitat: softly painted Thai rice-field edge, a few grass blades, warm morning green-gold light. The source's chunky round boar with brown mane and two pale tusks is the subject.",
+  "sourceFile": "exec-00b2f019-358c-42de-95ea-9ae726ea4d9d.png",
+  "sourceSha256": "c76d33d75552bb5b269afa613a3404758593e1ac426ac56492eede2066c880fb",
+  "reference": "artifacts/card-model-references/boar.png",
+  "referenceSha256": "407d8d8f10b768f241c8134a21c882df1da9740813da39db553703981e226d5b",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/boar.glb",
+      "sha256": "cf77c100bbbcf5f23b14b611f8b165ce77bb2915a88928c1991918381126166d"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/boar.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 62558,
+    "sha256": "0ade0967f481590f2f9d098ed03fc9e9a5e895d79fad33bde72451a7bdff7f04"
+  },
+  "icon": {
+    "path": "public/ui/card-art/boar-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5304,
+    "sha256": "7a55f683ed22874e1d020c18f75fd865a474bc6ac2696d58cf3b7f3099d7b927"
+  },
+  "review": {
+    "identity": "checked against captured production model",
+    "style": "2D anime watercolor"
+  }
+}
