@@ -1,0 +1,14 @@
+{
+  "type": "buffalo",
+  "bytes": 1027060,
+  "sha256": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+  "triangles": 12487,
+  "bones": 20,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

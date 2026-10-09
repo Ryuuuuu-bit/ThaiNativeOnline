@@ -1,0 +1,39 @@
+{
+  "creature": "buffalo",
+  "bytes": 975076,
+  "triangles": 12487,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5829449511031023,
+      0,
+      -0.9765810171215288
+    ],
+    "max": [
+      0.5829449511031024,
+      1.2673441171646118,
+      0.9765810171215287
+    ]
+  },
+  "sha256": "81f70fc9daa821606e1fe85e569e53bdc38c551ae821dd6214b4574d52965a3b",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

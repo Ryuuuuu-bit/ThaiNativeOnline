@@ -8,7 +8,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 const type=process.argv[2];
-if(!['boar','fowl','crab','cobra','monkey','dhole','phibpa'].includes(type))throw Error('Unknown creature');
+if(!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo'].includes(type))throw Error('Unknown creature');
 const require=createRequire(import.meta.url), io=new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 const rigVersion=process.argv[3]??'v5';

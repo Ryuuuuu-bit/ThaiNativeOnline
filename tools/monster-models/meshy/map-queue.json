@@ -9,7 +9,7 @@
         3
       ],
       "primaryBoss": "buffalo",
-      "stage": "environment pass 1; boss model pending",
+      "stage": "environment pass 1; monster set complete",
       "creatures": [
         {
           "id": "boar",
@@ -86,7 +86,7 @@
           "name": "ควายป่า",
           "level": 4,
           "primaryBoss": true,
-          "status": "planned",
+          "status": "animated model integrated; ready for review",
           "areas": [
             "buffalo_meadow"
           ]

@@ -1,0 +1,404 @@
+{
+  "tests": {
+    "passed": 373,
+    "failed": 0
+  },
+  "build": {
+    "passed": true,
+    "modules": 229,
+    "existingChunkSizeWarning": true
+  },
+  "mesh": {
+    "type": "buffalo",
+    "bytes": 1027060,
+    "sha256": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+    "triangles": 12487,
+    "bones": 20,
+    "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hurt",
+      "die"
+    ]
+  },
+  "anatomy": {
+    "type": "buffalo",
+    "neutralError": 0.0003402538338626322,
+    "idleDrift": 0.0012828879546790187,
+    "minimum": -0.000260289743321255,
+    "segmentError": 2.4544497757572614e-05,
+    "deathFootLift": 0.0002578247990246696
+  },
+  "blender": {
+    "limbLength": {
+      "maxRelativeError": 1.2246467300541707e-06,
+      "limit": 0.005,
+      "passed": true
+    },
+    "idleFeet": [
+      {
+        "object": "BuffaloV1Rig",
+        "bone": "ForeLFoot",
+        "maxDrift": 1.959941750461743e-07,
+        "limit": 0.001,
+        "passed": true
+      },
+      {
+        "object": "BuffaloV1Rig",
+        "bone": "ForeRFoot",
+        "maxDrift": 2.1542358837725164e-07,
+        "limit": 0.001,
+        "passed": true
+      },
+      {
+        "object": "BuffaloV1Rig",
+        "bone": "HindLFoot",
+        "maxDrift": 2.421152116249788e-07,
+        "limit": 0.001,
+        "passed": true
+      },
+      {
+        "object": "BuffaloV1Rig",
+        "bone": "HindRFoot",
+        "maxDrift": 1.959941750461743e-07,
+        "limit": 0.001,
+        "passed": true
+      }
+    ],
+    "exports": [
+      {
+        "protocolVersion": "codex-blender/v1",
+        "producer": {
+          "name": "codex-blender",
+          "version": "0.3.0"
+        },
+        "sessionId": "active",
+        "sceneRevision": 20717,
+        "snapshotId": "snapshot-b43006e827d0462b8cce77ef",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\paddy-buffalo\\buffalo-rig-v1.blend",
+        "sha256": "4b9f77ea5e5dd0ae29706e184c7d042922a2fc624968f72025a7d4d67cffb799",
+        "format": "blend",
+        "bytes": 21403551,
+        "parameters": {},
+        "validation": {
+          "status": "passed",
+          "checks": [
+            "exists",
+            "non_empty",
+            "sha256"
+          ]
+        },
+        "restoration": {
+          "status": "confirmed"
+        },
+        "warnings": []
+      },
+      {
+        "protocolVersion": "codex-blender/v1",
+        "producer": {
+          "name": "codex-blender",
+          "version": "0.3.0"
+        },
+        "sessionId": "active",
+        "sceneRevision": 20717,
+        "snapshotId": "snapshot-b43006e827d0462b8cce77ef",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\paddy-buffalo\\buffalo-rig-v1.glb",
+        "sha256": "ec2088e201d12eb2fe701517bcaadead5a2679f9899c22eb049dab8659655f58",
+        "format": "glb",
+        "bytes": 1955416,
+        "parameters": {
+          "use_visible": true,
+          "use_renderable": true,
+          "export_apply": false,
+          "export_animations": true
+        },
+        "validation": {
+          "status": "passed",
+          "checks": [
+            "exists",
+            "non_empty",
+            "sha256"
+          ]
+        },
+        "restoration": {
+          "status": "confirmed"
+        },
+        "warnings": []
+      }
+    ],
+    "previews": [
+      {
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "buffalo-final-v1",
+        "sceneRevision": 20717,
+        "snapshotId": "snapshot-b43006e827d0462b8cce77ef",
+        "views": [
+          {
+            "name": "camera",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-b43006e827d0462b8cce77ef\\camera.png",
+            "sha256": "19c6788de621403d78b3432ba3b2fa93c576305f19d9f604edac0bdd7510b808",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "front",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-b43006e827d0462b8cce77ef\\front.png",
+            "sha256": "a10d88deb68f49b2eb84f697a42c5cdef8a9341634686f19d21fe02c8cfe5c5f",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "side",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-b43006e827d0462b8cce77ef\\side.png",
+            "sha256": "dbd016ee045a70692be4167457895417710b54ba4db18497c3d14a3c94d03b8d",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "top",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-b43006e827d0462b8cce77ef\\top.png",
+            "sha256": "f76bf4b7f3ba1bec296a61a7e42c9385774882fbb039030cc75824543b3af579",
+            "dimensions": [
+              1024,
+              768
+            ]
+          }
+        ],
+        "sceneSummary": {
+          "objects": 85,
+          "materials": 17,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "frame": 51,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "buffalo-walk-51",
+        "sceneRevision": 20717,
+        "snapshotId": "snapshot-d7b094fb526dedb1df6ada12",
+        "views": [
+          {
+            "name": "camera",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-d7b094fb526dedb1df6ada12\\camera.png",
+            "sha256": "9cdd3ef5c65cce02c0ac6ed2af39a409f16e754e6fa90be9d24391aaeb122747",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "front",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-d7b094fb526dedb1df6ada12\\front.png",
+            "sha256": "fec857ba27250376209f231c031334929d279e6dd81a4e673c3db877f09dd208",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "side",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-d7b094fb526dedb1df6ada12\\side.png",
+            "sha256": "c082c577c32f983c2681877f5ae0fa5c6f8bb2b75341aa90891e469eecc9313b",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "top",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-d7b094fb526dedb1df6ada12\\top.png",
+            "sha256": "6d363bf76369911862373249968d67d3dbec27c850d751b52d74d3d9776d7443",
+            "dimensions": [
+              1024,
+              768
+            ]
+          }
+        ],
+        "sceneSummary": {
+          "objects": 85,
+          "materials": 17,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "frame": 63,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "buffalo-walk-63",
+        "sceneRevision": 20717,
+        "snapshotId": "snapshot-caf0a798388378e532da1ada",
+        "views": [
+          {
+            "name": "camera",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-caf0a798388378e532da1ada\\camera.png",
+            "sha256": "38c7e8b301758d2c28b79cf3a5ac6d18878625c67597d3093c61433027d71ca5",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "front",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-caf0a798388378e532da1ada\\front.png",
+            "sha256": "4c714190d135f31a466d1fc30e187857663f79e73408d82a3727a86659cabe9d",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "side",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-caf0a798388378e532da1ada\\side.png",
+            "sha256": "1cfefbc5c27ec8fb712ed3942de58162aae3fea72e73da11f43d110d00809668",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "top",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-caf0a798388378e532da1ada\\top.png",
+            "sha256": "731b8a50e72ff74f68a88f59982c3cfccecbc129d984e52330a434eea9f13e72",
+            "dimensions": [
+              1024,
+              768
+            ]
+          }
+        ],
+        "sceneSummary": {
+          "objects": 85,
+          "materials": 17,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      },
+      {
+        "frame": 75,
+        "protocolVersion": "codex-blender/v1",
+        "milestone": "buffalo-walk-75",
+        "sceneRevision": 20717,
+        "snapshotId": "snapshot-faf8872a2cfd29dd6074f8c6",
+        "views": [
+          {
+            "name": "camera",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-faf8872a2cfd29dd6074f8c6\\camera.png",
+            "sha256": "6f21ec5fb5bb725f1d0f83caf9d2cfe167564dc65dc717985d83d3afac06984f",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "front",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-faf8872a2cfd29dd6074f8c6\\front.png",
+            "sha256": "d80ed6f76dcba99b4bcd10c94f3ef488d0c6d9822a8cd90fcbc5e23543d143ee",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "side",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-faf8872a2cfd29dd6074f8c6\\side.png",
+            "sha256": "aa51efe7bee59763e81748a96e31e3c1906f8fdc0200f7b90ee4b3e72b4300b7",
+            "dimensions": [
+              1024,
+              768
+            ]
+          },
+          {
+            "name": "top",
+            "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\milestones\\snapshot-faf8872a2cfd29dd6074f8c6\\top.png",
+            "sha256": "c46318eaaadc49380454980fba4408670033226bd05f00f64ae4869a93e407b8",
+            "dimensions": [
+              1024,
+              768
+            ]
+          }
+        ],
+        "sceneSummary": {
+          "objects": 85,
+          "materials": 17,
+          "lights": 1,
+          "cameras": 1
+        },
+        "warnings": []
+      }
+    ],
+    "reopen": {
+      "filepath": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-02\\paddy-buffalo\\reopen\\buffalo-v1.blend",
+      "missingAssets": [],
+      "rigPresent": true,
+      "packedSourceHashMatches": true,
+      "frameRange": {
+        "start": 1,
+        "end": 155
+      },
+      "status": "succeeded"
+    }
+  },
+  "browser": {
+    "errors": [],
+    "instances": {
+      "geometryShared": true,
+      "textureShared": true,
+      "materialsIndependent": true,
+      "skeletonIndependent": true,
+      "idsDistinct": true
+    },
+    "noOverflow": true,
+    "load": [
+      {
+        "type": "buffalo",
+        "loaded": true,
+        "textures": true,
+        "bones": 20
+      }
+    ]
+  },
+  "video": {
+    "videos": [
+      {
+        "type": "buffalo",
+        "width": 1388,
+        "height": 580,
+        "duration": 6.323784
+      }
+    ],
+    "errors": []
+  },
+  "game": {
+    "result": {
+      "lowestContact": -0.0016317811556038064,
+      "map": "paddy",
+      "remote": true,
+      "bosses": 1,
+      "bossAt": {
+        "x": 82.14,
+        "z": -249.46
+      },
+      "loaded": true,
+      "bones": 20,
+      "texture": 1024,
+      "draw": {
+        "frame": 113,
+        "calls": 221,
+        "triangles": 579675,
+        "points": 7871,
+        "lines": 0
+      }
+    },
+    "errors": []
+  }
+}

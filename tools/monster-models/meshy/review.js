@@ -4,9 +4,10 @@ import { MONSTER_MODELS } from '/src/combat/MonsterModels.js';
 import { MONSTERS } from '/src/combat/data/monsters.js';
 
 const params=new URLSearchParams(location.search),set=params.get('set')||'1';
-const types = {'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa']}[set]||['boar','fowl','crab'];
+const types = {'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa'],'4':['buffalo']}[set]||['boar','fowl','crab'];
 document.querySelector('.creatures').innerHTML='<button data-type="all" class="active">ดูทั้งชุด</button>'+types.map(id=>`<button data-type="${id}">${MONSTERS[id].name} · Lv.${MONSTERS[id].level}</button>`).join('');
 if(set==='2'||set==='3'){document.querySelector('header p').textContent=set==='2'?'ชุด Lv.2 · งูเห่านา และลิงกัง':'ชุด Lv.3 · หมาไน และผีป่า';document.querySelector('header .badge').href=`./motion.html?set=${set}`;document.querySelector('header small').textContent=`THAI NATIVE ONLINE · CREATURE STUDY 0${set}`;}
+if(set==='4'){document.querySelector('header p').textContent='บอสทุ่งนา · ควายป่า Lv.4';document.querySelector('header .badge').href='./motion.html?set=4';document.querySelector('header small').textContent='THAI NATIVE ONLINE · PADDY BOSS';}
 const canvas = document.querySelector('canvas'), host = canvas.parentElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -45,10 +46,10 @@ function resize() {
   renderer.setSize(host.clientWidth, host.clientHeight, false);
   const aspect = host.clientWidth / host.clientHeight;
   const width = type === 'all' ? 3.4*types.length+.2 : comparison ? 5.6 : 3.2;
-  const half = Math.max(width / 2 / aspect, type === 'all' ? 1.7 : set==='3'?1.35:1.15);
+  const half = Math.max(width / 2 / aspect, type === 'all' ? 1.7 : set==='3'||set==='4'?1.4:1.15, view==='top'&&set==='4'?1.8:0);
   Object.assign(camera, { left: -half * aspect, right: half * aspect, top: half, bottom: -half });
   const offset = new THREE.Vector3(...directions[view]);
-  const target = new THREE.Vector3(0, set==='3'?.85:.5, 0);
+  const target = new THREE.Vector3(0, set==='3'||set==='4'?.85:.5, 0);
   if (comparison && type === 'all') target.add(new THREE.Vector3(-offset.x, 0, -offset.z).normalize().multiplyScalar(1.1));
   if (view === 'top') camera.up.set(0, 0, -1); else camera.up.set(0, 1, 0);
   camera.position.copy(target).add(new THREE.Vector3(...directions[view])); camera.lookAt(target); camera.updateProjectionMatrix();

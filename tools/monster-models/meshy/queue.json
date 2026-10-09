@@ -81,7 +81,9 @@
         "name": "ควายป่า",
         "level": 4,
         "role": "elite",
-        "status": "planned"
+        "status": "animated model integrated; ready for review",
+        "candidate": "buffalo.glb",
+        "runtime": "/models/monsters/buffalo.glb"
       },
       {
         "id": "kongkoi",
