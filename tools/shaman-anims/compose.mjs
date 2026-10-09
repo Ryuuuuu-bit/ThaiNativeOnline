@@ -349,8 +349,9 @@ const { prune, dedup } = await import('@gltf-transform/functions');
 await R.doc.transform(prune(), dedup());
 console.log(R.root.listAnimations().map(a => a.getName()).join(', '));
 await R.io.write(process.argv[3] ?? 'public/models/shaman.glb', R.doc);
-// Remove the fused right-hand bell from generated geometry as well, so subsequent
+// Remove the fused bells on both hands from generated geometry as well, so subsequent
 // texture shrinking/packing cannot restore it. The source remains untouched.
 const { spawnSync } = await import('node:child_process');
 const cleanup = spawnSync(process.execPath, [new URL('./remove-bell.mjs', import.meta.url).pathname.replace(/^\/(\w:)/, '$1'), process.argv[3] ?? 'public/models/shaman.glb'], { stdio: 'inherit' });
-if (cleanup.status !== 0) throw new Error('Right-hand bell cleanup failed');
+if (cleanup.status !== 0) throw new Error('Hand bell cleanup failed');
+
