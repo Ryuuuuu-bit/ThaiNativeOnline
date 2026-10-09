@@ -77,3 +77,26 @@ FX originate at the midpoint of the real hand bones, not a weapon socket.
 
 The character mesh and 512px texture remain the supplied model; this revision changes
 weapon presence and animation, not facial topology or costume texture quality.
+
+### Remove held right-hand bell — 2026-10-10
+
+The composer automatically removes the bell before texture shrinking/packing.
+For an existing packed model, run `node tools/shaman-anims/remove-bell.mjs` after shrinking textures
+and packing the runtime asset. Optional arguments are input and output GLB paths.
+The supplied `wizzard-tripo.glb` remains untouched.
+
+The bell is fused into the skinned character mesh. The cleanup selects only the
+right-hand hanging bell below its contact with the fingers in the source rest pose:
+all triangle vertices have x between -0.31 and -0.26, y between 0.65 and 0.75,
+and at least one vertex has y below 0.744. This removes 110 triangles, reducing
+10,003 to 9,893. The fingers, wrist wrap, costume and other charms remain.
+
+The script decodes positions/indices for selection but leaves existing GLB binary
+bytes intact. It appends one replacement uncompressed index view, preserving the
+15 animation clips, skin, textures and quantized vertex attributes. Runtime size:
+1,472,856 bytes (58,500 bytes larger; preserving exact clips avoids a full repack).
+Review images: `docs/art/classes/shaman/review/remove-bell-before.png`,
+`remove-bell-after.png` and `remove-bell-hand.png`. No generation prompts, Tripo
+jobs or credits were used. Reapplying to a cleaned asset fails with a clear error
+rather than silently selecting a different region.
+
