@@ -32,6 +32,7 @@ import { WarpPanel } from '../ui/WarpPanel.js';
 import { StoragePanel } from '../ui/StoragePanel.js';
 import { BestiaryPanel } from '../ui/BestiaryPanel.js';
 import { nextPortal } from '../ui/mapDirectory.js';
+import { WORLD_BOSS_NEWS } from '../combat/data/worldBoss.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
 import { ZOOM_MIN, ZOOM_MAX, createViewPrefs } from '../ui/viewPrefs.js';
@@ -79,6 +80,7 @@ export class Game {
       scene: this.scene, clock: this.clock, player: this.player,
       progress: text => { $('loading-text').textContent = text; },
       onLeave: () => this.leaveMap(), onChange: info => this.enterMap(info),
+      onRefuse: info => this.hud.toast(info.to.name, WORLD_BOSS_NEWS.closed()),   // a night-only door by day
     });
     await this.maps.start(MapManager.startLocation(params));
     // Quests and vendors attach to the character once one exists (after creation or load).

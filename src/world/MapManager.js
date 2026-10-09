@@ -25,9 +25,10 @@ export class MapManager {
    * @param {(text: string) => void} [o.progress]  loading messages
    * @param {(info: {map, world, npcs, from}) => void} [o.onChange]  after a map is in place
    * @param {(info: {map, to}) => void} [o.onLeave]  before a map is unloaded
+   * @param {(info: {map, to, why}) => void} [o.onRefuse]  a portal that is shut (why 'night': a nightOnly map by day)
    */
-  constructor({ scene, clock, player, progress = () => {}, onChange = () => {}, onLeave = () => {} }) {
-    Object.assign(this, { scene, clock, player, progress, onChange, onLeave });
+  constructor({ scene, clock, player, progress = () => {}, onChange = () => {}, onLeave = () => {}, onRefuse = () => {} }) {
+    Object.assign(this, { scene, clock, player, progress, onChange, onLeave, onRefuse });
     this.map = null; this.world = null; this.npcs = null; this.portals = null;
     this.busy = false; this.armed = false; this.rpg = null; this.saveTimer = 0;
     // Monster zones for createGame({ spawns }). Each is tagged with its map and is
@@ -130,6 +131,8 @@ export class MapManager {
     const p = this.player.position, portal = portalAt(this.map, p.x, p.z);
     if (!portal) this.armed = true;
     // a skill move carrying the player (a dash) ends first; the portal takes them once they stand
+    // a night-only map (เรือนหอร้าง, the world boss room) keeps its door shut by day
+    else if (this.armed && MAPS[portal.to]?.nightOnly && this.clock.phase !== 'night') { this.armed = false; this.onRefuse({ map: this.map, to: MAPS[portal.to], why: 'night' }); }
     else if (this.armed && !this.training?.busy) { this.travel(portal); return; }
     if ((this.saveTimer += dt) > 3) { this.saveTimer = 0; this.save(); }
   }

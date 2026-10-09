@@ -12,6 +12,7 @@ import { attachCombatMeters } from './CombatMeters.js';
 import './net.css';
 import { ITEMS } from '../character/data/items.js';
 import { readSession, writeSession } from '../account/session.js';
+import { WorldBossBanner } from '../ui/WorldBossBanner.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
 // on this map and talk to everyone. The player's own position goes out ~10× a second
@@ -30,6 +31,7 @@ export function startMultiplayer(game) {
   const remote = new RemotePlayers(game.scene, document.getElementById('nameplates'), (x, z) => game.world?.heightAt(x, z) ?? 0);
   const net = new NetClient(serverUrl());
   const chat = new ChatBox(text => net.send({ t: 'c', text }));
+  const bossBanner = new WorldBossBanner({ onJoin: () => net.send({ t: 'wbjoin' }), canJoin: () => net.online && game.maps?.map?.id !== 'ruen_ho' });
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
@@ -39,6 +41,8 @@ export function startMultiplayer(game) {
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
     .on('chno', m => chat.add('ระบบ', CH_WHY[m.why] ?? 'ย้ายแชนแนลไม่ได้'))
     .on('cardnews', m => chat.add('ประกาศ', `✦ ${m.name} ได้รับ${ITEMS[m.card]?.name ?? 'การ์ด'}!`, 'news'))
+    // world boss news (server/index.js): a banner for everyone, and the line in the chat
+    .on('wbnews', m => { const line = bossBanner.show(m); if (line && m.state !== 'closed') chat.add('บอสโลก', line, 'news'); })
     .on('join', m => remote.set(m.p))
     .on('leave', m => remote.remove(m.id))
     .on('tick', m => { for (const [id, x, z, f, mv] of m.p) remote.move(id, x, z, f, mv); })

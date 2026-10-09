@@ -28,7 +28,7 @@ test('no monster can aggro a player standing on a portal arrival point', () => {
 
 test('each map that has monsters has a shop selling potions (restock without warping)', () => {
   for (const map of Object.values(MAPS)) {
-    if (map.safe) continue;
+    if (map.safe || map.instance) continue;   // a closed boss room: stock up before going in
     const sellers = NPCS.filter(n => n.map === map.id && SHOPS[n.shopType]?.stock?.includes('potion_s'));
     assert.ok(sellers.length, `${map.id} has no potion seller`);
   }

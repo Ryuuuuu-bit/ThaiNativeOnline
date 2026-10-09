@@ -8,6 +8,12 @@
       "port": 8787
     },
     {
+      "name": "server-night",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "server", "--", "--hour=20"],
+      "port": 8787
+    },
+    {
       "name": "dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],

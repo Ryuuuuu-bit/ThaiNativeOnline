@@ -29,6 +29,11 @@ import { monsterInterest } from './interest.js';
 //   bosses past CH 1); quiet ones close after a warning. welcome carries {ch, chs}.
 //   client → server  chans (the list) · chan {ch} (switch: out of a fight, once a minute)
 //   server → client  chans {map, ch, list: [{ch, n, cap, closing}]} · chno {why} · chwarn {ch, secs} · chmove {ch, why}
+// World boss (src/combat/data/worldBoss.js, map ruen_ho, night only):
+//   server → client  wbnews {state: 'soon' | 'open' | 'fall' | 'rise' | 'down' | 'dawn' | 'closed', type?, mvp?}
+//                    (closed: a `map` into a night-only map by day was refused) · kill {…, share} for each payee
+//                    wbcast {id, skill, spots, warn} · wbfx {id, skill, spots} · wbzone {id, skill, spots, secs} (to the room) ·
+//                    wbhit {id, pct, skill, knock?, dot?, res?} (to the player it landed on; res: resolved here when signed in)
 // Cards (src/character/data/cards.js): a card in a kill's drops is announced to everyone:
 //   server → client  cardnews {name, card, monster}
 //   client → server  op {op: 'strip', id, cards, plus} (หมออาคม takes the cards out; rolled here) → stripped {ok, outcome, cards} + sync
@@ -79,7 +84,7 @@ import { recallWhy } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
 import { createShutdown } from './shutdown.js';
-import { WorldClock } from '../src/core/WorldClock.js';
+import { WorldClock, wallHour } from '../src/core/WorldClock.js';
 
 try { process.loadEnvFile(resolve(import.meta.dirname, '..', '.env')); } catch { /* no .env */ }
 const PORT = Number(process.env.PORT) || 8787;
@@ -273,6 +278,8 @@ async function handle(ws, raw) {
         send(ws, { t: 'welcome', you: r.you, name:r.joined.name, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
         toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
         correct(ws); pvpState(r.you);
+        // saved inside a night-only map (เรือนหอร้าง) and back by day: out through its door
+        if (MAP_DATA[r.map]?.nightOnly && clock.phase !== 'night') { send(ws, { t: 'wbnews', state: 'closed' }); leaveNightMap(ws, presence.players.get(ws)); }
         if (saved) friendNews(presence.players.get(ws), true);
         break;
       }
@@ -285,6 +292,7 @@ async function handle(ws, raw) {
       case 'party_warp': recall(ws, true); break;
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
+      case 'wbjoin': joinWorldBoss(ws); break;
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pk': case 'pvp_hit': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
@@ -307,6 +315,7 @@ async function handle(ws, raw) {
         const p = presence.players.get(ws);
         if (p?.map === m.map) { send(ws,{t:'welcome',you:p.id,roster:presence.inMap(p.room).filter(o=>o!==p).map(o=>presence.info(o)),online:presence.count,ch:p.ch,chs:chs(p.map)});arrive(ws,p.room);return; }
         if (p && pvp.view(p.id).wait > 0) { correct(ws); return; }
+        if (MAP_DATA[m.map]?.nightOnly && clock.phase !== 'night') { send(ws, { t: 'wbnews', state: 'closed' }); correct(ws); return; }   // เรือนหอร้าง opens only at night
         endTrade(presence.players.get(ws)?.id, 'moved');
         const r = presence.changeMap(ws, m, pickCh(m.map)); if (!r) { correct(ws); return; }
         resetPvp(r.id);
@@ -477,6 +486,15 @@ function serviceWarp(p, npcId, destinationId, requestWs) {
   if (!room.ok) return send(ws, { t: 'service_warp_no', why: room.why });
   p.serviceWarpAt = now;
   teleport(ws, p, dest, room.ch, { reason: 'service_warp', destination: dest.id });
+}
+// เรือนหอร้าง has no door: the world boss news has a button (client wbjoin) that warps here, at
+// night only and not mid-fight, duel or trade (no recall cooldown: it is not a way home)
+function joinWorldBoss(ws) {
+  const p = presence.players.get(ws), dest = 'ruen_ho'; if (!p || p.map === dest) return;
+  if (clock.phase !== 'night') return send(ws, { t: 'wbnews', state: 'closed' });
+  const why = recallWhy({ ...p, map: 'field', recallAt: -Infinity }, { fighting: combatants.fighting(p.id) || pvp.view(p.id).wait > 0, duel: !!pvp.view(p.id).duel, trade: !!trades.of(p.id) });
+  if (why) return send(ws, { t: 'recall_no', why });
+  teleport(ws, p, { map: dest, ...MAP_DATA[dest].spawn }, pickCh(dest));
 }
 function pvpMsg(ws,m) {
   const p=presence.players.get(ws); if(!p) return;
@@ -680,15 +698,22 @@ const ADMINS = adminIds(), mutes = new Map();   // ADMIN_IDS + GM_ID · account 
 const muted = p => (mutes.get(p.account ?? `s${p.id}`) ?? 0) > Date.now();
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !combatants.get(target.p.id)?.stashBusy ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase };
+const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !combatants.get(target.p.id)?.stashBusy ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
 
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
-const clock = new WorldClock({ hour: 7.5 }); clock.sync();   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
+const clock = new WorldClock({ hour: 7.5 });   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
+// A shift of the world clock for testing (one game hour = one real minute): `npm run server -- --hour=21`
+// starts the server at 21:00, and the GM command `time <hour>` moves it (server/gm.js).
+let clockShift = 0;
+const syncClock = () => clock.sync(Date.now() + clockShift);
+function setHour(h) { clockShift = 0; const now = Date.now(); clockShift = ((((h - wallHour(now)) % 24) + 24) % 24) * 60e3; syncClock(); toAll({ t: 'clock', h: +clock.hour.toFixed(3) }); return clock.hour; }
+const startHour = Number(process.argv.find(a => a.startsWith('--hour='))?.slice(7));
+syncClock();
 const combatants = new Combatants();   // each player's character sheet, cooldowns and buffs (3b)
 const monsterInterests = new WeakMap();
 const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
 const worldOf = room => {
-  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; worlds.set(room, w); }
+  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; w.online = () => presence.count; worlds.set(room, w); }
   return worlds.get(room);
 };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
@@ -712,16 +737,50 @@ function route(map, events, except = null) {
       if ((e.knock || e.pull) && !res?.dodge) presence.allowJump(ws, e.pull ? 16 : 4);
       send(ws, res ? { ...e, res } : e);
     }
+    else if (e.t === 'wbhit') {   // a world boss skill landed on this player: a share of max HP (signed in: resolved here)
+      const ws = socketOf(e.to); if (!ws) continue;
+      combatants.touch(e.to);
+      const res = combatants.pctHit(e.to, e.pct);
+      if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
+      if (e.knock && !res?.dodge) presence.allowJump(ws, 4);
+      send(ws, res ? { ...e, res } : e);
+    }
+    else if (e.t === 'wb') { if (e.state === 'down') bossUp = false; toAll({ t: 'wbnews', state: e.state, type: e.type, ...(e.mvp != null ? { mvp: byId(e.mvp)?.p.name ?? null } : {}) }); }   // world boss news, to everyone
     else toMap(map, e, except);
   }
 }
-const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); };
+const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
+
+// World boss (src/combat/data/worldBoss.js): news to everyone at dusk and at nightfall (the boss
+// rises when its map's monsters run, server/monsters.js); at dawn the night-only maps send everyone
+// back out through their door (the arrival of their first portal).
+let bossPhase = clock.phase, bossUp = clock.phase === 'night';   // bossUp: from nightfall until the sisters are put down or dawn
+function worldBossClock() {
+  if (clock.phase === bossPhase) return;
+  const was = bossPhase; bossPhase = clock.phase;
+  if (bossPhase === 'evening') toAll({ t: 'wbnews', state: 'soon' });
+  else if (bossPhase === 'night') { bossUp = true; toAll({ t: 'wbnews', state: 'open' }); }
+  else if (was === 'night') {
+    bossUp = false; toAll({ t: 'wbnews', state: 'dawn' });
+    for (const [ws, p] of [...presence.players]) if (MAP_DATA[p.map]?.nightOnly) leaveNightMap(ws, p);
+  }
+}
+function leaveNightMap(ws, p) {
+  const door = MAP_DATA[p.map].portals[0], dest = door.to;
+  endTrade(p.id, 'moved'); resetPvp(p.id);
+  const left = p.room;
+  Object.assign(p, { map: dest, x: door.arrive.x, z: door.arrive.z, f: door.arrive.facing ?? p.f, m: 0, dirty: true, slack: 0, budget: 0 });
+  const r = presence.enter(p, pickCh(dest));
+  toMap(left, { t: 'leave', id: p.id }, ws);
+  send(ws, { t: 'welcome', you: p.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(dest) });
+  toMap(r.room, { t: 'join', p: r.joined }, ws); correct(ws); arrive(ws, r.room);
+}
 
 // positions and monsters out 10× a second, per map; dead sockets dropped every 15 s
 setInterval(() => {
   if (stopping) return;
   for (const d of pvp.sweep(id => byId(id)?.p)) endDuel(d);
-  clock.sync();
+  syncClock(); worldBossClock();
   combatants.tick(TICK / 1000, clock.phase === 'night');
   const rooms = new Set([...presence.players.values()].map(p => p.room));
   for (const room of rooms) {
@@ -771,4 +830,5 @@ for (const signal of ['SIGINT','SIGTERM']) process.on(signal, () => {
   shutdown().then(() => process.exit(0)).catch(e => { console.error('Shutdown failed; unsaved jobs:', accounts.writes.pending, e.message); process.exit(1); });
 });
 
+if (Number.isFinite(startHour)) setHour(startHour);
 server.listen(PORT, () => console.log(`ThaiNative Online on :${PORT} (dist ${existsSync(ROOT) ? 'ok' : 'missing — run npm run build'} · saves in ${store.kind})`));

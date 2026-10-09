@@ -9,7 +9,8 @@
 //         heal · hp <%> (0 = knocked out, to test reviving) · god · find <text> · map <mapId> [x z]
 // Others: who · goto <name> · summon <name> · give <name> <gold|itemId> [n] · kick <name> [why] ·
 //         mute <name> [minutes] · unmute <name>
-// World:  killall (the monsters of your map and channel, rewards included) · say <text>
+// World:  killall (the monsters of your map and channel, rewards included) · say <text> ·
+//         time <hour> (moves the world clock for everyone, e.g. time 20 for the night and its world boss)
 import { ITEMS, EQUIP_SLOTS } from '../src/character/data/items.js';
 import { MONSTERS } from '../src/combat/data/monsters.js';
 import { MAPS as WORLD_MAPS } from '../src/world/maps.js';
@@ -20,7 +21,7 @@ import { MAPS } from './presence.js';
 import { POINTS_PER_LEVEL } from '../src/character/data/classes.js';
 
 export const admins = (env = process.env.ADMIN_IDS) => new Set(String(env ?? '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean));
-const HELP = 'คำสั่ง GM: gold · lv · exp · joblv · stat · item <id|ชื่อ> [n] · card <มอน> · refine <ช่อง> <ขั้น> · heal · hp <%> · god · find <คำ> · map <แมพ> [x z] · who · goto/summon <ชื่อ> · give <ชื่อ> <gold|id> [n] · kick <ชื่อ> · mute <ชื่อ> [นาที] · unmute <ชื่อ> · killall · say <ข้อความ>';
+const HELP = 'คำสั่ง GM: gold · lv · exp · joblv · stat · item <id|ชื่อ> [n] · card <มอน> · refine <ช่อง> <ขั้น> · heal · hp <%> · god · find <คำ> · map <แมพ> [x z] · who · goto/summon <ชื่อ> · give <ชื่อ> <gold|id> [n] · kick <ชื่อ> · mute <ชื่อ> [นาที] · unmute <ชื่อ> · killall · say <ข้อความ> · time <ชั่วโมง>';
 const int = (v, d) => { const n = Math.floor(Number(v)); return Number.isFinite(n) ? n : d; };
 const itemId = q => (ITEMS[q] ? q : Object.keys(ITEMS).find(k => ITEMS[k].name === q));
 
@@ -115,6 +116,10 @@ export function gm(ctx, me, text) {
       if (min) ctx.mutes.set(key, Date.now() + min * 60000); else ctx.mutes.delete(key);
       tell(t, min ? `คุณถูกห้ามแชท ${min} นาที` : 'คุณแชทได้ตามปกติแล้ว');
       log(`${cmd} ${t.p.name} ${min || ''}`); return min ? `ห้าม ${t.p.name} แชท ${min} นาที` : `ปลดห้ามแชท ${t.p.name}`;
+    }
+    case 'time': {
+      const h = Number(args[0]); if (!Number.isFinite(h) || h < 0 || h >= 24) return 'ใส่ชั่วโมง 0–23.9 เช่น time 20 (กลางคืน 19:30–05:00)';
+      const now = ctx.setHour(h); log(`time ${h}`); return `เวลาในโลก → ${Math.floor(now)}:${String(Math.round((now % 1) * 60)).padStart(2, '0')} (${ctx.phase()})`;
     }
     case 'killall': {
       const w = ctx.worldOf(me.room), players = presence.inMap(me.room);

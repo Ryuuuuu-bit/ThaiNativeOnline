@@ -14,6 +14,7 @@ export const LOOT = {
   marsh:   [['hide', .6, 1, 3], ['croc_scale', .35, 1, 2], ['potion_m', .22, 1, 1], ['ether', .12, 1, 1], ['croc_boots', .02, 1, 1], ['croc_armor', .012, 1, 1], ['kris', .01, 1, 1], ['horn_bow', .01, 1, 1], ['croc_wrap', .01, 1, 1], ['croc_dagger', .01, 1, 1]],
   spirit2: [['ash', .7, 1, 3], ['ether', .3, 1, 2], ['potion_m', .2, 1, 1], ['pakhaoma', .04, 1, 1], ['sabai', .03, 1, 1], ['bog_book', .01, 1, 1], ['bog_yant', .01, 1, 1]],
   rare2:   [['potion_m', 1, 2, 3], ['ether', 1, 1, 2], ['ash', 1, 3, 6], ['bog_book', .2, 1, 1], ['bog_yant', .2, 1, 1], ['chada', .3, 1, 1], ['prakam', .15, 1, 1]],
+  ghost_sisters: [['potion_m', 1, 3, 5], ['ether', 1, 2, 3], ['ash', 1, 4, 8], ['chada', .35, 1, 1], ['prakam', .25, 1, 1], ['bog_book', .2, 1, 1], ['bog_yant', .2, 1, 1], ['sabai', .2, 1, 1], ['pakhaoma', .2, 1, 1]],
   chalawan: [['potion_m', 1, 3, 5], ['ether', 1, 2, 3], ['croc_scale', 1, 4, 8], ['chalawan_fang', .3, 1, 1], ['croc_armor', .5, 1, 1], ['kris', .3, 1, 1], ['horn_bow', .3, 1, 1], ['croc_wrap', .3, 1, 1], ['croc_dagger', .3, 1, 1], ['bog_book', .2, 1, 1], ['bog_yant', .2, 1, 1]],
   boss:   [['potion_m', 1, 1, 2], ['ether', .8, 1, 1], ['tiger_fang', .35, 1, 1], ['iron_dap', .25, 1, 1], ['bamboo_bow', .25, 1, 1], ['tiger_wrap', .25, 1, 1], ['bone_dagger', .25, 1, 1], ['palm_book', .2, 1, 1], ['bone_yant', .2, 1, 1], ['hide_armor', .3, 1, 1]],
 };

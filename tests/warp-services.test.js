@@ -8,11 +8,11 @@ import { mapDirectory } from '../src/ui/mapDirectory.js';
 import { npcMarker } from '../src/ui/minimap/mapStyle.js';
 
 test('every map has an all-day travel NPC; six city hubs have distinct IDs and destinations', () => {
-  assert.equal(WARP_SERVICES.length, MAP_IDS.length + 5);
+  assert.equal(WARP_SERVICES.length, MAP_IDS.filter(id => !MAPS[id].instance).length + 5);   // no steward in the world boss room
   assert.equal(WARP_DESTINATIONS.length, WARP_SERVICES.length);
   assert.equal(WARP_SERVICES.filter(s => s.map === 'city').length, 6);
   assert.equal(new Set(NPCS.map(n => n.id)).size, NPCS.length);
-  for (const id of MAP_IDS) {
+  for (const id of MAP_IDS.filter(id => !MAPS[id].instance)) {
     const services = WARP_SERVICES.filter(s => s.map === id);
     assert.ok(services.length);
     const roster = npcsForMap(NPCS, id, () => true);

@@ -27,7 +27,7 @@ test('camp signs are reachable from map spawn and their posts block movement',()
     assert.ok(findPath(nav.canStand,MAPS[c.map].spawn,c.approach,{step:1,margin:35}),c.id+' route');
   }
 });
-test('all 24 portal centres stay clear while their pillars block movement',()=>{
+test('all 25 portal centres stay clear while their pillars block movement',()=>{
   let count=0;
   for(const map of Object.values(MAPS))for(const p of map.portals){
     const nav=navigation(map.id);count++;
@@ -35,7 +35,7 @@ test('all 24 portal centres stay clear while their pillars block movement',()=>{
     for(const pillar of portalPillars(map,p))assert.ok(!nav.canStand(pillar.x,pillar.z),p.id+' solid pillar');
     assert.ok(findPath(nav.canStand,map.spawn,p.at,{step:1,margin:35}),map.id+':'+p.id+' route');
   }
-  assert.equal(count,24);
+  assert.equal(count,25);   // 24 + the way out of the world boss room (ruen_ho: in through the news banner)
 });
 import { MonsterWorld } from '../server/monsters.js';
 import { createRng } from '../src/world/rng.js';

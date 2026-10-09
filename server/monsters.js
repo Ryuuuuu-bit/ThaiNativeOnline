@@ -34,6 +34,17 @@ import { mapOf } from '../src/world/maps.js';
 import { PARTY, sharers, evenShare } from './parties.js';
 import { killExp } from '../src/character/data/progression.js';
 import { resetBossSkills, cancelBossSkill, tickBossSkills } from '../src/combat/bossSkills.js';
+import { WORLD_BOSS, worldBossHp, worldBossTier, WORLD_BOSS_SKILLS, WORLD_BOSS_CAST } from '../src/combat/data/worldBoss.js';
+// World bosses (`worldBoss` in src/combat/data/monsters.js, rules in src/combat/data/worldBoss.js):
+// one rise a night (`w.online()` = players online, set by server/index.js, locks the HP), gone at
+// dawn; twins linked by the red thread (heal, half damage) and rising again unless both fall within
+// WORLD_BOSS.revive s. Events: { t: 'wb', state: 'fall' | 'rise' | 'down', type, mvp? } (server/index.js
+// announces them) and one `kill` per player who did WORLD_BOSS.minShare of the damage.
+// A world boss rises at the tier of the players on its map (worldBossTier: level, HP, swing power)
+// and casts its skills (WORLD_BOSS_SKILLS), each warned first:
+//   { t: 'wbcast', id, skill, spots: [{x, z, r}], warn } → after `warn` s { t: 'wbfx', id, skill, spots }
+//   and { t: 'wbhit', id, to, pct, skill, knock? } for each player standing in a spot (a share of
+//   their max HP, server/index.js resolves it) · bleeds tick as wbhit · pools: { t: 'wbzone', id, spots, secs }
 
 const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
 const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
@@ -62,7 +73,7 @@ export class MonsterWorld {
       chargeCd: 0, fleeCd: 0, pullCd: 0 };
   }
   byId(id) { return this.monsters.find(m => m.id === id); }
-  info(m) { return { id: m.id, type: m.type, x: round(m.x), z: round(m.z), f: round(m.f), hp: Math.round(m.hp), maxHp: m.maxHp, st: STATES.indexOf(m.state), ...(m.skillCast ? { skillCast: { ...m.skillCast } } : {}) }; }
+  info(m) { return { id: m.id, type: m.type, x: round(m.x), z: round(m.z), f: round(m.f), hp: Math.round(m.hp), maxHp: m.maxHp, st: STATES.indexOf(m.state), ...(m.skillCast ? { skillCast: { ...m.skillCast } } : {}), ...(m.tier ? { lv: m.tier.lv } : {}) }; }
   list() { return this.monsters.filter(m => m.hp > 0).map(m => this.info(m)); }
   snapshot() {
     const out = [];
@@ -72,6 +83,11 @@ export class MonsterWorld {
 
   spawn(m) {
     if (m.spawn.chance && this.r() > m.spawn.chance) return false;
+    if (m.def.worldBoss) {   // locked for this night: the tier of the players on the map, the HP of the players online
+      m.tier = worldBossTier((this.seen ?? []).map(p => p.lv));
+      m.maxHp = worldBossHp(m.def.hp * m.tier.hp, this.online?.() ?? 1);
+      Object.assign(m, { cast: null, cds: {}, skillGap: WORLD_BOSS_CAST.gap });
+    }
     const a = this.r() * Math.PI * 2, rr = Math.sqrt(this.r()) * (m.spawn.radius ?? 0);
     Object.assign(m, { x: m.spawn.x + Math.cos(a) * rr, z: m.spawn.z + Math.sin(a) * rr, hp: m.maxHp, state: 'idle', debuffs: [], attackTimer: 0, target: null, contrib: new Map(), dirty: true, charging: false, summonAt: null });
     if (this.navigation && !this.navigation.canStand(m.x, m.z)) {
@@ -98,10 +114,13 @@ export class MonsterWorld {
 
   update(dt, players, phase = 'day') {
     const ev = [], live = players.filter(p => !p.dead), night = phase === 'night';
+    this.seen = players;
+    if (this.wbZones?.length || this.wbDots?.length) this.worldBossAreas(dt, live, ev);
     for (const m of this.monsters) {
       if (m.skillCast && m.state !== 'chase') ev.push(...cancelBossSkill(m));
       const wasMoving = m.moving; m.moving = false;
       if (m.spawn.summoned && (m.state === 'dead' || m.state === 'dormant')) { m.gone = true; continue; }   // minions do not come back
+      if (m.def.worldBoss && this.worldBossStep(m, dt, night, ev, live)) continue;
       if (m.state === 'dead' || m.state === 'dormant') {
         if (!isActive(m.spawn, phase)) { m.state = 'dormant'; continue; }
         if ((m.respawn -= dt) <= 0) {
@@ -124,8 +143,9 @@ export class MonsterWorld {
       m.attackTimer = Math.max(0, m.attackTimer - dt);
       m.chargeCd = Math.max(0, m.chargeCd - dt); m.fleeCd = Math.max(0, m.fleeCd - dt); m.pullCd = Math.max(0, m.pullCd - dt);
       if (m.debuffs.some(d => d.stun) && m.state !== 'return') { ev.push(...cancelBossSkill(m)); m.charging = false; if (wasMoving) m.dirty = true; continue; }
-      const def = m.def, speed = def.speed * (1 - Math.max(0, ...m.debuffs.map(d => d.slow || 0)));
-      const power = night && isGhost(def) ? NIGHT.ghostPower : 1;
+      const rage = m.enraged ? WORLD_BOSS.rage : null;   // a world boss gone berserk
+      const def = m.def, speed = def.speed * (rage?.speed ?? 1) * (1 - Math.max(0, ...m.debuffs.map(d => d.slow || 0)));
+      const power = (night && isGhost(def) ? NIGHT.ghostPower : 1) * (rage?.power ?? 1);
       if (m.state === 'flee') {
         // run from the blow, then turn and fight
         const from = m.fleeFrom, dx = m.x - from.x, dz = m.z - from.z, len = Math.hypot(dx, dz) || 1;
@@ -169,8 +189,8 @@ export class MonsterWorld {
             if (m.charging) { m.charging = false; m.chargeCd = CHARGE.every; m.attackTimer = 0; m.charged = true; }
             if (m.attackTimer <= 0) {
               const charged = m.charged; m.charged = false;
-              m.attackTimer = swingDelay(def);
-              ev.push({ t: 'ma', id: m.id, to: tg.id, power: power * (charged ? CHARGE.power : 1), ...(def.knock && this.r() < def.knock ? { knock: 1 } : {}) });
+              m.attackTimer = swingDelay(def) * (rage?.swing ?? 1);
+              ev.push({ t: 'ma', id: m.id, to: tg.id, power: power * (m.tier?.atk ?? 1) * (charged ? CHARGE.power : 1), ...(def.knock && this.r() < def.knock ? { knock: 1 } : {}) });
             }
           }
         }
@@ -227,6 +247,7 @@ export class MonsterWorld {
   }
 
   damage(m, by, amount, { crit = false, dot = false, pet = false } = {}, players = [], night = false) {
+    if (m.def.worldBoss && this.linked(m)) amount = Math.max(1, Math.round(amount * WORLD_BOSS.link.taken));
     m.hp = Math.max(0, m.hp - amount); m.dirty = true;
     if (by != null) m.contrib.set(by, (m.contrib.get(by) ?? 0) + amount);
     const ev = [{ t: 'mh', id: m.id, amount, crit, dot, pet, by }];
@@ -243,10 +264,131 @@ export class MonsterWorld {
     m.state = 'dead'; m.respawn = m.spawn.respawn ?? RESPAWN; m.debuffs = []; m.target = null; m.charging = false;
     ev.push(...cancelBossSkill(m));
     ev.push({ t: 'mgone', id: m.id, killed: true });
+    if (m.def.worldBoss) { ev.push(...this.worldBossFall(m, players, night)); return ev; }
     ev.push(...this.dismiss(m));
     ev.push(...this.rewards(m, players, night));
     return ev;
   }
+  // ---- world bosses ----
+  twin(m) { const t = m.def.worldBoss?.twin; return t ? this.monsters.find(o => o.type === t) ?? null : null; }
+  linked(m) { const o = this.twin(m); return !!o && o.hp > 0 && m.hp > 0 && dist(m, o) <= WORLD_BOSS.link.range; }
+  // Before the usual step: true when this monster is done for the frame.
+  worldBossStep(m, dt, night, ev, live = []) {
+    if (!night) {   // dawn: whatever still stands fades, and the next night is a new round
+      if (m.hp > 0) { m.hp = 0; ev.push({ t: 'mgone', id: m.id, killed: false }); ev.push(...this.dismiss(m)); }
+      this.wbZones = []; this.wbDots = [];
+      Object.assign(m, { state: 'dormant', wbDone: false, revive: null, enraged: false, cast: null, respawn: rand(.5, 3, this.r), debuffs: [], target: null, contrib: new Map() });
+      return true;
+    }
+    if (m.state === 'dead' || m.state === 'dormant') {
+      if (m.revive != null) {   // the twin still stands: rise again unless it falls first
+        if ((m.revive -= dt) > 0) return true;
+        const o = this.twin(m);
+        Object.assign(m, { revive: null, enraged: false, cast: null, hp: Math.round(m.maxHp * WORLD_BOSS.reviveHp), state: o?.target != null ? 'chase' : 'idle', target: o?.target ?? null, debuffs: [], attackTimer: 0, dirty: true });
+        ev.push({ t: 'mspawn', m: this.info(m) }, { t: 'wb', state: 'rise', type: m.type });
+        return true;
+      }
+      return !!m.wbDone;   // risen and put down this night already
+    }
+    if (!m.enraged && m.hp < m.maxHp * WORLD_BOSS.rage.at) { m.enraged = true; ev.push({ t: 'wb', state: 'rage', type: m.type }); }
+    if (this.linked(m) && m.hp < m.maxHp) { m.hp = Math.min(m.maxHp, m.hp + m.maxHp * WORLD_BOSS.link.heal * dt); m.dirty = true; }
+    return this.worldBossCast(m, dt, ev, live);
+  }
+  // Skills: a cast holds her still for its warning, then lands; between casts she fights as usual.
+  worldBossCast(m, dt, ev, live) {
+    if (m.cast) { if ((m.cast.t -= dt) <= 0) this.worldBossLand(m, ev, live); return true; }
+    for (const k of Object.keys(m.cds ?? {})) m.cds[k] -= dt;
+    if ((m.skillGap -= dt) > 0 || m.state !== 'chase' || !live.length) return false;
+    const near = live.filter(p => dist(m, p) <= WORLD_BOSS_CAST.reach), tg = live.find(p => p.id === m.target);
+    if (!near.length) return false;
+    const twin = this.twin(m), share = m.hp / m.maxHp, rage = m.enraged ? WORLD_BOSS.rage.swing : 1;
+    const ready = (WORLD_BOSS_SKILLS[m.type] ?? []).filter(s => (m.cds[s.id] ?? 0) <= 0 && (s.below == null || share < s.below)
+      && (s.at !== 'twin' || (twin?.hp > 0 && dist(m, twin) > WORLD_BOSS.link.range + 2))
+      && (s.at !== 'target' || tg) && (s.at !== 'far' || near.some(p => dist(m, p) > 5)));
+    if (!ready.length) return false;
+    const s = ready[Math.floor(this.r() * ready.length)];
+    m.cds[s.id] = s.cd * rage; m.skillGap = WORLD_BOSS_CAST.gap * rage;
+    if (s.at === 'twin') {   // the elder vanishes and comes out beside her sister: the thread is whole again
+      const from = { x: round(m.x), z: round(m.z) }, a = this.r() * Math.PI * 2;
+      const to = { x: twin.x + Math.cos(a) * 1.6, z: twin.z + Math.sin(a) * 1.6 };
+      if (!this.navigation || this.navigation.canStand(to.x, to.z)) { m.x = to.x; m.z = to.z; m.home = { ...to }; m.dirty = true; }
+      ev.push({ t: 'wbfx', id: m.id, skill: s.id, spots: [{ ...from, r: 1 }, { x: round(m.x), z: round(m.z), r: 1 }] });
+      return true;
+    }
+    const spot = (x, z) => ({ x: round(x), z: round(z), r: s.r });
+    const far = () => near.reduce((a, p) => (dist(m, p) > dist(m, a) ? p : a));
+    const spots = s.at === 'target' ? [spot(tg.x, tg.z)]
+      : s.at === 'far' ? [(p => spot(p.x, p.z))(far())]
+      : s.at === 'each' ? near.map(p => spot(p.x, p.z))
+      : s.at === 'around' ? Array.from({ length: s.n ?? 3 }, (_, i) => { const a = i / (s.n ?? 3) * Math.PI * 2 + this.r(), d = 1.5 + this.r() * 3; return spot(m.x + Math.cos(a) * d, m.z + Math.sin(a) * d); })
+      : [spot(m.x, m.z)];
+    m.cast = { s, spots, t: s.warn };
+    m.f = Math.atan2(spots[0].x - m.x, spots[0].z - m.z); m.moving = false; m.dirty = true;
+    ev.push({ t: 'wbcast', id: m.id, skill: s.id, spots, warn: s.warn });
+    return true;
+  }
+  worldBossLand(m, ev, live) {
+    const { s, spots } = m.cast; m.cast = null;
+    if (s.at === 'far') {   // the pounce carries her there
+      const to = spots[0]; if (!this.navigation || this.navigation.canStand(to.x, to.z)) { m.x = to.x; m.z = to.z; m.dirty = true; }
+    }
+    ev.push({ t: 'wbfx', id: m.id, skill: s.id, spots });
+    const hit = new Set();
+    for (const sp of spots) for (const p of live) if (!hit.has(p.id) && Math.hypot(p.x - sp.x, p.z - sp.z) <= sp.r) {
+      hit.add(p.id);
+      if (s.pct) ev.push({ t: 'wbhit', id: m.id, to: p.id, pct: s.pct * (m.enraged ? WORLD_BOSS.rage.power : 1), skill: s.id, ...(s.knock ? { knock: 1 } : {}) });
+      if (s.bleed) (this.wbDots ??= []).push({ id: m.id, to: p.id, pct: s.bleed.pct, left: s.bleed.secs, tick: 1, skill: s.id });
+    }
+    if (s.pool) {
+      (this.wbZones ??= []).push(...spots.map(sp => ({ ...sp, id: m.id, pct: s.pool.pct, left: s.pool.secs, tick: 1, skill: s.id })));
+      ev.push({ t: 'wbzone', id: m.id, skill: s.id, spots, secs: s.pool.secs });
+    }
+  }
+  // Pools and bleeds tick once a second.
+  worldBossAreas(dt, live, ev) {
+    for (const z of this.wbZones ?? []) {
+      z.left -= dt;
+      if ((z.tick -= dt) <= 0) { z.tick = 1; for (const p of live) if (Math.hypot(p.x - z.x, p.z - z.z) <= z.r) ev.push({ t: 'wbhit', id: z.id, to: p.id, pct: z.pct, skill: z.skill, dot: 1 }); }
+    }
+    for (const d of this.wbDots ?? []) {
+      d.left -= dt;
+      if ((d.tick -= dt) <= 0) { d.tick = 1; if (live.some(p => p.id === d.to)) ev.push({ t: 'wbhit', id: d.id, to: d.to, pct: d.pct, skill: d.skill, dot: 1 }); }
+    }
+    this.wbZones = (this.wbZones ?? []).filter(z => z.left > 0); this.wbDots = (this.wbDots ?? []).filter(d => d.left > 0);
+  }
+  // One sister down: the other has WORLD_BOSS.revive s. Both down: the round is won.
+  worldBossFall(m, players, night) {
+    m.respawn = 1e9;
+    const o = this.twin(m);
+    if (o && o.hp > 0) { m.revive = WORLD_BOSS.revive; return [{ t: 'wb', state: 'fall', type: m.type }]; }
+    const all = [m, o].filter(Boolean);
+    for (const b of all) { b.revive = null; b.wbDone = true; }
+    return this.worldBossRewards(all, players, night);
+  }
+  // Everyone who did WORLD_BOSS.minShare of the damage to the boss (both twins together) is paid:
+  // EXP for their own level, gold and a roll of the loot table by rank (top, 2nd–3rd, the rest).
+  worldBossRewards(bosses, players, night) {
+    const contrib = new Map();
+    for (const b of bosses) { for (const [id, d] of b.contrib) contrib.set(id, (contrib.get(id) ?? 0) + d); b.contrib = new Map(); }
+    const total = [...contrib.values()].reduce((a, d) => a + d, 0) || 1;
+    const ranked = [...contrib].filter(([, d]) => d / total >= WORLD_BOSS.minShare).sort((a, b) => b[1] - a[1]);
+    const nightMul = night ? NIGHT.expBonus : 1, out = [], head = bosses[0];
+    ranked.forEach(([id, dmg], i) => {
+      const p = players.find(x => x.id === id); if (!p) return;
+      const tier = i === 0 ? 0 : i < 3 ? 1 : 2, drops = [];
+      let exp = 0, gold = 0, card = null;
+      for (const b of bosses) {
+        exp += Math.round(killExp(b.def.exp, p.lv, b.tier?.lv ?? b.def.level, true, nightMul) * (b.tier?.hp ?? 1));
+        gold += Math.round(randInt(...b.def.gold, this.r) * WORLD_BOSS.goldShare[tier]);
+        for (const [item, chance, min, max] of LOOT[b.def.loot] || []) if (this.r() < chance * WORLD_BOSS.lootChance[tier]) drops.push({ id: item, qty: randInt(min, max, this.r) });
+        if (!card && i === 0 && hasCard(b.type) && this.r() < cardRate(b.def)) { card = cardId(b.type); drops.push({ id: card, qty: 1 }); }
+      }
+      out.push({ t: 'kill', id: head.id, type: head.type, to: id, exp, gold, drops, share: +(dmg / total).toFixed(3), ...(card ? { card } : {}) });
+    });
+    out.push({ t: 'wb', state: 'down', type: head.type, mvp: ranked[0]?.[0] ?? null });
+    return out;
+  }
+
   // Everyone who did at least 15% of the damage gets the EXP (for their own level);
   // the top damager also gets the gold and the loot. A party (server/parties.js, set as
   // `this.party = { of, members }`) counts as one hunter: its nearby members share the EXP

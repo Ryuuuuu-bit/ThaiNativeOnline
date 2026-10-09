@@ -184,6 +184,17 @@ export class Combatants {
     s.dirty = true;
     return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
   }
+  // A world boss skill (server/monsters.js wbhit): a share of the character's max HP, no dodge or
+  // defence (it was warned on the floor), so it hurts every level the same.
+  pctHit(id, pct) {
+    const s = this.list.get(id); if (!s?.persist) return null;
+    const c = s.c; if (!c.alive) return null;
+    if (s.god) return { dodge: true, hp: c.hp };
+    s.fightAt = this.now(); c.sitting = false;
+    const dmg = c.damage(Math.max(1, Math.round(c.maxHp * pct)));
+    s.dirty = true;
+    return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
+  }
   // the signed-in character in play for an account's slot (the save API asks), or null
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
   me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), ack: s.ack, quests: s.quests.state, ...(s.c.loadoutResult ? { loadoutResult: { ...s.c.loadoutResult } } : {}) } : null; }

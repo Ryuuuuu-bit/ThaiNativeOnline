@@ -25,7 +25,7 @@ const bandOf = z => (z >= SEAM_Z ? 'city' : z >= FOREST_SEAM_Z ? 'paddy' : z >= 
 const owners = (x, z) => MAP_IDS.filter(id => z >= MAPS[id].owns.minZ && z < MAPS[id].owns.maxZ);
 
 test('the registry has the city and four zone maps, linked by portals both ways', () => {
-  assert.equal(MAP_IDS.length,13);assert.deepEqual(MAP_IDS.filter(id=>!MAPS[id].expedition).sort(), ['city', 'deep_forest', 'klong', 'paddy', 'wat_rang']);
+  assert.equal(MAP_IDS.length,14);assert.deepEqual(MAP_IDS.filter(id=>!MAPS[id].expedition).sort(), ['city', 'deep_forest', 'klong', 'paddy', 'ruen_ho', 'wat_rang']);
   assert.equal(DEFAULT_MAP, 'city');
   for (const map of Object.values(MAPS)) {
     assert.ok(map.name && map.sub && map.walk.length && map.view && map.owns && map.spawn, `${map.id} is incomplete`);
@@ -35,7 +35,8 @@ test('the registry has the city and four zone maps, linked by portals both ways'
       assert.ok(MAPS[p.to], `${map.id} portal ${p.id} leads to unknown map ${p.to}`);
       assert.ok(['warp', 'path'].includes(p.style), `${p.id} style ${p.style}`);
       assert.ok(p.name, `${p.id} has no label`);
-      assert.ok(MAPS[p.to].portals.some(q => q.to === map.id && q.style === p.style), `${p.to} has no ${p.style} back to ${map.id}`);
+      // an instance (the world boss room) is entered from the news banner: its door only leads out
+      if (!map.instance) assert.ok(MAPS[p.to].portals.some(q => q.to === map.id && q.style === p.style), `${p.to} has no ${p.style} back to ${map.id}`);
       assert.ok(map.expedition ? p.node.startsWith(map.id) : J[p.node] && walkable(map, ...J[p.node]), `${p.id} exit node ${p.node} is not a junction on ${map.id}`);
     }
   }
@@ -43,7 +44,9 @@ test('the registry has the city and four zone maps, linked by portals both ways'
   for (const id of WILD) assert.ok(!MAPS[id].safe && MAPS[id].levels?.length === 2, id);
   // The city and the paddies are linked by the warp pair; the wild maps by path exits in a chain.
   const links = Object.values(MAPS).flatMap(m => m.portals.filter(p=>!m.expedition&&!MAPS[p.to].expedition).map(p => `${m.id}>${p.to}:${p.style}`)).sort();
-  assert.deepEqual(links, ['city>paddy:warp', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'klong>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'wat_rang>deep_forest:path', 'wat_rang>klong:path']);
+  assert.deepEqual(links, ['city>paddy:warp', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'klong>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'ruen_ho>wat_rang:warp', 'wat_rang>deep_forest:path', 'wat_rang>klong:path']);
+  // เรือนหอร้าง, the world boss room: a closed instance beyond the world's edge, open only at night.
+  assert.ok(MAPS.ruen_ho.instance && MAPS.ruen_ho.nightOnly && MAPS.ruen_ho.owns.maxZ <= BOUNDS.minZ);
   // Visitors from the city leave the paddies through the warp (npcsForMap uses portals[0]).
   assert.equal(paddy.portals[0].to, 'city');
 });
@@ -59,7 +62,8 @@ test('ownership partitions the world at the seams: outside the wall, before the 
 test('walkable areas stay inside the world, the built view and their own band', () => {
   for (const map of Object.values(MAPS)) {
     const b = walkBounds(map);
-    assert.ok(b.minX >= BOUNDS.minX && b.maxX <= BOUNDS.maxX && b.minZ >= (map.expedition?-3000:BOUNDS.minZ) && b.maxZ <= BOUNDS.maxZ, `${map.id} walks outside the world`);
+    if (!map.instance) assert.ok(b.minX >= BOUNDS.minX && b.maxX <= BOUNDS.maxX && b.minZ >= (map.expedition?-3000:BOUNDS.minZ) && b.maxZ <= BOUNDS.maxZ, `${map.id} walks outside the world`);
+    else assert.ok(b.maxZ < BOUNDS.minZ - 17, `${map.id} (an instance) must lie well beyond the world's edge`);
     assert.ok(b.minZ >= map.owns.minZ && b.maxZ <= map.owns.maxZ, `${map.id} walks outside its band`);
     for (const r of map.walk) for (const [x, z] of [[r.minX, r.minZ], [r.maxX, r.maxZ], [r.minX, r.maxZ], [r.maxX, r.minZ]]) assert.ok(inView(map, x, z), `${map.id} can walk to ${x},${z} outside its view`);
     // The camera never sees the edge of the built ground near a seam.
@@ -222,6 +226,7 @@ test('each original map\'s road graph is one connected network', () => {
   for (const map of Object.values(MAPS)) {
     if(map.expedition)continue;
     const g = NavGraph.fromRoads((x, z) => walkable(map, x, z)), ids = [...g.nodes.keys()];
+    if (map.instance) { assert.ok(map.portals.every(p => g.nodes.has(p.node)), `${map.id}: door node missing`); continue; }   // a closed room: no roads, no NPCs
     assert.ok(ids.length > 20, `${map.id} nav graph is tiny`);
     const start = map.portals[0].node, seen = new Set([start]), queue = [start];
     while (queue.length) for (const e of g.nodes.get(queue.shift()).edges) if (!seen.has(e.to)) { seen.add(e.to); queue.push(e.to); }

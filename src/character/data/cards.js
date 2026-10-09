@@ -60,6 +60,8 @@ const CARD_DEFS = {
   nangram:  { slot: 'shoes', bonus: { agi: 4, eva: 10 } },
   tani:     { slot: 'charm', bonus: { int: 4, cast: .1 } },
   chalawan: { slot: 'armor', bonus: { vit: 6, hp: 200, res_beast: .15 } },
+  ghost_red:   { slot: 'charm', bonus: { atk: 12, vs_spirit: .12, res_fire: .1 } },
+  ghost_black: { slot: 'cape', bonus: { eva: 12, mp: 60, res_dark: .15 } },
 };
 
 for(const [id,m] of Object.entries(MONSTERS))if(!CARD_DEFS[id])CARD_DEFS[id]={slot:m.boss?'charm':'weapon',bonus:m.boss?{hp:Math.round(m.level*3),res_dark:.1}:{atk:Math.round(m.level*.2),matk:Math.round(m.level*.2)}};

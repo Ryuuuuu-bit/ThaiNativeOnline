@@ -1,6 +1,8 @@
 import { MAPS } from '../world/maps.js';
 
 // Shared client/server registry. Requests carry IDs, never player-provided coordinates.
+// An instance map (เรือนหอร้าง, the world boss room) has no keeper and is no destination: it is
+// entered from the world boss news at night (server wbjoin).
 export const WARP_RANGE = 5;
 export const WARP_COOLDOWN = 3; // seconds; separate from the emergency recall spell
 
@@ -16,12 +18,12 @@ const fieldPositions = { paddy: [4.5, -132], deep_forest: [3.5, -313.5], wat_ran
 
 export const WARP_DESTINATIONS = [
   ...city.map(([id, name, detail, nx, nz, x, z]) => ({ id, name, detail, map: 'city', category: 'city', levels: null, x, z, facing: Math.PI })),
-  ...Object.values(MAPS).filter(m => m.id !== 'city').sort((a, b) => a.levels[0] - b.levels[0])
+  ...Object.values(MAPS).filter(m => m.id !== 'city' && !m.instance).sort((a, b) => a.levels[0] - b.levels[0])
     .map(m => ({ id: `map_${m.id}`, map: m.id, name: m.name, detail: `${m.sub} · ลานพักใกล้ทางเข้า`, category: 'field', levels: m.levels, ...m.spawn })),
 ];
 export const WARP_SERVICES = [
   ...city.map(([id, title, detail, x, z, ax, az, link]) => ({ id, npcId: `warp_${id}`, map: 'city', name: `เจ้าหน้าที่พักทาง · ${title}`, x, z, face: -Math.PI / 2, arrivalId: id, link })),
-  ...Object.values(MAPS).filter(m => m.id !== 'city').map(m => {
+  ...Object.values(MAPS).filter(m => m.id !== 'city' && !m.instance).map(m => {
     const [x, z] = fieldPositions[m.id] ?? [4, m.spawn.z];
     return { id: `map_${m.id}`, npcId: `warp_${m.id}`, map: m.id, name: `เจ้าหน้าที่พักทาง · ${m.name}`, x, z, face: -Math.PI / 2, arrivalId: `map_${m.id}`, link: m.expedition ? `${m.id}_entry` : undefined };
   }),

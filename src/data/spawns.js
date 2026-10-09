@@ -58,6 +58,10 @@ export const SPAWNS = [
   { id: 'wisp_hollow', monster: 'ผีโขมด · ผีกองกอย', x: 76, z: -402, radius: 12, active: NIGHT, max: 4 },
   { id: 'takhian_tree', monster: 'นางตะเคียน', x: -70, z: -338, radius: 1, active: ALWAYS, max: 1, boss: true },
 
+  // ---- ruen_ho เรือนหอร้าง (world boss, night only) ----
+  { id: 'ruen_ho_bride', monster: 'ผีชุดแดง', x: 27, z: -2903, radius: 2, active: NIGHT, max: 1, boss: true },
+  { id: 'ruen_ho_sister', monster: 'ผีชุดดำ', x: 29, z: -2897, radius: 2, active: NIGHT, max: 1, boss: true },
+
   // ---- wat_rang วัดร้าง ----
   // The overgrown woods around the ruins.
   { id: 'wat_grove', monster: 'ผีพราย · วิญญาณเร่ร่อน', x: 46, z: -480, radius: 16, active: ALWAYS, max: 4 },
@@ -142,6 +146,9 @@ const ROSTER = {
   nangram_field: [{ type: 'nangram', count: 3 }],
   tani_grove: [{ type: 'tani', count: 1, respawn: 420 }],
   chalawan_lagoon: [{ type: 'chalawan', count: 1, respawn: 1200 }],
+  // World boss: rises at nightfall, once a night (server/monsters.js); respawn is never reached.
+  ruen_ho_bride: [{ type: 'ghost_red', count: 1, respawn: 1e9 }],
+  ruen_ho_sister: [{ type: 'ghost_black', count: 1, respawn: 1e9 }],
 };
 
 // Combat zones: each area keeps its position, radius and phases; ROSTER entries may narrow the phases.

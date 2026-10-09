@@ -30,7 +30,7 @@ test('server accepts every expedition room, valid exits and saved positions',()=
   const change=p.changeMap(ws,{map:gate.to,...gate.arrive});assert.equal(change?.map,gate.to,gate.id);
   assert.equal(resolveLocation({map:gate.to,...gate.arrive}).map,gate.to);
  }
- assert.equal(MAP_IDS.length,13);
+ assert.equal(MAP_IDS.length,14);
 });
 test('expedition suppliers and all drops are recognized by the authoritative economy',()=>{
  for(const e of EXPEDITIONS){assert.ok(nearShop(`supplies_${e.id}`,e.id,18,e.top-24));assert.ok(!nearShop(`supplies_${e.id}`,e.id,18,e.top-90));

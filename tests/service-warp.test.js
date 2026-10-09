@@ -11,9 +11,9 @@ const player = (s = service()) => ({ id: 1, map: s.map, x: s.x, z: s.z, ch: 2, d
 const destination = () => WARP_DESTINATIONS[0].id;
 
 test('every real steward offers every fixed destination without level, discovery or resource requirements', () => {
-  assert.deepEqual([...new Set(WARP_SERVICES.map(s => s.map))].sort(), Object.keys(MAPS).sort());
+  assert.deepEqual([...new Set(WARP_SERVICES.map(s => s.map))].sort(), Object.keys(MAPS).filter(id => !MAPS[id].instance).sort());   // the world boss room has no steward (entered from the news at night)
   assert.equal(WARP_SERVICES.filter(s => s.map === 'city').length, 6);
-  for (const id of Object.keys(MAPS).filter(id => id !== 'city')) assert.equal(WARP_SERVICES.filter(s => s.map === id).length, 1);
+  for (const id of Object.keys(MAPS).filter(id => id !== 'city' && !MAPS[id].instance)) assert.equal(WARP_SERVICES.filter(s => s.map === id).length, 1);
   for (const s of WARP_SERVICES) {
     assert.ok(navigation(s.map).canStand(s.x, s.z), `${s.npcId}: reachable source`);
     for (const d of WARP_DESTINATIONS) {

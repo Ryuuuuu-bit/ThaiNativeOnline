@@ -22,7 +22,7 @@ const run = (w, p, seconds) => { const ev = []; for (let i = 0; i < Math.ceil(se
 
 test('every hunting map has a real primary boss encounter with two themed skills', () => {
   const zones = combatSpawns();
-  for (const map of Object.values(MAPS).filter(m => !m.safe)) {
+  for (const map of Object.values(MAPS).filter(m => !m.safe && !m.instance)) {   // an instance (the world boss room) has its own rules: tests/world-boss.test.js
     const type = MAP_BOSSES[map.id]; assert.ok(type, map.id);
     const encounters = zones.filter(z => z.type === type && mapOf(z.x, z.z) === map.id);
     assert.equal(encounters.length, 1, map.id);

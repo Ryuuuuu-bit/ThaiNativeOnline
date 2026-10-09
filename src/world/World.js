@@ -25,6 +25,7 @@ import { paddyPlantAllowed } from './paddy-layout.js';
 import { buildWilds } from './districts/Wilds.js';
 import { buildWatRang } from './districts/WatRang.js';
 import { buildKlong } from './districts/Klong.js';
+import { buildRuenHo } from './districts/RuenHo.js';
 import { fillBuildings } from './districts/Fill.js';
 import { scatterNature } from './districts/Nature.js';
 import { Boats } from '../entities/Boats.js';
@@ -147,6 +148,8 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const watRang = buildWatRang(ctx);
   // คลองหนองบึง (own random sequences, so the older maps keep their layout).
   const klong = buildKlong(ctx);
+  // เรือนหอร้าง, the world boss room (only on its own map, beyond the world's edge).
+  const ruenHo = buildRuenHo(ctx);
   ctx.reserveSpotLinks(); lap('countryside+wilds');
   progress('กำลังสร้างบ้านเรือนชาวเมือง…'); await frame();
   const houses = await fillBuildings(ctx); lap('houses');
@@ -177,7 +180,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const world = {
     map, root, ground, terrain, water, grass, atmosphere, boats, animals, collision, mask,
     spots: ctx.spots, footprints: ctx.footprints, market: ctx.market,
-    stats: { map: map.id, houses, halls, watRang, klong, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
+    stats: { map: map.id, houses, halls, watRang, klong, ruenHo, forestTrees, staticMeshes, propMeshes, vegMeshes, glows: ctx.glows.length, buildMs: Math.round(performance.now() - started), timings },
     contains: (x, z) => walkable(map, x, z),
     heightAt(x, z) { const d = collision.deckHeight(x, z), g = terrain.height(x, z); return d === null ? g : Math.max(d, g); },
     // `pad`: the body's radius (the player's .28; route planning asks with more room so a walk

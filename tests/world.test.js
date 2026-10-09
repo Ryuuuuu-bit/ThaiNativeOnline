@@ -62,7 +62,7 @@ test('terrain grid sampling matches the analytic height', () => {
 test('the nav graph is one connected network from port to cemetery', () => {
   const g = NavGraph.fromRoads(), start = 'port_c', seen = new Set([start]), queue = [start];
   while (queue.length) for (const e of g.nodes.get(queue.shift()).edges) if (!seen.has(e.to)) { seen.add(e.to); queue.push(e.to); }
-  for (const id of Object.keys(J)) assert.ok(seen.has(id), `junction ${id} is unreachable`);
+  for (const id of Object.keys(J)) if (!MAPS[mapOf(...J[id])]?.instance) assert.ok(seen.has(id), `junction ${id} is unreachable`);   // an instance room has no roads
   const path = g.findPath('port_c', 'cem');
   assert.ok(path && path.length > 10);
   assert.equal(path[0].id, 'port_c'); assert.equal(path.at(-1).id, 'cem');

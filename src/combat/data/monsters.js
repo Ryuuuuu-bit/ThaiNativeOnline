@@ -18,6 +18,11 @@ import { EXPEDITION_MONSTERS } from './expedition-monsters.js';
 //   pull           its swing (from `range`) drags the player in next to it
 //   shield         blows from in front of it do 40% less
 //   summon: { type, count, at: [hp shares] }  calls minions as its HP drops
+//   worldBoss: { twin }  a world boss (src/combat/data/worldBoss.js): rises once a night, HP set by
+//                  the players online, gone at dawn; twins share a red thread and rise again together;
+//                  below WORLD_BOSS.rage.at of its HP it goes berserk (faster, harder, quicker swings)
+// The sisters: the bride (ghost_red) dashes in, claws (bleeding) and throws players back; the elder
+// (ghost_black) drains MP, poisons, and calls ผีตายโหง out of the floor as her HP drops.
 // shape: the mesh (src/combat/CombatView.js BUILDERS); look: shape options.
 // race: beast (สัตว์) · spirit (ผี) · demon (อสูร); element: earth · water · fire · wind · dark.
 // Both only matter through cards (src/character/data/cards.js): damage against a race,
@@ -60,6 +65,10 @@ export const MONSTERS = {
   nangram: { name: 'ผีนางรำ', race: 'spirit', element: 'dark', level: 22, hp: 2500, atk: 92, def: 15, eva: 35, speed: 3.0, range: 5, aggro: 8, exp: 213, gold: [24, 50], color: '#e8c070', size: 1, shape: 'spirit', look: { tall: true, hair: true }, loot: 'spirit2', ranged: '#ffd36b' },
   tani:    { name: 'นางตานี', race: 'spirit', element: 'earth', level: 20, hp: 9000, atk: 100, def: 18, speed: 0, range: 6, aggro: 7, exp: 700, gold: [80, 150], color: '#6a9a4a', size: 1.4, shape: 'spirit', look: { tall: true, hair: true }, loot: 'rare2', elite: true, pull: true, mpDrain: 12 },
   chalawan: { name: 'ชาละวัน', race: 'demon', element: 'water', level: 25, hp: 26000, atk: 130, def: 26, speed: 2.6, range: 2.2, aggro: 9, exp: 2600, gold: [300, 500], color: '#2f3a2a', size: 2.4, shape: 'lizard', loot: 'chalawan', elite: true, boss: true, charge: true, knock: .4, summon: { type: 'croc', count: 2, at: [.6, .3] } },
+  // World boss (src/combat/data/worldBoss.js, server/monsters.js): the ghost sisters of เรือนหอร้าง,
+  // night only. hp here is one online player's share; the server locks the real HP when they rise.
+  ghost_red:   { name: 'ผีชุดแดง', race: 'spirit', element: 'fire', level: 12, hp: 32000, atk: 88, def: 12, speed: 3.2, range: 2.4, aggro: 18, bold: true, attackDelay: 1.0, charge: true, knock: .35, poison: { dot: 30, secs: 4 }, exp: 3200, gold: [250, 400], color: '#c0281e', size: 1.7, shape: 'spirit', look: { tall: true, hair: true }, loot: 'ghost_sisters', elite: true, boss: true, worldBoss: { twin: 'ghost_black' } },
+  ghost_black: { name: 'ผีชุดดำ', race: 'spirit', element: 'dark', level: 12, hp: 28000, atk: 76, def: 11, speed: 2.7, range: 2.4, aggro: 18, bold: true, attackDelay: 1.15, poison: { dot: 20, secs: 5 }, summon: { type: 'phitaihong', count: 2, at: [.75, .5, .25] }, exp: 3200, gold: [250, 400], color: '#1a1a1f', size: 1.7, shape: 'spirit', look: { tall: true, hair: true }, loot: 'ghost_sisters', elite: true, boss: true, mpDrain: 25, worldBoss: { twin: 'ghost_red' } },
   tiger:  { name: 'เสือสมิง', race: 'demon', element: 'earth', level: 6, hp: 1500, atk: 40, def: 8, speed: 3.1, range: 1.6, aggro: 7, exp: 140, gold: [25, 50], color: '#c98a3d', size: 1.25, shape: 'tiger', loot: 'boss', elite: true },
 };
 

@@ -5,6 +5,11 @@ import * as THREE from 'three';
 import { gltfLoader } from '../src/core/gltf.js';   // the game's loader (meshopt decoder: the models are gltfpack-ed)
 import { MONSTER_MODELS } from '../src/combat/MonsterModels.js';
 
+// Textured models (the Meshy ghost sisters) decode their images in the browser; Node has no
+// image decoder, so a stand-in bitmap lets the loader through (only geometry, skins and clips are checked).
+globalThis.self ??= globalThis;
+globalThis.createImageBitmap ??= async () => ({ width: 1, height: 1, close() {} });
+
 for (const type of Object.keys(MONSTER_MODELS)) test(`${type}: exported skin, clips, loop seams and animated bounds are valid`, async () => {
   const data = await readFile(new URL(`../public/models/monsters/${type}.glb`, import.meta.url));
   assert.equal(data.readUInt32LE(0), 0x46546c67);

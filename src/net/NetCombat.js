@@ -1,6 +1,8 @@
 import { Monster } from '../combat/Combat.js';
 import { RULES } from '../combat/data/rules.js';
 import { phaseOf } from '../core/WorldClock.js';
+import { WorldBossFX } from '../combat/WorldBossFX.js';
+import { shoveTo } from '../combat/monsterHit.js';
 
 // Shared monsters (phases 3a–3b of docs/technical/SERVER_SPLIT.md). Once the server sends
 // a map's monsters, the browser's Combat (src/combat/Combat.js) stops running its own:
@@ -11,6 +13,9 @@ import { phaseOf } from '../core/WorldClock.js';
 //     the damage, area splash and side effects (server/combatants.js) and everyone, this
 //     player included, sees its numbers. The character sheet goes up with 'ch' on changes;
 //   · a monster's swing at this player is resolved here (defence, dodge) as before.
+// World bosses (src/combat/data/worldBoss.js): their skills are drawn on the floor (wbcast → a
+// warning mark, wbfx → the blow, wbzone → pools; src/combat/WorldBossFX.js) and a skill that lands
+// on this player (wbhit) takes a share of max HP (signed in: the server's numbers, res).
 // Offline nothing changes: Combat keeps its local monsters.
 //   const nc = attachNetCombat(net, game) · nc.update(dt)
 const EASE = 12, ID = sid => `s${sid}`;
@@ -30,6 +35,7 @@ export function attachNetCombat(net, game) {
       m.id = ID(info.id); m.sid = info.id; byId.set(info.id, m); combat.monsters.push(m);
     }
     Object.assign(m, { x: info.x, z: info.z, tx: info.x, tz: info.z, facing: info.f ?? 0, hp: info.hp, maxHp: info.maxHp ?? m.maxHp, state: STATES[info.st] ?? 'idle', debuffs: [], skillCast: info.skillCast ?? null });
+    if (info.lv && info.lv !== m.def.level) m.def = { ...m.def, level: info.lv };   // a world boss risen at its players' tier
     return m;
   };
   const gone = m => { m.hp = 0; m.state = 'dead'; m.debuffs = []; if (combat.target === m) combat.setTarget(null); };
@@ -94,6 +100,23 @@ export function attachNetCombat(net, game) {
     for (const d of kept) c.addItem(d.id, d.qty);
     c.emit('change');
   });
+  // ---- world boss skills ----------------------------------------------------------------
+  const bossFx = game.scene ? new WorldBossFX(game.scene, (x, z) => game.world?.heightAt(x, z) ?? 0) : null;   // no scene: a headless test
+  net.on('wbcast', msg => bossFx?.cast(msg));
+  net.on('wbfx', msg => { bossFx?.land(msg); const m = byId.get(msg.id); if (m?.alive && msg.skill !== 'warp') combat.emit('monster-attack', m); });
+  net.on('wbzone', msg => bossFx?.zone(msg));
+  net.on('wbhit', msg => {
+    if (!c.alive || msg.res?.dodge) return;
+    const m = byId.get(msg.id);
+    const dealt = msg.res ? (c.hp = Math.max(1, Math.round(msg.res.hp + msg.res.dmg)), c.damage(msg.res.hp > 0 ? msg.res.dmg : c.hp)) : c.damage(Math.max(1, Math.round(c.maxHp * msg.pct)));
+    const p = combat.world.playerPos();
+    combat.combatTimer = RULES.combatTimeout;
+    combat.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
+    if (c.alive && msg.knock && m) { const to = shoveTo(m, p, { knock: true }, combat.world.canStand); if (to) { p.x = to.x; p.z = to.z; combat.emit('shoved', { monster: m, ...to, pull: false }); } }
+    if (!c.alive) { combat.autoAttack = false; combat.pending = null; combat.setTarget(null); combat.emit('player-death', m); }
+  });
+  net.on('welcome', () => bossFx?.clear());
+
   net.on('ma', msg => {   // res: resolved on the server (signed in); knock / pull: where the hit throws the player
     const m = byId.get(msg.id);
     if (m && c.alive) combat.monsterAttack(m, msg.res ?? null, { knock: !!msg.knock, pull: !!msg.pull, power: msg.power ?? 1, skill: msg.skill });
@@ -144,6 +167,7 @@ export function attachNetCombat(net, game) {
     sidOf: m => m?.sid ?? null,
     // monsters glide toward the server's spots between updates
     update(dt) {
+      bossFx?.update(dt);
       if (!combat.remote) return;
       const k = 1 - Math.exp(-EASE * dt);
       for (const m of byId.values()) {

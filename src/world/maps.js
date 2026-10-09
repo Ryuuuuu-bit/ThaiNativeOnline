@@ -28,6 +28,10 @@
 //   theme, levels — display hints for the HUD/minimap: theme key
 //            ('city' | 'paddy' | 'forest' | 'wat') and the level band [min, max]
 //            of the map's monsters (null on safe maps).
+//   nightOnly — the map opens only at night (WorldClock phase 'night'): its portals
+//            refuse the player by day and the server sends everyone out at dawn.
+//   instance — a closed room built beyond the world's edge (BOUNDS): its band lies
+//            past the last zone map and nothing else is built there.
 //   intro  — the journal panel's heading and two short lines for the map
 //            ({ title, text }, `\n` breaks the line; gameplay-engineer hook,
 //            read by Game.updateJournal → HUD.setJournal).
@@ -42,6 +46,12 @@ export const FOREST_SEAM_Z = -296;
 export const WAT_SEAM_Z = -445;
 // North of the cemetery the woods give way to the marsh.
 export const KLONG_SEAM_Z = -600;
+// เรือนหอร้าง, the world boss room (the ghost sisters, src/combat/data/worldBoss.js), lies
+// beyond the world's north edge, with no door on the map: the world boss news has a button that warps
+// there at night (server wbjoin, src/ui/WorldBossBanner.js); its own door leads out to วัดร้าง.
+// Sized for a crowd: a wide gallery and a bridal hall about 30 × 26 m (src/world/districts/RuenHo.js builds it).
+// far past the expeditions (z −820 … −2740, src/world/expeditions.js), inside the presence bound (±3000)
+export const RUEN_HO = { x: 4, z: -2900, gallery: { x0: -16, x1: 13, half: 4 }, hall: { x0: 12.5, x1: 42, half: 13 } };
 
 const FULL_X = { minX: -122, maxX: 122 };
 
@@ -142,6 +152,26 @@ export const MAPS = {
     portals: [
       { id: 'path_to_wat', style: 'path', at: { x: -40, z: -605.5, radius: 2.4 }, to: 'wat_rang', arrive: { x: -41, z: -580, facing: 0 }, node: 'k0', name: 'ทางกลับวัดร้าง', marker: { x: -44.5, z: -606 } },
       { id:'klong_to_bamboo',style:'warp',name:'ประตูป่าช้า',node:'k0',at:{x:0,z:-795,radius:2.4},to:'bamboo_grave',arrive:{x:0,z:-844,facing:Math.PI}},
+    ],
+    visitors: [],
+  },
+  ruen_ho: {
+    id: 'ruen_ho', name: 'เรือนหอร้าง', sub: 'ระเบียงเรือนหอ · ห้องหอ · ถิ่นผีสองพี่น้อง', safe: false, theme: 'wat', levels: [12, 12],
+    nightOnly: true, instance: true,
+    intro: { title: 'เรือนหอร้าง', text: 'ระเบียงไม้มืดสนิท มีเพียงแสงเทียนตามซุ้ม\nผีชุดแดงกับผีชุดดำรออยู่ในห้องหอ' },
+    owns: { minZ: RUEN_HO.z - 100, maxZ: RUEN_HO.z + 100 },
+    walk: [
+      // the gallery, west to east, then the bridal hall at its end
+      { minX: RUEN_HO.gallery.x0, maxX: RUEN_HO.gallery.x1, minZ: RUEN_HO.z - RUEN_HO.gallery.half, maxZ: RUEN_HO.z + RUEN_HO.gallery.half },
+      { minX: RUEN_HO.hall.x0, maxX: RUEN_HO.hall.x1, minZ: RUEN_HO.z - RUEN_HO.hall.half, maxZ: RUEN_HO.z + RUEN_HO.hall.half },
+    ],
+    view: { minX: -44, maxX: 70, minZ: RUEN_HO.z - 32, maxZ: RUEN_HO.z + 32 },
+    spawn: { x: -10, z: RUEN_HO.z, facing: Math.PI / 2 },
+    respawn: [[-10, RUEN_HO.z]],
+    entities: [],
+    regions: ['ruen_ho'],
+    portals: [
+      { id: 'door_to_wat', style: 'warp', at: { x: -14.6, z: RUEN_HO.z, radius: 1.2 }, to: 'wat_rang', arrive: { x: -51, z: -556, facing: 0 }, node: 'rh0', name: 'ออกสู่วัดร้าง', marker: { x: -14.6, z: RUEN_HO.z } },
     ],
     visitors: [],
   },

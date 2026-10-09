@@ -51,6 +51,10 @@ export const LANDMARKS = [
   { id: 'klong_bridge', name: 'สะพานไม้ข้ามคลองใหญ่', x: 0, z: -689, radius: 9, icon: '◆', purpose: 'travel', text: 'สะพานไม้กระดานโยกเยกข้ามคลองสีชา ใต้น้ำมีอะไรขยับอยู่ตลอดเวลา' },
   { id: 'tani_grove', name: 'ดงกล้วยตานี', x: -44, z: -742, radius: 10, icon: '☠', purpose: 'boss', hidden: true, text: 'ดงกล้วยตานีผูกผ้าสามสี ตกดึกมีเสียงผู้หญิงร้องไห้ ใครหลงเข้าไปถูกผมยาวดึงลงดิน' },
   { id: 'chalawan_lagoon', name: 'บึงชาละวัน', x: 66, z: -778, radius: 18, icon: '☠', purpose: 'boss', text: 'บึงน้ำดำใต้ต้นไม้ตาย กระดูกขาวเกลื่อนฝั่ง ถ้ำใต้น้ำของพญาจระเข้ชาละวัน' },
+
+  // ---------- เรือนหอร้าง (map `ruen_ho`, the world boss room, night only) ----------
+  { id: 'ruen_ho_gallery', name: 'ระเบียงเรือนหอ', x: -2, z: -2900, radius: 6, icon: '◆', purpose: 'story', text: 'ระเบียงไม้ทอดยาว เทียนในซุ้มไม่เคยดับแม้ไม่มีใครจุด ปลายทางคือห้องหอที่ไม่มีใครกล้าเปิด' },
+  { id: 'bridal_chamber', name: 'ห้องหอ', x: 27, z: -900, radius: 12, icon: '☠', purpose: 'boss', text: 'เตียงหอใต้ม่านแดง ด้ายสายสิญจน์ห้อยลงมาจากความมืด สองพี่น้องรอเจ้าบ่าวที่ไม่มีวันมา' },
 ];
 export const landmark = id => LANDMARKS.find(l => l.id === id);
 

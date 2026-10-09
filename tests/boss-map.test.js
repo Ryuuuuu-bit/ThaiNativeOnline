@@ -9,9 +9,9 @@ import { bossLairMark, markerSample } from '../src/ui/minimap/glyphs.js';
 import { Minimap } from '../src/ui/Minimap.js';
 import { WorldMapPanel } from '../src/ui/WorldMapPanel.js';
 
-test('all thirteen maps expose only their flagged boss lairs, including both rare sites and no city bosses', () => {
+test('all fourteen maps expose only their flagged boss lairs, including both rare sites and no city bosses', () => {
   const counts = { city: 0, paddy: 1, deep_forest: 1, wat_rang: 2, klong: 2,
-    bamboo_grave: 1, sealed_mine: 1, sunken_city: 1, dusk_fort: 1, giant_valley: 1, himmapan: 1, fallen_city: 1, demon_rift: 1 };
+    bamboo_grave: 1, sealed_mine: 1, sunken_city: 1, dusk_fort: 1, giant_valley: 1, himmapan: 1, fallen_city: 1, demon_rift: 1, ruen_ho: 2 };   // ruen_ho: the world boss sisters
   let total = 0;
   for (const id of MAP_IDS) {
     const entries = mapDirectory(MAPS[id], []).filter(e => e.category === 'bosses');
@@ -27,7 +27,7 @@ test('all thirteen maps expose only their flagged boss lairs, including both rar
       assert.match(e.detail, /ไม่ยืนยันว่าบอสเกิด/); assert.equal(e.npcId, undefined);
     }
   }
-  assert.equal(total, 14);
+  assert.equal(total, 16);
   assert.ok(bossLairsForMap(MAPS.wat_rang).some(e => e.monsterType === 'krasue'));
   assert.ok(bossLairsForMap(MAPS.klong).some(e => e.monsterType === 'tani'));
   assert.deepEqual(bossLairsForMap({ id: 'unknown', safe: false }), []);

@@ -1,5 +1,5 @@
 import { expeditionAt } from '../world/expeditions.js';
-import { CEMETERY, STREAM, NONGS, riverBank, insideWalls, nongDistance, klongDistance } from '../world/CityMap.js';
+import { BOUNDS, CEMETERY, STREAM, NONGS, riverBank, insideWalls, nongDistance, klongDistance } from '../world/CityMap.js';
 
 // Regions name the area under the player and describe how safe it is.
 // safety: safe | wild | danger (dangerous at night).
@@ -38,6 +38,7 @@ const REG = {
   reeds: R('reeds', 'หนองน้ำ', 'คลองหนองบึง · น้ำตื้นเดินลุยได้', 'danger'),
   klong_bank: R('klong_bank', 'คลองใหญ่', 'คลองหนองบึง · ฝั่งคลองและสะพานไม้', 'danger'),
   lagoon: R('lagoon', 'บึงชาละวัน', 'คลองหนองบึง · ถิ่นพญาจระเข้', 'danger'),
+  ruen_ho: R('ruen_ho', 'เรือนหอร้าง', 'ระเบียงเรือนหอ · ถิ่นผีสองพี่น้อง (บอสโลก กลางคืน)', 'danger'),
 };
 export const SAFETY = {
   safe: { label: 'พื้นที่สงบ', color: '#a3bb86' },
@@ -57,6 +58,7 @@ function streamZ(x) {
 export function regionAt(x, z, discoveredCemetery = true) {
   const expedition=expeditionAt(z);if(expedition)return {id:expedition.id,name:expedition.name,sub:'พื้นที่ล่าปาร์ตี้',safety:'danger'};
   if (z > riverBank(x) + .5) return REG.river;
+  if (z < BOUNDS.minZ) return REG.ruen_ho;   // the world boss room past the expeditions (map ruen_ho)
   if (z < -600) {
     const lagoon = NONGS.find(n => n.lagoon);
     if (Math.hypot((x - lagoon.x) / lagoon.rx, (z - lagoon.z) / lagoon.rz) < 1.9) return REG.lagoon;
