@@ -13,6 +13,8 @@ const SYMBOLS = {
   gathering: ['M5 20.5c0-9 4.5-14.5 14.5-16.5-1 9.5-5.5 15-14.5 16.5z', true],
   combat: ['M5 19 17 7l1-3-3 1L3 17 M19 19 7 7 6 4l3 1 12 12', false],
   boss: ['M12 2.5c4.5 4 6.8 7.5 6.8 11a6.8 6.8 0 0 1-13.6 0c0-2.4 1.2-4.6 3.4-5.8 0 2.2 1 3.4 2.2 3.4 0-3.4 0-5.6 1.2-8.6z', true],
+  // A pointed Thai crown and paired kanok tips, distinct from a live red dot.
+  'boss-lair': ['M12 1.5l2.2 6.3 2.6-2-1 6.3 5.2-3-2 8H5l-2-8 5.2 3-1-6.3 2.6 2z M5.5 19h13v2h-13z', true],
   karma: ['M12 18.5c-3.4-2.2-4.4-6.6 0-12 4.4 5.4 3.4 9.8 0 12z M12 19c-5.6 0-9-3.4-9-6.8 3.4 0 6.8 2.2 9 6.8z M12 19c5.6 0 9-3.4 9-6.8-3.4 0-6.8 2.2-9 6.8z', true],
   story: ['M12 1.5l1.2 4.5h-2.4z M9.6 7h4.8l1.1 5h-7z M6.6 13h10.8l2 5H4.6z M3.5 19h17v2.2h-17z', true],
   quest: ['M9.8 3.5h4.4l-.9 10.5h-2.6z M12 15.8a2 2 0 1 0 .01 0', true],
@@ -45,16 +47,17 @@ const TONES = {
   hall: ['#f6dca0', '#9b3b2a', '#fff1cf'], faded: ['#efe4c6', '#b8a982', '#8a7a5a'],
 };
 export function badge(g, x, y, r, symbol, tone = 'gold', alpha = 1) {
-  const [hi, lo, ink] = TONES[tone] ?? TONES.gold;
+  const [hi, lo, ink] = tone === 'boss' ? ['#b84e3b', '#711f26', '#ffe0a0'] : TONES[tone] ?? TONES.gold;
   g.save(); g.globalAlpha = alpha;
   g.fillStyle = 'rgba(30,18,6,.35)'; g.beginPath(); g.arc(x + r * .12, y + r * .2, r * 1.08, 0, Math.PI * 2); g.fill();
   const grad = g.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r);
   grad.addColorStop(0, hi); grad.addColorStop(1, lo);
   g.fillStyle = grad; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
-  g.strokeStyle = INK; g.lineWidth = Math.max(1, r * .16); g.stroke();
+  g.strokeStyle = tone === 'boss' ? '#f4d487' : INK; g.lineWidth = Math.max(1, r * .16); g.stroke();
   if (symbol && !stroke(g, symbol, x, y, r * 1.5, ink, 2.8)) { g.fillStyle = ink; g.beginPath(); g.arc(x, y, r * .3, 0, Math.PI * 2); g.fill(); }
   g.restore();
 }
+export function bossLairMark(g, x, y, r) { badge(g, x, y, r, 'boss-lair', 'boss'); }
 // Undiscovered place: faded ring with a question mark.
 export function unknownMark(g, x, y, r, alpha = .75) {
   g.save(); g.globalAlpha = alpha;
@@ -160,6 +163,7 @@ export function markerSample(g, kind, x, y, r) {
   else if (kind === 'warp') badge(g, x, y, r * .8, 'warp', 'gold');
   else if (kind === 'guard') { npcDot(g, x - r * .5, y, r * .35, 'guard'); npcDot(g, x + r * .5, y, r * .3); }
   else if (kind === 'hunt') badge(g,x,y,r*.85,'combat','gold');
+  else if (kind === 'boss') bossLairMark(g,x,y,r*.85);
   else if (kind === 'monster') monsterMark(g, x, y, r * .4);
 }
 

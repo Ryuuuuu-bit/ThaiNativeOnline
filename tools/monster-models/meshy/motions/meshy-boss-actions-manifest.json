@@ -1,0 +1,22 @@
+{
+  "provider": "Meshy",
+  "rigTaskId": "01a11b9d-af9e-770f-b66d-b8ccb4fbdf43",
+  "animationTaskId": "01a1213d-1018-725f-9018-1e81e24c9a8a",
+  "actionIds": [
+    0,
+    125,
+    126,
+    219
+  ],
+  "credits": 12,
+  "sourceSHA256": "9d1484cd32ae98378df971e1da87d7ff660cc1229c7922cec1c1f32a038d560c",
+  "motionSHA256": "a1dc3dd947907f1d3b14fa905eedda60cd67fcbc83dd14497a607f10fbcb807b",
+  "bytes": 209908,
+  "clips": [
+    "Idle",
+    "Charged_Spell_Cast",
+    "Charged_Spell_Cast_1",
+    "Right_Hand_Sword_Slash"
+  ],
+  "skeletonOnly": true
+}

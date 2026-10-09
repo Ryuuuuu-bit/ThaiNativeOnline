@@ -4,12 +4,20 @@
 // A WeakSet marks the actual shared geometry, so an independent geometry.clone()
 // remains owned even though Three copies geometry.userData when cloning.
 const cachedGeometries = new WeakSet();
+const disposedModels = new WeakSet();
+
+export function isCombatModelDisposed(group) { return disposedModels.has(group); }
 
 export function markCachedCombatGeometry(group) {
   group.traverse(o => { if (o.geometry) cachedGeometries.add(o.geometry); });
 }
 
 export function disposeCombatModel(group) {
+  if (disposedModels.has(group)) return;
+  disposedModels.add(group);
+  // Retire asynchronous model/library loads before releasing the visible tree.
+  // The root callback owns animation clocks; cached textures remain untouched.
+  group.userData.dispose?.();
   const geometries=new Set(),materials=new Set(),skeletons=new Set();
   group.traverse(o=>{
     if(o.isInstancedMesh)o.dispose();

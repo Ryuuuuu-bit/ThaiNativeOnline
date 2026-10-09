@@ -1,0 +1,5698 @@
+{
+  "at": "2026-10-09T15:39:09.158Z",
+  "scope": "Real production bodies/controller/VFX; frozen candidate motion bytes served to their intended public URLs via QA route. Software-rendered desktop and genuine touch emulation; isolated studio, not live server combat or physical-device FPS.",
+  "staged": {
+    "frozen": true,
+    "source": "tools/monster-models/meshy/motions/meshy-boss-actions.glb",
+    "sourceSHA256": "a1dc3dd947907f1d3b14fa905eedda60cd67fcbc83dd14497a607f10fbcb807b",
+    "focusedTests": "14/14",
+    "build": "passed",
+    "candidates": [
+      {
+        "type": "chalawan",
+        "path": "artifacts/boss-motion-polish/candidates/chalawan-motion.glb",
+        "bytes": 80128,
+        "motionSHA256": "4ce5729d87b1264991f566d5148a54b1e784013d5bd71734b9ff64582e9a238f",
+        "bodySHA256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+        "manifest": "artifacts/boss-motion-polish/candidates/chalawan-motion-manifest.json"
+      },
+      {
+        "type": "bamboo_grave_3",
+        "path": "artifacts/boss-motion-polish/candidates/bamboo_grave_3-motion.glb",
+        "bytes": 74576,
+        "motionSHA256": "4df1f8505cb38a5eb8e073b24b25738661a71219b7811763464aae7e25e46f0d",
+        "bodySHA256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+        "manifest": "artifacts/boss-motion-polish/candidates/bamboo_grave_3-motion-manifest.json"
+      },
+      {
+        "type": "sealed_mine_3",
+        "path": "artifacts/boss-motion-polish/candidates/sealed_mine_3-motion.glb",
+        "bytes": 75228,
+        "motionSHA256": "0d124a3f5a61d45073533245779566e62ae999a5c051c6c73a40ba5e11fb9195",
+        "bodySHA256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+        "manifest": "artifacts/boss-motion-polish/candidates/sealed_mine_3-motion-manifest.json",
+        "actionGains": {
+          "125": 0.1,
+          "219": 0.1
+        }
+      },
+      {
+        "type": "dusk_fort_3",
+        "path": "artifacts/boss-motion-polish/candidates/dusk_fort_3-motion.glb",
+        "bytes": 75244,
+        "motionSHA256": "0f834062414177bdf28dc65cf56b498fa32e7e2ff4ac57c035c0db078046422e",
+        "bodySHA256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+        "manifest": "artifacts/boss-motion-polish/candidates/dusk_fort_3-motion-manifest.json"
+      },
+      {
+        "type": "giant_valley_3",
+        "path": "artifacts/boss-motion-polish/candidates/giant_valley_3-motion.glb",
+        "bytes": 75528,
+        "motionSHA256": "507c9950426aed0bae1e156d4bb7bdebd5e8fdd545424f9faf4c1dba122aedbd",
+        "bodySHA256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+        "manifest": "artifacts/boss-motion-polish/candidates/giant_valley_3-motion-manifest.json",
+        "actionGains": {
+          "125": 0.1
+        }
+      },
+      {
+        "type": "himmapan_3",
+        "path": "artifacts/boss-motion-polish/candidates/himmapan_3-motion.glb",
+        "bytes": 75644,
+        "motionSHA256": "fa14a242189c80d913d0442b9ce68cde244d0fd9c7419226937d0a226a11f79b",
+        "bodySHA256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+        "manifest": "artifacts/boss-motion-polish/candidates/himmapan_3-motion-manifest.json"
+      },
+      {
+        "type": "fallen_city_3",
+        "path": "artifacts/boss-motion-polish/candidates/fallen_city_3-motion.glb",
+        "bytes": 75564,
+        "motionSHA256": "7080a45db16eefb9865944969bce7a9c06b570b344655e9bab00d67df290fc69",
+        "bodySHA256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+        "manifest": "artifacts/boss-motion-polish/candidates/fallen_city_3-motion-manifest.json"
+      },
+      {
+        "type": "demon_rift_3",
+        "path": "artifacts/boss-motion-polish/candidates/demon_rift_3-motion.glb",
+        "bytes": 75364,
+        "motionSHA256": "03fbbbe88d3c206466ce663db886765c66aa64f6b064eb38b7be73a95e88bfe5",
+        "bodySHA256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+        "manifest": "artifacts/boss-motion-polish/candidates/demon_rift_3-motion-manifest.json",
+        "actionGains": {
+          "125": 0.025,
+          "219": 0.025
+        }
+      }
+    ],
+    "pendingDeformationQA": [
+      "sealed_mine_3",
+      "giant_valley_3",
+      "demon_rift_3"
+    ]
+  },
+  "errors": [],
+  "requests": [
+    {
+      "url": "/models/monsters/buffalo.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/takian.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/pusom.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/chalawan.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/chalawan.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/bamboo_grave_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/bamboo_grave_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/sealed_mine_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/sealed_mine_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/sunken_city_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/dusk_fort_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/dusk_fort_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/giant_valley_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/giant_valley_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/himmapan_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/himmapan_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/fallen_city_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/fallen_city_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/motions/demon_rift_3.glb",
+      "status": 200
+    },
+    {
+      "url": "/models/monsters/demon_rift_3.glb",
+      "status": 200
+    }
+  ],
+  "rows": [
+    {
+      "type": "buffalo",
+      "phase": "idle",
+      "view": "front",
+      "file": "buffalo-front-idle.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.511578947368421,
+        "time": 0.511578947368421,
+        "timeScale": 0.72
+      }
+    },
+    {
+      "type": "buffalo",
+      "phase": "idle",
+      "view": "side",
+      "file": "buffalo-side-idle.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.511578947368421,
+        "time": 0.511578947368421,
+        "timeScale": 0.72
+      }
+    },
+    {
+      "type": "buffalo",
+      "phase": "idle",
+      "view": "game",
+      "file": "buffalo-game-idle.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.511578947368421,
+        "time": 0.511578947368421,
+        "timeScale": 0.72
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "buffalo-0-windup-front.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 2,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "buffalo-0-windup-side.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 3,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "buffalo-0-windup-back.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 4,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "buffalo-0-windup-top.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 5,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "buffalo-0-windup-game.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 6,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.28,
+      "file": "buffalo-0-impact-front.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "release",
+        "castSerial": 7,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.28,
+      "file": "buffalo-0-impact-side.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "release",
+        "castSerial": 8,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.28,
+      "file": "buffalo-0-impact-back.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "release",
+        "castSerial": 9,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.28,
+      "file": "buffalo-0-impact-top.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "release",
+        "castSerial": 10,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.28,
+      "file": "buffalo-0-impact-game.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "release",
+        "castSerial": 11,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "buffalo-1-windup-front.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 12,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "buffalo-1-windup-side.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 13,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "buffalo-1-windup-back.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 14,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "buffalo-1-windup-top.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 15,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "buffalo-1-windup-game.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 16,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.28,
+      "file": "buffalo-1-impact-front.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 17,
+        "poseFraction": 0.6200000000000001,
+        "clip": "attack",
+        "clipTime": 0.6200000000000001,
+        "time": 0.6200000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.28,
+      "file": "buffalo-1-impact-side.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 18,
+        "poseFraction": 0.6200000000000001,
+        "clip": "attack",
+        "clipTime": 0.6200000000000001,
+        "time": 0.6200000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.28,
+      "file": "buffalo-1-impact-back.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 19,
+        "poseFraction": 0.6200000000000001,
+        "clip": "attack",
+        "clipTime": 0.6200000000000001,
+        "time": 0.6200000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.28,
+      "file": "buffalo-1-impact-top.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 20,
+        "poseFraction": 0.6200000000000001,
+        "clip": "attack",
+        "clipTime": 0.6200000000000001,
+        "time": 0.6200000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.28,
+      "file": "buffalo-1-impact-game.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 21,
+        "poseFraction": 0.6200000000000001,
+        "clip": "attack",
+        "clipTime": 0.6200000000000001,
+        "time": 0.6200000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "phase": "footprint",
+      "file": "buffalo-0-footprint.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 22,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "phase": "footprint",
+      "file": "buffalo-1-footprint.png",
+      "bodyHash": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 23,
+        "poseFraction": 0.2,
+        "clip": "attack",
+        "clipTime": 0.2,
+        "time": 0.2,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "phase": "idle",
+      "view": "front",
+      "file": "takian-front-idle.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.4731578947368421,
+        "time": 0.4731578947368421,
+        "timeScale": 0.58
+      }
+    },
+    {
+      "type": "takian",
+      "phase": "idle",
+      "view": "side",
+      "file": "takian-side-idle.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.4731578947368421,
+        "time": 0.4731578947368421,
+        "timeScale": 0.58
+      }
+    },
+    {
+      "type": "takian",
+      "phase": "idle",
+      "view": "game",
+      "file": "takian-game-idle.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.4731578947368421,
+        "time": 0.4731578947368421,
+        "timeScale": 0.58
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "takian-0-windup-front.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 24,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "takian-0-windup-side.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 25,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "takian-0-windup-back.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 26,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "takian-0-windup-top.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 27,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "takian-0-windup-game.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 28,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.33,
+      "file": "takian-0-impact-front.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 29,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.33,
+      "file": "takian-0-impact-side.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 30,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.33,
+      "file": "takian-0-impact-back.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 31,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.33,
+      "file": "takian-0-impact-top.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 32,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.33,
+      "file": "takian-0-impact-game.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 33,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "takian-1-windup-front.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 34,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "takian-1-windup-side.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 35,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "takian-1-windup-back.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 36,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "takian-1-windup-top.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 37,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "takian-1-windup-game.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 38,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.33,
+      "file": "takian-1-impact-front.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 39,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.33,
+      "file": "takian-1-impact-side.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 40,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.33,
+      "file": "takian-1-impact-back.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 41,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.33,
+      "file": "takian-1-impact-top.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 42,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.33,
+      "file": "takian-1-impact-game.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 43,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "phase": "footprint",
+      "file": "takian-0-footprint.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 44,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "phase": "footprint",
+      "file": "takian-1-footprint.png",
+      "bodyHash": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 45,
+        "poseFraction": 0.34,
+        "clip": "attack",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "phase": "idle",
+      "view": "front",
+      "file": "pusom-front-idle.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.3868421052631578,
+        "time": 0.3868421052631578,
+        "timeScale": 0.7
+      }
+    },
+    {
+      "type": "pusom",
+      "phase": "idle",
+      "view": "side",
+      "file": "pusom-side-idle.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.3868421052631578,
+        "time": 0.3868421052631578,
+        "timeScale": 0.7
+      }
+    },
+    {
+      "type": "pusom",
+      "phase": "idle",
+      "view": "game",
+      "file": "pusom-game-idle.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.3868421052631578,
+        "time": 0.3868421052631578,
+        "timeScale": 0.7
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "pusom-0-windup-front.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 46,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "pusom-0-windup-side.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 47,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "pusom-0-windup-back.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 48,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "pusom-0-windup-top.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 49,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "pusom-0-windup-game.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 50,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.26,
+      "file": "pusom-0-impact-front.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "release",
+        "castSerial": 51,
+        "poseFraction": 0.5999999999999998,
+        "clip": "attack",
+        "clipTime": 0.5999999999999998,
+        "time": 0.5999999999999998,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.26,
+      "file": "pusom-0-impact-side.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "release",
+        "castSerial": 52,
+        "poseFraction": 0.5999999999999998,
+        "clip": "attack",
+        "clipTime": 0.5999999999999998,
+        "time": 0.5999999999999998,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.26,
+      "file": "pusom-0-impact-back.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "release",
+        "castSerial": 53,
+        "poseFraction": 0.5999999999999998,
+        "clip": "attack",
+        "clipTime": 0.5999999999999998,
+        "time": 0.5999999999999998,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.26,
+      "file": "pusom-0-impact-top.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "release",
+        "castSerial": 54,
+        "poseFraction": 0.5999999999999998,
+        "clip": "attack",
+        "clipTime": 0.5999999999999998,
+        "time": 0.5999999999999998,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.26,
+      "file": "pusom-0-impact-game.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "release",
+        "castSerial": 55,
+        "poseFraction": 0.5999999999999998,
+        "clip": "attack",
+        "clipTime": 0.5999999999999998,
+        "time": 0.5999999999999998,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "pusom-1-windup-front.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 56,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "pusom-1-windup-side.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 57,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "pusom-1-windup-back.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 58,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "pusom-1-windup-top.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 59,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "pusom-1-windup-game.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 60,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.26,
+      "file": "pusom-1-impact-front.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 61,
+        "poseFraction": 0.6000000000000001,
+        "clip": "attack",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.26,
+      "file": "pusom-1-impact-side.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 62,
+        "poseFraction": 0.6000000000000001,
+        "clip": "attack",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.26,
+      "file": "pusom-1-impact-back.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 63,
+        "poseFraction": 0.6000000000000001,
+        "clip": "attack",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.26,
+      "file": "pusom-1-impact-top.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 64,
+        "poseFraction": 0.6000000000000001,
+        "clip": "attack",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.26,
+      "file": "pusom-1-impact-game.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 65,
+        "poseFraction": 0.6000000000000001,
+        "clip": "attack",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "phase": "footprint",
+      "file": "pusom-0-footprint.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 66,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "phase": "footprint",
+      "file": "pusom-1-footprint.png",
+      "bodyHash": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 67,
+        "poseFraction": 0.32,
+        "clip": "attack",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "phase": "idle",
+      "view": "front",
+      "file": "chalawan-front-idle.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.41,
+        "time": 0.41,
+        "timeScale": 0.82
+      }
+    },
+    {
+      "type": "chalawan",
+      "phase": "idle",
+      "view": "side",
+      "file": "chalawan-side-idle.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.41,
+        "time": 0.41,
+        "timeScale": 0.82
+      }
+    },
+    {
+      "type": "chalawan",
+      "phase": "idle",
+      "view": "game",
+      "file": "chalawan-game-idle.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.41,
+        "time": 0.41,
+        "timeScale": 0.82
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "chalawan-0-windup-front.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 68,
+        "poseFraction": 0.32,
+        "clip": "cast-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "chalawan-0-windup-side.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 69,
+        "poseFraction": 0.32,
+        "clip": "cast-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "chalawan-0-windup-back.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 70,
+        "poseFraction": 0.32,
+        "clip": "cast-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "chalawan-0-windup-top.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 71,
+        "poseFraction": 0.32,
+        "clip": "cast-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "chalawan-0-windup-game.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 72,
+        "poseFraction": 0.32,
+        "clip": "cast-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.28,
+      "file": "chalawan-0-impact-front.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 73,
+        "poseFraction": 0.58,
+        "clip": "cast-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.28,
+      "file": "chalawan-0-impact-side.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 74,
+        "poseFraction": 0.58,
+        "clip": "cast-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.28,
+      "file": "chalawan-0-impact-back.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 75,
+        "poseFraction": 0.58,
+        "clip": "cast-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.28,
+      "file": "chalawan-0-impact-top.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 76,
+        "poseFraction": 0.58,
+        "clip": "cast-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.28,
+      "file": "chalawan-0-impact-game.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 77,
+        "poseFraction": 0.58,
+        "clip": "cast-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "chalawan-1-windup-front.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 78,
+        "poseFraction": 0.32,
+        "clip": "ritual-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "chalawan-1-windup-side.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 79,
+        "poseFraction": 0.32,
+        "clip": "ritual-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "chalawan-1-windup-back.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 80,
+        "poseFraction": 0.32,
+        "clip": "ritual-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "chalawan-1-windup-top.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 81,
+        "poseFraction": 0.32,
+        "clip": "ritual-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "chalawan-1-windup-game.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 82,
+        "poseFraction": 0.32,
+        "clip": "ritual-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.28,
+      "file": "chalawan-1-impact-front.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 83,
+        "poseFraction": 0.5799999999999997,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999997,
+        "time": 0.5799999999999997,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.28,
+      "file": "chalawan-1-impact-side.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 84,
+        "poseFraction": 0.5799999999999997,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999997,
+        "time": 0.5799999999999997,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.28,
+      "file": "chalawan-1-impact-back.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 85,
+        "poseFraction": 0.5799999999999997,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999997,
+        "time": 0.5799999999999997,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.28,
+      "file": "chalawan-1-impact-top.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 86,
+        "poseFraction": 0.5799999999999997,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999997,
+        "time": 0.5799999999999997,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.28,
+      "file": "chalawan-1-impact-game.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "release",
+        "castSerial": 87,
+        "poseFraction": 0.5799999999999997,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999997,
+        "time": 0.5799999999999997,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "phase": "footprint",
+      "file": "chalawan-0-footprint.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 88,
+        "poseFraction": 0.32,
+        "clip": "cast-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "phase": "footprint",
+      "file": "chalawan-1-footprint.png",
+      "bodyHash": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 89,
+        "poseFraction": 0.32,
+        "clip": "ritual-meshy",
+        "clipTime": 0.32,
+        "time": 0.32,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "bamboo_grave_3-front-idle.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.325,
+        "time": 0.325,
+        "timeScale": 0.65
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "bamboo_grave_3-side-idle.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.325,
+        "time": 0.325,
+        "timeScale": 0.65
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "bamboo_grave_3-game-idle.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.325,
+        "time": 0.325,
+        "timeScale": 0.65
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "bamboo_grave_3-0-windup-front.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 90,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "bamboo_grave_3-0-windup-side.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 91,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "bamboo_grave_3-0-windup-back.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 92,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "bamboo_grave_3-0-windup-top.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 93,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "bamboo_grave_3-0-windup-game.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 94,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-0-impact-front.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 95,
+        "poseFraction": 0.6299999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-0-impact-side.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 96,
+        "poseFraction": 0.6299999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-0-impact-back.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 97,
+        "poseFraction": 0.6299999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-0-impact-top.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 98,
+        "poseFraction": 0.6299999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-0-impact-game.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 99,
+        "poseFraction": 0.6299999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "bamboo_grave_3-1-windup-front.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 100,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "bamboo_grave_3-1-windup-side.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 101,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "bamboo_grave_3-1-windup-back.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 102,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "bamboo_grave_3-1-windup-top.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 103,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "bamboo_grave_3-1-windup-game.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 104,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-1-impact-front.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 105,
+        "poseFraction": 0.6299999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-1-impact-side.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 106,
+        "poseFraction": 0.6299999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-1-impact-back.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 107,
+        "poseFraction": 0.6299999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-1-impact-top.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 108,
+        "poseFraction": 0.6299999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.32,
+      "file": "bamboo_grave_3-1-impact-game.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "release",
+        "castSerial": 109,
+        "poseFraction": 0.6299999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "bamboo_grave_3-0-footprint.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 110,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "bamboo_grave_3-1-footprint.png",
+      "bodyHash": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 111,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "sealed_mine_3-front-idle.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.2899999999999999,
+        "time": 0.2899999999999999,
+        "timeScale": 0.58
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "sealed_mine_3-side-idle.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.2899999999999999,
+        "time": 0.2899999999999999,
+        "timeScale": 0.58
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "sealed_mine_3-game-idle.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.2899999999999999,
+        "time": 0.2899999999999999,
+        "timeScale": 0.58
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "sealed_mine_3-0-windup-front.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 112,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "sealed_mine_3-0-windup-side.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 113,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "sealed_mine_3-0-windup-back.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 114,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "sealed_mine_3-0-windup-top.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 115,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "sealed_mine_3-0-windup-game.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 116,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-0-impact-front.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "release",
+        "castSerial": 117,
+        "poseFraction": 0.6,
+        "clip": "cast-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-0-impact-side.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "release",
+        "castSerial": 118,
+        "poseFraction": 0.6,
+        "clip": "cast-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-0-impact-back.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "release",
+        "castSerial": 119,
+        "poseFraction": 0.6,
+        "clip": "cast-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-0-impact-top.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "release",
+        "castSerial": 120,
+        "poseFraction": 0.6,
+        "clip": "cast-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-0-impact-game.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "release",
+        "castSerial": 121,
+        "poseFraction": 0.6,
+        "clip": "cast-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "sealed_mine_3-1-windup-front.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 122,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "sealed_mine_3-1-windup-side.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 123,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "sealed_mine_3-1-windup-back.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 124,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "sealed_mine_3-1-windup-top.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 125,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "sealed_mine_3-1-windup-game.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 126,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-1-impact-front.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 127,
+        "poseFraction": 0.6000000000000001,
+        "clip": "cast-meshy",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-1-impact-side.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 128,
+        "poseFraction": 0.6000000000000001,
+        "clip": "cast-meshy",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-1-impact-back.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 129,
+        "poseFraction": 0.6000000000000001,
+        "clip": "cast-meshy",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-1-impact-top.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 130,
+        "poseFraction": 0.6000000000000001,
+        "clip": "cast-meshy",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.28,
+      "file": "sealed_mine_3-1-impact-game.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 131,
+        "poseFraction": 0.6000000000000001,
+        "clip": "cast-meshy",
+        "clipTime": 0.6000000000000001,
+        "time": 0.6000000000000001,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "sealed_mine_3-0-footprint.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 132,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "sealed_mine_3-1-footprint.png",
+      "bodyHash": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 133,
+        "poseFraction": 0.34,
+        "clip": "cast-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "sunken_city_3-front-idle.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.4342105263157895,
+        "time": 0.4342105263157895,
+        "timeScale": 0.66
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "sunken_city_3-side-idle.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.4342105263157895,
+        "time": 0.4342105263157895,
+        "timeScale": 0.66
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "sunken_city_3-game-idle.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle",
+        "clipTime": 0.4342105263157895,
+        "time": 0.4342105263157895,
+        "timeScale": 0.66
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "sunken_city_3-0-windup-front.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 134,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "sunken_city_3-0-windup-side.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 135,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "sunken_city_3-0-windup-back.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 136,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "sunken_city_3-0-windup-top.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 137,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "sunken_city_3-0-windup-game.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 138,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-0-impact-front.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 139,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-0-impact-side.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 140,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-0-impact-back.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 141,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-0-impact-top.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 142,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-0-impact-game.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 143,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "sunken_city_3-1-windup-front.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 144,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "sunken_city_3-1-windup-side.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 145,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "sunken_city_3-1-windup-back.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 146,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "sunken_city_3-1-windup-top.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 147,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "sunken_city_3-1-windup-game.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 148,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-1-impact-front.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "release",
+        "castSerial": 149,
+        "poseFraction": 0.6199999999999999,
+        "clip": "attack",
+        "clipTime": 0.6199999999999999,
+        "time": 0.6199999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-1-impact-side.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "release",
+        "castSerial": 150,
+        "poseFraction": 0.6199999999999999,
+        "clip": "attack",
+        "clipTime": 0.6199999999999999,
+        "time": 0.6199999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-1-impact-back.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "release",
+        "castSerial": 151,
+        "poseFraction": 0.6199999999999999,
+        "clip": "attack",
+        "clipTime": 0.6199999999999999,
+        "time": 0.6199999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-1-impact-top.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "release",
+        "castSerial": 152,
+        "poseFraction": 0.6199999999999999,
+        "clip": "attack",
+        "clipTime": 0.6199999999999999,
+        "time": 0.6199999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.3,
+      "file": "sunken_city_3-1-impact-game.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "release",
+        "castSerial": 153,
+        "poseFraction": 0.6199999999999999,
+        "clip": "attack",
+        "clipTime": 0.6199999999999999,
+        "time": 0.6199999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "sunken_city_3-0-footprint.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 154,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "sunken_city_3-1-footprint.png",
+      "bodyHash": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 155,
+        "poseFraction": 0.4,
+        "clip": "attack",
+        "clipTime": 0.4,
+        "time": 0.4,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "dusk_fort_3-front-idle.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.45000000000000007,
+        "time": 0.45000000000000007,
+        "timeScale": 0.9
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "dusk_fort_3-side-idle.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.45000000000000007,
+        "time": 0.45000000000000007,
+        "timeScale": 0.9
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "dusk_fort_3-game-idle.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.45000000000000007,
+        "time": 0.45000000000000007,
+        "timeScale": 0.9
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "dusk_fort_3-0-windup-front.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 156,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "dusk_fort_3-0-windup-side.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 157,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "dusk_fort_3-0-windup-back.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 158,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "dusk_fort_3-0-windup-top.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 159,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "dusk_fort_3-0-windup-game.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 160,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-0-impact-front.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 161,
+        "poseFraction": 0.5599999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.5599999999999999,
+        "time": 0.5599999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-0-impact-side.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 162,
+        "poseFraction": 0.5599999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.5599999999999999,
+        "time": 0.5599999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-0-impact-back.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 163,
+        "poseFraction": 0.5599999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.5599999999999999,
+        "time": 0.5599999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-0-impact-top.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 164,
+        "poseFraction": 0.5599999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.5599999999999999,
+        "time": 0.5599999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-0-impact-game.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 165,
+        "poseFraction": 0.5599999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.5599999999999999,
+        "time": 0.5599999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "dusk_fort_3-1-windup-front.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 166,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "dusk_fort_3-1-windup-side.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 167,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "dusk_fort_3-1-windup-back.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 168,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "dusk_fort_3-1-windup-top.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 169,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "dusk_fort_3-1-windup-game.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 170,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-1-impact-front.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 171,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-1-impact-side.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 172,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-1-impact-back.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 173,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-1-impact-top.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 174,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.22,
+      "file": "dusk_fort_3-1-impact-game.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 175,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "dusk_fort_3-0-footprint.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 176,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "dusk_fort_3-1-footprint.png",
+      "bodyHash": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 177,
+        "poseFraction": 0.28,
+        "clip": "cast-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "giant_valley_3-front-idle.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.3,
+        "time": 0.3,
+        "timeScale": 0.6
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "giant_valley_3-side-idle.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.3,
+        "time": 0.3,
+        "timeScale": 0.6
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "giant_valley_3-game-idle.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.3,
+        "time": 0.3,
+        "timeScale": 0.6
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "giant_valley_3-0-windup-front.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 178,
+        "poseFraction": 0.34,
+        "clip": "slash-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "giant_valley_3-0-windup-side.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 179,
+        "poseFraction": 0.34,
+        "clip": "slash-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "giant_valley_3-0-windup-back.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 180,
+        "poseFraction": 0.34,
+        "clip": "slash-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "giant_valley_3-0-windup-top.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 181,
+        "poseFraction": 0.34,
+        "clip": "slash-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "giant_valley_3-0-windup-game.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 182,
+        "poseFraction": 0.34,
+        "clip": "slash-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-0-impact-front.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "release",
+        "castSerial": 183,
+        "poseFraction": 0.5999999999999999,
+        "clip": "slash-meshy",
+        "clipTime": 0.5999999999999999,
+        "time": 0.5999999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-0-impact-side.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "release",
+        "castSerial": 184,
+        "poseFraction": 0.5999999999999999,
+        "clip": "slash-meshy",
+        "clipTime": 0.5999999999999999,
+        "time": 0.5999999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-0-impact-back.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "release",
+        "castSerial": 185,
+        "poseFraction": 0.5999999999999999,
+        "clip": "slash-meshy",
+        "clipTime": 0.5999999999999999,
+        "time": 0.5999999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-0-impact-top.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "release",
+        "castSerial": 186,
+        "poseFraction": 0.5999999999999999,
+        "clip": "slash-meshy",
+        "clipTime": 0.5999999999999999,
+        "time": 0.5999999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-0-impact-game.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "release",
+        "castSerial": 187,
+        "poseFraction": 0.5999999999999999,
+        "clip": "slash-meshy",
+        "clipTime": 0.5999999999999999,
+        "time": 0.5999999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "giant_valley_3-1-windup-front.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 188,
+        "poseFraction": 0.34,
+        "clip": "ritual-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "giant_valley_3-1-windup-side.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 189,
+        "poseFraction": 0.34,
+        "clip": "ritual-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "giant_valley_3-1-windup-back.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 190,
+        "poseFraction": 0.34,
+        "clip": "ritual-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "giant_valley_3-1-windup-top.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 191,
+        "poseFraction": 0.34,
+        "clip": "ritual-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "giant_valley_3-1-windup-game.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 192,
+        "poseFraction": 0.34,
+        "clip": "ritual-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-1-impact-front.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 193,
+        "poseFraction": 0.6,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-1-impact-side.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 194,
+        "poseFraction": 0.6,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-1-impact-back.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 195,
+        "poseFraction": 0.6,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-1-impact-top.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 196,
+        "poseFraction": 0.6,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.35,
+      "file": "giant_valley_3-1-impact-game.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 197,
+        "poseFraction": 0.6,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "giant_valley_3-0-footprint.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 198,
+        "poseFraction": 0.34,
+        "clip": "slash-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "giant_valley_3-1-footprint.png",
+      "bodyHash": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 199,
+        "poseFraction": 0.34,
+        "clip": "ritual-meshy",
+        "clipTime": 0.34,
+        "time": 0.34,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "himmapan_3-front-idle.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.47,
+        "time": 0.47,
+        "timeScale": 0.94
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "himmapan_3-side-idle.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.47,
+        "time": 0.47,
+        "timeScale": 0.94
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "himmapan_3-game-idle.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.47,
+        "time": 0.47,
+        "timeScale": 0.94
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "himmapan_3-0-windup-front.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 200,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "himmapan_3-0-windup-side.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 201,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "himmapan_3-0-windup-back.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 202,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "himmapan_3-0-windup-top.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 203,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "himmapan_3-0-windup-game.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 204,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-0-impact-front.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "release",
+        "castSerial": 205,
+        "poseFraction": 0.56,
+        "clip": "cast-meshy",
+        "clipTime": 0.56,
+        "time": 0.56,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-0-impact-side.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "release",
+        "castSerial": 206,
+        "poseFraction": 0.56,
+        "clip": "cast-meshy",
+        "clipTime": 0.56,
+        "time": 0.56,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-0-impact-back.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "release",
+        "castSerial": 207,
+        "poseFraction": 0.56,
+        "clip": "cast-meshy",
+        "clipTime": 0.56,
+        "time": 0.56,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-0-impact-top.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "release",
+        "castSerial": 208,
+        "poseFraction": 0.56,
+        "clip": "cast-meshy",
+        "clipTime": 0.56,
+        "time": 0.56,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-0-impact-game.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "release",
+        "castSerial": 209,
+        "poseFraction": 0.56,
+        "clip": "cast-meshy",
+        "clipTime": 0.56,
+        "time": 0.56,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "himmapan_3-1-windup-front.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 210,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "himmapan_3-1-windup-side.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 211,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "himmapan_3-1-windup-back.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 212,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "himmapan_3-1-windup-top.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 213,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "himmapan_3-1-windup-game.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 214,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-1-impact-front.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 215,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-1-impact-side.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 216,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-1-impact-back.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 217,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-1-impact-top.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 218,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.24,
+      "file": "himmapan_3-1-impact-game.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 219,
+        "poseFraction": 0.5600000000000002,
+        "clip": "cast-meshy",
+        "clipTime": 0.5600000000000002,
+        "time": 0.5600000000000002,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "himmapan_3-0-footprint.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 220,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "himmapan_3-1-footprint.png",
+      "bodyHash": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 221,
+        "poseFraction": 0.26,
+        "clip": "cast-meshy",
+        "clipTime": 0.26,
+        "time": 0.26,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "fallen_city_3-front-idle.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.4299999999999999,
+        "time": 0.4299999999999999,
+        "timeScale": 0.86
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "fallen_city_3-side-idle.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.4299999999999999,
+        "time": 0.4299999999999999,
+        "timeScale": 0.86
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "fallen_city_3-game-idle.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.4299999999999999,
+        "time": 0.4299999999999999,
+        "timeScale": 0.86
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 1.8,
+      "file": "fallen_city_3-0-windup-front.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 222,
+        "poseFraction": 0.28,
+        "clip": "slash-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 1.8,
+      "file": "fallen_city_3-0-windup-side.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 223,
+        "poseFraction": 0.28,
+        "clip": "slash-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 1.8,
+      "file": "fallen_city_3-0-windup-back.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 224,
+        "poseFraction": 0.28,
+        "clip": "slash-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 1.8,
+      "file": "fallen_city_3-0-windup-top.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 225,
+        "poseFraction": 0.28,
+        "clip": "slash-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 1.8,
+      "file": "fallen_city_3-0-windup-game.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 226,
+        "poseFraction": 0.28,
+        "clip": "slash-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-0-impact-front.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 227,
+        "poseFraction": 0.58,
+        "clip": "slash-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-0-impact-side.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 228,
+        "poseFraction": 0.58,
+        "clip": "slash-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-0-impact-back.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 229,
+        "poseFraction": 0.58,
+        "clip": "slash-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-0-impact-top.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 230,
+        "poseFraction": 0.58,
+        "clip": "slash-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-0-impact-game.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 231,
+        "poseFraction": 0.58,
+        "clip": "slash-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "fallen_city_3-1-windup-front.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 232,
+        "poseFraction": 0.28,
+        "clip": "ritual-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "fallen_city_3-1-windup-side.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 233,
+        "poseFraction": 0.28,
+        "clip": "ritual-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "fallen_city_3-1-windup-back.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 234,
+        "poseFraction": 0.28,
+        "clip": "ritual-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "fallen_city_3-1-windup-top.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 235,
+        "poseFraction": 0.28,
+        "clip": "ritual-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "fallen_city_3-1-windup-game.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 236,
+        "poseFraction": 0.28,
+        "clip": "ritual-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-1-impact-front.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 237,
+        "poseFraction": 0.5799999999999996,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999996,
+        "time": 0.5799999999999996,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-1-impact-side.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 238,
+        "poseFraction": 0.5799999999999996,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999996,
+        "time": 0.5799999999999996,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-1-impact-back.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 239,
+        "poseFraction": 0.5799999999999996,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999996,
+        "time": 0.5799999999999996,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-1-impact-top.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 240,
+        "poseFraction": 0.5799999999999996,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999996,
+        "time": 0.5799999999999996,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.24,
+      "file": "fallen_city_3-1-impact-game.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "release",
+        "castSerial": 241,
+        "poseFraction": 0.5799999999999996,
+        "clip": "ritual-meshy",
+        "clipTime": 0.5799999999999996,
+        "time": 0.5799999999999996,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "fallen_city_3-0-footprint.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 242,
+        "poseFraction": 0.28,
+        "clip": "slash-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "fallen_city_3-1-footprint.png",
+      "bodyHash": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 243,
+        "poseFraction": 0.28,
+        "clip": "ritual-meshy",
+        "clipTime": 0.28,
+        "time": 0.28,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "phase": "idle",
+      "view": "front",
+      "file": "demon_rift_3-front-idle.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.36000000000000004,
+        "time": 0.36000000000000004,
+        "timeScale": 0.72
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "phase": "idle",
+      "view": "side",
+      "file": "demon_rift_3-side-idle.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.36000000000000004,
+        "time": 0.36000000000000004,
+        "timeScale": 0.72
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "phase": "idle",
+      "view": "game",
+      "file": "demon_rift_3-game-idle.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "none",
+        "castSerial": 0,
+        "poseFraction": 0,
+        "clip": "idle-meshy",
+        "clipTime": 0.36000000000000004,
+        "time": 0.36000000000000004,
+        "timeScale": 0.72
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2,
+      "file": "demon_rift_3-0-windup-front.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 244,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2,
+      "file": "demon_rift_3-0-windup-side.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 245,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2,
+      "file": "demon_rift_3-0-windup-back.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 246,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2,
+      "file": "demon_rift_3-0-windup-top.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 247,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2,
+      "file": "demon_rift_3-0-windup-game.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 248,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-0-impact-front.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 249,
+        "poseFraction": 0.6399999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-0-impact-side.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 250,
+        "poseFraction": 0.6399999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-0-impact-back.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 251,
+        "poseFraction": 0.6399999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-0-impact-top.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 252,
+        "poseFraction": 0.6399999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-0-impact-game.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 253,
+        "poseFraction": 0.6399999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "front",
+      "requestedTime": 2.4,
+      "file": "demon_rift_3-1-windup-front.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 254,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "side",
+      "requestedTime": 2.4,
+      "file": "demon_rift_3-1-windup-side.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 255,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "back",
+      "requestedTime": 2.4,
+      "file": "demon_rift_3-1-windup-back.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 256,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "top",
+      "requestedTime": 2.4,
+      "file": "demon_rift_3-1-windup-top.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 257,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "windup",
+      "view": "game",
+      "requestedTime": 2.4,
+      "file": "demon_rift_3-1-windup-game.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 258,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "front",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-1-impact-front.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 259,
+        "poseFraction": 0.6399999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "side",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-1-impact-side.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 260,
+        "poseFraction": 0.6399999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "back",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-1-impact-back.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 261,
+        "poseFraction": 0.6399999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "top",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-1-impact-top.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 262,
+        "poseFraction": 0.6399999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "impact",
+      "view": "game",
+      "requestedTime": 0.3,
+      "file": "demon_rift_3-1-impact-game.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "release",
+        "castSerial": 263,
+        "poseFraction": 0.6399999999999999,
+        "clip": "ritual-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "phase": "footprint",
+      "file": "demon_rift_3-0-footprint.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 264,
+        "poseFraction": 0.36,
+        "clip": "cast-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "phase": "footprint",
+      "file": "demon_rift_3-1-footprint.png",
+      "bodyHash": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "actual": {
+        "phase": "hold",
+        "castSerial": 265,
+        "poseFraction": 0.36,
+        "clip": "ritual-meshy",
+        "clipTime": 0.36,
+        "time": 0.36,
+        "timeScale": 1
+      }
+    },
+    {
+      "type": "buffalo",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "buffalo-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 2,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "takian",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "takian-mobile.png",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 3,
+        "poseFraction": 0.6,
+        "clip": "attack",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "pusom",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "pusom-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 4,
+        "poseFraction": 0.5999999999999998,
+        "clip": "attack",
+        "clipTime": 0.5999999999999998,
+        "time": 0.5999999999999998,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "chalawan",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "chalawan-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 5,
+        "poseFraction": 0.58,
+        "clip": "cast-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "bamboo_grave_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 6,
+        "poseFraction": 0.6299999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6299999999999999,
+        "time": 0.6299999999999999,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "sealed_mine_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 7,
+        "poseFraction": 0.6,
+        "clip": "cast-meshy",
+        "clipTime": 0.6,
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "sunken_city_3-mobile.png",
+      "actual": {
+        "phase": "recovery",
+        "castSerial": 8,
+        "poseFraction": 0.62,
+        "clip": "attack",
+        "clipTime": 0.62,
+        "time": 0.62,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "dusk_fort_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 9,
+        "poseFraction": 0.5599999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.5599999999999999,
+        "time": 0.5599999999999999,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "giant_valley_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 10,
+        "poseFraction": 0.5999999999999999,
+        "clip": "slash-meshy",
+        "clipTime": 0.5999999999999999,
+        "time": 0.5999999999999999,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "himmapan_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 11,
+        "poseFraction": 0.56,
+        "clip": "cast-meshy",
+        "clipTime": 0.56,
+        "time": 0.56,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "fallen_city_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 12,
+        "poseFraction": 0.58,
+        "clip": "slash-meshy",
+        "clipTime": 0.58,
+        "time": 0.58,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "phase": "impact",
+      "view": "mobile-game",
+      "file": "demon_rift_3-mobile.png",
+      "actual": {
+        "phase": "release",
+        "castSerial": 13,
+        "poseFraction": 0.6399999999999999,
+        "clip": "cast-meshy",
+        "clipTime": 0.6399999999999999,
+        "time": 0.6399999999999999,
+        "timeScale": 1
+      },
+      "touch": {
+        "touch": true,
+        "pointer": true,
+        "overflow": false
+      }
+    }
+  ]
+}

@@ -6,8 +6,9 @@ import { makeMonsterModel } from './MonsterModels.js';
 import { makeMonsterSprite, preloadMonsterSprites, MONSTER_SPRITES } from './MonsterSprites.js';
 import { seedOf } from '../core/seed.js';
 import { BossTelegraphs } from './BossTelegraphs.js';
-import { disposeCombatModel } from './CombatResources.js';
+import { disposeCombatModel, isCombatModelDisposed } from './CombatResources.js';
 import { applyMonsterFeedback } from './MonsterFeedback.js';
+import { BossMotion, BOSS_MOTION_PROFILES } from './BossMotion.js';
 
 // How monsters are drawn: 'pixel' (RO-style sprite billboards, src/combat/MonsterSprites.js) or
 // '3d' (Blender GLB models / built meshes). Per device (src/ui/viewPrefs.js); CombatView.restyle().
@@ -273,8 +274,8 @@ export class CombatView {
     this.views = new Map(); this.effects = [];
     this.root = new THREE.Group(); this.root.name = 'combat'; scene.add(this.root);
     this.bossTelegraphs = new BossTelegraphs(this.root, groundHeight);
-    combat.on('boss-skill', e => this.bossTelegraphs.event(e));
-    combat.on('boss-skills-clear', () => this.bossTelegraphs.clear());
+    combat.on('boss-skill', e => this.bossSkill(e));
+    combat.on('boss-skills-clear', () => this.clearBossMotions());
     combat.on('despawn', m => this.bossTelegraphs.clear(m.id));
     combat.on('kill', ({ monster }) => this.bossTelegraphs.clear(monster.id));
 
@@ -282,10 +283,14 @@ export class CombatView {
     this.targetRing.rotation.x = -Math.PI / 2; this.targetRing.visible = false; this.root.add(this.targetRing);
 
     for (const m of combat.monsters) this.ensure(m);
-    combat.on('spawn', m => { const v = this.ensure(m); v.group.visible = true; v.fade = 0; });
+    combat.on('spawn', m => {
+      const v = this.ensure(m); v.group.visible = true; v.fade = 0; v.dying = 0; v.attackAnim = 0;
+      if (v.bossMotion?.dead) v.bossMotion.reset();
+      if (m.skillCast) v.bossMotion?.event({ stage: 'windup', cast: m.skillCast, snapshot: true });
+    });
     combat.on('hit', ({ monster }) => { const v = this.views.get(monster.id); if (v) v.flash = .15; });
-    combat.on('kill', ({ monster }) => { const v = this.views.get(monster.id); if (v) v.dying = 1; });
-    combat.on('despawn', monster => { const v = this.views.get(monster.id); if (v) v.dying = 1; });
+    combat.on('kill', ({ monster }) => { const v = this.views.get(monster.id); if (v) { v.dying = 1; v.bossMotion?.update(0, { dying: true }); } });
+    combat.on('despawn', monster => { const v = this.views.get(monster.id); if (v) { v.dying = 1; v.bossMotion?.update(0, { dying: true }); } });
     combat.on('projectile', e => this.projectile(e));
     combat.on('aoe', e => this.ring(e.x, e.z, e.radius, e.skillId === 'whirl' ? '#f1d18a' : '#ff8a4a'));
     // melee blows look like the class's weapon: a fist's impact, a blade's arc, a knife's thrust
@@ -309,23 +314,50 @@ export class CombatView {
 
   // Redraw every monster in another style (the settings' "โมเดลมอนสเตอร์").
   disposeModel(group) { disposeCombatModel(group); }
+  bossSkill(event) {
+    const { monster, stage, cast } = event;
+    if (!monster?.alive || !this.combat.monsters.includes(monster)) return;
+    const view = this.ensure(monster);
+    // Serial checks govern both the pose and its visual warning. They do not
+    // touch the authoritative monster state or damage event stream.
+    if (view.bossMotion) {
+      const accepted = view.bossMotion.event({ stage, cast, snapshot: stage === 'windup' && monster.skillCast === cast });
+      if (!accepted && !(stage === 'windup' && view.bossMotion.active?.stage === 'windup'
+        && view.bossMotion.serial === cast?.serial && !this.bossTelegraphs.items.has(monster.id))) return;
+    }
+    this.bossTelegraphs.event(event);
+  }
+  clearBossMotions() {
+    this.bossTelegraphs.clear();
+    for (const v of this.views.values()) v.bossMotion?.clear();
+  }
   restyle(style) {
     MONSTER_STYLE = style === '3d' ? '3d' : 'pixel';
     if (MONSTER_STYLE === 'pixel') preloadMonsterSprites(this.combat.monsters.map(m => m.type));   // the map's sheets, before its monsters wake
-    for (const [id, v] of this.views) { this.root.remove(v.group); disposeCombatModel(v.group); this.views.delete(id); }
-    for (const m of this.combat.monsters) if (m.alive) this.ensure(m);
+    const previous = new Map(this.views);
+    for (const [id, v] of this.views) { this.root.remove(v.group); this.disposeModel(v.group); this.views.delete(id); }
+    for (const m of this.combat.monsters) if (m.alive) this.ensure(m, previous.get(m.id)?.monster === m ? previous.get(m.id).bossMotion : null);
   }
-  ensure(m) {
-    if (this.views.has(m.id)) return this.views.get(m.id);
+  ensure(m, preservedMotion = null) {
+    const existing = this.views.get(m.id);
+    const disposed = existing && isCombatModelDisposed(existing.group);
+    if (existing?.monster === m && !disposed) return existing;
+    // Map release may keep the Monster/view entry after retiring its model.
+    // Rebuild the same instance with a fresh controller and fresh load guards.
+    if (disposed) preservedMotion = null;
+    // A reconnect can reuse a server id for a different monster instance.
+    if (existing) { this.root.remove(existing.group); this.disposeModel(existing.group); this.views.delete(m.id); }
+    const bossMotion = BOSS_MOTION_PROFILES[m.type] ? preservedMotion ?? new BossMotion(m.type) : null;
+    if (!preservedMotion && m.skillCast) bossMotion?.event({ stage: 'windup', cast: m.skillCast, snapshot: true });
     const fallback = makeMonsterFallback(m.def);
     const pixel = MONSTER_STYLE === 'pixel' && MONSTER_SPRITES[m.type];
-    const group = pixel ? makeMonsterSprite(m.type, m.def, m.id, fallback) : makeMonsterModel(m.type, fallback, m.id);
+    const group = pixel ? makeMonsterSprite(m.type, m.def, m.id, fallback) : makeMonsterModel(m.type, fallback, m.id, { bossMotion });
     if (!pixel) group.scale.setScalar(m.def.size);   // a sprite carries its own height
-    group.traverse(o => { if (o.isMesh) { o.userData.monsterId = m.id; o.material = o.material.clone(); } });
+    group.traverse(o => { if (o.isMesh) { o.userData.monsterId = m.id; o.material = Array.isArray(o.material) ? o.material.map(m => m.clone()) : o.material.clone(); } });
     const pick = new THREE.Mesh(new THREE.CylinderGeometry(.75, .75, 1.8, 8), new THREE.MeshBasicMaterial({ visible: false }));
     pick.position.y = .9; pick.userData.monsterId = m.id; group.add(pick);
     this.root.add(group);
-    const view = { group, monster: m, flash: 0, dying: 0, fade: 1, attackAnim: 0, animationState: { hurt: false, dying: false } };
+    const view = { group, monster: m, bossMotion, pixel, flash: 0, dying: 0, fade: 1, attackAnim: 0, animationState: { hurt: false, dying: false } };
     this.views.set(m.id, view);
     return view;
   }
@@ -394,13 +426,12 @@ export class CombatView {
     this.bossTelegraphs.update(dt, this.combat.world.playerPos(), this.combat.target?.id);
     const target = this.combat.target;
     const camYaw = camera ? Math.atan2(camera.matrixWorld.elements[8], camera.matrixWorld.elements[10]) : 0;   // the camera's yaw: the way it looks along the ground
-    // a view whose monster has left the fight list (online: a server id never comes back; offline:
-    // a respawn reuses the Monster) is dropped once its death has played, or the map would keep
+    // A view whose monster has left the fight list is dropped once its death has played, or the map would keep
     // every skinned clone and sprite it ever drew
     if ((this.pruneAt = (this.pruneAt ?? 0) + dt) > 2) {
       this.pruneAt = 0;
       const live = new Set(this.combat.monsters);
-      for (const [id, v] of this.views) if (!live.has(v.monster) && !v.dying) { this.root.remove(v.group); disposeCombatModel(v.group); this.views.delete(id); }
+      for (const [id, v] of this.views) if (!live.has(v.monster) && !v.dying) { this.root.remove(v.group); this.disposeModel(v.group); this.views.delete(id); }
     }
     for (const v of this.views.values()) {
       const m = v.monster, g = v.group;
@@ -411,9 +442,11 @@ export class CombatView {
       if (m.attackTimer > (m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay)) - .3) v.attackAnim = .25;
       v.attackAnim = Math.max(0, v.attackAnim - dt);
       v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
+      v.animationState.bossMotion = v.bossMotion?.update(dt, v.animationState);
       v.animationState.tint = m.debuffs.some(d => d.dot) ? '#b78ad0' : m.debuffs.some(d => d.stun) ? '#e6d27a' : m.debuffs.some(d => d.slow) ? '#8fb4d8' : null;
       g.userData.face?.(camYaw);
-      g.userData.animate?.(elapsed + (v.seed ??= seedOf(m.id) * .37), m.moving, v.attackAnim > 0 || !!m.skillCast, v.animationState);
+      g.userData.animate?.(elapsed + (v.seed ??= seedOf(m.id) * .37), m.moving,
+        v.attackAnim > 0 || ((!v.bossMotion || v.pixel) && !!m.skillCast), v.animationState);
       v.flash = Math.max(0, v.flash - dt);
       if (v.dying) {
         v.dying = Math.max(0, v.dying - dt * 1.4);

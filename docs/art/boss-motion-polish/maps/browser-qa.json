@@ -1,0 +1,1245 @@
+{
+  "at": "2026-10-09T15:58:06.862Z",
+  "scope": "Loaded production map worlds and atlas; local guest, no live boss availability claim. Software-rendered desktop and genuine coarse-pointer touch emulation. Static lairs tested with no alive boss data.",
+  "rows": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "city",
+      "bosses": [],
+      "rows": [],
+      "hits": [],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": 52
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด"
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "paddy",
+      "bosses": [
+        {
+          "id": "boss:buffalo_meadow:buffalo",
+          "name": "ควายป่า · Lv 4",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 72,
+          "z": -252
+        }
+      ],
+      "rows": [
+        "boss:buffalo_meadow:buffalo"
+      ],
+      "hits": [
+        {
+          "id": "boss:buffalo_meadow:buffalo",
+          "title": "ควายป่า · Lv 4 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:buffalo_meadow:buffalo",
+          "title": "ควายป่า · Lv 4 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -130
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:buffalo_meadow:buffalo",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -130
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "deep_forest",
+      "bosses": [
+        {
+          "id": "boss:takhian_tree:takian",
+          "name": "นางตะเคียน · Lv 6",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": -70,
+          "z": -338
+        }
+      ],
+      "rows": [
+        "boss:takhian_tree:takian"
+      ],
+      "hits": [
+        {
+          "id": "boss:takhian_tree:takian",
+          "title": "นางตะเคียน · Lv 6 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:takhian_tree:takian",
+          "title": "นางตะเคียน · Lv 6 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -311
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:takhian_tree:takian",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -311
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "wat_rang",
+      "bosses": [
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "name": "ผีปู่โสม · Lv 10",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 90,
+          "z": -540
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "name": "กระสือ · Lv 7",
+          "tag": "ถิ่นบอส · กลางคืน",
+          "x": 70,
+          "z": -562
+        }
+      ],
+      "rows": [
+        "boss:wat_stupas:krasue",
+        "boss:wat_ubosot:pusom"
+      ],
+      "hits": [
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "title": "ผีปู่โสม · Lv 10 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "title": "กระสือ · Lv 7 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "title": "ผีปู่โสม · Lv 10 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "title": "กระสือ · Lv 7 · ถิ่นบอส · กลางคืน"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": -1.5,
+        "z": -459
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:wat_ubosot:pusom",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": -1.5,
+          "z": -459
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "klong",
+      "bosses": [
+        {
+          "id": "boss:tani_grove:tani",
+          "name": "นางตานี · Lv 20",
+          "tag": "ถิ่นบอส · กลางคืน",
+          "x": -44,
+          "z": -742
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "name": "ชาละวัน · Lv 25",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 62,
+          "z": -774
+        }
+      ],
+      "rows": [
+        "boss:chalawan_lagoon:chalawan",
+        "boss:tani_grove:tani"
+      ],
+      "hits": [
+        {
+          "id": "boss:tani_grove:tani",
+          "title": "นางตานี · Lv 20 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "title": "ชาละวัน · Lv 25 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:tani_grove:tani",
+          "title": "นางตานี · Lv 20 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "title": "ชาละวัน · Lv 25 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": -40,
+        "z": -612
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:tani_grove:tani",
+        "detail": "ถิ่นบอส · กลางคืน · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": -40,
+          "z": -612
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "bamboo_grave",
+      "bosses": [
+        {
+          "id": "boss:boss_bamboo_grave:bamboo_grave_3",
+          "name": "เจ้าป่าช้า · Lv 30",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -1031
+        }
+      ],
+      "rows": [
+        "boss:boss_bamboo_grave:bamboo_grave_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_bamboo_grave:bamboo_grave_3",
+          "title": "เจ้าป่าช้า · Lv 30 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_bamboo_grave:bamboo_grave_3",
+          "title": "เจ้าป่าช้า · Lv 30 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -844
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_bamboo_grave:bamboo_grave_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -844
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "sealed_mine",
+      "bosses": [
+        {
+          "id": "boss:boss_sealed_mine:sealed_mine_3",
+          "name": "ผู้พิทักษ์เหมือง · Lv 40",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -1271
+        }
+      ],
+      "rows": [
+        "boss:boss_sealed_mine:sealed_mine_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_sealed_mine:sealed_mine_3",
+          "title": "ผู้พิทักษ์เหมือง · Lv 40 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_sealed_mine:sealed_mine_3",
+          "title": "ผู้พิทักษ์เหมือง · Lv 40 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -1084
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_sealed_mine:sealed_mine_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -1084
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "sunken_city",
+      "bosses": [
+        {
+          "id": "boss:boss_sunken_city:sunken_city_3",
+          "name": "นาคราชเฝ้าประตู · Lv 50",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -1511
+        }
+      ],
+      "rows": [
+        "boss:boss_sunken_city:sunken_city_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_sunken_city:sunken_city_3",
+          "title": "นาคราชเฝ้าประตู · Lv 50 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_sunken_city:sunken_city_3",
+          "title": "นาคราชเฝ้าประตู · Lv 50 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -1324
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_sunken_city:sunken_city_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -1324
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "dusk_fort",
+      "bosses": [
+        {
+          "id": "boss:boss_dusk_fort:dusk_fort_3",
+          "name": "เจ้าอสูรสนธยา · Lv 60",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -1751
+        }
+      ],
+      "rows": [
+        "boss:boss_dusk_fort:dusk_fort_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_dusk_fort:dusk_fort_3",
+          "title": "เจ้าอสูรสนธยา · Lv 60 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_dusk_fort:dusk_fort_3",
+          "title": "เจ้าอสูรสนธยา · Lv 60 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -1564
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_dusk_fort:dusk_fort_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -1564
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "giant_valley",
+      "bosses": [
+        {
+          "id": "boss:boss_giant_valley:giant_valley_3",
+          "name": "ยักษ์เฝ้าหุบเขา · Lv 70",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -1991
+        }
+      ],
+      "rows": [
+        "boss:boss_giant_valley:giant_valley_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_giant_valley:giant_valley_3",
+          "title": "ยักษ์เฝ้าหุบเขา · Lv 70 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_giant_valley:giant_valley_3",
+          "title": "ยักษ์เฝ้าหุบเขา · Lv 70 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -1804
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_giant_valley:giant_valley_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -1804
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "himmapan",
+      "bosses": [
+        {
+          "id": "boss:boss_himmapan:himmapan_3",
+          "name": "พญาปักษาทมิฬ · Lv 80",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -2231
+        }
+      ],
+      "rows": [
+        "boss:boss_himmapan:himmapan_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_himmapan:himmapan_3",
+          "title": "พญาปักษาทมิฬ · Lv 80 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_himmapan:himmapan_3",
+          "title": "พญาปักษาทมิฬ · Lv 80 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -2044
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_himmapan:himmapan_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -2044
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "fallen_city",
+      "bosses": [
+        {
+          "id": "boss:boss_fallen_city:fallen_city_3",
+          "name": "ขุนพลอาคม · Lv 90",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -2471
+        }
+      ],
+      "rows": [
+        "boss:boss_fallen_city:fallen_city_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_fallen_city:fallen_city_3",
+          "title": "ขุนพลอาคม · Lv 90 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_fallen_city:fallen_city_3",
+          "title": "ขุนพลอาคม · Lv 90 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -2284
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_fallen_city:fallen_city_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -2284
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "mobile": false,
+      "map": "demon_rift",
+      "bosses": [
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "name": "เจ้าอสูรรอยแยก · Lv 100",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -2711
+        }
+      ],
+      "rows": [
+        "boss:boss_demon_rift:demon_rift_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "title": "เจ้าอสูรรอยแยก · Lv 100 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "title": "เจ้าอสูรรอยแยก · Lv 100 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": false,
+      "coarse": false,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -2524
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_demon_rift:demon_rift_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -2524
+        },
+        "destination": false,
+        "card": {
+          "x": 992,
+          "y": 642.125,
+          "width": 274,
+          "height": 186.375,
+          "top": 642.125,
+          "right": 1266,
+          "bottom": 828.5,
+          "left": 992
+        },
+        "go": {
+          "x": 1005,
+          "y": 771.5,
+          "width": 248,
+          "height": 44,
+          "top": 771.5,
+          "right": 1253,
+          "bottom": 815.5,
+          "left": 1005
+        },
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "width": 1120,
+          "height": 837,
+          "top": 31.5,
+          "right": 1280,
+          "bottom": 868.5,
+          "left": 160
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true,
+      "map": "klong",
+      "bosses": [
+        {
+          "id": "boss:tani_grove:tani",
+          "name": "นางตานี · Lv 20",
+          "tag": "ถิ่นบอส · กลางคืน",
+          "x": -44,
+          "z": -742
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "name": "ชาละวัน · Lv 25",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 62,
+          "z": -774
+        }
+      ],
+      "rows": [
+        "boss:chalawan_lagoon:chalawan",
+        "boss:tani_grove:tani"
+      ],
+      "hits": [
+        {
+          "id": "boss:tani_grove:tani",
+          "title": "นางตานี · Lv 20 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "title": "ชาละวัน · Lv 25 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:tani_grove:tani",
+          "title": "นางตานี · Lv 20 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:chalawan_lagoon:chalawan",
+          "title": "ชาละวัน · Lv 25 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": true,
+      "coarse": true,
+      "overflow": false,
+      "at": {
+        "x": -40,
+        "z": -612
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:tani_grove:tani",
+        "detail": "ถิ่นบอส · กลางคืน · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": -40,
+          "z": -612
+        },
+        "destination": false,
+        "card": {
+          "x": 14,
+          "y": 634.8125,
+          "width": 362,
+          "height": 175.1875,
+          "top": 634.8125,
+          "right": 376,
+          "bottom": 810,
+          "left": 14
+        },
+        "go": {
+          "x": 25,
+          "y": 755,
+          "width": 340,
+          "height": 44,
+          "top": 755,
+          "right": 365,
+          "bottom": 799,
+          "left": 25
+        },
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 832,
+          "top": 6,
+          "right": 384,
+          "bottom": 838,
+          "left": 6
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true,
+      "map": "wat_rang",
+      "bosses": [
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "name": "ผีปู่โสม · Lv 10",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 90,
+          "z": -540
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "name": "กระสือ · Lv 7",
+          "tag": "ถิ่นบอส · กลางคืน",
+          "x": 70,
+          "z": -562
+        }
+      ],
+      "rows": [
+        "boss:wat_stupas:krasue",
+        "boss:wat_ubosot:pusom"
+      ],
+      "hits": [
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "title": "ผีปู่โสม · Lv 10 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "title": "กระสือ · Lv 7 · ถิ่นบอส · กลางคืน"
+        },
+        {
+          "id": "boss:wat_ubosot:pusom",
+          "title": "ผีปู่โสม · Lv 10 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:wat_stupas:krasue",
+          "title": "กระสือ · Lv 7 · ถิ่นบอส · กลางคืน"
+        }
+      ],
+      "touch": true,
+      "coarse": true,
+      "overflow": false,
+      "at": {
+        "x": -1.5,
+        "z": -459
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:wat_ubosot:pusom",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": -1.5,
+          "z": -459
+        },
+        "destination": false,
+        "card": {
+          "x": 14,
+          "y": 632,
+          "width": 362,
+          "height": 191,
+          "top": 632,
+          "right": 376,
+          "bottom": 823,
+          "left": 14
+        },
+        "go": {
+          "x": 25,
+          "y": 768,
+          "width": 340,
+          "height": 44,
+          "top": 768,
+          "right": 365,
+          "bottom": 812,
+          "left": 25
+        },
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 832,
+          "top": 6,
+          "right": 384,
+          "bottom": 838,
+          "left": 6
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "mobile": true,
+      "map": "demon_rift",
+      "bosses": [
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "name": "เจ้าอสูรรอยแยก · Lv 100",
+          "tag": "ถิ่นบอส · ทุกช่วงเวลา",
+          "x": 92,
+          "z": -2711
+        }
+      ],
+      "rows": [
+        "boss:boss_demon_rift:demon_rift_3"
+      ],
+      "hits": [
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "title": "เจ้าอสูรรอยแยก · Lv 100 · ถิ่นบอส · ทุกช่วงเวลา"
+        },
+        {
+          "id": "boss:boss_demon_rift:demon_rift_3",
+          "title": "เจ้าอสูรรอยแยก · Lv 100 · ถิ่นบอส · ทุกช่วงเวลา"
+        }
+      ],
+      "touch": true,
+      "coarse": true,
+      "overflow": false,
+      "at": {
+        "x": 0,
+        "z": -2524
+      },
+      "legend": "ตำแหน่งของคุณประตูวาปทางออกสู่แผนที่อื่นเควส / เป้าหมายสถานที่สำนักครูร้านค้าNPC บริการวาร์ปทหาร / ชาวเมืองมอนสเตอร์จุดเก็บเลเวล (Lv.)ถิ่นบอส · ไม่แสดงสถานะเกิด",
+      "selected": {
+        "id": "boss:boss_demon_rift:demon_rift_3",
+        "detail": "ถิ่นบอส · ทุกช่วงเวลา · ออนไลน์เฉพาะ CH1 · ไม่ยืนยันว่าบอสเกิดอยู่ขณะนี้",
+        "at": {
+          "x": 0,
+          "z": -2524
+        },
+        "destination": false,
+        "card": {
+          "x": 14,
+          "y": 632,
+          "width": 362,
+          "height": 191,
+          "top": 632,
+          "right": 376,
+          "bottom": 823,
+          "left": 14
+        },
+        "go": {
+          "x": 25,
+          "y": 768,
+          "width": 340,
+          "height": 44,
+          "top": 768,
+          "right": 365,
+          "bottom": 812,
+          "left": 25
+        },
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 832,
+          "top": 6,
+          "right": 384,
+          "bottom": 838,
+          "left": 6
+        }
+      }
+    }
+  ],
+  "errors": []
+}

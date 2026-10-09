@@ -23,7 +23,10 @@ const groundGeometry=new THREE.PlaneGeometry(80,80,32,32);groundGeometry.rotateX
 const ground=new THREE.Mesh(groundGeometry,new THREE.MeshStandardMaterial({color:'#748269',roughness:1}));ground.receiveShadow=true;scene.add(ground);
 const telegraphs=new BossTelegraphs(root,height),camera=new THREE.OrthographicCamera(-10,10,7,-7,.1,120);
 const params=new URLSearchParams(location.search),staticStudy=params.get('static')==='1',allTypes=Object.values(MAP_BOSSES),types=staticStudy?[params.get('type')||'chalawan']:allTypes,mapIds=Object.keys(MAP_BOSSES);
-let current=types.includes(params.get('type'))?params.get('type'):'chalawan',skillIndex=0,stage='windup',view='game',paused=false,time=0,loop=0;
+let current=types.includes(params.get('type'))?params.get('type'):'chalawan',skillIndex=0,stage=params.get('motion')==='1'?'cycle':'windup',view='game',paused=false,time=0,loop=0;
+let castSerial=0,activeCast=null,released=false;
+let bodyFocus=params.get('motion')==='1';
+document.querySelector('#body-focus').checked=bodyFocus;
 const models=new Map();
 document.querySelector('#bosses').innerHTML=types.map(type=>`<button data-type="${type}">${MONSTERS[type].name}</button>`).join('');
 for(const type of types) {
@@ -35,22 +38,33 @@ for(const type of types) {
     const pivot=new THREE.Group();pivot.add(model);model=pivot;
   } else model=makeMonsterModel(type,makeMonsterFallback(MONSTERS[type]),'boss-review-'+type);
   if(model.userData.ready)await model.userData.ready;
+  if(model.userData.motionsReady)await model.userData.motionsReady;
   if(model.userData.ready&&!model.userData.modelLoaded)throw Error('Boss asset failed: '+type);
   model.scale.setScalar(MONSTERS[type].size);model.visible=false;models.set(type,model);root.add(model);
 }
-function castData(){const skill=BOSS_SKILLS[current][skillIndex];return {...skill,x:0,z:skill.aim==='target'?2:0,facing:0,phase:1,serial:1};}
-function drawMarker(){telegraphs.clear();loop=0;if(stage==='windup'||stage==='impact')telegraphs.event({monster:{id:1,type:current},stage,cast:castData()});}
-function fit(){
+function castData(){const skill=BOSS_SKILLS[current][skillIndex];return {...skill,x:0,z:skill.aim==='target'?2:0,facing:0,phase:1,serial:castSerial};}
+function motionEvent(nextStage,cast){models.get(current).userData.bossMotionEvent?.({stage:nextStage,cast});}
+function drawMarker(){
+  telegraphs.clear();loop=0;released=false;activeCast=null;
+  if(['windup','impact','cycle'].includes(stage)){
+    castSerial++;activeCast=castData();activeCast.remaining=activeCast.windup;
+    motionEvent('windup',activeCast);
+    if(stage==='impact'){activeCast.remaining=0;motionEvent('impact',activeCast);released=true;}
+    telegraphs.event({monster:{id:1,type:current},stage:stage==='impact'?'impact':'windup',cast:activeCast});
+  }
+}
+function fit(bodyOnly=bodyFocus){
   const model=models.get(current);model.updateMatrixWorld(true);
   const box=new THREE.Box3().setFromObject(model,true),s=box.getSize(new THREE.Vector3());
-  const radius=(stage==='windup'||stage==='impact')?castData().radius+1.5:Math.max(s.x,s.z)*.6+1;
+  const casting=!bodyOnly&&['windup','impact','cycle'].includes(stage);
+  const radius=casting?castData().radius+1.5:Math.max(s.x,s.z)*.6+1;
   const aspect=host.clientWidth/host.clientHeight;
-  const half=(staticStudy||!(stage==='windup'||stage==='impact'))?Math.max(s.y*.57,Math.max(s.x,s.z)*.56/aspect):Math.max(s.y*.7+1,radius*.8,radius/aspect);
+  const half=(staticStudy||!casting)?Math.max(s.y*.57,Math.max(s.x,s.z)*.56/aspect):Math.max(s.y*.7+1,radius*.8,radius/aspect);
   renderer.setSize(host.clientWidth,host.clientHeight,false);Object.assign(camera,{left:-half*aspect,right:half*aspect,top:half,bottom:-half});
   const offsets={game:[15,23,22],front:[0,3,38],side:[38,3,0],back:[0,3,-38],top:[.001,40,0]};
-  const target=(staticStudy||!(stage==='windup'||stage==='impact'))?box.getCenter(new THREE.Vector3()):new THREE.Vector3(0,s.y*.24,1);
+  const target=(staticStudy||!casting)?box.getCenter(new THREE.Vector3()):new THREE.Vector3(0,s.y*.24,1);
   camera.up.set(0,view==='top'?0:1,view==='top'?-1:0);camera.position.copy(target).add(new THREE.Vector3(...offsets[view]));camera.lookAt(target);camera.updateProjectionMatrix();
-  if(staticStudy||!(stage==='windup'||stage==='impact')) {
+  if(staticStudy||!casting) {
     camera.updateMatrixWorld(true);let extentY=0,extentX=0;
     for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){
       const point=new THREE.Vector3(x,y,z).applyMatrix4(camera.matrixWorldInverse);
@@ -61,6 +75,7 @@ function fit(){
   }
 }
 function select(type=current,index=skillIndex,nextStage=stage,nextView=view){
+  if(activeCast)motionEvent('cancel',activeCast);
   current=type;skillIndex=index;stage=nextStage;view=nextView;
   document.querySelector('.caption').style.display=staticStudy||view!=='game'?'none':'';
   for(const [id,m] of models){m.visible=id===current;m.position.set(0,height(0,0),0);m.rotation.y=0;}
@@ -74,12 +89,23 @@ function select(type=current,index=skillIndex,nextStage=stage,nextView=view){
 }
 function render(dt){
   time+=dt;loop+=dt;
-  const model=models.get(current);model.userData.animate?.(time,stage==='walk',stage==='windup'||stage==='impact',{hurt:false,dying:false});
+  if(stage==='cycle'&&activeCast){
+    if(loop>=activeCast.windup&&!released){
+      released=true;activeCast.remaining=0;motionEvent('impact',activeCast);
+      telegraphs.event({monster:{id:1,type:current},stage:'impact',cast:activeCast});
+    }
+    if(loop>activeCast.windup+1.6)drawMarker();
+    if(!released)activeCast.remaining=Math.max(0,activeCast.windup-loop);
+  }
+  if(stage==='windup'&&activeCast)activeCast.remaining=Math.max(0,activeCast.windup-loop);
+  const model=models.get(current);
+  model.userData.animate?.(time,stage==='walk',false,{hurt:false,dying:false,bossCast:activeCast&&!released?activeCast:null});
   const item=telegraphs.items.get(1);
   if(item){
-    // A paused studio witness of the production marker, not a combat simulator.
-    const k=stage==='windup'?.58:.38;
-    item.elapsed=item.duration*k;telegraphs.update(0,{x:0,z:0});
+    // Cycle follows the same warning duration and event order as combat.
+    // Individual stage buttons retain an isolated production-marker witness.
+    if(stage==='cycle')telegraphs.update(dt,{x:0,z:0});
+    else{item.elapsed=item.duration*(stage==='windup'?.58:.38);telegraphs.update(0,{x:0,z:0});}
   }
   renderer.render(scene,camera);
 }
@@ -88,16 +114,43 @@ document.querySelector('#skills').onclick=e=>{const b=e.target.closest('[data-sk
 document.querySelectorAll('[data-stage]').forEach(b=>b.onclick=()=>select(current,skillIndex,b.dataset.stage));
 document.querySelector('#view').onchange=e=>select(current,skillIndex,stage,e.target.value);
 document.querySelector('#pause').onclick=()=>{paused=!paused;document.querySelector('#pause').textContent=paused?'เล่นต่อ':'หยุดภาพ';};
+document.querySelector('#body-focus').onchange=e=>{bodyFocus=e.target.checked;fit();render(0);};
 document.querySelector('#slope').onchange=e=>{
   slope=e.target.checked;const p=ground.geometry.attributes.position;for(let i=0;i<p.count;i++)p.setY(i,height(p.getX(i),p.getZ(i)));p.needsUpdate=true;ground.geometry.computeVertexNormals();select();
 };
 window.addEventListener('resize',fit);
 window.bossReview={types,models,telegraphs,renderer,camera,select,render,setTime(t){time=t;render(0);},
+ async motionPose(type,index,nextPhase,at,nextView='game',bodyOnly=false){
+  if(!['windup','impact','cancel'].includes(nextPhase)||!Number.isFinite(at)||at<0||at>5)throw Error('Invalid bounded motion witness');
+  renderer.setAnimationLoop(null);paused=true;
+  const old=models.get(type);root.remove(old);disposeCombatModel(old);
+  const model=makeMonsterModel(type,new THREE.Group(),'motion-'+type);await model.userData.ready;
+  await model.userData.motionsReady;
+  if(!model.userData.modelLoaded)throw Error('Missing approved boss body');
+  model.scale.setScalar(MONSTERS[type].size);models.set(type,model);root.add(model);time=0;
+  select(type,index,'windup',nextView);
+  model.userData.animate(0,false,false,{bossCast:activeCast});
+  const warning=activeCast.windup,prepare=nextPhase==='windup'?at:warning;
+  for(let frame=1;frame<=Math.ceil(prepare*30);frame++){
+    time=Math.min(frame/30,prepare);activeCast.remaining=Math.max(0,warning-time);
+    model.userData.animate(time,false,false,{bossCast:activeCast});
+  }
+  if(nextPhase!=='windup'){
+    motionEvent(nextPhase,activeCast);released=true;stage=nextPhase;
+    telegraphs.event({monster:{id:1,type:current},stage:nextPhase,cast:activeCast});
+    for(let frame=1;frame<=Math.ceil(at*30);frame++)model.userData.animate(warning+Math.min(frame/30,at),false,false,{bossCast:null});
+  }
+  const marker=telegraphs.items.get(1);
+  if(marker){marker.elapsed=nextPhase==='windup'?Math.min(at,warning):Math.min(at,marker.duration);telegraphs.update(0,{x:0,z:0});}
+  model.updateMatrixWorld(true);model.traverse(o=>o.skeleton?.update());fit(bodyOnly);renderer.render(scene,camera);
+  return model.userData.animationState?.();
+ },
  async pose(type,clip,at,nextView='game'){
   renderer.setAnimationLoop(null);paused=true;
   const old=models.get(type);root.remove(old);
   disposeCombatModel(old);
   const model=makeMonsterModel(type,new THREE.Group(),'pose-'+type+'-'+clip);await model.userData.ready;
+  await model.userData.motionsReady;
   if(!model.userData.modelLoaded)throw Error('Missing rigged pose asset');
   model.scale.setScalar(MONSTERS[type].size);models.set(type,model);root.add(model);
   time=0;

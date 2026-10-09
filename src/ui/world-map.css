@@ -84,6 +84,14 @@ body.ui-touch #fullmap-panel.atlas .atlas-view button[aria-label]{min-width:40px
  .atlas .map-tip{display:none}
  body #fullmap-panel.atlas .map-route{grid-row:2 / 5}
 }
+/* A selected place sizes its card from the wrapped content. The map takes the
+   remaining portrait space, so the sidebar cannot clip the navigation action. */
+@media(max-width:700px) and (min-height:521px){
+ body #fullmap-panel.atlas[data-selected=true] .fullmap-body{grid-template-rows:minmax(0,1fr) max-content}
+ body #fullmap-panel.atlas[data-selected=true] .map-side{grid-template-rows:44px auto;gap:4px}
+ .atlas[data-selected=true] .atlas-places{display:none}
+ .atlas[data-selected=true] .atlas-selection{grid-row:2}
+}
 @media(max-height:520px) and (min-width:501px){
  body #fullmap-panel.atlas{inset:8px 50% 8px auto;width:min(1050px,96vw);transform:translateX(50%)}
  body #fullmap-panel.atlas .atlas-heading{padding:9px 18px}.atlas-heading small,.atlas-heading span{display:none}.atlas-heading h2{font-size:19px}

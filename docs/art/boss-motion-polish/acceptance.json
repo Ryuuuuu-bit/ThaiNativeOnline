@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-09T16:07:38.7745031Z",
+  "tests": {
+    "pass": 648,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 78082.9872,
+    "command": "node --test --test-concurrency=2 'tests/**/*.test.js'"
+  },
+  "build": {
+    "modules": 251,
+    "status": "passed",
+    "command": "npm run build",
+    "warning": "Existing large-chunk warning"
+  },
+  "motion": {
+    "optionalMeshyBosses": 8,
+    "assetQA": "asset-qa.json",
+    "controllerQA": "controller-qa.json",
+    "primaryBosses": 12,
+    "controllerSamples": 1599,
+    "rawClipSamples": 5192
+  },
+  "maps": {
+    "touchMaps": 3,
+    "desktopMaps": 13,
+    "pageErrors": 0,
+    "selectionStartsWalking": false,
+    "safeTownLairs": 0,
+    "browserQA": "maps/browser-qa.json",
+    "publicLairs": 14,
+    "minWalkTargetPx": 44,
+    "finalTouchQA": "maps/touch-qa.json",
+    "clippingAncestorContainment": true,
+    "fullWalkHitTests": true
+  },
+  "scope": "Local full suite/build and isolated render/touch QA; production deployment tracked separately"
+}
