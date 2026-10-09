@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import * as THREE from 'three';
 import { gltfLoader } from '../src/core/gltf.js';
 
-for (const type of ['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian']) test(`Meshy ${type}: neutral anatomy, planted idle feet and ground contact survive export`, async t => {
+for (const type of ['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless','pret','krahang','krasue','phitaihong','soldier','pusom']) test(`Meshy ${type}: neutral anatomy, planted idle feet and ground contact survive export`, async t => {
   const bytes=await fs.readFile(new URL(`../public/models/monsters/${type}.glb`,import.meta.url));
   const report=JSON.parse(await fs.readFile(new URL(`../tools/monster-models/meshy/${type}-animated.json`,import.meta.url)));
   assert.equal(createHash('sha256').update(bytes).digest('hex'),report.sha256);
@@ -15,8 +15,11 @@ for (const type of ['boar','fowl','crab','cobra','monkey','dhole','phibpa','buff
   let mesh;gltf.scene.traverse(o=>{if(o.isMesh){assert.ok(!mesh,'one material draw');mesh=o;}assert.ok(!/(Target|Pole)$/.test(o.name),'authoring controls stay out of runtime');});
   assert.equal(mesh.skeleton.bones.length,report.bones);
   const feet=mesh.skeleton.bones.filter(b=>b.name.endsWith('Foot'));
-  assert.equal(feet.length,{boar:4,fowl:2,crab:8,cobra:0,monkey:4,dhole:4,phibpa:0,buffalo:4,kongkoi:1,monitor:4,pray:0,khamot:0,winyan:0,takian:0}[type]);
-  const forest=['kongkoi','monitor','pray','khamot','winyan','takian'].includes(type);
+  assert.equal(feet.length,{boar:4,fowl:2,crab:8,cobra:0,monkey:4,dhole:4,phibpa:0,buffalo:4,kongkoi:1,monitor:4,pray:0,khamot:0,winyan:0,takian:0,headless:2,pret:2,krahang:2,krasue:0,phitaihong:2,soldier:2,pusom:2}[type]);
+  const forest=['kongkoi','monitor','pray','khamot','winyan','takian','headless','pret','krahang','krasue','phitaihong','soldier','pusom'].includes(type);
+  // These two hover with a source-space bob; runtime lift is measured separately
+  // in the map review. Their moving foot bones are not planted ground contacts.
+  const airborne=type==='krahang'||type==='krasue';
   if(['kongkoi','pray','winyan','takian'].includes(type)){
     assert.equal(mesh.skeleton.bones.filter(b=>/^Arm[LR](Upper|Lower)$/.test(b.name)).length,4);
     assert.equal(mesh.skeleton.bones.filter(b=>/^Hand[LR]$/.test(b.name)).length,2);
@@ -64,6 +67,6 @@ for (const type of ['boar','fowl','crab','cobra','monkey','dhole','phibpa','buff
   if(forest||type==='phibpa'||type==='dhole'||type==='buffalo')assert.ok(segmentError<.005,'limb segments must retain their length');
   if(type==='dhole'||type==='buffalo')assert.ok(deathFootLift<.003,'crouching must not lift the feet off the ground');
   assert.ok(neutralError<.004,`neutral pose distorts source anatomy by ${neutralError}m`);
-  assert.ok(idleDrift<.0015,`idle feet drift ${idleDrift}m`);
-  assert.ok(minimum>(forest?-.01:-.015),`animated skin penetrates ground: ${minimum}m`);
+  assert.ok(idleDrift<(airborne?.08:.0015),`idle feet drift ${idleDrift}m`);
+  assert.ok(minimum>(airborne?-.15:forest?-.01:-.015),`animated skin penetrates ground: ${minimum}m`);
 });

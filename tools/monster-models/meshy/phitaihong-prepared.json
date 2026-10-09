@@ -1,0 +1,39 @@
+{
+  "creature": "phitaihong",
+  "bytes": 1437532,
+  "triangles": 12123,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.3510900288820267,
+      0,
+      -0.20984452217817307
+    ],
+    "max": [
+      0.3510900288820267,
+      1.9013800621032715,
+      0.20984452217817307
+    ]
+  },
+  "sha256": "405a7c73dece274f6cc30c2df82212c65496a60b6e196d751ce3df19da40a06b",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

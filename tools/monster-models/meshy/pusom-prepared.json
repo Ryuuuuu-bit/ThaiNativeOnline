@@ -1,0 +1,39 @@
+{
+  "creature": "pusom",
+  "bytes": 1378164,
+  "triangles": 12408,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5924694836139679,
+      0,
+      -0.33226698637008667
+    ],
+    "max": [
+      0.5924694836139679,
+      1.901327908039093,
+      0.33226698637008667
+    ]
+  },
+  "sha256": "dfab21500e755cf70107c48a9f35d39af1c3a4f87ebce41b6e5edc248e7470cc",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

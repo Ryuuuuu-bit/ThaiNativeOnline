@@ -1,0 +1,7 @@
+{
+  "type": "krahang",
+  "inputPositionsSha256": "c7cf8e96d25c25b3d19e1b44fa69833180dcb54bc862a2dadf12227b42350c50",
+  "baseWeightsSha256": "24719567a9499a187c3a973aa9bda15c673b27bc78efa8f0094d217a7c3abed5",
+  "method": "local conserved blends across measured strained surface edges, including UV position copies; all clips require final export QA",
+  "vertices": {}
+}

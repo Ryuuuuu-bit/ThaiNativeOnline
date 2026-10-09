@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11eb5-a65d-76c1-a5b0-c21482c6a4a7",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/soldier.png",
+  "referenceSha256": "b2db71d3bead029a3425afe8a8f101cd680095184b2c8fc9348ef86ece5e96f6",
+  "originalSha256": "101d76136f3b6b2a876831588590fb252bc792d20ae60bf392e37e86c974ef23",
+  "originalBytes": 11915020,
+  "originalLocalPath": "artifacts/meshy-monsters/soldier/original.glb"
+}

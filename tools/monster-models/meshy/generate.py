@@ -33,11 +33,11 @@ def request(path, body=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian'])
+    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom'])
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--submit', action='store_true')
     action.add_argument('--collect', action='store_true')
-    parser.add_argument('--variant', choices=['anatomy-v2'], help='Explicit separately reviewed correction; never an automatic POST retry')
+    parser.add_argument('--variant', choices=['anatomy-v2','thai-volume-v3'], help='Explicit separately reviewed correction; never an automatic POST retry')
     args = parser.parse_args()
     name = args.creature
     tmp = TMP / name

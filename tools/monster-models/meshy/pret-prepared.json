@@ -1,0 +1,39 @@
+{
+  "creature": "pret",
+  "bytes": 1181360,
+  "triangles": 12440,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5601039528846741,
+      0,
+      -0.17340152710676193
+    ],
+    "max": [
+      0.5601039528846741,
+      1.902255892753601,
+      0.17340152710676193
+    ]
+  },
+  "sha256": "43be657cb48b12ad456ef0f332f68600530cb84875cbd808b7deee78997e0ea3",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

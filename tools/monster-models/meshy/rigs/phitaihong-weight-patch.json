@@ -1,0 +1,1066 @@
+{
+  "type": "phitaihong",
+  "inputPositionsSha256": "e1b44e86ee8ce6ec7dc1293e0b4fb8ef81b2e2b693b81b708a974a84e5a3f206",
+  "baseWeightsSha256": "b5821ed6200a60959482de2efbb565c1ce6b3c3b9a18a0af0275f350ca7b67af",
+  "method": "local conserved blends across measured strained surface edges, including UV position copies; all clips require final export QA",
+  "vertices": {
+    "600": {
+      "Body": 0.625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.171875,
+      "Head": 0.015625
+    },
+    "603": {
+      "ArmLLower": 0.390625,
+      "Body": 0.359375,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "606": {
+      "ArmLLower": 0.40625,
+      "Body": 0.328125,
+      "ArmLUpper": 0.25,
+      "HandL": 0.015625
+    },
+    "639": {
+      "Body": 0.4375,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.265625,
+      "HandL": 0.015625
+    },
+    "681": {
+      "ArmLLower": 0.40625,
+      "Body": 0.328125,
+      "ArmLUpper": 0.25,
+      "HandL": 0.015625
+    },
+    "685": {
+      "ArmLLower": 0.40625,
+      "Body": 0.328125,
+      "ArmLUpper": 0.25,
+      "HandL": 0.015625
+    },
+    "689": {
+      "ArmLLower": 0.390625,
+      "Body": 0.359375,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "745": {
+      "Body": 0.4375,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.265625,
+      "HandL": 0.015625
+    },
+    "791": {
+      "Body": 0.4375,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.265625,
+      "HandL": 0.015625
+    },
+    "807": {
+      "Body": 0.625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.171875,
+      "Head": 0.015625
+    },
+    "14167": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "17773": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18316": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.078125,
+      "Body": 0.046875
+    },
+    "18317": {
+      "Pelvis": 0.75,
+      "ArmRLower": 0.125,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18461": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18508": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18557": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18558": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18560": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18561": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18582": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18583": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18626": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18627": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18658": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18673": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18674": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18722": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.234375,
+      "ArmRUpper": 0.078125
+    },
+    "18723": {
+      "Pelvis": 0.46875,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625,
+      "Body": 0.015625
+    },
+    "18725": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18810": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18812": {
+      "Pelvis": 0.859375,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.03125
+    },
+    "18813": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18814": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18888": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18889": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18891": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "18892": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18893": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "18894": {
+      "Pelvis": 0.765625,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.046875
+    },
+    "18895": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "18896": {
+      "Pelvis": 0.65625,
+      "ArmRLower": 0.265625,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "18897": {
+      "Pelvis": 0.765625,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.046875
+    },
+    "18898": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18917": {
+      "Pelvis": 0.875,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.015625
+    },
+    "18918": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18919": {
+      "Pelvis": 0.875,
+      "Body": 0.09375,
+      "ArmRLower": 0.03125
+    },
+    "18920": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.234375,
+      "ArmRUpper": 0.078125
+    },
+    "18921": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18922": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.234375,
+      "ArmRUpper": 0.078125
+    },
+    "18923": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18924": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18925": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "18938": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18939": {
+      "Pelvis": 0.859375,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.03125
+    },
+    "18940": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18941": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18942": {
+      "Pelvis": 0.75,
+      "ArmRLower": 0.125,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18943": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18975": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18976": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18977": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18978": {
+      "Pelvis": 0.796875,
+      "ArmRLower": 0.09375,
+      "Body": 0.0625,
+      "ArmRUpper": 0.046875
+    },
+    "18980": {
+      "Pelvis": 0.75,
+      "ArmRLower": 0.125,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "18981": {
+      "Pelvis": 0.859375,
+      "ArmRLower": 0.0625,
+      "Body": 0.046875,
+      "ArmRUpper": 0.03125
+    },
+    "19090": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19091": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19092": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19101": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19102": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19103": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19109": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19110": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19111": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19115": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19179": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19180": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19181": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19214": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19215": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19216": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.203125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19241": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19242": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19243": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19245": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.078125,
+      "Body": 0.046875
+    },
+    "19264": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19266": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19267": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.21875,
+      "ArmRUpper": 0.09375,
+      "Body": 0.046875
+    },
+    "19275": {
+      "Body": 0.390625,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.28125,
+      "HandR": 0.015625
+    },
+    "19284": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19285": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "19286": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.203125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19287": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.234375,
+      "ArmRUpper": 0.078125
+    },
+    "19288": {
+      "Pelvis": 0.65625,
+      "ArmRLower": 0.265625,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19291": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19292": {
+      "Pelvis": 0.46875,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625,
+      "Body": 0.015625
+    },
+    "19293": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19294": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.234375,
+      "ArmRUpper": 0.078125
+    },
+    "19319": {
+      "Pelvis": 0.75,
+      "ArmRLower": 0.125,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19320": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.078125,
+      "Body": 0.046875
+    },
+    "19321": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19322": {
+      "Pelvis": 0.8125,
+      "ArmRLower": 0.140625,
+      "ArmRUpper": 0.046875
+    },
+    "19323": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.203125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19324": {
+      "Pelvis": 0.765625,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.046875
+    },
+    "19334": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19335": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19336": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.078125,
+      "Body": 0.046875
+    },
+    "19337": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.203125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19339": {
+      "Pelvis": 0.765625,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.046875
+    },
+    "19359": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19360": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.078125,
+      "Body": 0.046875
+    },
+    "19361": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19369": {
+      "Pelvis": 0.46875,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625,
+      "Body": 0.015625
+    },
+    "19377": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19378": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19379": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19380": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19381": {
+      "Pelvis": 0.765625,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.046875
+    },
+    "19384": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19385": {
+      "Pelvis": 0.6875,
+      "ArmRLower": 0.1875,
+      "ArmRUpper": 0.078125,
+      "Body": 0.046875
+    },
+    "19405": {
+      "Pelvis": 0.71875,
+      "ArmRLower": 0.15625,
+      "ArmRUpper": 0.0625,
+      "Body": 0.0625
+    },
+    "19406": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19407": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.21875,
+      "ArmRUpper": 0.09375,
+      "Body": 0.046875
+    },
+    "19412": {
+      "Pelvis": 0.65625,
+      "ArmRLower": 0.265625,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19413": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "19428": {
+      "Pelvis": 0.65625,
+      "ArmRLower": 0.265625,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19430": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19431": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19432": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19433": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "19434": {
+      "Pelvis": 0.65625,
+      "ArmRLower": 0.265625,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19443": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.21875,
+      "ArmRUpper": 0.09375,
+      "Body": 0.046875
+    },
+    "19445": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19446": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19447": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "19452": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.21875,
+      "ArmRUpper": 0.09375,
+      "Body": 0.046875
+    },
+    "19453": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19454": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19455": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.21875,
+      "ArmRUpper": 0.09375,
+      "Body": 0.046875
+    },
+    "19456": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19465": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "19466": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19467": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19468": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19469": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19470": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19475": {
+      "Body": 0.390625,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.28125,
+      "HandR": 0.015625
+    },
+    "19476": {
+      "ArmRLower": 0.421875,
+      "ArmRUpper": 0.34375,
+      "Body": 0.203125,
+      "HandR": 0.03125
+    },
+    "19484": {
+      "ArmRLower": 0.421875,
+      "ArmRUpper": 0.34375,
+      "Body": 0.203125,
+      "HandR": 0.03125
+    },
+    "19493": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19494": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19495": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19496": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19497": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19499": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19500": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19501": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19511": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19512": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19513": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19514": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19518": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19519": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "19520": {
+      "Pelvis": 0.640625,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.078125
+    },
+    "19537": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19538": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19548": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19549": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19550": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.28125,
+      "ArmRUpper": 0.109375,
+      "Body": 0.03125
+    },
+    "19557": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19558": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19559": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19560": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19575": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19577": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19585": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19586": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19588": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19589": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19590": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19597": {
+      "Pelvis": 0.46875,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625,
+      "Body": 0.015625
+    },
+    "19598": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19599": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19600": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19610": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19611": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19613": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19615": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    },
+    "19616": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19617": {
+      "Pelvis": 0.484375,
+      "ArmRLower": 0.375,
+      "ArmRUpper": 0.140625
+    },
+    "19623": {
+      "Pelvis": 0.578125,
+      "ArmRLower": 0.3125,
+      "ArmRUpper": 0.109375
+    }
+  }
+}

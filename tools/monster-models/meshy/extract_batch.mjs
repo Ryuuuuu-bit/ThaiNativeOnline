@@ -11,7 +11,7 @@ if(!input||!out)throw Error('Usage: extract_batch.mjs verified-background.glb ou
 const io=new NodeIO().registerExtensions(ALL_EXTENSIONS),sourceSha256=createHash('sha256').update(await fs.readFile(input)).digest('hex');
 const specs=selected.length?selected.map(s=>s.split(':')):[['kongkoi','v3'],['monitor','v4'],['pray','v4'],['khamot','v1'],['winyan','v4'],['takian','v4']];
 for(const [type,version] of specs){
- if(!['kongkoi','monitor','pray','khamot','winyan','takian'].includes(type)||!(/^(rest|v[1-9][0-9]*)$/).test(version))throw Error('Unknown species/version');
+ if(!['kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom'].includes(type)||!(/^(rest|v[1-9][0-9]*)$/).test(version))throw Error('Unknown species/version');
  const doc=await io.read(input),root=doc.getRoot(),prefix=type[0].toUpperCase()+type.slice(1)+version.toUpperCase();
  const surface=root.listNodes().find(n=>n.getName()===prefix+'Surface'),rig=surface?.getParentNode();
  if(rig?.getName()!==prefix+'Rig'||surface.getSkin()?.getName()!==prefix+'Rig')throw Error('Expected authored species hierarchy');

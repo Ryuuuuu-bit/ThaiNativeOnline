@@ -1,0 +1,14 @@
+{
+  "type": "pusom",
+  "bytes": 1469808,
+  "sha256": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+  "triangles": 12408,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

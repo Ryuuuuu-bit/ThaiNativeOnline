@@ -1,0 +1,14 @@
+{
+  "type": "headless",
+  "bytes": 1230360,
+  "sha256": "a29cedcdfecb23ef60e4a141a7375beae36d27c952ed891b7fcba8c4dd0ce61f",
+  "triangles": 12386,
+  "bones": 15,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

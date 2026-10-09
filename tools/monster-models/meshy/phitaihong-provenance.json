@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11eb5-a5a2-7513-ad3f-5bec26afbf37",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/phitaihong.png",
+  "referenceSha256": "19ac58a0f70c23a580811cf54c4d18f3851af8d7679d2e59f585e057b3f8e7df",
+  "originalSha256": "c86b89c9ef4fa93033e9623072259a9d13562d806446c51bf6f1b7521652d4e9",
+  "originalBytes": 12840064,
+  "originalLocalPath": "artifacts/meshy-monsters/phitaihong/original.glb"
+}

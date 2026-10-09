@@ -1,0 +1,701 @@
+{
+  "scope": "At most three actual CH1 screenshots; no model/clip/grip/terrain audit rerun; not final acceptance",
+  "acceptance": false,
+  "assets": [
+    {
+      "id": "headless",
+      "path": "public/models/monsters/headless.glb",
+      "sha256": "a29cedcdfecb23ef60e4a141a7375beae36d27c952ed891b7fcba8c4dd0ce61f",
+      "bytes": 1230360,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "id": "pret",
+      "path": "public/models/monsters/pret.glb",
+      "sha256": "56ef979eb79a74d7ebe3c577b006de55ebf9ac9963744c25f773214902ac1f1a",
+      "bytes": 1241532,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "id": "krahang",
+      "path": "public/models/monsters/krahang.glb",
+      "sha256": "488d30a8d7241c241f567d12ecead1faa69e3ea31ac10b78a908fd0b5b85d7f7",
+      "bytes": 1507028,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "id": "krasue",
+      "path": "public/models/monsters/krasue.glb",
+      "sha256": "0da5f68891ac2f4f7f832e8c6c604252b6f771b1a7794d7e10540a89eeadcc08",
+      "bytes": 1293400,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "id": "phitaihong",
+      "path": "public/models/monsters/phitaihong.glb",
+      "sha256": "5834620cefc2c27eb278617d455070a92e9c5d2a16a84706962cdf05c62017cd",
+      "bytes": 1512400,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "id": "soldier",
+      "path": "public/models/monsters/soldier.glb",
+      "sha256": "f5870c75e2854b895128451728bd5e716cf1b37fe998a77b73648f170c78a95f",
+      "bytes": 1335264,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "id": "pusom",
+      "path": "public/models/monsters/pusom.glb",
+      "sha256": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "bytes": 1469808,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    }
+  ],
+  "sourcePins": {
+    "src/combat/MonsterModels.js": "4ddba45d05063c0ea0dcc72579afa061e5a1d450a8169a4948a777740091c5f5",
+    "src/core/CameraController.js": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+    "src/data/spawns.js": "b87d808200ba9c70fd7a5a64cd4a64e87299cab5d8c8c3fc6649ac071b177dbc",
+    "src/world/maps.js": "10120223f3047c3025285d54e89b09f3ec5ec8ea60defd3c9878f008b1638e4b",
+    "src/combat/data/monsters.js": "aec7632c0240bad79ca446d1f178be7a6f000d972bd440ee18f398c4db2f0216",
+    "src/combat/data/boss-skills.js": "1eee8563331a7e726628e1de562edd9eb59c051e988387ee2e3d6a5907218752",
+    "artifacts/meshy-rig-04/wat-rang/input/headless.glb": "3234743a31d304ed32a44940a373737e1a2754789a07bb3d7cc19da2a4543457",
+    "artifacts/meshy-rig-04/wat-rang/input/pret.glb": "00db6f8867ba3a45ec65136e573534bcd4acbcd6b48821b41555349dbb82cba2",
+    "artifacts/meshy-rig-04/wat-rang/input/krahang.glb": "76f9e7682eda649e03d37bd1e4bbfa957e8564b179954a0cb4bf9fe9f4a54acc",
+    "artifacts/meshy-rig-04/wat-rang/input/krasue.glb": "0fb1c56b1314a65624e4d1a70ea585ed4c1c6cdc110a6aef8617ae1a0e38d44c",
+    "artifacts/meshy-rig-04/wat-rang/input/phitaihong.glb": "808ae2936e6e56274545603d79ecf8d8ea56949c3345525d64aabee55dd5493c",
+    "artifacts/meshy-rig-04/wat-rang/input/soldier.glb": "503238eb2d8005495b6946e51e25682b05524c4901e5c9dd8932393fc3de6bb5",
+    "artifacts/meshy-rig-04/wat-rang/input/pusom.glb": "838db60b09f7b9740282ea505a418ac2409399583fca28271def8120841e444a"
+  },
+  "baseline": {
+    "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\qa\\89ede0ea88c7\\game\\2026-10-09T05-27-14.283Z\\report.json",
+    "sha256": "0a0c0e5c610449a2f167375efacdfc5bb9b02fc004150ea86fb01aa24599b6cb",
+    "status": "failed"
+  },
+  "knownPretP2": {
+    "classification": "No slope IK; P2 assessment belongs to independent art review; original failures remain failures",
+    "failuresUnaltered": [
+      "pret: idle: clearance -0.0224 < -0.02",
+      "pret: walk: clearance -0.0224 < -0.02",
+      "pret: attack: clearance -0.0225 < -0.02",
+      "pret: hurt: clearance -0.0224 < -0.02",
+      "pret: die: clearance -0.0226 < -0.02"
+    ],
+    "clips": [
+      {
+        "name": "idle",
+        "measuredTerrainMetres": -0.02238012548673518,
+        "measuredFlatMetres": -0.0000011150048808139523,
+        "terrainGuideMetres": -0.02,
+        "sourceFlatLimitMetres": -0.01
+      },
+      {
+        "name": "walk",
+        "measuredTerrainMetres": -0.022447882264325036,
+        "measuredFlatMetres": -0.00012052801293943594,
+        "terrainGuideMetres": -0.02,
+        "sourceFlatLimitMetres": -0.01
+      },
+      {
+        "name": "attack",
+        "measuredTerrainMetres": -0.022459612034099907,
+        "measuredFlatMetres": -0.00006883641036492527,
+        "terrainGuideMetres": -0.02,
+        "sourceFlatLimitMetres": -0.01
+      },
+      {
+        "name": "hurt",
+        "measuredTerrainMetres": -0.022447882263551044,
+        "measuredFlatMetres": -0.0000688364113910489,
+        "terrainGuideMetres": -0.02,
+        "sourceFlatLimitMetres": -0.01
+      },
+      {
+        "name": "die",
+        "measuredTerrainMetres": -0.022587920468508937,
+        "measuredFlatMetres": -0.00019885904884414662,
+        "terrainGuideMetres": -0.02,
+        "sourceFlatLimitMetres": -0.01
+      }
+    ],
+    "waived": false,
+    "liftOrToleranceChanged": false
+  },
+  "setup": "Existing parent guest fixture and identical Wat Rang trail-head startup URL; camera follows targets through the native CameraController; live simulation and damage continue",
+  "requested": [
+    "headless",
+    "soldier",
+    "pusom"
+  ],
+  "captures": [
+    {
+      "type": "headless",
+      "sid": 126,
+      "monsterId": "s126",
+      "alive": true,
+      "hp": 480,
+      "position": {
+        "x": -59.823134530857025,
+        "z": -514.411928774919,
+        "facing": -1.66
+      },
+      "terrainHeightMetres": -0.48955950572724916,
+      "serverDrivenClock": {
+        "hour": 10.209171666666666,
+        "phase": "day"
+      },
+      "camera": {
+        "native": true,
+        "zoom": 2.4,
+        "focus": [
+          -59.64277889339052,
+          -0.4161035445879745,
+          -514.3918617920502
+        ],
+        "position": [
+          -44.64277889339052,
+          22.583896455412024,
+          -492.39186179205024
+        ]
+      },
+      "player": {
+        "position": [
+          0,
+          0.5245105028152466,
+          -465
+        ],
+        "hp": 173,
+        "alive": true
+      },
+      "map": "wat_rang",
+      "remote": true,
+      "meshCount": 1,
+      "modelLoaded": true,
+      "file": "headless-actual-ch1.png",
+      "sha256": "08df429187fa61e1b2eaa88b1ab456f9111e38a539d6bd8fb309381f31929dcc",
+      "authoritativeObservation": {
+        "sid": 126,
+        "type": "headless",
+        "source": "mlist",
+        "receivedAt": 1791524050244
+      },
+      "serverClockPacket": {
+        "hour": 10.373,
+        "receivedAt": 1791524062474
+      },
+      "runtimeAssetSha256": "a29cedcdfecb23ef60e4a141a7375beae36d27c952ed891b7fcba8c4dd0ce61f",
+      "evidence": "Actual natural CH1 instance; screenshot only, no acceptance"
+    }
+  ],
+  "untested": [
+    {
+      "type": "soldier",
+      "reason": "Capture timed out; no recorded image; no retry"
+    },
+    {
+      "type": "pusom",
+      "reason": "Not captured before the single thirty-second deadline; no retry"
+    }
+  ],
+  "errors": [],
+  "failures": [
+    "page.screenshot: Timeout 1613ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\n    at run (D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\game-capture-only.cjs:93:57)"
+  ],
+  "initialPlayer": {
+    "position": [
+      0,
+      0.5245105028152466,
+      -465
+    ],
+    "hp": 173,
+    "alive": true,
+    "map": "wat_rang"
+  },
+  "observed": [
+    {
+      "type": "pray",
+      "sid": 86,
+      "x": 56.84590446304702,
+      "z": -466.29698805788087
+    },
+    {
+      "type": "pray",
+      "sid": 87,
+      "x": 41.09590446304702,
+      "z": -487.57
+    },
+    {
+      "type": "pray",
+      "sid": 88,
+      "x": 32.93204776847649,
+      "z": -474.8119283472853
+    },
+    {
+      "type": "pray",
+      "sid": 89,
+      "x": 46.27,
+      "z": -480.34
+    },
+    {
+      "type": "winyan",
+      "sid": 90,
+      "x": 37.584940289404386,
+      "z": -473.01108359483385
+    },
+    {
+      "type": "winyan",
+      "sid": 91,
+      "x": 48.406023884238245,
+      "z": -473.83590446304703
+    },
+    {
+      "type": "winyan",
+      "sid": 92,
+      "x": 51.075904463047024,
+      "z": -481.08397611576174
+    },
+    {
+      "type": "winyan",
+      "sid": 93,
+      "x": 37.23,
+      "z": -488.91
+    },
+    {
+      "type": "winyan",
+      "sid": 94,
+      "x": -38.02409553695298,
+      "z": -474.19602388423823
+    },
+    {
+      "type": "winyan",
+      "sid": 95,
+      "x": -41.23,
+      "z": -471.55
+    },
+    {
+      "type": "winyan",
+      "sid": 96,
+      "x": -31.679035826357367,
+      "z": -463.8289164051661
+    },
+    {
+      "type": "winyan",
+      "sid": 97,
+      "x": -34.68891640516615,
+      "z": -474.79096417364264
+    },
+    {
+      "type": "winyan",
+      "sid": 98,
+      "x": -34.68,
+      "z": -459.95
+    },
+    {
+      "type": "winyan",
+      "sid": 99,
+      "x": -30.90807165271473,
+      "z": -465.60807165271467
+    },
+    {
+      "type": "winyan",
+      "sid": 100,
+      "x": -4.12,
+      "z": -486.77
+    },
+    {
+      "type": "winyan",
+      "sid": 101,
+      "x": 5.546988057880878,
+      "z": -490.905904463047
+    },
+    {
+      "type": "winyan",
+      "sid": 102,
+      "x": 9.17,
+      "z": -489.93
+    },
+    {
+      "type": "winyan",
+      "sid": 103,
+      "x": -0.048916405166145864,
+      "z": -485.67096417364263
+    },
+    {
+      "type": "winyan",
+      "sid": 104,
+      "x": -4.97,
+      "z": -487.56
+    },
+    {
+      "type": "winyan",
+      "sid": 105,
+      "x": 0.9919283472852679,
+      "z": -500.7550597105956
+    },
+    {
+      "type": "phitaihong",
+      "sid": 106,
+      "x": 11.85,
+      "z": -560.34
+    },
+    {
+      "type": "phitaihong",
+      "sid": 107,
+      "x": 7.944940289404389,
+      "z": -551.6859044630471
+    },
+    {
+      "type": "phitaihong",
+      "sid": 108,
+      "x": 8.888916405166146,
+      "z": -550.6180716527148
+    },
+    {
+      "type": "phitaihong",
+      "sid": 109,
+      "x": 19.69,
+      "z": -545.22
+    },
+    {
+      "type": "winyan",
+      "sid": 110,
+      "x": 8.521083594833854,
+      "z": -546.7420477684765
+    },
+    {
+      "type": "winyan",
+      "sid": 111,
+      "x": 17.47,
+      "z": -543.09
+    },
+    {
+      "type": "winyan",
+      "sid": 112,
+      "x": 12.957952231523512,
+      "z": -542.9710835948339
+    },
+    {
+      "type": "winyan",
+      "sid": 113,
+      "x": 16.655904463047023,
+      "z": -539.6260238842383
+    },
+    {
+      "type": "phitaihong",
+      "sid": 114,
+      "x": 59.49,
+      "z": -548.01
+    },
+    {
+      "type": "phitaihong",
+      "sid": 115,
+      "x": 78.4,
+      "z": -542.65
+    },
+    {
+      "type": "phitaihong",
+      "sid": 116,
+      "x": 65.81,
+      "z": -548.15
+    },
+    {
+      "type": "phitaihong",
+      "sid": 117,
+      "x": 72.95,
+      "z": -548.06
+    },
+    {
+      "type": "winyan",
+      "sid": 118,
+      "x": 73.49,
+      "z": -539.09
+    },
+    {
+      "type": "winyan",
+      "sid": 119,
+      "x": 69.25,
+      "z": -526.94
+    },
+    {
+      "type": "winyan",
+      "sid": 120,
+      "x": 71.21602388423824,
+      "z": -524.7640955369529
+    },
+    {
+      "type": "winyan",
+      "sid": 121,
+      "x": 71.08,
+      "z": -552.3
+    },
+    {
+      "type": "soldier",
+      "sid": 122,
+      "x": 70.74,
+      "z": -531.04
+    },
+    {
+      "type": "soldier",
+      "sid": 123,
+      "x": 75.25,
+      "z": -533.84
+    },
+    {
+      "type": "soldier",
+      "sid": 124,
+      "x": 64.87,
+      "z": -552.71
+    },
+    {
+      "type": "soldier",
+      "sid": 125,
+      "x": 78.93,
+      "z": -546.72
+    },
+    {
+      "type": "headless",
+      "sid": 126,
+      "x": -59.61,
+      "z": -514.3869880578809
+    },
+    {
+      "type": "headless",
+      "sid": 127,
+      "x": -50.37494028940439,
+      "z": -514.5550597105956
+    },
+    {
+      "type": "headless",
+      "sid": 128,
+      "x": -58.19,
+      "z": -532.78
+    },
+    {
+      "type": "headless",
+      "sid": 129,
+      "x": -57.11,
+      "z": -513.74
+    },
+    {
+      "type": "pret",
+      "sid": 130,
+      "x": -62.19409553695298,
+      "z": -512.1360238842383
+    },
+    {
+      "type": "pret",
+      "sid": 131,
+      "x": -52.58,
+      "z": -516.12
+    },
+    {
+      "type": "pret",
+      "sid": 132,
+      "x": -65.44505971059561,
+      "z": -517.8210835948338
+    },
+    {
+      "type": "pret",
+      "sid": 133,
+      "x": -59.47,
+      "z": -521.42
+    },
+    {
+      "type": "krahang",
+      "sid": 134,
+      "x": 31.12,
+      "z": -505.33
+    },
+    {
+      "type": "krahang",
+      "sid": 135,
+      "x": 29.23192834728527,
+      "z": -509.4101194211912
+    },
+    {
+      "type": "krahang",
+      "sid": 136,
+      "x": 40.98,
+      "z": -505.78
+    },
+    {
+      "type": "krahang",
+      "sid": 137,
+      "x": 28.54,
+      "z": -491.19
+    },
+    {
+      "type": "krahang",
+      "sid": 138,
+      "x": 30.88,
+      "z": -495.28
+    },
+    {
+      "type": "krahang",
+      "sid": 139,
+      "x": 23.865904463047023,
+      "z": -506.78289252092793
+    },
+    {
+      "type": "pusom",
+      "sid": 140,
+      "x": 90.52,
+      "z": -540.25
+    },
+    {
+      "type": "soldier",
+      "sid": 142,
+      "x": -92.88,
+      "z": -557.7
+    },
+    {
+      "type": "soldier",
+      "sid": 143,
+      "x": -94.32,
+      "z": -553.47
+    },
+    {
+      "type": "soldier",
+      "sid": 144,
+      "x": -97.9,
+      "z": -558.39
+    },
+    {
+      "type": "soldier",
+      "sid": 145,
+      "x": -92.39,
+      "z": -554.25
+    },
+    {
+      "type": "soldier",
+      "sid": 146,
+      "x": -91.4,
+      "z": -564.7
+    },
+    {
+      "type": "soldier",
+      "sid": 147,
+      "x": -87.11,
+      "z": -555.11
+    },
+    {
+      "type": "soldier",
+      "sid": 148,
+      "x": -86.5,
+      "z": -556.64
+    },
+    {
+      "type": "soldier",
+      "sid": 149,
+      "x": -94.95,
+      "z": -565.07
+    },
+    {
+      "type": "headless",
+      "sid": 150,
+      "x": -60.93192834728527,
+      "z": -476.13397611576175
+    },
+    {
+      "type": "headless",
+      "sid": 151,
+      "x": -58.07,
+      "z": -476.23
+    },
+    {
+      "type": "phitaihong",
+      "sid": 152,
+      "x": -63.76,
+      "z": -469.09
+    },
+    {
+      "type": "phitaihong",
+      "sid": 153,
+      "x": -67.51,
+      "z": -475.67
+    },
+    {
+      "type": "soldier",
+      "sid": 154,
+      "x": 100.38,
+      "z": -478.98
+    },
+    {
+      "type": "soldier",
+      "sid": 155,
+      "x": 89.7,
+      "z": -486.92
+    },
+    {
+      "type": "soldier",
+      "sid": 156,
+      "x": 97.25,
+      "z": -486.67
+    },
+    {
+      "type": "soldier",
+      "sid": 157,
+      "x": 89.83,
+      "z": -481.51
+    }
+  ],
+  "status": "capture incomplete; no acceptance",
+  "elapsedSeconds": 31.338,
+  "serverClockPacket": {
+    "hour": 10.373,
+    "receivedAt": 1791524062474
+  },
+  "postCapturePins": {
+    "assetsUnchanged": true,
+    "sourceUnchanged": true,
+    "pretReportUnchanged": true,
+    "verifiedAt": "2026-10-09T05:35:54.657Z"
+  },
+  "visualInspection": {
+    "image": "headless-actual-ch1.png",
+    "observed": "Actual Headless visible with nearby naturally alive Pret; native fog and foliage substantially obscure surfaces",
+    "limitation": "Scene evidence only; not anatomy, grip, or final art acceptance"
+  }
+}

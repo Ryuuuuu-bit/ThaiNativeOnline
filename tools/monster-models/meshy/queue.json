@@ -135,14 +135,18 @@
         "name": "ผีหัวขาด",
         "level": 6,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "headless.glb",
+        "runtime": "/models/monsters/headless.glb"
       },
       {
         "id": "pret",
         "name": "เปรตน้อย",
         "level": 6,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "pret.glb",
+        "runtime": "/models/monsters/pret.glb"
       },
       {
         "id": "takian",
@@ -165,28 +169,36 @@
         "name": "ผีกระหัง",
         "level": 7,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "krahang.glb",
+        "runtime": "/models/monsters/krahang.glb"
       },
       {
         "id": "krasue",
         "name": "กระสือ",
         "level": 7,
         "role": "elite",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "krasue.glb",
+        "runtime": "/models/monsters/krasue.glb"
       },
       {
         "id": "phitaihong",
         "name": "ผีตายโหง",
         "level": 7,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "phitaihong.glb",
+        "runtime": "/models/monsters/phitaihong.glb"
       },
       {
         "id": "soldier",
         "name": "ทหารผีเฝ้าวัด",
         "level": 8,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "soldier.glb",
+        "runtime": "/models/monsters/soldier.glb"
       },
       {
         "id": "pop",
@@ -200,7 +212,9 @@
         "name": "ผีปู่โสม",
         "level": 10,
         "role": "boss",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "pusom.glb",
+        "runtime": "/models/monsters/pusom.glb"
       }
     ]
   },

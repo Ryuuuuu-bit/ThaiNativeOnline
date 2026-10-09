@@ -1,0 +1,39 @@
+{
+  "creature": "soldier",
+  "bytes": 1264540,
+  "triangles": 12427,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5632231831550598,
+      0,
+      -0.3316654562950134
+    ],
+    "max": [
+      0.5632231831550598,
+      1.9012160881751683,
+      0.3316654562950134
+    ]
+  },
+  "sha256": "30ceab2a150c8b5d0b93955e92afec34a26f746e2bac082fafefc637da07a15a",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

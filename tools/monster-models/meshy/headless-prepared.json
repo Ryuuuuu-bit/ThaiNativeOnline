@@ -1,0 +1,39 @@
+{
+  "creature": "headless",
+  "bytes": 1172696,
+  "triangles": 12386,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.543984979391098,
+      0,
+      -0.21243101358413696
+    ],
+    "max": [
+      0.543984979391098,
+      1.9020479917526245,
+      0.21243101358413696
+    ]
+  },
+  "sha256": "8d52c7cf769d53f2f3a512bdaecbd01d88dfb0d324167d8b65d0f54b01938301",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

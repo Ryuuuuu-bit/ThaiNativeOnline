@@ -1,0 +1,5818 @@
+{
+  "type": "soldier",
+  "inputPositionsSha256": "e7d84c73be13f8771afd5a4f2088d4d2b8eaa902646bed301fdf713c6801356f",
+  "baseWeightsSha256": "43e6b66c8eaa64535a75fcce6ff1f69b092ec6261096cd41d1a59b67623f40ac",
+  "method": "Conserved adjacent surface blends including UV copies; repaired against every clip at authored keys and 24 Hz. Soldier repair uses stricter precompression 1.85 ratio / 9 mm extension margin; delivered compressed file still requires independent 2x / 10 mm tests.",
+  "vertices": {
+    "343": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "428": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.234375,
+      "Body": 0.0625
+    },
+    "430": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "431": {
+      "ArmLLower": 0.71875,
+      "ArmLUpper": 0.125,
+      "Body": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "432": {
+      "ArmLLower": 0.671875,
+      "Body": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "514": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.375,
+      "Body": 0.078125
+    },
+    "515": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.375,
+      "Body": 0.078125
+    },
+    "516": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.3125,
+      "Body": 0.1875
+    },
+    "517": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.3125,
+      "Body": 0.1875
+    },
+    "518": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "519": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "520": {
+      "ArmLLower": 0.390625,
+      "Body": 0.375,
+      "ArmLUpper": 0.203125,
+      "Pelvis": 0.03125
+    },
+    "521": {
+      "ArmLLower": 0.421875,
+      "Body": 0.328125,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "522": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "523": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "524": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "525": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "526": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "543": {
+      "ArmLLower": 0.609375,
+      "ArmLUpper": 0.359375,
+      "Body": 0.03125
+    },
+    "544": {
+      "ArmLLower": 0.59375,
+      "ArmLUpper": 0.328125,
+      "Body": 0.078125
+    },
+    "545": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.234375,
+      "Body": 0.0625
+    },
+    "546": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.28125,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "547": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "548": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "549": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "550": {
+      "ArmLLower": 0.515625,
+      "Body": 0.25,
+      "ArmLUpper": 0.203125,
+      "Pelvis": 0.03125
+    },
+    "551": {
+      "ArmLLower": 0.609375,
+      "Body": 0.1875,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.078125
+    },
+    "552": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "553": {
+      "ArmLLower": 0.5625,
+      "Body": 0.25,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "554": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "555": {
+      "ArmLLower": 0.390625,
+      "Body": 0.375,
+      "ArmLUpper": 0.203125,
+      "Pelvis": 0.03125
+    },
+    "556": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "557": {
+      "ArmLLower": 0.5,
+      "Body": 0.265625,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "558": {
+      "ArmLLower": 0.390625,
+      "Body": 0.375,
+      "ArmLUpper": 0.203125,
+      "Pelvis": 0.03125
+    },
+    "559": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "560": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "561": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.25,
+      "Body": 0.171875,
+      "Pelvis": 0.015625
+    },
+    "562": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.3125,
+      "Body": 0.1875
+    },
+    "563": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.375,
+      "Body": 0.078125
+    },
+    "564": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.015625
+    },
+    "613": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "616": {
+      "ArmLLower": 0.59375,
+      "ArmLUpper": 0.328125,
+      "Body": 0.078125
+    },
+    "617": {
+      "ArmLLower": 0.609375,
+      "ArmLUpper": 0.359375,
+      "Body": 0.03125
+    },
+    "618": {
+      "ArmLLower": 0.59375,
+      "ArmLUpper": 0.328125,
+      "Body": 0.078125
+    },
+    "619": {
+      "ArmLLower": 0.59375,
+      "ArmLUpper": 0.328125,
+      "Body": 0.078125
+    },
+    "620": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.28125,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "621": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.28125,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "622": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "623": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "624": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "625": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "626": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "627": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "640": {
+      "ArmLLower": 0.75,
+      "ArmLUpper": 0.171875,
+      "Body": 0.0625,
+      "Pelvis": 0.015625
+    },
+    "641": {
+      "ArmLLower": 0.75,
+      "ArmLUpper": 0.171875,
+      "Body": 0.0625,
+      "Pelvis": 0.015625
+    },
+    "642": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "643": {
+      "ArmLLower": 0.53125,
+      "Body": 0.234375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "644": {
+      "ArmLLower": 0.53125,
+      "Body": 0.234375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "645": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "651": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.015625
+    },
+    "653": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.015625
+    },
+    "654": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "661": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.234375,
+      "Body": 0.0625
+    },
+    "693": {
+      "ArmLUpper": 0.609375,
+      "ArmLLower": 0.328125,
+      "Body": 0.0625
+    },
+    "695": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "696": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "697": {
+      "ArmLLower": 0.59375,
+      "ArmLUpper": 0.328125,
+      "Body": 0.078125
+    },
+    "698": {
+      "ArmLLower": 0.59375,
+      "ArmLUpper": 0.328125,
+      "Body": 0.078125
+    },
+    "699": {
+      "ArmLLower": 0.453125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.25,
+      "Pelvis": 0.015625
+    },
+    "700": {
+      "ArmLUpper": 0.453125,
+      "Body": 0.3125,
+      "ArmLLower": 0.234375
+    },
+    "701": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.28125,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "702": {
+      "ArmLLower": 0.375,
+      "Body": 0.328125,
+      "ArmLUpper": 0.28125,
+      "Pelvis": 0.015625
+    },
+    "703": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "707": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "708": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "711": {
+      "ArmLLower": 0.46875,
+      "ArmLUpper": 0.390625,
+      "Body": 0.140625
+    },
+    "712": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.375,
+      "Body": 0.078125
+    },
+    "797": {
+      "ArmLLower": 0.84375,
+      "Pelvis": 0.078125,
+      "HandL": 0.0625,
+      "Body": 0.015625
+    },
+    "798": {
+      "ArmLLower": 0.84375,
+      "Pelvis": 0.078125,
+      "HandL": 0.0625,
+      "Body": 0.015625
+    },
+    "799": {
+      "ArmLLower": 0.875,
+      "HandL": 0.078125,
+      "Pelvis": 0.046875
+    },
+    "811": {
+      "ArmLLower": 0.71875,
+      "ArmLUpper": 0.125,
+      "Body": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "812": {
+      "ArmLLower": 0.71875,
+      "ArmLUpper": 0.125,
+      "Body": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "813": {
+      "ArmLLower": 0.671875,
+      "Body": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "822": {
+      "ArmLLower": 0.75,
+      "ArmLUpper": 0.171875,
+      "Body": 0.0625,
+      "Pelvis": 0.015625
+    },
+    "824": {
+      "ArmLLower": 0.78125,
+      "ArmLUpper": 0.125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "827": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "829": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "830": {
+      "ArmLLower": 0.53125,
+      "Body": 0.234375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "831": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "832": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "833": {
+      "ArmLLower": 0.640625,
+      "Body": 0.1875,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "834": {
+      "ArmLLower": 0.640625,
+      "Body": 0.1875,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "835": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "836": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "837": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "838": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "839": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "840": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "841": {
+      "ArmLLower": 0.78125,
+      "ArmLUpper": 0.125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "848": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "850": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "852": {
+      "ArmLLower": 0.75,
+      "ArmLUpper": 0.171875,
+      "Body": 0.0625,
+      "Pelvis": 0.015625
+    },
+    "882": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "910": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "926": {
+      "ArmLLower": 0.84375,
+      "HandL": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "928": {
+      "ArmLLower": 0.875,
+      "HandL": 0.09375,
+      "Pelvis": 0.03125
+    },
+    "931": {
+      "ArmLLower": 0.828125,
+      "HandL": 0.09375,
+      "Pelvis": 0.078125
+    },
+    "933": {
+      "ArmLLower": 0.875,
+      "HandL": 0.09375,
+      "Pelvis": 0.03125
+    },
+    "934": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.15625,
+      "HandL": 0.125
+    },
+    "936": {
+      "ArmLLower": 0.828125,
+      "HandL": 0.09375,
+      "Pelvis": 0.078125
+    },
+    "937": {
+      "ArmLLower": 0.84375,
+      "HandL": 0.09375,
+      "Pelvis": 0.0625
+    },
+    "938": {
+      "ArmLLower": 0.796875,
+      "Pelvis": 0.109375,
+      "HandL": 0.09375
+    },
+    "939": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.15625,
+      "HandL": 0.125
+    },
+    "940": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.171875,
+      "HandL": 0.109375
+    },
+    "941": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.171875,
+      "HandL": 0.109375
+    },
+    "942": {
+      "ArmLLower": 0.84375,
+      "HandL": 0.09375,
+      "Pelvis": 0.0625
+    },
+    "943": {
+      "ArmLLower": 0.84375,
+      "Pelvis": 0.078125,
+      "HandL": 0.0625,
+      "Body": 0.015625
+    },
+    "944": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.125,
+      "HandL": 0.078125,
+      "Body": 0.015625
+    },
+    "948": {
+      "ArmLLower": 0.875,
+      "HandL": 0.09375,
+      "Pelvis": 0.03125
+    },
+    "949": {
+      "ArmLLower": 0.734375,
+      "Pelvis": 0.140625,
+      "HandL": 0.125
+    },
+    "950": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.15625,
+      "HandL": 0.125
+    },
+    "951": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.171875,
+      "HandL": 0.109375
+    },
+    "952": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "953": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "954": {
+      "ArmLLower": 0.734375,
+      "Pelvis": 0.140625,
+      "HandL": 0.125
+    },
+    "956": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "975": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.015625
+    },
+    "976": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "977": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.25,
+      "Body": 0.171875,
+      "Pelvis": 0.015625
+    },
+    "983": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1004": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "1006": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "1013": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1014": {
+      "ArmLLower": 0.875,
+      "ArmLUpper": 0.0625,
+      "Pelvis": 0.03125,
+      "Body": 0.03125
+    },
+    "1015": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1016": {
+      "ArmLLower": 0.875,
+      "ArmLUpper": 0.0625,
+      "Pelvis": 0.03125,
+      "Body": 0.03125
+    },
+    "1017": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "1018": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "1019": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "1021": {
+      "ArmLLower": 0.671875,
+      "Body": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "1022": {
+      "ArmLLower": 0.59375,
+      "Body": 0.203125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.09375
+    },
+    "1023": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "1024": {
+      "ArmLLower": 0.609375,
+      "Body": 0.1875,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.078125
+    },
+    "1025": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1026": {
+      "ArmLLower": 0.59375,
+      "Body": 0.203125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.09375
+    },
+    "1027": {
+      "ArmLLower": 0.640625,
+      "Body": 0.1875,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "1028": {
+      "ArmLLower": 0.640625,
+      "Body": 0.1875,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "1067": {
+      "ArmLLower": 0.859375,
+      "HandL": 0.109375,
+      "Pelvis": 0.03125
+    },
+    "1069": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.015625
+    },
+    "1070": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "1071": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "1075": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1077": {
+      "ArmLLower": 0.859375,
+      "HandL": 0.109375,
+      "Pelvis": 0.03125
+    },
+    "1080": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1081": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1082": {
+      "ArmLUpper": 0.765625,
+      "Body": 0.171875,
+      "ArmLLower": 0.0625
+    },
+    "1083": {
+      "ArmLUpper": 0.625,
+      "Body": 0.296875,
+      "ArmLLower": 0.078125
+    },
+    "1084": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.1875,
+      "ArmLLower": 0.09375
+    },
+    "1085": {
+      "ArmLUpper": 0.59375,
+      "Body": 0.34375,
+      "ArmLLower": 0.0625
+    },
+    "1086": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.25,
+      "ArmLLower": 0.09375
+    },
+    "1087": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.375,
+      "ArmLLower": 0.09375
+    },
+    "1088": {
+      "Body": 0.5,
+      "ArmLUpper": 0.421875,
+      "ArmLLower": 0.078125
+    },
+    "1089": {
+      "Body": 0.5,
+      "ArmLUpper": 0.421875,
+      "ArmLLower": 0.078125
+    },
+    "1090": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.3125,
+      "ArmLLower": 0.046875
+    },
+    "1091": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.3125,
+      "ArmLLower": 0.046875
+    },
+    "1092": {
+      "Body": 0.5625,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.0625
+    },
+    "1093": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1094": {
+      "Body": 0.78125,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.03125
+    },
+    "1095": {
+      "Body": 0.6875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.046875
+    },
+    "1096": {
+      "Body": 0.515625,
+      "ArmLUpper": 0.4375,
+      "ArmLLower": 0.046875
+    },
+    "1098": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1099": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1106": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1107": {
+      "ArmLUpper": 0.828125,
+      "Body": 0.125,
+      "ArmLLower": 0.046875
+    },
+    "1124": {
+      "ArmLUpper": 0.828125,
+      "Body": 0.125,
+      "ArmLLower": 0.046875
+    },
+    "1126": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1127": {
+      "ArmLUpper": 0.609375,
+      "Body": 0.34375,
+      "ArmLLower": 0.046875
+    },
+    "1128": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.234375,
+      "ArmLLower": 0.046875
+    },
+    "1129": {
+      "ArmLUpper": 0.609375,
+      "ArmLLower": 0.328125,
+      "Body": 0.0625
+    },
+    "1130": {
+      "ArmLUpper": 0.609375,
+      "ArmLLower": 0.328125,
+      "Body": 0.0625
+    },
+    "1131": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "1133": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1134": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1135": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.1875,
+      "ArmLLower": 0.09375
+    },
+    "1137": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.25,
+      "ArmLLower": 0.09375
+    },
+    "1138": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.25,
+      "ArmLLower": 0.09375
+    },
+    "1139": {
+      "ArmLUpper": 0.625,
+      "Body": 0.296875,
+      "ArmLLower": 0.078125
+    },
+    "1140": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.25,
+      "ArmLLower": 0.09375
+    },
+    "1141": {
+      "Body": 0.5625,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.0625
+    },
+    "1142": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.375,
+      "ArmLLower": 0.09375
+    },
+    "1143": {
+      "Body": 0.5,
+      "ArmLUpper": 0.421875,
+      "ArmLLower": 0.078125
+    },
+    "1144": {
+      "Body": 0.5625,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.0625
+    },
+    "1145": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1146": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1147": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1148": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "1149": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "1150": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.0625
+    },
+    "1151": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "1170": {
+      "ArmLUpper": 0.40625,
+      "Body": 0.34375,
+      "ArmLLower": 0.25
+    },
+    "1171": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "1172": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "1173": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "1175": {
+      "Body": 0.421875,
+      "ArmLUpper": 0.359375,
+      "ArmLLower": 0.21875
+    },
+    "1176": {
+      "Body": 0.421875,
+      "ArmLUpper": 0.359375,
+      "ArmLLower": 0.21875
+    },
+    "1177": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.203125,
+      "ArmLLower": 0.09375
+    },
+    "1178": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "1179": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "1180": {
+      "Body": 0.421875,
+      "ArmLUpper": 0.359375,
+      "ArmLLower": 0.21875
+    },
+    "1181": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "1182": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1183": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1192": {
+      "ArmLLower": 0.828125,
+      "HandL": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "1193": {
+      "ArmLLower": 0.875,
+      "HandL": 0.078125,
+      "Pelvis": 0.046875
+    },
+    "1194": {
+      "ArmLLower": 0.828125,
+      "HandL": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "1196": {
+      "ArmLLower": 0.859375,
+      "HandL": 0.109375,
+      "Pelvis": 0.03125
+    },
+    "1197": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1198": {
+      "ArmLLower": 0.859375,
+      "HandL": 0.109375,
+      "Pelvis": 0.03125
+    },
+    "1199": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1200": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1201": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1202": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1203": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1204": {
+      "ArmLLower": 0.84375,
+      "Pelvis": 0.078125,
+      "HandL": 0.0625,
+      "Body": 0.015625
+    },
+    "1205": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.125,
+      "HandL": 0.078125,
+      "Body": 0.015625
+    },
+    "1206": {
+      "ArmLLower": 0.84375,
+      "Pelvis": 0.078125,
+      "HandL": 0.0625,
+      "Body": 0.015625
+    },
+    "1207": {
+      "ArmLLower": 0.78125,
+      "Pelvis": 0.109375,
+      "HandL": 0.109375
+    },
+    "1208": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.171875,
+      "HandL": 0.109375
+    },
+    "1209": {
+      "ArmLLower": 0.71875,
+      "Pelvis": 0.171875,
+      "HandL": 0.109375
+    },
+    "1213": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.234375,
+      "Body": 0.0625
+    },
+    "1214": {
+      "ArmLLower": 0.703125,
+      "ArmLUpper": 0.234375,
+      "Body": 0.0625
+    },
+    "1215": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1220": {
+      "ArmLUpper": 0.40625,
+      "Body": 0.34375,
+      "ArmLLower": 0.25
+    },
+    "1222": {
+      "ArmLLower": 0.46875,
+      "ArmLUpper": 0.390625,
+      "Body": 0.140625
+    },
+    "1223": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1224": {
+      "ArmLUpper": 0.609375,
+      "ArmLLower": 0.328125,
+      "Body": 0.0625
+    },
+    "1226": {
+      "ArmLUpper": 0.734375,
+      "ArmLLower": 0.203125,
+      "Body": 0.0625
+    },
+    "1232": {
+      "ArmLUpper": 0.59375,
+      "ArmLLower": 0.359375,
+      "Body": 0.046875
+    },
+    "1234": {
+      "Body": 0.421875,
+      "ArmLUpper": 0.359375,
+      "ArmLLower": 0.21875
+    },
+    "1236": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.203125,
+      "ArmLLower": 0.09375
+    },
+    "1237": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.203125,
+      "ArmLLower": 0.09375
+    },
+    "1238": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "1239": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "1266": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1267": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1268": {
+      "ArmLLower": 0.78125,
+      "ArmLUpper": 0.125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1269": {
+      "ArmLLower": 0.828125,
+      "ArmLUpper": 0.078125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1284": {
+      "ArmLLower": 0.46875,
+      "ArmLUpper": 0.390625,
+      "Body": 0.140625
+    },
+    "1285": {
+      "ArmLLower": 0.546875,
+      "ArmLUpper": 0.375,
+      "Body": 0.078125
+    },
+    "1286": {
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.375,
+      "Body": 0.25
+    },
+    "1287": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.3125,
+      "Body": 0.1875
+    },
+    "1288": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "1289": {
+      "Body": 0.453125,
+      "ArmLUpper": 0.296875,
+      "ArmLLower": 0.25
+    },
+    "1290": {
+      "ArmLLower": 0.421875,
+      "Body": 0.328125,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1291": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1292": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "1293": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "1294": {
+      "ArmLUpper": 0.546875,
+      "ArmLLower": 0.265625,
+      "Body": 0.1875
+    },
+    "1295": {
+      "ArmLUpper": 0.453125,
+      "Body": 0.3125,
+      "ArmLLower": 0.234375
+    },
+    "1296": {
+      "ArmLUpper": 0.4375,
+      "Body": 0.328125,
+      "ArmLLower": 0.234375
+    },
+    "1297": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1298": {
+      "ArmLUpper": 0.828125,
+      "Body": 0.125,
+      "ArmLLower": 0.046875
+    },
+    "1299": {
+      "ArmLUpper": 0.765625,
+      "Body": 0.171875,
+      "ArmLLower": 0.0625
+    },
+    "1300": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.234375,
+      "ArmLLower": 0.046875
+    },
+    "1301": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.234375,
+      "ArmLLower": 0.046875
+    },
+    "1302": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.40625,
+      "ArmLLower": 0.0625
+    },
+    "1303": {
+      "ArmLUpper": 0.59375,
+      "Body": 0.34375,
+      "ArmLLower": 0.0625
+    },
+    "1304": {
+      "Body": 0.5,
+      "ArmLUpper": 0.421875,
+      "ArmLLower": 0.078125
+    },
+    "1305": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1306": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1307": {
+      "ArmLUpper": 0.609375,
+      "ArmLLower": 0.328125,
+      "Body": 0.0625
+    },
+    "1308": {
+      "ArmLUpper": 0.40625,
+      "Body": 0.34375,
+      "ArmLLower": 0.25
+    },
+    "1309": {
+      "ArmLLower": 0.46875,
+      "ArmLUpper": 0.390625,
+      "Body": 0.140625
+    },
+    "1310": {
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.375,
+      "Body": 0.25
+    },
+    "1327": {
+      "ArmLLower": 0.53125,
+      "Body": 0.234375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "1328": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "1329": {
+      "ArmLLower": 0.75,
+      "ArmLUpper": 0.171875,
+      "Body": 0.0625,
+      "Pelvis": 0.015625
+    },
+    "1337": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.25,
+      "ArmLLower": 0.09375
+    },
+    "1338": {
+      "ArmLUpper": 0.640625,
+      "Body": 0.25,
+      "ArmLLower": 0.109375
+    },
+    "1341": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.25,
+      "ArmLLower": 0.09375
+    },
+    "1342": {
+      "ArmLUpper": 0.640625,
+      "Body": 0.25,
+      "ArmLLower": 0.109375
+    },
+    "1343": {
+      "Body": 0.5625,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.0625
+    },
+    "1344": {
+      "Body": 0.5,
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.09375
+    },
+    "1345": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.0625
+    },
+    "1346": {
+      "ArmLUpper": 0.640625,
+      "Body": 0.25,
+      "ArmLLower": 0.109375
+    },
+    "1347": {
+      "ArmLUpper": 0.640625,
+      "Body": 0.25,
+      "ArmLLower": 0.109375
+    },
+    "1348": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.171875,
+      "ArmLLower": 0.15625
+    },
+    "1349": {
+      "ArmLUpper": 0.734375,
+      "ArmLLower": 0.203125,
+      "Body": 0.0625
+    },
+    "1350": {
+      "ArmLUpper": 0.734375,
+      "ArmLLower": 0.203125,
+      "Body": 0.0625
+    },
+    "1378": {
+      "ArmLUpper": 0.734375,
+      "ArmLLower": 0.203125,
+      "Body": 0.0625
+    },
+    "1386": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.203125,
+      "ArmLLower": 0.09375
+    },
+    "1393": {
+      "ArmLUpper": 0.9375,
+      "Body": 0.0625
+    },
+    "1395": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1396": {
+      "ArmLUpper": 0.734375,
+      "Body": 0.265625
+    },
+    "1397": {
+      "ArmLUpper": 0.6875,
+      "Body": 0.3125
+    },
+    "1398": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1399": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1400": {
+      "ArmLUpper": 0.5625,
+      "Body": 0.4375
+    },
+    "1401": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1402": {
+      "Body": 0.53125,
+      "ArmLUpper": 0.46875
+    },
+    "1403": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.359375
+    },
+    "1404": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.359375
+    },
+    "1405": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.03125
+    },
+    "1406": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.015625
+    },
+    "1408": {
+      "ArmLUpper": 0.9375,
+      "Body": 0.0625
+    },
+    "1411": {
+      "ArmLUpper": 0.875,
+      "Body": 0.125
+    },
+    "1419": {
+      "ArmLLower": 0.78125,
+      "ArmLUpper": 0.125,
+      "Body": 0.0625,
+      "Pelvis": 0.03125
+    },
+    "1420": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "1421": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "1433": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "1434": {
+      "ArmLLower": 0.875,
+      "ArmLUpper": 0.0625,
+      "Pelvis": 0.03125,
+      "Body": 0.03125
+    },
+    "1439": {
+      "ArmLUpper": 0.9375,
+      "Body": 0.0625
+    },
+    "1442": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1443": {
+      "ArmLUpper": 0.578125,
+      "Body": 0.421875
+    },
+    "1444": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1445": {
+      "ArmLUpper": 0.9375,
+      "Body": 0.0625
+    },
+    "1446": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1447": {
+      "ArmLUpper": 0.5,
+      "Body": 0.5
+    },
+    "1448": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.03125
+    },
+    "1449": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.03125
+    },
+    "1450": {
+      "ArmLLower": 0.671875,
+      "Body": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "1451": {
+      "ArmLLower": 0.859375,
+      "ArmLUpper": 0.078125,
+      "Body": 0.046875,
+      "Pelvis": 0.015625
+    },
+    "1454": {
+      "ArmLLower": 0.875,
+      "ArmLUpper": 0.0625,
+      "Pelvis": 0.03125,
+      "Body": 0.03125
+    },
+    "1461": {
+      "ArmLLower": 0.671875,
+      "Body": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "1463": {
+      "ArmLLower": 0.71875,
+      "ArmLUpper": 0.125,
+      "Body": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "1464": {
+      "ArmLUpper": 0.734375,
+      "Body": 0.265625
+    },
+    "1467": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1468": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1469": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1470": {
+      "ArmLUpper": 0.5625,
+      "Body": 0.4375
+    },
+    "1471": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1472": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1474": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1475": {
+      "ArmLUpper": 0.515625,
+      "Body": 0.484375
+    },
+    "1476": {
+      "Body": 0.546875,
+      "ArmLUpper": 0.453125
+    },
+    "1477": {
+      "Body": 0.71875,
+      "ArmLUpper": 0.28125
+    },
+    "1478": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.359375
+    },
+    "1479": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.359375
+    },
+    "1481": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.015625
+    },
+    "1486": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1487": {
+      "ArmLUpper": 0.796875,
+      "Body": 0.203125
+    },
+    "1488": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1501": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1503": {
+      "ArmLUpper": 0.875,
+      "Body": 0.125
+    },
+    "1521": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.34375
+    },
+    "1522": {
+      "ArmLUpper": 0.796875,
+      "Body": 0.203125
+    },
+    "1523": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.28125
+    },
+    "1524": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.34375
+    },
+    "1532": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "1533": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "1534": {
+      "Body": 0.75,
+      "ArmLUpper": 0.25
+    },
+    "1535": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "1540": {
+      "ArmLUpper": 0.9375,
+      "Body": 0.0625
+    },
+    "1543": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1555": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.234375,
+      "ArmLLower": 0.046875
+    },
+    "1556": {
+      "ArmLUpper": 0.84375,
+      "Body": 0.09375,
+      "ArmLLower": 0.0625
+    },
+    "1557": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.234375,
+      "ArmLLower": 0.046875
+    },
+    "1558": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.234375,
+      "ArmLLower": 0.046875
+    },
+    "1559": {
+      "ArmLUpper": 0.609375,
+      "Body": 0.34375,
+      "ArmLLower": 0.046875
+    },
+    "1560": {
+      "ArmLUpper": 0.484375,
+      "Body": 0.46875,
+      "ArmLLower": 0.046875
+    },
+    "1561": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.40625,
+      "ArmLLower": 0.0625
+    },
+    "1562": {
+      "Body": 0.515625,
+      "ArmLUpper": 0.4375,
+      "ArmLLower": 0.046875
+    },
+    "1563": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.3125,
+      "ArmLLower": 0.046875
+    },
+    "1564": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.40625,
+      "ArmLLower": 0.0625
+    },
+    "1565": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.40625,
+      "ArmLLower": 0.0625
+    },
+    "1566": {
+      "Body": 0.5,
+      "ArmLUpper": 0.421875,
+      "ArmLLower": 0.078125
+    },
+    "1574": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "1575": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1576": {
+      "ArmLUpper": 0.546875,
+      "ArmLLower": 0.265625,
+      "Body": 0.1875
+    },
+    "1577": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.171875,
+      "ArmLLower": 0.15625
+    },
+    "1578": {
+      "ArmLUpper": 0.640625,
+      "Body": 0.25,
+      "ArmLLower": 0.109375
+    },
+    "1579": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "1583": {
+      "ArmLLower": 0.453125,
+      "ArmLUpper": 0.28125,
+      "Body": 0.25,
+      "Pelvis": 0.015625
+    },
+    "1584": {
+      "ArmLUpper": 0.453125,
+      "Body": 0.3125,
+      "ArmLLower": 0.234375
+    },
+    "1585": {
+      "ArmLLower": 0.375,
+      "Body": 0.328125,
+      "ArmLUpper": 0.28125,
+      "Pelvis": 0.015625
+    },
+    "1586": {
+      "ArmLLower": 0.375,
+      "Body": 0.328125,
+      "ArmLUpper": 0.28125,
+      "Pelvis": 0.015625
+    },
+    "1587": {
+      "Body": 0.421875,
+      "ArmLUpper": 0.328125,
+      "ArmLLower": 0.25
+    },
+    "1588": {
+      "ArmLUpper": 0.4375,
+      "Body": 0.328125,
+      "ArmLLower": 0.234375
+    },
+    "1589": {
+      "Body": 0.40625,
+      "ArmLUpper": 0.390625,
+      "ArmLLower": 0.203125
+    },
+    "1590": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.140625
+    },
+    "1591": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.140625
+    },
+    "1592": {
+      "Body": 0.359375,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.296875,
+      "Pelvis": 0.015625
+    },
+    "1593": {
+      "ArmLLower": 0.375,
+      "Body": 0.328125,
+      "ArmLUpper": 0.28125,
+      "Pelvis": 0.015625
+    },
+    "1594": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "1595": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1596": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1597": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625
+    },
+    "1598": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.140625
+    },
+    "1599": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625
+    },
+    "1600": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.171875,
+      "ArmLLower": 0.140625,
+      "Pelvis": 0.015625
+    },
+    "1601": {
+      "Body": 0.53125,
+      "ArmLLower": 0.265625,
+      "ArmLUpper": 0.171875,
+      "Pelvis": 0.03125
+    },
+    "1602": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625
+    },
+    "1603": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1604": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1623": {
+      "ArmLUpper": 0.734375,
+      "ArmLLower": 0.203125,
+      "Body": 0.0625
+    },
+    "1624": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1625": {
+      "ArmLUpper": 0.734375,
+      "ArmLLower": 0.203125,
+      "Body": 0.0625
+    },
+    "1626": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.171875,
+      "ArmLLower": 0.15625
+    },
+    "1627": {
+      "ArmLUpper": 0.625,
+      "ArmLLower": 0.265625,
+      "Body": 0.109375
+    },
+    "1635": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1636": {
+      "ArmLUpper": 0.796875,
+      "Body": 0.203125
+    },
+    "1637": {
+      "ArmLUpper": 0.625,
+      "Body": 0.375
+    },
+    "1638": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1639": {
+      "ArmLUpper": 0.71875,
+      "Body": 0.28125
+    },
+    "1640": {
+      "ArmLUpper": 0.5625,
+      "Body": 0.4375
+    },
+    "1641": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.34375
+    },
+    "1642": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "1644": {
+      "ArmLUpper": 0.515625,
+      "Body": 0.484375
+    },
+    "1645": {
+      "Body": 0.609375,
+      "ArmLUpper": 0.390625
+    },
+    "1646": {
+      "Body": 0.6875,
+      "ArmLUpper": 0.3125
+    },
+    "1647": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.359375
+    },
+    "1648": {
+      "Body": 0.71875,
+      "ArmLUpper": 0.28125
+    },
+    "1649": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1650": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1652": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1653": {
+      "ArmLUpper": 0.515625,
+      "Body": 0.484375
+    },
+    "1654": {
+      "ArmLUpper": 0.515625,
+      "Body": 0.484375
+    },
+    "1655": {
+      "Body": 0.609375,
+      "ArmLUpper": 0.390625
+    },
+    "1656": {
+      "ArmLUpper": 0.515625,
+      "Body": 0.484375
+    },
+    "1657": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1658": {
+      "Body": 0.546875,
+      "ArmLUpper": 0.453125
+    },
+    "1659": {
+      "Body": 0.546875,
+      "ArmLUpper": 0.453125
+    },
+    "1660": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.359375
+    },
+    "1661": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1662": {
+      "Body": 0.71875,
+      "ArmLUpper": 0.28125
+    },
+    "1663": {
+      "Body": 0.71875,
+      "ArmLUpper": 0.28125
+    },
+    "1667": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1691": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1704": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "1705": {
+      "ArmLLower": 0.6875,
+      "ArmLUpper": 0.203125,
+      "Body": 0.09375,
+      "Pelvis": 0.015625
+    },
+    "1706": {
+      "ArmLLower": 0.5,
+      "Body": 0.265625,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "1707": {
+      "ArmLLower": 0.53125,
+      "Body": 0.234375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.015625
+    },
+    "1708": {
+      "ArmLLower": 0.5,
+      "ArmLUpper": 0.25,
+      "Body": 0.234375,
+      "Pelvis": 0.015625
+    },
+    "1709": {
+      "ArmLLower": 0.640625,
+      "Body": 0.1875,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "1710": {
+      "ArmLLower": 0.390625,
+      "Body": 0.375,
+      "ArmLUpper": 0.203125,
+      "Pelvis": 0.03125
+    },
+    "1711": {
+      "ArmLLower": 0.5625,
+      "Body": 0.25,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.0625
+    },
+    "1712": {
+      "ArmLLower": 0.59375,
+      "Body": 0.203125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.09375
+    },
+    "1713": {
+      "ArmLLower": 0.609375,
+      "Body": 0.1875,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.078125
+    },
+    "1714": {
+      "ArmLLower": 0.609375,
+      "Body": 0.1875,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.078125
+    },
+    "1715": {
+      "ArmLLower": 0.515625,
+      "Body": 0.25,
+      "ArmLUpper": 0.203125,
+      "Pelvis": 0.03125
+    },
+    "1716": {
+      "ArmLLower": 0.5625,
+      "ArmLUpper": 0.265625,
+      "Body": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1723": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.203125,
+      "ArmLLower": 0.09375
+    },
+    "1724": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "1725": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1726": {
+      "ArmLUpper": 0.6875,
+      "Body": 0.3125
+    },
+    "1727": {
+      "ArmLUpper": 0.9375,
+      "Body": 0.0625
+    },
+    "1728": {
+      "ArmLUpper": 0.6875,
+      "Body": 0.3125
+    },
+    "1729": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1730": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1731": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1732": {
+      "Body": 0.53125,
+      "ArmLUpper": 0.46875
+    },
+    "1733": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.03125
+    },
+    "1741": {
+      "Body": 0.421875,
+      "ArmLUpper": 0.359375,
+      "ArmLLower": 0.21875
+    },
+    "1742": {
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.375,
+      "Body": 0.25
+    },
+    "1743": {
+      "Body": 0.453125,
+      "ArmLUpper": 0.296875,
+      "ArmLLower": 0.25
+    },
+    "1744": {
+      "ArmLUpper": 0.40625,
+      "Body": 0.34375,
+      "ArmLLower": 0.25
+    },
+    "1745": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1746": {
+      "ArmLLower": 0.421875,
+      "Body": 0.328125,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1747": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "1748": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "1749": {
+      "ArmLUpper": 0.46875,
+      "Body": 0.265625,
+      "ArmLLower": 0.265625
+    },
+    "1750": {
+      "ArmLUpper": 0.640625,
+      "Body": 0.25,
+      "ArmLLower": 0.109375
+    },
+    "1751": {
+      "ArmLUpper": 0.4375,
+      "Body": 0.328125,
+      "ArmLLower": 0.234375
+    },
+    "1752": {
+      "Body": 0.5,
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.09375
+    },
+    "1753": {
+      "Body": 0.5,
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.09375
+    },
+    "1760": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1761": {
+      "ArmLUpper": 0.6875,
+      "Body": 0.3125
+    },
+    "1762": {
+      "ArmLUpper": 0.6875,
+      "Body": 0.3125
+    },
+    "1770": {
+      "ArmLUpper": 0.609375,
+      "Body": 0.34375,
+      "ArmLLower": 0.046875
+    },
+    "1772": {
+      "ArmLUpper": 0.578125,
+      "Body": 0.421875
+    },
+    "1773": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1774": {
+      "ArmLUpper": 0.578125,
+      "Body": 0.421875
+    },
+    "1775": {
+      "ArmLUpper": 0.5,
+      "Body": 0.5
+    },
+    "1776": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.03125
+    },
+    "1777": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.03125
+    },
+    "1778": {
+      "ArmLUpper": 0.484375,
+      "Body": 0.46875,
+      "ArmLLower": 0.046875
+    },
+    "1779": {
+      "Body": 0.515625,
+      "ArmLUpper": 0.4375,
+      "ArmLLower": 0.046875
+    },
+    "1780": {
+      "Body": 0.703125,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.03125
+    },
+    "1781": {
+      "Body": 0.6875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.046875
+    },
+    "1782": {
+      "Body": 0.6875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.046875
+    },
+    "1783": {
+      "Body": 0.78125,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.03125
+    },
+    "1786": {
+      "ArmLUpper": 0.6875,
+      "Body": 0.3125
+    },
+    "1787": {
+      "ArmLUpper": 0.671875,
+      "Body": 0.328125
+    },
+    "1788": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.46875
+    },
+    "1852": {
+      "ArmLUpper": 0.78125,
+      "Body": 0.21875
+    },
+    "1853": {
+      "ArmLUpper": 0.578125,
+      "Body": 0.421875
+    },
+    "1881": {
+      "ArmLLower": 0.640625,
+      "Body": 0.1875,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.0625
+    },
+    "1882": {
+      "ArmLLower": 0.71875,
+      "Body": 0.125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.046875
+    },
+    "1883": {
+      "ArmLLower": 0.59375,
+      "Body": 0.203125,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.09375
+    },
+    "1897": {
+      "ArmLUpper": 0.65625,
+      "Body": 0.34375
+    },
+    "1899": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "1930": {
+      "Body": 0.5,
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.09375
+    },
+    "1931": {
+      "Body": 0.40625,
+      "ArmLUpper": 0.390625,
+      "ArmLLower": 0.203125
+    },
+    "1932": {
+      "ArmLUpper": 0.4375,
+      "Body": 0.328125,
+      "ArmLLower": 0.234375
+    },
+    "1933": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.0625
+    },
+    "1934": {
+      "Body": 0.5,
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.09375
+    },
+    "1935": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.140625
+    },
+    "1936": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "1945": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "1946": {
+      "ArmLLower": 0.421875,
+      "Body": 0.328125,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1947": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "1952": {
+      "Body": 0.5,
+      "ArmLUpper": 0.421875,
+      "ArmLLower": 0.078125
+    },
+    "1953": {
+      "ArmLUpper": 0.53125,
+      "Body": 0.40625,
+      "ArmLLower": 0.0625
+    },
+    "1954": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.3125,
+      "ArmLLower": 0.046875
+    },
+    "1967": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1968": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "1969": {
+      "ArmLLower": 0.453125,
+      "Body": 0.28125,
+      "ArmLUpper": 0.234375,
+      "Pelvis": 0.03125
+    },
+    "1970": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "1971": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1972": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "1973": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1974": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "1975": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "1976": {
+      "Body": 0.71875,
+      "ArmLUpper": 0.28125
+    },
+    "1978": {
+      "Body": 0.75,
+      "ArmLUpper": 0.25
+    },
+    "1979": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.203125
+    },
+    "1980": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.203125
+    },
+    "1981": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.203125
+    },
+    "1982": {
+      "Body": 0.75,
+      "ArmLUpper": 0.25
+    },
+    "1983": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.234375
+    },
+    "1984": {
+      "Body": 0.6875,
+      "ArmLUpper": 0.3125
+    },
+    "1985": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.234375
+    },
+    "1986": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1987": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.234375
+    },
+    "1988": {
+      "Body": 0.71875,
+      "ArmLUpper": 0.28125
+    },
+    "1989": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "1990": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.234375
+    },
+    "1991": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.15625
+    },
+    "2060": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "2061": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "2062": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "2063": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "2064": {
+      "Body": 0.53125,
+      "ArmLLower": 0.265625,
+      "ArmLUpper": 0.171875,
+      "Pelvis": 0.03125
+    },
+    "2065": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "2066": {
+      "Body": 0.53125,
+      "ArmLLower": 0.265625,
+      "ArmLUpper": 0.171875,
+      "Pelvis": 0.03125
+    },
+    "2067": {
+      "Body": 0.59375,
+      "ArmLLower": 0.21875,
+      "ArmLUpper": 0.15625,
+      "Pelvis": 0.03125
+    },
+    "2068": {
+      "Body": 0.71875,
+      "ArmLLower": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.015625
+    },
+    "2069": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625
+    },
+    "2070": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625
+    },
+    "2071": {
+      "Body": 0.71875,
+      "ArmLLower": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.015625
+    },
+    "2072": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "2073": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625
+    },
+    "2074": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.171875,
+      "ArmLLower": 0.140625,
+      "Pelvis": 0.015625
+    },
+    "2106": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "2107": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "2108": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "2109": {
+      "Body": 0.71875,
+      "ArmLLower": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.015625
+    },
+    "2110": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "2111": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "2112": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "2113": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2181": {
+      "Body": 0.578125,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.171875
+    },
+    "2182": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "2183": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "2184": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.0625,
+      "ArmLLower": 0.03125
+    },
+    "2186": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2187": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "2299": {
+      "Body": 0.53125,
+      "ArmLLower": 0.265625,
+      "ArmLUpper": 0.171875,
+      "Pelvis": 0.03125
+    },
+    "2300": {
+      "Body": 0.453125,
+      "ArmLLower": 0.328125,
+      "ArmLUpper": 0.1875,
+      "Pelvis": 0.03125
+    },
+    "2301": {
+      "Body": 0.390625,
+      "ArmLLower": 0.359375,
+      "ArmLUpper": 0.21875,
+      "Pelvis": 0.03125
+    },
+    "2318": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2372": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.078125,
+      "LegLUpper": 0.046875
+    },
+    "2376": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.078125,
+      "LegLUpper": 0.046875
+    },
+    "2381": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2382": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.125,
+      "LegLUpper": 0.03125
+    },
+    "2384": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.078125,
+      "LegLUpper": 0.046875
+    },
+    "2390": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2396": {
+      "LegLLower": 0.8125,
+      "LegLFoot": 0.1875
+    },
+    "2397": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2415": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.078125,
+      "LegLUpper": 0.046875
+    },
+    "2445": {
+      "Body": 0.5625,
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.0625
+    },
+    "2446": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "2447": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.0625
+    },
+    "2454": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2455": {
+      "LegLLower": 0.5625,
+      "LegLFoot": 0.4375
+    },
+    "2456": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.125,
+      "LegLUpper": 0.03125
+    },
+    "2457": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2458": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2459": {
+      "LegLFoot": 0.65625,
+      "LegLLower": 0.34375
+    },
+    "2461": {
+      "LegLLower": 0.5625,
+      "LegLFoot": 0.4375
+    },
+    "2462": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "2463": {
+      "LegLLower": 0.671875,
+      "LegLFoot": 0.328125
+    },
+    "2464": {
+      "LegLLower": 0.71875,
+      "LegLFoot": 0.28125
+    },
+    "2465": {
+      "LegLLower": 0.671875,
+      "LegLFoot": 0.328125
+    },
+    "2466": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "2467": {
+      "LegLLower": 0.8125,
+      "LegLFoot": 0.1875
+    },
+    "2468": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.078125,
+      "LegLUpper": 0.046875
+    },
+    "2469": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2471": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "2472": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "2473": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "2474": {
+      "LegLFoot": 0.6875,
+      "LegLLower": 0.3125
+    },
+    "2475": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "2476": {
+      "LegLLower": 0.5625,
+      "LegLFoot": 0.4375
+    },
+    "2477": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "2478": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "2480": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "2502": {
+      "LegLLower": 0.8125,
+      "LegLFoot": 0.1875
+    },
+    "2503": {
+      "LegLLower": 0.625,
+      "LegLFoot": 0.375
+    },
+    "2504": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2505": {
+      "LegLLower": 0.8125,
+      "LegLFoot": 0.1875
+    },
+    "2506": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2507": {
+      "LegLLower": 0.65625,
+      "LegLFoot": 0.34375
+    },
+    "2508": {
+      "LegLLower": 0.734375,
+      "LegLFoot": 0.265625
+    },
+    "2509": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "2510": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2511": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2512": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "2513": {
+      "LegLLower": 0.640625,
+      "LegLFoot": 0.359375
+    },
+    "2514": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "2515": {
+      "LegLFoot": 0.53125,
+      "LegLLower": 0.46875
+    },
+    "2516": {
+      "LegLFoot": 0.53125,
+      "LegLLower": 0.46875
+    },
+    "2517": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2518": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "2519": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2520": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2521": {
+      "LegLLower": 0.6875,
+      "LegLFoot": 0.3125
+    },
+    "2552": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "2562": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2565": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "2566": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "2567": {
+      "LegLFoot": 0.859375,
+      "LegLLower": 0.140625
+    },
+    "2569": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "2570": {
+      "LegLFoot": 0.859375,
+      "LegLLower": 0.140625
+    },
+    "2571": {
+      "LegLFoot": 0.890625,
+      "LegLLower": 0.109375
+    },
+    "2587": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.40625
+    },
+    "2588": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.234375
+    },
+    "2589": {
+      "Body": 0.75,
+      "ArmLUpper": 0.25
+    },
+    "2590": {
+      "Body": 0.875,
+      "ArmLUpper": 0.125
+    },
+    "2598": {
+      "Body": 0.875,
+      "ArmLUpper": 0.125
+    },
+    "2599": {
+      "Body": 0.875,
+      "ArmLUpper": 0.125
+    },
+    "2600": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.203125
+    },
+    "2601": {
+      "Body": 0.890625,
+      "ArmLUpper": 0.109375
+    },
+    "2602": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.203125
+    },
+    "2603": {
+      "Body": 0.875,
+      "ArmLUpper": 0.125
+    },
+    "2614": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.09375
+    },
+    "2621": {
+      "Body": 0.921875,
+      "ArmLUpper": 0.078125
+    },
+    "2623": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.15625
+    },
+    "2624": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.234375
+    },
+    "2642": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2643": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2644": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2645": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2646": {
+      "LegLFoot": 0.6875,
+      "LegLLower": 0.3125
+    },
+    "2647": {
+      "LegLFoot": 0.8125,
+      "LegLLower": 0.1875
+    },
+    "2648": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2649": {
+      "LegLFoot": 0.9375,
+      "LegLLower": 0.0625
+    },
+    "2656": {
+      "LegLFoot": 0.875,
+      "LegLLower": 0.125
+    },
+    "2657": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "2658": {
+      "LegLFoot": 0.71875,
+      "LegLLower": 0.28125
+    },
+    "2659": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "2660": {
+      "LegLFoot": 0.71875,
+      "LegLLower": 0.28125
+    },
+    "2661": {
+      "LegLFoot": 0.65625,
+      "LegLLower": 0.34375
+    },
+    "2662": {
+      "LegLFoot": 0.65625,
+      "LegLLower": 0.34375
+    },
+    "2663": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2664": {
+      "LegLFoot": 0.6875,
+      "LegLLower": 0.3125
+    },
+    "2665": {
+      "LegLFoot": 0.625,
+      "LegLLower": 0.375
+    },
+    "2666": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2667": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2668": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2669": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2670": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2671": {
+      "LegLFoot": 0.859375,
+      "LegLLower": 0.140625
+    },
+    "2672": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "2673": {
+      "LegLFoot": 0.9375,
+      "LegLLower": 0.0625
+    },
+    "2746": {
+      "Body": 0.71875,
+      "ArmLLower": 0.140625,
+      "ArmLUpper": 0.125,
+      "Pelvis": 0.015625
+    },
+    "2747": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.171875,
+      "ArmLLower": 0.140625,
+      "Pelvis": 0.015625
+    },
+    "2748": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2755": {
+      "LegLFoot": 0.9375,
+      "LegLLower": 0.0625
+    },
+    "2756": {
+      "LegLFoot": 0.9375,
+      "LegLLower": 0.0625
+    },
+    "2757": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2758": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "2765": {
+      "LegLFoot": 0.65625,
+      "LegLLower": 0.34375
+    },
+    "2766": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "2767": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2768": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "2769": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.0625,
+      "ArmLLower": 0.03125
+    },
+    "2770": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "2771": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.0625,
+      "ArmLLower": 0.03125
+    },
+    "2776": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2777": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2779": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.171875,
+      "ArmLLower": 0.140625,
+      "Pelvis": 0.015625
+    },
+    "2788": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2789": {
+      "Body": 0.640625,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.15625,
+      "Pelvis": 0.015625
+    },
+    "2790": {
+      "Body": 0.765625,
+      "ArmLLower": 0.109375,
+      "ArmLUpper": 0.109375,
+      "Pelvis": 0.015625
+    },
+    "2791": {
+      "LegLFoot": 0.9375,
+      "LegLLower": 0.0625
+    },
+    "2793": {
+      "LegLFoot": 0.90625,
+      "LegLLower": 0.09375
+    },
+    "2795": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "2796": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "2797": {
+      "LegLFoot": 0.53125,
+      "LegLLower": 0.46875
+    },
+    "2798": {
+      "LegLFoot": 0.625,
+      "LegLLower": 0.375
+    },
+    "2837": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "2838": {
+      "Body": 0.59375,
+      "ArmLUpper": 0.265625,
+      "ArmLLower": 0.140625
+    },
+    "2839": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "2840": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.171875,
+      "ArmLLower": 0.140625,
+      "Pelvis": 0.015625
+    },
+    "2851": {
+      "Body": 0.796875,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.078125
+    },
+    "2852": {
+      "Body": 0.90625,
+      "ArmLUpper": 0.0625,
+      "ArmLLower": 0.03125
+    },
+    "2882": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2883": {
+      "LegLLower": 0.9375,
+      "LegLFoot": 0.0625
+    },
+    "2885": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "2886": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "2887": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "2892": {
+      "LegLFoot": 0.65625,
+      "LegLLower": 0.34375
+    },
+    "2893": {
+      "LegLFoot": 0.71875,
+      "LegLLower": 0.28125
+    },
+    "2894": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2895": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "2898": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2901": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "2903": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "2911": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "2912": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "2914": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "2915": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "2916": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "2952": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2953": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "2954": {
+      "LegLLower": 0.9375,
+      "LegLFoot": 0.0625
+    },
+    "2955": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "2963": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2965": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2966": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2967": {
+      "LegLFoot": 0.53125,
+      "LegLLower": 0.46875
+    },
+    "2968": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "2969": {
+      "LegLFoot": 0.625,
+      "LegLLower": 0.375
+    },
+    "2973": {
+      "LegLLower": 0.71875,
+      "LegLFoot": 0.28125
+    },
+    "2974": {
+      "LegLLower": 0.5625,
+      "LegLFoot": 0.4375
+    },
+    "2975": {
+      "LegLLower": 0.671875,
+      "LegLFoot": 0.328125
+    },
+    "2976": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "2977": {
+      "LegLLower": 0.953125,
+      "LegLFoot": 0.046875
+    },
+    "2978": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "2981": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "3024": {
+      "LegLLower": 0.640625,
+      "LegLFoot": 0.359375
+    },
+    "3025": {
+      "LegLLower": 0.65625,
+      "LegLFoot": 0.34375
+    },
+    "3026": {
+      "LegLLower": 0.734375,
+      "LegLFoot": 0.265625
+    },
+    "3030": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "3031": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "3032": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "3033": {
+      "LegLLower": 0.796875,
+      "LegLFoot": 0.203125
+    },
+    "3034": {
+      "LegLLower": 0.796875,
+      "LegLFoot": 0.203125
+    },
+    "3054": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3055": {
+      "LegLFoot": 0.6875,
+      "LegLLower": 0.3125
+    },
+    "3056": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "3057": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "3058": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "3059": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "3060": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3061": {
+      "LegLFoot": 0.734375,
+      "LegLLower": 0.265625
+    },
+    "3062": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3063": {
+      "LegLFoot": 0.734375,
+      "LegLLower": 0.265625
+    },
+    "3064": {
+      "LegLFoot": 0.734375,
+      "LegLLower": 0.265625
+    },
+    "3065": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3066": {
+      "LegLLower": 0.859375,
+      "LegLFoot": 0.140625
+    },
+    "3067": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "3068": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "3069": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "3070": {
+      "LegLLower": 0.796875,
+      "LegLFoot": 0.203125
+    },
+    "3076": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "3078": {
+      "Body": 0.671875,
+      "ArmLUpper": 0.171875,
+      "ArmLLower": 0.140625,
+      "Pelvis": 0.015625
+    },
+    "3257": {
+      "LegLLower": 0.640625,
+      "LegLFoot": 0.359375
+    },
+    "3258": {
+      "LegLLower": 0.734375,
+      "LegLFoot": 0.265625
+    },
+    "3259": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "3260": {
+      "LegLLower": 0.6875,
+      "LegLFoot": 0.3125
+    },
+    "3261": {
+      "LegLLower": 0.796875,
+      "LegLFoot": 0.203125
+    },
+    "3262": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "3263": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "3271": {
+      "LegLLower": 0.9375,
+      "LegLFoot": 0.0625
+    },
+    "3272": {
+      "LegLLower": 0.828125,
+      "LegLFoot": 0.171875
+    },
+    "3273": {
+      "LegLLower": 0.921875,
+      "LegLFoot": 0.078125
+    },
+    "3276": {
+      "LegLFoot": 0.796875,
+      "LegLLower": 0.203125
+    },
+    "3277": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3283": {
+      "Body": 0.78125,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.03125
+    },
+    "3290": {
+      "Body": 0.78125,
+      "ArmLUpper": 0.1875,
+      "ArmLLower": 0.03125
+    },
+    "3305": {
+      "Body": 0.8125,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.0625
+    },
+    "3331": {
+      "LegLFoot": 0.6875,
+      "LegLLower": 0.3125
+    },
+    "3332": {
+      "LegLFoot": 0.734375,
+      "LegLLower": 0.265625
+    },
+    "3333": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3334": {
+      "LegLLower": 0.609375,
+      "LegLFoot": 0.390625
+    },
+    "3335": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3391": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "3392": {
+      "LegLLower": 0.6875,
+      "LegLFoot": 0.3125
+    },
+    "3393": {
+      "LegLLower": 0.6875,
+      "LegLFoot": 0.3125
+    },
+    "3394": {
+      "LegLLower": 0.515625,
+      "LegLFoot": 0.484375
+    },
+    "3396": {
+      "LegLLower": 0.78125,
+      "LegLFoot": 0.21875
+    },
+    "3397": {
+      "LegLLower": 0.59375,
+      "LegLFoot": 0.40625
+    },
+    "3398": {
+      "LegLLower": 0.546875,
+      "LegLFoot": 0.453125
+    },
+    "3399": {
+      "LegLLower": 0.515625,
+      "LegLFoot": 0.484375
+    },
+    "3400": {
+      "LegLLower": 0.546875,
+      "LegLFoot": 0.453125
+    },
+    "3401": {
+      "LegLFoot": 0.546875,
+      "LegLLower": 0.453125
+    },
+    "3439": {
+      "Body": 0.84375,
+      "ArmLUpper": 0.125,
+      "ArmLLower": 0.03125
+    },
+    "3527": {
+      "LegLLower": 0.6875,
+      "LegLFoot": 0.3125
+    },
+    "3528": {
+      "LegLFoot": 0.609375,
+      "LegLLower": 0.390625
+    },
+    "3529": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3530": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3531": {
+      "LegLFoot": 0.609375,
+      "LegLLower": 0.390625
+    },
+    "3532": {
+      "LegLLower": 0.515625,
+      "LegLFoot": 0.484375
+    },
+    "3533": {
+      "LegLFoot": 0.609375,
+      "LegLLower": 0.390625
+    },
+    "3534": {
+      "LegLFoot": 0.78125,
+      "LegLLower": 0.21875
+    },
+    "3535": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3536": {
+      "LegLFoot": 0.546875,
+      "LegLLower": 0.453125
+    },
+    "3537": {
+      "LegLLower": 0.515625,
+      "LegLFoot": 0.484375
+    },
+    "3538": {
+      "LegLLower": 0.515625,
+      "LegLFoot": 0.484375
+    },
+    "3594": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3595": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3596": {
+      "LegLLower": 0.609375,
+      "LegLFoot": 0.390625
+    },
+    "3629": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3631": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3632": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3633": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3634": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3636": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3637": {
+      "LegLFoot": 0.734375,
+      "LegLLower": 0.265625
+    },
+    "3638": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "3639": {
+      "LegLFoot": 0.578125,
+      "LegLLower": 0.421875
+    },
+    "3640": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "3641": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "3642": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "3643": {
+      "LegLFoot": 0.890625,
+      "LegLLower": 0.109375
+    },
+    "3644": {
+      "LegLFoot": 0.890625,
+      "LegLLower": 0.109375
+    },
+    "3645": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "3646": {
+      "LegLFoot": 0.78125,
+      "LegLLower": 0.21875
+    },
+    "3647": {
+      "LegLFoot": 0.71875,
+      "LegLLower": 0.28125
+    },
+    "3648": {
+      "LegLFoot": 0.78125,
+      "LegLLower": 0.21875
+    },
+    "3649": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3650": {
+      "LegLFoot": 0.671875,
+      "LegLLower": 0.328125
+    },
+    "3651": {
+      "LegLFoot": 0.609375,
+      "LegLLower": 0.390625
+    },
+    "3652": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3653": {
+      "LegLFoot": 0.890625,
+      "LegLLower": 0.109375
+    },
+    "3654": {
+      "LegLFoot": 0.859375,
+      "LegLLower": 0.140625
+    },
+    "3724": {
+      "LegLLower": 0.796875,
+      "LegLFoot": 0.203125
+    },
+    "3725": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "3726": {
+      "LegLLower": 0.796875,
+      "LegLFoot": 0.203125
+    },
+    "3791": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3792": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3793": {
+      "LegLLower": 0.609375,
+      "LegLFoot": 0.390625
+    },
+    "3794": {
+      "LegLLower": 0.671875,
+      "LegLFoot": 0.328125
+    },
+    "3795": {
+      "LegLLower": 0.515625,
+      "LegLFoot": 0.484375
+    },
+    "3796": {
+      "LegLFoot": 0.515625,
+      "LegLLower": 0.484375
+    },
+    "3797": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "3798": {
+      "LegLLower": 0.609375,
+      "LegLFoot": 0.390625
+    },
+    "3799": {
+      "LegLFoot": 0.59375,
+      "LegLLower": 0.40625
+    },
+    "3800": {
+      "LegLFoot": 0.734375,
+      "LegLLower": 0.265625
+    },
+    "3801": {
+      "LegLFoot": 0.578125,
+      "LegLLower": 0.421875
+    },
+    "3802": {
+      "LegLFoot": 0.578125,
+      "LegLLower": 0.421875
+    },
+    "3803": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "3804": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "3805": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "3806": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3807": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3808": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "3810": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "3811": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "3812": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "3813": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "3814": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "3942": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4007": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4008": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4009": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4010": {
+      "LegLFoot": 0.890625,
+      "LegLLower": 0.109375
+    },
+    "4011": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4042": {
+      "LegLLower": 0.6875,
+      "LegLFoot": 0.3125
+    },
+    "4044": {
+      "LegLLower": 0.78125,
+      "LegLFoot": 0.21875
+    },
+    "4054": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "4056": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "4057": {
+      "LegLLower": 0.671875,
+      "LegLFoot": 0.328125
+    },
+    "4138": {
+      "LegLFoot": 0.609375,
+      "LegLLower": 0.390625
+    },
+    "4139": {
+      "LegLFoot": 0.78125,
+      "LegLLower": 0.21875
+    },
+    "4140": {
+      "LegLFoot": 0.671875,
+      "LegLLower": 0.328125
+    },
+    "4146": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4213": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "4215": {
+      "LegLFoot": 0.921875,
+      "LegLLower": 0.078125
+    },
+    "4442": {
+      "LegLLower": 0.78125,
+      "LegLFoot": 0.21875
+    },
+    "4446": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "4454": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "4457": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "4458": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "4523": {
+      "LegLLower": 0.78125,
+      "LegLFoot": 0.21875
+    },
+    "4526": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4527": {
+      "LegLLower": 0.59375,
+      "LegLFoot": 0.40625
+    },
+    "4528": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4566": {
+      "LegLFoot": 0.640625,
+      "LegLLower": 0.359375
+    },
+    "4567": {
+      "LegLFoot": 0.578125,
+      "LegLLower": 0.421875
+    },
+    "4568": {
+      "LegLFoot": 0.84375,
+      "LegLLower": 0.15625
+    },
+    "4569": {
+      "LegLFoot": 0.546875,
+      "LegLLower": 0.453125
+    },
+    "4570": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4571": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4572": {
+      "LegLLower": 0.546875,
+      "LegLFoot": 0.453125
+    },
+    "4573": {
+      "LegLLower": 0.59375,
+      "LegLFoot": 0.40625
+    },
+    "4584": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.125
+    },
+    "4893": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4894": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4895": {
+      "LegLLower": 0.578125,
+      "LegLFoot": 0.421875
+    },
+    "4970": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "4971": {
+      "LegLLower": 0.75,
+      "LegLFoot": 0.25
+    },
+    "4972": {
+      "LegLLower": 0.84375,
+      "LegLFoot": 0.15625
+    },
+    "5511": {
+      "LegLLower": 0.875,
+      "LegLFoot": 0.109375,
+      "LegLUpper": 0.015625
+    },
+    "9792": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "9793": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "9808": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "9856": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "9880": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "9957": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "10059": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "10060": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "10092": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10100": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10101": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "10102": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10103": {
+      "Pelvis": 0.671875,
+      "LegRUpper": 0.328125
+    },
+    "10104": {
+      "Pelvis": 0.671875,
+      "LegRUpper": 0.328125
+    },
+    "10105": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "10111": {
+      "Pelvis": 0.640625,
+      "LegRUpper": 0.359375
+    },
+    "10151": {
+      "Pelvis": 0.640625,
+      "LegRUpper": 0.359375
+    },
+    "10160": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10162": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10163": {
+      "Pelvis": 0.671875,
+      "LegRUpper": 0.328125
+    },
+    "10202": {
+      "Pelvis": 0.84375,
+      "LegRUpper": 0.15625
+    },
+    "10205": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10242": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10245": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10249": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10423": {
+      "Pelvis": 0.640625,
+      "LegRUpper": 0.359375
+    },
+    "10431": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10432": {
+      "Pelvis": 0.78125,
+      "LegRUpper": 0.21875
+    },
+    "10463": {
+      "Pelvis": 0.640625,
+      "LegRUpper": 0.359375
+    },
+    "10481": {
+      "LegRUpper": 0.578125,
+      "Pelvis": 0.421875
+    },
+    "10482": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10498": {
+      "Pelvis": 0.671875,
+      "LegRUpper": 0.328125
+    },
+    "10499": {
+      "LegRUpper": 0.578125,
+      "Pelvis": 0.421875
+    },
+    "10516": {
+      "Pelvis": 0.640625,
+      "LegRUpper": 0.359375
+    },
+    "10518": {
+      "Pelvis": 0.59375,
+      "LegRUpper": 0.40625
+    },
+    "10519": {
+      "LegRUpper": 0.53125,
+      "Pelvis": 0.46875
+    },
+    "10547": {
+      "Pelvis": 0.5625,
+      "LegRUpper": 0.4375
+    },
+    "10548": {
+      "Pelvis": 0.671875,
+      "LegRUpper": 0.328125
+    },
+    "10556": {
+      "Pelvis": 0.59375,
+      "LegRUpper": 0.40625
+    },
+    "10557": {
+      "Pelvis": 0.640625,
+      "LegRUpper": 0.359375
+    },
+    "10559": {
+      "LegRUpper": 0.53125,
+      "Pelvis": 0.46875
+    },
+    "10608": {
+      "Pelvis": 0.5625,
+      "LegRUpper": 0.4375
+    },
+    "10646": {
+      "LegRUpper": 0.578125,
+      "Pelvis": 0.421875
+    },
+    "10647": {
+      "Pelvis": 0.671875,
+      "LegRUpper": 0.328125
+    },
+    "10648": {
+      "Pelvis": 0.5625,
+      "LegRUpper": 0.4375
+    },
+    "10728": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10729": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10734": {
+      "Pelvis": 0.59375,
+      "LegRUpper": 0.40625
+    },
+    "10735": {
+      "Pelvis": 0.59375,
+      "LegRUpper": 0.40625
+    },
+    "10736": {
+      "LegRUpper": 0.53125,
+      "Pelvis": 0.46875
+    },
+    "10778": {
+      "Pelvis": 0.5625,
+      "LegRUpper": 0.4375
+    },
+    "10781": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10792": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10811": {
+      "LegRUpper": 0.578125,
+      "Pelvis": 0.421875
+    },
+    "10812": {
+      "Pelvis": 0.5625,
+      "LegRUpper": 0.4375
+    },
+    "10813": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10816": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10823": {
+      "LegRUpper": 0.53125,
+      "Pelvis": 0.46875
+    },
+    "10870": {
+      "LegRUpper": 0.53125,
+      "Pelvis": 0.46875
+    },
+    "10922": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10924": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "10992": {
+      "LegRUpper": 0.53125,
+      "Pelvis": 0.46875
+    },
+    "11070": {
+      "LegRUpper": 0.78125,
+      "Pelvis": 0.21875
+    },
+    "11072": {
+      "LegRUpper": 0.6875,
+      "Pelvis": 0.3125
+    },
+    "11251": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11256": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "11264": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11265": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "11266": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "11267": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11268": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11269": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "11271": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11272": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "11459": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11460": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11461": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "11462": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11463": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "11464": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "11465": {
+      "LegRLower": 0.59375,
+      "LegRFoot": 0.40625
+    },
+    "11466": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "11467": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "11468": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "11469": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "11470": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "11471": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "11564": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11565": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11566": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "11568": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "11569": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "11631": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "11632": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "11633": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11634": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "11635": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "11636": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "11638": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "11639": {
+      "LegRFoot": 0.828125,
+      "LegRLower": 0.171875
+    },
+    "11640": {
+      "LegRFoot": 0.59375,
+      "LegRLower": 0.40625
+    },
+    "11641": {
+      "LegRFoot": 0.703125,
+      "LegRLower": 0.296875
+    },
+    "11642": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "11643": {
+      "LegRFoot": 0.53125,
+      "LegRLower": 0.46875
+    },
+    "11644": {
+      "LegRLower": 0.515625,
+      "LegRFoot": 0.484375
+    },
+    "11645": {
+      "LegRLower": 0.609375,
+      "LegRFoot": 0.390625
+    },
+    "11646": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "11647": {
+      "LegRFoot": 0.5625,
+      "LegRLower": 0.4375
+    },
+    "11648": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "11649": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "11650": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "11651": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "11652": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "11653": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "11654": {
+      "LegRFoot": 0.609375,
+      "LegRLower": 0.390625
+    },
+    "11655": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "11656": {
+      "LegRFoot": 0.609375,
+      "LegRLower": 0.390625
+    },
+    "11657": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "11658": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11659": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "11660": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "11661": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "11698": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "11699": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "11700": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11701": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "11702": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "11703": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "11830": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.015625
+    },
+    "11876": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "11879": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "11881": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "11882": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "11884": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "11885": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "11947": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "11948": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "11950": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "11951": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "11952": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "11953": {
+      "LegRLower": 0.75,
+      "LegRFoot": 0.25
+    },
+    "11954": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "11955": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "11956": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "11957": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "12242": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "12243": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "12244": {
+      "LegRLower": 0.609375,
+      "LegRFoot": 0.390625
+    },
+    "12245": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12246": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12247": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "12326": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "12367": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12368": {
+      "LegRLower": 0.59375,
+      "LegRFoot": 0.40625
+    },
+    "12369": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12370": {
+      "LegRLower": 0.578125,
+      "LegRFoot": 0.421875
+    },
+    "12371": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12372": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12373": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "12374": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "12375": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "12376": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "12377": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "12472": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "12473": {
+      "LegRLower": 0.59375,
+      "LegRFoot": 0.40625
+    },
+    "12474": {
+      "LegRLower": 0.59375,
+      "LegRFoot": 0.40625
+    },
+    "12475": {
+      "LegRLower": 0.578125,
+      "LegRFoot": 0.421875
+    },
+    "12514": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "12523": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "12588": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "12590": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "12591": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "12592": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "12593": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "12594": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "12595": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12596": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12597": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12598": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12603": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "12604": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "12605": {
+      "LegRFoot": 0.828125,
+      "LegRLower": 0.171875
+    },
+    "12606": {
+      "LegRFoot": 0.90625,
+      "LegRLower": 0.09375
+    },
+    "12610": {
+      "LegRFoot": 0.921875,
+      "LegRLower": 0.078125
+    },
+    "12611": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "12612": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12613": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12614": {
+      "LegRFoot": 0.859375,
+      "LegRLower": 0.140625
+    },
+    "12615": {
+      "LegRFoot": 0.859375,
+      "LegRLower": 0.140625
+    },
+    "12616": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12617": {
+      "LegRFoot": 0.671875,
+      "LegRLower": 0.328125
+    },
+    "12627": {
+      "LegRFoot": 0.90625,
+      "LegRLower": 0.09375
+    },
+    "12628": {
+      "LegRFoot": 0.828125,
+      "LegRLower": 0.171875
+    },
+    "12629": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12637": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "12638": {
+      "LegRLower": 0.859375,
+      "LegRFoot": 0.140625
+    },
+    "12639": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "12640": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "12653": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12654": {
+      "LegRFoot": 0.828125,
+      "LegRLower": 0.171875
+    },
+    "12655": {
+      "LegRFoot": 0.703125,
+      "LegRLower": 0.296875
+    },
+    "12656": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "12657": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "12658": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "12663": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "12667": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "12668": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12669": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "12670": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "12671": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "12672": {
+      "LegRFoot": 0.609375,
+      "LegRLower": 0.390625
+    },
+    "12673": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "12674": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "12675": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "12697": {
+      "LegRLower": 0.59375,
+      "LegRFoot": 0.40625
+    },
+    "12698": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "12699": {
+      "LegRFoot": 0.609375,
+      "LegRLower": 0.390625
+    },
+    "12700": {
+      "LegRLower": 0.578125,
+      "LegRFoot": 0.421875
+    },
+    "12701": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "12702": {
+      "LegRFoot": 0.609375,
+      "LegRLower": 0.390625
+    },
+    "12703": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "12704": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "12705": {
+      "LegRFoot": 0.640625,
+      "LegRLower": 0.359375
+    },
+    "12706": {
+      "LegRLower": 0.65625,
+      "LegRFoot": 0.34375
+    },
+    "12707": {
+      "LegRLower": 0.546875,
+      "LegRFoot": 0.453125
+    },
+    "12708": {
+      "LegRFoot": 0.65625,
+      "LegRLower": 0.34375
+    },
+    "12709": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "12710": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "12711": {
+      "LegRLower": 0.65625,
+      "LegRFoot": 0.34375
+    },
+    "12712": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12713": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12714": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "12715": {
+      "LegRLower": 0.65625,
+      "LegRFoot": 0.34375
+    },
+    "12716": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "12717": {
+      "LegRFoot": 0.5,
+      "LegRLower": 0.5
+    },
+    "12719": {
+      "LegRFoot": 0.609375,
+      "LegRLower": 0.390625
+    },
+    "12720": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12721": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "12722": {
+      "LegRFoot": 0.703125,
+      "LegRLower": 0.296875
+    },
+    "12723": {
+      "LegRFoot": 0.671875,
+      "LegRLower": 0.328125
+    },
+    "12724": {
+      "LegRFoot": 0.5625,
+      "LegRLower": 0.4375
+    },
+    "12725": {
+      "LegRFoot": 0.703125,
+      "LegRLower": 0.296875
+    },
+    "12726": {
+      "LegRFoot": 0.59375,
+      "LegRLower": 0.40625
+    },
+    "12727": {
+      "LegRFoot": 0.59375,
+      "LegRLower": 0.40625
+    },
+    "12728": {
+      "LegRFoot": 0.53125,
+      "LegRLower": 0.46875
+    },
+    "12729": {
+      "LegRFoot": 0.5625,
+      "LegRLower": 0.4375
+    },
+    "12730": {
+      "LegRFoot": 0.59375,
+      "LegRLower": 0.40625
+    },
+    "12731": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "12732": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12733": {
+      "LegRLower": 0.609375,
+      "LegRFoot": 0.390625
+    },
+    "12734": {
+      "LegRFoot": 0.546875,
+      "LegRLower": 0.453125
+    },
+    "12735": {
+      "LegRFoot": 0.59375,
+      "LegRLower": 0.40625
+    },
+    "12736": {
+      "LegRFoot": 0.75,
+      "LegRLower": 0.25
+    },
+    "12737": {
+      "LegRFoot": 0.640625,
+      "LegRLower": 0.359375
+    },
+    "12738": {
+      "LegRFoot": 0.75,
+      "LegRLower": 0.25
+    },
+    "12739": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "12740": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "12741": {
+      "LegRLower": 0.53125,
+      "LegRFoot": 0.46875
+    },
+    "12742": {
+      "LegRFoot": 0.578125,
+      "LegRLower": 0.421875
+    },
+    "12743": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "12744": {
+      "LegRFoot": 0.578125,
+      "LegRLower": 0.421875
+    },
+    "12745": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "12746": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "12747": {
+      "LegRLower": 0.5625,
+      "LegRFoot": 0.4375
+    },
+    "12748": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "12749": {
+      "LegRLower": 0.53125,
+      "LegRFoot": 0.46875
+    },
+    "12750": {
+      "LegRLower": 0.625,
+      "LegRFoot": 0.375
+    },
+    "12751": {
+      "LegRLower": 0.75,
+      "LegRFoot": 0.25
+    },
+    "12752": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "12753": {
+      "LegRLower": 0.75,
+      "LegRFoot": 0.25
+    },
+    "12754": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "12755": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.125,
+      "LegRUpper": 0.03125
+    },
+    "12756": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "12757": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "12758": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "12760": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "12766": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.0625
+    },
+    "12767": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.125,
+      "LegRUpper": 0.03125
+    },
+    "12779": {
+      "LegRFoot": 0.859375,
+      "LegRLower": 0.140625
+    },
+    "12781": {
+      "LegRFoot": 0.90625,
+      "LegRLower": 0.09375
+    },
+    "12782": {
+      "LegRFoot": 0.859375,
+      "LegRLower": 0.140625
+    },
+    "12783": {
+      "LegRFoot": 0.90625,
+      "LegRLower": 0.09375
+    },
+    "12784": {
+      "LegRFoot": 0.75,
+      "LegRLower": 0.25
+    },
+    "12785": {
+      "LegRFoot": 0.671875,
+      "LegRLower": 0.328125
+    },
+    "12813": {
+      "LegRFoot": 0.921875,
+      "LegRLower": 0.078125
+    },
+    "12814": {
+      "LegRFoot": 0.859375,
+      "LegRLower": 0.140625
+    },
+    "12930": {
+      "LegRFoot": 0.5625,
+      "LegRLower": 0.4375
+    },
+    "12931": {
+      "LegRFoot": 0.53125,
+      "LegRLower": 0.46875
+    },
+    "12932": {
+      "LegRLower": 0.515625,
+      "LegRFoot": 0.484375
+    },
+    "12972": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "12973": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "12974": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "13002": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "13006": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13007": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "13008": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "13105": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "13106": {
+      "LegRLower": 0.640625,
+      "LegRFoot": 0.359375
+    },
+    "13107": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "13108": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "13190": {
+      "LegRLower": 0.890625,
+      "LegRFoot": 0.109375
+    },
+    "13191": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13232": {
+      "LegRFoot": 0.96875,
+      "LegRLower": 0.03125
+    },
+    "13235": {
+      "LegRFoot": 0.96875,
+      "LegRLower": 0.03125
+    },
+    "13416": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "13417": {
+      "LegRLower": 0.578125,
+      "LegRFoot": 0.421875
+    },
+    "13418": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "13557": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.0625
+    },
+    "13558": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "13593": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13594": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13655": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "13656": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "13657": {
+      "LegRLower": 0.734375,
+      "LegRFoot": 0.265625
+    },
+    "13684": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "13685": {
+      "LegRLower": 0.6875,
+      "LegRFoot": 0.3125
+    },
+    "13686": {
+      "LegRLower": 0.609375,
+      "LegRFoot": 0.390625
+    },
+    "13687": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "13688": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "13689": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "13690": {
+      "LegRFoot": 0.90625,
+      "LegRLower": 0.09375
+    },
+    "13695": {
+      "LegRFoot": 0.90625,
+      "LegRLower": 0.09375
+    },
+    "13699": {
+      "LegRFoot": 0.9375,
+      "LegRLower": 0.0625
+    },
+    "13700": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "13701": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "13702": {
+      "LegRFoot": 0.75,
+      "LegRLower": 0.25
+    },
+    "13728": {
+      "LegRFoot": 0.71875,
+      "LegRLower": 0.28125
+    },
+    "13729": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "13730": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "13861": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "13862": {
+      "LegRFoot": 0.765625,
+      "LegRLower": 0.234375
+    },
+    "13863": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "13864": {
+      "LegRFoot": 0.640625,
+      "LegRLower": 0.359375
+    },
+    "13865": {
+      "LegRFoot": 0.65625,
+      "LegRLower": 0.34375
+    },
+    "13866": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "13867": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "13868": {
+      "LegRFoot": 0.796875,
+      "LegRLower": 0.203125
+    },
+    "13869": {
+      "LegRFoot": 0.921875,
+      "LegRLower": 0.078125
+    },
+    "13871": {
+      "LegRFoot": 0.921875,
+      "LegRLower": 0.078125
+    },
+    "13876": {
+      "LegRFoot": 0.875,
+      "LegRLower": 0.125
+    },
+    "13877": {
+      "LegRFoot": 0.921875,
+      "LegRLower": 0.078125
+    },
+    "13879": {
+      "LegRFoot": 0.875,
+      "LegRLower": 0.125
+    },
+    "13881": {
+      "LegRFoot": 0.96875,
+      "LegRLower": 0.03125
+    },
+    "13882": {
+      "LegRFoot": 0.96875,
+      "LegRLower": 0.03125
+    },
+    "13883": {
+      "LegRFoot": 0.9375,
+      "LegRLower": 0.0625
+    },
+    "13884": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "13885": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "13886": {
+      "LegRFoot": 0.84375,
+      "LegRLower": 0.15625
+    },
+    "13887": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "13888": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "13889": {
+      "LegRFoot": 0.578125,
+      "LegRLower": 0.421875
+    },
+    "13890": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "13891": {
+      "LegRLower": 0.84375,
+      "LegRFoot": 0.15625
+    },
+    "13892": {
+      "LegRLower": 0.78125,
+      "LegRFoot": 0.21875
+    },
+    "13893": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "13894": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "13895": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13896": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13897": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "13946": {
+      "LegRLower": 0.90625,
+      "LegRFoot": 0.09375
+    },
+    "13947": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "13948": {
+      "LegRLower": 0.921875,
+      "LegRFoot": 0.078125
+    },
+    "14039": {
+      "LegRLower": 0.75,
+      "LegRFoot": 0.25
+    },
+    "14040": {
+      "LegRLower": 0.75,
+      "LegRFoot": 0.25
+    },
+    "14041": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "14042": {
+      "LegRLower": 0.71875,
+      "LegRFoot": 0.28125
+    },
+    "14044": {
+      "LegRFoot": 0.9375,
+      "LegRLower": 0.0625
+    },
+    "14176": {
+      "LegRFoot": 0.640625,
+      "LegRLower": 0.359375
+    },
+    "14177": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "14178": {
+      "LegRFoot": 0.78125,
+      "LegRLower": 0.21875
+    },
+    "14182": {
+      "LegRLower": 0.796875,
+      "LegRFoot": 0.203125
+    },
+    "14183": {
+      "LegRLower": 0.8125,
+      "LegRFoot": 0.1875
+    },
+    "14217": {
+      "LegRFoot": 0.96875,
+      "LegRLower": 0.03125
+    },
+    "14235": {
+      "LegRFoot": 0.9375,
+      "LegRLower": 0.0625
+    },
+    "14236": {
+      "LegRFoot": 0.96875,
+      "LegRLower": 0.03125
+    },
+    "14306": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    },
+    "14339": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.0625
+    },
+    "14340": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.0625,
+      "LegRUpper": 0.0625
+    },
+    "14341": {
+      "LegRLower": 0.875,
+      "LegRFoot": 0.09375,
+      "LegRUpper": 0.03125
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "creature": "krasue",
+  "bytes": 1220752,
+  "triangles": 10898,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5590517520904541,
+      0,
+      -0.48635879158973694
+    ],
+    "max": [
+      0.5590517520904541,
+      1.8992934239213355,
+      0.48635879158973694
+    ]
+  },
+  "sha256": "f462edda186deea75eb482136bfbcc4dc4f616ab7f32b37cc45beb0a1575e122",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}
