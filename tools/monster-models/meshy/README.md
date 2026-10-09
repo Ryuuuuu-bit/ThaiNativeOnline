@@ -230,3 +230,58 @@ Top-four selection and quantization are checked on the compressed public GLBs
 with `tests/meshy-forest-skin.test.js`, across every clip/key and a 24Hz grid.
 Bone-length/contact checks alone are insufficient to catch torn sleeves/hands.
 Hands retain the generated digits without individual finger bending.
+
+## Wat Rang — seven Thai monster models
+
+`motion.html?set=6` and `review.html?set=6` show Headless, Pret, Krahang,
+Krasue, Phitaihong, Soldier and Pusom (levels 6–10). Pray/Winyan reuse the
+reviewed forest models, completing nine existing identities. Environment art
+remains a separate pass. Evidence is in `docs/art/monsters/meshy-wat-rang/`.
+
+Krasue's selected third reconstruction has a volumetric woman's head with
+stylized heart, lungs and intestine. The silk-ribbon concept and flat frontal
+reconstruction are rejected. Nine Meshy tasks cost 315 credits; seven selected
+models account for 245. No paid generation is required to rebuild these rigs.
+
+Use a fresh approved managed Harness with this directory as an asset root.
+Keep original bind topology: `bind-inputs/krasue.glb` and `soldier.glb` precede
+registered contour/guard edits. Their refined static review files have different
+geometry and must not replace these weight-patch inputs. The override is
+explicit; species without an override still use their prepared review file.
+
+```powershell
+$env:MESHY_RIG_OUTPUT='artifacts/wat-rang-rebuild'
+$env:MESHY_BIND_INPUTS='tools/monster-models/meshy/bind-inputs'
+$watTypes=@('headless','pret','krahang','krasue','phitaihong','soldier','pusom')
+node tools/monster-models/meshy/unpack.mjs @watTypes
+New-Item -ItemType Directory -Path tools/monster-models/meshy/.authoring -Force
+foreach ($watType in $watTypes) {
+  Copy-Item -LiteralPath "$env:MESHY_RIG_OUTPUT/input/$watType.glb" -Destination "tools/monster-models/meshy/.authoring/$watType.glb"
+  python tools/monster-models/meshy/rig_wat.py bind $watType
+}
+python tools/monster-models/meshy/rig_wat.py export rest
+python tools/monster-models/meshy/rig_wat.py collect rest
+node tools/monster-models/meshy/calibrate_wat.mjs
+foreach ($watType in $watTypes) { python tools/monster-models/meshy/rig_wat.py animate $watType }
+python tools/monster-models/meshy/rig_wat.py export before-refinement
+python tools/monster-models/meshy/rig_wat.py collect before-refinement
+node tools/monster-models/meshy/extract_wat.mjs before-refinement
+```
+
+Calculate Soldier targets from the original bind input/current export with
+`guard_wat.mjs`, apply `refine_wat.py soldier` and `refine_wat.py krasue` through
+registered L3 commands, then export with a fresh tag, collect, extract and
+package each creature using the shared `prepare.mjs` and `publish.mjs TYPE v1`.
+These recipes honor `MESHY_RIG_OUTPUT`. Do not replay refinement over an
+already-refined snapshot. All seven rigs/surfaces must be visible for the
+snapshot-bound export. Never resubmit an unknown job result; recover its
+recorded job ID.
+
+Six sparse weight patches retain conserved local repairs and guard topology
+hashes. Soldier uses a stricter precompression repair margin (1.85 ratio/9 mm),
+while the unchanged delivered surface gate remains 2x/10 mm across every clip,
+authored key and a 24 Hz grid. Browser grip checks also require physical surface
+contact: HandR/Shield share an unanimated rigid transform, so a weight-group
+name alone cannot identify the Soldier palm. Explicit source palm samples and
+UV provenance are documented in the final validation report. No individual
+finger retargeting, terrain foot IK or per-skill clips are supplied.

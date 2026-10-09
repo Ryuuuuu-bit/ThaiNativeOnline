@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11eb5-a818-7370-b052-ea8bcd0eddcb",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/pusom.png",
+  "referenceSha256": "632f6a932daf92a7589286901154d0d1594a7d8df345fe4d110f54fa6fc3c308",
+  "originalSha256": "21c45c9f1a218553354c6b42b74cc770e7f5a1454efda91c7cb741245758f96f",
+  "originalBytes": 12136864,
+  "originalLocalPath": "artifacts/meshy-monsters/pusom/original.glb"
+}

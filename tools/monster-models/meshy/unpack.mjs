@@ -7,11 +7,15 @@ import fs from 'node:fs/promises';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
 await MeshoptDecoder.ready;
 const types=process.argv.slice(2).length?process.argv.slice(2):['boar','fowl','crab'];
-if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian'].includes(type)))throw Error('Unknown creature');
+if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom'].includes(type)))throw Error('Unknown creature');
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 await fs.mkdir(`${outputRoot}/input`, { recursive: true });
 for (const type of types) {
-  const doc = await io.read(`tools/monster-models/meshy/${type}.glb`);
+  // A refined review surface may have different vertex ordering. An explicit
+  // bind-input directory retains the original topology used by weight patches.
+  const bindInput=process.env.MESHY_BIND_INPUTS ? `${process.env.MESHY_BIND_INPUTS}/${type}.glb` : null;
+  const useBindInput=bindInput && await fs.access(bindInput).then(()=>true,()=>false);
+  const doc = await io.read(useBindInput ? bindInput : `tools/monster-models/meshy/${type}.glb`);
   for (const ext of doc.getRoot().listExtensionsUsed()) if (ext.extensionName === 'EXT_meshopt_compression') ext.dispose();
   await doc.transform(dequantize());
   const root = doc.getRoot(), scene = root.listScenes()[0];

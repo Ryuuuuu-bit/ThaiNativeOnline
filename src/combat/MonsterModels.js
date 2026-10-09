@@ -10,7 +10,7 @@ import { seedOf } from '../core/seed.js';
 export const MONSTER_MODELS = {
   boar: { url: '/models/monsters/boar.glb', height: 1.25 },
   pray: { url: '/models/monsters/pray.glb', height: 1.9, lift: .16 },
-  krasue: { url: '/models/monsters/krasue.glb', height: 1.55, lift: .45 },
+  krasue: { url: '/models/monsters/krasue.glb', height: 1.55, lift: .45, deathDim: .7 },
   fowl: { url: '/models/monsters/fowl.glb', height: 1.2 },
   cobra: { url: '/models/monsters/cobra.glb', height: 1.05 },
   crab: { url: '/models/monsters/crab.glb', height: .65 },
@@ -23,6 +23,12 @@ export const MONSTER_MODELS = {
   khamot: { url: '/models/monsters/khamot.glb', height: .85, lift: .3, deathDim: .7 },
   winyan: { url: '/models/monsters/winyan.glb', height: 1.85, lift: .14 },
   takian: { url: '/models/monsters/takian.glb', height: 2.5 },
+  headless: { url: '/models/monsters/headless.glb', height: 1.9 },
+  pret: { url: '/models/monsters/pret.glb', height: 2.65 },
+  krahang: { url: '/models/monsters/krahang.glb', height: 1.9, lift: .42 },
+  phitaihong: { url: '/models/monsters/phitaihong.glb', height: 1.9 },
+  soldier: { url: '/models/monsters/soldier.glb', height: 1.95 },
+  pusom: { url: '/models/monsters/pusom.glb', height: 1.9 },
 };
 // One parse per file, shared; a load is retried, and a failure is forgotten after a while so
 // the next monster of the type asks the server again (src/core/retry.js).

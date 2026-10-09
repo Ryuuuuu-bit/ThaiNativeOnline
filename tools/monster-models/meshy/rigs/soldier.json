@@ -1,0 +1,512 @@
+{
+  "type": "soldier",
+  "version": "v1",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Pelvis",
+      "head": [
+        0,
+        0,
+        0.86
+      ],
+      "tail": [
+        0,
+        0,
+        0.98
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.98
+      ],
+      "tail": [
+        0,
+        0,
+        1.49
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        1.52
+      ],
+      "tail": [
+        0,
+        0,
+        1.9
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        -0.24,
+        0.03,
+        1.42
+      ],
+      "tail": [
+        -0.34,
+        -0.005,
+        1.12
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        -0.34,
+        -0.005,
+        1.12
+      ],
+      "tail": [
+        -0.4,
+        -0.06,
+        0.9
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HandL",
+      "head": [
+        -0.4,
+        -0.06,
+        0.9
+      ],
+      "tail": [
+        -0.41,
+        -0.08,
+        0.79
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLUpper",
+      "head": [
+        -0.17,
+        0,
+        0.86
+      ],
+      "tail": [
+        -0.17,
+        -0.035,
+        0.46
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLLower",
+      "head": [
+        -0.17,
+        -0.035,
+        0.46
+      ],
+      "tail": [
+        -0.17,
+        0,
+        0.1
+      ],
+      "parent": "LegLUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLFoot",
+      "head": [
+        -0.17,
+        0,
+        0.1
+      ],
+      "tail": [
+        -0.17,
+        -0.15,
+        0.045
+      ],
+      "parent": "LegLLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        0.24,
+        0.03,
+        1.42
+      ],
+      "tail": [
+        0.34,
+        -0.005,
+        1.12
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        0.34,
+        -0.005,
+        1.12
+      ],
+      "tail": [
+        0.4,
+        -0.06,
+        0.9
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HandR",
+      "head": [
+        0.4,
+        -0.06,
+        0.9
+      ],
+      "tail": [
+        0.41,
+        -0.08,
+        0.79
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRUpper",
+      "head": [
+        0.17,
+        0,
+        0.86
+      ],
+      "tail": [
+        0.17,
+        -0.035,
+        0.46
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRLower",
+      "head": [
+        0.17,
+        -0.035,
+        0.46
+      ],
+      "tail": [
+        0.17,
+        0,
+        0.1
+      ],
+      "parent": "LegRUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRFoot",
+      "head": [
+        0.17,
+        0,
+        0.1
+      ],
+      "tail": [
+        0.17,
+        -0.15,
+        0.045
+      ],
+      "parent": "LegRLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Sword",
+      "head": [
+        -0.4,
+        -0.1,
+        0.81
+      ],
+      "tail": [
+        -0.55,
+        -0.2,
+        0.48
+      ],
+      "parent": "HandL",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Shield",
+      "head": [
+        0.42,
+        -0.15,
+        1.05
+      ],
+      "tail": [
+        0.45,
+        -0.15,
+        0.78
+      ],
+      "parent": "HandR",
+      "deform": true,
+      "connected": false
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL",
+      "hip": [
+        -0.17,
+        0,
+        0.86
+      ],
+      "knee": [
+        -0.17,
+        -0.035,
+        0.46
+      ],
+      "joint": [
+        -0.17,
+        0,
+        0.1
+      ],
+      "ankle": [
+        -0.17,
+        0,
+        0.1
+      ],
+      "toe": [
+        -0.17,
+        -0.15,
+        0.045
+      ],
+      "pole": [
+        -0.17,
+        -0.5,
+        0.46
+      ],
+      "phase": 0,
+      "control": "SoldierV1LegLTarget"
+    },
+    {
+      "name": "LegR",
+      "hip": [
+        0.17,
+        0,
+        0.86
+      ],
+      "knee": [
+        0.17,
+        -0.035,
+        0.46
+      ],
+      "joint": [
+        0.17,
+        0,
+        0.1
+      ],
+      "ankle": [
+        0.17,
+        0,
+        0.1
+      ],
+      "toe": [
+        0.17,
+        -0.15,
+        0.045
+      ],
+      "pole": [
+        0.17,
+        -0.5,
+        0.46
+      ],
+      "phase": 0.5,
+      "control": "SoldierV1LegRTarget"
+    }
+  ],
+  "weightGroups": 263,
+  "rigId": "obj_1cab3561fc8b4597bb08fc99d6e88c85",
+  "skin": {
+    "name": "SoldierV1Rig",
+    "objectId": "obj_1cab3561fc8b4597bb08fc99d6e88c85",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.20000000298023224,
+        "deform": false
+      },
+      {
+        "name": "Pelvis",
+        "parent": "Root",
+        "length": 0.12000000476837158,
+        "deform": true
+      },
+      {
+        "name": "Body",
+        "parent": "Pelvis",
+        "length": 0.5099999904632568,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Body",
+        "length": 0.3799999952316284,
+        "deform": true
+      },
+      {
+        "name": "ArmLUpper",
+        "parent": "Body",
+        "length": 0.31815874576568604,
+        "deform": true
+      },
+      {
+        "name": "ArmLLower",
+        "parent": "ArmLUpper",
+        "length": 0.23457424342632294,
+        "deform": true
+      },
+      {
+        "name": "HandL",
+        "parent": "ArmLLower",
+        "length": 0.11224977672100067,
+        "deform": true
+      },
+      {
+        "name": "Sword",
+        "parent": "HandL",
+        "length": 0.3760320544242859,
+        "deform": true
+      },
+      {
+        "name": "ArmRUpper",
+        "parent": "Body",
+        "length": 0.31815874576568604,
+        "deform": true
+      },
+      {
+        "name": "ArmRLower",
+        "parent": "ArmRUpper",
+        "length": 0.23457424342632294,
+        "deform": true
+      },
+      {
+        "name": "HandR",
+        "parent": "ArmRLower",
+        "length": 0.11224977672100067,
+        "deform": true
+      },
+      {
+        "name": "Shield",
+        "parent": "HandR",
+        "length": 0.27166178822517395,
+        "deform": true
+      },
+      {
+        "name": "LegLUpper",
+        "parent": "Pelvis",
+        "length": 0.4015282988548279,
+        "deform": true
+      },
+      {
+        "name": "LegLLower",
+        "parent": "LegLUpper",
+        "length": 0.36169731616973877,
+        "deform": true
+      },
+      {
+        "name": "LegLFoot",
+        "parent": "LegLLower",
+        "length": 0.15976350009441376,
+        "deform": true
+      },
+      {
+        "name": "LegRUpper",
+        "parent": "Pelvis",
+        "length": 0.4015282988548279,
+        "deform": true
+      },
+      {
+        "name": "LegRLower",
+        "parent": "LegRUpper",
+        "length": 0.36169731616973877,
+        "deform": true
+      },
+      {
+        "name": "LegRFoot",
+        "parent": "LegRLower",
+        "length": 0.15976350009441376,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "SoldierV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-e10124425eab48dd97bf1041",
+  "sceneRevision": 59453,
+  "limbLength": {
+    "maxRelativeError": 8.045255854400703e-06,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "SoldierV1Rig",
+      "bone": "LegLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "SoldierV1Rig",
+      "bone": "LegRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "animationSnapshotId": "snapshot-e714a14369a0fa47204cbaa8",
+  "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+  "weightValuesSha256": "8dc105a19654c84661006f647ca8b41f2ceeb5b85bfbc8e7903a6450eddfca66"
+}

@@ -1,0 +1,194 @@
+{
+  "type": "pret",
+  "inputPositionsSha256": "e6aa18fe7697d730cd4c53d39ec7f514da813c7be88f593e381a6be252fc7f8e",
+  "baseWeightsSha256": "9804357fce9820aae8cf9556df3fc2bb66116010266e3ddf07f72a8d65b4cfc6",
+  "method": "local conserved blends across measured strained surface edges, including UV position copies; all clips require final export QA",
+  "vertices": {
+    "1299": {
+      "ArmLUpper": 0.34375,
+      "Body": 0.328125,
+      "ArmLLower": 0.25,
+      "HandL": 0.078125
+    },
+    "1315": {
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.296875,
+      "Body": 0.1875,
+      "HandL": 0.109375
+    },
+    "1317": {
+      "ArmLUpper": 0.34375,
+      "Body": 0.328125,
+      "ArmLLower": 0.25,
+      "HandL": 0.078125
+    },
+    "1320": {
+      "ArmLUpper": 0.34375,
+      "Body": 0.328125,
+      "ArmLLower": 0.25,
+      "HandL": 0.078125
+    },
+    "1369": {
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.296875,
+      "Body": 0.1875,
+      "HandL": 0.109375
+    },
+    "1608": {
+      "ArmLUpper": 0.40625,
+      "ArmLLower": 0.296875,
+      "Body": 0.1875,
+      "HandL": 0.109375
+    },
+    "1609": {
+      "ArmLUpper": 0.34375,
+      "Body": 0.328125,
+      "ArmLLower": 0.25,
+      "HandL": 0.078125
+    },
+    "1612": {
+      "ArmLUpper": 0.34375,
+      "Body": 0.328125,
+      "ArmLLower": 0.25,
+      "HandL": 0.078125
+    },
+    "1699": {
+      "ArmLUpper": 0.34375,
+      "Body": 0.328125,
+      "ArmLLower": 0.25,
+      "HandL": 0.078125
+    },
+    "1701": {
+      "Body": 0.46875,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.1875,
+      "HandL": 0.0625
+    },
+    "1703": {
+      "Body": 0.46875,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.1875,
+      "HandL": 0.0625
+    },
+    "1748": {
+      "Body": 0.46875,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.1875,
+      "HandL": 0.0625
+    },
+    "1749": {
+      "Body": 0.46875,
+      "ArmLUpper": 0.28125,
+      "ArmLLower": 0.1875,
+      "HandL": 0.0625
+    },
+    "12808": {
+      "Body": 0.5,
+      "ArmRUpper": 0.25,
+      "ArmRLower": 0.21875,
+      "HandR": 0.03125
+    },
+    "12809": {
+      "Body": 0.5,
+      "ArmRUpper": 0.25,
+      "ArmRLower": 0.21875,
+      "HandR": 0.03125
+    },
+    "12810": {
+      "Body": 0.515625,
+      "ArmRUpper": 0.25,
+      "ArmRLower": 0.203125,
+      "HandR": 0.03125
+    },
+    "12846": {
+      "Body": 0.515625,
+      "ArmRUpper": 0.25,
+      "ArmRLower": 0.203125,
+      "HandR": 0.03125
+    },
+    "12849": {
+      "Body": 0.5,
+      "ArmRUpper": 0.25,
+      "ArmRLower": 0.21875,
+      "HandR": 0.03125
+    },
+    "12865": {
+      "Body": 0.390625,
+      "ArmRUpper": 0.28125,
+      "ArmRLower": 0.265625,
+      "HandR": 0.0625
+    },
+    "12867": {
+      "Body": 0.4375,
+      "ArmRUpper": 0.265625,
+      "ArmRLower": 0.25,
+      "HandR": 0.046875
+    },
+    "12868": {
+      "Body": 0.5,
+      "ArmRUpper": 0.25,
+      "ArmRLower": 0.21875,
+      "HandR": 0.03125
+    },
+    "12877": {
+      "Body": 0.390625,
+      "ArmRUpper": 0.28125,
+      "ArmRLower": 0.265625,
+      "HandR": 0.0625
+    },
+    "12879": {
+      "ArmRLower": 0.3125,
+      "Body": 0.296875,
+      "ArmRUpper": 0.296875,
+      "HandR": 0.09375
+    },
+    "12882": {
+      "ArmRLower": 0.3125,
+      "Body": 0.296875,
+      "ArmRUpper": 0.296875,
+      "HandR": 0.09375
+    },
+    "12883": {
+      "ArmRLower": 0.359375,
+      "ArmRUpper": 0.34375,
+      "Body": 0.171875,
+      "HandR": 0.125
+    },
+    "12885": {
+      "ArmRLower": 0.390625,
+      "ArmRUpper": 0.390625,
+      "HandR": 0.15625,
+      "Body": 0.0625
+    },
+    "12887": {
+      "ArmRLower": 0.390625,
+      "ArmRUpper": 0.390625,
+      "HandR": 0.15625,
+      "Body": 0.0625
+    },
+    "13149": {
+      "ArmRLower": 0.3125,
+      "Body": 0.296875,
+      "ArmRUpper": 0.296875,
+      "HandR": 0.09375
+    },
+    "13151": {
+      "ArmRLower": 0.359375,
+      "ArmRUpper": 0.34375,
+      "Body": 0.171875,
+      "HandR": 0.125
+    },
+    "13173": {
+      "ArmRLower": 0.390625,
+      "ArmRUpper": 0.390625,
+      "HandR": 0.15625,
+      "Body": 0.0625
+    },
+    "13178": {
+      "ArmRLower": 0.359375,
+      "ArmRUpper": 0.34375,
+      "Body": 0.171875,
+      "HandR": 0.125
+    }
+  }
+}

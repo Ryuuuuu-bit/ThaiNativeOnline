@@ -1,0 +1,14 @@
+{
+  "type": "pret",
+  "bytes": 1241504,
+  "sha256": "87d7629b36b1a2d68b6e8677b9d509b2a72c1990d2ae4b53390636ede4f86827",
+  "triangles": 12440,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

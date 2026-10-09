@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11eb2-db6a-74c6-93c9-855ca02bb2e2",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/headless.png",
+  "referenceSha256": "704dc3b3a9b13c5f4e60636fa579346a9e54810bb5b47c6085608f59e799c322",
+  "originalSha256": "a9e8f046987ab768602ee58eb805da5c3fd22837315126bc71ce44bc373d8db6",
+  "originalBytes": 10829176,
+  "originalLocalPath": "artifacts/meshy-monsters/headless/original.glb"
+}

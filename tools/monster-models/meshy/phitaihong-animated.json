@@ -1,0 +1,14 @@
+{
+  "type": "phitaihong",
+  "bytes": 1512400,
+  "sha256": "5834620cefc2c27eb278617d455070a92e9c5d2a16a84706962cdf05c62017cd",
+  "triangles": 12123,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

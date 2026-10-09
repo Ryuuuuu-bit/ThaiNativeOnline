@@ -1,0 +1,266 @@
+{
+  "type": "headless",
+  "inputPositionsSha256": "027580c8bd15cfe81d5b393143076649cf2df156d7a06d1799c7b89983842276",
+  "baseWeightsSha256": "1abefab08017b0dca56d35c2fb1ccbc9a1ce214650e9d3dd4b6017377a0cccfa",
+  "method": "local conserved blends across measured strained surface edges, including UV position copies; all clips require final export QA",
+  "vertices": {
+    "734": {
+      "ArmLUpper": 0.375,
+      "ArmLLower": 0.34375,
+      "Body": 0.21875,
+      "HandL": 0.0625
+    },
+    "737": {
+      "Body": 0.390625,
+      "ArmLUpper": 0.3125,
+      "ArmLLower": 0.25,
+      "HandL": 0.046875
+    },
+    "738": {
+      "ArmLUpper": 0.46875,
+      "ArmLLower": 0.25,
+      "Body": 0.25,
+      "HandL": 0.03125
+    },
+    "740": {
+      "ArmLUpper": 0.46875,
+      "ArmLLower": 0.25,
+      "Body": 0.25,
+      "HandL": 0.03125
+    },
+    "742": {
+      "Body": 0.625,
+      "ArmLUpper": 0.234375,
+      "ArmLLower": 0.125,
+      "HandL": 0.015625
+    },
+    "743": {
+      "Body": 0.5,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.21875,
+      "HandL": 0.03125
+    },
+    "744": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.15625,
+      "ArmLLower": 0.078125
+    },
+    "746": {
+      "Body": 0.5625,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.15625,
+      "HandL": 0.03125
+    },
+    "748": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.15625,
+      "ArmLLower": 0.078125
+    },
+    "750": {
+      "Body": 0.5,
+      "ArmLUpper": 0.25,
+      "ArmLLower": 0.21875,
+      "HandL": 0.03125
+    },
+    "979": {
+      "ArmLUpper": 0.46875,
+      "ArmLLower": 0.25,
+      "Body": 0.25,
+      "HandL": 0.03125
+    },
+    "981": {
+      "ArmLUpper": 0.46875,
+      "ArmLLower": 0.25,
+      "Body": 0.25,
+      "HandL": 0.03125
+    },
+    "985": {
+      "Body": 0.625,
+      "ArmLUpper": 0.234375,
+      "ArmLLower": 0.125,
+      "HandL": 0.015625
+    },
+    "993": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.15625,
+      "ArmLLower": 0.078125
+    },
+    "1007": {
+      "Body": 0.765625,
+      "ArmLUpper": 0.15625,
+      "ArmLLower": 0.078125
+    },
+    "1023": {
+      "Body": 0.625,
+      "ArmLUpper": 0.234375,
+      "ArmLLower": 0.125,
+      "HandL": 0.015625
+    },
+    "1036": {
+      "ArmLUpper": 0.46875,
+      "ArmLLower": 0.25,
+      "Body": 0.25,
+      "HandL": 0.03125
+    },
+    "1039": {
+      "ArmLUpper": 0.46875,
+      "ArmLLower": 0.25,
+      "Body": 0.25,
+      "HandL": 0.03125
+    },
+    "13429": {
+      "Body": 0.765625,
+      "ArmRUpper": 0.15625,
+      "ArmRLower": 0.078125
+    },
+    "13430": {
+      "Body": 0.765625,
+      "ArmRUpper": 0.15625,
+      "ArmRLower": 0.078125
+    },
+    "13573": {
+      "ArmRUpper": 0.484375,
+      "Body": 0.25,
+      "ArmRLower": 0.234375,
+      "HandR": 0.03125
+    },
+    "14399": {
+      "Body": 0.578125,
+      "ArmRUpper": 0.234375,
+      "ArmRLower": 0.15625,
+      "HandR": 0.03125
+    },
+    "14400": {
+      "Body": 0.765625,
+      "ArmRUpper": 0.15625,
+      "ArmRLower": 0.078125
+    },
+    "14401": {
+      "Body": 0.765625,
+      "ArmRUpper": 0.15625,
+      "ArmRLower": 0.078125
+    },
+    "14402": {
+      "Body": 0.453125,
+      "ArmRUpper": 0.328125,
+      "ArmRLower": 0.1875,
+      "HandR": 0.03125
+    },
+    "14404": {
+      "Body": 0.65625,
+      "ArmRUpper": 0.234375,
+      "ArmRLower": 0.109375
+    },
+    "14515": {
+      "Body": 0.65625,
+      "ArmRUpper": 0.234375,
+      "ArmRLower": 0.109375
+    },
+    "14517": {
+      "Body": 0.765625,
+      "ArmRUpper": 0.15625,
+      "ArmRLower": 0.078125
+    },
+    "14519": {
+      "ArmRUpper": 0.421875,
+      "Body": 0.375,
+      "ArmRLower": 0.1875,
+      "HandR": 0.015625
+    },
+    "14521": {
+      "ArmRUpper": 0.421875,
+      "Body": 0.375,
+      "ArmRLower": 0.1875,
+      "HandR": 0.015625
+    },
+    "14525": {
+      "ArmRUpper": 0.484375,
+      "Body": 0.25,
+      "ArmRLower": 0.234375,
+      "HandR": 0.03125
+    },
+    "14545": {
+      "Body": 0.578125,
+      "ArmRUpper": 0.234375,
+      "ArmRLower": 0.15625,
+      "HandR": 0.03125
+    },
+    "14573": {
+      "Body": 0.65625,
+      "ArmRUpper": 0.234375,
+      "ArmRLower": 0.109375
+    },
+    "14574": {
+      "Body": 0.453125,
+      "ArmRUpper": 0.328125,
+      "ArmRLower": 0.1875,
+      "HandR": 0.03125
+    },
+    "14575": {
+      "Body": 0.453125,
+      "ArmRUpper": 0.328125,
+      "ArmRLower": 0.1875,
+      "HandR": 0.03125
+    },
+    "14577": {
+      "ArmRUpper": 0.421875,
+      "Body": 0.375,
+      "ArmRLower": 0.1875,
+      "HandR": 0.015625
+    },
+    "14578": {
+      "ArmRUpper": 0.484375,
+      "Body": 0.25,
+      "ArmRLower": 0.234375,
+      "HandR": 0.03125
+    },
+    "14675": {
+      "Body": 0.578125,
+      "ArmRUpper": 0.234375,
+      "ArmRLower": 0.15625,
+      "HandR": 0.03125
+    },
+    "14683": {
+      "Body": 0.453125,
+      "ArmRUpper": 0.328125,
+      "ArmRLower": 0.1875,
+      "HandR": 0.03125
+    },
+    "14689": {
+      "Body": 0.453125,
+      "ArmRUpper": 0.328125,
+      "ArmRLower": 0.1875,
+      "HandR": 0.03125
+    },
+    "14690": {
+      "ArmRUpper": 0.484375,
+      "Body": 0.25,
+      "ArmRLower": 0.234375,
+      "HandR": 0.03125
+    },
+    "14734": {
+      "ArmRUpper": 0.421875,
+      "Body": 0.375,
+      "ArmRLower": 0.1875,
+      "HandR": 0.015625
+    },
+    "14735": {
+      "ArmRUpper": 0.484375,
+      "Body": 0.25,
+      "ArmRLower": 0.234375,
+      "HandR": 0.03125
+    },
+    "14736": {
+      "ArmRUpper": 0.421875,
+      "Body": 0.375,
+      "ArmRLower": 0.1875,
+      "HandR": 0.015625
+    },
+    "14737": {
+      "ArmRUpper": 0.484375,
+      "Body": 0.25,
+      "ArmRLower": 0.234375,
+      "HandR": 0.03125
+    }
+  }
+}

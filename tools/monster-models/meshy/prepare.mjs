@@ -13,7 +13,7 @@ import { spawnSync } from 'node:child_process';
 import { Quaternion, Vector3 } from 'three';
 
 const name = process.argv[2];
-if (!['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian'].includes(name)) throw Error('Unknown study creature');
+if (!['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom'].includes(name)) throw Error('Unknown study creature');
 const dest = new URL('./', import.meta.url), tmp = new URL(`../../../artifacts/meshy-monsters/${name}/`, import.meta.url);
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const correctedInput=process.argv[3];
@@ -33,6 +33,24 @@ if((name==='monkey'||name==='buffalo')&&!correctedInput){
 // normal map fit the game's hand-painted materials under its strong daylight.
 for (const material of root.listMaterials()) material.setMetallicRoughnessTexture(null)
   .setMetallicFactor(0).setRoughnessFactor(name === 'crab' ? .68 : .9).setNormalScale(.5);
+// The corrected Krasue generation used per-face organic normals. Average
+// area-weighted normals across UV copies without moving or adding vertices;
+// otherwise the cheeks and rounded hanging forms read as a faceted mask.
+if(name==='krasue'){
+  for(const mesh of root.listMeshes())for(const p of mesh.listPrimitives()){
+    const position=p.getAttribute('POSITION'),normal=p.getAttribute('NORMAL'),index=p.getIndices();
+    const key=i=>position.getElement(i,[]).map(v=>Math.round(v*100000)).join(',');
+    const sums=new Map(),a=new Vector3(),b=new Vector3(),c=new Vector3();
+    for(let i=0;i<index.getCount();i+=3){
+      const ids=[0,1,2].map(j=>index.getScalar(i+j));
+      a.fromArray(position.getElement(ids[0],[]));b.fromArray(position.getElement(ids[1],[]));c.fromArray(position.getElement(ids[2],[]));
+      const n=b.sub(a).cross(c.sub(a));
+      for(const id of ids){const k=key(id);if(!sums.has(k))sums.set(k,new Vector3());sums.get(k).add(n);}
+    }
+    for(let i=0;i<position.getCount();i++)normal.setElement(i,sums.get(key(i)).normalize().toArray());
+  }
+  for(const material of root.listMaterials())material.setNormalScale(.15);
+}
 await doc.transform(prune());
 const colorTextures = new Set(root.listMaterials().flatMap(m => [m.getBaseColorTexture(), m.getEmissiveTexture()]).filter(Boolean));
 const alphaTextures = new Set(root.listMaterials().filter(m => m.getAlphaMode() !== 'OPAQUE').map(m => m.getBaseColorTexture()).filter(Boolean));

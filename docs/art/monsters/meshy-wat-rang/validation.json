@@ -1,0 +1,1725 @@
+{
+  "map": "wat_rang",
+  "runtimeIdentities": 9,
+  "newModels": 7,
+  "approval": {
+    "reviewer": "Copernicus",
+    "agentId": "01a11ec9-7ae0-79f3-86b7-c06fc6ce63f8",
+    "status": "accepted with P2 limitations",
+    "scope": "BRIEF asset scope; no remaining P1 or blocking P2",
+    "scores": [
+      {
+        "type": "headless",
+        "style": 8,
+        "readability": 8.5,
+        "technical": 8
+      },
+      {
+        "type": "pret",
+        "style": 8.5,
+        "readability": 8,
+        "technical": 8
+      },
+      {
+        "type": "krahang",
+        "style": 8.5,
+        "readability": 9,
+        "technical": 8
+      },
+      {
+        "type": "krasue",
+        "style": 8,
+        "readability": 8,
+        "technical": 8
+      },
+      {
+        "type": "phitaihong",
+        "style": 8,
+        "readability": 8,
+        "technical": 8
+      },
+      {
+        "type": "soldier",
+        "style": 8,
+        "readability": 8.5,
+        "technical": 8
+      },
+      {
+        "type": "pusom",
+        "style": 8.5,
+        "readability": 9,
+        "technical": 8
+      }
+    ],
+    "notes": "Independent review confirms Pret v6 closes the elbow blocker; the smaller attack remains readable. Current hashes, single primitives, embedded images, budgets, five clips, packed source and all 56 preview hashes were verified. Browser records 35 clip checks and 175 framing checks; tests/build logs were reviewed. Pret's 28.60 mm uneven-terrain penetration remains a nonblocking P2 within the explicit no-terrain-IK scope; both failed game reports are preserved. Latest night Krasue is untested; earlier exact-current-hash night evidence carries forward. Four live boss casts and physical-phone performance remain untested. The reviewer changed no files or Blender content."
+  },
+  "tests": {
+    "passed": 421,
+    "failed": 0,
+    "finalStaticRecheck": {
+      "passed": 21,
+      "failed": 0
+    }
+  },
+  "build": {
+    "passed": true,
+    "modules": 229,
+    "existingChunkSizeWarning": true
+  },
+  "credits": {
+    "successfulTasks": 9,
+    "selectedTasks": 7,
+    "rejectedTasks": 2,
+    "spent": 315,
+    "postGenerationBalance": 205
+  },
+  "models": [
+    {
+      "type": "headless",
+      "bytes": 1230360,
+      "sha256": "a29cedcdfecb23ef60e4a141a7375beae36d27c952ed891b7fcba8c4dd0ce61f",
+      "triangles": 12386,
+      "bones": 15,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "pret",
+      "bytes": 1241504,
+      "sha256": "87d7629b36b1a2d68b6e8677b9d509b2a72c1990d2ae4b53390636ede4f86827",
+      "triangles": 12440,
+      "bones": 16,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "krahang",
+      "bytes": 1507028,
+      "sha256": "488d30a8d7241c241f567d12ecead1faa69e3ea31ac10b78a908fd0b5b85d7f7",
+      "triangles": 12335,
+      "bones": 19,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "krasue",
+      "bytes": 1293400,
+      "sha256": "0da5f68891ac2f4f7f832e8c6c604252b6f771b1a7794d7e10540a89eeadcc08",
+      "triangles": 10898,
+      "bones": 8,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "phitaihong",
+      "bytes": 1512400,
+      "sha256": "5834620cefc2c27eb278617d455070a92e9c5d2a16a84706962cdf05c62017cd",
+      "triangles": 12123,
+      "bones": 16,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "soldier",
+      "bytes": 1335264,
+      "sha256": "f5870c75e2854b895128451728bd5e716cf1b37fe998a77b73648f170c78a95f",
+      "triangles": 12427,
+      "bones": 18,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "pusom",
+      "bytes": 1469808,
+      "sha256": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "triangles": 12408,
+      "bones": 16,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    }
+  ],
+  "rigging": [
+    {
+      "type": "headless",
+      "bones": 15,
+      "limbLength": {
+        "maxRelativeError": 3.557436440842068e-06,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [
+        {
+          "object": "HeadlessV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "HeadlessV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "animationSnapshotId": "snapshot-7c9614029a7300222ff3382d",
+      "weightRecipeSha256": "c0fbb023785681e349d03b61f413da92ac3ca0af3f0809f453bc113ab14d8967",
+      "weightValuesSha256": "f9b8f12669dcfe56a2edcdc6fc58eef3f03d0f23ec0b3fd15b73c2c35fa541d9"
+    },
+    {
+      "type": "pret",
+      "bones": 16,
+      "limbLength": {
+        "maxRelativeError": 3.6579036050000167e-07,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [
+        {
+          "object": "PretV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "PretV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "animationSnapshotId": "snapshot-d60167c5c503c349b18ab739",
+      "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+      "weightValuesSha256": "6443c570cb141cd9a28e9e2ab5b3914a90611b86757447589a3b0d95a134b616"
+    },
+    {
+      "type": "krahang",
+      "bones": 19,
+      "limbLength": {
+        "maxRelativeError": 1.0361751752431092e-06,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [],
+      "animationSnapshotId": "snapshot-493c0f273331201b9f37ed5f",
+      "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+      "weightValuesSha256": "fca7166ab165c4cb3bffc85c7196676fad9551761acc63877080465d2c6b9c32"
+    },
+    {
+      "type": "krasue",
+      "bones": 8,
+      "limbLength": null,
+      "idleFeet": [],
+      "animationSnapshotId": "snapshot-5cf6a64a09093a85cbd8a9ec"
+    },
+    {
+      "type": "phitaihong",
+      "bones": 16,
+      "limbLength": {
+        "maxRelativeError": 7.12995215959842e-06,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [
+        {
+          "object": "PhitaihongV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "PhitaihongV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "animationSnapshotId": "snapshot-6046b28c4ce450b6700ee13f",
+      "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+      "weightValuesSha256": "fa2c0f13a01798d08eb08c772358e80ac3c6596ef47c3c237556d3b07fde1b15"
+    },
+    {
+      "type": "soldier",
+      "bones": 18,
+      "limbLength": {
+        "maxRelativeError": 8.045255854400703e-06,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [
+        {
+          "object": "SoldierV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "SoldierV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "animationSnapshotId": "snapshot-e714a14369a0fa47204cbaa8",
+      "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+      "weightValuesSha256": "8dc105a19654c84661006f647ca8b41f2ceeb5b85bfbc8e7903a6450eddfca66"
+    },
+    {
+      "type": "pusom",
+      "bones": 16,
+      "limbLength": {
+        "maxRelativeError": 3.1116477152622854e-06,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [
+        {
+          "object": "PusomV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "PusomV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "animationSnapshotId": "snapshot-3731ec5d72367e65a92afd18",
+      "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+      "weightValuesSha256": "37520928efe08d7d9665d885e63bb97f9924c648f14cab89bed207b88c264fbb"
+    }
+  ],
+  "productionExports": {
+    "snapshotId": "snapshot-9250b09ce2e2adc0015ecebc",
+    "sceneRevision": 60539,
+    "jobs": [
+      {
+        "jobId": "job_wat_finalv6_glb"
+      },
+      {
+        "jobId": "job_wat_finalv6_blend"
+      }
+    ],
+    "productionExports": [
+      {
+        "receiptVersion": "2.0.0",
+        "jobId": "job_wat_finalv6_glb",
+        "kind": "EXPORT",
+        "snapshot": {
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\jobs\\job_wat_finalv6_glb\\source.blend",
+          "sha256": "4f55cbfef0f70c8b1734103784df4c9876fa81362158e70ca158943001ba43be",
+          "sceneFile": "C:\\Users\\panup\\AppData\\Local\\Temp\\blender-design\\checkpoints\\checkpoint-cec2d1b4733398f4e1d5880d.blend"
+        },
+        "attempt": 1,
+        "state": "completed",
+        "pid": 1424,
+        "artifact": {
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\jobs\\job_wat_finalv6_glb\\artifact.glb",
+          "format": "glb",
+          "bytes": 15176508,
+          "sha256": "caab98d32bc83c5fb3b16175b3cd4fc712fc5bf88a82a3a2cf0b7b6eb8f9d180",
+          "validation": {
+            "status": "passed",
+            "checks": [
+              "exists",
+              "non_empty",
+              "sha256"
+            ]
+          }
+        }
+      },
+      {
+        "receiptVersion": "2.0.0",
+        "jobId": "job_wat_finalv6_blend",
+        "kind": "EXPORT",
+        "snapshot": {
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\jobs\\job_wat_finalv6_blend\\source.blend",
+          "sha256": "4dbcc5f92d99ad083854546cd46763dd15164b507577c6ca9157064e30cc36bc",
+          "sceneFile": "C:\\Users\\panup\\AppData\\Local\\Temp\\blender-design\\checkpoints\\checkpoint-cec2d1b4733398f4e1d5880d.blend"
+        },
+        "attempt": 1,
+        "state": "completed",
+        "pid": 38540,
+        "artifact": {
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\jobs\\job_wat_finalv6_blend\\artifact.blend",
+          "format": "blend",
+          "bytes": 13121220,
+          "sha256": "3e3a610b2cf40cb33061d2929f09849d6ac132e497fb15b4006d9e7f5b7c7fc0",
+          "validation": {
+            "status": "passed",
+            "checks": [
+              "exists",
+              "non_empty",
+              "sha256"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "reopenedSource": {
+    "passed": true,
+    "expectedObjects": [
+      "HeadlessV1Rig",
+      "HeadlessV1Surface",
+      "KrahangV1Rig",
+      "KrahangV1Surface",
+      "KrasueV1Rig",
+      "KrasueV1Surface",
+      "PhitaihongV1Rig",
+      "PhitaihongV1Surface",
+      "PretV1Rig",
+      "PretV1Surface",
+      "PusomV1Rig",
+      "PusomV1Surface",
+      "SoldierV1Rig",
+      "SoldierV1Surface"
+    ],
+    "actionNames": [
+      "HeadlessV1LegLTargetAction",
+      "HeadlessV1LegRTargetAction",
+      "HeadlessV1RigAction",
+      "KrahangV1LegLTargetAction",
+      "KrahangV1LegRTargetAction",
+      "KrahangV1RigAction",
+      "KrasueV1RigAction",
+      "PhitaihongV1LegLTargetAction",
+      "PhitaihongV1LegRTargetAction",
+      "PhitaihongV1RigAction",
+      "PretV1LegLTargetAction",
+      "PretV1LegRTargetAction",
+      "PretV1RigAction",
+      "PusomV1LegLTargetAction",
+      "PusomV1LegRTargetAction",
+      "PusomV1RigAction",
+      "SoldierV1LegLTargetAction",
+      "SoldierV1LegRTargetAction",
+      "SoldierV1RigAction"
+    ]
+  },
+  "blenderPreviews": [
+    {
+      "type": "headless",
+      "frame": 1,
+      "sceneRevision": 59536,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "headless-frame-1",
+      "snapshotId": "snapshot-c92ec64061aa02125240e3e1",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-c92ec64061aa02125240e3e1\\camera.png",
+          "sha256": "545e55adaba272b9c80d405b0b2c06dcf70584bbc56fce53b1f5902456d8da0c"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-c92ec64061aa02125240e3e1\\front.png",
+          "sha256": "cc14f37ccfa9fc36ff1a228e2687d8c0c7fa72885f2dd18cf11780fd3a961cf1"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-c92ec64061aa02125240e3e1\\side.png",
+          "sha256": "fe11a0741b12df81e73ad79f44d9e78bd9df7907bdae1e179146a3def7a0df93"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-c92ec64061aa02125240e3e1\\top.png",
+          "sha256": "20efd61884ce3763f807015a1af87ede05c307f50bd670b1352ec64ffc43f207"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "headless",
+      "frame": 92,
+      "sceneRevision": 59536,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "headless-frame-92",
+      "snapshotId": "snapshot-9dfc2836dda244f5276f7f8d",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-9dfc2836dda244f5276f7f8d\\camera.png",
+          "sha256": "4b2aaf3d9ccd7099dce175fae2617f066e0104731b318ed5a57ced967e8b91a8"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-9dfc2836dda244f5276f7f8d\\front.png",
+          "sha256": "42f30298fdc3ddf20a6484b1cb8164e4f83cb2c3c9b6252147c2c053222e2373"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-9dfc2836dda244f5276f7f8d\\side.png",
+          "sha256": "b44e9735640c0fd260e078ee533cfabdbe52f8ec3c898ba599e7a630e20a073c"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-9dfc2836dda244f5276f7f8d\\top.png",
+          "sha256": "8078aef4af17145ea642173677243f2bd08d80c6f20c62ae8cbdbf15df23a40d"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "krahang",
+      "frame": 1,
+      "sceneRevision": 59618,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "krahang-frame-1",
+      "snapshotId": "snapshot-0d5a7d3497ee50cff4d423df",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-0d5a7d3497ee50cff4d423df\\camera.png",
+          "sha256": "6cd8ab9ab2e1c1bfdb4c6284893468dacd9b9bafb8378d1f92187dc8a99eacfc"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-0d5a7d3497ee50cff4d423df\\front.png",
+          "sha256": "dcf19046254833a7017c90c13643753633d96398a78a962c82fee56d38683a56"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-0d5a7d3497ee50cff4d423df\\side.png",
+          "sha256": "28704d0d6b7f3869b03caa0ce4d5eda2b007b8cd9421f1285b395ece945b9931"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-0d5a7d3497ee50cff4d423df\\top.png",
+          "sha256": "57ee9738c577974b48c83b71c11766710839b2687f4ced991cd882029e8bd928"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "krahang",
+      "frame": 92,
+      "sceneRevision": 59618,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "krahang-frame-92",
+      "snapshotId": "snapshot-6c43acf377a9d231d9b054f8",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-6c43acf377a9d231d9b054f8\\camera.png",
+          "sha256": "33f934315fd4bda1c5d7a800c2d98e349596a9ed1c6d31b26510f54ae8ea8435"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-6c43acf377a9d231d9b054f8\\front.png",
+          "sha256": "482d1d686cfe8a0e305ba597eb9bda0d5abfc5693bbfcffa4ca0787e6414a98b"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-6c43acf377a9d231d9b054f8\\side.png",
+          "sha256": "4030aab847459cde4236516e40a7f15fae7f65dada4a2501cbdb1894db99d14f"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-6c43acf377a9d231d9b054f8\\top.png",
+          "sha256": "1b2596ce7430d888d57b44ee4cfb4cb07cb27c99c10bab98c27252bf6590d88b"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "krasue",
+      "frame": 1,
+      "sceneRevision": 59659,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "krasue-frame-1",
+      "snapshotId": "snapshot-76e4a92dfb20d3b926e0f1eb",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-76e4a92dfb20d3b926e0f1eb\\camera.png",
+          "sha256": "3dfbf9c7be1e6c774873465a158eef2839a4e67c5d8a5bd7e623ff905daeca5b"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-76e4a92dfb20d3b926e0f1eb\\front.png",
+          "sha256": "64e8640407e61e60054edc97024350483dacd233fd2f3c3b3748fa6f15c93c38"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-76e4a92dfb20d3b926e0f1eb\\side.png",
+          "sha256": "64fa320e45940be1fcb6bd695e645d5a51abe7d8feae5a3fa41e19a5f4b93801"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-76e4a92dfb20d3b926e0f1eb\\top.png",
+          "sha256": "181d0165cf550404cf1d846a911c55e8b8096fb602c0dbd693b60c114cafd8d2"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "krasue",
+      "frame": 92,
+      "sceneRevision": 59659,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "krasue-frame-92",
+      "snapshotId": "snapshot-352ce25c21f22cde758e3360",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-352ce25c21f22cde758e3360\\camera.png",
+          "sha256": "ffd51c25fd8e20bcaf14e1cbd32a82b343690aa1ba023823ce24bafac82a8aab"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-352ce25c21f22cde758e3360\\front.png",
+          "sha256": "4050178ed6f72b52497e36d4152739169caac0f050f5cc5ceae64042833b0f00"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-352ce25c21f22cde758e3360\\side.png",
+          "sha256": "df7b33a12d2b871df8d7726ef8a81e200e6d2e6d22fc2f6762305a1d66a46947"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-352ce25c21f22cde758e3360\\top.png",
+          "sha256": "4d6ca26dffbb5c2d68302bf60109ee311aa17e8eeee3bc33e2f2eb31cfe3f158"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "phitaihong",
+      "frame": 1,
+      "sceneRevision": 59700,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "phitaihong-frame-1",
+      "snapshotId": "snapshot-d4814579281467dff156c6a2",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d4814579281467dff156c6a2\\camera.png",
+          "sha256": "b58ae1a8f7d783a07eb51c8c871b4f75338b9cb7e341b2bd32f8a16e9d9d95b6"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d4814579281467dff156c6a2\\front.png",
+          "sha256": "25ea09b0e5e99be667f1f646166fa6c0fbe5e4b12262a410008b0f71dbea4f9e"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d4814579281467dff156c6a2\\side.png",
+          "sha256": "e28f4e445e915e3969af9cd12961d59aada706ab8f50c8609dca80aa508fab70"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d4814579281467dff156c6a2\\top.png",
+          "sha256": "a19c5a69635f52e7ab3417eecd517b229ec9e49e94799aa63f1cf0cece6fffb4"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "phitaihong",
+      "frame": 92,
+      "sceneRevision": 59700,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "phitaihong-frame-92",
+      "snapshotId": "snapshot-fe40565ed51a52d0aa569087",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-fe40565ed51a52d0aa569087\\camera.png",
+          "sha256": "f4255d8770472951a96a918809a09b25874cecf8e18277fe21421d8315fa3f55"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-fe40565ed51a52d0aa569087\\front.png",
+          "sha256": "5e428a98132f3692b2a8b05c6f298f43ab0e8450e405560669420862ea67aabf"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-fe40565ed51a52d0aa569087\\side.png",
+          "sha256": "72aaa221021053af1898f116dfb8d2b48d0c5cb998c73bf50a849c796c594a7e"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-fe40565ed51a52d0aa569087\\top.png",
+          "sha256": "d984921b20dc73bc77053da024be7e8e196d5b092f3fc05f0f563907c38333a9"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "soldier",
+      "frame": 1,
+      "sceneRevision": 59741,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "soldier-frame-1",
+      "snapshotId": "snapshot-2fece7c4aac56a219fef5ed5",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-2fece7c4aac56a219fef5ed5\\camera.png",
+          "sha256": "4e0a89a3dccd84e8f018395c26a1f923eeafc5866be2b63ec5cf71778505d45f"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-2fece7c4aac56a219fef5ed5\\front.png",
+          "sha256": "ab7d5e0037a14c9e458fac93101340bf44c769da5a21696dedd20678f00cc639"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-2fece7c4aac56a219fef5ed5\\side.png",
+          "sha256": "40dcb00cb0e8f736b26ce603d412e42e8b6b4164d984e6cd4387e6085d702c26"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-2fece7c4aac56a219fef5ed5\\top.png",
+          "sha256": "ac65aba7bd78dcdde534afad1591c6a0dde158e607ce8b83602eb8cc70a79b6a"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "soldier",
+      "frame": 92,
+      "sceneRevision": 59741,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "soldier-frame-92",
+      "snapshotId": "snapshot-63df811fcf5a3af63875a4e8",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-63df811fcf5a3af63875a4e8\\camera.png",
+          "sha256": "c095e6d23b13ce1e38fb3df54adb756f2575c342ed0fd8475d936f060a669337"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-63df811fcf5a3af63875a4e8\\front.png",
+          "sha256": "d66c9063163fde7f25a4ca01792e907d3495138dad51531c261f8c25742fd2ce"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-63df811fcf5a3af63875a4e8\\side.png",
+          "sha256": "7983491590a2c2982eb2d2e49bf47499b3d60ddd02207089e2ed5a7b62816dbb"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-63df811fcf5a3af63875a4e8\\top.png",
+          "sha256": "b5f3952a63bcdbf369f4ce44a582272a8c4a979f2e1efd3749ebdbf3eec73a45"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "pusom",
+      "frame": 1,
+      "sceneRevision": 59782,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "pusom-frame-1",
+      "snapshotId": "snapshot-d12aa353dd6301fd8fe302fc",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d12aa353dd6301fd8fe302fc\\camera.png",
+          "sha256": "df99d17e52a33c2096b039767a8f64e96425b5a96332bcdb23be859565aad0db"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d12aa353dd6301fd8fe302fc\\front.png",
+          "sha256": "081ad32eaa5a93acfd313522d799af8256262db0453aa2f3bf50c993fb27fb9a"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d12aa353dd6301fd8fe302fc\\side.png",
+          "sha256": "ac1045cb8824194fcfb2949c2db01e81e7d90370f7c7b4ab71eefe3886eb1804"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-d12aa353dd6301fd8fe302fc\\top.png",
+          "sha256": "60134e6b64c8190cd77a9529a7bc6f0a9fd3eeb34b13a2b584085ad3b37f62a4"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "pusom",
+      "frame": 92,
+      "sceneRevision": 59782,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "pusom-frame-92",
+      "snapshotId": "snapshot-7e5e466e271d8593dce802b2",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-7e5e466e271d8593dce802b2\\camera.png",
+          "sha256": "e9a2bbffe3f81e6812b43340824e084d2d1206e665b48b1cd12197fa9287acd2"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-7e5e466e271d8593dce802b2\\front.png",
+          "sha256": "cb1767db676ae6ab71639b00bb5f6942c70d257eb7d9dffa4d00900b8ff21cb5"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-7e5e466e271d8593dce802b2\\side.png",
+          "sha256": "1c7f44a2a89072db7394b3d50e84b300ce8182bb1c033aa86e29bc93a03b7616"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-7e5e466e271d8593dce802b2\\top.png",
+          "sha256": "17131257f9607afdeeb3f8b3b777b5b17cfdc73dc5d03927c176973714fe7dc8"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "pret",
+      "frame": 1,
+      "sceneRevision": 60580,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "pret-frame-1",
+      "snapshotId": "snapshot-bacb82e18f5b626871866294",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-bacb82e18f5b626871866294\\camera.png",
+          "sha256": "b0b02d1b54fbf5b53afd70a90bbc7cf9a78e202824f8011fc4ce8ffe6aaf29c3"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-bacb82e18f5b626871866294\\front.png",
+          "sha256": "ff53c31d299468fe1c52f405d0e4ac64fe3671907c5de5b3b39e166780da9f4b"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-bacb82e18f5b626871866294\\side.png",
+          "sha256": "0b34bbe504107bea4a62c6f16c832f5cdd34dbdce733789514eb065df9dcf221"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-bacb82e18f5b626871866294\\top.png",
+          "sha256": "b7ca5934d7d31716c567b760636a6809606252607d07d9f59186f9d4201b7e36"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    },
+    {
+      "type": "pret",
+      "frame": 92,
+      "sceneRevision": 60580,
+      "protocolVersion": "codex-blender/v1",
+      "milestone": "pret-frame-92",
+      "snapshotId": "snapshot-90f3ef6c82ca1e68cc804d36",
+      "views": [
+        {
+          "name": "camera",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-90f3ef6c82ca1e68cc804d36\\camera.png",
+          "sha256": "d1f8752a480d760a181be667eda48f0211fa65f191fc3e7fb166533e8ea2daa0"
+        },
+        {
+          "name": "front",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-90f3ef6c82ca1e68cc804d36\\front.png",
+          "sha256": "ddeb244625c75c677b6da1deb6734533b36ae9187cbbb1f492557fb899573059"
+        },
+        {
+          "name": "side",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-90f3ef6c82ca1e68cc804d36\\side.png",
+          "sha256": "912444c691a287ce420b67009d86f5bbd1d20e76cb39e614abfd0ae908cd2d62"
+        },
+        {
+          "name": "top",
+          "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-04\\wat-rang\\milestones\\snapshot-90f3ef6c82ca1e68cc804d36\\top.png",
+          "sha256": "89433c8d220d6bc65d7f852840980516a411f485107e28412fe3618c109d9deb"
+        }
+      ],
+      "sceneSummary": {
+        "objects": 41,
+        "materials": 8,
+        "lights": 1,
+        "cameras": 1
+      },
+      "warnings": []
+    }
+  ],
+  "browser": {
+    "passed": true,
+    "framingChecks": 175,
+    "errors": 0,
+    "report": "qa-browser.json",
+    "clipChecks": 35
+  },
+  "game": {
+    "status": "failed",
+    "coverage": {
+      "covered": [
+        "headless",
+        "pret",
+        "krahang",
+        "phitaihong",
+        "soldier",
+        "pusom"
+      ],
+      "missing": [
+        "krasue"
+      ],
+      "serverClock": {
+        "hour": 21.381,
+        "phase": "night",
+        "receivedAt": 1791524722949
+      },
+      "channel": 1,
+      "byType": {
+        "headless": {
+          "status": "passed",
+          "reason": null
+        },
+        "pret": {
+          "status": "failed",
+          "reason": null
+        },
+        "krahang": {
+          "status": "passed",
+          "reason": null
+        },
+        "krasue": {
+          "status": "untested",
+          "reason": "No alive authoritative instance during bounded observation; phase, rarity, death or respawn may apply"
+        },
+        "phitaihong": {
+          "status": "passed",
+          "reason": null
+        },
+        "soldier": {
+          "status": "passed",
+          "reason": null
+        },
+        "pusom": {
+          "status": "passed",
+          "reason": null
+        }
+      },
+      "note": "Pret/Krahang/Krasue base sites are night-only; Krasue chance=.5, retry=600s. Missing types are UNTESTED; observed types are still audited."
+    },
+    "fixtures": [
+      {
+        "type": "pusom",
+        "skill": "seal",
+        "shape": "circle",
+        "minRadius": 3.3569335897709607e-06,
+        "maxRadius": 4.000021630824744,
+        "maxHeightError": 4.053115854052436e-08,
+        "centreSafe": false,
+        "impactCleared": true,
+        "cancelCleared": true,
+        "passed": true,
+        "evidence": "isolated rendering fixture; not an online cast"
+      },
+      {
+        "type": "pusom",
+        "skill": "relic",
+        "shape": "ring",
+        "minRadius": 2.999980232043504,
+        "maxRadius": 8.000014469076113,
+        "maxHeightError": 1.4273558741062509e-06,
+        "centreSafe": true,
+        "impactCleared": true,
+        "cancelCleared": true,
+        "passed": true,
+        "evidence": "isolated rendering fixture; not an online cast"
+      }
+    ],
+    "skillChecks": [
+      {
+        "type": "pusom",
+        "skill": "seal",
+        "status": "untested",
+        "reason": "Actual server windup/impact not fully observed"
+      },
+      {
+        "type": "pusom",
+        "skill": "relic",
+        "status": "untested",
+        "reason": "Actual server windup/impact not fully observed"
+      },
+      {
+        "type": "krasue",
+        "skill": "ember",
+        "status": "untested",
+        "reason": "Actual server windup/impact not fully observed"
+      },
+      {
+        "type": "krasue",
+        "skill": "flame",
+        "status": "untested",
+        "reason": "Actual server windup/impact not fully observed"
+      }
+    ],
+    "failures": [
+      "pret: idle: clearance -0.0262 < -0.02",
+      "pret: walk: clearance -0.0286 < -0.02",
+      "pret: attack: clearance -0.0262 < -0.02",
+      "pret: hurt: clearance -0.0262 < -0.02",
+      "pret: die: clearance -0.0264 < -0.02"
+    ],
+    "nightWindow": {
+      "policy": "natural authoritative clock only; no separate server or time override",
+      "limitSeconds": 300,
+      "waitedSeconds": 0,
+      "reachedNight": true,
+      "serverClock": {
+        "hour": 21.215,
+        "phase": "night",
+        "receivedAt": 1791524715711
+      }
+    },
+    "supplementalUnchangedKrasue": {
+      "report": "qa-game-v5.json",
+      "sha256": "0da5f68891ac2f4f7f832e8c6c604252b6f771b1a7794d7e10540a89eeadcc08",
+      "fixtures": [
+        {
+          "type": "krasue",
+          "skill": "ember",
+          "shape": "circle",
+          "minRadius": 4.892339952197044e-06,
+          "maxRadius": 3.000023717552603,
+          "maxHeightError": 1.5028484571244505e-06,
+          "centreSafe": false,
+          "impactCleared": true,
+          "cancelCleared": true,
+          "passed": true,
+          "evidence": "isolated rendering fixture; not an online cast"
+        },
+        {
+          "type": "krasue",
+          "skill": "flame",
+          "shape": "ring",
+          "minRadius": 2.4999765013121684,
+          "maxRadius": 6.0000269321031645,
+          "maxHeightError": 2.509858936294851e-06,
+          "centreSafe": true,
+          "impactCleared": true,
+          "cancelCleared": true,
+          "passed": true,
+          "evidence": "isolated rendering fixture; not an online cast"
+        }
+      ],
+      "coveragePolicy": "Earlier exact-current-hash witness; latest rare spawn remains untested"
+    },
+    "report": "qa-game.json"
+  },
+  "video": [
+    {
+      "type": "headless",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "pret",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "krahang",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "krasue",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "phitaihong",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "soldier",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "pusom",
+      "width": 1388,
+      "height": 580,
+      "ready": 4,
+      "error": null,
+      "sampledSeconds": [
+        0.8,
+        2.4,
+        4,
+        5.6,
+        7.2
+      ],
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "file": "gallery.png",
+      "bytes": 154328,
+      "sha256": "c5641b714acd237522df2bf08991a979938bf7c1de9da2f62ea3000249c53efa"
+    },
+    {
+      "file": "headless-attack.png",
+      "bytes": 87149,
+      "sha256": "2932ba3662c557b6ebe234bf5d70cdabbb7b46cb3052f7cf9041cae3fcbf4b80"
+    },
+    {
+      "file": "headless-back.png",
+      "bytes": 105011,
+      "sha256": "6105400e6851aeafbc70410a20753505ee1ac0f7f4f1538afa950a8fdd2b5e00"
+    },
+    {
+      "file": "headless-die.png",
+      "bytes": 86397,
+      "sha256": "b9c2e50ad41ed812bcbdaac53abdb7f1aa615aa2b4760edd6286eecdf3703d34"
+    },
+    {
+      "file": "headless-front.png",
+      "bytes": 116789,
+      "sha256": "b591984c35d238dc985012da4ad3ebdc6e7d8854f21fa260eaa65204d03e268b"
+    },
+    {
+      "file": "headless-game.png",
+      "bytes": 89669,
+      "sha256": "6320cfc093e583d274d4a3789c6a0871b099772f337767682111d89b3980dbb8"
+    },
+    {
+      "file": "headless-hurt.png",
+      "bytes": 86280,
+      "sha256": "cd8fe7ae67fd842b6ca599bebefd9595989619cf9f606a8d586bbf2538a22a70"
+    },
+    {
+      "file": "headless-in-game.png",
+      "bytes": 1532971,
+      "sha256": "08df429187fa61e1b2eaa88b1ab456f9111e38a539d6bd8fb309381f31929dcc"
+    },
+    {
+      "file": "headless-mobile.png",
+      "bytes": 56858,
+      "sha256": "299aa58b04ebbdbcdf8bbdf50e7b4ceb7e35e7aa73ab6dbf2674c8fb68b0e7e0"
+    },
+    {
+      "file": "headless-motion.webm",
+      "bytes": 1050698,
+      "sha256": "1a3f54300ecdaac83de5db7f9eb10e36d0577ccad6014e0d078af8249b5fa263"
+    },
+    {
+      "file": "headless-render.png",
+      "bytes": 57528,
+      "sha256": "1f5e9209347a717b042d8f514de236946514131ec2f4fe12949816ae5474d38b"
+    },
+    {
+      "file": "headless-side.png",
+      "bytes": 86127,
+      "sha256": "b3dfa6d7a20a080e7e2a8f5044b27d0dfd024b18f08315179df4eae5a1f69c1e"
+    },
+    {
+      "file": "headless-top.png",
+      "bytes": 107023,
+      "sha256": "a7377a0d38a6fc93cf91317e6512a5d9031f092d3a4c2de306780d554f99824e"
+    },
+    {
+      "file": "headless-walk.png",
+      "bytes": 86551,
+      "sha256": "ca66e924278a595ad3b8131ef3626c412808028494c52da55c4ec7eabc793662"
+    },
+    {
+      "file": "krahang-attack.png",
+      "bytes": 85560,
+      "sha256": "2ba0e908b44aaca49663d31006edec05678031e4c135f3d462cd5e27cbb0d28b"
+    },
+    {
+      "file": "krahang-back.png",
+      "bytes": 105984,
+      "sha256": "f46b0e8b47c9f305515e4211a245c52cef59db2a0dd660fa32e93b44715c6445"
+    },
+    {
+      "file": "krahang-die.png",
+      "bytes": 85408,
+      "sha256": "78834fafbb62b7e0fbe5d55cdeffa2b0367082411a05f1af2861335c655e51b8"
+    },
+    {
+      "file": "krahang-front.png",
+      "bytes": 115353,
+      "sha256": "59682811091498d33dbbe469d849e2eac27f3bf1156ac956bf167647ba2bd509"
+    },
+    {
+      "file": "krahang-game.png",
+      "bytes": 80482,
+      "sha256": "94878737284eefe484e6dfaa1d4071e76b4628a40f36b2acc686f31493cdb7bf"
+    },
+    {
+      "file": "krahang-hurt.png",
+      "bytes": 85494,
+      "sha256": "42e91f94b496982c560489fe925428aba03ceb3dd7767d7b939b17826f0809c0"
+    },
+    {
+      "file": "krahang-mobile.png",
+      "bytes": 51829,
+      "sha256": "f7dbcb5965cc31c3e1295caafafd668462017a8fd431743d28c506f60139a7f8"
+    },
+    {
+      "file": "krahang-motion.webm",
+      "bytes": 1492187,
+      "sha256": "c1a4708149a65d8a12be67c4eac824c0fcced2f11eeb87e3f16ced694592f2d0"
+    },
+    {
+      "file": "krahang-render.png",
+      "bytes": 48179,
+      "sha256": "546539cb9213dc5dc26269472a8353f9fbd3de68acd28e5d0b9f7cd532c2699e"
+    },
+    {
+      "file": "krahang-side.png",
+      "bytes": 85311,
+      "sha256": "0a53035418634e6efb04989fca9e7ff2c5d1dd07f61f13e5c4ddaacc228fbe98"
+    },
+    {
+      "file": "krahang-top.png",
+      "bytes": 99987,
+      "sha256": "8887d27409b36cb79318a796a660b6704e5fc3ec92a7c9beb8fc90dbb27ec0b6"
+    },
+    {
+      "file": "krahang-walk.png",
+      "bytes": 85260,
+      "sha256": "7dac891835b426f99be638b6e31e844e25b49193a385205fdd3e9f8271b028c3"
+    },
+    {
+      "file": "krasue-attack.png",
+      "bytes": 79866,
+      "sha256": "934e63e96501a0caad7f444e16fa66b9ce93a6af3fb43627d9ffce1437d0a92f"
+    },
+    {
+      "file": "krasue-back.png",
+      "bytes": 82872,
+      "sha256": "8559546cb85f529e4a29601916d1349a3bf7775cc6e578337fe02067249b2836"
+    },
+    {
+      "file": "krasue-die.png",
+      "bytes": 69218,
+      "sha256": "5090ce8ff0e7d972132536150b7ca317fc7a464f7d3d10af62602272974522a6"
+    },
+    {
+      "file": "krasue-front.png",
+      "bytes": 96126,
+      "sha256": "bfd1f36710e13356c86c1283f6767c654c1e5cbfaad260a536d76cd2248360c1"
+    },
+    {
+      "file": "krasue-game.png",
+      "bytes": 74767,
+      "sha256": "8f6c989efbd877bf93162dfa629328afe5026e1ef9909875d71bdff11bf2a28c"
+    },
+    {
+      "file": "krasue-hurt.png",
+      "bytes": 79212,
+      "sha256": "16969226c83e0e318a304e1095eecbb819ab17b2dc48b7ca2e9dd52ea916d5ae"
+    },
+    {
+      "file": "krasue-mobile.png",
+      "bytes": 49694,
+      "sha256": "1c5cf7d926099e6e29953dccdb4aeff55ccb8779b2ad1ba05c421818298f4ae4"
+    },
+    {
+      "file": "krasue-motion.webm",
+      "bytes": 1417278,
+      "sha256": "a3a75a2988dff79d78b195bad1e9e897ef0a54cb00eaf47c4d184039f5a5004d"
+    },
+    {
+      "file": "krasue-render.png",
+      "bytes": 42794,
+      "sha256": "9b45638d9be1009ffbebbc7a9419487e5acaafa3a39733504dada25e6c70451c"
+    },
+    {
+      "file": "krasue-side.png",
+      "bytes": 79071,
+      "sha256": "6207ba0faab24751689f391ade6bc40c54c17b6251ef01ffc35e728f9287db40"
+    },
+    {
+      "file": "krasue-top.png",
+      "bytes": 110416,
+      "sha256": "8fad87ca205521c1fa1e86111adba454e69f3dad0684cb74f30a75f1cd98d07a"
+    },
+    {
+      "file": "krasue-walk.png",
+      "bytes": 79064,
+      "sha256": "b02b98c83043c6430e5ba4581686c3b1a2c219dfdcba6ab44c14443d472779cd"
+    },
+    {
+      "file": "mobile.png",
+      "bytes": 49694,
+      "sha256": "1c5cf7d926099e6e29953dccdb4aeff55ccb8779b2ad1ba05c421818298f4ae4"
+    },
+    {
+      "file": "phitaihong-attack.png",
+      "bytes": 88165,
+      "sha256": "6041446f7f9b414b55d41e520388fe836080619cb6e5123d5fab28bfdefde325"
+    },
+    {
+      "file": "phitaihong-back.png",
+      "bytes": 102589,
+      "sha256": "e8eb81d152fda91bb990ebbbd9663c843812cc0d1cf3a40a3db9259d13867b9e"
+    },
+    {
+      "file": "phitaihong-die.png",
+      "bytes": 86305,
+      "sha256": "46d6e8a4b2469e1afe93b78090cb527da1c1adb2fdc0088301981da8d32e90a7"
+    },
+    {
+      "file": "phitaihong-front.png",
+      "bytes": 108264,
+      "sha256": "2c513d20f931de690db3c03c7ba56e61c20f04c08c323b00985c3ecdf370c449"
+    },
+    {
+      "file": "phitaihong-game.png",
+      "bytes": 90089,
+      "sha256": "39b603d8756c30274f03bec6c6300de2373a68f64aa68d5346fe431e99f3df41"
+    },
+    {
+      "file": "phitaihong-hurt.png",
+      "bytes": 86113,
+      "sha256": "be75d37f12e28fbaebb2a4443c7fd96e137d64587fdc0187ca1ab353dd515c28"
+    },
+    {
+      "file": "phitaihong-mobile.png",
+      "bytes": 56755,
+      "sha256": "6acdbb68272cf2ec496df4ec4c1369e2ae4f1d660d2c5e2ae6c7cf5e7a368c34"
+    },
+    {
+      "file": "phitaihong-motion.webm",
+      "bytes": 1191604,
+      "sha256": "a33af83a1b3870efc820a1544db752614b1c67052cbd4001a3bf0e5a1855114e"
+    },
+    {
+      "file": "phitaihong-render.png",
+      "bytes": 58153,
+      "sha256": "71bebb6f43b054aa8f783ed424de564e64ef727b2682fb3067fb8e03cc83bc88"
+    },
+    {
+      "file": "phitaihong-side.png",
+      "bytes": 85955,
+      "sha256": "87da3a5caf45671acb697dbc57ce5df070647340136849afa5ed02940fe554e3"
+    },
+    {
+      "file": "phitaihong-top.png",
+      "bytes": 112164,
+      "sha256": "afd78470ca00b2f3ebcc68c27bcbb2c04db8ec62bf1bd5f29ea1de00e8e6d15c"
+    },
+    {
+      "file": "phitaihong-walk.png",
+      "bytes": 86836,
+      "sha256": "4b8ad871d4ea7f0c5ed67ff2393b6a932f52a4553f911b00b47ba31fc48cb8d9"
+    },
+    {
+      "file": "pret-attack.png",
+      "bytes": 76209,
+      "sha256": "20117355100fa281b33488e1d419150b4da5366ba32cc16b8e4d385038e09005"
+    },
+    {
+      "file": "pret-back.png",
+      "bytes": 97333,
+      "sha256": "2ec90b8aa916e6cb9ddae5e863595f58b8fa02178d0f9b6dbf3668a0e17d5ed1"
+    },
+    {
+      "file": "pret-die.png",
+      "bytes": 77504,
+      "sha256": "c148e7c7021a8cd0836ca829277f592dd563c080664ded144b0c3107a1816053"
+    },
+    {
+      "file": "pret-front.png",
+      "bytes": 103703,
+      "sha256": "ed04f6304dabeddefc2f8426edc0bd1c8b0892381550f538e72f13f9b8c75fcb"
+    },
+    {
+      "file": "pret-game.png",
+      "bytes": 81924,
+      "sha256": "61b854c037c05f50c35dc5ec1479f7e8e5bd7054ead14ae21ae6de1bae1d0f3f"
+    },
+    {
+      "file": "pret-hurt.png",
+      "bytes": 75204,
+      "sha256": "a347dae6f2a78b6f28a8f07b4dbcdb80e2aad4ae659ed38ae1c180fa47dc1423"
+    },
+    {
+      "file": "pret-mobile.png",
+      "bytes": 52715,
+      "sha256": "dff573284b48c79f7615360859ede47e2a3bcc508426c7aee7c5c3aecd5fb0b2"
+    },
+    {
+      "file": "pret-motion.webm",
+      "bytes": 1155447,
+      "sha256": "7ad171466bef840d1d1a4972a9398ce0cb3dc6932a881b076d47470d00c76c16"
+    },
+    {
+      "file": "pret-render.png",
+      "bytes": 49752,
+      "sha256": "f0fb815f89ca68d83ff7063945f88aec32b21bb5a0e25bf37e70fcdde2e7e0a1"
+    },
+    {
+      "file": "pret-side.png",
+      "bytes": 75075,
+      "sha256": "8f3d695877594415697e10f1d2700f75e9984e3dbc2702ca3303ba7d49c86dfb"
+    },
+    {
+      "file": "pret-top.png",
+      "bytes": 96130,
+      "sha256": "2a004199eb2fbf0fd7138151440bcfb925c86cfb686d026b8dcecd88ef291e7e"
+    },
+    {
+      "file": "pret-walk.png",
+      "bytes": 75272,
+      "sha256": "f93af5d6cc566414ae882eb4838f5aa1833782ce2d8081ed46d29c36175ac5b1"
+    },
+    {
+      "file": "pusom-attack.png",
+      "bytes": 112237,
+      "sha256": "9b84712bc5e17b4c274ef00a688a4022369b68f801e89298ec4176ba4c52dbc2"
+    },
+    {
+      "file": "pusom-back.png",
+      "bytes": 135813,
+      "sha256": "7fd33b47f4d0c0b0a44dfac15b79100fc355941744786f819771e71a0b0f3636"
+    },
+    {
+      "file": "pusom-die.png",
+      "bytes": 109781,
+      "sha256": "b7b6aa50258929d8dc47b8709e9547a098d32f08c2ccdaf28ad6f62d8c45c5b3"
+    },
+    {
+      "file": "pusom-front.png",
+      "bytes": 150653,
+      "sha256": "e93c04d968e4727f932d2f413d0bfbd40aba072d506e79e48a10abd9f7dbf4e6"
+    },
+    {
+      "file": "pusom-game.png",
+      "bytes": 98763,
+      "sha256": "1897efc8e2650caaf9b65fd8b357c7c5236dcb8d66d9f121df525db8ef17d2b4"
+    },
+    {
+      "file": "pusom-hurt.png",
+      "bytes": 111855,
+      "sha256": "e544f58a012f76a2b7d0aef3c691dbfe2a9feeeaaa353d7658a3e4babd1ee89e"
+    },
+    {
+      "file": "pusom-mobile.png",
+      "bytes": 61538,
+      "sha256": "baf442573be9841c7edfab5a2ff7c0667c703602a739f73541ab71ddad56dd03"
+    },
+    {
+      "file": "pusom-motion.webm",
+      "bytes": 1270643,
+      "sha256": "efa89e3d128240d1142b677a690b72c106eeb97bd97b547e518f8efa118d8f49"
+    },
+    {
+      "file": "pusom-render.png",
+      "bytes": 67267,
+      "sha256": "d36a468819daeeb77314555e9e8826420bbcc90833a31eee7fc525d9b40057df"
+    },
+    {
+      "file": "pusom-side.png",
+      "bytes": 111760,
+      "sha256": "166c4e2ed18340a89b350ab445b5c3e513bea1b9a7f92d8f24783b9f4d5d5689"
+    },
+    {
+      "file": "pusom-top.png",
+      "bytes": 130273,
+      "sha256": "dc23df0373d884a048cb3ff0564c62d07c4f2053a81a28da4b76ddfe1c0ef486"
+    },
+    {
+      "file": "pusom-walk.png",
+      "bytes": 112014,
+      "sha256": "3897c54e84ac2f82b9ddf9222c6b9d67fa666234f30b6acc09c2c97682e7ad40"
+    },
+    {
+      "file": "soldier-attack.png",
+      "bytes": 92008,
+      "sha256": "b228fd2624e23945a2031edbf072399c89b92fb4f52dee878dea0002c20a8249"
+    },
+    {
+      "file": "soldier-back.png",
+      "bytes": 112559,
+      "sha256": "243a74ac3ec6aad4c3a8d61705c261f7f5c7f441d53c0ee6ccad3d9c9f2481b4"
+    },
+    {
+      "file": "soldier-die.png",
+      "bytes": 84945,
+      "sha256": "c5714c49e7cb790ece639f7b944f9b81a0013d190df819f0a9b67b8d456e8d39"
+    },
+    {
+      "file": "soldier-front.png",
+      "bytes": 125170,
+      "sha256": "e9834cd620462cf94f8279b8e6186e787029e06f53cdb82339082b688414072d"
+    },
+    {
+      "file": "soldier-game.png",
+      "bytes": 87411,
+      "sha256": "9f857f4c8ade1d4182a5c6bb8f14fb48db5116ed2ab4ada1ca3132e2cede8aac"
+    },
+    {
+      "file": "soldier-hurt.png",
+      "bytes": 87388,
+      "sha256": "909940a134aa229982a596b11027d69c5a2cff00b7e0fa219b8136afe2fc2d03"
+    },
+    {
+      "file": "soldier-mobile.png",
+      "bytes": 54900,
+      "sha256": "3e239cbdb89d3f031415777f51d41c3261360a860cb36e3f2ae6f66679747183"
+    },
+    {
+      "file": "soldier-motion.webm",
+      "bytes": 1081575,
+      "sha256": "0a83076649a40185f3e14938316f0ff7202a52957d97c3e3134bea8f23c9b87d"
+    },
+    {
+      "file": "soldier-render.png",
+      "bytes": 54935,
+      "sha256": "aa170ede6e45065148849bc4587e1325f7aa939016053c970b1b84041b10e446"
+    },
+    {
+      "file": "soldier-side.png",
+      "bytes": 87246,
+      "sha256": "c1d96e4e2d8ee1e3a541bded6f22cafec38aeff70f6314fd86f6bb02cb080de6"
+    },
+    {
+      "file": "soldier-top.png",
+      "bytes": 97261,
+      "sha256": "c25533d86fe99b2a26dd44ffb46268ae2dd1f4048535d06f1350ff21f3629aff"
+    },
+    {
+      "file": "soldier-walk.png",
+      "bytes": 87464,
+      "sha256": "52fa07cfa3ab9237bf24a8d888d3785812571704b9d36880a7adb1de549536b8"
+    }
+  ],
+  "limits": [
+    "No slope-aware foot IK: Pret reaches -28.6 mm terrain clearance; the additional 20 mm QA guide fails and is retained as P2, while the source/flat 10 mm gate passes.",
+    "Latest night rare Krasue absent; earlier exact-current-hash authoritative witness retained.",
+    "Actual boss windup/impact not fully observed; isolated footprints pass; boss rules unchanged.",
+    "No individual finger/facial/cloth rig, per-skill clips, ragdoll or physical-phone FPS/crowd profile.",
+    "Environment art remains queued; this completes only the existing monster roster."
+  ]
+}

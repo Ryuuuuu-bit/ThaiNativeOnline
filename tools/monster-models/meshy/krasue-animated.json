@@ -1,0 +1,14 @@
+{
+  "type": "krasue",
+  "bytes": 1293400,
+  "sha256": "0da5f68891ac2f4f7f832e8c6c604252b6f771b1a7794d7e10540a89eeadcc08",
+  "triangles": 10898,
+  "bones": 8,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

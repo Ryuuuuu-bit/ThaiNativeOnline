@@ -1,0 +1,14 @@
+{
+  "type": "soldier",
+  "bytes": 1335264,
+  "sha256": "f5870c75e2854b895128451728bd5e716cf1b37fe998a77b73648f170c78a95f",
+  "triangles": 12427,
+  "bones": 18,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

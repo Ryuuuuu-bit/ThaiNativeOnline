@@ -1,0 +1,14 @@
+{
+  "type": "krahang",
+  "bytes": 1507028,
+  "sha256": "488d30a8d7241c241f567d12ecead1faa69e3ea31ac10b78a908fd0b5b85d7f7",
+  "triangles": 12335,
+  "bones": 19,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

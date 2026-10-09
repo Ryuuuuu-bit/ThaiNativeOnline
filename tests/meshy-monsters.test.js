@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import * as THREE from 'three';
 import { gltfLoader } from '../src/core/gltf.js';
 
-for (const type of ['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian']) test(`Meshy ${type}: candidate has embedded textures, valid geometry and a reproducible hash`, async () => {
+for (const type of ['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless','pret','krahang','krasue','phitaihong','soldier','pusom']) test(`Meshy ${type}: candidate has embedded textures, valid geometry and a reproducible hash`, async () => {
   const base = new URL('../tools/monster-models/meshy/', import.meta.url);
   const bytes = await fs.readFile(new URL(`${type}.glb`, base));
   const report = JSON.parse(await fs.readFile(new URL(`${type}-prepared.json`, base)));
@@ -45,6 +45,7 @@ for (const type of ['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa'
     triangles += index.count / 3;
     const bounds = new THREE.Box3().setFromObject(gltf.scene), size = bounds.getSize(new THREE.Vector3());
     assert.ok(size.toArray().every(n => n > .01 && n < 3), 'bounded natural-sized source geometry');
+    if(type==='krasue')assert.ok(size.z>size.y*.20,'Krasue must be a volumetric head and hanging cluster, not a flat relief');
     assert.ok(Math.abs(bounds.min.y) < .001, 'ground pivot');
   }
   assert.equal(triangles, report.triangles);

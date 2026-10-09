@@ -1,0 +1,200 @@
+{
+  "type": "krasue",
+  "version": "v1",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        0.84
+      ],
+      "tail": [
+        0,
+        0,
+        0.95
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        0.95
+      ],
+      "tail": [
+        0,
+        0,
+        1.9
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Heart",
+      "head": [
+        0,
+        -0.03,
+        0.73
+      ],
+      "tail": [
+        0,
+        -0.03,
+        0.55
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LungL",
+      "head": [
+        -0.18,
+        0,
+        0.7
+      ],
+      "tail": [
+        -0.18,
+        0,
+        0.32
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LungR",
+      "head": [
+        0.18,
+        0,
+        0.7
+      ],
+      "tail": [
+        0.18,
+        0,
+        0.32
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "CoilBase",
+      "head": [
+        0.03,
+        0,
+        0.38
+      ],
+      "tail": [
+        0,
+        0,
+        0.18
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "CoilTip",
+      "head": [
+        0,
+        0,
+        0.18
+      ],
+      "tail": [
+        0.03,
+        0,
+        0.04
+      ],
+      "parent": "CoilBase",
+      "deform": true,
+      "connected": false
+    }
+  ],
+  "legs": [],
+  "weightGroups": 352,
+  "rigId": "obj_efcdf77242ab45438f59191882fd8228",
+  "skin": {
+    "name": "KrasueV1Rig",
+    "objectId": "obj_efcdf77242ab45438f59191882fd8228",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.20000000298023224,
+        "deform": false
+      },
+      {
+        "name": "Body",
+        "parent": "Root",
+        "length": 0.11000001430511475,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Body",
+        "length": 0.949999988079071,
+        "deform": true
+      },
+      {
+        "name": "Heart",
+        "parent": "Body",
+        "length": 0.18000000715255737,
+        "deform": true
+      },
+      {
+        "name": "LungL",
+        "parent": "Body",
+        "length": 0.3799999952316284,
+        "deform": true
+      },
+      {
+        "name": "LungR",
+        "parent": "Body",
+        "length": 0.3799999952316284,
+        "deform": true
+      },
+      {
+        "name": "CoilBase",
+        "parent": "Body",
+        "length": 0.20223747193813324,
+        "deform": true
+      },
+      {
+        "name": "CoilTip",
+        "parent": "CoilBase",
+        "length": 0.14317815005779266,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "KrasueV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-fe516d16b1c9c44dcf35d50f",
+  "sceneRevision": 21632,
+  "limbLength": null,
+  "idleFeet": [],
+  "animationSnapshotId": "snapshot-5cf6a64a09093a85cbd8a9ec"
+}

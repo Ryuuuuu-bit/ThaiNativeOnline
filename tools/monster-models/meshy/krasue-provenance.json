@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11ec1-cd91-72d6-8987-c6111e8e90b1",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/krasue-thai-volume-v3.png",
+  "referenceSha256": "aa276ac42e3c67dfe8e0c9152b8b966fbad0001f0baf92eaeb2ce75080b1a505",
+  "originalSha256": "b9bf3e70d5e99418ba22a2117cad1776c0922d19a7a039bf2945d48544569ba6",
+  "originalBytes": 10357760,
+  "originalLocalPath": "artifacts/meshy-monsters/krasue/thai-volume-v3/original.glb"
+}

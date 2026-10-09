@@ -1,0 +1,468 @@
+{
+  "type": "pret",
+  "version": "v1",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Pelvis",
+      "head": [
+        0,
+        0,
+        0.95
+      ],
+      "tail": [
+        0,
+        0,
+        1.0699999999999998
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        0,
+        1.0699999999999998
+      ],
+      "tail": [
+        0,
+        0,
+        1.61
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        0,
+        1.65
+      ],
+      "tail": [
+        0,
+        0,
+        1.9
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        -0.16,
+        0,
+        1.56
+      ],
+      "tail": [
+        -0.27,
+        -0.01,
+        1.23
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        -0.27,
+        -0.01,
+        1.23
+      ],
+      "tail": [
+        -0.4,
+        -0.02,
+        0.84
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HandL",
+      "head": [
+        -0.4,
+        -0.02,
+        0.84
+      ],
+      "tail": [
+        -0.43,
+        -0.025,
+        0.65
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLUpper",
+      "head": [
+        -0.13,
+        0,
+        0.95
+      ],
+      "tail": [
+        -0.13,
+        -0.035,
+        0.54
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLLower",
+      "head": [
+        -0.13,
+        -0.035,
+        0.54
+      ],
+      "tail": [
+        -0.13,
+        0,
+        0.1
+      ],
+      "parent": "LegLUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLFoot",
+      "head": [
+        -0.13,
+        0,
+        0.1
+      ],
+      "tail": [
+        -0.13,
+        -0.15,
+        0.045
+      ],
+      "parent": "LegLLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        0.16,
+        0,
+        1.56
+      ],
+      "tail": [
+        0.27,
+        -0.01,
+        1.23
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        0.27,
+        -0.01,
+        1.23
+      ],
+      "tail": [
+        0.4,
+        -0.02,
+        0.84
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HandR",
+      "head": [
+        0.4,
+        -0.02,
+        0.84
+      ],
+      "tail": [
+        0.43,
+        -0.025,
+        0.65
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRUpper",
+      "head": [
+        0.13,
+        0,
+        0.95
+      ],
+      "tail": [
+        0.13,
+        -0.035,
+        0.54
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRLower",
+      "head": [
+        0.13,
+        -0.035,
+        0.54
+      ],
+      "tail": [
+        0.13,
+        0,
+        0.1
+      ],
+      "parent": "LegRUpper",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRFoot",
+      "head": [
+        0.13,
+        0,
+        0.1
+      ],
+      "tail": [
+        0.13,
+        -0.15,
+        0.045
+      ],
+      "parent": "LegRLower",
+      "deform": true,
+      "connected": false
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL",
+      "hip": [
+        -0.13,
+        0,
+        0.95
+      ],
+      "knee": [
+        -0.13,
+        -0.035,
+        0.54
+      ],
+      "joint": [
+        -0.13,
+        0,
+        0.1
+      ],
+      "ankle": [
+        -0.13,
+        0,
+        0.1
+      ],
+      "toe": [
+        -0.13,
+        -0.15,
+        0.045
+      ],
+      "pole": [
+        -0.13,
+        -0.5,
+        0.54
+      ],
+      "phase": 0,
+      "control": "PretV1LegLTarget"
+    },
+    {
+      "name": "LegR",
+      "hip": [
+        0.13,
+        0,
+        0.95
+      ],
+      "knee": [
+        0.13,
+        -0.035,
+        0.54
+      ],
+      "joint": [
+        0.13,
+        0,
+        0.1
+      ],
+      "ankle": [
+        0.13,
+        0,
+        0.1
+      ],
+      "toe": [
+        0.13,
+        -0.15,
+        0.045
+      ],
+      "pole": [
+        0.13,
+        -0.5,
+        0.54
+      ],
+      "phase": 0.5,
+      "control": "PretV1LegRTarget"
+    }
+  ],
+  "weightGroups": 728,
+  "rigId": "obj_1317dad5dbfd48108bbf2cb17285dc19",
+  "skin": {
+    "name": "PretV1Rig",
+    "objectId": "obj_1317dad5dbfd48108bbf2cb17285dc19",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.20000000298023224,
+        "deform": false
+      },
+      {
+        "name": "Pelvis",
+        "parent": "Root",
+        "length": 0.12000006437301636,
+        "deform": true
+      },
+      {
+        "name": "Body",
+        "parent": "Pelvis",
+        "length": 0.5399999618530273,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Body",
+        "length": 0.25,
+        "deform": true
+      },
+      {
+        "name": "ArmLUpper",
+        "parent": "Body",
+        "length": 0.3479941785335541,
+        "deform": true
+      },
+      {
+        "name": "ArmLLower",
+        "parent": "ArmLUpper",
+        "length": 0.41121774911880493,
+        "deform": true
+      },
+      {
+        "name": "HandL",
+        "parent": "ArmLLower",
+        "length": 0.19241885840892792,
+        "deform": true
+      },
+      {
+        "name": "ArmRUpper",
+        "parent": "Body",
+        "length": 0.3479941785335541,
+        "deform": true
+      },
+      {
+        "name": "ArmRLower",
+        "parent": "ArmRUpper",
+        "length": 0.41121774911880493,
+        "deform": true
+      },
+      {
+        "name": "HandR",
+        "parent": "ArmRLower",
+        "length": 0.19241885840892792,
+        "deform": true
+      },
+      {
+        "name": "LegLUpper",
+        "parent": "Pelvis",
+        "length": 0.41149115562438965,
+        "deform": true
+      },
+      {
+        "name": "LegLLower",
+        "parent": "LegLUpper",
+        "length": 0.441389799118042,
+        "deform": true
+      },
+      {
+        "name": "LegLFoot",
+        "parent": "LegLLower",
+        "length": 0.15976369380950928,
+        "deform": true
+      },
+      {
+        "name": "LegRUpper",
+        "parent": "Pelvis",
+        "length": 0.41149115562438965,
+        "deform": true
+      },
+      {
+        "name": "LegRLower",
+        "parent": "LegRUpper",
+        "length": 0.441389799118042,
+        "deform": true
+      },
+      {
+        "name": "LegRFoot",
+        "parent": "LegRLower",
+        "length": 0.15976369380950928,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "PretV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-4a2aeea78609c60fa3f1cfc8",
+  "sceneRevision": 60497,
+  "limbLength": {
+    "maxRelativeError": 3.6579036050000167e-07,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "PretV1Rig",
+      "bone": "LegLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    },
+    {
+      "object": "PretV1Rig",
+      "bone": "LegRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.001,
+      "passed": true
+    }
+  ],
+  "animationSnapshotId": "snapshot-d60167c5c503c349b18ab739",
+  "weightRecipeSha256": "7f6dee49888ddaa26a20a8aa1ce533bb61e968200755e8337b4a2764902c1c61",
+  "weightValuesSha256": "6443c570cb141cd9a28e9e2ab5b3914a90611b86757447589a3b0d95a134b616"
+}

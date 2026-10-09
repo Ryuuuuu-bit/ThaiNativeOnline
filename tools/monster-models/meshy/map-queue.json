@@ -216,7 +216,7 @@
         8
       ],
       "primaryBoss": "pusom",
-      "stage": "queued",
+      "stage": "monster set complete; environment art pass queued",
       "creatures": [
         {
           "id": "pray",
@@ -247,7 +247,7 @@
           "name": "ผีหัวขาด",
           "level": 6,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "wat_ruins",
             "hunt_wat_west"
@@ -258,7 +258,7 @@
           "name": "เปรตน้อย",
           "level": 6,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "wat_ruins"
           ]
@@ -268,7 +268,7 @@
           "name": "ผีกระหัง",
           "level": 7,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "wat_sky"
           ]
@@ -278,7 +278,7 @@
           "name": "กระสือ",
           "level": 7,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "wat_stupas"
           ]
@@ -288,7 +288,7 @@
           "name": "ผีตายโหง",
           "level": 7,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "cemetery_graves",
             "wat_courtyard",
@@ -300,7 +300,7 @@
           "name": "ทหารผีเฝ้าวัด",
           "level": 8,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "wat_courtyard",
             "hunt_wat_rang_loop_9",
@@ -312,7 +312,7 @@
           "name": "ผีปู่โสม",
           "level": 10,
           "primaryBoss": true,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "wat_ubosot"
           ]

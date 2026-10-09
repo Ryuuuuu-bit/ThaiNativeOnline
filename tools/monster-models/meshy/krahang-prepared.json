@@ -1,0 +1,39 @@
+{
+  "creature": "krahang",
+  "bytes": 1414840,
+  "triangles": 12335,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.8573729991912842,
+      0,
+      -0.30077746510505676
+    ],
+    "max": [
+      0.8573729991912842,
+      1.9017630219459534,
+      0.30077746510505676
+    ]
+  },
+  "sha256": "2eec71b8ef1271656b5abc963988282b9fccc04f5a7533162efe7832f3703864",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

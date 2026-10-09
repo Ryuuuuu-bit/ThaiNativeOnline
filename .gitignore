@@ -8,3 +8,5 @@ dist/
 artifacts/
 .claude/worktrees/
 tools/monster-models/__pycache__/
+tools/monster-models/meshy/__pycache__/
+tools/monster-models/meshy/.authoring/

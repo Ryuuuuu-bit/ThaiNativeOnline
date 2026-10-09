@@ -1,0 +1,52 @@
+{
+  "type": "pusom",
+  "inputPositionsSha256": "344eb3a24f5452a0813e5c14cca4954c0e02c600ebf389bc99227e320ad17b26",
+  "baseWeightsSha256": "ea23cb56ddeaf9e1dfec45485a8e92f0cbb760160dfb202912f131422632bb0a",
+  "method": "local conserved blends across measured strained surface edges, including UV position copies; all clips require final export QA",
+  "vertices": {
+    "13529": {
+      "LegRFoot": 0.8125,
+      "LegRLower": 0.1875
+    },
+    "13548": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "13550": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "13551": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "14436": {
+      "LegRFoot": 0.8125,
+      "LegRLower": 0.1875
+    },
+    "14438": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "14439": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "14440": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    },
+    "15304": {
+      "LegRFoot": 0.8125,
+      "LegRLower": 0.1875
+    },
+    "15766": {
+      "LegRFoot": 0.8125,
+      "LegRLower": 0.1875
+    },
+    "15781": {
+      "LegRLower": 0.671875,
+      "LegRFoot": 0.328125
+    }
+  }
+}

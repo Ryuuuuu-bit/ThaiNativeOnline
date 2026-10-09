@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11eb2-dccb-76b9-a55b-129451ab98db",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/krahang.png",
+  "referenceSha256": "1e77455c48f3f389c6b0524e372967257c88ddd8bba306e608ef424da3f847d0",
+  "originalSha256": "ae6e11202ab1ad7fe58f26876bb8405782816c470f7ed950c4055dac7e52e05a",
+  "originalBytes": 12614132,
+  "originalLocalPath": "artifacts/meshy-monsters/krahang/original.glb"
+}
