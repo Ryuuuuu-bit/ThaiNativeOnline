@@ -1,0 +1,1932 @@
+{
+  "scope": "actual shipped GLB clips and production VFX in isolated review scene; not live combat evidence",
+  "errors": [],
+  "rows": [
+    {
+      "type": "chalawan",
+      "clip": "idle",
+      "view": "front",
+      "at": 0.5,
+      "file": "chalawan-front-idle.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "walk",
+      "view": "front",
+      "at": 0.3,
+      "file": "chalawan-front-walk.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "attack",
+      "view": "front",
+      "at": 0.6,
+      "file": "chalawan-front-attack.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "hurt",
+      "view": "front",
+      "at": 0.18,
+      "file": "chalawan-front-hurt.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "die",
+      "view": "front",
+      "at": 0.66,
+      "file": "chalawan-front-die.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "idle",
+      "view": "side",
+      "at": 0.5,
+      "file": "chalawan-side-idle.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "walk",
+      "view": "side",
+      "at": 0.3,
+      "file": "chalawan-side-walk.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "attack",
+      "view": "side",
+      "at": 0.6,
+      "file": "chalawan-side-attack.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "hurt",
+      "view": "side",
+      "at": 0.18,
+      "file": "chalawan-side-hurt.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "die",
+      "view": "side",
+      "at": 0.66,
+      "file": "chalawan-side-die.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "idle",
+      "view": "back",
+      "at": 0.5,
+      "file": "chalawan-back-idle.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "walk",
+      "view": "back",
+      "at": 0.3,
+      "file": "chalawan-back-walk.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "attack",
+      "view": "back",
+      "at": 0.6,
+      "file": "chalawan-back-attack.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "hurt",
+      "view": "back",
+      "at": 0.18,
+      "file": "chalawan-back-hurt.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "die",
+      "view": "back",
+      "at": 0.66,
+      "file": "chalawan-back-die.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "idle",
+      "view": "top",
+      "at": 0.5,
+      "file": "chalawan-top-idle.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "walk",
+      "view": "top",
+      "at": 0.3,
+      "file": "chalawan-top-walk.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "attack",
+      "view": "top",
+      "at": 0.6,
+      "file": "chalawan-top-attack.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "hurt",
+      "view": "top",
+      "at": 0.18,
+      "file": "chalawan-top-hurt.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "die",
+      "view": "top",
+      "at": 0.66,
+      "file": "chalawan-top-die.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "idle",
+      "view": "game",
+      "at": 0.5,
+      "file": "chalawan-game-idle.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "walk",
+      "view": "game",
+      "at": 0.3,
+      "file": "chalawan-game-walk.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "attack",
+      "view": "game",
+      "at": 0.6,
+      "file": "chalawan-game-attack.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "hurt",
+      "view": "game",
+      "at": 0.18,
+      "file": "chalawan-game-hurt.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "chalawan",
+      "clip": "die",
+      "view": "game",
+      "at": 0.66,
+      "file": "chalawan-game-die.png",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12410
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "idle",
+      "view": "front",
+      "at": 0.5,
+      "file": "bamboo_grave_3-front-idle.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "walk",
+      "view": "front",
+      "at": 0.3,
+      "file": "bamboo_grave_3-front-walk.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "attack",
+      "view": "front",
+      "at": 0.6,
+      "file": "bamboo_grave_3-front-attack.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "hurt",
+      "view": "front",
+      "at": 0.18,
+      "file": "bamboo_grave_3-front-hurt.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "die",
+      "view": "front",
+      "at": 0.66,
+      "file": "bamboo_grave_3-front-die.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "idle",
+      "view": "side",
+      "at": 0.5,
+      "file": "bamboo_grave_3-side-idle.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "walk",
+      "view": "side",
+      "at": 0.3,
+      "file": "bamboo_grave_3-side-walk.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "attack",
+      "view": "side",
+      "at": 0.6,
+      "file": "bamboo_grave_3-side-attack.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "hurt",
+      "view": "side",
+      "at": 0.18,
+      "file": "bamboo_grave_3-side-hurt.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "die",
+      "view": "side",
+      "at": 0.66,
+      "file": "bamboo_grave_3-side-die.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "idle",
+      "view": "back",
+      "at": 0.5,
+      "file": "bamboo_grave_3-back-idle.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "walk",
+      "view": "back",
+      "at": 0.3,
+      "file": "bamboo_grave_3-back-walk.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "attack",
+      "view": "back",
+      "at": 0.6,
+      "file": "bamboo_grave_3-back-attack.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "hurt",
+      "view": "back",
+      "at": 0.18,
+      "file": "bamboo_grave_3-back-hurt.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "die",
+      "view": "back",
+      "at": 0.66,
+      "file": "bamboo_grave_3-back-die.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "idle",
+      "view": "top",
+      "at": 0.5,
+      "file": "bamboo_grave_3-top-idle.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "walk",
+      "view": "top",
+      "at": 0.3,
+      "file": "bamboo_grave_3-top-walk.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "attack",
+      "view": "top",
+      "at": 0.6,
+      "file": "bamboo_grave_3-top-attack.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "hurt",
+      "view": "top",
+      "at": 0.18,
+      "file": "bamboo_grave_3-top-hurt.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "die",
+      "view": "top",
+      "at": 0.66,
+      "file": "bamboo_grave_3-top-die.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "idle",
+      "view": "game",
+      "at": 0.5,
+      "file": "bamboo_grave_3-game-idle.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "walk",
+      "view": "game",
+      "at": 0.3,
+      "file": "bamboo_grave_3-game-walk.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "attack",
+      "view": "game",
+      "at": 0.6,
+      "file": "bamboo_grave_3-game-attack.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "hurt",
+      "view": "game",
+      "at": 0.18,
+      "file": "bamboo_grave_3-game-hurt.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "clip": "die",
+      "view": "game",
+      "at": 0.66,
+      "file": "bamboo_grave_3-game-die.png",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12312
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "idle",
+      "view": "front",
+      "at": 0.5,
+      "file": "sealed_mine_3-front-idle.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "walk",
+      "view": "front",
+      "at": 0.3,
+      "file": "sealed_mine_3-front-walk.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "attack",
+      "view": "front",
+      "at": 0.6,
+      "file": "sealed_mine_3-front-attack.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "hurt",
+      "view": "front",
+      "at": 0.18,
+      "file": "sealed_mine_3-front-hurt.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "die",
+      "view": "front",
+      "at": 0.66,
+      "file": "sealed_mine_3-front-die.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "idle",
+      "view": "side",
+      "at": 0.5,
+      "file": "sealed_mine_3-side-idle.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "walk",
+      "view": "side",
+      "at": 0.3,
+      "file": "sealed_mine_3-side-walk.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "attack",
+      "view": "side",
+      "at": 0.6,
+      "file": "sealed_mine_3-side-attack.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "hurt",
+      "view": "side",
+      "at": 0.18,
+      "file": "sealed_mine_3-side-hurt.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "die",
+      "view": "side",
+      "at": 0.66,
+      "file": "sealed_mine_3-side-die.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "idle",
+      "view": "back",
+      "at": 0.5,
+      "file": "sealed_mine_3-back-idle.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "walk",
+      "view": "back",
+      "at": 0.3,
+      "file": "sealed_mine_3-back-walk.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "attack",
+      "view": "back",
+      "at": 0.6,
+      "file": "sealed_mine_3-back-attack.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "hurt",
+      "view": "back",
+      "at": 0.18,
+      "file": "sealed_mine_3-back-hurt.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "die",
+      "view": "back",
+      "at": 0.66,
+      "file": "sealed_mine_3-back-die.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "idle",
+      "view": "top",
+      "at": 0.5,
+      "file": "sealed_mine_3-top-idle.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "walk",
+      "view": "top",
+      "at": 0.3,
+      "file": "sealed_mine_3-top-walk.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "attack",
+      "view": "top",
+      "at": 0.6,
+      "file": "sealed_mine_3-top-attack.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "hurt",
+      "view": "top",
+      "at": 0.18,
+      "file": "sealed_mine_3-top-hurt.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "die",
+      "view": "top",
+      "at": 0.66,
+      "file": "sealed_mine_3-top-die.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "idle",
+      "view": "game",
+      "at": 0.5,
+      "file": "sealed_mine_3-game-idle.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "walk",
+      "view": "game",
+      "at": 0.3,
+      "file": "sealed_mine_3-game-walk.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "attack",
+      "view": "game",
+      "at": 0.6,
+      "file": "sealed_mine_3-game-attack.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "hurt",
+      "view": "game",
+      "at": 0.18,
+      "file": "sealed_mine_3-game-hurt.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "clip": "die",
+      "view": "game",
+      "at": 0.66,
+      "file": "sealed_mine_3-game-die.png",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 10,
+        "geometries": 11,
+        "textures": 16,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 11,
+        "geometries": 11,
+        "textures": 15,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 8,
+        "geometries": 9,
+        "textures": 16,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "buffalo",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 9,
+        "geometries": 9,
+        "textures": 15,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 8,
+        "geometries": 10,
+        "textures": 19,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "takian",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 9,
+        "geometries": 10,
+        "textures": 18,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 9,
+        "geometries": 11,
+        "textures": 19,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "takian",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 10,
+        "geometries": 11,
+        "textures": 18,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 8,
+        "geometries": 11,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 9,
+        "geometries": 11,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 9,
+        "geometries": 12,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "pusom",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 10,
+        "geometries": 12,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 10,
+        "geometries": 13,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 11,
+        "geometries": 13,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 9,
+        "geometries": 12,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "chalawan",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 10,
+        "geometries": 12,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 8,
+        "geometries": 11,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 9,
+        "geometries": 11,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 9,
+        "geometries": 12,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 10,
+        "geometries": 12,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 10,
+        "geometries": 13,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 11,
+        "geometries": 13,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 8,
+        "geometries": 11,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 9,
+        "geometries": 11,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 20,
+        "geometries": 19,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 21,
+        "geometries": 19,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 19,
+        "geometries": 18,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 20,
+        "geometries": 18,
+        "textures": 21,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 21,
+        "geometries": 26,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 22,
+        "geometries": 27,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 19,
+        "geometries": 24,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 20,
+        "geometries": 25,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 17,
+        "geometries": 31,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 18,
+        "geometries": 32,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 16,
+        "geometries": 30,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 17,
+        "geometries": 31,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 22,
+        "geometries": 38,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 23,
+        "geometries": 38,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 20,
+        "geometries": 36,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 21,
+        "geometries": 36,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 23,
+        "geometries": 46,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 24,
+        "geometries": 47,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 22,
+        "geometries": 45,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 23,
+        "geometries": 46,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "stage": "windup",
+      "check": {
+        "draws": 19,
+        "geometries": 51,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 0,
+      "stage": "impact",
+      "check": {
+        "draws": 20,
+        "geometries": 52,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "stage": "windup",
+      "check": {
+        "draws": 20,
+        "geometries": 52,
+        "textures": 23,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "index": 1,
+      "stage": "impact",
+      "check": {
+        "draws": 21,
+        "geometries": 53,
+        "textures": 22,
+        "markerCount": 1,
+        "overflow": false
+      }
+    }
+  ]
+}

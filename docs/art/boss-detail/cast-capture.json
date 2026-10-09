@@ -1,0 +1,41 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "at": 0.35,
+      "view": "front",
+      "file": "bamboo_grave_3-cast-035-front.png",
+      "method": "production controller stepped at24Hz"
+    },
+    {
+      "at": 0.35,
+      "view": "side",
+      "file": "bamboo_grave_3-cast-035-side.png",
+      "method": "production controller stepped at24Hz"
+    },
+    {
+      "at": 0.5,
+      "view": "front",
+      "file": "bamboo_grave_3-cast-05-front.png",
+      "method": "production controller stepped at24Hz"
+    },
+    {
+      "at": 0.5,
+      "view": "side",
+      "file": "bamboo_grave_3-cast-05-side.png",
+      "method": "production controller stepped at24Hz"
+    },
+    {
+      "at": 0.65,
+      "view": "front",
+      "file": "bamboo_grave_3-cast-065-front.png",
+      "method": "production controller stepped at24Hz"
+    },
+    {
+      "at": 0.65,
+      "view": "side",
+      "file": "bamboo_grave_3-cast-065-side.png",
+      "method": "production controller stepped at24Hz"
+    }
+  ]
+}

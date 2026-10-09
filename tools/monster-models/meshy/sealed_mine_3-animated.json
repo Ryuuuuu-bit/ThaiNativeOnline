@@ -1,0 +1,14 @@
+{
+  "type": "sealed_mine_3",
+  "bytes": 1460000,
+  "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+  "triangles": 12495,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

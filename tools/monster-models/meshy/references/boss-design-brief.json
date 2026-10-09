@@ -1,0 +1,22 @@
+{
+  "note": "Design specification for reference illustration; no claim of exact imagegen prompt replay",
+  "provider3D": "Meshy image-to-3d",
+  "budget": {
+    "spent": 105,
+    "remaining": 30
+  },
+  "references": [
+    {
+      "type": "chalawan",
+      "design": "Mature Thai royal humanoid crocodile king; two arms, two legs, five digits; human face with jade scales and fangs; Thai crown, gold collar, teal wrapped trousers, crimson cloth; one continuous crocodile tail; no weapon"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "design": "Thai elder ghost, white hair and beard, bamboo crown, green mantle, ochre sash, amulets, wrapped trousers, sandals; two arms, two legs, open five-finger ritual hands; no staff"
+    },
+    {
+      "type": "sealed_mine_3",
+      "design": "Thai stone yaksha, ivory tusks, crown, broad cracked grey stone torso, jade seal, gold braces, burgundy wrapped trousers and ochre drape, five-toed bare feet and two open five-finger hands; no hammer"
+    }
+  ]
+}

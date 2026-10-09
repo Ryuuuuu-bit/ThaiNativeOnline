@@ -13,7 +13,7 @@ import { spawnSync } from 'node:child_process';
 import { Quaternion, Vector3 } from 'three';
 
 const name = process.argv[2];
-if (!['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc'].includes(name)) throw Error('Unknown study creature');
+if (!['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3'].includes(name)) throw Error('Unknown study creature');
 const dest = new URL('./', import.meta.url), tmp = new URL(`../../../artifacts/meshy-monsters/${name}/`, import.meta.url);
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const correctedInput=process.argv[3];

@@ -7,7 +7,7 @@ import fs from 'node:fs/promises';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
 await MeshoptDecoder.ready;
 const types=process.argv.slice(2).length?process.argv.slice(2):['boar','fowl','crab'];
-if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc'].includes(type)))throw Error('Unknown creature');
+if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3'].includes(type)))throw Error('Unknown creature');
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 await fs.mkdir(`${outputRoot}/input`, { recursive: true });
 for (const type of types) {
@@ -21,6 +21,25 @@ for (const type of types) {
   const root = doc.getRoot(), scene = root.listScenes()[0];
   const source = root.listNodes().find(n => n.getMesh());
   for (const p of source.getMesh().listPrimitives()) transformPrimitive(p, source.getWorldMatrix());
+  if(['chalawan','bamboo_grave_3','sealed_mine_3'].includes(type)) {
+    // Positions already include the source world transform. Measuring the scene
+    // here would apply gltfpack's quantization scale a second time.
+    let minY=Infinity,maxY=-Infinity;
+    for(const p of source.getMesh().listPrimitives()) {
+      const a=p.getAttribute('POSITION');for(let i=0;i<a.getCount();i++){const y=a.getElement(i,[])[1];minY=Math.min(minY,y);maxY=Math.max(maxY,y);}
+    }
+    const scale=1.9/(maxY-minY);
+    for(const p of source.getMesh().listPrimitives()) {
+      const a=p.getAttribute('POSITION');for(let i=0;i<a.getCount();i++) {
+        const v=a.getElement(i,[]).map(v=>v*scale);
+        // Chalawan's large tail moves its bounding-box centre away from the
+        // standing body. Measured foot/body origin keeps the collision root
+        // beneath the humanoid, rather than beneath the tail's midpoint.
+        if(type==='chalawan'){v[0]+=.095;v[2]-=.775;}
+        a.setElement(i,v);
+      }
+    }
+  }
   const node = doc.createNode(`${type}Source`).setMesh(source.getMesh());
   for (const child of scene.listChildren()) scene.removeChild(child);
   scene.addChild(node);

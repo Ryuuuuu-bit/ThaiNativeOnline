@@ -1,0 +1,39 @@
+{
+  "creature": "sealed_mine_3",
+  "bytes": 1404380,
+  "triangles": 12495,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5785885155200958,
+      0,
+      -0.23160499334335327
+    ],
+    "max": [
+      0.5785885155200958,
+      1.9020580649375916,
+      0.23160499334335327
+    ]
+  },
+  "sha256": "ebbda91bed0ff8577ad277be3532243d73e68bb3681a170901ac8ff8579fbb94",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

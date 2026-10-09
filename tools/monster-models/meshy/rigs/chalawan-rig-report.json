@@ -1,0 +1,825 @@
+{
+  "type": "chalawan",
+  "taxon": "humanoid-biped",
+  "version": "boss-v1",
+  "rigName": "ChalawanBossV1Rig",
+  "surfaceName": "ChalawanBossV1Surface",
+  "prefix": "ChalawanBossV1",
+  "rigId": "obj_cdf08e0b6f61422cb15f4aea463222d9",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tail": [
+        0.0,
+        0.0,
+        0.1
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Pelvis",
+      "head": [
+        0.0,
+        0.0,
+        0.89
+      ],
+      "tail": [
+        0.0,
+        0.0,
+        1.01
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0.0,
+        0.0,
+        1.01
+      ],
+      "tail": [
+        0.0,
+        0.0,
+        1.57
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        0.0,
+        0.0,
+        1.57
+      ],
+      "tail": [
+        0.0,
+        0.0,
+        1.79
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegLUpper",
+      "head": [
+        0.18,
+        0.0,
+        0.89
+      ],
+      "tail": [
+        0.18,
+        -0.035,
+        0.48
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLLower",
+      "head": [
+        0.18,
+        -0.035,
+        0.48
+      ],
+      "tail": [
+        0.27,
+        0.03,
+        0.12
+      ],
+      "parent": "LegLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegLFoot",
+      "head": [
+        0.27,
+        0.03,
+        0.12
+      ],
+      "tail": [
+        0.27,
+        -0.17,
+        0.08
+      ],
+      "parent": "LegLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        0.245,
+        0.0,
+        1.5
+      ],
+      "tail": [
+        0.44,
+        -0.015,
+        1.31
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        0.44,
+        -0.015,
+        1.31
+      ],
+      "tail": [
+        0.62,
+        -0.04,
+        1.14
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        0.62,
+        -0.04,
+        1.14
+      ],
+      "tail": [
+        0.75,
+        -0.08,
+        1.06
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegRUpper",
+      "head": [
+        -0.18,
+        0.0,
+        0.89
+      ],
+      "tail": [
+        -0.18,
+        -0.035,
+        0.48
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRLower",
+      "head": [
+        -0.18,
+        -0.035,
+        0.48
+      ],
+      "tail": [
+        -0.27,
+        0.03,
+        0.12
+      ],
+      "parent": "LegRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegRFoot",
+      "head": [
+        -0.27,
+        0.03,
+        0.12
+      ],
+      "tail": [
+        -0.27,
+        -0.17,
+        0.08
+      ],
+      "parent": "LegRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        -0.245,
+        0.0,
+        1.5
+      ],
+      "tail": [
+        -0.44,
+        -0.015,
+        1.31
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        -0.44,
+        -0.015,
+        1.31
+      ],
+      "tail": [
+        -0.62,
+        -0.04,
+        1.14
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        -0.62,
+        -0.04,
+        1.14
+      ],
+      "tail": [
+        -0.75,
+        -0.08,
+        1.06
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "TailBase",
+      "head": [
+        0.0,
+        0.12,
+        0.9
+      ],
+      "tail": [
+        0.155,
+        0.5,
+        0.765
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "TailMid",
+      "head": [
+        0.155,
+        0.5,
+        0.765
+      ],
+      "tail": [
+        0.53,
+        1.1,
+        0.28
+      ],
+      "parent": "TailBase",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "TailTip",
+      "head": [
+        0.53,
+        1.1,
+        0.28
+      ],
+      "tail": [
+        1.01,
+        1.82,
+        0.055
+      ],
+      "parent": "TailMid",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL",
+      "pole": [
+        0.27,
+        -0.55,
+        0.45
+      ],
+      "phase": 0,
+      "upper": "LegLUpper",
+      "lower": "LegLLower",
+      "foot": "LegLFoot",
+      "hip": [
+        0.18,
+        0.0,
+        0.89
+      ],
+      "knee": [
+        0.18,
+        -0.035,
+        0.48
+      ],
+      "joint": [
+        0.27,
+        0.03,
+        0.12
+      ],
+      "toe": [
+        0.27,
+        -0.17,
+        0.08
+      ],
+      "control": "ChalawanBossV1LegLTarget",
+      "poleControl": "ChalawanBossV1LegLPole"
+    },
+    {
+      "name": "LegR",
+      "pole": [
+        -0.27,
+        -0.55,
+        0.45
+      ],
+      "phase": 0.5,
+      "upper": "LegRUpper",
+      "lower": "LegRLower",
+      "foot": "LegRFoot",
+      "hip": [
+        -0.18,
+        0.0,
+        0.89
+      ],
+      "knee": [
+        -0.18,
+        -0.035,
+        0.48
+      ],
+      "joint": [
+        -0.27,
+        0.03,
+        0.12
+      ],
+      "toe": [
+        -0.27,
+        -0.17,
+        0.08
+      ],
+      "control": "ChalawanBossV1LegRTarget",
+      "poleControl": "ChalawanBossV1LegRPole"
+    }
+  ],
+  "arms": [
+    {
+      "name": "ArmL",
+      "upper": "ArmLUpper",
+      "lower": "ArmLLower",
+      "hand": "HandL",
+      "shoulder": [
+        0.245,
+        0.0,
+        1.5
+      ],
+      "elbow": [
+        0.44,
+        -0.015,
+        1.31
+      ],
+      "wrist": [
+        0.62,
+        -0.04,
+        1.14
+      ],
+      "tip": [
+        0.75,
+        -0.08,
+        1.06
+      ]
+    },
+    {
+      "name": "ArmR",
+      "upper": "ArmRUpper",
+      "lower": "ArmRLower",
+      "hand": "HandR",
+      "shoulder": [
+        -0.245,
+        0.0,
+        1.5
+      ],
+      "elbow": [
+        -0.44,
+        -0.015,
+        1.31
+      ],
+      "wrist": [
+        -0.62,
+        -0.04,
+        1.14
+      ],
+      "tip": [
+        -0.75,
+        -0.08,
+        1.06
+      ]
+    }
+  ],
+  "tail": [
+    "TailBase",
+    "TailMid",
+    "TailTip"
+  ],
+  "inputHashes": {
+    "source": "883d9bb44028f99d9ddcab334d137215bc75ca820d2db2f33345bce282b82516",
+    "positions": "781e92a14c8981916265a2f2e26ac10609851744baf3a4d2bedc80d6b9ca2434",
+    "indices": "b8b3f1dceb39769fd92d08a142b937ddc700b2d7bdb80bfe7ce3cf156d2e7730",
+    "anatomy": "2b34a1a0d6b0c4ec239862fd7eb5e85609e4d5ac9ae48f4a177e1c13937775b1"
+  },
+  "weightsAlgorithmSha256": "b7eeca98c1b368661e7466a1112097122b7178102769c03684fff21a2b4a8ce5",
+  "appliedWeightsSha256": "133539306e11e360b7bba2f82e343ff222381d59e35352107b1169b8c82babab",
+  "weights": {
+    "vertices": 19774,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "HandR": 361,
+      "ArmRLower": 529,
+      "ArmRUpper": 675,
+      "Body": 4489,
+      "LegRFoot": 620,
+      "Head": 4922,
+      "LegRLower": 710,
+      "LegRUpper": 989,
+      "Pelvis": 3224,
+      "TailBase": 1786,
+      "TailMid": 2199,
+      "LegLUpper": 1044,
+      "ArmLUpper": 1660,
+      "LegLLower": 739,
+      "LegLFoot": 657,
+      "ArmLLower": 544,
+      "TailTip": 1845,
+      "HandL": 366
+    },
+    "weightGroups": 512
+  },
+  "skin": {
+    "name": "ChalawanBossV1Rig",
+    "objectId": "obj_cdf08e0b6f61422cb15f4aea463222d9",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.10000000149011612,
+        "deform": false
+      },
+      {
+        "name": "Pelvis",
+        "parent": "Root",
+        "length": 0.12000000476837158,
+        "deform": true
+      },
+      {
+        "name": "Body",
+        "parent": "Pelvis",
+        "length": 0.5600000619888306,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Body",
+        "length": 0.21999993920326233,
+        "deform": true
+      },
+      {
+        "name": "ArmLUpper",
+        "parent": "Body",
+        "length": 0.27267202734947205,
+        "deform": true
+      },
+      {
+        "name": "ArmLLower",
+        "parent": "ArmLUpper",
+        "length": 0.24884730577468872,
+        "deform": true
+      },
+      {
+        "name": "HandL",
+        "parent": "ArmLLower",
+        "length": 0.15779738128185272,
+        "deform": true
+      },
+      {
+        "name": "ArmRUpper",
+        "parent": "Body",
+        "length": 0.27267202734947205,
+        "deform": true
+      },
+      {
+        "name": "ArmRLower",
+        "parent": "ArmRUpper",
+        "length": 0.24884730577468872,
+        "deform": true
+      },
+      {
+        "name": "HandR",
+        "parent": "ArmRLower",
+        "length": 0.15779738128185272,
+        "deform": true
+      },
+      {
+        "name": "LegLUpper",
+        "parent": "Pelvis",
+        "length": 0.41149115562438965,
+        "deform": true
+      },
+      {
+        "name": "LegLLower",
+        "parent": "LegLUpper",
+        "length": 0.3767291307449341,
+        "deform": true
+      },
+      {
+        "name": "LegLFoot",
+        "parent": "LegLLower",
+        "length": 0.20395828783512115,
+        "deform": true
+      },
+      {
+        "name": "LegRUpper",
+        "parent": "Pelvis",
+        "length": 0.41149115562438965,
+        "deform": true
+      },
+      {
+        "name": "LegRLower",
+        "parent": "LegRUpper",
+        "length": 0.3767291307449341,
+        "deform": true
+      },
+      {
+        "name": "LegRFoot",
+        "parent": "LegRLower",
+        "length": 0.20395828783512115,
+        "deform": true
+      },
+      {
+        "name": "TailBase",
+        "parent": "Pelvis",
+        "length": 0.4320301115512848,
+        "deform": true
+      },
+      {
+        "name": "TailMid",
+        "parent": "TailBase",
+        "length": 0.8578169941902161,
+        "deform": true
+      },
+      {
+        "name": "TailTip",
+        "parent": "TailMid",
+        "length": 0.894105851650238,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "ChalawanBossV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-8786431aa6207f6450173334",
+  "sceneRevision": 13131,
+  "animationSnapshotId": "snapshot-8482fa696885ac8db82d81dc",
+  "validation": {
+    "limbLength": {
+      "maxRelativeError": 3.880239767156836e-06,
+      "limit": 0.005,
+      "passed": true
+    },
+    "footDrift": {
+      "idle": [
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "attack": [
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "hurt": [
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "die": [
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 1.689660435002074e-06,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "ChalawanBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 1.6715265901443138e-06,
+          "limit": 0.001,
+          "passed": true
+        }
+      ]
+    },
+    "floor": {
+      "idle": {
+        "minimumZ": -1.0893312207826966e-07,
+        "floorZ": 0.0,
+        "penetration": 1.0893312207826966e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "walk": {
+        "minimumZ": -1.0893312207826966e-07,
+        "floorZ": 0.0,
+        "penetration": 1.0893312207826966e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "attack": {
+        "minimumZ": -1.0893312207826966e-07,
+        "floorZ": 0.0,
+        "penetration": 1.0893312207826966e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "hurt": {
+        "minimumZ": -1.0893312207826966e-07,
+        "floorZ": 0.0,
+        "penetration": 1.0893312207826966e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "die": {
+        "minimumZ": -1.0893312207826966e-07,
+        "floorZ": 0.0,
+        "penetration": 1.0893312207826966e-07,
+        "limit": 0.01,
+        "passed": true
+      }
+    }
+  },
+  "calibration": {
+    "restGlbSha256": "fc6c516d87969c003ac296c4cddc7646dff5ab9baa043f472d6ba5bb95513a1d",
+    "anatomySha256": "2b34a1a0d6b0c4ec239862fd7eb5e85609e4d5ac9ae48f4a177e1c13937775b1",
+    "legs": {
+      "LegL": {
+        "poleAngle": -1.5132633206371822,
+        "rotation": [
+          -2.9441946126251035,
+          -2.138316764081759e-06,
+          -4.321337115935296e-07
+        ]
+      },
+      "LegR": {
+        "poleAngle": -1.6283293329526112,
+        "rotation": [
+          -2.9441946126251035,
+          2.138316764081759e-06,
+          4.321337115935296e-07
+        ]
+      }
+    },
+    "arms": {
+      "ArmL": {
+        "upperAxis": 2,
+        "upperSign": -1,
+        "upperRestRotation": [
+          0,
+          0,
+          0.24
+        ],
+        "lowerAxis": 2,
+        "lowerSign": -1,
+        "lowerRestRotation": [
+          0,
+          0,
+          -0.04
+        ]
+      },
+      "ArmR": {
+        "upperAxis": 2,
+        "upperSign": 1,
+        "upperRestRotation": [
+          0,
+          0,
+          -0.24
+        ],
+        "lowerAxis": 2,
+        "lowerSign": 1,
+        "lowerRestRotation": [
+          0,
+          0,
+          0.04
+        ]
+      }
+    },
+    "rootDownLocal": [
+      0,
+      -1,
+      0
+    ],
+    "tailUpLocal": [
+      0.05964570854939977,
+      -0.3124778666314962,
+      0.9480506169593841
+    ],
+    "tailRotationAxes": {
+      "TailBase": [
+        0.05964570854939977,
+        -0.3124778666314962,
+        0.9480506169593841
+      ],
+      "TailMid": [
+        0.1454372102907675,
+        -0.5653884987175649,
+        0.8119013877194307
+      ],
+      "TailTip": [
+        0.07483470495604994,
+        -0.2516478616846174,
+        0.96492130282407
+      ]
+    }
+  },
+  "clips": {
+    "idle": [
+      1,
+      49
+    ],
+    "walk": [
+      51,
+      75
+    ],
+    "attack": [
+      81,
+      105
+    ],
+    "hurt": [
+      111,
+      121
+    ],
+    "die": [
+      131,
+      155
+    ]
+  },
+  "framesPerSecond": 24,
+  "runtimeClipExtractionPending": true,
+  "animationAlgorithmSha256": "bc51599bbbe818de284f04ee473a91196298a0787f7d5ace1ae75843b7ba0119",
+  "requiresFreshExportAndQA": true,
+  "motionRevisionAlgorithmSha256": "7aed730947626aba7b94d681a26fe7ec3a0369e80e488904cfa3971738f13bc9"
+}

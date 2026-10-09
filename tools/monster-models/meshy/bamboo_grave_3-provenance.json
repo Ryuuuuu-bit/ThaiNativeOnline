@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11fb1-2334-721c-acea-c889ddd35178",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": "a-pose"
+  },
+  "reference": "references/bamboo_grave_3.png",
+  "referenceSha256": "31543ccdc92bfaa8faeb33212e38fe1fd2f84901f54898cdeb5032dcbab1d0db",
+  "originalSha256": "fbd303e8b815a757e3ad79e1de8de56562eae50aed9aeae344efa981af317886",
+  "originalBytes": 12574548,
+  "originalLocalPath": "artifacts/meshy-monsters/bamboo_grave_3/original.glb"
+}

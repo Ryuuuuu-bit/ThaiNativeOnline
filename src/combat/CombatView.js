@@ -6,6 +6,8 @@ import { makeMonsterModel } from './MonsterModels.js';
 import { makeMonsterSprite, preloadMonsterSprites, MONSTER_SPRITES } from './MonsterSprites.js';
 import { seedOf } from '../core/seed.js';
 import { BossTelegraphs } from './BossTelegraphs.js';
+import { disposeCombatModel } from './CombatResources.js';
+import { applyMonsterFeedback } from './MonsterFeedback.js';
 
 // How monsters are drawn: 'pixel' (RO-style sprite billboards, src/combat/MonsterSprites.js) or
 // '3d' (Blender GLB models / built meshes). Per device (src/ui/viewPrefs.js); CombatView.restyle().
@@ -233,6 +235,7 @@ const BUILDERS = {
   lizard: def => quadruped(def, { low: true }),
   monkey, spirit, bird, snake, crab, orb,
 };
+export const makeMonsterFallback = def => (BUILDERS[def.shape] || quadruped)(def);
 
 // Shots (CombatView.projectile). An arrow points along +z, so lookAt aims it down its flight.
 function arrowMesh() {
@@ -305,15 +308,16 @@ export class CombatView {
   }
 
   // Redraw every monster in another style (the settings' "โมเดลมอนสเตอร์").
+  disposeModel(group) { disposeCombatModel(group); }
   restyle(style) {
     MONSTER_STYLE = style === '3d' ? '3d' : 'pixel';
     if (MONSTER_STYLE === 'pixel') preloadMonsterSprites(this.combat.monsters.map(m => m.type));   // the map's sheets, before its monsters wake
-    for (const [id, v] of this.views) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
+    for (const [id, v] of this.views) { this.root.remove(v.group); disposeCombatModel(v.group); this.views.delete(id); }
     for (const m of this.combat.monsters) if (m.alive) this.ensure(m);
   }
   ensure(m) {
     if (this.views.has(m.id)) return this.views.get(m.id);
-    const fallback = (BUILDERS[m.def.shape] || quadruped)(m.def);
+    const fallback = makeMonsterFallback(m.def);
     const pixel = MONSTER_STYLE === 'pixel' && MONSTER_SPRITES[m.type];
     const group = pixel ? makeMonsterSprite(m.type, m.def, m.id, fallback) : makeMonsterModel(m.type, fallback, m.id);
     if (!pixel) group.scale.setScalar(m.def.size);   // a sprite carries its own height
@@ -396,7 +400,7 @@ export class CombatView {
     if ((this.pruneAt = (this.pruneAt ?? 0) + dt) > 2) {
       this.pruneAt = 0;
       const live = new Set(this.combat.monsters);
-      for (const [id, v] of this.views) if (!live.has(v.monster) && !v.dying) { this.root.remove(v.group); v.group.traverse(o => { if (o.isMesh) { o.geometry?.dispose(); o.material?.dispose?.(); } }); this.views.delete(id); }
+      for (const [id, v] of this.views) if (!live.has(v.monster) && !v.dying) { this.root.remove(v.group); disposeCombatModel(v.group); this.views.delete(id); }
     }
     for (const v of this.views.values()) {
       const m = v.monster, g = v.group;
@@ -421,13 +425,7 @@ export class CombatView {
       v.fade = Math.min(1, v.fade + dt * 2);
       const slowed = m.debuffs.some(d => d.slow), cursed = m.debuffs.some(d => d.dot), stunned = m.debuffs.some(d => d.stun);
       g.traverse(o => {
-        if (!o.isMesh || !o.material.emissive) return;
-        o.material.userData.base ??= o.material.emissive.clone();
-        if (v.flash > 0) o.material.emissive.set('#ff6040');
-        else if (cursed) o.material.emissive.set('#4a1a5e');
-        else if (stunned) o.material.emissive.set('#4a4214');
-        else if (slowed) o.material.emissive.set('#1e3e58');
-        else o.material.emissive.copy(o.material.userData.base);
+        if (o.isMesh) applyMonsterFeedback(o.material, { flash: v.flash, cursed, stunned, slowed });
       });
     }
     if (this.pet) {

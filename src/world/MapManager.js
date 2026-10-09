@@ -116,7 +116,7 @@ export class MapManager {
       const view = rpg.view.views.get(m.id);
       if (!view) continue;
       view.dying = 0; view.group.visible = false;
-      view.group.traverse(o => { o.geometry?.dispose(); if (o.isMesh) o.material.dispose(); });
+      rpg.view.disposeModel(view.group);
     }
     if (combat.target && combat.target.spawn.map !== mapId) combat.setTarget(null);
     combat.cancelPending();
