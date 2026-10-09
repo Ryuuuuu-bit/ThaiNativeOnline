@@ -100,3 +100,23 @@ Review images: `docs/art/classes/shaman/review/remove-bell-before.png`,
 jobs or credits were used. Reapplying to a cleaned asset fails with a clear error
 rather than silently selecting a different region.
 
+
+### Both-hand correction — 2026-10-10
+
+The supplied source contains two mirrored hanging hand bells, each 110 triangles.
+The first cleanup removed the raised right-hand bell only. Cleanup now checks
+both rest-pose regions (right x -0.31..-0.26; left x 0.263..0.314), with the same
+y bounds and contact cutoff described above. Both dangling stems and bell heads
+are removed. Red wrist wraps and the separate round waist gourd remain intact.
+
+Current runtime: 9,783 triangles, 1,531,624 bytes. Original source: 10,003 triangles;
+full regeneration removes 220 triangles. On the previously cleaned runtime, only
+110 left-hand triangles remain to remove. Each side must contain exactly 0 or 110
+selected triangles; a different count fails before writing. An already-clean file
+is unchanged, allowing repeated pipeline runs. The composer automatically runs
+this cleanup, so regeneration cannot restore either bell.
+
+Both-hand, front, back and side before/after evidence is in
+`docs/art/classes/shaman/review/complete/`. All 15 clips retain their original
+animation bytes; indexed triangles are absent from both bell regions throughout
+playback. No Tripo generation, prompts or credits were used.
