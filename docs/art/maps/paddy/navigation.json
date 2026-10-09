@@ -1,0 +1,56 @@
+{
+  "samples": 2745,
+  "mismatches": [],
+  "arrivals": [
+    {
+      "x": 0,
+      "z": -130,
+      "facing": 3.141592653589793,
+      "standable": true
+    },
+    {
+      "x": -1.6,
+      "z": -282,
+      "facing": 0,
+      "standable": true
+    }
+  ],
+  "routes": [
+    {
+      "id": "first-hunt",
+      "clear": true
+    },
+    {
+      "id": "orchard-loop",
+      "clear": true
+    },
+    {
+      "id": "meadow-link",
+      "clear": true
+    },
+    {
+      "id": "banyan-link",
+      "clear": true
+    }
+  ],
+  "portals": [
+    {
+      "id": "warp_to_city",
+      "to": "city",
+      "at": {
+        "x": 0,
+        "z": -122.5,
+        "radius": 2.2
+      }
+    },
+    {
+      "id": "path_to_forest",
+      "to": "deep_forest",
+      "at": {
+        "x": -0.9,
+        "z": -290,
+        "radius": 2.4
+      }
+    }
+  ]
+}

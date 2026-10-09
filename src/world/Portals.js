@@ -87,6 +87,20 @@ export class Portals {
       }
       add(new THREE.ConeGeometry(.22,.8,6),trim,0,5.85);
       const crest=add(new THREE.OctahedronGeometry(.3),trim,0,4.75,.42);crest.scale.set(.7,1.3,.4);
+      if(map.id==='paddy') {
+        // Woven field-gate cloth and marigolds sit above the walk-through
+        // clearance; pillar anchors and trigger geometry remain shared.
+        const cloth=new THREE.MeshLambertMaterial({color:portal.to==='city'?'#bc9a59':'#617b73',side:THREE.DoubleSide});
+        const flower=new THREE.MeshLambertMaterial({color:'#d8b857'});
+        for(const side of [-1,1]) {
+          add(new THREE.BoxGeometry(.24,1.05,.055),cloth,side*offset,3.2,.36);
+          for(let i=0;i<6;i++)add(new THREE.IcosahedronGeometry(.095,0),flower,side*(offset-.23),3.78-i*.12,.31);
+        }
+        for(let i=0;i<7;i++) {
+          const x=(i-3)*.65, y=3.9+.28*Math.abs(i-3)/3;
+          add(new THREE.BoxGeometry(.14,.36,.025),cloth,x,y,.4);
+        }
+      }
       const flat=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2);
       const ground=add(flat,glowMaterial(ringTexture(),light),0,.07);ground.scale.setScalar(radius*2.5);
       const runes=add(flat,glowMaterial(runeTexture(),light),0,.09);runes.scale.setScalar(radius*2.1);
@@ -99,16 +113,17 @@ export class Portals {
       const destination=MAPS[portal.to], levels=destination.levels;
       const caption=levels ? `จุดล่า Lv.${levels[0]}–${levels[1]} · เดินผ่านเพื่อวาร์ป` : 'เขตปลอดภัย · เดินผ่านเพื่อวาร์ป';
       const label=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTexture(caption,destination.name),transparent:true,depthWrite:false,fog:false}));
-      label.scale.set(6.4,2,1);label.position.y=7;group.add(label);
-      root.add(group); this.items.push({at,ground,runes,label});
+      const compact=map.id==='paddy', labelY=compact?6.6:7;
+      label.scale.set(compact?4.6:6.4,compact?1.44:2,1);label.position.y=labelY;group.add(label);
+      root.add(group); this.items.push({at,ground,runes,label,labelY,range:compact?22:38});
     }
   }
   update(t, player) {
-    for(const {at,ground,runes,label} of this.items) {
+    for(const {at,ground,runes,label,labelY,range} of this.items) {
       ground.material.opacity=.48+.12*Math.sin(t*1.5);
       runes.rotation.y=t*.12;runes.material.opacity=.5+.1*Math.sin(t*1.8);
-      label.position.y=7+Math.sin(t)*.05;
-      label.visible=!player || Math.hypot(at.x-player.x,at.z-player.z)<38;
+      label.position.y=labelY+Math.sin(t)*.05;
+      label.visible=!player || Math.hypot(at.x-player.x,at.z-player.z)<range;
     }
   }
 }

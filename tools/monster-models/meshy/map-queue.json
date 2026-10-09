@@ -1,0 +1,930 @@
+{
+  "workflow": "Complete one map set: environment, existing monster roster, boss, portals, anatomy/animation review, gameplay camera QA, PR.",
+  "maps": [
+    {
+      "id": "paddy",
+      "name": "ทุ่งนาข้าว",
+      "levels": [
+        1,
+        3
+      ],
+      "primaryBoss": "buffalo",
+      "stage": "environment pass 1; boss model pending",
+      "creatures": [
+        {
+          "id": "boar",
+          "name": "หมูป่า",
+          "level": 1,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "orchard_boars",
+            "grassland"
+          ]
+        },
+        {
+          "id": "fowl",
+          "name": "ไก่ป่า",
+          "level": 1,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "rice_fowl",
+            "hunt_rice_edge"
+          ]
+        },
+        {
+          "id": "cobra",
+          "name": "งูเห่านา",
+          "level": 2,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "paddy_channels"
+          ]
+        },
+        {
+          "id": "crab",
+          "name": "ปูนา",
+          "level": 2,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "orchard_boars",
+            "orchard_monkeys",
+            "rice_fowl",
+            "paddy_channels",
+            "hunt_paddy_loop_7",
+            "hunt_rice_edge"
+          ]
+        },
+        {
+          "id": "monkey",
+          "name": "ลิงกัง",
+          "level": 2,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "orchard_monkeys",
+            "grassland",
+            "hunt_banyan"
+          ]
+        },
+        {
+          "id": "phibpa",
+          "name": "ผีป่า",
+          "level": 3,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "grassland",
+            "hunt_banyan"
+          ]
+        },
+        {
+          "id": "buffalo",
+          "name": "ควายป่า",
+          "level": 4,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "buffalo_meadow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deep_forest",
+      "name": "ป่าลึก",
+      "levels": [
+        2,
+        5
+      ],
+      "primaryBoss": "takian",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "monkey",
+          "name": "ลิงกัง",
+          "level": 2,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "forest_edge",
+            "dense_forest"
+          ]
+        },
+        {
+          "id": "dhole",
+          "name": "หมาไน",
+          "level": 3,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "dhole_trail"
+          ]
+        },
+        {
+          "id": "phibpa",
+          "name": "ผีป่า",
+          "level": 3,
+          "primaryBoss": false,
+          "status": "animated model integrated; ready for review",
+          "areas": [
+            "forest_edge",
+            "dense_forest",
+            "deep_west",
+            "hunt_forest_east"
+          ]
+        },
+        {
+          "id": "kongkoi",
+          "name": "ผีกองกอย",
+          "level": 4,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "dense_forest",
+            "wisp_hollow"
+          ]
+        },
+        {
+          "id": "monitor",
+          "name": "เหี้ย",
+          "level": 4,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "monitor_stream"
+          ]
+        },
+        {
+          "id": "pray",
+          "name": "ผีพราย",
+          "level": 4,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "forest_edge",
+            "dense_forest",
+            "deep_forest",
+            "deep_west",
+            "hunt_deep_forest_loop_9",
+            "hunt_forest_east",
+            "hunt_chedi"
+          ]
+        },
+        {
+          "id": "khamot",
+          "name": "ผีโขมด",
+          "level": 5,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wisp_hollow"
+          ]
+        },
+        {
+          "id": "winyan",
+          "name": "วิญญาณเร่ร่อน",
+          "level": 5,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "deep_forest",
+            "deep_west",
+            "hunt_chedi"
+          ]
+        },
+        {
+          "id": "takian",
+          "name": "นางตะเคียน",
+          "level": 6,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "takhian_tree"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wat_rang",
+      "name": "วัดร้าง",
+      "levels": [
+        4,
+        8
+      ],
+      "primaryBoss": "pusom",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "pray",
+          "name": "ผีพราย",
+          "level": 4,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_grove"
+          ]
+        },
+        {
+          "id": "winyan",
+          "name": "วิญญาณเร่ร่อน",
+          "level": 5,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_grove",
+            "abandoned_shrine",
+            "cemetery_path",
+            "cemetery_graves",
+            "wat_courtyard"
+          ]
+        },
+        {
+          "id": "headless",
+          "name": "ผีหัวขาด",
+          "level": 6,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_ruins",
+            "hunt_wat_west"
+          ]
+        },
+        {
+          "id": "pret",
+          "name": "เปรตน้อย",
+          "level": 6,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_ruins"
+          ]
+        },
+        {
+          "id": "krahang",
+          "name": "ผีกระหัง",
+          "level": 7,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_sky"
+          ]
+        },
+        {
+          "id": "krasue",
+          "name": "กระสือ",
+          "level": 7,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_stupas"
+          ]
+        },
+        {
+          "id": "phitaihong",
+          "name": "ผีตายโหง",
+          "level": 7,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "cemetery_graves",
+            "wat_courtyard",
+            "hunt_wat_west"
+          ]
+        },
+        {
+          "id": "soldier",
+          "name": "ทหารผีเฝ้าวัด",
+          "level": 8,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wat_courtyard",
+            "hunt_wat_rang_loop_9",
+            "hunt_wat_guard"
+          ]
+        },
+        {
+          "id": "pusom",
+          "name": "ผีปู่โสม",
+          "level": 10,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "wat_ubosot"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "klong",
+      "name": "คลองหนองบึง",
+      "levels": [
+        10,
+        25
+      ],
+      "primaryBoss": "chalawan",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "leech",
+          "name": "ปลิงควาย",
+          "level": 11,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "leech_reeds",
+            "hunt_marsh_edge"
+          ]
+        },
+        {
+          "id": "wraith",
+          "name": "ผีพรายน้ำ",
+          "level": 12,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "wraith_pool",
+            "hunt_marsh_edge"
+          ]
+        },
+        {
+          "id": "croc",
+          "name": "จระเข้บึง",
+          "level": 13,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "croc_bank"
+          ]
+        },
+        {
+          "id": "python",
+          "name": "งูเหลือมดงอ้อ",
+          "level": 14,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "python_grass"
+          ]
+        },
+        {
+          "id": "phong",
+          "name": "ผีโพง",
+          "level": 15,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "phong_marsh"
+          ]
+        },
+        {
+          "id": "klom",
+          "name": "ผีตายทั้งกลม",
+          "level": 17,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "klom_reeds",
+            "hunt_south_spirits"
+          ]
+        },
+        {
+          "id": "kumphi",
+          "name": "กุมภีล์",
+          "level": 19,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "kumphi_bank"
+          ]
+        },
+        {
+          "id": "tani",
+          "name": "นางตานี",
+          "level": 20,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "tani_grove"
+          ]
+        },
+        {
+          "id": "nangram",
+          "name": "ผีนางรำ",
+          "level": 22,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "nangram_field",
+            "hunt_klong_loop_9",
+            "hunt_klong_loop_10",
+            "hunt_klong_loop_11",
+            "hunt_south_spirits"
+          ]
+        },
+        {
+          "id": "chalawan",
+          "name": "ชาละวัน",
+          "level": 25,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "chalawan_lagoon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bamboo_grave",
+      "name": "ป่าช้าไผ่ดำ",
+      "levels": [
+        23,
+        30
+      ],
+      "primaryBoss": "bamboo_grave_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "bamboo_grave_0",
+          "name": "ผีตาโขน",
+          "level": 23,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_bamboo_grave_0_0",
+            "hunt_bamboo_grave_0_1",
+            "hunt_bamboo_grave_0_2",
+            "hunt_bamboo_grave_0_3"
+          ]
+        },
+        {
+          "id": "bamboo_grave_1",
+          "name": "กระดูกอาคม",
+          "level": 27,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_bamboo_grave_1_0",
+            "hunt_bamboo_grave_1_1",
+            "hunt_bamboo_grave_1_2",
+            "hunt_bamboo_grave_1_3"
+          ]
+        },
+        {
+          "id": "bamboo_grave_2",
+          "name": "เงาผีไผ่",
+          "level": 30,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_bamboo_grave_2_0",
+            "hunt_bamboo_grave_2_1",
+            "hunt_bamboo_grave_2_2",
+            "hunt_bamboo_grave_2_3"
+          ]
+        },
+        {
+          "id": "bamboo_grave_3",
+          "name": "เจ้าป่าช้า",
+          "level": 30,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_bamboo_grave"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sealed_mine",
+      "name": "เหมืองอาคมร้าง",
+      "levels": [
+        30,
+        40
+      ],
+      "primaryBoss": "sealed_mine_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "sealed_mine_0",
+          "name": "วิญญาณคนงาน",
+          "level": 30,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_sealed_mine_0_0",
+            "hunt_sealed_mine_0_1",
+            "hunt_sealed_mine_0_2",
+            "hunt_sealed_mine_0_3"
+          ]
+        },
+        {
+          "id": "sealed_mine_1",
+          "name": "แมงมุมผลึก",
+          "level": 35,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_sealed_mine_1_0",
+            "hunt_sealed_mine_1_1",
+            "hunt_sealed_mine_1_2",
+            "hunt_sealed_mine_1_3"
+          ]
+        },
+        {
+          "id": "sealed_mine_2",
+          "name": "อสูรศิลา",
+          "level": 40,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_sealed_mine_2_0",
+            "hunt_sealed_mine_2_1",
+            "hunt_sealed_mine_2_2",
+            "hunt_sealed_mine_2_3"
+          ]
+        },
+        {
+          "id": "sealed_mine_3",
+          "name": "ผู้พิทักษ์เหมือง",
+          "level": 40,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_sealed_mine"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sunken_city",
+      "name": "นครบาดาล",
+      "levels": [
+        40,
+        50
+      ],
+      "primaryBoss": "sunken_city_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "sunken_city_0",
+          "name": "พรายบาดาล",
+          "level": 40,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_sunken_city_0_0",
+            "hunt_sunken_city_0_1",
+            "hunt_sunken_city_0_2",
+            "hunt_sunken_city_0_3"
+          ]
+        },
+        {
+          "id": "sunken_city_1",
+          "name": "ทหารบาดาล",
+          "level": 45,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_sunken_city_1_0",
+            "hunt_sunken_city_1_1",
+            "hunt_sunken_city_1_2",
+            "hunt_sunken_city_1_3"
+          ]
+        },
+        {
+          "id": "sunken_city_2",
+          "name": "นาคบริวาร",
+          "level": 50,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_sunken_city_2_0",
+            "hunt_sunken_city_2_1",
+            "hunt_sunken_city_2_2",
+            "hunt_sunken_city_2_3"
+          ]
+        },
+        {
+          "id": "sunken_city_3",
+          "name": "นาคราชเฝ้าประตู",
+          "level": 50,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_sunken_city"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dusk_fort",
+      "name": "ป้อมอสูรสนธยา",
+      "levels": [
+        50,
+        60
+      ],
+      "primaryBoss": "dusk_fort_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "dusk_fort_0",
+          "name": "ทหารยักษ์",
+          "level": 50,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_dusk_fort_0_0",
+            "hunt_dusk_fort_0_1",
+            "hunt_dusk_fort_0_2",
+            "hunt_dusk_fort_0_3"
+          ]
+        },
+        {
+          "id": "dusk_fort_1",
+          "name": "กระสือเพลิง",
+          "level": 55,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_dusk_fort_1_0",
+            "hunt_dusk_fort_1_1",
+            "hunt_dusk_fort_1_2",
+            "hunt_dusk_fort_1_3"
+          ]
+        },
+        {
+          "id": "dusk_fort_2",
+          "name": "อสูรเกราะดำ",
+          "level": 60,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_dusk_fort_2_0",
+            "hunt_dusk_fort_2_1",
+            "hunt_dusk_fort_2_2",
+            "hunt_dusk_fort_2_3"
+          ]
+        },
+        {
+          "id": "dusk_fort_3",
+          "name": "เจ้าอสูรสนธยา",
+          "level": 60,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_dusk_fort"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "giant_valley",
+      "name": "หุบเขายักษ์",
+      "levels": [
+        60,
+        70
+      ],
+      "primaryBoss": "giant_valley_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "giant_valley_0",
+          "name": "ยักษ์ลาดตระเวน",
+          "level": 60,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_giant_valley_0_0",
+            "hunt_giant_valley_0_1",
+            "hunt_giant_valley_0_2",
+            "hunt_giant_valley_0_3"
+          ]
+        },
+        {
+          "id": "giant_valley_1",
+          "name": "ควายธนู",
+          "level": 65,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_giant_valley_1_0",
+            "hunt_giant_valley_1_1",
+            "hunt_giant_valley_1_2",
+            "hunt_giant_valley_1_3"
+          ]
+        },
+        {
+          "id": "giant_valley_2",
+          "name": "อสูรหิน",
+          "level": 70,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_giant_valley_2_0",
+            "hunt_giant_valley_2_1",
+            "hunt_giant_valley_2_2",
+            "hunt_giant_valley_2_3"
+          ]
+        },
+        {
+          "id": "giant_valley_3",
+          "name": "ยักษ์เฝ้าหุบเขา",
+          "level": 70,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_giant_valley"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "himmapan",
+      "name": "ป่าหิมพานต์",
+      "levels": [
+        70,
+        80
+      ],
+      "primaryBoss": "himmapan_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "himmapan_0",
+          "name": "มักกะลีผลต้องสาป",
+          "level": 70,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_himmapan_0_0",
+            "hunt_himmapan_0_1",
+            "hunt_himmapan_0_2",
+            "hunt_himmapan_0_3"
+          ]
+        },
+        {
+          "id": "himmapan_1",
+          "name": "อสูรปักษา",
+          "level": 75,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_himmapan_1_0",
+            "hunt_himmapan_1_1",
+            "hunt_himmapan_1_2",
+            "hunt_himmapan_1_3"
+          ]
+        },
+        {
+          "id": "himmapan_2",
+          "name": "พยัคฆ์อาคม",
+          "level": 80,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_himmapan_2_0",
+            "hunt_himmapan_2_1",
+            "hunt_himmapan_2_2",
+            "hunt_himmapan_2_3"
+          ]
+        },
+        {
+          "id": "himmapan_3",
+          "name": "พญาปักษาทมิฬ",
+          "level": 80,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_himmapan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fallen_city",
+      "name": "นครอาคมล่มสลาย",
+      "levels": [
+        80,
+        90
+      ],
+      "primaryBoss": "fallen_city_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "fallen_city_0",
+          "name": "ทหารอาคม",
+          "level": 80,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_fallen_city_0_0",
+            "hunt_fallen_city_0_1",
+            "hunt_fallen_city_0_2",
+            "hunt_fallen_city_0_3"
+          ]
+        },
+        {
+          "id": "fallen_city_1",
+          "name": "หุ่นยันต์",
+          "level": 85,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_fallen_city_1_0",
+            "hunt_fallen_city_1_1",
+            "hunt_fallen_city_1_2",
+            "hunt_fallen_city_1_3"
+          ]
+        },
+        {
+          "id": "fallen_city_2",
+          "name": "ราชองครักษ์วิญญาณ",
+          "level": 90,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_fallen_city_2_0",
+            "hunt_fallen_city_2_1",
+            "hunt_fallen_city_2_2",
+            "hunt_fallen_city_2_3"
+          ]
+        },
+        {
+          "id": "fallen_city_3",
+          "name": "ขุนพลอาคม",
+          "level": 90,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_fallen_city"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demon_rift",
+      "name": "ประตูรอยแยกอสูร",
+      "levels": [
+        90,
+        100
+      ],
+      "primaryBoss": "demon_rift_3",
+      "stage": "queued",
+      "creatures": [
+        {
+          "id": "demon_rift_0",
+          "name": "อสูรรอยแยก",
+          "level": 90,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_demon_rift_0_0",
+            "hunt_demon_rift_0_1",
+            "hunt_demon_rift_0_2",
+            "hunt_demon_rift_0_3"
+          ]
+        },
+        {
+          "id": "demon_rift_1",
+          "name": "ยักษ์เกราะดำ",
+          "level": 95,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_demon_rift_1_0",
+            "hunt_demon_rift_1_1",
+            "hunt_demon_rift_1_2",
+            "hunt_demon_rift_1_3"
+          ]
+        },
+        {
+          "id": "demon_rift_2",
+          "name": "เงากลืนวิญญาณ",
+          "level": 100,
+          "primaryBoss": false,
+          "status": "planned",
+          "areas": [
+            "hunt_demon_rift_2_0",
+            "hunt_demon_rift_2_1",
+            "hunt_demon_rift_2_2",
+            "hunt_demon_rift_2_3"
+          ]
+        },
+        {
+          "id": "demon_rift_3",
+          "name": "เจ้าอสูรรอยแยก",
+          "level": 100,
+          "primaryBoss": true,
+          "status": "planned",
+          "areas": [
+            "boss_demon_rift"
+          ]
+        }
+      ]
+    }
+  ]
+}
