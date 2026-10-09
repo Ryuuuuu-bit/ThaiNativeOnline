@@ -1,0 +1,85 @@
+{
+  "type": "dusk_fort_3",
+  "beforeRecipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+  "afterRecipeSha256": "1bfa192c049bacdec3b44f7d742e0b176a9782fcd3f34a7b7c8eb0a2be45c41e",
+  "sourceHashes": {
+    "source": "f69fea93e4a8a445128722891c645d53e1012d150a20d2b77a4dc8cf244dbb68",
+    "positions": "6df963cb2e3362515c538158cda90abd4a5533bfba9064144e37f87771565a22",
+    "indices": "73adf31031580e1835e792efa0012ba770670304a6ebf7594754dc69d8fbe724"
+  },
+  "runtimeMotionSourceSha256": "92e07562e2f14b81016fd5f404efc5ad3f931387d4fdbf4269da7d66f76f501c",
+  "bonesUnchanged": true,
+  "motionUnchanged": true,
+  "thresholdsUnchanged": {
+    "edgeRatio": 2,
+    "extensionSourceMetres": 0.01,
+    "minimumSourceEdge": 0.005
+  },
+  "baselineParentEdgeFailures": {
+    "idle": 62,
+    "walk": 224,
+    "attack": 99,
+    "hurt": 48,
+    "die": 895
+  },
+  "offlineExistingMotionCandidate": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.45463445472609815
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.23591122229971848
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.4381465286665292
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.456438163224909
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.1182077222188378
+    }
+  ],
+  "offlineWeights": {
+    "vertices": 19997,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "HandR": 490,
+      "ArmRLower": 581,
+      "ArmRUpper": 662,
+      "Body": 9220,
+      "LegRFoot": 871,
+      "LegRLower": 1468,
+      "LegRUpper": 1445,
+      "Pelvis": 6133,
+      "Head": 2442,
+      "LegLUpper": 1519,
+      "LegLLower": 1490,
+      "LegLFoot": 848,
+      "ArmLUpper": 785,
+      "ArmLLower": 676,
+      "HandL": 514
+    },
+    "weightGroups": 832
+  },
+  "mappingMaximumSourceError": 1.8850147763802898e-07,
+  "changedSourceVertices": 6739,
+  "preservedRigidPins": true,
+  "liveHarnessUsed": false,
+  "limitations": "Offline replay of existing exported motion with replacement weights and anticipated UNORM8 packing. Parent must reweight, export and run actual independent raw/native gates and visual review. No gate or motion reduction."
+}

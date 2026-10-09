@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a12014-a341-705c-b033-980fc2fe7578",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": "a-pose"
+  },
+  "reference": "references/dusk_fort_3.png",
+  "referenceSha256": "aca3f87d492145465dcbe2ad61bb06daac5018374287848b6e73a864bafe2a73",
+  "originalSha256": "9fe6044ab7463f1a26ae0bc9ee7c491003d4fd701c516f3fbb1877964bd6c587",
+  "originalBytes": 14125500,
+  "originalLocalPath": "artifacts/meshy-monsters/dusk_fort_3/original.glb"
+}

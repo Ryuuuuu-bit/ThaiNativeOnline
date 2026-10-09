@@ -1,4 +1,4 @@
-"""Staged registered-Harness rig pipeline for three real Meshy humanoid bosses.
+"""Staged registered-Harness rig pipeline for approved Meshy biped bosses.
 
 No connection, filesystem write, or window mutation on import. Never uses bpy,
 automatic weights, paid services, retargeting, or unregistered scene commands.
@@ -61,7 +61,9 @@ else:
     from boss_weights import TYPES, boss_weights, smooth, validate_recipe, vector
 
 PREFIXES = {'chalawan': 'ChalawanBossV1', 'bamboo_grave_3': 'BambooGraveBossV1',
-            'sealed_mine_3': 'SealedMineBossV1'}
+            'sealed_mine_3': 'SealedMineBossV1', 'dusk_fort_3': 'DuskFortBossV1',
+            'giant_valley_3': 'GiantValleyBossV1', 'himmapan_3': 'HimmapanBossV1',
+            'fallen_city_3': 'FallenCityBossV1', 'demon_rift_3': 'DemonRiftBossV1'}
 CLIPS = {'idle': [1, 49], 'walk': [51, 75], 'attack': [81, 105], 'hurt': [111, 121], 'die': [131, 155]}
 FRAMES = sorted({1, 13, 25, 37, 49, *range(51, 76, 2), 75, 81, 85, 89, 92, 96,
                  101, 105, 111, 114, 117, 121, 131, 137, 143, 149, 155})
@@ -107,7 +109,7 @@ def harness():
 
 def load_inputs(kind, out=None):
     if kind not in TYPES:
-        raise ValueError('Only first-three approved humanoid bosses are supported')
+        raise ValueError('Only approved measured biped bosses are supported; Naga requires a serpent rig')
     root = output_root(out); source = root/'input'
     paths = {label: source/f'{kind}{suffix}' for label, suffix in {
         'source': '.glb', 'positions': '-positions.json', 'indices': '-indices.json', 'anatomy': '-anatomy.json'}.items()}
@@ -132,7 +134,7 @@ def weight_summary(values):
             'weightGroups': len({(n, v) for w in values for n, v in w.items()})}
 
 
-def check_weights(values, points, recipe):
+def check_weights(values, points, recipe, rigid_reference=None):
     allowed = {b['name'] for b in recipe['bones'] if b['deform']}
     if len(values) != len(points):
         raise ValueError('Weights must retain the input topology/vertex ordering')
@@ -140,6 +142,11 @@ def check_weights(values, points, recipe):
         if not isinstance(weight, dict) or not 1 <= len(weight) <= 4 or any(n not in allowed or isinstance(v, bool)
                 or not isinstance(v, (int, float)) or not math.isfinite(v) or not 0 < v <= 1 for n, v in weight.items()) or abs(sum(weight.values())-1) > 1e-8:
             raise ValueError('Expected 1..4 finite positive normalised deform influences')
+    details = [d['bone'] for d in recipe.get('rigidBones', [])]
+    if details and (rigid_reference is None or len(rigid_reference) != len(values) or any(
+            weight.get(name, 0.) != reference.get(name, 0.)
+            for weight, reference in zip(values, rigid_reference) for name in details)):
+        raise ValueError('Explicit weight overrides must preserve authored rigid detail masks')
 
 
 def bind(kind, out=None, reweight=False, weights_file=None, client=None):
@@ -157,7 +164,7 @@ def bind(kind, out=None, reweight=False, weights_file=None, client=None):
     if reweight and sha(cache_path) != previous['appliedWeightsSha256']:
         raise ValueError('Applied-weight cache no longer matches the last committed bind')
     values = read_json(weights_file) if weights_file else inputs['values']
-    check_weights(values, inputs['points'], recipe)
+    check_weights(values, inputs['points'], recipe, rigid_reference=inputs['values'])
     if before is not None and len(before) != len(values):
         raise ValueError('Applied-weight cache has the wrong topology')
     changed = [i for i, w in enumerate(values) if before is None or w != before[i]]
@@ -201,6 +208,7 @@ def bind(kind, out=None, reweight=False, weights_file=None, client=None):
     report = previous | {'type': kind, 'taxon': 'humanoid-biped', 'version': 'boss-v1',
         'rigName': inputs['rig'], 'surfaceName': inputs['surface'], 'prefix': inputs['prefix'], 'rigId': rig_id,
         'bones': recipe['bones'], 'legs': previous.get('legs', recipe['legs']), 'arms': recipe['arms'], 'tail': recipe['tail'],
+        'rigidBones': recipe.get('rigidBones', []),
         'inputHashes': inputs['hashes'], 'weightsAlgorithmSha256': sha(Path(__file__).with_name('boss_weights.py')),
         'appliedWeightsSha256': sha(cache_path), 'weights': weight_summary(values), 'skin': skin,
         'snapshotId': snapshot, 'sceneRevision': m.revision}
@@ -215,10 +223,12 @@ def motion_options(recipe):
     leg_length = min(sum(math.dist(named[l[k]]['head'], named[l[k]]['tail']) for k in ('upper', 'lower')) for l in recipe['legs'])
     defaults = {'shoulderCast': .90, 'elbowCast': .35, 'bodyCast': .045, 'bodyDeath': .10,
                 'deathDrop': .035, 'walkStride': min(.06, leg_length*.075),
-                'walkLift': min(.045, leg_length*.06), 'tailSway': .035}
+                'walkLift': min(.045, leg_length*.06), 'tailSway': .035,
+                'bodyHurt': .025, 'headHurt': .012}
     options = defaults | recipe.get('motion', {})
     caps = {'shoulderCast': 1., 'elbowCast': .4, 'bodyCast': .08, 'bodyDeath': .6,
-            'deathDrop': .28, 'walkStride': .09, 'walkLift': .07, 'tailSway': .08}
+            'deathDrop': .28, 'walkStride': .09, 'walkLift': .07, 'tailSway': .08,
+            'bodyHurt': .20, 'headHurt': .12}
     if set(options) != set(caps):
         raise ValueError('Unknown motion parameter')
     for name, cap in caps.items():
@@ -247,8 +257,8 @@ def pose_at(frame, recipe, calibration):
         recoil = math.sin(math.pi*(frame-111)/10)
     elif frame >= 131:
         settle = smooth(0, 1, (frame-131)/24)
-    rotations[roles['body']][0] = .004*wave - .018*wind + options['bodyCast']*strike - .025*recoil + options['bodyDeath']*settle
-    rotations[roles['head']] = [-.012*recoil + .25*settle, .012*wave, 0.]
+    rotations[roles['body']][0] = .004*wave - .018*wind + options['bodyCast']*strike - options['bodyHurt']*recoil + options['bodyDeath']*settle
+    rotations[roles['head']] = [-options['headHurt']*recoil + .25*settle, .012*wave, 0.]
     root_down = vector(calibration['rootDownLocal'], 'rootDownLocal')
     root_location = [v*options['deathDrop']*settle for v in root_down]
     locations = {roles['root']: root_location}
@@ -381,7 +391,9 @@ def animate(kind, out=None, calibration_path=None, rest_tag='rest', client=None)
 
 
 def export_path(root, kind, tag):
-    if kind not in TYPES or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,35}', tag):
+    # Snapshot jobs are species-independent. Naga's wrapper validates its
+    # serpent report; this does not extend the biped bind/pose/CLI whitelist.
+    if kind not in (*TYPES, 'sunken_city_3') or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,35}', tag):
         raise ValueError('Invalid export type/tag')
     return root/f'{kind}-{tag}-export.json'
 

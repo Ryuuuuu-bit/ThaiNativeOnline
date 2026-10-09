@@ -1,0 +1,639 @@
+{
+  "type": "fallen_city_3",
+  "beforeRecipeSha256": "734458d5b30dcb17dfb3ce85ec63ec19f01f68fdb5e9773f7e129518b4195b97",
+  "afterRecipeSha256": "7921f71237a27c873ec5a06e197319f6138995c95602a0f5e3f26543d82d5aaa",
+  "sourceHashes": {
+    "source": "b82fa2052f727fcbf17e1039d76ebf6839382ea5809a228d9678d9f125f61da1",
+    "positions": "bb93e4d3ff84cebbda542f3663af5aba67ae04ecd24c84eb84961d643c702101",
+    "indices": "544bc3f8e2b0f6402b9e53aa4828f7ba8a6cdf3434072db29439db6ed256c326"
+  },
+  "runtimeMotionSourceSha256": "b6763f00c75077ac97da301da346e6d647146e365526a52e2e5fd15bd983a2d9",
+  "unchangedParentQAReportSha256": "607d83d56acc879bf6144eabaf85bf84a055f08112f96cca772e84ad82041703",
+  "bonesUnchanged": true,
+  "motionUnchanged": true,
+  "sourceGeometryUnchanged": true,
+  "rootCause": "Actual topology below 1.20m separates torso, right forearm with held sword, and left forearm. Previous lateral/height torso masks crossed both guarded forearms, assigning adjacent cuff vertices Hand/Arm versus Pelvis/Body. Continuous semantic ownership now follows those source components and independently measured upper-arm axes.",
+  "selectionMethod": {
+    "coordinateTransform": "glTF (x,y,z) -> Blender (x,-z,y)",
+    "weldDecimals": 5,
+    "forearmComponentMaximumHeight": 1.2,
+    "componentCountBelowCut": 3,
+    "uniqueVerticesByComponent": [
+      724,
+      2788,
+      485
+    ],
+    "originalSourceVerticesBySide": {
+      "ArmR": 2007,
+      "null": 13672,
+      "ArmL": 1361
+    },
+    "affectedAuthoredSourceVertices": 2651,
+    "upperShoulderField": "Measured upper segment signed projection smooth(-.03,.60), spine-distance comparison smooth(-.03,.06), radial fade .16..26m; height transition continuous across source component cut 1.12..1.20m; torso continuation 1.02..1.16m.",
+    "elbowBlendMetres": 0.065,
+    "wristBlendMetres": 0.075
+  },
+  "baselineOffline": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 2368,
+      "worstEdge": {
+        "time": 0.5666667222976685,
+        "sourceIndices": [
+          1420,
+          2182
+        ],
+        "runtimeIndices": [
+          2181,
+          2182
+        ],
+        "coordinates": [
+          [
+            -0.17434263229370117,
+            0.9591039419174194,
+            -0.1955573558807373
+          ],
+          [
+            -0.1698196530342102,
+            0.9639748334884644,
+            -0.19660110771656036
+          ]
+        ],
+        "extension": 0.03696754362276158,
+        "ratio": 6.494186150884951
+      },
+      "minimumTriangleAreaRatio": 0.016800756130376203
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 1765,
+      "worstEdge": {
+        "time": 0.30000001192092896,
+        "sourceIndices": [
+          2088,
+          2090
+        ],
+        "runtimeIndices": [
+          2088,
+          2090
+        ],
+        "coordinates": [
+          [
+            -0.18118509650230408,
+            0.9391564726829529,
+            -0.20866240561008453
+          ],
+          [
+            -0.17561835050582886,
+            0.9469267129898071,
+            -0.21330136060714722
+          ]
+        ],
+        "extension": 0.04740384869403566,
+        "ratio": 5.4616430640382525
+      },
+      "minimumTriangleAreaRatio": 0.023499574549615123
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 3248,
+      "worstEdge": {
+        "time": 0.6333333849906921,
+        "sourceIndices": [
+          2088,
+          2090
+        ],
+        "runtimeIndices": [
+          2088,
+          2090
+        ],
+        "coordinates": [
+          [
+            -0.18118509650230408,
+            0.9391564726829529,
+            -0.20866240561008453
+          ],
+          [
+            -0.17561835050582886,
+            0.9469267129898071,
+            -0.21330136060714722
+          ]
+        ],
+        "extension": 0.1833981176652428,
+        "ratio": 18.261403075521898
+      },
+      "minimumTriangleAreaRatio": 0.021025752061652584
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 672,
+      "worstEdge": {
+        "time": 0.0,
+        "sourceIndices": [
+          1420,
+          2182
+        ],
+        "runtimeIndices": [
+          2181,
+          2182
+        ],
+        "coordinates": [
+          [
+            -0.17434263229370117,
+            0.9591039419174194,
+            -0.1955573558807373
+          ],
+          [
+            -0.1698196530342102,
+            0.9639748334884644,
+            -0.19660110771656036
+          ]
+        ],
+        "extension": 0.036913823636020075,
+        "ratio": 6.486202184998747
+      },
+      "minimumTriangleAreaRatio": 0.08394007486514816
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 1883,
+      "worstEdge": {
+        "time": 1.0,
+        "sourceIndices": [
+          1419,
+          2088
+        ],
+        "runtimeIndices": [
+          2301,
+          2302
+        ],
+        "coordinates": [
+          [
+            -0.171791210770607,
+            0.951565682888031,
+            -0.20332759618759155
+          ],
+          [
+            -0.18118509650230408,
+            0.9391564726829529,
+            -0.20866240561008453
+          ]
+        ],
+        "extension": 0.052505820109922705,
+        "ratio": 4.191306698253383
+      },
+      "minimumTriangleAreaRatio": 0.023678570196323162
+    }
+  ],
+  "offlineExistingMotionCandidateRoundedUNORM8": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.21158916054521806
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.21158916054521806
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.17151880091568572
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.21903317258054072
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.04793935723589969
+    }
+  ],
+  "offlineExistingMotionCandidateRoundedNormalizedUNORM8": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6896300348590358
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.26451353752693935
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.2244085771993764
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6896300348590237
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.04793935723589969
+    }
+  ],
+  "offlineExistingMotionCandidateExactRecipeWeights": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6833278469851503
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.2671867919352044
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.22419223772563351
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6833278469851386
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.047563174013253724
+    }
+  ],
+  "candidateFloorReplay": [
+    {
+      "clip": "idle",
+      "samples": 106,
+      "minimumSourceClearance": -2.6167344964959357e-05,
+      "minimumScaledRuntimeClearance": -5.2334689511723925e-05,
+      "sourceAndScaledOneCentimetreFloorPassed": true
+    },
+    {
+      "clip": "walk",
+      "samples": 53,
+      "minimumSourceClearance": -7.193618552281172e-05,
+      "minimumScaledRuntimeClearance": -0.00014387236989597154,
+      "sourceAndScaledOneCentimetreFloorPassed": true
+    },
+    {
+      "clip": "attack",
+      "samples": 53,
+      "minimumSourceClearance": -2.6167344964959357e-05,
+      "minimumScaledRuntimeClearance": -5.2334689511723925e-05,
+      "sourceAndScaledOneCentimetreFloorPassed": true
+    },
+    {
+      "clip": "hurt",
+      "samples": 24,
+      "minimumSourceClearance": -2.6167344964959357e-05,
+      "minimumScaledRuntimeClearance": -5.2334689511723925e-05,
+      "sourceAndScaledOneCentimetreFloorPassed": true
+    },
+    {
+      "clip": "die",
+      "samples": 53,
+      "minimumSourceClearance": -9.705961934468958e-05,
+      "minimumScaledRuntimeClearance": -0.00019411923713821578,
+      "sourceAndScaledOneCentimetreFloorPassed": true
+    }
+  ],
+  "candidateTriangleAreaWitnesses": [
+    {
+      "clip": "idle",
+      "worst": {
+        "time": 1.3333333333333333,
+        "triangle": 4063,
+        "ratio": 0.6896300348590358,
+        "restArea": 0.00013141903922093623,
+        "sourceIndices": [
+          5017,
+          5123,
+          5120
+        ],
+        "sourceCoordinates": [
+          [
+            -0.07100991904735565,
+            1.2515900135040283,
+            -0.24797753989696503
+          ],
+          [
+            -0.05280201882123947,
+            1.264463186264038,
+            -0.2961067259311676
+          ],
+          [
+            -0.06323966383934021,
+            1.256113052368164,
+            -0.2789425849914551
+          ]
+        ],
+        "candidateWeights": [
+          {
+            "ArmRUpper": 0.671875,
+            "Body": 0.328125
+          },
+          {
+            "Body": 0.578125,
+            "ArmRUpper": 0.421875
+          },
+          {
+            "ArmRUpper": 0.609375,
+            "Body": 0.390625
+          }
+        ]
+      }
+    },
+    {
+      "clip": "walk",
+      "worst": {
+        "time": 0.8000000715255737,
+        "triangle": 5588,
+        "ratio": 0.26451353752693935,
+        "restArea": 0.00019925760350904175,
+        "sourceIndices": [
+          7139,
+          7220,
+          7227
+        ],
+        "sourceCoordinates": [
+          [
+            0.04113682359457016,
+            0.7012940049171448,
+            -0.06079570949077606
+          ],
+          [
+            0.044152144342660904,
+            0.7491912841796875,
+            -0.0766841322183609
+          ],
+          [
+            0.04995083436369896,
+            0.78769451379776,
+            -0.08201893419027328
+          ]
+        ],
+        "candidateWeights": [
+          {
+            "Pelvis": 0.875,
+            "LegRUpper": 0.125
+          },
+          {
+            "Pelvis": 0.671875,
+            "LegRUpper": 0.328125
+          },
+          {
+            "Pelvis": 0.796875,
+            "LegRUpper": 0.203125
+          }
+        ]
+      }
+    },
+    {
+      "clip": "attack",
+      "worst": {
+        "time": 0.6333333849906921,
+        "triangle": 9041,
+        "ratio": 0.2244085771993764,
+        "restArea": 6.16537386264302e-05,
+        "sourceIndices": [
+          10348,
+          11346,
+          12210
+        ],
+        "sourceCoordinates": [
+          [
+            0.2504696547985077,
+            1.1504608392715454,
+            -0.25644364953041077
+          ],
+          [
+            0.24119175970554352,
+            1.1539400815963745,
+            -0.2694327235221863
+          ],
+          [
+            0.24815019965171814,
+            1.1544039249420166,
+            -0.24960117042064667
+          ]
+        ],
+        "candidateWeights": [
+          {
+            "Body": 0.8125,
+            "ArmLUpper": 0.1875
+          },
+          {
+            "Body": 0.890625,
+            "ArmLUpper": 0.109375
+          },
+          {
+            "Body": 0.890625,
+            "ArmLUpper": 0.109375
+          }
+        ]
+      }
+    },
+    {
+      "clip": "hurt",
+      "worst": {
+        "time": 0.2916666666666667,
+        "triangle": 4063,
+        "ratio": 0.6896300348590237,
+        "restArea": 0.00013141903922093623,
+        "sourceIndices": [
+          5017,
+          5123,
+          5120
+        ],
+        "sourceCoordinates": [
+          [
+            -0.07100991904735565,
+            1.2515900135040283,
+            -0.24797753989696503
+          ],
+          [
+            -0.05280201882123947,
+            1.264463186264038,
+            -0.2961067259311676
+          ],
+          [
+            -0.06323966383934021,
+            1.256113052368164,
+            -0.2789425849914551
+          ]
+        ],
+        "candidateWeights": [
+          {
+            "ArmRUpper": 0.671875,
+            "Body": 0.328125
+          },
+          {
+            "Body": 0.578125,
+            "ArmRUpper": 0.421875
+          },
+          {
+            "ArmRUpper": 0.609375,
+            "Body": 0.390625
+          }
+        ]
+      }
+    },
+    {
+      "clip": "die",
+      "worst": {
+        "time": 0.875,
+        "triangle": 5588,
+        "ratio": 0.04793935723589969,
+        "restArea": 0.00019925760350904175,
+        "sourceIndices": [
+          7139,
+          7220,
+          7227
+        ],
+        "sourceCoordinates": [
+          [
+            0.04113682359457016,
+            0.7012940049171448,
+            -0.06079570949077606
+          ],
+          [
+            0.044152144342660904,
+            0.7491912841796875,
+            -0.0766841322183609
+          ],
+          [
+            0.04995083436369896,
+            0.78769451379776,
+            -0.08201893419027328
+          ]
+        ],
+        "candidateWeights": [
+          {
+            "Pelvis": 0.875,
+            "LegRUpper": 0.125
+          },
+          {
+            "Pelvis": 0.671875,
+            "LegRUpper": 0.328125
+          },
+          {
+            "Pelvis": 0.796875,
+            "LegRUpper": 0.203125
+          }
+        ]
+      }
+    }
+  ],
+  "candidateEdgeMargins": [
+    {
+      "clip": "idle",
+      "maximumExtensionForEdgesWithRatioOverTwo": null
+    },
+    {
+      "clip": "walk",
+      "maximumExtensionForEdgesWithRatioOverTwo": null
+    },
+    {
+      "clip": "attack",
+      "maximumExtensionForEdgesWithRatioOverTwo": null
+    },
+    {
+      "clip": "hurt",
+      "maximumExtensionForEdgesWithRatioOverTwo": null
+    },
+    {
+      "clip": "die",
+      "maximumExtensionForEdgesWithRatioOverTwo": null
+    }
+  ],
+  "offlineWeights": {
+    "vertices": 17040,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "Sword": 484,
+      "HandR": 1024,
+      "ArmRLower": 524,
+      "ArmRUpper": 932,
+      "Body": 7161,
+      "LegRFoot": 769,
+      "LegRLower": 999,
+      "Pelvis": 3748,
+      "LegRUpper": 1057,
+      "LegLUpper": 1087,
+      "Head": 1940,
+      "ArmLUpper": 873,
+      "LegLLower": 966,
+      "LegLFoot": 691,
+      "ArmLLower": 625,
+      "HandL": 840
+    },
+    "weightGroups": 782
+  },
+  "mappingMaximumSourceError": 1.4230645802542724e-07,
+  "changedSourceVertices": 2032,
+  "preservedRigidAndDistalPins": [
+    {
+      "region": "authored_curved_dha_blade_guard_hilt",
+      "bone": "Sword",
+      "sourceVertices": 484
+    },
+    {
+      "region": "original_left_open_hand_digits",
+      "bone": "HandL",
+      "sourceVertices": 609
+    },
+    {
+      "region": "original_right_grasp_and_hilt_contact",
+      "bone": "HandR",
+      "sourceVertices": 974
+    },
+    {
+      "region": "boot_heel_sole_toes_L",
+      "bone": "LegLFoot",
+      "sourceVertices": 411
+    },
+    {
+      "region": "boot_heel_sole_toes_R",
+      "bone": "LegRFoot",
+      "sourceVertices": 477
+    }
+  ],
+  "rigidSwordOutsideMaskMass": 0,
+  "maximumExistingSwordHandSkinMatrixDifference": 1.0626040614081234e-07,
+  "thresholdsUnchanged": {
+    "edgeRatio": 2,
+    "extensionSourceMetres": 0.01,
+    "minimumSourceEdge": 0.005,
+    "floorSourceAndRuntimeMetres": -0.01,
+    "rigidMatrixDifference": 0.0001
+  },
+  "liveHarnessUsed": false,
+  "visualEvidenceInspected": [
+    "docs/art/boss-detail-02/fallen_city_3-static-front.png",
+    "docs/art/boss-detail-02/fallen_city_3-static-side.png",
+    "docs/art/boss-detail-02/fallen_city_3-front-attack.png"
+  ],
+  "limitations": "Offline replay of exact current exported motion/surface only; scaled floor calculation is not a fresh native controller/crossfade audit. Parent must reweight same 17 bones, fresh rest/calibration/repose/export and rerun strict raw/native floor/rigidity plus visual cuff/shoulder/waist and compression witnesses. Minimum triangle area is evidence, not an accepted art gate. Dusk/Garuda/Rift/Giant recipes untouched."
+}

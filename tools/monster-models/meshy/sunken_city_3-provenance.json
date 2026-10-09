@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a12014-93d5-736b-8850-124714bac681",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": ""
+  },
+  "reference": "references/sunken_city_3.png",
+  "referenceSha256": "fb6e51ed73474aede2f81da058f2c279e777572585588299222b7d5add544b5f",
+  "originalSha256": "46c4efe9da8fd858740c2a346e6b465a18c49ad14547034a240680f78fe05463",
+  "originalBytes": 14348180,
+  "originalLocalPath": "artifacts/meshy-monsters/sunken_city_3/original.glb"
+}

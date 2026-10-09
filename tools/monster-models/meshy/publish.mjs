@@ -8,7 +8,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 const type=process.argv[2];
-if(!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3'].includes(type))throw Error('Unknown creature');
+if(!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3', 'sunken_city_3', 'dusk_fort_3', 'giant_valley_3', 'himmapan_3', 'fallen_city_3', 'demon_rift_3'].includes(type))throw Error('Unknown creature');
 const require=createRequire(import.meta.url), io=new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 const rigVersion=process.argv[3]??'v5';

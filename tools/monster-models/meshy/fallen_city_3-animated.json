@@ -1,0 +1,14 @@
+{
+  "type": "fallen_city_3",
+  "bytes": 1484852,
+  "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+  "triangles": 12465,
+  "bones": 17,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

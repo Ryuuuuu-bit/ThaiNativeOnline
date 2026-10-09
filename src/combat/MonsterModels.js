@@ -5,6 +5,7 @@ import { cachedLoader } from '../core/retry.js';
 import { versioned } from '../core/version.js';
 import { seedOf } from '../core/seed.js';
 import { disposeCombatModel, markCachedCombatGeometry } from './CombatResources.js';
+import { applyBossFog } from './BossMaterial.js';
 
 // Geometry, textures and clips are cached; each monster owns its skeleton,
 // animation clock and materials so damage flashes never affect its neighbours.
@@ -26,6 +27,12 @@ export const MONSTER_MODELS = {
   chalawan: { url: '/models/monsters/chalawan.glb', height: 1.4, groundPivot: [0, 0], fill: .35, deathDim: .82 },
   bamboo_grave_3: { url: '/models/monsters/bamboo_grave_3.glb', height: 1.7, fill: .35, deathDim: .82 },
   sealed_mine_3: { url: '/models/monsters/sealed_mine_3.glb', height: 1.9, fill: .35, deathDim: .82 },
+  sunken_city_3: { url: '/models/monsters/sunken_city_3.glb', height: 1.6, fill: .35, fogScale: .45, deathDim: .82 },
+  dusk_fort_3: { url: '/models/monsters/dusk_fort_3.glb', height: 1.8, fill: .35, fogScale: .45, deathDim: .82 },
+  giant_valley_3: { url: '/models/monsters/giant_valley_3.glb', height: 2, groundPivot: [-.0015, -.137], fill: .35, fogScale: .45, deathDim: .82 },
+  himmapan_3: { url: '/models/monsters/himmapan_3.glb', height: 1.9, fill: .35, fogScale: .45, deathDim: .82 },
+  fallen_city_3: { url: '/models/monsters/fallen_city_3.glb', height: 1.9, groundPivot: [.091, -.275], facing: -Math.atan2(.32, .947), fill: .35, fogScale: .45, deathDim: .82 },
+  demon_rift_3: { url: '/models/monsters/demon_rift_3.glb', height: 2.1, fill: .35, fogScale: .45, deathDim: .82 },
   khamot: { url: '/models/monsters/khamot.glb', height: .85, lift: .3, deathDim: .7 },
   winyan: { url: '/models/monsters/winyan.glb', height: 1.85, lift: .14 },
   takian: { url: '/models/monsters/takian.glb', height: 2.5 },
@@ -56,6 +63,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
     const box = new THREE.Box3().setFromObject(model), size = box.getSize(new THREE.Vector3());
     const scale = spec.height / Math.max(.01, size.y);
     const pivot = new THREE.Group(); pivot.add(model); pivot.scale.setScalar(scale);
+    pivot.rotation.y = spec.facing ?? 0;
     pivot.position.y = spec.lift ?? 0;
     model.position.set(-(spec.groundPivot?.[0] ?? (box.min.x + box.max.x) / 2), -box.min.y, -(spec.groundPivot?.[1] ?? (box.min.z + box.max.z) / 2));
     const deathColors = [];
@@ -64,6 +72,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
       o.userData.monsterId = monsterId; o.castShadow = true; o.receiveShadow = true;
       const copy = m => {
         const material = m.clone();
+        applyBossFog(material, spec.fogScale);
         if (spec.deathDim) deathColors.push({ material, color: material.color.clone() });
         if (/Glow|Eye|Core/.test(material.name) && material.emissive) {
           material.emissive.copy(material.color); material.emissiveIntensity = .35;
@@ -84,6 +93,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
       actions[name].setLoop(THREE.LoopOnce, 1); actions[name].clampWhenFinished = true;
     }
     let current = null, previousTime = null, wasAttacking = false, wasHurt = false, deathTime = 0;
+    group.userData.animationState = () => ({ clip: current?.getClip().name, time: current?.time, timeScale: current?.timeScale });
     if (actions.die) actions.die.timeScale = 1.4;
     function play(name) {
       const next = actions[name] ?? actions.idle;

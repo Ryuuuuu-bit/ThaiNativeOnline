@@ -1,0 +1,39 @@
+{
+  "creature": "giant_valley_3",
+  "bytes": 1380092,
+  "triangles": 12489,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.574725478887558,
+      0,
+      -0.2666015028953552
+    ],
+    "max": [
+      0.574725478887558,
+      1.9019789695739746,
+      0.2666015028953552
+    ]
+  },
+  "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

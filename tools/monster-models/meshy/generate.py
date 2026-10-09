@@ -19,6 +19,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[3]
 DEST = ROOT / 'tools/monster-models/meshy'
 TMP = ROOT / 'artifacts/meshy-monsters'
 BASE = 'https://api.meshy.ai/openapi/v1/'
+BOSS_BIPEDS = ['chalawan', 'bamboo_grave_3', 'sealed_mine_3', 'dusk_fort_3', 'giant_valley_3', 'himmapan_3', 'fallen_city_3', 'demon_rift_3']
+BOSS_SERPENTS = ['sunken_city_3']
 
 
 def request(path, body=None):
@@ -33,11 +35,11 @@ def request(path, body=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3'])
+    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc'] + BOSS_BIPEDS + BOSS_SERPENTS)
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--submit', action='store_true')
     action.add_argument('--collect', action='store_true')
-    parser.add_argument('--variant', choices=['anatomy-v2','thai-volume-v3'], help='Explicit separately reviewed correction; never an automatic POST retry')
+    parser.add_argument('--variant', choices=['anatomy-v2','thai-volume-v3','prop-v2'], help='Explicit separately reviewed correction; never an automatic POST retry')
     args = parser.parse_args()
     name = args.creature
     tmp = TMP / name
@@ -52,10 +54,13 @@ def main():
         reference = DEST / 'references' / (name + ('-' + args.variant if args.variant else '') + '.png')
         parameters = json.loads((DEST / 'parameters.json').read_text())
         submitted_parameters = parameters.copy()
-        if name in ['chalawan', 'bamboo_grave_3', 'sealed_mine_3']:
+        if name in BOSS_BIPEDS:
             parameters['pose_mode'] = 'a-pose'
             submitted_parameters = parameters.copy()
-        if name in ['croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3']:
+        if name in BOSS_SERPENTS or name in ['giant_valley_3', 'fallen_city_3']:
+            parameters['pose_mode'] = ''
+            submitted_parameters = parameters.copy()
+        if name in ['croc'] + BOSS_BIPEDS + BOSS_SERPENTS:
             balance = request('balance')['balance']
             if balance < 35:
                 raise RuntimeError('At least 35 Meshy credits required for this 2K geometry/texture candidate.')

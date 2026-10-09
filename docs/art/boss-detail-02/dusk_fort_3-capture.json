@@ -1,0 +1,633 @@
+{
+  "scope": "actual shipped GLB clips and production VFX in isolated review scene; not live combat evidence",
+  "errors": [],
+  "rows": [
+    {
+      "type": "dusk_fort_3",
+      "clip": "idle",
+      "view": "front",
+      "at": 0.5,
+      "file": "dusk_fort_3-front-idle.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "idle",
+        "time": 0.5526315789473684,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "front",
+      "at": 0.3,
+      "file": "dusk_fort_3-front-walk.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.3,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "front",
+      "at": 0.6,
+      "file": "dusk_fort_3-front-attack.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "front",
+      "at": 0.18,
+      "file": "dusk_fort_3-front-hurt.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.18,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "front",
+      "at": 0.66,
+      "file": "dusk_fort_3-front-die.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "die",
+        "time": 0.9239999999999999,
+        "timeScale": 1.4
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "idle",
+      "view": "side",
+      "at": 0.5,
+      "file": "dusk_fort_3-side-idle.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "idle",
+        "time": 0.5526315789473684,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "side",
+      "at": 0.3,
+      "file": "dusk_fort_3-side-walk.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.3,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "side",
+      "at": 0.6,
+      "file": "dusk_fort_3-side-attack.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "side",
+      "at": 0.18,
+      "file": "dusk_fort_3-side-hurt.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.18,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "side",
+      "at": 0.66,
+      "file": "dusk_fort_3-side-die.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "die",
+        "time": 0.9239999999999999,
+        "timeScale": 1.4
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "idle",
+      "view": "back",
+      "at": 0.5,
+      "file": "dusk_fort_3-back-idle.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "idle",
+        "time": 0.5526315789473684,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "back",
+      "at": 0.3,
+      "file": "dusk_fort_3-back-walk.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.3,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "back",
+      "at": 0.6,
+      "file": "dusk_fort_3-back-attack.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "back",
+      "at": 0.18,
+      "file": "dusk_fort_3-back-hurt.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.18,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "back",
+      "at": 0.66,
+      "file": "dusk_fort_3-back-die.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "die",
+        "time": 0.9239999999999999,
+        "timeScale": 1.4
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "idle",
+      "view": "top",
+      "at": 0.5,
+      "file": "dusk_fort_3-top-idle.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "idle",
+        "time": 0.5526315789473684,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "top",
+      "at": 0.3,
+      "file": "dusk_fort_3-top-walk.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.3,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "top",
+      "at": 0.6,
+      "file": "dusk_fort_3-top-attack.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "top",
+      "at": 0.18,
+      "file": "dusk_fort_3-top-hurt.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.18,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "top",
+      "at": 0.66,
+      "file": "dusk_fort_3-top-die.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "die",
+        "time": 0.9239999999999999,
+        "timeScale": 1.4
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "idle",
+      "view": "game",
+      "at": 0.5,
+      "file": "dusk_fort_3-game-idle.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "idle",
+        "time": 0.5526315789473684,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "game",
+      "at": 0.3,
+      "file": "dusk_fort_3-game-walk.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.3,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "game",
+      "at": 0.6,
+      "file": "dusk_fort_3-game-attack.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.6,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "game",
+      "at": 0.18,
+      "file": "dusk_fort_3-game-hurt.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.18,
+        "timeScale": 1
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "game",
+      "at": 0.66,
+      "file": "dusk_fort_3-game-die.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "actualAction": {
+        "clip": "die",
+        "time": 0.9239999999999999,
+        "timeScale": 1.4
+      },
+      "check": {
+        "modelLoaded": true,
+        "meshes": [
+          {
+            "skinned": true,
+            "tris": 12495
+          }
+        ],
+        "noOverflow": true
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "stage": "windup",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "check": {
+        "draws": 10,
+        "geometries": 10,
+        "textures": 13,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 0,
+      "stage": "impact",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "check": {
+        "draws": 11,
+        "geometries": 10,
+        "textures": 12,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "stage": "windup",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "check": {
+        "draws": 8,
+        "geometries": 8,
+        "textures": 13,
+        "markerCount": 1,
+        "overflow": false
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "index": 1,
+      "stage": "impact",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "check": {
+        "draws": 9,
+        "geometries": 8,
+        "textures": 12,
+        "markerCount": 1,
+        "overflow": false
+      }
+    }
+  ]
+}

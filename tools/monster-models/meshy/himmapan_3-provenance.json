@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a12017-897f-74fd-a0a9-b07d5db882be",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": "a-pose"
+  },
+  "reference": "references/himmapan_3.png",
+  "referenceSha256": "fe85270b3803fa6a043db14f59ea214b28c60cfca02b1c224301dbff4098c78a",
+  "originalSha256": "e44e75b846c6b304261569ef41c6ba7aa61a12c7fc99431758a1cf6461c9ab59",
+  "originalBytes": 14096228,
+  "originalLocalPath": "artifacts/meshy-monsters/himmapan_3/original.glb"
+}

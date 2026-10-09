@@ -7,7 +7,7 @@ import fs from 'node:fs/promises';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
 await MeshoptDecoder.ready;
 const types=process.argv.slice(2).length?process.argv.slice(2):['boar','fowl','crab'];
-if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3'].includes(type)))throw Error('Unknown creature');
+if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3', 'sunken_city_3', 'dusk_fort_3', 'giant_valley_3', 'himmapan_3', 'fallen_city_3', 'demon_rift_3'].includes(type)))throw Error('Unknown creature');
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 await fs.mkdir(`${outputRoot}/input`, { recursive: true });
 for (const type of types) {
@@ -21,7 +21,7 @@ for (const type of types) {
   const root = doc.getRoot(), scene = root.listScenes()[0];
   const source = root.listNodes().find(n => n.getMesh());
   for (const p of source.getMesh().listPrimitives()) transformPrimitive(p, source.getWorldMatrix());
-  if(['chalawan','bamboo_grave_3','sealed_mine_3'].includes(type)) {
+  if(['chalawan','bamboo_grave_3','sealed_mine_3', 'sunken_city_3', 'dusk_fort_3', 'giant_valley_3', 'himmapan_3', 'fallen_city_3', 'demon_rift_3'].includes(type)) {
     // Positions already include the source world transform. Measuring the scene
     // here would apply gltfpack's quantization scale a second time.
     let minY=Infinity,maxY=-Infinity;

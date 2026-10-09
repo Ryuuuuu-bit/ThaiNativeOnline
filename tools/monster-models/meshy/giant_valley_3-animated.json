@@ -1,0 +1,14 @@
+{
+  "type": "giant_valley_3",
+  "bytes": 1437052,
+  "sha256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+  "triangles": 12489,
+  "bones": 17,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

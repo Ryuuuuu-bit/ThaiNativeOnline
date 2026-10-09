@@ -1,0 +1,39 @@
+{
+  "creature": "himmapan_3",
+  "bytes": 1522740,
+  "triangles": 12528,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.9487265944480896,
+      0,
+      -0.3220590054988861
+    ],
+    "max": [
+      0.9487265944480896,
+      1.9006600975990295,
+      0.3220590054988861
+    ]
+  },
+  "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

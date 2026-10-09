@@ -1,0 +1,188 @@
+{
+  "scope": "actual native animation controller isolated body extremes; exact action/time recorded, studio lighting",
+  "errors": [],
+  "rows": [
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "side",
+      "requestedControllerTime": 0.25,
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.25,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-side-walk-0_25.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "side",
+      "requestedControllerTime": 0.75,
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.75,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-side-walk-0_75.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "game",
+      "requestedControllerTime": 0.25,
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.25,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-game-walk-0_25.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "walk",
+      "view": "game",
+      "requestedControllerTime": 0.75,
+      "actualAction": {
+        "clip": "walk",
+        "time": 0.75,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-game-walk-0_75.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "side",
+      "requestedControllerTime": 0.35,
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.35,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-side-attack-0_35.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "side",
+      "requestedControllerTime": 0.5,
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.5,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-side-attack-0_5.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "side",
+      "requestedControllerTime": 0.7,
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.7,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-side-attack-0_7.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "game",
+      "requestedControllerTime": 0.35,
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.35,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-game-attack-0_35.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "game",
+      "requestedControllerTime": 0.5,
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.5,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-game-attack-0_5.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "attack",
+      "view": "game",
+      "requestedControllerTime": 0.7,
+      "actualAction": {
+        "clip": "attack",
+        "time": 0.7,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-game-attack-0_7.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "side",
+      "requestedControllerTime": 0.22,
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.22,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-side-hurt-0_22.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "hurt",
+      "view": "game",
+      "requestedControllerTime": 0.22,
+      "actualAction": {
+        "clip": "hurt",
+        "time": 0.22,
+        "timeScale": 1
+      },
+      "file": "dusk_fort_3-game-hurt-0_22.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "side",
+      "requestedControllerTime": 1.3,
+      "actualAction": {
+        "clip": "die",
+        "time": 1,
+        "timeScale": 1.4
+      },
+      "file": "dusk_fort_3-side-die-1_3.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    },
+    {
+      "type": "dusk_fort_3",
+      "clip": "die",
+      "view": "game",
+      "requestedControllerTime": 1.3,
+      "actualAction": {
+        "clip": "die",
+        "time": 1,
+        "timeScale": 1.4
+      },
+      "file": "dusk_fort_3-game-die-1_3.png",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    }
+  ]
+}

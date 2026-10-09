@@ -1,0 +1,14 @@
+{
+  "type": "demon_rift_3",
+  "bytes": 1496980,
+  "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+  "triangles": 12504,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

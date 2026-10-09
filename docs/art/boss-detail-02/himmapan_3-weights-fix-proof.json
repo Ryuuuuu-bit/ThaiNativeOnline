@@ -1,0 +1,139 @@
+{
+  "type": "himmapan_3",
+  "beforeRecipeSha256": "2eede60517c2333a56c16c33a3db24afba3f48d81b87a30130a7156d5d0ca2fb",
+  "afterRecipeSha256": "36012754bcbb8b5fdf7be929d81643e8e27e8fc286dac1a7f0f0a11f2f0d0587",
+  "sourceHashes": {
+    "source": "9babd4a215c1e606417a13589015c9b314ac3c65ae46223d9b573feb5a714a08",
+    "positions": "f51891410f2001c89de5071acb9dc80edb9cb64cfe9cbe59bf16b6498caf414b",
+    "indices": "65edd2032d5473d55e23f068d56d01d68af0f00a97fd1b02d884a44c31c410ed"
+  },
+  "runtimeMotionSourceSha256": "5236165fd9f66d203f9e92af002074a096dfa9c89556685b3ec971d9b71b6975",
+  "bonesUnchanged": true,
+  "motionUnchanged": true,
+  "rigidWingDeclarationsUnchanged": true,
+  "rigidWingRegionsUnchanged": true,
+  "rigidWingWeightsUnchanged": true,
+  "baselineOffline": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.695781998400595
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.036989949163579706
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.3559248414559515
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6957819984005953
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 62,
+      "worstEdge": {
+        "time": 1.0,
+        "sourceIndices": [
+          12172,
+          11574
+        ],
+        "runtimeIndices": [
+          12172,
+          12173
+        ],
+        "coordinates": [
+          [
+            0.04109195992350578,
+            0.9762680530548096,
+            0.2736946642398834
+          ],
+          [
+            0.03691690042614937,
+            0.9708173274993896,
+            0.28204476833343506
+          ]
+        ],
+        "extension": 0.025419933070288506,
+        "ratio": 3.3514152787173184
+      },
+      "minimumTriangleAreaRatio": 0.01437889164807486
+    }
+  ],
+  "offlineExistingMotionCandidate": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.382788550687703
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.036989949163579706
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.35529100933733904
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.38468406413710493
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.05985711998547439
+    }
+  ],
+  "offlineWeights": {
+    "vertices": 21570,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "WingR": 3042,
+      "HandR": 564,
+      "ArmRLower": 212,
+      "ArmRUpper": 1075,
+      "LegRFoot": 1042,
+      "Body": 4961,
+      "LegRLower": 1031,
+      "Head": 2939,
+      "LegRUpper": 785,
+      "Pelvis": 2882,
+      "LegLUpper": 760,
+      "ArmLUpper": 1072,
+      "WingL": 2959,
+      "LegLLower": 1087,
+      "LegLFoot": 970,
+      "ArmLLower": 184,
+      "HandL": 577
+    },
+    "weightGroups": 685
+  },
+  "mappingMaximumSourceError": 1.294598571974555e-07,
+  "changedSourceVertices": 740,
+  "preservedHandFootPins": true,
+  "thresholdsUnchanged": {
+    "edgeRatio": 2,
+    "extensionSourceMetres": 0.01,
+    "minimumSourceEdge": 0.005
+  },
+  "liveHarnessUsed": false,
+  "limitations": "Offline existing motion replay only. Parent reweight/recalibrate/export raw/native/floor/rigidity and actual motion anatomy review remain required; no gate or motion reductions."
+}

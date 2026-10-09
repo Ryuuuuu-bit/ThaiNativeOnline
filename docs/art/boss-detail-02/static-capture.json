@@ -1,0 +1,5900 @@
+{
+  "scope": "Actual prepared Meshy static surfaces, five views each; human source-anatomy review required; no rig/motion/online acceptance",
+  "startedAt": "2026-10-09T10:22:33.476Z",
+  "updatedAt": "2026-10-09T10:22:35.607Z",
+  "rows": [
+    {
+      "type": "sunken_city_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:14.788Z",
+      "file": "sunken_city_3-static-front.png",
+      "revisionFile": "static-source/sunken_city_3/af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef/front.png",
+      "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+      "preparedSha256": "398714f6f03df1bf3a0fded9fb05b3d54bbdcc30883432331f9976ee72de7df8",
+      "pngSha256": "677af63cb5119cf9191ba9445b556f6d749b6e6f5fc7862221c604d553324bc9",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "sunken_city_3",
+        "bytes": 1525800,
+        "triangles": 12548,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6785784661769867,
+            0,
+            -0.7056445181369781
+          ],
+          "max": [
+            0.6785784661769867,
+            1.9007259607315063,
+            0.7056445181369781
+          ]
+        },
+        "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17788,
+            "triangles": 12548,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              -1.1424525422694256,
+              0,
+              -1.1879631325154123,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "sunken_city_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:14.894Z",
+      "file": "sunken_city_3-static-side.png",
+      "revisionFile": "static-source/sunken_city_3/af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef/side.png",
+      "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+      "preparedSha256": "398714f6f03df1bf3a0fded9fb05b3d54bbdcc30883432331f9976ee72de7df8",
+      "pngSha256": "ac0b368ff1a4a0c05a7c76fe07aec393b4f2b211c1ffdead0eb6ab55ef547d84",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "sunken_city_3",
+        "bytes": 1525800,
+        "triangles": 12548,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6785784661769867,
+            0,
+            -0.7056445181369781
+          ],
+          "max": [
+            0.6785784661769867,
+            1.9007259607315063,
+            0.7056445181369781
+          ]
+        },
+        "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17788,
+            "triangles": 12548,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              -1.1424525422694256,
+              0,
+              -1.1879631325154123,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "sunken_city_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:14.987Z",
+      "file": "sunken_city_3-static-back.png",
+      "revisionFile": "static-source/sunken_city_3/af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef/back.png",
+      "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+      "preparedSha256": "398714f6f03df1bf3a0fded9fb05b3d54bbdcc30883432331f9976ee72de7df8",
+      "pngSha256": "fa0de40393d10cb2d8cb04d2cf28828abb8a055ef4a139720dfccd8cadc31790",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "sunken_city_3",
+        "bytes": 1525800,
+        "triangles": 12548,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6785784661769867,
+            0,
+            -0.7056445181369781
+          ],
+          "max": [
+            0.6785784661769867,
+            1.9007259607315063,
+            0.7056445181369781
+          ]
+        },
+        "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17788,
+            "triangles": 12548,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              -1.1424525422694256,
+              0,
+              -1.1879631325154123,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "sunken_city_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:15.12Z",
+      "file": "sunken_city_3-static-top.png",
+      "revisionFile": "static-source/sunken_city_3/af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef/top.png",
+      "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+      "preparedSha256": "398714f6f03df1bf3a0fded9fb05b3d54bbdcc30883432331f9976ee72de7df8",
+      "pngSha256": "7a21c4853f3efcfc07c888672bbd349396e52a69c162b1ea69ff1627243bc7c8",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "sunken_city_3",
+        "bytes": 1525800,
+        "triangles": 12548,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6785784661769867,
+            0,
+            -0.7056445181369781
+          ],
+          "max": [
+            0.6785784661769867,
+            1.9007259607315063,
+            0.7056445181369781
+          ]
+        },
+        "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17788,
+            "triangles": 12548,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              -1.1424525422694256,
+              0,
+              -1.1879631325154123,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "sunken_city_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:15.213Z",
+      "file": "sunken_city_3-static-game.png",
+      "revisionFile": "static-source/sunken_city_3/af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef/game.png",
+      "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+      "preparedSha256": "398714f6f03df1bf3a0fded9fb05b3d54bbdcc30883432331f9976ee72de7df8",
+      "pngSha256": "56a50c7065e87e4c8a79c7912d172e587b415f7791289897a26744d00b25dedf",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "sunken_city_3",
+        "bytes": 1525800,
+        "triangles": 12548,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6785784661769867,
+            0,
+            -0.7056445181369781
+          ],
+          "max": [
+            0.6785784661769867,
+            1.9007259607315063,
+            0.7056445181369781
+          ]
+        },
+        "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17788,
+            "triangles": 12548,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              0,
+              0,
+              0,
+              0.00019532442165659525,
+              0,
+              -1.1424525422694256,
+              0,
+              -1.1879631325154123,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:15.79Z",
+      "file": "dusk_fort_3-static-front.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/front.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "22be615e74a932cbe5a8b5b5afec3b2da7ec4435943ee1bd8717c3378c6f4608",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "dusk_fort_3",
+        "bytes": 1513996,
+        "triangles": 12495,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6596870124340057,
+            0,
+            -0.22259951382875443
+          ],
+          "max": [
+            0.6596870124340057,
+            1.901369035243988,
+            0.22259951382875443
+          ]
+        },
+        "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19997,
+            "triangles": 12495,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              -1.2490020142830984,
+              0,
+              -0.4214612708295184,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_FIVE_DIGITS_BOTH_HANDS",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:15.882Z",
+      "file": "dusk_fort_3-static-side.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/side.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "7f6351105494da843bdc246a505261fbff2cc5661826894d7ea61743e09bbcb4",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "dusk_fort_3",
+        "bytes": 1513996,
+        "triangles": 12495,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6596870124340057,
+            0,
+            -0.22259951382875443
+          ],
+          "max": [
+            0.6596870124340057,
+            1.901369035243988,
+            0.22259951382875443
+          ]
+        },
+        "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19997,
+            "triangles": 12495,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              -1.2490020142830984,
+              0,
+              -0.4214612708295184,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_FIVE_DIGITS_BOTH_HANDS",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:15.987Z",
+      "file": "dusk_fort_3-static-back.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/back.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "6429c9904971617ec5244aa446bf60a20469de0b9a5dc9f37a34bd9c6ab521a8",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "dusk_fort_3",
+        "bytes": 1513996,
+        "triangles": 12495,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6596870124340057,
+            0,
+            -0.22259951382875443
+          ],
+          "max": [
+            0.6596870124340057,
+            1.901369035243988,
+            0.22259951382875443
+          ]
+        },
+        "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19997,
+            "triangles": 12495,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              -1.2490020142830984,
+              0,
+              -0.4214612708295184,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_FIVE_DIGITS_BOTH_HANDS",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:16.169Z",
+      "file": "dusk_fort_3-static-top.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/top.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "22adc7511755244f58e6e62e19782923ae17a6088d54f15ac23ff419cf9f43bd",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "dusk_fort_3",
+        "bytes": 1513996,
+        "triangles": 12495,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6596870124340057,
+            0,
+            -0.22259951382875443
+          ],
+          "max": [
+            0.6596870124340057,
+            1.901369035243988,
+            0.22259951382875443
+          ]
+        },
+        "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19997,
+            "triangles": 12495,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              -1.2490020142830984,
+              0,
+              -0.4214612708295184,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_FIVE_DIGITS_BOTH_HANDS",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:00:16.258Z",
+      "file": "dusk_fort_3-static-game.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/game.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "8cac4e1f43ee0e408f7f0cc734a0ae4facffeb7da7db78d9c2c7663b188756e3",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "dusk_fort_3",
+        "bytes": 1513996,
+        "triangles": 12495,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.6596870124340057,
+            0,
+            -0.22259951382875443
+          ],
+          "max": [
+            0.6596870124340057,
+            1.901369035243988,
+            0.22259951382875443
+          ]
+        },
+        "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19997,
+            "triangles": 12495,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              0,
+              0,
+              0,
+              0.00021973997436366965,
+              0,
+              -1.2490020142830984,
+              0,
+              -0.4214612708295184,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_FIVE_DIGITS_BOTH_HANDS",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:26.991Z",
+      "file": "giant_valley_3-static-front.png",
+      "revisionFile": "static-source/giant_valley_3/189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81/front.png",
+      "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+      "preparedSha256": "c2ed92708c0634b837b1d4a7b9a59100d6425e31880897b1ac1e496ea8fcccd4",
+      "pngSha256": "76435d05ed9e063c01b37ec07451f2b4a864b960ab0d0dd72fca13fcc146af55",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1344568,
+        "triangles": 12501,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5959675312042236,
+            0,
+            -0.2302665412425995
+          ],
+          "max": [
+            0.5959675312042236,
+            1.9004071950912476,
+            0.2302665412425995
+          ]
+        },
+        "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18016,
+            "triangles": 12501,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              -1.317066471342245,
+              0,
+              -0.5088811572971984,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_CLUB",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:27.077Z",
+      "file": "giant_valley_3-static-side.png",
+      "revisionFile": "static-source/giant_valley_3/189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81/side.png",
+      "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+      "preparedSha256": "c2ed92708c0634b837b1d4a7b9a59100d6425e31880897b1ac1e496ea8fcccd4",
+      "pngSha256": "c8040a57621857395625315b15729d1f7a010956faa76099f62b6f1e2a138d4d",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1344568,
+        "triangles": 12501,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5959675312042236,
+            0,
+            -0.2302665412425995
+          ],
+          "max": [
+            0.5959675312042236,
+            1.9004071950912476,
+            0.2302665412425995
+          ]
+        },
+        "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18016,
+            "triangles": 12501,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              -1.317066471342245,
+              0,
+              -0.5088811572971984,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_CLUB",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:27.165Z",
+      "file": "giant_valley_3-static-back.png",
+      "revisionFile": "static-source/giant_valley_3/189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81/back.png",
+      "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+      "preparedSha256": "c2ed92708c0634b837b1d4a7b9a59100d6425e31880897b1ac1e496ea8fcccd4",
+      "pngSha256": "278a6a48c8adf46f8bf0968a00598183a17a124fd9d683e4ed1480d126443bb1",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1344568,
+        "triangles": 12501,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5959675312042236,
+            0,
+            -0.2302665412425995
+          ],
+          "max": [
+            0.5959675312042236,
+            1.9004071950912476,
+            0.2302665412425995
+          ]
+        },
+        "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18016,
+            "triangles": 12501,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              -1.317066471342245,
+              0,
+              -0.5088811572971984,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_CLUB",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:27.356Z",
+      "file": "giant_valley_3-static-top.png",
+      "revisionFile": "static-source/giant_valley_3/189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81/top.png",
+      "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+      "preparedSha256": "c2ed92708c0634b837b1d4a7b9a59100d6425e31880897b1ac1e496ea8fcccd4",
+      "pngSha256": "5e0e648032ffc64f70aee2fbb78722af1273625eadf606d8261b53cfca54f993",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1344568,
+        "triangles": 12501,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5959675312042236,
+            0,
+            -0.2302665412425995
+          ],
+          "max": [
+            0.5959675312042236,
+            1.9004071950912476,
+            0.2302665412425995
+          ]
+        },
+        "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18016,
+            "triangles": 12501,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              -1.317066471342245,
+              0,
+              -0.5088811572971984,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_CLUB",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:27.45Z",
+      "file": "giant_valley_3-static-game.png",
+      "revisionFile": "static-source/giant_valley_3/189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81/game.png",
+      "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+      "preparedSha256": "c2ed92708c0634b837b1d4a7b9a59100d6425e31880897b1ac1e496ea8fcccd4",
+      "pngSha256": "061d73ff0b32cea896f9f4deb83e8371e612c847891a6601a94f0c2305981b22",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1344568,
+        "triangles": 12501,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5959675312042236,
+            0,
+            -0.2302665412425995
+          ],
+          "max": [
+            0.5959675312042236,
+            1.9004071950912476,
+            0.2302665412425995
+          ]
+        },
+        "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18016,
+            "triangles": 12501,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              0,
+              0,
+              0,
+              0.00025636330342428126,
+              0,
+              -1.317066471342245,
+              0,
+              -0.5088811572971984,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_CLUB",
+      "humanReviewed": true
+    },
+    {
+      "type": "himmapan_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:28.066Z",
+      "file": "himmapan_3-static-front.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/front.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "26dcb70fb03f059c0673bc4df8b71fc8642aedd1fbef0b8374aa4d57e80f59ba",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "himmapan_3",
+        "bytes": 1522740,
+        "triangles": 12528,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.9487265944480896,
+            0,
+            -0.3220590054988861
+          ],
+          "max": [
+            0.9487265944480896,
+            1.9006600975990295,
+            0.3220590054988861
+          ]
+        },
+        "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 21570,
+            "triangles": 12528,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -1.8967527314899588,
+              0,
+              -0.6438869559909662,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "himmapan_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:28.159Z",
+      "file": "himmapan_3-static-side.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/side.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "4cc62b244921516ad6506e12d58f80aa380c413bb9994def0d0eafff629d6674",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "himmapan_3",
+        "bytes": 1522740,
+        "triangles": 12528,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.9487265944480896,
+            0,
+            -0.3220590054988861
+          ],
+          "max": [
+            0.9487265944480896,
+            1.9006600975990295,
+            0.3220590054988861
+          ]
+        },
+        "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 21570,
+            "triangles": 12528,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -1.8967527314899588,
+              0,
+              -0.6438869559909662,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "himmapan_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:28.269Z",
+      "file": "himmapan_3-static-back.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/back.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "ea50b73222e0a967442c472202bcd7c8a75ced5dee5cffc247eade023d1d8cda",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "himmapan_3",
+        "bytes": 1522740,
+        "triangles": 12528,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.9487265944480896,
+            0,
+            -0.3220590054988861
+          ],
+          "max": [
+            0.9487265944480896,
+            1.9006600975990295,
+            0.3220590054988861
+          ]
+        },
+        "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 21570,
+            "triangles": 12528,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -1.8967527314899588,
+              0,
+              -0.6438869559909662,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "himmapan_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:28.414Z",
+      "file": "himmapan_3-static-top.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/top.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "998848ecde3202790f19b67f82dad5e89cc12b0aeb342fbc06e9bce680657f56",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "himmapan_3",
+        "bytes": 1522740,
+        "triangles": 12528,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.9487265944480896,
+            0,
+            -0.3220590054988861
+          ],
+          "max": [
+            0.9487265944480896,
+            1.9006600975990295,
+            0.3220590054988861
+          ]
+        },
+        "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 21570,
+            "triangles": 12528,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -1.8967527314899588,
+              0,
+              -0.6438869559909662,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "himmapan_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:28.515Z",
+      "file": "himmapan_3-static-game.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/game.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "b9bafa700a462d96349616522458f4979ca6372dfc824d1b8ff5c3ac463cc866",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "himmapan_3",
+        "bytes": 1522740,
+        "triangles": 12528,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.9487265944480896,
+            0,
+            -0.3220590054988861
+          ],
+          "max": [
+            0.9487265944480896,
+            1.9006600975990295,
+            0.3220590054988861
+          ]
+        },
+        "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 21570,
+            "triangles": 12528,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -1.8967527314899588,
+              0,
+              -0.6438869559909662,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:29.083Z",
+      "file": "fallen_city_3-static-front.png",
+      "revisionFile": "static-source/fallen_city_3/c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107/front.png",
+      "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+      "preparedSha256": "67dd23a4ee06e1c10972c1e5461cc75a46e31198f9c92e0c23716ded517cf8fe",
+      "pngSha256": "ddd679239fbc7ca164bd359aa99140f4d526e7f74022d62a51c49d7c9bd643d8",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1363920,
+        "triangles": 12406,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.4431479871273041,
+            0,
+            -0.19193603843450546
+          ],
+          "max": [
+            0.4431479871273041,
+            1.901347041130066,
+            0.19193603843450546
+          ]
+        },
+        "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 16717,
+            "triangles": 12406,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -0.8856924861136544,
+              0,
+              -0.38364157968626017,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_DHA",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:29.174Z",
+      "file": "fallen_city_3-static-side.png",
+      "revisionFile": "static-source/fallen_city_3/c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107/side.png",
+      "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+      "preparedSha256": "67dd23a4ee06e1c10972c1e5461cc75a46e31198f9c92e0c23716ded517cf8fe",
+      "pngSha256": "3398f8ff33037e1649315f07f61c32a33154eb8433e91d2d1e465cfe52865df8",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1363920,
+        "triangles": 12406,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.4431479871273041,
+            0,
+            -0.19193603843450546
+          ],
+          "max": [
+            0.4431479871273041,
+            1.901347041130066,
+            0.19193603843450546
+          ]
+        },
+        "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 16717,
+            "triangles": 12406,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -0.8856924861136544,
+              0,
+              -0.38364157968626017,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_DHA",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:29.275Z",
+      "file": "fallen_city_3-static-back.png",
+      "revisionFile": "static-source/fallen_city_3/c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107/back.png",
+      "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+      "preparedSha256": "67dd23a4ee06e1c10972c1e5461cc75a46e31198f9c92e0c23716ded517cf8fe",
+      "pngSha256": "a11893ce028ac0496debfdd2a396dc31551e6d1cf58c9979afd899ab9240cdcd",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1363920,
+        "triangles": 12406,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.4431479871273041,
+            0,
+            -0.19193603843450546
+          ],
+          "max": [
+            0.4431479871273041,
+            1.901347041130066,
+            0.19193603843450546
+          ]
+        },
+        "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 16717,
+            "triangles": 12406,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -0.8856924861136544,
+              0,
+              -0.38364157968626017,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_DHA",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:29.494Z",
+      "file": "fallen_city_3-static-top.png",
+      "revisionFile": "static-source/fallen_city_3/c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107/top.png",
+      "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+      "preparedSha256": "67dd23a4ee06e1c10972c1e5461cc75a46e31198f9c92e0c23716ded517cf8fe",
+      "pngSha256": "40eb0159d108c7a7f17f0e9b39afa5cda76f9be0610c1e698190097b66ad4ca3",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1363920,
+        "triangles": 12406,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.4431479871273041,
+            0,
+            -0.19193603843450546
+          ],
+          "max": [
+            0.4431479871273041,
+            1.901347041130066,
+            0.19193603843450546
+          ]
+        },
+        "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 16717,
+            "triangles": 12406,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -0.8856924861136544,
+              0,
+              -0.38364157968626017,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_DHA",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:29.592Z",
+      "file": "fallen_city_3-static-game.png",
+      "revisionFile": "static-source/fallen_city_3/c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107/game.png",
+      "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+      "preparedSha256": "67dd23a4ee06e1c10972c1e5461cc75a46e31198f9c92e0c23716ded517cf8fe",
+      "pngSha256": "2b5d7eaf422c92a7087a01be907857ce78c480be729a11219e836dcce4a6ea25",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1363920,
+        "triangles": 12406,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.4431479871273041,
+            0,
+            -0.19193603843450546
+          ],
+          "max": [
+            0.4431479871273041,
+            1.901347041130066,
+            0.19193603843450546
+          ]
+        },
+        "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 16717,
+            "triangles": 12406,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720686,
+              0,
+              -0.8856924861136544,
+              0,
+              -0.38364157968626017,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "REJECT_MISSING_DHA",
+      "humanReviewed": true
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:30.195Z",
+      "file": "demon_rift_3-static-front.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/front.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "1112824771b6f05d3632f6851dfa6ea4918a3c328339a5c763fef3089dbcc080",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "demon_rift_3",
+        "bytes": 1441692,
+        "triangles": 12504,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.7943030297756195,
+            0,
+            -0.241362527012825
+          ],
+          "max": [
+            0.7943030297756195,
+            1.9013471007347107,
+            0.241362527012825
+          ]
+        },
+        "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19205,
+            "triangles": 12504,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.7545504486357812,
+              0,
+              -0.5331074894707929,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:30.288Z",
+      "file": "demon_rift_3-static-side.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/side.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "2a9277e8f6206ec5273aa8449ee60a6d254717987f74eb7ba9c7208a7b44ebdf",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "demon_rift_3",
+        "bytes": 1441692,
+        "triangles": 12504,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.7943030297756195,
+            0,
+            -0.241362527012825
+          ],
+          "max": [
+            0.7943030297756195,
+            1.9013471007347107,
+            0.241362527012825
+          ]
+        },
+        "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19205,
+            "triangles": 12504,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.7545504486357812,
+              0,
+              -0.5331074894707929,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:30.396Z",
+      "file": "demon_rift_3-static-back.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/back.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "bdf00c3262a445afd2f2b5ec6781f15acd59a81fcec9f6bf54d862e810954809",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "demon_rift_3",
+        "bytes": 1441692,
+        "triangles": 12504,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.7943030297756195,
+            0,
+            -0.241362527012825
+          ],
+          "max": [
+            0.7943030297756195,
+            1.9013471007347107,
+            0.241362527012825
+          ]
+        },
+        "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19205,
+            "triangles": 12504,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.7545504486357812,
+              0,
+              -0.5331074894707929,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:30.574Z",
+      "file": "demon_rift_3-static-top.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/top.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "ca7c9ed1eb6482167d0904c68ed801d29bc276176adab608e7bdfc3513aedfd0",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "demon_rift_3",
+        "bytes": 1441692,
+        "triangles": 12504,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.7943030297756195,
+            0,
+            -0.241362527012825
+          ],
+          "max": [
+            0.7943030297756195,
+            1.9013471007347107,
+            0.241362527012825
+          ]
+        },
+        "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19205,
+            "triangles": 12504,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.7545504486357812,
+              0,
+              -0.5331074894707929,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:04:30.675Z",
+      "file": "demon_rift_3-static-game.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/game.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "43e96382506329c5634605f5acd23d1d59f561fd2b35d27e3e24b084488cd539",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "demon_rift_3",
+        "bytes": 1441692,
+        "triangles": 12504,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.7943030297756195,
+            0,
+            -0.241362527012825
+          ],
+          "max": [
+            0.7943030297756195,
+            1.9013471007347107,
+            0.241362527012825
+          ]
+        },
+        "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 19205,
+            "triangles": 12504,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.7545504486357812,
+              0,
+              -0.5331074894707929,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:29.209Z",
+      "file": "giant_valley_3-static-front.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/front.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "cf9ebfe729e8a988cfe49ec7113f8506068fc277fe5874a1845bb765cfd4eea5",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1380092,
+        "triangles": 12489,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.574725478887558,
+            0,
+            -0.2666015028953552
+          ],
+          "max": [
+            0.574725478887558,
+            1.9019789695739746,
+            0.2666015028953552
+          ]
+        },
+        "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18102,
+            "triangles": 12489,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.2691265336019044,
+              0,
+              -0.5887383263138619,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:29.291Z",
+      "file": "giant_valley_3-static-side.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/side.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "c00d3172464a30b33fe467cde7beb0c709d6ed439239fa1daf0d82c89106fc3b",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1380092,
+        "triangles": 12489,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.574725478887558,
+            0,
+            -0.2666015028953552
+          ],
+          "max": [
+            0.574725478887558,
+            1.9019789695739746,
+            0.2666015028953552
+          ]
+        },
+        "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18102,
+            "triangles": 12489,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.2691265336019044,
+              0,
+              -0.5887383263138619,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:29.393Z",
+      "file": "giant_valley_3-static-back.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/back.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "d27768d9c8155befd0612f5e11a38118fbfedc087859859d8dfa6a947074170e",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1380092,
+        "triangles": 12489,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.574725478887558,
+            0,
+            -0.2666015028953552
+          ],
+          "max": [
+            0.574725478887558,
+            1.9019789695739746,
+            0.2666015028953552
+          ]
+        },
+        "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18102,
+            "triangles": 12489,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.2691265336019044,
+              0,
+              -0.5887383263138619,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:29.591Z",
+      "file": "giant_valley_3-static-top.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/top.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "ad4874d021a2c6a0474e18d064c9fff53c62f345106868dd0b03328d73414e15",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1380092,
+        "triangles": 12489,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.574725478887558,
+            0,
+            -0.2666015028953552
+          ],
+          "max": [
+            0.574725478887558,
+            1.9019789695739746,
+            0.2666015028953552
+          ]
+        },
+        "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18102,
+            "triangles": 12489,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.2691265336019044,
+              0,
+              -0.5887383263138619,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:29.682Z",
+      "file": "giant_valley_3-static-game.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/game.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "f6fa3b0db5822a5d3538594550e5a8affc6af08766e6ba586e31776151276c87",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "giant_valley_3",
+        "bytes": 1380092,
+        "triangles": 12489,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.574725478887558,
+            0,
+            -0.2666015028953552
+          ],
+          "max": [
+            0.574725478887558,
+            1.9019789695739746,
+            0.2666015028953552
+          ]
+        },
+        "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 18102,
+            "triangles": 12489,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              0,
+              0,
+              0,
+              0.0002563633034242813,
+              0,
+              -1.2691265336019044,
+              0,
+              -0.5887383263138619,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "front",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:30.233Z",
+      "file": "fallen_city_3-static-front.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/front.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "bc79be612d89f11af1fb2d27138d525354aaafa07fe02448770cb019a695ac61",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1429680,
+        "triangles": 12465,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5234484672546387,
+            0,
+            -0.4140714854001999
+          ],
+          "max": [
+            0.5234484672546387,
+            1.9000888466835022,
+            0.4140714854001999
+          ]
+        },
+        "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17040,
+            "triangles": 12465,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              -1.046896172862113,
+              0,
+              -0.8280534700604285,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "side",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:30.325Z",
+      "file": "fallen_city_3-static-side.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/side.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "3d00954ecdece8a9f75317b114dfd8ce466c8028c97015767c847c36645ed0c3",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1429680,
+        "triangles": 12465,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5234484672546387,
+            0,
+            -0.4140714854001999
+          ],
+          "max": [
+            0.5234484672546387,
+            1.9000888466835022,
+            0.4140714854001999
+          ]
+        },
+        "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17040,
+            "triangles": 12465,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              -1.046896172862113,
+              0,
+              -0.8280534700604285,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "back",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:30.418Z",
+      "file": "fallen_city_3-static-back.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/back.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "1265ced1313ceae52ae6012c88d3ddfb3b5db0211119b76eff3e8b862eaf8187",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1429680,
+        "triangles": 12465,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5234484672546387,
+            0,
+            -0.4140714854001999
+          ],
+          "max": [
+            0.5234484672546387,
+            1.9000888466835022,
+            0.4140714854001999
+          ]
+        },
+        "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17040,
+            "triangles": 12465,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              -1.046896172862113,
+              0,
+              -0.8280534700604285,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "top",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:30.536Z",
+      "file": "fallen_city_3-static-top.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/top.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "f76f1c083d571c65668a168585ec1e43ee3b3c825905350c2809ef5c71df9849",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1429680,
+        "triangles": 12465,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5234484672546387,
+            0,
+            -0.4140714854001999
+          ],
+          "max": [
+            0.5234484672546387,
+            1.9000888466835022,
+            0.4140714854001999
+          ]
+        },
+        "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17040,
+            "triangles": 12465,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              -1.046896172862113,
+              0,
+              -0.8280534700604285,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "view": "game",
+      "status": "captured",
+      "capturedAt": "2026-10-09T10:15:30.619Z",
+      "file": "fallen_city_3-static-game.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/game.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "bf90e684c4b362cfcadacb12200094a1c46be31e20c634cfdca9a2977600f05e",
+      "pngWidth": 1352,
+      "pngHeight": 660,
+      "prepared": {
+        "creature": "fallen_city_3",
+        "bytes": 1429680,
+        "triangles": 12465,
+        "meshes": 1,
+        "materialDraws": 1,
+        "materials": 1,
+        "textures": [
+          {
+            "mime": "image/png",
+            "size": [
+              512,
+              512
+            ]
+          },
+          {
+            "mime": "image/jpeg",
+            "size": [
+              1024,
+              1024
+            ]
+          }
+        ],
+        "bounds": {
+          "min": [
+            -0.5234484672546387,
+            0,
+            -0.4140714854001999
+          ],
+          "max": [
+            0.5234484672546387,
+            1.9000888466835022,
+            0.4140714854001999
+          ]
+        },
+        "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+        "stage": "static geometry candidate; rig pending",
+        "geometryCompression": "EXT_meshopt_compression"
+      },
+      "asset": {
+        "finite": true,
+        "meshes": [
+          {
+            "name": "mesh_0",
+            "skinned": false,
+            "vertices": 17040,
+            "triangles": 12465,
+            "materials": 1,
+            "groups": 0,
+            "worldMatrix": [
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              0,
+              0,
+              0,
+              0.00023194775071720683,
+              0,
+              -1.046896172862113,
+              0,
+              -0.8280534700604285,
+              1
+            ]
+          }
+        ],
+        "textures": [
+          {
+            "slot": "map",
+            "width": 1024,
+            "height": 1024
+          },
+          {
+            "slot": "normalMap",
+            "width": 512,
+            "height": 512
+          }
+        ],
+        "outerScale": [
+          2,
+          2,
+          2
+        ],
+        "captionHidden": true
+      },
+      "budgetFindings": [],
+      "camera": "Unmodified static review front/side/back/top/native game angles; no special yaw or model changes",
+      "artVerdict": "PASS_VISIBLE_STATIC_ANATOMY_REAL_PROP_GRIP_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    }
+  ],
+  "detailRows": [
+    {
+      "type": "dusk_fort_3",
+      "view": "front",
+      "capturedAt": "2026-10-09T10:10:31.866Z",
+      "file": "dusk_fort_3-digits-front.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/digits-front.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "e74575d689211439f92529e325c757b297e6604917a4feb72607dfdcd190998d",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "side",
+      "capturedAt": "2026-10-09T10:10:31.988Z",
+      "file": "dusk_fort_3-digits-side.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/digits-side.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "8d2f7cadbad94f069bbdf3a97486c41ce343a400ac8b4d67713b718fda2f29e7",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "back",
+      "capturedAt": "2026-10-09T10:10:32.15Z",
+      "file": "dusk_fort_3-digits-back.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/digits-back.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "9069f7ebfae6a871e4933ee5868e64f52320283b672e45e92f646bb35fef1634",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "dusk_fort_3",
+      "view": "game",
+      "capturedAt": "2026-10-09T10:10:32.295Z",
+      "file": "dusk_fort_3-digits-game.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/digits-game.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "pngSha256": "83dcbd46cd02c84d399b261194d1f0e96a3e90e55f575a0f2b40d8d0691ddf13",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "himmapan_3",
+      "view": "front",
+      "capturedAt": "2026-10-09T10:10:33.012Z",
+      "file": "himmapan_3-digits-front.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/digits-front.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "fdff5bec86675a820f25daed0d734f437471215da8f5a6b8d9028856762bb1a8",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "himmapan_3",
+      "view": "side",
+      "capturedAt": "2026-10-09T10:10:33.153Z",
+      "file": "himmapan_3-digits-side.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/digits-side.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "f2a755471dc2d68abd3bfd55b6c59d67bf3713da5699e6a2da7e816c3245273a",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "himmapan_3",
+      "view": "back",
+      "capturedAt": "2026-10-09T10:10:33.419Z",
+      "file": "himmapan_3-digits-back.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/digits-back.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "d01d987ec6a6118cfa250389829522e56965e37b6034d0f09f2cd2a7deaafb99",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "himmapan_3",
+      "view": "game",
+      "capturedAt": "2026-10-09T10:10:33.589Z",
+      "file": "himmapan_3-digits-game.png",
+      "revisionFile": "static-source/himmapan_3/a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5/digits-game.png",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "preparedSha256": "b578260251cd52cc49710da1edf507eece37e1e8e1c5376c400d8e851eb86ecc",
+      "pngSha256": "70a814d6f12e3491da978cc9615a8639319f276ed727c640001b1ab1f9bfc0cd",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "front",
+      "capturedAt": "2026-10-09T10:10:34.245Z",
+      "file": "demon_rift_3-digits-front.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/digits-front.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "6fcb58072a59585904b2bc89c03576d04cde0cd2b3f30a84c236d53d885a6283",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "side",
+      "capturedAt": "2026-10-09T10:10:34.387Z",
+      "file": "demon_rift_3-digits-side.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/digits-side.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "746a11851ba3399f50ea8fc996e930235c2ad5ff940613cc894afc46fc972942",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "back",
+      "capturedAt": "2026-10-09T10:10:34.561Z",
+      "file": "demon_rift_3-digits-back.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/digits-back.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "36b250868bc9985c7f967fdda7449496b95c71e3523a8f773e7b719dd547473f",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    },
+    {
+      "type": "demon_rift_3",
+      "view": "game",
+      "capturedAt": "2026-10-09T10:10:34.73Z",
+      "file": "demon_rift_3-digits-game.png",
+      "revisionFile": "static-source/demon_rift_3/6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a/digits-game.png",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "preparedSha256": "bd58f2b0848e630b9ef4b7d3b853fee90250bedc8871851b41282013b89392ac",
+      "pngSha256": "4d38dd489c593e6b6bf864879ce92ba3ab0186263d034253542694167a9dce85",
+      "cameraZoom": 2.5,
+      "scope": "Camera-only close source witness; model/pose unchanged; deliberately cropped framing, see full five views for complete anatomy",
+      "artVerdict": "UNREVIEWED"
+    }
+  ],
+  "handRows": [
+    {
+      "type": "dusk_fort_3",
+      "hand": "HandL",
+      "view": "outer",
+      "file": "dusk_fort_3-handl-outer.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/HandL-outer.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "recipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+      "pngSha256": "9271452f8491e8e901562515c75e6bef9b59d99c8a1e6bd2a6c398ce68cbec0d",
+      "capturedAt": "2026-10-09T10:14:21.047Z",
+      "region": {
+        "hand": "HandL",
+        "vertexSamples": 416,
+        "recipeWrist": [
+          0.578,
+          0.94,
+          0.047
+        ],
+        "recipeTip": [
+          0.625,
+          0.79,
+          0.06
+        ],
+        "normalisedSourceROI": {
+          "min": [
+            0.5229999999999999,
+            0.72,
+            -0.043
+          ],
+          "max": [
+            0.68,
+            0.945,
+            0.15
+          ]
+        },
+        "decodedWorldBounds": {
+          "min": [
+            1.005090642739425,
+            1.444790331441128,
+            -0.01889763779527559
+          ],
+          "max": [
+            1.249002014283098,
+            1.78802417139718,
+            0.2744552279802234
+          ]
+        },
+        "centre": [
+          1.1270463285112615,
+          1.616407251419154,
+          0.12777879509247392
+        ],
+        "worldPerNormalisedSource": 1.8947368421052633
+      },
+      "camera": {
+        "position": [
+          1.9299779198695455,
+          1.6806417787278167,
+          0.5292445907716159
+        ],
+        "target": [
+          1.1270463285112615,
+          1.616407251419154,
+          0.12777879509247392
+        ],
+        "direction": [
+          0.8921462126203155,
+          0.07137169700962524,
+          0.44607310631015773
+        ],
+        "frustum": {
+          "left": -0.5281523753123143,
+          "right": 0.5281523753123143,
+          "top": 0.2574253799670391,
+          "bottom": -0.2574253799670391
+        },
+        "zoom": 1
+      },
+      "scope": "Camera orbits measured actual decoded source hand; geometry/pose unchanged; no screenshot enlargement",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "hand": "HandL",
+      "view": "inner",
+      "file": "dusk_fort_3-handl-inner.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/HandL-inner.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "recipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+      "pngSha256": "7c1f8dbfc53d4b4d65e53c2f1c1e5f564d4f8ac858a8c5e2915d87344ec5a190",
+      "capturedAt": "2026-10-09T10:14:21.141Z",
+      "region": {
+        "hand": "HandL",
+        "vertexSamples": 416,
+        "recipeWrist": [
+          0.578,
+          0.94,
+          0.047
+        ],
+        "recipeTip": [
+          0.625,
+          0.79,
+          0.06
+        ],
+        "normalisedSourceROI": {
+          "min": [
+            0.5229999999999999,
+            0.72,
+            -0.043
+          ],
+          "max": [
+            0.68,
+            0.945,
+            0.15
+          ]
+        },
+        "decodedWorldBounds": {
+          "min": [
+            1.005090642739425,
+            1.444790331441128,
+            -0.01889763779527559
+          ],
+          "max": [
+            1.249002014283098,
+            1.78802417139718,
+            0.2744552279802234
+          ]
+        },
+        "centre": [
+          1.1270463285112615,
+          1.616407251419154,
+          0.12777879509247392
+        ],
+        "worldPerNormalisedSource": 1.8947368421052633
+      },
+      "camera": {
+        "position": [
+          0.6204690833205649,
+          1.65693343103441,
+          0.5330405912450312
+        ],
+        "target": [
+          1.1270463285112615,
+          1.616407251419154,
+          0.12777879509247392
+        ],
+        "direction": [
+          -0.779349607985687,
+          0.062347968638854966,
+          0.6234796863885497
+        ],
+        "frustum": {
+          "left": -0.5281523753123143,
+          "right": 0.5281523753123143,
+          "top": 0.2574253799670391,
+          "bottom": -0.2574253799670391
+        },
+        "zoom": 1
+      },
+      "scope": "Camera orbits measured actual decoded source hand; geometry/pose unchanged; no screenshot enlargement",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "hand": "HandL",
+      "view": "thumb",
+      "file": "dusk_fort_3-handl-thumb.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/HandL-thumb.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "recipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+      "pngSha256": "9bc318379424a9eef95e4191f04f2d8016fc7bb47c8034819c7aa3d8101b96c4",
+      "capturedAt": "2026-10-09T10:14:21.223Z",
+      "region": {
+        "hand": "HandL",
+        "vertexSamples": 416,
+        "recipeWrist": [
+          0.578,
+          0.94,
+          0.047
+        ],
+        "recipeTip": [
+          0.625,
+          0.79,
+          0.06
+        ],
+        "normalisedSourceROI": {
+          "min": [
+            0.5229999999999999,
+            0.72,
+            -0.043
+          ],
+          "max": [
+            0.68,
+            0.945,
+            0.15
+          ]
+        },
+        "decodedWorldBounds": {
+          "min": [
+            1.005090642739425,
+            1.444790331441128,
+            -0.01889763779527559
+          ],
+          "max": [
+            1.249002014283098,
+            1.78802417139718,
+            0.2744552279802234
+          ]
+        },
+        "centre": [
+          1.1270463285112615,
+          1.616407251419154,
+          0.12777879509247392
+        ],
+        "worldPerNormalisedSource": 1.8947368421052633
+      },
+      "camera": {
+        "position": [
+          1.2596224566132004,
+          1.7224681539007052,
+          1.0116196491053993
+        ],
+        "target": [
+          1.1270463285112615,
+          1.616407251419154,
+          0.12777879509247392
+        ],
+        "direction": [
+          0.14730680900215423,
+          0.11784544720172338,
+          0.9820453933476949
+        ],
+        "frustum": {
+          "left": -0.5281523753123143,
+          "right": 0.5281523753123143,
+          "top": 0.2574253799670391,
+          "bottom": -0.2574253799670391
+        },
+        "zoom": 1
+      },
+      "scope": "Camera orbits measured actual decoded source hand; geometry/pose unchanged; no screenshot enlargement",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "hand": "HandR",
+      "view": "outer",
+      "file": "dusk_fort_3-handr-outer.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/HandR-outer.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "recipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+      "pngSha256": "04a760c50ddf181c19d73a3b6f30aee83fd60597a32bf5723a377deed9fe9669",
+      "capturedAt": "2026-10-09T10:14:21.392Z",
+      "region": {
+        "hand": "HandR",
+        "vertexSamples": 401,
+        "recipeWrist": [
+          -0.578,
+          0.94,
+          0.047
+        ],
+        "recipeTip": [
+          -0.625,
+          0.79,
+          0.06
+        ],
+        "normalisedSourceROI": {
+          "min": [
+            -0.68,
+            0.72,
+            -0.043
+          ],
+          "max": [
+            -0.5229999999999999,
+            0.945,
+            0.15
+          ]
+        },
+        "decodedWorldBounds": {
+          "min": [
+            -1.2490020142830984,
+            1.4458890313129462,
+            -0.019556857718366627
+          ],
+          "max": [
+            -0.9943233839956053,
+            1.788683391320271,
+            0.28346456692913385
+          ]
+        },
+        "centre": [
+          -1.121662699139352,
+          1.6172862113166087,
+          0.1319538546053836
+        ],
+        "worldPerNormalisedSource": 1.8947368421052633
+      },
+      "camera": {
+        "position": [
+          -1.9245942904976359,
+          1.6815207386252713,
+          0.5334196502845256
+        ],
+        "target": [
+          -1.121662699139352,
+          1.6172862113166087,
+          0.1319538546053836
+        ],
+        "direction": [
+          -0.8921462126203155,
+          0.07137169700962524,
+          0.44607310631015773
+        ],
+        "frustum": {
+          "left": -0.5274761238714536,
+          "right": 0.5274761238714536,
+          "top": 0.25709577000549366,
+          "bottom": -0.25709577000549366
+        },
+        "zoom": 1
+      },
+      "scope": "Camera orbits measured actual decoded source hand; geometry/pose unchanged; no screenshot enlargement",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "hand": "HandR",
+      "view": "inner",
+      "file": "dusk_fort_3-handr-inner.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/HandR-inner.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "recipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+      "pngSha256": "a02ab68fc27dba3a2426e83b378fa0b527cd502b2b913f5a1f4119a0d047ffb8",
+      "capturedAt": "2026-10-09T10:14:21.486Z",
+      "region": {
+        "hand": "HandR",
+        "vertexSamples": 401,
+        "recipeWrist": [
+          -0.578,
+          0.94,
+          0.047
+        ],
+        "recipeTip": [
+          -0.625,
+          0.79,
+          0.06
+        ],
+        "normalisedSourceROI": {
+          "min": [
+            -0.68,
+            0.72,
+            -0.043
+          ],
+          "max": [
+            -0.5229999999999999,
+            0.945,
+            0.15
+          ]
+        },
+        "decodedWorldBounds": {
+          "min": [
+            -1.2490020142830984,
+            1.4458890313129462,
+            -0.019556857718366627
+          ],
+          "max": [
+            -0.9943233839956053,
+            1.788683391320271,
+            0.28346456692913385
+          ]
+        },
+        "centre": [
+          -1.121662699139352,
+          1.6172862113166087,
+          0.1319538546053836
+        ],
+        "worldPerNormalisedSource": 1.8947368421052633
+      },
+      "camera": {
+        "position": [
+          -0.6150854539486553,
+          1.6578123909318645,
+          0.5372156507579409
+        ],
+        "target": [
+          -1.121662699139352,
+          1.6172862113166087,
+          0.1319538546053836
+        ],
+        "direction": [
+          0.779349607985687,
+          0.062347968638854966,
+          0.6234796863885497
+        ],
+        "frustum": {
+          "left": -0.5274761238714536,
+          "right": 0.5274761238714536,
+          "top": 0.25709577000549366,
+          "bottom": -0.25709577000549366
+        },
+        "zoom": 1
+      },
+      "scope": "Camera orbits measured actual decoded source hand; geometry/pose unchanged; no screenshot enlargement",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "dusk_fort_3",
+      "hand": "HandR",
+      "view": "thumb",
+      "file": "dusk_fort_3-handr-thumb.png",
+      "revisionFile": "static-source/dusk_fort_3/0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08/HandR-thumb.png",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "preparedSha256": "f84999d20eaa9e981700854a4c1b310eca103a866cf451e092a0cc65ab6f2f7a",
+      "recipeSha256": "8ff27768dfd11e97ef3aa83d6c2200c4ebb4a8527382f74bec0d8a38e80d882d",
+      "pngSha256": "a94cec4478a8a374f6fe87cd48899cb2b205d22187d0a818bf12e5bf67ec8722",
+      "capturedAt": "2026-10-09T10:14:21.558Z",
+      "region": {
+        "hand": "HandR",
+        "vertexSamples": 401,
+        "recipeWrist": [
+          -0.578,
+          0.94,
+          0.047
+        ],
+        "recipeTip": [
+          -0.625,
+          0.79,
+          0.06
+        ],
+        "normalisedSourceROI": {
+          "min": [
+            -0.68,
+            0.72,
+            -0.043
+          ],
+          "max": [
+            -0.5229999999999999,
+            0.945,
+            0.15
+          ]
+        },
+        "decodedWorldBounds": {
+          "min": [
+            -1.2490020142830984,
+            1.4458890313129462,
+            -0.019556857718366627
+          ],
+          "max": [
+            -0.9943233839956053,
+            1.788683391320271,
+            0.28346456692913385
+          ]
+        },
+        "centre": [
+          -1.121662699139352,
+          1.6172862113166087,
+          0.1319538546053836
+        ],
+        "worldPerNormalisedSource": 1.8947368421052633
+      },
+      "camera": {
+        "position": [
+          -1.2542388272412908,
+          1.7233471137981597,
+          1.015794708618309
+        ],
+        "target": [
+          -1.121662699139352,
+          1.6172862113166087,
+          0.1319538546053836
+        ],
+        "direction": [
+          -0.14730680900215423,
+          0.11784544720172338,
+          0.9820453933476949
+        ],
+        "frustum": {
+          "left": -0.5274761238714536,
+          "right": 0.5274761238714536,
+          "top": 0.25709577000549366,
+          "bottom": -0.25709577000549366
+        },
+        "zoom": 1
+      },
+      "scope": "Camera orbits measured actual decoded source hand; geometry/pose unchanged; no screenshot enlargement",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    }
+  ],
+  "propRows": [
+    {
+      "type": "giant_valley_3",
+      "region": "grip",
+      "view": "outer",
+      "file": "giant_valley_3-grip-outer.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/grip-outer.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "77291f20e0bda620f3dc472c67c3169e28753b1442edd3b70e3d1202a391eed5",
+      "capturedAt": "2026-10-09T10:19:05.299Z",
+      "sourceRegion": {
+        "name": "grip",
+        "roi": [
+          502,
+          335,
+          66,
+          70
+        ],
+        "vertexSamples": 523,
+        "decodedWorldBounds": {
+          "min": [
+            -1.2388756637978393,
+            1.6381615088811576,
+            -0.16702069218091914
+          ],
+          "max": [
+            -0.8891961179271195,
+            2.060391869620949,
+            0.21752426295550287
+          ]
+        },
+        "centre": [
+          -1.0640358908624794,
+          1.8492766892510533,
+          0.025251785387291864
+        ]
+      },
+      "camera": {
+        "position": [
+          -1.911591129533937,
+          1.9170811083447699,
+          0.44902940472302066
+        ],
+        "target": [
+          -1.0640358908624794,
+          1.8492766892510533,
+          0.025251785387291864
+        ],
+        "direction": [
+          -0.8921462126203155,
+          0.07137169700962524,
+          0.44607310631015773
+        ],
+        "frustum": {
+          "left": -0.64970857180705,
+          "right": 0.64970857180705,
+          "top": 0.3166727705548436,
+          "bottom": -0.3166727705548436
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_PROP_CONTACT_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "region": "grip",
+      "view": "inner",
+      "file": "giant_valley_3-grip-inner.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/grip-inner.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "157b9b0bcd8c6693afa1b9941330c8c380b01b63ba426f37ba420eca8e8ac0ad",
+      "capturedAt": "2026-10-09T10:19:05.438Z",
+      "sourceRegion": {
+        "name": "grip",
+        "roi": [
+          502,
+          335,
+          66,
+          70
+        ],
+        "vertexSamples": 523,
+        "decodedWorldBounds": {
+          "min": [
+            -1.2388756637978393,
+            1.6381615088811576,
+            -0.16702069218091914
+          ],
+          "max": [
+            -0.8891961179271195,
+            2.060391869620949,
+            0.21752426295550287
+          ]
+        },
+        "centre": [
+          -1.0640358908624794,
+          1.8492766892510533,
+          0.025251785387291864
+        ]
+      },
+      "camera": {
+        "position": [
+          -0.5964261260710673,
+          1.8866854704343663,
+          0.39933959722042167
+        ],
+        "target": [
+          -1.0640358908624794,
+          1.8492766892510533,
+          0.025251785387291864
+        ],
+        "direction": [
+          0.779349607985687,
+          0.062347968638854966,
+          0.6234796863885497
+        ],
+        "frustum": {
+          "left": -0.64970857180705,
+          "right": 0.64970857180705,
+          "top": 0.3166727705548436,
+          "bottom": -0.3166727705548436
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_PROP_CONTACT_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "region": "grip",
+      "view": "thumb",
+      "file": "giant_valley_3-grip-thumb.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/grip-thumb.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "2f2a0f23ce709c522d0ebc8871813609fc38d910825b6a873e285c6b4e80ef0b",
+      "capturedAt": "2026-10-09T10:19:05.562Z",
+      "sourceRegion": {
+        "name": "grip",
+        "roi": [
+          502,
+          335,
+          66,
+          70
+        ],
+        "vertexSamples": 523,
+        "decodedWorldBounds": {
+          "min": [
+            -1.2388756637978393,
+            1.6381615088811576,
+            -0.16702069218091914
+          ],
+          "max": [
+            -0.8891961179271195,
+            2.060391869620949,
+            0.21752426295550287
+          ]
+        },
+        "centre": [
+          -1.0640358908624794,
+          1.8492766892510533,
+          0.025251785387291864
+        ]
+      },
+      "camera": {
+        "position": [
+          -1.2039800568473955,
+          1.961232022038986,
+          0.9582128919533991
+        ],
+        "target": [
+          -1.0640358908624794,
+          1.8492766892510533,
+          0.025251785387291864
+        ],
+        "direction": [
+          -0.14730680900215423,
+          0.11784544720172338,
+          0.9820453933476949
+        ],
+        "frustum": {
+          "left": -0.64970857180705,
+          "right": 0.64970857180705,
+          "top": 0.3166727705548436,
+          "bottom": -0.3166727705548436
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_PROP_CONTACT_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "region": "free-hand",
+      "view": "outer",
+      "file": "giant_valley_3-free-hand-outer.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/free-hand-outer.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "e27f4e492eb14f42612ab90cff7393b657552739684e6f8ae2d32131f7e53031",
+      "capturedAt": "2026-10-09T10:19:05.733Z",
+      "sourceRegion": {
+        "name": "free-hand",
+        "roi": [
+          800,
+          337,
+          58,
+          85
+        ],
+        "vertexSamples": 548,
+        "decodedWorldBounds": {
+          "min": [
+            0.911243362021608,
+            1.4761399011170118,
+            -0.1713788683391319
+          ],
+          "max": [
+            1.2691265336019049,
+            2.0444973448086436,
+            0.2969968870170301
+          ]
+        },
+        "centre": [
+          1.0901849478117565,
+          1.7603186229628278,
+          0.06280900933894909
+        ]
+      },
+      "camera": {
+        "position": [
+          2.231065314620877,
+          1.8515890523075575,
+          0.6332491927435093
+        ],
+        "target": [
+          1.0901849478117565,
+          1.7603186229628278,
+          0.06280900933894909
+        ],
+        "direction": [
+          0.8921462126203155,
+          0.07137169700962524,
+          0.44607310631015773
+        ],
+        "frustum": {
+          "left": -0.8745621758932786,
+          "right": 0.8745621758932786,
+          "top": 0.4262680827687239,
+          "bottom": -0.4262680827687239
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "grip",
+      "view": "outer",
+      "file": "fallen_city_3-grip-outer.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/grip-outer.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "afc997c965b0d35549b87999e4dc456158a59f9a5fc45b681e23a69192846ec7",
+      "capturedAt": "2026-10-09T10:19:06.327Z",
+      "sourceRegion": {
+        "name": "grip",
+        "roi": [
+          568,
+          308,
+          66,
+          89
+        ],
+        "vertexSamples": 1311,
+        "decodedWorldBounds": {
+          "min": [
+            -0.6481779893792343,
+            1.4429469572117437,
+            -0.4817554782396387
+          ],
+          "max": [
+            -0.27706158823170346,
+            2.010523103216749,
+            0.0009277910028686609
+          ]
+        },
+        "centre": [
+          -0.4626197888054689,
+          1.7267350302142463,
+          -0.24041384361838503
+        ]
+      },
+      "camera": {
+        "position": [
+          -1.6019318341274702,
+          1.8178799938400065,
+          0.32924217904261566
+        ],
+        "target": [
+          -0.4626197888054689,
+          1.7267350302142463,
+          -0.24041384361838503
+        ],
+        "direction": [
+          -0.8921462126203155,
+          0.07137169700962524,
+          0.44607310631015773
+        ],
+        "frustum": {
+          "left": -0.8733599511095257,
+          "right": 0.8733599511095257,
+          "top": 0.42568210950375396,
+          "bottom": -0.42568210950375396
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_PROP_CONTACT_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "grip",
+      "view": "inner",
+      "file": "fallen_city_3-grip-inner.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/grip-inner.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "2e9d54b39e670ae9ba29aecb58bf55b8e70af9f1024221748f2a5140610f243c",
+      "capturedAt": "2026-10-09T10:19:06.466Z",
+      "sourceRegion": {
+        "name": "grip",
+        "roi": [
+          568,
+          308,
+          66,
+          89
+        ],
+        "vertexSamples": 1311,
+        "decodedWorldBounds": {
+          "min": [
+            -0.6481779893792343,
+            1.4429469572117437,
+            -0.4817554782396387
+          ],
+          "max": [
+            -0.27706158823170346,
+            2.010523103216749,
+            0.0009277910028686609
+          ]
+        },
+        "centre": [
+          -0.4626197888054689,
+          1.7267350302142463,
+          -0.24041384361838503
+        ]
+      },
+      "camera": {
+        "position": [
+          0.004989975985943251,
+          1.7641438113975594,
+          0.13367396821474475
+        ],
+        "target": [
+          -0.4626197888054689,
+          1.7267350302142463,
+          -0.24041384361838503
+        ],
+        "direction": [
+          0.779349607985687,
+          0.062347968638854966,
+          0.6234796863885497
+        ],
+        "frustum": {
+          "left": -0.8733599511095257,
+          "right": 0.8733599511095257,
+          "top": 0.42568210950375396,
+          "bottom": -0.42568210950375396
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_PROP_CONTACT_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "grip",
+      "view": "thumb",
+      "file": "fallen_city_3-grip-thumb.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/grip-thumb.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "e5901d97d06023d04806b838384e34c20019cfb13d54df21cd75e90b5bdd4d59",
+      "capturedAt": "2026-10-09T10:19:06.603Z",
+      "sourceRegion": {
+        "name": "grip",
+        "roi": [
+          568,
+          308,
+          66,
+          89
+        ],
+        "vertexSamples": 1311,
+        "decodedWorldBounds": {
+          "min": [
+            -0.6481779893792343,
+            1.4429469572117437,
+            -0.4817554782396387
+          ],
+          "max": [
+            -0.27706158823170346,
+            2.010523103216749,
+            0.0009277910028686609
+          ]
+        },
+        "centre": [
+          -0.4626197888054689,
+          1.7267350302142463,
+          -0.24041384361838503
+        ]
+      },
+      "camera": {
+        "position": [
+          -0.6507374084063796,
+          1.877229125894975,
+          1.0137036203876866
+        ],
+        "target": [
+          -0.4626197888054689,
+          1.7267350302142463,
+          -0.24041384361838503
+        ],
+        "direction": [
+          -0.14730680900215423,
+          0.11784544720172338,
+          0.9820453933476949
+        ],
+        "frustum": {
+          "left": -0.8733599511095257,
+          "right": 0.8733599511095257,
+          "top": 0.42568210950375396,
+          "bottom": -0.42568210950375396
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_PROP_CONTACT_CLOSED_DIGIT_COUNT_PARTLY_OCCLUDED",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "free-hand",
+      "view": "outer",
+      "file": "fallen_city_3-free-hand-outer.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/free-hand-outer.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "cdd9e804a60bb6898da7578adfe79a581812ab83366afabd5a258c9f74a8d2c2",
+      "capturedAt": "2026-10-09T10:19:06.744Z",
+      "sourceRegion": {
+        "name": "free-hand",
+        "roi": [
+          796,
+          335,
+          45,
+          72
+        ],
+        "vertexSamples": 608,
+        "decodedWorldBounds": {
+          "min": [
+            0.8699200390648842,
+            1.4663736800341816,
+            -0.6772874320942441
+          ],
+          "max": [
+            1.0468961728621133,
+            1.8187023133736187,
+            -0.4344381370933285
+          ]
+        },
+        "centre": [
+          0.9584081059634988,
+          1.6425379967039002,
+          -0.5558627845937864
+        ]
+      },
+      "camera": {
+        "position": [
+          1.7613396973217827,
+          1.7067725240125629,
+          -0.15439698891464437
+        ],
+        "target": [
+          0.9584081059634988,
+          1.6425379967039002,
+          -0.5558627845937864
+        ],
+        "direction": [
+          0.8921462126203155,
+          0.07137169700962524,
+          0.44607310631015773
+        ],
+        "frustum": {
+          "left": -0.542147023185684,
+          "right": 0.542147023185684,
+          "top": 0.2642464750045778,
+          "bottom": -0.2642464750045778
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "blade-edge",
+      "view": "face",
+      "file": "fallen_city_3-blade-edge-face.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/blade-edge-face.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "fa07a85aceac4d943d3731509152d2d7ebc3e34335a6fad2f6905e6a0a15a12c",
+      "capturedAt": "2026-10-09T10:19:06.839Z",
+      "sourceRegion": {
+        "name": "blade-edge",
+        "roi": [
+          512,
+          377,
+          91,
+          174
+        ],
+        "vertexSamples": 375,
+        "decodedWorldBounds": {
+          "min": [
+            -1.046896172862113,
+            0.5773179515351278,
+            -0.24609656351095655
+          ],
+          "max": [
+            -0.4823353476164315,
+            1.575621070621986,
+            0.8280534700604283
+          ]
+        },
+        "centre": [
+          -0.7646157602392722,
+          1.076469511078557,
+          0.29097845327473587
+        ]
+      },
+      "camera": {
+        "position": [
+          -0.7646157602392722,
+          1.076469511078557,
+          2.7078160288103517
+        ],
+        "target": [
+          -0.7646157602392722,
+          1.076469511078557,
+          0.29097845327473587
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "frustum": {
+          "left": -1.6528524452751172,
+          "right": 1.6528524452751172,
+          "top": 0.8056125251785385,
+          "bottom": -0.8056125251785385
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_CONTINUOUS_BLADE_EDGE_POINT",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "blade-edge",
+      "view": "oblique",
+      "file": "fallen_city_3-blade-edge-oblique.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/blade-edge-oblique.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "be189f6733cd7f3f9e5a47a5e22d8ec5678a01f2cb49d24d314898af66d50718",
+      "capturedAt": "2026-10-09T10:19:06.939Z",
+      "sourceRegion": {
+        "name": "blade-edge",
+        "roi": [
+          512,
+          377,
+          91,
+          174
+        ],
+        "vertexSamples": 375,
+        "decodedWorldBounds": {
+          "min": [
+            -1.046896172862113,
+            0.5773179515351278,
+            -0.24609656351095655
+          ],
+          "max": [
+            -0.4823353476164315,
+            1.575621070621986,
+            0.8280534700604283
+          ]
+        },
+        "centre": [
+          -0.7646157602392722,
+          1.076469511078557,
+          0.29097845327473587
+        ]
+      },
+      "camera": {
+        "position": [
+          -2.4708502043091425,
+          1.2129682666041466,
+          1.997212897344606
+        ],
+        "target": [
+          -0.7646157602392722,
+          1.076469511078557,
+          0.29097845327473587
+        ],
+        "direction": [
+          -0.7059781184061312,
+          0.0564782494724905,
+          0.7059781184061312
+        ],
+        "frustum": {
+          "left": -1.6528524452751172,
+          "right": 1.6528524452751172,
+          "top": 0.8056125251785385,
+          "bottom": -0.8056125251785385
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_VISIBLE_CONTINUOUS_BLADE_EDGE_POINT",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "region": "free-hand",
+      "view": "inner",
+      "file": "giant_valley_3-free-hand-inner.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/free-hand-inner.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "9e42fc1e3c8da1b927492a466f121d76b433da27705f80a476daa14ee8811615",
+      "capturedAt": "2026-10-09T10:22:34.545Z",
+      "sourceRegion": {
+        "name": "free-hand",
+        "roi": [
+          800,
+          337,
+          58,
+          85
+        ],
+        "vertexSamples": 548,
+        "decodedWorldBounds": {
+          "min": [
+            0.911243362021608,
+            1.4761399011170118,
+            -0.1713788683391319
+          ],
+          "max": [
+            1.2691265336019049,
+            2.0444973448086436,
+            0.2969968870170301
+          ]
+        },
+        "centre": [
+          1.0901849478117565,
+          1.7603186229628278,
+          0.06280900933894909
+        ]
+      },
+      "camera": {
+        "position": [
+          0.6225751830203443,
+          1.7977274041461409,
+          0.43689682117207884
+        ],
+        "target": [
+          1.0901849478117565,
+          1.7603186229628278,
+          0.06280900933894909
+        ],
+        "direction": [
+          -0.779349607985687,
+          0.062347968638854966,
+          0.6234796863885497
+        ],
+        "frustum": {
+          "left": -0.8745621758932786,
+          "right": 0.8745621758932786,
+          "top": 0.4262680827687239,
+          "bottom": -0.4262680827687239
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "giant_valley_3",
+      "region": "free-hand",
+      "view": "thumb",
+      "file": "giant_valley_3-free-hand-thumb.png",
+      "revisionFile": "static-source/giant_valley_3/59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d/free-hand-thumb.png",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "preparedSha256": "725b8844fbe94226e49f1d2e0821512f61dd5a4367fd6d9ff01ba9b84bfa5e15",
+      "pngSha256": "1512ad041b6b9f780aae0e2cb0f5bb3d70b9748ff1defea4f185d7c26d71cb62",
+      "capturedAt": "2026-10-09T10:22:34.669Z",
+      "sourceRegion": {
+        "name": "free-hand",
+        "roi": [
+          800,
+          337,
+          58,
+          85
+        ],
+        "vertexSamples": 548,
+        "decodedWorldBounds": {
+          "min": [
+            0.911243362021608,
+            1.4761399011170118,
+            -0.1713788683391319
+          ],
+          "max": [
+            1.2691265336019049,
+            2.0444973448086436,
+            0.2969968870170301
+          ]
+        },
+        "centre": [
+          1.0901849478117565,
+          1.7603186229628278,
+          0.06280900933894909
+        ]
+      },
+      "camera": {
+        "position": [
+          1.2785615209681371,
+          1.9110198814879324,
+          1.3186528303814868
+        ],
+        "target": [
+          1.0901849478117565,
+          1.7603186229628278,
+          0.06280900933894909
+        ],
+        "direction": [
+          0.14730680900215423,
+          0.11784544720172338,
+          0.9820453933476949
+        ],
+        "frustum": {
+          "left": -0.8745621758932786,
+          "right": 0.8745621758932786,
+          "top": 0.4262680827687239,
+          "bottom": -0.4262680827687239
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "free-hand",
+      "view": "inner",
+      "file": "fallen_city_3-free-hand-inner.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/free-hand-inner.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "c37580583209f5a0a3a8a10a1c65e5696a10ee4dc47c6353f522708001c94f19",
+      "capturedAt": "2026-10-09T10:22:35.297Z",
+      "sourceRegion": {
+        "name": "free-hand",
+        "roi": [
+          796,
+          335,
+          45,
+          72
+        ],
+        "vertexSamples": 608,
+        "decodedWorldBounds": {
+          "min": [
+            0.8699200390648842,
+            1.4663736800341816,
+            -0.6772874320942441
+          ],
+          "max": [
+            1.0468961728621133,
+            1.8187023133736187,
+            -0.4344381370933285
+          ]
+        },
+        "centre": [
+          0.9584081059634988,
+          1.6425379967039002,
+          -0.5558627845937864
+        ]
+      },
+      "camera": {
+        "position": [
+          0.49079834117208665,
+          1.6799467778872132,
+          -0.18177497276065657
+        ],
+        "target": [
+          0.9584081059634988,
+          1.6425379967039002,
+          -0.5558627845937864
+        ],
+        "direction": [
+          -0.779349607985687,
+          0.062347968638854966,
+          0.6234796863885497
+        ],
+        "frustum": {
+          "left": -0.542147023185684,
+          "right": 0.542147023185684,
+          "top": 0.2642464750045778,
+          "bottom": -0.2642464750045778
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    },
+    {
+      "type": "fallen_city_3",
+      "region": "free-hand",
+      "view": "thumb",
+      "file": "fallen_city_3-free-hand-thumb.png",
+      "revisionFile": "static-source/fallen_city_3/4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b/free-hand-thumb.png",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "preparedSha256": "c3e99cd1b92fa97f9f7ca713d672469a5353c99d564b5a04a310a16f00b8643f",
+      "pngSha256": "f939585bddfce1dd996a3c73ff35d0b88dfdb52a12bd67ff509394379be8de70",
+      "capturedAt": "2026-10-09T10:22:35.41Z",
+      "sourceRegion": {
+        "name": "free-hand",
+        "roi": [
+          796,
+          335,
+          45,
+          72
+        ],
+        "vertexSamples": 608,
+        "decodedWorldBounds": {
+          "min": [
+            0.8699200390648842,
+            1.4663736800341816,
+            -0.6772874320942441
+          ],
+          "max": [
+            1.0468961728621133,
+            1.8187023133736187,
+            -0.4344381370933285
+          ]
+        },
+        "centre": [
+          0.9584081059634988,
+          1.6425379967039002,
+          -0.5558627845937864
+        ]
+      },
+      "camera": {
+        "position": [
+          1.0909842340654377,
+          1.7485988991854513,
+          0.3279780694191391
+        ],
+        "target": [
+          0.9584081059634988,
+          1.6425379967039002,
+          -0.5558627845937864
+        ],
+        "direction": [
+          0.14730680900215423,
+          0.11784544720172338,
+          0.9820453933476949
+        ],
+        "frustum": {
+          "left": -0.542147023185684,
+          "right": 0.542147023185684,
+          "top": 0.2642464750045778,
+          "bottom": -0.2642464750045778
+        }
+      },
+      "scope": "Close camera aimed at actual decoded source vertices selected from inspected full-source front projection; geometry/pose unchanged",
+      "artVerdict": "PASS_FIVE_DIGITS_NATURAL_ORIENTATION",
+      "humanReviewed": true
+    }
+  ],
+  "humanReview": {
+    "completedAt": "2026-10-09T10:25:12.6294643Z",
+    "reviewedViews": 40,
+    "reviewedMeasuredHandViews": 6,
+    "reviewedMeasuredPropViews": 14,
+    "report": "STATIC_ART_REVIEW.md",
+    "scope": "Static only. Old prop revisions rejected; closed gripping digit count partly occluded; Dusk/Garuda v1 animation unaccepted",
+    "verdicts": {
+      "dusk_fort_3": "PASS_FIVE_DIGITS_BOTH_HANDS",
+      "himmapan_3": "PASS_VISIBLE_STATIC_ANATOMY",
+      "fallen_city_3": "PROP_V2_PASS_VISIBLE_STATIC_GRIP_BLADE_EDGE",
+      "sunken_city_3": "PASS_VISIBLE_STATIC_ANATOMY",
+      "giant_valley_3": "PROP_V2_PASS_VISIBLE_STATIC_GRIP",
+      "demon_rift_3": "PASS_VISIBLE_STATIC_ANATOMY"
+    }
+  },
+  "attempts": [
+    {
+      "type": "sunken_city_3",
+      "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+      "startedAt": "2026-10-09T10:00:14.034Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:00:15.214Z"
+    },
+    {
+      "type": "dusk_fort_3",
+      "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+      "startedAt": "2026-10-09T10:00:15.294Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:00:16.259Z"
+    },
+    {
+      "type": "giant_valley_3",
+      "sha256": "189d9bfb7dfe1a46450faad4ea32728bb1b2fe8ce8b86d063e369e35af0ade81",
+      "startedAt": "2026-10-09T10:04:26.238Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:04:27.451Z"
+    },
+    {
+      "type": "himmapan_3",
+      "sha256": "a3990649a8ee5d798929485c41648eb869dc8150f9a26ac5def574f69f3733d5",
+      "startedAt": "2026-10-09T10:04:27.539Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:04:28.515Z"
+    },
+    {
+      "type": "fallen_city_3",
+      "sha256": "c58467d53ca2cff28a62c1d3a31e14a58f8571164e095de650f1554871abf107",
+      "startedAt": "2026-10-09T10:04:28.599Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:04:29.593Z"
+    },
+    {
+      "type": "demon_rift_3",
+      "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+      "startedAt": "2026-10-09T10:04:29.686Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:04:30.676Z"
+    },
+    {
+      "type": "giant_valley_3",
+      "sha256": "59bbe3cc594674a293a78616da7805c972b9b3f258f468645a7e2a38d422481d",
+      "startedAt": "2026-10-09T10:15:28.446Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:15:29.683Z"
+    },
+    {
+      "type": "fallen_city_3",
+      "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+      "startedAt": "2026-10-09T10:15:29.765Z",
+      "status": "captured",
+      "views": [
+        "front",
+        "side",
+        "back",
+        "top",
+        "game"
+      ],
+      "finishedAt": "2026-10-09T10:15:30.62Z"
+    }
+  ],
+  "pending": [],
+  "errors": [],
+  "browser": "msedge/headless/SwiftShader",
+  "viewport": {
+    "width": 1400,
+    "height": 1040
+  }
+}

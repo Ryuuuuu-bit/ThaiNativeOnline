@@ -1,0 +1,453 @@
+{
+  "session": {
+    "protocolVersion": "codex-blender/v1",
+    "requestId": "05c2fda3-9bac-49a9-8e58-edbca816464e",
+    "status": "succeeded",
+    "sceneRevision": 0,
+    "changedObjects": [],
+    "warnings": [],
+    "result": {
+      "sessionId": "meshy-boss-02-approved-reopen-20261009",
+      "sceneRevision": 0,
+      "executionPolicy": {
+        "mode": "review_only",
+        "approvedOutputRoot": null,
+        "allowDesignedProxies": false,
+        "exportFormats": [
+          "blend",
+          "glb",
+          "gltf",
+          "fbx",
+          "obj",
+          "stl",
+          "png",
+          "jpg",
+          "mp4"
+        ],
+        "downstreamBudgetLimit": null
+      },
+      "paused": false,
+      "revoked": false,
+      "needsInspection": false,
+      "stage": "Ready",
+      "progress": null,
+      "lastCommand": null,
+      "changedObjects": [],
+      "lastError": null
+    }
+  },
+  "scene": {
+    "protocolVersion": "codex-blender/v1",
+    "requestId": "0d072142-772f-4a85-9302-2408e9234ccc",
+    "status": "succeeded",
+    "sceneRevision": 0,
+    "changedObjects": [],
+    "warnings": [],
+    "result": {
+      "objects": [
+        "Camera",
+        "Cube",
+        "DemonRiftBossV1LegLPole",
+        "DemonRiftBossV1LegLTarget",
+        "DemonRiftBossV1LegRPole",
+        "DemonRiftBossV1LegRTarget",
+        "DemonRiftBossV1Rig",
+        "DemonRiftBossV1Surface",
+        "DuskFortBossV1LegLPole",
+        "DuskFortBossV1LegLTarget",
+        "DuskFortBossV1LegRPole",
+        "DuskFortBossV1LegRTarget",
+        "DuskFortBossV1Rig",
+        "DuskFortBossV1Surface",
+        "FallenCityBossV1LegLPole",
+        "FallenCityBossV1LegLTarget",
+        "FallenCityBossV1LegRPole",
+        "FallenCityBossV1LegRTarget",
+        "FallenCityBossV1Rig",
+        "FallenCityBossV1Surface",
+        "GiantValleyBossV1LegLPole",
+        "GiantValleyBossV1LegLTarget",
+        "GiantValleyBossV1LegRPole",
+        "GiantValleyBossV1LegRTarget",
+        "GiantValleyBossV1Rig",
+        "GiantValleyBossV1Surface",
+        "HimmapanBossV1LegLPole",
+        "HimmapanBossV1LegLTarget",
+        "HimmapanBossV1LegRPole",
+        "HimmapanBossV1LegRTarget",
+        "HimmapanBossV1Rig",
+        "HimmapanBossV1Surface",
+        "Light",
+        "SunkenNagaBossV1Rig",
+        "SunkenNagaBossV1Surface"
+      ],
+      "objectDetails": [
+        {
+          "name": "Camera",
+          "type": "CAMERA"
+        },
+        {
+          "name": "Cube",
+          "type": "MESH"
+        },
+        {
+          "name": "DemonRiftBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DemonRiftBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DemonRiftBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DemonRiftBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DemonRiftBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "DemonRiftBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "DuskFortBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DuskFortBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DuskFortBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DuskFortBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "DuskFortBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "DuskFortBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "FallenCityBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "FallenCityBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "FallenCityBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "FallenCityBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "FallenCityBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "FallenCityBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "GiantValleyBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "GiantValleyBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "GiantValleyBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "GiantValleyBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "GiantValleyBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "GiantValleyBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "HimmapanBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "HimmapanBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "HimmapanBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "HimmapanBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "HimmapanBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "HimmapanBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "Light",
+          "type": "LIGHT"
+        },
+        {
+          "name": "SunkenNagaBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "SunkenNagaBossV1Surface",
+          "type": "MESH"
+        }
+      ],
+      "collections": [
+        "Collection"
+      ],
+      "materials": [
+        "Material",
+        "Material_0",
+        "Material_0.001",
+        "Material_0.002",
+        "Material_0.003",
+        "Material_0.004",
+        "Material_0.005"
+      ],
+      "lights": [
+        "Light"
+      ],
+      "cameras": [
+        "Camera"
+      ],
+      "summary": {
+        "objects": 35,
+        "materials": 7,
+        "lights": 1,
+        "cameras": 1
+      },
+      "frameRange": {
+        "start": 1,
+        "end": 155
+      },
+      "activeCamera": "Camera",
+      "currentFrame": 1,
+      "sceneName": "Scene",
+      "filepath": "D:\\Project\\ThaiNativeOnline\\tools\\monster-models\\meshy\\scenes\\map-bosses-50-100.blend",
+      "missingAssets": [],
+      "warnings": []
+    }
+  },
+  "sourceSha256": "1b5ddd1dd2b3a948f2a1349b343b0b614c286cc1f63ce6be53cf1dea3593c310",
+  "expectedRigs": [
+    "DemonRiftBossV1Rig",
+    "DuskFortBossV1Rig",
+    "FallenCityBossV1Rig",
+    "GiantValleyBossV1Rig",
+    "HimmapanBossV1Rig",
+    "SunkenNagaBossV1Rig"
+  ],
+  "observedRigs": [
+    "DemonRiftBossV1Rig",
+    "DuskFortBossV1Rig",
+    "FallenCityBossV1Rig",
+    "GiantValleyBossV1Rig",
+    "HimmapanBossV1Rig",
+    "SunkenNagaBossV1Rig"
+  ],
+  "source": "tools/monster-models/meshy/scenes/map-bosses-50-100.blend",
+  "policy": "read-only reopen; no scene edits or paid calls",
+  "actionInspection": {
+    "protocolVersion": "codex-blender/v1",
+    "requestId": "db0213dd-40d0-47bf-89ab-d10f1d04ee49",
+    "status": "succeeded",
+    "sceneRevision": 0,
+    "changedObjects": [],
+    "warnings": [],
+    "result": {
+      "actions": [
+        {
+          "name": "DemonRiftBossV1LegLTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "DemonRiftBossV1LegRTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "DemonRiftBossV1RigAction",
+          "curves": 51,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "DuskFortBossV1LegLTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "DuskFortBossV1LegRTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "DuskFortBossV1RigAction",
+          "curves": 51,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "FallenCityBossV1LegLTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "FallenCityBossV1LegRTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "FallenCityBossV1RigAction",
+          "curves": 54,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "GiantValleyBossV1LegLTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "GiantValleyBossV1LegRTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "GiantValleyBossV1RigAction",
+          "curves": 54,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "HimmapanBossV1LegLTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "HimmapanBossV1LegRTargetAction",
+          "curves": 3,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "HimmapanBossV1RigAction",
+          "curves": 57,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        },
+        {
+          "name": "SunkenNagaBossV1RigAction",
+          "curves": 15,
+          "frameRange": [
+            1.0,
+            155.0
+          ],
+          "slots": 1,
+          "layered": true
+        }
+      ]
+    }
+  }
+}

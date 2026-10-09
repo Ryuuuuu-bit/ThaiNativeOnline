@@ -333,3 +333,26 @@ response recovers the recorded job without resubmission; an unfinished export
 stops packaging. Recover it with the same tag. Never silently package a stale
 GLB. The packed editable Blender export is retained locally beside the job
 receipts and is reopened separately for source verification.
+
+## Bosses Lv50–100
+
+The six accepted bodies, five-clip public files and exact credits/task provenance
+are documented in `docs/art/boss-detail-02/REPORT.md`. Frozen measured recipes,
+rig reports and rest calibrations are in `rigs/`; the packed six-rig editable
+source is `scenes/map-bosses-50-100.blend`. Open `tools/boss-review.html?gallery=2`
+for final body images, or select an individual boss for retained skill previews.
+Use `naga_rig.py` for the serpent and `boss_rig.py` for bipeds. Do not bind an
+existing rig twice or resubmit an uncertain paid/export job.
+
+With Vite running, `node tools/monster-models/meshy/qa-runtime.cjs` audits the six
+exact public assets. Supply `PLAYWRIGHT_MODULE` if Playwright is outside NODE_PATH;
+optional `BROWSER_CHANNEL`, `BOSS_QA_URL` and `BOSS_QA_OUTPUT` choose browser/base
+URL/output. Default output is ignored `artifacts/meshy-boss-02/`. It checks local
+before/after hashes, fetched bytes and native loaded bytes against one another,
+records rig-report identity, and closes its browser in `finally`.
+
+Reuse one foreground Blender session. Save/checkpoint before changing projects,
+limit export/verification worker concurrency, and close workers immediately after
+receipt verification. Do not accumulate foreground inspection windows. The
+delivery source reopens with only Naga visible; other rigs remain present and
+editable, without overlapping all bodies in the viewport.
