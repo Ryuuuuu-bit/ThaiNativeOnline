@@ -327,7 +327,7 @@
         25
       ],
       "primaryBoss": "chalawan",
-      "stage": "queued",
+      "stage": "monster set in progress; environment art pass queued",
       "creatures": [
         {
           "id": "leech",
@@ -356,7 +356,7 @@
           "name": "จระเข้บึง",
           "level": 13,
           "primaryBoss": false,
-          "status": "planned",
+          "status": "animated model integrated; review passed",
           "areas": [
             "croc_bank"
           ]

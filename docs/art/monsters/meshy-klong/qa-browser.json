@@ -1,0 +1,3684 @@
+{
+  "assets": {
+    "files": [
+      {
+        "path": "public/models/monsters/croc.glb",
+        "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+        "bytes": 1385112
+      },
+      {
+        "path": "tools/monster-models/meshy/croc-animated.json",
+        "sha256": "4c3dbd3d8a420491f772130e35b4a838e1104e1a6d44fa276bc414997067e700",
+        "bytes": 236
+      },
+      {
+        "path": "tools/monster-models/meshy/croc.glb",
+        "sha256": "df2e5ff171afeb2e7b42c53eb7bae2daffd2ac2bb02763e340a687d60c127b00",
+        "bytes": 1301260
+      },
+      {
+        "path": "tools/monster-models/meshy/croc-prepared.json",
+        "sha256": "b2be0a48ce42e26cd097c870cd2c491a618cf93c4b5f542ebcd175e60a5fc9a7",
+        "bytes": 707
+      },
+      {
+        "path": "src/combat/MonsterModels.js",
+        "sha256": "cbc6b8161ace5e748b06b39f769fb207ebe908920fcd4778212b19bf3d85e4d8",
+        "bytes": 5743
+      },
+      {
+        "path": "src/combat/data/monsters.js",
+        "sha256": "aec7632c0240bad79ca446d1f178be7a6f000d972bd440ee18f398c4db2f0216",
+        "bytes": 11133
+      },
+      {
+        "path": "src/core/gltf.js",
+        "sha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+        "bytes": 655
+      },
+      {
+        "path": "tools/monster-models/meshy/motion.js",
+        "sha256": "ab4b4048e25487f75b840128e5e02d5d43f7f755a44a4c8f4c2b8f5e413498d4",
+        "bytes": 13989
+      },
+      {
+        "path": "tools/monster-models/meshy/motion.html",
+        "sha256": "bc65f06bf2e42a13f3f6c3d34fc44e3dc1316eba75443f6fe678e949e79b0f6a",
+        "bytes": 2116
+      },
+      {
+        "path": "tools/monster-models/meshy/review.js",
+        "sha256": "52ec61ca2a479070d0c5e2760b7fd2e15b0608c8ce588ac43b9ce5f893e636be",
+        "bytes": 13497
+      },
+      {
+        "path": "tools/monster-models/meshy/review.css",
+        "sha256": "04fede1ed4980befc02d23a94dfdc572e6425dae261fa2a598dc13bc72f69d85",
+        "bytes": 2324
+      },
+      {
+        "path": "artifacts/meshy-rig-05/klong/qa-runtime.mjs",
+        "sha256": "d98eee824aef36d0bc9706bdfd606eed7fb3de226015d1474bc1231434a13e14",
+        "bytes": 12620
+      },
+      {
+        "path": "tools/monster-models/meshy/rigs/croc.json",
+        "sha256": "b1968bcf9feb6e0467489cc4838c2c10947e60c86d5561b2c01373bd5f341a5b",
+        "bytes": 11455
+      }
+    ],
+    "metadata": {
+      "type": "croc",
+      "bytes": 1385112,
+      "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+      "triangles": 12567,
+      "bones": 20,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    "prepared": {
+      "creature": "croc",
+      "bytes": 1301260,
+      "triangles": 12567,
+      "meshes": 1,
+      "materialDraws": 1,
+      "materials": 1,
+      "textures": [
+        {
+          "mime": "image/png",
+          "size": [
+            512,
+            512
+          ]
+        },
+        {
+          "mime": "image/jpeg",
+          "size": [
+            1024,
+            1024
+          ]
+        }
+      ],
+      "bounds": {
+        "min": [
+          -0.42187099158763885,
+          0,
+          -0.9508325457572937
+        ],
+        "max": [
+          0.42187099158763885,
+          0.3110690861940384,
+          0.9508325457572937
+        ]
+      },
+      "sha256": "df2e5ff171afeb2e7b42c53eb7bae2daffd2ac2bb02763e340a687d60c127b00",
+      "stage": "static geometry candidate; rig pending",
+      "geometryCompression": "EXT_meshopt_compression"
+    },
+    "rigPath": "tools/monster-models/meshy/rigs/croc.json",
+    "rig": {
+      "type": "croc",
+      "version": "v1",
+      "bones": [
+        {
+          "name": "Root",
+          "head": [
+            0,
+            0,
+            0
+          ],
+          "tail": [
+            0,
+            0,
+            0.1
+          ],
+          "parent": null,
+          "deform": false,
+          "connected": false
+        },
+        {
+          "name": "Body",
+          "head": [
+            0,
+            -0.08,
+            0.15
+          ],
+          "tail": [
+            0,
+            -0.48,
+            0.21
+          ],
+          "parent": "Root",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "Neck",
+          "head": [
+            0,
+            -0.48,
+            0.21
+          ],
+          "tail": [
+            0,
+            -0.66,
+            0.25
+          ],
+          "parent": "Body",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "Head",
+          "head": [
+            0,
+            -0.66,
+            0.25
+          ],
+          "tail": [
+            0,
+            -0.94,
+            0.235
+          ],
+          "parent": "Neck",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "Jaw",
+          "head": [
+            0,
+            -0.675,
+            0.213
+          ],
+          "tail": [
+            0,
+            -0.92,
+            0.18
+          ],
+          "parent": "Head",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "TailBase",
+          "head": [
+            0,
+            0,
+            0.115
+          ],
+          "tail": [
+            0,
+            0.32,
+            0.075
+          ],
+          "parent": "Body",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "TailMid",
+          "head": [
+            0,
+            0.32,
+            0.075
+          ],
+          "tail": [
+            0,
+            0.65,
+            0.045
+          ],
+          "parent": "TailBase",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "TailTip",
+          "head": [
+            0,
+            0.65,
+            0.045
+          ],
+          "tail": [
+            0,
+            0.94,
+            0.016
+          ],
+          "parent": "TailMid",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "ForeLUpper",
+          "head": [
+            -0.115,
+            -0.5,
+            0.185
+          ],
+          "tail": [
+            -0.23,
+            -0.48,
+            0.11
+          ],
+          "parent": "Body",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "ForeLLower",
+          "head": [
+            -0.23,
+            -0.48,
+            0.11
+          ],
+          "tail": [
+            -0.25,
+            -0.55,
+            0.036
+          ],
+          "parent": "ForeLUpper",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "ForeLFoot",
+          "head": [
+            -0.25,
+            -0.55,
+            0.036
+          ],
+          "tail": [
+            -0.24,
+            -0.63,
+            0.016
+          ],
+          "parent": "ForeLLower",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "ForeRUpper",
+          "head": [
+            0.12,
+            -0.49,
+            0.18
+          ],
+          "tail": [
+            0.275,
+            -0.38,
+            0.11
+          ],
+          "parent": "Body",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "ForeRLower",
+          "head": [
+            0.275,
+            -0.38,
+            0.11
+          ],
+          "tail": [
+            0.34,
+            -0.49,
+            0.036
+          ],
+          "parent": "ForeRUpper",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "ForeRFoot",
+          "head": [
+            0.34,
+            -0.49,
+            0.036
+          ],
+          "tail": [
+            0.345,
+            -0.58,
+            0.016
+          ],
+          "parent": "ForeRLower",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "HindLUpper",
+          "head": [
+            -0.125,
+            -0.17,
+            0.15
+          ],
+          "tail": [
+            -0.28,
+            -0.065,
+            0.1
+          ],
+          "parent": "Body",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "HindLLower",
+          "head": [
+            -0.28,
+            -0.065,
+            0.1
+          ],
+          "tail": [
+            -0.35,
+            -0.1,
+            0.033
+          ],
+          "parent": "HindLUpper",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "HindLFoot",
+          "head": [
+            -0.35,
+            -0.1,
+            0.033
+          ],
+          "tail": [
+            -0.34,
+            -0.16,
+            0.016
+          ],
+          "parent": "HindLLower",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "HindRUpper",
+          "head": [
+            0.125,
+            -0.135,
+            0.15
+          ],
+          "tail": [
+            0.3,
+            0.055,
+            0.09
+          ],
+          "parent": "Body",
+          "deform": true,
+          "connected": false
+        },
+        {
+          "name": "HindRLower",
+          "head": [
+            0.3,
+            0.055,
+            0.09
+          ],
+          "tail": [
+            0.35,
+            -0.025,
+            0.033
+          ],
+          "parent": "HindRUpper",
+          "deform": true,
+          "connected": true
+        },
+        {
+          "name": "HindRFoot",
+          "head": [
+            0.35,
+            -0.025,
+            0.033
+          ],
+          "tail": [
+            0.345,
+            -0.12,
+            0.016
+          ],
+          "parent": "HindRLower",
+          "deform": true,
+          "connected": true
+        }
+      ],
+      "legs": [
+        {
+          "name": "ForeL",
+          "hip": [
+            -0.115,
+            -0.5,
+            0.185
+          ],
+          "knee": [
+            -0.23,
+            -0.48,
+            0.11
+          ],
+          "joint": [
+            -0.25,
+            -0.55,
+            0.036
+          ],
+          "toe": [
+            -0.24,
+            -0.63,
+            0.016
+          ],
+          "pole": [
+            -0.58,
+            -0.3,
+            0.15
+          ],
+          "phase": 0,
+          "control": "CrocForeLTarget"
+        },
+        {
+          "name": "ForeR",
+          "hip": [
+            0.12,
+            -0.49,
+            0.18
+          ],
+          "knee": [
+            0.275,
+            -0.38,
+            0.11
+          ],
+          "joint": [
+            0.34,
+            -0.49,
+            0.036
+          ],
+          "toe": [
+            0.345,
+            -0.58,
+            0.016
+          ],
+          "pole": [
+            0.6,
+            -0.25,
+            0.15
+          ],
+          "phase": 0.5,
+          "control": "CrocForeRTarget"
+        },
+        {
+          "name": "HindL",
+          "hip": [
+            -0.125,
+            -0.17,
+            0.15
+          ],
+          "knee": [
+            -0.28,
+            -0.065,
+            0.1
+          ],
+          "joint": [
+            -0.35,
+            -0.1,
+            0.033
+          ],
+          "toe": [
+            -0.34,
+            -0.16,
+            0.016
+          ],
+          "pole": [
+            -0.65,
+            0.15,
+            0.12
+          ],
+          "phase": 0.5,
+          "control": "CrocHindLTarget"
+        },
+        {
+          "name": "HindR",
+          "hip": [
+            0.125,
+            -0.135,
+            0.15
+          ],
+          "knee": [
+            0.3,
+            0.055,
+            0.09
+          ],
+          "joint": [
+            0.35,
+            -0.025,
+            0.033
+          ],
+          "toe": [
+            0.345,
+            -0.12,
+            0.016
+          ],
+          "pole": [
+            0.65,
+            0.2,
+            0.12
+          ],
+          "phase": 0,
+          "control": "CrocHindRTarget"
+        }
+      ],
+      "rigId": "obj_17e261cdf5c44ca1ad2814e264abe513",
+      "weightGroups": 416,
+      "skin": {
+        "name": "CrocV1Rig",
+        "objectId": "obj_17e261cdf5c44ca1ad2814e264abe513",
+        "type": "ARMATURE",
+        "bones": [
+          {
+            "name": "Root",
+            "parent": null,
+            "length": 0.10000000149011612,
+            "deform": false
+          },
+          {
+            "name": "Body",
+            "parent": "Root",
+            "length": 0.4044749438762665,
+            "deform": true
+          },
+          {
+            "name": "Neck",
+            "parent": "Body",
+            "length": 0.18439091742038727,
+            "deform": true
+          },
+          {
+            "name": "Head",
+            "parent": "Neck",
+            "length": 0.28040140867233276,
+            "deform": true
+          },
+          {
+            "name": "Jaw",
+            "parent": "Head",
+            "length": 0.24721242487430573,
+            "deform": true
+          },
+          {
+            "name": "TailBase",
+            "parent": "Body",
+            "length": 0.32249027490615845,
+            "deform": true
+          },
+          {
+            "name": "TailMid",
+            "parent": "TailBase",
+            "length": 0.331360787153244,
+            "deform": true
+          },
+          {
+            "name": "TailTip",
+            "parent": "TailMid",
+            "length": 0.29144638776779175,
+            "deform": true
+          },
+          {
+            "name": "ForeLUpper",
+            "parent": "Body",
+            "length": 0.13874436914920807,
+            "deform": true
+          },
+          {
+            "name": "ForeLLower",
+            "parent": "ForeLUpper",
+            "length": 0.10380751639604568,
+            "deform": true
+          },
+          {
+            "name": "ForeLFoot",
+            "parent": "ForeLLower",
+            "length": 0.08306621015071869,
+            "deform": true
+          },
+          {
+            "name": "ForeRUpper",
+            "parent": "Body",
+            "length": 0.20254629850387573,
+            "deform": true
+          },
+          {
+            "name": "ForeRLower",
+            "parent": "ForeRUpper",
+            "length": 0.14765164256095886,
+            "deform": true
+          },
+          {
+            "name": "ForeRFoot",
+            "parent": "ForeRLower",
+            "length": 0.0923309177160263,
+            "deform": true
+          },
+          {
+            "name": "HindLUpper",
+            "parent": "Body",
+            "length": 0.19377824664115906,
+            "deform": true
+          },
+          {
+            "name": "HindLLower",
+            "parent": "HindLUpper",
+            "length": 0.10302426666021347,
+            "deform": true
+          },
+          {
+            "name": "HindLFoot",
+            "parent": "HindLLower",
+            "length": 0.0631585419178009,
+            "deform": true
+          },
+          {
+            "name": "HindRUpper",
+            "parent": "Body",
+            "length": 0.26518863439559937,
+            "deform": true
+          },
+          {
+            "name": "HindRLower",
+            "parent": "HindRUpper",
+            "length": 0.1102224811911583,
+            "deform": true
+          },
+          {
+            "name": "HindRFoot",
+            "parent": "HindRLower",
+            "length": 0.09663847833871841,
+            "deform": true
+          }
+        ],
+        "boundMeshes": [
+          "CrocV1Surface"
+        ]
+      },
+      "snapshotId": "snapshot-b80faf2b7f1ceefa8acbf0ef",
+      "sceneRevision": 7104,
+      "inputPositionsSha256": "632f3e79ed3e8230b0e97d4750cc2a31b488ba71dc209d94c7b23d54f9a3d2b6",
+      "anatomySha256": "96502bef3a2ac804e5c47dd93253bc582371f1071391b11c1b382158f2a9a884",
+      "limbLength": {
+        "maxRelativeError": 0.000001278193825279154,
+        "limit": 0.005,
+        "passed": true
+      },
+      "idleFeet": [
+        {
+          "object": "CrocV1Rig",
+          "bone": "ForeLFoot",
+          "maxDrift": 0,
+          "limit": 0.0015,
+          "passed": true
+        },
+        {
+          "object": "CrocV1Rig",
+          "bone": "ForeRFoot",
+          "maxDrift": 0,
+          "limit": 0.0015,
+          "passed": true
+        },
+        {
+          "object": "CrocV1Rig",
+          "bone": "HindLFoot",
+          "maxDrift": 0,
+          "limit": 0.0015,
+          "passed": true
+        },
+        {
+          "object": "CrocV1Rig",
+          "bone": "HindRFoot",
+          "maxDrift": 0,
+          "limit": 0.0015,
+          "passed": true
+        }
+      ],
+      "animationSnapshotId": "snapshot-42559d2e29e0390dbf4b11a8",
+      "weightAlgorithmSha256": "92be519470eb4358b85213d6b77a7e00976064e476f938fba836fea2a694715a",
+      "appliedWeightsSha256": "812142679f2145d632b2b72956db3e398eba39803338b0411dcc6f807a012746"
+    }
+  },
+  "scope": "Pinned actual Croc exported clips + native runtime controller; desktop/mobile isolated review, no gameplay acceptance",
+  "errors": [],
+  "failures": [],
+  "framing": [
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32296459693704127,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 835.9437828062529,
+        "minY": 356.6435596044198,
+        "maxY": 528.493656601103,
+        "width": 225.2043894935549,
+        "height": 171.8500969966832
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.3228729364052476,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 834.0764464172265,
+        "minY": 355.4095125221403,
+        "maxY": 528.493656601103,
+        "width": 223.33705310452854,
+        "height": 173.0841440789627
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32313187345742,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 839.2901575784344,
+        "minY": 358.96084905902865,
+        "maxY": 528.493656601103,
+        "width": 228.55076426573646,
+        "height": 169.53280754207435
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.3228572153301731,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 612.8772001409933,
+        "maxX": 830.7452928060161,
+        "minY": 353.3141000673339,
+        "maxY": 530.4993258827622,
+        "width": 217.8680926650228,
+        "height": 177.18522581542823
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32294935750887976,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 611.390145650804,
+        "maxX": 834.8165638207582,
+        "minY": 355.89846901140754,
+        "maxY": 529.0943016542193,
+        "width": 223.42641816995422,
+        "height": 173.19583264281175
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32311800642413857,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 608.7598179535461,
+        "maxX": 841.617819243439,
+        "minY": 360.6337376382828,
+        "maxY": 524.6501749635377,
+        "width": 232.85800128989297,
+        "height": 164.01643732525486
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.323316401650775,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 836.5585063446389,
+        "minY": 357.0624587708654,
+        "maxY": 528.493656601103,
+        "width": 225.8191130319409,
+        "height": 171.43119783023758
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32189129644884706,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 836.5585063446389,
+        "minY": 357.0624587708654,
+        "maxY": 528.493656601103,
+        "width": 225.8191130319409,
+        "height": 171.43119783023758
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32299227894795324,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 836.5585063446389,
+        "minY": 357.0624587708654,
+        "maxY": 528.493656601103,
+        "width": 225.8191130319409,
+        "height": 171.43119783023758
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.3230927744709202,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 836.8616642278637,
+        "minY": 357.2600187284007,
+        "maxY": 528.493656601103,
+        "width": 226.1222709151657,
+        "height": 171.23363787270227
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32340921616554974,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 836.5585063446389,
+        "minY": 357.0624587708654,
+        "maxY": 528.493656601103,
+        "width": 225.8191130319409,
+        "height": 171.43119783023758
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32315657538421516,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.739393312698,
+        "maxX": 836.5585063446389,
+        "minY": 357.0624587708654,
+        "maxY": 528.493656601103,
+        "width": 225.8191130319409,
+        "height": 171.43119783023758
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32293896163213,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.7449084115788,
+        "maxX": 836.55821997511,
+        "minY": 357.0622948930274,
+        "maxY": 528.5502822952532,
+        "width": 225.81331156353122,
+        "height": 171.48798740222577
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.32271769588250976,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.740041381071,
+        "maxX": 836.5581436053142,
+        "minY": 357.0630811955737,
+        "maxY": 528.5215943928624,
+        "width": 225.81810222424315,
+        "height": 171.4585131972887
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.3224047346713528,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 610.7496610388164,
+        "maxX": 836.5583345084979,
+        "minY": 357.06217518645406,
+        "maxY": 528.4444242291906,
+        "width": 225.80867346968148,
+        "height": 171.3822490427366
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4745603261659156,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47455381759948234,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4745346104110344,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4745310008059267,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1586147914079,
+        "maxX": 913.7497606802535,
+        "minY": 364.1312481105207,
+        "maxY": 525.5419978753971,
+        "width": 387.59114588884563,
+        "height": 161.4107497648764
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47454186410255017,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1772312774876,
+        "maxX": 913.7654816057388,
+        "minY": 364.1312481105207,
+        "maxY": 524.8755914222459,
+        "width": 387.5882503282512,
+        "height": 160.74434331172517
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4745581164661702,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2011517443691,
+        "maxX": 913.776528896033,
+        "minY": 364.1312481105207,
+        "maxY": 527.1259554371746,
+        "width": 387.57537715166393,
+        "height": 162.99470732665395
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47455387811474103,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47434657403611846,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.474546254127428,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47455101565164803,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4745526102284795,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4745523890596012,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1807668392192,
+        "maxX": 913.785257381174,
+        "minY": 364.1312481105207,
+        "maxY": 526.1296274913602,
+        "width": 387.60449054195476,
+        "height": 161.99837938083954
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47454035561027375,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.1890710650423,
+        "maxX": 913.7877531402744,
+        "minY": 364.40305288486263,
+        "maxY": 526.341801570306,
+        "width": 387.5986820752321,
+        "height": 161.93874868544333
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47451259249776945,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2037794003534,
+        "maxX": 913.7352592332257,
+        "minY": 364.81424478403443,
+        "maxY": 526.24307355798,
+        "width": 387.5314798328724,
+        "height": 161.42882877394555
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4744643574532291,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2129873806596,
+        "maxX": 913.794435570021,
+        "minY": 365.35785433271826,
+        "maxY": 526.0917441423368,
+        "width": 387.5814481893615,
+        "height": 160.73388980961852
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.758958319500795,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.2829262664483,
+        "maxX": 1237.8182453212175,
+        "minY": 339.7070840548995,
+        "maxY": 531.6128357092545,
+        "width": 1044.5353190547692,
+        "height": 191.90575165435496
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7590843627986764,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.19545221771855,
+        "maxX": 1239.6883569144554,
+        "minY": 340.3045277841802,
+        "maxY": 531.6128357092545,
+        "width": 1046.4929046967368,
+        "height": 191.30830792507425
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7592864600563416,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.05519672089892,
+        "maxX": 1243.4584433266311,
+        "minY": 341.13722369256493,
+        "maxY": 531.6128357092545,
+        "width": 1050.4032466057322,
+        "height": 190.47561201668952
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.759349693260394,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.01131287728654,
+        "maxX": 1246.3890637467175,
+        "minY": 341.13722369256493,
+        "maxY": 531.2780775569959,
+        "width": 1053.3777508694309,
+        "height": 190.14085386443094
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.759268485472922,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.0676710817921,
+        "maxX": 1243.0333044238164,
+        "minY": 341.13722369256493,
+        "maxY": 531.320566524848,
+        "width": 1049.9656333420244,
+        "height": 190.18334283228307
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7589086853058309,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.31737239775336,
+        "maxX": 1235.35688649889,
+        "minY": 339.9565569797341,
+        "maxY": 531.6008211516547,
+        "width": 1042.0395141011365,
+        "height": 191.6442641719206
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7582235979524649,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.7928230209894,
+        "maxX": 1241.317937158068,
+        "minY": 337.31569905934384,
+        "maxY": 531.6128357092545,
+        "width": 1047.5251141370786,
+        "height": 194.2971366499106
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7589730893844201,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.27267596721245,
+        "maxX": 1241.317937158068,
+        "minY": 341.13722369256493,
+        "maxY": 531.6128357092545,
+        "width": 1048.0452611908554,
+        "height": 190.47561201668952
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7591871859079128,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.12409297990854,
+        "maxX": 1241.317937158068,
+        "minY": 340.89795707825846,
+        "maxY": 531.6128357092545,
+        "width": 1048.1938441781595,
+        "height": 190.714878630996
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7589502887374442,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.28849961621373,
+        "maxX": 1241.040732047116,
+        "minY": 339.84935681056163,
+        "maxY": 531.6128357092545,
+        "width": 1047.7522324309023,
+        "height": 191.76347889869282
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7578708519273557,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 194.03762876241515,
+        "maxX": 1241.317937158068,
+        "minY": 336.27441330910494,
+        "maxY": 531.6128357092545,
+        "width": 1047.2803083956528,
+        "height": 195.3384224001495
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7587492832005339,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.42799745882945,
+        "maxX": 1241.317937158068,
+        "minY": 339.09222179348706,
+        "maxY": 531.6128357092545,
+        "width": 1047.8899396992385,
+        "height": 192.5206139157674
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.759246978055279,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 193.0825972296364,
+        "maxX": 1241.3163775833425,
+        "minY": 341.4633733884401,
+        "maxY": 531.7167148690676,
+        "width": 1048.2337803537062,
+        "height": 190.25334148062745
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7594096919617276,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 192.96967377856106,
+        "maxX": 1241.3159616717617,
+        "minY": 341.9567794118843,
+        "maxY": 531.710347346567,
+        "width": 1048.3462878932005,
+        "height": 189.75356793468268
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7594531857802796,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 192.93948906848593,
+        "maxX": 1241.3170013346808,
+        "minY": 342.6090788036346,
+        "maxY": 531.5210487840956,
+        "width": 1048.3775122661948,
+        "height": 188.91196998046098
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4729828836267259,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 316.73760716478745,
+        "maxY": 533.8274214958458,
+        "width": 387.6044905419549,
+        "height": 217.08981433105834
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.473111519360764,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 317.2013180972352,
+        "maxY": 534.1665692634103,
+        "width": 387.6044905419549,
+        "height": 216.96525116617516
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4733708967739376,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 318.2626573345153,
+        "maxY": 534.8564950830805,
+        "width": 387.6044905419549,
+        "height": 216.5938377485652
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47357290973148425,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2502393197467,
+        "maxX": 913.8413852085922,
+        "minY": 318.46053107833734,
+        "maxY": 535.352355545467,
+        "width": 387.5911458888455,
+        "height": 216.8918244671297
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47334163950140506,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2341353265449,
+        "maxX": 913.8227687225124,
+        "minY": 317.92398654475414,
+        "maxY": 534.7794070244955,
+        "width": 387.58863339596746,
+        "height": 216.85542047974138
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.472813159289326,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2234711039666,
+        "maxX": 913.798848255631,
+        "minY": 316.93178834139746,
+        "maxY": 533.4308601276236,
+        "width": 387.5753771516644,
+        "height": 216.49907178622618
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732236242039626,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 314.79710946899866,
+        "maxY": 534.465177619199,
+        "width": 387.6044905419549,
+        "height": 219.66806815020038
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732236242039626,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 324.06103724105833,
+        "maxY": 534.465177619199,
+        "width": 387.6044905419549,
+        "height": 210.4041403781407
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732236242039626,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 317.6622815268389,
+        "maxY": 534.465177619199,
+        "width": 387.6044905419549,
+        "height": 216.80289609236013
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732045541323264,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 316.8361873342949,
+        "maxY": 534.4143684631676,
+        "width": 387.6044905419549,
+        "height": 217.57818112887276
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732236242039626,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 313.95087475842524,
+        "maxY": 534.465177619199,
+        "width": 387.6044905419549,
+        "height": 220.5143028607738
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732236242039626,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2147426188259,
+        "maxX": 913.8192331607808,
+        "minY": 316.2377514834195,
+        "maxY": 534.465177619199,
+        "width": 387.6044905419549,
+        "height": 218.22742613577952
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.47322352888461117,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2122468597256,
+        "maxX": 913.8109289349577,
+        "minY": 318.1908825548745,
+        "maxY": 534.4635663458794,
+        "width": 387.5986820752321,
+        "height": 216.27268379100485
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4732234783652254,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.264573005421,
+        "maxX": 913.7946545330334,
+        "minY": 319.79909952005414,
+        "maxY": 534.4659248699195,
+        "width": 387.5300815276124,
+        "height": 214.66682534986535
+      }
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.473223572609491,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 526.2055644299787,
+        "maxX": 913.7870126193403,
+        "minY": 322.0833353600674,
+        "maxY": 534.4635884691694,
+        "width": 387.5814481893616,
+        "height": 212.380253109102
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.423014614043698,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.4116743699967,
+        "minY": 320.0515293032903,
+        "maxY": 433.98247685683737,
+        "width": 149.99397166716938,
+        "height": 113.93094755354707
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4177456172699549,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 271.44744796040175,
+        "minY": 319.405749550686,
+        "maxY": 433.98247685683737,
+        "width": 149.0297452575744,
+        "height": 114.57672730615138
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4307644373683055,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 273.8298920383999,
+        "minY": 321.02944215651246,
+        "maxY": 433.98247685683737,
+        "width": 151.41218933557258,
+        "height": 112.9530347003249
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.40201410250102315,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 123.83785709771676,
+        "maxX": 268.56858075768724,
+        "minY": 317.5785060611332,
+        "maxY": 435.31521152695336,
+        "width": 144.73072365997047,
+        "height": 117.73670546582014
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.41679313573629456,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.8500003177071,
+        "maxX": 271.2731438397419,
+        "minY": 319.295777260146,
+        "maxY": 434.3815957415119,
+        "width": 148.42314352203482,
+        "height": 115.08581848136589
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4414822265802601,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 121.10266216263219,
+        "maxX": 275.79124746418756,
+        "minY": 322.4422863726197,
+        "maxY": 431.4285457181504,
+        "width": 154.68858530155538,
+        "height": 108.9862593455307
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231165237792777,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.43032385160785,
+        "minY": 320.0692295547367,
+        "maxY": 433.98247685683737,
+        "width": 150.0126211487805,
+        "height": 113.91324730210067
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231165237792777,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.43032385160785,
+        "minY": 320.0692295547367,
+        "maxY": 433.98247685683737,
+        "width": 150.0126211487805,
+        "height": 113.91324730210067
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231165237792777,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.43032385160785,
+        "minY": 320.0692295547367,
+        "maxY": 433.98247685683737,
+        "width": 150.0126211487805,
+        "height": 113.91324730210067
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.42421700108489846,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.63171119853644,
+        "minY": 320.2005037421119,
+        "maxY": 433.98247685683737,
+        "width": 150.2140084957091,
+        "height": 113.78197311472547
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231165237792777,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.43032385160785,
+        "minY": 320.0692295547367,
+        "maxY": 433.98247685683737,
+        "width": 150.0126211487805,
+        "height": 113.91324730210067
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231165237792777,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.41770270282733,
+        "maxX": 272.43032385160785,
+        "minY": 320.0692295547367,
+        "maxY": 433.98247685683737,
+        "width": 150.0126211487805,
+        "height": 113.91324730210067
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231154842354181,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.4213664070545,
+        "maxX": 272.4301336150815,
+        "minY": 320.0691206605744,
+        "maxY": 434.02010371112664,
+        "width": 150.008767208027,
+        "height": 113.95098305055222
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.4231152070070669,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.4181332174725,
+        "maxX": 272.4300828822933,
+        "minY": 320.06964314584866,
+        "maxY": 434.0010410658148,
+        "width": 150.01194966482078,
+        "height": 113.93139791996612
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.42311590000060284,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 122.4245235980455,
+        "maxX": 272.4302097001103,
+        "minY": 320.0690411175002,
+        "maxY": 433.9497627451244,
+        "width": 150.00568610206483,
+        "height": 113.88072162762421
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6916550106341889,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.42713305394344,
+        "maxX": 321.51303875600354,
+        "minY": 325.41099460938267,
+        "maxY": 430.836050009974,
+        "width": 253.0859057020601,
+        "height": 105.4250554005913
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915885842316762,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.43928908560325,
+        "maxX": 321.52330406961346,
+        "minY": 325.41099460938267,
+        "maxY": 430.4007881866747,
+        "width": 253.0840149840102,
+        "height": 104.989793577292
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915032324335688,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.45490846465691,
+        "maxX": 321.53051763344047,
+        "minY": 325.41099460938267,
+        "maxY": 431.870608203563,
+        "width": 253.07560916878356,
+        "height": 106.45961359418033
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194185,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44159770604641,
+        "maxX": 321.5362170839845,
+        "minY": 325.41099460938267,
+        "maxY": 431.219858925478,
+        "width": 253.0946193779381,
+        "height": 105.80886431609531
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915463381015314,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.44702012741975,
+        "maxX": 321.53784674312146,
+        "minY": 325.5885232649083,
+        "maxY": 431.3584399311422,
+        "width": 253.0908266157017,
+        "height": 105.76991666623388
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6914938565646032,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.45662424867763,
+        "maxX": 321.5035697268631,
+        "minY": 325.85709229648523,
+        "maxY": 431.2939559597573,
+        "width": 253.04694547818545,
+        "height": 105.43686366327205
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6914874873123239,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46263679581699,
+        "maxX": 321.54221017815524,
+        "minY": 326.2121496075365,
+        "maxY": 431.19511550426614,
+        "width": 253.07957338233825,
+        "height": 104.98296589672964
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7636817999480551,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.24623060950592,
+        "maxX": 332.3926444606194,
+        "minY": 340.97942411143845,
+        "maxY": 391.91150213553993,
+        "width": 277.1464138511135,
+        "height": 50.932078024101486
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.763808627693564,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.2230211320778,
+        "maxX": 332.8888409147865,
+        "minY": 341.1379865848006,
+        "maxY": 391.91150213553993,
+        "width": 277.6658197827087,
+        "height": 50.77351555073932
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7640119827310313,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.185807160221266,
+        "maxX": 333.8891574287258,
+        "minY": 341.35898534388207,
+        "maxY": 391.91150213553993,
+        "width": 278.70335026850455,
+        "height": 50.552516791657865
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7640756094755395,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.174163465976264,
+        "maxX": 334.66673854538993,
+        "minY": 341.35898534388207,
+        "maxY": 391.8226568133802,
+        "width": 279.49257507941365,
+        "height": 50.46367146949814
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7639938962803443,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.189116980696994,
+        "maxX": 333.7763553815816,
+        "minY": 341.35898534388207,
+        "maxY": 391.8339334499956,
+        "width": 278.5872384008846,
+        "height": 50.474948106113516
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.76363185684792,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.25537019683064,
+        "maxX": 331.73957245973554,
+        "minY": 341.0456346046782,
+        "maxY": 391.9083134537009,
+        "width": 276.4842022629049,
+        "height": 50.8626788490227
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7629425057601237,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.38152144589737,
+        "maxX": 333.3212172187381,
+        "minY": 340.3447469007281,
+        "maxY": 391.91150213553993,
+        "width": 277.93969577284076,
+        "height": 51.56675523481181
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7636966617540621,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.24351089900663,
+        "maxX": 333.3212172187381,
+        "minY": 341.35898534388207,
+        "maxY": 391.91150213553993,
+        "width": 278.0777063197315,
+        "height": 50.552516791657865
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7639120907364219,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.2040873952348,
+        "maxX": 333.3212172187381,
+        "minY": 341.2954836209615,
+        "maxY": 391.91150213553993,
+        "width": 278.1171298235033,
+        "height": 50.61601851457846
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7636737185780705,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.24770950021309,
+        "maxX": 333.2476675688152,
+        "minY": 341.0171829368943,
+        "maxY": 391.91150213553993,
+        "width": 277.9999580686021,
+        "height": 50.89431919864563
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7625875643720942,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.446475719906765,
+        "maxX": 333.3212172187381,
+        "minY": 340.0683880807376,
+        "maxY": 391.91150213553993,
+        "width": 277.8747414988314,
+        "height": 51.843114054802356
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7634714626819152,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.284722329209515,
+        "maxX": 333.3212172187381,
+        "minY": 340.8162387331871,
+        "maxY": 391.91150213553993,
+        "width": 278.0364948895286,
+        "height": 51.09526340235283
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.763972255008359,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.193077333470306,
+        "maxX": 333.3208034169888,
+        "minY": 341.44554596864003,
+        "maxY": 391.9390718223631,
+        "width": 278.1277260835185,
+        "height": 50.49352585372304
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7641359815869607,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.16311536958619,
+        "maxX": 333.3206930632257,
+        "minY": 341.5764966768235,
+        "maxY": 391.9373818722182,
+        "width": 278.1575776936395,
+        "height": 50.3608851953947
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.7641797460952151,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 55.15510646457564,
+        "maxX": 333.32096891684637,
+        "minY": 341.7496179263395,
+        "maxY": 391.887141746164,
+        "width": 278.16586245227074,
+        "height": 50.13752381982448
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "idle",
+      "phase": 0.2,
+      "time": 0.4,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 294.45594837102544,
+        "maxY": 436.2476551569397,
+        "width": 253.09461937793816,
+        "height": 141.79170678591424
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "idle",
+      "phase": 0.5,
+      "time": 1,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 294.7588200869079,
+        "maxY": 436.46916873169573,
+        "width": 253.09461937793816,
+        "height": 141.7103486447878
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "idle",
+      "phase": 0.9,
+      "time": 1.8,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 295.45203133864965,
+        "maxY": 436.9197921744775,
+        "width": 253.09461937793816,
+        "height": 141.46776083582785
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "walk",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6916550106341894,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.48696124399649,
+        "maxX": 321.57286694605665,
+        "minY": 295.5812721137229,
+        "maxY": 437.2436622809866,
+        "width": 253.08590570206016,
+        "height": 141.6623901672637
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "walk",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915885842316767,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.47644579815076,
+        "maxX": 321.56071091439685,
+        "minY": 295.2308293008353,
+        "maxY": 436.8694422884948,
+        "width": 253.0842651162461,
+        "height": 141.63861298765949
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "walk",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915032324335688,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.4694823665594,
+        "maxX": 321.5450915353431,
+        "minY": 294.58277735442147,
+        "maxY": 435.9886420225886,
+        "width": 253.07560916878367,
+        "height": 141.4058646681671
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "attack",
+      "phase": 0.2,
+      "time": 0.2,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 293.18851681903,
+        "maxY": 436.6642040840373,
+        "width": 253.09461937793816,
+        "height": 143.4756872650073
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "attack",
+      "phase": 0.5,
+      "time": 0.5,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 299.2392296743952,
+        "maxY": 436.6642040840373,
+        "width": 253.09461937793816,
+        "height": 137.42497440964212
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "attack",
+      "phase": 0.9,
+      "time": 0.9,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 295.05989727770475,
+        "maxY": 436.6642040840373,
+        "width": 253.09461937793816,
+        "height": 141.60430680633254
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "hurt",
+      "phase": 0.2,
+      "time": 0.08666667342185974,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 294.5203346394691,
+        "maxY": 436.6310187181999,
+        "width": 253.09461937793816,
+        "height": 142.1106840787308
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "hurt",
+      "phase": 0.5,
+      "time": 0.21666668355464935,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 292.63580058808463,
+        "maxY": 436.6642040840373,
+        "width": 253.09461937793816,
+        "height": 144.02840349595266
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "hurt",
+      "phase": 0.9,
+      "time": 0.39000003039836884,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915759688194187,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46378291601546,
+        "maxX": 321.55840229395363,
+        "minY": 294.12946879654066,
+        "maxY": 436.6642040840373,
+        "width": 253.09461937793816,
+        "height": 142.53473528749663
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "die",
+      "phase": 0.2,
+      "time": 0.14285714285714288,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6915463381015315,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.46215325687848,
+        "maxX": 321.55297987258024,
+        "minY": 295.4051518084386,
+        "maxY": 436.66315168462006,
+        "width": 253.09082661570176,
+        "height": 141.2579998761815
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "die",
+      "phase": 0.5,
+      "time": 0.35714285714285715,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6914882686050514,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.49632072978306,
+        "maxX": 321.5423531547244,
+        "minY": 296.45555497487703,
+        "maxY": 436.6646921491056,
+        "width": 253.04603242494136,
+        "height": 140.20913717422854
+      }
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "die",
+      "phase": 0.9,
+      "time": 0.6428571428571429,
+      "vertices": 14785,
+      "maximumProjectedExtent": 0.6914874873123242,
+      "inside": true,
+      "insideClearDisplayArea": true,
+      "noOverflow": true,
+      "projectedPixels": {
+        "minX": 68.45778982184467,
+        "maxX": 321.5373632041829,
+        "minY": 297.9474982954564,
+        "maxY": 436.6631661343954,
+        "width": 253.07957338233822,
+        "height": 138.715667838939
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-game-idle.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-game-walk.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-game-attack.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-game-hurt.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "game",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-game-die.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-front-idle.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-front-walk.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-front-attack.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-front-hurt.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "front",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-front-die.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-side-idle.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-side-walk.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-side-attack.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-side-hurt.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "side",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-side-die.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-back-idle.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-back-walk.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-back-attack.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-back-hurt.png"
+    },
+    {
+      "viewport": "desktop",
+      "view": "back",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-desktop-back-die.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-game-idle.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-game-walk.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-game-attack.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-game-hurt.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "game",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-game-die.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-front-idle.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-front-walk.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-front-attack.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-front-hurt.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "front",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-front-die.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-side-idle.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-side-walk.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-side-attack.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-side-hurt.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "side",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-side-die.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "idle",
+      "time": 1,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-back-idle.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "walk",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-back-walk.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "attack",
+      "time": 0.5,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-back-attack.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "hurt",
+      "time": 0.21666668355464935,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-back-hurt.png"
+    },
+    {
+      "viewport": "mobile",
+      "view": "back",
+      "clip": "die",
+      "time": 0.6785714285714286,
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\browser\\2026-10-09T07-00-10.213Z\\croc-mobile-back-die.png"
+    }
+  ],
+  "artAcceptance": "pending independent four-limb, jaw, toe and tail review",
+  "runtime": {
+    "type": "croc",
+    "sampling": "all exported keys + 24 Hz; actual indexed edges >= 5 mm",
+    "thresholds": {
+      "edgeRatio": 2,
+      "edgeExtensionSourceMetres": 0.01,
+      "limbLengthSourceMetres": 0.005,
+      "idleFootDriftSourceMetres": 0.0015,
+      "flatGroundRuntimeMetres": -0.01
+    },
+    "failures": [],
+    "clips": [
+      {
+        "name": "idle",
+        "duration": 2,
+        "samples": 106,
+        "edgesOverLimits": 0,
+        "maxEdgeRatio": 1.0623966137338139,
+        "worstEdge": null,
+        "maxLimbLengthError": 0.000006892236025124454,
+        "limbWorst": {
+          "name": "ForeRUpper",
+          "time": 0,
+          "sourceLength": 0.20254629100529095,
+          "actualLength": 0.20255318324131608
+        },
+        "idleFootDrift": [
+          {
+            "name": "ForeLFoot",
+            "maximum": 0
+          },
+          {
+            "name": "ForeRFoot",
+            "maximum": 0
+          },
+          {
+            "name": "HindLFoot",
+            "maximum": 0
+          },
+          {
+            "name": "HindRFoot",
+            "maximum": 0
+          }
+        ],
+        "minimumTriangleAreaRatio": 0.9145202219267463,
+        "areaWorst": {
+          "time": 0.5666667222976685,
+          "triangle": 5057,
+          "restArea": 0.000099085320667507,
+          "ratio": 0.9145202219267463
+        },
+        "maximumSourceVertexMotion": 0.026807113301425378,
+        "nativeFlatClearance": {
+          "minimum": 0.000028085776212591344,
+          "samples": 111
+        }
+      },
+      {
+        "name": "walk",
+        "duration": 1,
+        "samples": 53,
+        "edgesOverLimits": 0,
+        "maxEdgeRatio": 1.858469705553775,
+        "worstEdge": null,
+        "maxLimbLengthError": 0.000006892236025124454,
+        "limbWorst": {
+          "name": "ForeRUpper",
+          "time": 0,
+          "sourceLength": 0.20254629100529095,
+          "actualLength": 0.20255318324131608
+        },
+        "idleFootDrift": [],
+        "minimumTriangleAreaRatio": 0.05693778192528676,
+        "areaWorst": {
+          "time": 0.4333333671092987,
+          "triangle": 5671,
+          "restArea": 0.00003537610022082313,
+          "ratio": 0.05693778192528676
+        },
+        "maximumSourceVertexMotion": 0.05398565749276485,
+        "nativeFlatClearance": {
+          "minimum": -0.0036764035771698097,
+          "samples": 58
+        }
+      },
+      {
+        "name": "attack",
+        "duration": 1,
+        "samples": 53,
+        "edgesOverLimits": 0,
+        "maxEdgeRatio": 1.2110316916311756,
+        "worstEdge": null,
+        "maxLimbLengthError": 0.000006892236025124454,
+        "limbWorst": {
+          "name": "ForeRUpper",
+          "time": 0,
+          "sourceLength": 0.20254629100529095,
+          "actualLength": 0.20255318324131608
+        },
+        "idleFootDrift": [],
+        "minimumTriangleAreaRatio": 0.24436506012964607,
+        "areaWorst": {
+          "time": 0.6333333849906921,
+          "triangle": 5057,
+          "restArea": 0.000099085320667507,
+          "ratio": 0.24436506012964607
+        },
+        "maximumSourceVertexMotion": 0.049693871928357586,
+        "nativeFlatClearance": {
+          "minimum": 0.000028085776212591344,
+          "samples": 58
+        }
+      },
+      {
+        "name": "hurt",
+        "duration": 0.4333333671092987,
+        "samples": 24,
+        "edgesOverLimits": 0,
+        "maxEdgeRatio": 1.1784521854079293,
+        "worstEdge": null,
+        "maxLimbLengthError": 0.000006892236025124454,
+        "limbWorst": {
+          "name": "ForeRUpper",
+          "time": 0,
+          "sourceLength": 0.20254629100529095,
+          "actualLength": 0.20255318324131608
+        },
+        "idleFootDrift": [],
+        "minimumTriangleAreaRatio": 0.8564328308601177,
+        "areaWorst": {
+          "time": 0.2666666805744171,
+          "triangle": 5103,
+          "restArea": 0.000013385804200467116,
+          "ratio": 0.8564328308601177
+        },
+        "maximumSourceVertexMotion": 0.02012194572910414,
+        "nativeFlatClearance": {
+          "minimum": 0.000028085776212591344,
+          "samples": 30
+        }
+      },
+      {
+        "name": "die",
+        "duration": 1,
+        "samples": 53,
+        "edgesOverLimits": 0,
+        "maxEdgeRatio": 1.0524007910529922,
+        "worstEdge": null,
+        "maxLimbLengthError": 0.000010368260646653749,
+        "limbWorst": {
+          "name": "HindRUpper",
+          "time": 0.5333333611488342,
+          "sourceLength": 0.26518861212352235,
+          "actualLength": 0.265198980384169
+        },
+        "idleFootDrift": [],
+        "minimumTriangleAreaRatio": 0.7484147980576907,
+        "areaWorst": {
+          "time": 0.9666666984558105,
+          "triangle": 5057,
+          "restArea": 0.000099085320667507,
+          "ratio": 0.7484147980576907
+        },
+        "maximumSourceVertexMotion": 0.026381170177005142,
+        "nativeFlatClearance": {
+          "minimum": -0.0008046374329634168,
+          "samples": 74
+        }
+      }
+    ],
+    "runtimeSpec": {
+      "url": "/models/monsters/croc.glb",
+      "height": 0.4615384615384615,
+      "outerSize": 1.3,
+      "worldTargetHeight": 0.6
+    },
+    "budget": {
+      "triangles": 12567,
+      "materialDraws": 1,
+      "maximumTriangles": 15000,
+      "maximumMaterialDraws": 1
+    },
+    "decodedTextures": [
+      {
+        "slot": "map",
+        "width": 1024,
+        "height": 1024
+      },
+      {
+        "slot": "normalMap",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "weights": {
+      "vertices": 14785,
+      "maxSumError": 2.220446049250313e-16,
+      "limit": 0.00001
+    },
+    "sourceRest": {
+      "height": 0.31108236974568343,
+      "indexedEdges": 25008
+    },
+    "limbSampling": {
+      "chains": [
+        "ForeL",
+        "ForeR",
+        "HindL",
+        "HindR"
+      ],
+      "segments": [
+        {
+          "name": "ForeLUpper",
+          "expectedSourceLength": 0.1387443692551161
+        },
+        {
+          "name": "ForeLLower",
+          "expectedSourceLength": 0.10380751417888788
+        },
+        {
+          "name": "ForeRUpper",
+          "expectedSourceLength": 0.20254629100529095
+        },
+        {
+          "name": "ForeRLower",
+          "expectedSourceLength": 0.14765161699080712
+        },
+        {
+          "name": "HindLUpper",
+          "expectedSourceLength": 0.19377822375076106
+        },
+        {
+          "name": "HindLLower",
+          "expectedSourceLength": 0.1030242689855162
+        },
+        {
+          "name": "HindRUpper",
+          "expectedSourceLength": 0.26518861212352235
+        },
+        {
+          "name": "HindRLower",
+          "expectedSourceLength": 0.11022250223978766
+        }
+      ],
+      "idleContactScope": "four exported foot bone origins; surface toe contact and locomotion stance require visual review"
+    },
+    "acceptance": "Independent four-limb anatomy, jaw, tail and toe visual review required; numerical pass does not establish art acceptance"
+  },
+  "status": "numeric/runtime/presentation checks passed; independent anatomy/art acceptance pending"
+}

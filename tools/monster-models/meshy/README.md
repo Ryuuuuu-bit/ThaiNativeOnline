@@ -285,3 +285,51 @@ contact: HandR/Shield share an unanimated rigid transform, so a weight-group
 name alone cannot identify the Soldier palm. Explicit source palm samples and
 UV provenance are documented in the final validation report. No individual
 finger retargeting, terrain foot IK or per-skill clips are supplied.
+
+## Klong — Croc first
+
+`motion.html?set=7` and `review.html?set=7` display the level 13 marsh crocodile.
+This is the first of ten existing Klong identities. Other monsters and the
+environment remain queued; no combat stats, spawns or boss summons change.
+The world art height is 0.60m, normalized by the existing 1.30 outer scale.
+Evidence and the complete roster are in `docs/art/monsters/meshy-klong/`.
+
+Two Meshy tasks cost 70 credits. The first generated six foot ends and was
+rejected before binding. The selected `croc-anatomy-v2.png` reconstruction has
+four unbranched limb chains. Its prepared static file is committed, so rig or
+motion revisions require no additional paid generation.
+
+Use a fresh approved managed Harness, with the output directory and this
+candidate directory as authorized asset roots. Rebuild in order; stop on every
+nonzero exit. Do not replay bind over an existing rig or reuse an old export tag
+after changing weights/motion.
+
+```powershell
+$ErrorActionPreference='Stop'
+$PSNativeCommandUseErrorActionPreference=$true
+$env:MESHY_RIG_OUTPUT='artifacts/croc-rebuild'
+node tools/monster-models/meshy/unpack.mjs croc
+python tools/monster-models/meshy/rig_croc.py bind
+python tools/monster-models/meshy/rig_croc.py export rest
+node tools/monster-models/meshy/calibrate_croc.mjs
+python tools/monster-models/meshy/rig_croc.py animate
+python tools/monster-models/meshy/rig_croc.py export rebuilt-v1
+node tools/monster-models/meshy/extract_croc.mjs artifacts/croc-rebuild/jobs/job_croc_rebuilt-v1_glb/artifact.glb artifacts/croc-rebuild/croc-rig-production.glb
+node tools/monster-models/prepare.mjs artifacts/croc-rebuild/croc-rig-production.glb artifacts/croc-rebuild/croc-animated.glb
+node tools/monster-models/meshy/publish.mjs croc rebuilt-v1
+```
+
+Twenty bones retain body, neck, head, jaw, three tail segments and four
+Upper/Lower/Foot chains. Each leg's pole and full foot rotation derive from the
+exported rest basis. Geodesic weights preserve UV copies and normalize at most
+four influences. Semantic torso and sole ownership prevent belly/heel sinking.
+Feet stay planted in idle; walk uses diagonal steps. Death keeps the long tail
+clear while settling the chest. Jaw direction is checked against its actual
+local basis. No humanoid retargeting or individual toe animation is used.
+
+`rig_croc.py export TAG` records durable L3 job IDs before dispatch, verifies
+artifact/source hashes and acknowledges each terminal job once. An uncertain
+response recovers the recorded job without resubmission; an unfinished export
+stops packaging. Recover it with the same tag. Never silently package a stale
+GLB. The packed editable Blender export is retained locally beside the job
+receipts and is reopened separately for source verification.

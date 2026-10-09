@@ -1,0 +1,14 @@
+{
+  "type": "croc",
+  "bytes": 1385112,
+  "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+  "triangles": 12567,
+  "bones": 20,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

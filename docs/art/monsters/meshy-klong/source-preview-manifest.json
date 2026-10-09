@@ -1,0 +1,76 @@
+[
+  {
+    "type": "croc",
+    "frame": 1,
+    "sceneRevision": 7131,
+    "protocolVersion": "codex-blender/v1",
+    "milestone": "croc-v3-frame-1",
+    "snapshotId": "snapshot-c2ae2a7b34c6ffa51710b771",
+    "views": [
+      {
+        "name": "camera",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-c2ae2a7b34c6ffa51710b771\\camera.png",
+        "sha256": "f29bcc24c681b8f6f92d202b0d04444639167980a72eccba24461aac518989e4"
+      },
+      {
+        "name": "front",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-c2ae2a7b34c6ffa51710b771\\front.png",
+        "sha256": "e88477a94ef843c4e30edbffc62744c7f5eaccdc7e1bdae047049c9812f7c880"
+      },
+      {
+        "name": "side",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-c2ae2a7b34c6ffa51710b771\\side.png",
+        "sha256": "c405a692907271378126cb9e69c3150bb625e160b5c0e959257ec4ea6e332137"
+      },
+      {
+        "name": "top",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-c2ae2a7b34c6ffa51710b771\\top.png",
+        "sha256": "ff6cc4424e5903c506276597c6293f803ed336984845084996453f46e73bbd85"
+      }
+    ],
+    "sceneSummary": {
+      "objects": 13,
+      "materials": 2,
+      "lights": 1,
+      "cameras": 1
+    },
+    "warnings": []
+  },
+  {
+    "type": "croc",
+    "frame": 92,
+    "sceneRevision": 7144,
+    "protocolVersion": "codex-blender/v1",
+    "milestone": "croc-v3-frame-92",
+    "snapshotId": "snapshot-ece9e885b2b56b35ad3f9a0a",
+    "views": [
+      {
+        "name": "camera",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-ece9e885b2b56b35ad3f9a0a\\camera.png",
+        "sha256": "851832142d17ae5e7071084f61a8ca0396471ae3952390ed592d9170b18ef4b0"
+      },
+      {
+        "name": "front",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-ece9e885b2b56b35ad3f9a0a\\front.png",
+        "sha256": "87e2106c3673b96128270b0bdc55d8a60f298d467bc0dc99f10cf8e3b77f0961"
+      },
+      {
+        "name": "side",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-ece9e885b2b56b35ad3f9a0a\\side.png",
+        "sha256": "cfbc8a455e23f3a27ea5df25d373a40518f8f08d8b0620a6774e622993ebe62c"
+      },
+      {
+        "name": "top",
+        "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\milestones\\snapshot-ece9e885b2b56b35ad3f9a0a\\top.png",
+        "sha256": "067b53ad204b13572b68d88b30e618b0279d59d7a81d835f4928c207ca52a929"
+      }
+    ],
+    "sceneSummary": {
+      "objects": 13,
+      "materials": 2,
+      "lights": 1,
+      "cameras": 1
+    },
+    "warnings": []
+  }
+]

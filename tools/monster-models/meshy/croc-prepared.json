@@ -1,0 +1,39 @@
+{
+  "creature": "croc",
+  "bytes": 1301260,
+  "triangles": 12567,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.42187099158763885,
+      0,
+      -0.9508325457572937
+    ],
+    "max": [
+      0.42187099158763885,
+      0.3110690861940384,
+      0.9508325457572937
+    ]
+  },
+  "sha256": "df2e5ff171afeb2e7b42c53eb7bae2daffd2ac2bb02763e340a687d60c127b00",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

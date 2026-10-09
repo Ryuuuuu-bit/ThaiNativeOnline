@@ -7,7 +7,7 @@ import fs from 'node:fs/promises';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
 await MeshoptDecoder.ready;
 const types=process.argv.slice(2).length?process.argv.slice(2):['boar','fowl','crab'];
-if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom'].includes(type)))throw Error('Unknown creature');
+if(types.some(type=>!['boar','fowl','crab','cobra','monkey','dhole','phibpa','buffalo','kongkoi','monitor','pray','khamot','winyan','takian','headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc'].includes(type)))throw Error('Unknown creature');
 const outputRoot=process.env.MESHY_RIG_OUTPUT??'artifacts/meshy-rig-01';
 await fs.mkdir(`${outputRoot}/input`, { recursive: true });
 for (const type of types) {

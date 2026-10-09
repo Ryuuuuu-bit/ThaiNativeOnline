@@ -5,12 +5,17 @@ import { MONSTERS } from '/src/combat/data/monsters.js';
 
 const params=new URLSearchParams(location.search),set=params.get('set')||'1';
 const watRang = set === '6';
-const types = ({'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa'],'4':['buffalo'],'5':['kongkoi','monitor','pray','khamot','winyan','takian'],'6':['headless','pret','krahang','krasue','phitaihong','soldier','pusom']}[set]||['boar','fowl','crab']);
+const klong = set === '7', fittedSet = watRang || klong;
+const spec = id => MONSTER_MODELS[id] ?? (klong && id === 'croc' ? { height: .6 / 1.3 } : undefined);
+const useBaseline = !klong || params.get('baseline') === '1';
+const types = ({'1':['boar','fowl','crab'],'2':['cobra','monkey'],'3':['dhole','phibpa'],'4':['buffalo'],'5':['kongkoi','monitor','pray','khamot','winyan','takian'],'6':['headless','pret','krahang','krasue','phitaihong','soldier','pusom'],'7':['croc']}[set]||['boar','fowl','crab']);
 document.querySelector('.creatures').innerHTML='<button data-type="all" class="active">ดูทั้งชุด</button>'+types.map(id=>`<button data-type="${id}">${MONSTERS[id].name} · Lv.${MONSTERS[id].level}</button>`).join('');
 if(set==='2'||set==='3'){document.querySelector('header p').textContent=set==='2'?'ชุด Lv.2 · งูเห่านา และลิงกัง':'ชุด Lv.3 · หมาไน และผีป่า';document.querySelector('header .badge').href=`./motion.html?set=${set}`;document.querySelector('header small').textContent=`THAI NATIVE ONLINE · CREATURE STUDY 0${set}`;}
 if(set==='4'){document.querySelector('header p').textContent='บอสทุ่งนา · ควายป่า Lv.4';document.querySelector('header .badge').href='./motion.html?set=4';document.querySelector('header small').textContent='THAI NATIVE ONLINE · PADDY BOSS';}
 if(set==='5'){document.querySelector('header h1').textContent='ผู้พิทักษ์แห่งป่าลึก';document.querySelector('header p').textContent='ชุดป่าลึก · มอนสเตอร์ Lv.4–6';document.querySelector('header .badge').href='./motion.html?set=5';document.querySelector('header small').textContent='THAI NATIVE ONLINE · DEEP FOREST';}
 if(watRang){document.title='Thai Native Online · Wat Rang creatures';document.querySelector('header h1').textContent='วิญญาณแห่งวัดร้าง';document.querySelector('header p').textContent='ชุดวัดร้าง · มอนสเตอร์ Lv.6–10';document.querySelector('header .badge').href='./motion.html?set=6';document.querySelector('header small').textContent='THAI NATIVE ONLINE · WAT RANG';document.body.style.background='#172b29';}
+if(klong){document.title='Thai Native Online · Klong Croc';document.querySelector('header h1').textContent='คลองหนองบึง';document.querySelector('header p').textContent='จระเข้บึง · Lv.13';document.querySelector('header .badge').href='./motion.html?set=7';document.querySelector('header small').textContent='THAI NATIVE ONLINE · KLONG';document.body.style.background='#203329';}
+if(!useBaseline){document.querySelector('#compare').disabled=true;document.querySelector('#compare').parentElement.title='ยังไม่มีโมเดลเดิมให้เทียบ';}
 const canvas = document.querySelector('canvas'), host = canvas.parentElement;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -25,10 +30,11 @@ Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 5, bottom: -5 }); sc
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: '#657a4b', roughness: 1 }));
 ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
 if (watRang) { scene.background.set('#69736d'); ground.material.color.set('#58645a'); }
+if (klong) { scene.background.set('#788679'); ground.material.color.set('#64775d'); }
 const camera = new THREE.OrthographicCamera(-5, 5, 3, -3, .05, 100);
 const directions = { game: [15, 23, 22], front: [0, 3, 28], side: [28, 3, 0], back: [0, 3, -28], top: [.001, 28, 0] };
 const models = [], old = [], footprints = [];
-let type = params.get('type') || ((set==='5'||watRang)&&innerWidth<650?types[0]:'all'), view = 'game', spin = false, comparison = false;
+let type = params.get('type') || (klong || (set==='5'||watRang)&&innerWidth<650?types[0]:'all'), view = 'game', spin = false, comparison = false;
 if (!types.includes(type)) type = 'all';
 const loader = gltfLoader();
 function arrange() {
@@ -38,7 +44,7 @@ function arrange() {
   const away = new THREE.Vector3(-right.z, 0, right.x).multiplyScalar(-2.5);
   const gap = .65, total = footprints.reduce((sum, radius) => sum + radius * 2 + gap, -gap);
   let cursor = -total / 2;
-  if (watRang) {
+  if (fittedSet) {
     const shadowHalf = type === 'all' ? total / 2 + 4 : comparison ? Math.max(5, Math.max(...footprints) * 3 + 2) : 5;
     Object.assign(sun.shadow.camera, { left: -shadowHalf, right: shadowHalf, top: shadowHalf, bottom: -shadowHalf }); sun.shadow.camera.updateProjectionMatrix();
   }
@@ -47,10 +53,10 @@ function arrange() {
     m.position.copy(right).multiplyScalar(type === 'all' ? (i - (types.length-1)/2) * 3.4 : (comparison ? 1.5 : 0));
     old[i].visible = comparison && m.visible;
     old[i].position.copy(type === 'all' ? m.position.clone().add(away) : right.clone().multiplyScalar(-1.5));
-    if (watRang) {
+    if (fittedSet) {
       const radius = footprints[i], distance = type === 'all' ? cursor + radius : comparison ? radius + .5 : 0;
       cursor += radius * 2 + gap;
-      m.position.copy(right).multiplyScalar(distance); m.position.y = (MONSTER_MODELS[types[i]].lift ?? 0) * MONSTERS[types[i]].size;
+      m.position.copy(right).multiplyScalar(distance); m.position.y = (spec(types[i]).lift ?? 0) * MONSTERS[types[i]].size;
       old[i].position.copy(type === 'all' ? m.position.clone().add(away.clone().normalize().multiplyScalar(Math.max(...footprints) * 2 + .75)) : right.clone().multiplyScalar(-distance));
       old[i].position.y = m.position.y;
     }
@@ -62,7 +68,7 @@ function arrange() {
 function resize() {
   renderer.setSize(host.clientWidth, host.clientHeight, false);
   const aspect = host.clientWidth / host.clientHeight;
-  if (watRang) { fitWatRangCamera(aspect); return; }
+  if (fittedSet) { fitWatRangCamera(aspect); return; }
   const height=type==='all'?2:MONSTER_MODELS[type].height;
   const forestSingle=set==='5'&&type!=='all';
   const width = type === 'all' ? 3.4*types.length+.2 : comparison ? 5.6 : forestSingle?(type==='monitor'?3.8:Math.max(2.4,height*1.35)):3.2;
@@ -83,8 +89,11 @@ function fitWatRangCamera(aspect) {
   for (let i = 0; i < models.length; i++) for (const model of [models[i], old[i]]) {
     if (!model.visible) continue;
     const box = new THREE.Box3().setFromObject(model), size = box.getSize(new THREE.Vector3()), radius = Math.hypot(size.x, size.z) / 2 + .06;
-    box.min.x = model.position.x - radius; box.max.x = model.position.x + radius;
-    box.min.z = model.position.z - radius; box.max.z = model.position.z + radius;
+    if (!klong || spin) {
+      const sweptRadius = klong ? Math.hypot(Math.max(Math.abs(box.min.x-model.position.x),Math.abs(box.max.x-model.position.x)),Math.max(Math.abs(box.min.z-model.position.z),Math.abs(box.max.z-model.position.z))) + .06 : radius;
+      box.min.x = model.position.x - sweptRadius; box.max.x = model.position.x + sweptRadius;
+      box.min.z = model.position.z - sweptRadius; box.max.z = model.position.z + sweptRadius;
+    }
     box.min.y = Math.min(0, box.min.y); boxes.push(box); bounds.union(box);
   }
   const target = bounds.getCenter(new THREE.Vector3());
@@ -93,7 +102,13 @@ function fitWatRangCamera(aspect) {
     const point = new THREE.Vector3(x, y, z).sub(target);
     halfWidth = Math.max(halfWidth, Math.abs(point.dot(right))); halfHeight = Math.max(halfHeight, Math.abs(point.dot(up)));
   }
-  const half = Math.max((halfWidth * 1.2 + .2) / aspect, halfHeight * 1.3 + .2);
+  let half = Math.max((halfWidth * 1.2 + .2) / aspect, halfHeight * 1.3 + .2);
+  if (klong) {
+    const stage = host.getBoundingClientRect(), status = document.querySelector('#status').getBoundingClientRect(), labels = document.querySelector('#labels').getBoundingClientRect();
+    const top = Math.max(0, status.bottom - stage.top) + 12, bottom = Math.max(0, stage.bottom - labels.top) + 12;
+    half = Math.max(half, (halfHeight * 1.3 + .2) * stage.height / Math.max(1, stage.height - top - bottom));
+    target.addScaledVector(up, (top - bottom) * half / stage.height);
+  }
   Object.assign(camera, { left: -half * aspect, right: half * aspect, top: half, bottom: -half });
   camera.position.copy(target).add(offset); camera.lookAt(target); camera.updateProjectionMatrix();
 }
@@ -101,15 +116,16 @@ for (const id of types) {
   const gltf = await loader.loadAsync(`./${id}.glb`), model = gltf.scene;
   model.updateMatrixWorld(true);
   const bounds = new THREE.Box3().setFromObject(model), dimensions = bounds.getSize(new THREE.Vector3());
-  const outerScale = watRang ? MONSTERS[id].size : 1;
-  const group = new THREE.Group(); group.add(model); group.scale.setScalar(MONSTER_MODELS[id].height * outerScale / dimensions.y);
+  const outerScale = fittedSet ? MONSTERS[id].size : 1;
+  const group = new THREE.Group(); group.add(model); group.scale.setScalar(spec(id).height * outerScale / dimensions.y);
   model.position.set(-(bounds.min.x + bounds.max.x) / 2, -bounds.min.y, -(bounds.min.z + bounds.max.z) / 2);
   group.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
   models.push(group); scene.add(group);
+  if (!useBaseline) { const oldGroup = new THREE.Group(); old.push(oldGroup); scene.add(oldGroup); footprints.push(Math.max(1.1,Math.hypot(dimensions.x,dimensions.z)*group.scale.x/2)); continue; }
   const baseline = await loader.loadAsync(`./baseline/${id}.glb`), original = baseline.scene;
   original.updateMatrixWorld(true);
   const oldBox = new THREE.Box3().setFromObject(original), oldSize = oldBox.getSize(new THREE.Vector3());
-  const oldGroup = new THREE.Group(); oldGroup.scale.setScalar(MONSTER_MODELS[id].height * outerScale / oldSize.y);
+  const oldGroup = new THREE.Group(); oldGroup.scale.setScalar(spec(id).height * outerScale / oldSize.y);
   original.position.set(-(oldBox.min.x + oldBox.max.x) / 2, -oldBox.min.y, -(oldBox.min.z + oldBox.max.z) / 2);
   oldGroup.add(original); old.push(oldGroup); scene.add(oldGroup);
   footprints.push(Math.max(1.1, Math.hypot(dimensions.x, dimensions.z) * group.scale.x / 2, Math.hypot(oldSize.x, oldSize.z) * oldGroup.scale.x / 2));
@@ -119,7 +135,7 @@ document.querySelectorAll('[data-type]').forEach(b => b.onclick = () => { type =
 document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => {
   view = b.dataset.view; document.querySelectorAll('[data-view]').forEach(x => x.classList.toggle('active', x === b)); arrange();
 });
-document.querySelector('#spin').onclick = () => { spin = !spin; document.querySelector('#spin').setAttribute('aria-pressed', String(spin)); };
+document.querySelector('#spin').onclick = () => { spin = !spin; document.querySelector('#spin').setAttribute('aria-pressed', String(spin)); if(klong)resize(); };
 document.querySelector('#compare').onchange = e => { comparison = e.target.checked; arrange(); };
 addEventListener('resize', resize);
 arrange();
