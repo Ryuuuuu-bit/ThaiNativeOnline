@@ -30,6 +30,10 @@ const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank'];
 const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
+const liveBuff = b => b && (b.remaining === undefined || (Number.isFinite(b.remaining) && b.remaining > 0));
+const buffRatio = n => Math.max(-1, Math.min(.6, n));
+const NEGATIVE_BUFF_FIELDS = ['poison', 'slow', 'stun', 'bleed', 'burn', 'cursed'];
+export const isHarmfulBuff = buff => NEGATIVE_BUFF_FIELDS.some(key => !!buff?.[key]);
 
 // Bumped when the starter set changes; saves below it get the missing starter pieces once (grantMissingStarterEquipment).
 export const STARTER_VERSION = 2;
@@ -177,15 +181,17 @@ export class Character extends Emitter {
     const mastery = masteryBonus(this.classId, this.masteries);
     return { ...derived, patk: derived.patk + (mastery.atk ?? 0), matk: derived.matk + (mastery.matk ?? 0), maxHp: derived.maxHp + (mastery.hp ?? 0) };
   }
-  buffSum(key) { return this.buffs.reduce((n, b) => n + (b[key] || 0), 0); }
+  buffSum(key) { return this.buffs.reduce((n, b) => n + (liveBuff(b) && Number.isFinite(b[key]) ? b[key] : 0), 0); }
 
   get maxHp() { return this.derived.maxHp; }
   get maxMp() { return this.derived.maxMp; }
   // Attack power after buffs: MATK for spell classes, ATK for the rest.
-  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + this.buffSum('atk'))); }
-  get patk() { return Math.round(this.derived.patk * (1 + this.buffSum('atk'))); }
-  get matk() { return Math.round(this.derived.matk * (1 + this.buffSum('atk'))); }
-  get defense() { return Math.round(this.derived.def * (1 + (this.buffs.find(b => b.def)?.def || 0))); }
+  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + buffRatio(this.buffSum('atk')))); }
+  get patk() { return Math.round(this.derived.patk * (1 + buffRatio(this.buffSum('atk')))); }
+  get matk() { return Math.round(this.derived.matk * (1 + buffRatio(this.buffSum('atk')))); }
+  get defense() { return Math.round((this.derived.def + this.buffSum('defFlat')) * (1 + buffRatio(this.buffSum('def')))); }
+  get speedBonus() { return Math.max(0, Math.min(.5, this.buffSum('speed'))); }
+  get undying() { return this.buffs.some(b => liveBuff(b) && !!b.undying); }
   get accuracy() { return this.derived.accuracy; }
   get evasion() { return this.derived.eva; }
   get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
@@ -234,7 +240,7 @@ export class Character extends Emitter {
   // ---- HP/MP ----
   damage(amount) {
     if (!this.alive) return 0;
-    const dealt = Math.min(this.hp, Math.max(0, Math.round(amount)));
+    const dealt = Math.min(Math.max(0, this.hp - (this.undying ? 1 : 0)), Math.max(0, Math.round(amount)));
     this.hp -= dealt; if (this.hp <= 0 || (dealt && this.hp < 1)) this.fall();   // a blow that leaves a fraction (poison ticks) is a kill
     this.emit('change'); if (dealt) this.emit('damaged', dealt);
     if (this.hp <= 0) this.emit('death');
@@ -249,7 +255,11 @@ export class Character extends Emitter {
   }
   restoreMp(amount) { this.mp = Math.min(this.maxMp, this.mp + Math.round(amount)); this.emit('change'); }
   spendMp(amount) { if (this.mp < amount) return false; this.mp -= amount; this.emit('change'); return true; }
-  revive(ratio = .5) { this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.round(this.maxMp * ratio); this.buffs = []; this.emit('change'); }
+  revive(ratio = .5) {
+    ratio = Number.isFinite(ratio) ? Math.max(0, Math.min(1, ratio)) : .5;
+    this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.round(this.maxMp * ratio);
+    this.buffs = []; this.emit('change');
+  }
 
   // Slow natural regeneration, slower in combat (no sitting bonus: recovery is potions and healers).
   tick(dt, inCombat) {
@@ -259,7 +269,7 @@ export class Character extends Emitter {
     this.buffs = this.buffs.filter(b => (b.remaining -= dt) > 0);
     if (before !== this.buffs.length) this.emit('change');
     if (!this.alive) return;
-    const hot = this.buffs.reduce((n, b) => n + (b.hot || 0), 0);
+    const hot = this.buffSum('hot');
     if (hot && this.hp < this.maxHp) { this.hp = Math.min(this.maxHp, this.hp + this.maxHp * hot * dt); this.emit('change'); }
     // a monster's poison (src/combat/monsterHit.js): HP a second, never the last one
     const poison = this.buffSum('poison');
@@ -279,7 +289,14 @@ export class Character extends Emitter {
       }
     }
   }
-  addBuff(buff) { this.buffs = this.buffs.filter(b => b.id !== buff.id); this.buffs.push({ ...buff, remaining: buff.duration }); this.emit('change'); }
+  addBuff(buff) {
+    this.buffs = this.buffs.filter(b => b.id !== buff.id && !(buff.cleanse && isHarmfulBuff(b)));
+    const next = { ...buff, remaining: buff.duration ?? buff.remaining ?? 0 };
+    if (liveBuff(next)) this.buffs.push(next);
+    // Movement conditions can live outside Character.buffs, so announce every cleanse.
+    if (buff.cleanse) this.emit('cleansed');
+    this.emit('change');
+  }
 
   // ---- Job level and skills ----
   get jobExpNeeded() { return jobExpToNext(this.jobLevel); }

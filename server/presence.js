@@ -9,7 +9,7 @@
 //
 //   const P = new Presence({ now })
 //   P.join(conn, hello, ch?) → { you, roster, joined, map, room, ch }   (hello: name, cls, gender, lv, map, x, z, f)
-//   P.move(conn, msg)     → true | false                (msg: x, z, f, m)
+//   P.move(conn, msg, speedBonus=0) → true | false (bonus comes only from the server character)
 //   P.changeMap(conn, m, ch?) → { left: old room, roster, joined, map, room, ch }
 //   P.setChannel(conn, ch)    → the same, staying on the map (server/channels.js)
 //   P.counts(map) → { [ch]: players } · players are grouped by room ('paddy', 'paddy#2', …):
@@ -71,7 +71,7 @@ export class Presence {
     return { you: p.id, ...r };
   }
   // A move is kept only if it is reachable on foot since the last accepted one.
-  move(conn, msg = {}) {
+  move(conn, msg = {}, speedBonus = 0) {
     const p = this.players.get(conn); if (!p) return false;
     const x = num(msg.x), z = num(msg.z), f = num(msg.f, 10), now = this.now();
     if (x === null || z === null || p.dead) return false;
@@ -81,8 +81,15 @@ export class Presence {
     // cannot add their slack together; an accepted move leaves at most BUDGET_SECS worth saved
     // up (a lag spike), while a refused one lets it keep growing, so a client that fell behind
     // (lost packets) catches up at the top speed instead of being stuck for good
-    const cap = LIMITS.speed * BUDGET_SECS;
-    p.budget = (p.budget ?? cap) + LIMITS.speed * Math.max(0, now - (p.budgetAt ?? p.t)); p.budgetAt = now;
+    const bonus = Number.isFinite(speedBonus) ? Math.max(0, Math.min(.5, speedBonus)) : 0;
+    const speed = LIMITS.speed * (1 + bonus), previousSpeed = p.budgetSpeed ?? LIMITS.speed;
+    const cap = speed * BUDGET_SECS;
+    let budget = p.budget ?? LIMITS.speed * BUDGET_SECS;
+    // A rate change never multiplies stored distance or retroactively refills
+    // time at the faster rate. Expiry also removes excess saved boost slack.
+    if (speed !== previousSpeed) budget = Math.min(budget, Math.min(speed, previousSpeed) * BUDGET_SECS);
+    p.budget = budget + Math.min(speed, previousSpeed) * Math.max(0, now - (p.budgetAt ?? p.t));
+    p.budgetAt = now; p.budgetSpeed = speed;
     if (d > p.budget + (p.slack || 0)) return false;
     if (p.slack && (p.slackUntil < now || d > p.budget)) p.slack = 0;
     p.budget = Math.min(cap, Math.max(0, p.budget - d));
@@ -98,7 +105,8 @@ export class Presence {
     const portal = (MAP_DATA[p.map]?.portals ?? []).find(o => o.to === msg.map && near(o.at, p.x, p.z));
     if (!portal) return null;
     const left = p.room;
-    p.map = msg.map; p.x = portal.arrive.x; p.z = portal.arrive.z; p.budget = LIMITS.speed * BUDGET_SECS; p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = this.now(); p.dirty = true;
+    p.map = msg.map; p.x = portal.arrive.x; p.z = portal.arrive.z; p.budget = LIMITS.speed * BUDGET_SECS;
+    p.budgetSpeed = LIMITS.speed; p.budgetAt = this.now(); p.f = num(msg.f, 10) ?? p.f; p.m = 0; p.t = p.budgetAt; p.dirty = true;
     return { left, ...this.enter(p, ch) };
   }
   // Another channel of the same map: same spot, new room.

@@ -13,6 +13,7 @@
 //   · a healer's party / revive skill heals, buffs and stands up the members near them (aid)
 //   attachSocial(net, character, chat, remote)
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
+import { applyAid } from './combatState.js';
 import { CLASSES } from '../character/data/classes.js';
 import { CLASS_KITS } from '../classes/index.js';
 import { SKILL_BY_ID } from '../rules/data/skills.js';
@@ -161,11 +162,10 @@ export function attachSocial(net, c, chat, remote, game = null) {
   // a healer's party / revive skill reached us (server/index.js support)
   net.on('aid', m => {
     const combat = game?.game?.combat, p = game?.player?.position;
-    if (!c.alive) { if (m.revive && combat?.reviveHere(m.revive)) chat.add('ระบบ', `${m.from} ชุบชีวิตคุณ`); return; }
-    if (m.heal || m.hp) { const amount = c.heal(c.maxHp * (m.heal || 0) + (m.hp || 0)); if (amount && p) combat?.emit('heal', { amount, x: p.x, z: p.z }); }
-    if (m.mp) { c.mp = Math.min(c.maxMp, Math.round(c.mp + c.maxMp * m.mp)); c.emit('change'); }
-    if (m.buff) c.addBuff(m.buff);
-    if (prefs.buffNote && (m.buff || m.heal || m.hp || m.mp)) chat.add('ระบบ', `${m.from} ${m.buff ? 'บัฟ' : 'ฟื้นพลัง'}ให้คุณ`);
+    const result = applyAid(c, m, ratio => combat?.reviveHere(ratio)); if (!result) return;
+    if (result.revived) chat.add('ระบบ', `${m.from} ชุบชีวิตคุณ`);
+    if (result.heal > 0 && p) combat?.emit('heal', { amount: result.heal, x: p.x, z: p.z });
+    if (prefs.buffNote && (m.buff || (!m.state?.owned && (m.heal || m.hp || m.mp)))) chat.add('ระบบ', `${m.from} ${m.buff ? 'บัฟ' : 'ฟื้นพลัง'}ให้คุณ`);
   });
   // our party / healing skill reached friends: their heal numbers over them, a revive in the chat
   net.on('aided', m => {

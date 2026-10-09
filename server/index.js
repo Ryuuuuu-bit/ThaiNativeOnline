@@ -71,7 +71,9 @@ import { Trades, TRADE, swap } from './trades.js';
 import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
-import { ALLY_FOCUS } from '../src/training/kitCombat.js';
+import { ALLY_FOCUS, allyHeal, castInfo } from '../src/training/kitCombat.js';
+import { monsterAttackMul } from '../src/combat/statusEffects.js';
+import { RULES } from '../src/combat/data/rules.js';
 import { navigation } from './navigation.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
 import { Pvp } from './pvp.js';
@@ -277,7 +279,8 @@ async function handle(ws, raw) {
         break;
       }
       case 's': {   // a move: whoever walks off stops resting
-        const p = presence.players.get(ws), x = p?.x, z = p?.z; if (!presence.move(ws, m)) correct(ws);
+        const p = presence.players.get(ws), x = p?.x, z = p?.z;
+        if (!presence.move(ws, m, combatants.get(p?.id)?.c.speedBonus ?? 0)) correct(ws);
         if (p && Math.hypot(p.x - x, p.z - z) > .2) { combatants.sit(p.id, false); combatants.interrupt(p.id); }
         break;
       }
@@ -343,9 +346,19 @@ async function handle(ws, raw) {
       case 'cast': {
         const p = presence.players.get(ws); if (!p) return;
         const ally = Number.isInteger(m.ally) && m.ally !== p.id ? m.ally : null;   // a heal aimed at one friend
+        if (ally !== null) {
+          const c = combatants.get(p.id)?.c, friend = byId(ally)?.p, pid = parties.of(p.id);
+          const eff = c?.skillVariant(m.skill) ?? m.skill, info = castInfo({ id: eff }, c?.skillLevel(m.skill) || 1);
+          if (!c || !allyHeal(eff) || !pid || parties.of(ally) !== pid || !friend || friend.dead || friend.room !== p.room || Math.hypot(friend.x - p.x, friend.z - p.z) > info.range + 3) {
+            send(ws, { t: 'nope', skill: m.skill, why: 'ally' });
+            send(ws, { t: 'skill-state', skill: m.skill, state: combatants.effects(p.id) }); break;
+          }
+        }
         combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill, { ally: ally !== null });
         if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why });
         else if (r.support && combatants.get(p.id)?.c.alive) support(p, m.skill, r.support, r.single ? ally : null);
+        send(ws, { t: 'skill-state', skill: m.skill, state: combatants.effects(p.id),
+          ...(!combatants.get(p.id)?.persist && r.self ? { self: r.self } : {}), cleanse: !!r.self?.buff?.cleanse });
         if (r.ok) syncQuestPractice(ws, p);
         break;
       }
@@ -353,7 +366,17 @@ async function handle(ws, raw) {
       case 'blow': { const p = presence.players.get(ws); if (p) { const target=worldOf(p.room).byId(m.id); if(target&&!navigation(p.map).clear(p,target,.05))return; combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); syncQuestPractice(ws, p); } break; }
       case 'dead': {
         const p = presence.players.get(ws); if (!p) return;
-        if (!combatants.get(p.id)?.persist) { presence.setDead(ws, m.v); if (!m.v) { Object.assign(p,MAP_DATA[p.map].spawn,{m:0,dirty:true});correct(ws); } break; }
+        if (!combatants.get(p.id)?.persist) {
+          const c = combatants.get(p.id)?.c;
+          const respawning = !m.v && (p.dead || (c && !c.alive));
+          presence.setDead(ws, m.v);
+          if (m.v) combatants.fall(p.id);
+          else if (respawning) {
+            if (c && !c.alive) c.revive(RULES.reviveRatio);
+            Object.assign(p, MAP_DATA[p.map].spawn, { m: 0, dirty: true }); correct(ws);
+          }
+          break;
+        }
         if (!m.v && combatants.respawn(p.id)) { presence.setDead(ws, false); Object.assign(p, MAP_DATA[p.map].spawn, {m:0,dirty:true}); correct(ws); send(ws, {t:'sync',c:combatants.me(p.id)}); }   // a signed-in death is the server's call; the walk to the respawn point is free
         break;
       }
@@ -623,15 +646,18 @@ setTimeout(() => ranking.refresh(), 3000);
 // `only`: a heal aimed at one friend (kitCombat.allyHeal, the browser's pick): that party member
 // alone, ALLY_FOCUS × as strong, within the skill's reach (+ a little for lag).
 function support(caster, skill, sup, only = null) {
+  // Vines heal one chosen friend over time; a self vine was opened by cast().
+  if (sup.tether && only === null) return;
   const pid = parties.of(caster.id); if (!pid) return;
   const got = [], reach = only === null ? sup.radius : sup.radius + 3;
   if (only !== null) sup = { ...sup, hp: Math.round((sup.hp || 0) * ALLY_FOCUS) };
   for (const id of parties.members(pid)) {
     if (id === caster.id || (only !== null && id !== only)) continue;
     const o = byId(id); if (!o || o.p.room !== caster.room || Math.hypot(o.p.x - caster.x, o.p.z - caster.z) > reach) continue;
+    if (sup.tether) { combatants.tether(caster.id, id, skill, sup.tether, caster.room); continue; }
     const r = combatants.aid(id, sup);
     if (r?.revived) presence.setDead(o.ws, false);
-    if (r || o.p.dead) send(o.ws, { t: 'aid', from: caster.name, skill, heal: sup.heal, hp: sup.hp, mp: sup.mp, buff: sup.buff, revive: o.p.dead || r?.revived ? sup.revive : 0 });
+    if (r || o.p.dead) send(o.ws, { t: 'aid', from: caster.name, skill, heal: sup.heal, hp: sup.hp, mp: sup.mp, buff: sup.buff, revive: o.p.dead || r?.revived ? sup.revive : 0, state: combatants.effects(id), amount: r?.heal ?? 0 });
     if (r) got.push({ name: o.p.name, x: o.p.x, z: o.p.z, heal: r.heal ?? 0, revived: !!r.revived });
   }
   // the healer's records (สายซัพพอร์ต titles): HP given to the others and the fallen stood up
@@ -707,10 +733,11 @@ function route(map, events, except = null) {
       const p=presence.players.get(ws), monster=worldOf(map).byId(e.id);
       if(monster&&p&&!navigation(p.map).clear(e.origin ?? monster,p,.05))continue;
       combatants.touch(e.to);
-      const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power, { skill: !!e.skill });   // signed-in: resolved here
+      const power = (e.power ?? 1) * monsterAttackMul(monster);
+      const res = combatants.swing(e.to, monster?.def, power, { skill: !!e.skill });
       if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
       if ((e.knock || e.pull) && !res?.dodge) presence.allowJump(ws, e.pull ? 16 : 4);
-      send(ws, res ? { ...e, res } : e);
+      send(ws, { ...e, power, ...(res ? { res } : {}) });
     }
     else toMap(map, e, except);
   }
@@ -722,7 +749,16 @@ setInterval(() => {
   if (stopping) return;
   for (const d of pvp.sweep(id => byId(id)?.p)) endDuel(d);
   clock.sync();
-  combatants.tick(TICK / 1000, clock.phase === 'night');
+  const healed = combatants.tick(TICK / 1000, clock.phase === 'night', [...presence.players.values()],
+    (source, target) => source === target || (!!parties.of(source) && parties.of(source) === parties.of(target)));
+  for (const event of healed) {
+    const from = byId(event.source), to = byId(event.target); if (!from || !to) continue;
+    send(to.ws, { t: 'aid', from: from.p.name, skill: event.skill, hp: event.heal, amount: event.heal, state: combatants.effects(event.target) });
+    if (event.source !== event.target) {
+      send(from.ws, { t: 'aided', skill: event.skill, got: [{ name: to.p.name, x: to.p.x, z: to.p.z, heal: event.heal, revived: false }] });
+      titleNews(event.source);
+    }
+  }
   const rooms = new Set([...presence.players.values()].map(p => p.room));
   for (const room of rooms) {
     const p = presence.snapshot(room); if (p.length) toMap(room, { t: 'tick', p });
@@ -757,7 +793,7 @@ const flushEntry = (s, p = null) => {
     { inventoryRevision: s.persist.inventoryRevision ?? 0 }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
 };
 const flush = id => flushEntry(combatants.get(id), byId(id)?.p);
-setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);
+setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack, state: combatants.effects(p.id) }); } }, 1000);
 setInterval(() => { if (!stopping) for (const p of presence.players.values()) flush(p.id); }, 30000);
 setInterval(() => { for (const [ws] of conns) { if (!ws.alive) { ws.terminate(); continue; } ws.alive = false; ws.ping(); } }, 15000);
 

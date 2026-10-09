@@ -14,6 +14,8 @@ import { MONSTER_ACCURACY, killExp } from '../character/data/progression.js';
 import { afterHit, shoveTo } from './monsterHit.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 import { resetBossSkills, cancelBossSkill, tickBossSkills } from './bossSkills.js';
+import { effectiveDefense, monsterAttackMul } from './statusEffects.js';
+import { BOSS_EFFECT_MUL } from '../rules/effects.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -43,6 +45,15 @@ export class Combat extends Emitter {
     this.pending = null; // { skillId, target } waiting to get in range
     this.attackTimer = 0; this.gcd = 0; this.combatTimer = 0; this.projectiles = []; this.hold = false;
     this.phase = 'day';
+    character.on('cleansed', () => {
+      // Rule conditions may live outside Character.buffs. Clear only existing
+      // player-side fields; monster debuffs and positive buffs are unaffected.
+      for (const target of [this, character]) for (const [key, value] of Object.entries({
+        stunUntil: 0, dots: null, slowUntil: 0, slowPct: 0,
+        defDownUntil: 0, defDownPct: 0, weakUntil: 0, weakPct: 0,
+      })) if (Object.hasOwn(target, key)) target[key] = value;
+      this.emit('cleansed');
+    });
     // Hunter's dog: follows the player and bites whatever the player fights.
     this.pet = character.cls.pet ? { kind: character.cls.pet, x: 0, z: 0, facing: 0, moving: false, attackTimer: 0, frenzy: 0, placed: false } : null;
     for (const spawn of spawns) for (let i = 0; i < spawn.count; i++) {
@@ -149,11 +160,9 @@ export class Combat extends Emitter {
         if (this.attackTimer > 0) { this.pending = { skillId, target }; return { ok: true, queued: true }; }
       }
       this.pending = null;
-      this.execute(skillId, target);
-      return { ok: true };
+      return { ok: this.execute(skillId, target) !== false };
     }
-    this.execute(skillId, null);
-    return { ok: true };
+    return { ok: this.execute(skillId, null) !== false };
   }
   skillRange(skill) {
     if (skill.kind === 'pet') return 12;
@@ -163,6 +172,7 @@ export class Combat extends Emitter {
 
   execute(skillId, target) {
     const c = this.character, skill = SKILLS[skillId], p = this.world.playerPos();
+    if (!skill.basic && c.kitSkills?.length > 0) { this.fail('ใช้สกิลจากชุดสกิลอาชีพ'); return false; }
     if (!c.spendMp(skill.mp)) { this.autoAttack = false; this.fail('MP ไม่พอ'); return false; }
     if (skill.cd) c.cooldowns[skillId] = skill.cd * (1 - c.cooldownCut);          // DEX shortens skill cooldowns
     if (skill.basic) this.attackTimer = c.cls.attackSpeed * (1 - c.attackSpeed);   // AGI speeds up basic attacks
@@ -199,7 +209,7 @@ export class Combat extends Emitter {
   rollPlayerDamage(skill, m) {
     const c = this.character;
     const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit ? 1 : c.critChance, critDmg: c.critDamage };
-    return rollDamage(atk, { def: m.def.def, eva: m.def.eva ?? 0 }, skill.scale === 'int' ? 'magic' : 'physical', skill.power);
+    return rollDamage(atk, effectiveDefense(m), skill.scale === 'int' ? 'magic' : 'physical', skill.power);
   }
 
   hitMonster(m, skill) {
@@ -223,8 +233,14 @@ export class Combat extends Emitter {
     if (m.hp <= 0) { this.kill(m); return false; }
     this.aggro(m); return true;
   }
-  // Debuff on a monster: { id, duration, slow?, stun?, dot?, source?, label? }; one of each id at a time.
-  debuff(m, d) { if (!m.alive) return; m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push({ ...d, remaining: d.duration }); this.emit('debuffed', { monster: m, debuff: d }); }
+  // Callers pass full durations. Boss control effects last half as long;
+  // DoT ticks retain the same duration as the shared rules/effects.js path.
+  debuff(m, d) {
+    if (!m.alive) return;
+    const effect = { ...d, remaining: d.duration * (m.def.boss && !d.dot ? BOSS_EFFECT_MUL : 1) };
+    m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(effect);
+    this.emit('debuffed', { monster: m, debuff: effect });
+  }
 
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
@@ -315,7 +331,7 @@ export class Combat extends Emitter {
           pet.pounce = null;
           if (this.remote) { this.damageMonster(target, 0, { skill: 'pet', pounce }); return; }   // online the server rolls the bite
           const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: c.critChance, critDmg: c.critDamage };
-          const r = rollDamage(atk, { def: target.def.def, eva: target.def.eva ?? 0 }, 'physical', skill.power);
+          const r = rollDamage(atk, effectiveDefense(target), 'physical', skill.power);
           if (!r.hit) { this.emit('miss', { x: target.x, z: target.z, monster: target }); this.aggro(target); return; }
           const dealt = r.dmg;
           target.hp = Math.max(0, target.hp - dealt);
@@ -423,24 +439,40 @@ export class Combat extends Emitter {
     this.emit('monster-attack', m);
     const at = this.world.playerPos();
     if (m.def.ranged) this.emit('projectile', { from: { x: m.x, z: m.z }, target: { x: at.x, z: at.z }, color: m.def.ranged, duration: .3 });
-    if (res ? res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
-    let dealt;
-    if (res) { c.hp = Math.max(1, Math.round(res.hp + res.dmg)); dealt = c.damage(res.hp > 0 ? res.dmg : c.hp); }   // land exactly on the server's HP
-    else {
+    const wasAlive = c.alive;
+    const dodged = res ? !!res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level));
+    let dealt = 0;
+    if (res) {
+      // A resolved result is authoritative, including fractional HP and death.
+      // Character.damage() rounds and consults local undying, which may be stale.
+      const hasHp = Number.isFinite(res.hp), hasMp = Number.isFinite(res.mp);
+      if (hasHp) { c.hp = Math.max(0, res.hp); if (!c.alive) c.fall(); }
+      if (hasMp) c.mp = Math.max(0, Math.min(c.maxMp, res.mp));
+      if (hasHp || hasMp) c.emit('change');
+      dealt = !dodged && Number.isFinite(res.dmg) ? Math.max(0, res.dmg) : 0;
+      if (dealt) c.emit('damaged', dealt);
+      if (wasAlive && !c.alive) c.emit('death');
+    }
+    if (dodged) {
+      this.emit('dodge', { x: at.x, z: at.z });
+      if (c.alive) return;
+    } else if (!res) {
       const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
-      const raw = m.def.atk * (fx?.power ?? night) * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
+      // Remote guest packets already include weakness in their supplied power.
+      const weak = this.remote && Number.isFinite(fx?.power) ? 1 : monsterAttackMul(m);
+      const raw = m.def.atk * (fx?.power ?? night) * weak * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
       dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def))));
     }
     const p = this.world.playerPos();
-    this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
-    if (c.alive) {
+    if (!dodged) this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
+    if (!dodged && c.alive) {
       afterHit(c, m.def);
       if (res?.mp !== undefined) c.mp = Math.min(c.maxMp, res.mp);   // the server's drain
       const shove = fx ?? (m.def.knock && Math.random() < m.def.knock ? { knock: true } : null);
       const to = shove && shoveTo(m, p, shove, this.world.canStand);
       if (to) { p.x = to.x; p.z = to.z; this.emit('shoved', { monster: m, ...to, pull: !!shove.pull }); }
     }
-    if (!c.alive) {
+    if (wasAlive && !c.alive) {
       this.autoAttack = false; this.pending = null; this.setTarget(null);
       for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';
       this.emit('player-death', m);
