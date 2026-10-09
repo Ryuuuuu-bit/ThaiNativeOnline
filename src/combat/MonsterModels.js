@@ -4,6 +4,7 @@ import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 import { cachedLoader } from '../core/retry.js';
 import { versioned } from '../core/version.js';
 import { seedOf } from '../core/seed.js';
+import { disposeCombatModel, markCachedCombatGeometry } from './CombatResources.js';
 
 // Geometry, textures and clips are cached; each monster owns its skeleton,
 // animation clock and materials so damage flashes never affect its neighbours.
@@ -21,6 +22,10 @@ export const MONSTER_MODELS = {
   kongkoi: { url: '/models/monsters/kongkoi.glb', height: 1.55 },
   monitor: { url: '/models/monsters/monitor.glb', height: .8 },
   croc: { url: '/models/monsters/croc.glb', height: .6 / 1.3 },
+  // Keep Chalawan's authored standing origin beneath his body, not his tail.
+  chalawan: { url: '/models/monsters/chalawan.glb', height: 1.4, groundPivot: [0, 0], fill: .35, deathDim: .82 },
+  bamboo_grave_3: { url: '/models/monsters/bamboo_grave_3.glb', height: 1.7, fill: .35, deathDim: .82 },
+  sealed_mine_3: { url: '/models/monsters/sealed_mine_3.glb', height: 1.9, fill: .35, deathDim: .82 },
   khamot: { url: '/models/monsters/khamot.glb', height: .85, lift: .3, deathDim: .7 },
   winyan: { url: '/models/monsters/winyan.glb', height: 1.85, lift: .14 },
   takian: { url: '/models/monsters/takian.glb', height: 2.5 },
@@ -34,7 +39,10 @@ export const MONSTER_MODELS = {
 // One parse per file, shared; a load is retried, and a failure is forgotten after a while so
 // the next monster of the type asks the server again (src/core/retry.js).
 const loader = gltfLoader();
-const load = cachedLoader(url => loader.loadAsync(versioned(url)));
+const load = cachedLoader(url => loader.loadAsync(versioned(url)).then(gltf => {
+  markCachedCombatGeometry(gltf.scene);
+  return gltf;
+}));
 
 export function makeMonsterModel(type, fallback, monsterId) {
   const spec = MONSTER_MODELS[type];
@@ -49,7 +57,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
     const scale = spec.height / Math.max(.01, size.y);
     const pivot = new THREE.Group(); pivot.add(model); pivot.scale.setScalar(scale);
     pivot.position.y = spec.lift ?? 0;
-    model.position.set(-(box.min.x + box.max.x) / 2, -box.min.y, -(box.min.z + box.max.z) / 2);
+    model.position.set(-(spec.groundPivot?.[0] ?? (box.min.x + box.max.x) / 2), -box.min.y, -(spec.groundPivot?.[1] ?? (box.min.z + box.max.z) / 2));
     const deathColors = [];
     model.traverse(o => {
       if (!o.isMesh) return;
@@ -59,6 +67,12 @@ export function makeMonsterModel(type, fallback, monsterId) {
         if (spec.deathDim) deathColors.push({ material, color: material.color.clone() });
         if (/Glow|Eye|Core/.test(material.name) && material.emissive) {
           material.emissive.copy(material.color); material.emissiveIntensity = .35;
+        }
+        if (spec.fill && material.emissive) {
+          // Preserve painted colours through the world's night/fog lighting.
+          // This small textured fill adds neither lights nor bloom.
+          material.emissive.copy(material.color); material.emissiveMap=material.map;
+          material.emissiveIntensity=spec.fill;
         }
         return material;
       };
@@ -89,7 +103,7 @@ export function makeMonsterModel(type, fallback, monsterId) {
       wasAttacking = attacking; wasHurt = hurt; mixer.update(dt);
     };
     group.remove(fallback); group.add(pivot);
-    fallback.traverse(o => { if (o.isMesh) { o.geometry.dispose(); o.material.dispose(); } });
+    disposeCombatModel(fallback);
     group.userData.modelLoaded = true;
     return model;
   }).catch(error => {

@@ -1,0 +1,179 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "chalawan",
+      "map": "klong",
+      "x": 50,
+      "z": -772,
+      "viewport": "desktop",
+      "status": "captured",
+      "observed": [
+        {
+          "type": "chalawan",
+          "id": 211,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "chalawan",
+        "id": "s211",
+        "sid": 211,
+        "position": {
+          "x": 63.64110783991103,
+          "z": -772.9978098617751
+        },
+        "map": "klong",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "map": "bamboo_grave",
+      "x": 76,
+      "z": -1018,
+      "viewport": "desktop",
+      "status": "captured",
+      "observed": [
+        {
+          "type": "bamboo_grave_3",
+          "id": 316,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "bamboo_grave_3",
+        "id": "s316",
+        "sid": 316,
+        "position": {
+          "x": 90.55963293231348,
+          "z": -1024.6872269002633
+        },
+        "map": "bamboo_grave",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "map": "sealed_mine",
+      "x": 76,
+      "z": -1258,
+      "viewport": "desktop",
+      "status": "captured",
+      "observed": [
+        {
+          "type": "sealed_mine_3",
+          "id": 389,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "sealed_mine_3",
+        "id": "s389",
+        "sid": 389,
+        "position": {
+          "x": 90.02,
+          "z": -1264.96
+        },
+        "map": "sealed_mine",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "chalawan",
+      "map": "klong",
+      "x": 50,
+      "z": -772,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "observed": [
+        {
+          "type": "chalawan",
+          "id": 211,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "chalawan",
+        "id": "s211",
+        "sid": 211,
+        "position": {
+          "x": 62.72036927997034,
+          "z": -773.3168336290531
+        },
+        "map": "klong",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "map": "bamboo_grave",
+      "x": 76,
+      "z": -1018,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "observed": [
+        {
+          "type": "bamboo_grave_3",
+          "id": 316,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "bamboo_grave_3",
+        "id": "s316",
+        "sid": 316,
+        "position": {
+          "x": 91.67177274885631,
+          "z": -1027.0257609236974
+        },
+        "map": "bamboo_grave",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "map": "sealed_mine",
+      "x": 76,
+      "z": -1258,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "observed": [
+        {
+          "type": "sealed_mine_3",
+          "id": 389,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "sealed_mine_3",
+        "id": "s389",
+        "sid": 389,
+        "position": {
+          "x": 91.77,
+          "z": -1266.27
+        },
+        "map": "sealed_mine",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

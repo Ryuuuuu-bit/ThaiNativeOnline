@@ -1,0 +1,39 @@
+{
+  "creature": "bamboo_grave_3",
+  "bytes": 1357476,
+  "triangles": 12312,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5599910318851471,
+      0,
+      -0.22591302543878555
+    ],
+    "max": [
+      0.5599910318851471,
+      1.9004220962524414,
+      0.22591302543878555
+    ]
+  },
+  "sha256": "eef510cb5d028619cda6418c6f24fa7a50b4b227c6c04d763dd1d12277274f57",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

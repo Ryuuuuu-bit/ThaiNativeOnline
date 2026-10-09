@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="th"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thai Native Online · บอสประจำแผนที่</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#142824;color:#eee3c9;font:15px system-ui,sans-serif}main{max-width:1440px;margin:auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;gap:16px}small{color:#bdad7c;letter-spacing:.16em}h1{font-size:26px;margin:6px 0 14px}h2{margin:0;font-size:24px}p{color:#aabcac;margin:8px 0}button,select{background:#213a32;border:1px solid #586748;border-radius:9px;color:#eee3c9;padding:9px 14px;cursor:pointer;font:inherit}button.active{border-color:#e2c48a;background:#40533d}nav{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.stage{position:relative;background:#718d70;border:1px solid #8b9270;border-radius:18px;overflow:hidden;height:660px}canvas{width:100%;height:100%;display:block}.caption{position:absolute;top:20px;left:22px;padding:14px 20px;border-left:2px solid #ddc68c;background:#17342cdf;pointer-events:none;border-radius:0 12px 12px 0}.caption small{letter-spacing:0}.controls{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.note{font-size:13px;color:#aabcac}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.gallery article{position:relative;background:#253d33;border:1px solid #536849;border-radius:12px;overflow:hidden}.gallery img{width:100%;display:block}.gallery p{margin:0;padding:10px 14px;color:#e7d8b9}.gallery span{font-size:12px;color:#adc0ad;display:block}
+@media(max-width:650px){main{padding:12px}header{align-items:start;flex-direction:column;gap:2px}h1{font-size:23px}.stage{height:570px}.caption{top:12px;left:12px;padding:9px 12px}h2{font-size:19px}.gallery{grid-template-columns:repeat(2,1fr)}button,select{padding:8px 10px;font-size:13px}nav{gap:5px}}
+</style>
+<main><header><div><small>THAI NATIVE ONLINE</small><h1>ผู้พิทักษ์ประจำแผนที่</h1></div><p>รายละเอียดโมเดล · อาคม · ท่าโจมตี</p></header>
+<nav id="bosses"></nav><section class="stage"><canvas></canvas><div class="caption"><small id="map"></small><h2 id="name"></h2><p id="skill-name"></p></div></section>
+<div class="controls" id="skills"></div><div class="controls">
+<button data-stage="idle">ยืน</button><button data-stage="walk">เดิน</button><button data-stage="windup" class="active">เตือนสกิล</button><button data-stage="impact">สกิลทำงาน</button>
+<select id="view" aria-label="มุมมอง"><option value="game">มุมเล่น 2.5D</option><option value="front">ด้านหน้า</option><option value="side">ด้านข้าง</option><option value="back">ด้านหลัง</option><option value="top">ด้านบน</option></select>
+<button id="pause">หยุดภาพ</button><label><input type="checkbox" id="slope">พื้นลาด</label></div>
+<p class="note">วงสีแดงคือพื้นที่โจมตี ขอบสีทองคือขอบเขตสกิล ช่องว่างกลางวงยังเป็นพื้นที่ปลอดภัย</p></main>
+<script type="module" src="./boss-review.js"></script></html>

@@ -33,7 +33,7 @@ def request(path, body=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc'])
+    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3'])
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--submit', action='store_true')
     action.add_argument('--collect', action='store_true')
@@ -52,7 +52,10 @@ def main():
         reference = DEST / 'references' / (name + ('-' + args.variant if args.variant else '') + '.png')
         parameters = json.loads((DEST / 'parameters.json').read_text())
         submitted_parameters = parameters.copy()
-        if name == 'croc':
+        if name in ['chalawan', 'bamboo_grave_3', 'sealed_mine_3']:
+            parameters['pose_mode'] = 'a-pose'
+            submitted_parameters = parameters.copy()
+        if name in ['croc', 'chalawan', 'bamboo_grave_3', 'sealed_mine_3']:
             balance = request('balance')['balance']
             if balance < 35:
                 raise RuntimeError('At least 35 Meshy credits required for this 2K geometry/texture candidate.')

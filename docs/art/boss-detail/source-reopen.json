@@ -1,0 +1,202 @@
+{
+  "session": {
+    "protocolVersion": "codex-blender/v1",
+    "requestId": "8e321872-b7f7-4f8d-bba2-247cebfbf937",
+    "status": "succeeded",
+    "sceneRevision": 0,
+    "changedObjects": [],
+    "warnings": [],
+    "result": {
+      "sessionId": "meshy-boss-approved-reopen-20261009",
+      "sceneRevision": 0,
+      "executionPolicy": {
+        "mode": "review_only",
+        "approvedOutputRoot": null,
+        "allowDesignedProxies": false,
+        "exportFormats": [
+          "blend",
+          "glb",
+          "gltf",
+          "fbx",
+          "obj",
+          "stl",
+          "png",
+          "jpg",
+          "mp4"
+        ],
+        "downstreamBudgetLimit": null
+      },
+      "paused": false,
+      "revoked": false,
+      "needsInspection": false,
+      "stage": "Ready",
+      "progress": null,
+      "lastCommand": null,
+      "changedObjects": [],
+      "lastError": null
+    }
+  },
+  "scene": {
+    "protocolVersion": "codex-blender/v1",
+    "requestId": "47f0a528-047b-4045-b6d0-e789c58e7b24",
+    "status": "succeeded",
+    "sceneRevision": 0,
+    "changedObjects": [],
+    "warnings": [],
+    "result": {
+      "objects": [
+        "BambooGraveBossV1LegLPole",
+        "BambooGraveBossV1LegLTarget",
+        "BambooGraveBossV1LegRPole",
+        "BambooGraveBossV1LegRTarget",
+        "BambooGraveBossV1Rig",
+        "BambooGraveBossV1Surface",
+        "Camera",
+        "ChalawanBossV1LegLPole",
+        "ChalawanBossV1LegLTarget",
+        "ChalawanBossV1LegRPole",
+        "ChalawanBossV1LegRTarget",
+        "ChalawanBossV1Rig",
+        "ChalawanBossV1Surface",
+        "Cube",
+        "Light",
+        "SealedMineBossV1LegLPole",
+        "SealedMineBossV1LegLTarget",
+        "SealedMineBossV1LegRPole",
+        "SealedMineBossV1LegRTarget",
+        "SealedMineBossV1Rig",
+        "SealedMineBossV1Surface"
+      ],
+      "objectDetails": [
+        {
+          "name": "BambooGraveBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "BambooGraveBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "BambooGraveBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "BambooGraveBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "BambooGraveBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "BambooGraveBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "Camera",
+          "type": "CAMERA"
+        },
+        {
+          "name": "ChalawanBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "ChalawanBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "ChalawanBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "ChalawanBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "ChalawanBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "ChalawanBossV1Surface",
+          "type": "MESH"
+        },
+        {
+          "name": "Cube",
+          "type": "MESH"
+        },
+        {
+          "name": "Light",
+          "type": "LIGHT"
+        },
+        {
+          "name": "SealedMineBossV1LegLPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "SealedMineBossV1LegLTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "SealedMineBossV1LegRPole",
+          "type": "EMPTY"
+        },
+        {
+          "name": "SealedMineBossV1LegRTarget",
+          "type": "EMPTY"
+        },
+        {
+          "name": "SealedMineBossV1Rig",
+          "type": "ARMATURE"
+        },
+        {
+          "name": "SealedMineBossV1Surface",
+          "type": "MESH"
+        }
+      ],
+      "collections": [
+        "Collection"
+      ],
+      "materials": [
+        "Material",
+        "Material_0",
+        "Material_0.001",
+        "Material_0.002"
+      ],
+      "lights": [
+        "Light"
+      ],
+      "cameras": [
+        "Camera"
+      ],
+      "summary": {
+        "objects": 21,
+        "materials": 4,
+        "lights": 1,
+        "cameras": 1
+      },
+      "frameRange": {
+        "start": 1,
+        "end": 155
+      },
+      "activeCamera": "Camera",
+      "currentFrame": 1,
+      "sceneName": "Scene",
+      "filepath": "D:\\Project\\ThaiNativeOnline\\tools\\monster-models\\meshy\\scenes\\map-bosses.blend",
+      "missingAssets": [],
+      "warnings": []
+    }
+  },
+  "sourceSha256": "9f7bbc2e9c927fc2dc0335eaaeffc51de60efd971e55dccb73d7a7cdbb3c31dc",
+  "expectedRigs": [
+    "BambooGraveBossV1Rig",
+    "ChalawanBossV1Rig",
+    "SealedMineBossV1Rig"
+  ],
+  "observedRigs": [
+    "BambooGraveBossV1Rig",
+    "ChalawanBossV1Rig",
+    "SealedMineBossV1Rig"
+  ],
+  "source": "tools/monster-models/meshy/scenes/map-bosses.blend",
+  "policy": "read-only reopen; no scene edits or paid calls"
+}

@@ -1,0 +1,39 @@
+{
+  "creature": "chalawan",
+  "bytes": 1462792,
+  "triangles": 12410,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.8443924784660339,
+      0,
+      -0.9502504467964172
+    ],
+    "max": [
+      0.8443924784660339,
+      1.7248640060424805,
+      0.9502504467964172
+    ]
+  },
+  "sha256": "532bcedc277986dd0d2e1da0b56395f1cbdd8e4fd71e9ab9e0c159fe11f1e30e",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

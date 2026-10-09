@@ -1,0 +1,681 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "chalawan",
+      "sampling": "all exported keys + 24 Hz; actual indexed edges >= 5 mm",
+      "thresholds": {
+        "edgeRatio": 2,
+        "edgeExtensionSourceMetres": 0.01,
+        "limbLengthSourceMetres": 0.005,
+        "idleFootDriftSourceMetres": 0.0015,
+        "flatGroundRuntimeMetres": -0.01
+      },
+      "failures": [],
+      "clips": [
+        {
+          "name": "idle",
+          "duration": 2,
+          "samples": 106,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.5329858962432734,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000021020781051150905,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.41149119067119777,
+            "actualLength": 0.4114701698901466
+          },
+          "idleFootDrift": [
+            {
+              "name": "LegLFoot",
+              "maximum": 0
+            },
+            {
+              "name": "LegRFoot",
+              "maximum": 0
+            }
+          ],
+          "minimumTriangleAreaRatio": 0.22824768240384122,
+          "areaWorst": {
+            "time": 1.6000001430511475,
+            "triangle": 8252,
+            "restArea": 0.0001025983079690958,
+            "ratio": 0.22824768240384122
+          },
+          "maximumSourceVertexMotion": 0.1095767624235291,
+          "nativeFlatClearance": {
+            "minimum": -0.0018634090334994726,
+            "samples": 111
+          }
+        },
+        {
+          "name": "walk",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.681319180664631,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000021020781051150905,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.41149119067119777,
+            "actualLength": 0.4114701698901466
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.14112833547772924,
+          "areaWorst": {
+            "time": 0.6333333849906921,
+            "triangle": 8252,
+            "restArea": 0.0001025983079690958,
+            "ratio": 0.14112833547772924
+          },
+          "maximumSourceVertexMotion": 0.1436014607820859,
+          "nativeFlatClearance": {
+            "minimum": -0.0021261248558536792,
+            "samples": 58
+          }
+        },
+        {
+          "name": "attack",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.931372320036117,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000021020781051150905,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.41149119067119777,
+            "actualLength": 0.4114701698901466
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.05343300039799997,
+          "areaWorst": {
+            "time": 0.5,
+            "triangle": 9124,
+            "restArea": 0.00009448141894633286,
+            "ratio": 0.05343300039799997
+          },
+          "maximumSourceVertexMotion": 0.3086241890913952,
+          "nativeFlatClearance": {
+            "minimum": 0.00044870547708485863,
+            "samples": 58
+          }
+        },
+        {
+          "name": "hurt",
+          "duration": 0.4333333671092987,
+          "samples": 24,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.537786537656857,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000021020781051150905,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.41149119067119777,
+            "actualLength": 0.4114701698901466
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.41387684748345277,
+          "areaWorst": {
+            "time": 0,
+            "triangle": 8252,
+            "restArea": 0.0001025983079690958,
+            "ratio": 0.41387684748345277
+          },
+          "maximumSourceVertexMotion": 0.10949773896256665,
+          "nativeFlatClearance": {
+            "minimum": -0.00008049408322470955,
+            "samples": 30
+          }
+        },
+        {
+          "name": "die",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.7891744035680976,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.00002335061086183865,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 1,
+            "sourceLength": 0.41149119067119777,
+            "actualLength": 0.4115145412820596
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.006406953126191451,
+          "areaWorst": {
+            "time": 1,
+            "triangle": 2630,
+            "restArea": 0.0001857131722376282,
+            "ratio": 0.006406953126191451
+          },
+          "maximumSourceVertexMotion": 0.27128067805910216,
+          "nativeFlatClearance": {
+            "minimum": 0.0008143847543303305,
+            "samples": 74
+          }
+        }
+      ],
+      "runtimeSpec": {
+        "url": "/models/monsters/chalawan.glb",
+        "height": 1.4,
+        "groundPivot": [
+          0,
+          0
+        ],
+        "fill": 0.35,
+        "deathDim": 0.82,
+        "outerSize": 2.4,
+        "worldTargetHeight": 3.36
+      },
+      "budget": {
+        "triangles": 12410,
+        "materialDraws": 1,
+        "maximumTriangles": 15000,
+        "maximumMaterialDraws": 1
+      },
+      "decodedTextures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "weights": {
+        "vertices": 19774,
+        "maxSumError": 0,
+        "limit": 0.00001
+      },
+      "sourceRest": {
+        "height": 1.9000001167048348,
+        "indexedEdges": 28257
+      },
+      "limbSampling": {
+        "chains": [
+          "LegL",
+          "LegR"
+        ],
+        "segments": [
+          {
+            "name": "LegLUpper",
+            "expectedSourceLength": 0.41149119067119777
+          },
+          {
+            "name": "LegLLower",
+            "expectedSourceLength": 0.3767293458173918
+          },
+          {
+            "name": "LegRUpper",
+            "expectedSourceLength": 0.41149119067119777
+          },
+          {
+            "name": "LegRLower",
+            "expectedSourceLength": 0.3767293458173918
+          }
+        ],
+        "idleContactScope": "two exported foot bone origins; surface toe contact and locomotion stance require visual review"
+      },
+      "acceptance": "Independent biped anatomy, hand, tail and sole visual review required; numerical pass does not establish art acceptance"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "sampling": "all exported keys + 24 Hz; actual indexed edges >= 5 mm",
+      "thresholds": {
+        "edgeRatio": 2,
+        "edgeExtensionSourceMetres": 0.01,
+        "limbLengthSourceMetres": 0.005,
+        "idleFootDriftSourceMetres": 0.0015,
+        "flatGroundRuntimeMetres": -0.01
+      },
+      "failures": [],
+      "clips": [
+        {
+          "name": "idle",
+          "duration": 2,
+          "samples": 106,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.176022976964347,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000013952062515032448,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.40224370722237535,
+            "actualLength": 0.4022576592848904
+          },
+          "idleFootDrift": [
+            {
+              "name": "LegLFoot",
+              "maximum": 0
+            },
+            {
+              "name": "LegRFoot",
+              "maximum": 0
+            }
+          ],
+          "minimumTriangleAreaRatio": 0.19911135096275825,
+          "areaWorst": {
+            "time": 1.75,
+            "triangle": 389,
+            "restArea": 0.0003570664335573815,
+            "ratio": 0.19911135096275825
+          },
+          "maximumSourceVertexMotion": 0.08979277782994982,
+          "nativeFlatClearance": {
+            "minimum": -0.00007465923937566751,
+            "samples": 111
+          }
+        },
+        {
+          "name": "walk",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.5320101623715707,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000019802998640183755,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0.2666666805744171,
+            "sourceLength": 0.40224370722237535,
+            "actualLength": 0.40222390422373516
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.004049218761280613,
+          "areaWorst": {
+            "time": 0.6666666865348816,
+            "triangle": 390,
+            "restArea": 0.0005770334927449757,
+            "ratio": 0.004049218761280613
+          },
+          "maximumSourceVertexMotion": 0.11138713398174421,
+          "nativeFlatClearance": {
+            "minimum": -0.000236347718268354,
+            "samples": 58
+          }
+        },
+        {
+          "name": "attack",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 2.3677517630765346,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000013952062515032448,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.40224370722237535,
+            "actualLength": 0.4022576592848904
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.035448616899103426,
+          "areaWorst": {
+            "time": 0.20000001788139343,
+            "triangle": 390,
+            "restArea": 0.0005770334927449757,
+            "ratio": 0.035448616899103426
+          },
+          "maximumSourceVertexMotion": 0.2187735244143404,
+          "nativeFlatClearance": {
+            "minimum": -0.00007465923937566751,
+            "samples": 58
+          }
+        },
+        {
+          "name": "hurt",
+          "duration": 0.4333333671092987,
+          "samples": 24,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.1760229809152984,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000013952062515032448,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.40224370722237535,
+            "actualLength": 0.4022576592848904
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.19911135096275712,
+          "areaWorst": {
+            "time": 0.375,
+            "triangle": 389,
+            "restArea": 0.0003570664335573815,
+            "ratio": 0.19911135096275712
+          },
+          "maximumSourceVertexMotion": 0.08979277782994982,
+          "nativeFlatClearance": {
+            "minimum": -0.00007465923937566751,
+            "samples": 30
+          }
+        },
+        {
+          "name": "die",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.9895917514092023,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000013952062515032448,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.40224370722237535,
+            "actualLength": 0.4022576592848904
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.01436943685645729,
+          "areaWorst": {
+            "time": 0.8333333730697632,
+            "triangle": 9043,
+            "restArea": 0.00003624942840923421,
+            "ratio": 0.01436943685645729
+          },
+          "maximumSourceVertexMotion": 0.3921185738426448,
+          "nativeFlatClearance": {
+            "minimum": -0.00007465923937566751,
+            "samples": 74
+          }
+        }
+      ],
+      "runtimeSpec": {
+        "url": "/models/monsters/bamboo_grave_3.glb",
+        "height": 1.7,
+        "fill": 0.35,
+        "deathDim": 0.82,
+        "outerSize": 2,
+        "worldTargetHeight": 3.4
+      },
+      "budget": {
+        "triangles": 12312,
+        "materialDraws": 1,
+        "maximumTriangles": 15000,
+        "maximumMaterialDraws": 1
+      },
+      "decodedTextures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "weights": {
+        "vertices": 19400,
+        "maxSumError": 0,
+        "limit": 0.00001
+      },
+      "sourceRest": {
+        "height": 1.8999999113186048,
+        "indexedEdges": 27860
+      },
+      "limbSampling": {
+        "chains": [
+          "LegL",
+          "LegR"
+        ],
+        "segments": [
+          {
+            "name": "LegLUpper",
+            "expectedSourceLength": 0.40224370722237535
+          },
+          {
+            "name": "LegLLower",
+            "expectedSourceLength": 0.3769615364994153
+          },
+          {
+            "name": "LegRUpper",
+            "expectedSourceLength": 0.40224370722237535
+          },
+          {
+            "name": "LegRLower",
+            "expectedSourceLength": 0.3769615364994153
+          }
+        ],
+        "idleContactScope": "two exported foot bone origins; surface toe contact and locomotion stance require visual review"
+      },
+      "acceptance": "Independent biped anatomy, hand, tail and sole visual review required; numerical pass does not establish art acceptance"
+    },
+    {
+      "type": "sealed_mine_3",
+      "sampling": "all exported keys + 24 Hz; actual indexed edges >= 5 mm",
+      "thresholds": {
+        "edgeRatio": 2,
+        "edgeExtensionSourceMetres": 0.01,
+        "limbLengthSourceMetres": 0.005,
+        "idleFootDriftSourceMetres": 0.0015,
+        "flatGroundRuntimeMetres": -0.01
+      },
+      "failures": [],
+      "clips": [
+        {
+          "name": "idle",
+          "duration": 2,
+          "samples": 106,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.1936869489256883,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000005626475548858867,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.4019017292821716,
+            "actualLength": 0.40190735575772046
+          },
+          "idleFootDrift": [
+            {
+              "name": "LegLFoot",
+              "maximum": 0
+            },
+            {
+              "name": "LegRFoot",
+              "maximum": 0
+            }
+          ],
+          "minimumTriangleAreaRatio": 0.5272960085283732,
+          "areaWorst": {
+            "time": 1.8333333333333333,
+            "triangle": 10494,
+            "restArea": 0.000325860651123233,
+            "ratio": 0.5272960085283732
+          },
+          "maximumSourceVertexMotion": 0.07532958793166167,
+          "nativeFlatClearance": {
+            "minimum": 0.000053104526087589065,
+            "samples": 111
+          }
+        },
+        {
+          "name": "walk",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.245963707826307,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000005626475548858867,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.4019017292821716,
+            "actualLength": 0.40190735575772046
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.1659543715826145,
+          "areaWorst": {
+            "time": 0.9333333969116211,
+            "triangle": 8665,
+            "restArea": 0.00008148963717098373,
+            "ratio": 0.1659543715826145
+          },
+          "maximumSourceVertexMotion": 0.10003567722418738,
+          "nativeFlatClearance": {
+            "minimum": -0.00012093166075434189,
+            "samples": 58
+          }
+        },
+        {
+          "name": "attack",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.9226016529524945,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000005626475548858867,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.4019017292821716,
+            "actualLength": 0.40190735575772046
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.1269192947569443,
+          "areaWorst": {
+            "time": 0.40000003576278687,
+            "triangle": 1375,
+            "restArea": 0.00018124763165409637,
+            "ratio": 0.1269192947569443
+          },
+          "maximumSourceVertexMotion": 0.2534642793659424,
+          "nativeFlatClearance": {
+            "minimum": 0.000053104526087589065,
+            "samples": 58
+          }
+        },
+        {
+          "name": "hurt",
+          "duration": 0.4333333671092987,
+          "samples": 24,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.1936869509721375,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000005626475548858867,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.4019017292821716,
+            "actualLength": 0.40190735575772046
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.5272960085283683,
+          "areaWorst": {
+            "time": 0.36666667461395264,
+            "triangle": 10494,
+            "restArea": 0.000325860651123233,
+            "ratio": 0.5272960085283683
+          },
+          "maximumSourceVertexMotion": 0.07532958793166167,
+          "nativeFlatClearance": {
+            "minimum": 0.000053104526087589065,
+            "samples": 30
+          }
+        },
+        {
+          "name": "die",
+          "duration": 1,
+          "samples": 53,
+          "edgesOverLimits": 0,
+          "maxEdgeRatio": 1.8833504261595764,
+          "worstEdge": null,
+          "maxLimbLengthError": 0.000005626475548858867,
+          "limbWorst": {
+            "name": "LegLUpper",
+            "time": 0,
+            "sourceLength": 0.4019017292821716,
+            "actualLength": 0.40190735575772046
+          },
+          "idleFootDrift": [],
+          "minimumTriangleAreaRatio": 0.00569466053275716,
+          "areaWorst": {
+            "time": 0.9666666984558105,
+            "triangle": 10051,
+            "restArea": 0.00022728790079886463,
+            "ratio": 0.00569466053275716
+          },
+          "maximumSourceVertexMotion": 0.4435409066629169,
+          "nativeFlatClearance": {
+            "minimum": -0.00024867637232326817,
+            "samples": 74
+          }
+        }
+      ],
+      "runtimeSpec": {
+        "url": "/models/monsters/sealed_mine_3.glb",
+        "height": 1.9,
+        "fill": 0.35,
+        "deathDim": 0.82,
+        "outerSize": 2,
+        "worldTargetHeight": 3.8
+      },
+      "budget": {
+        "triangles": 12495,
+        "materialDraws": 1,
+        "maximumTriangles": 15000,
+        "maximumMaterialDraws": 1
+      },
+      "decodedTextures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "weights": {
+        "vertices": 18846,
+        "maxSumError": 0,
+        "limit": 0.00001
+      },
+      "sourceRest": {
+        "height": 1.9000003906508343,
+        "indexedEdges": 27767
+      },
+      "limbSampling": {
+        "chains": [
+          "LegL",
+          "LegR"
+        ],
+        "segments": [
+          {
+            "name": "LegLUpper",
+            "expectedSourceLength": 0.4019017292821716
+          },
+          {
+            "name": "LegLLower",
+            "expectedSourceLength": 0.355
+          },
+          {
+            "name": "LegRUpper",
+            "expectedSourceLength": 0.4019017292821716
+          },
+          {
+            "name": "LegRLower",
+            "expectedSourceLength": 0.355
+          }
+        ],
+        "idleContactScope": "two exported foot bone origins; surface toe contact and locomotion stance require visual review"
+      },
+      "acceptance": "Independent biped anatomy, hand, tail and sole visual review required; numerical pass does not establish art acceptance"
+    }
+  ]
+}

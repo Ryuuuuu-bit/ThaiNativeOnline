@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11faf-bb6f-71de-921d-78401c23b7eb",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": "a-pose"
+  },
+  "reference": "references/chalawan.png",
+  "referenceSha256": "7ff9a812d89f4af35160d306c6fa22002f88aafd531c427b543a5197f40db15e",
+  "originalSha256": "b659d18c05e637483ff10e432b7bd570d510a24b1bf225ea5d0e0a3e2d49c8fe",
+  "originalBytes": 13919440,
+  "originalLocalPath": "artifacts/meshy-monsters/chalawan/original.glb"
+}

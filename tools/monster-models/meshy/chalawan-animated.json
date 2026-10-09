@@ -1,0 +1,14 @@
+{
+  "type": "chalawan",
+  "bytes": 1530416,
+  "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+  "triangles": 12410,
+  "bones": 19,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

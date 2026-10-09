@@ -1,0 +1,66 @@
+{
+  "scope": "Meshy static surfaces before rigging; no motion acceptance",
+  "errors": [],
+  "rows": [
+    {
+      "type": "chalawan",
+      "view": "game"
+    },
+    {
+      "type": "chalawan",
+      "view": "front"
+    },
+    {
+      "type": "chalawan",
+      "view": "side"
+    },
+    {
+      "type": "chalawan",
+      "view": "back"
+    },
+    {
+      "type": "chalawan",
+      "view": "top"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "view": "game"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "view": "front"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "view": "side"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "view": "back"
+    },
+    {
+      "type": "bamboo_grave_3",
+      "view": "top"
+    },
+    {
+      "type": "sealed_mine_3",
+      "view": "game"
+    },
+    {
+      "type": "sealed_mine_3",
+      "view": "front"
+    },
+    {
+      "type": "sealed_mine_3",
+      "view": "side"
+    },
+    {
+      "type": "sealed_mine_3",
+      "view": "back"
+    },
+    {
+      "type": "sealed_mine_3",
+      "view": "top"
+    }
+  ]
+}

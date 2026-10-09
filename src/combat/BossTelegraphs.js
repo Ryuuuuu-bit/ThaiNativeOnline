@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { BOSS_SKILL_HINTS } from './bossSkills.js';
+import { makeBossSkillVFX } from './BossSkillVFX.js';
 
 const dangerColor = new THREE.Color('#e27664');
 const warningInk = new THREE.Color('#b74132');
@@ -12,7 +13,15 @@ export class BossTelegraphs {
     for (const [key, item] of this.items) {
       if (id !== null && key !== id) continue;
       item.group.removeFromParent();
-      item.group.traverse(o => { o.geometry?.dispose(); if (o.material) { o.material.map?.dispose(); o.material.dispose(); } });
+      const geometries = new Set(), materials = new Set(), textures = new Set();
+      item.group.traverse(o => {
+        if (o.isInstancedMesh) o.dispose();
+        if (o.geometry) geometries.add(o.geometry);
+        for (const material of o.material ? Array.isArray(o.material) ? o.material : [o.material] : []) {
+          materials.add(material); if (material.map) textures.add(material.map);
+        }
+      });
+      geometries.forEach(g => g.dispose()); textures.forEach(t => t.dispose()); materials.forEach(m => m.dispose());
       this.items.delete(key);
     }
   }
@@ -53,6 +62,8 @@ export class BossTelegraphs {
     outline(outer);
     if (innerRadius) outline(inner);
     if (cast.shape === 'cone') { outline([inner[0], outer[0]]); outline([inner.at(-1), outer.at(-1)]); }
+    const detail = makeBossSkillVFX(monster.type, cast, stage, this.heightAt);
+    if (detail) group.add(detail);
     if (stage === 'windup') {
       const canvas = document.createElement('canvas'); canvas.width = 640; canvas.height = 128;
       const g = canvas.getContext('2d');
@@ -66,13 +77,14 @@ export class BossTelegraphs {
       label.position.set(cast.x, this.heightAt(cast.x, cast.z) + 5, cast.z); label.scale.set(9, 1.8, 1); label.renderOrder = 6; group.add(label);
     }
     this.parent.add(group);
-    this.items.set(monster.id, { group, fill, color, serial: cast.serial, stage, elapsed: 0,
+    this.items.set(monster.id, { group, fill, color, detail, serial: cast.serial, stage, elapsed: 0,
       duration: stage === 'windup' ? Math.max(.05, cast.remaining ?? cast.windup) : .45 });
   }
   update(dt, player, selected = null) {
     for (const [id, item] of this.items) {
       item.elapsed += dt;
       const k = Math.min(1, item.elapsed / item.duration);
+      item.detail?.userData.update(k);
       const pos = item.fill.geometry.attributes.position;
       const dx = pos.getX(0) - player.x, dz = pos.getZ(0) - player.z;
       item.group.visible = Math.hypot(dx, dz) < 70;

@@ -1,0 +1,74 @@
+{
+  "assets": [
+    {
+      "type": "chalawan",
+      "tag": "final-v6",
+      "sourceGlbSha256": "0c1c48782dd6832ed4bfa7a5c9215b93532b24ab2995aeee457927efc08d8c35",
+      "snapshotSha256": "1af30912d34915eb22ca465de34712b8421b725f178aca23d1f6986c755b289a",
+      "sourceJobId": "job_boss_chalawan_332d0c460d69_glb",
+      "runtime": {
+        "type": "chalawan",
+        "bytes": 1530416,
+        "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+        "triangles": 12410,
+        "bones": 19,
+        "clips": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "die"
+        ]
+      }
+    },
+    {
+      "type": "bamboo_grave_3",
+      "tag": "final-v7",
+      "sourceGlbSha256": "bc71b0ed730f9fff7a99a0d1d5ad08c6b3753e9b81e7782634c2ba246cc8ee38",
+      "snapshotSha256": "e1e925a6735406fd041a1c9c96696c248f0e77ad9aee9a47706c353c0eb70521",
+      "sourceJobId": "job_boss_bamboo_grave_3_0772291c7a38_glb",
+      "runtime": {
+        "type": "bamboo_grave_3",
+        "bytes": 1410124,
+        "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+        "triangles": 12312,
+        "bones": 16,
+        "clips": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "die"
+        ]
+      }
+    },
+    {
+      "type": "sealed_mine_3",
+      "tag": "final-v6",
+      "sourceGlbSha256": "a16fb26c5f94180471c79cbadca3fbf560ac0931b39b5629d9e67ddaba3da789",
+      "snapshotSha256": "4bb9f84f08b95d1e549e1516ebdd178d3cd2182f79b080a0428147d79072055e",
+      "sourceJobId": "job_boss_sealed_mine_3_59b0b0357879_glb",
+      "runtime": {
+        "type": "sealed_mine_3",
+        "bytes": 1460000,
+        "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+        "triangles": 12495,
+        "bones": 16,
+        "clips": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "die"
+        ]
+      }
+    }
+  ],
+  "editableSource": {
+    "path": "tools/monster-models/meshy/scenes/map-bosses.blend",
+    "sha256": "9f7bbc2e9c927fc2dc0335eaaeffc51de60efd971e55dccb73d7a7cdbb3c31dc",
+    "bytes": 5987212
+  },
+  "blender": "5.2.2 LTS",
+  "method": "Registered L3 snapshot-isolated exports; combined packed source contains all three latest rigs."
+}

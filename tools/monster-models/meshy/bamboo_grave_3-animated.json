@@ -1,0 +1,14 @@
+{
+  "type": "bamboo_grave_3",
+  "bytes": 1410124,
+  "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+  "triangles": 12312,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

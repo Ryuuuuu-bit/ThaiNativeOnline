@@ -1,0 +1,83 @@
+{
+  "restGlbSha256": "fc6c516d87969c003ac296c4cddc7646dff5ab9baa043f472d6ba5bb95513a1d",
+  "anatomySha256": "2b34a1a0d6b0c4ec239862fd7eb5e85609e4d5ac9ae48f4a177e1c13937775b1",
+  "legs": {
+    "LegL": {
+      "poleAngle": -1.5132633206371822,
+      "rotation": [
+        -2.9441946126251035,
+        -0.000002138316764081759,
+        -4.321337115935296e-7
+      ]
+    },
+    "LegR": {
+      "poleAngle": -1.6283293329526112,
+      "rotation": [
+        -2.9441946126251035,
+        0.000002138316764081759,
+        4.321337115935296e-7
+      ]
+    }
+  },
+  "arms": {
+    "ArmL": {
+      "upperAxis": 2,
+      "upperSign": -1,
+      "upperRestRotation": [
+        0,
+        0,
+        0.24
+      ],
+      "lowerAxis": 2,
+      "lowerSign": -1,
+      "lowerRestRotation": [
+        0,
+        0,
+        -0.04
+      ]
+    },
+    "ArmR": {
+      "upperAxis": 2,
+      "upperSign": 1,
+      "upperRestRotation": [
+        0,
+        0,
+        -0.24
+      ],
+      "lowerAxis": 2,
+      "lowerSign": 1,
+      "lowerRestRotation": [
+        0,
+        0,
+        0.04
+      ]
+    }
+  },
+  "rootDownLocal": [
+    0,
+    -1,
+    0
+  ],
+  "tailUpLocal": [
+    0.05964570854939977,
+    -0.3124778666314962,
+    0.9480506169593841
+  ],
+  "tailRotationAxes": {
+    "TailBase": [
+      0.05964570854939977,
+      -0.3124778666314962,
+      0.9480506169593841
+    ],
+    "TailMid": [
+      0.1454372102907675,
+      -0.5653884987175649,
+      0.8119013877194307
+    ],
+    "TailTip": [
+      0.07483470495604994,
+      -0.2516478616846174,
+      0.96492130282407
+    ]
+  }
+}

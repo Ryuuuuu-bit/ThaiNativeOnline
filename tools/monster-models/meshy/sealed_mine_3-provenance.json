@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11fb2-90cf-76e6-b54f-ddce4a1059e2",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": "a-pose"
+  },
+  "reference": "references/sealed_mine_3.png",
+  "referenceSha256": "e7a0feafe1ebe26e1d00c3026668d06ff9348d0d453f1c2dcbd4b4ca7dc2d573",
+  "originalSha256": "c8d17d384d8d52e2ba1f199fd3966685c37bf2e9a92f428692f815061406cd83",
+  "originalBytes": 13930364,
+  "originalLocalPath": "artifacts/meshy-monsters/sealed_mine_3/original.glb"
+}
