@@ -72,7 +72,7 @@ try {
       miniCanvas: [mini.width, mini.height], miniVar: variance(mini), fullCanvas: [fm.width, fm.height], fullVar: variance(fm),
       tipVisible: !W().document.querySelector('.map-tip')?.hidden, legendRows: $('fullmap-legend').childElementCount, kranok: W().document.querySelectorAll('.kranok').length,
       hits: hits.length, hitLandmarks: hits.filter(h => h.landmark).length, portalsHit: hits.filter(h => /→/.test(h.title)).map(h => h.title),
-      fullTitle: $('fullmap-panel').querySelector('.panel-heading').firstChild.textContent,
+      fullTitle: $('map-title').textContent,
       journal: $('quest-text').textContent + ' | ' + $('quest-hint').textContent,
       skillbarHidden: g.game.hud.skillButtons.every(b => b.hidden), alive: alive(),
       npcs: g.npcs.npcs.length, landmarks: g.maps.landmarks.map(l => l.id),
@@ -90,11 +90,15 @@ try {
     const l = g.maps.landmarks.find(x => !x.hidden && Math.hypot(x.x - g.player.position.x, x.z - g.player.position.z) > 25 && Math.hypot(x.x - g.player.position.x, x.z - g.player.position.z) < 120);
     g.discover(l, true); await sleep(200);
     g.toggleMap(); await sleep(400);
-    const c = $('fullmap'), hit = g.minimap.hits.find(h => h.landmark?.id === l.id), rect = c.getBoundingClientRect();
+    const c = $('fullmap'), hit = g.minimap.hits.find(h => h.entry?.id === l.id || h.entry?.cluster?.some(e => e.id === l.id)), rect = c.getBoundingClientRect();
     const cx = rect.left + hit.x * rect.width / c.width, cy = rect.top + hit.y * rect.height / c.height;
     c.dispatchEvent(new (W().MouseEvent)('mousemove', { clientX: cx, clientY: cy, bubbles: true }));
     const tip = W().document.querySelector('.map-tip'); const tipText = tip && !tip.hidden ? tip.textContent : null;
     c.dispatchEvent(new (W().MouseEvent)('click', { clientX: cx, clientY: cy, bubbles: true }));
+    await sleep(100);
+    if (hit.entry?.cluster) $('map-places').querySelector(`[data-place="${l.id}"]`).click();
+    step('map selection does not move player', { panelOpen: !$('fullmap-panel').hidden, walking: !!g.destination, selected: g.mapPanel.selected?.id });
+    $('map-walk').click();
     await sleep(100);
     const start = pos();
     step('fullmap click-to-walk', { landmark: l.id, at: [l.x, l.z], tipText, panelHidden: $('fullmap-panel').hidden, route: g.route?.length, destination: g.destination && [r1(g.destination.x), r1(g.destination.z)], marker: g.marker.visible && [r1(g.marker.position.x), r1(g.marker.position.z)], start });

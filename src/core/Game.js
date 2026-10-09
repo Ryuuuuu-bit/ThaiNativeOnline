@@ -27,7 +27,7 @@ import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
 import { initSkin } from '../ui/skin.js';
 import { draggable } from '../ui/draggable.js';
 import { segmentSelects } from '../ui/segControls.js';
-import { renderRoute } from '../ui/worldRoute.js';
+import { WorldMapPanel } from '../ui/WorldMapPanel.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
 import { ZOOM_MIN, ZOOM_MAX, createViewPrefs } from '../ui/viewPrefs.js';
@@ -180,7 +180,7 @@ export class Game {
     initSkin($('ui-skin'));   // modern glass or classic wood (src/ui/skin.js)
     segmentSelects(settings);   // the dropdowns as segmented buttons (src/ui/segControls.js)
     // windows move by their title bar (src/ui/draggable.js)
-    for (const [id, key, handle] of [['settings', 'settings', '.panel-heading'], ['shop', 'shop', '.panel-heading'], ['fullmap-panel', 'map', '.panel-heading'], ['dialogue', 'dialogue', '.dlg-head']]) draggable($(id), { key, handle });
+    for (const [id, key, handle] of [['settings', 'settings', '.panel-heading'], ['shop', 'shop', '.panel-heading'], ['dialogue', 'dialogue', '.dlg-head']]) draggable($(id), { key, handle });
     // Main menu (bottom-right): the windows the old top-right icons and C / I buttons opened.
     const characterUI = () => this.game?.characterUI;
     this.menu = new MainMenu({
@@ -319,15 +319,21 @@ export class Game {
       // navigation: a tap on the minimap / full map walks to that spot (the nearest ground there)
       onWalk: (x, z, fromFull) => { const ok = this.walkTo(x, z, 10); if (ok && fromFull) this.toggleMap(); return ok; },
       onOpen: () => this.toggleMap(),   // a tap on the minimap opens the big map
+      onSelect: e => e.cluster ? this.mapPanel?.selectCluster(e.cluster) : this.mapPanel?.select(e, false),
 
     }).activate();
+    this.mapPanel ??= new WorldMapPanel($('fullmap-panel'), {
+      minimap: () => this.minimap, player: () => this.player.position, npcs: () => this.npcs?.npcs ?? [],
+      walk: (x, z) => { if (this.walkTo(x, z, 10)) this.toggleMap(); },
+      changed: () => { if (!$('fullmap-panel').hidden) this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); },
+    });
+    this.mapPanel.setMap(map);
     Minimap.mountLegend($('fullmap-legend'));
     const lv = levelText(map.levels);
     $('mini-name').textContent = map.name; $('mini-sub').textContent = map.sub ?? ''; $('mini-lv').textContent = lv ?? ''; $('mini-lv').hidden = !lv;
     document.querySelector('.minimap').dataset.theme = this.minimap.theme.key;
     document.querySelector('.map-caption h2').textContent = map.name;
     if (map.sub) document.querySelector('.map-caption p').textContent = map.sub;
-    $('fullmap-panel').querySelector('.panel-heading').firstChild.textContent = `แผนที่${map.name}`;
     if (this.debugGroup) {
       this.debugGroup.removeFromParent(); this.debugGroup.traverse(o => { o.geometry?.dispose(); o.material?.dispose(); }); this.debugGroup = null;
       if (this.debugOn) { this.debugOn = false; this.toggleDebug(); }
@@ -387,7 +393,7 @@ export class Game {
     const panel = $('fullmap-panel'); panel.hidden = !panel.hidden;
     // QA fix: a hover tooltip left open when the panel closes (M, Esc, click-to-walk) never gets its mouseleave; reset it.
     const tip = panel.querySelector('.map-tip'); if (tip) tip.hidden = true;
-    if (!panel.hidden) { this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); renderRoute($('fullmap-route'), this.maps.map?.id); }
+    if (!panel.hidden) { this.mapPanel.refresh(); this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); }
   }
   // What the minimap draws on top of the painted map (refreshed with the HUD, ~8 times a second).
   minimapState() {

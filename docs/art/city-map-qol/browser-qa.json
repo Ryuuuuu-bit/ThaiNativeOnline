@@ -1,0 +1,321 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "name": "desktop",
+      "defaultInfo": {
+        "places": 22,
+        "hits": 30,
+        "labels": 14,
+        "uniqueEnhance": 1,
+        "unknown": 0,
+        "panel": {
+          "x": 160,
+          "y": 31.5,
+          "w": 1120,
+          "h": 837
+        },
+        "full": {
+          "x": 175,
+          "y": 223.5,
+          "w": 802,
+          "h": 604
+        }
+      },
+      "search": 1,
+      "selected": {
+        "id": "enhance",
+        "goal": {
+          "x": -48,
+          "z": 86.4,
+          "face": 6.283185307179586,
+          "link": "bl2"
+        },
+        "nav": false,
+        "card": true,
+        "walkButton": {
+          "w": 248,
+          "h": 44,
+          "fullyVisible": true
+        }
+      },
+      "gesture": {
+        "before": {
+          "x": 15.5,
+          "z": 92,
+          "zoom": 1.3192567567567566
+        },
+        "camera": {
+          "x": 15.5,
+          "z": 69.95746335516988,
+          "zoom": 1.3192567567567566
+        },
+        "nav": false
+      },
+      "pinch": null,
+      "world": 13,
+      "worldNavigation": {
+        "selected": "portal:warp_to_paddy",
+        "nav": false,
+        "map": "city",
+        "discoveriesUnchanged": true
+      },
+      "walk": {
+        "panelClosed": true,
+        "route": 3,
+        "goal": {
+          "x": -29.6,
+          "z": 68.4
+        },
+        "destination": {
+          "x": -5.600000000000001,
+          "z": 66.5
+        }
+      },
+      "final": {
+        "moved": 0.6300000000000198,
+        "discoveriesUnchanged": true
+      }
+    },
+    {
+      "name": "mobile",
+      "defaultInfo": {
+        "places": 22,
+        "hits": 22,
+        "labels": 9,
+        "uniqueEnhance": 1,
+        "unknown": 0,
+        "panel": {
+          "x": 6,
+          "y": 6,
+          "w": 378,
+          "h": 832
+        },
+        "full": {
+          "x": 15,
+          "y": 179,
+          "w": 360,
+          "h": 388
+        }
+      },
+      "search": 1,
+      "selected": {
+        "id": "enhance",
+        "goal": {
+          "x": -48,
+          "z": 86.4,
+          "face": 6.283185307179586,
+          "link": "bl2"
+        },
+        "nav": false,
+        "card": true,
+        "walkButton": {
+          "w": 340,
+          "h": 44,
+          "fullyVisible": true
+        }
+      },
+      "gesture": {
+        "before": {
+          "x": 15.5,
+          "z": 92,
+          "zoom": 1.3192567567567568
+        },
+        "camera": {
+          "x": 15.5,
+          "z": 69.95744383641046,
+          "zoom": 1.3192567567567568
+        },
+        "nav": false
+      },
+      "pinch": {
+        "before": 1.3192567567567568,
+        "after": 2.374662162162162,
+        "nav": false
+      },
+      "world": 13,
+      "worldNavigation": {
+        "selected": "portal:warp_to_paddy",
+        "nav": false,
+        "map": "city",
+        "discoveriesUnchanged": true
+      },
+      "walk": {
+        "panelClosed": true,
+        "route": 3,
+        "goal": {
+          "x": -29.6,
+          "z": 68.4
+        },
+        "destination": {
+          "x": -5.600000000000001,
+          "z": 66.5
+        }
+      },
+      "final": {
+        "moved": 1.050000000000033,
+        "discoveriesUnchanged": true
+      }
+    },
+    {
+      "name": "landscape",
+      "defaultInfo": {
+        "places": 22,
+        "hits": 16,
+        "labels": 6,
+        "uniqueEnhance": 1,
+        "unknown": 0,
+        "panel": {
+          "x": 16.8828125,
+          "y": 8,
+          "w": 810.234375,
+          "h": 374
+        },
+        "full": {
+          "x": 31.8828125,
+          "y": 119.59375,
+          "w": 520.234375,
+          "h": 231.40625
+        }
+      },
+      "search": 1,
+      "selected": {
+        "id": "enhance",
+        "goal": {
+          "x": -48,
+          "z": 86.4,
+          "face": 6.283185307179586,
+          "link": "bl2"
+        },
+        "nav": false,
+        "card": true,
+        "walkButton": {
+          "w": 230,
+          "h": 44,
+          "fullyVisible": true
+        }
+      },
+      "gesture": {
+        "before": {
+          "x": 15.5,
+          "z": 92,
+          "zoom": 3.4254385964912277
+        },
+        "camera": {
+          "x": 15.5,
+          "z": 83.51064469539702,
+          "zoom": 3.4254385964912277
+        },
+        "nav": false
+      },
+      "pinch": {
+        "before": 3.4254385964912277,
+        "after": 6,
+        "nav": false
+      },
+      "world": 13,
+      "worldNavigation": {
+        "selected": "portal:warp_to_paddy",
+        "nav": false,
+        "map": "city",
+        "discoveriesUnchanged": true
+      },
+      "walk": {
+        "panelClosed": true,
+        "route": 3,
+        "goal": {
+          "x": -29.6,
+          "z": 68.4
+        },
+        "destination": {
+          "x": -5.600000000000001,
+          "z": 66.5
+        }
+      },
+      "final": {
+        "moved": 0.8400000000000263,
+        "discoveriesUnchanged": true
+      }
+    },
+    {
+      "name": "small-landscape",
+      "defaultInfo": {
+        "places": 22,
+        "hits": 13,
+        "labels": 3,
+        "uniqueEnhance": 1,
+        "unknown": 0,
+        "panel": {
+          "x": 13.34375,
+          "y": 8,
+          "w": 640.3125,
+          "h": 359
+        },
+        "full": {
+          "x": 22.34375,
+          "y": 119.59375,
+          "w": 354.3125,
+          "h": 218.40625
+        }
+      },
+      "search": 1,
+      "selected": {
+        "id": "enhance",
+        "goal": {
+          "x": -48,
+          "z": 86.4,
+          "face": 6.283185307179586,
+          "link": "bl2"
+        },
+        "nav": false,
+        "card": true,
+        "walkButton": {
+          "w": 230,
+          "h": 44,
+          "fullyVisible": true
+        }
+      },
+      "gesture": {
+        "before": {
+          "x": 4.936170212765958,
+          "z": 92,
+          "zoom": 3.4092187037585084
+        },
+        "camera": {
+          "x": 4.936170212765958,
+          "z": 83.47024916851255,
+          "zoom": 3.4092187037585084
+        },
+        "nav": false
+      },
+      "pinch": {
+        "before": 3.4092187037585084,
+        "after": 6,
+        "nav": false
+      },
+      "world": 13,
+      "worldNavigation": {
+        "selected": "portal:warp_to_paddy",
+        "nav": false,
+        "map": "city",
+        "discoveriesUnchanged": true
+      },
+      "walk": {
+        "panelClosed": true,
+        "route": 3,
+        "goal": {
+          "x": -29.6,
+          "z": 68.4
+        },
+        "destination": {
+          "x": -5.600000000000001,
+          "z": 66.5
+        }
+      },
+      "final": {
+        "moved": 1.050000000000033,
+        "discoveriesUnchanged": true
+      }
+    }
+  ]
+}

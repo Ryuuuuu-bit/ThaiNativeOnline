@@ -6,31 +6,45 @@ import { EXPEDITIONS } from '../world/expeditions.js';
 // world builds them (read from window.game.world.spots in the browser; re-read them when a
 // district moves a shop).
 import { NPCS } from './npcs.js';
+import { SHOP_HOSTS } from './shops.js';
 
 export const SHOP_RANGE = 12;   // the NPC's own talk radius (≈6 m) and room for lag
+
+// Optional customer-side navigation goals, resolved against the loaded world's
+// spots. These are not authorization sites; other maps/shops keep their own goal.
+export const SHOP_APPROACHES = Object.freeze({
+  blacksmith: 'forge_customer', enhance: 'enh_front', general: 'general_customer',
+  herbalist: 'herb_customer', occult: 'occult_customer',
+  weapons: 'forge_customer', armor: 'forge_customer', charms: 'occult_customer',
+});
 
 // named spot → [map, x, z]
 export const SPOT_SITES = {
   dockA_land: ['city', -21, 160.5], fishW_v1: ['city', -11, 122.4], fishE_v0: ['city', 6.7, 122.4],
   stall_weapons_v: ['city', -10.4, 20.5], stall_armor_v: ['city', -10.4, 28], stall_charms_v: ['city', -10.4, 35.5],
   stall_fruit_v: ['city', 10.4, 20.5], stall_rice_v: ['city', 10.4, 35.5], stall_lanterns_v: ['city', -5, 37.9], stall_pottery_v: ['city', -5, 18.1],
-  forge_smith: ['city', -27.8, 62.8], enhance_master: ['city', -50, 89.9], general_keeper: ['city', -5.8, 62],
+  forge_smith: ['city', -27.8, 62.75], enhance_master: ['city', -50, 89.9], general_keeper: ['city', -5.8, 62],
   herb_keeper: ['city', 10.3, 65], herb_gather: ['paddy', 48, -130.8], occult_keeper: ['city', 9.8, 86],
 };
 
 for(const e of EXPEDITIONS)SPOT_SITES[`${e.id}_supply`]=[e.id,18,e.top-24];
 
 const placesOf = npc => {
-  const out = [];
-  for (const a of Object.values(npc.schedule ?? {})) for (const at of [a?.at, ...(a?.stops ?? []).map(s => s.at)]) {
-    if (at && typeof at === 'object') out.push({ map: npc.map ?? 'city', x: at.x, z: at.z });
-    else if (SPOT_SITES[at]) { const [map, x, z] = SPOT_SITES[at]; out.push({ map, x, z }); }
+  const out = new Map();
+  for (const a of Object.values(npc.schedule ?? {})) for (const at of [a?.at, ...(a?.stops ?? []).map(s => typeof s === 'string' ? s : s.at)]) {
+    let place;
+    if (at && typeof at === 'object') place = { map: npc.map ?? 'city', x: at.x, z: at.z };
+    else if (typeof at === 'string' && Object.hasOwn(SPOT_SITES, at)) { const [map, x, z] = SPOT_SITES[at]; place = { map, x, z }; }
+    if (place && Number.isFinite(place.x) && Number.isFinite(place.z)) {
+      out.set(JSON.stringify([place.map, place.x, place.z]), place);
+    }
   }
-  return out;
+  return [...out.values()];
 };
 // shop type → [{ npc, map, x, z }]
 export const SHOP_SITES = {};
 for (const n of NPCS) if (n.shopType) for (const p of placesOf(n)) (SHOP_SITES[n.shopType] ??= []).push({ npc: n.id, ...p });
+for (const [shop, host] of Object.entries(SHOP_HOSTS)) SHOP_SITES[shop] = [...(SHOP_SITES[host] ?? [])];
 
 const sitesOf = shop => (typeof shop === 'string' && Object.hasOwn(SHOP_SITES, shop) ? SHOP_SITES[shop] : []);   // never a prototype key
 export const nearShop = (shop, map, x, z) => sitesOf(shop).some(s => s.map === map && Math.hypot(s.x - x, s.z - z) <= SHOP_RANGE);

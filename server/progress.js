@@ -23,17 +23,17 @@ import { buy } from '../src/shop/ShopSystem.js';
 import { sortBag } from '../src/character/bag.js';
 import { QuestSystem } from '../src/quest/QuestSystem.js';
 import { QUESTS } from '../src/data/quests.js';
-import { NPCS } from '../src/data/npcs.js';
 import { sameGear } from '../src/character/data/refine.js';
 import { RULES } from '../src/combat/data/rules.js';
-import { nearNpc } from '../src/data/shopSites.js';
+import { nearNpc, SHOP_SITES } from '../src/data/shopSites.js';
 
 export const CHARACTER_KEY = /^tno\.character\.v\d+$/;
 export const QUESTS_KEY = 'tno.quests.v1';
 
-// Which maps have a shop of each kind (NPCs without a `map` live in the city).
-export const SHOP_MAPS = NPCS.reduce((o, n) => { if (n.shopType) (o[n.shopType] ??= new Set()).add(n.map ?? 'city'); return o; }, {});
-export const shopOn = (shop, map) => !!SHOP_MAPS[shop]?.has(map);
+// The same real service sites authorize both map availability and proximity,
+// including legacy shop IDs hosted by surviving counters and travelling sellers.
+export const SHOP_MAPS = Object.fromEntries(Object.entries(SHOP_SITES).map(([shop, sites]) => [shop, new Set(sites.map(s => s.map))]));
+export const shopOn = (shop, map) => typeof shop === 'string' && Object.hasOwn(SHOP_MAPS, shop) && SHOP_MAPS[shop].has(map);
 export { nearShop } from '../src/data/shopSites.js';
 
 // A character's quests on the server: the browser's QuestSystem over an in-memory store.
