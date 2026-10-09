@@ -43,6 +43,7 @@ import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
 import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, within } from '../src/training/kitCombat.js';
 import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
+import { applyQuestOp, reconcileQuestMasteries, recordQuestCast, recordQuestSkillHit } from './class-quests.js';
 import { nearAnyShop } from '../src/data/shopSites.js';
 import { MONSTER_ACCURACY, MAX_LEVEL } from '../src/character/data/progression.js';
 import { afterHit, shielded, SHIELD } from '../src/combat/monsterHit.js';
@@ -108,7 +109,9 @@ export class Combatants {
   }
   load(id, saved, persist, questsJson = '{}') {
     const c = fromSave(saved); if (!c) return false;
-    this.list.set(id, { ...this.entry(c), persist, ack: 0, dirty: !!c.starterEquipmentMigrated, quests: questsFor(c, questsJson) });
+    const state = { ...this.entry(c), persist, ack: 0, dirty: !!c.starterEquipmentMigrated, quests: questsFor(c, questsJson) };
+    if (reconcileQuestMasteries(c, state.quests)) state.dirty = true;
+    this.list.set(id, state);
     return true;
   }
   entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
@@ -144,7 +147,10 @@ export class Combatants {
     // selling is done at a shop counter too; the fallen handle no items and no stats
     if (['sell', 'sell_batch'].includes(msg.op) && !nearAnyShop(at.map, at.x, at.z)) return false;
     if (!s.c.alive && ['sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
-    const ok = applyOp(s.c, msg, s.quests, at.map ? at : null);
+    const questResult = applyQuestOp(s.c, msg, s.quests, at);
+    const ok = questResult === null
+      ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true })
+      : questResult;
     if (ok) s.dirty = true;
     return ok;
   }
@@ -180,7 +186,7 @@ export class Combatants {
   }
   // the signed-in character in play for an account's slot (the save API asks), or null
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
-  me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), ack: s.ack, quests: s.quests.state } : null; }
+  me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), ack: s.ack, quests: s.quests.state, ...(s.c.loadoutResult ? { loadoutResult: { ...s.c.loadoutResult } } : {}) } : null; }
 
   // Attacker stats for a roll, buffs included.
   stats(c) { return { ...c.derived, patk: c.patk, matk: c.matk, critRate: c.critChance, critDmg: c.critDamage, accuracy: c.accuracy }; }
@@ -235,6 +241,7 @@ export class Combatants {
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
     const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1) : null;
+    recordQuestCast(this, id, skillId, now);
     return support ? { ok: true, support, ...(single ? { single: true } : {}) } : { ok: true };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
@@ -312,6 +319,7 @@ export class Combatants {
     const n = cast.struck.get(m.id) ?? 0;
     if (n >= cast.perTarget) return [];   // this cast has struck that monster as often as the skill allows
     cast.struck.set(m.id, n + 1);
+    if (r.hit && r.dmg > 0 && m.hp > 0) recordQuestSkillHit(this, id, cast, m, r, CAST_WINDOW);
     const ev = this.land(world, players, m, id, r, night);
     if (r.hit && m.hp > 0 && !cast.hit.has(m.id)) {
       cast.hit.add(m.id);

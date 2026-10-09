@@ -11,6 +11,7 @@ const TRIM = ['#c9a35a', '#a8432f', '#2f3a55', '#e8dcc0', '#6d4a6e', '#3f5a3a'];
 const HAIR_STYLES = { m: ['short', 'short', 'crop'], f: ['bun', 'bun', 'long', 'crop'] };
 
 export const OCCUPATIONS = {
+  warp_keeper: { label: 'บริการวาร์ป', speed: 1.3, top: ['#e4d8b8'], bottom: ['#314f41'], sash: '#bca462' },
   villager: { label: 'ชาวบ้าน', speed: 1.5 },
   merchant: { label: 'พ่อค้า', speed: 1.45, top: ['#e3d6b0', '#a8432f', '#3d4a6b', '#d4a443'], sash: true },
   farmer: { label: 'ชาวนา', speed: 1.4, top: ['#2f3a55', '#34405c'], bottom: ['#2f3a55'], hat: 'ngob' },

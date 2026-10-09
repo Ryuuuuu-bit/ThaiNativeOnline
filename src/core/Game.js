@@ -28,6 +28,10 @@ import { initSkin } from '../ui/skin.js';
 import { draggable } from '../ui/draggable.js';
 import { segmentSelects } from '../ui/segControls.js';
 import { WorldMapPanel } from '../ui/WorldMapPanel.js';
+import { WarpPanel } from '../ui/WarpPanel.js';
+import { StoragePanel } from '../ui/StoragePanel.js';
+import { BestiaryPanel } from '../ui/BestiaryPanel.js';
+import { nextPortal } from '../ui/mapDirectory.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
 import { slotStorage } from './SaveSlot.js';
 import { ZOOM_MIN, ZOOM_MAX, createViewPrefs } from '../ui/viewPrefs.js';
@@ -44,6 +48,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
+  get serviceModalOpen() { return !!(this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -85,6 +90,16 @@ export class Game {
     });
     this.quests.on('change', () => { this.questUI.renderTracker(); if (this.hud.dialogueOpen && this.talking) this.questUI.renderDialogue(this.talking.id); });
     this.shop = new ShopPanel((text, kind) => (this.game?.hud?.feed ? this.game.hud.feed.log(text, kind === 'warn' ? 'bad' : kind) : this.hud.toast(text, '')));
+    this.warp = new WarpPanel({ map: () => this.maps.map.id, position: () => this.player.position,
+      level: () => this.game?.character?.level ?? 1, prepare: () => { this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null); },
+      note: text => this.game?.hud?.feed?.log(text, 'gold', true) });
+    this.guide = new BestiaryPanel({ level: () => this.game?.character?.level ?? 1,
+      prepare: () => { this.closeDialogue(); this.warp.close(); this.storage?.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); },
+      locate: (monster, location) => this.locateMonster(monster, location) });
+    this.storage = new StoragePanel({ character: () => this.game?.character,
+      prepare: () => { this.closeDialogue(); this.warp.close(); this.guide.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
+        const ui = this.game?.characterUI; if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; } },
+      note: text => this.game?.hud?.feed?.log(text, 'gold', true) });
     this.prefs = createViewPrefs();   // HUD scale and saved camera zoom (device-wide)
     this.input = new InputManager(host);
     this.touch = createTouchControls($('app'), this.input, {
@@ -131,6 +146,10 @@ export class Game {
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (this.storage.open) return this.storage.close();
+      if (this.guide.open) return this.guide.close();
+      if (this.warp.open) return this.warp.close();
+      if (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden) { this.game.characterUI.loadouts.hidden = true; return; }
       if (this.menu.open) return this.menu.toggle(false);
       const autoPanel = document.querySelector('.auto-panel');
       if (autoPanel && !autoPanel.hidden) { autoPanel.hidden = true; return; }
@@ -152,7 +171,7 @@ export class Game {
     // (the + / − buttons and the settings slider still can, and unlock nothing)
     $('zoom-lock').addEventListener('click', () => { this.prefs.set({ zoomLock: !this.prefs.zoomLock }); this.syncZoom(); this.note(this.prefs.zoomLock ? 'ล็อกระยะกล้องแล้ว · นิ้ว / ล้อเมาส์จะไม่ซูม' : 'ปลดล็อกระยะกล้อง'); });
     input.on('click', e => {
-      if (this.maps.busy) return;
+      if (this.maps.busy || this.serviceModalOpen) return;
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
       if (this.world.canStand(p.x, p.z)) this.walkTo(p.x, p.z);
     });
@@ -167,6 +186,13 @@ export class Game {
     document.querySelector('.mini-title')?.addEventListener('click', () => this.toggleMap());
     $('dlg-next').addEventListener('click', () => this.interact());
     $('dlg-close').addEventListener('click', () => this.closeDialogue());
+    $('dlg-warp').addEventListener('click', () => {
+      const npc = this.talking;
+      if (!npc?.def.warpService) return;
+      this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
+      this.closeDialogue(); this.warp.show(npc);
+    });
+    $('dlg-storage').addEventListener('click', () => { const npc = this.talking; if (npc?.def.storageService) this.storage.show(npc); });
     $('dlg-shop').addEventListener('click', () => {
       const npc = this.talking, c = this.game?.character;
       if (!npc || !c) return;
@@ -189,6 +215,8 @@ export class Game {
       bag: () => characterUI()?.toggle('bag'),
       map: () => this.toggleMap(),
       social: () => (this.net?.social ? this.net.social.toggle() : this.hud.toast('สังคม', 'ต้องเชื่อมต่อเซิร์ฟเวอร์ก่อน (ออนไลน์)')),
+      bestiary: () => this.guide.show(),
+      loadouts: () => { this.stopWalk(); this.game?.combat?.cancelPending(); characterUI()?.toggle('loadouts'); },
       auto: () => document.querySelector('.hotbar-auto-cfg')?.click(),
       photo: () => this.togglePhoto(),
       settings: () => $('settings-toggle').click(),
@@ -247,7 +275,7 @@ export class Game {
       moveTo: (x, z) => this.chaseTo(x, z),
       stop: () => this.stopWalk(),
       // walking by hand (a click on the ground, keys, the joystick): AUTO and chasing wait for it
-      manualMove: () => (!!this.destination && !this.autoWalk) || this.input.keys.size > 0 || !!(this.input.stick.x || this.input.stick.y),
+      manualMove: () => this.serviceModalOpen || (!!this.destination && !this.autoWalk) || this.input.keys.size > 0 || !!(this.input.stick.x || this.input.stick.y),
       respawnPoint: this.maps.respawn, spawns: this.maps.zones,
       monsterStyle: this.prefs.monsters,
       isSafe: () => this.maps.map?.safe ?? true, // qa fix: no "danger" tip in the safe city at login
@@ -258,7 +286,7 @@ export class Game {
     this.clock.onPhase(phase => this.game.setPhase(phase));
     this.input.on('move', () => { this.game.onManualMove(); this.training?.onManualMove(); });
     window.addEventListener('keydown', e => {
-      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen) return;
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen || this.serviceModalOpen) return;
       // Tab at the training ground locks onto the next dummy (monsters elsewhere: CombatHUD)
       if (e.code === 'Tab' && this.maps.map?.safe && this.training?.cycleDummy?.()) { e.preventDefault(); return; }
       if (e.code === 'Escape' && this.training?.selected) this.training.select(null);
@@ -305,6 +333,9 @@ export class Game {
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
   // then rebuild the minimap and debug overlay and reapply settings for the new one.
   leaveMap() {
+    this.guide?.close();
+    this.storage?.close();
+    this.warp?.close();
     if (this.shop.open) this.shop.close();
     if (this.hud.dialogueOpen) this.closeDialogue();
     this.stopWalk(); this.game?.onManualMove();
@@ -390,10 +421,30 @@ export class Game {
 
   togglePhoto() { this.photo = !this.photo; document.body.classList.toggle('photo-mode', this.photo); $('restore-ui').hidden = !this.photo; }
   toggleMap() {
+    if (this.serviceModalOpen) return;
     const panel = $('fullmap-panel'); panel.hidden = !panel.hidden;
     // QA fix: a hover tooltip left open when the panel closes (M, Esc, click-to-walk) never gets its mouseleave; reset it.
     const tip = panel.querySelector('.map-tip'); if (tip) tip.hidden = true;
     if (!panel.hidden) { this.mapPanel.refresh(); this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); }
+  }
+  locateMonster(monster, location) {
+    if (!location || !this.minimap) return;
+    this.mapPanel.category = 'all'; this.mapPanel.query = ''; $('map-search').value = '';
+    let entry;
+    if (location.map !== this.maps.map.id) {
+      const portal = nextPortal(this.maps.map.id, location.map);
+      entry = this.minimap.directory.find(e => e.portal?.id === portal?.id);
+    } else {
+      entry = this.minimap.directory.find(e => e.id === `hunt:${location.area}`);
+      if (!entry) {
+        entry = { id: `guide:${location.area}`, name: `แหล่งล่า · ${monster.name}`, detail: `${location.name} · เลือกเดินไปเมื่อพร้อม`,
+          x: location.x, z: location.z, category: 'hunting', purpose: 'combat', glyph: 'combat', tag: `Lv ${monster.level}`, goal: location.approach };
+        const old = this.minimap.directory.findIndex(e => e.id === entry.id);
+        if (old < 0) this.minimap.directory.push(entry); else this.minimap.directory[old] = entry;
+      }
+    }
+    if ($('fullmap-panel').hidden) this.toggleMap();
+    if (entry) this.mapPanel.select(entry);
   }
   // What the minimap draws on top of the painted map (refreshed with the HUD, ~8 times a second).
   minimapState() {
@@ -432,7 +483,7 @@ export class Game {
   }
 
   interact() {
-    if (this.maps.busy || !this.npcs) return;   // mid-travel: no NPCs to talk to yet
+    if (this.maps.busy || this.serviceModalOpen || !this.npcs) return;
     if (this.hud.dialogueOpen && this.talking) {
       const d = this.talking.def; this.talkLine = (this.talkLine + 1) % d.dialogue.length;
       this.hud.openDialogue(this.talking, this.npcs.label(this.talking), d.dialogue[this.talkLine]);
@@ -454,6 +505,8 @@ export class Game {
     if (!npc) return;
     this.questUI.renderDialogue(npc.id);
     $('dlg-shop').hidden = !(this.game?.character && SHOPS[npc.def.shopType]?.stock?.length);
+    $('dlg-warp').hidden = !npc.def.warpService;
+    $('dlg-storage').hidden = !npc.def.storageService;
   }
   // A small line in the game feed (no popup in the middle of the screen).
   note(text) { this.game?.hud?.feed?.log(text, 'bad', true); }
@@ -520,7 +573,7 @@ export class Game {
     // Movement: keys, or a straight walk to a clicked point.
     // A skill move (training.busy) only holds the player in place: a walk the player clicked
     // goes on once it ends; a combat auto-walk is dropped (combat sets a new one if needed).
-    const alive = this.game?.canMove ?? true, canMove = alive && !this.training?.busy;
+    const alive = this.game?.canMove ?? true, canMove = alive && !this.training?.busy && !this.serviceModalOpen;
     if (!alive || (!canMove && this.autoWalk)) this.stopWalk();
     const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
     let stalled = false;

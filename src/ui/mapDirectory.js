@@ -5,10 +5,11 @@ import { SHOP_SITES, SHOP_APPROACHES } from '../data/shopSites.js';
 import { SHOPS, SHOP_HOSTS } from '../data/shops.js';
 import { huntingFor, huntingLevel } from '../data/hunting.js';
 import { MAPS, MAP_IDS } from '../world/maps.js';
+import { WARP_SERVICES, getWarpDestination } from '../data/warpServices.js';
 
 export const MAP_FILTERS = [
   ['all', 'ทั้งหมด'], ['shops', 'ร้านค้า'], ['training', 'ครู'],
-  ['travel', 'ประตู'], ['hunting', 'จุดล่า'], ['places', 'สถานที่'],
+  ['travel', 'เดินทาง'], ['hunting', 'จุดล่า'], ['places', 'สถานที่'],
 ];
 export const CATEGORY_ICONS = { shops: '◉', training: '⚔', travel: '↗', hunting: '✦', places: '◆' };
 
@@ -44,6 +45,12 @@ export function mapDirectory(map, landmarks, portals = map.portals ?? [], spots 
     entries.push({ id: `portal:${w.id}`, name: `${w.name ?? 'ประตู'} → ${w.toName ?? MAPS[w.to]?.name ?? w.to}`,
       x: w.at.x, z: w.at.z, purpose: 'travel', category: 'travel', glyph: 'travel', tag: 'เดินข้ามแผนที่', detail: `ทางไป ${MAPS[w.to]?.name ?? w.to}`, goal: w.at, portal: w });
   }
+  for (const s of WARP_SERVICES.filter(s => s.map === map.id)) entries.push({
+    id: `warp:${s.npcId}`, name: `ศาลาพักทาง · ${getWarpDestination(s.arrivalId).name}`,
+    x: s.x, z: s.z, purpose: 'travel', category: 'travel', glyph: 'warp', tag: 'NPC วาร์ป · ฟรี',
+    detail: `คุยกับเจ้าหน้าที่เพื่อเลือกจุดสำคัญในเมืองหรือแผนที่ผจญภัย${s.map === 'city' ? ' · คลังร่วม 120 ช่อง' : ''}`,
+    goal: getWarpDestination(s.arrivalId), npcId: s.npcId,
+  });
   return entries;
 }
 

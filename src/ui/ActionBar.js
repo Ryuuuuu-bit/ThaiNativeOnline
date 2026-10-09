@@ -1,5 +1,6 @@
 import { assetIcon } from './icons.js';
 import { skillPages } from './SkillPager.js';
+import { orderedController } from '../character/itemState.js';
 // The one action bar, the same on every map and for every class (the hotbar look
 // from src/classes/fx/fx.css): up to ten skills on keys 1–0, AUTO on G, then the
 // potions (Q / F) and the EXP bar from CharacterUI (the main menu opens the windows).
@@ -66,6 +67,10 @@ export class ActionBar {
   }
 
   setSkills(controller, label) {
+    this.baseController = controller;
+    return this.renderSkills(this.character ? orderedController(controller, this.character.hotbarSkills) : controller, label);
+  }
+  renderSkills(controller, label) {
     this.ctl = controller; this.setAuto(false); this.next = 0;
     if (label) this.bar.setAttribute('aria-label', label);
     this.row.replaceChildren();
@@ -106,7 +111,16 @@ export class ActionBar {
   }
   hideTip() { this.tip.hidden = true; }
 
-  bindAuto({ character, combat } = {}) { this.character = character; this.combat = combat; this.atkBtn.hidden = !combat?.basicSkillId?.(); }
+  bindAuto({ character, combat } = {}) {
+    this.offSkillOrder?.(); this.character = character; this.combat = combat; this.atkBtn.hidden = !combat?.basicSkillId?.();
+    const reorder = () => {
+      if (!this.baseController) return;
+      const order = JSON.stringify(character?.hotbarSkills ?? []); if (order === this.skillOrderKey) return;
+      this.skillOrderKey = order;
+      this.renderSkills(orderedController(this.baseController, character?.hotbarSkills ?? []));
+    };
+    this.offSkillOrder = character?.on('skills', reorder); this.skillOrderKey = ''; reorder();
+  }
   // AUTO keeps the basic attack going on its target between skills, unless the
   // settings turn it off (then it stops the swings it would otherwise keep up).
   swing() {

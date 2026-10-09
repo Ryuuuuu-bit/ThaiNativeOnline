@@ -242,3 +242,21 @@ body:has(.g-skills:not([hidden])) .training-panel{display:none}
 .g-skill-list .g-evo button b{color:var(--evo)}
 .g-skill-list .g-evo button.on{background:color-mix(in srgb,var(--evo) 25%,transparent);border-color:var(--evo);opacity:1}
 .g-skill-list .g-evo button:disabled:not(.on){opacity:.55;cursor:default}
+
+/* Instance protection and three equipment/learned-skill presets. */
+.g-bag-tools{flex-wrap:wrap}.g-bag-lock{white-space:nowrap}.g-bag-lock[aria-pressed="true"]{background:#bca15b45;border-color:#dfc178;color:#ffe5a7}
+.g-bag.locking .g-slot:not(.empty){outline:1px dashed #d8bc7760;cursor:pointer}.g-slot.item-locked{box-shadow:inset 0 0 0 1px #d5bb7380}
+.g-slot .g-item-lock{position:absolute;left:2px;top:2px;font-style:normal;font-size:9px;z-index:2;text-shadow:0 1px 3px #000}
+body .g-panel.g-loadouts{z-index:23}
+body .g-loadouts .panel-heading button{width:44px;height:44px;min-width:44px}
+body .g-loadouts :is(.g-loadout-row button,.g-hotbar-order button,.g-loadout-row input){min-height:44px}
+.g-eqs{position:relative}.g-eqs .g-equip-lock{position:absolute;right:-3px;top:-4px;width:24px;height:24px;padding:0;border:1px solid #b7a06b80;border-radius:5px;background:#162e25;font-size:11px;color:#e6d39a}
+body .g-panel.g-loadouts{left:calc(50% - 190px);width:380px;box-sizing:border-box;max-width:calc(100% - 20px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.g-loadout-body{display:flex;flex-direction:column;gap:9px;min-width:0}.g-loadout-hint{margin:0;font-size:11px;color:#b9c8ad;line-height:1.6;overflow-wrap:anywhere}
+.g-loadout-row{display:flex;flex-direction:column;gap:7px;padding:11px;border:1px solid #b6a36a50;border-radius:10px;background:#0b241ca8}
+.g-loadout-row label{display:flex;align-items:center;gap:8px;font-size:12px;color:#efd49b}.g-loadout-row input{flex:1;min-width:0;min-height:34px;border:1px solid #ae986157;border-radius:6px;background:#061b14;color:#eee0bf;padding:5px 8px;box-sizing:border-box;font:inherit}
+.g-loadout-row>small{font-size:10px;line-height:1.6;color:#c4ccb5;overflow-wrap:anywhere}.g-loadout-row>div{display:flex;gap:7px}
+.g-loadout-row button,.g-hotbar-order button{min-height:34px;flex:1;border:1px solid #c4a96470;border-radius:6px;background:#b7984320;color:#f2d99d;font:inherit;font-size:11px}.g-loadout-row button[data-loadout-apply]{background:linear-gradient(#d6b76b,#aa8e49);color:#1a2e20;font-weight:600}
+.g-loadout-row .g-loadout-warning{color:#efb99b}.g-loadout-row button:disabled,.g-hotbar-order button:disabled{opacity:.4;cursor:default}
+.g-hotbar-order{display:flex;align-items:center;gap:8px;border:1px solid #b6a36a30;border-radius:8px;padding:6px 8px;background:#163227a0}.g-hotbar-order>b{color:#d8bd7b;width:16px;font-size:12px;flex:none}.g-hotbar-order>span{flex:1;min-width:0;overflow-wrap:anywhere;font-size:11px;color:#e5dec8}.g-hotbar-order button{flex:none;width:30px}
+@media(max-width:760px),(max-height:520px){body .g-panel.g-loadouts{left:calc(10px + env(safe-area-inset-left));right:calc(10px + env(safe-area-inset-right));width:auto;top:calc(16px + env(safe-area-inset-top));max-width:none;max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));zoom:1}.g-loadout-row button,.g-hotbar-order button{min-height:44px;min-width:44px}.g-hotbar-order button{width:44px}.g-loadout-row>small{font-size:11px}}

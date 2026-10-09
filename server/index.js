@@ -66,6 +66,7 @@ import { Accounts } from './accounts.js';
 import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
 import { Parties, PARTY } from './parties.js';
+import { createPartyBoardHandlers } from './party-board.js';
 import { Trades, TRADE, swap } from './trades.js';
 import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
@@ -75,6 +76,8 @@ import { navigation } from './navigation.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
 import { Pvp } from './pvp.js';
 import { recallWhy } from './recall.js';
+import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
+import { StashService, stashMessage } from './stash.js';
 import { createShutdown } from './shutdown.js';
 import { WorldClock } from '../src/core/WorldClock.js';
 
@@ -87,6 +90,7 @@ const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '
 
 const store = await openStore(process.env.DATABASE_URL);
 const accounts = new Accounts(store, { googleClientId: process.env.GOOGLE_CLIENT_ID || null });
+const stash = new StashService(accounts);
 // GM account: GM_ID + GM_PASSWORD is made here when missing (the memory store forgets accounts on restart)
 if (process.env.GM_ID && process.env.GM_PASSWORD) {
   const r = await accounts.register(process.env.GM_ID, process.env.GM_PASSWORD);
@@ -147,7 +151,7 @@ async function api(req, res, url) {
       const body = await readBody(req);
       if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
       const live = combatants.live(id, slot);   // resolve after reading: the old socket may have left meanwhile
-      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json() } : null);
+      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0 } : null);
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
     if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
@@ -220,6 +224,17 @@ async function handle(ws, raw) {
     if (stopping || !conns.get(ws)?.allow()) return;
     let m; try { m = JSON.parse(raw); } catch { return; }
     if (!m || typeof m !== 'object' || typeof m.t !== 'string') return;
+    const active = combatants.get(presence.players.get(ws)?.id);
+    // Keep the source bag unchanged while its SQL transfer is in flight. A refused
+    // optimistic op is acknowledged with a sync, so NetProgress can reconcile it.
+    if (active?.stashBusy && !['stash_open', 'stash_move', 'resync'].includes(m.t)) {
+      if (m.t === 'op') {
+        if (Number.isSafeInteger(m.n) && m.n > active.ack) active.ack = m.n;
+        send(ws, { t: 'sync', c: combatants.me(presence.players.get(ws).id) });
+      }
+      return;
+    }
+    if (partyBoard.handle(ws, m)) return;
     switch (m.t) {
       case 'hello': {
         // a signed-in player is shown as the character the server has saved (name, class, level)
@@ -251,7 +266,7 @@ async function handle(ws, raw) {
           const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved, quests = await accounts.quests(id, m.slot).catch(() => '{}');
           await kick();   // a twin that signed in during the reads
           if (stopping || !presence.players.has(ws)) return;   // we were the one kicked meanwhile
-          combatants.load(r.you, fresh, { account: id, slot: m.slot }, quests);
+          combatants.load(r.you, fresh, { account: id, slot: m.slot, inventoryRevision: accounts.inventoryRevision(id, m.slot) }, quests);
           presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
@@ -268,6 +283,8 @@ async function handle(ws, raw) {
       }
       case 'recall': recall(ws); break;
       case 'party_warp': recall(ws, true); break;
+      case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
+      case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pk': case 'pvp_hit': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
@@ -329,10 +346,11 @@ async function handle(ws, raw) {
         combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill, { ally: ally !== null });
         if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why });
         else if (r.support && combatants.get(p.id)?.c.alive) support(p, m.skill, r.support, r.single ? ally : null);
+        if (r.ok) syncQuestPractice(ws, p);
         break;
       }
       case 'sit': { const p = presence.players.get(ws); if (p) combatants.sit(p.id, m.v); break; }
-      case 'blow': { const p = presence.players.get(ws); if (p) { const target=worldOf(p.room).byId(m.id); if(target&&!navigation(p.map).clear(p,target,.05))return; combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); } break; }
+      case 'blow': { const p = presence.players.get(ws); if (p) { const target=worldOf(p.room).byId(m.id); if(target&&!navigation(p.map).clear(p,target,.05))return; combatants.touch(p.id); route(p.room, combatants.blow(p.id, worldOf(p.room), presence.inMap(p.room), m, clock.phase)); syncQuestPractice(ws, p); } break; }
       case 'dead': {
         const p = presence.players.get(ws); if (!p) return;
         if (!combatants.get(p.id)?.persist) { presence.setDead(ws, m.v); if (!m.v) { Object.assign(p,MAP_DATA[p.map].spawn,{m:0,dirty:true});correct(ws); } break; }
@@ -341,11 +359,12 @@ async function handle(ws, raw) {
       }
       case 'op': {
         const p = presence.players.get(ws); if (!p || !combatants.get(p.id)?.persist) return;
-        const ok = combatants.op(p.id, m, { map: p.map, x: p.x, z: p.z });
+        const view = pvp.view(p.id);
+        const ok = combatants.op(p.id, m, { map: p.map, x: p.x, z: p.z, loadoutBusy: !!trades.of(p.id) || !!view?.duel || view?.wait > 0 });
         // taking cards out and ตีบวก are rolled here: the result, then the character as it is now
         if (m.op === 'strip') { send(ws, { t: 'stripped', ...combatants.get(p.id).stripped }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
         else if (m.op === 'refine') { send(ws, { t: 'refined', ...combatants.get(p.id).refined }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
-        else if (!ok) send(ws, { t: 'sync', c: combatants.me(p.id) });   // could not replay it: here is the real one
+        else if (!ok || m.op === 'loadout_apply' || ['quest_accept', 'quest_complete', 'talk'].includes(m.op)) send(ws, { t: 'sync', c: combatants.me(p.id) });
         break;
       }
       case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }
@@ -359,24 +378,53 @@ wss.on('connection', ws => {
     conns.delete(ws);
     const departing = presence.players.get(ws);
     const r = presence.leave(ws);
-    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); endDuel(pvp.leave(r.id)); if (r.account) friendNews(r, false); }
+    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); partyBoard.disconnect(r.id); endDuel(pvp.leave(r.id)); if (r.account) friendNews(r, false); }
     if (r) { const s=combatants.get(r.id); if(!stopping){if(s?.persist)s.dirty=true;flushEntry(s,departing);} combatants.drop(r.id); }
     if (r) { toMap(r.map, { t: 'leave', id: r.id }); toAll({ t: 'online', n: presence.count }); }
   });
 });
 
+// Vault mutations send a confirmed result, current account vault, and current
+// character. Retries use the same request ID; no raw HTTP stash writes exist.
+async function stashMsg(ws, m) {
+  const p = presence.players.get(ws), s = p && combatants.get(p.id), view = p && pvp.view(p.id);
+  const context = { fighting: !!p && (combatants.fighting(p.id) || view?.wait > 0), duel: !!view?.duel, trade: !!p && !!trades.of(p.id) };
+  const reply = r => {
+    send(ws, { t: 'stash_result', request: m.request, ok: r.ok, ...(r.why ? { why: r.why } : {}), ...(r.ok ? { moved: r.moved ?? 0, replayed: !!r.replayed } : {}) });
+    if (r.stash) send(ws, stashMessage(r.stash));
+    const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c });
+  };
+  if (m.t === 'stash_open') {
+    try { const r = await stash.open(p, s, m.npc, context); if (r.ok) send(ws, stashMessage(r.stash)); else reply(r); }
+    catch { reply({ ok: false, why: 'storage_unavailable' }); }
+    return;
+  }
+  const task = stash.move(p, s, m, context);
+  if (s && !s.stashTask) s.stashTask = task;
+  try { const r = await task; reply(r); }
+  catch { reply({ ok: false, why: 'storage_unavailable' }); }
+  finally { if (s?.stashTask === task) s.stashTask = null; }
+}
+
+function syncQuestPractice(ws, p) {
+  const s = combatants.get(p.id);
+  if (!s?.questPracticeChanged) return;
+  s.questPracticeChanged = false;
+  send(ws, { t: 'sync', c: combatants.me(p.id) });
+}
+
 // ---- parties and trade --------------------------------------------------------------------
 const parties = new Parties(), trades = new Trades();
 const byId = id => { for (const [ws, p] of presence.players) if (p.id === id) return { ws, p }; return null; };
 const pvp = new Pvp();
-function correct(ws) {
+function correct(ws, extra = {}) {
   const p = presence.players.get(ws);
-  if (p) send(ws, {t:'position',map:p.map,x:p.x,z:p.z,f:p.f});
+  if (p) send(ws, {t:'position',map:p.map,x:p.x,z:p.z,f:p.f,...extra});
 }
 function pvpPlayer(id) {
   const p = byId(id)?.p, s = combatants.get(id);
   return p ? {...p,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
-    busy:!!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
+    busy:!!s?.stashBusy || !!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
 }
 function pvpState(id) {
   const p = byId(id)?.p;
@@ -398,12 +446,37 @@ function recall(ws, followLeader = false) {
   if (leader && leader.room !== p.room && (presence.counts(dest)[leader.ch]??0) >= channels.cap(dest)) return send(ws,{t:'recall_no',why:'full'});
   const why=recallWhy(followLeader?{...p,map:'field'}:p,{fighting:combatants.fighting(p.id)||pvp.view(p.id).wait>0||!!leader&&(combatants.fighting(leader.id)||pvp.view(leader.id).wait>0||!!pvp.view(leader.id).duel),duel:!!pvp.view(p.id).duel,trade:!!trades.of(p.id)});
   if(why) return send(ws,{t:'recall_no',why});
-  const left=p.room; resetPvp(p.id);
-  Object.assign(p,{map:dest,...MAP_DATA[dest].spawn,recallAt:Date.now()/1000,m:0,dirty:true,slack:0,budget:0});
-  const r=presence.enter(p,leader?.ch??pickCh(dest));
-  toMap(left,{t:'leave',id:p.id},ws);
-  send(ws,{t:'welcome',you:p.id,roster:r.roster,online:presence.count,ch:r.ch,chs:chs('city')});
-  toMap(r.room,{t:'join',p:r.joined},ws); correct(ws); arrive(ws,r.room);
+  p.recallAt = Date.now() / 1000;
+  teleport(ws, p, { map: dest, ...MAP_DATA[dest].spawn }, leader?.ch ?? pickCh(dest));
+}
+// Recall and steward travel share the authoritative room, roster and save flow.
+// Same-map travel uses it too, so observers see the relocation immediately.
+function teleport(ws, p, destination, ch, position = {}) {
+  const left = p.room, now = Date.now() / 1000;
+  resetPvp(p.id); combatants.sit(p.id, false); combatants.interrupt(p.id);
+  const state = combatants.get(p.id);
+  if (state) state.casts = [];
+  Object.assign(p, { map: destination.map, x: destination.x, z: destination.z,
+    f: destination.facing ?? p.f, m: 0, dirty: true, slack: 0, slackUntil: 0,
+    budget: 0, budgetAt: now, t: now });
+  const r = presence.enter(p, ch);
+  toMap(left, { t: 'leave', id: p.id }, ws);
+  send(ws, { t: 'welcome', you: p.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(p.map), ...(p.admin ? { admin: true } : {}) });
+  toMap(r.room, { t: 'join', p: r.joined }, ws); correct(ws, position); arrive(ws, r.room);
+  if (state?.persist) { state.dirty = true; flush(p.id); }
+}
+function serviceWarp(p, npcId, destinationId, requestWs) {
+  const ws = p ? byId(p.id)?.ws : requestWs;
+  if (!ws) return;
+  const state = p && combatants.get(p.id), view = p && pvp.view(p.id), now = Date.now() / 1000;
+  const result = planServiceWarp(p, npcId, destinationId, { now,
+    dead: !!state && !state.c.alive, fighting: !!p && (combatants.fighting(p.id) || view.wait > 0),
+    duel: !!view?.duel, trade: !!p && !!trades.of(p.id) });
+  if (!result.ok) return send(ws, { t: 'service_warp_no', why: result.why });
+  const dest = result.destination, room = serviceWarpChannel(p, dest.map, channels, presence.counts(dest.map));
+  if (!room.ok) return send(ws, { t: 'service_warp_no', why: room.why });
+  p.serviceWarpAt = now;
+  teleport(ws, p, dest, room.ch, { reason: 'service_warp', destination: dest.id });
 }
 function pvpMsg(ws,m) {
   const p=presence.players.get(ws); if(!p) return;
@@ -440,6 +513,8 @@ function partyState(pid) {
 }
 const tellParty = (ids, msg) => { for (const id of ids) { const w = byId(id)?.ws; if (w) send(w, msg); } };
 const sendParty = pid => tellParty(parties.members(pid), partyState(pid));
+// Combatants is initialized below; messages run only after server.listen.
+const partyBoard = createPartyBoardHandlers({ parties, presence, combatants: { get: id => combatants.get(id) }, byId, send, sendParty });
 function leaveParty(id) {
   const r = parties.leave(id); if (!r) return;
   if (r.party) sendParty(r.party.id);
@@ -475,6 +550,7 @@ function partyMsg(ws, m) {
 function tradeWhy(a, b) {
   if (!b) return 'offline';
   if (!combatants.get(a.id)?.persist || !combatants.get(b.id)?.persist) return 'guest';
+  if (combatants.get(a.id).stashBusy || combatants.get(b.id).stashBusy) return 'busy';
   if (a.room !== b.room || Math.hypot(a.x - b.x, a.z - b.z) > TRADE.range) return 'far';
   if (a.dead || b.dead || combatants.fighting(a.id) || combatants.fighting(b.id) || pvp.view(a.id).duel || pvp.view(b.id).duel || pvp.view(a.id).wait || pvp.view(b.id).wait) return 'busy';
   return null;
@@ -519,7 +595,7 @@ function tradeMsg(ws, m) {
     sendTrade(t);
   }
 }
-setInterval(() => { for (const party of parties.parties.values()) sendParty(party.id); }, 1000);
+setInterval(() => { partyBoard.sweep(); for (const party of parties.parties.values()) sendParty(party.id); }, 1000);
 
 // ---- titles and the ranking boards (src/data/titles.js, server/ranking.js) -------------------------
 // a signed-in character's titles after its records moved: the player hears of a change (and the
@@ -604,7 +680,7 @@ const ADMINS = adminIds(), mutes = new Map();   // ADMIN_IDS + GM_ID · account 
 const muted = p => (mutes.get(p.account ?? `s${p.id}`) ?? 0) > Date.now();
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase };
+const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !combatants.get(target.p.id)?.stashBusy ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase };
 
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
 const clock = new WorldClock({ hour: 7.5 }); clock.sync();   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
@@ -670,7 +746,16 @@ setInterval(() => {
 }, 1000);
 setInterval(() => toAll({ t: 'clock', h: +clock.hour.toFixed(3) }), 10000);
 // signed-in characters: MP to the browser 1×/s, saved to the database every 30 s when changed
-const flushEntry = (s, p = null) => { if (!s?.persist || !s.dirty) return; s.dirty = false; return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), p ? {map:p.map,x:p.x,z:p.z,facing:p.f} : null).catch(e => { s.dirty = true; console.warn('save', e.message); }); };
+const flushEntry = (s, p = null) => {
+  if (!s?.persist || !s.dirty) return;
+  if (s.stashBusy) {
+    // Disconnect/shutdown must save the adopted bag, never capture the old one.
+    return s.stashFlush ??= s.stashTask.then(() => { s.stashFlush = null; return flushEntry(s, p); });
+  }
+  s.dirty = false;
+  return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), p ? {map:p.map,x:p.x,z:p.z,facing:p.f} : null,
+    { inventoryRevision: s.persist.inventoryRevision ?? 0 }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
+};
 const flush = id => flushEntry(combatants.get(id), byId(id)?.p);
 setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);
 setInterval(() => { if (!stopping) for (const p of presence.players.values()) flush(p.id); }, 30000);

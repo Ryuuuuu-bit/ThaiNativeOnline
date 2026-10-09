@@ -1,0 +1,36 @@
+.warp-overlay[hidden]{display:none}
+.warp-overlay{position:fixed;inset:0;z-index:24;display:grid;place-items:center;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:#081510b8;backdrop-filter:blur(5px);color:#f5ead0}
+.warp-panel{width:min(850px,100%);max-height:100%;height:min(630px,100%);min-height:0;display:flex;flex-direction:column;border:1px solid #ad975c;border-radius:18px;background:linear-gradient(135deg,#18392f,#102720 65%);box-shadow:0 20px 90px #0009,inset 0 0 0 4px #dcc3830a;overflow:hidden;font-family:'Noto Sans Thai',sans-serif}
+.warp-head{display:flex;align-items:center;gap:15px;padding:21px 24px 17px;border-bottom:1px solid #c6ad6b42;flex-shrink:0}
+.warp-seal{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#e2be6718;flex-shrink:0}
+.warp-seal svg,.warp-row-icon svg,.warp-art svg{width:80%;height:80%;stroke:#dfc17c;stroke-width:1.6}
+.warp-head small,.warp-summary>small{font-size:11px;color:#c8b884;letter-spacing:.8px}
+.warp-head h2{font:700 24px 'Noto Serif Thai',serif;margin:2px 0;color:#f3dfac}
+.warp-head p{font-size:12px;color:#afc4b6;margin:0}
+.warp-head button{margin-left:auto;flex-shrink:0;width:44px;height:44px;border:1px solid #c7b2714d;border-radius:50%;background:#ffffff08;color:#f3dfac;font-size:25px;cursor:pointer}
+.warp-body{display:grid;grid-template-columns:minmax(0,1fr) 295px;min-height:0;flex:1}
+.warp-destinations{display:flex;flex-direction:column;min-height:0;padding:18px 20px;gap:14px}
+.warp-tabs{display:flex;gap:8px;flex-shrink:0}
+.warp-tabs button{flex:1;border:1px solid #ac9c6452;border-radius:9px;background:#ffffff05;color:#b6c9bc;font:inherit;font-size:13px;min-height:44px;cursor:pointer;padding:6px}
+.warp-tabs button[aria-pressed=true]{background:#d3b76820;border-color:#c7aa68;color:#f0dcab}
+.warp-tabs small{margin-left:4px;font-size:10px;opacity:.65}
+.warp-search{font-size:11px;color:#c1c9b7;display:flex;flex-direction:column;gap:5px}
+.warp-search input{width:100%;box-sizing:border-box;min-height:44px;border:1px solid #90ae9c3d;border-radius:9px;background:#091c16a6;color:#f6ebd4;padding:9px 12px;font:inherit;font-size:13px}
+.warp-search input::placeholder{color:#a2b7a8}
+#warp-list{overflow:auto;min-height:0;display:flex;flex-direction:column;gap:7px;padding-right:4px;scrollbar-width:thin;scrollbar-color:#a08e55 #10271e}
+.warp-row{display:flex;gap:12px;align-items:center;text-align:left;flex-shrink:0;min-height:64px;border:1px solid #81968435;border-radius:10px;background:#ffffff04;color:#f4e9cd;padding:9px 11px;cursor:pointer}
+.warp-row:hover,.warp-row[aria-pressed=true]{background:#ccb77516;border-color:#c7aa68}
+.warp-row-icon{width:36px;height:36px;flex-shrink:0;display:grid;place-items:center;border-radius:8px;background:#d1b5700d}
+.warp-row b{font-size:14px;font-weight:600;display:block}.warp-row small{display:block;font-size:11px;color:#a9bda9;margin-top:3px}
+.warp-summary{background:#06191155;border-left:1px solid #c8ab6740;min-height:0;overflow:auto;padding:21px 24px;display:flex;flex-direction:column;gap:10px}
+.warp-art{position:relative;flex-shrink:0;align-self:center;width:90px;height:90px;display:grid;place-items:center;background:radial-gradient(circle,#dabe641a,transparent 70%);margin:0 0 4px}
+.warp-art svg{opacity:.8;width:66px;height:66px}.warp-art span{position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:9px;color:#cbb875;letter-spacing:1px}
+.warp-summary h3{font:600 20px 'Noto Serif Thai',serif;color:#f1dcaa;margin:0;line-height:1.6}.warp-summary p{margin:0;font-size:12px;color:#b7c9ba;line-height:1.7}
+#warp-level{font-size:11px;color:#d8c68d}#warp-warning{font-size:11px;color:#f0c295;border-left:2px solid #be8c50;padding-left:9px}
+.warp-cost{display:flex;justify-content:space-between;border-top:1px solid #d8c38230;padding-top:14px;margin-top:auto;font-size:12px;color:#b8c9b7}.warp-cost b{color:#d8e8bd;font-size:15px}
+#warp-status{min-height:36px;font-size:11px}#warp-go{display:flex;justify-content:space-between;align-items:center;min-height:48px;flex-shrink:0;padding:10px 16px;border:1px solid #e0c176;border-radius:10px;background:linear-gradient(#e0c580,#be9e52);color:#253324;font:700 14px 'Noto Sans Thai',sans-serif;cursor:pointer}#warp-go:disabled{opacity:.45;cursor:default}.warp-footnote{font-size:10px!important;text-align:center;color:#9eb09f!important;letter-spacing:0!important}
+.warp-empty{font-size:13px;color:#b9c4b0;padding:20px 6px}.warp-panel button:focus-visible,.warp-panel input:focus-visible{outline:2px solid #f9dfa0;outline-offset:2px}
+.plate.is-warp{color:#f0d99e;background:#14372bdc;border:1px solid #bfaa6b;border-radius:9px;padding:5px 10px;box-shadow:0 4px 12px #0006}.plate.is-warp small{color:#bad6c0}
+@media(max-width:600px) and (min-height:501px){.warp-panel{height:min(740px,100%)}.warp-head{padding:12px 15px;gap:10px}.warp-head h2{font-size:20px}.warp-seal{width:42px;height:42px}.warp-body{grid-template-columns:1fr;grid-template-rows:minmax(140px,1fr) auto}.warp-destinations{padding:12px 14px;gap:9px}.warp-summary{padding:13px 16px;gap:6px;border-left:0;border-top:1px solid #c8ab6740;max-height:300px}.warp-art{display:none}.warp-summary h3{font-size:18px}.warp-cost{padding-top:7px;margin-top:2px}#warp-status{min-height:18px}.warp-footnote{display:none}.warp-row{min-height:59px}}
+@media(max-height:500px){.warp-head{padding:8px 14px;gap:10px}.warp-head h2{font-size:18px}.warp-head p{font-size:10px}.warp-head small{font-size:9px}.warp-seal{width:38px;height:38px}.warp-body{grid-template-columns:minmax(0,1fr) 235px}.warp-destinations{padding:10px 13px;gap:7px}.warp-search{font-size:0;gap:0}.warp-summary{padding:10px 14px;gap:4px}.warp-art,.warp-summary>small,.warp-footnote{display:none}.warp-summary h3{font-size:16px}.warp-summary p{font-size:11px;line-height:1.5}.warp-cost{margin-top:3px;padding-top:6px}#warp-status{min-height:22px}#warp-go{min-height:44px;font-size:12px}.warp-row{min-height:54px;padding:5px 9px}.warp-row b{font-size:12px}.warp-row small{font-size:10px}.warp-tabs button{font-size:11px}.warp-tabs small{display:none}}
+@media(prefers-reduced-motion:reduce){.warp-overlay{backdrop-filter:none}}
