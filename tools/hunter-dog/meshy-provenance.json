@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "date": "2026-10-10",
+  "subject": "hunter companion dog, not the dhole enemy",
+  "provider": "Meshy",
+  "runner": "meshy-cli@0.4.0",
+  "brief": "model-brief.json",
+  "resource": "text-to-3d",
+  "tasks": [
+    {
+      "id": "01a1222a-f091-7064-8d3c-ffd08f211ac4",
+      "stage": "preview",
+      "status": "SUCCEEDED",
+      "consumedCredits": 20
+    },
+    {
+      "id": "01a1222c-5301-73c6-a533-b3fedf2157ae",
+      "stage": "refine",
+      "parent": "01a1222a-f091-7064-8d3c-ffd08f211ac4",
+      "status": "SUCCEEDED",
+      "consumedCredits": 10
+    }
+  ],
+  "totalConsumedCredits": 30,
+  "project": "artifacts/hunter-dog/meshy_output/20261010_023649_hunter-dog-model_01a1222a",
+  "raw": {
+    "filename": "tools/hunter-dog/source/meshy-body.glb",
+    "bytes": 3333736,
+    "sha256": "9cf26fb699d7f085d0d240e679a2e971f92cbfa8c97c672d99e6688716eb3961"
+  },
+  "previews": {
+    "geometry": "9f78b1d8936438b8e011ed5c4c5541207bb221db284a50f65aad0a82c37412d2",
+    "textured": "e3a9fba464810df44688e897ed151f4e5dac29e7e3aa9e3b986959daaa4b9ab6"
+  },
+  "donor": {
+    "asset": "public/models/hunter-dog.glb before replacement",
+    "sha256": "8e6ba30272053c7432c4b05c0979b4e2f111f1ca36ae5b646a18a3cf3d7763d3",
+    "joints": 38,
+    "triangles": 4549,
+    "role": "local quadruped skeleton and weight-transfer reference only"
+  },
+  "notes": [
+    "No paid humanoid auto-rigging or custom animation task was used.",
+    "Raw task snapshots remain in ignored artifacts; credentials and signed download URLs are excluded from this record.",
+    "The rendered thumbnail alone does not establish hidden-surface anatomy or motion quality."
+  ],
+  "output": {
+    "texture": 1024,
+    "triangles": 6255,
+    "file": "public/models/hunter-dog.glb",
+    "vertices": 8915,
+    "canonicalShoulderMeters": 0.45,
+    "sha256": "341c647c886e302e4485511481042df5abde243a66a8b2ff8ac8668e29caa541",
+    "bytes": 831080,
+    "joints": 38
+  },
+  "validation": {
+    "gameplayCases": 11,
+    "gameplayScreenshots": 51,
+    "motionFrames": 128,
+    "build": "PASS",
+    "finalScreenshots": 57,
+    "tests": 664,
+    "numericPoseSamples": 305,
+    "gameplayReceipt": "docs/art/reviews/hunter-dog/gameplay/final-3/report.json"
+  }
+}
