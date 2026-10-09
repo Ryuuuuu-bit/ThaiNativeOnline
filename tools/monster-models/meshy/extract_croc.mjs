@@ -1,0 +1,21 @@
+// Retain only the verified crocodile surface, rig and authored action from L3 exports.
+import {NodeIO} from '@gltf-transform/core';
+import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
+import {prune} from '@gltf-transform/functions';
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const [input,output,stage='animated']=process.argv.slice(2);
+if(!input||!output||!['rest','animated'].includes(stage))throw Error('Expected input.glb output.glb [rest|animated]');
+const io=new NodeIO().registerExtensions(ALL_EXTENSIONS),doc=await io.read(input),root=doc.getRoot();
+const surface=root.listNodes().find(n=>n.getName()==='CrocV1Surface'),rig=surface?.getParentNode();
+if(rig?.getName()!=='CrocV1Rig'||surface.getSkin()?.getName()!=='CrocV1Rig')throw Error('Expected crocodile hierarchy');
+const keep=new Set();function visit(n){keep.add(n);n.listChildren().forEach(visit);}visit(rig);
+const scene=root.listScenes()[0];for(const s of root.listScenes())for(const n of s.listChildren())s.removeChild(n);scene.addChild(rig);
+for(const action of root.listAnimations())if(action.getName()!=='CrocV1RigAction')action.dispose();
+for(const n of root.listNodes())if(!keep.has(n))n.dispose();
+await doc.transform(prune());
+if(root.listMeshes().length!==1||root.listSkins().length!==1||root.listAnimations().length!==(stage==='rest'?0:1))throw Error('Extraction retained authoring objects or lost action');
+await io.write(output,doc);
+const digest=data=>createHash('sha256').update(data).digest('hex');
+const report={type:'croc',stage,sourceSha256:digest(await fs.readFile(input)),outputSha256:digest(await fs.readFile(output)),bones:surface.getSkin().listJoints().length};
+await fs.writeFile(output.replace(/\.glb$/,'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

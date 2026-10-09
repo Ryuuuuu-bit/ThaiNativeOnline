@@ -1,0 +1,622 @@
+{
+  "type": "croc",
+  "version": "v1",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.1
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0,
+        -0.08,
+        0.15
+      ],
+      "tail": [
+        0,
+        -0.48,
+        0.21
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Neck",
+      "head": [
+        0,
+        -0.48,
+        0.21
+      ],
+      "tail": [
+        0,
+        -0.66,
+        0.25
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0,
+        -0.66,
+        0.25
+      ],
+      "tail": [
+        0,
+        -0.94,
+        0.235
+      ],
+      "parent": "Neck",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Jaw",
+      "head": [
+        0,
+        -0.675,
+        0.213
+      ],
+      "tail": [
+        0,
+        -0.92,
+        0.18
+      ],
+      "parent": "Head",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "TailBase",
+      "head": [
+        0,
+        0,
+        0.115
+      ],
+      "tail": [
+        0,
+        0.32,
+        0.075
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "TailMid",
+      "head": [
+        0,
+        0.32,
+        0.075
+      ],
+      "tail": [
+        0,
+        0.65,
+        0.045
+      ],
+      "parent": "TailBase",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "TailTip",
+      "head": [
+        0,
+        0.65,
+        0.045
+      ],
+      "tail": [
+        0,
+        0.94,
+        0.016
+      ],
+      "parent": "TailMid",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeLUpper",
+      "head": [
+        -0.115,
+        -0.5,
+        0.185
+      ],
+      "tail": [
+        -0.23,
+        -0.48,
+        0.11
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ForeLLower",
+      "head": [
+        -0.23,
+        -0.48,
+        0.11
+      ],
+      "tail": [
+        -0.25,
+        -0.55,
+        0.036
+      ],
+      "parent": "ForeLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeLFoot",
+      "head": [
+        -0.25,
+        -0.55,
+        0.036
+      ],
+      "tail": [
+        -0.24,
+        -0.63,
+        0.016
+      ],
+      "parent": "ForeLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeRUpper",
+      "head": [
+        0.12,
+        -0.49,
+        0.18
+      ],
+      "tail": [
+        0.275,
+        -0.38,
+        0.11
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ForeRLower",
+      "head": [
+        0.275,
+        -0.38,
+        0.11
+      ],
+      "tail": [
+        0.34,
+        -0.49,
+        0.036
+      ],
+      "parent": "ForeRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ForeRFoot",
+      "head": [
+        0.34,
+        -0.49,
+        0.036
+      ],
+      "tail": [
+        0.345,
+        -0.58,
+        0.016
+      ],
+      "parent": "ForeRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLUpper",
+      "head": [
+        -0.125,
+        -0.17,
+        0.15
+      ],
+      "tail": [
+        -0.28,
+        -0.065,
+        0.1
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HindLLower",
+      "head": [
+        -0.28,
+        -0.065,
+        0.1
+      ],
+      "tail": [
+        -0.35,
+        -0.1,
+        0.033
+      ],
+      "parent": "HindLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindLFoot",
+      "head": [
+        -0.35,
+        -0.1,
+        0.033
+      ],
+      "tail": [
+        -0.34,
+        -0.16,
+        0.016
+      ],
+      "parent": "HindLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRUpper",
+      "head": [
+        0.125,
+        -0.135,
+        0.15
+      ],
+      "tail": [
+        0.3,
+        0.055,
+        0.09
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "HindRLower",
+      "head": [
+        0.3,
+        0.055,
+        0.09
+      ],
+      "tail": [
+        0.35,
+        -0.025,
+        0.033
+      ],
+      "parent": "HindRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HindRFoot",
+      "head": [
+        0.35,
+        -0.025,
+        0.033
+      ],
+      "tail": [
+        0.345,
+        -0.12,
+        0.016
+      ],
+      "parent": "HindRLower",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "ForeL",
+      "hip": [
+        -0.115,
+        -0.5,
+        0.185
+      ],
+      "knee": [
+        -0.23,
+        -0.48,
+        0.11
+      ],
+      "joint": [
+        -0.25,
+        -0.55,
+        0.036
+      ],
+      "toe": [
+        -0.24,
+        -0.63,
+        0.016
+      ],
+      "pole": [
+        -0.58,
+        -0.3,
+        0.15
+      ],
+      "phase": 0,
+      "control": "CrocForeLTarget"
+    },
+    {
+      "name": "ForeR",
+      "hip": [
+        0.12,
+        -0.49,
+        0.18
+      ],
+      "knee": [
+        0.275,
+        -0.38,
+        0.11
+      ],
+      "joint": [
+        0.34,
+        -0.49,
+        0.036
+      ],
+      "toe": [
+        0.345,
+        -0.58,
+        0.016
+      ],
+      "pole": [
+        0.6,
+        -0.25,
+        0.15
+      ],
+      "phase": 0.5,
+      "control": "CrocForeRTarget"
+    },
+    {
+      "name": "HindL",
+      "hip": [
+        -0.125,
+        -0.17,
+        0.15
+      ],
+      "knee": [
+        -0.28,
+        -0.065,
+        0.1
+      ],
+      "joint": [
+        -0.35,
+        -0.1,
+        0.033
+      ],
+      "toe": [
+        -0.34,
+        -0.16,
+        0.016
+      ],
+      "pole": [
+        -0.65,
+        0.15,
+        0.12
+      ],
+      "phase": 0.5,
+      "control": "CrocHindLTarget"
+    },
+    {
+      "name": "HindR",
+      "hip": [
+        0.125,
+        -0.135,
+        0.15
+      ],
+      "knee": [
+        0.3,
+        0.055,
+        0.09
+      ],
+      "joint": [
+        0.35,
+        -0.025,
+        0.033
+      ],
+      "toe": [
+        0.345,
+        -0.12,
+        0.016
+      ],
+      "pole": [
+        0.65,
+        0.2,
+        0.12
+      ],
+      "phase": 0,
+      "control": "CrocHindRTarget"
+    }
+  ],
+  "rigId": "obj_17e261cdf5c44ca1ad2814e264abe513",
+  "weightGroups": 416,
+  "skin": {
+    "name": "CrocV1Rig",
+    "objectId": "obj_17e261cdf5c44ca1ad2814e264abe513",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.10000000149011612,
+        "deform": false
+      },
+      {
+        "name": "Body",
+        "parent": "Root",
+        "length": 0.4044749438762665,
+        "deform": true
+      },
+      {
+        "name": "Neck",
+        "parent": "Body",
+        "length": 0.18439091742038727,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Neck",
+        "length": 0.28040140867233276,
+        "deform": true
+      },
+      {
+        "name": "Jaw",
+        "parent": "Head",
+        "length": 0.24721242487430573,
+        "deform": true
+      },
+      {
+        "name": "TailBase",
+        "parent": "Body",
+        "length": 0.32249027490615845,
+        "deform": true
+      },
+      {
+        "name": "TailMid",
+        "parent": "TailBase",
+        "length": 0.331360787153244,
+        "deform": true
+      },
+      {
+        "name": "TailTip",
+        "parent": "TailMid",
+        "length": 0.29144638776779175,
+        "deform": true
+      },
+      {
+        "name": "ForeLUpper",
+        "parent": "Body",
+        "length": 0.13874436914920807,
+        "deform": true
+      },
+      {
+        "name": "ForeLLower",
+        "parent": "ForeLUpper",
+        "length": 0.10380751639604568,
+        "deform": true
+      },
+      {
+        "name": "ForeLFoot",
+        "parent": "ForeLLower",
+        "length": 0.08306621015071869,
+        "deform": true
+      },
+      {
+        "name": "ForeRUpper",
+        "parent": "Body",
+        "length": 0.20254629850387573,
+        "deform": true
+      },
+      {
+        "name": "ForeRLower",
+        "parent": "ForeRUpper",
+        "length": 0.14765164256095886,
+        "deform": true
+      },
+      {
+        "name": "ForeRFoot",
+        "parent": "ForeRLower",
+        "length": 0.0923309177160263,
+        "deform": true
+      },
+      {
+        "name": "HindLUpper",
+        "parent": "Body",
+        "length": 0.19377824664115906,
+        "deform": true
+      },
+      {
+        "name": "HindLLower",
+        "parent": "HindLUpper",
+        "length": 0.10302426666021347,
+        "deform": true
+      },
+      {
+        "name": "HindLFoot",
+        "parent": "HindLLower",
+        "length": 0.0631585419178009,
+        "deform": true
+      },
+      {
+        "name": "HindRUpper",
+        "parent": "Body",
+        "length": 0.26518863439559937,
+        "deform": true
+      },
+      {
+        "name": "HindRLower",
+        "parent": "HindRUpper",
+        "length": 0.1102224811911583,
+        "deform": true
+      },
+      {
+        "name": "HindRFoot",
+        "parent": "HindRLower",
+        "length": 0.09663847833871841,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "CrocV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-b80faf2b7f1ceefa8acbf0ef",
+  "sceneRevision": 7104,
+  "inputPositionsSha256": "632f3e79ed3e8230b0e97d4750cc2a31b488ba71dc209d94c7b23d54f9a3d2b6",
+  "anatomySha256": "96502bef3a2ac804e5c47dd93253bc582371f1071391b11c1b382158f2a9a884",
+  "limbLength": {
+    "maxRelativeError": 1.278193825279154e-06,
+    "limit": 0.005,
+    "passed": true
+  },
+  "idleFeet": [
+    {
+      "object": "CrocV1Rig",
+      "bone": "ForeLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.0015,
+      "passed": true
+    },
+    {
+      "object": "CrocV1Rig",
+      "bone": "ForeRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.0015,
+      "passed": true
+    },
+    {
+      "object": "CrocV1Rig",
+      "bone": "HindLFoot",
+      "maxDrift": 0.0,
+      "limit": 0.0015,
+      "passed": true
+    },
+    {
+      "object": "CrocV1Rig",
+      "bone": "HindRFoot",
+      "maxDrift": 0.0,
+      "limit": 0.0015,
+      "passed": true
+    }
+  ],
+  "animationSnapshotId": "snapshot-42559d2e29e0390dbf4b11a8",
+  "weightAlgorithmSha256": "92be519470eb4358b85213d6b77a7e00976064e476f938fba836fea2a694715a",
+  "appliedWeightsSha256": "812142679f2145d632b2b72956db3e398eba39803338b0411dcc6f807a012746"
+}

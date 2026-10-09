@@ -243,7 +243,9 @@
         "name": "จระเข้บึง",
         "level": 13,
         "role": "melee",
-        "status": "planned"
+        "status": "animated model integrated; review passed",
+        "candidate": "croc.glb",
+        "runtime": "/models/monsters/croc.glb"
       },
       {
         "id": "python",

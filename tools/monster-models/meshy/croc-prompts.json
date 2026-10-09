@@ -1,0 +1,13 @@
+{
+  "mode": "imagegen built-in",
+  "useCase": "stylized-concept",
+  "selectedReference": "references/croc-anatomy-v2.png",
+  "inputReference": "references/croc.png",
+  "selectedPrompt": "Precise anatomy and camera edit of the SAME single stylized Thai freshwater crocodile. Keep olive-jade and muted ochre broad colour regions, creamy underside, small amber eyes, low broad snout, soft stylized game sculpt, dorsal scutes and one long tapering tail. CRITICAL: EXACTLY FOUR LEGS AND EXACTLY FOUR FEET. Each hindleg must be ONE UNBRANCHED limb, hip -> knee -> ankle -> ONE foot. No forked limbs, no two feet on one leg, no additional paw-like tips at elbows or knees, no five/six legs. Show exactly two front legs beside shoulder and two hindlegs beside pelvis. Each of the FOUR feet must be fully visible and widely separated from the other three. Both hindfeet point gently forward toward head, never backward toward tail. Avoid foot overlaps. Change camera to HIGH THREE-QUARTER TOP/FRONT, approximately 60 degree elevation and 30 degree azimuth, so all four attachments and all four full feet are visible simultaneously and can be counted; still reveal head, face and depth as a real volumetric sculpture. Symmetrical neutral sprawled crocodilian stance, belly slightly above feet. Forefeet have 5 natural short toes, hindfeet4, only inner3toes with blunt short claws. Broad soft large scutes, no photographic pores or tiny skinnoise. Whole creature tail and allfourfeet entirely in frame, generous blank background around silhouette, one individual only. Uniform lightgrey studio background, no ground plane/pedestal/vegetation, soft bright even light, almost no castshadow, no text/numbers/diagram/watermark. This is an image-to-3D model reference: make limb COUNT and unbranched connectivity absolutely unambiguous.",
+  "rejectedTask": {
+    "taskId": "01a11f4e-0eb8-7079-964a-a3f7bafa16a8",
+    "credits": 35,
+    "reason": "Generated geometry had two front feet and duplicated rear foot ends on both sides. Rejected before binding or runtime publication.",
+    "staticSha256": "8b79ce239c39d76d7634916dc9637c2a2a89d4beb10d32cc5d69e7a921941587"
+  }
+}

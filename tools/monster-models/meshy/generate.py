@@ -33,7 +33,7 @@ def request(path, body=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom'])
+    parser.add_argument('creature', choices=['boar', 'fowl', 'crab', 'cobra', 'monkey', 'dhole', 'phibpa', 'buffalo', 'kongkoi', 'monitor', 'pray', 'khamot', 'winyan', 'takian', 'headless', 'pret', 'krahang', 'krasue', 'phitaihong', 'soldier', 'pusom', 'croc'])
     action = parser.add_mutually_exclusive_group(required=True)
     action.add_argument('--submit', action='store_true')
     action.add_argument('--collect', action='store_true')
@@ -51,8 +51,14 @@ def main():
             raise RuntimeError('Task already exists; collect it instead of spending credits again.')
         reference = DEST / 'references' / (name + ('-' + args.variant if args.variant else '') + '.png')
         parameters = json.loads((DEST / 'parameters.json').read_text())
+        submitted_parameters = parameters.copy()
+        if name == 'croc':
+            balance = request('balance')['balance']
+            if balance < 35:
+                raise RuntimeError('At least 35 Meshy credits required for this 2K geometry/texture candidate.')
         parameters['image_url'] = 'data:image/png;base64,' + base64.b64encode(reference.read_bytes()).decode()
         intent_path.write_text(json.dumps({'referenceSha256': hashlib.sha256(reference.read_bytes()).hexdigest(),
+                                            'parameters': submitted_parameters,
                                             'note': 'If POST outcome is unknown, recover the task from Meshy history. Do not resubmit.'}, indent=2))
         task = request('image-to-3d', parameters)
         job_path.write_text(json.dumps(task, indent=2))
@@ -70,10 +76,11 @@ def main():
     if not output.exists():
         with urllib.request.urlopen(task['model_urls']['glb'], timeout=120) as response:
             output.write_bytes(response.read())
+    intent = json.loads((tmp / 'submit-intent.json').read_text())
     info = {
         'provider': 'Meshy', 'endpoint': 'image-to-3d', 'taskId': task_id,
         'status': task['status'], 'credits': task.get('consumed_credits'),
-        'parameters': json.loads((DEST / 'parameters.json').read_text()),
+        'parameters': intent.get('parameters', json.loads((DEST / 'parameters.json').read_text())),
         'reference': 'references/' + name + ('-' + args.variant if args.variant else '') + '.png',
         'referenceSha256': hashlib.sha256((DEST / 'references' / (name + ('-' + args.variant if args.variant else '') + '.png')).read_bytes()).hexdigest(),
         'originalSha256': hashlib.sha256(output.read_bytes()).hexdigest(),

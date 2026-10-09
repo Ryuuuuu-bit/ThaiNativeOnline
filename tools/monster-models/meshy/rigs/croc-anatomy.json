@@ -1,0 +1,31 @@
+{
+  "coordinateSystem": "Blender metres: +Z up, -Y forward; fitted to selected anatomy-v2 source",
+  "bones": [
+    {"name":"Root","head":[0,0,0],"tail":[0,0,0.1],"parent":null,"deform":false,"connected":false},
+    {"name":"Body","head":[0,-0.08,0.15],"tail":[0,-0.48,0.21],"parent":"Root","deform":true,"connected":false},
+    {"name":"Neck","head":[0,-0.48,0.21],"tail":[0,-0.66,0.25],"parent":"Body","deform":true,"connected":false},
+    {"name":"Head","head":[0,-0.66,0.25],"tail":[0,-0.94,0.235],"parent":"Neck","deform":true,"connected":false},
+    {"name":"Jaw","head":[0,-0.675,0.213],"tail":[0,-0.92,0.18],"parent":"Head","deform":true,"connected":false},
+    {"name":"TailBase","head":[0,0,0.115],"tail":[0,0.32,0.075],"parent":"Body","deform":true,"connected":false},
+    {"name":"TailMid","head":[0,0.32,0.075],"tail":[0,0.65,0.045],"parent":"TailBase","deform":true,"connected":true},
+    {"name":"TailTip","head":[0,0.65,0.045],"tail":[0,0.94,0.016],"parent":"TailMid","deform":true,"connected":true},
+    {"name":"ForeLUpper","head":[-0.115,-0.50,0.185],"tail":[-0.23,-0.48,0.11],"parent":"Body","deform":true,"connected":false},
+    {"name":"ForeLLower","head":[-0.23,-0.48,0.11],"tail":[-0.25,-0.55,0.036],"parent":"ForeLUpper","deform":true,"connected":true},
+    {"name":"ForeLFoot","head":[-0.25,-0.55,0.036],"tail":[-0.24,-0.63,0.016],"parent":"ForeLLower","deform":true,"connected":true},
+    {"name":"ForeRUpper","head":[0.12,-0.49,0.18],"tail":[0.275,-0.38,0.11],"parent":"Body","deform":true,"connected":false},
+    {"name":"ForeRLower","head":[0.275,-0.38,0.11],"tail":[0.34,-0.49,0.036],"parent":"ForeRUpper","deform":true,"connected":true},
+    {"name":"ForeRFoot","head":[0.34,-0.49,0.036],"tail":[0.345,-0.58,0.016],"parent":"ForeRLower","deform":true,"connected":true},
+    {"name":"HindLUpper","head":[-0.125,-0.17,0.15],"tail":[-0.28,-0.065,0.10],"parent":"Body","deform":true,"connected":false},
+    {"name":"HindLLower","head":[-0.28,-0.065,0.10],"tail":[-0.35,-0.10,0.033],"parent":"HindLUpper","deform":true,"connected":true},
+    {"name":"HindLFoot","head":[-0.35,-0.10,0.033],"tail":[-0.34,-0.16,0.016],"parent":"HindLLower","deform":true,"connected":true},
+    {"name":"HindRUpper","head":[0.125,-0.135,0.15],"tail":[0.30,0.055,0.09],"parent":"Body","deform":true,"connected":false},
+    {"name":"HindRLower","head":[0.30,0.055,0.09],"tail":[0.35,-0.025,0.033],"parent":"HindRUpper","deform":true,"connected":true},
+    {"name":"HindRFoot","head":[0.35,-0.025,0.033],"tail":[0.345,-0.12,0.016],"parent":"HindRLower","deform":true,"connected":true}
+  ],
+  "legs": [
+    {"name":"ForeL","hip":[-0.115,-0.50,0.185],"knee":[-0.23,-0.48,0.11],"joint":[-0.25,-0.55,0.036],"toe":[-0.24,-0.63,0.016],"pole":[-0.58,-0.30,0.15],"phase":0},
+    {"name":"ForeR","hip":[0.12,-0.49,0.18],"knee":[0.275,-0.38,0.11],"joint":[0.34,-0.49,0.036],"toe":[0.345,-0.58,0.016],"pole":[0.60,-0.25,0.15],"phase":0.5},
+    {"name":"HindL","hip":[-0.125,-0.17,0.15],"knee":[-0.28,-0.065,0.10],"joint":[-0.35,-0.10,0.033],"toe":[-0.34,-0.16,0.016],"pole":[-0.65,0.15,0.12],"phase":0.5},
+    {"name":"HindR","hip":[0.125,-0.135,0.15],"knee":[0.30,0.055,0.09],"joint":[0.35,-0.025,0.033],"toe":[0.345,-0.12,0.016],"pole":[0.65,0.20,0.12],"phase":0}
+  ]
+}

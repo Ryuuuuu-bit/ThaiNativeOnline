@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import * as THREE from 'three';
 import { gltfLoader } from '../src/core/gltf.js';
 
-const TYPES = ['kongkoi', 'pray', 'winyan', 'takian', 'headless','pret','krahang','krasue','phitaihong','soldier','pusom'];
+const TYPES = ['kongkoi', 'pray', 'winyan', 'takian', 'headless','pret','krahang','krasue','phitaihong','soldier','pusom','croc'];
 const CLIPS = ['attack', 'die', 'hurt', 'idle', 'walk'];
 const SAMPLE_HZ = 24;
 // Metres in the exported glTF scene, after node transforms. A whole centimetre

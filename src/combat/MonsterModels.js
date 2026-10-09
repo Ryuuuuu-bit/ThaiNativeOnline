@@ -20,6 +20,7 @@ export const MONSTER_MODELS = {
   phibpa: { url: '/models/monsters/phibpa.glb', height: 1.8, lift: .12 },
   kongkoi: { url: '/models/monsters/kongkoi.glb', height: 1.55 },
   monitor: { url: '/models/monsters/monitor.glb', height: .8 },
+  croc: { url: '/models/monsters/croc.glb', height: .6 / 1.3 },
   khamot: { url: '/models/monsters/khamot.glb', height: .85, lift: .3, deathDim: .7 },
   winyan: { url: '/models/monsters/winyan.glb', height: 1.85, lift: .14 },
   takian: { url: '/models/monsters/takian.glb', height: 2.5 },

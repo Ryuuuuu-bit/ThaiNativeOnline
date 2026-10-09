@@ -1,0 +1,193 @@
+{
+  "passed": true,
+  "scope": "Decode all 240 constant-24fps frames and exact indexed projected-envelope witnesses; no realtime wall-clock alignment",
+  "modelSha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+  "video": {
+    "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\croc-five-clips.webm",
+    "bytes": 2058063,
+    "sha256": "bbd57f78d6bc00eaedcc96a9680e215c2ada5ae7852ab9e860435ca21737bbce",
+    "frames": 240,
+    "seconds": 10,
+    "codec": "VP8",
+    "source": "240 original canvas PNG frames; no scaling, painting or substituted imagery"
+  },
+  "assets": [
+    {
+      "path": "public/models/monsters/croc.glb",
+      "bytes": 1385112,
+      "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55"
+    },
+    {
+      "path": "tools/monster-models/meshy/croc-animated.json",
+      "bytes": 236,
+      "sha256": "4c3dbd3d8a420491f772130e35b4a838e1104e1a6d44fa276bc414997067e700"
+    },
+    {
+      "path": "src/combat/MonsterModels.js",
+      "bytes": 5743,
+      "sha256": "cbc6b8161ace5e748b06b39f769fb207ebe908920fcd4778212b19bf3d85e4d8"
+    },
+    {
+      "path": "src/combat/data/monsters.js",
+      "bytes": 11133,
+      "sha256": "aec7632c0240bad79ca446d1f178be7a6f000d972bd440ee18f398c4db2f0216"
+    },
+    {
+      "path": "src/core/gltf.js",
+      "bytes": 655,
+      "sha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+    },
+    {
+      "path": "tools/monster-models/meshy/motion.js",
+      "bytes": 13989,
+      "sha256": "ab4b4048e25487f75b840128e5e02d5d43f7f755a44a4c8f4c2b8f5e413498d4"
+    },
+    {
+      "path": "tools/monster-models/meshy/motion.html",
+      "bytes": 2116,
+      "sha256": "bc65f06bf2e42a13f3f6c3d34fc44e3dc1316eba75443f6fe678e949e79b0f6a"
+    },
+    {
+      "path": "tools/monster-models/meshy/review.css",
+      "bytes": 2324,
+      "sha256": "04fede1ed4980befc02d23a94dfdc572e6425dae261fa2a598dc13bc72f69d85"
+    },
+    {
+      "path": "artifacts/meshy-rig-05/klong/qa-video-export.cjs",
+      "bytes": 8458,
+      "sha256": "06d0350a8102248baf440a112564accb3de93114d4cd29f0c65dda351977adb0"
+    }
+  ],
+  "metadata": {
+    "ffmpeg_version": "7.1-essentials_build-www.gyan.dev built with gcc 14.2.0 (Rev1, Built by MSYS2 project)",
+    "codec": "vp8,",
+    "pix_fmt": "yuv420p(tv, progressive)",
+    "fps": 24.0,
+    "source_size": [
+      1388,
+      580
+    ],
+    "size": [
+      1388,
+      580
+    ],
+    "rotate": 0,
+    "duration": 10.0
+  },
+  "decodedFrameCount": 240,
+  "decoded": [
+    {
+      "label": "first",
+      "sourceFrame": {
+        "clip": "idle",
+        "frame": 0,
+        "index": 0,
+        "videoTime": 0,
+        "nativeSeconds": 0,
+        "width": 1388,
+        "height": 580,
+        "vertices": 14785,
+        "extent": 0.7590707355332582,
+        "pngSha256": "02a9de188c8a8f983d8923236c92d92345e52821c2a58db1829a2ee732b21eb5"
+      },
+      "image": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\verified-decode\\first.png",
+      "imageSha256": "705009dff4f59c466f7545d5e9427a6567ec0aab7334c90195a45abddad7fc30"
+    },
+    {
+      "label": "idle-extreme",
+      "sourceFrame": {
+        "clip": "idle",
+        "frame": 18,
+        "index": 18,
+        "videoTime": 0.75,
+        "nativeSeconds": 0.75,
+        "width": 1388,
+        "height": 580,
+        "vertices": 14785,
+        "extent": 0.7593286350360888,
+        "pngSha256": "5779725d7baa13a4dd93361df8b24192c4241fa43024280c092ae69b2a9dcd84"
+      },
+      "image": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\verified-decode\\idle-extreme.png",
+      "imageSha256": "3a70e8c91066f1bc5557893dae160c87c6d77f3826d2de4936ab54360b013ee7"
+    },
+    {
+      "label": "walk-extreme",
+      "sourceFrame": {
+        "clip": "walk",
+        "frame": 7,
+        "index": 55,
+        "videoTime": 2.2916666666666665,
+        "nativeSeconds": 0.2916666666666667,
+        "width": 1388,
+        "height": 580,
+        "vertices": 14785,
+        "extent": 0.759518730534306,
+        "pngSha256": "5ce2b4697b0970dc7bd0853d4f4d94847edd5f56c494513c9d070974b5b47a73"
+      },
+      "image": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\verified-decode\\walk-extreme.png",
+      "imageSha256": "9a33337bda98292bad0a9d9b791007b1557eb9fca5046527431483656876ab03"
+    },
+    {
+      "label": "attack-extreme",
+      "sourceFrame": {
+        "clip": "attack",
+        "frame": 19,
+        "index": 115,
+        "videoTime": 4.791666666666667,
+        "nativeSeconds": 0.7916666666666666,
+        "width": 1388,
+        "height": 580,
+        "vertices": 14785,
+        "extent": 0.7595274206795747,
+        "pngSha256": "10f7825f62202a23aec9aa03ab0767d8eb87b921f43da0844b002ee7873a9492"
+      },
+      "image": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\verified-decode\\attack-extreme.png",
+      "imageSha256": "baec9761ce6f52f758c3804d7e5c5d9bb4c3d80caebba6df519a9962b51b1b9f"
+    },
+    {
+      "label": "hurt-extreme",
+      "sourceFrame": {
+        "clip": "hurt",
+        "frame": 19,
+        "index": 163,
+        "videoTime": 6.791666666666667,
+        "nativeSeconds": 0.7916666666666666,
+        "width": 1388,
+        "height": 580,
+        "vertices": 14785,
+        "extent": 0.7592864600360918,
+        "pngSha256": "e2f016628525d1d7914af47ccec5d8c41cbbbf21627d9995b4f8b417617842e3"
+      },
+      "image": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\verified-decode\\hurt-extreme.png",
+      "imageSha256": "c7abd398017793123a893f39373706f8497fc0d96ba9a4d564e02bfa534ec150"
+    },
+    {
+      "label": "die-extreme",
+      "sourceFrame": {
+        "clip": "die",
+        "frame": 16,
+        "index": 208,
+        "videoTime": 8.666666666666666,
+        "nativeSeconds": 0.6666666666666666,
+        "width": 1388,
+        "height": 580,
+        "vertices": 14785,
+        "extent": 0.7594607540431886,
+        "pngSha256": "3abf622defd4eda0a2044f15c574cf95e47192e8bbed0bec2ecdd63632288e35"
+      },
+      "image": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\verified-decode\\die-extreme.png",
+      "imageSha256": "47aefb9edebc929606e80f428b3765f59c43e512119130480eebb697d0b4cf10"
+    }
+  ],
+  "priorExportReport": "artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\video-export\\2026-10-09T07-22-11.613Z\\report.json",
+  "priorFailuresPreserved": [
+    "Error: Decoded frame mismatch\n    at run (D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa-video-export.cjs:44:155)"
+  ],
+  "priorConsoleErrorsPreserved": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "limits": [
+    "Original browser seeking/auxiliary 404 check did not pass; independent FFmpeg full decode is this acceptance evidence",
+    "Clip transitions use native controller; no gameplay timing or hardware-performance acceptance"
+  ]
+}

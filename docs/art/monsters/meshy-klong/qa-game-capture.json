@@ -1,0 +1,1641 @@
+{
+  "scope": "At most two actual CH1 Klong Croc desktop/mobile screenshots of the same ID; capture/identity evidence only",
+  "acceptance": false,
+  "startupURL": "http://127.0.0.1:5186/?map=klong&at=-40,-612",
+  "setup": "Unmodified existing guest fixture in a disposable context; normal simulation, server clock, damage and animation continue; native camera only",
+  "arrivalReference": {
+    "map": "klong",
+    "x": -40,
+    "z": -612,
+    "source": "src/world/maps.js:138"
+  },
+  "bankReference": {
+    "id": "croc_bank",
+    "x": -62,
+    "z": -676,
+    "radius": 10,
+    "source": "src/data/spawns.js:79",
+    "attribution": "Current source Croc site; actual server identity is proven by type + sid in mlist/mspawn. Packets do not expose a spawn-site ID."
+  },
+  "budgetSeconds": 30,
+  "errors": [],
+  "failures": [],
+  "untested": [
+    {
+      "check": "natural player-adjacent Croc combat",
+      "reason": "No captured natural in-range Croc/guest interaction backed by server ma/mh; no movement or combat forced"
+    },
+    {
+      "check": "terrain clearance across all clips/slopes",
+      "reason": "Only current natural pose terrain samples and screenshot context recorded; no comprehensive uneven-terrain audit or tolerance changes"
+    }
+  ],
+  "observed": [
+    {
+      "sid": 171,
+      "monsterId": "s171",
+      "hp": 1500,
+      "x": -59.83,
+      "z": -670.48,
+      "playerDistance": 61.75062185921695
+    },
+    {
+      "sid": 170,
+      "monsterId": "s170",
+      "hp": 1500,
+      "x": -65.29198499263552,
+      "z": -673.2988682560616,
+      "playerDistance": 66.31165624791541
+    },
+    {
+      "sid": 172,
+      "monsterId": "s172",
+      "hp": 1500,
+      "x": -65.87,
+      "z": -675.48,
+      "playerDistance": 68.54901385140418
+    },
+    {
+      "sid": 173,
+      "monsterId": "s173",
+      "hp": 1500,
+      "x": -63.59,
+      "z": -676.48,
+      "playerDistance": 68.65972982760712
+    },
+    {
+      "sid": 174,
+      "monsterId": "s174",
+      "hp": 1500,
+      "x": -70.19,
+      "z": -674.14,
+      "playerDistance": 69.08556795742508
+    },
+    {
+      "sid": 175,
+      "monsterId": "s175",
+      "hp": 1500,
+      "x": -61.02311768487937,
+      "z": -686.2937674751578,
+      "playerDistance": 77.21097954854024
+    }
+  ],
+  "captureAttempts": [
+    {
+      "type": "croc",
+      "sid": 171,
+      "monsterId": "s171",
+      "alive": true,
+      "hp": 1500,
+      "state": "idle",
+      "moving": true,
+      "position": {
+        "x": -58.23254847909449,
+        "z": -671.0100960203903,
+        "facing": -1.37
+      },
+      "terrainHeightMetres": -0.1528283433149096,
+      "map": "klong",
+      "remote": true,
+      "serverDrivenClock": {
+        "hour": 10.325583333333332,
+        "phase": "day",
+        "paused": false
+      },
+      "camera": {
+        "native": true,
+        "zoom": 2.4,
+        "focus": [
+          -59.375116594794015,
+          -0.1391259985903222,
+          -670.6309478564361
+        ],
+        "position": [
+          -44.375116594794015,
+          22.860874001409677,
+          -648.6309478564361
+        ],
+        "frames": 3
+      },
+      "terrain": {
+        "scope": "Current natural pose CPU surface samples only; no multi-clip/slope acceptance",
+        "lowestClearanceMetres": -0.00566426772023626,
+        "minimumTerrainMetres": -0.1642601261257385,
+        "maximumTerrainMetres": -0.1443978113591688,
+        "terrainHeightRangeMetres": 0.019862314766569716
+      },
+      "combatProximity": {
+        "distanceMetres": 61.76258783744583,
+        "attackRangeMetres": 1.6,
+        "playerAdjacent": false,
+        "naturalState": "idle"
+      },
+      "projection": {
+        "vertices": 14785,
+        "maximumProjectedExtent": 0.6889890758799985,
+        "inside": true,
+        "sceneAttached": true,
+        "visible": true
+      },
+      "player": {
+        "position": [
+          -40,
+          0.3383718729019165,
+          -612
+        ],
+        "hp": 173,
+        "alive": true
+      },
+      "modelLoaded": true,
+      "meshCount": 1,
+      "textures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "neighbours": [
+        {
+          "sid": 170,
+          "monsterId": "s170",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 170,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.46,
+              "z": -673.49,
+              "facing": 0.72
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -64.92,
+              "z": -671.55,
+              "facing": 1.77,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 172,
+          "monsterId": "s172",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 172,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.87,
+              "z": -675.48,
+              "facing": -2.76
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -69.22,
+              "z": -674.98,
+              "facing": 0.55,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 173,
+          "monsterId": "s173",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 173,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -63.59,
+              "z": -676.48,
+              "facing": 1.88
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -63.31,
+              "z": -677.9,
+              "facing": -1.98,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 174,
+          "monsterId": "s174",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 174,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -70.19,
+              "z": -674.14,
+              "facing": -0.5
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -68.81,
+              "z": -673.16,
+              "facing": 0.58,
+              "hp": 1500,
+              "state": 1,
+              "moving": 0,
+              "receivedAt": 1791529833875
+            }
+          }
+        },
+        {
+          "sid": 175,
+          "monsterId": "s175",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 175,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -60.81,
+              "z": -686.15,
+              "facing": -2.15
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -57.9,
+              "z": -684.71,
+              "facing": 2.75,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        }
+      ],
+      "authoritativeObservation": {
+        "sid": 171,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -59.83,
+          "z": -670.48,
+          "facing": 2.97
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -57.92,
+          "z": -671.11,
+          "facing": 1.89,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529823050
+        }
+      },
+      "viewport": "desktop",
+      "requestedAt": "2026-10-09T07:10:26.827Z",
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\game-capture\\2026-10-09T07-10-11.513Z\\croc-actual-ch1.png",
+      "status": "requested; completion requires screenshot hash and post-capture pins"
+    },
+    {
+      "type": "croc",
+      "sid": 171,
+      "monsterId": "s171",
+      "alive": true,
+      "hp": 1500,
+      "state": "idle",
+      "moving": false,
+      "position": {
+        "x": -59.73569842546516,
+        "z": -670.7870384791347,
+        "facing": -1.37
+      },
+      "terrainHeightMetres": -0.1608708719915923,
+      "map": "klong",
+      "remote": true,
+      "serverDrivenClock": {
+        "hour": 10.45208333333333,
+        "phase": "day",
+        "paused": false
+      },
+      "camera": {
+        "native": true,
+        "zoom": 2.4,
+        "focus": [
+          -59.17904447189717,
+          -0.10757498501700008,
+          -670.8245898312936
+        ],
+        "position": [
+          -44.17904447189717,
+          22.892425014983,
+          -648.8245898312936
+        ],
+        "frames": 10
+      },
+      "terrain": {
+        "scope": "Current natural pose CPU surface samples only; no multi-clip/slope acceptance",
+        "lowestClearanceMetres": -0.0017779415066454807,
+        "minimumTerrainMetres": -0.17245982972201684,
+        "maximumTerrainMetres": -0.15272026303283973,
+        "terrainHeightRangeMetres": 0.019739566689177118
+      },
+      "combatProximity": {
+        "distanceMetres": 62.01139964142216,
+        "attackRangeMetres": 1.6,
+        "playerAdjacent": false,
+        "naturalState": "idle"
+      },
+      "projection": {
+        "vertices": 14785,
+        "maximumProjectedExtent": 0.8610896721843194,
+        "inside": true,
+        "sceneAttached": true,
+        "visible": true
+      },
+      "player": {
+        "position": [
+          -40,
+          0.3383718729019165,
+          -612
+        ],
+        "hp": 173,
+        "alive": true
+      },
+      "modelLoaded": true,
+      "meshCount": 1,
+      "textures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "neighbours": [
+        {
+          "sid": 170,
+          "monsterId": "s170",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 170,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.46,
+              "z": -673.49,
+              "facing": 0.72
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -64.92,
+              "z": -671.55,
+              "facing": 1.77,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 172,
+          "monsterId": "s172",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 172,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.87,
+              "z": -675.48,
+              "facing": -2.76
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -69.22,
+              "z": -674.98,
+              "facing": 0.55,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 173,
+          "monsterId": "s173",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 173,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -63.59,
+              "z": -676.48,
+              "facing": 1.88
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -63.31,
+              "z": -677.9,
+              "facing": -1.98,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 174,
+          "monsterId": "s174",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 174,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -70.19,
+              "z": -674.14,
+              "facing": -0.5
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -68.81,
+              "z": -673.16,
+              "facing": 0.58,
+              "hp": 1500,
+              "state": 1,
+              "moving": 0,
+              "receivedAt": 1791529833875
+            }
+          }
+        },
+        {
+          "sid": 175,
+          "monsterId": "s175",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 175,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -60.81,
+              "z": -686.15,
+              "facing": -2.15
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -57.9,
+              "z": -684.71,
+              "facing": 2.75,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        }
+      ],
+      "authoritativeObservation": {
+        "sid": 171,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -59.83,
+          "z": -670.48,
+          "facing": 2.97
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -57.92,
+          "z": -671.11,
+          "facing": 1.89,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529823050
+        }
+      },
+      "viewport": "mobile",
+      "requestedAt": "2026-10-09T07:10:31.075Z",
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\game-capture\\2026-10-09T07-10-11.513Z\\croc-actual-ch1-mobile.png",
+      "status": "requested; completion requires screenshot hash and post-capture pins"
+    }
+  ],
+  "captures": [
+    {
+      "type": "croc",
+      "sid": 171,
+      "monsterId": "s171",
+      "alive": true,
+      "hp": 1500,
+      "state": "idle",
+      "moving": true,
+      "position": {
+        "x": -58.23254847909449,
+        "z": -671.0100960203903,
+        "facing": -1.37
+      },
+      "terrainHeightMetres": -0.1528283433149096,
+      "map": "klong",
+      "remote": true,
+      "serverDrivenClock": {
+        "hour": 10.325583333333332,
+        "phase": "day",
+        "paused": false
+      },
+      "camera": {
+        "native": true,
+        "zoom": 2.4,
+        "focus": [
+          -59.375116594794015,
+          -0.1391259985903222,
+          -670.6309478564361
+        ],
+        "position": [
+          -44.375116594794015,
+          22.860874001409677,
+          -648.6309478564361
+        ],
+        "frames": 3
+      },
+      "terrain": {
+        "scope": "Current natural pose CPU surface samples only; no multi-clip/slope acceptance",
+        "lowestClearanceMetres": -0.00566426772023626,
+        "minimumTerrainMetres": -0.1642601261257385,
+        "maximumTerrainMetres": -0.1443978113591688,
+        "terrainHeightRangeMetres": 0.019862314766569716
+      },
+      "combatProximity": {
+        "distanceMetres": 61.76258783744583,
+        "attackRangeMetres": 1.6,
+        "playerAdjacent": false,
+        "naturalState": "idle"
+      },
+      "projection": {
+        "vertices": 14785,
+        "maximumProjectedExtent": 0.6889890758799985,
+        "inside": true,
+        "sceneAttached": true,
+        "visible": true
+      },
+      "player": {
+        "position": [
+          -40,
+          0.3383718729019165,
+          -612
+        ],
+        "hp": 173,
+        "alive": true
+      },
+      "modelLoaded": true,
+      "meshCount": 1,
+      "textures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "neighbours": [
+        {
+          "sid": 170,
+          "monsterId": "s170",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 170,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.46,
+              "z": -673.49,
+              "facing": 0.72
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -64.92,
+              "z": -671.55,
+              "facing": 1.77,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 172,
+          "monsterId": "s172",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 172,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.87,
+              "z": -675.48,
+              "facing": -2.76
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -69.22,
+              "z": -674.98,
+              "facing": 0.55,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 173,
+          "monsterId": "s173",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 173,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -63.59,
+              "z": -676.48,
+              "facing": 1.88
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -63.31,
+              "z": -677.9,
+              "facing": -1.98,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 174,
+          "monsterId": "s174",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 174,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -70.19,
+              "z": -674.14,
+              "facing": -0.5
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -68.81,
+              "z": -673.16,
+              "facing": 0.58,
+              "hp": 1500,
+              "state": 1,
+              "moving": 0,
+              "receivedAt": 1791529833875
+            }
+          }
+        },
+        {
+          "sid": 175,
+          "monsterId": "s175",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 175,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -60.81,
+              "z": -686.15,
+              "facing": -2.15
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -57.9,
+              "z": -684.71,
+              "facing": 2.75,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        }
+      ],
+      "authoritativeObservation": {
+        "sid": 171,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -59.83,
+          "z": -670.48,
+          "facing": 2.97
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -57.92,
+          "z": -671.11,
+          "facing": 1.89,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529823050
+        }
+      },
+      "viewport": "desktop",
+      "mobileMethod": null,
+      "combat": {
+        "status": "untested; natural adjacent combat not observed",
+        "naturalCombatPackets": []
+      },
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\game-capture\\2026-10-09T07-10-11.513Z\\croc-actual-ch1.png",
+      "imageSha256": "88b15e99ec12b96fa74b8adb1c4644a7e23469b7e0c03bec18d52b2af670a675",
+      "runtimeAssetSha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+      "serverClockPacket": {
+        "hour": 10.447,
+        "receivedAt": 1791529826828
+      },
+      "completedAt": "2026-10-09T07:10:29.691Z",
+      "evidence": "Actual mlist/mspawn instance under natural clock/terrain; camera only; no acceptance"
+    },
+    {
+      "type": "croc",
+      "sid": 171,
+      "monsterId": "s171",
+      "alive": true,
+      "hp": 1500,
+      "state": "idle",
+      "moving": false,
+      "position": {
+        "x": -59.73569842546516,
+        "z": -670.7870384791347,
+        "facing": -1.37
+      },
+      "terrainHeightMetres": -0.1608708719915923,
+      "map": "klong",
+      "remote": true,
+      "serverDrivenClock": {
+        "hour": 10.45208333333333,
+        "phase": "day",
+        "paused": false
+      },
+      "camera": {
+        "native": true,
+        "zoom": 2.4,
+        "focus": [
+          -59.17904447189717,
+          -0.10757498501700008,
+          -670.8245898312936
+        ],
+        "position": [
+          -44.17904447189717,
+          22.892425014983,
+          -648.8245898312936
+        ],
+        "frames": 10
+      },
+      "terrain": {
+        "scope": "Current natural pose CPU surface samples only; no multi-clip/slope acceptance",
+        "lowestClearanceMetres": -0.0017779415066454807,
+        "minimumTerrainMetres": -0.17245982972201684,
+        "maximumTerrainMetres": -0.15272026303283973,
+        "terrainHeightRangeMetres": 0.019739566689177118
+      },
+      "combatProximity": {
+        "distanceMetres": 62.01139964142216,
+        "attackRangeMetres": 1.6,
+        "playerAdjacent": false,
+        "naturalState": "idle"
+      },
+      "projection": {
+        "vertices": 14785,
+        "maximumProjectedExtent": 0.8610896721843194,
+        "inside": true,
+        "sceneAttached": true,
+        "visible": true
+      },
+      "player": {
+        "position": [
+          -40,
+          0.3383718729019165,
+          -612
+        ],
+        "hp": 173,
+        "alive": true
+      },
+      "modelLoaded": true,
+      "meshCount": 1,
+      "textures": [
+        {
+          "slot": "map",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "slot": "normalMap",
+          "width": 512,
+          "height": 512
+        }
+      ],
+      "neighbours": [
+        {
+          "sid": 170,
+          "monsterId": "s170",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 170,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.46,
+              "z": -673.49,
+              "facing": 0.72
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -64.92,
+              "z": -671.55,
+              "facing": 1.77,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 172,
+          "monsterId": "s172",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 172,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -65.87,
+              "z": -675.48,
+              "facing": -2.76
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -69.22,
+              "z": -674.98,
+              "facing": 0.55,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 173,
+          "monsterId": "s173",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 173,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -63.59,
+              "z": -676.48,
+              "facing": 1.88
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -63.31,
+              "z": -677.9,
+              "facing": -1.98,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        },
+        {
+          "sid": 174,
+          "monsterId": "s174",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 174,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -70.19,
+              "z": -674.14,
+              "facing": -0.5
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -68.81,
+              "z": -673.16,
+              "facing": 0.58,
+              "hp": 1500,
+              "state": 1,
+              "moving": 0,
+              "receivedAt": 1791529833875
+            }
+          }
+        },
+        {
+          "sid": 175,
+          "monsterId": "s175",
+          "status": "passed",
+          "identities": true,
+          "independentSkeletonBonesMaterials": true,
+          "sharedGeometryTextures": true,
+          "authoritativeObservation": {
+            "sid": 175,
+            "type": "croc",
+            "source": "mlist",
+            "channel": 1,
+            "hp": 1500,
+            "serverPosition": {
+              "x": -60.81,
+              "z": -686.15,
+              "facing": -2.15
+            },
+            "receivedAt": 1791529819394,
+            "latest": {
+              "x": -57.9,
+              "z": -684.71,
+              "facing": 2.75,
+              "hp": 1500,
+              "state": 1,
+              "moving": 1,
+              "receivedAt": 1791529834805
+            }
+          }
+        }
+      ],
+      "authoritativeObservation": {
+        "sid": 171,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -59.83,
+          "z": -670.48,
+          "facing": 2.97
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -57.92,
+          "z": -671.11,
+          "facing": 1.89,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529823050
+        }
+      },
+      "viewport": "mobile",
+      "mobileMethod": "Responsive 390x844 same browser page; no device/touch performance claim",
+      "combat": {
+        "status": "untested; natural adjacent combat not observed",
+        "naturalCombatPackets": []
+      },
+      "file": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\qa\\8d62143762ab\\game-capture\\2026-10-09T07-10-11.513Z\\croc-actual-ch1-mobile.png",
+      "imageSha256": "ba77b149ff0cf8df2a23a5b6aec576ad69381ac5a78a6e48eef16e101aefef0a",
+      "runtimeAssetSha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+      "serverClockPacket": {
+        "hour": 10.447,
+        "receivedAt": 1791529826828
+      },
+      "completedAt": "2026-10-09T07:10:34.808Z",
+      "evidence": "Actual mlist/mspawn instance under natural clock/terrain; camera only; no acceptance"
+    }
+  ],
+  "assets": {
+    "files": [
+      {
+        "path": "public/models/monsters/croc.glb",
+        "bytes": 1385112,
+        "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55"
+      },
+      {
+        "path": "tools/monster-models/meshy/croc-animated.json",
+        "bytes": 236,
+        "sha256": "4c3dbd3d8a420491f772130e35b4a838e1104e1a6d44fa276bc414997067e700"
+      },
+      {
+        "path": "src/combat/MonsterModels.js",
+        "bytes": 5743,
+        "sha256": "cbc6b8161ace5e748b06b39f769fb207ebe908920fcd4778212b19bf3d85e4d8"
+      },
+      {
+        "path": "src/combat/CombatView.js",
+        "bytes": 29603,
+        "sha256": "96a119cfef221f0653374fb439144bed4a37b7c2d6404455f7e4f13eb3ae0bbb"
+      },
+      {
+        "path": "src/core/CameraController.js",
+        "bytes": 3826,
+        "sha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+      },
+      {
+        "path": "src/core/Game.js",
+        "bytes": 40684,
+        "sha256": "0cc25a7eab4b73ca7448c0800bffb51c831de59b34f1ef254610ad9ad695231c"
+      },
+      {
+        "path": "src/core/WorldClock.js",
+        "bytes": 2576,
+        "sha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+      },
+      {
+        "path": "src/core/gltf.js",
+        "bytes": 655,
+        "sha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+      },
+      {
+        "path": "src/net/NetCombat.js",
+        "bytes": 9685,
+        "sha256": "eb2203590b9ffe3470b7da43c2e3d0a667835fbe2c2123d99712698720a22792"
+      },
+      {
+        "path": "src/world/MapManager.js",
+        "bytes": 8712,
+        "sha256": "d6dc2f6c861d827275971fea1cc2807894d9cd6b21e9715970e3f2e198b3d319"
+      },
+      {
+        "path": "src/world/maps.js",
+        "bytes": 16192,
+        "sha256": "10120223f3047c3025285d54e89b09f3ec5ec8ea60defd3c9878f008b1638e4b"
+      },
+      {
+        "path": "src/data/spawns.js",
+        "bytes": 11576,
+        "sha256": "b87d808200ba9c70fd7a5a64cd4a64e87299cab5d8c8c3fc6649ac071b177dbc"
+      },
+      {
+        "path": "src/combat/data/monsters.js",
+        "bytes": 11133,
+        "sha256": "aec7632c0240bad79ca446d1f178be7a6f000d972bd440ee18f398c4db2f0216"
+      },
+      {
+        "path": "artifacts/meshy-rig-01/guest.json",
+        "bytes": 1652,
+        "sha256": "c0c28bd444814c72cf73410d4fb4a56eb7a2b0c454d2c1211b469643cfc7fb0f"
+      },
+      {
+        "path": "artifacts/meshy-rig-05/klong/qa-game.cjs",
+        "bytes": 29140,
+        "sha256": "4423f3a5e37e6381a476bb9f8a0288a1701f337c806686d32ac3d0c2ace023de"
+      }
+    ],
+    "runtimeSha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+    "metadata": {
+      "type": "croc",
+      "bytes": 1385112,
+      "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+      "triangles": 12567,
+      "bones": 20,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    }
+  },
+  "initial": {
+    "player": {
+      "position": [
+        -40,
+        0.3383718729019165,
+        -612
+      ],
+      "hp": 173,
+      "alive": true
+    },
+    "map": "klong",
+    "remote": true,
+    "guest": true,
+    "hasToken": false,
+    "clockPaused": false,
+    "hour": 10.323833333333335,
+    "monsterStyle": "3d",
+    "runtimeSpec": {
+      "url": "/models/monsters/croc.glb",
+      "height": 0.4615384615384615,
+      "outerSize": 1.3,
+      "worldTargetHeight": 0.6
+    }
+  },
+  "prepared": {
+    "sid": 171,
+    "monsterId": "s171",
+    "modelLoaded": true,
+    "meshCount": 1,
+    "textures": [
+      {
+        "slot": "map",
+        "width": 1024,
+        "height": 1024
+      },
+      {
+        "slot": "normalMap",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "neighbours": [
+      {
+        "sid": 170,
+        "monsterId": "s170",
+        "status": "passed",
+        "identities": true,
+        "independentSkeletonBonesMaterials": true,
+        "sharedGeometryTextures": true,
+        "authoritativeObservation": {
+          "sid": 170,
+          "type": "croc",
+          "source": "mlist",
+          "channel": 1,
+          "hp": 1500,
+          "serverPosition": {
+            "x": -65.46,
+            "z": -673.49,
+            "facing": 0.72
+          },
+          "receivedAt": 1791529819394,
+          "latest": {
+            "x": -64.92,
+            "z": -671.55,
+            "facing": 1.77,
+            "hp": 1500,
+            "state": 1,
+            "moving": 1,
+            "receivedAt": 1791529834805
+          }
+        }
+      },
+      {
+        "sid": 172,
+        "monsterId": "s172",
+        "status": "passed",
+        "identities": true,
+        "independentSkeletonBonesMaterials": true,
+        "sharedGeometryTextures": true,
+        "authoritativeObservation": {
+          "sid": 172,
+          "type": "croc",
+          "source": "mlist",
+          "channel": 1,
+          "hp": 1500,
+          "serverPosition": {
+            "x": -65.87,
+            "z": -675.48,
+            "facing": -2.76
+          },
+          "receivedAt": 1791529819394,
+          "latest": {
+            "x": -69.22,
+            "z": -674.98,
+            "facing": 0.55,
+            "hp": 1500,
+            "state": 1,
+            "moving": 1,
+            "receivedAt": 1791529834805
+          }
+        }
+      },
+      {
+        "sid": 173,
+        "monsterId": "s173",
+        "status": "passed",
+        "identities": true,
+        "independentSkeletonBonesMaterials": true,
+        "sharedGeometryTextures": true,
+        "authoritativeObservation": {
+          "sid": 173,
+          "type": "croc",
+          "source": "mlist",
+          "channel": 1,
+          "hp": 1500,
+          "serverPosition": {
+            "x": -63.59,
+            "z": -676.48,
+            "facing": 1.88
+          },
+          "receivedAt": 1791529819394,
+          "latest": {
+            "x": -63.31,
+            "z": -677.9,
+            "facing": -1.98,
+            "hp": 1500,
+            "state": 1,
+            "moving": 1,
+            "receivedAt": 1791529834805
+          }
+        }
+      },
+      {
+        "sid": 174,
+        "monsterId": "s174",
+        "status": "passed",
+        "identities": true,
+        "independentSkeletonBonesMaterials": true,
+        "sharedGeometryTextures": true,
+        "authoritativeObservation": {
+          "sid": 174,
+          "type": "croc",
+          "source": "mlist",
+          "channel": 1,
+          "hp": 1500,
+          "serverPosition": {
+            "x": -70.19,
+            "z": -674.14,
+            "facing": -0.5
+          },
+          "receivedAt": 1791529819394,
+          "latest": {
+            "x": -68.81,
+            "z": -673.16,
+            "facing": 0.58,
+            "hp": 1500,
+            "state": 1,
+            "moving": 0,
+            "receivedAt": 1791529833875
+          }
+        }
+      },
+      {
+        "sid": 175,
+        "monsterId": "s175",
+        "status": "passed",
+        "identities": true,
+        "independentSkeletonBonesMaterials": true,
+        "sharedGeometryTextures": true,
+        "authoritativeObservation": {
+          "sid": 175,
+          "type": "croc",
+          "source": "mlist",
+          "channel": 1,
+          "hp": 1500,
+          "serverPosition": {
+            "x": -60.81,
+            "z": -686.15,
+            "facing": -2.15
+          },
+          "receivedAt": 1791529819394,
+          "latest": {
+            "x": -57.9,
+            "z": -684.71,
+            "facing": 2.75,
+            "hp": 1500,
+            "state": 1,
+            "moving": 1,
+            "receivedAt": 1791529834805
+          }
+        }
+      }
+    ],
+    "authoritativeObservation": {
+      "sid": 171,
+      "type": "croc",
+      "source": "mlist",
+      "channel": 1,
+      "hp": 1500,
+      "serverPosition": {
+        "x": -59.83,
+        "z": -670.48,
+        "facing": 2.97
+      },
+      "receivedAt": 1791529819394,
+      "latest": {
+        "x": -57.92,
+        "z": -671.11,
+        "facing": 1.89,
+        "hp": 1500,
+        "state": 1,
+        "moving": 1,
+        "receivedAt": 1791529823050
+      }
+    }
+  },
+  "loadedAssetResponses": [
+    {
+      "url": "http://127.0.0.1:5186/models/monsters/croc.glb?v=muzslpdj",
+      "status": 200,
+      "bytes": 1385112,
+      "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+      "receivedAt": 1791529819371
+    }
+  ],
+  "preCapturePins": {
+    "diskSourceFixtureUnchanged": true,
+    "publicGLBMatchesMetadata": true,
+    "runtimeSha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+    "verifiedAt": "2026-10-09T07:10:26.818Z"
+  },
+  "final": {
+    "present": true,
+    "alive": true,
+    "map": "klong",
+    "remote": true,
+    "player": {
+      "position": [
+        -40,
+        0.3383718729019165,
+        -612
+      ],
+      "hp": 173,
+      "alive": true
+    },
+    "clock": {
+      "hour": 10.455914999999994,
+      "phase": "day"
+    }
+  },
+  "postCapturePins": {
+    "diskSourceFixtureUnchanged": true,
+    "publicGLBMatchesMetadata": true,
+    "runtimeSha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+    "verifiedAt": "2026-10-09T07:10:34.819Z"
+  },
+  "wire": {
+    "channel": 1,
+    "playerId": 12,
+    "clock": {
+      "hour": 10.447,
+      "receivedAt": 1791529826828
+    },
+    "combat": [],
+    "seen": [
+      {
+        "sid": 170,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -65.46,
+          "z": -673.49,
+          "facing": 0.72
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -64.92,
+          "z": -671.55,
+          "facing": 1.77,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529834805
+        }
+      },
+      {
+        "sid": 171,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -59.83,
+          "z": -670.48,
+          "facing": 2.97
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -58.54,
+          "z": -669.45,
+          "facing": 0.84,
+          "hp": 1500,
+          "state": 1,
+          "moving": 0,
+          "receivedAt": 1791529834202
+        }
+      },
+      {
+        "sid": 172,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -65.87,
+          "z": -675.48,
+          "facing": -2.76
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -69.22,
+          "z": -674.98,
+          "facing": 0.55,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529834805
+        }
+      },
+      {
+        "sid": 173,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -63.59,
+          "z": -676.48,
+          "facing": 1.88
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -63.31,
+          "z": -677.9,
+          "facing": -1.98,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529834805
+        }
+      },
+      {
+        "sid": 174,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -70.19,
+          "z": -674.14,
+          "facing": -0.5
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -68.81,
+          "z": -673.16,
+          "facing": 0.58,
+          "hp": 1500,
+          "state": 1,
+          "moving": 0,
+          "receivedAt": 1791529833875
+        }
+      },
+      {
+        "sid": 175,
+        "type": "croc",
+        "source": "mlist",
+        "channel": 1,
+        "hp": 1500,
+        "serverPosition": {
+          "x": -60.81,
+          "z": -686.15,
+          "facing": -2.15
+        },
+        "receivedAt": 1791529819394,
+        "latest": {
+          "x": -57.9,
+          "z": -684.71,
+          "facing": 2.75,
+          "hp": 1500,
+          "state": 1,
+          "moving": 1,
+          "receivedAt": 1791529834805
+        }
+      }
+    ],
+    "sockets": [
+      "ws://127.0.0.1:5186/ws"
+    ],
+    "listCount": 1,
+    "spawnCount": 0
+  },
+  "elapsedSeconds": 23.934,
+  "status": "bounded scene evidence recorded/incomplete; combat/terrain/other untested checks preserved"
+}

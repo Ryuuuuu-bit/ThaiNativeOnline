@@ -1,0 +1,174 @@
+{
+  "passed": true,
+  "scope": "Fresh review-only reopened packed source; no mutations",
+  "sourceSha256": "f7f8417118be095b97eaa1e14c530a8fffd6dc72f64d06357f9817459e330f0f",
+  "scene": {
+    "objects": [
+      "Camera",
+      "CrocForeLPole",
+      "CrocForeLTarget",
+      "CrocForeRPole",
+      "CrocForeRTarget",
+      "CrocHindLPole",
+      "CrocHindLTarget",
+      "CrocHindRPole",
+      "CrocHindRTarget",
+      "CrocV1Rig",
+      "CrocV1Surface",
+      "Cube",
+      "Light"
+    ],
+    "objectDetails": [
+      {
+        "name": "Camera",
+        "type": "CAMERA"
+      },
+      {
+        "name": "CrocForeLPole",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocForeLTarget",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocForeRPole",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocForeRTarget",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocHindLPole",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocHindLTarget",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocHindRPole",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocHindRTarget",
+        "type": "EMPTY"
+      },
+      {
+        "name": "CrocV1Rig",
+        "type": "ARMATURE"
+      },
+      {
+        "name": "CrocV1Surface",
+        "type": "MESH"
+      },
+      {
+        "name": "Cube",
+        "type": "MESH"
+      },
+      {
+        "name": "Light",
+        "type": "LIGHT"
+      }
+    ],
+    "collections": [
+      "Collection"
+    ],
+    "materials": [
+      "Material",
+      "Material_0"
+    ],
+    "lights": [
+      "Light"
+    ],
+    "cameras": [
+      "Camera"
+    ],
+    "summary": {
+      "objects": 13,
+      "materials": 2,
+      "lights": 1,
+      "cameras": 1
+    },
+    "frameRange": {
+      "start": 1,
+      "end": 155
+    },
+    "activeCamera": "Camera",
+    "currentFrame": 1,
+    "sceneName": "Scene",
+    "filepath": "D:\\Project\\ThaiNativeOnline\\artifacts\\meshy-rig-05\\klong\\croc-final-v3.blend",
+    "missingAssets": [],
+    "warnings": []
+  },
+  "actions": {
+    "actions": [
+      {
+        "name": "CrocForeLTargetAction",
+        "curves": 3,
+        "frameRange": [
+          1.0,
+          155.0
+        ],
+        "slots": 1,
+        "layered": true
+      },
+      {
+        "name": "CrocForeRTargetAction",
+        "curves": 3,
+        "frameRange": [
+          1.0,
+          155.0
+        ],
+        "slots": 1,
+        "layered": true
+      },
+      {
+        "name": "CrocHindLTargetAction",
+        "curves": 3,
+        "frameRange": [
+          1.0,
+          155.0
+        ],
+        "slots": 1,
+        "layered": true
+      },
+      {
+        "name": "CrocHindRTargetAction",
+        "curves": 3,
+        "frameRange": [
+          1.0,
+          155.0
+        ],
+        "slots": 1,
+        "layered": true
+      },
+      {
+        "name": "CrocV1RigAction",
+        "curves": 66,
+        "frameRange": [
+          1.0,
+          155.0
+        ],
+        "slots": 1,
+        "layered": true
+      }
+    ]
+  },
+  "expectedObjects": [
+    "CrocForeLPole",
+    "CrocForeLTarget",
+    "CrocForeRPole",
+    "CrocForeRTarget",
+    "CrocHindLPole",
+    "CrocHindLTarget",
+    "CrocHindRPole",
+    "CrocHindRTarget",
+    "CrocV1Rig",
+    "CrocV1Surface"
+  ],
+  "limitations": [
+    "rig.inspect is denied by review_only policy; skeleton/skin validation uses exported GLB and original rig receipt"
+  ]
+}

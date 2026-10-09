@@ -1,0 +1,27 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a11f57-d665-7529-b3ed-3094968d80e2",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ]
+  },
+  "reference": "references/croc-anatomy-v2.png",
+  "referenceSha256": "b8d7bf13223b207da0f00debaf5befe20a0e2afa38b5170f8799e88bcf691902",
+  "originalSha256": "6de4b782376d81a3b6a1d00adabbe0e51f35658fe634b5045a8c8420411d4cb4",
+  "originalBytes": 12427608,
+  "originalLocalPath": "artifacts/meshy-monsters/croc/anatomy-v2/original.glb"
+}
