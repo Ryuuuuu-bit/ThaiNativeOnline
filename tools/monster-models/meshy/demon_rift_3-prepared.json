@@ -1,0 +1,39 @@
+{
+  "creature": "demon_rift_3",
+  "bytes": 1441692,
+  "triangles": 12504,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.7943030297756195,
+      0,
+      -0.241362527012825
+    ],
+    "max": [
+      0.7943030297756195,
+      1.9013471007347107,
+      0.241362527012825
+    ]
+  },
+  "sha256": "6d923f15c47b1e01a42b9a8ef59b66ee127096a63d044485832bcbe4475de60a",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

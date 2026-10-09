@@ -1,0 +1,324 @@
+{
+  "type": "sunken_city_3",
+  "taxon": "serpent",
+  "rigName": "SunkenNagaBossV1Rig",
+  "surfaceName": "SunkenNagaBossV1Surface",
+  "rigId": "obj_f4bb99c5db1d4380acee442c5786e269",
+  "prefix": "SunkenNagaBossV1",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0,
+        0,
+        0
+      ],
+      "tail": [
+        0,
+        0,
+        0.2
+      ],
+      "parent": null,
+      "deform": false
+    },
+    {
+      "name": "GroundCoil",
+      "head": [
+        0.07,
+        0.05,
+        0.15
+      ],
+      "tail": [
+        0.07,
+        -0.3,
+        0.15
+      ],
+      "parent": "Root",
+      "deform": true
+    },
+    {
+      "name": "NeckLower",
+      "head": [
+        0.07,
+        -0.49,
+        0.3
+      ],
+      "tail": [
+        0.07,
+        -0.36,
+        0.78
+      ],
+      "parent": "GroundCoil",
+      "deform": true
+    },
+    {
+      "name": "NeckUpper",
+      "head": [
+        0.07,
+        -0.36,
+        0.78
+      ],
+      "tail": [
+        0.065,
+        -0.22,
+        1.16
+      ],
+      "parent": "NeckLower",
+      "deform": true
+    },
+    {
+      "name": "Head",
+      "head": [
+        0.065,
+        -0.22,
+        1.16
+      ],
+      "tail": [
+        0.065,
+        -0.56,
+        1.5
+      ],
+      "parent": "NeckUpper",
+      "deform": true
+    },
+    {
+      "name": "Tail",
+      "head": [
+        0.53,
+        0.51,
+        0.34
+      ],
+      "tail": [
+        0.54,
+        0.53,
+        0.75
+      ],
+      "parent": "GroundCoil",
+      "deform": true
+    }
+  ],
+  "legs": [],
+  "arms": [],
+  "tail": [
+    "Tail"
+  ],
+  "inputHashes": {
+    "source": "900f3b4fc31cfe297ec8f299a9f53d42a98afbd70ea46581749cf57050d169a4",
+    "positions": "6d5fefe107ad323f392af34156039167ab251bdbad40ffd136ced67bf738dceb",
+    "indices": "d40a3b8cacd710dd753414e01509d9e583960a32e75947a4d7ca97f2d3d47ada",
+    "anatomy": "20ed8b412938c29f1f6c969f0160cef9bff6e7a0bd3644ffacdf3e321d712b7c"
+  },
+  "skin": {
+    "name": "SunkenNagaBossV1Rig",
+    "objectId": "obj_f4bb99c5db1d4380acee442c5786e269",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.20000000298023224,
+        "deform": false
+      },
+      {
+        "name": "GroundCoil",
+        "parent": "Root",
+        "length": 0.3500000238418579,
+        "deform": true
+      },
+      {
+        "name": "NeckLower",
+        "parent": "GroundCoil",
+        "length": 0.4972926676273346,
+        "deform": true
+      },
+      {
+        "name": "NeckUpper",
+        "parent": "NeckLower",
+        "length": 0.40500006079673767,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "NeckUpper",
+        "length": 0.48083260655403137,
+        "deform": true
+      },
+      {
+        "name": "Tail",
+        "parent": "GroundCoil",
+        "length": 0.41060930490493774,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "SunkenNagaBossV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-a8c1486944aa8202b8e7e913",
+  "sceneRevision": 24049,
+  "appliedWeightsSha256": "cdccf5726d0dd25f60b2b60d4558205c504c8d1adda764f4079d25bf0ee49043",
+  "weights": {
+    "vertices": 17788,
+    "maxInfluences": 2,
+    "maxSumError": 0.0
+  },
+  "animationSnapshotId": "snapshot-114311f741768a092999b4bc",
+  "validation": {
+    "floor": {
+      "idle": {
+        "minimumZ": 0.0,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "walk": {
+        "minimumZ": 0.0,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "attack": {
+        "minimumZ": 0.0,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "hurt": {
+        "minimumZ": 0.0,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "die": {
+        "minimumZ": 0.0,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      }
+    }
+  },
+  "clips": {
+    "idle": [
+      1,
+      49
+    ],
+    "walk": [
+      51,
+      75
+    ],
+    "attack": [
+      81,
+      105
+    ],
+    "hurt": [
+      111,
+      121
+    ],
+    "die": [
+      131,
+      155
+    ]
+  },
+  "framesPerSecond": 24,
+  "calibration": {
+    "type": "sunken_city_3",
+    "restGlbSha256": "5e3d89d34ef9ac604e236f1f9d7e9285cdf4e3bca9a15e596bd85c83af8f54ff",
+    "anatomySha256": "20ed8b412938c29f1f6c969f0160cef9bff6e7a0bd3644ffacdf3e321d712b7c",
+    "axes": {
+      "GroundCoil": [
+        [
+          -0.9999999999999962,
+          0,
+          8.742277657347553e-08
+        ],
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          8.742277657347553e-08,
+          0,
+          0.9999999999999962
+        ]
+      ],
+      "NeckLower": [
+        [
+          0.999999999999998,
+          3.5527141023169675e-15,
+          6.357302595461065e-08
+        ],
+        [
+          6.136236467421242e-08,
+          0.26141551390614115,
+          -0.9652263615801137
+        ],
+        [
+          -1.661897999532266e-08,
+          0.9652263697266469,
+          0.2614154838266433
+        ]
+      ],
+      "NeckUpper": [
+        [
+          0.9998867367826715,
+          -0.012345684709940297,
+          0.008608000647263764
+        ],
+        [
+          0.012345685748642657,
+          0.3456790482250906,
+          -0.9382715916309046
+        ],
+        [
+          0.008608002706717372,
+          0.9382715937463308,
+          0.3457923056664532
+        ]
+      ],
+      "Head": [
+        [
+          1,
+          1.1524541057641253e-09,
+          -5.10371950478682e-09
+        ],
+        [
+          -2.3049064995845235e-09,
+          -0.7071066619772358,
+          -0.707106900395839
+        ],
+        [
+          -2.3049056669171897e-09,
+          0.707106900395819,
+          -0.7071066619772559
+        ]
+      ],
+      "Tail": [
+        [
+          0.9994344209623043,
+          0.024354172690265016,
+          -0.023188627995553025
+        ],
+        [
+          -0.024354238224053103,
+          0.04870787295102771,
+          -0.9985161061260418
+        ],
+        [
+          -0.02318857729773383,
+          0.9985160974409961,
+          0.04927365456418323
+        ]
+      ]
+    }
+  },
+  "runtimeClipExtractionPending": true,
+  "weightsAlgorithmSha256": "72cf7d1aaa615161bd63b8faa523516b70abe4ea2f70915164582acfd2e049f5",
+  "requiresFreshExportAndQA": true,
+  "animationAlgorithmSha256": "d42823a2c9c99abd4e1bde1851b594743192da247fda7721b5aff11b503f5e96"
+}

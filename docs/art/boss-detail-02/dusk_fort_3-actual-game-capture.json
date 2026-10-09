@@ -1,0 +1,91 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "dusk_fort_3",
+      "map": "dusk_fort",
+      "x": 76,
+      "z": -1738,
+      "viewport": "desktop",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:17:37.623Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+        }
+      ],
+      "clock": {
+        "hour": 17.481999999999992,
+        "phase": "evening",
+        "label": "17:28",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "dusk_fort_3",
+          "id": 583,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "dusk_fort_3",
+        "id": "s583",
+        "sid": 583,
+        "position": {
+          "x": 96.27053203956385,
+          "z": -1752.1242327969226
+        },
+        "map": "dusk_fort",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "dusk_fort_3",
+      "map": "dusk_fort",
+      "x": 76,
+      "z": -1738,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:18:04.569Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+        }
+      ],
+      "clock": {
+        "hour": 17.986833333333323,
+        "phase": "evening",
+        "label": "17:59",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "dusk_fort_3",
+          "id": 583,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "dusk_fort_3",
+        "id": "s583",
+        "sid": 583,
+        "position": {
+          "x": 99.25,
+          "z": -1752.24
+        },
+        "map": "dusk_fort",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "source": "tools/monster-models/meshy/scenes/map-bosses-50-100.blend",
+  "sha256": "1b5ddd1dd2b3a948f2a1349b343b0b614c286cc1f63ce6be53cf1dea3593c310",
+  "bytes": 12140638,
+  "jobId": "job_boss_sunken_city_3_f92d72bb09cf_blend",
+  "state": "completed",
+  "sourceSnapshotSha256": "2936f793e35b99e7edf9f69c50eb98626f798cfc3882e05cfcd293c10e9f882a",
+  "exportSnapshotId": "snapshot-e05ac34e563ef53ac2fcfc04",
+  "rigReports": {
+    "sunken_city_3": "469e4ca5722705ee3bcd7636f951534a67c87f23df6526072e2e6a56cb36349d",
+    "dusk_fort_3": "c866bea015ccc710e37ba98f63430bb8a139e2017bfc3afb10bb8d8f826271a7",
+    "giant_valley_3": "0e4f51e320186188baed94e6ec9deaee5d89254a31856a1c23cfe28f7264e471",
+    "himmapan_3": "5a1a454c1b3ff685ecc24a4aa7978f64a9dbe87936e28cc887c586f5f144de61",
+    "fallen_city_3": "dbc6d3136aaa97f49ebb3e129b4111e4961eebac21e7f85916c9496d9aecd646",
+    "demon_rift_3": "fdd8d642de378798f7dd63c752c374e13edbfa82807737124aed082060795fb3"
+  }
+}

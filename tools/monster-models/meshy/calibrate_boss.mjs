@@ -1,17 +1,25 @@
 // Recover IK and arm axes from the exact registered-Harness rest export.
-import {NodeIO} from '@gltf-transform/core';
-import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
 import {Vector3,Matrix4,Euler} from 'three';
 import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-const type=process.argv[2],tag=process.argv[3]??'rest',dir=process.env.MESHY_RIG_OUTPUT;
-if(!dir||!['chalawan','bamboo_grave_3','sealed_mine_3'].includes(type))throw Error('Explicit boss output directory/type required');
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+
+export const BIPED_BOSS_TYPES=Object.freeze(['chalawan','bamboo_grave_3','sealed_mine_3',
+ 'dusk_fort_3','giant_valley_3','himmapan_3','fallen_city_3','demon_rift_3']);
+const REST_ADDUCTION=Object.freeze({chalawan:.24,bamboo_grave_3:.16,sealed_mine_3:.12,
+ dusk_fort_3:.12,giant_valley_3:.12,himmapan_3:.12,fallen_city_3:.12,demon_rift_3:.12});
+
+// No input reads, writes, GLB dependencies or scene connections on import.
+export async function calibrateBoss(type,{dir,tag='rest'}={}) {
+if(!dir||!BIPED_BOSS_TYPES.includes(type))throw Error('Explicit approved biped output directory/type required; Naga needs a serpent rig');
 const report=JSON.parse(await fs.readFile(`${dir}/${type}-rig-report.json`));
 const journal=JSON.parse(await fs.readFile(`${dir}/${type}-${tag}-export.json`));
 const receipt=journal.jobs.find(j=>j.format==='glb')?.verifiedStatus?.artifact;
 if(!receipt)throw Error('Rest export must complete and verify before calibration');
 const bytes=await fs.readFile(receipt.path),hash=createHash('sha256').update(bytes).digest('hex');
 if(hash!==receipt.sha256)throw Error('Rest snapshot hash changed');
+const [{NodeIO},{ALL_EXTENSIONS}]=await Promise.all([import('@gltf-transform/core'),import('@gltf-transform/extensions')]);
 const doc=await new NodeIO().registerExtensions(ALL_EXTENSIONS).read(receipt.path);
 const skin=doc.getRoot().listSkins().find(s=>s.getName()===report.rigName);
 if(!skin)throw Error('Expected this exact authored rest rig');
@@ -47,16 +55,24 @@ for(const arm of report.arms){
     const score=-velocity.y-.3*Math.sign(bone.head[0])*velocity.x;
     if(!down||score>down.score)down={axis,sign,score};
    }
-   base[down.axis]=down.sign*({chalawan:.24,bamboo_grave_3:.16,sealed_mine_3:.12}[type]);
+   base[down.axis]=down.sign*REST_ADDUCTION[type];
   }else base[best.axis]=best.sign*.04;
   entry[segment+'RestRotation']=base;
  }
  result.arms[arm.name]=entry;
 }
-result.rootDownLocal=new Vector3(0,-1,0).transformDirection(rest('Root').invert()).toArray();
+const rootName=report.bones.find(b=>b.parent===null&&!b.deform)?.name;
+if(!rootName)throw Error('Expected the authored nondeforming root');
+result.rootDownLocal=new Vector3(0,-1,0).transformDirection(rest(rootName).invert()).toArray();
 if(report.tail.length){
  result.tailUpLocal=new Vector3(0,1,0).transformDirection(rest(report.tail[0]).invert()).toArray();
  result.tailRotationAxes=Object.fromEntries(report.tail.map(name=>[name,new Vector3(0,1,0).transformDirection(rest(name).invert()).toArray()]));
 }
 await fs.writeFile(`${dir}/${type}-calibration.json`,JSON.stringify(result,null,2)+'\n');
-console.log(JSON.stringify(result));
+return result;
+}
+
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
+ try {console.log(JSON.stringify(await calibrateBoss(process.argv[2],{tag:process.argv[3]??'rest',dir:process.env.MESHY_RIG_OUTPUT})));}
+ catch(error) {console.error(error.message);process.exitCode=1;}
+}

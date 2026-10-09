@@ -1,0 +1,13 @@
+{
+  "type":"sunken_city_3", "taxon":"serpent", "sourceHeight":1.9,
+  "coordinateSystem":"Blender metres: +Z up, -Y forward", "legs":[], "arms":[],
+  "measurementEvidence":"naga-front/side/back/top.png; decoded source horizontal slices at 0.15–1.7m; neck and rear-right raised tail are distinct",
+  "bones":[
+    {"name":"Root","head":[0,0,0],"tail":[0,0,0.2],"parent":null,"deform":false},
+    {"name":"GroundCoil","head":[0.07,0.05,0.15],"tail":[0.07,-0.3,0.15],"parent":"Root","deform":true},
+    {"name":"NeckLower","head":[0.07,-0.49,0.30],"tail":[0.07,-0.36,0.78],"parent":"GroundCoil","deform":true},
+    {"name":"NeckUpper","head":[0.07,-0.36,0.78],"tail":[0.065,-0.22,1.16],"parent":"NeckLower","deform":true},
+    {"name":"Head","head":[0.065,-0.22,1.16],"tail":[0.065,-0.56,1.5],"parent":"NeckUpper","deform":true},
+    {"name":"Tail","head":[0.53,0.51,0.34],"tail":[0.54,0.53,0.75],"parent":"GroundCoil","deform":true}
+  ]
+}

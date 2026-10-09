@@ -1,0 +1,91 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "fallen_city_3",
+      "map": "fallen_city",
+      "x": 76,
+      "z": -2458,
+      "viewport": "desktop",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:17:52.642Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e"
+        }
+      ],
+      "clock": {
+        "hour": 17.810749999999995,
+        "phase": "evening",
+        "label": "17:48",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "fallen_city_3",
+          "id": 971,
+          "t": "mspawn"
+        }
+      ],
+      "info": {
+        "type": "fallen_city_3",
+        "id": "s971",
+        "sid": 971,
+        "position": {
+          "x": 96.81,
+          "z": -2473.32
+        },
+        "map": "fallen_city",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "fallen_city_3",
+      "map": "fallen_city",
+      "x": 76,
+      "z": -2458,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:18:16.371Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e"
+        }
+      ],
+      "clock": {
+        "hour": 18.154749999999982,
+        "phase": "evening",
+        "label": "18:09",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "fallen_city_3",
+          "id": 971,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "fallen_city_3",
+        "id": "s971",
+        "sid": 971,
+        "position": {
+          "x": 96.64,
+          "z": -2473.18
+        },
+        "map": "fallen_city",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

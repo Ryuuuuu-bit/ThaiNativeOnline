@@ -1,0 +1,39 @@
+{
+  "creature": "dusk_fort_3",
+  "bytes": 1513996,
+  "triangles": 12495,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.6596870124340057,
+      0,
+      -0.22259951382875443
+    ],
+    "max": [
+      0.6596870124340057,
+      1.901369035243988,
+      0.22259951382875443
+    ]
+  },
+  "sha256": "0a0fef1eb064eead5fa42a0675a184f71da481393eb51b89f032f4cfdcf66b08",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

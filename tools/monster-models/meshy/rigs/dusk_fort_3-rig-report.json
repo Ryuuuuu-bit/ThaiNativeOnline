@@ -1,0 +1,731 @@
+{
+  "type": "dusk_fort_3",
+  "taxon": "humanoid-biped",
+  "version": "boss-v1",
+  "rigName": "DuskFortBossV1Rig",
+  "surfaceName": "DuskFortBossV1Surface",
+  "prefix": "DuskFortBossV1",
+  "rigId": "obj_b2568467f4184682b17d0cf10e5c0a20",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tail": [
+        0.0,
+        0.0,
+        0.14
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Pelvis",
+      "head": [
+        0.0,
+        -0.02,
+        0.84
+      ],
+      "tail": [
+        0.0,
+        -0.02,
+        1.01
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0.0,
+        -0.02,
+        1.01
+      ],
+      "tail": [
+        0.0,
+        0.05,
+        1.47
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0.0,
+        0.05,
+        1.47
+      ],
+      "tail": [
+        0.0,
+        0.01,
+        1.76
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        0.29,
+        0.06,
+        1.33
+      ],
+      "tail": [
+        0.449,
+        0.015,
+        1.13
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        0.449,
+        0.015,
+        1.13
+      ],
+      "tail": [
+        0.578,
+        -0.047,
+        0.94
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        0.578,
+        -0.047,
+        0.94
+      ],
+      "tail": [
+        0.625,
+        -0.06,
+        0.79
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegLUpper",
+      "head": [
+        0.18,
+        -0.02,
+        0.84
+      ],
+      "tail": [
+        0.193,
+        -0.015,
+        0.545
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLLower",
+      "head": [
+        0.193,
+        -0.015,
+        0.545
+      ],
+      "tail": [
+        0.268,
+        0.062,
+        0.15
+      ],
+      "parent": "LegLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegLFoot",
+      "head": [
+        0.268,
+        0.062,
+        0.15
+      ],
+      "tail": [
+        0.29,
+        -0.112,
+        0.052
+      ],
+      "parent": "LegLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        -0.29,
+        0.06,
+        1.33
+      ],
+      "tail": [
+        -0.449,
+        0.015,
+        1.13
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        -0.449,
+        0.015,
+        1.13
+      ],
+      "tail": [
+        -0.578,
+        -0.047,
+        0.94
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        -0.578,
+        -0.047,
+        0.94
+      ],
+      "tail": [
+        -0.625,
+        -0.06,
+        0.79
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegRUpper",
+      "head": [
+        -0.18,
+        -0.02,
+        0.84
+      ],
+      "tail": [
+        -0.193,
+        -0.015,
+        0.545
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRLower",
+      "head": [
+        -0.193,
+        -0.015,
+        0.545
+      ],
+      "tail": [
+        -0.268,
+        0.062,
+        0.15
+      ],
+      "parent": "LegRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegRFoot",
+      "head": [
+        -0.268,
+        0.062,
+        0.15
+      ],
+      "tail": [
+        -0.29,
+        -0.112,
+        0.052
+      ],
+      "parent": "LegRLower",
+      "deform": true,
+      "connected": true
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL",
+      "hip": [
+        0.18,
+        -0.02,
+        0.84
+      ],
+      "knee": [
+        0.193,
+        -0.015,
+        0.545
+      ],
+      "joint": [
+        0.268,
+        0.062,
+        0.15
+      ],
+      "toe": [
+        0.29,
+        -0.112,
+        0.052
+      ],
+      "pole": [
+        0.193,
+        -0.46,
+        0.545
+      ],
+      "phase": 0,
+      "upper": "LegLUpper",
+      "lower": "LegLLower",
+      "foot": "LegLFoot",
+      "control": "DuskFortBossV1LegLTarget",
+      "poleControl": "DuskFortBossV1LegLPole"
+    },
+    {
+      "name": "LegR",
+      "hip": [
+        -0.18,
+        -0.02,
+        0.84
+      ],
+      "knee": [
+        -0.193,
+        -0.015,
+        0.545
+      ],
+      "joint": [
+        -0.268,
+        0.062,
+        0.15
+      ],
+      "toe": [
+        -0.29,
+        -0.112,
+        0.052
+      ],
+      "pole": [
+        -0.193,
+        -0.46,
+        0.545
+      ],
+      "phase": 0.5,
+      "upper": "LegRUpper",
+      "lower": "LegRLower",
+      "foot": "LegRFoot",
+      "control": "DuskFortBossV1LegRTarget",
+      "poleControl": "DuskFortBossV1LegRPole"
+    }
+  ],
+  "arms": [
+    {
+      "name": "ArmL",
+      "shoulder": [
+        0.29,
+        0.06,
+        1.33
+      ],
+      "elbow": [
+        0.449,
+        0.015,
+        1.13
+      ],
+      "wrist": [
+        0.578,
+        -0.047,
+        0.94
+      ],
+      "tip": [
+        0.625,
+        -0.06,
+        0.79
+      ],
+      "upper": "ArmLUpper",
+      "lower": "ArmLLower",
+      "hand": "HandL"
+    },
+    {
+      "name": "ArmR",
+      "shoulder": [
+        -0.29,
+        0.06,
+        1.33
+      ],
+      "elbow": [
+        -0.449,
+        0.015,
+        1.13
+      ],
+      "wrist": [
+        -0.578,
+        -0.047,
+        0.94
+      ],
+      "tip": [
+        -0.625,
+        -0.06,
+        0.79
+      ],
+      "upper": "ArmRUpper",
+      "lower": "ArmRLower",
+      "hand": "HandR"
+    }
+  ],
+  "tail": [],
+  "rigidBones": [],
+  "inputHashes": {
+    "source": "f69fea93e4a8a445128722891c645d53e1012d150a20d2b77a4dc8cf244dbb68",
+    "positions": "6df963cb2e3362515c538158cda90abd4a5533bfba9064144e37f87771565a22",
+    "indices": "73adf31031580e1835e792efa0012ba770670304a6ebf7594754dc69d8fbe724",
+    "anatomy": "7be866227a5a42bc6077bd231f534d824a3067cf2ccd6f26f031f4ecdf17bd0f"
+  },
+  "weightsAlgorithmSha256": "0414c88f4d354b8eab20acfb7874af391186800ed33dd56b75c638f5eb228d55",
+  "appliedWeightsSha256": "97c33969b6a543c2708185dee781a32cc0353cdb9591ca9314b8c5c9d6929705",
+  "weights": {
+    "vertices": 19997,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "HandR": 490,
+      "ArmRLower": 581,
+      "ArmRUpper": 662,
+      "Body": 9220,
+      "LegRFoot": 871,
+      "LegRLower": 1468,
+      "LegRUpper": 1445,
+      "Pelvis": 6133,
+      "Head": 2442,
+      "LegLUpper": 1519,
+      "LegLLower": 1490,
+      "LegLFoot": 848,
+      "ArmLUpper": 785,
+      "ArmLLower": 676,
+      "HandL": 514
+    },
+    "weightGroups": 832
+  },
+  "skin": {
+    "name": "DuskFortBossV1Rig",
+    "objectId": "obj_b2568467f4184682b17d0cf10e5c0a20",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.14000000059604645,
+        "deform": false
+      },
+      {
+        "name": "Pelvis",
+        "parent": "Root",
+        "length": 0.17000001668930054,
+        "deform": true
+      },
+      {
+        "name": "Body",
+        "parent": "Pelvis",
+        "length": 0.4652956426143646,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Body",
+        "length": 0.2927456200122833,
+        "deform": true
+      },
+      {
+        "name": "ArmLUpper",
+        "parent": "Body",
+        "length": 0.2594340741634369,
+        "deform": true
+      },
+      {
+        "name": "ArmLLower",
+        "parent": "ArmLUpper",
+        "length": 0.23787614703178406,
+        "deform": true
+      },
+      {
+        "name": "HandL",
+        "parent": "ArmLLower",
+        "length": 0.1577277034521103,
+        "deform": true
+      },
+      {
+        "name": "ArmRUpper",
+        "parent": "Body",
+        "length": 0.2594340741634369,
+        "deform": true
+      },
+      {
+        "name": "ArmRLower",
+        "parent": "ArmRUpper",
+        "length": 0.23787614703178406,
+        "deform": true
+      },
+      {
+        "name": "HandR",
+        "parent": "ArmRLower",
+        "length": 0.1577277034521103,
+        "deform": true
+      },
+      {
+        "name": "LegLUpper",
+        "parent": "Pelvis",
+        "length": 0.2953285872936249,
+        "deform": true
+      },
+      {
+        "name": "LegLLower",
+        "parent": "LegLUpper",
+        "length": 0.4093639850616455,
+        "deform": true
+      },
+      {
+        "name": "LegLFoot",
+        "parent": "LegLLower",
+        "length": 0.200907900929451,
+        "deform": true
+      },
+      {
+        "name": "LegRUpper",
+        "parent": "Pelvis",
+        "length": 0.2953285872936249,
+        "deform": true
+      },
+      {
+        "name": "LegRLower",
+        "parent": "LegRUpper",
+        "length": 0.4093639850616455,
+        "deform": true
+      },
+      {
+        "name": "LegRFoot",
+        "parent": "LegRLower",
+        "length": 0.200907900929451,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "DuskFortBossV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-ef8d4207b9e11b369443201f",
+  "sceneRevision": 21366,
+  "animationSnapshotId": "snapshot-b9d55ce818db7e8ffca3a5b1",
+  "validation": {
+    "limbLength": {
+      "maxRelativeError": 1.2491339537986632e-06,
+      "limit": 0.005,
+      "passed": true
+    },
+    "footDrift": {
+      "idle": [
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "attack": [
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "hurt": [
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "die": [
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 3.5590075144551764e-05,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "DuskFortBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 3.557300206937619e-05,
+          "limit": 0.001,
+          "passed": true
+        }
+      ]
+    },
+    "floor": {
+      "idle": {
+        "minimumZ": 2.2809015831626311e-07,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "walk": {
+        "minimumZ": 1.982878359285678e-07,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "attack": {
+        "minimumZ": 2.2809015831626311e-07,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "hurt": {
+        "minimumZ": 2.2809015831626311e-07,
+        "floorZ": 0.0,
+        "penetration": 0,
+        "limit": 0.01,
+        "passed": true
+      },
+      "die": {
+        "minimumZ": -3.374655716470443e-05,
+        "floorZ": 0.0,
+        "penetration": 3.374655716470443e-05,
+        "limit": 0.01,
+        "passed": true
+      }
+    }
+  },
+  "calibration": {
+    "restGlbSha256": "d7de4564ea314f5803fb6e8812b137a64537690a1523f308ce8dee655d06f71c",
+    "anatomySha256": "7be866227a5a42bc6077bd231f534d824a3067cf2ccd6f26f031f4ecdf17bd0f",
+    "legs": {
+      "LegL": {
+        "poleAngle": -1.5770105931035205,
+        "rotation": [
+          -2.5807288308405862,
+          -0.4102237688475832,
+          -0.11969646024580485
+        ]
+      },
+      "LegR": {
+        "poleAngle": -1.5645820604862728,
+        "rotation": [
+          -2.5807288308405862,
+          0.4102237688475832,
+          0.11969646024580485
+        ]
+      }
+    },
+    "arms": {
+      "ArmL": {
+        "upperAxis": 2,
+        "upperSign": -1,
+        "upperRestRotation": [
+          0,
+          0,
+          0.12
+        ],
+        "lowerAxis": 2,
+        "lowerSign": -1,
+        "lowerRestRotation": [
+          0,
+          0,
+          -0.04
+        ]
+      },
+      "ArmR": {
+        "upperAxis": 2,
+        "upperSign": 1,
+        "upperRestRotation": [
+          0,
+          0,
+          -0.12
+        ],
+        "lowerAxis": 2,
+        "lowerSign": 1,
+        "lowerRestRotation": [
+          0,
+          0,
+          0.04
+        ]
+      }
+    },
+    "rootDownLocal": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "clips": {
+    "idle": [
+      1,
+      49
+    ],
+    "walk": [
+      51,
+      75
+    ],
+    "attack": [
+      81,
+      105
+    ],
+    "hurt": [
+      111,
+      121
+    ],
+    "die": [
+      131,
+      155
+    ]
+  },
+  "framesPerSecond": 24,
+  "runtimeClipExtractionPending": true,
+  "animationAlgorithmSha256": "a740fc3c31ba2028c04b845158e028750fd97ccb64d01ef25e42da0b4ccbd6f8",
+  "requiresFreshExportAndQA": true,
+  "motionRevisionAlgorithmSha256": "7aed730947626aba7b94d681a26fe7ec3a0369e80e488904cfa3971738f13bc9"
+}

@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { BIPED_BOSS_TYPES, calibrateBoss } from '../tools/monster-models/meshy/calibrate_boss.mjs';
+import { extractBoss } from '../tools/monster-models/meshy/extract_boss.mjs';
 
 // Synthetic math + stubbed Harness transport only. No Blender descriptor, paid
 // generation, source asset mutation, or claims of real model anatomy approval.
@@ -117,7 +119,90 @@ class OfflineBossTests(unittest.TestCase):
     def test_import_is_offline(self):
         self.assertNotIn('harness_client',sys.modules)
         self.assertNotIn('bpy',sys.modules)
-        self.assertEqual(tuple(rig.TYPES),('chalawan','bamboo_grave_3','sealed_mine_3'))
+        self.assertEqual(tuple(rig.TYPES),('chalawan','bamboo_grave_3','sealed_mine_3','dusk_fort_3',
+            'giant_valley_3','himmapan_3','fallen_city_3','demon_rift_3'))
+        self.assertEqual(set(rig.PREFIXES),set(rig.TYPES))
+        self.assertEqual(len(set(rig.PREFIXES.values())),len(rig.TYPES))
+        for kind in rig.TYPES:
+            self.assertEqual(weights.validate_recipe(recipe(kind))['type'],kind)
+            wrong=recipe(kind);wrong['taxon']='serpent'
+            with self.assertRaises(ValueError):weights.validate_recipe(wrong)
+        for kind in ['sunken_city_3','croc','boar']:
+            with self.assertRaises(ValueError):weights.validate_recipe(recipe(kind))
+            with self.assertRaises(ValueError):rig.load_inputs(kind,'NONEXISTENT-BIPED-INPUT')
+
+    def test_original_three_weight_outputs_remain_identical_to_merged_pipeline(self):
+        expected={'chalawan':'7e496b70f0107fbbd45ccbd0a4dff16a7e4c9b074b244a0d34d49c8017e83f90',
+            'bamboo_grave_3':'13c2731d33026bde0435e47370bf1b21c0b15e92ef65892ab11dad1ecb5ffec0',
+            'sealed_mine_3':'13c2731d33026bde0435e47370bf1b21c0b15e92ef65892ab11dad1ecb5ffec0'}
+        for kind,digest in expected.items():
+            r=recipe(kind);points,indices,cloth=surface(r)
+            r['weights']={'regions':[dict(type='cloth',bone='Pelvis',vertices=[cloth,cloth+1,cloth+2])]}
+            duplicate=len(points);points.append(list(points[0]));indices.extend([duplicate,1,2])
+            values=weights.boss_weights(points,indices,r)
+            self.assertEqual(hashlib.sha256(json.dumps(values,sort_keys=True,separators=(',',':')).encode()).hexdigest(),digest)
+
+    def rigid_fixture(self):
+        r=recipe('himmapan_3');points,indices,cloth=surface(r);masks={}
+        r['rigidBones']=[];r['weights']={'regions':[]}
+        for name,parent,purpose,x in [('WingL','Body','wing',-.30),('WingR','Body','wing',.30),('HeldProp','HandR','prop',.60)]:
+            r['bones'].append(dict(name=name,parent=parent,head=[x,.16,1.30],tail=[x,.16,1.36],deform=True))
+            r['rigidBones'].append(dict(bone=name,purpose=purpose))
+            n=len(points);points.extend([[x,.16,1.30],[x+.02,.16,1.30],[x,.16,1.32],[x,.16,1.35]])
+            indices.extend([n,n+1,n+2,n,n+2,n+3]);masks[name]=[n,n+1,n+2]
+            r['weights']['regions'].append(dict(type='rigid',bone=name,vertices=masks[name]))
+        return r,points,indices,masks
+
+    def test_authored_wing_and_prop_bones_stay_rigid_without_leaking_into_neighbours(self):
+        r,points,indices,masks=self.rigid_fixture();original=copy.deepcopy(r)
+        duplicate=len(points);points.append(list(points[masks['WingL'][0]]));indices.extend([duplicate,*masks['WingL'][1:]])
+        values=weights.boss_weights(points,indices,r)
+        self.assertEqual(r,original);self.assertEqual(values,weights.boss_weights(points,indices,r))
+        masks['WingL'].append(duplicate);selected=set(i for ids in masks.values() for i in ids)
+        for name,ids in masks.items():
+            for i in ids:self.assertEqual(values[i],{name:1})
+        for i,w in enumerate(values):
+            self.assertLessEqual(len(w),4);self.assertAlmostEqual(sum(w.values()),1)
+            if i not in selected:self.assertFalse(set(w)&masks.keys(),'detail diffusion may not escape its authored mask')
+        rig.check_weights(values,points,r,rigid_reference=values)
+        for vertex in [0,masks['WingL'][0]]:
+            override=copy.deepcopy(values);override[vertex]={'WingL':.5,'Body':.5}
+            with self.assertRaisesRegex(ValueError,'preserve authored rigid'):
+                rig.check_weights(override,points,r,rigid_reference=values)
+        for frame in [1,57,92,117,155]:
+            pose=rig.pose_at(frame,r,calibration(r))
+            for name in masks:self.assertEqual(pose['rotations'][name],[0,0,0],'rigid details inherit their authored parent only')
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);(root/'input').mkdir();kind=r['type']
+            for suffix,value in [('-anatomy.json',r),('-positions.json',[[x,z,-y] for x,y,z in points]),('-indices.json',indices)]:
+                rig.write_json(root/'input'/(kind+suffix),value)
+            (root/'input'/(kind+'.glb')).write_bytes(b'synthetic-import-placeholder')
+            fake=FakeClient(root,r);fake.count=len(points);fake.surface='HimmapanBossV1Surface'
+            report=rig.bind(kind,root,client=fake)
+            self.assertEqual(report['rigidBones'],r['rigidBones'])
+            self.assertTrue(set(masks)<={b['name'] for b in report['bones']})
+            assigned={a['bone'] for c,a in fake.calls if c=='rig.assign_weights'}
+            self.assertTrue(set(masks)<=assigned)
+
+    def test_extra_bones_reject_unowned_nonrigid_or_wrong_species_declarations(self):
+        r,points,indices,masks=self.rigid_fixture()
+        def no_declaration(x):x.pop('rigidBones')
+        def no_mask(x):x['weights']['regions'].pop()
+        def mixed_weights(x):x['weights']['regions'][0].update(weights={'WingL':.8,'Body':.2})
+        for change in [no_declaration,no_mask,mixed_weights,
+                lambda x:x.update(roles={'wing':'WingL'}),
+                lambda x:x['rigidBones'][0].update(purpose='leg'),
+                lambda x:x['weights']['regions'][0].update(type='cloth'),
+                lambda x:x['rigidBones'].append(copy.deepcopy(x['rigidBones'][0])),
+                lambda x:x.update(type='demon_rift_3'),lambda x:x.update(type='bamboo_grave_3')]:
+            bad=copy.deepcopy(r);change(bad)
+            with self.assertRaises(ValueError):weights.boss_weights(points,indices,bad)
+
+    def test_rigid_regions_require_actual_core_vertices_not_empty_bounds(self):
+        r,points,indices,masks=self.rigid_fixture()
+        for selector in [dict(vertices=[]),dict(bounds={'min':[4,4,4],'max':[5,5,5]})]:
+            bad=copy.deepcopy(r);bad['weights']['regions'][0]={'type':'rigid','bone':'WingL',**selector}
+            with self.assertRaises(ValueError):weights.boss_weights(points,indices,bad)
 
     def test_weights_normalized_deterministic_seams_and_no_cross_limb_chest_leak(self):
         for kind in rig.TYPES:
@@ -194,6 +279,54 @@ class OfflineBossTests(unittest.TestCase):
             self.assertEqual(set(rig.CLIPS),{'idle','walk','attack','hurt','die'})
         bad=recipe();bad['motion']={'elbowCast':.8}
         with self.assertRaises(ValueError):rig.pose_at(92,bad,calibration(bad))
+
+    def test_optional_hurt_controls_preserve_legacy_three_complete_timelines(self):
+        # Frozen merged-pipeline poses: every frame, including calibrated arm
+        # bases and Chalawan's tail. These are synthetic motion regressions.
+        expected={'chalawan':'d157972fb17a2e610ddd56748461fb3cc0f4c4cb77e544ae78f7a167292c9b1b',
+            'bamboo_grave_3':'a11ece89a58ea78c73ec8a8231e9484ae84ace806988cf3a4573c0eebafeced7',
+            'sealed_mine_3':'a11ece89a58ea78c73ec8a8231e9484ae84ace806988cf3a4573c0eebafeced7'}
+        for kind,digest in expected.items():
+            r=recipe(kind);c=calibration(r)
+            c['arms']={'ArmL':dict(upperAxis=2,upperSign=1,lowerAxis=1,lowerSign=-1,
+                upperRestRotation=[.12,-.25,.04],lowerRestRotation=[.04,0,.01])}
+            original=copy.deepcopy(r)
+            poses=[rig.pose_at(f,r,c) for f in range(1,156)]
+            self.assertEqual(hashlib.sha256(json.dumps(poses,sort_keys=True,separators=(',',':')).encode()).hexdigest(),digest)
+            self.assertEqual(r,original)
+            options=rig.motion_options(weights.validate_recipe(r))
+            self.assertEqual(options['bodyHurt'],.025)
+            self.assertEqual(options['headHurt'],.012)
+            explicit=copy.deepcopy(r);explicit['motion']={'bodyHurt':.025,'headHurt':.012}
+            self.assertEqual(poses,[rig.pose_at(f,explicit,c) for f in range(1,156)])
+
+    def test_hurt_zero_caps_and_partial_overrides_affect_only_recoil(self):
+        for kind in rig.TYPES:
+            r=recipe(kind);c=calibration(r)
+            c['arms']={'ArmL':dict(upperRestRotation=[.12,-.25,.04],lowerRestRotation=[.04,0,.01])}
+            baseline=rig.pose_at(116,r,c)
+            for options,body,head in [({'bodyHurt':0,'headHurt':0},0,0),
+                    ({'bodyHurt':.20,'headHurt':.12},.20,.12),
+                    ({'bodyHurt':.10,'headHurt':.06},.10,.06),
+                    ({'bodyHurt':0},0,.012),({'headHurt':0},.025,0)]:
+                changed=copy.deepcopy(r);changed['motion']=options;original=copy.deepcopy(changed)
+                pose=rig.pose_at(116,changed,c);expected=copy.deepcopy(baseline)
+                expected['rotations']['Body'][0]=-body
+                expected['rotations']['Head'][0]=-head
+                self.assertEqual(pose,expected,'recoil must preserve arm bases, hands, planted targets and root')
+                for frame in [1,13,57,92,131,155]:
+                    self.assertEqual(rig.pose_at(frame,changed,c),rig.pose_at(frame,r,c),'hurt settings must not alter other clips')
+                self.assertEqual(changed,original)
+
+    def test_hurt_controls_reject_nonfinite_nonnumeric_and_outside_caps(self):
+        for name,cap in [('bodyHurt',.20),('headHurt',.12)]:
+            for value in [-.0001,math.nextafter(cap,math.inf),math.nan,math.inf,-math.inf,
+                    True,False,'0.10',None,[],{}]:
+                with self.subTest(parameter=name,value=value):
+                    r=recipe();r['motion']={name:value}
+                    with self.assertRaisesRegex(ValueError,name):rig.pose_at(116,r,calibration(r))
+        r=recipe();r['motion']={'bodyhurt':.10}
+        with self.assertRaisesRegex(ValueError,'Unknown motion'):rig.pose_at(116,r,calibration(r))
 
     def test_calibrated_arm_axes_override_recipe_without_hash_circularity(self):
         r=recipe();original=copy.deepcopy(r);c=calibration(r)
@@ -359,5 +492,14 @@ test('Meshy humanoid boss weights, staged motions and durable jobs pass offline 
   });
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stderr, /Ran 16 tests/);
+  assert.match(result.stderr, /Ran 23 tests/);
+});
+
+test('calibration/extraction imports are offline and reject serpent or regular-mob types', async () => {
+  assert.deepEqual(BIPED_BOSS_TYPES, ['chalawan', 'bamboo_grave_3', 'sealed_mine_3', 'dusk_fort_3',
+    'giant_valley_3', 'himmapan_3', 'fallen_city_3', 'demon_rift_3']);
+  for (const type of ['sunken_city_3', 'croc', 'boar']) {
+    await assert.rejects(calibrateBoss(type, { dir: 'NONEXISTENT-BIPED-INPUT' }), /approved biped/);
+    await assert.rejects(extractBoss(type, { dir: 'NONEXISTENT-BIPED-INPUT' }), /approved biped/);
+  }
 });

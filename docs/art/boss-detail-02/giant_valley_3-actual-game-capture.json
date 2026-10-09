@@ -1,0 +1,91 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "giant_valley_3",
+      "map": "giant_valley",
+      "x": 76,
+      "z": -1978,
+      "viewport": "desktop",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:35:03.418Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915"
+        }
+      ],
+      "clock": {
+        "hour": 10.990919999999994,
+        "phase": "day",
+        "label": "10:59",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "giant_valley_3",
+          "id": 874,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "giant_valley_3",
+        "id": "s874",
+        "sid": 874,
+        "position": {
+          "x": 87.58834701111779,
+          "z": -1988.9848217066772
+        },
+        "map": "giant_valley",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "giant_valley_3",
+      "map": "giant_valley",
+      "x": 76,
+      "z": -1978,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:35:30.695Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915"
+        }
+      ],
+      "clock": {
+        "hour": 11.489416666666667,
+        "phase": "day",
+        "label": "11:29",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "giant_valley_3",
+          "id": 874,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "giant_valley_3",
+        "id": "s874",
+        "sid": 874,
+        "position": {
+          "x": 88.85,
+          "z": -1987.26
+        },
+        "map": "giant_valley",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

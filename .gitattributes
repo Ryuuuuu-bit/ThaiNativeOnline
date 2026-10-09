@@ -1,0 +1,8 @@
+# Preserve exact byte identities for frozen rigs and hashed review receipts.
+/tools/monster-models/meshy/rigs/sunken_city_3-*.json -text whitespace=cr-at-eol
+/tools/monster-models/meshy/rigs/dusk_fort_3-*.json -text whitespace=cr-at-eol
+/tools/monster-models/meshy/rigs/giant_valley_3-*.json -text whitespace=cr-at-eol
+/tools/monster-models/meshy/rigs/himmapan_3-*.json -text whitespace=cr-at-eol
+/tools/monster-models/meshy/rigs/fallen_city_3-*.json -text whitespace=cr-at-eol
+/tools/monster-models/meshy/rigs/demon_rift_3-*.json -text whitespace=cr-at-eol
+/docs/art/boss-detail-02/*.json -text whitespace=cr-at-eol

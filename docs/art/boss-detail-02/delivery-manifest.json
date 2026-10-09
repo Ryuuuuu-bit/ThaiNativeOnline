@@ -1,0 +1,148 @@
+{
+  "bodies": "Meshy image-to-3D",
+  "models": [
+    {
+      "type": "sunken_city_3",
+      "bytes": 1559336,
+      "sha256": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "triangles": 12548,
+      "bones": 6,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "dusk_fort_3",
+      "bytes": 1581120,
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "triangles": 12495,
+      "bones": 16,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "giant_valley_3",
+      "bytes": 1437052,
+      "sha256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "triangles": 12489,
+      "bones": 17,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "himmapan_3",
+      "bytes": 1578368,
+      "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "triangles": 12528,
+      "bones": 18,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "fallen_city_3",
+      "bytes": 1484852,
+      "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "triangles": 12465,
+      "bones": 17,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    },
+    {
+      "type": "demon_rift_3",
+      "bytes": 1496980,
+      "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "triangles": 12504,
+      "bones": 16,
+      "clips": [
+        "idle",
+        "walk",
+        "attack",
+        "hurt",
+        "die"
+      ]
+    }
+  ],
+  "creditCost": 280,
+  "balanceAfter": 1800,
+  "creditsPurchased": false,
+  "generationJobs": 8,
+  "note": "Six original body jobs and two corrective weapon-preserving body jobs; original unarmed giant/general were rejected.",
+  "acceptedTasks": [
+    {
+      "type": "sunken_city_3",
+      "taskId": "01a12014-93d5-736b-8850-124714bac681",
+      "credits": 35,
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "dusk_fort_3",
+      "taskId": "01a12014-a341-705c-b033-980fc2fe7578",
+      "credits": 35,
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "giant_valley_3",
+      "taskId": "01a12022-b553-75d2-941f-670b3399ce78",
+      "credits": 35,
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "himmapan_3",
+      "taskId": "01a12017-897f-74fd-a0a9-b07d5db882be",
+      "credits": 35,
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "fallen_city_3",
+      "taskId": "01a12022-c3e2-726d-9754-c27b528a566f",
+      "credits": 35,
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "demon_rift_3",
+      "taskId": "01a12017-a6f6-7425-964b-4cb8b51d66a7",
+      "credits": 35,
+      "status": "SUCCEEDED"
+    }
+  ],
+  "rejectedTasks": [
+    {
+      "type": "giant_valley_3",
+      "taskId": "01a12017-7aa5-71ed-ac04-3f16c87430c2",
+      "credits": 35,
+      "status": "SUCCEEDED",
+      "reason": "Missing real club; replaced by prop-v2"
+    },
+    {
+      "type": "fallen_city_3",
+      "taskId": "01a12017-9821-701e-a6c4-49a384670747",
+      "credits": 35,
+      "status": "SUCCEEDED",
+      "reason": "Missing real sword; replaced by prop-v2"
+    }
+  ]
+}

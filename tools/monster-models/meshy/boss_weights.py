@@ -15,6 +15,10 @@ weights.regions: [{name, type: cloth|hand|foot|tail|rigid, bone OR weights,
 Core selections are authoritative; bounds feather *outside* the core. Cloth
 can use only Pelvis/Body roles, hand only Hand bones, feet only Foot bones,
 and tail only its declared chain/Pelvis. UV copies cannot disagree on a pin.
+New biped recipes may declare rigidBones: [{bone, purpose: wing|prop}]. Each
+needs an authored single-bone rigid region; folded wings attach to Body or
+another wing bone. These detail groups NEVER receive geodesic/diffused weights
+outside their authored masks. Wing declarations are specific to Himmapan.
 Optional weights.smoothIterations (24), diffusion (.30), jointBlend (.065),
 handBlend (.035), quantization (64), seamDecimals (5). No surface is moved.
 """
@@ -23,7 +27,8 @@ import copy
 import heapq
 import math
 
-TYPES = ('chalawan', 'bamboo_grave_3', 'sealed_mine_3')
+TYPES = ('chalawan', 'bamboo_grave_3', 'sealed_mine_3', 'dusk_fort_3',
+         'giant_valley_3', 'himmapan_3', 'fallen_city_3', 'demon_rift_3')
 
 
 def vector(value, label='vector'):
@@ -57,9 +62,9 @@ def validate_recipe(recipe, kind=None):
         raise ValueError('Anatomy recipe must be an object')
     kind = kind or r.get('type')
     if kind not in TYPES or r.get('type', kind) != kind:
-        raise ValueError('Only the three approved humanoid boss types are supported')
+        raise ValueError('Only approved measured biped bosses are supported; Naga requires a serpent rig')
     if r.get('taxon', 'humanoid-biped') not in ('humanoid-biped', 'biped'):
-        raise ValueError('These approved sources are humanoid bipeds, not quadrupeds')
+        raise ValueError('These approved sources require biped anatomy, not quadrupeds or serpents')
     if r.get('coordinateSystem', 'blender') not in ('blender', 'Blender metres: +Z up, -Y forward'):
         raise ValueError('Recipe joints must be measured in Blender +Z-up metres')
     r.update(type=kind, taxon='humanoid-biped', coordinateSystem='blender')
@@ -89,6 +94,8 @@ def validate_recipe(recipe, kind=None):
             raise ValueError(f'{name}: connected head must meet parent tail')
         named[name] = bone
     roles = {'root': 'Root', 'pelvis': 'Pelvis', 'body': 'Body', 'head': 'Head'} | r.get('roles', {})
+    if kind in TYPES[3:] and set(roles) != {'root', 'pelvis', 'body', 'head'}:
+        raise ValueError('New biped roles are root/pelvis/body/head only; declare details in rigidBones')
     if any(name not in named for name in roles.values()):
         raise ValueError('Root/Pelvis/Body/Head roles must reference existing bones')
     if named[roles['root']]['deform'] or named[roles['root']]['parent'] is not None:
@@ -148,10 +155,30 @@ def validate_recipe(recipe, kind=None):
             raise ValueError('Tail must form one unbranched chain rooted at Pelvis')
         used.add(name); parent = name
     r['tail'] = tail
-    # No undocumented spare deform groups silently receive a distance fallback.
+    # Detail bones need explicit semantic ownership, never a distance fallback.
     described = used | set(roles.values())
-    if any(b['deform'] and b['name'] not in described for b in bones):
-        raise ValueError('Every deform bone needs a spine/limb/tail role')
+    rigid = r.get('rigidBones', [])
+    if not isinstance(rigid, list) or (rigid and kind in TYPES[:3]):
+        raise ValueError('Rigid detail declarations are available only for the new biped batch')
+    rigid_names, wing_names = set(), set()
+    for detail in rigid:
+        if not isinstance(detail, dict) or set(detail) != {'bone', 'purpose'}:
+            raise ValueError('Rigid detail requires {bone, purpose: wing|prop}')
+        name, purpose = detail['bone'], detail['purpose']
+        if name not in named or name in described or name in rigid_names or not named[name]['deform']:
+            raise ValueError('Rigid details must reference distinct extra deform bones')
+        if purpose not in ('wing', 'prop'):
+            raise ValueError('Extra deform bones are only authored wing/prop details')
+        parent = named[name]['parent']
+        if parent not in (described - {roles['root']}) | rigid_names or not named[parent]['deform']:
+            raise ValueError('Rigid details must attach to an authored deform anchor')
+        if purpose == 'wing':
+            if kind != 'himmapan_3' or parent not in {roles['body']} | wing_names:
+                raise ValueError('Himmapan folded wings must attach to Body or an earlier wing bone')
+            wing_names.add(name)
+        rigid_names.add(name)
+    if any(b['deform'] and b['name'] not in described | rigid_names for b in bones):
+        raise ValueError('Every deform bone needs a spine/limb/tail role or authored rigid detail')
     options = {'smoothIterations': 24, 'diffusion': .30, 'jointBlend': .065,
                'handBlend': .035, 'quantization': 64, 'seamDecimals': 5, 'regions': []} | r.get('weights', {})
     for key, low, high in [('smoothIterations', 0, 120), ('quantization', 8, 1024), ('seamDecimals', 4, 8)]:
@@ -161,6 +188,20 @@ def validate_recipe(recipe, kind=None):
         if isinstance(options[key], bool) or not isinstance(options[key], (int, float)) or not math.isfinite(options[key]) or not low <= options[key] <= high:
             raise ValueError(f'Invalid {key}')
     r['weights'] = options
+    covered = set()
+    for region in options['regions']:
+        targets = region.get('weights', {region.get('bone'): 1.})
+        if not isinstance(targets, dict):
+            raise ValueError('Region weights must be an object')
+        extra = rigid_names & targets.keys()
+        if extra:
+            if region.get('type', 'rigid') != 'rigid' or len(targets) != 1:
+                raise ValueError('Extra detail bones require single-bone rigid regions')
+            if ('vertices' in region) == ('bounds' in region) or ('vertices' in region and not region['vertices']):
+                raise ValueError('Rigid detail region needs a nonempty original-index or bounds selector')
+            covered.update(extra)
+    if covered != rigid_names:
+        raise ValueError('Every rigid detail bone needs its own authored rigid region')
     return r
 
 
@@ -206,12 +247,22 @@ def boss_weights(points, indices, bones_or_recipe, recipe=None):
     hips = [leg['hip'] for leg in r['legs']]
     centre_x, hip_z = sum(p[0] for p in hips)/2, sum(p[2] for p in hips)/2
     tail_names = set(r['tail'])
+    rigid_names = tuple(d['bone'] for d in r.get('rigidBones', []))
+    rigid_set = set(rigid_names)
+    rigid_anchors = {}
+    for name in rigid_names:
+        parent = named[name]['parent']
+        while parent in rigid_names:
+            parent = named[parent]['parent']
+        rigid_anchors[name] = parent
 
     def same_side(p, reference):
         return (p[0] - centre_x) * (reference[0] - centre_x) >= -.001
 
     def allowed(vi, name):
         p, bone = unique[vi], named[name]
+        if name in rigid_names:
+            return False
         if name == roles['head']:
             return p[2] > bone['head'][2] - .10
         for leg in r['legs']:
@@ -281,6 +332,7 @@ def boss_weights(points, indices, bones_or_recipe, recipe=None):
 
     pins = [[] for _ in unique]
     hard = {}
+    rigid_core = set()
     for region in options['regions']:
         kind = region.get('type', 'rigid')
         targets = region.get('weights', {region.get('bone', roles['pelvis'] if kind == 'cloth' else None): 1.})
@@ -317,9 +369,18 @@ def boss_weights(points, indices, bones_or_recipe, recipe=None):
             if strength == 1:
                 hard[vi] = targets
             pins[vi].append((targets, strength))
+            if strength == 1:
+                rigid_core.update(rigid_set & targets.keys())
+    if rigid_core != rigid_set:
+        raise ValueError('Each rigid detail region must select actual source vertices in its core')
 
     def project(vi, weight):
         p = unique[vi]; w = dict(weight)
+        # Remove diffused detail mass first; only the authored pins below may
+        # reintroduce it. Preserve that mass on its explicit skeletal ancestor.
+        for name in rigid_names:
+            anchor = rigid_anchors[name]
+            w[anchor] = w.get(anchor, 0.) + w.pop(name, 0.)
         # Diffusion cannot drag the chest with a thigh or cross the body's midline.
         for leg in r['legs']:
             total = sum(w.pop(leg[k], 0.) for k in ('upper', 'lower', 'foot'))

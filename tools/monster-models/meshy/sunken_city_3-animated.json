@@ -1,0 +1,14 @@
+{
+  "type": "sunken_city_3",
+  "bytes": 1559336,
+  "sha256": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+  "triangles": 12548,
+  "bones": 6,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

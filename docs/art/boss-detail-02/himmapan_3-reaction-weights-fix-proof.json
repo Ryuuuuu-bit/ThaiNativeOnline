@@ -1,0 +1,678 @@
+{
+  "type": "himmapan_3",
+  "beforeRecipeSha256": "ad9f7a4553b2278e80fa01c055b5b86bee720aabb1d703fae3a16629b00fb468",
+  "afterRecipeSha256": "599a90bb381488fbc4bfb41fb9511ebff5d97d845bc6afcf703d5cb934942179",
+  "runtimeMotionSourceSha256": "297dd290223b87a99122ab1a5106fa842aaa650fb9d7cb34c92abf24352318ad",
+  "unchangedParentQAReportSha256": "8057ce78d4334cbb580d907836f2c0bdf203ea65d036dc15a9409fd27f227a49",
+  "sourceHashes": {
+    "source": "9babd4a215c1e606417a13589015c9b314ac3c65ae46223d9b573feb5a714a08",
+    "positions": "f51891410f2001c89de5071acb9dc80edb9cb64cfe9cbe59bf16b6498caf414b",
+    "indices": "65edd2032d5473d55e23f068d56d01d68af0f00a97fd1b02d884a44c31c410ed"
+  },
+  "bonesUnchanged": true,
+  "motionUnchanged": true,
+  "sourceGeometryUnchanged": true,
+  "thresholdsUnchanged": true,
+  "liveHarnessUsed": false,
+  "rootCause": "Rigid hanging-panel Pelvis pins ended abruptly against thigh/lower-leg trouser mass. Existing death IK moves that neighbouring cloth relative to the pinned panel.",
+  "selectionMethod": {
+    "coordinateTransform": "glTF(x,y,z) to Blender(x,-z,y)",
+    "weldDecimals": 5,
+    "geodesicBlendWidthMetres": 0.1,
+    "maximumAffectedSourceHeight": 0.86,
+    "panelCoreOriginalVertices": 683,
+    "protectedClubHandSoleOriginalVertices": 13913,
+    "changedSourceVertices": 441
+  },
+  "baselineOffline": [
+    {
+      "clip": "idle",
+      "samples": 106,
+      "edgeSampleFailures": 0,
+      "maxEdgeRatio": 1.3830690906450966,
+      "worstEdge": null,
+      "minimumRawSourceFloor": -1.4864151503305952e-06,
+      "minimumEitherGateMargin": 0.6169309093549034
+    },
+    {
+      "clip": "walk",
+      "samples": 53,
+      "edgeSampleFailures": 0,
+      "maxEdgeRatio": 1.6821477354596162,
+      "worstEdge": null,
+      "minimumRawSourceFloor": -0.00011663611423761528,
+      "minimumEitherGateMargin": 0.31785226454038384
+    },
+    {
+      "clip": "attack",
+      "samples": 53,
+      "edgeSampleFailures": 0,
+      "maxEdgeRatio": 1.5693730933963788,
+      "worstEdge": null,
+      "minimumRawSourceFloor": -1.4864151503305952e-06,
+      "minimumEitherGateMargin": 0.43062690660362124
+    },
+    {
+      "clip": "hurt",
+      "samples": 24,
+      "edgeSampleFailures": 0,
+      "maxEdgeRatio": 1.38306895456176,
+      "worstEdge": null,
+      "minimumRawSourceFloor": -1.4864151503305952e-06,
+      "minimumEitherGateMargin": 0.61693104543824
+    },
+    {
+      "clip": "die",
+      "samples": 53,
+      "edgeSampleFailures": 12,
+      "maxEdgeRatio": 2.168217983519621,
+      "worstEdge": {
+        "time": 1,
+        "runtimeIndices": [
+          13544,
+          13545
+        ],
+        "sourceIndices": [
+          13544,
+          13545
+        ],
+        "ratio": 2.168217983519621,
+        "extension": 0.02584736504028399
+      },
+      "minimumRawSourceFloor": -0.0002756632921157525,
+      "minimumEitherGateMargin": -0.16821798351962114
+    }
+  ],
+  "offlineExistingMotionCandidates": {
+    "exact": [
+      {
+        "clip": "idle",
+        "samples": 106,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.3830690906450966,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.6169309093549034,
+        "minimumTriangleAreaRatio": 0.6951242110873505,
+        "areaWorst": {
+          "time": 0,
+          "triangle": 2513,
+          "ratio": 0.6951242110873505,
+          "sourceIndices": [
+            4266,
+            4265,
+            4268
+          ],
+          "sourceCoordinates": [
+            [
+              -0.20024967193603516,
+              1.313056230545044,
+              -0.08594033122062683
+            ],
+            [
+              -0.25591713190078735,
+              1.3557345867156982,
+              -0.08130137622356415
+            ],
+            [
+              -0.24455168843269348,
+              1.3397302627563477,
+              -0.08547643572092056
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "walk",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.6821477354596162,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -0.00011663611423761528,
+        "minimumEitherGateMargin": 0.31785226454038384,
+        "minimumTriangleAreaRatio": 0.07638718173671531,
+        "areaWorst": {
+          "time": 0.9000000357627869,
+          "triangle": 4840,
+          "ratio": 0.07638718173671531,
+          "sourceIndices": [
+            8126,
+            4877,
+            7921
+          ],
+          "sourceCoordinates": [
+            [
+              -0.1034114807844162,
+              0.621504008769989,
+              0.138933002948761
+            ],
+            [
+              -0.13715988397598267,
+              0.6226637363433838,
+              0.18439476191997528
+            ],
+            [
+              -0.13043339550495148,
+              0.6217359304428101,
+              0.17175361514091492
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "attack",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.5693730933963788,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.43062690660362124,
+        "minimumTriangleAreaRatio": 0.3537157457366944,
+        "areaWorst": {
+          "time": 0.6333333849906921,
+          "triangle": 7683,
+          "ratio": 0.3537157457366944,
+          "sourceIndices": [
+            13062,
+            13277,
+            13063
+          ],
+          "sourceCoordinates": [
+            [
+              0.19208994507789612,
+              1.4236952066421509,
+              -0.10890315473079681
+            ],
+            [
+              0.23384054005146027,
+              1.4436427354812622,
+              -0.10727952420711517
+            ],
+            [
+              0.2634138762950897,
+              1.4412072896957397,
+              -0.10983094573020935
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "hurt",
+        "samples": 24,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.38306895456176,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.61693104543824,
+        "minimumTriangleAreaRatio": 0.6951242110873505,
+        "areaWorst": {
+          "time": 0,
+          "triangle": 2513,
+          "ratio": 0.6951242110873505,
+          "sourceIndices": [
+            4266,
+            4265,
+            4268
+          ],
+          "sourceCoordinates": [
+            [
+              -0.20024967193603516,
+              1.313056230545044,
+              -0.08594033122062683
+            ],
+            [
+              -0.25591713190078735,
+              1.3557345867156982,
+              -0.08130137622356415
+            ],
+            [
+              -0.24455168843269348,
+              1.3397302627563477,
+              -0.08547643572092056
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "die",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.5842239110972525,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -0.0002756632921157525,
+        "minimumEitherGateMargin": 0.41577608890274753,
+        "minimumTriangleAreaRatio": 0.02128845737529893,
+        "areaWorst": {
+          "time": 0.875,
+          "triangle": 5576,
+          "ratio": 0.02128845737529893,
+          "sourceIndices": [
+            9503,
+            8318,
+            8321
+          ],
+          "sourceCoordinates": [
+            [
+              -0.06409633904695511,
+              0.9709332585334778,
+              0.26093751192092896
+            ],
+            [
+              -0.053890641778707504,
+              0.9836903810501099,
+              0.24446924030780792
+            ],
+            [
+              -0.05597817152738571,
+              0.9667582511901855,
+              0.24655675888061523
+            ]
+          ]
+        }
+      }
+    ],
+    "UNORM8": [
+      {
+        "clip": "idle",
+        "samples": 106,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.3830690906450966,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.6169309093549034,
+        "minimumTriangleAreaRatio": 0.3827884398612662,
+        "areaWorst": {
+          "time": 1.633333444595337,
+          "triangle": 8614,
+          "ratio": 0.3827884398612662,
+          "sourceIndices": [
+            14647,
+            14129,
+            14669
+          ],
+          "sourceCoordinates": [
+            [
+              0.17307022213935852,
+              1.4583714008331299,
+              -0.02806936763226986
+            ],
+            [
+              0.15915337204933167,
+              1.4459621906280518,
+              -0.009397574700415134
+            ],
+            [
+              0.17307022213935852,
+              1.4506012201309204,
+              -0.025401968508958817
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "walk",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.6821477354596162,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -0.00011663611423761528,
+        "minimumEitherGateMargin": 0.31785226454038384,
+        "minimumTriangleAreaRatio": 0.07669840693086222,
+        "areaWorst": {
+          "time": 0.9000000357627869,
+          "triangle": 4840,
+          "ratio": 0.07669840693086222,
+          "sourceIndices": [
+            8126,
+            4877,
+            7921
+          ],
+          "sourceCoordinates": [
+            [
+              -0.1034114807844162,
+              0.621504008769989,
+              0.138933002948761
+            ],
+            [
+              -0.13715988397598267,
+              0.6226637363433838,
+              0.18439476191997528
+            ],
+            [
+              -0.13043339550495148,
+              0.6217359304428101,
+              0.17175361514091492
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "attack",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.64379381819081,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.43062690660362124,
+        "minimumTriangleAreaRatio": 0.3552898540504427,
+        "areaWorst": {
+          "time": 0.6666666865348816,
+          "triangle": 8742,
+          "ratio": 0.3552898540504427,
+          "sourceIndices": [
+            15067,
+            14773,
+            14858
+          ],
+          "sourceCoordinates": [
+            [
+              0.19986020028591156,
+              1.4408594369888306,
+              0.05021299794316292
+            ],
+            [
+              0.1893065720796585,
+              1.4330891370773315,
+              0.0358322374522686
+            ],
+            [
+              0.19046631455421448,
+              1.435640573501587,
+              0.08628086745738983
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "hurt",
+        "samples": 24,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.38306895456176,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.61693104543824,
+        "minimumTriangleAreaRatio": 0.38468406838278674,
+        "areaWorst": {
+          "time": 0.03333333507180214,
+          "triangle": 8614,
+          "ratio": 0.38468406838278674,
+          "sourceIndices": [
+            14647,
+            14129,
+            14669
+          ],
+          "sourceCoordinates": [
+            [
+              0.17307022213935852,
+              1.4583714008331299,
+              -0.02806936763226986
+            ],
+            [
+              0.15915337204933167,
+              1.4459621906280518,
+              -0.009397574700415134
+            ],
+            [
+              0.17307022213935852,
+              1.4506012201309204,
+              -0.025401968508958817
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "die",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.554085812789965,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -0.0002756632921157525,
+        "minimumEitherGateMargin": 0.45213510634444987,
+        "minimumTriangleAreaRatio": 0.02015477154597657,
+        "areaWorst": {
+          "time": 0.9000000357627869,
+          "triangle": 5576,
+          "ratio": 0.02015477154597657,
+          "sourceIndices": [
+            9503,
+            8318,
+            8321
+          ],
+          "sourceCoordinates": [
+            [
+              -0.06409633904695511,
+              0.9709332585334778,
+              0.26093751192092896
+            ],
+            [
+              -0.053890641778707504,
+              0.9836903810501099,
+              0.24446924030780792
+            ],
+            [
+              -0.05597817152738571,
+              0.9667582511901855,
+              0.24655675888061523
+            ]
+          ]
+        }
+      }
+    ],
+    "normalizedUNORM8": [
+      {
+        "clip": "idle",
+        "samples": 106,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.3830690906450966,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.6169309093549034,
+        "minimumTriangleAreaRatio": 0.6957203215390199,
+        "areaWorst": {
+          "time": 0,
+          "triangle": 2513,
+          "ratio": 0.6957203215390199,
+          "sourceIndices": [
+            4266,
+            4265,
+            4268
+          ],
+          "sourceCoordinates": [
+            [
+              -0.20024967193603516,
+              1.313056230545044,
+              -0.08594033122062683
+            ],
+            [
+              -0.25591713190078735,
+              1.3557345867156982,
+              -0.08130137622356415
+            ],
+            [
+              -0.24455168843269348,
+              1.3397302627563477,
+              -0.08547643572092056
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "walk",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.6821477354596162,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -0.00011663611423761528,
+        "minimumEitherGateMargin": 0.31785226454038384,
+        "minimumTriangleAreaRatio": 0.07669840693086222,
+        "areaWorst": {
+          "time": 0.9000000357627869,
+          "triangle": 4840,
+          "ratio": 0.07669840693086222,
+          "sourceIndices": [
+            8126,
+            4877,
+            7921
+          ],
+          "sourceCoordinates": [
+            [
+              -0.1034114807844162,
+              0.621504008769989,
+              0.138933002948761
+            ],
+            [
+              -0.13715988397598267,
+              0.6226637363433838,
+              0.18439476191997528
+            ],
+            [
+              -0.13043339550495148,
+              0.6217359304428101,
+              0.17175361514091492
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "attack",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.5693730933963788,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.43062690660362124,
+        "minimumTriangleAreaRatio": 0.35585241876118123,
+        "areaWorst": {
+          "time": 0.6333333849906921,
+          "triangle": 7683,
+          "ratio": 0.35585241876118123,
+          "sourceIndices": [
+            13062,
+            13277,
+            13063
+          ],
+          "sourceCoordinates": [
+            [
+              0.19208994507789612,
+              1.4236952066421509,
+              -0.10890315473079681
+            ],
+            [
+              0.23384054005146027,
+              1.4436427354812622,
+              -0.10727952420711517
+            ],
+            [
+              0.2634138762950897,
+              1.4412072896957397,
+              -0.10983094573020935
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "hurt",
+        "samples": 24,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.38306895456176,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -1.4864151503305952e-06,
+        "minimumEitherGateMargin": 0.61693104543824,
+        "minimumTriangleAreaRatio": 0.6957203215390199,
+        "areaWorst": {
+          "time": 0,
+          "triangle": 2513,
+          "ratio": 0.6957203215390199,
+          "sourceIndices": [
+            4266,
+            4265,
+            4268
+          ],
+          "sourceCoordinates": [
+            [
+              -0.20024967193603516,
+              1.313056230545044,
+              -0.08594033122062683
+            ],
+            [
+              -0.25591713190078735,
+              1.3557345867156982,
+              -0.08130137622356415
+            ],
+            [
+              -0.24455168843269348,
+              1.3397302627563477,
+              -0.08547643572092056
+            ]
+          ]
+        }
+      },
+      {
+        "clip": "die",
+        "samples": 53,
+        "edgeSampleFailures": 0,
+        "maxEdgeRatio": 1.582812108460385,
+        "worstEdge": null,
+        "minimumRawSourceFloor": -0.0002756632921157525,
+        "minimumEitherGateMargin": 0.417187891539615,
+        "minimumTriangleAreaRatio": 0.02015477154597657,
+        "areaWorst": {
+          "time": 0.9000000357627869,
+          "triangle": 5576,
+          "ratio": 0.02015477154597657,
+          "sourceIndices": [
+            9503,
+            8318,
+            8321
+          ],
+          "sourceCoordinates": [
+            [
+              -0.06409633904695511,
+              0.9709332585334778,
+              0.26093751192092896
+            ],
+            [
+              -0.053890641778707504,
+              0.9836903810501099,
+              0.24446924030780792
+            ],
+            [
+              -0.05597817152738571,
+              0.9667582511901855,
+              0.24655675888061523
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "mappingMaximumSourceError": 1.3890413836976077e-06,
+  "offlineWeights": {
+    "vertices": 21570,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "authoredGroups": 263
+  },
+  "preservedRigidAndDistalPins": {
+    "authored_posterior_wing_L": 2959,
+    "source_hand_digits_L": 461,
+    "avian_heel_three_front_and_rear_toes_L": 746,
+    "front_shoulder_armour_L": 401,
+    "authored_posterior_wing_R": 3042,
+    "source_hand_digits_R": 453,
+    "avian_heel_three_front_and_rear_toes_R": 814,
+    "front_shoulder_armour_R": 358,
+    "chest_and_collar_core": 2597,
+    "bird_head_beak_crown": 2082,
+    "separate_central_front_back_panel": 683
+  },
+  "visualEvidenceInspected": [
+    "docs/art/boss-detail-02/himmapan_3-static-front.png",
+    "docs/art/boss-detail-02/himmapan_3-front-die.png"
+  ],
+  "limitations": [
+    "Offline replay of exact current exported motion and topology; fresh reweight/rest/calibration/export and native QA still required.",
+    "Raw source floor scaled by world height is only an offline floor witness, not native controller/crossfade or terrain acceptance.",
+    "Triangle area contraction recorded for independent visual review; no invented area gate or anatomy acceptance."
+  ]
+}

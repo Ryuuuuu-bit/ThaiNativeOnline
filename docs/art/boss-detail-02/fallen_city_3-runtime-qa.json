@@ -1,0 +1,467 @@
+{
+  "type": "fallen_city_3",
+  "sampling": "all exported keys + 24 Hz; actual indexed edges >= 5 mm",
+  "thresholds": {
+    "edgeRatio": 2,
+    "edgeExtensionSourceMetres": 0.01,
+    "limbLengthSourceMetres": 0.005,
+    "idleFootDriftSourceMetres": 0.0015,
+    "flatGroundRuntimeMetres": -0.01
+  },
+  "failures": [],
+  "clips": [
+    {
+      "name": "idle",
+      "duration": 2,
+      "samples": 106,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.0870165604759132,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000012477733469296037,
+      "limbWorst": {
+        "name": "LegRLower",
+        "time": 0,
+        "sourceLength": 0.39485313725485327,
+        "actualLength": 0.39486561498832257
+      },
+      "idleFootDrift": [
+        {
+          "name": "LegLFoot",
+          "maximum": 0
+        },
+        {
+          "name": "LegRFoot",
+          "maximum": 0
+        }
+      ],
+      "minimumTriangleAreaRatio": 0.6894986017432422,
+      "areaWorst": {
+        "time": 1.3333333730697632,
+        "triangle": 4063,
+        "restArea": 0.00013141908848794987,
+        "ratio": 0.6894986017432422,
+        "sourceCoordinates": [
+          [
+            -0.0710100993165475,
+            1.2515901548524573,
+            -0.24797748916661763
+          ],
+          [
+            -0.05280217659979958,
+            1.264463248961755,
+            -0.2961066760943338
+          ],
+          [
+            -0.06323985405155924,
+            1.2561131422244298,
+            -0.27894251429436406
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            -0.062200716705470116,
+            1.256658795711813,
+            -0.25078576787701873
+          ],
+          [
+            -0.04734860120190393,
+            1.26918956652652,
+            -0.29770084999367197
+          ],
+          [
+            -0.05510400401044108,
+            1.26192421818124,
+            -0.2812927272445618
+          ]
+        ]
+      },
+      "rigidAttachments": [
+        {
+          "name": "Sword",
+          "parent": "HandR",
+          "maximumSkinMatrixDifference": 9.923039745451945e-8,
+          "limit": 0.0001
+        }
+      ],
+      "maximumSourceVertexMotion": 0.11732636601743679,
+      "nativeFlatClearance": {
+        "minimum": -0.000008621629487461776,
+        "samples": 111
+      }
+    },
+    {
+      "name": "walk",
+      "duration": 1,
+      "samples": 53,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.412909999635974,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000015331513685268305,
+      "limbWorst": {
+        "name": "LegRLower",
+        "time": 0.9666666984558105,
+        "sourceLength": 0.39485313725485327,
+        "actualLength": 0.39486846876853854
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.2645095154426295,
+      "areaWorst": {
+        "time": 0.8000000715255737,
+        "triangle": 5588,
+        "restArea": 0.00019926057021848404,
+        "ratio": 0.2645095154426295,
+        "sourceCoordinates": [
+          [
+            0.04113680266914477,
+            0.7012940449608994,
+            -0.06079578256927076
+          ],
+          [
+            0.044152104185322005,
+            0.7491912689456156,
+            -0.07668428620474294
+          ],
+          [
+            0.04995081067085405,
+            0.7876945856686027,
+            -0.08201902575215447
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            0.04327199261448322,
+            0.7042013639797742,
+            -0.058651549710790785
+          ],
+          [
+            0.04809688511595911,
+            0.7561724991369624,
+            -0.07275281808940909
+          ],
+          [
+            0.051556972865527406,
+            0.7919312177746407,
+            -0.08044427996122733
+          ]
+        ]
+      },
+      "rigidAttachments": [
+        {
+          "name": "Sword",
+          "parent": "HandR",
+          "maximumSkinMatrixDifference": 1.0076394130198452e-7,
+          "limit": 0.0001
+        }
+      ],
+      "maximumSourceVertexMotion": 0.15567930942885583,
+      "nativeFlatClearance": {
+        "minimum": -0.00014407101501650167,
+        "samples": 58
+      }
+    },
+    {
+      "name": "attack",
+      "duration": 1,
+      "samples": 53,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.6311511556552205,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000014926824467520472,
+      "limbWorst": {
+        "name": "ArmLUpper",
+        "time": 0.8333333333333334,
+        "sourceLength": 0.24656439321199652,
+        "actualLength": 0.246549466387529
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.22437805877882774,
+      "areaWorst": {
+        "time": 0.6333333849906921,
+        "triangle": 9041,
+        "restArea": 0.00006165371370388917,
+        "ratio": 0.22437805877882774,
+        "sourceCoordinates": [
+          [
+            0.2504695927391706,
+            1.1504608867869037,
+            -0.2564436982723778
+          ],
+          [
+            0.24119168740482555,
+            1.153940100913393,
+            -0.26943276856774423
+          ],
+          [
+            0.24815012163121153,
+            1.1544039974400175,
+            -0.24960123193275657
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            0.24101853768454684,
+            1.1584118541440704,
+            -0.2416397459369804
+          ],
+          [
+            0.235783538492656,
+            1.1593818978237587,
+            -0.2586765990629011
+          ],
+          [
+            0.2426883245253213,
+            1.1595819484568048,
+            -0.23886228969051454
+          ]
+        ]
+      },
+      "rigidAttachments": [
+        {
+          "name": "Sword",
+          "parent": "HandR",
+          "maximumSkinMatrixDifference": 1.0626040525263392e-7,
+          "limit": 0.0001
+        }
+      ],
+      "maximumSourceVertexMotion": 0.41492891845466545,
+      "nativeFlatClearance": {
+        "minimum": -0.000008621629487461776,
+        "samples": 58
+      }
+    },
+    {
+      "name": "hurt",
+      "duration": 0.4333333671092987,
+      "samples": 24,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.1022260659596557,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000012477733469296037,
+      "limbWorst": {
+        "name": "LegRLower",
+        "time": 0,
+        "sourceLength": 0.39485313725485327,
+        "actualLength": 0.39486561498832257
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.6894987758369445,
+      "areaWorst": {
+        "time": 0.3333333333333333,
+        "triangle": 4063,
+        "restArea": 0.00013141908848794987,
+        "ratio": 0.6894987758369445,
+        "sourceCoordinates": [
+          [
+            -0.0710100993165475,
+            1.2515901548524573,
+            -0.24797748916661763
+          ],
+          [
+            -0.05280217659979958,
+            1.264463248961755,
+            -0.2961066760943338
+          ],
+          [
+            -0.06323985405155924,
+            1.2561131422244298,
+            -0.27894251429436406
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            -0.06192053406435394,
+            1.253849159837091,
+            -0.2695866454073438
+          ],
+          [
+            -0.0471214050333118,
+            1.2626836554069107,
+            -0.31735241604842834
+          ],
+          [
+            -0.05486205713872361,
+            1.256723372681004,
+            -0.3004197402380462
+          ]
+        ]
+      },
+      "rigidAttachments": [
+        {
+          "name": "Sword",
+          "parent": "HandR",
+          "maximumSkinMatrixDifference": 1.0384809723262833e-7,
+          "limit": 0.0001
+        }
+      ],
+      "maximumSourceVertexMotion": 0.1173199819678391,
+      "nativeFlatClearance": {
+        "minimum": -0.000052532728996180144,
+        "samples": 30
+      }
+    },
+    {
+      "name": "die",
+      "duration": 1,
+      "samples": 53,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.7986693893417736,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000015200077285892899,
+      "limbWorst": {
+        "name": "LegRUpper",
+        "time": 1,
+        "sourceLength": 0.35398587542442983,
+        "actualLength": 0.35397067534714394
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.04813118222338822,
+      "areaWorst": {
+        "time": 0.6333333849906921,
+        "triangle": 5588,
+        "restArea": 0.00019926057021848404,
+        "ratio": 0.04813118222338822,
+        "sourceCoordinates": [
+          [
+            0.04113680266914477,
+            0.7012940449608994,
+            -0.06079578256927076
+          ],
+          [
+            0.044152104185322005,
+            0.7491912689456156,
+            -0.07668428620474294
+          ],
+          [
+            0.04995081067085405,
+            0.7876945856686027,
+            -0.08201902575215447
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            0.04364136646229477,
+            0.6735324107993439,
+            -0.05783411404399624
+          ],
+          [
+            0.04880486954151464,
+            0.7268524032747833,
+            -0.07135454148604392
+          ],
+          [
+            0.05187067967322645,
+            0.7615882330478397,
+            -0.07996923113024701
+          ]
+        ]
+      },
+      "rigidAttachments": [
+        {
+          "name": "Sword",
+          "parent": "HandR",
+          "maximumSkinMatrixDifference": 9.904694742157716e-8,
+          "limit": 0.0001
+        }
+      ],
+      "maximumSourceVertexMotion": 0.5311278729542264,
+      "nativeFlatClearance": {
+        "minimum": -0.0001849055350392255,
+        "samples": 74
+      }
+    }
+  ],
+  "runtimeSpec": {
+    "url": "/models/monsters/fallen_city_3.glb",
+    "height": 1.9,
+    "groundPivot": [
+      0.091,
+      -0.275
+    ],
+    "facing": -0.3258631537981599,
+    "fill": 0.35,
+    "fogScale": 0.45,
+    "deathDim": 0.82,
+    "outerSize": 2,
+    "worldTargetHeight": 3.8
+  },
+  "asset": {
+    "url": "/models/monsters/fallen_city_3.glb",
+    "bytes": 1484852,
+    "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e"
+  },
+  "budget": {
+    "triangles": 12465,
+    "materialDraws": 1,
+    "maximumTriangles": 15000,
+    "maximumMaterialDraws": 1
+  },
+  "decodedTextures": [
+    {
+      "slot": "map",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "slot": "normalMap",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "weights": {
+    "vertices": 17040,
+    "maxSumError": 1.1102230246251565e-16,
+    "limit": 0.00001
+  },
+  "sourceRest": {
+    "height": 1.9000000151824747,
+    "indexedEdges": 26571
+  },
+  "limbSampling": {
+    "chains": [
+      "LegL",
+      "LegR"
+    ],
+    "segments": [
+      {
+        "name": "LegLUpper",
+        "expectedSourceLength": 0.3538205759986267
+      },
+      {
+        "name": "LegLLower",
+        "expectedSourceLength": 0.396719044160978
+      },
+      {
+        "name": "LegRUpper",
+        "expectedSourceLength": 0.35398587542442983
+      },
+      {
+        "name": "LegRLower",
+        "expectedSourceLength": 0.39485313725485327
+      },
+      {
+        "name": "ArmLUpper",
+        "expectedSourceLength": 0.24656439321199652
+      },
+      {
+        "name": "ArmLLower",
+        "expectedSourceLength": 0.2244237064126693
+      },
+      {
+        "name": "ArmRUpper",
+        "expectedSourceLength": 0.24037470748812173
+      },
+      {
+        "name": "ArmRLower",
+        "expectedSourceLength": 0.21899999999999986
+      }
+    ],
+    "idleContactScope": "two exported foot bone origins; surface toe contact and locomotion stance require visual review"
+  },
+  "acceptance": "Independent species anatomy, prop, wing, coil and sole visual review required; numerical pass does not establish art acceptance",
+  "provenance": {
+    "rigReportSha256": "dbc6d3136aaa97f49ebb3e129b4111e4961eebac21e7f85916c9496d9aecd646",
+    "localGlbSha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+    "nativeLoadedGlbSha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+    "capturedAt": "2026-10-09T11:59:20.727Z"
+  }
+}

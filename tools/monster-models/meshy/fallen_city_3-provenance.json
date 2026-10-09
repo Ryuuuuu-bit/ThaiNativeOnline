@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a12022-c3e2-726d-9754-c27b528a566f",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": ""
+  },
+  "reference": "references/fallen_city_3-prop-v2.png",
+  "referenceSha256": "8192100657c6f2bfbf1c78493a10a788a0d0f0aae733d0aec7937eb92fbdd966",
+  "originalSha256": "44bf9128b7fb655944ad1c1f6d5382f7e70a4a6c566b7a85168f6e2059c0cfd7",
+  "originalBytes": 13260020,
+  "originalLocalPath": "artifacts/meshy-monsters/fallen_city_3/prop-v2/original.glb"
+}

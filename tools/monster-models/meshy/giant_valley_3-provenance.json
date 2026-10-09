@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a12022-b553-75d2-941f-670b3399ce78",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": ""
+  },
+  "reference": "references/giant_valley_3-prop-v2.png",
+  "referenceSha256": "0cf3a48f59d78505b0043eea80af6968d4f296051379014c393c3ce64e088656",
+  "originalSha256": "59920b8593a2e9752a9e43c3ce0e5af257739bc26e5ce6f6c38277f954976446",
+  "originalBytes": 12576192,
+  "originalLocalPath": "artifacts/meshy-monsters/giant_valley_3/prop-v2/original.glb"
+}

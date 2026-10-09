@@ -1,0 +1,14 @@
+{
+  "type": "dusk_fort_3",
+  "bytes": 1581120,
+  "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+  "triangles": 12495,
+  "bones": 16,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

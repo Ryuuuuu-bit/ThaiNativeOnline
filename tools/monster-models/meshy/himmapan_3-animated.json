@@ -1,0 +1,14 @@
+{
+  "type": "himmapan_3",
+  "bytes": 1578368,
+  "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+  "triangles": 12528,
+  "bones": 18,
+  "clips": [
+    "idle",
+    "walk",
+    "attack",
+    "hurt",
+    "die"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "creature": "fallen_city_3",
+  "bytes": 1429680,
+  "triangles": 12465,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.5234484672546387,
+      0,
+      -0.4140714854001999
+    ],
+    "max": [
+      0.5234484672546387,
+      1.9000888466835022,
+      0.4140714854001999
+    ]
+  },
+  "sha256": "4cffa6372241f1d7c0012dabc0b00f7af05c990318136c456e2adcc2740cdf8b",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

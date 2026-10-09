@@ -1,0 +1,759 @@
+{
+  "type": "fallen_city_3",
+  "taxon": "humanoid-biped",
+  "version": "boss-v1",
+  "rigName": "FallenCityBossV1Rig",
+  "surfaceName": "FallenCityBossV1Surface",
+  "prefix": "FallenCityBossV1",
+  "rigId": "obj_1aa084124b284546b655e4f717c974e1",
+  "bones": [
+    {
+      "name": "Root",
+      "head": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tail": [
+        0.0,
+        0.0,
+        0.14
+      ],
+      "parent": null,
+      "deform": false,
+      "connected": false
+    },
+    {
+      "name": "Pelvis",
+      "head": [
+        0.108,
+        0.233,
+        0.87
+      ],
+      "tail": [
+        0.108,
+        0.221,
+        1.01
+      ],
+      "parent": "Root",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Body",
+      "head": [
+        0.108,
+        0.221,
+        1.01
+      ],
+      "tail": [
+        0.117,
+        0.234,
+        1.506
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "Head",
+      "head": [
+        0.117,
+        0.234,
+        1.506
+      ],
+      "tail": [
+        0.118,
+        0.2,
+        1.755
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLUpper",
+      "head": [
+        0.308,
+        0.29,
+        1.358
+      ],
+      "tail": [
+        0.404,
+        0.333,
+        1.135
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmLLower",
+      "head": [
+        0.404,
+        0.333,
+        1.135
+      ],
+      "tail": [
+        0.475,
+        0.298,
+        0.925
+      ],
+      "parent": "ArmLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandL",
+      "head": [
+        0.475,
+        0.298,
+        0.925
+      ],
+      "tail": [
+        0.48,
+        0.188,
+        0.765
+      ],
+      "parent": "ArmLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegLUpper",
+      "head": [
+        0.252,
+        0.281,
+        0.87
+      ],
+      "tail": [
+        0.254,
+        0.257,
+        0.517
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegLLower",
+      "head": [
+        0.254,
+        0.257,
+        0.517
+      ],
+      "tail": [
+        0.298,
+        0.342,
+        0.132
+      ],
+      "parent": "LegLUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegLFoot",
+      "head": [
+        0.298,
+        0.342,
+        0.132
+      ],
+      "tail": [
+        0.406,
+        0.171,
+        0.04
+      ],
+      "parent": "LegLLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "ArmRUpper",
+      "head": [
+        -0.108,
+        0.181,
+        1.358
+      ],
+      "tail": [
+        -0.208,
+        0.197,
+        1.14
+      ],
+      "parent": "Body",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "ArmRLower",
+      "head": [
+        -0.208,
+        0.197,
+        1.14
+      ],
+      "tail": [
+        -0.263,
+        0.147,
+        0.934
+      ],
+      "parent": "ArmRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "HandR",
+      "head": [
+        -0.263,
+        0.147,
+        0.934
+      ],
+      "tail": [
+        -0.276,
+        0.062,
+        0.797
+      ],
+      "parent": "ArmRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegRUpper",
+      "head": [
+        -0.034,
+        0.182,
+        0.87
+      ],
+      "tail": [
+        -0.045,
+        0.158,
+        0.517
+      ],
+      "parent": "Pelvis",
+      "deform": true,
+      "connected": false
+    },
+    {
+      "name": "LegRLower",
+      "head": [
+        -0.045,
+        0.158,
+        0.517
+      ],
+      "tail": [
+        -0.117,
+        0.208,
+        0.132
+      ],
+      "parent": "LegRUpper",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "LegRFoot",
+      "head": [
+        -0.117,
+        0.208,
+        0.132
+      ],
+      "tail": [
+        -0.128,
+        0.036,
+        0.03
+      ],
+      "parent": "LegRLower",
+      "deform": true,
+      "connected": true
+    },
+    {
+      "name": "Sword",
+      "head": [
+        -0.282,
+        0.066,
+        0.81
+      ],
+      "tail": [
+        -0.433,
+        -0.205,
+        0.438
+      ],
+      "parent": "HandR",
+      "deform": true,
+      "connected": false
+    }
+  ],
+  "legs": [
+    {
+      "name": "LegL",
+      "hip": [
+        0.252,
+        0.281,
+        0.87
+      ],
+      "knee": [
+        0.254,
+        0.257,
+        0.517
+      ],
+      "joint": [
+        0.298,
+        0.342,
+        0.132
+      ],
+      "toe": [
+        0.406,
+        0.171,
+        0.04
+      ],
+      "pole": [
+        0.38839999999999997,
+        -0.14073999999999998,
+        0.517
+      ],
+      "phase": 0,
+      "upper": "LegLUpper",
+      "lower": "LegLLower",
+      "foot": "LegLFoot",
+      "control": "FallenCityBossV1LegLTarget",
+      "poleControl": "FallenCityBossV1LegLPole"
+    },
+    {
+      "name": "LegR",
+      "hip": [
+        -0.034,
+        0.182,
+        0.87
+      ],
+      "knee": [
+        -0.045,
+        0.158,
+        0.517
+      ],
+      "joint": [
+        -0.117,
+        0.208,
+        0.132
+      ],
+      "toe": [
+        -0.128,
+        0.036,
+        0.03
+      ],
+      "pole": [
+        0.0894,
+        -0.23973999999999998,
+        0.517
+      ],
+      "phase": 0.5,
+      "upper": "LegRUpper",
+      "lower": "LegRLower",
+      "foot": "LegRFoot",
+      "control": "FallenCityBossV1LegRTarget",
+      "poleControl": "FallenCityBossV1LegRPole"
+    }
+  ],
+  "arms": [
+    {
+      "name": "ArmL",
+      "shoulder": [
+        0.308,
+        0.29,
+        1.358
+      ],
+      "elbow": [
+        0.404,
+        0.333,
+        1.135
+      ],
+      "wrist": [
+        0.475,
+        0.298,
+        0.925
+      ],
+      "tip": [
+        0.48,
+        0.188,
+        0.765
+      ],
+      "upper": "ArmLUpper",
+      "lower": "ArmLLower",
+      "hand": "HandL"
+    },
+    {
+      "name": "ArmR",
+      "shoulder": [
+        -0.108,
+        0.181,
+        1.358
+      ],
+      "elbow": [
+        -0.208,
+        0.197,
+        1.14
+      ],
+      "wrist": [
+        -0.263,
+        0.147,
+        0.934
+      ],
+      "tip": [
+        -0.276,
+        0.062,
+        0.797
+      ],
+      "upper": "ArmRUpper",
+      "lower": "ArmRLower",
+      "hand": "HandR"
+    }
+  ],
+  "tail": [],
+  "rigidBones": [
+    {
+      "bone": "Sword",
+      "purpose": "prop"
+    }
+  ],
+  "inputHashes": {
+    "source": "b82fa2052f727fcbf17e1039d76ebf6839382ea5809a228d9678d9f125f61da1",
+    "positions": "bb93e4d3ff84cebbda542f3663af5aba67ae04ecd24c84eb84961d643c702101",
+    "indices": "544bc3f8e2b0f6402b9e53aa4828f7ba8a6cdf3434072db29439db6ed256c326",
+    "anatomy": "e40a5efcd0c413f9fac7b9e30dc710e8667ff456482f3617a90746671cfd7151"
+  },
+  "weightsAlgorithmSha256": "0414c88f4d354b8eab20acfb7874af391186800ed33dd56b75c638f5eb228d55",
+  "appliedWeightsSha256": "ea28de090601e8a21247392a8032416cd584abe0f02dca410a60ab89605a27f2",
+  "weights": {
+    "vertices": 17040,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "Sword": 484,
+      "HandR": 1024,
+      "ArmRLower": 524,
+      "ArmRUpper": 932,
+      "Body": 7161,
+      "LegRFoot": 769,
+      "LegRLower": 999,
+      "Pelvis": 3748,
+      "LegRUpper": 1057,
+      "LegLUpper": 1087,
+      "Head": 1940,
+      "ArmLUpper": 873,
+      "LegLLower": 966,
+      "LegLFoot": 691,
+      "ArmLLower": 625,
+      "HandL": 840
+    },
+    "weightGroups": 782
+  },
+  "skin": {
+    "name": "FallenCityBossV1Rig",
+    "objectId": "obj_1aa084124b284546b655e4f717c974e1",
+    "type": "ARMATURE",
+    "bones": [
+      {
+        "name": "Root",
+        "parent": null,
+        "length": 0.14000000059604645,
+        "deform": false
+      },
+      {
+        "name": "Pelvis",
+        "parent": "Root",
+        "length": 0.1405133306980133,
+        "deform": true
+      },
+      {
+        "name": "Body",
+        "parent": "Pelvis",
+        "length": 0.49625200033187866,
+        "deform": true
+      },
+      {
+        "name": "Head",
+        "parent": "Body",
+        "length": 0.2513125240802765,
+        "deform": true
+      },
+      {
+        "name": "ArmLUpper",
+        "parent": "Body",
+        "length": 0.24656444787979126,
+        "deform": true
+      },
+      {
+        "name": "ArmLLower",
+        "parent": "ArmLUpper",
+        "length": 0.22442372143268585,
+        "deform": true
+      },
+      {
+        "name": "HandL",
+        "parent": "ArmLLower",
+        "length": 0.19422930479049683,
+        "deform": true
+      },
+      {
+        "name": "ArmRUpper",
+        "parent": "Body",
+        "length": 0.24037477374076843,
+        "deform": true
+      },
+      {
+        "name": "ArmRLower",
+        "parent": "ArmRUpper",
+        "length": 0.2189999520778656,
+        "deform": true
+      },
+      {
+        "name": "HandR",
+        "parent": "ArmRLower",
+        "length": 0.16174982488155365,
+        "deform": true
+      },
+      {
+        "name": "Sword",
+        "parent": "HandR",
+        "length": 0.48438194394111633,
+        "deform": true
+      },
+      {
+        "name": "LegLUpper",
+        "parent": "Pelvis",
+        "length": 0.3538205623626709,
+        "deform": true
+      },
+      {
+        "name": "LegLLower",
+        "parent": "LegLUpper",
+        "length": 0.39671921730041504,
+        "deform": true
+      },
+      {
+        "name": "LegLFoot",
+        "parent": "LegLLower",
+        "length": 0.22219251096248627,
+        "deform": true
+      },
+      {
+        "name": "LegRUpper",
+        "parent": "Pelvis",
+        "length": 0.35398584604263306,
+        "deform": true
+      },
+      {
+        "name": "LegRLower",
+        "parent": "LegRUpper",
+        "length": 0.3948531150817871,
+        "deform": true
+      },
+      {
+        "name": "LegRFoot",
+        "parent": "LegRLower",
+        "length": 0.2002718448638916,
+        "deform": true
+      }
+    ],
+    "boundMeshes": [
+      "FallenCityBossV1Surface"
+    ]
+  },
+  "snapshotId": "snapshot-13e4831e4006d5ba4f3dc8ad",
+  "sceneRevision": 20576,
+  "animationSnapshotId": "snapshot-47e8b111f157a27e4097f936",
+  "validation": {
+    "limbLength": {
+      "maxRelativeError": 4.696141908322034e-06,
+      "limit": 0.005,
+      "passed": true
+    },
+    "footDrift": {
+      "idle": [
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "attack": [
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "hurt": [
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 0.0,
+          "limit": 0.001,
+          "passed": true
+        }
+      ],
+      "die": [
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegLFoot",
+          "maxDrift": 6.4393019438212665e-06,
+          "limit": 0.001,
+          "passed": true
+        },
+        {
+          "object": "FallenCityBossV1Rig",
+          "bone": "LegRFoot",
+          "maxDrift": 2.799791782674246e-05,
+          "limit": 0.001,
+          "passed": true
+        }
+      ]
+    },
+    "floor": {
+      "idle": {
+        "minimumZ": -3.3764874274311296e-07,
+        "floorZ": 0.0,
+        "penetration": 3.3764874274311296e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "walk": {
+        "minimumZ": -3.3764874274311296e-07,
+        "floorZ": 0.0,
+        "penetration": 3.3764874274311296e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "attack": {
+        "minimumZ": -3.3764874274311296e-07,
+        "floorZ": 0.0,
+        "penetration": 3.3764874274311296e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "hurt": {
+        "minimumZ": -3.3764874274311296e-07,
+        "floorZ": 0.0,
+        "penetration": 3.3764874274311296e-07,
+        "limit": 0.01,
+        "passed": true
+      },
+      "die": {
+        "minimumZ": -4.480171355680795e-06,
+        "floorZ": 0.0,
+        "penetration": 4.480171355680795e-06,
+        "limit": 0.01,
+        "passed": true
+      }
+    }
+  },
+  "calibration": {
+    "restGlbSha256": "9716f60fb52430183db5c5db579cd5a1b94c5904a49dccc402c6f0f783afa80b",
+    "anatomySha256": "e40a5efcd0c413f9fac7b9e30dc710e8667ff456482f3617a90746671cfd7151",
+    "legs": {
+      "LegL": {
+        "poleAngle": -1.3222835155500605,
+        "rotation": [
+          -1.017285452462591,
+          -1.0624515265787315,
+          -1.6231570853304695
+        ]
+      },
+      "LegR": {
+        "poleAngle": -1.2401828738113791,
+        "rotation": [
+          -2.595196458201626,
+          0.19947819121070573,
+          0.05606476516838137
+        ]
+      }
+    },
+    "arms": {
+      "ArmL": {
+        "upperAxis": 0,
+        "upperSign": -1,
+        "upperRestRotation": [
+          0,
+          0,
+          0.12
+        ],
+        "lowerAxis": 0,
+        "lowerSign": -1,
+        "lowerRestRotation": [
+          -0.04,
+          0,
+          0
+        ]
+      },
+      "ArmR": {
+        "upperAxis": 0,
+        "upperSign": -1,
+        "upperRestRotation": [
+          0,
+          0,
+          -0.12
+        ],
+        "lowerAxis": 0,
+        "lowerSign": -1,
+        "lowerRestRotation": [
+          -0.04,
+          0,
+          0
+        ]
+      }
+    },
+    "rootDownLocal": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "clips": {
+    "idle": [
+      1,
+      49
+    ],
+    "walk": [
+      51,
+      75
+    ],
+    "attack": [
+      81,
+      105
+    ],
+    "hurt": [
+      111,
+      121
+    ],
+    "die": [
+      131,
+      155
+    ]
+  },
+  "framesPerSecond": 24,
+  "runtimeClipExtractionPending": true,
+  "animationAlgorithmSha256": "a740fc3c31ba2028c04b845158e028750fd97ccb64d01ef25e42da0b4ccbd6f8",
+  "requiresFreshExportAndQA": true,
+  "motionRevisionAlgorithmSha256": "7aed730947626aba7b94d681a26fe7ec3a0369e80e488904cfa3971738f13bc9"
+}

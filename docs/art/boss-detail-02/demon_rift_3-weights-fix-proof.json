@@ -1,0 +1,163 @@
+{
+  "type": "demon_rift_3",
+  "beforeRecipeSha256": "d84f80744c720cc825c8f61c9cfa5d48dc4c52095bf3b08a622f02bf010eff20",
+  "afterRecipeSha256": "54473c2730494b7d0ace3119126a418a9e85c7bfb84b38c7dd9ddc00b9d71deb",
+  "sourceHashes": {
+    "source": "04d33b0cf3867370552b77d41a5d74078ab8b21dfd1bfb505eaed5ce7afc4861",
+    "positions": "6ecafec6cd3c5db0ff70ed922e0f360063c8905af03c2de7c5b09d870aaea637",
+    "indices": "c9fab9fd0e713a72616db89a525f94663d2e50b9784de5582e0e5f4a11fe4224"
+  },
+  "runtimeMotionSourceSha256": "01d7197028d1cb1afd5118db43ad76c50444dd0dd4afd7a32779e8e239ec214c",
+  "unchangedParentQAReportSha256": "958e15e2ce58797749e953b8043e092a248f6cf442fd3bff4f44a5508c434531",
+  "bonesUnchanged": true,
+  "motionUnchanged": true,
+  "otherSemanticRegionsUnchanged": true,
+  "baselineOffline": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6438237741361843
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.09485718863340085
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.0673652152760752
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.6438237741361543
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 465,
+      "worstEdge": {
+        "time": 1.0,
+        "sourceIndices": [
+          9153,
+          8526
+        ],
+        "runtimeIndices": [
+          9529,
+          9530
+        ],
+        "coordinates": [
+          [
+            0.00891497265547514,
+            0.9908808469772339,
+            0.20762740075588226
+          ],
+          [
+            0.0011447228025645018,
+            0.9957517385482788,
+            0.2010168880224228
+          ]
+        ],
+        "extension": 0.032967270648524644,
+        "ratio": 3.9161866139835526
+      },
+      "minimumTriangleAreaRatio": 0.03090184195594648
+    }
+  ],
+  "offlineExistingMotionCandidate": [
+    {
+      "clip": "idle",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.4056513812667987
+    },
+    {
+      "clip": "walk",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.09485718863340085
+    },
+    {
+      "clip": "attack",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.0673652152760752
+    },
+    {
+      "clip": "hurt",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.4056513812667987
+    },
+    {
+      "clip": "die",
+      "edgeSampleFailures": 0,
+      "worstEdge": null,
+      "minimumTriangleAreaRatio": 0.08063452489711695
+    }
+  ],
+  "offlineWeights": {
+    "vertices": 19205,
+    "maxInfluences": 3,
+    "maxSumError": 0.0,
+    "boneVertices": {
+      "HandR": 592,
+      "ArmRLower": 713,
+      "ArmRUpper": 1763,
+      "LegRFoot": 718,
+      "Body": 5671,
+      "LegRLower": 1189,
+      "Head": 3024,
+      "LegRUpper": 1001,
+      "Pelvis": 3984,
+      "ArmLUpper": 1826,
+      "LegLUpper": 1048,
+      "LegLLower": 1211,
+      "LegLFoot": 719,
+      "ArmLLower": 740,
+      "HandL": 554
+    },
+    "weightGroups": 767
+  },
+  "mappingMaximumSourceError": 1.783085270168241e-07,
+  "changedSourceVertices": 1250,
+  "preservedHandFootPins": true,
+  "thresholdsUnchanged": {
+    "edgeRatio": 2,
+    "extensionSourceMetres": 0.01,
+    "minimumSourceEdge": 0.005
+  },
+  "liveHarnessUsed": false,
+  "visualEvidenceInspected": [
+    "docs/art/boss-detail-02/demon_rift_3-side-die.png",
+    "docs/art/boss-detail-02/demon_rift_3-front-die.png"
+  ],
+  "limitations": "Offline existing motion replay only. Parent reweight/recalibrate/export raw/native/floor/rigidity and actual motion anatomy review remain required; no gate or motion reductions.",
+  "failedWitnessWeights": [
+    {
+      "sourceIndex": 9153,
+      "before": {
+        "Pelvis": 1.0
+      },
+      "after": {
+        "Body": 0.5625,
+        "Pelvis": 0.4375
+      }
+    },
+    {
+      "sourceIndex": 8526,
+      "before": {
+        "Body": 0.671875,
+        "Pelvis": 0.328125
+      },
+      "after": {
+        "Body": 0.609375,
+        "Pelvis": 0.390625
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "sunken_city_3",
+      "map": "sunken_city",
+      "x": 76,
+      "z": -1498,
+      "viewport": "desktop",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:25:59.156Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea"
+        }
+      ],
+      "clock": {
+        "hour": 1.9788333333333348,
+        "phase": "night",
+        "label": "01:58",
+        "night": 1,
+        "fogDensity": 0.01675
+      },
+      "observed": [
+        {
+          "type": "sunken_city_3",
+          "id": 486,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "sunken_city_3",
+        "id": "s486",
+        "sid": 486,
+        "position": {
+          "x": 95.89550017544019,
+          "z": -1517.7335115327587
+        },
+        "map": "sunken_city",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "sunken_city_3",
+      "map": "sunken_city",
+      "x": 76,
+      "z": -1498,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:26:11.429Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea"
+        }
+      ],
+      "clock": {
+        "hour": 2.1514999999999995,
+        "phase": "night",
+        "label": "02:09",
+        "night": 1,
+        "fogDensity": 0.01675
+      },
+      "observed": [
+        {
+          "type": "sunken_city_3",
+          "id": 486,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "sunken_city_3",
+        "id": "s486",
+        "sid": 486,
+        "position": {
+          "x": 94.4528925209279,
+          "z": -1515.6131313633102
+        },
+        "map": "sunken_city",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

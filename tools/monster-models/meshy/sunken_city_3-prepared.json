@@ -1,0 +1,39 @@
+{
+  "creature": "sunken_city_3",
+  "bytes": 1525800,
+  "triangles": 12548,
+  "meshes": 1,
+  "materialDraws": 1,
+  "materials": 1,
+  "textures": [
+    {
+      "mime": "image/png",
+      "size": [
+        512,
+        512
+      ]
+    },
+    {
+      "mime": "image/jpeg",
+      "size": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.6785784661769867,
+      0,
+      -0.7056445181369781
+    ],
+    "max": [
+      0.6785784661769867,
+      1.9007259607315063,
+      0.7056445181369781
+    ]
+  },
+  "sha256": "af16ed94ea1be4251fc91ab38cd934160bef5caa313a3f50ef5871d14ff6b4ef",
+  "stage": "static geometry candidate; rig pending",
+  "geometryCompression": "EXT_meshopt_compression"
+}

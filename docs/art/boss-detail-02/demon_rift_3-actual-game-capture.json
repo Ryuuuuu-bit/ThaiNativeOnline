@@ -1,0 +1,91 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "demon_rift_3",
+      "map": "demon_rift",
+      "x": 76,
+      "z": -2698,
+      "viewport": "desktop",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:23:54.061Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a"
+        }
+      ],
+      "clock": {
+        "hour": 23.816583333333323,
+        "phase": "night",
+        "label": "23:48",
+        "night": 1,
+        "fogDensity": 0.01675
+      },
+      "observed": [
+        {
+          "type": "demon_rift_3",
+          "id": 777,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "demon_rift_3",
+        "id": "s777",
+        "sid": 777,
+        "position": {
+          "x": 86.61,
+          "z": -2712.22
+        },
+        "map": "demon_rift",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "demon_rift_3",
+      "map": "demon_rift",
+      "x": 76,
+      "z": -2698,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:24:06.994Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a"
+        }
+      ],
+      "clock": {
+        "hour": 23.99117666666665,
+        "phase": "night",
+        "label": "23:59",
+        "night": 1,
+        "fogDensity": 0.01675
+      },
+      "observed": [
+        {
+          "type": "demon_rift_3",
+          "id": 777,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "demon_rift_3",
+        "id": "s777",
+        "sid": 777,
+        "position": {
+          "x": 87.50192834728526,
+          "z": -2716.238677562784
+        },
+        "map": "demon_rift",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

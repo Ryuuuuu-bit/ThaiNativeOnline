@@ -1,0 +1,28 @@
+{
+  "provider": "Meshy",
+  "endpoint": "image-to-3d",
+  "taskId": "01a12017-a6f6-7425-964b-4cb8b51d66a7",
+  "status": "SUCCEEDED",
+  "credits": 35,
+  "parameters": {
+    "ai_model": "meshy-7.1",
+    "model_type": "standard",
+    "geometry_resolution": "2k",
+    "should_remesh": true,
+    "topology": "triangle",
+    "target_polycount": 12000,
+    "should_texture": true,
+    "texture_resolution": "2k",
+    "enable_pbr": true,
+    "image_enhancement": false,
+    "target_formats": [
+      "glb"
+    ],
+    "pose_mode": "a-pose"
+  },
+  "reference": "references/demon_rift_3.png",
+  "referenceSha256": "b821d3bd2b4139c1ab93f23eb97286c0dd8d1c352bc513beb81d36f12dfa62f9",
+  "originalSha256": "be711014546121713b9885dfc556ca615044132af17f62c6d445485edbb304d2",
+  "originalBytes": 13103040,
+  "originalLocalPath": "artifacts/meshy-monsters/demon_rift_3/original.glb"
+}

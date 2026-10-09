@@ -1,0 +1,427 @@
+{
+  "type": "dusk_fort_3",
+  "sampling": "all exported keys + 24 Hz; actual indexed edges >= 5 mm",
+  "thresholds": {
+    "edgeRatio": 2,
+    "edgeExtensionSourceMetres": 0.01,
+    "limbLengthSourceMetres": 0.005,
+    "idleFootDriftSourceMetres": 0.0015,
+    "flatGroundRuntimeMetres": -0.01
+  },
+  "failures": [],
+  "clips": [
+    {
+      "name": "idle",
+      "duration": 2,
+      "samples": 106,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.0901200418624766,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000007857105207009774,
+      "limbWorst": {
+        "name": "LegLLower",
+        "time": 0,
+        "sourceLength": 0.4093641410773543,
+        "actualLength": 0.4093562839721473
+      },
+      "idleFootDrift": [
+        {
+          "name": "LegLFoot",
+          "maximum": 0
+        },
+        {
+          "name": "LegRFoot",
+          "maximum": 0
+        }
+      ],
+      "minimumTriangleAreaRatio": 0.8320052452927202,
+      "areaWorst": {
+        "time": 1.2333333492279053,
+        "triangle": 10522,
+        "restArea": 0.0018563712802687014,
+        "ratio": 0.8320052452927202,
+        "sourceCoordinates": [
+          [
+            0.21175174787640572,
+            1.3018067292089883,
+            -0.009627178441704493
+          ],
+          [
+            0.25489400290089037,
+            1.2276994124918257,
+            -0.00800356653805781
+          ],
+          [
+            0.30174743037085894,
+            1.207519941313924,
+            0.02365729094998817
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            0.21175174787640572,
+            1.3017532947924715,
+            -0.01014798895257299
+          ],
+          [
+            0.2518245999246489,
+            1.227744757154892,
+            -0.010620896809239999
+          ],
+          [
+            0.29417341161781574,
+            1.2023715458950517,
+            0.01586440154647628
+          ]
+        ]
+      },
+      "rigidAttachments": [],
+      "maximumSourceVertexMotion": 0.04217775521373551,
+      "nativeFlatClearance": {
+        "minimum": -0.0000014708508385014854,
+        "samples": 111
+      }
+    },
+    {
+      "name": "walk",
+      "duration": 1,
+      "samples": 53,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.2908565493774695,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000008360789465922114,
+      "limbWorst": {
+        "name": "LegRLower",
+        "time": 0.9666666984558105,
+        "sourceLength": 0.4093641410773543,
+        "actualLength": 0.4093725018668202
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.2359116936330186,
+      "areaWorst": {
+        "time": 0.8000000715255737,
+        "triangle": 4768,
+        "restArea": 0.0001331083681945985,
+        "ratio": 0.2359116936330186,
+        "sourceCoordinates": [
+          [
+            -0.11970160587435708,
+            0.7120796341819917,
+            0.10692659486371317
+          ],
+          [
+            -0.07597948355035611,
+            0.6905084920756549,
+            0.09034234015591694
+          ],
+          [
+            -0.11088758803708543,
+            0.7116157235369222,
+            0.10820230320528548
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            -0.11229639801500746,
+            0.721598046648008,
+            0.11376837447106894
+          ],
+          [
+            -0.0685117677085203,
+            0.7003796430300132,
+            0.0972438214399414
+          ],
+          [
+            -0.10620401619940201,
+            0.71803622789137,
+            0.11253238681396985
+          ]
+        ]
+      },
+      "rigidAttachments": [],
+      "maximumSourceVertexMotion": 0.0700655926189025,
+      "nativeFlatClearance": {
+        "minimum": -0.0001076851131044112,
+        "samples": 58
+      }
+    },
+    {
+      "name": "attack",
+      "duration": 1,
+      "samples": 53,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.2782963079445548,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000009656664162527306,
+      "limbWorst": {
+        "name": "ArmLUpper",
+        "time": 0.4333333671092987,
+        "sourceLength": 0.25943399931389116,
+        "actualLength": 0.25942434264972863
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.5680620636272745,
+      "areaWorst": {
+        "time": 0.6666666865348816,
+        "triangle": 11866,
+        "restArea": 0.00009198956486049062,
+        "ratio": 0.5680620636272745,
+        "sourceCoordinates": [
+          [
+            0.4362771483016853,
+            1.1798021509123393,
+            0.04418470001700078
+          ],
+          [
+            0.4558767379847576,
+            1.1901238308783681,
+            0.03687835066445547
+          ],
+          [
+            0.4729249106938206,
+            1.2072879777117338,
+            0.025976801710770686
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            0.4512866355961366,
+            1.2262131797658258,
+            0.08059179356626714
+          ],
+          [
+            0.46839021485447196,
+            1.2397518771465164,
+            0.07288939706549344
+          ],
+          [
+            0.48489733877920627,
+            1.2583077425660405,
+            0.06279646222675014
+          ]
+        ]
+      },
+      "rigidAttachments": [],
+      "maximumSourceVertexMotion": 0.18077911484272735,
+      "nativeFlatClearance": {
+        "minimum": 0.00003194114692555675,
+        "samples": 58
+      }
+    },
+    {
+      "name": "hurt",
+      "duration": 0.4333333671092987,
+      "samples": 24,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.1043735964100176,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000007857105207009774,
+      "limbWorst": {
+        "name": "LegLLower",
+        "time": 0,
+        "sourceLength": 0.4093641410773543,
+        "actualLength": 0.4093562839721473
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.7212365246649193,
+      "areaWorst": {
+        "time": 0.2666666805744171,
+        "triangle": 3772,
+        "restArea": 0.0001157494677066347,
+        "ratio": 0.7212365246649193,
+        "sourceCoordinates": [
+          [
+            -0.14057688415050507,
+            1.0340230527575514,
+            -0.02354403760218335
+          ],
+          [
+            -0.14486791752278805,
+            1.0081608836572606,
+            -0.042795698479487776
+          ],
+          [
+            -0.15287011489272118,
+            0.9617713419603539,
+            -0.06854189498685129
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            -0.14057688415050507,
+            1.0320315905664306,
+            -0.02452258228277579
+          ],
+          [
+            -0.14486791752278805,
+            1.006297711455155,
+            -0.0426525062270528
+          ],
+          [
+            -0.15287011489272118,
+            0.9611306617738345,
+            -0.06815244290628691
+          ]
+        ]
+      },
+      "rigidAttachments": [],
+      "maximumSourceVertexMotion": 0.10901577103008722,
+      "nativeFlatClearance": {
+        "minimum": 0.00003194114692555675,
+        "samples": 30
+      }
+    },
+    {
+      "name": "die",
+      "duration": 1,
+      "samples": 53,
+      "edgesOverLimits": 0,
+      "maxEdgeRatio": 1.9695788896453401,
+      "worstEdge": null,
+      "maxLimbLengthError": 0.000013589325733420754,
+      "limbWorst": {
+        "name": "ArmLUpper",
+        "time": 0.08333333333333333,
+        "sourceLength": 0.25943399931389116,
+        "actualLength": 0.2594475886396246
+      },
+      "idleFootDrift": [],
+      "minimumTriangleAreaRatio": 0.023215046765651864,
+      "areaWorst": {
+        "time": 0.8000000715255737,
+        "triangle": 4774,
+        "restArea": 0.00018769483177655315,
+        "ratio": 0.023215046765651864,
+        "sourceCoordinates": [
+          [
+            -0.11506274825516194,
+            0.5691998771503889,
+            -0.047434605440162425
+          ],
+          [
+            -0.11135159320129684,
+            0.6012086672482823,
+            -0.06517860428677127
+          ],
+          [
+            -0.1006819815145088,
+            0.6270708166493141,
+            -0.0722530170243332
+          ]
+        ],
+        "deformedCoordinates": [
+          [
+            -0.04440352436786443,
+            0.5037211572950924,
+            0.042925687194461964
+          ],
+          [
+            -0.052328684300881445,
+            0.5278222843964225,
+            0.010263918591576937
+          ],
+          [
+            -0.059384738581041985,
+            0.5495521488100961,
+            -0.019462769002685315
+          ]
+        ]
+      },
+      "rigidAttachments": [],
+      "maximumSourceVertexMotion": 0.4871995394455646,
+      "nativeFlatClearance": {
+        "minimum": -0.00030973480942494193,
+        "samples": 74
+      }
+    }
+  ],
+  "runtimeSpec": {
+    "url": "/models/monsters/dusk_fort_3.glb",
+    "height": 1.8,
+    "fill": 0.35,
+    "fogScale": 0.45,
+    "deathDim": 0.82,
+    "outerSize": 2,
+    "worldTargetHeight": 3.6
+  },
+  "asset": {
+    "url": "/models/monsters/dusk_fort_3.glb",
+    "bytes": 1581120,
+    "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+  },
+  "budget": {
+    "triangles": 12495,
+    "materialDraws": 1,
+    "maximumTriangles": 15000,
+    "maximumMaterialDraws": 1
+  },
+  "decodedTextures": [
+    {
+      "slot": "map",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "slot": "normalMap",
+      "width": 512,
+      "height": 512
+    }
+  ],
+  "weights": {
+    "vertices": 19997,
+    "maxSumError": 1.1102230246251565e-16,
+    "limit": 0.00001
+  },
+  "sourceRest": {
+    "height": 1.8999997765780197,
+    "indexedEdges": 28557
+  },
+  "limbSampling": {
+    "chains": [
+      "LegL",
+      "LegR"
+    ],
+    "segments": [
+      {
+        "name": "LegLUpper",
+        "expectedSourceLength": 0.29532863051184177
+      },
+      {
+        "name": "LegLLower",
+        "expectedSourceLength": 0.4093641410773543
+      },
+      {
+        "name": "LegRUpper",
+        "expectedSourceLength": 0.29532863051184177
+      },
+      {
+        "name": "LegRLower",
+        "expectedSourceLength": 0.4093641410773543
+      },
+      {
+        "name": "ArmLUpper",
+        "expectedSourceLength": 0.25943399931389116
+      },
+      {
+        "name": "ArmLLower",
+        "expectedSourceLength": 0.23787601812709067
+      },
+      {
+        "name": "ArmRUpper",
+        "expectedSourceLength": 0.25943399931389116
+      },
+      {
+        "name": "ArmRLower",
+        "expectedSourceLength": 0.23787601812709067
+      }
+    ],
+    "idleContactScope": "two exported foot bone origins; surface toe contact and locomotion stance require visual review"
+  },
+  "acceptance": "Independent species anatomy, prop, wing, coil and sole visual review required; numerical pass does not establish art acceptance",
+  "provenance": {
+    "rigReportSha256": "c866bea015ccc710e37ba98f63430bb8a139e2017bfc3afb10bb8d8f826271a7",
+    "localGlbSha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+    "nativeLoadedGlbSha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+    "capturedAt": "2026-10-09T11:59:02.719Z"
+  }
+}

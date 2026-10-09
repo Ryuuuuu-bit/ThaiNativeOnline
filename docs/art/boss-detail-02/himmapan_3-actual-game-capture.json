@@ -1,0 +1,91 @@
+{
+  "errors": [],
+  "rows": [
+    {
+      "type": "himmapan_3",
+      "map": "himmapan",
+      "x": 76,
+      "z": -2218,
+      "viewport": "desktop",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:35:18.615Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45"
+        }
+      ],
+      "clock": {
+        "hour": 11.161999999999985,
+        "phase": "day",
+        "label": "11:09",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "himmapan_3",
+          "id": 680,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "himmapan_3",
+        "id": "s680",
+        "sid": 680,
+        "position": {
+          "x": 90.98192834728526,
+          "z": -2228.9002388423824
+        },
+        "map": "himmapan",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    },
+    {
+      "type": "himmapan_3",
+      "map": "himmapan",
+      "x": 76,
+      "z": -2218,
+      "viewport": "mobile-touch",
+      "status": "captured",
+      "capturedAt": "2026-10-09T11:35:42.822Z",
+      "loadedAssets": [
+        {
+          "status": 200,
+          "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45"
+        }
+      ],
+      "clock": {
+        "hour": 11.66116666666666,
+        "phase": "day",
+        "label": "11:39",
+        "night": 0,
+        "fogDensity": 0.01275
+      },
+      "observed": [
+        {
+          "type": "himmapan_3",
+          "id": 680,
+          "t": "mlist"
+        }
+      ],
+      "info": {
+        "type": "himmapan_3",
+        "id": "s680",
+        "sid": 680,
+        "position": {
+          "x": 93.34,
+          "z": -2226.99
+        },
+        "map": "himmapan",
+        "remote": true,
+        "alive": true,
+        "modelLoaded": true,
+        "camera": "native angle; camera follows naturally spawned boss; player/monster/clock untouched"
+      }
+    }
+  ]
+}

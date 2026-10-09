@@ -1,0 +1,61 @@
+{
+  "restGlbSha256": "d7de4564ea314f5803fb6e8812b137a64537690a1523f308ce8dee655d06f71c",
+  "anatomySha256": "7be866227a5a42bc6077bd231f534d824a3067cf2ccd6f26f031f4ecdf17bd0f",
+  "legs": {
+    "LegL": {
+      "poleAngle": -1.5770105931035205,
+      "rotation": [
+        -2.5807288308405862,
+        -0.4102237688475832,
+        -0.11969646024580485
+      ]
+    },
+    "LegR": {
+      "poleAngle": -1.5645820604862728,
+      "rotation": [
+        -2.5807288308405862,
+        0.4102237688475832,
+        0.11969646024580485
+      ]
+    }
+  },
+  "arms": {
+    "ArmL": {
+      "upperAxis": 2,
+      "upperSign": -1,
+      "upperRestRotation": [
+        0,
+        0,
+        0.12
+      ],
+      "lowerAxis": 2,
+      "lowerSign": -1,
+      "lowerRestRotation": [
+        0,
+        0,
+        -0.04
+      ]
+    },
+    "ArmR": {
+      "upperAxis": 2,
+      "upperSign": 1,
+      "upperRestRotation": [
+        0,
+        0,
+        -0.12
+      ],
+      "lowerAxis": 2,
+      "lowerSign": 1,
+      "lowerRestRotation": [
+        0,
+        0,
+        0.04
+      ]
+    }
+  },
+  "rootDownLocal": [
+    0,
+    -1,
+    0
+  ]
+}

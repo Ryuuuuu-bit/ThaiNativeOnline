@@ -30,7 +30,7 @@ for(const type of types) {
   let model;
   if(staticStudy) {
     const gltf=await gltfLoader().loadAsync('/tools/monster-models/meshy/'+type+'.glb');
-    const asset=gltf.scene,box=new THREE.Box3().setFromObject(asset),size=box.getSize(new THREE.Vector3()),target={chalawan:1.4,bamboo_grave_3:1.7,sealed_mine_3:1.9}[type];
+    const asset=gltf.scene,box=new THREE.Box3().setFromObject(asset),size=box.getSize(new THREE.Vector3()),target={chalawan:1.4,bamboo_grave_3:1.7,sealed_mine_3:1.9,sunken_city_3:1.6,dusk_fort_3:1.8,giant_valley_3:2.1,himmapan_3:1.9,fallen_city_3:1.9,demon_rift_3:2.1}[type];
     model=new THREE.Group();asset.position.set(-(box.min.x+box.max.x)/2,-box.min.y,-(box.min.z+box.max.z)/2);model.add(asset);model.scale.setScalar(target/size.y);model.userData.modelLoaded=true;
     const pivot=new THREE.Group();pivot.add(model);model=pivot;
   } else model=makeMonsterModel(type,makeMonsterFallback(MONSTERS[type]),'boss-review-'+type);
@@ -100,18 +100,20 @@ window.bossReview={types,models,telegraphs,renderer,camera,select,render,setTime
   const model=makeMonsterModel(type,new THREE.Group(),'pose-'+type+'-'+clip);await model.userData.ready;
   if(!model.userData.modelLoaded)throw Error('Missing rigged pose asset');
   model.scale.setScalar(MONSTERS[type].size);models.set(type,model);root.add(model);
+  time=0;
   select(type,0,clip,nextView);
   for(let frame=0;frame<=Math.ceil(at*24);frame++)model.userData.animate(Math.min(frame/24,at),clip==='walk',clip==='attack',{hurt:clip==='hurt',dying:clip==='die'});
   model.updateMatrixWorld(true);model.traverse(o=>o.skeleton?.update());fit();renderer.render(scene,camera);
  },get state(){return {type:current,index:skillIndex,stage,view};},capture(){render(0);return canvas.toDataURL('image/png');}};
 select();let previous=performance.now();renderer.setAnimationLoop(now=>{const dt=Math.min(.05,(now-previous)/1000);previous=now;if(!paused)render(dt);});
-if(params.get('gallery')==='1') {
+if(['1','2'].includes(params.get('gallery'))) {
   renderer.setAnimationLoop(null);
   const main=document.querySelector('main');
   main.querySelectorAll('nav,.stage,.controls,.note').forEach(e=>e.remove());
   const gallery=document.createElement('section');gallery.className='gallery';
-  document.querySelector('h1').textContent='บอสใหม่ · Lv.25–40';
-  document.querySelector('header p').textContent='ชาละวัน · เจ้าป่าช้า · ผู้พิทักษ์เหมือง';
-  gallery.innerHTML=['chalawan','bamboo_grave_3','sealed_mine_3'].map(type=>`<article><img alt="${MONSTERS[type].name}" src="/docs/art/boss-detail/${type}-model.png"><p>${MONSTERS[type].name}<span>${MAPS[mapIds[allTypes.indexOf(type)]] .name} · Lv.${MONSTERS[type].level}</span></p></article>`).join('');
+  const second=params.get('gallery')==='2', galleryTypes=second?['sunken_city_3','dusk_fort_3','giant_valley_3','himmapan_3','fallen_city_3','demon_rift_3']:['chalawan','bamboo_grave_3','sealed_mine_3'],folder=second?'boss-detail-02':'boss-detail';
+  document.querySelector('h1').textContent=second?'บอสแห่งดินแดนไทย · Lv.50–100':'บอสใหม่ · Lv.25–40';
+  document.querySelector('header p').textContent=second?'นาคราช · อสูรสนธยา · ยักษ์หุบเขา · ปักษาทมิฬ · ขุนพลอาคม · อสูรรอยแยก':'ชาละวัน · เจ้าป่าช้า · ผู้พิทักษ์เหมือง';
+  gallery.innerHTML=galleryTypes.map(type=>`<article><img alt="${MONSTERS[type].name}" src="/docs/art/${folder}/${type}-model.png"><p>${MONSTERS[type].name}<span>${MAPS[mapIds[allTypes.indexOf(type)]] .name} · Lv.${MONSTERS[type].level}</span></p></article>`).join('');
   main.append(gallery);
 }
