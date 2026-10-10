@@ -1,0 +1,388 @@
+{
+  "reason": "Refresh collision source receipt after PR87 city-name source edits; no authored collision geometry change.",
+  "exporter": "tools/export-collision.cjs",
+  "environment": "Headless Microsoft Edge on Windows, worktree at origin/main 01d3065. Ignored HTML copy changes only absolute Three import to bare three because dependencies resolve from parent checkout.",
+  "originalSha256": "8a6a620bfe6f3c9e02484b56ac07ff98e2ce0acbd1f98036e1f33fbf4be2c925",
+  "exportedSha256": "6f3f554f4e715327ca7a2027bcab6244914a13f1f07ba596819af5bfcc434884",
+  "originalSourceHash": "9650136b9fbedc436699dd6df7b90c567adb6758dbcbd9ea93dcd29b8aa2fae8",
+  "sourceHash": "ceff59c041f97ea54f8c7f6ad3fb2ec6443c103ffd44f81917f8eca43d3f36c6",
+  "mapShapeCounts": {
+    "city": 1052,
+    "paddy": 756,
+    "deep_forest": 1145,
+    "wat_rang": 1574,
+    "klong": 1055,
+    "ruen_ho": 34,
+    "bamboo_grave": 118,
+    "sealed_mine": 139,
+    "sunken_city": 122,
+    "dusk_fort": 126,
+    "giant_valley": 143,
+    "himmapan": 121,
+    "fallen_city": 141,
+    "demon_rift": 135
+  },
+  "decksExact": true,
+  "orderingAndStructureExact": true,
+  "amendment": "Director approved audited numerical equivalence after real export: only c/s/x/z floating-point differences, each <=1e-14; server atan2-reconstructed corners and circle centers displaced <=1e-9 metres. Export is unrounded and hash was not edited manually.",
+  "maximumAbsoluteDelta": 7.105427357601002e-15,
+  "maximumByField": {
+    "c": 3.885780586188048e-16,
+    "s": 3.3306690738754696e-16,
+    "x": 7.105427357601002e-15,
+    "z": 8.881784197001252e-16
+  },
+  "maxCornerDisplacement": 7.105427357601002e-15,
+  "maxCircleCenterDisplacement": 7.105427357601002e-15,
+  "changedNumericFields": 58,
+  "differences": [
+    {
+      "path": "maps.city.shapes.121.s",
+      "before": 0.06087810416510025,
+      "after": 0.06087810416510026,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.122.s",
+      "before": 0.06087810416510025,
+      "after": 0.06087810416510026,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.255.c",
+      "before": -0.46308593722689995,
+      "after": -0.46308593722689956,
+      "delta": 3.885780586188048e-16
+    },
+    {
+      "path": "maps.city.shapes.255.s",
+      "before": -0.8863133840480373,
+      "after": -0.8863133840480375,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.258.c",
+      "before": -0.46308593722689995,
+      "after": -0.46308593722689956,
+      "delta": 3.885780586188048e-16
+    },
+    {
+      "path": "maps.city.shapes.258.s",
+      "before": 0.8863133840480373,
+      "after": 0.8863133840480375,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.260.c",
+      "before": -0.8652106247343391,
+      "after": -0.8652106247343389,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.260.s",
+      "before": 0.501408590719001,
+      "after": 0.5014085907190013,
+      "delta": 3.3306690738754696e-16
+    },
+    {
+      "path": "maps.city.shapes.264.c",
+      "before": 0.5524026946332458,
+      "after": 0.5524026946332459,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.city.shapes.264.s",
+      "before": -0.8335773887060092,
+      "after": -0.8335773887060091,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.city.shapes.520.c",
+      "before": -0.13366179999817535,
+      "after": -0.13366179999817512,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.521.c",
+      "before": -0.13366179999817535,
+      "after": -0.13366179999817512,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.564.s",
+      "before": 0.034844591017821086,
+      "after": 0.03484459101782107,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.565.s",
+      "before": 0.034844591017821086,
+      "after": 0.03484459101782107,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.623.c",
+      "before": -0.20508426325523033,
+      "after": -0.2050842632552301,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.625.z",
+      "before": 6.784464844172652,
+      "after": 6.7844648441726525,
+      "delta": 8.881784197001252e-16
+    },
+    {
+      "path": "maps.city.shapes.625.c",
+      "before": -0.20508426325523033,
+      "after": -0.2050842632552301,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.648.x",
+      "before": 50.41478390606486,
+      "after": 50.41478390606487,
+      "delta": 7.105427357601002e-15
+    },
+    {
+      "path": "maps.city.shapes.665.c",
+      "before": 0.3269994232552415,
+      "after": 0.32699942325524173,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.666.s",
+      "before": -0.19380141162244127,
+      "after": -0.19380141162244124,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.city.shapes.667.s",
+      "before": -0.19380141162244127,
+      "after": -0.19380141162244124,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.city.shapes.668.c",
+      "before": 0.3269994232552415,
+      "after": 0.32699942325524173,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.city.shapes.711.s",
+      "before": 0.030665697468135772,
+      "after": 0.030665697468135758,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.712.s",
+      "before": 0.030665697468135772,
+      "after": 0.030665697468135758,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.713.s",
+      "before": 0.02413754323730121,
+      "after": 0.024137543237301197,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.714.s",
+      "before": 0.02413754323730121,
+      "after": 0.024137543237301197,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.city.shapes.757.s",
+      "before": 0.2085472860517133,
+      "after": 0.20854728605171327,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.city.shapes.758.s",
+      "before": 0.04252281992911877,
+      "after": 0.042522819929118744,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.city.shapes.759.s",
+      "before": 0.04252281992911877,
+      "after": 0.042522819929118744,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.city.shapes.760.s",
+      "before": 0.2085472860517133,
+      "after": 0.20854728605171327,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.city.shapes.761.s",
+      "before": 0.1947746016678561,
+      "after": 0.19477460166785604,
+      "delta": 5.551115123125783e-17
+    },
+    {
+      "path": "maps.city.shapes.762.s",
+      "before": 0.1947746016678561,
+      "after": 0.19477460166785604,
+      "delta": 5.551115123125783e-17
+    },
+    {
+      "path": "maps.paddy.shapes.104.c",
+      "before": -0.13366179999817535,
+      "after": -0.13366179999817512,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.paddy.shapes.105.c",
+      "before": -0.13366179999817535,
+      "after": -0.13366179999817512,
+      "delta": 2.220446049250313e-16
+    },
+    {
+      "path": "maps.paddy.shapes.114.s",
+      "before": 0.06110572826953128,
+      "after": 0.06110572826953126,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.paddy.shapes.121.s",
+      "before": 0.06110572826953128,
+      "after": 0.06110572826953126,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.paddy.shapes.136.c",
+      "before": 0.2975919351575284,
+      "after": 0.2975919351575286,
+      "delta": 1.6653345369377348e-16
+    },
+    {
+      "path": "maps.paddy.shapes.136.s",
+      "before": 0.9546931654354699,
+      "after": 0.9546931654354698,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.paddy.shapes.137.x",
+      "before": -44.97312485798994,
+      "after": -44.973124857989944,
+      "delta": 7.105427357601002e-15
+    },
+    {
+      "path": "maps.paddy.shapes.137.c",
+      "before": 0.2975919351575284,
+      "after": 0.2975919351575286,
+      "delta": 1.6653345369377348e-16
+    },
+    {
+      "path": "maps.paddy.shapes.137.s",
+      "before": 0.9546931654354699,
+      "after": 0.9546931654354698,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.paddy.shapes.138.c",
+      "before": 0.9761551038108374,
+      "after": 0.9761551038108375,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.paddy.shapes.138.s",
+      "before": -0.2170742115131441,
+      "after": -0.21707421151314404,
+      "delta": 5.551115123125783e-17
+    },
+    {
+      "path": "maps.paddy.shapes.139.c",
+      "before": 0.9761551038108374,
+      "after": 0.9761551038108375,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.paddy.shapes.139.s",
+      "before": -0.2170742115131441,
+      "after": -0.21707421151314404,
+      "delta": 5.551115123125783e-17
+    },
+    {
+      "path": "maps.paddy.shapes.151.x",
+      "before": -60.1393936899474,
+      "after": -60.139393689947404,
+      "delta": 7.105427357601002e-15
+    },
+    {
+      "path": "maps.paddy.shapes.167.s",
+      "before": 0.06520257352998014,
+      "after": 0.06520257352998013,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.paddy.shapes.168.s",
+      "before": 0.06520257352998014,
+      "after": 0.06520257352998013,
+      "delta": 1.3877787807814457e-17
+    },
+    {
+      "path": "maps.paddy.shapes.169.s",
+      "before": 0.1450239110090472,
+      "after": 0.14502391100904719,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.paddy.shapes.173.s",
+      "before": 0.1450239110090472,
+      "after": 0.14502391100904719,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.paddy.shapes.196.s",
+      "before": 0.23456294184673082,
+      "after": 0.23456294184673077,
+      "delta": 5.551115123125783e-17
+    },
+    {
+      "path": "maps.paddy.shapes.203.s",
+      "before": 0.23456294184673082,
+      "after": 0.23456294184673077,
+      "delta": 5.551115123125783e-17
+    },
+    {
+      "path": "maps.paddy.shapes.209.s",
+      "before": 0.2095813683401112,
+      "after": 0.20958136834011118,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.paddy.shapes.211.s",
+      "before": 0.2095813683401112,
+      "after": 0.20958136834011118,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.paddy.shapes.215.c",
+      "before": 0.9892493739245525,
+      "after": 0.9892493739245526,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.paddy.shapes.215.s",
+      "before": 0.14623842241312932,
+      "after": 0.1462384224131293,
+      "delta": 2.7755575615628914e-17
+    },
+    {
+      "path": "maps.paddy.shapes.216.c",
+      "before": 0.9892493739245525,
+      "after": 0.9892493739245526,
+      "delta": 1.1102230246251565e-16
+    },
+    {
+      "path": "maps.paddy.shapes.216.s",
+      "before": 0.14623842241312932,
+      "after": 0.1462384224131293,
+      "delta": 2.7755575615628914e-17
+    }
+  ]
+}
