@@ -22,6 +22,7 @@ import { ACCOUNTS } from '../src/data/accounts.js';
 import { reconcileSave, CHARACTER_KEY, QUESTS_KEY } from './progress.js';
 import { checkName, nameKey } from '../src/data/character-names.js';
 import { characterRecord, renameData, isNameConflict } from './character-names.js';
+import { googlePictureURL } from '../src/account/profile-picture.js';
 
 const scrypt = promisify(scryptCb);
 export const SESSION_DAYS = 30;
@@ -55,14 +56,17 @@ export class Accounts {
     const c = await this.googleClaims(credential);
     if (!c) return fail('google', 'เข้าสู่ระบบด้วย Google ไม่สำเร็จ');
     const linked = await this.store.getGoogle(c.sub);
-    if (linked) return { ...(await this.session(linked)), google: true };
+    if (linked) {
+      await this.store.updateGoogle(c.sub, linked, c.email, googlePictureURL(c.picture));
+      return { ...(await this.session(linked)), google: true };
+    }
     // first time: an account named after the email, with a password nobody knows (Google is the way in)
     const base = (String(c.email ?? '').split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '') || 'player').slice(0, 11).padEnd(3, '0');
     for (let i = 0; i < 20; i++) {
       const id = i ? `${base}_${Math.floor(Math.random() * 9000 + 1000)}` : base;
       const salt = randomBytes(16).toString('hex');
       if (!(await this.store.createAccount(id, salt, randomBytes(32).toString('hex')))) continue;
-      await this.store.linkGoogle(c.sub, id, c.email);
+      await this.store.linkGoogle(c.sub, id, c.email, googlePictureURL(c.picture));
       return { ...(await this.session(id)), google: true, created: true };
     }
     return fail('google', 'สร้างบัญชีไม่สำเร็จ ลองอีกครั้ง');
@@ -71,9 +75,9 @@ export class Accounts {
     const c = await this.googleClaims(credential);
     if (!c) return fail('google', 'ยืนยันบัญชี Google ไม่สำเร็จ');
     const linked = await this.store.getGoogle(c.sub);
-    if (linked === id) return { ok: true };
+    if (linked === id) return { ok: await this.store.updateGoogle(c.sub, id, c.email, googlePictureURL(c.picture)) };
     if (linked) return fail('google_taken', 'บัญชี Google นี้ผูกกับบัญชีอื่นแล้ว');
-    return (await this.store.linkGoogle(c.sub, id, c.email)) ? { ok: true } : fail('google_taken', 'บัญชี Google นี้ผูกกับบัญชีอื่นแล้ว');
+    return (await this.store.linkGoogle(c.sub, id, c.email, googlePictureURL(c.picture))) ? { ok: true } : fail('google_taken', 'บัญชี Google นี้ผูกกับบัญชีอื่นแล้ว');
   }
   async session(id) {
     const token = randomBytes(24).toString('base64url');

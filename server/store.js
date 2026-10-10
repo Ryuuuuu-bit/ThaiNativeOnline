@@ -6,7 +6,7 @@
 //   store.createSession(token, id, expires) · getSession(token) · deleteSession(token)
 //   store.listSlots(id) → [{ slot, data, updated }] · putSlot(id, slot, data) · deleteSlot(id, slot)
 //   store.getGoogle(sub) → account id | null · linkGoogle(sub, id, email) → bool (false if that Google account is linked already)
-//   store.googleOf(id) → { email } of the Google account linked to an account, or null
+//   store.googleOf(id) → { email, picture } of the Google account linked to an account, or null
 import { nameKey } from '../src/data/character-names.js';
 import { NameTaken, characterRecord, renameData, nameMigration, migrateCharacterNames } from './character-names.js';
 import { emptyStash } from '../src/data/stash.js';
@@ -36,8 +36,16 @@ export class MemoryStore {
     next.then(done, done); return next;
   }
   async getGoogle(sub) { return this.google.get(sub) ?? null; }
-  async linkGoogle(sub, id, email) { if (this.google.has(sub)) return false; this.google.set(sub, id); (this.googleEmail ??= new Map()).set(id, email ?? null); return true; }
-  async googleOf(id) { return [...this.google.values()].includes(id) ? { email: this.googleEmail?.get(id) ?? null } : null; }
+  async linkGoogle(sub, id, email, picture = null) { if (this.google.has(sub)) return false; this.google.set(sub, id); await this.updateGoogle(sub, id, email, picture); return true; }
+  async updateGoogle(sub, id, email, picture = null) {
+    if (this.google.get(sub) !== id) return false;
+    (this.googleProfiles ??= new Map()).set(sub, { email: email ?? null, picture, revision: this.googleProfileRevision = (this.googleProfileRevision ?? 0) + 1 }); return true;
+  }
+  async googleOf(id) {
+    const profiles = [...this.google].filter(([, account]) => account === id).map(([sub]) => this.googleProfiles.get(sub));
+    const latest = profiles.sort((a, b) => b.revision - a.revision)[0];
+    return latest ? { email: latest.email, picture: latest.picture } : null;
+  }
   async getAccount(id) { return this.accounts.get(id) ?? null; }
   async createAccount(id, salt, hash) { if (this.accounts.has(id)) return false; this.accounts.set(id, { id, salt, hash, created: Date.now() }); return true; }
   async createSession(token, id, expires) { this.sessions.set(token, { token, account: id, expires }); }
@@ -106,6 +114,8 @@ export class PgStore {
     await this.q(`create table if not exists account_stashes (account text primary key references accounts(id) on delete cascade, revision bigint not null default 0, slots jsonb not null)`);
     await this.q(`create table if not exists stash_receipts (account text not null references accounts(id) on delete cascade, request text not null, slot int not null, fingerprint text not null, result jsonb not null, primary key (account, request))`);
     await this.q(`create table if not exists google_links (sub text primary key, account text not null references accounts(id) on delete cascade, email text, linked timestamptz not null default now())`);
+    await this.q(`alter table google_links add column if not exists picture text`);
+    await this.q(`alter table google_links add column if not exists profile_updated timestamptz`);
     await this.q(`delete from sessions where expires < now()`);
     await migrateCharacterNames(this.pool);
   }
@@ -170,6 +180,7 @@ export class PgStore {
   }
   async allCharacters(limit = 5000) { return (await this.q('select account, slot, data from characters where not rename_required order by updated desc limit $1', [limit])).rows; }
   async getGoogle(sub) { return (await this.q('select account from google_links where sub = $1', [sub])).rows[0]?.account ?? null; }
-  async googleOf(id) { const r = (await this.q('select email from google_links where account = $1 limit 1', [id])).rows[0]; return r ? { email: r.email } : null; }
-  async linkGoogle(sub, id, email) { return (await this.q('insert into google_links (sub, account, email) values ($1, $2, $3) on conflict do nothing', [sub, id, email ?? null])).rowCount === 1; }
+  async googleOf(id) { const r = (await this.q('select email, picture from google_links where account = $1 order by coalesce(profile_updated, linked) desc, sub limit 1', [id])).rows[0]; return r ? { email: r.email, picture: r.picture } : null; }
+  async linkGoogle(sub, id, email, picture = null) { return (await this.q('insert into google_links (sub, account, email, picture, profile_updated) values ($1, $2, $3, $4, clock_timestamp()) on conflict do nothing', [sub, id, email ?? null, picture])).rowCount === 1; }
+  async updateGoogle(sub, id, email, picture = null) { return (await this.q('update google_links set email = $3, picture = $4, profile_updated = clock_timestamp() where sub = $1 and account = $2', [sub, id, email ?? null, picture])).rowCount === 1; }
 }

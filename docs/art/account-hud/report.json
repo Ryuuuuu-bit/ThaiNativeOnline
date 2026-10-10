@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "checks": [
+    "Verified stored Google profile shown on resumed session",
+    "Client Google login endpoint succeeds with verified test claims",
+    "Reload fetches current account photo again",
+    "Default preserves HUD geometry and level",
+    "Failed photo falls back without broken-image icon",
+    "Late old photo cannot replace default",
+    "390px mobile photo/default maintain same frame dimensions",
+    "Switching to password-only account clears Google portrait",
+    "Skill path starts at current class with no fictitious trainee step"
+  ],
+  "images": [
+    "google-desktop-fixture.png",
+    "default-desktop.png",
+    "google-mobile-fixture.png",
+    "default-mobile.png",
+    "skills-current-class.png"
+  ],
+  "pageErrors": [],
+  "limitation": "Deterministic verified-claims stub and photo fixture; no real Google popup or live user account used."
+}
