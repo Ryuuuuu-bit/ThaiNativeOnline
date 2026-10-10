@@ -23,8 +23,8 @@ export class InputManager {
       if (MOVE[e.code]) this.keys.delete(MOVE[e.code]);
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.shift = false;
     });
-    window.addEventListener('blur', () => { this.keys.clear(); this.pan = null; this.shift = false; });
-    document.addEventListener('visibilitychange', () => this.keys.clear());
+    window.addEventListener('blur', () => { this.keys.clear(); this.cancelCameraDrag(); this.shift = false; });
+    document.addEventListener('visibilitychange', () => { this.keys.clear(); this.cancelCameraDrag(); this.shift = false; });
     host.addEventListener('contextmenu', e => e.preventDefault());
     // Two-finger pinch zooms on touch screens: 'zoomBy' gets the distance ratio since the last move.
     const touches = new Map(); let pinch = 0;
@@ -38,13 +38,26 @@ export class InputManager {
     for (const name of ['pointerup', 'pointercancel']) host.addEventListener(name, e => { touches.delete(e.pointerId); if (touches.size < 2) pinch = 0; });
     host.addEventListener('pointerdown', e => {
       if (touches.size > 1) return;   // the second finger of a pinch is not a click
-      if (e.button === 2) { this.pan = { x: e.clientX, y: e.clientY }; host.setPointerCapture(e.pointerId); this.emit('panStart'); }
+      if (e.button === 2) { e.preventDefault(); this.pan = { x: e.clientX, y: e.clientY, id: e.pointerId }; host.setPointerCapture(e.pointerId); this.emit('panStart', e.shiftKey); }
       // A click the combat layer consumed (a monster) must not also start a ground walk.
-      else if (e.button === 0 && !e.cancelBubble) this.emit('click', e);
+      else if (e.button === 0 && !this.pan && !e.cancelBubble) this.emit('click', e);
     });
-    host.addEventListener('pointermove', e => { if (this.pan) this.emit('pan', e.clientX - this.pan.x, e.clientY - this.pan.y); });
-    for (const name of ['pointerup', 'pointercancel']) host.addEventListener(name, () => { this.pan = null; });
+    const endDrag = e => {
+      if (!this.pan || (e && e.pointerId !== this.pan.id)) return;
+      this.cancelCameraDrag();
+    };
+    host.addEventListener('pointermove', e => {
+      if (!this.pan || e.pointerId !== this.pan.id) return;
+      if (!(e.buttons & 2)) return endDrag(e);
+      this.emit('pan', e.clientX - this.pan.x, e.clientY - this.pan.y);
+    });
+    for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) host.addEventListener(name, endDrag);
     host.addEventListener('wheel', e => { e.preventDefault(); this.emit('zoom', e.deltaY); }, { passive: false });
+  }
+  cancelCameraDrag() {
+    if (!this.pan) return;
+    const id = this.pan.id; this.pan = null;
+    if (this.host.hasPointerCapture(id)) this.host.releasePointerCapture(id);
   }
   // Running: Shift held, or the joystick pushed to its rim.
   get running() { return this.shift || this.stick.run; }

@@ -149,7 +149,7 @@ export class Game {
     const input = this.input, view = this.view;
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.stopWalk(); view.recenter(); });
-    input.on('resetCamera', () => view.reset());
+    input.on('resetCamera', () => { input.cancelCameraDrag(); view.reset(); });
     input.on('photo', () => this.togglePhoto());
     input.on('interact', () => this.interact());
     input.on('map', () => this.toggleMap());
@@ -168,9 +168,12 @@ export class Game {
       $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false');
       if (this.photo) this.togglePhoto();
     });
-    let panStart = null;
-    input.on('panStart', () => { panStart = view.panOffset.clone(); });
-    input.on('pan', (dx, dy) => view.pan(dx, dy, panStart));
+    let cameraDrag = null;
+    input.on('panStart', shift => { cameraDrag = { shift, pan: view.panOffset.clone(), yaw: view.yaw }; });
+    input.on('pan', (dx, dy) => {
+      if (cameraDrag.shift) view.pan(dx, dy, cameraDrag.pan);
+      else view.orbit(dx, cameraDrag.yaw);
+    });
     input.on('zoom', delta => this.zoomTo(view.zoom - delta * .001));
     input.on('zoomBy', ratio => this.zoomTo(view.zoom * ratio));
     input.on('zoomStep', dir => this.zoomTo(view.zoom * (dir > 0 ? 1.12 : 1 / 1.12)));
@@ -184,7 +187,7 @@ export class Game {
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
       if (this.world.canStand(p.x, p.z)) this.walkTo(p.x, p.z);
     });
-    $('reset-camera').addEventListener('click', () => view.reset());
+    $('reset-camera').addEventListener('click', () => input.emit('resetCamera'));
     $('photo-mode').addEventListener('click', () => this.togglePhoto());
     $('restore-ui').addEventListener('click', () => this.togglePhoto());
     $('map-toggle').addEventListener('click', () => this.toggleMap());
