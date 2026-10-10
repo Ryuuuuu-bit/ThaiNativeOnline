@@ -131,3 +131,6 @@ and all ten production profiles scheduling, including 104/120 BPM combat
 music. Eight combat flag/selection cases matched expected results. This
 programmatic profile and selector check is distinct from the earlier full
 Game/controller smoke and does not assert auditory listening.
+The actual Game controller callback additionally passed eight fixture state
+transitions: location, ordinary combat, engaged boss, boss with a minion
+selected, idle/distant/dead boss exclusions and return after combat.
