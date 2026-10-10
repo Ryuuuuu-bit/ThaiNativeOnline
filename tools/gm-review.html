@@ -1,0 +1,15 @@
+<!doctype html><html lang="th"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/src/net/net.css"><link rel="stylesheet" href="/src/style.css"><link rel="stylesheet" href="/src/ui/theme.css"><link rel="stylesheet" href="/src/ui/layout.css"><link rel="stylesheet" href="/src/ui/dynamic-hud.css"><link rel="stylesheet" href="/src/ui/mobile-hud.css">
+<body class="hud-dynamic" style="background:#203e32"><main id="app"></main>
+<script type="module">
+import { ChatBox } from '/src/net/ChatBox.js';
+if (matchMedia('(pointer:coarse)').matches) document.body.classList.add('ui-touch');
+const chat = new ChatBox(() => {});chat.setStatus(true);chat.setOnline(12);
+chat.add('ผู้เล่น', 'พบกันที่ตลาดกลางเมือง');
+if (new URLSearchParams(location.search).has('admin')) {
+  // Local UI fixture only. This page does not connect to the GM dispatcher.
+  const { GM_COMMANDS } = await import('/server/gm-catalog.js');
+  chat.setGmCatalog(GM_COMMANDS);
+}
+chat.open();window.gmReview={chat};
+</script></body></html>

@@ -24,6 +24,7 @@ import { WorldBossBanner } from '../ui/WorldBossBanner.js';
 // Channels (server/channels.js): the CH badge on the minimap shows this player's channel of the
 // map; clicking it lists the open ones to switch to (out of a fight, once a minute).
 const SEND_EVERY = .1, KEEPALIVE = 1;
+const LOCAL_DEV = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 
 export function startMultiplayer(game) {
   const c = game.game.character, player = game.player;
@@ -34,8 +35,10 @@ export function startMultiplayer(game) {
   const bossBanner = new WorldBossBanner({ onJoin: () => net.send({ t: 'wbjoin' }), canJoin: () => net.online && game.maps?.map?.id !== 'ruen_ho' });
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
+  const gmAccess = m => { chat.setGmCatalog(m.admin === true ? m.gmCommands : null); game.setDev?.(LOCAL_DEV || m.admin === true); };
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
-  net.on('welcome', m => { if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } if (m.admin) game.setDev?.(true); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+  net.on('welcome', m => { if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+    .on('gmAccess', gmAccess)
     .on('chans', m => chan.set(m.ch, m.list, true))
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
@@ -54,7 +57,7 @@ export function startMultiplayer(game) {
     .on('gmwarp', m => { const maps = game.maps; if (maps.map?.id === m.map) maps.place({ x: m.x, z: m.z, facing: game.player.group.rotation.y }); else maps.travel({ to: m.map, arrive: { x: m.x, z: m.z } }); })
     .on('gmhp', m => { if (m.pct === 0) { game.game.combat?.knockOut(); return; } c.hp = Math.round(c.maxHp * m.pct / 100); if (m.mp) c.mp = c.maxMp; c.emit('change'); })
     .on('online', m => chat.setOnline(m.n))
-    .on('status', on => { chat.setStatus(on, net.closed); chan.online(on); if (!on) remote.clear(); });
+    .on('status', on => { chat.setStatus(on, net.closed); chan.online(on); if (!on) { remote.clear(); gmAccess({admin:false}); } });
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
