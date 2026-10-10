@@ -6,6 +6,7 @@ import {collisionSourceHash as sourceHash} from '../tools/collision-source-hash.
 import {Presence} from '../server/presence.js';
 import {MAPS} from '../src/world/maps.js';
 import {Pvp} from '../server/pvp.js';
+import {KARMA,settleKill,karmaRank,karmaTier} from '../src/data/karma.js';
 import {Combatants} from '../server/combatants.js';
 import {Character} from '../src/character/Character.js';
 import {SaveQueue} from '../server/save-queue.js';
@@ -16,7 +17,7 @@ import {recallWhy} from '../server/recall.js';
 import {MonsterWorld} from '../server/monsters.js';
 import {PartyFollow} from '../src/net/PartyFollow.js';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const hero=id=>({id,signed:true,map:'paddy',room:'paddy',x:id,z:-130});
+const hero=(id,lv=1)=>({id,lv,signed:true,map:'paddy',room:'paddy',x:id,z:-130});
 
 test('baked collisions match current world sources and every spawn is safe',()=>{
   assert.equal(collisionSourceHash,sourceHash(),'Run tools/export-collision.cjs after world changes');
@@ -44,19 +45,38 @@ test('monster movement respects swept collision and spawn never enters blocked g
 });
 test('duels require a fresh acceptance; city, guests and unrelated players are protected',()=>{
   let t=0;const p=new Pvp({now:()=>t}),a=hero(1),b=hero(2),c=hero(3);
-  assert.equal(p.canAttack(a,b),'consent');assert.equal(p.accept(b,a).why,'expired');
+  assert.equal(p.canAttack(a,b),'level');assert.equal(p.accept(b,a).why,'expired');
   assert.equal(p.request(a,{...b,map:'city',room:'paddy'}),'safe');
   assert.equal(p.request(a,{...b,signed:false}),'guest');
   assert.equal(p.request(a,b),null);assert.ok(p.accept(b,a).duel);
-  assert.equal(p.canAttack(a,b),null);assert.equal(p.canAttack(a,c),'consent');
-  t=181;assert.equal(p.sweep(id=>id===1?a:b)[0].why,'timeout');assert.equal(p.canAttack(a,b),'consent');
+  assert.equal(p.canAttack(a,b),null);assert.equal(p.canAttack(a,c),'duel');
+  t=181;assert.equal(p.sweep(id=>id===1?a:b)[0].why,'timeout');assert.equal(p.canAttack(a,b),'level');
 });
-test('PK requires both opt-ins, prevents friendly fire and locks disabling during combat',()=>{
-  let t=0;const p=new Pvp({now:()=>t}),a=hero(1),b=hero(2);
-  assert.equal(p.toggle(a,true),null);assert.equal(p.canAttack(a,b),'consent');
-  p.toggle(b,true);assert.equal(p.canAttack(a,b),null);
+test('free PK opens at Lv 20 outside the city, protects lower levels and spares party members',()=>{
+  let t=0;const p=new Pvp({now:()=>t}),a=hero(1,20),b=hero(2,35),low=hero(3,19);
+  assert.equal(p.canAttack(a,b),null);assert.equal(p.canAttack(b,a),null);
+  assert.equal(p.canAttack(a,low),'protected');assert.equal(p.canAttack(low,a),'level');
+  assert.equal(p.canAttack({...a,map:'city',room:'city'},{...b,map:'city',room:'city'}),'safe');
+  assert.equal(p.canAttack({...a,signed:false},b),'guest');
   assert.equal(p.canAttack({...a,party:1},{...b,party:1}),'party');
-  p.touch(1,2);assert.equal(p.toggle(a,false),'combat');t=11;assert.equal(p.toggle(a,false),null);
+  assert.equal(p.open(a),true);assert.equal(p.open(low),false);assert.equal(p.open({...a,map:'city'}),false);
+  // whoever strikes first may be answered in self-defence for a minute
+  p.touch(1,2);assert.equal(p.provoked(1,2),true);assert.equal(p.provoked(2,1),false);
+  t=61;p.sweep(()=>null);assert.equal(p.provoked(1,2),false);
+});
+test('บาป บุญ: murder, justice and self-defence; monsters wear sin off; ranks and PK titles',()=>{
+  assert.deepEqual(settleKill({victimSin:0}),{kind:'murder',sin:KARMA.sinPerMurder,merit:0});
+  assert.equal(settleKill({victimSin:0,provoked:true}).kind,'defense');
+  const j=settleKill({victimSin:200});assert.equal(j.kind,'justice');assert.equal(j.merit,Math.round(KARMA.meritBase+200*KARMA.meritShare));
+  assert.equal(settleKill({victimSin:KARMA.redAt-1}).kind,'murder');
+  assert.equal(settleKill({victimSin:KARMA.redAt,provoked:true}).kind,'justice');   // a หัวแดง who struck first is still justice
+  assert.equal(karmaTier(0),'');assert.equal(karmaTier(1),'stain');assert.equal(karmaTier(KARMA.redAt),'red');
+  assert.equal(karmaRank({sin:0,merit:0}),null);assert.equal(karmaRank({merit:500}).name,'หลวง');
+  assert.equal(karmaRank({sin:150,merit:5000}).kind,'sin');
+  const c=Character.create('test','muaythai');c.note('sin',3);c.noteKill('boar');assert.equal(c.rec.sin,2);
+  c.note('pkKill');c.note('redKill');c.note('duelWin');c.note('merit',1000);c.checkTitles();
+  for(const id of ['pk1','redhunt1','duel1','merit1000'])assert.ok(c.titles.includes(id),id);
+  const back=new Character(c.toJSON());assert.equal(back.rec.sin,2);assert.equal(back.rec.merit,1000);
 });
 test('duel knockout leaves one HP without rewards and shares PvE basic rate limits',()=>{
   const cs=new Combatants({now:()=>0,random:()=>.5});

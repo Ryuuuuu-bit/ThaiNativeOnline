@@ -25,7 +25,7 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
     return {ws,msgs,send,wait,id:welcome.you,token:auth.token};
   }
   const a=await player(1),b=await player(2);t.after(()=>{a.ws.terminate();b.ws.terminate();});
-  a.send({t:'pvp_hit',id:b.id});assert.equal((await a.wait(m=>m.t==='pvp_no')).why,'consent');
+  a.send({t:'pvp_hit',id:b.id});assert.equal((await a.wait(m=>m.t==='pvp_no')).why,'level');   // free PK opens at Lv 20
   a.send({t:'duel_request',id:b.id});assert.equal((await b.wait(m=>m.t==='duel_invite')).from,a.id);
   b.send({t:'duel_answer',from:a.id,ok:true});await a.wait(m=>m.t==='duel_start');await b.wait(m=>m.t==='duel_start');
   a.send({t:'pvp_hit',id:b.id,amount:999999});const hit=await b.wait(m=>m.t==='pvp_hit');assert.ok(hit.amount>=0&&hit.amount<999999||hit.miss);
@@ -35,7 +35,7 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
   await new Promise(r=>setTimeout(r,10100));
   a.send({t:'recall'});assert.equal((await a.wait(m=>m.t==='position'&&m.map==='city')).z,52);
   b.send({t:'party_warp'});assert.equal((await b.wait(m=>m.t==='position'&&m.map==='city')).z,52);
-  b.send({t:'pk',on:true});assert.equal((await b.wait(m=>m.t==='pvp_no')).why,'safe');
+  b.send({t:'pvp_hit',id:a.id});assert.equal((await b.wait(m=>m.t==='pvp_no')).why,'safe');
   const del=await api('/api/slots/0',a.token,'DELETE');assert.equal(del.status,409);
   const exited=once(child,'exit');child.send('SIGTERM');await a.wait(m=>m.t==='shutdown');assert.equal((await exited)[0],0);
   assert.doesNotMatch(logs,/unhandled|message .*Error|Shutdown failed/);

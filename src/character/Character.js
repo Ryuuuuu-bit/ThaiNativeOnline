@@ -17,6 +17,7 @@ import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { TITLE_BY_ID, BOSS_TITLES, checkTitles } from '../data/titles.js';
+import { KARMA } from '../data/karma.js';
 import { isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
 import { cleanMasteries, masteryBonus } from './data/masteries.js';
 
@@ -27,7 +28,8 @@ export const FRIENDS_MAX = 50;
 const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 // the records titles are earned from (src/data/titles.js): whole counts only
-const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank'];
+// sin / merit / pkKill / redKill / pvpKill / duelWin: บาป · บุญ and PvP counts (src/data/karma.js)
+const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank', 'sin', 'merit', 'pkKill', 'redKill', 'pvpKill', 'duelWin'];
 const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 
@@ -200,7 +202,8 @@ export class Character extends Emitter {
   get refineMax() { return Math.max(0, ...Object.values(this.refine ?? {})); }
 
   // ---- Records and titles (src/data/titles.js) ----
-  noteKill(type) { this.rec.kills++; if (BOSS_TITLES[type]) this.rec.boss[type] = (this.rec.boss[type] || 0) + 1; }
+  // a monster slain also wears off บาป (src/data/karma.js)
+  noteKill(type) { this.rec.kills++; if (BOSS_TITLES[type]) this.rec.boss[type] = (this.rec.boss[type] || 0) + 1; if (this.rec.sin) this.rec.sin = Math.max(0, this.rec.sin - KARMA.sinPerMonster); }
   note(key, n = 1) { if (REC_KEYS.includes(key)) this.rec[key] += count(n); }
   // newly earned titles → their ids (emits 'titles' when the list or the worn one changed)
   checkTitles() { const before = this.titles.length, worn = this.title, got = checkTitles(this); if (got.length || before !== this.titles.length || worn !== this.title) this.emit('titles', got); return got; }

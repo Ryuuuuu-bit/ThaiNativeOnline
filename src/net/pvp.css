@@ -1,5 +1,8 @@
 .online-actions{position:absolute;right:16px;top:164px;z-index:2;display:flex;flex-wrap:wrap;gap:5px;padding:8px;max-width:225px;border:1px solid #8f8052;border-radius:8px;color:#e8d8ad;background:rgba(15,32,26,.92)}
 .online-actions button{font:inherit;font-size:12px;color:inherit;background:#263e33;border:1px solid #746943;border-radius:5px;padding:7px 9px;cursor:pointer;min-height:34px}
 .online-actions button:hover{background:#3b5140}.online-actions [aria-pressed=true]{background:#723b33;border-color:#c17959}.online-actions kbd{font:inherit;color:#bea25c}.online-actions [data-target],.online-actions [data-ask]{width:100%;border-top:1px solid #746943;padding-top:8px}.online-actions b{display:block;margin-bottom:6px}.online-actions p{font-size:12px;line-height:1.5;margin:0 0 6px}.online-actions [hidden]{display:none!important}
-.plate.pvp-enabled::before{content:'PK ';color:#ff8c72;font-weight:bold}
+/* before the name: "PK" where free PK reaches this player, then the ยศ (src/data/karma.js) */
+.plate[data-pre]::before{content:attr(data-pre) ' ';color:var(--rank-color,#ff8c72);font-weight:bold}
+.plate.plate[data-karma=stain]{color:#f0b27a}.plate.plate[data-karma=red]{color:#ff5a4a;text-shadow:0 0 4px rgba(255,40,30,.6),0 1px 2px #000}
+.karma-line{width:100%;display:grid;gap:2px;font-size:11.5px;line-height:1.45;border-bottom:1px solid #746943;padding-bottom:6px}.karma-line:empty{display:none}.karma-line .sin{color:#ff8c72}.karma-line .merit{color:#ffe08a}
 @media(max-width:700px){.online-actions{right:8px;top:125px;max-width:175px;padding:5px}.online-actions button{font-size:11px;padding:5px}}

@@ -83,6 +83,7 @@ import { ALLY_FOCUS } from '../src/training/kitCombat.js';
 import { navigation } from './navigation.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
 import { Pvp } from './pvp.js';
+import { settleKill, karmaRank, karmaTier } from '../src/data/karma.js';
 import { recallWhy } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
@@ -317,7 +318,7 @@ async function handle(ws, raw) {
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
       case 'wbjoin': joinWorldBoss(ws); break;
-      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pk': case 'pvp_hit': pvpMsg(ws, m); break;
+      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
       case 'ttl': {   // wear a title: a signed-in character only one it has earned (src/data/titles.js)
@@ -370,6 +371,7 @@ async function handle(ws, raw) {
         if (GM_PREFIX.test(String(m.text ?? ''))) {
           let text = 'ระบบสิทธิ์ไม่พร้อม กรุณาลองใหม่';
           try { text = await gm(gmCtx, p, m.text); } catch (e) { console.error('[gm] command failed', e.message); }
+          pvpState(p.id);   // a level set by GM may open or close free PK
           send(ws, { t: 'c', id: null, name: '🛠️ GM', kind: 'gm', text }); break;
         }
         if (muted(p)) { send(ws, { t: 'c', id: null, name: 'ระบบ', text: 'คุณถูกห้ามแชทชั่วคราว' }); break; }
@@ -416,7 +418,7 @@ wss.on('connection', ws => {
     conns.delete(ws);
     const departing = presence.players.get(ws);
     const r = presence.leave(ws);
-    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); partyBoard.disconnect(r.id); endDuel(pvp.leave(r.id)); if (r.account) friendNews(r, false); }
+    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); partyBoard.disconnect(r.id); endDuel(pvp.leave(r.id)); karmaSeen.delete(r.id); if (r.account) friendNews(r, false); }
     if (r) { const s=combatants.get(r.id); if(!stopping){if(s?.persist)s.dirty=true;flushEntry(s,departing);} combatants.drop(r.id); }
     if (r) { toMap(r.map, { t: 'leave', id: r.id }); toAll({ t: 'online', n: presence.count }); }
   });
@@ -461,12 +463,36 @@ function correct(ws, extra = {}) {
 }
 function pvpPlayer(id) {
   const p = byId(id)?.p, s = combatants.get(id);
-  return p ? {...p,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
+  return p ? {...p,lv:s?.c.level ?? p.lv,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
     busy:!!s?.stashBusy || !!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
 }
+// what the room sees of someone's PvP standing: open to free PK here, in a duel, and their
+// บาป · บุญ, tier (name colour) and ยศ (src/data/karma.js)
+function karmaOf(id) {
+  const rec = combatants.get(id)?.persist ? combatants.get(id).c.rec : {}, sin = rec.sin || 0, merit = rec.merit || 0, rank = karmaRank({ sin, merit });
+  return { sin, merit, tier: karmaTier(sin), rank: rank?.name ?? null, rankColor: rank?.color ?? null };
+}
+const karmaSeen = new Map();
 function pvpState(id) {
-  const p = byId(id)?.p;
-  if (p) toMap(p.room, {t:'pvp_state',id,...pvp.view(id)});
+  const p = byId(id)?.p; if (!p) return;
+  const k = karmaOf(id); karmaSeen.set(id, `${k.tier}|${k.rank}`);
+  toMap(p.room, {t:'pvp_state',id,...pvp.view(id),pk:pvp.open(pvpPlayer(id)),...k});
+}
+// after a monster kill or a level up: the plate changes only when the tier or the rank did
+function karmaNews(id) { const k = karmaOf(id); if (karmaSeen.get(id) !== `${k.tier}|${k.rank}`) pvpState(id); }
+// a free-PK kill judged (src/data/karma.js settleKill): the killer gains บาป or บุญ
+function karmaKill(killerId, victimId) {
+  const k = combatants.get(killerId), v = combatants.get(victimId); if (!k?.persist || !v?.persist) return;
+  const res = settleKill({ victimSin: v.c.rec.sin || 0, provoked: pvp.provoked(victimId, killerId) });
+  k.c.note('pvpKill');
+  if (res.kind === 'murder') { k.c.note('sin', res.sin); k.c.note('pkKill'); }
+  if (res.kind === 'justice') { k.c.note('merit', res.merit); k.c.note('redKill'); }
+  k.dirty = true; titleNews(killerId);
+  const killer = byId(killerId), victim = byId(victimId);
+  if (killer) send(killer.ws, { t: 'karma', kind: res.kind, sin: res.sin, merit: res.merit, name: victim?.p.name ?? '', total: { sin: k.c.rec.sin, merit: k.c.rec.merit } });
+  if (victim) send(victim.ws, { t: 'karma', kind: 'slain', by: killer?.p.name ?? '', why: res.kind });
+  if (res.kind === 'justice' && killer) toMap(killer.p.room, { t: 'karma_news', killer: killer.p.name, victim: victim?.p.name ?? '' });
+  pvpState(killerId);
 }
 function endDuel(d) {
   if (!d) return;
@@ -474,7 +500,7 @@ function endDuel(d) {
 }
 function resetPvp(id) {
   endDuel(pvp.finish(id,'moved'));
-  Object.assign(pvp.state(id),{pk:false}); pvpState(id);
+  pvpState(id);
 }
 function recall(ws, followLeader = false) {
   const p=presence.players.get(ws); if(!p) return;
@@ -529,8 +555,7 @@ function pvpMsg(ws,m) {
   const p=presence.players.get(ws); if(!p) return;
   const a=pvpPlayer(p.id), b=pvpPlayer(Number(m.id ?? m.from));
   const no=why=>send(ws,{t:'pvp_no',why});
-  if(m.t==='pk') { if(typeof m.on!=='boolean')return; const why=pvp.toggle(a,m.on); if(why)return no(why); pvpState(p.id); }
-  else if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
+  if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
   else if(m.t==='duel_answer') {
     if(m.ok!==true) {pvp.decline(p.id,Number(m.from));return;}
     const r=pvp.accept(a,b); if(r.why)return no(r.why);
@@ -544,8 +569,8 @@ function pvpMsg(ws,m) {
     const r=combatants.pvpBasic(a.id,b.id,{knockout:!!pvp.view(a.id).duel}); if(!r)return no('cooldown');
     pvp.touch(a.id,b.id);
     toMap(p.room,{t:'pvp_hit',from:a.id,id:b.id,...r});
-    if(r.dead) {presence.setDead(byId(b.id).ws,true);resetPvp(b.id);}
-    if(r.won)endDuel(pvp.finish(a.id,'won',a.id));
+    if(r.dead) {presence.setDead(byId(b.id).ws,true);karmaKill(a.id,b.id);resetPvp(b.id);}
+    if(r.won) {const w=combatants.get(a.id);if(w?.persist){w.c.note('duelWin');w.dirty=true;titleNews(a.id);}endDuel(pvp.finish(a.id,'won',a.id));}
     pvpState(a.id);pvpState(b.id);
   }
 }
@@ -810,7 +835,8 @@ function rewardNews(map, e, up) {
   const ws = socketOf(e.to); if (ws) send(ws, up.lost ? { ...e, lost: up.lost } : e);
   const cardKept = e.card && !up.lost?.some(d => ITEMS[d.id]?.type === 'card');
   if (cardKept) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
-  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
+  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); pvpState(e.to); }
+  else karmaNews(e.to);   // a monster slain wears off บาป
 }
 // route what the monster world reports: map-wide news, or a message for one player
 function route(map, events, except = null) {
@@ -852,7 +878,7 @@ function route(map, events, except = null) {
     else toMap(map, e, except);
   }
 }
-const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
+const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id),pk:pvp.open(pvpPlayer(p.id)),...karmaOf(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
 
 // World boss (src/combat/data/worldBoss.js): news to everyone at dusk and at nightfall (the boss
 // rises when its map's monsters run, server/monsters.js); at dawn the night-only maps send everyone
