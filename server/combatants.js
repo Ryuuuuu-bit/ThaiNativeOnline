@@ -94,11 +94,15 @@ export class Combatants {
     this.now = now; this.r = random; this.list = new Map();   // player id → state
   }
   get(id) { return this.list.get(id); }
-  touch(id) { const s = this.list.get(id); if (s) { s.fightAt = this.now(); s.c.sitting = false; } }
+  touch(id) { const s = this.list.get(id); if (s && !s.tradeBusy) { s.fightAt = this.now(); s.c.sitting = false; } }
   // sitting to rest (Combat.sit): double regen, never in a fight; any blow or swing stands up
   sit(id, on) { const s = this.list.get(id); if (s) s.c.sitting = !!on && s.c.alive && !this.fighting(id); }
   fighting(id) { const s = this.list.get(id); return !!s && this.now() - s.fightAt < RULES.combatTimeout; }
   drop(id) { this.list.delete(id); }
+  fall(id) {
+    const s = this.list.get(id); if (!s || s.tradeBusy) return;
+    s.c.fall(); if (s.persist) s.dirty = true;
+  }
 
   set(id, data, cls) {
     const old = this.list.get(id);
@@ -122,7 +126,7 @@ export class Combatants {
   // ---- signed-in characters ------------------------------------------------------------------
   // `at`: where the player is ({ map, x, z }, server/presence.js)
   op(id, msg, at = {}) {
-    const s = this.list.get(id); if (!s?.persist) return false;
+    const s = this.list.get(id); if (!s?.persist || s.tradeBusy) return false;
     s.ack++;
     // shops: next to an NPC of that shop (src/data/shopSites.js), and not in the middle of a fight
     const atShop = shop => nearShop(shop, at.map, at.x, at.z) && this.now() - s.fightAt >= RULES.combatTimeout;
@@ -157,6 +161,10 @@ export class Combatants {
   }
   reward(id, k) {
     const s = this.list.get(id); if (!s?.persist) return {};
+    if (s.tradeBusy) { (s.tradeRewards ??= []).push({ id, k }); return { deferred: true }; }
+    return this.rewardState(s, id, k);
+  }
+  rewardState(s, id, k) {
     const c = s.c, before = c.level;
     c.gold += Math.max(0, k.gold | 0); c.gainExp(Math.max(0, k.exp | 0));
     const lost = [];   // a full or overweight bag: the drop is lost (told, not silently)
@@ -174,7 +182,7 @@ export class Combatants {
   }
   // A monster's swing at a signed-in player, with the browser's formula (Combat.monsterAttack).
   swing(id, def, power = 1, { skill = false } = {}) {
-    const s = this.list.get(id); if (!s?.persist || !def) return null;
+    const s = this.list.get(id); if (!s?.persist || !def || s.tradeBusy) return null;
     const c = s.c; if (!c.alive) return null;
     if (s.god) return { dodge: true, hp: c.hp };   // /gm god (server/gm.js)
     s.fightAt = this.now(); c.sitting = false;
@@ -188,7 +196,7 @@ export class Combatants {
   // A world boss skill (server/monsters.js wbhit): a share of the character's max HP, no dodge or
   // defence (it was warned on the floor), so it hurts every level the same.
   pctHit(id, pct) {
-    const s = this.list.get(id); if (!s?.persist) return null;
+    const s = this.list.get(id); if (!s?.persist || s.tradeBusy) return null;
     const c = s.c; if (!c.alive) return null;
     if (s.god) return { dodge: true, hp: c.hp };
     s.fightAt = this.now(); c.sitting = false;
@@ -207,6 +215,7 @@ export class Combatants {
   // the result says `single` (server/index.js gives it to that friend alone).
   cast(id, skillId, { ally = false, world = null, player = null } = {}) {
     const s = this.list.get(id); if (!s) return { ok: false, why: 'no_sheet' };
+    if (s.tradeBusy) return { ok: false, why: 'trade_busy' };
     const c = s.c, now = this.now();
     if (!c.alive) return { ok: false, why: 'dead' };
     const kitSkill = KITS[c.classId]?.find(k => k.id === skillId);
@@ -264,7 +273,7 @@ export class Combatants {
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
   // back where they lie. → what happened ({ heal, revived }) or null.
   aid(id, sup) {
-    const s = this.list.get(id); if (!s) return null;
+    const s = this.list.get(id); if (!s || s.tradeBusy) return null;
     const c = s.c;
     if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); s.dirty = true; return { revived: true }; }
     const before = c.hp;
@@ -335,6 +344,7 @@ export class Combatants {
 
   // a landed (or missed) skill blow, then the skill's effects on that monster once per cast
   strike(world, players, m, id, r, cast, night) {
+    if (this.list.get(id)?.tradeBusy) return [];
     const n = cast.struck.get(m.id) ?? 0;
     if (n >= cast.perTarget) return [];   // this cast has struck that monster as often as the skill allows
     cast.struck.set(m.id, n + 1);
@@ -362,6 +372,7 @@ export class Combatants {
   // Clients supply a target only, never damage or attacker stats.
   pvpBasic(attacker, target, { knockout = false } = {}) {
     const a = this.list.get(attacker), b = this.list.get(target);
+    if (a?.tradeBusy || b?.tradeBusy) return null;
     if (!a?.persist || !b?.persist || !a.c.alive || !b.c.alive) return null;
     const c = a.c, t = b.c, basic = LEGACY[c.cls.skills.find(k => LEGACY[k]?.basic)];
     if (!basic || !this.spend(a.basic, this.now(), c.cls.attackSpeed * (1 - c.attackSpeed))) return null;
@@ -387,6 +398,7 @@ export class Combatants {
   tick(dt, night) {
     const now = this.now();
     for (const s of this.list.values()) {
+      if (s.tradeBusy) continue;
       s.c.night = night;
       if (s.persist) { const hp=s.c.hp,mp=s.c.mp; s.c.tick(dt, now - s.fightAt < RULES.combatTimeout); if(s.c.hp!==hp||s.c.mp!==mp)s.dirty=true; }
       else if (s.c.buffs.length) s.c.buffs = s.c.buffs.filter(b => (b.remaining -= dt) > 0);

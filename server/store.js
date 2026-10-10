@@ -11,6 +11,15 @@ import { nameKey } from '../src/data/character-names.js';
 import { NameTaken, characterRecord, renameData, nameMigration, migrateCharacterNames } from './character-names.js';
 import { emptyStash } from '../src/data/stash.js';
 const revisionOf = row => Number(row?.inventoryRevision ?? 0);
+const tradeData = (row, snapshot) => {
+  const { key, character } = characterRecord(row.data);
+  return { ...row.data, [key]: JSON.stringify({ ...snapshot.character, name: character.name }),
+    'tno.quests.v1': snapshot.quests, 'tno.location.v1': JSON.stringify(snapshot.location) };
+};
+const tradeReplay = (receipt, fingerprint, rows) => receipt.fingerprint !== fingerprint
+  ? { ok: false, why: 'request_reused' }
+  : rows.some((row, i) => revisionOf(row) !== receipt.result.revisions[i])
+    ? { ok: false, why: 'character_stale' } : { ...receipt.result, replayed: true };
 const stashData = (row, snapshot, inventory) => {
   const { key, character } = characterRecord(row.data);
   return { ...row.data, [key]: JSON.stringify({ ...character, ...snapshot.character, name: character.name, inventory }),
@@ -28,6 +37,25 @@ export async function openStore(url) {
 }
 
 export class MemoryStore {
+  async transferTrade(request, fingerprint, participants) {
+    const ids = [...new Set(participants.map(p => p.account))].sort();
+    const locked = i => i < ids.length ? this.withAccount(ids[i], () => locked(i + 1)) : commit();
+    const commit = () => {
+      const rows = participants.map(p => this.slots.get(p.account)?.get(p.slot));
+      if (rows.some(row => !row)) return { ok: false, why: 'offline' };
+      this.tradeReceipts ??= new Map();
+      const receipt = this.tradeReceipts.get(request);
+      if (receipt) return structuredClone(tradeReplay(receipt, fingerprint, rows));
+      if (rows.some((row, i) => revisionOf(row) !== participants[i].inventoryRevision)) return { ok: false, why: 'character_stale' };
+      const revisions = rows.map(row => revisionOf(row) + 1);
+      const data = rows.map((row, i) => tradeData(row, participants[i]));
+      const result = { ok: true, revisions };
+      rows.forEach((row, i) => Object.assign(row, { data: data[i], inventoryRevision: revisions[i], updated: Date.now() }));
+      this.tradeReceipts.set(request, { fingerprint, result });
+      return structuredClone(result);
+    };
+    return locked(0);
+  }
   constructor() { this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; this.stashes = new Map(); this.stashReceipts = new Map(); this.locks = new Map(); }
   withAccount(id, work) {
     const next = (this.locks.get(id) ?? Promise.resolve()).catch(() => {}).then(work);
@@ -104,6 +132,34 @@ export class MemoryStore {
 }
 
 export class PgStore {
+  async transferTrade(request, fingerprint, participants) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('begin');
+      for (const id of [...new Set(participants.map(p => p.account))].sort())
+        await client.query('select id from accounts where id = $1 for update', [id]);
+      const rows = [];
+      for (const p of participants) rows.push((await client.query('select data, inventory_revision as "inventoryRevision" from characters where account = $1 and slot = $2 for update', [p.account, p.slot])).rows[0]);
+      let result;
+      if (rows.some(row => !row)) result = { ok: false, why: 'offline' };
+      else {
+        const receipt = (await client.query('select fingerprint, result from trade_receipts where request = $1', [request])).rows[0];
+        if (receipt) result = tradeReplay(receipt, fingerprint, rows);
+        else if (rows.some((row, i) => revisionOf(row) !== participants[i].inventoryRevision)) result = { ok: false, why: 'character_stale' };
+        else {
+          const revisions = rows.map(row => revisionOf(row) + 1);
+          for (let i = 0; i < participants.length; i++) {
+            const p = participants[i];
+            await client.query('update characters set data = $3, inventory_revision = $4, updated = now() where account = $1 and slot = $2', [p.account, p.slot, tradeData(rows[i], p), revisions[i]]);
+          }
+          result = { ok: true, revisions };
+          await client.query('insert into trade_receipts (request, fingerprint, result) values ($1, $2, $3)', [request, fingerprint, result]);
+        }
+      }
+      await client.query('commit'); return result;
+    } catch (error) { await client.query('rollback').catch(() => {}); throw error; }
+    finally { client.release(); }
+  }
   constructor(pool) { this.pool = pool; this.kind = 'postgres'; }
   q(text, values) { return this.pool.query(text, values); }
   async init() {
@@ -113,6 +169,7 @@ export class PgStore {
     await this.q(`alter table characters add column if not exists inventory_revision bigint not null default 0`);
     await this.q(`create table if not exists account_stashes (account text primary key references accounts(id) on delete cascade, revision bigint not null default 0, slots jsonb not null)`);
     await this.q(`create table if not exists stash_receipts (account text not null references accounts(id) on delete cascade, request text not null, slot int not null, fingerprint text not null, result jsonb not null, primary key (account, request))`);
+    await this.q(`create table if not exists trade_receipts (request text primary key, fingerprint text not null, result jsonb not null)`);
     await this.q(`create table if not exists google_links (sub text primary key, account text not null references accounts(id) on delete cascade, email text, linked timestamptz not null default now())`);
     await this.q(`alter table google_links add column if not exists picture text`);
     await this.q(`alter table google_links add column if not exists profile_updated timestamptz`);

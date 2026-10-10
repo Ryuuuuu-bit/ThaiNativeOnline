@@ -105,6 +105,15 @@ The current map and position are saved in the character's save slot
 reload returns to the same map. Saves of the retired `fields` map load on the
 zone map that owns their position (`resolveLocation`).
 
+Transitions prepare the destination under a detached group before unloading the
+current map. If preparation fails, partial resources and NPC subscriptions are
+released, the old map and position remain usable, and the fade/busy state clears.
+The portal is disarmed until the player walks outside its trigger. No `onChange`
+or multiplayer room change is emitted for a failed preparation.
+`lastTravelError` retains the error for diagnostics; `travel()` resolves `false`
+on failure and `true` on success. Expedition resource disposal is idempotent and
+also releases each `InstancedMesh` instance buffer.
+
 ## `buildWorld(scene, progress?, map?) → Promise<world>` (`World.js`)
 
 Builds one map (`map` is an id or a `MAPS` entry, default `city`) under its own
