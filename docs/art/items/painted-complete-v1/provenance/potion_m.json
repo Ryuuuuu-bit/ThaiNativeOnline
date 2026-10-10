@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "potion_m",
+  "family": "use:potion_m",
+  "memberIDs": [
+    "potion_m"
+  ],
+  "name": "ยาหม้อใหญ่",
+  "type": "use",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-3ef36109-95f4-4d2a-8fd2-0d245fb8a3f2.png",
+  "prompt": "One isolated Thai fantasy inventory icon: ยาหม้อใหญ่; ฟื้นฟู HP 160; single-use supply/container, distinct from permanent rechargeable flasks; preserve its material identity and clearly readable outline. Large traditional Thai medicinal earthenware cooking pot, squat wide belly with two prominent small loop handles and flared short rim, fitted terracotta lid tied with red cloth strap. Distinct large medicinal pot compared with simple small jar. Ordinary warm brown handmade fired clay, no jewels or gold, no glass flask. Soft hand-painted broad stylized shapes, readable silhouette at32px. Complete object square centered 12% safe margins and genuine transparent background. No text, numbers, UI frame, badges, scene, floor shadows or extra objects.",
+  "master": "docs/art/items/painted-complete-v1/masters/potion_m.png",
+  "masterSha256": "c4e7df7635847a7d5e242dc09b8f735b29229d6adcfa1624c844cfb655a9b311",
+  "originalSha256": "c4e7df7635847a7d5e242dc09b8f735b29229d6adcfa1624c844cfb655a9b311",
+  "output": "public/ui/items/painted-complete-v1/potion_m.webp",
+  "sha256": "4a75d64a58db1e4164183a3f36c713cfed471d7cd717341c3872fac3867b0ff0",
+  "bytes": 20116,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

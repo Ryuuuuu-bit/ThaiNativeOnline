@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "bamboo_grave_talisman",
+  "family": "equip:bamboo_grave_talisman",
+  "memberIDs": [
+    "bamboo_grave_talisman"
+  ],
+  "name": "ผ้ายันต์ · ป่าช้าไผ่ดำ",
+  "type": "equip",
+  "levels": [
+    23
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-f431379e-a142-43ef-8337-83434e49bb74.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject: Folded or hanging Thai yantra cloth; not a staff or book. Existing name: ผ้ายันต์ · ป่าช้าไผ่ดำ. ศาสตรา ป่าช้าไผ่ดำ · ต้องการ Lv.23  Minimum level 23; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Style/medium: soft stylized hand-painted Thai fantasy matching approved jade/gold/leather inventory art, not photoreal; broad readable shape, gentle shading and selective kanok or prajam-yam ornament only where appropriate to material and level. Distinct regional tier design, level23 black bamboo graveyard gear uses dark charcoal bamboo/leather and aged restrained brass. Cloth wraps are empty wrapped hand-shaped gauntlets, no visible skin. Composition: complete object or requested pair, centered three-quarter view occupying ONLY80% of canvas, generous10% transparent inset EVERY edge, strongly readable32/48/64px. Real transparent alpha background. No characters, skin, text, numbers, lettering, UI frames, badges, borders, watermark, glow, floor or cast background shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/bamboo_grave_talisman.png",
+  "masterSha256": "04f0c48f701d09e7e42a8f08b3c9bdfe282a96db933a06cb54a4b89e320f93f7",
+  "originalSha256": "04f0c48f701d09e7e42a8f08b3c9bdfe282a96db933a06cb54a4b89e320f93f7",
+  "output": "public/ui/items/painted-complete-v1/bamboo_grave_talisman.webp",
+  "sha256": "66a98540379e0b32c828bc1850c70463dd868b3ea258e505e216f2682ceadce4",
+  "bytes": 26372,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

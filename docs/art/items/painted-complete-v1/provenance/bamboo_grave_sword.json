@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "bamboo_grave_sword",
+  "family": "equip:bamboo_grave_sword",
+  "memberIDs": [
+    "bamboo_grave_sword"
+  ],
+  "name": "ดาบ · ป่าช้าไผ่ดำ",
+  "type": "equip",
+  "levels": [
+    23
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-7c2268d8-2733-4e54-86c2-3546e63e19ae.png",
+  "prompt": "Use case: stylized-concept. Single inventory icon for Thai Native Online: One Thai daab sword; steel blade and wrapped grip. Existing name: ดาบ · ป่าช้าไผ่ดำ. ศาสตรา ป่าช้าไผ่ดำ · ต้องการ Lv.23  Minimum level 23; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Style: soft hand-painted Thai fantasy, strong silhouette and clear color blocks. This level23 black-bamboo graveyard sword should use a gently curved broad steel Thai daab blade, dark bamboo-inspired wrapped grip, restrained aged brass kanok fittings. Three-quarter diagonal full object view, centered with 10% safe margin all edges, readable32/48/64px. Transparent background actual alpha. No text, no letters, no UI frame, badges, watermark, glow, ground, characters or extra objects.",
+  "master": "docs/art/items/painted-complete-v1/masters/bamboo_grave_sword.png",
+  "masterSha256": "b587b52bb8e48cf893b68e6d2072bd00e723d6185cd3041af989059f0fc9ff36",
+  "originalSha256": "b587b52bb8e48cf893b68e6d2072bd00e723d6185cd3041af989059f0fc9ff36",
+  "output": "public/ui/items/painted-complete-v1/bamboo_grave_sword.webp",
+  "sha256": "02bede76ed953758270d17e3b76ac4f39ecb8eda892e7b089651b28aeef55693",
+  "bytes": 9490,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

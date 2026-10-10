@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "hand_wrap",
+  "family": "equip:hand_wrap",
+  "memberIDs": [
+    "hand_wrap"
+  ],
+  "name": "ผ้าพันมือมงคล",
+  "type": "equip",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-72502b24-da24-440b-a58f-03f885689cca.png",
+  "prompt": "One isolated Thai fantasy game inventory equipment icon: Pair of plain cloth Muay Thai hand wraps; common starter, no armored gauntlets. Pair of empty off-white cotton Muay Thai hand wraps arranged as two hollow fist-shaped wrapped bundles side-by-side at slight diagonal, visible layered cloth bands, open finger sections, narrow trailing ties. No human skin or body, no armored plates, no leather glove, no boxing glove, no gilding. Plain common starter cloth weapon, slightly worn cream linen. Soft hand-painted stylized broad shapes, legible32px. Complete pair centered square with12% safe margin and true transparent background. No text, digits, UI border, badges, floor shadow or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/hand_wrap.png",
+  "masterSha256": "8c13d027fe2ef47aab7e7eeea9da4a05f89cc18e40f9bf332df158e3c4fde49e",
+  "originalSha256": "8c13d027fe2ef47aab7e7eeea9da4a05f89cc18e40f9bf332df158e3c4fde49e",
+  "output": "public/ui/items/painted-complete-v1/hand_wrap.webp",
+  "sha256": "da05b5f6964199ac9e16d30467a03b27ccf5c41895c4359ececeb24c512fc8c4",
+  "bytes": 20358,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

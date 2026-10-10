@@ -1,0 +1,1058 @@
+{
+  "summary": {
+    "plannedNewMasters": 333,
+    "completedNewMasters": 56,
+    "reusedApprovedMasters": 15,
+    "mappedIDs": 123,
+    "activeIDs": 516,
+    "pendingMasters": 277
+  },
+  "items": [
+    {
+      "id": "bamboo_grave_sword",
+      "name": "ดาบ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_sword"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_sword.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 9490
+    },
+    {
+      "id": "bamboo_grave_bow",
+      "name": "ธนู · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_bow.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 10952
+    },
+    {
+      "id": "bamboo_grave_wrap",
+      "name": "ผ้าพันมือ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_wrap.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 14426
+    },
+    {
+      "id": "bamboo_grave_dagger",
+      "name": "มีดคู่ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_dagger.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 15160
+    },
+    {
+      "id": "bamboo_grave_talisman",
+      "name": "ผ้ายันต์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_talisman"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_talisman.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 26372
+    },
+    {
+      "id": "bamboo_grave_book",
+      "name": "ตำรา · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_book"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_book.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 23366
+    },
+    {
+      "id": "bamboo_grave_armor",
+      "name": "เกราะ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_armor"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_armor.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22868
+    },
+    {
+      "id": "bamboo_grave_shoes",
+      "name": "รองเท้า · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "bamboo_grave_shoes"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_grave_shoes.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22560
+    },
+    {
+      "id": "sealed_mine_sword",
+      "name": "ดาบ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_sword"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_sword.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 10538
+    },
+    {
+      "id": "sealed_mine_bow",
+      "name": "ธนู · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_bow.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 13414
+    },
+    {
+      "id": "sealed_mine_wrap",
+      "name": "ผ้าพันมือ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_wrap.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22232
+    },
+    {
+      "id": "sealed_mine_dagger",
+      "name": "มีดคู่ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_dagger.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 17482
+    },
+    {
+      "id": "sealed_mine_talisman",
+      "name": "ผ้ายันต์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_talisman"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_talisman.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20022
+    },
+    {
+      "id": "sealed_mine_book",
+      "name": "ตำรา · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_book"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_book.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 25936
+    },
+    {
+      "id": "sealed_mine_armor",
+      "name": "เกราะ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_armor"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_armor.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 27278
+    },
+    {
+      "id": "sealed_mine_shoes",
+      "name": "รองเท้า · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "sealed_mine_shoes"
+      ],
+      "image": "/ui/items/painted-complete-v1/sealed_mine_shoes.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22390
+    },
+    {
+      "id": "sunken_city_sword",
+      "name": "ดาบ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_sword"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_sword.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 16948
+    },
+    {
+      "id": "sunken_city_bow",
+      "name": "ธนู · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_bow.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 14144
+    },
+    {
+      "id": "sunken_city_wrap",
+      "name": "ผ้าพันมือ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_wrap.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22768
+    },
+    {
+      "id": "sunken_city_dagger",
+      "name": "มีดคู่ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_dagger.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20184
+    },
+    {
+      "id": "sunken_city_talisman",
+      "name": "ผ้ายันต์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_talisman"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_talisman.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 30336
+    },
+    {
+      "id": "sunken_city_book",
+      "name": "ตำรา · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_book"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_book.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 21908
+    },
+    {
+      "id": "dusk_fort_sword",
+      "name": "ดาบ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_sword"
+      ],
+      "image": "/ui/items/painted-v2/dusk_fort_sword.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "dusk_fort_book",
+      "name": "ตำรา · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_book"
+      ],
+      "image": "/ui/items/painted-v2/dusk_fort_book.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "dusk_fort_armor",
+      "name": "เกราะ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_armor"
+      ],
+      "image": "/ui/items/painted-v2/dusk_fort_armor.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "dusk_fort_shoes",
+      "name": "รองเท้า · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_shoes"
+      ],
+      "image": "/ui/items/painted-v2/dusk_fort_shoes.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "hunt_dusk_fort_head_sage",
+      "name": "ผ้าโพกศีรษะผู้จารอาคม · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "hunt_dusk_fort_head_guard",
+        "hunt_dusk_fort_head_sage",
+        "hunt_dusk_fort_head_hunter"
+      ],
+      "image": "/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "hunt_dusk_fort_cape_sage",
+      "name": "ผ้าคลุมลงอักขระผู้จารอาคม · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "hunt_dusk_fort_cape_guard",
+        "hunt_dusk_fort_cape_sage",
+        "hunt_dusk_fort_cape_hunter"
+      ],
+      "image": "/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "wear_bamboo_grave_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "wear_bamboo_grave_belt_guard",
+        "wear_bamboo_grave_belt_sage",
+        "wear_bamboo_grave_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_belt_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20598
+    },
+    {
+      "id": "wear_bamboo_grave_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "wear_bamboo_grave_amulet_guard",
+        "wear_bamboo_grave_amulet_sage",
+        "wear_bamboo_grave_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_amulet_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 18942
+    },
+    {
+      "id": "wear_bamboo_grave_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "wear_bamboo_grave_ring_guard",
+        "wear_bamboo_grave_ring_sage",
+        "wear_bamboo_grave_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_ring_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22362
+    },
+    {
+      "id": "wear_sealed_mine_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "wear_sealed_mine_gloves_guard",
+        "wear_sealed_mine_gloves_sage",
+        "wear_sealed_mine_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sealed_mine_gloves_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 24080
+    },
+    {
+      "id": "wear_sealed_mine_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "wear_sealed_mine_belt_guard",
+        "wear_sealed_mine_belt_sage",
+        "wear_sealed_mine_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sealed_mine_belt_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22170
+    },
+    {
+      "id": "wear_sealed_mine_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "wear_sealed_mine_amulet_guard",
+        "wear_sealed_mine_amulet_sage",
+        "wear_sealed_mine_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sealed_mine_amulet_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 19790
+    },
+    {
+      "id": "wear_sealed_mine_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "wear_sealed_mine_ring_guard",
+        "wear_sealed_mine_ring_sage",
+        "wear_sealed_mine_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sealed_mine_ring_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22324
+    },
+    {
+      "id": "wear_sunken_city_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "wear_sunken_city_gloves_guard",
+        "wear_sunken_city_gloves_sage",
+        "wear_sunken_city_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sunken_city_gloves_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 23428
+    },
+    {
+      "id": "wear_sunken_city_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "wear_sunken_city_belt_guard",
+        "wear_sunken_city_belt_sage",
+        "wear_sunken_city_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sunken_city_belt_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20426
+    },
+    {
+      "id": "wear_sunken_city_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "wear_sunken_city_amulet_guard",
+        "wear_sunken_city_amulet_sage",
+        "wear_sunken_city_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sunken_city_amulet_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 19270
+    },
+    {
+      "id": "wear_sunken_city_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "wear_sunken_city_ring_guard",
+        "wear_sunken_city_ring_sage",
+        "wear_sunken_city_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_sunken_city_ring_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20456
+    },
+    {
+      "id": "wear_dusk_fort_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "wear_dusk_fort_gloves_guard",
+        "wear_dusk_fort_gloves_sage",
+        "wear_dusk_fort_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "wear_dusk_fort_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "wear_dusk_fort_belt_guard",
+        "wear_dusk_fort_belt_sage",
+        "wear_dusk_fort_belt_hunter"
+      ],
+      "image": "/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "wear_dusk_fort_amulet_sage",
+      "name": "สร้อยพระเครื่องผู้จารอาคม · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "wear_dusk_fort_amulet_guard",
+        "wear_dusk_fort_amulet_sage",
+        "wear_dusk_fort_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "wear_dusk_fort_ring_sage",
+      "name": "แหวนอักขระผู้จารอาคม · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "wear_dusk_fort_ring_guard",
+        "wear_dusk_fort_ring_sage",
+        "wear_dusk_fort_ring_hunter"
+      ],
+      "image": "/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "wear_giant_valley_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "wear_giant_valley_gloves_guard",
+        "wear_giant_valley_gloves_sage",
+        "wear_giant_valley_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_giant_valley_gloves_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 25942
+    },
+    {
+      "id": "wear_giant_valley_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "wear_giant_valley_belt_guard",
+        "wear_giant_valley_belt_sage",
+        "wear_giant_valley_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_giant_valley_belt_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 19890
+    },
+    {
+      "id": "wear_giant_valley_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "wear_giant_valley_amulet_guard",
+        "wear_giant_valley_amulet_sage",
+        "wear_giant_valley_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_giant_valley_amulet_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22248
+    },
+    {
+      "id": "wear_giant_valley_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "wear_giant_valley_ring_guard",
+        "wear_giant_valley_ring_sage",
+        "wear_giant_valley_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_giant_valley_ring_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 22770
+    },
+    {
+      "id": "wear_himmapan_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "wear_himmapan_gloves_guard",
+        "wear_himmapan_gloves_sage",
+        "wear_himmapan_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_himmapan_gloves_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 23948
+    },
+    {
+      "id": "wear_himmapan_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "wear_himmapan_belt_guard",
+        "wear_himmapan_belt_sage",
+        "wear_himmapan_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_himmapan_belt_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 18262
+    },
+    {
+      "id": "wear_himmapan_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "wear_himmapan_amulet_guard",
+        "wear_himmapan_amulet_sage",
+        "wear_himmapan_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_himmapan_amulet_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20246
+    },
+    {
+      "id": "wear_himmapan_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "wear_himmapan_ring_guard",
+        "wear_himmapan_ring_sage",
+        "wear_himmapan_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_himmapan_ring_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 25040
+    },
+    {
+      "id": "wear_fallen_city_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · นครอาคมล่มสลาย",
+      "type": "equip",
+      "levels": [
+        80
+      ],
+      "memberIDs": [
+        "wear_fallen_city_gloves_guard",
+        "wear_fallen_city_gloves_sage",
+        "wear_fallen_city_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_fallen_city_gloves_guard.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 29420
+    },
+    {
+      "id": "flask_hp_6",
+      "name": "ขวดน้ำยาชุบชีพ ขั้น 6",
+      "type": "flask",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "flask_hp_6"
+      ],
+      "image": "/ui/items/painted-v2/flask_hp_6.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "flask_mp_6",
+      "name": "ขวดน้ำมนต์ฟื้นจิต ขั้น 6",
+      "type": "flask",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "flask_mp_6"
+      ],
+      "image": "/ui/items/painted-v2/flask_mp_6.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_11",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 11",
+      "type": "flask",
+      "levels": [
+        100
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_11"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_11.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 21922
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_11",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 11",
+      "type": "flask",
+      "levels": [
+        100
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_11"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_11.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 11504
+    },
+    {
+      "id": "potion_s",
+      "name": "ยาหม้อเล็ก",
+      "type": "use",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "potion_s"
+      ],
+      "image": "/ui/items/painted-complete-v1/potion_s.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 14904
+    },
+    {
+      "id": "potion_m",
+      "name": "ยาหม้อใหญ่",
+      "type": "use",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "potion_m"
+      ],
+      "image": "/ui/items/painted-complete-v1/potion_m.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20116
+    },
+    {
+      "id": "ether",
+      "name": "น้ำผึ้งป่า",
+      "type": "use",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "ether"
+      ],
+      "image": "/ui/items/painted-complete-v1/ether.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 21416
+    },
+    {
+      "id": "hide",
+      "name": "หนังสัตว์",
+      "type": "material",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "hide"
+      ],
+      "image": "/ui/items/painted-complete-v1/hide.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20390
+    },
+    {
+      "id": "tusk",
+      "name": "เขี้ยวหมูป่า",
+      "type": "material",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "tusk"
+      ],
+      "image": "/ui/items/painted-complete-v1/tusk.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20198
+    },
+    {
+      "id": "sacred_ore",
+      "name": "แร่ศักดิ์สิทธิ์",
+      "type": "material",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "sacred_ore"
+      ],
+      "image": "/ui/items/painted-complete-v1/sacred_ore.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 21498
+    },
+    {
+      "id": "gold_leaf",
+      "name": "ทองคำเปลว",
+      "type": "material",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "gold_leaf"
+      ],
+      "image": "/ui/items/painted-complete-v1/gold_leaf.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 21998
+    },
+    {
+      "id": "ash",
+      "name": "ขี้เถ้าธูป",
+      "type": "material",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "ash"
+      ],
+      "image": "/ui/items/painted-complete-v1/ash.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 15882
+    },
+    {
+      "id": "hand_wrap",
+      "name": "ผ้าพันมือมงคล",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "hand_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/hand_wrap.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 20358
+    },
+    {
+      "id": "krabi",
+      "name": "มีดสั้นคู่",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "krabi"
+      ],
+      "image": "/ui/items/painted-complete-v1/krabi.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 15160
+    },
+    {
+      "id": "tiger_wrap",
+      "name": "ผ้าพันมือลายเสือ",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "tiger_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/tiger_wrap.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 27524
+    },
+    {
+      "id": "bone_dagger",
+      "name": "มีดคู่กระดูก",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "bone_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/bone_dagger.webp",
+      "status": "รอตรวจภาพ",
+      "bytes": 18822
+    },
+    {
+      "id": "takrut",
+      "name": "ตะกรุดโทน",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "takrut"
+      ],
+      "image": "/ui/items/painted-v2/takrut.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "bia_kae",
+      "name": "เบี้ยแก้",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "bia_kae"
+      ],
+      "image": "/ui/items/painted-v2/bia_kae.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    },
+    {
+      "id": "prakam",
+      "name": "ลูกประคำไม้กฤษณา",
+      "type": "equip",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "prakam"
+      ],
+      "image": "/ui/items/painted-v2/prakam.webp",
+      "status": "อนุมัติแล้ว",
+      "bytes": null
+    }
+  ]
+}

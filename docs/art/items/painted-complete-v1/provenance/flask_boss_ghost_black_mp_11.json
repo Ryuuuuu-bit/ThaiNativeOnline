@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "flask_boss_ghost_black_mp_11",
+  "family": "flask:flask_boss_ghost_black_mp_11",
+  "memberIDs": [
+    "flask_boss_ghost_black_mp_11"
+  ],
+  "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 11",
+  "type": "flask",
+  "levels": [
+    100
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-7007329a-a9ee-4bee-a19f-c4693d96b883.png",
+  "prompt": "One isolated production game inventory icon: Reusable MP flask tier 11, minimum Lv.100; blue fluid and slender silhouette; distinct themed ผีชุดดำ boss fittings; epic reward; tier-specific construction and ornament; tier 1 plain glass/brass, progressively stronger fittings at higher tiers; no numbers, UI bars or text. Black Ghost boss late tier: blackened dark metal fittings edged warm gold selective Thai kanok, ethereal jade spirit jewel, vivid blue liquid visible inside a slender tall long-neck glass flask, slim teardrop belly, no red fluid. Soft hand-painted Thai fantasy matching approved jade and gold item family, strong readable silhouette at 32 pixels, full object centered square with generous 12% safe margin, genuinely transparent background. No text, numbers, UI frames, bars, badges, extra objects or floor shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/flask_boss_ghost_black_mp_11.png",
+  "masterSha256": "bad00b0571283207f390d081cc0f532f9f88b0a0f18c090f298dfca79d94181e",
+  "originalSha256": "bad00b0571283207f390d081cc0f532f9f88b0a0f18c090f298dfca79d94181e",
+  "output": "public/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_11.webp",
+  "sha256": "6e4b00992d008beeb336a067a914d6a09e6220a506618d4ac7c64995f4f69825",
+  "bytes": 11504,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

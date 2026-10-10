@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "wear_bamboo_grave_amulet_guard",
+  "family": "wear:bamboo_grave:amulet",
+  "memberIDs": [
+    "wear_bamboo_grave_amulet_guard",
+    "wear_bamboo_grave_amulet_sage",
+    "wear_bamboo_grave_amulet_hunter"
+  ],
+  "name": "สร้อยพระเครื่องผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+  "type": "equip",
+  "levels": [
+    23
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-49285c36-7cfc-4e25-b96e-f4073122870e.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Necklace with framed seated-Buddha sacred tablet; necklace loop and pendant both readable. Existing name: สร้อยพระเครื่องผู้พิทักษ์ · ป่าช้าไผ่ดำ. อุปกรณ์สายผู้พิทักษ์แห่งป่าช้าไผ่ดำ · ต้องการ Lv.23 Region bamboo_grave. Minimum level 23; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.",
+  "master": "docs/art/items/painted-complete-v1/masters/wear_bamboo_grave_amulet_guard.png",
+  "masterSha256": "1b686e1dcfed523a8efcad629c366f59610d63f0422d77acddb83126bf29226b",
+  "originalSha256": "1b686e1dcfed523a8efcad629c366f59610d63f0422d77acddb83126bf29226b",
+  "output": "public/ui/items/painted-complete-v1/wear_bamboo_grave_amulet_guard.webp",
+  "sha256": "dd251127f39ba5cd709eb8287c3cbcb4f17088f44c9a15a4ae4bf19f52da3b96",
+  "bytes": 18942,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
