@@ -14,6 +14,8 @@ export const CALM_MUSIC = {
   calm_ruins: mood('เสียงกระซิบวัดร้าง', 58, { minor: true, transpose: -5, sparse: true, flute: .051, strings: .024, pluck: .008, wood: 0 }),
   calm_marsh: mood('หมอกเหนือบึง', 62, { minor: true, transpose: -2, sparse: true, flute: .062, strings: .026, pluck: .014, wood: .005 }),
   calm_night: mood('จันทร์เหนืออโยธยา', 58, { transpose: -5, sparse: true, flute: .067, strings: .022, pluck: .012, wood: .003 }),
+  calm_battle: mood('ก้าวออกศึก', 104, { minor: true, bright: true, pulse: true, drums: .038, flute: .087, strings: .019, pluck: .036, wood: .023, bass: .065 }),
+  calm_boss: mood('ศึกอสูรอโยธยา', 120, { minor: true, transpose: -2, bright: true, pulse: true, boss: true, drums: .048, flute: .082, strings: .023, pluck: .042, wood: .027, bass: .07 }),
 };
 
 // Transform the score into a D-minor colour without random/out-of-key melody.
@@ -23,7 +25,15 @@ export function moodPitch(midi, track) {
   return midi + darker + (track.transpose ?? 0);
 }
 
-export function musicAt({ mapId = 'city', regionId = 'city', phase = 'day' } = {}) {
+export function combatMusicState(combat, position) {
+  const inCombat = !!combat?.inCombat && combat.character?.alive !== false;
+  const engaged = m => m?.alive && m.def?.boss && m.state === 'chase' && Math.hypot(m.x-position.x, m.z-position.z) <= 35;
+  const boss = inCombat && (engaged(combat.target) || (combat.monsters ?? []).some(engaged));
+  return { inCombat, boss: !!boss };
+}
+
+export function musicAt({ mapId = 'city', regionId = 'city', phase = 'day', inCombat = false, boss = false } = {}) {
+  if (inCombat) return boss ? 'calm_boss' : 'calm_battle';
   // Loaded map wins over coordinates: expedition coordinates are outside city bands.
   const expedition = EXPEDITIONS.find(e => e.id === mapId);
   if (expedition) return expedition.theme === 'forest' ? 'calm_forest' : expedition.theme === 'klong' ? 'calm_marsh' : 'calm_ruins';

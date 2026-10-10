@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { CALM_MUSIC, musicAt, moodPitch } from '../src/data/calmMusic.js';
+import { CALM_MUSIC, musicAt, moodPitch, combatMusicState } from '../src/data/calmMusic.js';
 import { MAPS } from '../src/world/maps.js';
 import { MUSIC, MUSIC_FOR } from '../src/data/audio.js';
 import { LocationMusic } from '../src/audio/LocationMusic.js';
@@ -12,6 +12,18 @@ test('every real map/region/phase resolves to an original supported track', () =
     assert.equal(MUSIC[id].style, 'calm');
   }
   for (const id of Object.values(MUSIC_FOR)) assert.equal(MUSIC[id].style, 'calm');
+});
+
+test('combat escalates to battle/boss and selecting idle or dead bosses cannot trigger boss music', () => {
+  const m={alive:true,def:{boss:true},state:'idle',x:2,z:0},combat={inCombat:true,character:{alive:true},target:m,monsters:[m]}, p={x:0,z:0};
+  assert.equal(musicAt({...combatMusicState(combat,p),mapId:'wat_rang'}),'calm_battle');
+  m.state='chase'; assert.equal(musicAt(combatMusicState(combat,p)),'calm_boss');
+  combat.target={alive:true,def:{},state:'chase',x:1,z:0};
+  assert.equal(combatMusicState(combat,p).boss,true,'engaged boss remains while targeting its minion');
+  m.alive=false;assert.equal(combatMusicState(combat,p).boss,false);
+  m.alive=true;m.x=80;assert.equal(combatMusicState(combat,p).boss,false);
+  combat.inCombat=false;assert.equal(musicAt({...combatMusicState(combat,p),mapId:'wat_rang'}),'calm_ruins');
+  combat.inCombat=true;combat.character.alive=false;assert.equal(combatMusicState(combat,p).inCombat,false);
 });
 
 test('geographical moods remain distinct and unsafe nights retain their identity', () => {

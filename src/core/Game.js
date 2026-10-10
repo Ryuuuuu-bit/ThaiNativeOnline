@@ -40,6 +40,7 @@ import { createTouchControls } from '../ui/TouchControls.js';
 import { Sound } from '../audio/Sound.js';
 import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
 import { LocationMusic } from '../audio/LocationMusic.js';
+import { combatMusicState } from '../data/calmMusic.js';
 
 const $ = id => document.getElementById(id);
 // Route planning keeps this much room from obstacles (the body itself needs .28, src/world/Collision.js).
@@ -573,6 +574,7 @@ export class Game {
     this.clock.update(dt);
     if (!this.maps.busy) this.locationMusic?.update(dt, {
       mapId: this.maps.map?.id ?? 'city', regionId: regionAt(p.x, p.z, this.discovered.has('cemetery')).id, phase: this.clock.phase,
+      ...combatMusicState(this.game?.combat, p),
     });
     // While maps swap the fade overlay covers the screen; the clock keeps running.
     if (this.maps.busy || !this.world) return;

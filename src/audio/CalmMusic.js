@@ -13,7 +13,7 @@ function note(ctx, dest, midi, time, duration, voice, gain, pan = 0) {
   out.gain.setValueAtTime(0, time);
   out.gain.linearRampToValueAtTime(gain, time + Math.min(attack, duration * .25));
   const tail = Math.max(time + Math.min(attack, duration * .25), time + duration - release);
-  if (voice === 'pluck' || voice === 'wood') out.gain.exponentialRampToValueAtTime(Math.max(.0001, gain * .04), tail);
+  if (voice === 'pluck' || voice === 'wood' || voice === 'drum') out.gain.exponentialRampToValueAtTime(Math.max(.0001, gain * .04), tail);
   else out.gain.setValueAtTime(gain, tail);
   out.gain.linearRampToValueAtTime(0, time + duration);
   const real = new Float32Array(8), imag = new Float32Array(8);
@@ -25,6 +25,7 @@ function note(ctx, dest, midi, time, duration, voice, gain, pan = 0) {
   for (const detune of voice === 'strings' ? [-2.3, 1.9] : [0]) {
     const osc = ctx.createOscillator(); osc.setPeriodicWave(wave);
     osc.frequency.value = hz(midi); osc.detune.value = detune; osc.connect(out);
+    if (voice === 'drum') { osc.frequency.setValueAtTime(150, time); osc.frequency.exponentialRampToValueAtTime(58, time + .18); }
     osc.start(time); osc.stop(time + duration + .01); nodes.push(osc);
     osc.onended = () => { osc.disconnect(); if (nodes.every(o => o._done || o === osc)) { out.disconnect(); panner.disconnect(); } osc._done = true; };
     if (voice === 'flute') {
@@ -74,8 +75,10 @@ export class CalmMusicPlayer {
     const chord = tr.chords[index].map(n => moodPitch(n, tr));
     for (let i = 1; i < chord.length; i++) note(this.ctx, this.out, chord[i], time, 4 * b + 1.6, 'strings', tr.strings, [-.65,-.2,.3,.7][i-1]);
     note(this.ctx, this.out, chord[0] >= 47 ? chord[0]-12 : chord[0], time, 4 * b + .6, 'bass', tr.bass);
-    const plucks = tr.sparse ? [[0,1],[2.5,3]] : [[0,1],[1.5,3],[2.5,2],[3.5,4]];
-    for (const [at, i] of plucks) note(this.ctx, this.out, chord[i], time + at * b, 1.7, 'pluck', tr.pluck, i % 2 ? -.4 : .4);
+    const plucks = tr.pulse ? [[0,1],[.5,3],[1,2],[1.5,4],[2,1],[2.5,3],[3,2],[3.5,4]]
+      : tr.sparse ? [[0,1],[2.5,3]] : [[0,1],[1.5,3],[2.5,2],[3.5,4]];
+    for (const [at, i] of plucks) note(this.ctx, this.out, chord[i], time + at * b, tr.pulse ? .75 : 1.7, 'pluck', tr.pluck, i % 2 ? -.4 : .4);
+    if (tr.drums) for (const at of tr.boss ? [0,1.5,2,3.5] : [0,2]) note(this.ctx, this.out, 45, time + at*b, .34, 'drum', tr.drums*(at%2 ? .7 : 1));
     if (bar % 2 === 0) note(this.ctx, this.out, chord[2]+12, time + 3.5*b, 1, 'wood', tr.wood, .45);
     if (tr.bright) for (const at of [1,3]) note(this.ctx, this.out, chord[1]+12, time + at*b, .65, 'wood', tr.wood*.6, -.35);
     for (const [i, [at, pitch, len]] of tr.melody[index].entries()) {
