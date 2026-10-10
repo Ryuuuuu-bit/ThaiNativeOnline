@@ -1,0 +1,45 @@
+{
+  "click": {
+    "destinationCleared": true,
+    "frames": 600,
+    "fixedStepSeconds": 0.016666666666666666,
+    "javascriptErrors": 0,
+    "hp": 218,
+    "distanceToGoalMetres": 0.15
+  },
+  "art": {
+    "technical": 8.5,
+    "readability": 8,
+    "style": 8.5,
+    "verdict": "approved"
+  },
+  "preserved": {
+    "collisionMapPayloads": 14,
+    "bossEliteAbove20Records": 43
+  },
+  "changedOrdinarySpecies": 21,
+  "tests": {
+    "passed": 839,
+    "failed": 0,
+    "skipped": 2,
+    "total": 841
+  },
+  "limitations": [
+    "fixed-step checks are not wall-time or physical-device performance",
+    "natural hunting and party balance not measured",
+    "other dry terrain depressions outside the narrow route exception"
+  ],
+  "build": {
+    "modules": 302,
+    "warning": "existing large bundle",
+    "passed": true
+  },
+  "keyboard": {
+    "standable": true,
+    "frames": 20,
+    "trusted": true,
+    "fixedStepSeconds": 0.016666666666666666,
+    "javascriptErrors": 0,
+    "displacementMetres": 1.4
+  }
+}

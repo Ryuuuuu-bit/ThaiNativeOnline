@@ -5,8 +5,8 @@ Owner: world-designer. Coordinates are world space (`src/world/CityMap.js`):
 (interface: `src/world/README.md`).
 
 Progression, one map at a time (Ragnarok-style, linked by portals):
-นครอโยธยา (city, safe) → warp → ทุ่งนาข้าว (paddy, Lv 1-3) → path → ป่าลึก
-(deep_forest, Lv 2-5) → path → วัดร้าง (wat_rang, Lv 4-7) → (dungeon under the
+นครอโยธยา (city, safe) → warp → ทุ่งนาข้าว (paddy, primary Lv 1-4) → path → ป่าลึก
+(deep_forest, primary Lv 5-9) → path → วัดร้าง (wat_rang, primary Lv 10-14) → (dungeon under the
 ruined temple, later).
 
 Every zone below gives its gameplay purpose, level band, safe area, farming
@@ -36,9 +36,9 @@ as future services and are excluded from the atlas's active shop filter.
 | id | Name | Band | Walk area | Safe | Levels | Who / why |
 | --- | --- | --- | --- | --- | --- | --- |
 | `city` | นครอโยธยา | `z ≥ -112` (`SEAM_Z`) | x ±122, z -108.5 … 266 (inside the walls, port, river bank) | yes | — | everyone: trade, equipment, quests, class halls, training dummy |
-| `paddy` | ทุ่งนาข้าว | `-296 ≤ z < -112` | x ±122, z -293 … -113.5 | no | 1-3 | new characters: first hunts in the orchards, farmers' village shop, gathering in the paddies |
-| `deep_forest` | ป่าลึก | `-445 ≤ z < -296` (`FOREST_SEAM_Z`) | x ±122, z -442 … -298.5 | no | 2-5 | mid levels: forest spirits by day and night, the ruined chedi, the log bridge |
-| `wat_rang` | วัดร้าง | `z < -445` (`WAT_SEAM_Z`) | x ±122, z -592 … -447 | no | 4-7 | strongest characters, mostly evening and night: the wandering dead, the cemetery, the temple ruins and the boss |
+| `paddy` | ทุ่งนาข้าว | `-296 ≤ z < -112` | x ±122, z -293 … -113.5 | no | 1-5 | new characters: first hunts in the orchards, farmers' village shop, gathering in the paddies |
+| `deep_forest` | ป่าลึก | `-445 ≤ z < -296` (`FOREST_SEAM_Z`) | x ±122, z -442 … -298.5 | no | 3-9 | mid levels: forest spirits by day and night, the ruined chedi, the log bridge |
+| `wat_rang` | วัดร้าง | `z < -445` (`WAT_SEAM_Z`) | x ±122, z -592 … -447 | no | 5-14 | strongest characters, mostly evening and night: the wandering dead, the cemetery, the temple ruins and the boss |
 
 The seams follow the scenery: the paddy map ends in the grassland just past the
 banyan (z -284) before the forest gate (z -305); the forest map runs across the
@@ -96,10 +96,12 @@ practice ground.
 
 ## The zone maps
 
+Primary progression bands are paddy 1–4, forest 5–9, wat 10–14 and marsh 15–20. Actual ordinary roster ranges, including transition wildlife, are paddy 1–5, forest 3–9, wat 5–14 and marsh 15–22. Level cells below describe ordinary species in the named area, not suggested player levels; old spawn-count and planning notes retain their original context.
+
 Phases: morning, day, evening, night (`DAYLIGHT` = morning/day/evening). Spawn
 areas: `src/data/spawns.js`; no area reaches a portal arrival point.
 
-### ทุ่งนาข้าว (`paddy`) — Lv 1-3, not safe
+### ทุ่งนาข้าว (`paddy`) — primary Lv 1-4, not safe
 
 Who: new characters fresh from the city. Why: the first hunts, restocking at
 ยายเพียร's shop, farmers' stories, gathering in the paddies (later). Safe
@@ -109,13 +111,13 @@ ground: the warp yard (gate guards) and the farmers' village.
 | --- | --- | --- | --- | --- | --- |
 | Warp yard / farmers' village | 0, -130 / -62, -132 | — | safe ground, gate guards, herbalist (morning), ยายเพียร's shop | quiet | `outer_warp`, `farm_village` |
 | ทุ่งนาหลวง rice fields (west) | x -118 … -13, z -150 … -255 | — | gathering, no monsters | quiet | `rice_fields` |
-| สวนผลไม้ orchards (east) | `orchard_boars` 56, -172 r13; `orchard_monkeys` 86, -214 r14 | 1-2 | boar ×4, monkey ×4 | empty (beasts sleep) | `orchards` |
-| ทุ่งหญ้าชายป่า grassland | `grassland` -40, -268 r16 | 1-3 | boar ×3, monkey ×1 | ผีป่า ×2 | `banyan` (12, -280) |
+| สวนผลไม้ orchards (east) | `orchard_boars` 56, -172 r13; `orchard_monkeys` 86, -214 r14 | 1-3 | boar ×4, monkey ×4 | empty (beasts sleep) | `orchards` |
+| ทุ่งหญ้าชายป่า grassland | `grassland` -40, -268 r16 | 1-5 | boar ×3, monkey ×1 | ผีป่า ×2 | `banyan` (12, -280) |
 
 Way on: the north road past the banyan → `path_to_forest`. Death respawns at
 the warp yard (0, -130), or the farmers' village if that is blocked.
 
-### ป่าลึก (`deep_forest`) — Lv 2-5, not safe
+### ป่าลึก (`deep_forest`) — primary Lv 5-9, not safe
 
 Who: characters past their first levels. Why: forest spirits for loot, the
 ruined chedi, the crossing into the deep forest. Safe ground: just inside the
@@ -124,16 +126,16 @@ forest gate, where หมอแสง sells medicine day and night.
 | Zone | Where | Level | Day | Night | Landmark |
 | --- | --- | --- | --- | --- | --- |
 | ศาลปากป่า forest gate | arrival 0, -311 | — | หมอแสง (supplier) | หมอแสง | `forest_gate` (4, -310) |
-| ชายป่า forest edge | `forest_edge` 26, -336 r15 | 2-4 | monkey ×3 | ผีป่า ×3, ผีพราย ×1 | — |
-| ป่าทึบ dense forest | `dense_forest` -28, -372 r18 | 2-4 | monkey ×2, ผีป่า ×2 | ผีป่า ×2, ผีพราย ×3 | `ruined_chedi` (-48, -368) |
+| ชายป่า forest edge | `forest_edge` 26, -336 r15 | 3-5 | monkey ×3 | ผีป่า ×3, ผีพราย ×1 | — |
+| ป่าทึบ dense forest | `dense_forest` -28, -372 r18 | 3-7 | monkey ×2, ผีป่า ×2 | ผีป่า ×2, ผีพราย ×3 | `ruined_chedi` (-48, -368) |
 | ลำธาร stream / log bridge | bridge -4, -397 … -414 | — | crossing (choke point) | crossing | `log_bridge` (-4, -404) |
-| ไพรลึกเหนือลำธาร deep forest | `deep_forest` 48, -423 r12; `deep_west` -52, -428 r13 | 3-5 | ผีพราย ×3; ผีป่า ×1 + ผีพราย ×2 | ผีพราย ×2 + วิญญาณ ×3; ผีพราย ×2 + วิญญาณ ×1 | — |
+| ไพรลึกเหนือลำธาร deep forest | `deep_forest` 48, -423 r12; `deep_west` -52, -428 r13 | 5-8 | ผีพราย ×3; ผีป่า ×1 + ผีพราย ×2 | ผีพราย ×2 + วิญญาณ ×3; ผีพราย ×2 + วิญญาณ ×1 | — |
 
 Elite slot (not placed): เสือสมิง (tiger) in the deep forest at night.
 Way on: the trail beyond the log bridge → `path_to_wat`. Death respawns inside
 the forest gate (0, -311).
 
-### วัดร้าง (`wat_rang`) — Lv 4-7, not safe, mostly evening and night
+### วัดร้าง (`wat_rang`) — primary Lv 10-14, not safe, mostly evening and night
 
 Who: the strongest characters. Why: the wandering dead and their loot, the
 hidden shrine and cemetery, and (later) the boss in the ruined temple. Safe
@@ -142,10 +144,10 @@ ground: the trail head, where ตาฤๅษีพรหม sits day and night 
 | Zone | Where | Level | Day | Night | Landmark |
 | --- | --- | --- | --- | --- | --- |
 | Trail head | arrival -1.5, -459 | — | ตาฤๅษีพรหม (supplier) | ตาฤๅษีพรหม | — |
-| ดงวัดร้าง woods around the ruins | `wat_grove` 46, -480 r16 | 4-5 | ผีพราย ×3 | วิญญาณ ×3 | — |
-| ศาลร้างกลางไพร | `abandoned_shrine` -36, -470 r9 | 5 | — | วิญญาณ ×2 (evening, night) | `forest_shrine` (hidden) |
-| ป่าช้า cemetery path and graves | `cemetery_path` 4, -492 r11; `cemetery_graves` 14, -548 r10 | 5-7 | empty, eerie | วิญญาณ ×3 (evening, night); ผีตายโหง ×2 + วิญญาณ ×1 | `cemetery_gate` (0, -500), `cemetery` (hidden; reveals the region name) |
-| วัดร้าง temple ruins (reserved, not built) | site 48 … 104 × -572 … -508 | 5-7 | — | suggested: ผีตายโหง, วิญญาณ (evening, night) | — |
+| ดงวัดร้าง woods around the ruins | `wat_grove` 46, -480 r16 | 5-8 | ผีพราย ×3 | วิญญาณ ×3 | — |
+| ศาลร้างกลางไพร | `abandoned_shrine` -36, -470 r9 | 8 | — | วิญญาณ ×2 (evening, night) | `forest_shrine` (hidden) |
+| ป่าช้า cemetery path and graves | `cemetery_path` 4, -492 r11; `cemetery_graves` 14, -548 r10 | 8-13 | empty, eerie | วิญญาณ ×3 (evening, night); ผีตายโหง ×2 + วิญญาณ ×1 | `cemetery_gate` (0, -500), `cemetery` (hidden; reveals the region name) |
+| วัดร้าง temple ruins (reserved, not built) | site 48 … 104 × -572 … -508 | 8-13 | — | suggested: ผีตายโหง, วิญญาณ (evening, night) | — |
 
 Elite / boss slots, not placed yet (content-designer decides when): กระสือ
 (krasue, rare) among the stupas of the temple site at night (`WAT_RANG.spots.rare`,

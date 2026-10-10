@@ -5,6 +5,7 @@ import { MAPS, DEFAULT_MAP, inView, walkable } from './maps.js';
 import { TerrainData, Occupancy, OCC, seedOccupancy, paintGround, buildGrassMask, makeGround, makeGrassField } from './Terrain.js';
 import { StaticBatcher } from './Batching.js';
 import { Collision } from './Collision.js';
+import { forestTrailDryGround } from './forest-route.js';
 import { PropLibrary } from './props.js';
 import { Vegetation } from './Vegetation.js';
 import { buildWater } from './Water.js';
@@ -193,7 +194,9 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
       if (collision.deckHeight(x, z) !== null) return true;
       if (terrain.isDeep(x, z)) return false;
       const surface = z < -600 ? MARSH_WATER_Y : WATER_Y;
-      return terrain.height(x, z) >= surface - WADE;
+      // This authored dry trail sits below the global water height. Keep the
+      // shoreline guard elsewhere, including water fringes outside deep masks.
+      return (map.id === 'deep_forest' && forestTrailDryGround(x, z)) || terrain.height(x, z) >= surface - WADE;
     },
     speedAt(x, z) { return terrain.isShallow(x, z) && collision.deckHeight(x, z) === null ? .62 : 1; },
     update(t, dt, focus, env) {

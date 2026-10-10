@@ -1,5 +1,6 @@
 import { REGIONAL_HUNTS } from './regional-hunts.js';
 import { EXPEDITIONS } from '../world/expeditions.js';
+import { MONSTERS } from '../combat/data/monsters.js';
 // Extra farming pockets, separate from boss arenas and portal arrivals.
 const DAY = ['morning', 'day', 'evening'];
 export const HUNTING_GROUNDS = [
@@ -13,6 +14,11 @@ export const HUNTING_GROUNDS = [
   { id:'hunt_marsh_edge',map:'klong',name:'ชายบึงดงอ้อ',x:-70,z:-625,radius:8,levels:[11,12],approach:{x:-73,z:-616},roster:[{type:'leech',count:1},{type:'wraith',count:1}] },
   { id:'hunt_south_spirits',map:'klong',name:'ทุ่งรำวิญญาณ',x:24,z:-748,radius:8,levels:[17,22],approach:{x:21,z:-739},roster:[{type:'klom',count:1},{type:'nangram',count:1}] },
 ];
+// Signs describe the actual roster, including lower-level transition wildlife.
+for (const camp of HUNTING_GROUNDS) {
+  const levels = camp.roster.map(r => MONSTERS[r.type].level);
+  camp.levels = [Math.min(...levels), Math.max(...levels)];
+}
 export const huntingFor = mapId => HUNTING_GROUNDS.filter(c => c.map === mapId);
 export const huntingLevel = camp => camp.levels[0] === camp.levels[1] ? `Lv.${camp.levels[0]}` : `Lv.${camp.levels[0]}–${camp.levels[1]}`;
 export const huntingSign = camp => ({ x: camp.approach.x + 1.2, z: camp.approach.z });
