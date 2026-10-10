@@ -7,12 +7,13 @@ import './inventory-workspace.css';
 // Keep visual comparisons aligned with Character.equip, which replaces charm
 // (not the weaker charm) when both accessory slots are occupied.
 export const equipDestination = (c, id) => ITEMS[id]?.slot === 'charm' && c.equipment.charm && !c.equipment.charm2 ? 'charm2' : ITEMS[id]?.slot;
-export function compareToEquipped(c, id) {
+export function compareToEquipped(c, input) {
+  const id = typeof input === 'string' ? input : input?.id;
   const d = ITEMS[id];
   if (d?.type !== 'equip' || (d.slot === 'weapon' && c.canWield && !c.canWield(id))) return 0;
   const current = c.equipment[equipDestination(c, id)];
   if (!current) return 1;
-  const diff = gearScore(c.cls, id) - gearScore(c.cls, current);
+  const diff = gearScore(c.cls, input) - gearScore(c.cls, c.wornItem?.(equipDestination(c, id)) ?? current);
   return Math.abs(diff) < .5 ? 0 : Math.sign(diff);
 }
 
@@ -162,7 +163,7 @@ export class InventoryWorkspace {
     const item = this.tooltipItem(button);
     if (!item || !ITEMS[item.id]) return;
     this.hoverButton = button; this.hoverFingerprint = JSON.stringify(item);
-    this.tooltip.innerHTML = `<div class="iw-item-card">${this.renderCard(item, button.dataset.slot ? 0 : compareToEquipped(this.ui.c, item.id))}</div><p class="iw-tooltip-hint">เลือกไอเท็มเพื่อดูรายละเอียดและปุ่มใช้งาน</p>`;
+    this.tooltip.innerHTML = `<div class="iw-item-card">${this.renderCard(item, button.dataset.slot ? 0 : compareToEquipped(this.ui.c, item))}</div><p class="iw-tooltip-hint">เลือกไอเท็มเพื่อดูรายละเอียดและปุ่มใช้งาน</p>`;
     button.setAttribute('aria-describedby', this.tooltip.id);
     this.tooltip.hidden = false;
     this.positionTooltip();
@@ -203,9 +204,9 @@ export class InventoryWorkspace {
       const current = c.wornItem(slot);
       comparison = `<div class="iw-comparison"><b>ช่องที่จะสวม: ${esc(this.labels[slot] ?? slot)}</b>${current ? this.renderCard(current, 0) : '<small>ช่องนี้ว่าง</small>'}</div>`;
       if (!c.canWield(item.id) || c.level < (d.minLevel ?? 1)) comparison += '<p class="iw-warning">อาชีพหรือเลเวลยังใช้อุปกรณ์นี้ไม่ได้</p>';
-      comparison += '<small class="iw-score-note">ลูกศรเปรียบเทียบโบนัสพื้นฐานตามอาชีพ · ดูตีบวกและการ์ดแยกด้านบน</small>';
+      comparison += '<small class="iw-score-note">ลูกศรเปรียบเทียบโบนัสตามอาชีพ รวมออฟสุ่ม ตีบวก และการ์ด</small>';
     }
-    host.innerHTML = `${worn ? `<b class="iw-detail-location">สวมอยู่ · ${esc(this.labels[this.selected.slot] ?? this.selected.slot)}</b>` : ''}<div class="iw-item-card">${this.renderCard(item, worn ? 0 : compareToEquipped(c, item.id))}</div>${comparison}<div class="iw-actions">${action}<button type="button" data-item-action="lock">${isItemLocked(item) ? 'ปลดล็อก' : 'ล็อกไอเท็ม'}</button></div>`;
+    host.innerHTML = `${worn ? `<b class="iw-detail-location">สวมอยู่ · ${esc(this.labels[this.selected.slot] ?? this.selected.slot)}</b>` : ''}<div class="iw-item-card">${this.renderCard(item, worn ? 0 : compareToEquipped(c, item))}</div>${comparison}<div class="iw-actions">${action}<button type="button" data-item-action="lock">${isItemLocked(item) ? 'ปลดล็อก' : 'ล็อกไอเท็ม'}</button></div>`;
     host.hidden = false;
   }
   act(action) {

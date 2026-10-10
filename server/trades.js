@@ -13,6 +13,7 @@
 import { Character } from '../src/character/Character.js';
 import { ITEMS } from '../src/character/data/items.js';
 import { sameGear } from '../src/character/data/refine.js';
+import { rollFields } from '../src/character/data/affixes.js';
 import { isItemLocked } from '../src/character/itemState.js';
 
 export const TRADE = { range: 8, maxItems: 10, requestSecs: 30 };
@@ -46,6 +47,8 @@ export class Trades {
     const t = this.of(id); if (!t) return 'no_trade';
     const clean = cleanOffer(offer); if (!clean) return 'bad_offer';
     const why = offerWhy(c, clean); if (why) return why;
+    // Display metadata comes only from the owned bag after the reference was checked.
+    clean.items = clean.items.map(e => ({ ...e, ...rollFields(c.inventory.find(s => s?.id === e.id && sameGear(s, e.cards, e.plus, e.iid))) }));
     t.offer[id] = clean; t.locked.clear(); t.confirmed.clear();
     return true;
   }
@@ -71,8 +74,9 @@ export function cleanOffer(o) {
   const items = [];
   for (const e of o.items) {
     const def = ITEMS[e?.id]; if (!def) return null;
+    if (e.iid != null && (typeof e.iid !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(e.iid))) return null;
     const qty = def.type === 'equip' ? 1 : Math.floor(Number(e.qty) || 0); if (qty < 1) return null;
-    items.push({ id: e.id, qty, ...(Array.isArray(e.cards) && e.cards.length ? { cards: e.cards.map(String) } : {}), ...(Number.isInteger(e.plus) && e.plus > 0 ? { plus: e.plus } : {}) });
+    items.push({ id: e.id, qty, ...(def.type === 'equip' && e.iid ? { iid: e.iid } : {}), ...(Array.isArray(e.cards) && e.cards.length ? { cards: e.cards.map(String) } : {}), ...(Number.isInteger(e.plus) && e.plus > 0 ? { plus: e.plus } : {}) });
   }
   return { items, gold };
 }
@@ -86,7 +90,7 @@ export function offerWhy(c, o) {
 // Takes one offer entry out of a bag (an array of slots, changed in place) → the instance, or null.
 function take(bag, e) {
   if (ITEMS[e.id].type === 'equip') {
-    const i = bag.findIndex(s => s?.id === e.id && !isItemLocked(s) && sameGear(s, e.cards, e.plus)); if (i < 0) return null;
+    const i = bag.findIndex(s => s?.id === e.id && !isItemLocked(s) && sameGear(s, e.cards, e.plus, e.iid)); if (i < 0) return null;
     const s = bag[i]; bag[i] = null; return s;
   }
   if (bag.reduce((n, s) => n + (s?.id === e.id && !isItemLocked(s) ? s.qty : 0), 0) < e.qty) return null;

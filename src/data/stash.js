@@ -6,8 +6,9 @@ export const STASH_CAPACITY = 120;
 export const STASH_REQUEST = /^[A-Za-z0-9_-]{8,64}$/;
 export const emptyStash = () => ({ revision: 0, slots: Array(STASH_CAPACITY).fill(null) });
 const no = why => ({ ok: false, why });
-export const stashIdentity = s => s && ({ id: s.id, plus: s.plus ?? 0, cards: [...(s.cards ?? [])], locked: s.locked === true });
+export const stashIdentity = s => s && ({ ...(s.roll?.iid ? { iid: s.roll.iid } : s.iid ? { iid: s.iid } : {}), id: s.id, plus: s.plus ?? 0, cards: [...(s.cards ?? [])], locked: s.locked === true });
 export const sameStashItem = (a, b) => !!a && !!b && a.id === b.id && (a.plus ?? 0) === (b.plus ?? 0)
+  && (a.roll?.iid ?? a.iid) === (b.roll?.iid ?? b.iid)
   && (a.locked === true) === (b.locked === true) && JSON.stringify(a.cards ?? []) === JSON.stringify(b.cards ?? []);
 
 // Canonical, bounded request: no client account, map, inventory or coordinates.
@@ -28,8 +29,9 @@ export function cleanStashMove(m) {
     || !Number.isInteger(e.plus ?? 0) || (e.plus ?? 0) < 0 || (e.plus ?? 0) > 10
     || !Array.isArray(e.cards ?? []) || (e.cards ?? []).length > 8
     || (e.cards ?? []).some(id => typeof id !== 'string' || !Object.hasOwn(ITEMS, id) || ITEMS[id].type !== 'card')
+    || (e.iid != null && (typeof e.iid !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(e.iid)))
     || (e.locked != null && typeof e.locked !== 'boolean')) return null;
-  return { ...out, index: m.index, expected: stashIdentity(e) };
+  return { ...out, index: m.index, expected: stashIdentity({ ...e, roll: undefined }) };
 }
 
 // Pure candidate over copies; no Character mutators (which can drop instance metadata).

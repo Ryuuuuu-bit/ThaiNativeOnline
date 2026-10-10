@@ -1,7 +1,7 @@
 // Combat rules and monster AI on the XZ plane. No rendering: views listen to events.
 import { MONSTERS, NIGHT } from './data/monsters.js';
 import { SKILLS } from './data/skills.js';
-import { LOOT } from './data/loot.js';
+import { rollLootDrops } from './lootDrops.js';
 import { Emitter } from '../character/Emitter.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -240,12 +240,11 @@ export class Combat extends Emitter {
     const c = this.character;
     const exp = killExp(m.def.exp, c.level, m.level ?? m.def.level, !!(m.def.elite || m.def.boss), this.night ? NIGHT.expBonus : 1);
     const gold = randInt(...m.def.gold);
-    const drops = [];
-    for (const [id, chance, min, max] of LOOT[m.def.loot] || []) if (Math.random() < chance) drops.push({ id, qty: randInt(min, max) });
+    const drops = rollLootDrops(m.def);
     if (hasCard(m.type) && Math.random() < cardRate(m.def)) drops.push({ id: cardId(m.type), qty: 1 });
     this.emit('kill', { monster: m, exp, gold, drops });
     c.gold += gold; c.gainExp(exp);
-    for (const d of drops) c.addItem(d.id, d.qty);
+    for (const d of drops) c.addInstance(d);
     if (this.target === m) { this.target = null; this.autoAttack = false; this.pending = null; this.emit('target', null); }
   }
 

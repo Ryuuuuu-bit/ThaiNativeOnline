@@ -119,6 +119,10 @@ body .inventory-workspace .g-slot .g-cmp {left:auto;top:auto;right:2px;bottom:2p
   .inventory-workspace .g-statbox {padding:10px;margin:8px 0}
   .inventory-workspace .g-stat-grid {gap:2px 10px}
 }
+.iw-affix-list {display:flex;flex-direction:column;gap:4px;border-top:1px solid #bda16c55;padding-top:8px;margin-top:6px}
+.iw-affix-list .iw-affix {font-style:normal;white-space:normal;overflow-wrap:anywhere;color:#c9dcf0}
+.iw-roll-quality {color:#c9dcf0}
+.iw-item-name {overflow-wrap:anywhere}
 @media(max-width:760px),(max-height:520px) {
   body:not(.ui-touch) .inventory-workspace {zoom:calc(1 / var(--ui,1))}
   /* the panes live inside the workspace: no second title bar, close button or touch offsets */
