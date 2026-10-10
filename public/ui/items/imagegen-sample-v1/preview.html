@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="th">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thai Native Online · ชุดตัวอย่างไอคอน</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10241e;color:#f2e4bd;font:16px/1.5 Tahoma,sans-serif;padding:32px}main{max-width:1440px;margin:auto}header{border-bottom:1px solid #b99b5b;padding-bottom:20px;margin-bottom:24px}h1{margin:0;font-size:30px}p{color:#b9cbbd;margin:8px 0}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}button{font:inherit;color:#f2e4bd;border:1px solid #9f8958;background:#233e30;padding:8px 16px;border-radius:6px;cursor:pointer}button[aria-pressed=true]{background:#ad935d;color:#10241e}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.card{border:1px solid #8e805450;border-radius:12px;background:#182e26;padding:16px;text-align:center}.large{height:190px;display:grid;place-items:center;border-radius:8px;background:#10241e}.large img{width:172px;height:172px;object-fit:contain}h2{font-size:17px;margin:12px 0 2px}.sub{font-size:12px;color:#a8bdac}.sizes{display:flex;align-items:end;justify-content:center;gap:22px;margin-top:16px;min-height:95px}.size{display:grid;gap:6px;justify-items:center;font-size:11px;color:#acbea9}.size img{object-fit:contain}.light .large,.light .sizes{background:#e5dfca}.checker .large,.checker .sizes{background-color:#d9d9d9;background-image:linear-gradient(45deg,#fff 25%,transparent 25%),linear-gradient(-45deg,#fff 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#fff 75%),linear-gradient(-45deg,transparent 75%,#fff 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}footer{margin-top:24px;color:#b9cbbd;font-size:13px}@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}body{padding:16px}.sizes{gap:12px}}@media(max-width:440px){.grid{grid-template-columns:1fr}.large{height:130px}.large img{width:118px;height:118px}.card{padding:10px}.sizes{gap:8px}}
+</style>
+<main>
+<header><h1>ไอคอนชุดป้อมอสูรสนธยา</h1><p>ตัวอย่างงานวาดแนวหยก–ทองอยุธยา · 12 ชิ้น · พื้นหลังโปร่งใส</p><nav aria-label="พื้นหลังตัวอย่าง"><button data-bg="dark" aria-pressed="true">พื้นหยก</button><button data-bg="light" aria-pressed="false">พื้นสว่าง</button><button data-bg="checker" aria-pressed="false">ดูความโปร่งใส</button></nav></header>
+<section class="grid" aria-label="ตัวอย่างไอคอน"></section>
+<footer>ภาพตัวอย่างแยกจากไอคอนที่ใช้อยู่ในเกม · กรอบความหายาก ป้ายตีบวก และจำนวนช่องการ์ดเป็นส่วนของ UI</footer>
+</main>
+<script>
+const items=[['dusk_fort_book','ตำราป้อมอสูร','อาวุธ · หนังสือ'],['dusk_fort_sword','ดาบป้อมอสูร','อาวุธ · ดาบ'],['hunt_dusk_fort_head_sage','ผ้าโพกศีรษะ','ศีรษะ'],['dusk_fort_armor','เกราะป้อมอสูร','เสื้อเกราะ'],['hunt_dusk_fort_cape_sage','ผ้าคลุมลงอักขระ','ผ้าคลุม'],['wear_dusk_fort_gloves_guard','ถุงมือหนังลงยันต์','ถุงมือ'],['wear_dusk_fort_belt_guard','เข็มขัดลายกนก','เข็มขัด'],['wear_dusk_fort_amulet_sage','สร้อยพระเครื่อง','สร้อย'],['wear_dusk_fort_ring_sage','แหวนอักขระ','แหวน'],['dusk_fort_shoes','รองเท้าป้อมอสูร','รองเท้า'],['flask_hp_6','ขวดน้ำยาชุบชีพ','HP · ขั้น 6'],['flask_mp_6','ขวดน้ำมนต์ฟื้นจิต','MP · ขั้น 6']];
+document.querySelector('.grid').innerHTML=items.map(([id,name,slot])=>`<article class="card" data-id="${id}"><div class="large"><img src="./${id}.png" alt="${name}"></div><h2>${name}</h2><div class="sub">${slot}</div><div class="sizes">${[32,48,64].map(n=>`<div class="size"><img src="./${id}.png" alt="" width="${n}" height="${n}" data-size="${n}"><span>${n} px</span></div>`).join('')}</div></article>`).join('');
+document.querySelectorAll('[data-bg]').forEach(b=>b.onclick=()=>{document.body.className=b.dataset.bg;document.querySelectorAll('[data-bg]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)))});
+</script>
+</html>
