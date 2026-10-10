@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "flask_boss_ghost_black_mp_7",
+  "family": "flask:flask_boss_ghost_black_mp_7",
+  "memberIDs": [
+    "flask_boss_ghost_black_mp_7"
+  ],
+  "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 7",
+  "type": "flask",
+  "levels": [
+    60
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-c0fe2115-c17d-4651-a912-8d1ff0beaea4.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Reusable MP flask tier 7, minimum Lv.60; blue fluid and slender silhouette; distinct themed ผีชุดดำ boss fittings; epic reward; tier-specific construction and ornament; tier 1 plain glass/brass, progressively stronger fittings at higher tiers; no numbers, UI bars or text.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.\nPhysical boss identifier: Black elder spirit fittings: black woven shroud cord, dark steel lotus clasp, pale ivory ritual knot and smoky silver stopper; fluid must remain red forHP or blue forMP. Tier-specific construction: layered broad base and sculpted shoulder metalwork, one prominent theme clasp. These are real material fittings on bottle, not a creature attached or floating effects. Colored liquid must occupy more than half visible bottle face, HP rounded red, MP elongated blue.",
+  "master": "docs/art/items/painted-complete-v1/masters/flask_boss_ghost_black_mp_7.png",
+  "masterSha256": "139530361c204636f67c18041c90e7e2bc1cda0bf0e69606612ead6176d60974",
+  "originalSha256": "139530361c204636f67c18041c90e7e2bc1cda0bf0e69606612ead6176d60974",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_7.webp",
+  "sha256": "d08448e9413226f788bea6a39dc87a34c2dd641f4931bfada6b10a07b71159bd",
+  "bytes": 14252,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

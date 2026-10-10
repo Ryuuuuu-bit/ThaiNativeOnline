@@ -1,11 +1,11 @@
 {
   "summary": {
     "plannedNewMasters": 333,
-    "completedNewMasters": 254,
+    "completedNewMasters": 298,
     "reusedApprovedMasters": 15,
-    "mappedIDs": 433,
+    "mappedIDs": 481,
     "activeIDs": 516,
-    "pendingMasters": 79
+    "pendingMasters": 35
   },
   "items": [
     {
@@ -1836,6 +1836,40 @@
       "bytes": 17344
     },
     {
+      "id": "wear_marsh_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · บึงอาคม",
+      "type": "equip",
+      "levels": [
+        18
+      ],
+      "memberIDs": [
+        "wear_marsh_ring_guard",
+        "wear_marsh_ring_sage",
+        "wear_marsh_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_marsh_ring_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18632
+    },
+    {
+      "id": "wear_bamboo_grave_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "wear_bamboo_grave_gloves_guard",
+        "wear_bamboo_grave_gloves_sage",
+        "wear_bamboo_grave_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_gloves_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23604
+    },
+    {
       "id": "wear_bamboo_grave_belt_guard",
       "name": "เข็มขัดลายกนกผู้พิทักษ์ · ป่าช้าไผ่ดำ",
       "type": "equip",
@@ -3323,6 +3357,276 @@
       "bytes": 16726
     },
     {
+      "id": "flask_boss_ghost_red_hp_11",
+      "name": "ผีชุดแดง · ขวดน้ำยาชุบชีพ ขั้น 11",
+      "type": "flask",
+      "levels": [
+        100
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_red_hp_11"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_11.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23626
+    },
+    {
+      "id": "flask_boss_ghost_red_mp_11",
+      "name": "ผีชุดแดง · ขวดน้ำมนต์ฟื้นจิต ขั้น 11",
+      "type": "flask",
+      "levels": [
+        100
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_red_mp_11"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_11.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18118
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_1",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 1",
+      "type": "flask",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20604
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_1",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 1",
+      "type": "flask",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14274
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_2",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20628
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_2",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15228
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_3",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 3",
+      "type": "flask",
+      "levels": [
+        20
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 22828
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_3",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 3",
+      "type": "flask",
+      "levels": [
+        20
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15850
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_4",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 4",
+      "type": "flask",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_4"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_4.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21860
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_4",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 4",
+      "type": "flask",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_4"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_4.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14330
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_5",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 5",
+      "type": "flask",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_5"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_5.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21384
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_5",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 5",
+      "type": "flask",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_5"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_5.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15906
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_6",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 6",
+      "type": "flask",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_6"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_6.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25714
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_6",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 6",
+      "type": "flask",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_6"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_6.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 13926
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_7",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 7",
+      "type": "flask",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_7"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_7.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23622
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_7",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 7",
+      "type": "flask",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_7"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_7.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14252
+    },
+    {
+      "id": "flask_boss_ghost_black_hp_8",
+      "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 8",
+      "type": "flask",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_hp_8"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_8.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26534
+    },
+    {
+      "id": "flask_boss_ghost_black_mp_8",
+      "name": "ผีชุดดำ · ขวดน้ำมนต์ฟื้นจิต ขั้น 8",
+      "type": "flask",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "flask_boss_ghost_black_mp_8"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_8.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15786
+    },
+    {
       "id": "flask_boss_ghost_black_hp_11",
       "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 11",
       "type": "flask",
@@ -4206,6 +4510,366 @@
       "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 21928
+    },
+    {
+      "id": "card_winyan",
+      "name": "การ์ดวิญญาณเร่ร่อน",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_winyan"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_winyan.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26200
+    },
+    {
+      "id": "card_phitaihong",
+      "name": "การ์ดผีตายโหง",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_phitaihong"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_phitaihong.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 16196
+    },
+    {
+      "id": "card_headless",
+      "name": "การ์ดผีหัวขาด",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_headless"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_headless.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19906
+    },
+    {
+      "id": "card_pret",
+      "name": "การ์ดเปรตน้อย",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_pret"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_pret.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17704
+    },
+    {
+      "id": "card_krahang",
+      "name": "การ์ดผีกระหัง",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_krahang"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_krahang.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26860
+    },
+    {
+      "id": "card_soldier",
+      "name": "การ์ดทหารผีเฝ้าวัด",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_soldier"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_soldier.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23508
+    },
+    {
+      "id": "card_takian",
+      "name": "การ์ดนางตะเคียน",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_takian"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_takian.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20660
+    },
+    {
+      "id": "card_pusom",
+      "name": "การ์ดผีปู่โสม",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_pusom"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_pusom.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23270
+    },
+    {
+      "id": "card_tiger",
+      "name": "การ์ดเสือสมิง",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_tiger"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_tiger.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23740
+    },
+    {
+      "id": "card_krasue",
+      "name": "การ์ดกระสือ",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_krasue"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_krasue.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27146
+    },
+    {
+      "id": "card_pop",
+      "name": "การ์ดปอบ",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_pop"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_pop.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21016
+    },
+    {
+      "id": "card_leech",
+      "name": "การ์ดปลิงควาย",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_leech"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_leech.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25554
+    },
+    {
+      "id": "card_sealed_mine_3",
+      "name": "การ์ดผู้พิทักษ์เหมือง",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_sealed_mine_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_sealed_mine_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27700
+    },
+    {
+      "id": "card_sunken_city_0",
+      "name": "การ์ดพรายบาดาล",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_sunken_city_0"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_sunken_city_0.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27216
+    },
+    {
+      "id": "card_sunken_city_1",
+      "name": "การ์ดทหารบาดาล",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_sunken_city_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_sunken_city_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25994
+    },
+    {
+      "id": "card_sunken_city_2",
+      "name": "การ์ดนาคบริวาร",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_sunken_city_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_sunken_city_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25924
+    },
+    {
+      "id": "card_sunken_city_3",
+      "name": "การ์ดนาคราชเฝ้าประตู",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_sunken_city_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_sunken_city_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27338
+    },
+    {
+      "id": "card_dusk_fort_0",
+      "name": "การ์ดทหารยักษ์",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_dusk_fort_0"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_dusk_fort_0.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27740
+    },
+    {
+      "id": "card_dusk_fort_1",
+      "name": "การ์ดกระสือเพลิง",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_dusk_fort_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_dusk_fort_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23736
+    },
+    {
+      "id": "card_dusk_fort_2",
+      "name": "การ์ดอสูรเกราะดำ",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_dusk_fort_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_dusk_fort_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26602
+    },
+    {
+      "id": "card_dusk_fort_3",
+      "name": "การ์ดเจ้าอสูรสนธยา",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_dusk_fort_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_dusk_fort_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26434
+    },
+    {
+      "id": "card_giant_valley_0",
+      "name": "การ์ดยักษ์ลาดตระเวน",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_giant_valley_0"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_giant_valley_0.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25306
+    },
+    {
+      "id": "card_giant_valley_1",
+      "name": "การ์ดควายธนู",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_giant_valley_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_giant_valley_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24140
+    },
+    {
+      "id": "card_giant_valley_2",
+      "name": "การ์ดอสูรหิน",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_giant_valley_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_giant_valley_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27338
     }
   ]
 }

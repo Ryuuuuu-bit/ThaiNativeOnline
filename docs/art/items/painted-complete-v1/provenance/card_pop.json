@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_pop",
+  "family": "card:card_pop",
+  "memberIDs": [
+    "card_pop"
+  ],
+  "name": "การ์ดปอบ",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-e216a78f-5170-4574-9f25-9237a21327a4.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ปอบ pop boss, hungry possession demon of Thai folklore. Hunched gaunt dark olive-green HUMAN demon, tangled shoulder-length black hair, intensely hungry glowing pale yellow eyes, wide snarling human mouth with small pointed fangs, long grasping fingers and oversized tense hands. Ragged brown-red village waistcloth, ribbed torso, bare human feet. Predatory crouch, dark shadow aura, NOT macaque or monkey, no tail, no hood or skull, no gore. Distinct compact hungry humanoid silhouette fills80 percent parchment face, all inside card border readable32px. Soft hand-painted stylized broad shapes eerie Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edge. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_pop.png",
+  "masterSha256": "7a7294595687edfaaa8472981776a011b40adf01ffc249824c1819a50edf759d",
+  "originalSha256": "7a7294595687edfaaa8472981776a011b40adf01ffc249824c1819a50edf759d",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_pop.webp",
+  "sha256": "2aa3853fccf16f8605350f1470d044353e4b95d69f4bb387ab579ea01c6006a4",
+  "bytes": 21016,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

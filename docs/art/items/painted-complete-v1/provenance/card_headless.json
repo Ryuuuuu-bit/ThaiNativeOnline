@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_headless",
+  "family": "card:card_headless",
+  "memberIDs": [
+    "card_headless"
+  ],
+  "name": "การ์ดผีหัวขาด",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-0b93a751-928f-42b1-b6ed-04367022bb24.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีหัวขาด headless, dark Thai temple spirit. Standing headless Thai human soldier-villager with both arms and feet, ivory wrap vest, brick-red jongkraben trousers, dark woven belt. Closed smooth empty neckline, supernatural pale mist rising where head should be, absolutely NO head on body or carried in hand. One arm reaching ahead, no weapons, no gore, no bloody injury. Clear broad iconic headless silhouette fills 85 percent of parchment face, readable32px. Soft hand-painted stylized broad shapes and subtle eerie haze, Thai fantasy. Worn cream physical parchment card, narrow sparse aged brass Thai kanok corners, no label area. Whole square card centered15 percent genuinely transparent outer margin with clean contiguous edge. No scene outside card, floor shadow, writing, text, labels, letters, digits, stats, UI badges, watermark, colored matte or checkerboard.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_headless.png",
+  "masterSha256": "2d241479a38eefb882d0fa9ae420b7478dcdb77f6bd4343433a525b08cb68379",
+  "originalSha256": "2d241479a38eefb882d0fa9ae420b7478dcdb77f6bd4343433a525b08cb68379",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_headless.webp",
+  "sha256": "5150357b1458c98f68070d8665c3b3d869f283be35addbd9658c387122eb5952",
+  "bytes": 19906,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_krasue",
+  "family": "card:card_krasue",
+  "memberIDs": [
+    "card_krasue"
+  ],
+  "name": "การ์ดกระสือ",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-c9642235-c78e-4ffa-8832-dc754f61a2e9.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature กระสือ krasue, Thai fire demon folklore. A floating pale Thai WOMAN HEAD with long loose black hair, haunted glowing amber eyes. Beneath the neck hang recognizable stylized heart and paired lungs and a short simplified looping intestine strand, muted burgundy-pink organic shapes. These are folkloric hanging organs, NOT ribbons, gems or crystals. No human torso, arms, legs, dress or body. Non-graphic soft fantasy painting, no blood, wounds, gore or realistic anatomy detail, charming spooky expression. Head and hanging shapes prominent large clear silhouette fills80 percent cream parchment face with all hair inside card, readable32px. Soft hand-painted broad stylized shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners, no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edge. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_krasue.png",
+  "masterSha256": "0c3fed9e7562e934597e7eb17a9bd6fe603623eb8e33705baf2569f9750aba5a",
+  "originalSha256": "0c3fed9e7562e934597e7eb17a9bd6fe603623eb8e33705baf2569f9750aba5a",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_krasue.webp",
+  "sha256": "80ce8f0106da63934b11d5433a8fb1154b3e8ac2ce490451099d04cdd4026721",
+  "bytes": 27146,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_winyan",
+  "family": "card:card_winyan",
+  "memberIDs": [
+    "card_winyan"
+  ],
+  "name": "การ์ดวิญญาณเร่ร่อน",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-024f1417-0a4a-4b1e-b488-b93e151d3700.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature วิญญาณเร่ร่อน winyan, wandering dark spirit. A solitary blue translucent human apparition, hollow tired face under a ragged indigo hood, long drooping empty sleeves and tapering wispy lower robe instead of feet, small pale cyan inner glow. Lean stooped silhouette, no weapon, no crown, no skull. Large recognizable creature fills 85 percent of cream parchment card face, readable at 32px. Soft hand-painted stylized broad shapes, charming eerie Thai fantasy. Worn cream physical parchment with narrow sparse aged brass Thai kanok corners, no label area. Whole card square centered with 15 percent genuine transparent outer margin, clean contiguous parchment silhouette. No scene outside card or floor shadow. No writing, text, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_winyan.png",
+  "masterSha256": "e6a3b938e2e8b58d3025dcb754ca4e58586b2a6d30263a317f538f8515057e1c",
+  "originalSha256": "e6a3b938e2e8b58d3025dcb754ca4e58586b2a6d30263a317f538f8515057e1c",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_winyan.webp",
+  "sha256": "04ea5ce1283ed0d424ac97dbcf65de08e14e64bcd36c7e4dc249d46422894272",
+  "bytes": 26200,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
