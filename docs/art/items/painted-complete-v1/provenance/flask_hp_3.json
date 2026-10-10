@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "flask_hp_3",
+  "family": "flask:flask_hp_3",
+  "memberIDs": [
+    "flask_hp_3"
+  ],
+  "name": "ขวดน้ำยาชุบชีพ ขั้น 3",
+  "type": "flask",
+  "levels": [
+    20
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-900842ee-7834-4044-b9aa-631cf86b4a94.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Reusable HP flask tier 3, minimum Lv.20; red fluid and rounded silhouette; ordinary city-shop bottle; tier-specific construction and ornament; tier 1 plain glass/brass, progressively stronger fittings at higher tiers; no numbers, UI bars or text.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.",
+  "master": "docs/art/items/painted-complete-v1/masters/flask_hp_3.png",
+  "masterSha256": "15733f7f780622d6b7c38ac4b4b198b580a3757a9ae1bf25a3741f50ab6dae2b",
+  "originalSha256": "15733f7f780622d6b7c38ac4b4b198b580a3757a9ae1bf25a3741f50ab6dae2b",
+  "output": "public/ui/items/painted-complete-v1/flask_hp_3.webp",
+  "sha256": "363d85cb58c20d07bc19f57606981bbd397456da09f64c7c44cf135e259ace4a",
+  "bytes": 18804,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

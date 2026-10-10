@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "herb_book",
+  "family": "equip:herb_book",
+  "memberIDs": [
+    "herb_book"
+  ],
+  "name": "ตำรายาสมุนไพร",
+  "type": "equip",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-367fb90e-7144-4d21-a933-996ee8704fce.png",
+  "prompt": "One isolated Thai fantasy inventory equipment icon: Plain first herbal medicine book with visible pages and simple green cloth/leather cover; common starter, no ornate royal gold. A simple thick herbal medicine book at three-quarter angle, moss green woven cloth cover, visible cream paper page block and brown stitched spine, one faint pressed leaf emblem embossed without writing. Common novice medicine text, modest worn cover and cream cotton binding tie, no gilded corners, jewels or ornate royal motifs. Soft hand-painted stylized broad shapes readable32px, matching Thai inventory art family. Whole closed book centered square12% safe margins genuine transparent background. No text, numbers, labels, UI borders, badges, floor shadow, scene or other objects.",
+  "master": "docs/art/items/painted-complete-v1/masters/herb_book.png",
+  "masterSha256": "6460ea94f74421b45f11bb3f385a0c5da38746ef6b8cde30f6e3a269d733eb2c",
+  "originalSha256": "6460ea94f74421b45f11bb3f385a0c5da38746ef6b8cde30f6e3a269d733eb2c",
+  "output": "public/ui/items/painted-complete-v1/herb_book.webp",
+  "sha256": "0afb9af43688240bf0ea5ae5e412b53c7aa7bc661561882986ebe7bf005a17d0",
+  "bytes": 17182,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

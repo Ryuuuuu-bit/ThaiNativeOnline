@@ -1,11 +1,11 @@
 {
   "summary": {
     "plannedNewMasters": 333,
-    "completedNewMasters": 56,
+    "completedNewMasters": 103,
     "reusedApprovedMasters": 15,
-    "mappedIDs": 123,
+    "mappedIDs": 184,
     "activeIDs": 516,
-    "pendingMasters": 277
+    "pendingMasters": 230
   },
   "items": [
     {
@@ -19,6 +19,7 @@
         "bamboo_grave_sword"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_sword.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 9490
     },
@@ -33,6 +34,7 @@
         "bamboo_grave_bow"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_bow.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 10952
     },
@@ -47,6 +49,7 @@
         "bamboo_grave_wrap"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_wrap.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 14426
     },
@@ -61,6 +64,7 @@
         "bamboo_grave_dagger"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_dagger.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 15160
     },
@@ -75,6 +79,7 @@
         "bamboo_grave_talisman"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_talisman.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 26372
     },
@@ -89,6 +94,7 @@
         "bamboo_grave_book"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_book.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 23366
     },
@@ -103,6 +109,7 @@
         "bamboo_grave_armor"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_armor.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22868
     },
@@ -117,6 +124,7 @@
         "bamboo_grave_shoes"
       ],
       "image": "/ui/items/painted-complete-v1/bamboo_grave_shoes.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22560
     },
@@ -131,6 +139,7 @@
         "sealed_mine_sword"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_sword.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 10538
     },
@@ -145,6 +154,7 @@
         "sealed_mine_bow"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_bow.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 13414
     },
@@ -159,6 +169,7 @@
         "sealed_mine_wrap"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_wrap.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22232
     },
@@ -173,6 +184,7 @@
         "sealed_mine_dagger"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_dagger.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 17482
     },
@@ -187,6 +199,7 @@
         "sealed_mine_talisman"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_talisman.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20022
     },
@@ -201,6 +214,7 @@
         "sealed_mine_book"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_book.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 25936
     },
@@ -215,6 +229,7 @@
         "sealed_mine_armor"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_armor.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 27278
     },
@@ -229,6 +244,7 @@
         "sealed_mine_shoes"
       ],
       "image": "/ui/items/painted-complete-v1/sealed_mine_shoes.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22390
     },
@@ -243,6 +259,7 @@
         "sunken_city_sword"
       ],
       "image": "/ui/items/painted-complete-v1/sunken_city_sword.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 16948
     },
@@ -257,6 +274,7 @@
         "sunken_city_bow"
       ],
       "image": "/ui/items/painted-complete-v1/sunken_city_bow.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 14144
     },
@@ -271,6 +289,7 @@
         "sunken_city_wrap"
       ],
       "image": "/ui/items/painted-complete-v1/sunken_city_wrap.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22768
     },
@@ -285,6 +304,7 @@
         "sunken_city_dagger"
       ],
       "image": "/ui/items/painted-complete-v1/sunken_city_dagger.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20184
     },
@@ -299,6 +319,7 @@
         "sunken_city_talisman"
       ],
       "image": "/ui/items/painted-complete-v1/sunken_city_talisman.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 30336
     },
@@ -313,8 +334,39 @@
         "sunken_city_book"
       ],
       "image": "/ui/items/painted-complete-v1/sunken_city_book.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 21908
+    },
+    {
+      "id": "sunken_city_armor",
+      "name": "เกราะ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_armor"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_armor.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27082
+    },
+    {
+      "id": "sunken_city_shoes",
+      "name": "รองเท้า · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "sunken_city_shoes"
+      ],
+      "image": "/ui/items/painted-complete-v1/sunken_city_shoes.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20694
     },
     {
       "id": "dusk_fort_sword",
@@ -327,8 +379,69 @@
         "dusk_fort_sword"
       ],
       "image": "/ui/items/painted-v2/dusk_fort_sword.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
+    },
+    {
+      "id": "dusk_fort_bow",
+      "name": "ธนู · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/dusk_fort_bow.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 16988
+    },
+    {
+      "id": "dusk_fort_wrap",
+      "name": "ผ้าพันมือ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/dusk_fort_wrap.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21464
+    },
+    {
+      "id": "dusk_fort_dagger",
+      "name": "มีดคู่ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/dusk_fort_dagger.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 22552
+    },
+    {
+      "id": "dusk_fort_talisman",
+      "name": "ผ้ายันต์ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "dusk_fort_talisman"
+      ],
+      "image": "/ui/items/painted-complete-v1/dusk_fort_talisman.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23438
     },
     {
       "id": "dusk_fort_book",
@@ -341,6 +454,7 @@
         "dusk_fort_book"
       ],
       "image": "/ui/items/painted-v2/dusk_fort_book.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -355,6 +469,7 @@
         "dusk_fort_armor"
       ],
       "image": "/ui/items/painted-v2/dusk_fort_armor.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -369,8 +484,204 @@
         "dusk_fort_shoes"
       ],
       "image": "/ui/items/painted-v2/dusk_fort_shoes.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
+    },
+    {
+      "id": "giant_valley_sword",
+      "name": "ดาบ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_sword"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_sword.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 8060
+    },
+    {
+      "id": "giant_valley_bow",
+      "name": "ธนู · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_bow.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14586
+    },
+    {
+      "id": "giant_valley_wrap",
+      "name": "ผ้าพันมือ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_wrap.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26236
+    },
+    {
+      "id": "giant_valley_dagger",
+      "name": "มีดคู่ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_dagger.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19940
+    },
+    {
+      "id": "giant_valley_talisman",
+      "name": "ผ้ายันต์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_talisman"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_talisman.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23500
+    },
+    {
+      "id": "giant_valley_book",
+      "name": "ตำรา · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_book"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_book.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25102
+    },
+    {
+      "id": "giant_valley_armor",
+      "name": "เกราะ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_armor"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_armor.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 27618
+    },
+    {
+      "id": "giant_valley_shoes",
+      "name": "รองเท้า · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "giant_valley_shoes"
+      ],
+      "image": "/ui/items/painted-complete-v1/giant_valley_shoes.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21660
+    },
+    {
+      "id": "himmapan_sword",
+      "name": "ดาบ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "himmapan_sword"
+      ],
+      "image": "/ui/items/painted-complete-v1/himmapan_sword.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 8754
+    },
+    {
+      "id": "himmapan_bow",
+      "name": "ธนู · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "himmapan_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/himmapan_bow.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 12836
+    },
+    {
+      "id": "himmapan_wrap",
+      "name": "ผ้าพันมือ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "himmapan_wrap"
+      ],
+      "image": "/ui/items/painted-complete-v1/himmapan_wrap.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25768
+    },
+    {
+      "id": "himmapan_dagger",
+      "name": "มีดคู่ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "himmapan_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/himmapan_dagger.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21166
+    },
+    {
+      "id": "himmapan_talisman",
+      "name": "ผ้ายันต์ · ป่าหิมพานต์",
+      "type": "equip",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "himmapan_talisman"
+      ],
+      "image": "/ui/items/painted-complete-v1/himmapan_talisman.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 28134
     },
     {
       "id": "hunt_dusk_fort_head_sage",
@@ -385,6 +696,7 @@
         "hunt_dusk_fort_head_hunter"
       ],
       "image": "/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -401,6 +713,7 @@
         "hunt_dusk_fort_cape_hunter"
       ],
       "image": "/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -417,6 +730,7 @@
         "wear_bamboo_grave_belt_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_belt_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20598
     },
@@ -433,6 +747,7 @@
         "wear_bamboo_grave_amulet_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_amulet_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 18942
     },
@@ -449,6 +764,7 @@
         "wear_bamboo_grave_ring_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_ring_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22362
     },
@@ -465,6 +781,7 @@
         "wear_sealed_mine_gloves_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sealed_mine_gloves_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 24080
     },
@@ -481,6 +798,7 @@
         "wear_sealed_mine_belt_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sealed_mine_belt_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22170
     },
@@ -497,6 +815,7 @@
         "wear_sealed_mine_amulet_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sealed_mine_amulet_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 19790
     },
@@ -513,6 +832,7 @@
         "wear_sealed_mine_ring_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sealed_mine_ring_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22324
     },
@@ -529,6 +849,7 @@
         "wear_sunken_city_gloves_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sunken_city_gloves_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 23428
     },
@@ -545,6 +866,7 @@
         "wear_sunken_city_belt_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sunken_city_belt_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20426
     },
@@ -561,6 +883,7 @@
         "wear_sunken_city_amulet_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sunken_city_amulet_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 19270
     },
@@ -577,6 +900,7 @@
         "wear_sunken_city_ring_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_sunken_city_ring_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20456
     },
@@ -593,6 +917,7 @@
         "wear_dusk_fort_gloves_hunter"
       ],
       "image": "/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -609,6 +934,7 @@
         "wear_dusk_fort_belt_hunter"
       ],
       "image": "/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -625,6 +951,7 @@
         "wear_dusk_fort_amulet_hunter"
       ],
       "image": "/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -641,6 +968,7 @@
         "wear_dusk_fort_ring_hunter"
       ],
       "image": "/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -657,6 +985,7 @@
         "wear_giant_valley_gloves_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_giant_valley_gloves_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 25942
     },
@@ -673,6 +1002,7 @@
         "wear_giant_valley_belt_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_giant_valley_belt_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 19890
     },
@@ -689,6 +1019,7 @@
         "wear_giant_valley_amulet_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_giant_valley_amulet_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22248
     },
@@ -705,6 +1036,7 @@
         "wear_giant_valley_ring_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_giant_valley_ring_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 22770
     },
@@ -721,6 +1053,7 @@
         "wear_himmapan_gloves_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_himmapan_gloves_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 23948
     },
@@ -737,6 +1070,7 @@
         "wear_himmapan_belt_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_himmapan_belt_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 18262
     },
@@ -753,6 +1087,7 @@
         "wear_himmapan_amulet_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_himmapan_amulet_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20246
     },
@@ -769,6 +1104,7 @@
         "wear_himmapan_ring_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_himmapan_ring_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 25040
     },
@@ -785,8 +1121,263 @@
         "wear_fallen_city_gloves_hunter"
       ],
       "image": "/ui/items/painted-complete-v1/wear_fallen_city_gloves_guard.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 29420
+    },
+    {
+      "id": "wear_fallen_city_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · นครอาคมล่มสลาย",
+      "type": "equip",
+      "levels": [
+        80
+      ],
+      "memberIDs": [
+        "wear_fallen_city_belt_guard",
+        "wear_fallen_city_belt_sage",
+        "wear_fallen_city_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_fallen_city_belt_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18230
+    },
+    {
+      "id": "wear_fallen_city_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · นครอาคมล่มสลาย",
+      "type": "equip",
+      "levels": [
+        80
+      ],
+      "memberIDs": [
+        "wear_fallen_city_amulet_guard",
+        "wear_fallen_city_amulet_sage",
+        "wear_fallen_city_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_fallen_city_amulet_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20216
+    },
+    {
+      "id": "wear_fallen_city_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · นครอาคมล่มสลาย",
+      "type": "equip",
+      "levels": [
+        80
+      ],
+      "memberIDs": [
+        "wear_fallen_city_ring_guard",
+        "wear_fallen_city_ring_sage",
+        "wear_fallen_city_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_fallen_city_ring_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23360
+    },
+    {
+      "id": "wear_demon_rift_gloves_guard",
+      "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · ประตูรอยแยกอสูร",
+      "type": "equip",
+      "levels": [
+        90
+      ],
+      "memberIDs": [
+        "wear_demon_rift_gloves_guard",
+        "wear_demon_rift_gloves_sage",
+        "wear_demon_rift_gloves_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_demon_rift_gloves_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24820
+    },
+    {
+      "id": "wear_demon_rift_belt_guard",
+      "name": "เข็มขัดลายกนกผู้พิทักษ์ · ประตูรอยแยกอสูร",
+      "type": "equip",
+      "levels": [
+        90
+      ],
+      "memberIDs": [
+        "wear_demon_rift_belt_guard",
+        "wear_demon_rift_belt_sage",
+        "wear_demon_rift_belt_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_demon_rift_belt_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19576
+    },
+    {
+      "id": "wear_demon_rift_amulet_guard",
+      "name": "สร้อยพระเครื่องผู้พิทักษ์ · ประตูรอยแยกอสูร",
+      "type": "equip",
+      "levels": [
+        90
+      ],
+      "memberIDs": [
+        "wear_demon_rift_amulet_guard",
+        "wear_demon_rift_amulet_sage",
+        "wear_demon_rift_amulet_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_demon_rift_amulet_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18458
+    },
+    {
+      "id": "wear_demon_rift_ring_guard",
+      "name": "แหวนอักขระผู้พิทักษ์ · ประตูรอยแยกอสูร",
+      "type": "equip",
+      "levels": [
+        90
+      ],
+      "memberIDs": [
+        "wear_demon_rift_ring_guard",
+        "wear_demon_rift_ring_sage",
+        "wear_demon_rift_ring_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/wear_demon_rift_ring_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25096
+    },
+    {
+      "id": "flask_hp_1",
+      "name": "ขวดน้ำยาชุบชีพ ขั้น 1",
+      "type": "flask",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "flask_hp_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_hp_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17524
+    },
+    {
+      "id": "flask_mp_1",
+      "name": "ขวดน้ำมนต์ฟื้นจิต ขั้น 1",
+      "type": "flask",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "flask_mp_1"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_mp_1.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 16048
+    },
+    {
+      "id": "flask_hp_2",
+      "name": "ขวดน้ำยาชุบชีพ ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_hp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_hp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19058
+    },
+    {
+      "id": "flask_mp_2",
+      "name": "ขวดน้ำมนต์ฟื้นจิต ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_mp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_mp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14302
+    },
+    {
+      "id": "flask_hp_3",
+      "name": "ขวดน้ำยาชุบชีพ ขั้น 3",
+      "type": "flask",
+      "levels": [
+        20
+      ],
+      "memberIDs": [
+        "flask_hp_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_hp_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18804
+    },
+    {
+      "id": "flask_mp_3",
+      "name": "ขวดน้ำมนต์ฟื้นจิต ขั้น 3",
+      "type": "flask",
+      "levels": [
+        20
+      ],
+      "memberIDs": [
+        "flask_mp_3"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_mp_3.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15462
+    },
+    {
+      "id": "flask_hp_4",
+      "name": "ขวดน้ำยาชุบชีพ ขั้น 4",
+      "type": "flask",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "flask_hp_4"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_hp_4.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21228
+    },
+    {
+      "id": "flask_mp_4",
+      "name": "ขวดน้ำมนต์ฟื้นจิต ขั้น 4",
+      "type": "flask",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "flask_mp_4"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_mp_4.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 16484
+    },
+    {
+      "id": "flask_hp_5",
+      "name": "ขวดน้ำยาชุบชีพ ขั้น 5",
+      "type": "flask",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "flask_hp_5"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_hp_5.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20466
     },
     {
       "id": "flask_hp_6",
@@ -799,6 +1390,7 @@
         "flask_hp_6"
       ],
       "image": "/ui/items/painted-v2/flask_hp_6.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -813,6 +1405,7 @@
         "flask_mp_6"
       ],
       "image": "/ui/items/painted-v2/flask_mp_6.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -827,6 +1420,7 @@
         "flask_boss_ghost_black_hp_11"
       ],
       "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_11.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 21922
     },
@@ -841,6 +1435,7 @@
         "flask_boss_ghost_black_mp_11"
       ],
       "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_11.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 11504
     },
@@ -855,6 +1450,7 @@
         "potion_s"
       ],
       "image": "/ui/items/painted-complete-v1/potion_s.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 14904
     },
@@ -869,6 +1465,7 @@
         "potion_m"
       ],
       "image": "/ui/items/painted-complete-v1/potion_m.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20116
     },
@@ -883,6 +1480,7 @@
         "ether"
       ],
       "image": "/ui/items/painted-complete-v1/ether.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 21416
     },
@@ -897,6 +1495,7 @@
         "hide"
       ],
       "image": "/ui/items/painted-complete-v1/hide.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20390
     },
@@ -911,6 +1510,7 @@
         "tusk"
       ],
       "image": "/ui/items/painted-complete-v1/tusk.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20198
     },
@@ -925,6 +1525,7 @@
         "sacred_ore"
       ],
       "image": "/ui/items/painted-complete-v1/sacred_ore.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 21498
     },
@@ -939,6 +1540,7 @@
         "gold_leaf"
       ],
       "image": "/ui/items/painted-complete-v1/gold_leaf.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 21998
     },
@@ -953,6 +1555,7 @@
         "ash"
       ],
       "image": "/ui/items/painted-complete-v1/ash.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 15882
     },
@@ -967,6 +1570,7 @@
         "hand_wrap"
       ],
       "image": "/ui/items/painted-complete-v1/hand_wrap.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 20358
     },
@@ -981,6 +1585,7 @@
         "krabi"
       ],
       "image": "/ui/items/painted-complete-v1/krabi.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 15160
     },
@@ -995,6 +1600,7 @@
         "tiger_wrap"
       ],
       "image": "/ui/items/painted-complete-v1/tiger_wrap.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 27524
     },
@@ -1009,8 +1615,174 @@
         "bone_dagger"
       ],
       "image": "/ui/items/painted-complete-v1/bone_dagger.webp",
+      "origin": "new",
       "status": "รอตรวจภาพ",
       "bytes": 18822
+    },
+    {
+      "id": "mongkol",
+      "name": "มงคลครูมวย",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "mongkol"
+      ],
+      "image": "/ui/items/painted-complete-v1/mongkol.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18680
+    },
+    {
+      "id": "wood_sword",
+      "name": "ดาบไม้ซ้อม",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "wood_sword"
+      ],
+      "image": "/ui/items/painted-complete-v1/wood_sword.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 8888
+    },
+    {
+      "id": "iron_dap",
+      "name": "ดาบเหล็กลาย",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "iron_dap"
+      ],
+      "image": "/ui/items/painted-complete-v1/iron_dap.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 7258
+    },
+    {
+      "id": "short_bow",
+      "name": "ธนูไม้ซ้อม",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "short_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/short_bow.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 11822
+    },
+    {
+      "id": "reed_wand",
+      "name": "ยันต์ฝึกอาคม",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "reed_wand"
+      ],
+      "image": "/ui/items/painted-complete-v1/reed_wand.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20604
+    },
+    {
+      "id": "herb_book",
+      "name": "ตำรายาสมุนไพร",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "herb_book"
+      ],
+      "image": "/ui/items/painted-complete-v1/herb_book.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17182
+    },
+    {
+      "id": "palm_book",
+      "name": "ตำราใบลาน",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "palm_book"
+      ],
+      "image": "/ui/items/painted-complete-v1/palm_book.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14534
+    },
+    {
+      "id": "bone_yant",
+      "name": "ผ้ายันต์กระดูกผี",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "bone_yant"
+      ],
+      "image": "/ui/items/painted-complete-v1/bone_yant.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17846
+    },
+    {
+      "id": "bamboo_bow",
+      "name": "ธนูไม้ไผ่",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "bamboo_bow"
+      ],
+      "image": "/ui/items/painted-complete-v1/bamboo_bow.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 12404
+    },
+    {
+      "id": "cloth_vest",
+      "name": "เสื้อผ้าฝ้าย",
+      "type": "equip",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "cloth_vest"
+      ],
+      "image": "/ui/items/painted-complete-v1/cloth_vest.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 16774
+    },
+    {
+      "id": "hide_armor",
+      "name": "เกราะหนังสัตว์",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "hide_armor"
+      ],
+      "image": "/ui/items/painted-complete-v1/hide_armor.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25758
     },
     {
       "id": "takrut",
@@ -1023,8 +1795,24 @@
         "takrut"
       ],
       "image": "/ui/items/painted-v2/takrut.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
+    },
+    {
+      "id": "tiger_fang",
+      "name": "เขี้ยวเสือสมิง",
+      "type": "equip",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "tiger_fang"
+      ],
+      "image": "/ui/items/painted-complete-v1/tiger_fang.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18444
     },
     {
       "id": "bia_kae",
@@ -1037,6 +1825,7 @@
         "bia_kae"
       ],
       "image": "/ui/items/painted-v2/bia_kae.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     },
@@ -1051,6 +1840,7 @@
         "prakam"
       ],
       "image": "/ui/items/painted-v2/prakam.webp",
+      "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
     }

@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "short_bow",
+  "family": "equip:short_bow",
+  "memberIDs": [
+    "short_bow"
+  ],
+  "name": "ธนูไม้ซ้อม",
+  "type": "equip",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-cdf4cf98-bcad-4ff9-9acc-e256338e7af7.png",
+  "prompt": "One isolated Thai fantasy inventory equipment icon: Plain wood practice hunting bow with clear arc and string; common starter, no ornate gold fittings. One small simple curved wooden hunting practice bow, warm brown wood limbs forming clear arc, taut cream bowstring connecting both ends clearly visible, plain cream wrapped central grip. No arrows, no metal horns, no royal gilding or gems. Common Thai village apprentice bow. Soft hand-painted stylized broad shapes readable32px. Whole bow centered square at slight diagonal with12% safe margins, genuine transparent background. No text, labels, numbers, UI frame, badges, floor shadows, people or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/short_bow.png",
+  "masterSha256": "c3d3c7d5bb01a9cde4e68b1525c9486d82f19328da3711f7b85e8ee2482b27bd",
+  "originalSha256": "c3d3c7d5bb01a9cde4e68b1525c9486d82f19328da3711f7b85e8ee2482b27bd",
+  "output": "public/ui/items/painted-complete-v1/short_bow.webp",
+  "sha256": "5d7098fc6d4bda16b6d5281e9cb4dc7dbb2fc978caae0c6c60f557df84220a71",
+  "bytes": 11822,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

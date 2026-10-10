@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "giant_valley_bow",
+  "family": "equip:giant_valley_bow",
+  "memberIDs": [
+    "giant_valley_bow"
+  ],
+  "name": "ธนู · หุบเขายักษ์",
+  "type": "equip",
+  "levels": [
+    60
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-84c0a61a-7328-4b4d-9899-276eda6baef8.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: One Thai hunting bow; broad readable arc and string. Existing name: ธนู · หุบเขายักษ์. ศาสตรา หุบเขายักษ์ · ต้องการ Lv.60  Minimum level 60; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/giant_valley_bow.png",
+  "masterSha256": "7ed5ebfbd695d96d2d7f28cd7d37f07311c3b253a21a6763bd833650139ffb9f",
+  "originalSha256": "7ed5ebfbd695d96d2d7f28cd7d37f07311c3b253a21a6763bd833650139ffb9f",
+  "output": "public/ui/items/painted-complete-v1/giant_valley_bow.webp",
+  "sha256": "2388d208b5d714d3e4f4e8db9971b600efc245fbdceac64bd4f9b3d8e55cef98",
+  "bytes": 14586,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

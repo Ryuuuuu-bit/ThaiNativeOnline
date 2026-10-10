@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "dusk_fort_wrap",
+  "family": "equip:dusk_fort_wrap",
+  "memberIDs": [
+    "dusk_fort_wrap"
+  ],
+  "name": "ผ้าพันมือ · ป้อมอสูรสนธยา",
+  "type": "equip",
+  "levels": [
+    50
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-35e2f3bf-2a74-427b-b4d7-2f21417bd309.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Pair of wrapped Muay Thai hands; cloth wraps, not gloves. Existing name: ผ้าพันมือ · ป้อมอสูรสนธยา. ศาสตรา ป้อมอสูรสนธยา · ต้องการ Lv.50  Minimum level 50; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/dusk_fort_wrap.png",
+  "masterSha256": "aabd50aabe170e2175d4868dae9e00699640380add7000569e2bb93e4071af93",
+  "originalSha256": "aabd50aabe170e2175d4868dae9e00699640380add7000569e2bb93e4071af93",
+  "output": "public/ui/items/painted-complete-v1/dusk_fort_wrap.webp",
+  "sha256": "bfd33151923566d6ed4a0a11fdf0970d6f8706f7a979b8632da9a5e47bd969e7",
+  "bytes": 21464,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

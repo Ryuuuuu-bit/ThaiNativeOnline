@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "tiger_fang",
+  "family": "equip:tiger_fang",
+  "memberIDs": [
+    "tiger_fang"
+  ],
+  "name": "เขี้ยวเสือสมิง",
+  "type": "equip",
+  "levels": [
+    10
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-c7990821-38ec-41f7-a46e-ace3616a3873.png",
+  "prompt": "One isolated Thai fantasy inventory charm icon: เขี้ยวเสือสมิง. Existing name: เขี้ยวเสือสมิง.   Minimum level 10; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  One large slightly curved ivory fang of a supernatural half-tiger ghost, worn as a sacred Thai charm, clearly a single tiger canine tooth with smooth tapered point. Simple warm brass cap at thick root engraved one selective kanok flourish, tied dark red cord loop, small tiger-stripe cloth knot near cap. Main fang remains large ivory block readable at32px. Not a sword, not a monster body or paw, not boar tusks. Soft hand-painted stylized Thai fantasy. Entire charm centered square12% safe margins genuine transparent background. No letters, text, digits, UI borders, badges, floor shadow, scene or other objects.",
+  "master": "docs/art/items/painted-complete-v1/masters/tiger_fang.png",
+  "masterSha256": "ea30511f92ce2d999a271ebe82838b9a34d615e122274d5faeeffb9e754d4177",
+  "originalSha256": "ea30511f92ce2d999a271ebe82838b9a34d615e122274d5faeeffb9e754d4177",
+  "output": "public/ui/items/painted-complete-v1/tiger_fang.webp",
+  "sha256": "055e04ba7232f8db69d5eacdc287133608f6a0f815067d9e3e4cab3986f44d0f",
+  "bytes": 18444,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
