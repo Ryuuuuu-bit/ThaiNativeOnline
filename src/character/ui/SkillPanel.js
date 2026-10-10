@@ -25,6 +25,7 @@ import { el, esc, setBar } from './dom.js';
 import { draggable } from '../../ui/draggable.js';
 import { Character } from '../Character.js';
 import { skillPreview } from '../../rules/skillPreview.js';
+import { skillHitSchedule } from '../../rules/skillHits.js';
 import { passiveBonusAt } from '../../rules/data/kitpassives.js';
 
 const TYPE_TH = { melee: 'โจมตีประชิด', projectile: 'โจมตีระยะไกล', strike: 'สายฟ้าใส่เป้า', tether: 'สายใยผูกเพื่อน', bounce: 'เด้งเพื่อน ↔ ผี', seed: 'เมล็ดฝังเพื่อน',
@@ -57,7 +58,7 @@ function yourNumbers(c, kitSkill, id, lv) {
   const stats = { ...c.derived, patk: c.patk, matk: c.matk, def: c.defense, accuracy: c.accuracy,
     critRate: c.critChance, critDmg: c.critDamage, maxHp: c.maxHp, maxMp: c.maxMp,
     healPow: c.healPow, cooldownCut: c.cooldownCut, castSpeed: c.castSpeed, mpCostMul: c.mpCostMul };
-  const v = skillPreview(id, lv, stats, { hits: kitSkill.hits?.length || 1 });
+  const v = skillPreview(id, lv, stats, { hits: skillHitSchedule(kitSkill, id).length || 1 });
   if (!v) return '';
   const rows = [], d = v.damage, span = a => a.map(fmt).join('–');
   if (d) {

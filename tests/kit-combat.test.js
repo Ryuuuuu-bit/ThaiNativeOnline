@@ -119,6 +119,7 @@ test('a kit skill hits the combat target with rules damage, costs MP and starts 
   combat.setTarget(boar);
   const mp = character.mp, hp = boar.hp;
   assert.equal(caster.cast(0), true);   // หมัดแย็บ: three blows
+  caster.update(1);
   const hits = events.filter(([n]) => n === 'hit'), misses = events.filter(([n]) => n === 'miss');
   assert.equal(hits.length + misses.length, 3, 'three blows (a roll may miss)');
   assert.equal(boar.hp, Math.max(0, hp - hits.reduce((n, [, e]) => n + e.amount, 0)));
@@ -133,7 +134,7 @@ test('killing a monster with kit skills goes through the combat kill path (EXP, 
   combat.setTarget(boar);
   character.mp = 999;
   const exp = character.exp, gold = character.gold;
-  for (let i = 0; i < 10 && boar.alive; i++) { caster.cd.clear(); caster.cast(1); }
+  for (let i = 0; i < 10 && boar.alive; i++) { caster.cd.clear(); caster.cast(1); caster.update(2); }
   assert.equal(boar.alive, false);
   const kill = events.find(([n]) => n === 'kill');
   assert.ok(kill, 'kill event');
@@ -151,6 +152,7 @@ test('out of range: the player walks in, then the skill fires; nothing near: a f
   assert.ok(far.walks.length > 0, 'walks toward the boar');
   far.player.position.set(0, 0, 8);
   far.caster.update(.1);
+  far.caster.update(1);
   assert.equal(far.caster.active(0), false);
   assert.ok(far.events.some(([n]) => n === 'hit' || n === 'miss'));
 
@@ -163,14 +165,14 @@ test('out of range: the player walks in, then the skill fires; nothing near: a f
 });
 
 test('area skills also hit monsters around the caster', () => {
-  const { combat, caster, events, character } = setup();
+  const { combat, caster, events, character } = setup({ boarAt: { x: 0, z: 1.5 } });
   const second = new (combat.monsters[0].constructor)('boar', combat.monsters[0].spawn, .8, 1.5);
   combat.monsters.push(second);
   combat.setTarget(combat.monsters[0]);
   character.mp = 999;
   // the blow on the target must land (a miss splashes nobody): pin the dice for this cast
   const random = Math.random; Math.random = () => .5;
-  try { caster.cast(2); } finally { Math.random = random; }   // จระเข้ฟาดหาง
+  try { caster.cast(2); caster.update(2); } finally { Math.random = random; }   // จระเข้ฟาดหาง
   const struck = new Set(events.filter(([n]) => n === 'hit' || n === 'miss').map(([, e]) => e.monster));
   assert.equal(struck.size, 2);
 });
@@ -184,4 +186,31 @@ test('piercing shots hit a line, spread volleys a fan, from the caster toward th
   const ms = [target, behind, beside, back];
   assert.deepEqual(inShape(ms, me, target, line, target), [behind]);
   assert.deepEqual(inShape(ms, me, target, fan, target), [beside, behind]);
+});
+
+
+test('gameplay hits survive silent FX, and late visual callbacks cannot damage a rebound target', () => {
+  const { caster, combat, boar, events } = setup();
+  boar.hp = 10000;
+  const second = new boar.constructor('boar', boar.spawn, .8, 1.5);
+  second.hp = 10000; combat.monsters.push(second);
+  caster.runner.cast = id => { caster.runner.current = id; return true; };
+  combat.setTarget(boar); caster.cast(0);
+  combat.setTarget(second); caster.cast(1);
+  const random = Math.random; Math.random = () => .5;
+  try { caster.update(2); } finally { Math.random = random; }
+  const hits = events.filter(([n]) => n === 'hit');
+  assert.equal(hits.filter(([, e]) => e.monster === boar).length, 3);
+  assert.equal(hits.filter(([, e]) => e.monster === second).length, 1);
+  const hp = second.hp;
+  caster.proxy.hurt(9999, false, .1, null, true);
+  assert.equal(second.hp, hp, 'late FX is cosmetic');
+});
+
+test('a target leaving skill reach before its hit takes no damage', () => {
+  const { caster, combat, boar, events } = setup();
+  combat.setTarget(boar); caster.cast(0); boar.z = 30;
+  caster.update(2);
+  assert.equal(events.filter(([n]) => n === 'hit').length, 0);
+  assert.equal(caster.hitCasts.length, 0);
 });

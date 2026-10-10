@@ -3,13 +3,14 @@ import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, self
 import { rollSkill } from './damage.js';
 import { allyTarget, createTargetProxy, monsterTarget, stubTarget } from './targets.js';
 import { evoOf } from '../rules/data/evolutions.js';
+import { skillHitSchedule } from '../rules/skillHits.js';
 
 // Casts a class kit's ten skills (src/classes CLASS_KITS) on any map, as the
 // action bar's controller (src/ui/ActionBar.js). Each cast picks its target:
 //   the combat target (Tab / click, src/combat) → else the training dummy when
 //   standing at it → else the nearest monster → else, for self skills, nobody.
 // Monsters: MP and the kit cooldown are paid, the player walks into range first,
-// and every blow of the FX is a rules roll (src/training/damage.js) against the
+// and the shared skill timeline rolls damage (src/training/damage.js) against the
 // monster's DEF/EVA, applied through Combat.damageMonster (numbers, aggro, kill,
 // EXP and loot). Area skills also hit the monsters around (kitCombat.splashOf).
 // The dummy stays free to practise on, as before.
@@ -29,7 +30,7 @@ const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 export class KitCaster {
   constructor(o) {
     Object.assign(this, o);
-    this.cd = new Map(); this.pending = null; this.cast_ = 0; this.affected = new Set();
+    this.cd = new Map(); this.pending = null; this.cast_ = 0; this.affected = new Set(); this.hitCasts = [];
     this.slots = o.kit.skills.map(s => ({ id: s.id, name: s.name, icon: s.icon, lv: s.lv, desc: s.desc, cd: 0, mp: 0 }));
     this.refreshLevels();
     // learning a skill (or a reset) changes its numbers: MP, cooldown, reach
@@ -38,7 +39,7 @@ export class KitCaster {
     this.proxy = createTargetProxy(this.stub);
     this.adapters = new WeakMap();
     this.runner = o.runnerFactory(this.proxy, id => this.roll(id));
-    o.character.evoContext = () => ({ fighting: !!o.combat.inCombat, busy: (!o.combat.remote && o.combat.monsters.some(m => m.alive && m.debuffs.some(d => (d.remaining ?? d.duration ?? 0) > 0))) || !!o.combat.pending || o.combat.projectiles.length > 0 || o.character.buffs.length > 0 || this.busy });
+    o.character.evoContext = () => ({ fighting: !!o.combat.inCombat, busy: this.hitCasts.length > 0 || (!o.combat.remote && o.combat.monsters.some(m => m.alive && m.debuffs.some(d => (d.remaining ?? d.duration ?? 0) > 0))) || !!o.combat.pending || o.combat.projectiles.length > 0 || o.character.buffs.length > 0 || this.busy });
   }
 
   // ---- action bar controller --------------------------------------------------
@@ -141,6 +142,10 @@ export class KitCaster {
     if (!friend) this.applySelf(s.id);   // a heal sent to a friend lands on them (server/index.js), not on the caster
     // online: the server opens the cast (src/net/NetCombat.js); `ally` = the friend the heal goes to
     if (!pick.dummy) this.combat.emit('kit-cast', { id: s.id, ...(friend ? { ally: friend.id } : {}) });
+    if (pick.monster && !friend) {
+      const eff = this.eid(s.id), hits = skillHitSchedule(this.kit.skills[i], eff);
+      if (hits.length) this.hitCasts.push({ id: s.id, eff, lv: Math.max(1, this.lv(s.id)), info: { ...info }, monster: pick.monster, hits, t: 0, next: 0, affected: new Set(), splashed: new Set() });
+    }
     const evo = evoOf(this.eid(s.id));
     if (evo) { const p = pick.monster ?? this.player.position; this.combat.emit('evo-fx', { x: p.x, z: p.z, color: evo.color, name: evo.name }); }
     this.onCast?.(this.kit.skills[i]);
@@ -159,6 +164,7 @@ export class KitCaster {
   // Per frame: cooldowns tick, a pending cast walks the player into range.
   update(dt) {
     for (const [id, v] of this.cd) this.cd.set(id, Math.max(0, v - dt));
+    this.updateHits(dt);
     const k = this.casting;
     if (k) {
       const m = k.pick.monster, a = k.pick.ally ? this.allyOf(k.pick.ally) : null, far = x => dist(x, this.player.position) > this.infos[k.i].range + 1.5;
@@ -188,6 +194,24 @@ export class KitCaster {
   get castProgress() { const k = this.casting; return k ? { id: this.slots[k.i].id, name: this.slots[k.i].name, t: k.t, total: k.total } : null; }
   fail(reason) { this.combat.emit('fail', reason); }
 
+  // The rules and authored clip timings drive gameplay, independent of particle
+  // height, fixed FX footprints or a later animation rebinding its visual target.
+  updateHits(dt) {
+    if (!this.character.alive) { this.hitCasts = []; return; }
+    for (const cast of this.hitCasts) {
+      cast.t += dt;
+      while (cast.next < cast.hits.length && cast.t >= cast.hits[cast.next]) {
+        cast.next++;
+        const m = cast.monster, sp = cast.info.splash;
+        if (!m.alive || dist(m, this.player.position) > cast.info.range + 1.5) continue;
+        if (sp?.around === 'self' && dist(m, this.player.position) > sp.radius) continue;
+        const roll = rollBlow(this.stats(), monsterDefense(m.def), cast.eff, cast.lv);
+        this.hurt(m, roll.dmg, roll.crit, true, cast, roll.hit);
+      }
+    }
+    this.hitCasts = this.hitCasts.filter(cast => cast.next < cast.hits.length && cast.monster.alive);
+  }
+
   // ---- blows ----------------------------------------------------------------------
   // The runner's damage(skillId) for the bound target. A miss carries dmg -1 so the
   // runners show MISS (they fall back to the effect's own number when dmg is 0).
@@ -200,38 +224,40 @@ export class KitCaster {
   adapter(m) {
     let a = this.adapters.get(m);
     if (!a) {
-      a = monsterTarget(m, { fx: this.fx, canStand: this.canStand, onHurt: (mm, amt, crit, exact) => this.hurt(mm, amt, crit, exact), onMiss: mm => this.combat.damageMonster(mm, 0, { miss: true, skill: this.runner.current ?? this.lastSkill }) });
+      a = monsterTarget(m, { fx: this.fx, canStand: this.canStand, onHurt: () => 0, onMiss: () => {} });
       this.adapters.set(m, a);
     }
     return a;
   }
   // One blow of the current skill on monster `m` (already rolled when `exact`), then
   // the rules effects (once per cast per monster) and the splash around it.
-  hurt(m, amount, crit, exact) {
+  hurt(m, amount, crit, exact, cast = null, hit = true) {
     if (!m.alive) return 0;
-    const id = this.runner.current ?? this.lastSkill, eff = this.eid(id), lv = Math.max(1, this.lv(id));
-    const r = exact ? { hit: true, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), eff, lv);
-    this.strike(m, r, id);
-    const info = this.infos[this.slots.findIndex(s => s.id === id)];
+    const id = cast?.id ?? this.runner.current ?? this.lastSkill, eff = cast?.eff ?? this.eid(id), lv = cast?.lv ?? Math.max(1, this.lv(id));
+    const r = exact ? { hit, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), eff, lv);
+    this.strike(m, r, id, cast);
+    if (!r.hit) return 0;
+    const info = cast?.info ?? this.infos[this.slots.findIndex(s => s.id === id)];
     const sp = this.combat.remote ? null : info?.splash;   // online the server finds who else an area skill catches
     if (sp?.line || sp?.cone) {
       // a piercing shot / a fan: everyone else on its path takes one blow per cast
-      this.splashed ??= new Set();
-      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!this.splashed.has(o)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id); }
+      const splashed = cast?.splashed ?? (this.splashed ??= new Set());
+      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!splashed.has(o)) { splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id, cast); }
     } else if (sp?.chain) {
       // a chain (an evolution path): the blow jumps on to the nearest few, each once per cast
-      this.splashed ??= new Set();
-      for (const o of within(this.combat.monsters, m, sp.radius, m).filter(o => !this.splashed.has(o)).slice(0, sp.chain)) { this.splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id); }
+      const splashed = cast?.splashed ?? (this.splashed ??= new Set());
+      for (const o of within(this.combat.monsters, m, sp.radius, m).filter(o => !splashed.has(o)).slice(0, sp.chain)) { splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id, cast); }
     } else if (sp) {
       const center = sp.around === 'self' ? this.player.position : m;
-      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id);
+      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id, cast);
     }
     return r.hit ? r.dmg : 0;
   }
-  strike(m, r, id) {
+  strike(m, r, id, cast = null) {
     if (!r.hit) { this.combat.damageMonster(m, 0, { miss: true, skill: id }); return; }
     const alive = this.combat.damageMonster(m, r.dmg, { crit: r.crit, skill: id });
     // offline the effects land here; online the server rolls them and sends them (src/net/NetCombat.js 'md')
-    if (alive && !this.combat.remote && !this.affected.has(m)) { this.affected.add(m); for (const d of hitEffects(this.eid(id), r.dmg)) this.combat.debuff(m, d); }
+    const affected = cast?.affected ?? this.affected;
+    if (alive && !this.combat.remote && !affected.has(m)) { affected.add(m); for (const d of hitEffects(cast?.eff ?? this.eid(id), r.dmg)) this.combat.debuff(m, d); }
   }
 }

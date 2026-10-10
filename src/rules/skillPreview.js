@@ -15,7 +15,9 @@ export function skillPreview(id, level, stats, options = {}) {
   const kind = base.kind || 'physical';
   const power = kind === 'magic' ? stats.matk : kind === 'best' ? Math.max(stats.patk, stats.matk) : stats.patk;
   const hits = Math.max(1, Math.trunc(options.hits ?? base.hits ?? 1));
-  const damaging = !!st.mult || !['buff', 'party', 'revive', 'seed', 'passive'].includes(base.type) && !base.heals;
+  // Tether healing is also offensive in the actual kit runner: rollBlow uses
+  // the shared fallback multiplier when that hybrid has no explicit mult.
+  const damaging = !!st.mult || !['buff', 'party', 'revive', 'seed', 'passive'].includes(base.type);
   let damage = null;
   if (damaging) {
     const mult = st.mult ?? RULES.kit.fallbackMult;

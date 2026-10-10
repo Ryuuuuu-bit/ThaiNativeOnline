@@ -199,6 +199,21 @@ rogue: {
 
 At Lv.1 with 5 in every stat this kills the Lv.1 ghost in 3 hits at about 38 DPS. The existing jobs sit at 23–45 DPS, inside the original "DPS spread < 2.5×" balance check. It also has the lowest HP of the melee jobs (143). Adding it needs gear, skills, a trainer NPC, quests and shop stock across `classes.js`, `skills.js`, `gear.js`, `items.js`, `npcs.js` and `village.js`, so the lead should decide on it separately.
 
+## Canonical kit damage delivery — 2026-10-10
+
+The all-class audit found shaman ghostfire's elevated visual endpoint could
+never pass its 3D proximity check, and kalp's visual wave range was shorter
+than its accepted rules range. Combat damage now uses a rules-driven timeline
+instead of visual callback proximity; effective A/B geometry drives hits.
+`skillHits.js` preserves authored kit strikes, rules AoE waves, focused volley
+counts, twelve tether ticks, and three alternating enemy bottle bounces.
+Fan projectiles count once on the primary. Support-only skills never attack.
+Repeated visual poison/burn callbacks no longer create extra full-strength
+blows: the rules' poison/burn effects supply their own normalized ticks.
+This deliberately removes accidental FX damage inflation without changing
+damage multipliers, costs or cooldowns. The calculated preview uses the same
+schedule and still assumes every displayed blow lands on its primary target.
+
 ## Tests
 
 `tests/rules/*.test.js` (`node --test`): ports of the original `combat`, `economy` and `skill-effects` tests (pure parts; positions replaced by `nearNpc`), plus tests for `effects.js` and `exp.js`.

@@ -49,3 +49,26 @@ focused runtime tests. This is not a production-database or live deployment test
 Balance requires class/party playtesting: the alternatives provide tradeoffs,
 but equal win rates or EXP/hour have not been measured. No production deployment
 or save migration is part of this change. Newcomer quests remain in their own PR.
+
+Combat kit damage is scheduled independently of FX geometry. Each cast keeps
+its original primary, effective skill id, level and range/area information;
+late animation callbacks cannot change its target or path. The shared
+`skillHitSchedule` supplies both runtime delivery and preview blow counts.
+Focused volleys and repeated waves retain declared counts; wide fans hit their
+primary once, the offensive tether has twelve ticks and the alternating bottle
+has three enemy bounces. Support-only skills schedule no damaging blows.
+The authoritative cast window is at least six seconds and extends to the
+last scheduled hit plus 0.75 seconds of network allowance, so the tether's
+final tick is accepted without admitting a thirteenth hit.
+Visual burn/poison callbacks do not add duplicate direct damage; normalized
+rules debuffs own those ticks. This also fixes elevated ghostfire endpoints
+and long-range kalp casts failing their old visual-only collision checks.
+
+`node tools/skill-damage-audit.mjs http://127.0.0.1:5199` runs against a local
+dev server with an existing Playwright/Edge runtime. The sealed report covers
+1,200 actual production FX/Character/Combat/KitCaster cases: all 50 actives,
+base/A/B, close/maximum range, normal/tall monsters and stable/moving visual
+target rebound scenarios. All passed with zero browser errors and no damage
+to a rebound target. Each case advances eight seconds at 60 Hz with fixed
+randomness and frozen monster AI; this isolates delivery and does not measure
+natural combat balance or random physical miss frequency.

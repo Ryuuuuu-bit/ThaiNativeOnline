@@ -85,7 +85,7 @@ test('area skills: the server finds who else is caught; effects land once per ca
   cs.cast(1, 'arch_volley');
   const v1 = hits(cs.blow(1, w, players, { id: a.id, skill: 'arch_volley' }));
   const v2 = hits(cs.blow(1, w, players, { id: a.id, skill: 'arch_volley' }));
-  assert.ok(v1.length >= 3, 'the line caught the row'); assert.equal(v2.length, 1, 'the line does not repeat');
+  assert.ok(v1.length >= 3, 'the line caught the row'); assert.equal(v2.length, 0, 'the single primary and line cannot repeat');
   // a poison arrow leaves damage over time on the monster
   cs.cast(1, 'arch_poison');
   cs.blow(1, w, players, { id: a.id, skill: 'arch_poison' });
@@ -141,4 +141,20 @@ test('the dog bites at its own pace and pounces by the rules, not by the browser
   let bites = 0;
   for (let i = 0; i < 100; i++) { now.add(.1); bites += hits(cs.blow(1, w, players, { id: m.id, skill: 'pet', pounce: 1 })).length; }
   assert.ok(bites <= 10 + 2, `${bites} bites in 10 s`);   // 1.3 s each, two saved up
+});
+
+
+test('hybrid tether keeps all twelve authoritative ticks beyond the default six-second window', () => {
+  const { cs, now, p } = setup('herbalist'), w = boars(), m = w.monsters[0];
+  assert.equal(cs.cast(1, 'heal_vine').ok, true);
+  const cast = cs.get(1).casts.at(-1);
+  assert.equal(cast.perTarget, 12);
+  assert.ok(cast.window > CAST_WINDOW);
+  now.add(6.1);
+  for (let i = 0; i < 12; i++) assert.equal(hits(cs.blow(1, w, [p], { id: m.id, skill: 'heal_vine' })).length, 1);
+  assert.equal(cs.blow(1, w, [p], { id: m.id, skill: 'heal_vine' }).length, 0);
+  cs.get(1).c.skills.heal_tiger = 1;
+  cs.casting(1, 'heal_tiger'); now.add(3);
+  assert.equal(cs.cast(1, 'heal_tiger').ok, true);
+  assert.equal(cs.get(1).casts.at(-1).left, 0, 'support opens no damage budget');
 });

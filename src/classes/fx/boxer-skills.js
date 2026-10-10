@@ -1,3 +1,4 @@
+import { nearXZ } from './hitGeometry.js';
 import { moveSkillPlayer } from './skillMovement.js';
 import * as THREE from 'three';
 import { lockTime } from '../tempo.js';
@@ -127,7 +128,7 @@ export function createBoxerSkills({ fx, character, player, dummy, groundHeight, 
     if (!r.hit) return tg.miss();
     return tg.hurt(r.dmg, r.crit, push, hero.pos(), true);
   };
-  const near = (P, r) => tg.alive && tg.pos.clone().add(tg.off).distanceTo(P) <= r;
+  const near = (P, r) => tg.alive && nearXZ(tg.pos.clone().add(tg.off), P, r);
 
   // Tween the player to a local point; a warm afterglow trails behind.
   function moveTo(to, dur, cb, trail = C(1, .6, .25)) {
