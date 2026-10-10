@@ -1,0 +1,167 @@
+# ImageGen item icon sample v1
+
+12 individually generated transparent PNG assets for the level 50 Dusk Fort family. Built-in image_gen only; no CLI/API fallback, Meshy or Tripo credits. Original output files retained and copied without edits. These samples do not change gameplay item definitions.
+
+The approved equipment concept is a style reference, not an edit target. The batch uses explicit textual style direction derived from the inspected concept and ART_BIBLE. Each asset was a separate generation request, executed in four batches of three independent calls.
+
+## Shared direction
+
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+
+## Per-item prompts and provenance
+
+### dusk_fort_book
+
+Target: `public/ui/items/imagegen-sample-v1/dusk_fort_book.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-d8298f8e-5b22-4590-a7eb-f306ee562928.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: A single CLOSED thick Thai herbalist manuscript book, three-quarter view. Deep jade cover, antique brass corner fittings and one large simplified Thai lotus medallion, warm parchment page block, brown leather spine, one short muted red fabric bookmark. Clearly a book, no open pages.
+```
+
+### dusk_fort_sword
+
+Target: `public/ui/items/imagegen-sample-v1/dusk_fort_sword.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-dbc26045-a99e-462d-93d8-3fe0c1f0a9b0.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: A single Thai daab sword diagonally from lower-left hilt to upper-right tip. Broad slightly curved steel blade, simple brass guard, dark brown wrapped handle, small jade pommel accent. Entire blade and handle visible. No scabbard and no second sword.
+```
+
+### hunt_dusk_fort_head_sage
+
+Target: `public/ui/items/imagegen-sample-v1/hunt_dusk_fort_head_sage.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-56526263-0ea9-4fa3-9d08-d1c230944176.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One soft deep jade CLOTH TURBAN for a Thai herbalist/sage, front three-quarter view, broad layered fabric wraps, small brass lotus clasp at front, short tucked fabric tail. Clearly cloth headwear, no metal helmet, no face, no mannequin.
+```
+
+### dusk_fort_armor
+
+Target: `public/ui/items/imagegen-sample-v1/dusk_fort_armor.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-56ee9aec-db3c-429d-b2fa-0f7ce0a9bc74.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One sleeveless fitted brown leather torso armor, front three-quarter view with visible neck opening, simple broad leather chest panels, jade fabric underlayer peeking at collar and waist, sparse brass shoulder edges and a large simple lotus chest clasp. No person, arms, legs, belt or separate clothing props.
+```
+
+### hunt_dusk_fort_cape_sage
+
+Target: `public/ui/items/imagegen-sample-v1/hunt_dusk_fort_cape_sage.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-e451084f-947b-43ae-a6d5-fb7fd6b2f28e.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One deep jade cloth cape displayed as a softly draped triangular cloak, front view, warm cream lining peeking on one folded edge, sparse broad antique brass-colored lotus embroidery near lower hem, brass lotus neck clasp and muted red neckline cord. No wearer, no mannequin, no hood.
+```
+
+### wear_dusk_fort_gloves_guard
+
+Target: `public/ui/items/imagegen-sample-v1/wear_dusk_fort_gloves_guard.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-5d90b8ad-7ab7-49a1-9947-0bc391deff98.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: A matched PAIR of brown leather full-finger gloves, shown together as one equipment item, one glove slightly behind the other, fingers visibly separated in simple chunky shapes, broad jade wrist wraps, small brass lotus wrist plates. No arms or hands inside.
+```
+
+### wear_dusk_fort_belt_guard
+
+Target: `public/ui/items/imagegen-sample-v1/wear_dusk_fort_belt_guard.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-ba1f6c67-8ec5-44f8-b798-402f0a5e779f.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One thick brown leather BELT curled into a shallow oval loop in three-quarter view, large central antique brass kanok/lotus buckle, sparse jade inset on buckle, simple leather strap and a short hanging muted red fabric tab. Clearly a belt, opening visible, no person.
+```
+
+### wear_dusk_fort_amulet_sage
+
+Target: `public/ui/items/imagegen-sample-v1/wear_dusk_fort_amulet_sage.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-e986441f-f06b-4136-a805-28a8206f6acc.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One Thai sage NECKLACE with a clearly visible complete brown-red cord LOOP above a single rectangular jade tablet pendant, antique brass rim, one simple embossed lotus motif. Entire loop and pendant visible; broad shapes rather than tiny filigree. No text or writing.
+```
+
+### wear_dusk_fort_ring_sage
+
+Target: `public/ui/items/imagegen-sample-v1/wear_dusk_fort_ring_sage.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-c1e4e2f2-9ed9-4743-8612-da15890d426a.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One single thick antique brass RING in three-quarter view with a clearly visible large dark transparent central finger HOLE and one chunky oval jade stone mounted above it, sparse simplified Thai lotus shoulders. Broad ring band; no second ring, necklace, or background.
+```
+
+### dusk_fort_shoes
+
+Target: `public/ui/items/imagegen-sample-v1/dusk_fort_shoes.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-0243feba-9fa9-45aa-993d-680bbb21a68f.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: A matched PAIR of practical mid-calf brown leather BOOTS, front three-quarter view, one slightly behind the other, chunky rounded toes, broad jade ankle wraps, a few brass lotus buckles. Clear boot silhouettes, no legs or wearer.
+```
+
+### flask_hp_6
+
+Target: `public/ui/items/imagegen-sample-v1/flask_hp_6.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-719e38df-cb44-40d1-98a5-02e661a1a207.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One HEALTH FLASK, distinctly ROUND squat glass bottle filled with saturated ruby-red liquid, brass lotus base cradle and simple brass stopper, narrow short neck, clear broad ruby-red color block. Three-quarter front view. No label, text, handles, hanging cords, particles or detached glow.
+```
+
+### flask_mp_6
+
+Target: `public/ui/items/imagegen-sample-v1/flask_mp_6.png`
+
+Source: `C:\Users\panup\.codex\generated_images\01a12772-8d40-71f1-9a35-abcf7d4b1ca5\exec-ea28b7ee-be21-40e9-95cc-b5814aa80f20.png`
+
+Full prompt:
+
+```text
+Use case: stylized-concept. Asset type: Thai Native Online inventory item icon, individual production sample. Create exactly ONE isolated item, square composition, true transparent alpha background. Style: polished hand-painted Thai fantasy RPG, soft stylized forms, clear chunky silhouette, warm brown leather, deep jade cloth, selective antique brass/gold Thai kanok accents. Match the elegant jade-and-brass equipment concept through restrained materials, not excessive decoration. Broad readable color blocks and crisp outer contour at 32, 48 and 64 px. Soft upper-left highlights, no crushed blacks. Item fills 78–85 percent of canvas, centered with safe margins. No frame, UI, text, numbers, rarity marker, socket marker, watermark, ground, backdrop, detached glow, particles, or extra props.
+Subject: One MANA FLASK, distinctly SLENDER tall teardrop glass bottle filled with saturated sapphire-blue liquid, brass lotus base cradle and simple brass stopper matching the health flask family, longer neck, clear broad blue color block. Three-quarter front view. No label, text, handles, hanging cords, particles or detached glow.
+```

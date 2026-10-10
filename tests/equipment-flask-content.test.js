@@ -35,7 +35,11 @@ test('normal flasks progress in city shops, bosses never appear in ordinary stoc
   for(const shop of ['general','supplies','herbalist'])for(const id of NORMAL_FLASK_IDS)assert.ok(SHOPS[shop].stock.includes(id));
   assert.equal(SHOPS.herbalist.refillFlasks,true);
   for(const [id,d] of Object.entries(FLASK_ITEMS)) {
-    assert.equal(ITEMS[id],d);assert.ok(fs.existsSync(`public/${d.img}`));
+    // Production art may clone a definition; its gameplay fields must stay identical.
+    const {img:actualImg,imageArt:actualArt,...actualGameplay}=ITEMS[id];
+    const {img:sourceImg,imageArt:sourceArt,...sourceGameplay}=d;
+    assert.deepEqual(actualGameplay,sourceGameplay,id);
+    assert.ok(fs.existsSync(`public/${actualImg}`),id);
     assert.ok(d.flask.recovery>0&&d.flask.cost<=d.flask.maxCharges);
     assert.ok(['hp','mp'].includes(d.flask.kind));
     if(d.bossFlask)for(const shop of Object.values(SHOPS))assert.ok(!shop.stock?.includes(id),id);
