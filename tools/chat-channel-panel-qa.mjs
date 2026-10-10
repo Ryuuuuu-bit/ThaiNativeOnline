@@ -21,12 +21,12 @@ try{
  await page.evaluate(()=>{const c=window.game.net.chat;c.add('Guide','ใครไปวัดร้างด้วยกันบ้างครับ');c.add('Ryuu','รวมตัวที่ประตูเมืองได้เลย');c.add('Guide','อีกหนึ่งนาทีออกเดินทางครับ','party');c.add('Mali','ฝากซื้อยาให้หน่อยนะ','whisper');c.add('ระบบ','ได้รับ หนังสัตว์ ×2','loot');c.add('ระบบ','ปราบมอนสเตอร์ +141 EXP +13 ตำลึง','exp');});
  await page.locator('.chat-toggle').click();
  assert.equal(await page.locator('.chat-compose').isVisible(),true);assert.equal(await page.locator('.chat-tabs').getAttribute('aria-orientation'),'vertical');
- await page.locator('[data-tab="general"]').focus();await page.keyboard.press('ArrowDown');assert.equal(await page.locator('[data-tab="party"]').getAttribute('aria-selected'),'true');
+ await page.locator('[data-tab="general"]').focus();await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowDown');assert.equal(await page.locator('[data-tab="party"]').getAttribute('aria-selected'),'true');
  await page.locator('.chat-message').fill('ข้อความทดสอบ');await page.locator('.chat-send').click();assert.equal(await page.locator('.chat-feedback').isVisible(),true,'offline error preserves draft');assert.equal(await page.locator('.chat-message').inputValue(),'ข้อความทดสอบ');
- await page.evaluate(()=>{const c=window.game.net.chat;c.setStatus(true);window.__sent=[];c.filter=command=>{window.__sent.push(command);return true;};});
+ await page.evaluate(()=>{const c=window.game.net.chat;c.setStatus(true);window.__sent=[];c.whisperSend=(to,text)=>window.__sent.push(`/w ${to} ${text}`);c.filter=command=>{window.__sent.push(command);return true;};});
  await page.locator('.chat-send').click();assert.deepEqual(await page.evaluate(()=>window.__sent),['/p ข้อความทดสอบ']);assert.equal(await page.locator('.chat-compose').isVisible(),true,'sending keeps composer open');
  await page.locator('[data-tab="whisper"]').click();await page.locator('.chat-message').fill('พบกันในเมือง');await page.locator('.chat-send').click();assert.equal(await page.locator('.chat-feedback').isVisible(),true);
- await page.locator('.chat-recipient input').fill('Mali');await page.locator('.chat-send').click();assert.equal(await page.evaluate(()=>window.__sent.at(-1)),'/w Mali พบกันในเมือง');
+ await page.locator('.chat-recipient > label input').fill('Mali');await page.locator('.chat-send').click();assert.equal(await page.evaluate(()=>window.__sent.at(-1)),'/w Mali พบกันในเมือง');
  await page.locator('.chat-emoji-toggle').click();await page.locator('.chat-emoji-picker button').first().click();assert.ok((await page.locator('.chat-message').inputValue()).includes('🙂'));
  await page.locator('[data-tab="system"]').click();assert.equal(await page.locator('.chat-compose').isVisible(),false);assert.equal(await page.locator('.chat-system-note').isVisible(),true);
  await page.locator('.chat-toggle').click();assert.equal(await page.locator('.chat-body').isVisible(),false);await page.locator('.chat-toggle').click();assert.equal(await page.locator('[data-tab="system"]').getAttribute('aria-selected'),'true','fold preserves channel');

@@ -9,7 +9,7 @@ import { monsterInterest } from './interest.js';
 //   PUT  /api/slots/:n  { data }            DELETE /api/slots/:n          (Authorization: Bearer <token>)
 // Realtime messages are small JSON objects with a type `t`:
 //   client → server  hello {token?, slot?, name, cls, gender, lv, map, x, z, f} · s {x, z, f, m} ·
-//                    map {map, x, z, f} · a {clip, sp} · c {text} · lv {lv}
+//                    map {map, x, z, f} · a {clip, sp} · c {text, scope?: 'world' | 'area'} · lv {lv}
 //   client → server  fx {skill, tgt? | x, z} (a class skill went off, at monster tgt or a spot: the training dummy) → fx {from, skill, tgt? | x, z} to the room
 //   server → client  welcome {you, roster, online} · join {p} · leave {id} ·
 //                    tick {p: [[id, x, z, f, m], …]} · a {id, clip, sp} · c {id, name, map, text} ·
@@ -375,7 +375,11 @@ async function handle(ws, raw) {
           send(ws, { t: 'c', id: null, name: '🛠️ GM', kind: 'gm', text }); break;
         }
         if (muted(p)) { send(ws, { t: 'c', id: null, name: 'ระบบ', text: 'คุณถูกห้ามแชทชั่วคราว' }); break; }
-        const r = presence.chat(ws, m.text); if (r) toAll(r); break;
+        if (m.scope !== undefined && m.scope !== 'world' && m.scope !== 'area') break;
+        const r = presence.chat(ws, m.text); if (!r) break;
+        if (m.scope === 'area') toMap(p.room, { ...r, kind: 'area' });
+        else toAll(r);
+        break;
       }
       case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
       case 'casting': { const p = presence.players.get(ws); if (p) combatants.casting(p.id, m.skill); break; }
