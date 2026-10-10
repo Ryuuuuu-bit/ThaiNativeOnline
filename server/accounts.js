@@ -172,6 +172,20 @@ export class Accounts {
     });
   }
   inventoryRevision(id, slot) { return this.inventoryRevisions.get(`${id}:${slot}`) ?? 0; }
+  trade(request, participants, { capture, adopt }) {
+    let prepared, fingerprint, adopted = false;
+    return this.writes.runMany(participants.map(p => `${p.account}:${p.slot}`), async () => {
+      prepared ??= capture();
+      if (prepared.failure) return prepared.failure;
+      fingerprint ??= JSON.stringify(prepared);
+      const result = await this.store.transferTrade(request, fingerprint, prepared);
+      if (result.ok && !adopted) {
+        adopt(prepared, result.revisions); adopted = true;
+        prepared.forEach((p, i) => this.inventoryRevisions.set(`${p.account}:${p.slot}`, result.revisions[i]));
+      }
+      return result;
+    });
+  }
   async quests(id, slot) { return (await this.store.listSlots(id)).find(x => x.slot === slot)?.data?.[QUESTS_KEY] ?? '{}'; }
   async remove(id, slot) { if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง'); await this.writes.run(`${id}:${slot}`, () => this.store.deleteSlot(id, slot)); this.inventoryRevisions.delete(`${id}:${slot}`); return { ok: true }; }
   async character(id, slot) {

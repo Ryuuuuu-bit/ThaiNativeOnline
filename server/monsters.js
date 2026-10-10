@@ -232,8 +232,9 @@ export class MonsterWorld {
   }
 
   damage(m, by, amount, { crit = false, dot = false, pet = false } = {}, players = [], night = false) {
+    const removed = Math.min(m.hp, Math.max(0, amount));
     m.hp = Math.max(0, m.hp - amount); m.dirty = true;
-    if (by != null) m.contrib.set(by, (m.contrib.get(by) ?? 0) + amount);
+    if (by != null) m.contrib.set(by, (m.contrib.get(by) ?? 0) + removed);
     const ev = [{ t: 'mh', id: m.id, amount, crit, dot, pet, by }];
     if (m.hp > 0) {
       if (by == null) return ev;

@@ -64,6 +64,27 @@ The retry queue is in memory. A hard kill, host loss or a database outage exceed
 the shutdown grace period cannot guarantee the last queued changes are saved.
 MemoryStore is for local testing; durable hosting requires PostgreSQL.
 
+## Atomic player trade
+
+`server/trade-service.js` freezes both live characters with `tradeBusy` while
+`Accounts.trade` reserves both slot queues through `SaveQueue.runMany`. Earlier
+saves finish before capture; later saves cannot overtake the transaction.
+`Store.transferTrade` checks both inventory revisions and writes both character
+snapshots plus a UUID receipt in one transaction. PostgreSQL locks account rows
+in sorted order. A lost commit response retries the same captured snapshots and
+receipt, without transferring twice. Old queued inventory snapshots fail their
+revision checks after a successful trade.
+
+Success is sent only after durable completion. Live inventory and gold are then
+adopted and revisions advanced. Pending trades refuse gameplay mutations, API
+saves and GM target changes; monster-hit packets are suppressed. Kill rewards
+are deferred until adoption and retain the normal reward notifications.
+Disconnect retains the captured state until adoption and final saving; rejoining
+waits on slot barriers. Shutdown drains the same queues. During a database outage,
+the characters stay frozen until retries resolve; the existing shutdown deadline
+and hard-kill limitation still apply. MemoryStore provides atomic local behavior
+but cannot persist receipts across process restarts.
+
 ## Validation and changed files
 
 - 297 tests pass, including a real isolated HTTP/WebSocket server test covering

@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+import { disposeResources } from './ResourceLifecycle.js';
+import { transitionMap } from './MapTransition.js';
 import { loadingMarkup } from '../ui/Brand.js';
 import { buildWorld } from './World.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
@@ -62,21 +65,43 @@ export class MapManager {
   }
 
   async load(mapId) {
+    this.install(await this.prepare(mapId));
+    return this.world;
+  }
+
+  async prepare(mapId) {
     const map = MAPS[mapId] ?? MAPS[DEFAULT_MAP];
     const report = text => { this.progress(text); if (this.busy && this.overlay) this.overlay.querySelector('[data-loading-text]').textContent = text; };
-    const world = await buildWorld(this.scene, report, map);
-    report('ชาวเมืองกำลังออกจากบ้าน…'); await wait(0);
-    const has = id => !!world.spots[id] || (!!J[id] && walkable(map, ...J[id]));
-    const npcs = new NPCManager(world.root, world, npcsForMap(NPCS, map.id, has), this.clock);
-    this.portals = new Portals(world.root, map, (x, z) => world.heightAt(x, z));
-    this.hunting = new HuntingGrounds(world.root,map,(x,z)=>world.heightAt(x,z));
-    Object.assign(this, { map, world, npcs });
+    const staging = new THREE.Group();
+    let world, npcs;
+    try {
+      world = await buildWorld(staging, report, map);
+      report('ชาวเมืองกำลังออกจากบ้าน…'); await wait(0);
+      const has = id => !!world.spots[id] || (!!J[id] && walkable(map, ...J[id]));
+      npcs = new NPCManager(world.root, world, npcsForMap(NPCS, map.id, has), this.clock);
+      const portals = new Portals(world.root, map, (x, z) => world.heightAt(x, z));
+      const hunting = new HuntingGrounds(world.root,map,(x,z)=>world.heightAt(x,z));
+      const [rx, rz] = map.respawn.find(([x, z]) => world.canStand(x, z)) ?? [map.spawn.x, map.spawn.z];
+      return { map, world, npcs, portals, hunting, respawn: { x: rx, z: rz } };
+    } catch (error) {
+      // Builders may reject before returning a world, leaving partial roots.
+      try { npcs?.dispose(); } catch (cleanupError) { console.error('NPC cleanup failed', cleanupError); }
+      try {
+        if (world) world.dispose();
+        else for (const root of [...staging.children]) { disposeResources(root); root.removeFromParent(); }
+      } catch (cleanupError) { console.error('Partial map cleanup failed', cleanupError); }
+      throw error;
+    }
+  }
+
+  install(prepared) {
+    const { map, world, respawn, ...systems } = prepared;
+    this.scene.add(world.root);
+    Object.assign(this, { map, world, ...systems });
     this.landmarks = landmarksOf(map.id, LANDMARKS);
     this.spawnAreas = spawnsOf(map.id, SPAWNS);
     for (const z of this.zones) z.active = z.map === map.id ? z.phases : NONE;
-    const [rx, rz] = map.respawn.find(([x, z]) => world.canStand(x, z)) ?? [map.spawn.x, map.spawn.z];
-    Object.assign(this.respawn, { x: rx, z: rz });
-    return world;
+    Object.assign(this.respawn, respawn);
   }
 
   // Unload the current map completely: NPCs, monsters of this map, scenery.
@@ -135,20 +160,7 @@ export class MapManager {
   }
 
   async travel(portal) {
-    if (this.busy) return;
-    this.busy = true;
-    const from = this.map, to = MAPS[portal.to];
-    this.onLeave({ map: from, to });
-    this.fade(true, to);
-    await wait(300);
-    const started = performance.now();
-    this.unload();
-    await this.load(to.id);
-    this.place(portal.arrive);
-    this.lastTravelMs = Math.round(performance.now() - started);
-    this.onChange({ map: this.map, world: this.world, npcs: this.npcs, from });
-    this.busy = false;
-    this.fade(false);
+    return transitionMap(this, portal, MAPS[portal.to], wait);
   }
 
   save() {

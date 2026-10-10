@@ -97,7 +97,7 @@ export class Combatants {
     this.bossCardWorlds = new WeakSet(); this.bossCardRewards = new WeakMap();
   }
   get(id) { return this.list.get(id); }
-  touch(id) { const s = this.list.get(id); if (s) { s.fightAt = this.now(); s.c.sitting = false; } }
+  touch(id) { const s = this.list.get(id); if (s && !s.tradeBusy) { s.fightAt = this.now(); s.c.sitting = false; } }
   // sitting to rest (Combat.sit): double regen, never in a fight; any blow or swing stands up
   sit(id, on) { const s = this.list.get(id); if (s) s.c.sitting = !!on && s.c.alive && !this.fighting(id); }
   fighting(id) { const s = this.list.get(id); return !!s && this.now() - s.fightAt < RULES.combatTimeout; }
@@ -106,7 +106,7 @@ export class Combatants {
     for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
   }
   fall(id) {
-    const s = this.list.get(id); if (!s) return;
+    const s = this.list.get(id); if (!s || s.tradeBusy) return;
     s.c.fall(); if (s.persist) s.dirty = true;
     for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
   }
@@ -156,7 +156,7 @@ export class Combatants {
   // ---- signed-in characters ------------------------------------------------------------------
   // `at`: where the player is ({ map, x, z }, server/presence.js)
   op(id, msg, at = {}) {
-    const s = this.list.get(id); if (!s?.persist) return false;
+    const s = this.list.get(id); if (!s?.persist || s.tradeBusy) return false;
     s.ack++;
     // shops: next to an NPC of that shop (src/data/shopSites.js), and not in the middle of a fight
     const atShop = shop => nearShop(shop, at.map, at.x, at.z) && this.now() - s.fightAt >= RULES.combatTimeout;
@@ -191,6 +191,10 @@ export class Combatants {
   }
   reward(id, k) {
     const s = this.list.get(id); if (!s?.persist) return {};
+    if (s.tradeBusy) { (s.tradeRewards ??= []).push({ id, k }); return { deferred: true }; }
+    return this.rewardState(s, id, k);
+  }
+  rewardState(s, id, k) {
     const c = s.c, before = c.level;
     const receipt = this.bossCardRewards.get(k);
     if (receipt && receipt.to === id && k.to === id && k.id === receipt.id && k.type === receipt.type) {
@@ -213,7 +217,7 @@ export class Combatants {
   }
   // A monster's swing at a signed-in player, with the browser's formula (Combat.monsterAttack).
   swing(id, def, power = 1, { skill = false } = {}) {
-    const s = this.list.get(id); if (!s?.persist || !def) return null;
+    const s = this.list.get(id); if (!s?.persist || !def || s.tradeBusy) return null;
     const c = s.c; if (!c.alive) return null;
     if (s.god) return { dodge: true, hp: c.hp };   // /gm god (server/gm.js)
     s.fightAt = this.now(); c.sitting = false;
@@ -306,7 +310,7 @@ export class Combatants {
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
   // back where they lie. → what happened ({ heal, revived }) or null.
   aid(id, sup) {
-    const s = this.list.get(id); if (!s) return null;
+    const s = this.list.get(id); if (!s || s.tradeBusy) return null;
     const c = s.c;
     let revived = false;
     if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); revived = true; }
@@ -378,6 +382,7 @@ export class Combatants {
 
   // a landed (or missed) skill blow, then the skill's effects on that monster once per cast
   strike(world, players, m, id, r, cast, night, cardContext = {}) {
+    if (this.list.get(id)?.tradeBusy) return [];
     const n = cast.struck.get(m.id) ?? 0;
     if (n >= cast.perTarget) return [];   // this cast has struck that monster as often as the skill allows
     cast.struck.set(m.id, n + 1);
@@ -415,6 +420,7 @@ export class Combatants {
   // Clients supply a target only, never damage or attacker stats.
   pvpBasic(attacker, target, { knockout = false } = {}) {
     const a = this.list.get(attacker), b = this.list.get(target);
+    if (a?.tradeBusy || b?.tradeBusy) return null;
     if (!a?.persist || !b?.persist || !a.c.alive || !b.c.alive) return null;
     const c = a.c, t = b.c, basic = LEGACY[c.cls.skills.find(k => LEGACY[k]?.basic)];
     if (!basic || !this.spend(a.basic, this.now(), c.cls.attackSpeed * (1 - c.attackSpeed))) return null;
@@ -438,6 +444,7 @@ export class Combatants {
   tick(dt, night, players = null, canAid = () => true) {
     const now = this.now();
     for (const s of this.list.values()) {
+      if (s.tradeBusy) continue;
       s.c.night = night;
       if (s.persist) { const hp=s.c.hp,mp=s.c.mp; s.c.tick(dt, now - s.fightAt < RULES.combatTimeout); if(s.c.hp!==hp||s.c.mp!==mp)s.dirty=true; }
       else if (s.c.buffs.length) s.c.buffs = s.c.buffs.filter(b => (b.remaining -= dt) > 0);
@@ -445,6 +452,7 @@ export class Combatants {
     const positions = new Map((players ?? []).map(p => [p.id, p])), events = [];
     for (const [source, active] of this.tethers) {
       const from = this.list.get(source), to = this.list.get(active.target);
+      if (from?.tradeBusy || to?.tradeBusy) continue;
       const p = positions.get(source), q = positions.get(active.target);
       const self = source === active.target;
       const noPositions = players === null && self;

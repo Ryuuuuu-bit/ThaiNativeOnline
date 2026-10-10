@@ -15,6 +15,24 @@ export class SaveQueue {
     job.result = result; q.jobs.push(job);
     this.pump(key, q); return result;
   }
+  runMany(keys, write) {
+    keys = [...new Set(keys)].sort();
+    let release;
+    const held = new Promise(resolve => { release = resolve; });
+    const arrived = keys.map(key => {
+      let ready;
+      const atHead = new Promise(resolve => { ready = resolve; });
+      this.run(key, () => { ready(); return held; });
+      return atHead;
+    });
+    // Reserve all slots synchronously. Retry only the shared operation while
+    // keeping the barriers held; no later snapshot can overwrite its commit.
+    const result = this.run(Symbol('transaction'), async () => {
+      await Promise.all(arrived);
+      return write();
+    });
+    return result.then(value => { release(); return value; });
+  }
   async pump(key, q) {
     if (q.running || q.timer || !q.jobs.length) return;
     q.running = true;
