@@ -52,7 +52,7 @@ export class HUD {
       if (d.warpService) services.push(`<b>ศาลาพักทาง</b> เดินทางไปจุดสำคัญในเมืองและแผนที่ผจญภัย<br><span>บริการฟรี · เปิดตลอดวัน${d.storageService ? ' · คลังร่วม 120 ช่องสำหรับทุกตัวละครในบัญชี' : ''}</span>`);
     if (d.shopType && SHOPS[d.shopType]) { const s = SHOPS[d.shopType]; services.push(`<b>${s.title}</b> ${s.services.join(' · ')}<br><span>สินค้าตัวอย่าง: ${s.preview.join(', ')}</span>`); }
     if (d.trainer && TRAINERS[d.trainer]) { const t = TRAINERS[d.trainer]; services.push(`<b>${t.title}</b> สายอาชีพ ${t.class}<br><span>วิชา: ${t.skills.join(', ')}</span>`); }
-    if (d.faction === 'city_guard') services.push('<b>ทหารอโยธยา</b> ผู้รักษาความสงบ<br><span>อนาคต: ตอบสนองต่อค่ากรรม (Karma) ของผู้เล่น</span>');
+    if (d.faction === 'city_guard') services.push('<b>ทหารนครที่ถูกลืมเลือน</b> ผู้รักษาความสงบ<br><span>อนาคต: ตอบสนองต่อค่ากรรม (Karma) ของผู้เล่น</span>');
       $('dlg-services').innerHTML = services.map(s => `<div class="service">${s}</div>`).join('');
     $('dialogue').hidden = false;
   }

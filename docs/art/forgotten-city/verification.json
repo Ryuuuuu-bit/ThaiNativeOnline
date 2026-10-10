@@ -1,0 +1,995 @@
+{
+  "passed": true,
+  "name": "นครที่ถูกลืมเลือน",
+  "checks": [
+    "city data and HUD labels 1366x768",
+    "atlas city header 1366x768",
+    "real loading title 1366x768",
+    "city data and HUD labels 390x844",
+    "atlas city header 390x844",
+    "real loading title 390x844"
+  ],
+  "failures": [],
+  "bounds": [
+    {
+      "label": "location 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "#region-name",
+      "container": ".location",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 553,
+        "y": 60,
+        "width": 260,
+        "height": 50
+      },
+      "host": {
+        "x": 553,
+        "y": 28,
+        "width": 260,
+        "height": 114
+      },
+      "textRects": [
+        {
+          "x": 572.3125,
+          "y": 60,
+          "width": 221.359375,
+          "height": 50
+        }
+      ],
+      "clientWidth": 260,
+      "scrollWidth": 260,
+      "fontSize": "29px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 260,
+      "hostScrollWidth": 260
+    },
+    {
+      "label": "mini title 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "#mini-name",
+      "container": ".mini-title",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 1147.359375,
+        "y": 33,
+        "width": 107.28125,
+        "height": 24
+      },
+      "host": {
+        "x": 1116,
+        "y": 33,
+        "width": 216,
+        "height": 36.640625
+      },
+      "textRects": [
+        {
+          "x": 1147.359375,
+          "y": 33,
+          "width": 107.28125,
+          "height": 24
+        }
+      ],
+      "clientWidth": 107,
+      "scrollWidth": 107,
+      "fontSize": "14px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 216,
+      "hostScrollWidth": 216
+    },
+    {
+      "label": "mini channel 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "#mini-ch",
+      "container": ".mini-title",
+      "text": "CH 1",
+      "box": {
+        "x": 1260.640625,
+        "y": 36,
+        "width": 39.984375,
+        "height": 18
+      },
+      "host": {
+        "x": 1116,
+        "y": 33,
+        "width": 216,
+        "height": 36.640625
+      },
+      "textRects": [
+        {
+          "x": 1268.640625,
+          "y": 37,
+          "width": 23.984375,
+          "height": 16
+        }
+      ],
+      "clientWidth": 38,
+      "scrollWidth": 38,
+      "fontSize": "10px",
+      "whiteSpace": "nowrap",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 216,
+      "hostScrollWidth": 216
+    },
+    {
+      "label": "atlas panel 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "#fullmap-panel",
+      "container": "#fullmap-panel",
+      "text": "บันทึกเส้นทาง · นครที่ถูกลืมเลือนนครที่ถูกลืมเลือนเมืองปลอดภัย · ร้านค้าและสำนักครู×\n        ทั้งหมดร้านค้าครูเดินทางจุดล่าถิ่นบอสสถานที่0 จุดบนแผนที่\n        \n          \n            ใจกลางเมืองทั้งแผนที่◎−+\n          \n          สถานที่เส้นทางโลก\n            ค้นหาสถานที่\n            ไม่พบสถานที่ · ลองคำค้นหรือหมวดอื่นนครที่ถูกลืมเลือนคุณอยู่ที่นี่ทุ่งนาข้าวLv 1–5ป่าลึกLv 3–9วัดร้างLv 5–14เรือนหอร้างLv 12–12คลองหนองบึงLv 15–22ป่าช้าไผ่ดำLv 23–30เหมืองอาคมร้างLv 30–40นครบาดาลLv 40–50ป้อมอสูรสนธยาLv 50–60หุบเขายักษ์Lv 60–70ป่าหิมพานต์Lv 70–80นครอาคมล่มสลายLv 80–90ประตูรอยแยกอสูรLv 90–100\n            ×เดินไปที่นี่ ↗\n          \n        \n        ลากเพื่อเลื่อน · เลือกสถานที่แล้วกดเดินไปสัญลักษณ์",
+      "box": {
+        "x": 123,
+        "y": 26.875,
+        "width": 1120,
+        "height": 714.25
+      },
+      "host": {
+        "x": 123,
+        "y": 26.875,
+        "width": 1120,
+        "height": 714.25
+      },
+      "textRects": [
+        {
+          "x": 123,
+          "y": 26.875,
+          "width": 1120,
+          "height": 121
+        },
+        {
+          "x": 588.640625,
+          "y": 46.875,
+          "width": 188.71875,
+          "height": 16
+        },
+        {
+          "x": 588.640625,
+          "y": 61.875,
+          "width": 174.734375,
+          "height": 43
+        },
+        {
+          "x": 588.640625,
+          "y": 107.875,
+          "width": 184.765625,
+          "height": 19
+        },
+        {
+          "x": 1197.984375,
+          "y": 54.875,
+          "width": 14.015625,
+          "height": 27
+        },
+        {
+          "x": 123,
+          "y": 147.875,
+          "width": 1120,
+          "height": 59
+        },
+        {
+          "x": 160,
+          "y": 167.375,
+          "width": 41.734375,
+          "height": 19
+        },
+        {
+          "x": 237.734375,
+          "y": 167.375,
+          "width": 35.46875,
+          "height": 19
+        },
+        {
+          "x": 309.203125,
+          "y": 167.375,
+          "width": 15.125,
+          "height": 19
+        },
+        {
+          "x": 360.328125,
+          "y": 167.375,
+          "width": 41.40625,
+          "height": 19
+        },
+        {
+          "x": 437.734375,
+          "y": 167.375,
+          "width": 29.28125,
+          "height": 19
+        },
+        {
+          "x": 503.015625,
+          "y": 167.375,
+          "width": 39.71875,
+          "height": 19
+        },
+        {
+          "x": 578.734375,
+          "y": 167.375,
+          "width": 38.015625,
+          "height": 19
+        },
+        {
+          "x": 1152.21875,
+          "y": 167.875,
+          "width": 68.78125,
+          "height": 18
+        },
+        {
+          "x": 123,
+          "y": 206.875,
+          "width": 1120,
+          "height": 494.25
+        },
+        {
+          "x": 421.90625,
+          "y": 655.125,
+          "width": 60.65625,
+          "height": 18
+        },
+        {
+          "x": 501.5625,
+          "y": 655.125,
+          "width": 43.53125,
+          "height": 18
+        },
+        {
+          "x": 564.734375,
+          "y": 653.125,
+          "width": 16.71875,
+          "height": 22
+        },
+        {
+          "x": 604.25,
+          "y": 653.125,
+          "width": 11.6875,
+          "height": 22
+        },
+        {
+          "x": 641.25,
+          "y": 653.125,
+          "width": 11.6875,
+          "height": 22
+        },
+        {
+          "x": 1001.90625,
+          "y": 228.875,
+          "width": 41.171875,
+          "height": 22
+        },
+        {
+          "x": 1128.71875,
+          "y": 228.875,
+          "width": 65.546875,
+          "height": 22
+        },
+        {
+          "x": 955,
+          "y": 270.875,
+          "width": 57.578125,
+          "height": 16
+        },
+        {
+          "x": 967,
+          "y": 368.875,
+          "width": 199.40625,
+          "height": 19
+        },
+        {
+          "x": 123,
+          "y": 701.125,
+          "width": 1120,
+          "height": 40
+        },
+        {
+          "x": 145,
+          "y": 713.125,
+          "width": 178.671875,
+          "height": 16
+        },
+        {
+          "x": 1175.28125,
+          "y": 713.125,
+          "width": 45.71875,
+          "height": 16
+        }
+      ],
+      "clientWidth": 1120,
+      "scrollWidth": 1120,
+      "fontSize": "16px",
+      "whiteSpace": "normal",
+      "overflow": "hidden",
+      "textOverflow": "clip",
+      "hostClientWidth": 1120,
+      "hostScrollWidth": 1120
+    },
+    {
+      "label": "atlas title 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "#map-title",
+      "container": ".atlas-heading",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 588.640625,
+        "y": 65.875,
+        "width": 188.71875,
+        "height": 35
+      },
+      "host": {
+        "x": 123,
+        "y": 26.875,
+        "width": 1120,
+        "height": 121
+      },
+      "textRects": [
+        {
+          "x": 588.640625,
+          "y": 61.875,
+          "width": 174.734375,
+          "height": 43
+        }
+      ],
+      "clientWidth": 189,
+      "scrollWidth": 189,
+      "fontSize": "25px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 1120,
+      "hostScrollWidth": 1120
+    },
+    {
+      "label": "atlas close 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "#fullmap-close",
+      "container": ".atlas-heading",
+      "text": "×",
+      "box": {
+        "x": 1187,
+        "y": 50.875,
+        "width": 36,
+        "height": 36
+      },
+      "host": {
+        "x": 123,
+        "y": 26.875,
+        "width": 1120,
+        "height": 121
+      },
+      "textRects": [
+        {
+          "x": 1197.984375,
+          "y": 54.875,
+          "width": 14.015625,
+          "height": 27
+        }
+      ],
+      "clientWidth": 34,
+      "scrollWidth": 34,
+      "fontSize": "24px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 1120,
+      "hostScrollWidth": 1120
+    },
+    {
+      "label": "loading title 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": "[data-loading-title]",
+      "container": ".tno-loading-content",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 560.5,
+        "y": 379,
+        "width": 244.984375,
+        "height": 54
+      },
+      "host": {
+        "x": 403,
+        "y": 186,
+        "width": 560,
+        "height": 396
+      },
+      "textRects": [
+        {
+          "x": 560.5,
+          "y": 375,
+          "width": 244.984375,
+          "height": 62
+        }
+      ],
+      "clientWidth": 245,
+      "scrollWidth": 245,
+      "fontSize": "36px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 560,
+      "hostScrollWidth": 560
+    },
+    {
+      "label": "loading content 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "selector": ".tno-loading-content",
+      "container": "#loading",
+      "text": "THAI NATIVEONLINEA NEW CHAPTER AWAITSนครที่ถูกลืมเลือนกำลังเปิดประตูสู่ราชธานี…ทุกการเดินทาง เริ่มต้นด้วยก้าวแรก",
+      "box": {
+        "x": 403,
+        "y": 186,
+        "width": 560,
+        "height": 396
+      },
+      "host": {
+        "x": 0,
+        "y": 0,
+        "width": 1366,
+        "height": 768
+      },
+      "textRects": [
+        {
+          "x": 533.71875,
+          "y": 234,
+          "width": 298.546875,
+          "height": 84
+        },
+        {
+          "x": 623.71875,
+          "y": 248.796875,
+          "width": 208.546875,
+          "height": 31
+        },
+        {
+          "x": 692.515625,
+          "y": 289.1875,
+          "width": 70.9375,
+          "height": 14
+        },
+        {
+          "x": 586.8125,
+          "y": 352,
+          "width": 192.359375,
+          "height": 15
+        },
+        {
+          "x": 586.8125,
+          "y": 352,
+          "width": 192.359375,
+          "height": 14
+        },
+        {
+          "x": 560.5,
+          "y": 379,
+          "width": 244.984375,
+          "height": 54
+        },
+        {
+          "x": 560.5,
+          "y": 375,
+          "width": 244.984375,
+          "height": 62
+        },
+        {
+          "x": 614.203125,
+          "y": 439,
+          "width": 137.59375,
+          "height": 22
+        },
+        {
+          "x": 614.203125,
+          "y": 440,
+          "width": 137.59375,
+          "height": 19
+        },
+        {
+          "x": 573,
+          "y": 487,
+          "width": 220,
+          "height": 3
+        },
+        {
+          "x": 594.796875,
+          "y": 518,
+          "width": 176.40625,
+          "height": 16
+        },
+        {
+          "x": 594.796875,
+          "y": 518,
+          "width": 176.40625,
+          "height": 16
+        }
+      ],
+      "clientWidth": 560,
+      "scrollWidth": 560,
+      "fontSize": "16px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 1366,
+      "hostScrollWidth": 1383
+    },
+    {
+      "label": "location 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "#region-name",
+      "container": ".location",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 234,
+        "y": 124,
+        "width": 101.671875,
+        "height": 20.796875
+      },
+      "host": {
+        "x": 234,
+        "y": 124,
+        "width": 101.671875,
+        "height": 29.796875
+      },
+      "textRects": [
+        {
+          "x": 244,
+          "y": 124,
+          "width": 81.671875,
+          "height": 20
+        }
+      ],
+      "clientWidth": 102,
+      "scrollWidth": 102,
+      "fontSize": "12px",
+      "whiteSpace": "nowrap",
+      "overflow": "hidden",
+      "textOverflow": "ellipsis",
+      "hostClientWidth": 102,
+      "hostScrollWidth": 102
+    },
+    {
+      "label": "atlas panel 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "#fullmap-panel",
+      "container": "#fullmap-panel",
+      "text": "บันทึกเส้นทาง · นครที่ถูกลืมเลือนนครที่ถูกลืมเลือนเมืองปลอดภัย · ร้านค้าและสำนักครู×\n        ทั้งหมดร้านค้าครูเดินทางจุดล่าถิ่นบอสสถานที่0 จุดบนแผนที่\n        \n          \n            ใจกลางเมืองทั้งแผนที่◎−+\n          \n          สถานที่เส้นทางโลก\n            ค้นหาสถานที่\n            ไม่พบสถานที่ · ลองคำค้นหรือหมวดอื่นนครที่ถูกลืมเลือนคุณอยู่ที่นี่ทุ่งนาข้าวLv 1–5ป่าลึกLv 3–9วัดร้างLv 5–14เรือนหอร้างLv 12–12คลองหนองบึงLv 15–22ป่าช้าไผ่ดำLv 23–30เหมืองอาคมร้างLv 30–40นครบาดาลLv 40–50ป้อมอสูรสนธยาLv 50–60หุบเขายักษ์Lv 60–70ป่าหิมพานต์Lv 70–80นครอาคมล่มสลายLv 80–90ประตูรอยแยกอสูรLv 90–100\n            ×เดินไปที่นี่ ↗\n          \n        \n        ลากเพื่อเลื่อน · เลือกสถานที่แล้วกดเดินไปสัญลักษณ์",
+      "box": {
+        "x": 6,
+        "y": 6,
+        "width": 378,
+        "height": 832
+      },
+      "host": {
+        "x": 6,
+        "y": 6,
+        "width": 378,
+        "height": 832
+      },
+      "textRects": [
+        {
+          "x": 6,
+          "y": 6,
+          "width": 378,
+          "height": 100
+        },
+        {
+          "x": 100.640625,
+          "y": 18,
+          "width": 188.71875,
+          "height": 16
+        },
+        {
+          "x": 100.640625,
+          "y": 33,
+          "width": 139.78125,
+          "height": 35
+        },
+        {
+          "x": 100.640625,
+          "y": 74,
+          "width": 153.96875,
+          "height": 16
+        },
+        {
+          "x": 340.984375,
+          "y": 28,
+          "width": 14.015625,
+          "height": 27
+        },
+        {
+          "x": 6,
+          "y": 106,
+          "width": 378,
+          "height": 81
+        },
+        {
+          "x": 28,
+          "y": 128,
+          "width": 34.78125,
+          "height": 16
+        },
+        {
+          "x": 90.78125,
+          "y": 128,
+          "width": 29.5625,
+          "height": 16
+        },
+        {
+          "x": 148.34375,
+          "y": 128,
+          "width": 12.609375,
+          "height": 16
+        },
+        {
+          "x": 188.953125,
+          "y": 128,
+          "width": 34.5,
+          "height": 16
+        },
+        {
+          "x": 251.453125,
+          "y": 128,
+          "width": 24.40625,
+          "height": 16
+        },
+        {
+          "x": 303.859375,
+          "y": 128,
+          "width": 33.09375,
+          "height": 16
+        },
+        {
+          "x": 364.953125,
+          "y": 128,
+          "width": 31.671875,
+          "height": 16
+        },
+        {
+          "x": 20,
+          "y": 162,
+          "width": 62.53125,
+          "height": 16
+        },
+        {
+          "x": 6,
+          "y": 187,
+          "width": 378,
+          "height": 621
+        },
+        {
+          "x": 75.6484375,
+          "y": 527.125,
+          "width": 55.140625,
+          "height": 16
+        },
+        {
+          "x": 145.7890625,
+          "y": 527.125,
+          "width": 39.5625,
+          "height": 16
+        },
+        {
+          "x": 205.9921875,
+          "y": 524.125,
+          "width": 16.71875,
+          "height": 22
+        },
+        {
+          "x": 251.5078125,
+          "y": 524.125,
+          "width": 11.6875,
+          "height": 22
+        },
+        {
+          "x": 294.5078125,
+          "y": 524.125,
+          "width": 11.6875,
+          "height": 22
+        },
+        {
+          "x": 86.078125,
+          "y": 590.125,
+          "width": 34.84375,
+          "height": 18
+        },
+        {
+          "x": 258.765625,
+          "y": 590.125,
+          "width": 55.453125,
+          "height": 18
+        },
+        {
+          "x": 26,
+          "y": 692.125,
+          "width": 199.40625,
+          "height": 19
+        },
+        {
+          "x": 6,
+          "y": 808,
+          "width": 378,
+          "height": 30
+        },
+        {
+          "x": 18,
+          "y": 815,
+          "width": 178.671875,
+          "height": 16
+        },
+        {
+          "x": 326.28125,
+          "y": 815,
+          "width": 45.71875,
+          "height": 16
+        }
+      ],
+      "clientWidth": 378,
+      "scrollWidth": 378,
+      "fontSize": "16px",
+      "whiteSpace": "normal",
+      "overflow": "hidden",
+      "textOverflow": "clip",
+      "hostClientWidth": 378,
+      "hostScrollWidth": 378
+    },
+    {
+      "label": "atlas title 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "#map-title",
+      "container": ".atlas-heading",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 100.640625,
+        "y": 37,
+        "width": 188.71875,
+        "height": 28
+      },
+      "host": {
+        "x": 6,
+        "y": 6,
+        "width": 378,
+        "height": 100
+      },
+      "textRects": [
+        {
+          "x": 100.640625,
+          "y": 33,
+          "width": 139.78125,
+          "height": 35
+        }
+      ],
+      "clientWidth": 189,
+      "scrollWidth": 189,
+      "fontSize": "20px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 378,
+      "hostScrollWidth": 378
+    },
+    {
+      "label": "atlas close 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "#fullmap-close",
+      "container": ".atlas-heading",
+      "text": "×",
+      "box": {
+        "x": 326,
+        "y": 20,
+        "width": 44,
+        "height": 44
+      },
+      "host": {
+        "x": 6,
+        "y": 6,
+        "width": 378,
+        "height": 100
+      },
+      "textRects": [
+        {
+          "x": 340.984375,
+          "y": 28,
+          "width": 14.015625,
+          "height": 27
+        }
+      ],
+      "clientWidth": 42,
+      "scrollWidth": 42,
+      "fontSize": "24px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 378,
+      "hostScrollWidth": 378
+    },
+    {
+      "label": "loading title 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": "[data-loading-title]",
+      "container": ".tno-loading-content",
+      "text": "นครที่ถูกลืมเลือน",
+      "box": {
+        "x": 106.53125,
+        "y": 413.5,
+        "width": 176.9375,
+        "height": 39
+      },
+      "host": {
+        "x": 20,
+        "y": 252.5,
+        "width": 350,
+        "height": 339
+      },
+      "textRects": [
+        {
+          "x": 106.53125,
+          "y": 410.5,
+          "width": 176.9375,
+          "height": 45
+        }
+      ],
+      "clientWidth": 177,
+      "scrollWidth": 177,
+      "fontSize": "26px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 350,
+      "hostScrollWidth": 350
+    },
+    {
+      "label": "loading content 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "selector": ".tno-loading-content",
+      "container": "#loading",
+      "text": "THAI NATIVEONLINEA NEW CHAPTER AWAITSนครที่ถูกลืมเลือนกำลังเปิดประตูสู่ราชธานี…ทุกการเดินทาง เริ่มต้นด้วยก้าวแรก",
+      "box": {
+        "x": 20,
+        "y": 252.5,
+        "width": 350,
+        "height": 339
+      },
+      "host": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844
+      },
+      "textRects": [
+        {
+          "x": 80.96875,
+          "y": 290.5,
+          "width": 228.046875,
+          "height": 62
+        },
+        {
+          "x": 143.96875,
+          "y": 298.296875,
+          "width": 165.046875,
+          "height": 25
+        },
+        {
+          "x": 194.015625,
+          "y": 330.6875,
+          "width": 64.9375,
+          "height": 14
+        },
+        {
+          "x": 98.8125,
+          "y": 386.5,
+          "width": 192.359375,
+          "height": 15
+        },
+        {
+          "x": 98.8125,
+          "y": 386.5,
+          "width": 192.359375,
+          "height": 14
+        },
+        {
+          "x": 106.53125,
+          "y": 413.5,
+          "width": 176.9375,
+          "height": 39
+        },
+        {
+          "x": 106.53125,
+          "y": 410.5,
+          "width": 176.9375,
+          "height": 45
+        },
+        {
+          "x": 126.203125,
+          "y": 458.5,
+          "width": 137.59375,
+          "height": 22
+        },
+        {
+          "x": 126.203125,
+          "y": 459.5,
+          "width": 137.59375,
+          "height": 19
+        },
+        {
+          "x": 85,
+          "y": 506.5,
+          "width": 220,
+          "height": 3
+        },
+        {
+          "x": 106.796875,
+          "y": 537.5,
+          "width": 176.40625,
+          "height": 16
+        },
+        {
+          "x": 106.796875,
+          "y": 537.5,
+          "width": 176.40625,
+          "height": 16
+        }
+      ],
+      "clientWidth": 350,
+      "scrollWidth": 350,
+      "fontSize": "16px",
+      "whiteSpace": "normal",
+      "overflow": "visible",
+      "textOverflow": "clip",
+      "hostClientWidth": 390,
+      "hostScrollWidth": 395
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "docs/art/forgotten-city/hud-1366x768.png",
+    "docs/art/forgotten-city/atlas-1366x768.png",
+    "docs/art/forgotten-city/loading-1366x768.png",
+    "docs/art/forgotten-city/hud-390x844.png",
+    "docs/art/forgotten-city/atlas-390x844.png",
+    "docs/art/forgotten-city/loading-390x844.png"
+  ],
+  "scope": "real index, HUD.setRegion, WorldMapPanel.setMap, MAPS.city, loadingMarkup; no renderer, accounts or game loop"
+}

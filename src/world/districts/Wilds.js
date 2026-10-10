@@ -90,7 +90,7 @@ export function buildWilds(ctx) {
   veg.deadTree(-31, h(-31, -481), -481, { s: 1.2 });
   ctx.spot('shrine_front', -35.4, -475.6, -Math.PI * .65, 'as2');
 
-  // สุสานเก่าแห่งอโยธยา: broken perimeter wall, graves, reliquary stupas and a ruined ordination hall.
+  // สุสานเก่าแห่งนครที่ถูกลืมเลือน: broken perimeter wall, graves, reliquary stupas and a ruined ordination hall.
   const C = CEMETERY, graves = structure(null), step = Math.PI * 2 / 40;
   // Roads added later for a site (the วัดร้าง approach, CityMap `site`) break
   // through the wall and clear graves off their line. They draw exactly the same

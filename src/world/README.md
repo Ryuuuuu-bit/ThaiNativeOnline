@@ -15,7 +15,7 @@ path exits on the trail. Layout, purposes and level bands:
 
 | id | Name | Band (`owns`) | Walk | Theme | Levels | Contains |
 | --- | --- | --- | --- | --- | --- | --- |
-| `city` | นครอโยธยา | z ≥ -112 | x ±122, z -108.5 … 266 | `city` | — | River and port, market, shops, temple, residential streets, the class training halls (ย่านสำนักครู), the closed north gate with the warp in its passage. Safe zone, no monsters |
+| `city` | นครที่ถูกลืมเลือน | z ≥ -112 | x ±122, z -108.5 … 266 | `city` | — | River and port, market, shops, temple, residential streets, the class training halls (ย่านสำนักครู), the closed north gate with the warp in its passage. Safe zone, no monsters |
 | `paddy` | ทุ่งนาข้าว | -296 ≤ z < -112 | x ±122, z -293 … -113.5 | `paddy` | 1-3 | Rice fields, farmers' village (ยายเพียร's shop), orchards, grassland, the banyan |
 | `deep_forest` | ป่าลึก | -445 ≤ z < -296 | x ±122, z -442 … -298.5 | `forest` | 2-5 | Forest gate, dense forest and the ruined chedi, the stream and log bridge, the deep forest beyond it |
 | `wat_rang` | วัดร้าง | z < -445 | x ±122, z -592 … -447 | `wat` | 4-7 | Woods around the ruins, the abandoned shrine, the old cemetery, the reserved temple site (`src/data/sites.js`) |

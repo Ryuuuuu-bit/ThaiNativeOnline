@@ -1,6 +1,6 @@
 import { EXPEDITIONS } from '../world/expeditions.js';
 import { WARP_NPCS } from './warpServices.js';
-// NPC roster for นครอโยธยา and the zone maps outside the wall. Each entry is pure data:
+// NPC roster for นครที่ถูกลืมเลือน and the zone maps outside the wall. Each entry is pure data:
 //   id, name, occupation, gender, home, interactionRadius, dialogue, shopType / trainer,
 //   map (optional: which map of src/world/maps.js the NPC lives on; otherwise
 //   inferred from `home.near` or the first road junction in the schedule),
@@ -59,7 +59,7 @@ export const NPCS = [
     dialogue: ['แม่น้ำสายนี้เลี้ยงคนทั้งเมืองมาตั้งแต่ยายยังเด็ก', 'ลมเย็นจากน้ำช่วยให้หายเหนื่อย'],
     schedule: { morning: sit('bank_seat'), day: carry(stop('fishE_b0', 'talk', 'talk', [8, 12]), 'fishmkt', 'port_c', stop('bank_seat', 'sit', 'rest', [30, 50])), evening: sit('bank_seat'), night: HOME } },
   { id: 'guard_port', name: 'หมื่นท่า', occupation: 'guard', home: { near: 'port_w2' }, faction: 'city_guard',
-    dialogue: ['ท่าเรือหลวงอยู่ในความดูแลของทหารอโยธยา', 'อย่าก่อเรื่องในเขตท่าเรือเชียว'],
+    dialogue: ['ท่าเรือหลวงอยู่ในความดูแลของทหารนครที่ถูกลืมเลือน', 'อย่าก่อเรื่องในเขตท่าเรือเชียว'],
     schedule: { morning: route(stop('port_w2', 'idle', 'guard', [6, 10]), 'port_w', 'port_c', stop('port_e', 'idle', 'guard', [4, 8]), 'port_e2', 'port_e', 'port_c', 'port_w'), day: route(stop('port_w2', 'idle', 'guard', [6, 10]), 'port_w', 'port_c', stop('port_e', 'idle', 'guard', [4, 8]), 'port_e2', 'port_e', 'port_c', 'port_w'), evening: guard(P(-2, 146, Math.PI, 'port_c')), night: route(stop('port_w2', 'idle', 'guard', [8, 12]), 'port_w', 'port_c', 'port_e', 'port_e2', 'port_e', 'port_c', 'port_w') } },
   { id: 'fish_vendor_w', name: 'แม่ค้าปลาบุญมา', occupation: 'merchant', gender: 'f', home: { near: 'sw_b' }, shopType: 'fish',
     dialogue: ['ปลาสดจากแม่น้ำเช้านี้! ปลาช่อนตัวโต ๆ', 'ถ้าตกปลาได้เยอะ เอามาขายป้าได้นะ'],
@@ -161,7 +161,7 @@ export const NPCS = [
     dialogue: ['ศาลหลักเมืองคือหัวใจของนคร', 'ข้าเฝ้าที่นี่มาแล้วเจ็ดปี'],
     schedule: { morning: guard(P(4.5, -27, Math.PI / 2, 'center')), day: guard(P(4.5, -27, Math.PI / 2, 'center')), evening: guard(P(4.5, -27, Math.PI / 2, 'center')), night: route(stop('center', 'idle', 'guard', [10, 14]), 'rw1', 'rw2', 'rw3', 'rw2', 'rw1') } },
   { id: 'pillar_devotee', name: 'ยายสมบุญ', occupation: 'villager', gender: 'f', home: { near: 'rw1' },
-    dialogue: ['ไหว้หลักเมืองทุกเช้า ให้ลูกหลานปลอดภัย', 'เจ้าเป็นคนต่างถิ่นหรือ? ยินดีต้อนรับสู่อโยธยา'],
+    dialogue: ['ไหว้หลักเมืองทุกเช้า ให้ลูกหลานปลอดภัย', 'เจ้าเป็นคนต่างถิ่นหรือ? ยินดีต้อนรับสู่นครที่ถูกลืมเลือน'],
     schedule: { morning: idle('pillar_pray', 'pray'), day: route('center', 'br_n', 'br_s', 'mkt_n', stop('stall_o3_c', 'talk', 'talk', [8, 12]), 'mkt_n', 'br_s', 'br_n', stop('center_bench', 'sit', 'rest', [20, 30])), evening: idle('pillar_pray', 'pray'), night: HOME } },
   { id: 'old_man_bench', name: 'ตาปั้น', occupation: 'villager', home: { near: 'center' },
     dialogue: ['สมัยข้ายังหนุ่ม คลองนี้มีเรือแน่นจนเดินข้ามได้', 'นั่งพักก่อนสิ แดดร้อน'],
@@ -200,7 +200,7 @@ export const NPCS = [
     dialogue: ['มาทำบุญให้ตายายที่ล่วงลับ', 'ไหว้พระเจดีย์ทองแล้วใจสงบ'],
     schedule: { morning: route('rx1', 'ave1', 'tw', 'tg', 't1', stop('temple_pray', 'idle', 'pray', [20, 30]), 'ta', 'tb', 'c_sw', 'cs', 'c_se', 'ce', 'c_ne', 'cn', 'c_nw', 'cw', 'c_sw', 'tb', 'ta', 't1', 'tg', 'tw', 'ave1'), day: idle('temple_pray2', 'pray'), evening: HOME, night: HOME } },
   { id: 'traveler', name: 'ผู้เดินทางพเนจร', occupation: 'traveler', home: 'bodhi_seat', map: 'city',
-    dialogue: ['ข้าเดินทางมาจากหัวเมืองไกล ได้ยินว่าอโยธยางามนัก', 'ใต้ต้นโพธิ์นี้นอนหลับสบายกว่าโรงเตี๊ยม'],
+    dialogue: ['ข้าเดินทางมาจากหัวเมืองไกล ได้ยินว่านครที่ถูกลืมเลือนงามนัก', 'ใต้ต้นโพธิ์นี้นอนหลับสบายกว่าโรงเตี๊ยม'],
     schedule: allDay(sit('bodhi_seat')) },
   { id: 'guard_temple', name: 'ทหารรักษาวัด', occupation: 'guard', home: { near: 'tw' }, faction: 'city_guard',
     dialogue: ['ถอดรองเท้าก่อนเข้าเขตพุทธาวาส', 'ข้ามีหน้าที่ดูแลความสงบของวัด'],
@@ -208,7 +208,7 @@ export const NPCS = [
 
   // ---------- North gate ----------
   { id: 'guard_gate_w', name: 'นายประตูอิน', occupation: 'guard', home: { near: 'gate_in' }, faction: 'city_guard',
-    dialogue: ['บานประตูเหนือปิดตายตามรับสั่ง ผู้ใดจะกลับเข้าเมืองต้องเข้าแสงวาปข้างหลังข้า', 'ผู้ที่มีกรรมหนัก ทหารอโยธยาไม่ปล่อยให้เข้าเมือง', 'ถ้าบาดเจ็บหนัก กลับเข้าเมืองไปพักก่อน ทุ่งนี้ไม่ใช่ที่ของคนประมาท'],
+    dialogue: ['บานประตูเหนือปิดตายตามรับสั่ง ผู้ใดจะกลับเข้าเมืองต้องเข้าแสงวาปข้างหลังข้า', 'ผู้ที่มีกรรมหนัก ทหารนครที่ถูกลืมเลือนไม่ปล่อยให้เข้าเมือง', 'ถ้าบาดเจ็บหนัก กลับเข้าเมืองไปพักก่อน ทุ่งนี้ไม่ใช่ที่ของคนประมาท'],
     schedule: { morning: guard(P(-4, -116, Math.PI, 'gate_out')), day: guard(P(-4, -116, Math.PI, 'gate_out')), evening: guard(P(-4, -116, Math.PI, 'gate_out')), night: guard(P(-4, -116, Math.PI, 'gate_out')) } },
   { id: 'guard_gate_e', name: 'นายประตูจัน', occupation: 'guard', home: { near: 'gate_in' }, faction: 'city_guard',
     dialogue: ['ข้าเฝ้าแสงวาปนอกกำแพงนี้ทั้งวันทั้งคืน หมูป่ากับลิงในสวนผลไม้ยังพอสู้ไหว', 'ยิ่งเดินลึกเข้าป่ายิ่งอันตราย ตกค่ำผีป่าออกจากชายป่า ไกลไปถึงสุสานเก่ามีแต่วิญญาณ', 'เห็นแสงไฟแปลก ๆ ในป่าเหนือเมื่อคืน... อย่าไปคนเดียว'],
