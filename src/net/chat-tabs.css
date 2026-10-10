@@ -127,3 +127,59 @@ body .net-chat.net-chat-tabs.chat-collapsed header {border:1px solid #9b98615c;b
  body .net-chat-tabs .chat-key-hint {font-size:10px;margin-top:4px}
 }
 @media(prefers-reduced-motion:reduce){body .net-chat-tabs .net-lines p {transition:none}}
+
+/* Channel drawer: jade lacquer, warm paper and restrained brass edging. */
+body .net-chat.net-chat-tabs,body.hud-dynamic .net-chat.net-chat-tabs {
+  --chat-log-height:220px;width:480px;opacity:1;
+  background:linear-gradient(135deg,#15342fee,#0b201feb);
+  border-color:#bca47166;box-shadow:0 12px 30px #0006,inset 0 1px #f5e1a614;
+}
+body .net-chat.net-chat-tabs header {
+  background:linear-gradient(110deg,#23483d,#152f2d);border-bottom-color:#bca47155;
+}
+body .net-chat-tabs .chat-fold {margin-left:auto;font-size:22px;color:#dec48b}
+body .net-chat.net-chat-tabs .chat-body {
+  display:grid;grid-template-columns:88px minmax(0,1fr);gap:8px;padding:10px;
+}
+body .net-chat-tabs .chat-tabs {
+  display:flex;flex-direction:column;grid-column:1;grid-row:1;gap:6px;
+}
+body .net-chat-tabs .chat-tabs button {
+  min-height:42px;padding:8px 6px;text-align:left;color:#d7d7bf;
+  border-color:#bea76b33;background:#102a25;box-shadow:none;position:relative;
+}
+body .net-chat-tabs .chat-tabs [aria-selected=true] {
+  color:#f7e5b7;border-color:#c6aa6b99;background:linear-gradient(110deg,#65563577,#29483b);
+  box-shadow:inset 3px 0 #d5b877;
+}
+body .net-chat.net-chat-tabs .net-lines,
+body.hud-dynamic .net-chat.net-chat-tabs:not(.chat-collapsed) .net-lines {
+  grid-column:2;grid-row:1;height:var(--chat-log-height);max-height:var(--chat-log-height);
+  padding:9px 10px;background:#091b19b3;border-color:#b9a57433;
+}
+body .net-chat-tabs .net-lines p.old {opacity:1}
+body .net-chat-tabs .net-lines:not(:has(p:not([hidden])))::after {
+  content:'ยังไม่มีข้อความในช่องนี้';display:block;padding:14px 0;color:#aebdac;font-size:11px;
+}
+body .net-chat-tabs :is(.chat-compose,.chat-feedback,.chat-system-note,.chat-gm-help) {grid-column:1/-1}
+body .net-chat-tabs .chat-gm-help {grid-row:1}
+body .net-chat-tabs .chat-body:has(.chat-gm-help:not([hidden])) :is(.chat-tabs,.net-lines) {grid-row:2}
+body .net-chat-tabs .chat-message {background:#ede1c2;color:#27392e;border-color:#cab88988}
+body .net-chat-tabs .chat-recipient {margin-bottom:6px}
+body .net-chat-tabs .chat-recipient input {margin:0;padding:7px;background:#ede1c2;color:#27392e;border:1px solid #cab88988;border-radius:6px}
+body .net-chat-tabs .chat-send {background:linear-gradient(#496d54,#2c4d3e);border-color:#c4ac7088}
+body .net-chat-tabs .chat-system-note {margin:0;padding:6px 2px;color:#b6c4b2;font-size:10px;line-height:1.5}
+body .net-chat.net-chat-tabs.chat-collapsed,body.hud-dynamic .net-chat.net-chat-tabs.chat-collapsed {width:240px}
+@media(max-height:560px){body .net-chat.net-chat-tabs,body.hud-dynamic .net-chat.net-chat-tabs {--chat-log-height:150px}body .net-chat-tabs .chat-tabs button {min-height:32px;padding:4px 6px}}
+@media(max-width:900px){body .net-chat.net-chat-tabs,body.hud-dynamic .net-chat.net-chat-tabs {width:420px;--chat-log-height:190px}}
+body.ui-touch .net-chat.net-chat-tabs .chat-body {grid-template-columns:74px minmax(0,1fr);padding:7px;gap:6px}
+body.ui-touch .net-chat-tabs .chat-tabs button {min-height:44px;font-size:11px}
+@media(max-height:560px) {
+  body.ui-touch .net-chat.net-chat-tabs.typing {
+    top:max(12px,env(safe-area-inset-top))!important;
+    max-height:calc(100dvh - 24px)!important;--chat-log-height:110px;
+  }
+  body.ui-touch .net-chat.net-chat-tabs .chat-body {
+    max-height:calc(100dvh - 76px);overflow-y:auto;scrollbar-width:thin;
+  }
+}
