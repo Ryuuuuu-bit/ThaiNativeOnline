@@ -65,6 +65,11 @@ eleven UID tests; client/API/HTTP/WS checks passed 4/4. Twelve browser UI cases
 passed with zero JavaScript errors. Component Art approval: Style 8.5/10,
 Readability 8/10, Technical Usability 9/10.
 
+After integrating current main's approved monster models and attack timing
+(PR74), the combined suite passes: 922 tests, 920 passed, zero failed and two
+existing skips (44.23s). The merged production build also passes. UID authority,
+incarnation checks and monster strike timing remain intact; UID UI is unchanged.
+
 ## UI evidence
 
 [Desktop/mobile UID review](../art/uid/review/README.md) contains 12 component/fixture captures, copy feedback checks and explicit browser/device limitations.
