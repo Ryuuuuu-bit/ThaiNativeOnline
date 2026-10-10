@@ -8,6 +8,7 @@ import { reqOf, passivesOf } from './data/skilltree.js';
 import { KIT_PASSIVES, kitPassiveBonus } from '../rules/data/kitpassives.js';
 import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
 import { refinable, refineBonus, refineCost, plusOf } from './data/refine.js';
+import { cleanRoll, rollFields, affixBonus } from './data/affixes.js';
 import { EVOLUTIONS, EVO_LEVEL, evolutionSwitchCost, evoId } from '../rules/data/evolutions.js';
 // Skill timing from gear and DEX: cooldown cut (DEX + `cdr`, ≤ CDR_MAX) and cast speed
 // (DEX + `cast`, ≤ CAST_MAX); `mpCost` makes skills dearer (src/character/data/items.js).
@@ -17,7 +18,7 @@ import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { TITLE_BY_ID, BOSS_TITLES, checkTitles } from '../data/titles.js';
-import { isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
+import { cloneInstance, isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
 import { cleanMasteries, masteryBonus } from './data/masteries.js';
 
 const SAVE_KEY = 'tno.character.v1';
@@ -36,7 +37,7 @@ const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k
 export const STARTER_VERSION = 2;
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, loadouts, hotbar, masteries } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -64,8 +65,9 @@ export class Character extends Emitter {
     // and a plus from ตีบวก (src/character/data/refine.js): only on gear that takes one
     this.inventory = inventory ? inventory.map(s => {
       if (!s) return null;
-      const { cards: held, plus, locked, ...rest } = s, ok = socketCards(s.id, held, ITEMS), p = refinable(ITEMS[s.id]) ? plusOf(plus) : 0;
-      return { ...rest, ...(ok.length ? { cards: ok } : {}), ...(p ? { plus: p } : {}), ...lockFields(s) };
+      const { cards: held, plus, locked, roll, ...rest } = s, ok = socketCards(s.id, held, ITEMS), p = refinable(ITEMS[s.id]) ? plusOf(plus) : 0;
+      const fields = rollFields(s);
+      return { ...rest, ...(fields.roll ? {qty:1} : {}), ...(ok.length ? { cards: ok } : {}), ...(p ? { plus: p } : {}), ...lockFields(s), ...fields };
     }) : Array(INVENTORY_SIZE).fill(null);
     this.equipment = Object.fromEntries(EQUIP_SLOTS.map(s => [s, null]));
     for (const s of EQUIP_SLOTS) { const id = equipment?.[s]; if (id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slotKind(s)) this.equipment[s] = id; }
@@ -75,6 +77,11 @@ export class Character extends Emitter {
     // the plus of the worn gear, per slot
     this.refine = Object.fromEntries(EQUIP_SLOTS.map(s => [s, this.equipment[s] && refinable(ITEMS[this.equipment[s]]) ? plusOf(refine?.[s]) : 0]));
     this.equipmentLocks = cleanEquipmentLocks(this.equipment, equipmentLocks);
+    this.gearRolls = Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(this.equipment[slot], gearRolls?.[slot])]));
+    // A persisted identity denotes exactly one owned item. Corrupt duplicate copies lose their roll.
+    const identities = new Set();
+    for (const slot of EQUIP_SLOTS) { const r = this.gearRolls[slot]; if (r) { if (identities.has(r.iid)) this.gearRolls[slot] = null; else identities.add(r.iid); } }
+    for (const item of this.inventory) if (item?.roll) { if (identities.has(item.roll.iid)) delete item.roll; else identities.add(item.roll.iid); }
     // Retire the saved offhand slot without losing its gear, cards or refinement.
     // A full legacy bag gets one recovery slot, retained through subsequent saves.
     const legacyId = equipment?.offhand;
@@ -97,10 +104,10 @@ export class Character extends Emitter {
       return true;
     };
     this.inventory = this.inventory.map(item => redeem(item) ? null : item);
-    for (const slot of EQUIP_SLOTS) if (redeem(this.wornItem(slot))) { this.equipment[slot] = null; this.cards[slot] = []; this.refine[slot] = 0; this.equipmentLocks[slot] = false; }
+    for (const slot of EQUIP_SLOTS) if (redeem(this.wornItem(slot))) { this.equipment[slot] = null; this.cards[slot] = []; this.refine[slot] = 0; this.equipmentLocks[slot] = false; this.gearRolls[slot] = null; }
     for (const item of returnedCards) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     // a weapon of another class's kind (worn before the kinds existed, or a save edited by hand) goes to the bag
-    if (this.equipment.weapon && !this.canWield(this.equipment.weapon)) { const item = this.wornItem('weapon'); this.equipment.weapon = null; this.cards.weapon = []; this.refine.weapon = 0; this.equipmentLocks.weapon = false; const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
+    if (this.equipment.weapon && !this.canWield(this.equipment.weapon)) { const item = this.wornItem('weapon'); this.equipment.weapon = null; this.cards.weapon = []; this.refine.weapon = 0; this.equipmentLocks.weapon = false; this.gearRolls.weapon = null; const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     this.hotbar = cleanHotbar(this, hotbar);
     this.loadouts = cleanLoadouts(this, loadouts);
     this.masteries = cleanMasteries(this.classId, masteries);
@@ -147,6 +154,7 @@ export class Character extends Emitter {
     for (const [slot, id] of Object.entries(this.equipment)) {
       if (!id) continue;
       total += ITEMS[id].bonus?.[key] || 0;
+      total += affixBonus(id, this.gearRolls[slot])[key] || 0;
       if (this.refine?.[slot]) total += refineBonus(ITEMS[id], this.refine[slot])?.[key] || 0;
       for (const card of this.cards?.[slot] ?? []) total += ITEMS[card].bonus?.[key] || 0;
     }
@@ -424,6 +432,10 @@ export class Character extends Emitter {
   // A whole item instance into the bag: gear keeps its cards and plus (a trade, server/trades.js).
   addInstance(s) {
     const def = ITEMS[s?.id]; if (!def || def.retired) return false;
+    const heldRoll = cleanRoll(s.id, s.roll);
+    if (s.roll && !heldRoll) return false;
+    if (heldRoll && s.qty !== 1) return false;
+    if (heldRoll && (this.inventory.some(item => item?.roll?.iid === heldRoll.iid) || Object.values(this.gearRolls).some(r => r?.iid === heldRoll.iid))) return false;
     if (def.type !== 'equip') {
       if (!isItemLocked(s)) return this.addItem(s.id, s.qty);
       if (!Number.isSafeInteger(s.qty) || s.qty < 1 || this.carryRoom(s.id) < s.qty) return false;
@@ -434,7 +446,7 @@ export class Character extends Emitter {
     }
     const free = this.inventory.indexOf(null);
     if (free < 0 || this.carryRoom(s.id) < 1) return false;
-    this.inventory[free] = { id: s.id, qty: 1, ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}), ...lockFields(s) };
+    this.inventory[free] = { id: s.id, qty: 1, ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}), ...lockFields(s), ...rollFields(s) };
     this.emit('inventory');
     return true;
   }
@@ -480,7 +492,7 @@ export class Character extends Emitter {
     for (const slot of EQUIP_SLOTS) {
       const item = plan.chosen[slot];
       this.equipment[slot] = item?.id ?? null; this.cards[slot] = [...(item?.cards ?? [])];
-      this.refine[slot] = item?.plus ?? 0; this.equipmentLocks[slot] = isItemLocked(item);
+      this.refine[slot] = item?.plus ?? 0; this.equipmentLocks[slot] = isItemLocked(item); this.gearRolls[slot] = cleanRoll(item?.id, item?.roll);
     }
     this.hotbar = plan.hotbar; this.clampVitals();
     this.emit('inventory'); this.emit('skills'); this.emit('change');
@@ -519,7 +531,7 @@ export class Character extends Emitter {
   // the worn item of a slot as a bag item (its cards and plus go with it)
   wornItem(slot) {
     const id = this.equipment[slot]; if (!id) return null;
-    return { id, qty: 1, ...(this.cards[slot]?.length ? { cards: [...this.cards[slot]] } : {}), ...(this.refine?.[slot] ? { plus: this.refine[slot] } : {}), ...(this.equipmentLocks[slot] ? { locked: true } : {}) };
+    return { id, qty: 1, ...(this.cards[slot]?.length ? { cards: [...this.cards[slot]] } : {}), ...(this.refine?.[slot] ? { plus: this.refine[slot] } : {}), ...(this.equipmentLocks[slot] ? { locked: true } : {}), ...rollFields({id,roll:this.gearRolls[slot]}) };
   }
   equip(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
@@ -530,7 +542,7 @@ export class Character extends Emitter {
     const to = def.slot === 'charm' && this.equipment.charm && !this.equipment.charm2 ? 'charm2' : def.slot;
     const previous = this.wornItem(to);
     this.equipment[to] = slot.id; this.cards[to] = [...(slot.cards ?? [])]; this.refine[to] = slot.plus ?? 0;
-    this.equipmentLocks[to] = isItemLocked(slot);
+    this.equipmentLocks[to] = isItemLocked(slot); this.gearRolls[to] = cleanRoll(slot.id, slot.roll);
     this.inventory[index] = previous;
     this.clampVitals();
     this.emit('inventory'); this.emit('change');
@@ -541,7 +553,7 @@ export class Character extends Emitter {
     const free = this.inventory.indexOf(null);
     if (free < 0) { this.emit('inventory-full', id); return false; }
     this.inventory[free] = this.wornItem(slotName); this.equipment[slotName] = null; this.cards[slotName] = []; this.refine[slotName] = 0;
-    this.equipmentLocks[slotName] = false;
+    this.equipmentLocks[slotName] = false; this.gearRolls[slotName] = null;
     this.clampVitals(); this.emit('inventory'); this.emit('change');
     return true;
   }
@@ -554,9 +566,9 @@ export class Character extends Emitter {
     const out = [];
     for (const s of EQUIP_SLOTS) {
       const worn = this.equipment[s];
-      if (worn && !this.isLocked(s) && slotKind(s) === card.slot && free(worn, this.cards[s])) out.push({ worn: true, slot: s, id: worn, cards: this.cards[s] });
+      if (worn && !this.isLocked(s) && slotKind(s) === card.slot && free(worn, this.cards[s])) out.push({ worn: true, slot: s, id: worn, cards: this.cards[s], ...rollFields(this.wornItem(s)) });
     }
-    this.inventory.forEach((s, i) => { if (s && !isItemLocked(s) && ITEMS[s.id]?.type === 'equip' && ITEMS[s.id].slot === card.slot && free(s.id, s.cards)) out.push({ index: i, id: s.id, cards: s.cards ?? [] }); });
+    this.inventory.forEach((s, i) => { if (s && !isItemLocked(s) && ITEMS[s.id]?.type === 'equip' && ITEMS[s.id].slot === card.slot && free(s.id, s.cards)) out.push({ index: i, id: s.id, cards: s.cards ?? [], ...rollFields(s) }); });
     return out;
   }
   // A card into a free slot of a piece of gear, for good (RO style). where: a worn slot ('weapon',
@@ -588,14 +600,14 @@ export class Character extends Emitter {
     if (this.inventory.filter(x => !x).length < need) return fail('bag_full');
     // Plan both possible returns before charging or rolling. addItem may accept
     // only part of a stack, so it cannot guarantee an all-or-nothing card return.
-    const paid = this.inventory.map(x => x && { ...x, ...(x.cards ? { cards: [...x.cards] } : {}) });
+    const paid = this.inventory.map(cloneInstance);
     for (let left = cost.ash; left > 0;) {
       const i = paid.findIndex(x => x?.id === 'ash' && !isItemLocked(x));
       const take = Math.min(left, paid[i].qty); paid[i].qty -= take; left -= take;
       if (!paid[i].qty) paid[i] = null;
     }
     const cards = [...s.cards]; delete paid[index].cards;
-    const returned = paid.map(x => x && { ...x });
+    const returned = paid.map(cloneInstance);
     for (const id of cards) {
       const stack = returned.find(x => x?.id === id && !isItemLocked(x));
       if (stack) stack.qty++;
@@ -619,8 +631,8 @@ export class Character extends Emitter {
   // Gear that can go one step higher: worn ({ worn: true, slot }) and in the bag ({ index }).
   refineTargets() {
     const out = [];
-    for (const s of EQUIP_SLOTS) { const id = this.equipment[s]; if (id && refineCost(ITEMS[id], this.refine[s])) out.push({ worn: true, slot: s, id, plus: this.refine[s], cards: this.cards[s] }); }
-    this.inventory.forEach((s, i) => { if (s && refineCost(ITEMS[s.id], s.plus ?? 0)) out.push({ index: i, id: s.id, plus: s.plus ?? 0, cards: s.cards ?? [] }); });
+    for (const s of EQUIP_SLOTS) { const id = this.equipment[s]; if (id && refineCost(ITEMS[id], this.refine[s])) out.push({ worn: true, slot: s, id, plus: this.refine[s], cards: this.cards[s], ...rollFields(this.wornItem(s)) }); }
+    this.inventory.forEach((s, i) => { if (s && refineCost(ITEMS[s.id], s.plus ?? 0)) out.push({ index: i, id: s.id, plus: s.plus ?? 0, cards: s.cards ?? [], ...rollFields(s) }); });
     return out;
   }
   // One try at the next plus of a worn slot ('weapon', …) or a bag index. Up to +REFINE_SAFE it
@@ -645,7 +657,7 @@ export class Character extends Emitter {
     const up = !cost.risky || roll() < cost.rate;
     if (worn) {
       if (up) this.refine[where] = cost.to;
-      else { this.equipment[where] = null; this.cards[where] = []; this.refine[where] = 0; }
+      else { this.equipment[where] = null; this.cards[where] = []; this.refine[where] = 0; this.gearRolls[where] = null; this.equipmentLocks[where] = false; }
     } else if (up) s.plus = cost.to;
     else this.inventory[where] = null;
     this.clampVitals();
@@ -680,7 +692,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: [...this.hotbar], loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: [...this.hotbar], loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

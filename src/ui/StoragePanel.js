@@ -1,4 +1,6 @@
 import { ITEMS } from '../character/data/items.js';
+import { instanceName, instanceQuality } from '../character/itemPresentation.js';
+import { affixLines } from '../character/data/affixes.js';
 import { STASH_CAPACITY, stashIdentity, cleanStashMove } from '../data/stash.js';
 import { getWarpService } from '../data/warpServices.js';
 import { readSession } from '../account/session.js';
@@ -7,6 +9,7 @@ import './player-guide.css';
 import './storage.css';
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const affixSummary = s => affixLines(s?.id, s?.roll).map(a => `${a.label} T${a.tier}: ${a.key.toUpperCase()} +${a.key === 'crit' ? `${+(a.value * 100).toFixed(2)}%` : a.value}`).join(' · ');
 const WHY = { offline: 'คลังร่วมใช้ได้เมื่อเข้าสู่ระบบด้วยบัญชีและเชื่อมต่อแล้ว', npc: 'คลังร่วมเปิดที่ศาลาพักทางในเมือง', far: 'เข้าใกล้เจ้าหน้าที่ก่อนใช้คลัง', map: 'กลับมาที่ศาลาพักทางในเมืองก่อน', blocked: 'ต้องอยู่ด้านเดียวกับเจ้าหน้าที่', dead: 'ฟื้นก่อนใช้คลัง', busy: 'พ้นการต่อสู้ ดวล หรือแลกของก่อนใช้คลัง', stale: 'ข้อมูลคลังเปลี่ยนแล้ว กรุณาเลือกไอเทมอีกครั้ง', item_changed: 'ไอเทมในกระเป๋าเปลี่ยนแล้ว กรุณาเลือกใหม่', stash_full: 'คลังเต็ม ฝากไม่ได้', bag_full: 'กระเป๋าเต็ม ถอนของไม่ได้', overweight: 'ถอนแล้วน้ำหนักเกิน ลดของในกระเป๋าก่อน', no_materials: 'ไม่มีวัตถุดิบที่ปลดล็อกในกระเป๋า', quantity: 'จำนวนไอเทมเปลี่ยนแล้ว กรุณาเลือกใหม่', item: 'ไม่สามารถย้ายไอเทมนี้ได้', invalid: 'รายการย้ายไม่ถูกต้อง กรุณาเปิดคลังอีกครั้ง' };
 
 const pendingKey = () => {
@@ -96,16 +99,17 @@ export class StoragePanel {
       const host = this.$(`#storage-${side}`), scroll = host.scrollTop, focused = document.activeElement?.dataset?.storageItem;
       const items = side === 'bag' ? c.inventory : this.vault?.slots ?? [];
       host.innerHTML = items.map((s, i) => {
-        const d = ITEMS[s?.id]; if (!d || (q && !d.name.toLocaleLowerCase('th').includes(q))) return '';
+        const d = ITEMS[s?.id]; if (!d || (q && !instanceName(s).toLocaleLowerCase('th').includes(q))) return '';
         const key = side === 'bag' ? String(i) : s.uid;
-        return `<button type="button" class="storage-item" data-storage-side="${side}" data-storage-item="${key}" aria-pressed="${this.selected?.side === side && this.selected.key === key}" ${this.pending ? 'disabled' : ''}>${iconHtml(d)}<span><b>${s.plus ? `+${s.plus} ` : ''}${esc(d.name)}</b><small>${s.locked ? '🔒 ล็อกไว้ · ' : ''}${s.cards?.length ? `${s.cards.length} การ์ด · ` : ''}${side === 'bag' ? 'ฝาก' : 'ถอน'}</small></span><strong>×${s.qty.toLocaleString('th-TH')}</strong></button>`;
+        return `<button type="button" class="storage-item" data-storage-side="${side}" data-storage-item="${key}" aria-pressed="${this.selected?.side === side && this.selected.key === key}" ${this.pending ? 'disabled' : ''}>${iconHtml(d)}<span><b>${esc(instanceName(s))}</b><small>${s.locked ? '🔒 ล็อกไว้ · ' : ''}${s.cards?.length ? `${s.cards.length} การ์ด · ` : ''}${side === 'bag' ? 'ฝาก' : 'ถอน'}</small>${instanceQuality(s) ? `<small>${esc(instanceQuality(s))}</small>` : ''}</span><strong>×${s.qty.toLocaleString('th-TH')}</strong></button>`;
       }).join('') || `<p class="storage-empty">${side === 'vault' && !this.vault ? this.status : q ? 'ไม่พบไอเทมนี้' : 'ยังไม่มีไอเทม'}</p>`;
       host.scrollTop = scroll; if (focused) [...host.children].find(el => el.dataset.storageItem === focused)?.focus({ preventScroll: true });
     }
     this.$('#storage-weight').textContent = `${Math.round(c.weight * 10) / 10} / ${c.maxWeight}`;
     this.$('#storage-used').textContent = `${this.vault?.slots.filter(Boolean).length ?? '–'} / ${STASH_CAPACITY}`;
     const s = this.item(), d = ITEMS[s?.id], ready = !!(this.vault && this.net?.online && !this.pending);
-    this.$('#storage-selected').textContent = d ? `${this.selected.side === 'bag' ? 'ฝาก' : 'ถอน'} ${s.plus ? `+${s.plus} ` : ''}${d.name}${s.locked ? ' · ยังคงล็อกไว้' : ''}` : 'เลือกไอเทมเพื่อฝากหรือถอน';
+    this.$('#storage-selected').textContent = d ? `${this.selected.side === 'bag' ? 'ฝาก' : 'ถอน'} ${instanceName(s)}${s.locked ? ' · ยังคงล็อกไว้' : ''}` : 'เลือกไอเทมเพื่อฝากหรือถอน';
+    if (d && s.roll) this.$('#storage-selected').textContent += ` · ${affixSummary(s)}`;
     this.$('#storage-qty').disabled = !ready || !s; this.$('#storage-qty').max = String(s?.qty ?? 1);
     this.$('#storage-qty').value = String(Math.min(s?.qty ?? 1, Math.max(1, Number(this.$('#storage-qty').value) || 1)));
     this.$('#storage-materials').disabled = !ready || !c.inventory.some(s => s && !s.locked && ITEMS[s.id]?.type === 'material');

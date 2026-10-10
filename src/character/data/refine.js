@@ -44,5 +44,5 @@ export function refineCost(def, plus = 0) {
 }
 
 // Gear is named by id, cards and plus: two swords that differ in either are different items.
-export const sameGear = (s, cards, plus) => sameCards(s?.cards, cards) && (s?.plus ?? 0) === (plus ?? 0);
+export const sameGear = (s, cards, plus, iid) => !!s && s.roll?.iid === iid && sameCards(s.cards, cards) && (s.plus ?? 0) === (plus ?? 0);
 export const gearName = (name, plus) => (plus ? `+${plus} ${name}` : name);

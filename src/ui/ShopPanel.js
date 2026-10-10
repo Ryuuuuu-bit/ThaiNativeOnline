@@ -1,4 +1,6 @@
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
+import { instanceName, instanceQuality } from '../character/itemPresentation.js';
+import { affixBonus } from '../character/data/affixes.js';
 import { SHOPS } from '../data/shops.js';
 import { buy, buyPrice, sellPrice, stockOf } from '../shop/ShopSystem.js';
 import { SaleBasket } from '../shop/SaleBasket.js';
@@ -141,7 +143,8 @@ export class ShopPanel {
     if (cost.risky && this.armed !== key) { this.armed = key; this.render(); return; }
     this.armed = null; this.forgeResult = null;
     // Set the lock before calling: offline results emit synchronously, online returns pending.
-    this.refinePending = { key, item: t.id, to: cost.to };
+    const held = t.worn ? this.character.wornItem(t.slot) : this.character.inventory[t.index];
+    this.refinePending = { key, item: t.id, iid: held?.roll?.iid, to: cost.to };
     const r = this.character.refineGear(t.worn ? t.slot : t.index);
     if (this.refinePending && r?.pending) this.refinePending.ack = r.ack;
     else if (this.refinePending && r?.ok === false) this.receiveRefine(r);
@@ -173,7 +176,8 @@ export class ShopPanel {
     const worn = p.key.startsWith('w:'), where = worn ? p.key.slice(2) : Number(p.key.slice(2));
     const s = worn ? this.character.wornItem(where) : this.character.inventory[where];
     // `refined` precedes `sync` online. Keep the next try locked until its item is adopted.
-    if (r.outcome === 'up' ? s?.id === r.item && s.plus === r.to : !s || s.id !== p.item) this.refinePending = null;
+    const sameInstance = s?.id === p.item && s?.roll?.iid === p.iid;
+    if (r.outcome === 'up' ? sameInstance && s.plus === r.to : !sameInstance) this.refinePending = null;
   }
   forgeFeedbackHtml() {
     const r = this.forgeResult;
@@ -256,14 +260,16 @@ export class ShopPanel {
     const inv = this.character.inventory, lines = this.basket.lines(), total = this.basket.total();
     const rows = inv.map((s, i) => {
       if (!s || !this.matches(ITEMS[s.id])) return '';
-      const picked = this.basket.picks.has(i), precious = s.plus || s.cards?.length;
-      return `<button class="sh-row sh-sale-row${picked ? ' on' : ''}" data-pick="${i}" aria-pressed="${picked}"><span class="sh-check">${picked ? '✓' : ''}</span>${icon(ITEMS[s.id])}<span class="sh-tx"><b>${plusName(s.id, s.plus)}</b><small>${precious ? `◆ อุปกรณ์พิเศษ${s.cards?.length ? ` · ${s.cards.length} การ์ด` : ''}` : typeOf(ITEMS[s.id])} · มี ${fmt(s.qty)}</small></span><span class="sh-pr">${fmt(sellPrice(s.id))}<small>/ ชิ้น</small></span></button>`;
+      const picked = this.basket.picks.has(i), precious = s.roll || s.plus || s.cards?.length;
+      const quality = instanceQuality(s);
+      const label = precious ? `◆ อุปกรณ์พิเศษ${quality ? ` · ${esc(quality)}` : ''}${s.cards?.length ? ` · ${s.cards.length} การ์ด` : ''}` : typeOf(ITEMS[s.id]);
+      return `<button class="sh-row sh-sale-row${picked ? ' on' : ''}" data-pick="${i}" aria-pressed="${picked}"><span class="sh-check">${picked ? '✓' : ''}</span>${icon(ITEMS[s.id])}<span class="sh-tx"><b>${esc(instanceName(s))}</b><small>${label} · มี ${fmt(s.qty)}</small></span><span class="sh-pr">${fmt(sellPrice(s.id))}<small>/ ชิ้น</small></span></button>`;
     }).join('');
-    const basket = lines.map(({ index: i, qty }) => { const s = inv[i]; return `<div class="sh-basket-row"><span><b>${plusName(s.id, s.plus)}</b><small>+${fmt(sellPrice(s.id) * qty)} ตำลึง</small></span><input type="number" inputmode="numeric" min="0" max="${s.qty}" value="${qty}" data-sale-qty="${i}" aria-label="จำนวนขาย ${ITEMS[s.id].name}"></div>`; }).join('');
-    const risky = lines.some(l => inv[l.index].plus || inv[l.index].cards?.length);
+    const basket = lines.map(({ index: i, qty }) => { const s = inv[i]; return `<div class="sh-basket-row"><span><b>${esc(instanceName(s))}</b><small>+${fmt(sellPrice(s.id) * qty)} ตำลึง</small></span><input type="number" inputmode="numeric" min="0" max="${s.qty}" value="${qty}" data-sale-qty="${i}" aria-label="จำนวนขาย ${ITEMS[s.id].name}"></div>`; }).join('');
+    const risky = lines.some(l => inv[l.index].roll || inv[l.index].plus || inv[l.index].cards?.length);
     return `<div class="sh-trade">${this.toolbar(true)}<div class="sh-split sh-selling"><div class="sh-left"><p class="sh-gh"><b>ของในกระเป๋า</b><small>แตะเลือกหลายรายการ · ราคาต่อชิ้น</small></p><div class="sh-rows">${rows || '<p class="shop-empty">ไม่พบไอเท็มในหมวดนี้</p>'}</div></div>
       <aside class="sh-right sh-basket"><div class="sh-basket-title"><b>ถาดรอขาย <i>${lines.length}</i></b><button data-sale-clear ${lines.length ? '' : 'disabled'}>ล้าง</button></div><div class="sh-basket-list">${basket || '<p class="shop-empty">เลือกของจากกระเป๋า<br><small>ปรับจำนวนก่อนขายได้</small></p>'}</div>
-      ${risky ? '<p class="sh-warn">มีอุปกรณ์ตีบวก / ใส่การ์ด · ขายแล้วสูญเสียทั้งชิ้น</p>' : ''}<div class="sh-total"><span>ได้รับทั้งหมด</span><b>${fmt(total)} ตำลึง</b></div><small class="sh-after">ตำลึงหลังขาย ${fmt(this.character.gold + total)}</small>
+      ${risky ? '<p class="sh-warn">มีอุปกรณ์ออฟสุ่ม / ตีบวก / ใส่การ์ด · ขายแล้วสูญเสียทั้งชิ้น</p>' : ''}<div class="sh-total"><span>ได้รับทั้งหมด</span><b>${fmt(total)} ตำลึง</b></div><small class="sh-after">ตำลึงหลังขาย ${fmt(this.character.gold + total)}</small>
       <button class="sh-go${this.confirmSale ? ' alt' : ''}" data-sale-submit ${lines.length ? '' : 'disabled'}>${this.confirmSale ? `ยืนยันขาย · +${fmt(total)} ตำลึง` : `ตรวจรายการขาย ${lines.length} รายการ`}</button></aside></div><p class="sh-receipt" role="status">${esc(this.receipt || (this.confirmSale ? 'ตรวจจำนวนและยอดตำลึง แล้วกดยืนยันขาย' : 'เลือกขายเฉพาะของที่ต้องการ · ของที่สวมอยู่ไม่อยู่ในรายการ'))}</p></div>`;
   }
   // gear in the bag that holds cards, with the price and the odds
@@ -272,7 +278,7 @@ export class ShopPanel {
       if (!s?.cards?.length) return '';
       const cost = c.stripCost(i), d = ITEMS[s.id], afford = c.gold >= cost.gold && c.count('ash') >= cost.ash, armed = this.armed === i;
       return `<button class="shop-row${armed ? ' armed' : ''}" data-strip="${i}" ${afford ? '' : 'disabled'}>
-        <i style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</i><span><b>${plusName(s.id, s.plus)} [${d.slots}]</b><small>${s.cards.map(id => ITEMS[id].name).join(', ')}</small></span>
+        <i style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</i><span><b>${esc(instanceName(s))}</b><small>${s.cards.map(id => ITEMS[id].name).join(', ')}</small></span>
         <em>${armed ? 'กดอีกครั้งเพื่อยืนยัน' : `${cost.gold} ตำลึง · ขี้เถ้าธูป ${cost.ash}`}</em></button>`;
     }).join('');
     return `<p class="shop-note">หมออาคมถอดการ์ดออกจากอุปกรณ์ในกระเป๋าได้ทั้งหมดในครั้งเดียว · การ์ดละ ${STRIP.gold} ตำลึง + ขี้เถ้าธูป ${STRIP.ash}<br>สำเร็จ ${Math.round(STRIP.ok * 100)}% · อุปกรณ์แตก ${Math.round(STRIP.itemBreaks * 100)}% (ได้การ์ดคืน) · การ์ดแตก ${Math.round((1 - STRIP.ok - STRIP.itemBreaks) * 100)}%</p>`
@@ -287,7 +293,8 @@ export class ShopPanel {
     const cost = refineCost(d, t.plus), max = !cost, armed = this.armed === key;
     const cur = refineBonus(d, t.plus) ?? {}, nxt = (cost && refineBonus(d, cost.to)) ?? cur;
     const stats = Object.keys(nxt).map(k => {
-      const base = (d.bonus?.[k] ?? 0) + t.cards.reduce((n, id) => n + (ITEMS[id]?.bonus?.[k] ?? 0), 0);
+      const held = t.worn ? c.wornItem(t.slot) : c.inventory[t.index];
+      const base = (d.bonus?.[k] ?? 0) + (affixBonus(t.id, held?.roll)[k] ?? 0) + t.cards.reduce((n, id) => n + (ITEMS[id]?.bonus?.[k] ?? 0), 0);
       return `<div class="eh-stat"><span><small>โบนัสตีบวก · ${BONUS[k] ?? k}</small><b>+${fmt(cur[k])} <i>→</i> <em>+${fmt(nxt[k])}</em></b><small>พลังไอเท็มรวม ${fmt(base + (cur[k] ?? 0))} → ${fmt(base + nxt[k])}</small></span><span class="eh-gain"><small>${max ? 'โบนัสสูงสุด' : 'ขั้นถัดไปเพิ่ม'}</small><b>${max ? `+${fmt(nxt[k])}` : `+${fmt(nxt[k] - (cur[k] ?? 0))}`}</b></span></div>`;
     }).join('');
     const ore = cost && ITEMS[cost.ore], have = cost ? c.count(cost.ore) : 0, rate = cost ? Math.round(cost.rate * 100) : 0;
@@ -297,28 +304,28 @@ export class ShopPanel {
     const milestones = REFINE_MILESTONES.map(n => `<div class="eh-milestone${t.plus >= n ? ' reached' : cost?.to === n ? ' next' : ''}"><b>+${n} <small>${MILESTONE_TH[n]}</small></b><span>${Object.entries(refineBonus(d, n)).map(([k, v]) => `${BONUS[k]} +${fmt(v)}`).join(' · ')}</span><small>${t.plus >= n ? 'ถึงขั้นนี้แล้ว' : cost?.to === n ? 'ขั้นถัดไป' : n <= REFINE_SAFE ? 'สำเร็จเสมอ' : 'มีโอกาสแตก'}</small></div>`).join('');
     const row = x => {
       const dx = ITEMS[x.id], cx = refineCost(dx, x.plus), k = keyOf(x);
-      return `<button type="button" class="eh-slot${k === key ? ' on' : ''}" data-esel="${k}" aria-pressed="${k === key}" ${pending ? 'disabled' : ''}>${icon(dx)}<span class="sh-tx"><b>${dx.name}</b>`
+      return `<button type="button" class="eh-slot${k === key ? ' on' : ''}" data-esel="${k}" aria-pressed="${k === key}" ${pending ? 'disabled' : ''}>${icon(dx)}<span class="sh-tx"><b>${esc(instanceName(x.worn ? c.wornItem(x.slot) : c.inventory[x.index]))}</b>`
         + `<small>${x.worn ? SLOT_TH[x.slot] ?? x.slot : 'ในกระเป๋า'} · ${!cx ? 'สูงสุดแล้ว' : cx.risky ? `สำเร็จ ${Math.round(cx.rate * 100)}%` : 'ปลอดภัย'}</small></span><b class="eh-lv enh ${enhTier(x.plus)}">+${x.plus}</b></button>`;
     };
     const worn = list.filter(x => x.worn), bag = list.filter(x => !x.worn);
     return `<div class="sh-split eh" aria-busy="${pending}">
       <div class="sh-left eh-main">
         <div class="eh-content">
-        <div class="eh-title"><b>ตีบวก${t.worn ? SLOT_TH[t.slot] ?? '' : ''}</b><small>${plusName(t.id, t.plus)} · ${t.worn ? 'สวมอยู่' : 'ในกระเป๋า'}</small></div>
+        <div class="eh-title"><b>ตีบวก${t.worn ? SLOT_TH[t.slot] ?? '' : ''}</b><small>${esc(instanceName(t.worn ? c.wornItem(t.slot) : c.inventory[t.index]))} · ${t.worn ? 'สวมอยู่' : 'ในกระเป๋า'}</small></div>
         ${this.forgeFeedbackHtml()}
         <div class="eh-stage">
           <div class="eh-ring ${enhTier(max ? t.plus : cost.to)}"><i class="eh-rays"></i><span class="eh-item" style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</span>
             <div class="eh-step">${max ? `<b class="enh ${enhTier(t.plus)}">+${t.plus}</b> <small>สูงสุด</small>` : `<b class="enh ${enhTier(t.plus)}">+${t.plus}</b> → <b class="enh ${enhTier(cost.to)}">+${cost.to}</b>`}</div></div>
           <div class="eh-box rate"><small>โอกาสสำเร็จ</small><b class="eh-pct${rate >= 100 ? ' safe' : ''}">${max ? '—' : `${rate}%`}</b><i class="eh-bar"><i style="width:${rate}%"></i></i><small>${max ? `ตีได้สูงสุด +${REFINE_MAX}` : cost.risky ? `ล้มเหลว ${100 - rate}% · แตกสลายพร้อมการ์ด` : `ถึง +${REFINE_SAFE} สำเร็จเสมอ`}</small></div>
         </div>
-        <div class="eh-bonus">${stats}<small>โบนัสหลังตีแสดงผลเมื่อสำเร็จเท่านั้น</small></div>
+        <div class="eh-bonus">${stats}<small>ตีบวกเพิ่มเฉพาะพลังพื้นฐาน · ออฟสุ่มและการ์ดคงเดิม</small></div>
         <div class="eh-milestones" aria-label="โบนัสสะสมตามหมุดหมาย">${milestones}</div>
         <div class="eh-mats">
           ${ore ? `<div class="eh-mat${have < 1 ? ' miss' : ''}">${icon(ore)}<span><b>${ore.name}</b><small>${have} / 1</small></span>${have < 1 && sells ? `<button type="button" class="sh-go alt sm" data-ebuy="${cost.ore}" ${pending ? 'disabled' : ''}>ซื้อ ${fmt(buyPrice(c, cost.ore))}</button>` : ''}</div>` : ''}
           <div class="eh-mat${t.cards.length && cost?.risky ? ' miss' : ' off'}"><span class="sh-ic">❖</span><span><b>การ์ดที่ใส่ไว้</b><small>${t.cards.length ? `${t.cards.length} ใบ${cost?.risky ? ' · แตกด้วยถ้าพลาด' : ''}` : 'ไม่มี'}</small></span></div>
           <div class="eh-mat off"><span class="sh-ic">✦</span><span><b>ขั้นปลอดภัย</b><small>ถึง +${REFINE_SAFE} สำเร็จเสมอ</small></span></div>
         </div>
-        <p class="sh-note">ค่าตีและแร่ใช้ทุกครั้ง ทั้งสำเร็จและล้มเหลว · โบนัสคิดจากพลังพื้นฐานของไอเท็ม ไม่ทบกับการ์ด · สูงสุด +${REFINE_MAX}</p>
+        <p class="sh-note">ค่าตีและแร่ใช้ทุกครั้ง ทั้งสำเร็จและล้มเหลว · ตีบวกเพิ่มเฉพาะพลังพื้นฐาน ออฟสุ่มและการ์ดคงเดิม · ไม่สุ่มออฟใหม่ · สูงสุด +${REFINE_MAX}</p>
         </div>
         <div class="eh-foot"><p class="eh-risk${cost?.risky ? ' risky' : ''}">${max ? 'ศาสตราชิ้นนี้ถึงขั้นสูงสุดแล้ว' : cost.risky ? `⚠ ล้มเหลว ${100 - rate}%: อุปกรณ์${t.cards.length ? `และการ์ด ${t.cards.length} ใบ` : ''}สูญเสียถาวร` : `✦ ถึง +${REFINE_SAFE} สำเร็จเสมอ · การ์ดไม่เสี่ยงแตก`}</p><span class="eh-cost"><small>ค่าตีบวก</small><b class="${cost && c.gold < cost.gold ? 'bad' : ''}">${max ? '—' : `${fmt(cost.gold)} ตำลึง`}</b>${cost ? `<small>เหลือ ${fmt(Math.max(0, c.gold - cost.gold))}</small>` : ''}</span>
           <button type="button" class="sh-go${armed ? ' danger' : ''}" data-refine="${key}" ${cost?.risky ? 'data-risky="1"' : ''} ${can ? '' : 'disabled'}>${label}</button></div>

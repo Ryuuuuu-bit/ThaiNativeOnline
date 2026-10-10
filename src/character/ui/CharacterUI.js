@@ -17,6 +17,8 @@ import { bindAccountPortrait } from '../../account/AccountPortrait.js';
 import { onIdentity } from '../../account/identity.js';
 import { uidRow } from '../../account/UidRow.js';
 import { InventoryWorkspace, compareToEquipped } from './InventoryWorkspace.js';
+import { affixLines } from '../data/affixes.js';
+import { instanceName, instanceColor, instanceQuality } from '../itemPresentation.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -29,12 +31,12 @@ const bonusLabel = (k, v) => {
   const [kind, what] = k.split('_');
   if (kind === 'vs') return `ตี${RACE_LABELS[what] ?? what} +${Math.round(v * 100)}%`;
   if (kind === 'res') return `รับดาเมจจาก${RACE_LABELS[what] ?? `ธาตุ${ELEMENT_LABELS[what] ?? what}`} −${Math.round(v * 100)}%`;
-  return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${Math.round(v * 100)}%` : v}`;
+  return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${+(v * 100).toFixed(2)}%` : v}`;
 };
 export const bonusText = b => (b ? Object.entries(b).map(([k, v]) => bonusLabel(k, v)).join(' · ') : '');
 
 // "+4 ดาบเหล็กลาย [2]" — RO style, the plus from ตีบวก and the number of card slots
-export const itemName = (id, plus = 0) => { const d = ITEMS[id]; return `${plus ? `+${plus} ` : ''}${d.type === 'equip' && d.slots ? `${d.name} [${d.slots}]` : d.name}`; };
+export const itemName = (id, plus = 0, roll = null) => instanceName({ id, plus, roll });
 const cardsLine = (id, cards = []) => {
   const n = ITEMS[id]?.slots ?? 0; if (ITEMS[id]?.type !== 'equip') return '';
   if (!n) return '\nไม่มีช่องการ์ด';
@@ -48,16 +50,18 @@ const pips = (id, cards = []) => {
 // Shared selected-item and hover detail: name (+refine [slots]), slot, rarity,
 // bonuses, refine bonus, card slots, weight, price.
 const RARITY_TH = { common: 'ธรรมดา', rare: 'หายาก', epic: 'ตำนาน' };
-function itemCard({ id, cards = [], plus = 0, locked = false }, cmp) {
+function itemCard({ id, cards = [], plus = 0, locked = false, roll = null }, cmp) {
   const d = ITEMS[id];
+  const item = { id, cards, plus, roll }, color = instanceColor(item);
   const bonus = d.bonus ? Object.entries(d.bonus).map(([k, v]) => `<i>${esc(bonusLabel(k, v))}</i>`).join('') : '';
   const refine = plus ? `<i class="iw-refine-bonus">${esc(`ตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}`)}</i>` : '';
   const wield = d.weapon ? `${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
   const slots = cardsLine(id, cards).trim();
-  const tag = [d.type === 'card' ? `การ์ด${SLOT_LABELS[d.slot]}` : d.slot && SLOT_LABELS[d.slot], RARITY_TH[d.rarity], `น้ำหนัก ${d.weight || 0}`].filter(Boolean).join(' · ');
+  const tag = [d.type === 'card' ? `การ์ด${SLOT_LABELS[d.slot]}` : d.slot && SLOT_LABELS[d.slot], RARITY_TH[d.rarity], d.minLevel ? `ต้องการ Lv.${d.minLevel}` : '', `น้ำหนัก ${d.weight || 0}`].filter(Boolean).join(' · ');
+  const rolled = affixLines(id, roll).map(a => `<i class="iw-affix" title="${esc(`ช่วงค่าสุ่ม ${a.min}–${a.max}`)}">${esc(`${a.kind === 'prefix' ? 'นำหน้า' : 'ต่อท้าย'} · ${a.label} T${a.tier}: ${bonusLabel(a.key, a.value)}`)}</i>`).join('');
   const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
   const act = d.type === 'equip' ? 'อุปกรณ์สวมใส่' : d.type === 'use' ? 'ไอเท็มใช้ได้' : d.type === 'card' ? 'ใส่การ์ดด้วยปุ่มด้านล่าง (ติดถาวร)' : 'ขายได้ที่ร้านค้า';
-  return `<span class="g-detail-icon" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${RARITY_COLORS[d.rarity] || '#e7dbb8'}">${esc(itemName(id, plus))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
+  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${rolled ? `<span class="g-detail-bonus iw-affix-list">${rolled}</span>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
 
 export class CharacterUI {
@@ -176,7 +180,7 @@ export class CharacterUI {
         this.pickTarget = JSON.stringify(target.worn ? this.c.wornItem(target.slot) : this.c.inventory[target.index]);
         this.cardPick.querySelectorAll('[data-where]').forEach(t => t.setAttribute('aria-pressed', String(t === b)));
         this.cardPick.querySelector('.g-pick-confirm').disabled = false;
-        this.cardPick.querySelector('.iw-socket-target').textContent = `ยืนยันใส่การ์ดใน ${itemName(target.id, target.worn ? this.c.refine[target.slot] : this.c.inventory[target.index]?.plus)}${target.worn ? ` (${SLOT_LABELS[target.slot]})` : ''}`;
+        this.cardPick.querySelector('.iw-socket-target').textContent = `ยืนยันใส่การ์ดใน ${instanceName(target.worn ? this.c.wornItem(target.slot) : this.c.inventory[target.index])}${target.worn ? ` (${SLOT_LABELS[target.slot]})` : ''}`;
         return;
       }
       if (!e.target.closest('.g-pick-confirm') || this.pickWhere === undefined) return;
@@ -278,7 +282,7 @@ export class CharacterUI {
     // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
     const slotHtml = slot => {
       const id = c.equipment[slot];
-      return `<div class="g-eqs"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${SLOT_LABELS[slot]}${id ? `<br>${esc(itemName(id, c.refine[slot]))}` : ' · ว่าง'}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`;
+      return `<div class="g-eqs"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot], c.gearRolls?.[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? instanceColor(c.wornItem(slot)) : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${SLOT_LABELS[slot]}${id ? `<br>${esc(itemName(id, c.refine[slot], c.gearRolls?.[slot]))}` : ' · ว่าง'}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`;
     };
     const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
@@ -346,9 +350,9 @@ export class CharacterUI {
     this.grid.innerHTML = inv.map((s, i) => {
       if (!s) return filtered ? '' : `<button class="g-slot empty" data-index="${i}" aria-label="ช่องว่าง"></button>`;
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
-      const d = ITEMS[s.id], cmp = compareToEquipped(this.c, s.id); shown++;
+      const d = ITEMS[s.id], cmp = compareToEquipped(this.c, s); shown++;
       const arrow = cmp > 0 ? '<i class="g-cmp up" aria-hidden="true">▲</i>' : cmp < 0 ? '<i class="g-cmp down" aria-hidden="true">▼</i>' : '';
-      return `<button class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
+      return `<button class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus, s.roll))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${instanceColor(s)}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
     this.bag.querySelector('.g-bag-count').textContent = `ช่อง ${inv.filter(Boolean).length} / ${inv.length}`;
@@ -365,7 +369,7 @@ export class CharacterUI {
     const targets = this.c.cardTargets(i); this.pickCard = i;
     this.pickFingerprint = JSON.stringify(this.c.inventory[i]); this.pickWhere = undefined; this.pickTarget = null;
     this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${bonusText(card.bonus)}</small></header>`
-      + (targets.length ? targets.map(t => `<button type="button" data-where="${t.worn ? t.slot : t.index}" data-worn="${!!t.worn}" aria-pressed="false"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id, t.worn ? this.c.refine[t.slot] : this.c.inventory[t.index]?.plus))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
+      + (targets.length ? targets.map(t => `<button type="button" data-where="${t.worn ? t.slot : t.index}" data-worn="${!!t.worn}" aria-pressed="false"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(instanceName(t.worn ? this.c.wornItem(t.slot) : this.c.inventory[t.index]))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
         : `<p>ไม่มี${SLOT_LABELS[card.slot]}ที่มีช่องการ์ดว่าง</p>`)
       + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><p class="iw-socket-target" aria-live="polite">เลือกอุปกรณ์ก่อนยืนยัน</p><button type="button" class="g-pick-confirm" disabled>ยืนยันใส่การ์ด</button><button type="button" class="g-pick-cancel">ยกเลิก</button>';
     this.cardPick.hidden = false;

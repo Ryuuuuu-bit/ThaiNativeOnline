@@ -35,5 +35,7 @@ test('world boss: the news button warps to เรือนหอร้าง at 
 test('world boss: by day the way in is closed', {timeout:25000}, async t=>{
   const a=await server(t,10);
   a.send({t:'wbjoin'});
-  assert.equal((await a.wait(m=>m.t==='wbnews')).state,'closed');
+  // Startup can broadcast the night → day transition after hello. That dawn
+  // notice is unrelated to this join; await the actual join response.
+  assert.equal((await a.wait(m=>m.t==='wbnews' && ['closed','open'].includes(m.state))).state,'closed');
 });

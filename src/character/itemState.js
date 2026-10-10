@@ -1,16 +1,18 @@
 import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { sameCards, socketCards } from './data/cards.js';
 import { plusOf, refinable } from './data/refine.js';
+import { rollFields, validRollId } from './data/affixes.js';
 
 // Lock is instance metadata, never an item-definition property or a preset setting.
 export const isItemLocked = item => item?.locked === true;
 export const lockFields = item => isItemLocked(item) ? { locked: true } : {};
 export function cloneInstance(item) {
   if (!item) return null;
-  return { ...item, ...(item.cards ? { cards: [...item.cards] } : {}), ...lockFields(item) };
+  const { roll, ...rest } = item;
+  return { ...rest, ...(item.cards ? { cards: [...item.cards] } : {}), ...lockFields(item), ...rollFields(item) };
 }
-export const gearReference = item => item ? { id: item.id, cards: [...(item.cards ?? [])], plus: item.plus ?? 0 } : null;
-export const sameReference = (item, ref) => !!item && !!ref && item.id === ref.id && (item.plus ?? 0) === (ref.plus ?? 0) && sameCards(item.cards, ref.cards);
+export const gearReference = item => item ? { id: item.id, cards: [...(item.cards ?? [])], plus: item.plus ?? 0, ...(item.roll?.iid ? {iid:item.roll.iid} : {}) } : null;
+export const sameReference = (item, ref) => !!item && !!ref && item.id === ref.id && item.roll?.iid === ref.iid && (item.plus ?? 0) === (ref.plus ?? 0) && sameCards(item.cards, ref.cards);
 export const cleanEquipmentLocks = (equipment, locks) => Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, !!equipment[slot] && locks?.[slot] === true]));
 
 export const LOADOUT_COUNT = 3;
@@ -30,8 +32,8 @@ export function cleanLoadouts(c, input) {
       const d = ITEMS[ref.id], cards = socketCards(ref.id, ref.cards, ITEMS);
       if (d?.type !== 'equip' || d.retired || d.slot !== slotKind(slot) || !c.canWield(ref.id)
         || !sameCards(cards, ref.cards) || !Number.isInteger(ref.plus ?? 0) || (ref.plus ?? 0) < 0 || (ref.plus ?? 0) > 10
-        || (ref.plus && !refinable(d))) return null;
-      equipment[slot] = { id: ref.id, cards, plus: plusOf(ref.plus) };
+        || (ref.plus && !refinable(d)) || (ref.iid !== undefined && !validRollId(ref.iid))) return null;
+      equipment[slot] = { id: ref.id, cards, plus: plusOf(ref.plus), ...(ref.iid ? {iid:ref.iid} : {}) };
     }
     return { name: loadoutName(p.name, index), equipment, hotbar: cleanHotbar(c, p.hotbar) };
   });

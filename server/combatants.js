@@ -135,7 +135,7 @@ export class Combatants {
     if (msg.op === 'strip') {
       s.stripped = { ok: false, why: 'no_shop' };
       if (!atShop(STRIP.shop)) return false;
-      const i = s.c.inventory.findIndex(x => x?.id === msg.id && sameGear(x, msg.cards, msg.plus));
+      const i = s.c.inventory.findIndex(x => x?.id === msg.id && sameGear(x, msg.cards, msg.plus, msg.iid));
       s.stripped = i >= 0 ? s.c.stripCards(i, this.r) : { ok: false, why: 'no_cards' };
       if (s.stripped.ok) s.dirty = true;
       return s.stripped.ok;
@@ -144,8 +144,11 @@ export class Combatants {
     if (msg.op === 'refine') {
       s.refined = { ok: false, why: 'no_shop' };
       if (!atShop(REFINE_SHOP)) return false;
-      const where = typeof msg.worn === 'string' ? msg.worn : s.c.inventory.findIndex(x => x?.id === msg.id && sameGear(x, msg.cards, msg.plus));
+      if (typeof msg.worn === 'string' && s.c.wornItem(msg.worn)?.roll?.iid !== msg.iid) { s.refined = { ok: false, why: 'no_item' }; return false; }
+      const where = typeof msg.worn === 'string' ? msg.worn : s.c.inventory.findIndex(x => x?.id === msg.id && sameGear(x, msg.cards, msg.plus, msg.iid));
+      const gear = typeof where === 'string' ? s.c.wornItem(where) : s.c.inventory[where];
       s.refined = where === -1 ? { ok: false, why: 'no_item' } : s.c.refineGear(where, this.r);
+      if (gear?.roll?.iid) s.refined.iid = gear.roll.iid;
       if (s.refined.ok) s.dirty = true;
       return s.refined.ok;
     }
@@ -168,7 +171,7 @@ export class Combatants {
     const c = s.c, before = c.level;
     c.gold += Math.max(0, k.gold | 0); c.gainExp(Math.max(0, k.exp | 0));
     const lost = [];   // a full or overweight bag: the drop is lost (told, not silently)
-    for (const d of k.drops ?? []) if (!c.addItem(d.id, d.qty)) lost.push(d);
+    for (const d of k.drops ?? []) if (!c.addInstance(d)) lost.push(d);
     if (k.type) s.quests.onKill(k.type);
     c.noteKill(k.type);   // the records behind the titles (src/data/titles.js)
     s.dirty = true;

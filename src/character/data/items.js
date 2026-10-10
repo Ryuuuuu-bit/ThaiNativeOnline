@@ -1,4 +1,5 @@
 import { EXPEDITION_GEAR } from './expedition-gear.js';
+import { HUNT_GEAR } from './hunt-gear.js';
 // Content data only: edit freely without touching game logic.
 import { CARD_ITEMS } from './cards.js';
 // twoHand: visual description only; all weapons share one equipment slot
@@ -11,6 +12,7 @@ import { CARD_ITEMS } from './cards.js';
 // equipment 1–50 by size/material. See docs/design/ITEM_WEIGHTS.md.
 export const ITEMS = {
   ...EXPEDITION_GEAR,
+  ...HUNT_GEAR,
   potion_s: { name: 'ยาหม้อเล็ก', icon: '⚱', img: 'ui/items/icon_potion_s.png', weight: 0, type: 'use', use: { hp: 60 }, price: 10, desc: 'ฟื้นฟู HP 60' },
   potion_m: { name: 'ยาหม้อใหญ่', icon: '⚱', img: 'ui/items/icon_potion_m.png', weight: 0, type: 'use', use: { hp: 160 }, price: 30, desc: 'ฟื้นฟู HP 160' },
   ether:    { name: 'น้ำผึ้งป่า', icon: '❂', img: 'ui/items/icon_ether.png', weight: 0, type: 'use', use: { mp: 50 }, price: 14, desc: 'ฟื้นฟู MP 50' },

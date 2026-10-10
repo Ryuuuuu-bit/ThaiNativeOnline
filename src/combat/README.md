@@ -86,3 +86,7 @@ The controller interface is documented at the top of `ActionBar.js`. `hud.setSaf
 - `kitCombat.rollBlow(..., rng, liveTarget)` grants the skill's optional `synergy` bonus once per blow when any condition is active, capped at 25%; DOT ticks never re-evaluate the bonus.
 - `effect.taunt: { ms, radius }` uses pixel radius. `KitCaster.applySelf` and server `Combatants.cast(..., { world, player })` challenge nearby enemies without a target or damage callback. Normal taunts cap at 8 seconds, bosses at 2; fixed boss telegraphs retain their aim.
 - Character support accepts `defFlat`, proportional `def`, `dodge`, `hot`, and `cleanse`. Defense takes strongest active flat and strongest proportional bonuses (proportional capped at 60%); cleansing removes negative effects immediately while preserving positive buffs.
+
+### Hooks for equipment drops
+
+- `lootDrops.rollLootDrops(def, { random, uuid, level, multiplier })` shares legacy independent rows plus one bounded level pool roll. Online `MonsterWorld` supplies server RNG/UUID; rewards and NetCombat retain exact instances with `addInstance`. Gear operation/trade/stash requests use `iid` references, never client affix values.

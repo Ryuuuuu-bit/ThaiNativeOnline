@@ -1,3 +1,4 @@
+import { keptLootDrops } from '../combat/lootDrops.js';
 import { sameStatusSource } from '../combat/statusEffects.js';
 import { Monster } from '../combat/Combat.js';
 import { RULES } from '../combat/data/rules.js';
@@ -101,11 +102,11 @@ export function attachNetCombat(net, game) {
   net.on('kill', msg => {
     const m = byId.get(msg.id) ?? { name: '', x: c.x ?? 0, z: c.z ?? 0, def: {} };
     const lost = msg.lost ?? [];   // drops the server could not fit in the bag
-    const kept = msg.drops.filter(d => !lost.includes(d) && !lost.some(l => l.id === d.id && l.qty === d.qty));
+    const kept = keptLootDrops(msg.drops, lost);
     combat.emit('kill', { monster: m, exp: msg.exp, gold: msg.gold, drops: kept });
     if (lost.length) combat.emit('fail', 'กระเป๋าเต็ม · ของที่ตกหายไป');
     c.gold += msg.gold; c.gainExp(msg.exp);
-    for (const d of kept) c.addItem(d.id, d.qty);
+    for (const d of kept) c.addInstance(d);
     c.emit('change');
   });
   // ---- world boss skills ----------------------------------------------------------------

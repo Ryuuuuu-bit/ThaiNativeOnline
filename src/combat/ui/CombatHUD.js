@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { RACE_LABELS, ELEMENT_LABELS } from '../../character/data/cards.js';
 import { ITEMS } from '../../character/data/items.js';
+import { instanceName, instanceRoll } from '../../character/itemPresentation.js';
 import { el, pct, setBar } from '../../character/ui/dom.js';
 import { ActionBar } from '../../ui/ActionBar.js';
 import { legacyCaster } from '../LegacyCaster.js';
@@ -84,7 +85,7 @@ export class CombatHUD {
     cb.on('evo-fx', e => this.float(e.x, e.z, e.name, 'evo', 2.4));
     cb.on('kill', ({ monster, exp, gold, drops }) => {
       feed.log(`ปราบ${monster.name} · +${exp} EXP · +${gold} ตำลึง`, 'exp');
-      for (const d of drops) feed.log(`ได้รับ ${ITEMS[d.id].name}${d.qty > 1 ? ` ×${d.qty}` : ''}`, ITEMS[d.id].rarity === 'epic' || ITEMS[d.id].type === 'card' ? 'epic' : 'loot');
+      for (const d of drops) feed.log(`ได้รับ ${instanceName(d)}${d.qty > 1 ? ` ×${d.qty}` : ''}`, instanceRoll(d)?.rarity === 'rare' || ITEMS[d.id].rarity === 'epic' || ITEMS[d.id].type === 'card' ? 'epic' : 'loot');
       const card = drops.find(d => ITEMS[d.id]?.type === 'card');
       if (card) feed.banner(`ได้รับ${ITEMS[card.id].name}!`, 'คลิกการ์ดในกระเป๋าเพื่อใส่ในช่องการ์ด (กด C ดูช่อง)');
       this.float(monster.x, monster.z, `+${exp} EXP`, 'exp', 2.2);

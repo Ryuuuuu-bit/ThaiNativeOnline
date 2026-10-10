@@ -18,6 +18,7 @@ import { CLASS_KITS } from '../classes/index.js';
 import { SKILL_BY_ID } from '../rules/data/skills.js';
 import { BUFF_ICONS } from '../combat/data/skills.js';
 import { iconHtml, classBadge } from '../ui/icons.js';
+import { rollName, affixLines } from '../character/data/affixes.js';
 import { sameGear } from '../character/data/refine.js';
 import { draggable } from '../ui/draggable.js';
 import { TITLE_BY_ID } from '../data/titles.js';
@@ -33,7 +34,7 @@ const BOARD_WHY = { ...PARTY_WHY, guest: 'ต้องเข้าสู่ร�
 const TRADE_WHY = { self: 'แลกกับตัวเองไม่ได้', busy: 'ตอนนี้แลกเปลี่ยนไม่ได้ (กำลังต่อสู้ หมดสติ หรือแลกกับคนอื่นอยู่)', offline: 'ผู้เล่นนั้นออฟไลน์', guest: 'ต้องเข้าสู่ระบบทั้งสองฝ่ายจึงแลกเปลี่ยนได้', far: 'ต้องยืนใกล้กัน (ไม่เกิน 8 เมตร) ในแชนแนลเดียวกัน', expired: 'คำขอหมดอายุแล้ว', declined: 'อีกฝ่ายปฏิเสธการแลกเปลี่ยน',
   gold: 'ตำลึงไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
   cancelled: 'ยกเลิกการแลกเปลี่ยน', moved: 'การแลกเปลี่ยนถูกยกเลิก (ย้ายแมพหรือแชนแนล)', left: 'อีกฝ่ายออกจากเกม · ยกเลิกการแลกเปลี่ยน' };
-const label = e => `${e.plus ? `+${e.plus} ` : ''}${ITEMS[e.id]?.name ?? e.id}${e.qty > 1 ? ` ×${e.qty}` : ''}${e.cards?.length ? ` ❖${e.cards.length}` : ''}`;
+const label = e => `${e.plus ? `+${e.plus} ` : ''}${rollName(e.id, e.roll)}${e.qty > 1 ? ` ×${e.qty}` : ''}${e.cards?.length ? ` ❖${e.cards.length}` : ''}`;
 // an HP / MP bar (empty when the server does not know it: a guest's)
 const bar = (kind, v, max, nums = false) => (max ? `<em class="soc-bar ${kind}"><i style="width:${(Math.max(0, Math.min(1, v / max)) * 100).toFixed(0)}%"></i>${nums ? `<b>${v} / ${max}</b>` : ''}</em>` : `<em class="soc-bar ${kind} none"></em>`);
 const buffsHtml = ids => (ids ?? []).map(id => `<span title="${esc(id)}">${iconHtml(BUFF_ICONS[id] ?? { icon: '✧' })}</span>`).join('');
@@ -339,23 +340,23 @@ export function attachSocial(net, c, chat, remote, game = null) {
   // ---- the trade window ----
   const win = node('soc-trade glass'); win.hidden = true;
   let offer = { items: [], gold: 0 };
-  const sendOffer = () => net.send({ t: 'toffer', items: offer.items, gold: offer.gold });
+  const sendOffer = () => net.send({ t: 'toffer', items: offer.items.map(({ roll, ...reference }) => reference), gold: offer.gold });
   // what is left of a bag slot once the offer takes its share
   const left = (s, i) => {
-    if (ITEMS[s.id].type === 'equip') { const same = c.inventory.slice(0, i + 1).filter(x => x?.id === s.id && sameGear(x, s.cards, s.plus)).length; return same > offer.items.filter(e => e.id === s.id && sameGear(e, s.cards, s.plus)).length ? 1 : 0; }
+    if (ITEMS[s.id].type === 'equip') { const same = c.inventory.slice(0, i + 1).filter(x => x?.id === s.id && sameGear(x, s.cards, s.plus, s.roll?.iid)).length; return same > offer.items.filter(e => e.id === s.id && sameGear({ ...e, roll: e.iid ? { iid: e.iid } : undefined }, s.cards, s.plus, s.roll?.iid)).length ? 1 : 0; }
     const offered = offer.items.filter(e => e.id === s.id).reduce((n, e) => n + e.qty, 0), before = c.inventory.slice(0, i).reduce((n, x) => n + (x?.id === s.id ? x.qty : 0), 0);
     return Math.max(0, Math.min(s.qty, before + s.qty - offered));
   };
   const add = (i, all) => {
     const s = c.inventory[i]; if (!s || !left(s, i)) return;
-    if (ITEMS[s.id].type === 'equip') { if (offer.items.length >= 10) return; offer.items.push({ id: s.id, qty: 1, ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}) }); }
+    if (ITEMS[s.id].type === 'equip') { if (offer.items.length >= 10) return; offer.items.push({ id: s.id, qty: 1, ...(s.roll?.iid ? { iid: s.roll.iid } : {}), ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}) }); }
     else {
       const n = all ? left(s, i) : 1, e = offer.items.find(x => x.id === s.id);
       if (e) e.qty += n; else { if (offer.items.length >= 10) return; offer.items.push({ id: s.id, qty: n }); }
     }
     sendOffer();
   };
-  const row = (e, i, mine) => { const d = ITEMS[e.id]; return `<button class="soc-it" ${mine ? `data-off="${i}"` : 'disabled'} style="--rar:${RARITY_COLORS[d?.rarity] ?? '#8d8a78'}"><span>${iconHtml(d)}</span>${esc(label(e))}</button>`; };
+  const row = (e, i, mine) => { const d = ITEMS[e.id]; return `<button class="soc-it" title="${esc(affixLines(e.id, e.roll).map(a => `${a.label} +${a.key === 'crit' ? `${+(a.value * 100).toFixed(2)}%` : a.value} (T${a.tier})`).join(' · '))}" ${mine ? `data-off="${i}"` : 'disabled'} style="--rar:${RARITY_COLORS[e.roll?.rarity ?? d?.rarity] ?? (e.roll?.rarity === 'magic' ? '#75b5ff' : '#8d8a78')}"><span>${iconHtml(d)}</span>${esc(label(e))}</button>`; };
   const renderTrade = () => {
     win.hidden = !trade; if (!trade) return;
     // a re-render (the other side changed something) keeps what is being typed and where the focus is
@@ -372,7 +373,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
           <p class="soc-gold">ตำลึง ${trade.theirs.gold.toLocaleString()}</p></section>
       </div>
       <p class="soc-hint">${trade.locked.me ? 'ล็อกข้อเสนอแล้ว · ถ้าแก้ไข ทั้งสองฝ่ายต้องล็อกใหม่' : 'คลิกของในกระเป๋าเพื่อใส่ (กด Shift ค้างเพื่อใส่ทั้งกอง) · คลิกของในข้อเสนอเพื่อเอาออก'}</p>
-      ${trade.locked.me ? '' : `<div class="soc-bag">${c.inventory.map((s, i) => (s && left(s, i) ? `<button class="soc-it" data-bag="${i}" title="${esc(label({ ...s, qty: left(s, i) }))}" style="--rar:${RARITY_COLORS[ITEMS[s.id].rarity] ?? '#8d8a78'}"><span>${iconHtml(ITEMS[s.id])}</span>${s.plus ? `<i>+${s.plus}</i>` : ''}${left(s, i) > 1 ? `<small>${left(s, i)}</small>` : ''}</button>` : '')).join('')}</div>`}
+      ${trade.locked.me ? '' : `<div class="soc-bag">${c.inventory.map((s, i) => (s && left(s, i) ? `<button class="soc-it" data-bag="${i}" title="${esc(label({ ...s, qty: left(s, i) }))}" style="--rar:${RARITY_COLORS[s.roll?.rarity ?? ITEMS[s.id].rarity] ?? (s.roll?.rarity === 'magic' ? '#75b5ff' : '#8d8a78')}"><span>${iconHtml(ITEMS[s.id])}</span>${s.plus ? `<i>+${s.plus}</i>` : ''}${left(s, i) > 1 ? `<small>${left(s, i)}</small>` : ''}</button>` : '')).join('')}</div>`}
       <footer><button data-lock ${trade.locked.me ? 'disabled' : ''}>ล็อกข้อเสนอ</button><button data-conf ${both && !trade.confirmed.me ? '' : 'disabled'}>ยืนยันแลกเปลี่ยน</button><button data-x>ยกเลิก</button></footer>`;
     if (typing !== null && !trade.locked.me) { const g = win.querySelector('[data-gold]'); g.value = typing; g.focus(); }
     else if (focused) win.querySelector(`[${focused}]`)?.focus();
