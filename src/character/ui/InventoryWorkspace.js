@@ -28,6 +28,9 @@ export class InventoryWorkspace {
       </div><div class="iw-columns"></div>`);
     ui.layer.append(this.root);
     this.root.querySelector('.iw-columns').append(ui.sheet, ui.bag);
+    const controls = el('div', 'iw-bag-controls');
+    ui.bag.querySelector('.g-grid').before(controls);
+    controls.append(ui.bag.querySelector('.g-bag-tabs'), ui.bag.querySelector('.g-bag-tools'));
     ui.sheet.id = 'iw-equipment'; ui.bag.id = 'iw-bag';
     ui.sheet.setAttribute('aria-label', 'อุปกรณ์และสถานะ');
     ui.bag.setAttribute('aria-label', 'กระเป๋า');
