@@ -44,9 +44,17 @@ export const KIT_PASSIVES = {
     desc: 'ติดตัว: มือเบาปรุงยาไว MP +12 และฟื้นคืน MP สูงสุด +2% ต่อเลเวล', bonus: lv => ({ mp: 12 * lv, mpMul: .02 * lv }) },
 };
 export const KIT_PASSIVE_IDS = Object.fromEntries(['warrior', 'muaythai', 'hunter', 'shaman', 'herbalist'].map(cls => [cls, Object.keys(KIT_PASSIVES).filter(id => KIT_PASSIVES[id].cls === cls)]));
+// Filled by evolution registration. Kept separate to avoid a skills↔passives cycle.
+export const PASSIVE_PATH_BONUSES = {};
+export function passiveBonusAt(id, lv, pick) {
+  const n = Math.max(0, Math.min(10, Math.trunc(Number(lv) || 0)));
+  if (!KIT_PASSIVES[id] || !n) return {};
+  const path = n >= 5 && ['A', 'B'].includes(pick) ? PASSIVE_PATH_BONUSES[id]?.[pick] : null;
+  return path ? Object.fromEntries(Object.entries(path).map(([k, v]) => [k, +(v * n).toFixed(4)])) : KIT_PASSIVES[id].bonus(n);
+}
 // The sum of the learnt passives' bonuses ({ id: lv } → { key: value }).
-export function kitPassiveBonus(skills) {
+export function kitPassiveBonus(skills, choices = {}) {
   const out = {};
-  for (const [id, lv] of Object.entries(skills || {})) { const p = KIT_PASSIVES[id]; if (!p || !(lv > 0)) continue; for (const [k, v] of Object.entries(p.bonus(lv))) out[k] = +((out[k] || 0) + v).toFixed(4); }
+  for (const [id, lv] of Object.entries(skills || {})) { const p = KIT_PASSIVES[id]; if (!p || !(lv > 0)) continue; for (const [k, v] of Object.entries(passiveBonusAt(id, lv, choices[id]))) out[k] = +((out[k] || 0) + v).toFixed(4); }
   return out;
 }

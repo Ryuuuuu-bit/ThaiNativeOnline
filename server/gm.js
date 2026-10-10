@@ -98,7 +98,7 @@ export function gm(ctx, me, text) {
       const { t, err } = other(); if (err) return err;
       const ts = combatants.get(t.p.id); if (!ts?.persist) return 'ผู้เล่นนั้นไม่ได้เข้าสู่ระบบ';
       let got;
-      if (String(args[1]).toLowerCase() === 'gold') { const n = Math.max(1, int(args[2], 0)); if (!int(args[2], 0)) return 'ใส่จำนวนทอง'; ts.c.gold = Math.min(999999999, ts.c.gold + n); got = `${n.toLocaleString()} ทอง`; }
+      if (String(args[1]).toLowerCase() === 'gold') { const n = Math.max(1, int(args[2], 0)); if (!int(args[2], 0)) return 'ใส่จำนวนตำลึง'; ts.c.gold = Math.min(999999999, ts.c.gold + n); got = `${n.toLocaleString()} ตำลึง`; }
       else { const id = itemId(args[1]); if (!id) return `ไม่พบไอเทม "${args[1] ?? ''}"`; const n = Math.max(1, Math.min(999, int(args[2], 1))); ts.c.addItem(id, n); got = `${ITEMS[id].name} ×${n}`; }
       ts.dirty = true; send(t.ws, { t: 'sync', c: combatants.me(t.p.id) }); tell(t, `ได้รับ ${got} จาก GM`);
       log(`give ${t.p.name} ${got}`); return `ให้ ${t.p.name}: ${got}`;
@@ -160,7 +160,7 @@ export function runGm(c, text) {
   const [cmd = 'help', a1, a2] = String(text).replace(GM_PREFIX, '').trim().split(/\s+/);
   const rest = String(text).replace(GM_PREFIX, '').trim().slice(cmd.length).trim();
   switch (cmd.toLowerCase()) {
-    case 'gold': c.gold = Math.min(999999999, c.gold + num(a1, 100000)); return { ok: true, msg: `เงิน → ฿${c.gold.toLocaleString()}` };
+    case 'gold': c.gold = Math.min(999999999, c.gold + num(a1, 100000)); return { ok: true, msg: `เงิน → ${c.gold.toLocaleString()} ตำลึง` };
     case 'level': case 'lv': {
       const to = Math.max(1, Math.min(MAX_LEVEL, num(a1, c.level)));
       c.points = Math.max(0, c.points + (to - c.level) * POINTS_PER_LEVEL); c.level = to; c.exp = 0;

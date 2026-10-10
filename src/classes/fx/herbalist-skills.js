@@ -1,3 +1,4 @@
+import { nearXZ } from './hitGeometry.js';
 import * as THREE from 'three';
 import { lockTime } from '../tempo.js';
 import { gltfLoader } from '../../core/gltf.js';
@@ -138,7 +139,7 @@ export function createHerbalistSkills({ fx, character, player, dummy, groundHeig
     if (!r.hit) return tg.miss();
     return tg.hurt(r.dmg, r.crit, push, hero.pos(), true);
   };
-  const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
+  const near = (P, r) => tg.alive && nearXZ(tpos(), P, r);
   const lw = new THREE.Vector3(), boneLocal = name => { const b = character.bone?.(name); return b ? fx.toLocal(b.getWorldPosition(lw)) : null; };
   // where spells leave from: the open grimoire while it is out, else the left hand / chest
   const castPoint = () => (BOOK?.root.visible ? BOOK.root.position.clone().add(V(0, .1, 0)) : null) ?? boneLocal('LeftHand')?.add(dirTo().multiplyScalar(.15)).add(V(0, .12, 0)) ?? chest(hero).add(dirTo().multiplyScalar(.45)).add(V(0, .15, 0));

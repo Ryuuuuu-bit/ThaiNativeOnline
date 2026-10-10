@@ -105,7 +105,7 @@ export function applyOp(c, msg = {}, quests = null, here = null, state = null) {
     case 'sort': sortBag(c); return true;
     case 'learn': return typeof msg.id === 'string' && c.learnSkill(msg.id);
     case 'skill_reset': return c.resetSkills();
-    case 'evo': return typeof msg.id === 'string' && (msg.pick === 'A' || msg.pick === 'B') && c.chooseEvo(msg.id, msg.pick);
+    case 'evo': return !!state && state.fighting === false && !state.busy && typeof msg.id === 'string' && (msg.pick === 'A' || msg.pick === 'B') && !c.evoBlock(msg.id, msg.pick, state) && c.chooseEvo(msg.id, msg.pick);
     // quests and talks are face to face: `here` ({ map, x, z }) is checked against the NPC's spots
     case 'quest_accept': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.giver, here.map, here.x, here.z)) && quests.accept(msg.id); }
     case 'quest_complete': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.turnIn ?? q.giver, here.map, here.x, here.z)) && quests.complete(msg.id); }

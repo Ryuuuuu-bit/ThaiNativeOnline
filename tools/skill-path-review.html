@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="th"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Skill paths review</title>
+<body><main id="review"></main><script type="module">
+import '/src/ui/theme.css';
+import '/src/ui/layout.css';
+import '/src/ui/touch.css';
+import '/src/character/ui/character.css';
+import { Character } from '/src/character/Character.js';
+import { SkillPanel } from '/src/character/ui/SkillPanel.js';
+if (innerWidth < 1000) document.body.classList.add('ui-touch');
+const c = new Character({name:'ทดสอบสายสกิล', classId:'warrior', level:20, jobLevel:20, gold:1000, skills:{sword_twin:5,sword_thrust:5,sword_t_mastery:5}});
+const panel = new SkillPanel(document.querySelector('#review'),c,{log:()=>{}},()=>{});
+panel.toggle();
+window.skillReview={c,panel,ready:true};
+</script><style>
+body{margin:0;background:#152d26;color:#eee;font-family:Tahoma,sans-serif}#review{padding:16px}.g-panel.g-skills{position:relative;left:auto;top:auto;width:min(1080px,calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);margin:auto;zoom:1;transform:none!important;translate:none!important;right:auto;bottom:auto;height:calc(100dvh - 32px)}
+</style></body></html>

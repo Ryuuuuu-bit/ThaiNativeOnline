@@ -31,7 +31,7 @@ const BOARD_WHY = { ...PARTY_WHY, guest: 'ต้องเข้าสู่ร�
   level: 'เลเวลของคุณอยู่นอกช่วงรับสมัคร', pending: 'ส่งคำขอนี้แล้ว', busy: 'มีคำขอรออยู่มากเกินไป ลองใหม่ภายหลัง',
   expired: 'ประกาศหรือคำขอหมดอายุแล้ว', declined: 'หัวหน้าปาร์ตี้ปฏิเสธคำขอ' };
 const TRADE_WHY = { self: 'แลกกับตัวเองไม่ได้', busy: 'ตอนนี้แลกเปลี่ยนไม่ได้ (กำลังต่อสู้ หมดสติ หรือแลกกับคนอื่นอยู่)', offline: 'ผู้เล่นนั้นออฟไลน์', guest: 'ต้องเข้าสู่ระบบทั้งสองฝ่ายจึงแลกเปลี่ยนได้', far: 'ต้องยืนใกล้กัน (ไม่เกิน 8 เมตร) ในแชนแนลเดียวกัน', expired: 'คำขอหมดอายุแล้ว', declined: 'อีกฝ่ายปฏิเสธการแลกเปลี่ยน',
-  gold: 'ทองไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
+  gold: 'ตำลึงไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
   cancelled: 'ยกเลิกการแลกเปลี่ยน', moved: 'การแลกเปลี่ยนถูกยกเลิก (ย้ายแมพหรือแชนแนล)', left: 'อีกฝ่ายออกจากเกม · ยกเลิกการแลกเปลี่ยน' };
 const label = e => `${e.plus ? `+${e.plus} ` : ''}${ITEMS[e.id]?.name ?? e.id}${e.qty > 1 ? ` ×${e.qty}` : ''}${e.cards?.length ? ` ❖${e.cards.length}` : ''}`;
 // an HP / MP bar (empty when the server does not know it: a guest's)
@@ -368,9 +368,9 @@ export function attachSocial(net, c, chat, remote, game = null) {
     win.innerHTML = `<header><b>แลกเปลี่ยนกับ ${esc(trade.with.name)}</b><button data-x title="ยกเลิก">✕</button></header>
       <div class="soc-sides">
         <section><h4>ของคุณ ${state(trade.locked.me, trade.confirmed.me)}</h4><div class="soc-list">${offer.items.map((e, i) => row(e, i, !trade.locked.me)).join('') || '<p>ยังไม่ได้ใส่ของ</p>'}</div>
-          <label>ทอง <input type="number" min="0" max="${c.gold}" step="1" value="${offer.gold}" ${trade.locked.me ? 'disabled' : ''} data-gold></label></section>
+          <label>ตำลึง <input type="number" min="0" max="${c.gold}" step="1" value="${offer.gold}" ${trade.locked.me ? 'disabled' : ''} data-gold></label></section>
         <section><h4>ของ ${esc(trade.with.name)} ${state(trade.locked.them, trade.confirmed.them)}</h4><div class="soc-list">${trade.theirs.items.map((e, i) => row(e, i, false)).join('') || '<p>ยังไม่ได้ใส่ของ</p>'}</div>
-          <p class="soc-gold">ทอง ${trade.theirs.gold.toLocaleString()}</p></section>
+          <p class="soc-gold">ตำลึง ${trade.theirs.gold.toLocaleString()}</p></section>
       </div>
       <p class="soc-hint">${trade.locked.me ? 'ล็อกข้อเสนอแล้ว · ถ้าแก้ไข ทั้งสองฝ่ายต้องล็อกใหม่' : 'คลิกของในกระเป๋าเพื่อใส่ (กด Shift ค้างเพื่อใส่ทั้งกอง) · คลิกของในข้อเสนอเพื่อเอาออก'}</p>
       ${trade.locked.me ? '' : `<div class="soc-bag">${c.inventory.map((s, i) => (s && left(s, i) ? `<button class="soc-it" data-bag="${i}" title="${esc(label({ ...s, qty: left(s, i) }))}" style="--rar:${RARITY_COLORS[ITEMS[s.id].rarity] ?? '#8d8a78'}"><span>${iconHtml(ITEMS[s.id])}</span>${s.plus ? `<i>+${s.plus}</i>` : ''}${left(s, i) > 1 ? `<small>${left(s, i)}</small>` : ''}</button>` : '')).join('')}</div>`}

@@ -1,7 +1,7 @@
 // Skill evolution A/B and cast times for the class kits (src/classes/*-moves.js).
 //
 // Evolution: a kit skill at skill Lv.5 (EVO_LEVEL) can take path A or B. The first choice is
-// free; switching later costs EVO_SWITCH_GOLD. A path is the rules skill
+// free; switching later costs Job level × 10 ตำลึง outside combat. A path is the rules skill
 // (src/rules/data/skills.js) with some fields replaced — damage (mult), area (radius, or a
 // `splash` in metres), side effects (`effect` replaces the whole effect), buffs, heals, cast
 // time — registered in SKILL_BY_ID as '<skill id>@A' / '@B', so every rules function
@@ -13,9 +13,19 @@
 // Cast times: CAST_MS (ms, before the character's cast speed) for the big caster skills;
 // melee stays instant. A cast bar fills first (src/training/KitCaster.js), walking cancels it.
 import { SKILL_BY_ID } from './skills.js';
+import { PASSIVE_PATH_BONUSES } from './kitpassives.js';
+import { PROPOSED_ACTIVE_PATHS, PROPOSED_PASSIVE_PATHS } from '../../character/data/skill-path-design.js';
 
 export const EVO_LEVEL = 5;
+// Legacy constant retained for import compatibility; new transactions use the helper.
 export const EVO_SWITCH_GOLD = 500;
+// First choice is free; subsequent A/B changes cost Job level × 10 ตำลึง.
+// State/proximity/combat authorization belongs to Character and the server.
+export function evolutionSwitchCost(jobLevel, current, next) {
+  if (!['A', 'B'].includes(next) || !['A', 'B'].includes(current) || current === next) return 0;
+  const job = Math.min(50, Math.max(1, Math.trunc(Number(jobLevel) || 1)));
+  return job * 10;
+}
 export const evoId = (id, pick) => `${id}@${pick}`;
 export const baseSkillId = id => String(id).split('@')[0];
 
@@ -94,7 +104,16 @@ export const EVOLUTIONS = {
   },
 };
 
-const META = new Set(['name', 'desc', 'color']);
+// Preserve the original fifteen paths; add choices for every remaining kit skill.
+for (const [id, paths] of Object.entries(PROPOSED_ACTIVE_PATHS)) if (!EVOLUTIONS[id]) {
+  EVOLUTIONS[id] = Object.fromEntries(Object.entries(paths).map(([pick, path]) => [pick, { color: pick === 'A' ? '#9fd8c0' : '#e0b276', ...path }]));
+}
+for (const [id, paths] of Object.entries(PROPOSED_PASSIVE_PATHS)) {
+  EVOLUTIONS[id] = Object.fromEntries(Object.entries(paths).map(([pick, path]) => [pick, { color: pick === 'A' ? '#9fd8c0' : '#e0b276', passive: true, ...path }]));
+  PASSIVE_PATH_BONUSES[id] = Object.fromEntries(Object.entries(paths).map(([pick, path]) => [pick, path.bonusPerLevel]));
+}
+
+const META = new Set(['name', 'desc', 'color', 'passive', 'bonusPerLevel']);
 // cast times, then the paths (which inherit them unless they set their own)
 for (const [id, ms] of Object.entries(CAST_MS)) if (SKILL_BY_ID[id]) SKILL_BY_ID[id].castMs = ms;
 for (const [id, paths] of Object.entries(EVOLUTIONS)) {

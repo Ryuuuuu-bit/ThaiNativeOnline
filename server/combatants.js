@@ -41,6 +41,7 @@ import { SKILLS as LEGACY } from '../src/combat/data/skills.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
+import { skillHitSchedule } from '../src/rules/skillHits.js';
 import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, within } from '../src/training/kitCombat.js';
 import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
 import { applyQuestOp, reconcileQuestMasteries, recordQuestCast, recordQuestSkillHit } from './class-quests.js';
@@ -149,7 +150,7 @@ export class Combatants {
     if (!s.c.alive && ['sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
     const questResult = applyQuestOp(s.c, msg, s.quests, at);
     const ok = questResult === null
-      ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true })
+      ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true || (msg.op === 'evo' && ((s.variantEffectsUntil ?? 0) > this.now() || s.casting.size > 0 || s.casts.some(cast => this.now() - cast.at < (cast.window ?? CAST_WINDOW) && cast.left > 0) || s.c.buffs.length > 0)) })
       : questResult;
     if (ok) s.dirty = true;
     return ok;
@@ -231,14 +232,13 @@ export class Combatants {
     const mp = kitSkill ? Math.round(info.mp * (c.mpCostMul ?? 1)) : legacy.mp ?? 0;
     if (s.persist && mp) { if (c.mp + Math.max(2, mp * MP_SLACK) < mp) return { ok: false, why: 'mp' }; c.mp = Math.max(0, c.mp - mp); }
     s.cds.set(skillId, now + Math.max(0, cd * CD_SLACK - CD_LAG));
-    const base = SKILL_BY_ID[eff];
-    // how often one monster may be struck by this cast: the skill's own hits plus one for the
-    // dog's errand or an extra FX blow; `left` bounds the blows of the whole cast (an area skill
-    // reaches many monsters, each at most `perTarget` times)
-    const hits = kitSkill ? Math.max(kitSkill.hits?.length ?? 0, base?.hits ?? 0, base?.count ?? 0, 1) : 1;
-    const perTarget = hits + 1, blows = kitSkill ? hits * 3 + 4 + (base?.chain ?? 0) : legacy.kind === 'aoe' ? 3 : 2;
-    s.casts = s.casts.filter(k => now - k.at < CAST_WINDOW);
-    s.casts.push({ skill: skillId, eff, at: now, left: blows, perTarget, struck: new Map(), kit: !!kitSkill, hit: new Set(), splashed: new Set() });
+    // The client timeline and authoritative hit budget share the same rules.
+    // Support-only casts open no offensive budget; splash is selected here.
+    const schedule = kitSkill ? skillHitSchedule(kitSkill, eff) : [0];
+    const hits = schedule.length, window = Math.max(CAST_WINDOW, (schedule.at(-1) ?? 0) + .75);
+    const perTarget = kitSkill ? hits : 2, blows = kitSkill ? hits : legacy.kind === 'aoe' ? 3 : 2;
+    s.casts = s.casts.filter(k => now - k.at < (k.window ?? CAST_WINDOW));
+    s.casts.push({ skill: skillId, eff, at: now, window, left: blows, perTarget, struck: new Map(), kit: !!kitSkill, hit: new Set(), splashed: new Set() });
     if (legacy?.kind === 'pet' && legacy.frenzy) s.pet.frenzyUntil = now + legacy.frenzy;   // ไอ้ด่าง ลุย!: the dog bites faster for a while
     // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
     // and MP land on the server's copy (the browser shows the same)
@@ -294,7 +294,7 @@ export class Combatants {
       return ev;
     }
     // a skill: it needs a live cast with blows left
-    const cast = [...s.casts].reverse().find(k => k.skill === msg.skill && now - k.at < CAST_WINDOW && k.left > 0);
+    const cast = [...s.casts].reverse().find(k => k.skill === msg.skill && now - k.at < (k.window ?? CAST_WINDOW) && k.left > 0);
     if (!cast) return [];
     const kitSkill = cast.kit ? KITS[c.classId].find(k => k.id === cast.skill) : null, legacy = cast.kit ? null : LEGACY[cast.skill];
     const slv = kitSkill ? Math.max(1, lvOf(c, cast.skill)) : 1;
@@ -305,7 +305,9 @@ export class Combatants {
     const stats = this.stats(c);
     const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o.def), cast.eff ?? cast.skill, slv, this.r)
       : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o.def), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
-    const ev = this.strike(world, players, m, id, roll(m), cast, night);
+    const primary = roll(m);
+    const ev = this.strike(world, players, m, id, primary, cast, night);
+    if (!primary.hit) return ev;
     // area skills: the server picks who else is caught
     const sp = info?.splash;
     if (sp && m) {
@@ -330,11 +332,13 @@ export class Combatants {
     const n = cast.struck.get(m.id) ?? 0;
     if (n >= cast.perTarget) return [];   // this cast has struck that monster as often as the skill allows
     cast.struck.set(m.id, n + 1);
-    if (r.hit && r.dmg > 0 && m.hp > 0) recordQuestSkillHit(this, id, cast, m, r, CAST_WINDOW);
+    if (r.hit && r.dmg > 0 && m.hp > 0) recordQuestSkillHit(this, id, cast, m, r, cast.window ?? CAST_WINDOW);
     const ev = this.land(world, players, m, id, r, night);
     if (r.hit && m.hp > 0 && !cast.hit.has(m.id)) {
       cast.hit.add(m.id);
       for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
+        const owner = this.list.get(id);
+        if (owner) owner.variantEffectsUntil = Math.max(owner.variantEffectsUntil ?? 0, this.now() + d.duration);
         ev.push(world.debuff(m, { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, label: d.label, source: d.source || r.dmg, by: id, remaining: d.duration }));
       }
     }

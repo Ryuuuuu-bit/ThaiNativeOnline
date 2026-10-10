@@ -1,0 +1,61 @@
+// Content proposal for director-owned rules binding. Overrides replace whole nested objects.
+// Before a Lv.5 selection the original skill/passive remains unchanged.
+const p = (name, desc, overrides) => ({ name, desc, ...overrides });
+export const PROPOSED_ACTIVE_PATHS = {
+  boxer_jab: { A: p('หมัดหยั่งเชิง', 'ใช้ถี่ขึ้นและประหยัด MP แต่หมัดเบาลง', { cd: 1600, mp: 2, mult: .65 }), B: p('หมัดหยุดจังหวะ', 'หยุดเป้า 0.6 วิ แต่รอหมัดนานขึ้น', { cd: 3800, effect: { stun: { ms: 600 } } }) },
+  boxer_knee: { A: p('เข่าทะลุฝูง', 'วงลงกว้างขึ้นแต่แรงและมึนลดลง', { radius: 85, mult: 3.8, effect: { stun: { ms: 500 } } }), B: p('เข่าตรึง', 'วงแคบแต่ตรึงเป้าได้นาน', { radius: 35, effect: { stun: { ms: 1600 } } }) },
+  boxer_ngouy: { A: p('ศอกเปิดวง', 'กวาดรอบเป้า 3 เมตร แต่แรงลดลง', { splash: { radius: 3, around: 'target' }, mult: 4.8 }), B: p('ศอกคุมจังหวะ', 'ชะลอเป้า 45% แลกมึนและคูลดาวน์นานขึ้น', { cd: 16000, effect: { slow: { ms: 3500, pct: .45 } } }) },
+  boxer_waikru: { A: p('ไหว้ครูตั้งรับ', 'เน้นป้องกันและฟื้น HP แลกพลังโจมตี', { buff: { defMul: .3 }, heal: .15 }), B: p('ไหว้ครูเร่งหมัด', 'เน้นความเร็วหมัด แลกการป้องกันและการฟื้นตัว', { buff: { aspd: .22, atkMul: .1 }, heal: .04 }) },
+  boxer_drum: { A: p('กลองรวมพล', 'บัฟครอบคลุมกว้าง แต่ป้องกันเพิ่มน้อย', { radius: 300, buff: { atkMul: .1, def: 8 } }), B: p('กลองจู่โจม', 'วงแคบและบัฟสั้น แต่โจมตีเร็วขึ้น', { radius: 140, duration: 7000, buff: { atkMul: .18, aspd: .2 } }) },
+  boxer_iron: { A: p('มหาอุดคุ้มกาย', 'ป้องกันมากและฟื้น HP แลกพลังโจมตี', { buff: { defMul: .5, atkMul: .1 }, heal: .18 }), B: p('มหาอุดเร่งศึก', 'บัฟสั้น ใช้ได้ถี่ขึ้น แลกความทนทาน', { cd: 21000, duration: 6000, buff: { defMul: .15, atkMul: .4, aspd: .15 }, heal: .04 }) },
+  boxer_hanuman: { A: p('หนุมานกวาดทัพ', 'วงรอบเป้ากว้างขึ้น แต่แต่ละหมัดเบาลง', { splash: { radius: 3, around: 'target' }, mult: 1.8 }), B: p('หนุมานปิดทาง', 'วงแคบ ตรึงเป้า 0.8 วิ และคูลดาวน์ยาวขึ้น', { all: false, cd: 20000, effect: { stun: { ms: 800 } } }) },
+  sword_wind: { A: p('วายุยาว', 'แนวคลื่นยาวขึ้น แต่แรงลดลง', { range: 330, mult: 1.9 }), B: p('วายุเหนี่ยว', 'แนวสั้นลงแต่ชะลอศัตรู', { range: 170, effect: { slow: { ms: 2500, pct: .4 } } }) },
+  sword_guard: { A: p('การ์ดคุ้มกาย', 'ป้องกันและรักษามาก แลกพลังโจมตี', { buff: { def: 40 }, heal: .16 }), B: p('การ์ดสวน', 'บัฟสั้น ใช้ถี่ โจมตีเร็ว แลกป้องกัน', { cd: 13000, duration: 6000, buff: { def: 12, aspd: .2 }, heal: .06 }) },
+  sword_pikat: { A: p('พิฆาตกวาดวง', 'วงกว้างขึ้นแต่แรงลดลง', { radius: 100, mult: 1.5 }), B: p('พิฆาตคุมวง', 'วงแคบแต่ชะลอศัตรู', { radius: 45, effect: { slow: { ms: 3000, pct: .4 } } }) },
+  sword_banner: { A: p('ธงคุ้มทัพ', 'วงกว้าง เน้นป้องกัน แลกโจมตี', { radius: 300, buff: { def: 20, atkMul: .08 }, heal: .1 }), B: p('ธงเร่งทัพ', 'วงแคบ บัฟสั้น แต่ตีเร็วขึ้น', { radius: 140, duration: 8000, buff: { atkMul: .22, aspd: .18 }, heal: .04 }) },
+  sword_leap: { A: p('ผ่าปฐพีกวาดทัพ', 'วงลงกว้างแต่แรงและมึนลดลง', { radius: 105, mult: 4.8, effect: { stun: { ms: 500 } } }), B: p('ผ่าปฐพีตรึง', 'วงแคบแต่ตรึงนานขึ้น', { radius: 45, effect: { stun: { ms: 1800 } } }) },
+  sword_berserk: { A: p('โทสะยืนหยัด', 'บัฟยาว เน้นป้องกัน แลกคริและความเร็ว', { duration: 15000, buff: { atkMul: .2, defMul: .2 } }), B: p('โทสะฉับไว', 'บัฟสั้นและใช้ถี่ เน้นความเร็วโจมตี', { duration: 6000, cd: 22000, buff: { atkMul: .25, critAdd: .1, aspd: .25 } }) },
+  sword_execute: { A: p('ประหารกวาดทัพ', 'วงกว้าง แต่แรงและมึนลดลง', { splash: { radius: 3.5, around: 'target' }, mult: 11, effect: { stun: { ms: 700 } } }), B: p('ประหารตรึงอสูร', 'เป้าเดียว ตรึงนาน แต่รอใช้ใหม่นานขึ้น', { all: false, cd: 20000, effect: { stun: { ms: 2500 } } }) },
+  arch_quick: { A: p('ศรประหยัด', 'ยิงถี่และประหยัด MP แต่แรงลดลง', { mp: 2, cd: 1700, mult: .75 }), B: p('ศรเหนี่ยว', 'ชะลอเป้า แต่ยิงช้าลงและใช้ MP เพิ่ม', { mp: 5, cd: 3200, effect: { slow: { ms: 1800, pct: .3 } } }) },
+  arch_hawk: { A: p('เหยี่ยวอดทน', 'บัฟยาว เน้นตีเร็ว แลกคริ', { duration: 15000, buff: { aspd: .2, atkMul: .08 } }), B: p('เหยี่ยวจู่โจม', 'บัฟสั้น เน้นคริ แต่คูลดาวน์นานขึ้น', { duration: 6000, cd: 24000, buff: { critAdd: .2, atkMul: .2 } }) },
+  arch_rain: { A: p('ฝูงหมาล้อม', 'วงกว้างแต่กัดเบาลง', { radius: 150, mult: 1.3 }), B: p('ฝูงหมาสกัด', 'วงแคบแต่ชะลอเป้า แลกเลือดไหล', { radius: 70, effect: { slow: { ms: 3500, pct: .45 } } }) },
+  arch_garuda: { A: p('เห่าก้องวง', 'วงกว้างแต่มึนสั้น', { radius: 155, mult: 2.4, effect: { stun: { ms: 700 } } }), B: p('เห่าขวางทาง', 'วงแคบ แต่มึนนาน', { radius: 65, effect: { stun: { ms: 2400 } } }) },
+  arch_volley: { A: p('ศรแนวยาว', 'ทะลุแนวยาวแต่แรงลดลง', { range: 450, mult: 3.1 }), B: p('ศรสกัดแนว', 'แนวสั้น ชะลอศัตรู แลกผลเดิม', { range: 260, effect: { slow: { ms: 3500, pct: .45 } } }) },
+  arch_snipe: { A: p('ศรเล็งไว', 'ร่ายไว ใช้ถี่ แต่แรงลดลง', { castMs: 500, cd: 11000, mult: 10 }), B: p('ศรตรึงราตรี', 'ตรึงนาน แต่ร่ายและคูลดาวน์นานขึ้น', { castMs: 1400, cd: 18000, effect: { stun: { ms: 2200 } } }) },
+  arch_meteor: { A: p('ล่าล้างวงกว้าง', 'วงกว้างแต่แต่ละระลอกเบาลง', { radius: 210, mult: 2 }), B: p('ล่าปิดวง', 'วงแคบ แต่ชะลอศัตรู', { radius: 100, effect: { slow: { ms: 4000, pct: .45 } } }) },
+  mage_akom: { A: p('กระสุนทอดยาว', 'ระยะยาวขึ้น แต่แรงลดลง', { range: 330, mult: .55 }), B: p('กระสุนเหนี่ยววิญญาณ', 'ระยะสั้น แต่ชะลอเป้าและใช้ MP เพิ่ม', { range: 180, mp: 9, effect: { slow: { ms: 2200, pct: .35 } } }) },
+  mage_shield: { A: p('กระดูกคุ้มกาย', 'ป้องกันและรักษามาก แต่บัฟสั้น', { buff: { def: 38 }, heal: .18, duration: 5000 }), B: p('กระดูกคุ้มยาว', 'บัฟยาว ใช้ถี่ แต่ป้องกันและรักษาน้อย', { buff: { def: 16 }, heal: .06, duration: 12000, cd: 13000 }) },
+  mage_thunder: { A: p('มือผีตรึง', 'มึนนานแต่แรงลดลง', { mult: 2, effect: { stun: { ms: 1600 } } }), B: p('มือผีแผ่วง', 'กระทบรอบเป้า 2.5 เมตร แต่มึนสั้น', { mult: 2.2, splash: { radius: 2.5, around: 'target' }, effect: { stun: { ms: 300 } } }) },
+  mage_holy: { A: p('บรรพบุรุษคุ้มวง', 'วงกว้าง รักษา HP มาก แต่ไม่ฟื้น MP', { radius: 300, heal: .23, mpHeal: 0, buff: { def: 16 } }), B: p('บรรพบุรุษฟื้นใจ', 'วงแคบ ฟื้น MP มาก แต่ HP และป้องกันลดลง', { radius: 160, heal: .08, mpHeal: .25, buff: { def: 6 } }) },
+  mage_ghostfire: { A: p('วิญญาณแผ่ฝูง', 'พัดกว้าง แต่แรงลดลงและร่ายช้า', { spread: 90, mult: .65, castMs: 900 }), B: p('วิญญาณสกัด', 'พัดแคบ แต่ชะลอศัตรู', { spread: 30, effect: { slow: { ms: 2500, pct: .4 } } }) },
+  mage_meditate: { A: p('ฌานคุ้มกาย', 'เน้นรักษาและป้องกัน แลกคริและโจมตี', { buff: { atkMul: .15, defMul: .25 }, heal: .2 }), B: p('ฌานฉับไว', 'บัฟสั้น ใช้ถี่ แต่ฟื้น HP น้อย', { duration: 7000, cd: 24000, buff: { atkMul: .3, critAdd: .1 }, heal: .04 }) },
+  mage_storm: { A: p('ยมโลกกว้าง', 'วงกว้าง แต่แรงลดลงและร่ายนาน', { radius: 330, mult: 1.9, castMs: 1900 }), B: p('ยมโลกตรึง', 'วงแคบ ตรึงนาน แต่คูลดาวน์ยาวขึ้น', { radius: 180, cd: 21000, effect: { stun: { ms: 1000 } } }) },
+  heal_vine: { A: p('สายใยเร่งฟื้น', 'รักษามากขึ้น แต่คูลดาวน์และ MP เพิ่ม', { hmult: .085, cd: 13000, mp: 12 }), B: p('สายใยประหยัด', 'รักษาน้อย แต่ประหยัด MP และใช้ถี่', { hmult: .04, cd: 6500, mp: 5 }) },
+  heal_pill: { A: p('ลูกกลอนเมตตา', 'รักษามากขึ้น แลกแรงโจมตี', { hmult: .5, mult: .75 }), B: p('ลูกกลอนสกัด', 'ชะลอศัตรู แต่รักษาน้อยและใช้ MP เพิ่ม', { hmult: .22, mp: 14, effect: { slow: { ms: 2200, pct: .35 } } }) },
+  heal_zone: { A: p('หนาดคุมฝูง', 'วงกว้าง ช้าลงมาก แต่พิษเบา', { radius: 165, mult: .85, effect: { slow: { ms: 4000, pct: .45 }, poison: { ticks: 4, every: 1000, ratio: .1 } } }), B: p('หนาดพิษเข้ม', 'วงแคบ พิษหนัก แต่ไม่ชะลอ', { radius: 75, effect: { poison: { ticks: 6, every: 1000, ratio: .28 } } }) },
+  heal_khwan: { A: p('สู่ขวัญรวมวง', 'วงกว้าง แต่รักษาน้อยและร่ายนาน', { radius: 300, heal: .28, castMs: 1700 }), B: p('สู่ขวัญฉุกเฉิน', 'ร่ายไว รักษามาก แต่ครอบคลุมวงแคบ', { radius: 140, heal: .48, castMs: 600 }) },
+  heal_tonic: { A: p('ยาคุ้มทัพ', 'วงกว้าง เน้นป้องกัน แลกโจมตี', { radius: 300, buff: { defMul: .25, atkMul: .06 }, heal: .08 }), B: p('ยาเร่งทัพ', 'วงแคบ เน้นตีเร็ว แลกการป้องกัน', { radius: 150, duration: 8000, buff: { atkMul: .18, aspd: .18 }, heal: .03 }) },
+  heal_mother: { A: p('โพสพฟื้นกาย', 'วงกว้าง ฟื้น HP มาก แต่ไม่ฟื้น MP และไม่มีบัฟคริ', { radius: 320, heal: .55, mpHeal: 0, buff: {} }), B: p('โพสพฟื้นใจ', 'วงแคบ ฟื้น MP มาก แต่ HP ลดลง', { radius: 160, heal: .25, mpHeal: .35 }) },
+  heal_amrita: { A: p('อมฤตประพรมวง', 'วงกว้าง แต่รักษาน้อยและร่ายช้า', { radius: 350, heal: .42, castMs: 1500 }), B: p('อมฤตฉุกเฉิน', 'วงแคบ ร่ายไวและรักษามาก แต่คูลดาวน์ยาว', { radius: 160, heal: .72, castMs: 450, cd: 55000 }) },
+};
+
+// Per learned skill level. Binding builds bonus(lv) from these coefficients;
+// neither the passive base nor another passive is modified by selection.
+const passive = (name, desc, bonusPerLevel) => ({ name, desc, bonusPerLevel });
+export const PROPOSED_PASSIVE_PATHS = {
+  sword_t_mastery: { A: passive('ดาบแม่น', 'โจมตี +1.2% และแม่นยำ +2 ต่อเลเวล', { patkMul: .012, acc: 2 }), B: passive('ดาบไว', 'โจมตี +0.8% และตีเร็ว +1.2% ต่อเลเวล', { patkMul: .008, aspd: .012 }) },
+  sword_t_breath: { A: passive('ลมหายใจยืนหยัด', 'HP +25 ต่อเลเวล แลกหลบหลีก', { hp: 25 }), B: passive('ลมหายใจหลบคม', 'HP +8 และหลบหลีก +2 ต่อเลเวล', { hp: 8, eva: 2 }) },
+  sword_t_hide: { A: passive('หนังคงทน', 'HP +4% ต่อเลเวล แลกป้องกัน', { hpMul: .04 }), B: passive('หนังแข็ง', 'HP +1% และป้องกัน +3 ต่อเลเวล', { hpMul: .01, def: 3 }) },
+  boxer_t_wit: { A: passive('จังหวะรุก', 'ตีเร็ว +2% ต่อเลเวล แลกความทนทาน', { aspd: .02 }), B: passive('จังหวะหลบ', 'ตีเร็ว +0.8% และหลบหลีก +2 ต่อเลเวล', { aspd: .008, eva: 2 }) },
+  boxer_t_shin: { A: passive('ขาแม่น', 'โจมตี +1.2% และแม่นยำ +2 ต่อเลเวล', { patkMul: .012, acc: 2 }), B: passive('ขาทน', 'โจมตี +1% และป้องกัน +2 ต่อเลเวล', { patkMul: .01, def: 2 }) },
+  boxer_t_calm: { A: passive('จิตสำรอง', 'MP +18 ต่อเลเวล แลกป้องกัน', { mp: 18 }), B: passive('จิตตั้งมั่น', 'MP +5 และป้องกัน +2 ต่อเลเวล', { mp: 5, def: 2 }) },
+  arch_t_eye: { A: passive('เล็งมั่น', 'คริ +0.7% และแม่นยำ +2 ต่อเลเวล แลกแรงคริ', { crit: .007, acc: 2 }), B: passive('เล็งไว', 'แรงคริ +2% และตีเร็ว +1% ต่อเลเวล แลกโอกาสคริ', { critDmg: .02, aspd: .01 }) },
+  arch_t_bow: { A: passive('ธนูมั่น', 'โจมตี +1.2% และแม่นยำ +2 ต่อเลเวล', { patkMul: .012, acc: 2 }), B: passive('ธนูคล่อง', 'โจมตี +0.8% และหลบหลีก +2 ต่อเลเวล', { patkMul: .008, eva: 2 }) },
+  arch_t_bond: { A: passive('คู่หูล่า', 'หมากัด +5% ต่อเลเวล แลกประโยชน์พราน', { petMul: .05 }), B: passive('คู่หูคุ้ม', 'หมากัด +2% และป้องกัน +2 ต่อเลเวล', { petMul: .02, def: 2 }) },
+  mage_t_tongue: { A: passive('คาถาฉับไว', 'ลดคูลดาวน์ +1.3% ต่อเลเวล แลกสำรอง MP', { castRed: .013 }), B: passive('คาถาประหยัดแรง', 'ลดคูลดาวน์ +0.6% และ MP +12 ต่อเลเวล', { castRed: .006, mp: 12 }) },
+  mage_t_fire: { A: passive('เพลิงสำรอง', 'เวทย์ +1.2% และ MP +10 ต่อเลเวล', { matkMul: .012, mp: 10 }), B: passive('เพลิงคุ้มกาย', 'เวทย์ +1% และป้องกัน +2 ต่อเลเวล', { matkMul: .01, def: 2 }) },
+  mage_t_barami: { A: passive('บารมีสำรอง', 'MP +4% ต่อเลเวล แลกป้องกัน', { mpMul: .04 }), B: passive('บารมีคุ้มกาย', 'MP +1% และป้องกัน +3 ต่อเลเวล', { mpMul: .01, def: 3 }) },
+  heal_t_recipe: { A: passive('ตำรับเข้มข้น', 'รักษา +3.2% ต่อเลเวล แลกความถี่', { healMul: .032 }), B: passive('ตำรับหมุนเวียน', 'รักษา +1.5% และลดคูลดาวน์ +0.6% ต่อเลเวล', { healMul: .015, castRed: .006 }) },
+  heal_t_venom: { A: passive('พิษสำรอง', 'เวทย์ +1.2% และ MP +10 ต่อเลเวล', { matkMul: .012, mp: 10 }), B: passive('พิษยาเกื้อกูล', 'เวทย์ +0.8% และรักษา +1.2% ต่อเลเวล', { matkMul: .008, healMul: .012 }) },
+  heal_t_hands: { A: passive('มือสำรอง', 'MP +20 และ MP สูงสุด +1% ต่อเลเวล', { mp: 20, mpMul: .01 }), B: passive('มือฉับไว', 'MP +6 และลดคูลดาวน์ +0.8% ต่อเลเวล', { mp: 6, castRed: .008 }) },
+};

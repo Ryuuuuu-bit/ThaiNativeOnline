@@ -1,0 +1,32 @@
+{
+  "records": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "checks": 14,
+      "skillsRendered": 65,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "name": "portrait",
+      "width": 390,
+      "height": 844,
+      "checks": 14,
+      "skillsRendered": 65,
+      "errors": [],
+      "overflow": false
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "checks": 14,
+      "skillsRendered": 65,
+      "errors": [],
+      "overflow": false
+    }
+  ],
+  "browserClosed": true
+}

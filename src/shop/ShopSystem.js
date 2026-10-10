@@ -10,7 +10,7 @@ export function buy(character, shopType, itemId, qty = 1) {
   if (!Number.isSafeInteger(qty) || qty < 1 || qty > 999) return { ok: false, reason: 'จำนวนไม่ถูกต้อง' };
   if (!stockOf(shopType).includes(itemId)) return { ok: false, reason: 'ร้านนี้ไม่มีสินค้านี้' };
   const price = ITEMS[itemId].price * qty;
-  if (character.gold < price) return { ok: false, reason: 'ทองไม่พอ' };
+  if (character.gold < price) return { ok: false, reason: 'ตำลึงไม่พอ' };
   if (character.carryRoom(itemId) < qty) return { ok: false, reason: 'ของหนักเกินไป' };
   if (!character.canTake(itemId, qty)) return { ok: false, reason: 'กระเป๋าเต็ม' };
   if (!character.addItem(itemId, qty)) return { ok: false, reason: 'กระเป๋าเต็ม' };

@@ -7,10 +7,10 @@ import { SHOP_ICONS } from './HUD.js';
 import { STRIP } from '../character/data/cards.js';
 import { REFINE_SHOP, REFINE_SAFE, REFINE_MAX, REFINE_MILESTONES, refinable, refineCost, refineBonus } from '../character/data/refine.js';
 import './shop.css';
-const REFINE_WHY = { gold: 'ทองไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', locked: 'ปลดล็อกอุปกรณ์ก่อนตีบวก', connection: 'รอเชื่อมต่อและข้อมูลอุปกรณ์ล่าสุดก่อนตีบวก', pending: 'รอข้อมูลอุปกรณ์จากการตีครั้งก่อน', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', dead: 'ต้องฟื้นคืนชีพก่อนตีบวก', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
+const REFINE_WHY = { gold: 'ตำลึงไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', locked: 'ปลดล็อกอุปกรณ์ก่อนตีบวก', connection: 'รอเชื่อมต่อและข้อมูลอุปกรณ์ล่าสุดก่อนตีบวก', pending: 'รอข้อมูลอุปกรณ์จากการตีครั้งก่อน', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', dead: 'ต้องฟื้นคืนชีพก่อนตีบวก', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
 const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง' };
 const plusName = (id, plus) => `${plus ? `+${plus} ` : ''}${ITEMS[id].name}`;
-const STRIP_WHY = { gold: 'ทองไม่พอ', ash: 'ขี้เถ้าธูปไม่พอ', bag_full: 'กระเป๋าเต็ม', no_cards: 'ไอเท็มนี้ไม่มีการ์ด', no_shop: 'ต้องอยู่ที่ร้านหมออาคม และไม่ได้อยู่ระหว่างต่อสู้' };
+const STRIP_WHY = { gold: 'ตำลึงไม่พอ', ash: 'ขี้เถ้าธูปไม่พอ', bag_full: 'กระเป๋าเต็ม', no_cards: 'ไอเท็มนี้ไม่มีการ์ด', no_shop: 'ต้องอยู่ที่ร้านหมออาคม และไม่ได้อยู่ระหว่างต่อสู้' };
 
 const $ = id => document.getElementById(id);
 const fmt = n => Math.round(n || 0).toLocaleString();
@@ -188,14 +188,14 @@ export class ShopPanel {
     const bonus = Object.entries(nxt).map(([k, v]) => `${BONUS[k]} +${cur[k] ?? 0} → +${v} (เพิ่ม +${v - (cur[k] ?? 0)})`).join(' · ');
     const success = r.outcome === 'up';
     const detail = success ? `${bonus}${MILESTONE_TH[r.to] ? ` · ถึงขั้น${MILESTONE_TH[r.to]} +${r.to}` : ''}`
-      : `อุปกรณ์สูญเสีย${r.cards?.length ? ` พร้อม${r.cards.map(id => ITEMS[id]?.name ?? id).join(', ')}` : ''} · ใช้ ${fmt(cost.gold)} ทอง + ${ITEMS[cost.ore].name} 1 ชิ้น`;
+      : `อุปกรณ์สูญเสีย${r.cards?.length ? ` พร้อม${r.cards.map(id => ITEMS[id]?.name ?? id).join(', ')}` : ''} · ใช้ ${fmt(cost.gold)} ตำลึง + ${ITEMS[cost.ore].name} 1 ชิ้น`;
     return `<div class="eh-result ${success ? 'success' : 'broke'}" data-forge-result="${r.serial}" role="status" aria-live="polite"><span aria-hidden="true">${success ? '✦' : '◇'}</span><div><b>${success ? `ตีบวกสำเร็จ · ${esc(plusName(r.item, r.to))}` : `ตีบวก +${r.to} ล้มเหลว · ${esc(d.name)}แตกสลาย`}</b><small>${esc(detail)}</small></div></div>`;
   }
   buyMany(id, n) {
     const c = this.character, d = ITEMS[id];
     const r = buy(c, this.shopType, id, n);
     if (!r.ok) { this.receipt = r.reason; this.notify(r.reason, 'warn'); return; }
-    this.receipt = `ซื้อ ${d.name} ×${fmt(n)} · −${fmt(r.price)} ทอง`;
+    this.receipt = `ซื้อ ${d.name} ×${fmt(n)} · −${fmt(r.price)} ตำลึง`;
     this.notify(this.receipt, 'gold');
   }
   submitSale() {
@@ -204,7 +204,7 @@ export class ShopPanel {
     const count = lines.reduce((n, l) => n + l.qty, 0), gold = this.character.sellBatch(lines);
     this.confirmSale = false; this.basket.clear();
     if (!gold) { this.receipt = 'รายการเปลี่ยนไป กรุณาเลือกใหม่'; this.notify(this.receipt, 'warn'); return; }
-    this.character.save?.(); this.receipt = `ขาย ${fmt(count)} ชิ้น · +${fmt(gold)} ทอง`;
+    this.character.save?.(); this.receipt = `ขาย ${fmt(count)} ชิ้น · +${fmt(gold)} ตำลึง`;
     this.notify(this.receipt, 'gold');
   }
   matches(d) { return (!this.filter || groupOf(d) === this.filter) && `${d.name} ${describeItem(d)}`.toLowerCase().includes(this.search.trim().toLowerCase()); }
@@ -224,7 +224,7 @@ export class ShopPanel {
   }
   row(attr, value, d, { on, tag = '', price, dim } = {}) {
     return `<button type="button" class="sh-row${on ? ' on' : ''}${dim ? ' dim' : ''}" ${attr}="${value}">${icon(d)}
-      <span class="sh-tx"><b>${d.name}${d.type === 'equip' && d.slots ? ` [${d.slots}]` : ''}${tag}</b><small>${describeItem(d)}</small></span><span class="sh-pr">${fmt(price)}</span></button>`;
+      <span class="sh-tx"><b>${d.name}${d.type === 'equip' && d.slots ? ` [${d.slots}]` : ''}${tag}</b><small>${describeItem(d)}</small></span><span class="sh-pr" title="${fmt(price)} ตำลึง">${fmt(price)}</span></button>`;
   }
   buyHtml() {
     const c = this.character, stock = stockOf(this.shopType);
@@ -249,8 +249,8 @@ export class ShopPanel {
       <p class="sh-desc">${describeItem(d) || '—'}</p>
       <div class="sh-have"><span>มีในกระเป๋า</span><b>${fmt(c.count(id))} ชิ้น</b></div>
       <div class="sh-fill"></div>${amount}
-      <div class="sh-total"><span>รวม</span><b class="${ok ? '' : 'bad'}">${fmt(cost)} ทอง</b></div>
-      <button type="button" class="sh-go" data-go="${id}" ${ok ? '' : 'disabled'}>${!ok ? c.gold < cost ? 'ทองไม่พอ' : 'น้ำหนักหรือช่องกระเป๋าไม่พอ' : one ? 'ซื้อ' : `ซื้อ ${fmt(n)} ชิ้น`}</button>`;
+      <div class="sh-total"><span>รวม</span><b class="${ok ? '' : 'bad'}">${fmt(cost)} ตำลึง</b></div>
+      <button type="button" class="sh-go" data-go="${id}" ${ok ? '' : 'disabled'}>${!ok ? c.gold < cost ? 'ตำลึงไม่พอ' : 'น้ำหนักหรือช่องกระเป๋าไม่พอ' : one ? 'ซื้อ' : `ซื้อ ${fmt(n)} ชิ้น`}</button>`;
   }
   sellHtml() {
     const inv = this.character.inventory, lines = this.basket.lines(), total = this.basket.total();
@@ -259,12 +259,12 @@ export class ShopPanel {
       const picked = this.basket.picks.has(i), precious = s.plus || s.cards?.length;
       return `<button class="sh-row sh-sale-row${picked ? ' on' : ''}" data-pick="${i}" aria-pressed="${picked}"><span class="sh-check">${picked ? '✓' : ''}</span>${icon(ITEMS[s.id])}<span class="sh-tx"><b>${plusName(s.id, s.plus)}</b><small>${precious ? `◆ อุปกรณ์พิเศษ${s.cards?.length ? ` · ${s.cards.length} การ์ด` : ''}` : typeOf(ITEMS[s.id])} · มี ${fmt(s.qty)}</small></span><span class="sh-pr">${fmt(sellPrice(s.id))}<small>/ ชิ้น</small></span></button>`;
     }).join('');
-    const basket = lines.map(({ index: i, qty }) => { const s = inv[i]; return `<div class="sh-basket-row"><span><b>${plusName(s.id, s.plus)}</b><small>+${fmt(sellPrice(s.id) * qty)} ทอง</small></span><input type="number" inputmode="numeric" min="0" max="${s.qty}" value="${qty}" data-sale-qty="${i}" aria-label="จำนวนขาย ${ITEMS[s.id].name}"></div>`; }).join('');
+    const basket = lines.map(({ index: i, qty }) => { const s = inv[i]; return `<div class="sh-basket-row"><span><b>${plusName(s.id, s.plus)}</b><small>+${fmt(sellPrice(s.id) * qty)} ตำลึง</small></span><input type="number" inputmode="numeric" min="0" max="${s.qty}" value="${qty}" data-sale-qty="${i}" aria-label="จำนวนขาย ${ITEMS[s.id].name}"></div>`; }).join('');
     const risky = lines.some(l => inv[l.index].plus || inv[l.index].cards?.length);
     return `<div class="sh-trade">${this.toolbar(true)}<div class="sh-split sh-selling"><div class="sh-left"><p class="sh-gh"><b>ของในกระเป๋า</b><small>แตะเลือกหลายรายการ · ราคาต่อชิ้น</small></p><div class="sh-rows">${rows || '<p class="shop-empty">ไม่พบไอเท็มในหมวดนี้</p>'}</div></div>
       <aside class="sh-right sh-basket"><div class="sh-basket-title"><b>ถาดรอขาย <i>${lines.length}</i></b><button data-sale-clear ${lines.length ? '' : 'disabled'}>ล้าง</button></div><div class="sh-basket-list">${basket || '<p class="shop-empty">เลือกของจากกระเป๋า<br><small>ปรับจำนวนก่อนขายได้</small></p>'}</div>
-      ${risky ? '<p class="sh-warn">มีอุปกรณ์ตีบวก / ใส่การ์ด · ขายแล้วสูญเสียทั้งชิ้น</p>' : ''}<div class="sh-total"><span>ได้รับทั้งหมด</span><b>${fmt(total)} ทอง</b></div><small class="sh-after">ทองหลังขาย ${fmt(this.character.gold + total)}</small>
-      <button class="sh-go${this.confirmSale ? ' alt' : ''}" data-sale-submit ${lines.length ? '' : 'disabled'}>${this.confirmSale ? `ยืนยันขาย · +${fmt(total)} ทอง` : `ตรวจรายการขาย ${lines.length} รายการ`}</button></aside></div><p class="sh-receipt" role="status">${esc(this.receipt || (this.confirmSale ? 'ตรวจจำนวนและยอดทอง แล้วกดยืนยันขาย' : 'เลือกขายเฉพาะของที่ต้องการ · ของที่สวมอยู่ไม่อยู่ในรายการ'))}</p></div>`;
+      ${risky ? '<p class="sh-warn">มีอุปกรณ์ตีบวก / ใส่การ์ด · ขายแล้วสูญเสียทั้งชิ้น</p>' : ''}<div class="sh-total"><span>ได้รับทั้งหมด</span><b>${fmt(total)} ตำลึง</b></div><small class="sh-after">ตำลึงหลังขาย ${fmt(this.character.gold + total)}</small>
+      <button class="sh-go${this.confirmSale ? ' alt' : ''}" data-sale-submit ${lines.length ? '' : 'disabled'}>${this.confirmSale ? `ยืนยันขาย · +${fmt(total)} ตำลึง` : `ตรวจรายการขาย ${lines.length} รายการ`}</button></aside></div><p class="sh-receipt" role="status">${esc(this.receipt || (this.confirmSale ? 'ตรวจจำนวนและยอดตำลึง แล้วกดยืนยันขาย' : 'เลือกขายเฉพาะของที่ต้องการ · ของที่สวมอยู่ไม่อยู่ในรายการ'))}</p></div>`;
   }
   // gear in the bag that holds cards, with the price and the odds
   cardsHtml() {
@@ -273,9 +273,9 @@ export class ShopPanel {
       const cost = c.stripCost(i), d = ITEMS[s.id], afford = c.gold >= cost.gold && c.count('ash') >= cost.ash, armed = this.armed === i;
       return `<button class="shop-row${armed ? ' armed' : ''}" data-strip="${i}" ${afford ? '' : 'disabled'}>
         <i style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</i><span><b>${plusName(s.id, s.plus)} [${d.slots}]</b><small>${s.cards.map(id => ITEMS[id].name).join(', ')}</small></span>
-        <em>${armed ? 'กดอีกครั้งเพื่อยืนยัน' : `${cost.gold} ทอง · ขี้เถ้าธูป ${cost.ash}`}</em></button>`;
+        <em>${armed ? 'กดอีกครั้งเพื่อยืนยัน' : `${cost.gold} ตำลึง · ขี้เถ้าธูป ${cost.ash}`}</em></button>`;
     }).join('');
-    return `<p class="shop-note">หมออาคมถอดการ์ดออกจากอุปกรณ์ในกระเป๋าได้ทั้งหมดในครั้งเดียว · การ์ดละ ${STRIP.gold} ทอง + ขี้เถ้าธูป ${STRIP.ash}<br>สำเร็จ ${Math.round(STRIP.ok * 100)}% · อุปกรณ์แตก ${Math.round(STRIP.itemBreaks * 100)}% (ได้การ์ดคืน) · การ์ดแตก ${Math.round((1 - STRIP.ok - STRIP.itemBreaks) * 100)}%</p>`
+    return `<p class="shop-note">หมออาคมถอดการ์ดออกจากอุปกรณ์ในกระเป๋าได้ทั้งหมดในครั้งเดียว · การ์ดละ ${STRIP.gold} ตำลึง + ขี้เถ้าธูป ${STRIP.ash}<br>สำเร็จ ${Math.round(STRIP.ok * 100)}% · อุปกรณ์แตก ${Math.round(STRIP.itemBreaks * 100)}% (ได้การ์ดคืน) · การ์ดแตก ${Math.round((1 - STRIP.ok - STRIP.itemBreaks) * 100)}%</p>`
       + (rows || '<p class="shop-empty">ไม่มีอุปกรณ์ที่ใส่การ์ดในกระเป๋า (ถอดอุปกรณ์ที่สวมอยู่ออกก่อน)</p>');
   }
   // Quiet jade/brass forge: item, odds, cumulative bonuses, milestone rewards and exact risks.
@@ -293,7 +293,7 @@ export class ShopPanel {
     const ore = cost && ITEMS[cost.ore], have = cost ? c.count(cost.ore) : 0, rate = cost ? Math.round(cost.rate * 100) : 0;
     const pending = !!this.refinePending || !!c.refineRecovering;
     const can = !!cost && c.alive && c.gold >= cost.gold && have > 0 && !pending, sells = !!cost && stockOf(this.shopType).includes(cost.ore);
-    const label = c.refineRecovering ? 'รอข้อมูลอุปกรณ์ล่าสุด…' : pending ? this.forgeResult ? 'กำลังอัปเดตอุปกรณ์…' : 'กำลังรอผล…' : max ? 'สูงสุดแล้ว' : !c.alive ? 'ต้องฟื้นคืนชีพก่อน' : armed ? 'เสี่ยงแตก! ยืนยันตีบวก' : !have ? `ไม่มี${ore.name}` : c.gold < cost.gold ? 'ทองไม่พอ' : `ตีบวก +${cost.to}`;
+    const label = c.refineRecovering ? 'รอข้อมูลอุปกรณ์ล่าสุด…' : pending ? this.forgeResult ? 'กำลังอัปเดตอุปกรณ์…' : 'กำลังรอผล…' : max ? 'สูงสุดแล้ว' : !c.alive ? 'ต้องฟื้นคืนชีพก่อน' : armed ? 'เสี่ยงแตก! ยืนยันตีบวก' : !have ? `ไม่มี${ore.name}` : c.gold < cost.gold ? 'ตำลึงไม่พอ' : `ตีบวก +${cost.to}`;
     const milestones = REFINE_MILESTONES.map(n => `<div class="eh-milestone${t.plus >= n ? ' reached' : cost?.to === n ? ' next' : ''}"><b>+${n} <small>${MILESTONE_TH[n]}</small></b><span>${Object.entries(refineBonus(d, n)).map(([k, v]) => `${BONUS[k]} +${fmt(v)}`).join(' · ')}</span><small>${t.plus >= n ? 'ถึงขั้นนี้แล้ว' : cost?.to === n ? 'ขั้นถัดไป' : n <= REFINE_SAFE ? 'สำเร็จเสมอ' : 'มีโอกาสแตก'}</small></div>`).join('');
     const row = x => {
       const dx = ITEMS[x.id], cx = refineCost(dx, x.plus), k = keyOf(x);
@@ -320,7 +320,7 @@ export class ShopPanel {
         </div>
         <p class="sh-note">ค่าตีและแร่ใช้ทุกครั้ง ทั้งสำเร็จและล้มเหลว · โบนัสคิดจากพลังพื้นฐานของไอเท็ม ไม่ทบกับการ์ด · สูงสุด +${REFINE_MAX}</p>
         </div>
-        <div class="eh-foot"><p class="eh-risk${cost?.risky ? ' risky' : ''}">${max ? 'ศาสตราชิ้นนี้ถึงขั้นสูงสุดแล้ว' : cost.risky ? `⚠ ล้มเหลว ${100 - rate}%: อุปกรณ์${t.cards.length ? `และการ์ด ${t.cards.length} ใบ` : ''}สูญเสียถาวร` : `✦ ถึง +${REFINE_SAFE} สำเร็จเสมอ · การ์ดไม่เสี่ยงแตก`}</p><span class="eh-cost"><small>ค่าตีบวก</small><b class="${cost && c.gold < cost.gold ? 'bad' : ''}">${max ? '—' : `${fmt(cost.gold)} ทอง`}</b>${cost ? `<small>เหลือ ${fmt(Math.max(0, c.gold - cost.gold))}</small>` : ''}</span>
+        <div class="eh-foot"><p class="eh-risk${cost?.risky ? ' risky' : ''}">${max ? 'ศาสตราชิ้นนี้ถึงขั้นสูงสุดแล้ว' : cost.risky ? `⚠ ล้มเหลว ${100 - rate}%: อุปกรณ์${t.cards.length ? `และการ์ด ${t.cards.length} ใบ` : ''}สูญเสียถาวร` : `✦ ถึง +${REFINE_SAFE} สำเร็จเสมอ · การ์ดไม่เสี่ยงแตก`}</p><span class="eh-cost"><small>ค่าตีบวก</small><b class="${cost && c.gold < cost.gold ? 'bad' : ''}">${max ? '—' : `${fmt(cost.gold)} ตำลึง`}</b>${cost ? `<small>เหลือ ${fmt(Math.max(0, c.gold - cost.gold))}</small>` : ''}</span>
           <button type="button" class="sh-go${armed ? ' danger' : ''}" data-refine="${key}" ${cost?.risky ? 'data-risky="1"' : ''} ${can ? '' : 'disabled'}>${label}</button></div>
       </div>
       <aside class="sh-right eh-list">${worn.length ? `<p class="sh-gh"><b>อุปกรณ์ที่สวมอยู่</b><small>เลือกชิ้นที่จะตี</small></p>${worn.map(row).join('')}` : ''}${bag.length ? `<p class="sh-gh"><b>ในกระเป๋า</b></p>${bag.map(row).join('')}` : ''}</aside></div>`;

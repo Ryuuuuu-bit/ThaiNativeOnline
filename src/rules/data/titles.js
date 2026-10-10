@@ -53,7 +53,7 @@ export const TITLES = [
   { id: 'lg_life',    cat: 'legend', fx: 'glow', nameTh: 'ปราชญ์แห่งสุวรรณภูมิ',     color: '#82e0aa', hint: `อาชีพเสริมครบ Lv.${LIFE_MAX} ทุกอาชีพ (ตกปลา·ทำอาหาร·เก็บของ·ตีเหล็ก)`, ok: (c) => LIFE_IDS.every((k) => lifeLevel(c.life?.[k] || 0).lv >= LIFE_MAX) },
   { id: 'lg_fish4',   cat: 'legend', fx: 'glow', nameTh: 'เจ้าสมุทรทั้งสี่ภพ',        color: '#5dade2', hint: 'ตกปลาตำนานได้ครบทั้ง 4 แดน',                                  ok: (c, r) => ['pla_takhian_thong', 'pla_krahoe', 'pla_thip', 'pla_anon'].every((k) => (r[`lf_${k}`] || 0) > 0) },
   { id: 'lg_duel300', cat: 'legend', fx: 'glow', nameTh: 'เทพสงครามไร้พ่าย',       color: '#ffd700', hint: 'ชนะการดวล 300 ครั้ง',                                      ok: (c, r) => (r.duelWin || 0) >= 300 },
-  { id: 'lg_rich',    cat: 'legend', fx: 'glow', nameTh: 'มหาเศรษฐีสุวรรณภูมิ',      color: '#f7dc6f', hint: 'มีเงินติดตัว ฿10,000,000',                                  ok: (c) => (c.gold || 0) >= 10_000_000 },
+  { id: 'lg_rich',    cat: 'legend', fx: 'glow', nameTh: 'มหาเศรษฐีสุวรรณภูมิ',      color: '#f7dc6f', hint: 'มีเงินติดตัว ตำลึง 10,000,000',                                  ok: (c) => (c.gold || 0) >= 10_000_000 },
   { id: 'lg_ascend',  cat: 'legend', fx: 'glow', nameTh: 'ผู้อยู่เหนือไตรภูมิ',        color: '#ff9ff3', hint: 'สุดยอดแห่งตำนาน: Lv.150 · ปราบบอสครบ 9 ตัว · เควสต่างแดนครบ · พิชิตสุสาน 100 ชั้น', ok: (c, r) => c.level >= 150 && ALL9.every((k) => tb(r)[k]) && QUESTS.filter((q) => q.realm).every((q) => c.quests?.done?.includes(q.id)) && (c.crypt?.best || 0) >= 100 },
   // ---- บอส ----
   { id: 'rboss', cat: 'boss',      nameTh: 'ผู้พิชิตเจ้าถิ่น',      color: '#f39c12', hint: 'ร่วมปราบบอสประจำโซน 1 ตัว',                 ok: (c, r) => Object.keys(tb(r)).length >= 1 || (r.rboss || 0) >= 1 },
@@ -99,7 +99,7 @@ export const TITLES = [
   { id: 'buek', cat: 'life',       nameTh: 'ผู้พิชิตปลาบึก',       color: '#5dade2', hint: 'ตกปลาบึกยักษ์ได้',                         ok: (c, r) => (r.buek || 0) >= 1 },
   { id: 'herbal', cat: 'life',     nameTh: 'หมอยาป่า',            color: '#82e0aa', hint: 'เก็บสมุนไพร 100 ครั้ง',                     ok: (c, r) => (r.herb || 0) >= 100 },
   { id: 'crafter', cat: 'life',    nameTh: 'ช่างฝีมือกรุงศรี',       color: '#f0b27a', hint: 'สร้างอุปกรณ์/ปรุงยา/ทำอาหาร 50 ครั้ง',                ok: (c, r) => (r.craft || 0) >= 50 },
-  { id: 'rich', cat: 'misc',       nameTh: 'เศรษฐีกรุงศรี',          color: '#f7dc6f', hint: 'มีเงินติดตัว ฿1,000,000',                   ok: (c) => (c.gold || 0) >= 1_000_000 },
+  { id: 'rich', cat: 'misc',       nameTh: 'เศรษฐีกรุงศรี',          color: '#f7dc6f', hint: 'มีเงินติดตัว ตำลึง 1,000,000',                   ok: (c) => (c.gold || 0) >= 1_000_000 },
   { id: 'elder', cat: 'misc',      nameTh: 'ลูกรักผู้ใหญ่ชัย',       color: '#f8c471', hint: 'ทำเควสผู้ใหญ่ชัยครบทุกเควส',                  ok: (c) => QUESTS.every((q) => q.optional || q.realm || q.adv || c.quests?.done?.includes(q.id)) },
   // เคลียร์เควสต่างแดนครบทุกเควสของแดน (shared/data/village.js realm)
   ...[['himmaphan', 'ผู้พิทักษ์หิมพานต์', '#82e0aa'], ['nagaphop', 'สหายแห่งนาคา', '#5dade2'], ['naraka', 'ผู้ฝ่าขุมนรก', '#ec7063'], ['dusit', 'แขกแห่งดาวดึงส์', '#f7dc6f'], ['sumeru', 'ผู้พิชิตเขาพระสุเมรุ', '#d2b4de']].map(([realm, nameTh, color]) => (
