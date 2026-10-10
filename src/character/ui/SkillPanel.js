@@ -27,6 +27,7 @@ import { Character } from '../Character.js';
 import { skillPreview } from '../../rules/skillPreview.js';
 import { skillHitSchedule } from '../../rules/skillHits.js';
 import { passiveBonusAt } from '../../rules/data/kitpassives.js';
+import './skill-choice.css';
 
 const TYPE_TH = { melee: 'โจมตีประชิด', projectile: 'โจมตีระยะไกล', strike: 'สายฟ้าใส่เป้า', tether: 'สายใยผูกเพื่อน', bounce: 'เด้งเพื่อน ↔ ผี', seed: 'เมล็ดฝังเพื่อน',
   aoe: 'โจมตีรอบตัว', dash: 'พุ่งเข้าหา', mortar: 'ลงพื้นเป็นวง', buff: 'บัฟตัวเอง', party: 'บัฟทั้งปาร์ตี้', revive: 'ชุบชีวิต · รักษา', passive: 'ติดตัว' };
@@ -116,7 +117,7 @@ export class SkillPanel {
     draggable(this.root, { key: 'skills', handle: '.panel-heading' });
     this.root.addEventListener('click', e => {
       const go = e.target.closest('[data-go]'); if (go) { this.root.hidden = true; this.open?.(go.dataset.go); return; }
-      const node = e.target.closest('[data-sk]'); if (node) { this.sel = node.dataset.sk; this.key = null; this.refresh(); return; }
+      const node = e.target.closest('[data-sk]'); if (node) { this.pendingEvo = null; this.sel = node.dataset.sk; this.key = null; this.refresh(); return; }
       const up = e.target.closest('[data-learn]');
       const evo = e.target.closest('[data-evo]');
       if (evo) {
@@ -125,9 +126,10 @@ export class SkillPanel {
         if (why) { this.feed?.log(why, 'bad', true); return; }
         this.pendingEvo = { id, pick, cost }; this.key = null; this.refresh();
         this.root.querySelector('.g-evo-confirm')?.scrollIntoView({ block: 'center' });
+        this.root.querySelector('[data-evo-confirm]')?.focus({ preventScroll: true });
         return;
       }
-      if (e.target.closest('[data-evo-cancel]')) { this.pendingEvo = null; this.key = null; this.refresh(); return; }
+      if (e.target.closest('[data-evo-cancel]')) { const pending = this.pendingEvo; this.pendingEvo = null; this.key = null; this.refresh(); this.root.querySelector(`[data-evo="${pending?.id}:${pending?.pick}"]`)?.focus({ preventScroll: true }); return; }
       if (e.target.closest('[data-evo-confirm]')) {
         const pending = this.pendingEvo;
         if (!pending) return;
@@ -182,6 +184,7 @@ export class SkillPanel {
   // tree rebuilt under a finger would eat the tap).
   refresh() {
     const c = this.c, max = c.jobLevel >= MAX_JOB_LEVEL;
+    if (this.pendingEvo) this.pendingEvo.cost = c.evoCost(this.pendingEvo.id, this.pendingEvo.pick);
     // the Job EXP bar moves on its own; the tree and card below are rebuilt only when they changed
     this.root.querySelector('.g-sk-jt').textContent = max ? 'Job สูงสุด' : `Job EXP ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`;
     setBar(this.root.querySelector('.g-jexp'), max ? 1 : c.jobExp, max ? 1 : c.jobExpNeeded, '');
@@ -194,6 +197,12 @@ export class SkillPanel {
     const reset = this.root.querySelector('.g-skill-reset');
     reset.innerHTML = `รีเซ็ตสกิล <span class="g-cost"><i class="g-coin"></i>${c.skillResetCost.toLocaleString()}</span>`; reset.disabled = c.skillPointsSpent <= 0;
     const tree = this.root.querySelector('.g-sk-tree'), card = this.root.querySelector('.g-sk-card');
+    const openPaths = new Set([...card.querySelectorAll('details[data-path-details][open]')].map(e => e.dataset.pathDetails));
+    const active = document.activeElement;
+    const restoreFocus = card.contains(active) ? active.closest('[data-evo-confirm],[data-evo-cancel],[data-evo],[data-learn],summary[data-path-details]') : null;
+    const focusKey = restoreFocus && ['data-evo-confirm', 'data-evo-cancel', 'data-evo', 'data-learn', 'data-path-details'].find(k => restoreFocus.hasAttribute(k));
+    const focusSelector = focusKey ? `${restoreFocus.tagName === 'SUMMARY' ? 'summary' : ''}[${focusKey}="${restoreFocus.getAttribute(focusKey)}"]` : null;
+    const cardScroll = card.scrollTop;
     if (!this.kit) { tree.innerHTML = '<p class="g-skill-none">อาชีพนี้ยังไม่มีสกิลให้อัป</p>'; card.innerHTML = ''; return; }
 
     // tree: the root on top, the three lines below it
@@ -231,24 +240,29 @@ export class SkillPanel {
     const paths = EVOLUTIONS[s.id], ready = lv >= EVO_LEVEL;
     const effective = SKILL_BY_ID[c.skillVariant(s.id)] ?? SKILL_BY_ID[s.id];
     const description = paths?.[c.evo[s.id]]?.desc ?? effective?.desc ?? s.desc;
-    const evoHtml = !paths ? '' : `<div class="g-sk-evo"><span>ทางเลือก A / B ${ready ? '' : `<small>เปิดที่สกิล Lv.${EVO_LEVEL}</small>`}</span><small>เลือกครั้งแรกฟรี · เปลี่ยนสาย Job Lv × 10 ตำลึง (${c.jobLevel * 10}) · นอกการต่อสู้ หลังจบผลสกิล (คูลดาวน์เดิมคงอยู่)</small>${['A', 'B'].map(p => {
+    const evoHtml = !paths ? '' : `<div class="g-sk-evo"><span>เลือกสายสกิล A / B ${ready ? '' : `<small>ปลดล็อกเมื่อสกิล Lv.${EVO_LEVEL} · ตอนนี้ Lv.${lv}</small>`}</span><small class="g-evo-instruction">1. อ่านผลของแต่ละสาย → 2. กด “เลือกสาย” → 3. กดยืนยัน<br>เลือกได้หนึ่งสายต่อสกิล · ครั้งแรกฟรี · เปลี่ยนภายหลัง ${fmt(c.jobLevel * 10)} ตำลึง · ต้องพ้นการต่อสู้และรอผลสกิลจบ</small>${['A', 'B'].map(p => {
       const on = c.evo[s.id] === p, cost = c.evoCost(s.id, p);
       const why = c.evoBlock(s.id, p), previewCharacter = new Character({ ...c.toJSON(), evo: { ...c.evo, [s.id]: p } });
       previewCharacter.buffs = c.buffs.map(buff => ({ ...buff })); previewCharacter.night = c.night;
       const details = s.passive
         ? Object.entries(passiveBonusAt(s.id, Math.max(EVO_LEVEL, lv), p)).map(([k, v]) => `<div><span>${esc(BONUS_TH[k] ?? k)}</span><em>${esc(BONUS_FMT[k]?.(v) ?? v)}</em></div>`).join('')
         : yourNumbers(previewCharacter, s, `${s.id}@${p}`, Math.max(EVO_LEVEL, lv));
-      return `<div class="g-path-option"><button type="button" data-evo="${s.id}:${p}" class="${on ? 'on' : ''}" ${ready && !why ? '' : 'disabled'} title="${esc(why ?? paths[p].desc)}" style="--evo:${paths[p].color}"><b>${p}</b> ${esc(paths[p].name)}${on ? ' ✓' : cost && ready ? ` · ${cost} ตำลึง` : ready ? ' · ฟรี' : ''}<small>${esc(paths[p].desc)}</small>${why && !on ? `<small>${esc(why)}</small>` : ''}</button><details><summary>ดูผลที่คำนวณ · สาย ${p}${lv < EVO_LEVEL ? ` · ตัวอย่าง Lv.${EVO_LEVEL}` : ''}</summary>${details}</details></div>`;
-    }).join('')}${this.pendingEvo?.id === s.id ? `<div class="g-evo-confirm" role="group" aria-label="ยืนยันเปลี่ยนสาย"><p>ยืนยัน ${esc(paths[this.pendingEvo.pick].name)} · ${this.pendingEvo.cost ? `${this.pendingEvo.cost} ตำลึง` : 'เลือกครั้งแรกฟรี'}<br>ยอดปัจจุบัน ${fmt(c.gold)} → ${fmt(c.gold - this.pendingEvo.cost)} ตำลึง</p><button type="button" data-evo-confirm>ยืนยัน</button><button type="button" data-evo-cancel>ยกเลิก</button></div>` : ''}</div>`;
+      const pending = this.pendingEvo?.id === s.id && this.pendingEvo.pick === p;
+      const action = on ? `✓ กำลังใช้สาย ${p}` : !ready ? `ต้องมีสกิล Lv.${EVO_LEVEL}` : `${c.evo[s.id] ? 'เปลี่ยนเป็น' : 'เลือก'}สาย ${p} · ${cost ? `${fmt(cost)} ตำลึง` : 'ฟรี'}`;
+      const confirmation = pending ? `<div class="g-evo-confirm" role="group" aria-label="ยืนยันเลือกสาย ${p}"><p>เลือกสาย ${p} · ${esc(paths[p].name)}<br>${cost ? `ค่าเปลี่ยนสาย ${fmt(cost)} ตำลึง` : 'เลือกครั้งแรกฟรี'} · คงคูลดาวน์เดิม<br>ยอดปัจจุบัน ${fmt(c.gold)} → ${fmt(c.gold - cost)} ตำลึง</p><button type="button" data-evo-confirm ${why ? 'disabled' : ''}>ยืนยัน${c.evo[s.id] ? 'เปลี่ยน' : 'เลือก'}สาย ${p}</button><button type="button" data-evo-cancel>ยกเลิก</button></div>` : '';
+      return `<div class="g-path-option${on ? ' on' : ''}${pending ? ' is-pending' : ''}" style="--evo:${paths[p].color}"><div class="g-path-head"><b>สาย ${p}</b><strong>${esc(paths[p].name)}</strong>${on ? '<span>กำลังใช้อยู่</span>' : pending ? '<span>รอยืนยัน</span>' : ''}</div><p class="g-path-desc">${esc(paths[p].desc)}</p><details data-path-details="${s.id}:${p}" ${openPaths.has(`${s.id}:${p}`) ? 'open' : ''}><summary data-path-details="${s.id}:${p}">ดูตัวเลขและผลสกิล · สาย ${p}${lv < EVO_LEVEL ? ` · ตัวอย่าง Lv.${EVO_LEVEL}` : ''}</summary>${details}</details>${why && !on ? `<small class="g-path-block">${esc(why)}</small>` : ''}<button type="button" class="g-path-action${on ? ' on' : ''}" data-evo="${s.id}:${p}" ${ready && !why && !on ? '' : 'disabled'} aria-label="${esc(action)} · ${esc(paths[p].name)}" aria-expanded="${pending}" ${pending ? 'aria-controls="g-path-confirm"' : ''}>${action}</button>${confirmation.replace('class="g-evo-confirm"', 'id="g-path-confirm" class="g-evo-confirm"')}</div>`;
+    }).join('')}</div>`;
     const label = locked ? esc(treeBlock) : maxed ? 'เลเวลสูงสุดแล้ว' : block ?? (lv ? 'อัปเลเวล <small>ใช้ 1 แต้ม</small>' : 'เรียนสกิล <small>ใช้ 1 แต้ม</small>');
     card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${s.passive ? 'ติดตัว · ไม่ต้องร่าย ไม่กินช่องลัด' : `${TYPE_TH[effective?.type] ?? 'สกิล'} · ${effective?.kind === 'physical' ? 'กายภาพ' : effective?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}`}</small><div class="g-pips">${pips}</div></div>
         <span class="g-skd-lv">Lv ${lv}/${MAX_SKILL_LEVEL}<small>${locked ? 'ยังไม่ปลด' : lv ? 'เรียนแล้ว' : 'เรียนได้'}</small></span></div>
-      ${cmp ? `<div class="g-cmp">${cmp}</div>` : ''}
-      ${s.passive ? '' : yourNumbers(c, s, c.skillVariant(s.id), lv)}
       ${description ? `<p class="g-skd-desc">${esc(description)}</p>` : ''}
       ${evoHtml}
+      ${cmp ? `<div class="g-cmp">${cmp}</div>` : ''}
+      ${s.passive ? '' : yourNumbers(c, s, c.skillVariant(s.id), lv)}
       <div class="g-reqs"><span><b class="g-lvtag">ปลด</b><span class="${c.jobLevel >= need ? 'ok' : 'no'}">${c.jobLevel >= need ? '✓' : '✗'} Job Lv ${need}</span></span>${reqs.map(([k, n]) => `<span><b class="g-lvtag">ก่อน</b><span class="${c.skillLevel(k) >= n ? 'ok' : 'no'}">${c.skillLevel(k) >= n ? '✓' : '✗'} ${esc(this.name(k))} Lv ${n}</span></span>`).join('')}<span><b class="g-lvtag">แต้ม</b><span class="${c.skillPoints > 0 ? 'ok' : 'no'}">${c.skillPoints > 0 ? '✓' : '✗'} เหลือ ${c.skillPoints} แต้ม</span></span></div>
       <button type="button" class="g-skd-up" data-learn="${s.id}" ${block ? 'disabled' : ''}>${label}</button>`;
+    card.scrollTop = cardScroll;
+    if (focusSelector) card.querySelector(focusSelector)?.focus({ preventScroll: true });
 
     // the action bar's ten slots
     this.root.querySelector('.g-sk-slots').innerHTML = this.kit.skills.map((k, i) => c.skillLevel(k.id)
