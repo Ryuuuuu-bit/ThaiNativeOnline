@@ -23,10 +23,10 @@ Gameplay EXP, drops, currency and target notices go to the local System chat his
 
 ## Validation
 
-- npm test: 778 passed, 0 failed, 0 skipped.
+- npm test after integrating main 677bab8: 789 passed, 0 failed, 0 skipped.
 - npm run build: passed. Existing bundle-size warning remains.
 - Actual game in one sequential headless Edge page: classic and modern skins at 1146×967, 1366×768, 1920×1080 and 390×844; reset/card badge containment, boss suppression and restoration, 150% HUD scale, reset returning allocated points without changing level/gold/items, local System history, explicit join, disclosure and dismissal. 13 recorded checks, 9 captures, no page errors; see qa-receipt.json.
-- Specialist implementation and independent Art/Tech review: reset, card counters, state transitions and chat integration reviewed; AUTO selector corrected to the actual .auto-panel root.
+- Specialist implementation and independent Art/Tech review approved: style, readability, technical usability and state/integration each 8/10; AUTO selector corrected to the actual .auto-panel root.
 
 ## Screenshots
 
