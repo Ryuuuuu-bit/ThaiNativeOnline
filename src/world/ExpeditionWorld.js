@@ -10,15 +10,16 @@ import { createRng } from './rng.js';
 import { box, cyl, cone } from './Architecture.js';
 import { mergeObject } from './Batching.js';
 import { expeditionArt, vegetation, dressObstacle, paintExpeditionGround } from './ExpeditionArt.js';
+import { expeditionTrails, nearExpeditionTrail } from './expedition-trails.js';
 
 // Expedition scenes use an independent layout, never stretch/repeat the old city.
 export function buildExpeditionWorld(scene, map) {
  const started=performance.now(),root=new THREE.Group();root.name=`map:${map.id}`;scene.add(root);
  const terrain=new TerrainData(map.view),collision=new Collision(8,map.view),camps=huntingFor(map.id);
  const rng=createRng(800+map.index),stone=new THREE.MeshLambertMaterial({color:map.ground}),trim=new THREE.MeshLambertMaterial({color:map.accent}),wood=new THREE.MeshLambertMaterial({color:'#68523c'});
- const statics=new THREE.Group(),glows=[],spots={},palette=expeditionArt(map);
+ const statics=new THREE.Group(),discard=new THREE.Group(),glows=[],spots={},palette=expeditionArt(map),trails=expeditionTrails(map);
  const h=(x,z)=>terrain.height(x,z);
- const addPillar=(x,z,height=3)=>{cyl(statics,stone,x,h(x,z)+height/2,z,.45,.6,height,8);cone(statics,trim,x,h(x,z)+height+.3,z,.55,.6,8);collision.addCircle(x,z,.6);};
+ const addPillar=(x,z,height=3,into=statics,collide=true)=>{cyl(into,stone,x,h(x,z)+height/2,z,.45,.6,height,8);cone(into,trim,x,h(x,z)+height+.3,z,.55,.6,8);if(collide)collision.addCircle(x,z,.6);};
  // Gate nodes, a connected trail spine, and the supply NPC's rest clearing.
  spots[`${map.id}_entry`]={x:0,z:map.top-24,link:`${map.id}_mid`};
  spots[`${map.id}_mid`]={x:0,z:map.top-120,link:`${map.id}_exit`};
@@ -35,23 +36,27 @@ export function buildExpeditionWorld(scene, map) {
  for(let i=0;i<210;i++){
   const x=rng.range(-132,132),z=rng.range(map.top-248,map.top+8);if(clear(x,z))continue;
   const scale=rng.range(.8,1.6),yy=h(x,z);
+  // Execute suppressed placements too: all later random draws, appearances
+  // and positions remain identical. Drop visible scenery and its solid body
+  // together, never make a visible obstacle non-solid.
+  const reserved=nearExpeditionTrail(x,z,trails),into=reserved?discard:statics;
   if(['bamboo','forest'].includes(map.scenery)){
-   vegetation(statics,palette,x,yy,z,scale,map.scenery==='bamboo');
-   collision.addCircle(x,z,.55);
+   vegetation(into,palette,x,yy,z,scale,map.scenery==='bamboo');
+   if(!reserved)collision.addCircle(x,z,.55);
   }else if(['fort','ruins','water'].includes(map.scenery)){
-   addPillar(x,z,rng.range(2,5));if(i%3===0)box(statics,stone,x,yy+.6,z,3.5,1.2,1.4,rng()*3);
+   addPillar(x,z,rng.range(2,5),into,!reserved);if(i%3===0)box(into,stone,x,yy+.6,z,3.5,1.2,1.4,rng()*3);
   }else{
-   const rock=new THREE.Mesh(new THREE.IcosahedronGeometry(1,0),stone);rock.position.set(x,yy+scale,z);rock.scale.set(scale*2,scale*(map.scenery==='rift'?3:1.5),scale*1.4);statics.add(rock);collision.addCircle(x,z,scale*1.4);
+   const rock=new THREE.Mesh(new THREE.IcosahedronGeometry(1,0),stone);rock.position.set(x,yy+scale,z);rock.scale.set(scale*2,scale*(map.scenery==='rift'?3:1.5),scale*1.4);into.add(rock);if(!reserved)collision.addCircle(x,z,scale*1.4);
   }
-  dressObstacle(statics,map,palette,stone,trim,wood,x,yy,z,scale,i);
+  dressObstacle(into,map,palette,stone,trim,wood,x,yy,z,scale,i);
  }
  // Stone / lantern landmarks punctuate each loop without occupying its combat floor.
- for(const c of camps){for(const side of [-1,1]){const x=c.x+side*14,z=c.z-12;addPillar(x,z,2);glows.push({x,y:h(x,z)+2.3,z,color:map.accent,size:.5,kind:'lantern'});}}
+ for(const c of camps){for(const side of [-1,1]){const x=c.x+side*13.5,z=c.z-8;addPillar(x,z,2);glows.push({x,y:h(x,z)+2.3,z,color:map.accent,size:.5,kind:'lantern'});}}
  for(const p of map.portals)for(const a of portalPillars(map,p))collision.addCircle(a.x,a.z,a.r);
  for(const c of camps){const a=huntingSign(c);collision.addCircle(a.x,a.z,.13);}
  const merged=mergeObject(statics);root.add(merged);
  // mergeObject clones source geometry; release originals once, retaining shared materials.
- const originals=new Set();statics.traverse(o=>{if(o.geometry)originals.add(o.geometry);});for(const g of originals)g.dispose();
+ const originals=new Set();for(const group of [statics,discard])group.traverse(o=>{if(o.geometry)originals.add(o.geometry);});for(const g of originals)g.dispose();
  const canvas=document.createElement('canvas');canvas.width=canvas.height=768;const r=map.view;
  paintExpeditionGround(canvas,map,camps);
  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;

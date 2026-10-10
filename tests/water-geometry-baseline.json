@@ -1,0 +1,91 @@
+{
+  "city": [
+    {
+      "vertices": 9061,
+      "indices": 52800,
+      "positions": "7732af324639cdf588613cccbd4cb66c562dad98e08d5ae65b8f114af5a03e58",
+      "shore": "1522270bce0631590dfcbcbdbedc6705dee1f2d3a758f774bb3fa5dd1ce77970",
+      "index": "a2fb25a178a17fbe9713cff114f52883e9fa8263dc1a15aed42887aae40e50ee"
+    },
+    {
+      "vertices": 576,
+      "indices": 2256,
+      "positions": "78a75cd9b87d1c954954d60d7f82014144affb108335c17b75a9028c2514e0fe",
+      "shore": "4d161c18af916144d8e2f0c736da760f0d06c4bebace1d4d53ea3b91e259f9e8",
+      "index": "4706a95e69b8e3c9ff94e0dc22cfc4149751f0ceb1a930108643b86d51ea920e"
+    },
+    {
+      "vertices": 621,
+      "indices": 2148,
+      "positions": "099e597c899d36cb6c553ec27c8d4b3819e35d0ca42651016189149a82af1a64",
+      "shore": "cf0a087b09e55024cbe35835f49057c5edf5860833e87083ba1237c80300b3e5",
+      "index": "176747c5dae65934d68f90ece895b2a0e3f1e1b1031b710449142cce1d2c719d"
+    }
+  ],
+  "paddy": [
+    {
+      "vertices": 576,
+      "indices": 2256,
+      "positions": "78a75cd9b87d1c954954d60d7f82014144affb108335c17b75a9028c2514e0fe",
+      "shore": "4d161c18af916144d8e2f0c736da760f0d06c4bebace1d4d53ea3b91e259f9e8",
+      "index": "4706a95e69b8e3c9ff94e0dc22cfc4149751f0ceb1a930108643b86d51ea920e"
+    },
+    {
+      "vertices": 851,
+      "indices": 2700,
+      "positions": "7be2f32fdfeaffa4059e49c884cdc75144caab56d3371fb9cf4322402c0e682d",
+      "shore": "992d6380d61a7ed69570288dd60ed4075de3c28ecc4c313bd4895e6ae3eb2991",
+      "index": "3a850fd6fc62f196aab9b94ede281b400728596d2773cddc2f300324b542b5c6"
+    }
+  ],
+  "deep_forest": [
+    {
+      "vertices": 558,
+      "indices": 2220,
+      "positions": "bcccdee1791c662faac6c2520e807bb5b51c5c8c20c44579f259f76d3c09cdcf",
+      "shore": "32639b79e1825eb75e8c59eaa084b0917152e304648480d0e292dc8849a313a0",
+      "index": "26f0b04cf74d3d3ead7df6a4692770efc8aa7b2fd4f6797faa9fef7993483732"
+    },
+    {
+      "vertices": 541,
+      "indices": 1956,
+      "positions": "390389f34d62bb1f60d0bb3ddd09dc2e0fe3d138c101fd7495e55578f8745175",
+      "shore": "b84e025a52e141ae0db20ef72cc53053196f4cc37f4dff3cd6d6cbccbc9c48b2",
+      "index": "05d2187b212bfd03643788cd1e9e324295b879cd705802064aa94410f25822db"
+    }
+  ],
+  "wat_rang": [
+    {
+      "vertices": 558,
+      "indices": 2220,
+      "positions": "bcccdee1791c662faac6c2520e807bb5b51c5c8c20c44579f259f76d3c09cdcf",
+      "shore": "32639b79e1825eb75e8c59eaa084b0917152e304648480d0e292dc8849a313a0",
+      "index": "26f0b04cf74d3d3ead7df6a4692770efc8aa7b2fd4f6797faa9fef7993483732"
+    },
+    {
+      "vertices": 707,
+      "indices": 2640,
+      "positions": "545b9c25cff7afb5708dd917b3a7487b644dd75e26c54370f55ca3e711e64490",
+      "shore": "48f27dec033cc7d06e90374eab8d4868eb5d51b14e6ff48ace7784b7b52ffeb9",
+      "index": "fb3a7f54eeab54e12ef02e5856218422dfd62ad02808b34b07815ae0203b6c68"
+    }
+  ],
+  "klong": [
+    {
+      "vertices": 707,
+      "indices": 2640,
+      "positions": "545b9c25cff7afb5708dd917b3a7487b644dd75e26c54370f55ca3e711e64490",
+      "shore": "48f27dec033cc7d06e90374eab8d4868eb5d51b14e6ff48ace7784b7b52ffeb9",
+      "index": "fb3a7f54eeab54e12ef02e5856218422dfd62ad02808b34b07815ae0203b6c68"
+    }
+  ],
+  "ruen_ho": [],
+  "bamboo_grave": [],
+  "sealed_mine": [],
+  "sunken_city": [],
+  "dusk_fort": [],
+  "giant_valley": [],
+  "himmapan": [],
+  "fallen_city": [],
+  "demon_rift": []
+}
