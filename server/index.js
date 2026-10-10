@@ -68,7 +68,7 @@ import { WebSocketServer } from 'ws';
 import { Presence, rateLimiter, MAPS } from './presence.js';
 import { Channels, CHANNEL, roomOf, parseRoom } from './channels.js';
 import { openStore } from './store.js';
-import { Accounts } from './accounts.js';
+import { Accounts, SAVE_LIMIT } from './accounts.js';
 import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
 import { Parties, PARTY } from './parties.js';
@@ -218,7 +218,8 @@ const server = createServer((req, res) => {
 
 // ---- realtime -----------------------------------------------------------------------------
 const presence = new Presence({ navigation });
-const wss = new WebSocketServer({ server, path: '/ws', maxPayload: 2048 });
+// Full character sheets and one atomic 500-slot sell basket fit the existing save budget.
+const wss = new WebSocketServer({ server, path: '/ws', maxPayload: SAVE_LIMIT });
 const conns = new Map();   // ws → { allow() }
 const send = (ws, msg) => { if (ws.readyState === 1) ws.send(JSON.stringify(msg)); };
 const toMap = (room, msg, except = null) => { const s = JSON.stringify(msg); for (const [ws] of conns) if (ws !== except && presence.players.get(ws)?.room === room && ws.readyState === 1) ws.send(s); };

@@ -4,6 +4,7 @@ import { affixBonus } from '../character/data/affixes.js';
 import { SHOPS } from '../data/shops.js';
 import { buy, buyPrice, sellPrice, stockOf } from '../shop/ShopSystem.js';
 import { SaleBasket } from '../shop/SaleBasket.js';
+import { isItemLocked } from '../character/itemState.js';
 import { iconHtml } from './icons.js';
 import { SHOP_ICONS } from './HUD.js';
 import { STRIP } from '../character/data/cards.js';
@@ -68,9 +69,12 @@ export class ShopPanel {
     });
     list.addEventListener('click', e => {
       if (e.target.closest('[data-refill-flasks]')) { this.character?.refillFlasks('town'); this.render(); return; }
-      const sale = e.target.closest('[data-pick],[data-sale-clear],[data-sale-submit],[data-filter]');
+      const sale = e.target.closest('[data-pick],[data-sale-all],[data-sale-clear],[data-sale-submit],[data-filter]');
       if (sale && this.character) {
         if (sale.dataset.pick !== undefined) { const i = +sale.dataset.pick; this.basket.set(i, this.basket.picks.has(i) ? 0 : this.character.inventory[i]?.qty); }
+        else if (sale.dataset.saleAll !== undefined) {
+          for (const { slot, index } of this.saleCandidates()) this.basket.set(index, slot.qty);
+        }
         else if (sale.dataset.saleClear !== undefined) this.basket.clear();
         else if (sale.dataset.filter !== undefined) this.filter = sale.dataset.filter;
         else { this.submitSale(); this.render(); return; }
@@ -258,18 +262,22 @@ export class ShopPanel {
       <div class="sh-total"><span>รวม</span><b class="${ok ? '' : 'bad'}">${fmt(cost)} ตำลึง</b></div>
       <button type="button" class="sh-go" data-go="${id}" ${ok ? '' : 'disabled'}>${!ok ? c.gold < cost ? 'ตำลึงไม่พอ' : 'น้ำหนักหรือช่องกระเป๋าไม่พอ' : one ? 'ซื้อ' : `ซื้อ ${fmt(n)} ชิ้น`}</button>`;
   }
+  saleCandidates() {
+    return this.character.inventory.flatMap((slot, index) => slot && ITEMS[slot.id] && !isItemLocked(slot) && sellPrice(slot.id) > 0 && this.matches(ITEMS[slot.id]) ? [{ slot, index }] : []);
+  }
   sellHtml() {
     const inv = this.character.inventory, lines = this.basket.lines(), total = this.basket.total();
     const rows = inv.map((s, i) => {
       if (!s || !this.matches(ITEMS[s.id])) return '';
+      const locked = isItemLocked(s) || sellPrice(s.id) <= 0;
       const picked = this.basket.picks.has(i), precious = s.roll || s.plus || s.cards?.length;
       const quality = instanceQuality(s);
       const label = precious ? `◆ อุปกรณ์พิเศษ${quality ? ` · ${esc(quality)}` : ''}${s.cards?.length ? ` · ${s.cards.length} การ์ด` : ''}` : typeOf(ITEMS[s.id]);
-      return `<button class="sh-row sh-sale-row${picked ? ' on' : ''}" data-pick="${i}" aria-pressed="${picked}"><span class="sh-check">${picked ? '✓' : ''}</span>${icon(ITEMS[s.id])}<span class="sh-tx"><b>${esc(instanceName(s))}</b><small>${label} · มี ${fmt(s.qty)}</small></span><span class="sh-pr">${fmt(sellPrice(s.id))}<small>/ ชิ้น</small></span></button>`;
+      return `<button class="sh-row sh-sale-row${picked ? ' on' : ''}" data-pick="${i}" aria-pressed="${picked}" ${locked ? 'disabled title="ของล็อกไว้หรือขายไม่ได้"' : ''}><span class="sh-check">${locked ? '—' : picked ? '✓' : ''}</span>${icon(ITEMS[s.id])}<span class="sh-tx"><b>${esc(instanceName(s))}</b><small>${label} · มี ${fmt(s.qty)}</small></span><span class="sh-pr">${fmt(sellPrice(s.id))}<small>/ ชิ้น</small></span></button>`;
     }).join('');
     const basket = lines.map(({ index: i, qty }) => { const s = inv[i]; return `<div class="sh-basket-row"><span><b>${esc(instanceName(s))}</b><small>+${fmt(sellPrice(s.id) * qty)} ตำลึง</small></span><input type="number" inputmode="numeric" min="0" max="${s.qty}" value="${qty}" data-sale-qty="${i}" aria-label="จำนวนขาย ${ITEMS[s.id].name}"></div>`; }).join('');
     const risky = lines.some(l => inv[l.index].roll || inv[l.index].plus || inv[l.index].cards?.length);
-    return `<div class="sh-trade">${this.toolbar(true)}<div class="sh-split sh-selling"><div class="sh-left"><p class="sh-gh"><b>ของในกระเป๋า</b><small>แตะเลือกหลายรายการ · ราคาต่อชิ้น</small></p><div class="sh-rows">${rows || '<p class="shop-empty">ไม่พบไอเท็มในหมวดนี้</p>'}</div></div>
+    return `<div class="sh-trade">${this.toolbar(true)}<div class="sh-split sh-selling"><div class="sh-left"><div class="sh-sale-tools"><div><b>ของในกระเป๋า</b><small>เลือกได้ ${this.saleCandidates().length} รายการ · ข้ามของล็อก</small></div><button type="button" data-sale-all ${this.saleCandidates().some(({index}) => !this.basket.picks.has(index)) ? '' : 'disabled'}>เลือกทั้งหมดในหมวด</button></div><div class="sh-rows">${rows || '<p class="shop-empty">ไม่พบไอเท็มในหมวดนี้</p>'}</div></div>
       <aside class="sh-right sh-basket"><div class="sh-basket-title"><b>ถาดรอขาย <i>${lines.length}</i></b><button data-sale-clear ${lines.length ? '' : 'disabled'}>ล้าง</button></div><div class="sh-basket-list">${basket || '<p class="shop-empty">เลือกของจากกระเป๋า<br><small>ปรับจำนวนก่อนขายได้</small></p>'}</div>
       ${risky ? '<p class="sh-warn">มีอุปกรณ์ออฟสุ่ม / ตีบวก / ใส่การ์ด · ขายแล้วสูญเสียทั้งชิ้น</p>' : ''}<div class="sh-total"><span>ได้รับทั้งหมด</span><b>${fmt(total)} ตำลึง</b></div><small class="sh-after">ตำลึงหลังขาย ${fmt(this.character.gold + total)}</small>
       <button class="sh-go${this.confirmSale ? ' alt' : ''}" data-sale-submit ${lines.length ? '' : 'disabled'}>${this.confirmSale ? `ยืนยันขาย · +${fmt(total)} ตำลึง` : `ตรวจรายการขาย ${lines.length} รายการ`}</button></aside></div><p class="sh-receipt" role="status">${esc(this.receipt || (this.confirmSale ? 'ตรวจจำนวนและยอดตำลึง แล้วกดยืนยันขาย' : 'เลือกขายเฉพาะของที่ต้องการ · ของที่สวมอยู่ไม่อยู่ในรายการ'))}</p></div>`;
