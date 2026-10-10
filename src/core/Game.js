@@ -39,7 +39,8 @@ import { ZOOM_MIN, ZOOM_MAX, createViewPrefs } from '../ui/viewPrefs.js';
 import { createTouchControls } from '../ui/TouchControls.js';
 import { Sound } from '../audio/Sound.js';
 import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
-import { MUSIC_FOR } from '../data/audio.js';
+import { LocationMusic } from '../audio/LocationMusic.js';
+import { combatMusicState } from '../data/calmMusic.js';
 
 const $ = id => document.getElementById(id);
 // Route planning keeps this much room from obstacles (the body itself needs .28, src/world/Collision.js).
@@ -263,8 +264,9 @@ export class Game {
     const audioRow = settings.querySelector('.audio-settings'); if (audioRow && sndNote) sndNote.before(audioRow);
     const accRow = settings.querySelector('.acc-settings'); if (accRow) settings.querySelector('.set-tabs').append(accRow);
     Sound.onReady(s => this.audio.start(s.ctx, s.ambienceBus));
-    Sound.music(MUSIC_FOR[this.clock.phase]);
-    this.clock.onPhase(phase => Sound.music(MUSIC_FOR[phase]));
+    this.locationMusic = new LocationMusic(id => Sound.music(id));
+    const p = this.player.position;
+    this.locationMusic.update(0, { mapId: this.maps.map?.id ?? 'city', regionId: regionAt(p.x, p.z).id, phase: this.clock.phase });
   }
 
   // Character and combat systems (src/character, src/combat). Monsters follow the world clock.
@@ -570,6 +572,10 @@ export class Game {
     this.elapsed += dt;
     const p = this.player.position, view = this.view;
     this.clock.update(dt);
+    if (!this.maps.busy) this.locationMusic?.update(dt, {
+      mapId: this.maps.map?.id ?? 'city', regionId: regionAt(p.x, p.z, this.discovered.has('cemetery')).id, phase: this.clock.phase,
+      ...combatMusicState(this.game?.combat, p),
+    });
     // While maps swap the fade overlay covers the screen; the clock keeps running.
     if (this.maps.busy || !this.world) return;
     // Movement: keys, or a straight walk to a clicked point.

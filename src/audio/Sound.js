@@ -1,6 +1,7 @@
 import { SFX, MUSIC, AUDIO_DEFAULTS } from '../data/audio.js';
 import { playRecipe } from './synth.js';
 import { MusicPlayer } from './Music.js';
+import { CalmMusicPlayer } from './CalmMusic.js';
 
 // The game's one audio engine: a single AudioContext with master → music /
 // sfx / ambience buses. Browsers only allow sound after a user gesture, so
@@ -84,7 +85,8 @@ class SoundEngine {
   startTrack() {
     const track = MUSIC[this.track];
     if (!track || !this.ctx) return;
-    this.player = new MusicPlayer(this.ctx, this.musicIn, track); this.player.start();
+    const Player = track.style === 'calm' ? CalmMusicPlayer : MusicPlayer;
+    this.player = new Player(this.ctx, this.musicIn, track); this.player.start();
   }
 }
 
