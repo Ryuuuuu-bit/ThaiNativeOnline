@@ -1,7 +1,7 @@
 // Where accounts, sessions and character saves live: Postgres when DATABASE_URL is set
 // (Railway), otherwise memory (local dev and tests — gone on restart).
 //   const store = await openStore(process.env.DATABASE_URL)
-//   store.allCharacters(limit) → [{ account, slot, data }] (the ranking boards, server/ranking.js)
+//   store.allCharacters(limit?) → all eligible [{ account, slot, data }], optionally capped (ranking boards)
 //   store.getAccount(id) · createAccount(id, salt, hash) → bool (false if taken)
 //   store.createSession(token, id, expires) · getSession(token) · deleteSession(token)
 //   store.listSlots(id) → [{ slot, data, updated }] · putSlot(id, slot, data) · deleteSlot(id, slot)
@@ -156,7 +156,7 @@ export class MemoryStore {
       return { ...receiptResult, inventoryRevision, inventory: result.inventory, stash: structuredClone(result.stash) };
     });
   }
-  async allCharacters(limit = 5000) { const out = []; for (const [account, m] of this.slots) for (const [slot, v] of m) if (!v.needsRename) out.push({ account, slot, data: v.data }); return out.slice(0, limit); }
+  async allCharacters(limit) { const out = []; for (const [account, m] of this.slots) for (const [slot, v] of m) if (!v.needsRename) out.push({ account, slot, data: v.data }); return limit === undefined ? out : out.slice(0, limit); }
 }
 
 export class PgStore {
@@ -297,7 +297,10 @@ export class PgStore {
       return { ...receiptResult, inventoryRevision, inventory: result.inventory, stash: result.stash };
     });
   }
-  async allCharacters(limit = 5000) { return (await this.q('select account, slot, data from characters where not rename_required order by updated desc limit $1', [limit])).rows; }
+  async allCharacters(limit) {
+    const query = 'select account, slot, data from characters where not rename_required order by updated desc';
+    return (await this.q(limit === undefined ? query : `${query} limit $1`, limit === undefined ? [] : [limit])).rows;
+  }
   async getGoogle(sub) { return (await this.q('select account from google_links where sub = $1', [sub])).rows[0]?.account ?? null; }
   async googleOf(id) { const r = (await this.q('select email, picture from google_links where account = $1 order by coalesce(profile_updated, linked) desc, sub limit 1', [id])).rows[0]; return r ? { email: r.email, picture: r.picture } : null; }
   async linkGoogle(sub, id, email, picture = null) { return (await this.q('insert into google_links (sub, account, email, picture, profile_updated) values ($1, $2, $3, $4, clock_timestamp()) on conflict do nothing', [sub, id, email ?? null, picture])).rowCount === 1; }

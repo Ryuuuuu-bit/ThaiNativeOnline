@@ -8,10 +8,11 @@
 //   ranking.refresh() → Promise · ranking.boards() → { power, level, enhance, at, total, holders }
 //   ranking.mine(key) → { cpRank, lvRank, enhRank, cp, lv, enh, gap10 } | null
 //   ranking.infoOf(name) → { cls, lv, title } | null (an offline friend's last known look)
+import { characterRecord } from './character-names.js';
 import { Character } from '../src/character/Character.js';
 import { TITLES, TITLE_BY_ID } from '../src/data/titles.js';
 
-export const RANKING = { every: 60_000, top: 100, scan: 5000 };
+export const RANKING = { every: 60_000, top: 100 };
 
 // one character's public row (a save that no longer loads is left out)
 function summarize(key, c) {
@@ -22,14 +23,14 @@ export function createRanking({ store, live = () => [], onRanks = () => {}, now 
   let boards = { power: [], level: [], enhance: [], at: 0, total: 0 }, ranks = new Map(), byName = new Map(), busy = null;
 
   async function doRefresh() {
-    const rows = (await store.allCharacters?.(RANKING.scan).catch(() => [])) ?? [];
+    const rows = await store.allCharacters();
     const all = new Map();
-    for (const r of rows) { try { all.set(`${r.account}:${r.slot}`, summarize(`${r.account}:${r.slot}`, new Character(r.data))); } catch { /* an unreadable save */ } }
+    for (const r of rows) { try { all.set(`${r.account}:${r.slot}`, summarize(`${r.account}:${r.slot}`, new Character(characterRecord(r.data).character))); } catch { /* an unreadable save */ } }
     for (const p of live()) all.set(p.key, summarize(p.key, p.c));   // the online ones as they are now
     const list = [...all.values()];
-    const power = [...list].sort((a, b) => b.cp - a.cp || b.lv - a.lv);
-    const level = [...list].sort((a, b) => b.lv - a.lv || b.cp - a.cp);
-    const enhance = list.filter(r => r.enh > 0).sort((a, b) => b.enh - a.enh || b.cp - a.cp);
+    const power = [...list].sort((a, b) => b.cp - a.cp || b.lv - a.lv || a.key.localeCompare(b.key));
+    const level = [...list].sort((a, b) => b.lv - a.lv || b.cp - a.cp || a.key.localeCompare(b.key));
+    const enhance = list.filter(r => r.enh > 0).sort((a, b) => b.enh - a.enh || b.cp - a.cp || a.key.localeCompare(b.key));
     const next = new Map(list.map(r => [r.key, { cpRank: 0, lvRank: 0, enhRank: 0, cp: r.cp, lv: r.lv, enh: r.enh }]));
     power.forEach((r, i) => { next.get(r.key).cpRank = i + 1; });
     level.forEach((r, i) => { next.get(r.key).lvRank = i + 1; });
