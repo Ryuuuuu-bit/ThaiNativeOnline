@@ -76,10 +76,12 @@ export const CARD_ITEMS = Object.fromEntries(Object.entries(CARD_DEFS).map(([typ
   return [cardId(type), { name: `การ์ด${m.name}`, icon: '❖', img: `ui/items/icon_card_${Object.hasOwn(CARD_DEFS,type)&&type.includes("_")?"winyan":type}.png`, weight: 1, type: 'card', slot: c.slot, bonus: c.bonus, rarity: big ? 'epic' : 'rare', price: big ? 400 : 120, monster: type }];
 }));
 
+export const cardSlotKind = slot => ['gloves','belt'].includes(slot) ? 'armor' : slot === 'amulet' ? 'charm' : slot;
+
 // The cards an item may really hold: cards of its kind, no more than its slots.
 export function socketCards(itemId, cards, items) {
   const item = items[itemId];
   if (!Array.isArray(cards) || !item?.slots) return [];
-  return cards.filter(c => items[c]?.type === 'card' && items[c].slot === item.slot).slice(0, item.slots);
+  return cards.filter(c => items[c]?.type === 'card' && items[c].slot === cardSlotKind(item.slot)).slice(0, item.slots);
 }
 export const sameCards = (a, b) => JSON.stringify(a ?? []) === JSON.stringify(b ?? []);

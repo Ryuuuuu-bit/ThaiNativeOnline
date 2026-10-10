@@ -1,11 +1,12 @@
+import { instanceId } from './flasks.js';
 // ตีบวก (refining, RO style) at หมื่นเพชรศาสตรา's โรงหลอมศาสตรา (shop 'enhance', src/data/shops.js).
-// Every piece of gear but a charm goes from +0 up to +REFINE_MAX, one step a try. A try costs
+// Every piece of gear but charm/amulet jewelry goes from +0 up to +REFINE_MAX, one step a try. A try costs
 // one ore (แร่ศักดิ์สิทธิ์ for a weapon, ทองคำเปลว for the rest, sold at the forge) and
 // refineFee(to) gold. Up to +REFINE_SAFE it always works; past that it works with
 // REFINE_RATE[to] and otherwise the item breaks, with every card in it (RO: no safety net).
 // The plus travels with the item: `plus` on the bag item, Character.refine[slot] when worn.
 //   weapon: ATK (MATK for a caster's weapon), scaled to the item's own power/rarity
-//   armor · head · cape · shoes: DEF, scaled to the item's own defense
+//   armor · head · cape · shoes · gloves · belt: DEF, scaled to the item's own defense
 // Online the server rolls the outcome (server/combatants.js op 'refine').
 import { sameCards } from './cards.js';
 
@@ -20,7 +21,7 @@ const WEAPON_STEP = { common: 2, rare: 3, epic: 5 };
 const BONUS_WEIGHT = [0, 1, 2, 3, 5, 7, 10, 14, 19, 25, 33];
 export const REFINE_MILESTONES = Object.freeze([4, 7, 10]);
 
-export const refinable = def => def?.type === 'equip' && (def.slot !== 'charm' || def.refinable === true);
+export const refinable = def => def?.type === 'equip' && (!['charm','amulet'].includes(def.slot) || def.refinable === true);
 export const oreFor = def => (def.slot === 'weapon' ? REFINE_ORE.weapon : REFINE_ORE.gear);
 export const refineFee = to => 100 * to;
 export const plusOf = n => (Number.isInteger(n) && n > 0 ? Math.min(REFINE_MAX, n) : 0);
@@ -44,5 +45,5 @@ export function refineCost(def, plus = 0) {
 }
 
 // Gear is named by id, cards and plus: two swords that differ in either are different items.
-export const sameGear = (s, cards, plus, iid) => !!s && s.roll?.iid === iid && sameCards(s.cards, cards) && (s.plus ?? 0) === (plus ?? 0);
+export const sameGear = (s, cards, plus, iid) => !!s && instanceId(s) === iid && sameCards(s.cards, cards) && (s.plus ?? 0) === (plus ?? 0);
 export const gearName = (name, plus) => (plus ? `+${plus} ${name}` : name);

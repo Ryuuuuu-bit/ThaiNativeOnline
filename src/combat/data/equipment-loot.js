@@ -4,7 +4,7 @@ import { EXPEDITIONS } from '../../world/expeditions.js';
 // Additional, bounded roll: successful kills choose ONE item from this pool.
 // Existing consumable, material, unique, equipment, and card rolls remain intact.
 export const EQUIPMENT_DROP_CHANCES = Object.freeze({ normal: .08, elite: .20, boss: .60 });
-export const EQUIPMENT_KINDS = Object.freeze(['weapon', 'armor', 'head', 'cape', 'shoes', 'charm']);
+export const EQUIPMENT_KINDS = Object.freeze(['weapon', 'armor', 'head', 'cape', 'shoes', 'gloves', 'belt', 'amulet', 'charm']);
 export const EQUIPMENT_WEAPONS = Object.freeze(['sword', 'bow', 'wrap', 'dagger', 'talisman', 'book']);
 
 // Loot tiers only: these do not change old saved equipment's requirements/bonuses.

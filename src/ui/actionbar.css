@@ -55,3 +55,35 @@
 .hotbar-slot.locked .lock { display: grid; }
 .hotbar-slot.locked img, .hotbar-slot.locked .hotbar-glyph { filter: grayscale(1) brightness(.45); }
 .hotbar-auto.resting small { color: #9fe3a8; }
+.hotbar-edit {font:inherit;font-size:10px;color:#e4d4a8;background:#203a2e;border:1px solid #b49a63;border-radius:4px;padding:4px;align-self:stretch;cursor:pointer;}
+.hotbar-slot.drag-over {outline:2px solid #e6c57d;outline-offset:2px;}
+.hotbar-editor {position:absolute;z-index:80;right:12px;bottom:105px;width:360px;max-width:calc(100vw - 24px);max-height:calc(100dvh - 125px);overflow:auto;padding:14px;color:#e9dfc4;background:linear-gradient(#213c30f5,#10271ff5);border:1px solid #bfa771;border-radius:8px;box-shadow:0 10px 28px #0009;}
+.hotbar-editor[hidden] {display:none;}
+.hotbar-editor header {display:flex;justify-content:space-between;align-items:center;color:#ecd39a;font-size:15px;font-weight:700;}
+.hotbar-editor button {border:1px solid #bda56b77;border-radius:4px;padding:7px;color:#eddfb9;background:#172d23;cursor:pointer;font:inherit;}
+.hotbar-editor button:focus-visible {outline:2px solid #e9ca83;outline-offset:2px;}
+.hotbar-editor p {font-size:11px;line-height:1.5;color:#b9c8b3;}
+.hotbar-editor-keys {display:flex;gap:4px;margin:10px 0;}
+.hotbar-editor-keys button {flex:1;min-width:0;padding:7px 0;}
+.hotbar-editor-keys button[aria-pressed=true] {background:#b79b5f;color:#12271e;}
+.hotbar-editor-options {display:grid;gap:6px;margin:10px 0;}
+.hotbar-editor-options button {display:flex;gap:8px;align-items:center;text-align:left;}
+.hotbar-editor-options img {width:34px;height:34px;object-fit:contain;}
+.hotbar-editor-options small {display:block;font-size:10px;color:#aebfa6;}
+.hotbar-editor button:disabled {opacity:.4;cursor:default;}
+.action-bar .g-potion .flask-charge-bar {position:absolute;bottom:0;left:0;width:calc(var(--charges,0)*100%);height:4px;background:#ec8a79;box-shadow:0 0 5px #e2645966;}
+.action-bar .g-potion.mp .flask-charge-bar {background:#83bcde;}
+.action-bar .g-potion small {font-size:9px;bottom:5px;}
+.action-bar .g-potion.flask-empty img {filter:grayscale(.6);opacity:.45;}
+@media(max-width:760px){.hotbar-editor {bottom:100px;max-height:calc(100dvh - 112px);}.hotbar-edit{min-height:30px;}.hotbar-editor-keys button{min-height:34px;}}
+/* Keep Q/E badges in the flask's own stacking context, above its art. */
+body .action-bar .g-potion,body .touch-side .g-potion {position:relative;isolation:isolate;}
+body .action-bar .g-potion .g-skill-icon,body .touch-side .g-potion .g-skill-icon {position:relative;z-index:1;}
+body .action-bar .g-potion kbd,body .touch-side .g-potion kbd {display:block;position:absolute;left:2px;top:2px;z-index:3;min-width:16px;text-align:center;font-size:12px;line-height:16px;font-weight:700;color:#fff0c4;background:#07130ff2;border:1px solid #cfb16a;}
+body .action-bar .g-potion small,body .touch-side .g-potion small {position:absolute;z-index:4;right:3px;bottom:5px;}
+/* Item icon wrappers also carry the global asset-icon skin; keep pickers compact. */
+body .hotbar-editor .hotbar-editor-options>button {display:flex;align-items:center;gap:9px;min-height:52px;width:100%;height:auto;overflow:visible;}
+body .hotbar-editor .hotbar-editor-options>button>.asset-icon.icon-img {display:block;flex:0 0 32px;width:32px;height:32px;min-width:32px;max-width:32px;min-height:32px;max-height:32px;align-self:center;}
+body .hotbar-editor .hotbar-editor-options>button>.asset-icon.icon-img>img {display:block;width:100%;height:100%;max-width:100%;object-fit:contain;}
+body .hotbar-editor .hotbar-editor-options>button>span:not(.icon-img) {display:block;flex:1 1 0;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.5;font-size:12px;}
+body .hotbar-editor .hotbar-editor-options>button small {font-size:11px;line-height:1.5;white-space:normal;overflow-wrap:anywhere;}

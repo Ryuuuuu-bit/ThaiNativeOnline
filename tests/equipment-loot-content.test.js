@@ -9,7 +9,7 @@ import { equipmentPool, equipmentDropChance, equipmentDropRows, equipmentLootLev
 import { bestiaryDrops } from '../src/data/bestiary.js';
 import { LOOT } from '../src/combat/data/loot.js';
 
-test('all 67 monsters have level-eligible gear in six slots and every weapon kind', () => {
+test('all 67 monsters have level-eligible gear in nine kinds and every weapon kind', () => {
   assert.equal(Object.keys(MONSTERS).length, 67);
   for (const [id, def] of Object.entries(MONSTERS)) {
     const pool = equipmentPool(def);
@@ -24,7 +24,7 @@ test('all 67 monsters have level-eligible gear in six slots and every weapon kin
     assert.ok(chance > 0 && chance <= 1);
     for (const slot of EQUIPMENT_KINDS) {
       const slotChance = rows.filter(row => ITEMS[row.id].slot === slot).reduce((sum, row) => sum + row.chance, 0);
-      assert.ok(Math.abs(slotChance - chance / 6) < 1e-12, `${id}:${slot}`);
+      assert.ok(Math.abs(slotChance - chance / EQUIPMENT_KINDS.length) < 1e-12, `${id}:${slot}`);
     }
   }
 });

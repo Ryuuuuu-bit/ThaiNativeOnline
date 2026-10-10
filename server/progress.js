@@ -27,6 +27,7 @@ import { sameGear } from '../src/character/data/refine.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { nearNpc, SHOP_SITES } from '../src/data/shopSites.js';
 import { rollFields } from '../src/character/data/affixes.js';
+import { flaskFields, instanceId } from '../src/character/data/flasks.js';
 import { lockFields, isItemLocked } from '../src/character/itemState.js';
 
 export const CHARACTER_KEY = /^tno\.character\.v\d+$/;
@@ -51,7 +52,7 @@ export function questsFor(c, json = '{}', defs = QUESTS) {
 // A Character from a stored save (unknown items dropped, like Character.load), or null.
 export function fromSave(data) {
   if (!data || typeof data !== 'object' || !CLASSES[CLASS_ALIASES[data.classId] || data.classId]) return null;
-  const inventory = Array.isArray(data.inventory) ? data.inventory.map(s => (s && ITEMS[s.id] && s.qty > 0 ? { id: s.id, qty: Math.floor(s.qty), ...(s.cards ? { cards: s.cards } : {}), ...(s.plus ? { plus: s.plus } : {}), ...lockFields(s), ...rollFields(s) } : null)) : undefined;   // cards, plus: checked by Character
+  const inventory = Array.isArray(data.inventory) ? data.inventory.map(s => (s && ITEMS[s.id] && s.qty > 0 ? { id: s.id, qty: Math.floor(s.qty), ...(s.cards ? { cards: s.cards } : {}), ...(s.plus ? { plus: s.plus } : {}), ...lockFields(s), ...rollFields(s), ...flaskFields(s) } : null)) : undefined;   // cards, plus: checked by Character
   const equipment = data.equipment ? Object.fromEntries(Object.entries(data.equipment).map(([k, id]) => [k, id && ITEMS[id] ? id : null])) : undefined;
   try {
     const c = new Character({ ...data, inventory, equipment, hp: data.hp > 0 ? data.hp : undefined });
@@ -64,8 +65,11 @@ export function fromSave(data) {
 
 // Replays one browser action on the server's character → true when it went through.
 export function applyOp(c, msg = {}, quests = null, here = null, state = null) {
-  const at = (id, cards, plus, locked = false, iid) => c.inventory.findIndex(s => s?.id === id && isItemLocked(s) === (locked === true) && (ITEMS[id]?.type !== 'equip' || sameGear(s, cards, plus, iid)));
+  const at = (id, cards, plus, locked = false, iid) => c.inventory.findIndex(s => s?.id === id && isItemLocked(s) === (locked === true) && (!['equip', 'flask'].includes(ITEMS[id]?.type) || sameGear(s, cards, plus, iid)));
   switch (msg.op) {
+    case 'flask_equip': { const i = c.inventory.findIndex(s => ITEMS[s?.id]?.type === 'flask' && instanceId(s) === msg.iid); return typeof msg.iid === 'string' && i >= 0 && c.equipFlask(i); }
+    case 'flask_unequip': return ['hp', 'mp'].includes(msg.kind) && typeof msg.iid === 'string' && instanceId(c.flasks[msg.kind]) === msg.iid && c.unequipFlask(msg.kind);
+    case 'flask_use': return ['hp', 'mp'].includes(msg.kind) && c.useFlask(msg.kind);
     case 'buy': return typeof msg.shop === 'string' && typeof msg.id === 'string' && buy(c, msg.shop, msg.id, msg.qty ?? 1).ok;
     case 'sell_batch': {
       if (!Array.isArray(msg.lines) || !msg.lines.length || msg.lines.length > c.inventory.length) return false;

@@ -1,3 +1,5 @@
+import { EXTENDED_GEAR } from './extended-gear.js';
+import { FLASK_ITEMS } from './flask-items.js';
 import { EXPEDITION_GEAR } from './expedition-gear.js';
 import { HUNT_GEAR } from './hunt-gear.js';
 // Content data only: edit freely without touching game logic.
@@ -5,7 +7,7 @@ import { CARD_ITEMS } from './cards.js';
 // twoHand: visual description only; all weapons share one equipment slot
 // weapon: the kind of weapon (sword · bow · wrap · dagger · talisman · book) — a class wields only its
 //   kinds (src/character/data/classes.js WEAPON_KINDS); other weapons stay in the bag
-// slot: weapon | armor | head | cape | shoes | charm (two charm slots: charm, charm2); slots: card slots (RO style, 0–4: plain gear has more, strong gear fewer); use: consumable effect
+// slot: weapon | armor | head | cape | shoes | gloves | belt | amulet | charm (two charm slots: charm, charm2); slots: card slots (RO style, 0–4: plain gear has more, strong gear fewer); use: consumable effect
 // bonus keys: base stats (str agi vit int dex luk) and atk matk def hp mp crit critDmg acc eva,
 //   cdr (skill cooldowns shorter), cast (cast times shorter), mpCost (skills cost more MP) — shares
 // Abstract carry units, not kilograms: recovery supplies 0, materials 0.1,
@@ -13,6 +15,8 @@ import { CARD_ITEMS } from './cards.js';
 export const ITEMS = {
   ...EXPEDITION_GEAR,
   ...HUNT_GEAR,
+  ...EXTENDED_GEAR,
+  ...FLASK_ITEMS,
   potion_s: { name: 'ยาหม้อเล็ก', icon: '⚱', img: 'ui/items/icon_potion_s.png', weight: 0, type: 'use', use: { hp: 60 }, price: 10, desc: 'ฟื้นฟู HP 60' },
   potion_m: { name: 'ยาหม้อใหญ่', icon: '⚱', img: 'ui/items/icon_potion_m.png', weight: 0, type: 'use', use: { hp: 160 }, price: 30, desc: 'ฟื้นฟู HP 160' },
   ether:    { name: 'น้ำผึ้งป่า', icon: '❂', img: 'ui/items/icon_ether.png', weight: 0, type: 'use', use: { mp: 50 }, price: 14, desc: 'ฟื้นฟู MP 50' },
@@ -79,5 +83,5 @@ export const RARITY_COLORS = { common: '#d9d3bd', rare: '#7fb7e8', epic: '#c79af
 
 
 // What a character wears: one item per slot; a charm fits either charm slot.
-export const EQUIP_SLOTS = ['weapon', 'armor', 'head', 'cape', 'shoes', 'charm', 'charm2'];
+export const EQUIP_SLOTS = ['weapon', 'armor', 'head', 'cape', 'shoes', 'gloves', 'belt', 'amulet', 'charm', 'charm2'];
 export const slotKind = slot => (slot === 'charm2' ? 'charm' : slot);

@@ -185,11 +185,11 @@ test('skill presets only reorder available learned skills, never restore spent p
   const second = c.kitSkills.find(id => id !== first && c.skillOpen(id)); assert.ok(second); assert.ok(c.learnSkill(second));
   const order = [second, first]; assert.ok(c.setHotbar(order)); c.saveLoadout(0);
   const skills = { ...c.skills }, spent = c.skillPointsSpent;
-  c.setHotbar([first, second]); assert.ok(c.applyLoadout(0).ok); assert.deepEqual(c.hotbar, order);
+  c.setHotbar([first, second]); assert.ok(c.applyLoadout(0).ok); assert.deepEqual(c.hotbar, [...order.map(id => ({kind:'skill',id})), ...Array(8).fill(null)]);
   assert.deepEqual(c.skills, skills); assert.equal(c.skillPointsSpent, spent);
-  assert.equal(c.setHotbar(['not_a_skill']), false); assert.equal(c.setHotbar([first, first]), false);
+  assert.equal(c.setHotbar(['not_a_skill']), false); assert.equal(c.setHotbar([first, first]), true); // both bindings share one skill identity/cooldown
   assert.ok(c.resetSkills()); const reset = { ...c.skills }; assert.ok(c.applyLoadout(0).ok);
-  assert.deepEqual(c.skills, reset); assert.deepEqual(c.hotbar, [first]); assert.equal(c.skillPointsSpent, 0);
+  assert.deepEqual(c.skills, reset); assert.deepEqual(c.hotbar, [null,{kind:'skill',id:first},...Array(8).fill(null)]); assert.equal(c.skillPointsSpent, 0);
 });
 
 test('server validates instance lock ops and combat state, ignoring browser-provided loadout flags', () => {

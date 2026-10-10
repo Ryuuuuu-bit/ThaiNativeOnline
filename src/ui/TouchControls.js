@@ -96,7 +96,7 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
   targetBtn.addEventListener('lostpointercapture', cancelTarget);
   window.addEventListener('blur', cancelTarget);
   setInterval(() => targetBtn.classList.toggle('locked', locked()), 200);
-  btn('t-talk', '<b>คุย</b>', 'KeyE', 'คุย / ใช้ของตรงหน้า');
+  btn('t-talk', '<b>คุย</b>', 'KeyF', 'คุย / ใช้ของตรงหน้า');
   root.append(pad);
 
   // ---- full screen and a hint to hold a phone sideways ----------------------------------------

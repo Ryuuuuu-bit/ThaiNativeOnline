@@ -1,3 +1,4 @@
+import { createFlask } from '../src/character/data/flasks.js';
 // Bag panel helpers (src/character/bag.js): tabs, search, better/worse arrows, auto-sort.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -51,3 +52,15 @@ test('sortBag reorders the character and tells the UI', () => {
   assert.deepEqual(c.inventory, [{ id: 'potion_s', qty: 1 }, null]);
   assert.equal(told, 1);
 });
+
+ test('reusable flasks belong to equipment and sort individually before consumables, HP before MP',()=>{
+  for(const id of ['flask_hp_1','flask_mp_1']){
+    assert.ok(inTab('equip',id));assert.equal(inTab('use',id),false);assert.equal(inTab('material',id),false);
+  }
+  const hp=createFlask('flask_hp_1'), second=createFlask('flask_hp_1'),mp=createFlask('flask_mp_1');hp.flask.charges=0;second.flask.charges=13;
+  const sorted=sortedInventory([{id:'potion_s',qty:3},mp,hp,second,null]);
+  assert.deepEqual(sorted.map(x=>x?.id??null),['flask_hp_1','flask_hp_1','flask_mp_1','potion_s',null]);
+  assert.deepEqual(sorted.slice(0,2).map(x=>x.flask.charges),[0,13]);
+  assert.equal(new Set(sorted.slice(0,3).map(x=>x.flask.iid)).size,3);
+  sorted[0].flask.charges=40;assert.equal(hp.flask.charges,0);
+ });

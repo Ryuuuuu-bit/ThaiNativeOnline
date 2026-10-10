@@ -1,3 +1,4 @@
+import { dragBinding } from './HotbarEditor.js';
 import { assetIcon } from '../../ui/icons.js';
 // Skill window (K), laid out as the design "UI ใหม่" draws it: the class path and job strip on
 // top, the class's skill tree (src/character/data/skilltree.js: the root on top, the three
@@ -151,6 +152,7 @@ export class SkillPanel {
         else this.feed?.log(this.c.skillPointsSpent ? `ตำลึงไม่พอ (${this.c.skillResetCost} ตำลึง)` : 'ยังไม่ได้ใช้แต้มสกิล', 'bad', true);
       }
     });
+    this.root.addEventListener('dragstart', e => { const node=e.target.closest('[data-sk]'), id=node?.dataset.sk; if (id && this.c.skillLevel(id)>0 && !this.entry(id)?.passive) dragBinding(e,{kind:'skill',id}); else e.preventDefault(); });
     character.on('skills', () => this.refresh());
     character.on('change', () => { if (!this.root.hidden) this.refresh(); });
     character.on('joblevelup', lv => {
@@ -212,7 +214,7 @@ export class SkillPanel {
       const lv = c.skillLevel(s.id), open = c.skillOpen(s.id), state = lv ? 'learned' : open ? 'avail' : 'locked';
       const ult = SKILL_BY_ID[s.id]?.ultimate, evo = c.evo[s.id], { req = {}, job = 1 } = c.skillReqs(s.id);
       const unmet = Object.entries(req).find(([k, n]) => c.skillLevel(k) < n), needText = c.jobLevel < job ? `Job ${job}` : unmet ? `ต้อง Lv.${unmet[1]}` : '';
-      return `<button type="button" class="g-node ${state}${s.id === this.sel ? ' sel' : ''}${small ? ' g-pnode' : ''}" data-sk="${s.id}" title="${esc(s.name)}${small ? ' · ติดตัว' : ''}${state === 'locked' ? ` · ${esc(c.skillTreeBlock(s.id) ?? '')}` : ''}">
+      return `<button type="button" draggable="${lv > 0 && !s.passive}" class="g-node ${state}${s.id === this.sel ? ' sel' : ''}${small ? ' g-pnode' : ''}" data-sk="${s.id}" title="${esc(s.name)}${small ? ' · ติดตัว' : ''}${state === 'locked' ? ` · ${esc(c.skillTreeBlock(s.id) ?? '')}` : ''}">
           <span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><b class="g-lvp">${state === 'locked' ? needText : `${lv}/${MAX_SKILL_LEVEL}`}</b>
           <span class="g-nm">${esc(s.name)}</span>${ult ? '<span class="g-bdg ult">★</span>' : evo ? `<span class="g-bdg" style="--evo:${EVOLUTIONS[s.id][evo].color}">${evo}</span>` : ''}${c.skillBlock(s.id) ? '' : '<span class="g-plus">+</span>'}</button>`;
     };

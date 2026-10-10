@@ -1,3 +1,5 @@
+import { cleanFlask, createFlask, flaskFields, instanceId, FLASK_VERSION } from './data/flasks.js';
+import { validBinding, cleanBindings, HOTBAR_SIZE } from './hotbarBindings.js';
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
 // Pure logic so it can be reused by any world or a future server.
 import { CLASSES, CLASS_ALIASES, STATS, START_ITEMS, POINTS_PER_LEVEL, WEAPON_KINDS, WEAPON_KIND_TH } from './data/classes.js';
@@ -6,7 +8,7 @@ import { MAX_LEVEL, expToNext, CARRY, RECOVERY, MONSTER_ACCURACY, MAX_JOB_LEVEL,
 import { KIT_SKILL_IDS, KIT_MOVES } from './data/kits.js';
 import { reqOf, passivesOf } from './data/skilltree.js';
 import { KIT_PASSIVES, kitPassiveBonus } from '../rules/data/kitpassives.js';
-import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
+import { RESIST_CAP, socketCards, cardSlotKind, STRIP } from './data/cards.js';
 import { refinable, refineBonus, refineCost, plusOf } from './data/refine.js';
 import { cleanRoll, rollFields, affixBonus } from './data/affixes.js';
 import { EVOLUTIONS, EVO_LEVEL, evolutionSwitchCost, evoId } from '../rules/data/evolutions.js';
@@ -37,7 +39,7 @@ const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k
 export const STARTER_VERSION = 2;
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0 } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -65,9 +67,10 @@ export class Character extends Emitter {
     // and a plus from ตีบวก (src/character/data/refine.js): only on gear that takes one
     this.inventory = inventory ? inventory.map(s => {
       if (!s) return null;
-      const { cards: held, plus, locked, roll, ...rest } = s, ok = socketCards(s.id, held, ITEMS), p = refinable(ITEMS[s.id]) ? plusOf(plus) : 0;
-      const fields = rollFields(s);
-      return { ...rest, ...(fields.roll ? {qty:1} : {}), ...(ok.length ? { cards: ok } : {}), ...(p ? { plus: p } : {}), ...lockFields(s), ...fields };
+      const { cards: held, plus, locked, roll, flask, ...rest } = s, ok = socketCards(s.id, held, ITEMS), p = refinable(ITEMS[s.id]) ? plusOf(plus) : 0;
+      const fields = { ...rollFields(s), ...flaskFields(s) };
+      if (ITEMS[s.id]?.type === 'flask' && !fields.flask) return null;
+      return { ...rest, ...((fields.roll || fields.flask) ? {qty:1} : {}), ...(ok.length ? { cards: ok } : {}), ...(p ? { plus: p } : {}), ...lockFields(s), ...fields };
     }) : Array(INVENTORY_SIZE).fill(null);
     this.equipment = Object.fromEntries(EQUIP_SLOTS.map(s => [s, null]));
     for (const s of EQUIP_SLOTS) { const id = equipment?.[s]; if (id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slotKind(s)) this.equipment[s] = id; }
@@ -108,6 +111,26 @@ export class Character extends Emitter {
     for (const item of returnedCards) { const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
     // a weapon of another class's kind (worn before the kinds existed, or a save edited by hand) goes to the bag
     if (this.equipment.weapon && !this.canWield(this.equipment.weapon)) { const item = this.wornItem('weapon'); this.equipment.weapon = null; this.cards.weapon = []; this.refine.weapon = 0; this.equipmentLocks.weapon = false; this.gearRolls.weapon = null; const free = this.inventory.indexOf(null); if (free < 0) this.inventory.push(item); else this.inventory[free] = item; }
+    this.flasks = {hp:null,mp:null};
+    this.flaskCooldowns = {hp:0,mp:0};
+    this.flaskVersion = FLASK_VERSION;
+    for (const kind of ['hp','mp']) {
+      const item = flasks?.[kind], clean = flaskFields(item);
+      if (clean.flask && ITEMS[item.id].flask.kind === kind && !identities.has(clean.flask.iid)) {
+        this.flasks[kind] = {id:item.id,qty:1,...clean,...lockFields(item)}; identities.add(clean.flask.iid);
+      }
+    }
+    for (let i = 0; i < this.inventory.length; i++) {
+      const item = this.inventory[i]; if (!item?.flask) continue;
+      if (identities.has(item.flask.iid)) this.inventory[i] = null; else identities.add(item.flask.iid);
+    }
+    if (flaskVersion < FLASK_VERSION) for (const kind of ['hp','mp']) {
+      const carried = this.inventory.find(item => ITEMS[item?.id]?.flask?.kind === kind);
+      if (!this.flasks[kind] && !carried) {
+        const id = Object.keys(ITEMS).find(id => ITEMS[id].type === 'flask' && ITEMS[id].flask.kind === kind && ITEMS[id].flask.tier === 1 && !ITEMS[id].bossFlask);
+        if (id) this.flasks[kind] = createFlask(id);
+      }
+    }
     this.hotbar = cleanHotbar(this, hotbar);
     this.loadouts = cleanLoadouts(this, loadouts);
     this.masteries = cleanMasteries(this.classId, masteries);
@@ -228,6 +251,7 @@ export class Character extends Emitter {
     let w = 0;
     for (const s of this.inventory) if (s) w += (ITEMS[s.id].weight || 0) * s.qty;
     for (const id of Object.values(this.equipment)) if (id) w += ITEMS[id].weight || 0;
+    for (const item of Object.values(this.flasks ?? {})) if (item) w += ITEMS[item.id].weight || 0;
     return Math.round(w * 10) / 10;
   }
   get maxWeight() { return Math.round(CARRY.base + this.stat('str') * CARRY.perStr); }
@@ -262,7 +286,9 @@ export class Character extends Emitter {
 
   // Slow natural regeneration, slower in combat (no sitting bonus: recovery is potions and healers).
   tick(dt, inCombat) {
+    if (!Number.isFinite(dt) || dt < 0) return;
     this.inCombat = !!inCombat;
+    for (const kind of ['hp','mp']) this.flaskCooldowns[kind] = Math.max(0,this.flaskCooldowns[kind] - dt);
     for (const key of Object.keys(this.cooldowns)) if ((this.cooldowns[key] -= dt) <= 0) delete this.cooldowns[key];
     const before = this.buffs.length;
     this.buffs = this.buffs.filter(b => (b.remaining -= dt) > 0);
@@ -336,6 +362,7 @@ export class Character extends Emitter {
     if (this.skillPointsSpent <= 0 || this.gold < this.skillResetCost) return false;
     this.gold -= this.skillResetCost;
     this.skills = this.kitSkills[0] ? { [this.kitSkills[0]]: 1 } : {};
+    this.hotbar = cleanBindings(this,this.hotbar);
     this.emit('skills'); this.emit('change');
     return true;
   }  // The rules id a kit skill casts with: its evolution path once the skill is at EVO_LEVEL.
@@ -403,7 +430,7 @@ export class Character extends Emitter {
   // Would `qty` of `id` fit (weight, and a stack or free slots)? Checked before anything is paid.
   canTake(id, qty = 1) {
     const def = ITEMS[id]; if (!def || this.carryRoom(id) < qty) return false;
-    if (def.type !== 'equip') return this.inventory.some(s => s?.id === id && !isItemLocked(s)) || this.inventory.includes(null);
+    if (!['equip','flask'].includes(def.type)) return this.inventory.some(s => s?.id === id && !isItemLocked(s)) || this.inventory.includes(null);
     return this.inventory.filter(s => !s).length >= qty;
   }
   // Adds as many as fit; false (with 'overweight') when any are left behind.
@@ -416,7 +443,8 @@ export class Character extends Emitter {
       this.addItem(id, room);
       return false;
     }
-    const stackable = def.type !== 'equip';
+    if (!Number.isSafeInteger(qty) || qty < 1) return false;
+    const stackable = !['equip','flask'].includes(def.type);
     if (stackable) {
       const slot = this.inventory.find(s => s?.id === id && !isItemLocked(s));
       if (slot) { slot.qty += qty; this.emit('inventory'); return true; }
@@ -424,7 +452,7 @@ export class Character extends Emitter {
     for (let n = 0; n < (stackable ? 1 : qty); n++) {
       const free = this.inventory.indexOf(null);
       if (free < 0) { this.emit('inventory-full', id); return false; }
-      this.inventory[free] = { id, qty: stackable ? qty : 1 };
+      this.inventory[free] = def.type === 'flask' ? createFlask(id) : { id, qty: stackable ? qty : 1 };
     }
     this.emit('inventory');
     return true;
@@ -432,10 +460,18 @@ export class Character extends Emitter {
   // A whole item instance into the bag: gear keeps its cards and plus (a trade, server/trades.js).
   addInstance(s) {
     const def = ITEMS[s?.id]; if (!def || def.retired) return false;
+    if (def.type === 'flask') {
+      const flask = cleanFlask(s.id,s.flask), iid = flask?.iid;
+      if (!flask || s.qty !== 1 || s.roll || this.inventory.some(item => instanceId(item) === iid)
+        || Object.values(this.flasks).some(item => instanceId(item) === iid) || Object.values(this.gearRolls).some(r => r?.iid === iid)) return false;
+      const free = this.inventory.indexOf(null); if (free < 0 || this.carryRoom(s.id) < 1) return false;
+      this.inventory[free] = {id:s.id,qty:1,flask,...lockFields(s)}; this.emit('inventory'); return true;
+    }
+    if (s.flask) return false;
     const heldRoll = cleanRoll(s.id, s.roll);
     if (s.roll && !heldRoll) return false;
     if (heldRoll && s.qty !== 1) return false;
-    if (heldRoll && (this.inventory.some(item => item?.roll?.iid === heldRoll.iid) || Object.values(this.gearRolls).some(r => r?.iid === heldRoll.iid))) return false;
+    if (heldRoll && (this.inventory.some(item => instanceId(item) === heldRoll.iid) || Object.values(this.flasks).some(item => instanceId(item) === heldRoll.iid) || Object.values(this.gearRolls).some(r => r?.iid === heldRoll.iid))) return false;
     if (def.type !== 'equip') {
       if (!isItemLocked(s)) return this.addItem(s.id, s.qty);
       if (!Number.isSafeInteger(s.qty) || s.qty < 1 || this.carryRoom(s.id) < s.qty) return false;
@@ -472,13 +508,18 @@ export class Character extends Emitter {
   }
 
   get hotbarSkills() { return hotbarOrder(this); }
+  get hotbarBindings() { return cleanBindings(this,this.hotbar); }
   setHotbar(order) {
-    if (!Array.isArray(order) || order.length > 10 || order.some(id => !this.hotbarSkills.includes(id)) || new Set(order).size !== order.length) return false;
-    this.hotbar = [...order]; this.emit('skills'); this.emit('change'); return true;
+    if (!Array.isArray(order) || order.length > HOTBAR_SIZE || order.some(binding => !validBinding(this,typeof binding === 'string' ? {kind:'skill',id:binding} : binding))) return false;
+    this.hotbar = cleanBindings(this,order,{legacy:false}); this.emit('skills'); this.emit('change'); return true;
+  }
+  setHotbarBinding(index,binding) {
+    if (!Number.isInteger(index) || index < 0 || index >= HOTBAR_SIZE || !validBinding(this,binding)) return false;
+    const next = this.hotbarBindings; next[index] = binding; return this.setHotbar(next);
   }
   saveLoadout(index, name) {
     if (!loadoutIndex(index)) return false;
-    this.loadouts[index] = { name: loadoutName(name ?? this.loadouts[index]?.name, index), equipment: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, gearReference(this.wornItem(slot))])), hotbar: [...this.hotbarSkills] };
+    this.loadouts[index] = { name: loadoutName(name ?? this.loadouts[index]?.name, index), equipment: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, gearReference(this.wornItem(slot))])), hotbar: this.hotbarBindings };
     this.emit('change'); return true;
   }
   renameLoadout(index, name) {
@@ -502,6 +543,7 @@ export class Character extends Emitter {
   useAt(index) {
     const slot = this.inventory[index]; if (!slot || !this.alive) return false;
     const def = ITEMS[slot.id];
+    if (def.type === 'flask') return this.equipFlask(index);
     if (def.type === 'equip') return this.equip(index);
     if (def.type === 'card') { this.emit('card-choose', index); return false; }   // the bag asks which item (CharacterUI)
     if (def.type !== 'use') return false;
@@ -512,6 +554,43 @@ export class Character extends Emitter {
     this.removeAt(index);
     this.emit('used', slot.id);
     return true;
+  }
+  equipFlask(index) {
+    const item = this.inventory[index], d = ITEMS[item?.id];
+    if (!this.alive || d?.type !== 'flask' || !cleanFlask(item.id,item.flask) || this.level < (d.minLevel ?? d.flask.minLevel ?? 1)) return false;
+    const kind = d.flask.kind; if (!['hp','mp'].includes(kind)) return false;
+    this.inventory[index] = cloneInstance(this.flasks[kind]); this.flasks[kind] = cloneInstance(item);
+    this.emit('inventory'); this.emit('change'); return true;
+  }
+  unequipFlask(kind) {
+    const item = this.flasks[kind]; if (!this.alive || !item) return false;
+    const free = this.inventory.indexOf(null); if (free < 0) return false;
+    this.inventory[free] = cloneInstance(item); this.flasks[kind] = null;
+    this.emit('inventory'); this.emit('change'); return true;
+  }
+  flaskInfo(kind) {
+    const item = this.flasks[kind], definition = ITEMS[item?.id]; if (!item || !definition?.flask) return null;
+    const f = definition.flask, cooldown = this.flaskCooldowns[kind] || 0;
+    return {item:cloneInstance(item),definition,charges:item.flask.charges,maxCharges:f.maxCharges,cost:f.cost,recovery:f.recovery,cooldown,
+      ready:this.alive && !cooldown && item.flask.charges >= f.cost && (kind === 'hp' ? this.hp < this.maxHp : this.mp < this.maxMp)};
+  }
+  useFlask(kind) {
+    const info = this.flaskInfo(kind); if (!info?.ready) return false;
+    this.flasks[kind].flask.charges -= info.cost;
+    this.flaskCooldowns[kind] = info.definition.flask.cooldown ?? 1;
+    if (kind === 'hp') this.heal(info.recovery); else this.restoreMp(info.recovery);
+    this.emit('used',info.item.id); this.emit('inventory'); this.emit('change'); return true;
+  }
+  // Caller must verify a real town visit or rewarded kill; save/equip never refills.
+  refillFlasks(reason, amount = 1) {
+    if (!['town','kill'].includes(reason) || !Number.isInteger(amount) || amount < 0) return false;
+    let changed = false;
+    for (const kind of ['hp','mp']) {
+      const item = this.flasks[kind], def = ITEMS[item?.id]?.flask; if (!item || !def) continue;
+      const charges = reason === 'town' ? def.maxCharges : Math.min(def.maxCharges,item.flask.charges + amount);
+      if (charges !== item.flask.charges) {item.flask.charges = charges; changed = true;}
+    }
+    if (changed) {this.emit('inventory'); this.emit('change');} return changed;
   }
   // Uses the strongest potion of a kind; used by the quick-potion hotkey.
   quickUse(kind = 'hp') {
@@ -566,9 +645,9 @@ export class Character extends Emitter {
     const out = [];
     for (const s of EQUIP_SLOTS) {
       const worn = this.equipment[s];
-      if (worn && !this.isLocked(s) && slotKind(s) === card.slot && free(worn, this.cards[s])) out.push({ worn: true, slot: s, id: worn, cards: this.cards[s], ...rollFields(this.wornItem(s)) });
+      if (worn && !this.isLocked(s) && cardSlotKind(slotKind(s)) === card.slot && free(worn, this.cards[s])) out.push({ worn: true, slot: s, id: worn, cards: this.cards[s], ...rollFields(this.wornItem(s)) });
     }
-    this.inventory.forEach((s, i) => { if (s && !isItemLocked(s) && ITEMS[s.id]?.type === 'equip' && ITEMS[s.id].slot === card.slot && free(s.id, s.cards)) out.push({ index: i, id: s.id, cards: s.cards ?? [], ...rollFields(s) }); });
+    this.inventory.forEach((s, i) => { if (s && !isItemLocked(s) && ITEMS[s.id]?.type === 'equip' && cardSlotKind(ITEMS[s.id].slot) === card.slot && free(s.id, s.cards)) out.push({ index: i, id: s.id, cards: s.cards ?? [], ...rollFields(s) }); });
     return out;
   }
   // A card into a free slot of a piece of gear, for good (RO style). where: a worn slot ('weapon',
@@ -617,7 +696,8 @@ export class Character extends Emitter {
       }
     }
     const returnWeight = returned.reduce((n, x) => n + (x ? (ITEMS[x.id].weight || 0) * x.qty : 0), 0)
-      + Object.values(this.equipment).reduce((n, id) => n + (ITEMS[id]?.weight || 0), 0);
+      + Object.values(this.equipment).reduce((n, id) => n + (ITEMS[id]?.weight || 0), 0)
+      + Object.values(this.flasks).reduce((n,item) => n + (ITEMS[item?.id]?.weight || 0),0);
     if (Math.round(returnWeight * 10) > this.maxWeight * 10) return fail('bag_full');
     const r = roll();
     const outcome = r < STRIP.ok ? 'ok' : r < STRIP.ok + STRIP.itemBreaks ? 'item_broke' : 'cards_broke';
@@ -692,7 +772,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: [...this.hotbar], loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

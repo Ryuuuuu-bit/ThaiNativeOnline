@@ -28,9 +28,11 @@ test('one equipment counter retains every formerly purchasable city item', () =>
   const city = NPCS.filter(n => npcMap(n) === 'city');
   const stock = new Set(city.flatMap(n => stockOf(n.shopType)));
   assert.equal(formerCity.size, 28);
-  assert.deepEqual(sorted(stock), sorted(formerCity));
-  assert.deepEqual(sorted(stockOf('blacksmith')), sorted(new Set([...formerForge, ...formerWeapons, ...formerArmor])));
-  assert.equal(stockOf('blacksmith').length, 17);
+  for (const id of formerCity) assert.ok(stock.has(id), `former city item remains: ${id}`);
+  const smith = new Set(stockOf('blacksmith'));
+  for (const id of new Set([...formerForge, ...formerWeapons, ...formerArmor])) assert.ok(smith.has(id), `former equipment remains: ${id}`);
+  assert.equal(smith.size, stockOf('blacksmith').length, 'equipment counter has no duplicate rows');
+  for (const slot of ['gloves','belt','amulet','charm']) assert.ok([...smith].some(id => ITEMS[id].slot === slot), `new ${slot} available`);
   assert.equal(city.filter(n => n.shopType === 'blacksmith').length, 1);
   for (const id of ['vendor_weapons', 'vendor_armor', 'vendor_charms']) assert.ok(!NPCS.some(n => n.id === id));
   assert.equal(NPCS.find(n => n.id === 'cargo_merchant').shopType, undefined);

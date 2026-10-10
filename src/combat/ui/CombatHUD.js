@@ -59,7 +59,7 @@ export class CombatHUD {
     this.deathTick = setInterval(() => { left -= 1; paint(); if (left <= 0) { clearInterval(this.deathTick); this.deathTick = null; } }, 1000);
   }
   setSafe(on) {
-    if (!on && !this.tipped) { this.tipped = true; this.feed?.log('พื้นที่อันตราย · Tab เลือกเป้า · 1–0 ใช้สกิล · G ออโต้ · Q / F ดื่มยา', 'bad'); }
+    if (!on && !this.tipped) { this.tipped = true; this.feed?.log('พื้นที่อันตราย · Tab เลือกเป้า · 1–0 ใช้สกิล · R ออโต้ · Q / E ดื่มยา', 'bad'); }
     this.safe = on;
   }
   buildDeath() {

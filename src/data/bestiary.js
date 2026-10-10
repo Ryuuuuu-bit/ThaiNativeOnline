@@ -1,6 +1,7 @@
 import { MONSTERS } from '../combat/data/monsters.js';
 import { LOOT } from '../combat/data/loot.js';
 import { equipmentDropRows, equipmentDropChance } from '../combat/data/equipment-loot.js';
+import { bossFlaskDropRows } from '../combat/data/boss-flask-loot.js';
 import { BOSS_SKILLS } from '../combat/data/boss-skills.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 import { ITEMS } from '../character/data/items.js';
@@ -25,6 +26,7 @@ export function bestiaryDrops(def) {
       max: old.max + 1, equipment: true, legacyChance: old.chance, additionalChance: row.chance }
       : { ...row, additionalChance: row.chance });
   }
+  for (const row of bossFlaskDropRows(def)) drops.set(row.id, row);
   return [...drops.values()];
 }
 export const BESTIARY = Object.entries(MONSTERS).map(([id, def]) => {

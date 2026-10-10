@@ -1,3 +1,4 @@
+import { flaskFields, instanceId, cleanFlask } from '../character/data/flasks.js';
 // A signed-in character's progress belongs to the server (phase 3c of
 // docs/technical/SERVER_SPLIT.md, server/progress.js). Once the server sends `sync` (its copy
 // of the character) this browser:
@@ -35,8 +36,16 @@ export function attachNetProgress(net, c, quests = null) {
   };
   const idAt = i => c.inventory[i]?.id;
   // gear is named with the cards it holds and its plus (two swords that differ are different items)
-  const held = i => ({ ...(c.inventory[i]?.roll?.iid ? { iid: c.inventory[i].roll.iid } : {}), ...(c.inventory[i]?.cards?.length ? { cards: [...c.inventory[i].cards] } : {}), ...(c.inventory[i]?.plus ? { plus: c.inventory[i].plus } : {}), ...lockFields(c.inventory[i]) });
+  const held = i => ({ ...(instanceId(c.inventory[i]) ? { iid: instanceId(c.inventory[i]) } : {}), ...(c.inventory[i]?.cards?.length ? { cards: [...c.inventory[i].cards] } : {}), ...(c.inventory[i]?.plus ? { plus: c.inventory[i].plus } : {}), ...lockFields(c.inventory[i]) });
   wrap('useAt', i => idAt(i) && { op: 'use', id: idAt(i), ...held(i) });
+  wrap('equipFlask', i => instanceId(c.inventory[i]) && { op: 'flask_equip', iid: instanceId(c.inventory[i]) });
+  wrap('unequipFlask', kind => instanceId(c.flasks[kind]) && { op: 'flask_unequip', kind, iid: instanceId(c.flasks[kind]) });
+  wrap('useFlask', kind => ({ op: 'flask_use', kind }));
+  const refill = c.refillFlasks.bind(c);
+  c.refillFlasks = (reason, amount) => {
+    if (reason === 'town' && on && net.online) { op({ op: 'flask_refill' }); return true; }
+    return refill(reason, amount);
+  };
   wrap('sellBatch', lines => Array.isArray(lines) && { op: 'sell_batch', lines: lines.map(l => ({ index: l?.index, qty: l?.qty, id: idAt(l?.index), ...held(l?.index) })) });
   wrap('sellAt', i => idAt(i) && { op: 'sell', id: idAt(i), ...held(i) });
   wrap('equip', i => idAt(i) && { op: 'equip', id: idAt(i), ...held(i) });
@@ -117,7 +126,8 @@ export function attachNetProgress(net, c, quests = null) {
 
   const adopt = s => {
     const { level, exp, points, gold, alloc, inventory, equipment, jobLevel = c.jobLevel, jobExp = c.jobExp, skills = c.skills, cards = c.cards, evo = c.evo, refine: plus = c.refine, title = c.title, titles = c.titles, rec = c.rec } = s;
-    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...Object.fromEntries(Object.entries(x).filter(([key]) => key !== 'roll')), ...rollFields(x), ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, refine: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, 0])), ...plus }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
+    Object.assign(c, { level, exp, points, gold, alloc: { ...alloc }, inventory: inventory.map(x => x && { ...Object.fromEntries(Object.entries(x).filter(([key]) => key !== 'roll' && key !== 'flask')), ...rollFields(x), ...flaskFields(x), ...(x.cards ? { cards: [...x.cards] } : {}) }), equipment: { ...equipment }, jobLevel, jobExp, skills: { ...skills }, evo: { ...evo }, refine: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, 0])), ...plus }, cards: { ...Object.fromEntries(Object.keys(c.equipment).map(k => [k, []])), ...cards } });
+    c.flasks = Object.fromEntries(['hp', 'mp'].map(kind => { const item = s.flasks?.[kind]; const flask = item && cleanFlask(item.id, item.flask); return [kind, flask ? { id: item.id, qty: 1, ...lockFields(item), flask } : null]; }));
     c.gearRolls = Object.fromEntries(Object.entries(c.equipment).map(([slot, id]) => [slot, cleanRoll(id, s.gearRolls?.[slot])]));
     c.equipmentLocks = cleanEquipmentLocks(c.equipment, s.equipmentLocks);
     c.hotbar = cleanHotbar(c, s.hotbar); c.loadouts = cleanLoadouts(c, s.loadouts); c.masteries = cleanMasteries(c.classId, s.masteries);

@@ -1,7 +1,7 @@
 // Persistent equipment rolls. Loading validates saved values; it never rolls again.
 import { ITEMS } from './items.js';
 
-const all = ['weapon', 'armor', 'head', 'cape', 'shoes', 'charm'];
+const all = ['weapon', 'armor', 'head', 'cape', 'shoes', 'gloves', 'belt', 'amulet', 'charm'];
 const entry = (id, label, kind, key, step, slots = all, weapon) => Object.freeze({ id, label, kind, family: key, key, step, slots: Object.freeze([...slots]), weapon });
 export const AFFIXES = Object.freeze([
   entry('force', 'ทรงพลัง', 'prefix', 'atk', 3, ['weapon'], 'physical'),

@@ -1,3 +1,4 @@
+import { instanceId } from '../character/data/flasks.js';
 // Parties and trade on the client (server/parties.js, server/trades.js; messages in server/index.js).
 //   · click another player's name plate: ชวนเข้าปาร์ตี้ · ขอแลกเปลี่ยน
 //   · an invite or a trade request pops up with ตอบรับ / ปฏิเสธ
@@ -34,7 +35,7 @@ const BOARD_WHY = { ...PARTY_WHY, guest: 'ต้องเข้าสู่ร�
 const TRADE_WHY = { self: 'แลกกับตัวเองไม่ได้', busy: 'ตอนนี้แลกเปลี่ยนไม่ได้ (กำลังต่อสู้ หมดสติ หรือแลกกับคนอื่นอยู่)', offline: 'ผู้เล่นนั้นออฟไลน์', guest: 'ต้องเข้าสู่ระบบทั้งสองฝ่ายจึงแลกเปลี่ยนได้', far: 'ต้องยืนใกล้กัน (ไม่เกิน 8 เมตร) ในแชนแนลเดียวกัน', expired: 'คำขอหมดอายุแล้ว', declined: 'อีกฝ่ายปฏิเสธการแลกเปลี่ยน',
   gold: 'ตำลึงไม่พอ', missing: 'ไม่มีของนั้นในกระเป๋าแล้ว', bad_offer: 'ข้อเสนอไม่ถูกต้อง', room_a: 'กระเป๋าหรือน้ำหนักไม่พอรับของ', room_b: 'กระเป๋าหรือน้ำหนักไม่พอรับของ',
   cancelled: 'ยกเลิกการแลกเปลี่ยน', moved: 'การแลกเปลี่ยนถูกยกเลิก (ย้ายแมพหรือแชนแนล)', left: 'อีกฝ่ายออกจากเกม · ยกเลิกการแลกเปลี่ยน' };
-const label = e => `${e.plus ? `+${e.plus} ` : ''}${rollName(e.id, e.roll)}${e.qty > 1 ? ` ×${e.qty}` : ''}${e.cards?.length ? ` ❖${e.cards.length}` : ''}`;
+const label = e => `${e.plus ? `+${e.plus} ` : ''}${rollName(e.id, e.roll)}${e.qty > 1 ? ` ×${e.qty}` : ''}${e.cards?.length ? ` ❖${e.cards.length}` : ''}${e.flask ? ` · ${e.flask.charges}/${ITEMS[e.id]?.flask?.maxCharges} ชาร์จ` : ''}`;
 // an HP / MP bar (empty when the server does not know it: a guest's)
 const bar = (kind, v, max, nums = false) => (max ? `<em class="soc-bar ${kind}"><i style="width:${(Math.max(0, Math.min(1, v / max)) * 100).toFixed(0)}%"></i>${nums ? `<b>${v} / ${max}</b>` : ''}</em>` : `<em class="soc-bar ${kind} none"></em>`);
 const buffsHtml = ids => (ids ?? []).map(id => `<span title="${esc(id)}">${iconHtml(BUFF_ICONS[id] ?? { icon: '✧' })}</span>`).join('');
@@ -341,16 +342,16 @@ export function attachSocial(net, c, chat, remote, game = null) {
   // ---- the trade window ----
   const win = node('soc-trade glass'); win.hidden = true;
   let offer = { items: [], gold: 0 };
-  const sendOffer = () => net.send({ t: 'toffer', items: offer.items.map(({ roll, ...reference }) => reference), gold: offer.gold });
+  const sendOffer = () => net.send({ t: 'toffer', items: offer.items.map(({ roll, flask, ...reference }) => reference), gold: offer.gold });
   // what is left of a bag slot once the offer takes its share
   const left = (s, i) => {
-    if (ITEMS[s.id].type === 'equip') { const same = c.inventory.slice(0, i + 1).filter(x => x?.id === s.id && sameGear(x, s.cards, s.plus, s.roll?.iid)).length; return same > offer.items.filter(e => e.id === s.id && sameGear({ ...e, roll: e.iid ? { iid: e.iid } : undefined }, s.cards, s.plus, s.roll?.iid)).length ? 1 : 0; }
+    if (['equip', 'flask'].includes(ITEMS[s.id].type)) { const same = c.inventory.slice(0, i + 1).filter(x => x?.id === s.id && sameGear(x, s.cards, s.plus, instanceId(s))).length; return same > offer.items.filter(e => e.id === s.id && sameGear({ ...e, roll: ITEMS[e.id]?.type === 'equip' && e.iid ? { iid: e.iid } : undefined, flask: ITEMS[e.id]?.type === 'flask' && e.iid ? { iid: e.iid } : undefined }, s.cards, s.plus, instanceId(s))).length ? 1 : 0; }
     const offered = offer.items.filter(e => e.id === s.id).reduce((n, e) => n + e.qty, 0), before = c.inventory.slice(0, i).reduce((n, x) => n + (x?.id === s.id ? x.qty : 0), 0);
     return Math.max(0, Math.min(s.qty, before + s.qty - offered));
   };
   const add = (i, all) => {
     const s = c.inventory[i]; if (!s || !left(s, i)) return;
-    if (ITEMS[s.id].type === 'equip') { if (offer.items.length >= 10) return; offer.items.push({ id: s.id, qty: 1, ...(s.roll?.iid ? { iid: s.roll.iid } : {}), ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}) }); }
+    if (['equip', 'flask'].includes(ITEMS[s.id].type)) { if (offer.items.length >= 10) return; offer.items.push({ id: s.id, qty: 1, ...(instanceId(s) ? { iid: instanceId(s) } : {}), ...(s.cards?.length ? { cards: [...s.cards] } : {}), ...(s.plus ? { plus: s.plus } : {}) }); }
     else {
       const n = all ? left(s, i) : 1, e = offer.items.find(x => x.id === s.id);
       if (e) e.qty += n; else { if (offer.items.length >= 10) return; offer.items.push({ id: s.id, qty: n }); }

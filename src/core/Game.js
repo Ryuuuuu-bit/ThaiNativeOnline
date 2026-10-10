@@ -53,7 +53,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get serviceModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get serviceModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.storage?.open || this.game?.hud?.bar?.chooserOpen || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -147,6 +147,7 @@ export class Game {
 
   bind() {
     const input = this.input, view = this.view;
+    input.blocked = () => this.serviceModalOpen;
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => { input.cancelCameraDrag(); view.reset(); });
@@ -155,6 +156,8 @@ export class Game {
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (this.game?.hud?.bar?.chooserOpen) { this.game.hud.bar.editor.close(); return; }
+      if (this.game?.characterUI?.flasksOpen) { this.game.characterUI.flaskPicker.close(); return; }
       if (this.storage.open) return this.storage.close();
       if (this.guide.open) return this.guide.close();
       if (this.warp.open) return this.warp.close();
@@ -332,7 +335,7 @@ export class Game {
       if (e.code === 'Escape' && this.training?.selected) this.training.select(null);
       // Space / ตี at the training ground: the basic attack on the dummy
       if (e.code === 'Space' && this.maps.map?.safe && this.training?.swing?.()) { e.preventDefault(); return; }
-      if (this.game.handleKey(e)) return; // action bar 1–0 / G, potions Q / F, C, I, Tab, Space
+      if (this.game.handleKey(e)) return; // action bar 1–0 / R, flasks Q / E, C, I, Tab, Space
       // N jumps between night and morning; the clock keeps running unless locked in settings.
       if (e.code === 'KeyN' && !e.repeat) this.clock.set(PHASE_HOURS[this.clock.phase === 'night' ? 'morning' : 'night']);
     });
