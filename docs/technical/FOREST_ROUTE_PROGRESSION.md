@@ -1,5 +1,9 @@
 # North forest trail and ordinary progression
 
+This records the earlier targeted release. The subsequent shared all-map
+water/standing correction supersedes its forest-only ground exception; see
+`ALL_MAP_WALKABILITY.md`. The monster progression decisions remain intact.
+
 The reported blockage north of สะพานขอนไม้ was a dry-ground height check,
 not tree collision. The authored trail runs from `sb_n` (-4, -414) to `f5`
 (11, -434), then the wat path gateway (8.5, -439). Its dry surface dips below

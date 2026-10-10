@@ -1,0 +1,45 @@
+{
+  "mode": "before",
+  "blockedWS": 5,
+  "reports": [
+    {
+      "case": {
+        "map": "deep_forest",
+        "x": 10.5,
+        "z": -429,
+        "goal": {
+          "x": 11,
+          "z": -434
+        }
+      },
+      "status": 200,
+      "asset": "/assets/main-Q85Bz-kJ.js",
+      "result": {
+        "map": "deep_forest",
+        "canStand": false,
+        "height": -0.5670740008354187
+      },
+      "errors": []
+    },
+    {
+      "case": {
+        "map": "wat_rang",
+        "x": 27,
+        "z": -548,
+        "goal": {
+          "x": 20,
+          "z": -548
+        }
+      },
+      "status": 200,
+      "asset": "/assets/main-Q85Bz-kJ.js",
+      "result": {
+        "map": "wat_rang",
+        "canStand": false,
+        "height": -0.5852239727973938
+      },
+      "errors": []
+    }
+  ],
+  "limitations": "Isolated guest and blocked network writes. Explicit fixture position; combat frozen. Movement uses fixed Game frames, not wall-time FPS."
+}

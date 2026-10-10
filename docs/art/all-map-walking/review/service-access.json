@@ -1,0 +1,78 @@
+{
+  "rawPois": 259,
+  "rawStandable": 257,
+  "rawUnreachable": 5,
+  "serviceSamples": 59,
+  "directlyReachableServices": 54,
+  "staffAnchorsRequiringCustomerApproaches": [
+    "service-blacksmith-forge_smith",
+    "service-herbalist-herb_keeper",
+    "service-occultist-occult_keeper",
+    "herb_keeper",
+    "occult_keeper"
+  ],
+  "uniqueServicesVerifiedViaCustomer": 3,
+  "rows": [
+    {
+      "npc": "blacksmith",
+      "staffAnchor": {
+        "x": -27.8,
+        "z": 62.75,
+        "standable": true,
+        "reachable": false
+      },
+      "customerApproach": {
+        "x": -29.6,
+        "z": 68.4,
+        "standable": true,
+        "reachable": true,
+        "pathClear": true,
+        "pathSegments": 4
+      },
+      "distance": 5.929797635670214,
+      "interactionRadius": 6.2,
+      "withinInteractionRadius": true
+    },
+    {
+      "npc": "herbalist",
+      "staffAnchor": {
+        "x": 10.3,
+        "z": 65,
+        "standable": false,
+        "reachable": false
+      },
+      "customerApproach": {
+        "x": 7.1,
+        "z": 65,
+        "standable": true,
+        "reachable": true,
+        "pathClear": true,
+        "pathSegments": 2
+      },
+      "distance": 3.200000000000001,
+      "interactionRadius": 3.6,
+      "withinInteractionRadius": true
+    },
+    {
+      "npc": "occultist",
+      "staffAnchor": {
+        "x": 9.8,
+        "z": 86,
+        "standable": true,
+        "reachable": false
+      },
+      "customerApproach": {
+        "x": 6.8,
+        "z": 86,
+        "standable": true,
+        "reachable": true,
+        "pathClear": true,
+        "pathSegments": 1
+      },
+      "distance": 3.000000000000001,
+      "interactionRadius": 3.6,
+      "withinInteractionRadius": true
+    }
+  ],
+  "scope": "These three staff anchors and their duplicate spot records are not player walking destinations. Actual customer approaches were measured in the 14-map World audit; radius uses the production NPC getter. This verifies distance/path access, not a live UI purchase or every NPC visibility/schedule state."
+}

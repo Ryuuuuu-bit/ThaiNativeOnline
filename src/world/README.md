@@ -127,7 +127,7 @@ lies outside `map.view` is dropped before it is batched.
 | --- | --- |
 | `map`, `root` | The `MAPS` entry and the group holding everything built |
 | `heightAt(x, z) → number` | Walkable surface height: terrain, or a deck (pier, bridge) where one exists |
-| `canStand(x, z) → boolean` | Inside the map's `walk` area, not blocked by static collision, not in deep water unless on a deck |
+| `canStand(x, z) → boolean` | Inside the map's `walk` area, not blocked by static collision; decks bypass water, otherwise deep masks block and actual rendered water permits at most `.22 m` depth |
 | `contains(x, z) → boolean` | Inside the map's `walk` area (nav graph and NPC spots use it) |
 | `speedAt(x, z) → number` | Movement multiplier: `0.62` in paddies and channels, otherwise `1` |
 | `update(t, dt, focus, env)` | Per-frame animation (wind, grass, atmosphere, boats, animals) |
@@ -206,6 +206,14 @@ Other systems may read these to match mood (for example monster strength or musi
 
 The map split needed small hooks outside `src/world`:
 
+- `server/navigation.js`: shares `water-navigation.js` with `World.canStand` after
+  map bounds, static collision and deck checks. `water-surfaces.js` supplies the
+  exact unchanged vertex/index topology to both `Water.js` and an 8 m spatial
+  triangle index. Static barycentric surface height handles stream elevation,
+  paddy channels and polygon shores; shader ripples do not affect movement.
+  Dry depressions have no water-depth cutoff. Deep-water masks remain blocking;
+  expedition maps disable city-water lookup, matching their separate renderer.
+  `World.WADE` remains exported and `speedAt` retains existing shallow-mask speed.
 - `src/core/Game.js`: builds through `MapManager`; `world`/`npcs` are getters;
   `leaveMap()`/`enterMap()` close dialogue and shop, rebuild the minimap and
   debug overlay, reapply particle/quality settings; landmark discovery uses

@@ -1,0 +1,69 @@
+{
+  "mode": "after",
+  "blockedWS": 5,
+  "reports": [
+    {
+      "case": {
+        "map": "deep_forest",
+        "x": 10.5,
+        "z": -429,
+        "goal": {
+          "x": 11,
+          "z": -434
+        }
+      },
+      "status": 200,
+      "asset": "dev",
+      "result": {
+        "map": "deep_forest",
+        "canStand": true,
+        "height": -0.5670740008354187,
+        "walk": {
+          "accepted": true,
+          "steps": 70,
+          "x": 10.980602962871387,
+          "z": -433.8060296287139,
+          "distance": 0.19493781056082188,
+          "destinationCleared": true
+        },
+        "keyboard": {
+          "distance": 1.400000000000304,
+          "standable": true
+        }
+      },
+      "errors": []
+    },
+    {
+      "case": {
+        "map": "wat_rang",
+        "x": 27,
+        "z": -548,
+        "goal": {
+          "x": 20,
+          "z": -548
+        }
+      },
+      "status": 200,
+      "asset": "dev",
+      "result": {
+        "map": "wat_rang",
+        "canStand": true,
+        "height": -0.5852239727973938,
+        "walk": {
+          "accepted": true,
+          "steps": 99,
+          "x": 20.139999999999972,
+          "z": -548,
+          "distance": 0.13999999999997215,
+          "destinationCleared": true
+        },
+        "keyboard": {
+          "distance": 1.3999999999991868,
+          "standable": true
+        }
+      },
+      "errors": []
+    }
+  ],
+  "limitations": "Isolated guest and blocked network writes. Explicit fixture position; combat frozen. Movement uses fixed Game frames, not wall-time FPS."
+}

@@ -1,0 +1,8 @@
+// Hash the actual rendered water buffers to prove layout is unchanged.
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/panup/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('node:fs'),path=require('node:path');
+(async()=>{const b=await chromium.launch({channel:'msedge',headless:true});try{const p=await b.newPage();await p.goto(process.env.WALK_AUDIT_URL||'http://127.0.0.1:5204');const report=await p.evaluate(async()=>{
+ const THREE=await import('/node_modules/.vite/deps/three.js');const {MAPS}=await import('/src/world/maps.js');const {buildWater}=await import('/src/world/Water.js');const result={};
+ const hash=async array=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new Uint8Array(array.buffer,array.byteOffset,array.byteLength)))).map(n=>n.toString(16).padStart(2,'0')).join('');
+ for(const [id,map]of Object.entries(MAPS)){if(map.expedition){result[id]=[];continue;}const water=buildWater(new THREE.Scene(),map.view);result[id]=await Promise.all(water.meshes.map(async mesh=>{const g=mesh.geometry;return{vertices:g.attributes.position.count,indices:g.index.count,positions:await hash(g.attributes.position.array),shore:await hash(g.attributes.aShore.array),index:await hash(g.index.array)};}));water.dispose();}return result;
+ });const dir=path.resolve('artifacts/all-map-walking',process.argv[2]||'before');fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'water-geometry.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(Object.fromEntries(Object.entries(report).map(([id,meshes])=>[id,meshes.length]))));}finally{await b.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
