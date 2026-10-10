@@ -21,22 +21,35 @@ import { MAPS } from './presence.js';
 import { POINTS_PER_LEVEL } from '../src/character/data/classes.js';
 
 export const admins = (env = process.env.ADMIN_IDS) => new Set(String(env ?? '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean));
-const HELP = 'คำสั่ง GM: gold · lv · exp · joblv · stat · item <id|ชื่อ> [n] · card <มอน> · refine <ช่อง> <ขั้น> · heal · hp <%> · god · find <คำ> · map <แมพ> [x z] · who · goto/summon <ชื่อ> · give <ชื่อ> <gold|id> [n] · kick <ชื่อ> · mute <ชื่อ> [นาที] · unmute <ชื่อ> · killall · say <ข้อความ> · time <ชั่วโมง>';
+import { GM_COMMANDS, GM_PREFIX, GM_HELP, parseGm, gmHelp } from './gm-catalog.js';
+export { GM_COMMANDS, GM_PREFIX, GM_HELP, parseGm };
+const HELP = GM_HELP;
 const int = (v, d) => { const n = Math.floor(Number(v)); return Number.isFinite(n) ? n : d; };
 const itemId = q => (ITEMS[q] ? q : Object.keys(ITEMS).find(k => ITEMS[k].name === q));
 
-export function gm(ctx, me, text) {
+export async function gm(ctx, me, text) {
+  // Never trust a caller's admin flag, account id or client packet alone.
+  let allowed = false;
+  try { allowed = !!ctx?.isAdmin && await ctx.isAdmin(me); } catch { /* Fail closed. */ }
+  if (!allowed) return 'คำสั่งนี้สำหรับ GM เท่านั้น';
+  if (ctx.byId(me?.id)?.p !== me || !me.account || ctx.combatants?.get(me.id)?.persist?.account !== me.account) return 'คำสั่งนี้สำหรับ GM เท่านั้น';
+  const liveState = ctx.combatants.get(me.id);
+  if (liveState.stashBusy || liveState.tradeBusy) return 'กำลังจัดการคลังหรือแลกเปลี่ยน กรุณาลองใหม่';
+  const parsed = parseGm(text);
+  if (!parsed) return 'ใช้ /gm help';
   const { presence, combatants, send, byName, byId } = ctx;
-  const [cmd = 'help', ...args] = String(text).trim().split(/\s+/).slice(1);
+  const { cmd, args } = parsed;
   const s = combatants.get(me.id), c = s?.c;
   const log = what => console.log(`[gm] ${me.name} (${me.account}): ${what}`);
   const mine = () => { if (!s?.persist) return 'ต้องเข้าสู่ระบบด้วยตัวละครที่บันทึกไว้'; return null; };
   const changed = () => { s.dirty = true; const w = byId(me.id)?.ws; if (w) send(w, { t: 'sync', c: combatants.me(me.id) }); };
   const other = () => { const t = byName(args[0]); return t ? { t } : { err: args[0] ? `ไม่พบผู้เล่น "${args[0]}" ที่ออนไลน์` : 'ใส่ชื่อผู้เล่น' }; };
   const tell = (t, msg) => send(t.ws, { t: 'c', id: null, name: '🛠️ GM', text: msg });
+  log(`${cmd} ${args.join(' ')}`);
   switch (cmd.toLowerCase()) {
-    case 'help': return HELP;
-    case 'gold': { const e = mine(); if (e) return e; const n = int(args[0], 10000); c.gold = Math.max(0, Math.min(999999999, c.gold + n)); changed(); log(`gold ${n}`); return `ทอง → ${c.gold.toLocaleString()}`; }
+    case 'help': return gmHelp(args[0]);
+    case 'admin': return ctx.adminCommand ? await ctx.adminCommand(me, args) : 'ระบบสิทธิ์ยังไม่พร้อม';
+    case 'gold': { const e = mine(); if (e) return e; const n = int(args[0], 10000); c.gold = Math.max(0, Math.min(999999999, c.gold + n)); changed(); log(`gold ${n}`); return `เงิน → ${c.gold.toLocaleString()} ตำลึง`; }
     case 'lv': case 'joblv': {
       const e = mine(); if (e) return e;
       const job = cmd === 'joblv', n = Math.max(1, Math.min(job ? MAX_JOB_LEVEL : MAX_LEVEL, int(args[0], 10)));
@@ -98,8 +111,8 @@ export function gm(ctx, me, text) {
       const { t, err } = other(); if (err) return err;
       const ts = combatants.get(t.p.id); if (!ts?.persist) return 'ผู้เล่นนั้นไม่ได้เข้าสู่ระบบ';
       let got;
-      if (String(args[1]).toLowerCase() === 'gold') { const n = Math.max(1, int(args[2], 0)); if (!int(args[2], 0)) return 'ใส่จำนวนตำลึง'; ts.c.gold = Math.min(999999999, ts.c.gold + n); got = `${n.toLocaleString()} ตำลึง`; }
-      else { const id = itemId(args[1]); if (!id) return `ไม่พบไอเทม "${args[1] ?? ''}"`; const n = Math.max(1, Math.min(999, int(args[2], 1))); ts.c.addItem(id, n); got = `${ITEMS[id].name} ×${n}`; }
+      if (String(args[1]).toLowerCase() === 'gold') { const n = Math.max(1, int(args[2], 0)); if (!int(args[2], 0)) return 'ใส่จำนวนตำลึง'; const before = ts.c.gold; ts.c.gold = Math.min(999999999, before + n); got = `${(ts.c.gold - before).toLocaleString()} ตำลึง`; }
+      else { const id = itemId(args[1]); if (!id) return `ไม่พบไอเทม "${args[1] ?? ''}"`; const n = Math.max(1, Math.min(999, int(args[2], 1))); const before = ts.c.count(id); ts.c.addItem(id, n); const received = ts.c.count(id) - before; if (!received) return 'กระเป๋าของผู้รับเต็มหรือหนักเกิน'; got = `${ITEMS[id].name} ×${received}`; }
       ts.dirty = true; send(t.ws, { t: 'sync', c: combatants.me(t.p.id) }); tell(t, `ได้รับ ${got} จาก GM`);
       log(`give ${t.p.name} ${got}`); return `ให้ ${t.p.name}: ${got}`;
     }
@@ -148,8 +161,7 @@ function warp(ctx, who, map, x, z, ch = null) {
 // adminIds(env) → Set of account ids from ADMIN_IDS plus GM_ID (the account server/index.js makes
 // at boot from GM_ID + GM_PASSWORD). runGm(c, text) → { ok, msg, level?, say? } acts on one
 // Character only; gm() above is what the chat runs.
-export const GM_PREFIX = /^\/gm(\s|$)/i;
-export const GM_HELP = '/gm gold [n] · level <n> · exp [n] · item <id> [n] · find <ชื่อ> · points [n] · say <ข้อความ>';
+
 
 export const adminIds = (env = process.env) =>
   new Set([...String(env.ADMIN_IDS ?? '').split(','), env.GM_ID ?? ''].map(s => s.trim().toLowerCase()).filter(Boolean));
@@ -157,7 +169,9 @@ export const adminIds = (env = process.env) =>
 const num = (v, d) => { const n = Math.floor(Number(v)); return Number.isFinite(n) && n > 0 ? n : d; };
 
 export function runGm(c, text) {
-  const [cmd = 'help', a1, a2] = String(text).replace(GM_PREFIX, '').trim().split(/\s+/);
+  const parsed = parseGm(text);
+  if (!parsed) return { ok: false, msg: 'ใช้ /gm help' };
+  const { cmd, args: [a1, a2] } = parsed;
   const rest = String(text).replace(GM_PREFIX, '').trim().slice(cmd.length).trim();
   switch (cmd.toLowerCase()) {
     case 'gold': c.gold = Math.min(999999999, c.gold + num(a1, 100000)); return { ok: true, msg: `เงิน → ${c.gold.toLocaleString()} ตำลึง` };
@@ -178,7 +192,7 @@ export function runGm(c, text) {
       const hits = Object.keys(ITEMS).filter(k => k.includes(q) || ITEMS[k].name.toLowerCase().includes(q));
       return { ok: true, msg: hits.length ? hits.slice(0, 15).map(k => `${ITEMS[k].name} (${k})`).join(' · ') : 'ไม่พบ' };
     }
-    case 'points': c.points += num(a1, 10); return { ok: true, msg: `แต้มสถานะ → ${c.points}` };
+    case 'stat': c.points += num(a1, 10); return { ok: true, msg: `แต้มสถานะ → ${c.points}` };
     case 'say': return rest ? { ok: true, msg: 'ประกาศแล้ว', say: rest.slice(0, 120) } : { ok: false, msg: 'ใช้: /gm say <ข้อความ>' };
     default: return { ok: true, msg: GM_HELP };
   }

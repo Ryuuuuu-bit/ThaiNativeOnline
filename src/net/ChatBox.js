@@ -13,13 +13,15 @@ export class ChatBox {
     this.collapsed = document.body.classList.contains('ui-touch') || matchMedia('(max-width: 900px)').matches;
     this.root = document.createElement('section');
     this.root.className = 'net-chat net-chat-tabs'; this.root.setAttribute('aria-label', 'แชท');
-    this.root.innerHTML = `<header><button type="button" class="chat-toggle" aria-controls="chat-body"><b>แชท</b><span class="chat-total" hidden></span></button><span class="net-online">ออฟไลน์</span></header>
+    this.root.innerHTML = `<header><button type="button" class="chat-toggle" aria-controls="chat-body"><span class="chat-bubble" aria-hidden="true">▤</span><span class="chat-heading"><b>แชท</b><small class="chat-subtitle">ทั่วไป</small></span><span class="chat-total" hidden></span></button><span class="net-online">ออฟไลน์</span></header>
       <div class="chat-body" id="chat-body">
         <div class="chat-tabs" role="tablist" aria-label="ช่องแชท">${Object.entries(CHANNELS).map(([key, label]) => `<button type="button" role="tab" id="chat-tab-${key}" data-tab="${key}" aria-controls="chat-log" aria-selected="${key === 'general'}" tabindex="${key === 'general' ? 0 : -1}">${label}<span class="chat-unread" hidden></span></button>`).join('')}</div>
         <div class="net-lines" id="chat-log" role="tabpanel" aria-labelledby="chat-tab-general" tabindex="0" aria-live="polite" aria-relevant="additions"></div>
         <form class="chat-compose" hidden>
           <label class="chat-recipient" hidden>ถึง <input type="text" maxlength="32" autocomplete="off" aria-label="ชื่อผู้รับกระซิบ" placeholder="ชื่อผู้รับ"></label>
-          <div class="chat-send-row"><input class="chat-message" type="text" maxlength="120" autocomplete="off" aria-label="ข้อความแชท" placeholder="พิมพ์ข้อความ แล้วกด Enter" hidden><button type="submit" class="chat-send">ส่ง</button></div>
+          <div class="chat-send-row"><button type="button" class="chat-emoji-toggle" aria-label="ใส่อีโมจิ" aria-expanded="false" aria-controls="chat-emoji-picker">☺</button><input class="chat-message" type="text" maxlength="120" autocomplete="off" aria-label="ข้อความแชท" placeholder="พิมพ์ข้อความ..." hidden><button type="submit" class="chat-send">ส่ง</button></div>
+          <div class="chat-emoji-picker" id="chat-emoji-picker" aria-label="เลือกอีโมจิ" hidden></div>
+          <p class="chat-key-hint"><kbd>Tab</kbd> เลือกปุ่ม · <kbd>Enter</kbd> ส่ง · <kbd>Esc</kbd> ปิด</p>
         </form>
         <p class="chat-feedback" role="status" hidden></p>
       </div>`;
@@ -30,6 +32,22 @@ export class ChatBox {
     this.recipient = this.root.querySelector('.chat-recipient input'); this.feedback = this.root.querySelector('.chat-feedback');
     this.tabs = [...this.root.querySelectorAll('[role="tab"]')];
     this.toggleButton = this.root.querySelector('.chat-toggle');
+    this.emojiToggle = this.root.querySelector('.chat-emoji-toggle');
+    this.emojiPicker = this.root.querySelector('.chat-emoji-picker');
+    for (const emoji of ['🙂', '😊', '😄', '🙏', '❤️', '🔥', '✨', '👍']) {
+      const button = document.createElement('button'); button.type = 'button'; button.textContent = emoji;
+      button.setAttribute('aria-label', `ใส่ ${emoji}`);
+      button.addEventListener('click', () => {
+        const start = this.input.selectionStart ?? this.input.value.length, end = this.input.selectionEnd ?? start;
+        if (this.input.value.length - (end - start) + emoji.length <= this.input.maxLength) this.input.setRangeText(emoji, start, end, 'end');
+        this.closeEmoji(); this.input.focus();
+      });
+      this.emojiPicker.append(button);
+    }
+    this.emojiToggle.addEventListener('click', () => {
+      this.emojiPicker.hidden = !this.emojiPicker.hidden;
+      this.emojiToggle.setAttribute('aria-expanded', String(!this.emojiPicker.hidden));
+    });
     this.paint();
     document.addEventListener('visibilitychange', () => this.markRead());
     this.root.addEventListener('focusin', () => this.markRead());
@@ -73,7 +91,7 @@ export class ChatBox {
 
   select(channel) {
     if (!(channel in CHANNELS)) return;
-    this.channel = channel; this.feedback.hidden = true;
+    this.channel = channel; this.feedback.hidden = true; this.closeEmoji();
     this.paint(); this.markRead();
   }
 
@@ -86,10 +104,11 @@ export class ChatBox {
       tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1;
     }
     this.lines.setAttribute('aria-labelledby', `chat-tab-${this.channel}`);
+    this.root.querySelector('.chat-subtitle').textContent = CHANNELS[this.channel];
     for (const line of this.lines.children) line.hidden = line.dataset.channel !== this.channel;
     this.compose.hidden = this.input.hidden || this.channel === 'system';
     this.recipient.parentElement.hidden = this.channel !== 'whisper';
-    this.input.placeholder = this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? 'ข้อความกระซิบ' : 'พิมพ์ข้อความ แล้วกด Enter';
+    this.input.placeholder = this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? 'ข้อความกระซิบ' : 'พิมพ์ข้อความ...';
     this.paintUnread();
   }
 
@@ -125,10 +144,15 @@ export class ChatBox {
   }
 
   close() {
+    this.closeEmoji();
     this.input.hidden = true; this.root.classList.remove('typing');
     this.collapsed = document.body.classList.contains('ui-touch') || matchMedia('(max-width: 900px)').matches;
     this.paint();
     if (this.root.contains(document.activeElement)) document.activeElement.blur();
+  }
+
+  closeEmoji() {
+    this.emojiPicker.hidden = true; this.emojiToggle.setAttribute('aria-expanded', 'false');
   }
 
   submit() {
@@ -154,7 +178,7 @@ export class ChatBox {
 
   add(name, text, kind = '', title = null) {
     const channel = kind === 'party' ? 'party' : kind === 'whisper' ? 'whisper' :
-      kind === 'news' || kind === 'system' || name === 'ระบบ' || name === 'ประกาศ' || name === 'บอสโลก' ? 'system' : 'general';
+      kind === 'gm' || kind === 'news' || kind === 'system' || name === 'ระบบ' || name === 'ประกาศ' || name === 'บอสโลก' ? 'system' : 'general';
     const line = document.createElement('p');
     // Only the local, whitelisted title catalogue produces markup; message/name are text.
     line.innerHTML = `${titleHtml(title, { brackets: true })}<b></b> <span></span>`;
@@ -171,6 +195,33 @@ export class ChatBox {
   }
 
   setOnline(n) { this.online.textContent = `ออนไลน์ ${n} คน`; }
+  setGmCatalog(catalog) {
+    this.gmButton?.remove(); this.gmPanel?.remove();
+    this.gmButton = this.gmPanel = null;
+    const entries = Array.isArray(catalog) ? catalog.filter(c => typeof c?.id === 'string' && typeof c.usage === 'string' && typeof c.description === 'string').slice(0, 40) : [];
+    if (!entries.length) {
+      for (const line of [...this.lines.children]) if (line.classList.contains('gm')) line.remove();
+      return;
+    }
+    const button = this.gmButton = document.createElement('button');
+    button.type = 'button'; button.className = 'chat-gm-toggle'; button.textContent = 'GM';
+    button.setAttribute('aria-label', 'วิธีใช้คำสั่ง GM'); button.setAttribute('aria-expanded', 'false');
+    this.root.querySelector('header').append(button);
+    const panel = this.gmPanel = document.createElement('div'); panel.className = 'chat-gm-help'; panel.hidden = true;
+    panel.setAttribute('aria-label', 'คำสั่งสำหรับแอดมิน');
+    for (const entry of entries) {
+      const row = document.createElement('button'); row.type = 'button';
+      const usage = document.createElement('code'), description = document.createElement('span');
+      usage.textContent = entry.usage; description.textContent = entry.description; row.append(usage, description);
+      row.addEventListener('click', () => { this.channel = 'general'; this.open(`/gm ${entry.id} `); });
+      panel.append(row);
+    }
+    this.body.prepend(panel);
+    button.addEventListener('click', e => {
+      e.stopPropagation(); const show = panel.hidden; this.open(); panel.hidden = !show;
+      button.setAttribute('aria-expanded', String(show));
+    });
+  }
   setStatus(on, final = false) {
     this.online_ = on; this.root.classList.toggle('offline', !on);
     if (!on) this.online.textContent = final ? 'ออฟไลน์' : 'ออฟไลน์ · กำลังเชื่อมต่อ';

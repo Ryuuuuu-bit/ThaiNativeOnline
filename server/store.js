@@ -37,6 +37,24 @@ export async function openStore(url) {
 }
 
 export class MemoryStore {
+  async listAdminRoles() { return [...(this.adminRoles ?? new Set())].sort(); }
+  async hasAdminRole(id) { return this.adminRoles?.has(id) ?? false; }
+  async setAdminRole(actor, account, enabled, protectedIds = []) {
+    return this.withAccount('@admin-roles', () => {
+      const roots = new Set(protectedIds);
+      if (!this.accounts.has(actor) || (!roots.has(actor) && !this.adminRoles?.has(actor))) return { ok: false, why: 'forbidden' };
+      if (!this.accounts.has(account)) return { ok: false, why: 'account_missing' };
+      if (!enabled && roots.has(account)) return { ok: false, why: 'protected' };
+      const nextRoles = new Set(this.adminRoles);
+      const changed = !roots.has(account) && nextRoles.has(account) !== enabled;
+      if (changed) {
+        if (enabled) nextRoles.add(account); else nextRoles.delete(account);
+        const nextAudit = [...(this.adminRoleAudit ?? []), { actor, account, action: enabled ? 'add' : 'remove', at: Date.now() }];
+        this.adminRoles = nextRoles; this.adminRoleAudit = nextAudit;
+      }
+      return { ok: true, changed, id: account, ids: [...nextRoles].sort() };
+    });
+  }
   async transferTrade(request, fingerprint, participants) {
     const ids = [...new Set(participants.map(p => p.account))].sort();
     const locked = i => i < ids.length ? this.withAccount(ids[i], () => locked(i + 1)) : commit();
@@ -132,6 +150,34 @@ export class MemoryStore {
 }
 
 export class PgStore {
+  async listAdminRoles() { return (await this.q('select account from admin_roles order by account')).rows.map(r => r.account); }
+  async hasAdminRole(id) { return (await this.q('select account from admin_roles where account = $1', [id])).rows.length > 0; }
+  async setAdminRole(actor, account, enabled, protectedIds = []) {
+    const roots = new Set(protectedIds), client = await this.pool.connect();
+    try {
+      await client.query('begin');
+      // One lock covers role mutations across connections/processes, including
+      // authorization checks. A revoked actor cannot win a stale-cache race.
+      await client.query("select pg_advisory_xact_lock(hashtext('tno.admin_roles'))");
+      const actorExists = (await client.query('select id from accounts where id = $1 for key share', [actor])).rows.length > 0;
+      const authorized = actorExists && (roots.has(actor) || (await client.query('select account from admin_roles where account = $1', [actor])).rows.length > 0);
+      let result;
+      if (!authorized) result = { ok: false, why: 'forbidden' };
+      else if (!(await client.query('select id from accounts where id = $1 for key share', [account])).rows.length) result = { ok: false, why: 'account_missing' };
+      else if (!enabled && roots.has(account)) result = { ok: false, why: 'protected' };
+      else {
+        const write = roots.has(account) ? { rowCount: 0 } : enabled
+          ? await client.query('insert into admin_roles (account) values ($1) on conflict do nothing', [account])
+          : await client.query('delete from admin_roles where account = $1', [account]);
+        const changed = write.rowCount === 1;
+        if (changed) await client.query('insert into admin_role_audit (actor, account, action) values ($1, $2, $3)', [actor, account, enabled ? 'add' : 'remove']);
+        const ids = (await client.query('select account from admin_roles order by account')).rows.map(r => r.account);
+        result = { ok: true, changed, id: account, ids };
+      }
+      await client.query('commit'); return result;
+    } catch (error) { await client.query('rollback').catch(() => {}); throw error; }
+    finally { client.release(); }
+  }
   async transferTrade(request, fingerprint, participants) {
     const client = await this.pool.connect();
     try {
@@ -164,6 +210,9 @@ export class PgStore {
   q(text, values) { return this.pool.query(text, values); }
   async init() {
     await this.q(`create table if not exists accounts (id text primary key, salt text not null, hash text not null, created timestamptz not null default now())`);
+    await this.q(`create table if not exists admin_roles (account text primary key references accounts(id) on delete cascade, granted timestamptz not null default now())`);
+    // Audit rows retain only normalized account IDs and actions, never credentials.
+    await this.q(`create table if not exists admin_role_audit (id bigserial primary key, actor text not null, account text not null, action text not null check (action in ('add', 'remove')), created timestamptz not null default now())`);
     await this.q(`create table if not exists sessions (token text primary key, account text not null references accounts(id) on delete cascade, expires timestamptz not null)`);
     await this.q(`create table if not exists characters (account text not null references accounts(id) on delete cascade, slot int not null, data jsonb not null, updated timestamptz not null default now(), primary key (account, slot))`);
     await this.q(`alter table characters add column if not exists inventory_revision bigint not null default 0`);

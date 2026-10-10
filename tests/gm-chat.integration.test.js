@@ -1,0 +1,61 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {once} from 'node:events';
+import {createServer} from 'node:net';
+import {WebSocket} from 'ws';
+
+test('GM catalog/help are private; roles, command saves and logout use authenticated account authority', {timeout:30000}, async t => {
+  const probe=createServer();probe.listen(0,'127.0.0.1');await once(probe,'listening');
+  const port=probe.address().port;await new Promise(r=>probe.close(r));
+  const child=spawn(process.execPath,['server/index.js'],{cwd:new URL('../',import.meta.url),env:{...process.env,PORT:String(port),DATABASE_URL:'',ADMIN_IDS:'qaadmin',GM_ID:'',GM_PASSWORD:''},stdio:['ignore','pipe','pipe']});
+  let logs='';child.stdout.on('data',d=>logs+=d);child.stderr.on('data',d=>logs+=d);
+  t.after(()=>child.kill());
+  for(let i=0;i<300&&!logs.includes('ThaiNative Online on');i++)await new Promise(r=>setTimeout(r,20));
+  assert.match(logs,/ThaiNative Online on/);
+  const api=async(path,token,method='POST',body)=>{
+    const res=await fetch(`http://127.0.0.1:${port}${path}`,{method,headers:{'content-type':'application/json',...(token?{authorization:`Bearer ${token}`}:{})},...(body?{body:JSON.stringify(body)}:{})});return res.json();
+  };
+  const make=async(id,name)=>{
+    const auth=await api('/api/register',null,'POST',{id,password:'testsecret'});assert.ok(auth.ok);
+    assert.ok((await api('/api/slots/0',auth.token,'PUT',{data:{'tno.character.v1':JSON.stringify({name,classId:'warrior',gender:'male'})}})).ok);
+    return auth;
+  };
+  const root=await make('qaadmin','QAadmin'), regular=await make('qaregular','QAregular');
+  const connect=async(auth,extra={})=>{
+    const ws=new WebSocket(`ws://127.0.0.1:${port}/ws`),messages=[],history=[];
+    ws.on('message',d=>{const m=JSON.parse(d);messages.push(m);history.push(m);});await once(ws,'open');t.after(()=>ws.terminate());
+    const wait=async pred=>{for(let i=0;i<500;i++){const n=messages.findIndex(pred);if(n>=0)return messages.splice(n,1)[0];await new Promise(r=>setTimeout(r,10));}throw Error('Message timeout '+logs.slice(-300));};
+    const send=m=>ws.send(JSON.stringify(m));send({t:'hello',token:auth?.token,slot:0,name:'guest',cls:'warrior',map:'city',x:0,z:0,...extra});
+    const welcome=await wait(m=>m.t==='welcome');return{ws,wait,send,welcome,history,messages};
+  };
+  const a=await connect(root), b=await connect(regular), guest=await connect(null,{admin:true,account:'qaadmin'});
+  assert.equal(a.welcome.admin,true);assert.ok(a.welcome.gmCommands.length>=24);
+  for(const peer of [b,guest]){assert.equal(peer.welcome.admin,false);assert.equal(peer.welcome.gmCommands,undefined);assert.ok(peer.welcome.roster.every(p=>!('admin'in p)&&!('gmCommands'in p)));}
+  const command=async(peer,text)=>{peer.send({t:'c',text,admin:true,account:'qaadmin',token:root.token});return(peer.wait(m=>m.t==='c'&&m.kind==='gm'));};
+  assert.match((await command(b,'/gm help')).text,/สำหรับ GM เท่านั้น/);
+  assert.match((await command(guest,'/gm gold 999')).text,/สำหรับ GM เท่านั้น/);
+  assert.match((await command(a,' /GM HELP gold')).text,/ตำลึง/);
+  assert.match((await command(a,'/gm GOLD 500')).text,/520.*ตำลึง/);
+  assert.equal((await a.wait(m=>m.t==='sync'&&m.c.gold===520)).c.gold,520);
+  assert.ok(!b.history.some(m=>m.gmCommands||m.t==='c'&&m.text.includes('/gm gold')));
+  assert.match((await command(a,'/gm admin add QAREGULAR')).text,/qaregular/);
+  const grant=await b.wait(m=>m.t==='gmAccess'&&m.admin===true);assert.ok(grant.gmCommands.length);
+  assert.match((await command(b,'/gm god')).text,/เปิด/);
+  b.send({t:'map',map:'city',x:0,z:0});const same=await b.wait(m=>m.t==='welcome');assert.equal(same.admin,true);assert.ok(same.gmCommands);
+  assert.match((await command(a,'/gm admin remove qaregular')).text,/qaregular/);
+  const revoke=await b.wait(m=>m.t==='gmAccess'&&m.admin===false);assert.equal(revoke.gmCommands,undefined);
+  assert.match((await command(b,'/gm gold 999')).text,/สำหรับ GM เท่านั้น/);
+  await command(a,'/gm admin add qaregular');await b.wait(m=>m.t==='gmAccess'&&m.admin===true);
+  assert.match((await command(b,'/gm god')).text,/เปิด/, 'revocation cleared the previous god toggle');
+  await command(a,'/gm admin remove qaregular');await b.wait(m=>m.t==='gmAccess'&&m.admin===false);
+  assert.match((await command(a,'/gm admin remove qaadmin')).text,/protected/);
+  assert.match((await command(a,'/gm admin list')).text,/qaadmin/);
+  const closed=once(a.ws,'close');a.ws.close();await closed;
+  const again=await connect(root);assert.equal(again.welcome.admin,true);
+  assert.equal((await again.wait(m=>m.t==='sync')).c.gold,520);
+  assert.ok((await api('/api/logout',root.token)).ok);
+  assert.equal((await again.wait(m=>m.t==='gmAccess'&&m.admin===false)).gmCommands,undefined);
+  assert.match((await command(again,'/gm item potion_s 1')).text,/สำหรับ GM เท่านั้น/);
+  assert.ok(!guest.history.some(m=>m.gmCommands||m.t==='c'&&m.text.includes('บัญชีแอดมิน:')));
+});

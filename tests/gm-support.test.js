@@ -19,30 +19,30 @@ const setup = () => {
   };
   const byId = id => { for (const [ws, p] of presence.players) if (p.id === id) return { ws, p }; return null; };
   const byName = n => { for (const [ws, p] of presence.players) if (p.name === n) return { ws, p }; return null; };
-  const ctx = { presence, combatants, send: (ws, m) => sent.push([ws, m]), toAll: m => sent.push(['all', m]), toMap: () => {}, byId, byName, mutes: new Map(), worldOf: () => ({ monsters: [] }), route: () => {}, moveTo: () => {}, phase: () => 'day' };
+  const ctx = { isAdmin: async p => p.account === 'ryuu' && byId(p.id)?.p === p, presence, combatants, send: (ws, m) => sent.push([ws, m]), toAll: m => sent.push(['all', m]), toMap: () => {}, byId, byName, mutes: new Map(), worldOf: () => ({ monsters: [] }), route: () => {}, moveTo: () => {}, phase: () => 'day' };
   return { presence, combatants, sent, join, ctx };
 };
 
-test('GM: only listed accounts; own character on the server, others by name', () => {
+test('GM: only listed accounts; own character on the server, others by name', async () => {
   assert.deepEqual([...admins(' Ryuu, gm2 ,')], ['ryuu', 'gm2']);
   const { combatants, sent, join, ctx } = setup();
   const g = join('ws1', 'จีเอ็ม', 'warrior', 'ryuu'), p = join('ws2', 'แดง', 'hunter', 'red');
   const c = combatants.get(g.id).c;
-  assert.match(gm(ctx, g, '/gm gold 500'), /520/);
-  assert.match(gm(ctx, g, '/gm lv 10'), /เลเวล → 10/); assert.equal(c.level, 10);
-  assert.match(gm(ctx, g, '/gm item sacred_ore 3'), /×3/); assert.equal(c.count('sacred_ore'), 3);
-  assert.match(gm(ctx, g, '/gm card boar'), /การ์ด/); assert.equal(c.count('card_boar'), 1);
-  assert.match(gm(ctx, g, '/gm refine weapon 7'), /\+7/); assert.equal(c.refine.weapon, 7);
-  assert.match(gm(ctx, g, '/gm find ดาบ'), /wood_sword/);
-  gm(ctx, g, '/gm hp 0'); assert.equal(c.alive, false); assert.ok(sent.some(([, m]) => m.t === 'gmhp' && m.pct === 0));
-  gm(ctx, g, '/gm god'); assert.equal(combatants.get(g.id).god, true);
-  assert.match(gm(ctx, g, '/gm give แดง gold 100'), /100/); assert.equal(combatants.get(p.id).c.gold, 120);
-  assert.match(gm(ctx, g, '/gm give ใครก็ไม่รู้ gold 1'), /ไม่พบ/);
-  gm(ctx, g, '/gm mute แดง 5'); assert.ok(ctx.mutes.get('red') > Date.now());
-  gm(ctx, g, '/gm unmute แดง'); assert.equal(ctx.mutes.has('red'), false);
-  assert.match(gm(ctx, g, '/gm who'), /2 คน/);
-  assert.match(gm(ctx, g, '/gm nope'), /ไม่รู้จัก/);
-  gm(ctx, g, '/gm map klong'); assert.ok(sent.some(([, m]) => m.t === 'gmwarp' && m.map === 'klong'));
+  assert.match(await gm(ctx, g, '/gm gold 500'), /520/);
+  assert.match(await gm(ctx, g, '/gm lv 10'), /เลเวล → 10/); assert.equal(c.level, 10);
+  assert.match(await gm(ctx, g, '/gm item sacred_ore 3'), /×3/); assert.equal(c.count('sacred_ore'), 3);
+  assert.match(await gm(ctx, g, '/gm card boar'), /การ์ด/); assert.equal(c.count('card_boar'), 1);
+  assert.match(await gm(ctx, g, '/gm refine weapon 7'), /\+7/); assert.equal(c.refine.weapon, 7);
+  assert.match(await gm(ctx, g, '/gm find ดาบ'), /wood_sword/);
+  await gm(ctx, g, '/gm hp 0'); assert.equal(c.alive, false); assert.ok(sent.some(([, m]) => m.t === 'gmhp' && m.pct === 0));
+  await gm(ctx, g, '/gm god'); assert.equal(combatants.get(g.id).god, true);
+  assert.match(await gm(ctx, g, '/gm give แดง gold 100'), /100/); assert.equal(combatants.get(p.id).c.gold, 120);
+  assert.match(await gm(ctx, g, '/gm give ใครก็ไม่รู้ gold 1'), /ไม่พบ/);
+  await gm(ctx, g, '/gm mute แดง 5'); assert.ok(ctx.mutes.get('red') > Date.now());
+  await gm(ctx, g, '/gm unmute แดง'); assert.equal(ctx.mutes.has('red'), false);
+  assert.match(await gm(ctx, g, '/gm who'), /2 คน/);
+  assert.match(await gm(ctx, g, '/gm nope'), /ไม่รู้จัก/);
+  await gm(ctx, g, '/gm map klong'); assert.ok(sent.some(([, m]) => m.t === 'gmwarp' && m.map === 'klong'));
 });
 
 test('a healer\'s party skill reaches the members near them; a revive stands the fallen up', () => {
