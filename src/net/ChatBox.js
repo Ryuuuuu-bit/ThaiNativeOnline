@@ -2,7 +2,7 @@ import { titleHtml } from '../ui/titleTag.js';
 import { draggable } from '../ui/draggable.js';
 import './chat-tabs.css';
 
-const CHANNELS = { general: 'ทั่วไป', party: 'ปาร์ตี้', whisper: 'กระซิบ', system: 'ระบบ' };
+const CHANNELS = { general: 'โลก', party: 'ปาร์ตี้', whisper: 'กระซิบ', system: 'ระบบ' };
 
 // Social supplies filter(text); keep its command parsing and server authority intact.
 export class ChatBox {
@@ -10,12 +10,12 @@ export class ChatBox {
     this.send = send;
     this.channel = 'general';
     this.unread = Object.fromEntries(Object.keys(CHANNELS).map(key => [key, 0]));
-    this.collapsed = document.body.classList.contains('ui-touch') || matchMedia('(max-width: 900px)').matches;
+    this.collapsed = true;
     this.root = document.createElement('section');
     this.root.className = 'net-chat net-chat-tabs'; this.root.setAttribute('aria-label', 'แชท');
-    this.root.innerHTML = `<header><button type="button" class="chat-toggle" aria-controls="chat-body"><span class="chat-bubble" aria-hidden="true">▤</span><span class="chat-heading"><b>แชท</b><small class="chat-subtitle">ทั่วไป</small></span><span class="chat-total" hidden></span></button><span class="net-online">ออฟไลน์</span></header>
+    this.root.innerHTML = `<header><button type="button" class="chat-toggle" aria-controls="chat-body"><span class="chat-bubble" aria-hidden="true">▤</span><span class="chat-heading"><b>สนทนา</b><small class="chat-subtitle">ทั่วไป</small></span><span class="chat-total" hidden></span><span class="chat-fold" aria-hidden="true">›</span></button><span class="net-online">ออฟไลน์</span></header>
       <div class="chat-body" id="chat-body">
-        <div class="chat-tabs" role="tablist" aria-label="ช่องแชท">${Object.entries(CHANNELS).map(([key, label]) => `<button type="button" role="tab" id="chat-tab-${key}" data-tab="${key}" aria-controls="chat-log" aria-selected="${key === 'general'}" tabindex="${key === 'general' ? 0 : -1}">${label}<span class="chat-unread" hidden></span></button>`).join('')}</div>
+        <div class="chat-tabs" role="tablist" aria-label="ช่องแชท" aria-orientation="vertical">${Object.entries(CHANNELS).map(([key, label]) => `<button type="button" role="tab" id="chat-tab-${key}" data-tab="${key}" aria-controls="chat-log" aria-selected="${key === 'general'}" tabindex="${key === 'general' ? 0 : -1}">${label}<span class="chat-unread" hidden></span></button>`).join('')}</div>
         <div class="net-lines" id="chat-log" role="tabpanel" aria-labelledby="chat-tab-general" tabindex="0" aria-live="polite" aria-relevant="additions"></div>
         <form class="chat-compose" hidden>
           <label class="chat-recipient" hidden>ถึง <input type="text" maxlength="32" autocomplete="off" aria-label="ชื่อผู้รับกระซิบ" placeholder="ชื่อผู้รับ"></label>
@@ -24,6 +24,7 @@ export class ChatBox {
           <p class="chat-key-hint"><kbd>Tab</kbd> เลือกปุ่ม · <kbd>Enter</kbd> ส่ง · <kbd>Esc</kbd> ปิด</p>
         </form>
         <p class="chat-feedback" role="status" hidden></p>
+        <p class="chat-system-note" hidden>บันทึกการต่อสู้ ไอเทม และประกาศ · อ่านอย่างเดียว</p>
       </div>`;
     (document.getElementById('app') ?? document.body).append(this.root);
     this.lines = this.root.querySelector('.net-lines'); this.input = this.root.querySelector('.chat-message');
@@ -66,11 +67,11 @@ export class ChatBox {
         e.preventDefault(); this.submit();
       }
       const tab = e.target.closest('[role="tab"]');
-      if (!tab || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+      if (!tab || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) return;
       e.preventDefault();
       const index = this.tabs.indexOf(tab);
       const next = e.key === 'Home' ? 0 : e.key === 'End' ? this.tabs.length - 1 :
-        (index + (e.key === 'ArrowRight' ? 1 : -1) + this.tabs.length) % this.tabs.length;
+        (index + (['ArrowRight','ArrowDown'].includes(e.key) ? 1 : -1) + this.tabs.length) % this.tabs.length;
       this.select(this.tabs[next].dataset.tab); this.tabs[next].focus();
     });
     this.root.querySelector('.chat-tabs').addEventListener('click', e => {
@@ -80,11 +81,19 @@ export class ChatBox {
     // Moving from the input to Send, a tab or the recipient is still inside chat.
     this.root.addEventListener('focusout', e => {
       if (this.root.contains(e.relatedTarget)) return;
-      queueMicrotask(() => { if (!this.root.contains(document.activeElement)) this.close(); });
+      queueMicrotask(() => {
+        if (this.root.contains(document.activeElement)) return;
+        if (document.body.classList.contains('ui-touch') || matchMedia('(max-width: 900px)').matches) this.close();
+        else { this.closeEmoji(); this.root.classList.remove('typing'); }
+      });
     });
     this.root.querySelector('header').addEventListener('click', e => {
-      if (e.target.closest('.drag-lock')) return;
-      if (this.root.classList.contains('typing')) this.close(); else this.open();
+      if (e.target.closest('.drag-lock,.chat-gm-toggle')) return;
+      if (!this.collapsed) this.close();
+      else {
+        this.collapsed = false; this.root.classList.add('typing'); this.paint(); this.markRead();
+        this.tabs.find(tab => tab.dataset.tab === this.channel).focus();
+      }
     });
     draggable(this.root, { key: 'chat', lockable: true });
   }
@@ -99,6 +108,8 @@ export class ChatBox {
     this.body.hidden = this.collapsed;
     this.root.classList.toggle('chat-collapsed', this.collapsed);
     this.toggleButton.setAttribute('aria-expanded', String(!this.collapsed));
+    this.toggleButton.setAttribute('aria-label', this.collapsed ? 'เปิดแผงสนทนา' : 'พับแผงสนทนา');
+    this.root.querySelector('.chat-fold').textContent = this.collapsed ? '›' : '‹';
     for (const tab of this.tabs) {
       const selected = tab.dataset.tab === this.channel;
       tab.setAttribute('aria-selected', String(selected)); tab.tabIndex = selected ? 0 : -1;
@@ -106,9 +117,11 @@ export class ChatBox {
     this.lines.setAttribute('aria-labelledby', `chat-tab-${this.channel}`);
     this.root.querySelector('.chat-subtitle').textContent = CHANNELS[this.channel];
     for (const line of this.lines.children) line.hidden = line.dataset.channel !== this.channel;
-    this.compose.hidden = this.input.hidden || this.channel === 'system';
+    this.input.hidden = this.collapsed || this.channel === 'system';
+    this.compose.hidden = this.input.hidden;
+    this.root.querySelector('.chat-system-note').hidden = this.collapsed || this.channel !== 'system';
     this.recipient.parentElement.hidden = this.channel !== 'whisper';
-    this.input.placeholder = this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? 'ข้อความกระซิบ' : 'พิมพ์ข้อความ...';
+    this.input.placeholder = this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? 'ข้อความกระซิบ' : 'ข้อความถึงทุกคนในเซิร์ฟเวอร์';
     this.paintUnread();
   }
 
@@ -146,7 +159,7 @@ export class ChatBox {
   close() {
     this.closeEmoji();
     this.input.hidden = true; this.root.classList.remove('typing');
-    this.collapsed = document.body.classList.contains('ui-touch') || matchMedia('(max-width: 900px)').matches;
+    this.collapsed = true;
     this.paint();
     if (this.root.contains(document.activeElement)) document.activeElement.blur();
   }
@@ -173,7 +186,7 @@ export class ChatBox {
     }
     if (command !== text && !this.filter) { fail('ระบบปาร์ตี้และกระซิบยังไม่พร้อม'); return; }
     if (!this.filter?.(command)) this.send(command);
-    this.input.value = ''; this.feedback.hidden = true; this.close();
+    this.input.value = ''; this.feedback.hidden = true; this.closeEmoji(); this.input.focus();
   }
 
   add(name, text, kind = '', title = null) {
