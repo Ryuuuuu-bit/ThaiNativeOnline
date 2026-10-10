@@ -38,7 +38,10 @@ const cardsLine = (id, cards = []) => {
   if (!n) return '\nไม่มีช่องการ์ด';
   return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
 };
-const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
+const pips = (id, cards = []) => {
+  const n = ITEMS[id]?.slots ?? 0, used = Math.min(n, cards.length);
+  return n ? `<i class="g-pips g-card-slots${used ? ' has-cards' : ''}" role="img" aria-label="ช่องการ์ด ใส่แล้ว ${used} จาก ${n} ช่อง" title="ช่องการ์ด: ใส่แล้ว ${used}/${n}"><span aria-hidden="true">${used ? '◆' : '◇'}</span><b aria-hidden="true">${used}/${n}</b></i>` : '';
+};
 
 // Shared selected-item and hover detail: name (+refine [slots]), slot, rarity,
 // bonuses, refine bonus, card slots, weight, price.
@@ -294,8 +297,8 @@ export class CharacterUI {
         <span title="ตัวคูณความแรงคริ (LUK)">แรงคริ</span><b>×${c.critDamage.toFixed(2)}</b><span title="ลดเวลาระหว่างการตีปกติ (AGI)">ความเร็วตี</span><b>+${Math.round(c.attackSpeed * 100)}%</b>
         <span title="ลดคูลดาวน์สกิล (DEX + อุปกรณ์ · สูงสุด 30%)">ลดคูลดาวน์</span><b>${Math.round(c.cooldownCut * 100)}%</b><span title="ลดเวลาร่ายสกิล (DEX + อุปกรณ์ · สูงสุด 50%)">ร่ายเร็ว</span><b>${Math.round(c.castSpeed * 100)}%</b><span title="น้ำหนักที่แบก (STR เพิ่มความจุ)">น้ำหนัก</span><b class="${c.heavy ? 'g-heavy' : ''}">${c.weight}/${c.maxWeight}</b>
       </div>
-      </div>
-      <button class="g-reset" ${Object.values(c.alloc).some(Boolean) ? '' : 'disabled'}>รีเซ็ตแต้มสถานะ</button>`;
+      <div class="g-stat-footer"><button type="button" class="g-reset" ${Object.values(c.alloc).some(Boolean) ? '' : 'disabled'}>รีเซ็ตแต้มสถานะ</button></div>
+      </div>`;
     if (this.workspace) this.sheet.querySelector('.g-doll-wrap').after(this.workspace.wornDetail);
     this.workspace?.refresh();
   }

@@ -1,20 +1,54 @@
-/* World boss news banner (src/ui/WorldBossBanner.js): dark glass from theme.css, red when urgent. */
-.wb-banner{position:fixed;top:72px;left:50%;transform:translateX(-50%);z-index:60;min-width:320px;max-width:min(680px,92vw);
-  padding:10px 22px 12px;text-align:center;pointer-events:none}
-.wb-banner .wb-kicker{font-size:12px;letter-spacing:3px;color:var(--t-gold,#e8c882);opacity:.9}
-.wb-banner .wb-text{font-size:17px;line-height:1.45;color:var(--t-ink,#eef1f6);margin-top:2px}
-body .wb-banner.wb-urgent{box-shadow:0 0 0 1px rgba(255,70,50,.55),0 0 28px rgba(200,20,10,.45),0 18px 44px rgba(0,0,0,.5)}
-.wb-banner.wb-urgent .wb-kicker{color:#ff7a62}
-.wb-banner.wb-in{animation:wb-in .45s ease-out}
-.wb-banner.wb-urgent.wb-in{animation:wb-in .45s ease-out,wb-pulse 1.6s ease-in-out .45s 4}
-@keyframes wb-in{from{opacity:0;transform:translate(-50%,-14px)}to{opacity:1;transform:translate(-50%,0)}}
-@keyframes wb-pulse{50%{box-shadow:0 0 0 1px rgba(255,90,60,.9),0 0 40px rgba(230,30,10,.7),0 18px 44px rgba(0,0,0,.5)}}
-@media (max-width:900px){.wb-banner{top:54px}.wb-banner .wb-text{font-size:15px}}
-.wb-banner .wb-join{pointer-events:auto;margin-top:8px;padding:6px 18px;font:inherit;font-size:14px;cursor:pointer;color:#fff;background:rgba(170,30,20,.85);border:1px solid rgba(255,140,110,.7);border-radius:6px}
-.wb-banner .wb-join:hover{background:rgba(205,45,30,.95)}
-/* while the boss stands the banner stays (src/ui/WorldBossBanner.js), folded after a while to a slim strip */
-.wb-banner .wb-mini{display:none;font-size:13px;color:var(--t-ink,#eef1f6);margin-top:2px}
-.wb-banner.wb-folded{padding:6px 16px 8px;min-width:0}
-.wb-banner.wb-folded .wb-text{display:none}
-.wb-banner.wb-folded .wb-mini{display:block}
-.wb-banner.wb-folded .wb-join{margin-top:5px;padding:4px 14px;font-size:13px}
+/* Peripheral jade/brass news, below major windows and outside the target HUD. */
+body .wb-banner {
+  position:fixed; right:max(16px,env(safe-area-inset-right)); top:46%;
+  z-index:4; width:284px; max-width:calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  max-height:calc(54dvh - 16px - env(safe-area-inset-bottom));
+  box-sizing:border-box; overflow:auto; padding:8px 10px; text-align:left;
+  color:#eee6cd; background:linear-gradient(140deg,#18382ff2,#0c1a17f5);
+  border:1px solid #bda16c70; border-left:3px solid #bda16c; border-radius:6px;
+  box-shadow:0 5px 16px #0004; pointer-events:auto;
+}
+.wb-heading {display:flex; align-items:center; gap:4px}
+.wb-kicker {flex:1; min-width:0; font-size:11px; color:#d7bd85}
+.wb-banner .wb-text {font-size:12px; line-height:1.6; margin-top:4px; overflow-wrap:anywhere}
+.wb-banner .wb-mini {display:none; font-size:11px; line-height:1.5; margin-top:2px; color:#c8c5ae}
+.wb-banner.wb-folded .wb-mini {display:block}
+.wb-banner.wb-urgent {border-left-color:#d3ac68}
+.wb-banner button {
+  pointer-events:auto; min-width:44px; min-height:44px; padding:4px 8px;
+  font:inherit; font-size:11px; color:#eed9aa; cursor:pointer;
+  background:#cfb7770d; border:1px solid #bda16c44; border-radius:4px;
+}
+.wb-banner .wb-dismiss {font-size:18px}
+.wb-banner .wb-join {margin-top:6px; width:100%; background:#a1824130}
+.wb-banner button:hover {background:#a1824150; border-color:#d7bd85}
+.wb-banner button:focus-visible {outline:2px solid #f4dca2; outline-offset:2px}
+.wb-banner.wb-in {animation:wb-in .2s ease-out}
+@keyframes wb-in {from{opacity:0; transform:translateX(6px)}to{opacity:1; transform:translateX(0)}}
+
+/* Actual inventory-workspace visibility follows its .g-bag/.g-sheet panes.
+   Suppression is presentation only: chat, standing news and timers keep running.
+   Ignore hidden ancestors, including dialogs nested inside closed overlays. */
+/* Equivalent to the workspace's own :has(.g-sheet:not([hidden]),.g-bag:not([hidden]))
+   without nesting :has(), which CSS does not permit. */
+body:has(.inventory-workspace :is(.g-sheet,.g-bag):not([hidden]):not([hidden] *)) .wb-banner,
+body:has(:is(.g-bag,.g-sheet,.g-skills,.g-death,
+  .settings,.shop,.dialogue,.fullmap,.soc-panel,.warp-overlay,.qol-overlay,
+  .mm-grid,.auto-panel,.g-loadouts,.net-chat.typing,[aria-modal="true"]):not([hidden]):not([hidden] *)) .wb-banner,
+body.photo-mode .wb-banner {display:none!important}
+
+@media (max-width:900px) {
+  body .wb-banner {right:max(12px,env(safe-area-inset-right)); width:232px; padding:6px 8px}
+}
+/* Touch: below minimap/location, above the combat dock. */
+body.ui-touch .wb-banner {
+  top:calc(env(safe-area-inset-top) + 220px); width:200px;
+  max-height:calc(100dvh - 440px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+@media (max-height:560px) {
+  body .wb-banner, body.ui-touch .wb-banner {
+    top:calc(env(safe-area-inset-top) + 148px); width:220px;
+    max-height:calc(100dvh - 220px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion:reduce) {.wb-banner.wb-in {animation:none}}
