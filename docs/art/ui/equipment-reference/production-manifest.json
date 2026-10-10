@@ -1,0 +1,14 @@
+{
+  "source": "docs/art/ui/equipment-reference/panel-master-v1.png",
+  "output": "public/ui/equipment/reference-panel-v1.webp",
+  "width": 1024,
+  "height": 1536,
+  "bytes": 123078,
+  "sourceSha256": "6be58436e08fbc8dd01a903121d69cb08d2785d1ae2a9a4c809d071ccfd5c208",
+  "sha256": "033b20010bd888caa9e7e76cf839a9c1ad11286176cd0d30fa663d42a158a1fd",
+  "sharp": "0.35.5",
+  "encoding": {
+    "quality": 92,
+    "effort": 6
+  }
+}

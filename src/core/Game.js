@@ -257,6 +257,7 @@ export class Game {
       } },
       { root: () => characterUI()?.skills.root, close: () => { characterUI().skills.root.hidden = true; } },
       { root: () => characterUI()?.loadouts, close: () => { characterUI().loadouts.hidden = true; } },
+      { root: () => characterUI()?.flaskPicker.root, close: () => characterUI().flaskPicker.close() },
       { root: () => this.menu.grid, close: () => this.menu.toggle(false) },
       { root: () => $('settings'), close: () => $('settings-close').click() },
       { root: () => $('fullmap-panel'), close: () => this.toggleMap() },

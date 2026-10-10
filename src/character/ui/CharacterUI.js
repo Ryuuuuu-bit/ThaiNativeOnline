@@ -21,6 +21,7 @@ import { FlaskEquipment } from './FlaskEquipment.js';
 import { dragBinding } from './HotbarEditor.js';
 import { affixLines } from '../data/affixes.js';
 import { instanceName, instanceColor, instanceQuality } from '../itemPresentation.js';
+import './equipment-reference.css';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -112,7 +113,7 @@ export class CharacterUI {
   }
   buildPanels() {
     this.sheet = el('section', 'g-panel g-sheet glass', `<div class="panel-heading">ตัวละคร<button aria-label="ปิด">×</button></div><div class="g-sheet-body"></div>`);
-    const identity = el('div', 'g-character-uid'); this.sheet.querySelector('.panel-heading').after(identity);
+    const identity = el('div', 'g-character-uid'); this.characterIdentity = identity; this.sheet.querySelector('.panel-heading').after(identity);
     onIdentity(value => identity.replaceChildren(uidRow('Character UID', value.characterUid, 'CHR')));
     this.bag = el('section', 'g-panel g-bag glass', `<div class="panel-heading">กระเป๋า<button aria-label="ปิด">×</button></div>
 <div class="g-bar g-weight" title="น้ำหนักสัมภาระ (STR เพิ่มความจุ)"><span></span><em></em></div>
@@ -213,7 +214,12 @@ export class CharacterUI {
       const slot = e.target.closest('[data-slot]'); if (slot) this.workspace.select(null, slot.dataset.slot);
       if (e.target.closest('.g-reset')) this.c.resetStats();
     });
-    this.grid.addEventListener('dragstart', e => { const button=e.target.closest('[data-index]'), item=this.c.inventory[+button?.dataset.index]; if (ITEMS[item?.id]?.type === 'use') dragBinding(e,{kind:'item',id:item.id}); else e.preventDefault(); });
+    this.grid.addEventListener('dragstart', e => {
+      const button = e.target.closest('[data-index]'), index = Number(button?.dataset.index), item = this.c.inventory[index];
+      if (ITEMS[item?.id]?.type === 'use') dragBinding(e, { kind: 'item', id: item.id });
+      else if (ITEMS[item?.id]?.type === 'equip') this.workspace.startEquipmentDrag(e, index);
+      else e.preventDefault();
+    });
     this.workspace = new InventoryWorkspace(this, itemCard, SLOT_LABELS);
   }
 
@@ -297,17 +303,35 @@ export class CharacterUI {
     const key = JSON.stringify([c.level, c.exp, c.jobLevel, c.jobExp, c.points, c.alloc, c.equipment, c.cards, c.refine, c.equipmentLocks, c.flasks, c.buffs.map(b => b.id), c.maxHp, c.maxMp, c.patk, c.matk, c.defense]);
     if (key === this.sheetKey) return;
     this.sheetKey = key;
-    // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
+    const active = document.activeElement;
+    const focusedControl = this.sheet.contains(active) ? active.closest('[data-slot],[data-lock-slot],[data-flask-kind]') : null;
+    const focusAttribute = focusedControl && ['data-slot', 'data-lock-slot', 'data-flask-kind'].find(attribute => focusedControl.hasAttribute(attribute));
+    const focusValue = focusAttribute && focusedControl.getAttribute(focusAttribute);
+    // Identity keeps its subscribed DOM node; retain its copy-button focus too.
+    const focusedIdentity = this.characterIdentity.contains(active) ? active : null;
+    // Reference geometry: cape/head/amulet, tall weapon/armor with two rings,
+    // then gloves/belt/shoes. Art is separate from live controls and metadata.
     const slotHtml = slot => {
       const id = c.equipment[slot];
-      return `<div class="g-eqs g-doll-${slot}"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot], c.gearRolls?.[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? instanceColor(c.wornItem(slot)) : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${DOLL_LABELS[slot] ?? SLOT_LABELS[slot]}${id ? '' : ' · ว่าง'}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`;
+      const emptyPaths = {
+        head: '<path d="M29 77c-7-19-6-33 5-45l9-4 7-18 7 18 9 4c11 12 12 26 5 45l-9-15-12-8-12 8z"/><path d="m37 43 13-9 13 9M37 51l13-9 13 9"/>',
+        gloves: '<path d="m17 34 3-16 17 2 1 17 10 17-4 4-11-10 8 29-5 2-10-22 6 28-5 1-11-25 3 22-5 1-8-26z"/><path d="m83 34-3-16-17 2-1 17-10 17 4 4 11-10-8 29 5 2 10-22-6 28 5 1 11-25-3 22 5 1 8-26z"/>',
+      };
+      const silhouette = `<svg class="equipment-empty-art" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">${emptyPaths[slot] ?? '<path d="m27 25 23-9 23 9-4 49-19 11-19-11z"/><path d="m35 35 15-6 15 6-3 32-12 7-12-7z"/>'}</svg>`;
+      const lockIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8H4v-8a2 2 0 0 1 2-2zm2 0h6V7a3 3 0 0 0-6 0zm3 3a2 2 0 0 0-1 3.73V18h2v-1.27A2 2 0 0 0 12 13"/></svg>`;
+      return `<div class="g-eqs g-doll-${slot}"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot], c.gearRolls?.[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? instanceColor(c.wornItem(slot)) : '#555'}"><span class="equipment-item-art">${id ? iconHtml(ITEMS[id]) : silhouette}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${slot === 'head' ? 'หมวก' : DOLL_LABELS[slot] ?? SLOT_LABELS[slot]}</small><button type="button" class="g-equip-lock" ${id ? `data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}"` : 'disabled'} aria-label="${id ? c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก' : 'ช่องว่าง ·'}${SLOT_LABELS[slot]}">${lockIcon}</button></div>`;
     };
     const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
-      <div class="g-doll-wrap g-equip">
-        ${['weapon','head','armor','gloves','belt','shoes','amulet','charm','charm2','cape'].map(slotHtml).join('')}
-        <div class="g-doll-nm g-doll-identity"><b>${esc(c.name)}</b><span>${c.cls.name} · Lv ${c.level} · Job ${c.jobLevel}</span></div>
-        <div class="g-doll-flasks">${['hp','mp'].map(kind => { const f=c.flaskInfo(kind); return `<button type="button" data-flask-kind="${kind}">${f ? iconHtml(f.definition) : '＋'}<b>${kind==='hp'?'Q':'E'} · ${kind.toUpperCase()}</b><small>${f ? `ขั้น ${f.definition.flask.tier} · ${f.charges}/${f.maxCharges}` : 'เลือกขวด'}</small></button>`; }).join('')}</div>
+      <div class="equipment-reference">
+        <h2 class="equipment-reference-title"><span aria-hidden="true">❖</span> อุปกรณ์ <span aria-hidden="true">❖</span></h2>
+        <div class="equipment-reference-identity"><div class="g-doll-nm g-doll-identity"><b>${esc(c.name)}</b><span>Lv.${c.level} · Job ${c.jobLevel}</span></div></div>
+        <div class="g-doll-wrap g-equip">${['cape','head','amulet','weapon','armor','charm','charm2','gloves','belt','shoes'].map(slotHtml).join('')}</div>
+        <div class="g-doll-flasks">${['hp','mp'].map(kind => {
+          const f = c.flaskInfo(kind), key = kind === 'hp' ? 'Q' : 'E';
+          return `<button type="button" data-flask-kind="${kind}" class="equipment-flask equipment-flask-${kind}" aria-label="เลือก${kind === 'hp' ? 'ขวดเลือด' : 'ขวดมานา'} · ${key}"><kbd>${key}</kbd><span class="equipment-flask-art">${f ? iconHtml(f.definition) : '＋'}</span><span class="equipment-flask-info"><b>${kind === 'hp' ? 'ขวดเลือด' : 'ขวดมานา'}</b><small>${f ? `ขั้น ${f.definition.flask.tier} · ${f.charges} / ${f.maxCharges}` : 'เลือกขวด'}</small><span class="equipment-charge-track" role="meter" aria-label="ประจุขวด ${key}" aria-valuemin="0" aria-valuemax="${f?.maxCharges ?? 1}" aria-valuenow="${f?.charges ?? 0}"><i style="width:${f ? Math.max(0, Math.min(100, f.charges / f.maxCharges * 100)) : 0}%"></i></span></span></button>`;
+        }).join('')}</div>
+        <p class="equipment-reference-hint"><span aria-hidden="true">❖</span> ลากอุปกรณ์เพื่อสวมใส่ <span aria-hidden="true">❖</span></p>
       </div>
       <div class="g-bar g-exp g-sheet-exp"><span style="width:${Math.min(100, c.exp / c.expNeeded * 100)}%"></span><em>Base Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%</em></div>
       <div class="g-bar g-jexp g-sheet-exp"><span style="width:${jobMax ? 100 : Math.min(100, c.jobExp / c.jobExpNeeded * 100)}%"></span><em>Job Lv ${c.jobLevel}${jobMax ? ' · สูงสุด' : ` · ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`}</em></div>
@@ -325,8 +349,16 @@ export class CharacterUI {
       </div>
       <div class="g-stat-footer"><button type="button" class="g-reset" ${Object.values(c.alloc).some(Boolean) ? '' : 'disabled'}>รีเซ็ตแต้มสถานะ</button></div>
       </div>`;
-    if (this.workspace) this.sheet.querySelector('.g-doll-wrap').after(this.workspace.wornDetail);
+    this.sheet.querySelector('.equipment-reference-identity').append(this.characterIdentity);
+    if (this.workspace) this.sheet.querySelector('.equipment-reference').after(this.workspace.wornDetail);
     this.workspace?.refresh();
+    if (focusedIdentity?.isConnected) focusedIdentity.focus({ preventScroll: true });
+    else if (focusAttribute) {
+      const replacement = this.sheet.querySelector(`[${focusAttribute}="${focusValue}"]`);
+      const destination = replacement?.disabled && focusAttribute === 'data-lock-slot'
+        ? this.sheet.querySelector(`[data-slot="${focusValue}"]`) : replacement;
+      destination?.focus({ preventScroll: true });
+    }
   }
   // คู่มือลงแต้ม: what the stats do for this class and two or three builds (src/character/data/statguide.js)
   reportLoadout(r) {
@@ -372,7 +404,7 @@ export class CharacterUI {
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
       const d = ITEMS[s.id], cmp = compareToEquipped(this.c, s); shown++;
       const arrow = cmp > 0 ? '<i class="g-cmp up" aria-hidden="true">▲</i>' : cmp < 0 ? '<i class="g-cmp down" aria-hidden="true">▼</i>' : '';
-      return `<button draggable="${d.type === 'use'}" class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus, s.roll))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${instanceColor(s)}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
+      return `<button draggable="${d.type === 'use' || d.type === 'equip'}" class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus, s.roll))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${instanceColor(s)}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
     this.bag.querySelector('.g-bag-count').textContent = `ช่อง ${inv.filter(Boolean).length} / ${inv.length}`;
