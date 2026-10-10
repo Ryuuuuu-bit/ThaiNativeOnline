@@ -1,0 +1,57 @@
+<!doctype html><html lang="th"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เดโม่ดนตรีแต่ละพื้นที่</title>
+<style>body{background:#172b28;color:#eee6cc;font:18px system-ui;max-width:700px;margin:40px auto;padding:20px}button,select{font:inherit;padding:12px;margin:8px;border-radius:8px}p{line-height:1.7}output{display:block;margin-top:20px}</style>
+<h1>อารมณ์ดนตรีแห่งอโยธยา</h1><p>ขลุ่ยและเครื่องสายสังเคราะห์ · เพลงแต่งใหม่ 8 บรรยากาศ</p>
+<select id="moods"></select><button id="play">ฟังเพลง</button><button id="stop">หยุด</button><output id="status"></output>
+<script type="module">
+import {CALM_MUSIC} from '/src/data/calmMusic.js';
+import {CalmMusicPlayer} from '/src/audio/CalmMusic.js';
+import {LocationMusic} from '/src/audio/LocationMusic.js';
+import {Sound} from '/src/audio/Sound.js';
+const select=document.querySelector('#moods');
+for(const[id,t]of Object.entries(CALM_MUSIC)) select.add(new Option(`${t.name} · ${t.bpm} BPM`,id));
+document.querySelector('#play').onclick=()=>{Sound.unlock();Sound.music(select.value);document.querySelector('#status').textContent=CALM_MUSIC[select.value].name};
+document.querySelector('#stop').onclick=()=>{Sound.music(null);document.querySelector('#status').textContent='หยุดเพลง'};
+window.tracks=Object.keys(CALM_MUSIC);
+window.renderMusic=async(id)=>{
+ const track=CALM_MUSIC[id], seconds=track.chords.length*4*60/track.bpm+4, rate=22050;
+ const ctx=new OfflineAudioContext(2,Math.ceil(seconds*rate),rate);
+ const player=new CalmMusicPlayer(ctx,ctx.destination,track);
+ player.out.gain.setValueAtTime(track.gain,0);
+ for(let bar=0;bar<track.chords.length;bar++) player.renderBar(bar,bar*4*60/track.bpm);
+ const buffer=await ctx.startRendering(); const channels=[buffer.getChannelData(0),buffer.getChannelData(1)];
+ let peak=0,sum=0; const count=buffer.length;
+ for(let i=0;i<count;i++)for(const ch of channels){const v=ch[i];peak=Math.max(peak,Math.abs(v));sum+=v*v;}
+ const rms=Math.sqrt(sum/(count*2)); const gain=Math.min(.105/rms,.65/peak);
+ const bytes=new Uint8Array(count*4), view=new DataView(bytes.buffer);let postPeak=0;
+ for(let i=0;i<count;i++){
+   const t=i/rate, fade=Math.sin(Math.min(t/1.5,1)*Math.PI/2)**2*Math.sin(Math.min((seconds-t)/4,1)*Math.PI/2)**2;
+   for(let c=0;c<2;c++){const v=channels[c][i]*gain*fade;postPeak=Math.max(postPeak,Math.abs(v));view.setInt16(i*4+c*2,Math.round(v*32767),true);}
+ }
+ let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+ return {id,name:track.name,seconds,rate,frames:count,peak:postPeak,clipping:peak>=1,pcm:btoa(binary)};
+};
+window.browserCheck=async()=>{
+ await Sound.unlock(); const errors=[];
+ for(const id of window.tracks){Sound.music(id);await new Promise(r=>setTimeout(r,100));if(Sound.player?.track!==CALM_MUSIC[id])errors.push(id);}
+ Sound.set('music',.3);Sound.setMuted(true);await new Promise(r=>setTimeout(r,350));const muted=Sound.muted&&Sound.master.gain.value<.01;Sound.setMuted(false);Sound.music(null);
+ return {errors,tracks:window.tracks.length,muted,context:Sound.ctx.state,stopped:Sound.player===null};
+};
+window.loopAudit=async()=>{
+ const results=[];
+ for(const [id,track] of Object.entries(CALM_MUSIC)){
+  const cycle=track.chords.length*4*60/track.bpm, rate=8000;
+  const ctx=new OfflineAudioContext(2,Math.ceil((cycle*2+1)*rate),rate),player=new CalmMusicPlayer(ctx,ctx.destination,track);
+  player.out.gain.setValueAtTime(track.gain,0);
+  for(let bar=0;bar<=32;bar++)player.renderBar(bar,bar*4*60/track.bpm);
+  const buffer=await ctx.startRendering(),left=buffer.getChannelData(0),right=buffer.getChannelData(1);
+  const from=Math.floor((cycle-.15)*rate),to=Math.ceil((cycle+.15)*rate);
+  let sum=0,delta=0,peak=0;
+  for(let i=0;i<left.length;i++)peak=Math.max(peak,Math.abs(left[i]),Math.abs(right[i]));
+  for(let i=from;i<to;i++){sum+=left[i]**2+right[i]**2;delta=Math.max(delta,Math.abs(left[i]-left[i-1]),Math.abs(right[i]-right[i-1]));}
+  results.push({id,peak,seamRms:Math.sqrt(sum/((to-from)*2)),seamMaxStep:delta});
+ }
+ return results;
+};
+window.ready=true;
+</script></html>

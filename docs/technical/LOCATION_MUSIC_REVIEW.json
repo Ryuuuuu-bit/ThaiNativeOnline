@@ -1,0 +1,185 @@
+{
+  "errors": [],
+  "playback": {
+    "errors": [],
+    "tracks": 10,
+    "muted": true,
+    "context": "running",
+    "stopped": true
+  },
+  "loops": [
+    {
+      "id": "calm_river",
+      "peak": 0.2799825966358185,
+      "seamRms": 0.059418619158289415,
+      "seamMaxStep": 0.04844309203326702
+    },
+    {
+      "id": "calm_market",
+      "peak": 0.2758820354938507,
+      "seamRms": 0.05560037371668851,
+      "seamMaxStep": 0.041752254124730825
+    },
+    {
+      "id": "calm_temple",
+      "peak": 0.27524226903915405,
+      "seamRms": 0.057154423314830255,
+      "seamMaxStep": 0.0684738326817751
+    },
+    {
+      "id": "calm_paddy",
+      "peak": 0.2945418357849121,
+      "seamRms": 0.05586055964374271,
+      "seamMaxStep": 0.041189905256032944
+    },
+    {
+      "id": "calm_forest",
+      "peak": 0.2894414961338043,
+      "seamRms": 0.055780764712366954,
+      "seamMaxStep": 0.03625870123505592
+    },
+    {
+      "id": "calm_ruins",
+      "peak": 0.22854338586330414,
+      "seamRms": 0.0547067926230061,
+      "seamMaxStep": 0.03124246373772621
+    },
+    {
+      "id": "calm_marsh",
+      "peak": 0.2681158185005188,
+      "seamRms": 0.05855108302150982,
+      "seamMaxStep": 0.04180388152599335
+    },
+    {
+      "id": "calm_night",
+      "peak": 0.25710031390190125,
+      "seamRms": 0.05611037615582962,
+      "seamMaxStep": 0.03095189854502678
+    },
+    {
+      "id": "calm_battle",
+      "peak": 0.3109065294265747,
+      "seamRms": 0.061370264382062924,
+      "seamMaxStep": 0.03911316208541393
+    },
+    {
+      "id": "calm_boss",
+      "peak": 0.37153422832489014,
+      "seamRms": 0.07523175947193785,
+      "seamMaxStep": 0.04126403480768204
+    }
+  ],
+  "tracks": [
+    {
+      "id": "calm_river",
+      "name": "ริมน้ำอโยธยา",
+      "seconds": 60.470588235294116,
+      "rate": 22050,
+      "frames": 1333377,
+      "peak": 0.40298011254027843,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_river.wav",
+      "peakDb": -7.894327723685759
+    },
+    {
+      "id": "calm_market",
+      "name": "ตลาดเช้าอโยธยา",
+      "seconds": 52,
+      "rate": 22050,
+      "frames": 1146600,
+      "peak": 0.4115172464791446,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_market.wav",
+      "peakDb": -7.712239180175395
+    },
+    {
+      "id": "calm_temple",
+      "name": "แสงสุวรรณเจดีย์",
+      "seconds": 68,
+      "rate": 22050,
+      "frames": 1499400,
+      "peak": 0.4452780241937535,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_temple.wav",
+      "peakDb": -7.0273747615074145
+    },
+    {
+      "id": "calm_paddy",
+      "name": "ลมเหนือทุ่งข้าว",
+      "seconds": 57.333333333333336,
+      "rate": 22050,
+      "frames": 1264200,
+      "peak": 0.44398767537524336,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_paddy.wav",
+      "peakDb": -7.05258170540187
+    },
+    {
+      "id": "calm_forest",
+      "name": "เงาไม้กลางไพร",
+      "seconds": 64,
+      "rate": 22050,
+      "frames": 1411200,
+      "peak": 0.44194096884486456,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_forest.wav",
+      "peakDb": -7.092714731436808
+    },
+    {
+      "id": "calm_ruins",
+      "name": "เสียงกระซิบวัดร้าง",
+      "seconds": 70.20689655172414,
+      "rate": 22050,
+      "frames": 1548063,
+      "peak": 0.41141885720355953,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_ruins.wav",
+      "peakDb": -7.714316129745474
+    },
+    {
+      "id": "calm_marsh",
+      "name": "หมอกเหนือบึง",
+      "seconds": 65.93548387096774,
+      "rate": 22050,
+      "frames": 1453878,
+      "peak": 0.4682722450568258,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_marsh.wav",
+      "peakDb": -6.590031650076091
+    },
+    {
+      "id": "calm_night",
+      "name": "จันทร์เหนืออโยธยา",
+      "seconds": 70.20689655172414,
+      "rate": 22050,
+      "frames": 1548063,
+      "peak": 0.4512883989678697,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_night.wav",
+      "peakDb": -6.910916610297106
+    },
+    {
+      "id": "calm_battle",
+      "name": "ก้าวออกศึก",
+      "seconds": 40.92307692307692,
+      "rate": 22050,
+      "frames": 902354,
+      "peak": 0.4193394627053954,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_battle.wav",
+      "peakDb": -7.5486853119693205
+    },
+    {
+      "id": "calm_boss",
+      "name": "ศึกอสูรอโยธยา",
+      "seconds": 36,
+      "rate": 22050,
+      "frames": 793800,
+      "peak": 0.4797986017390964,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_boss.wav",
+      "peakDb": -6.378820440322478
+    }
+  ],
+  "source": "Production CalmMusicPlayer rendered by OfflineAudioContext; previews fade at endpoints, live score repeats without restarting its audio graph."
+}
