@@ -16,7 +16,7 @@ body .g-player .g-portrait{position:relative;z-index:2;flex:none;width:96px;heig
   background:radial-gradient(circle,transparent 58%,#140c06 60%),conic-gradient(#d33a2c 0 calc(var(--hp,100) * 1%),#3a1410 0 100%);
   box-shadow:0 0 0 3px rgba(13,18,26,.9),0 6px 16px rgba(0,0,0,.5)}
 body .g-player .g-portrait .cls-badge{width:100%;height:100%;border-radius:50%}
-body .g-player .g-lv{left:-6px;bottom:-4px;top:auto;transform:none;width:32px;height:32px;min-width:0;padding:0;display:grid;place-items:center;border:2px solid var(--t-gold-hi);font:700 14px/1 'Noto Sans Thai',sans-serif;box-shadow:0 0 0 2px #0d121a}
+body .g-player .g-lv{left:-6px;bottom:-4px;top:auto;transform:none;width:32px;height:32px;min-width:0;padding:0;display:grid;place-items:center;border:2px solid var(--t-gold-hi);font:700 14px/1 var(--ui-font);box-shadow:0 0 0 2px #0d121a}
 body .g-player .g-points::after{top:-2px;right:-4px;width:24px;height:24px;font:700 15px/24px sans-serif;box-shadow:0 0 0 2px #120b05,0 0 10px rgba(255,220,140,.8)}
 body .g-player-info{margin-left:-22px;padding:9px 14px 10px 34px;width:280px;display:flex;flex-direction:column;gap:5px;
   background:var(--t-panel);border-radius:14px;box-shadow:0 0 0 1px var(--t-line),0 14px 34px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
@@ -24,12 +24,12 @@ body.g-night .g-player-info{background:var(--t-panel-night)}
 body .g-player-info .g-bar{margin:0;height:16px}
 body .g-player-info .g-bar em{font-size:11px;line-height:16px}
 body .g-player-name{margin:0}
-body .g-player-name b{font:700 16px 'Noto Serif Thai',serif;color:var(--t-gold-hi)}
+body .g-player-name b{font:700 16px var(--title-font);color:var(--t-gold-hi)}
 body .g-player .g-buffs{position:absolute;left:118px;top:calc(100% + 6px);gap:5px}
 
 /* minimap: the square framed map from src/ui/theme.css (title plate, side buttons, footer) */
 /* the quest tracker: titled box under the minimap */
-body .exploration::before{content:"เควสที่ติดตาม";display:block;margin:-2px -4px 8px;padding-bottom:7px;text-align:center;font:600 14px 'Noto Serif Thai',serif;color:#f8ecd0;border-bottom:1px solid rgba(232,200,130,.22)}
+body .exploration::before{content:"เควสที่ติดตาม";display:block;margin:-2px -4px 8px;padding-bottom:7px;text-align:center;font:600 14px var(--title-font);color:#f8ecd0;border-bottom:1px solid rgba(232,200,130,.22)}
 
 /* action bar: Base EXP over a thin Job EXP bar */
 body .action-exps{flex:0 0 100%;order:-1;display:flex;flex-direction:column;gap:2px}
@@ -45,18 +45,18 @@ body .g-jexp span{background:linear-gradient(180deg,#6fe0c8,#1f9c84 50%,#147060)
 .g-eqs{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
 body .g-eqs button{position:relative;width:60px;height:56px;padding:0;display:grid;place-items:center}
 .g-eqs button.empty span{opacity:.3}
-.g-eqs .g-pips{position:absolute;left:3px;bottom:2px;font-size:8px}
+.g-eqs .g-pips{position:absolute;left:3px;bottom:2px;font-size:10px}
 .g-eqs .g-plus{position:absolute;right:3px;top:1px;font-style:normal;font-size:10px;font-weight:700;color:#ffd36b;text-shadow:0 0 3px #000}
 .g-eqs small{max-width:76px;font-size:11px;line-height:1.25;color:var(--t-dim);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .g-doll{position:relative;display:grid;place-items:center;min-height:250px;border-radius:14px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,rgba(255,255,255,.08),rgba(0,0,0,.4) 75%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 0 30px rgba(0,0,0,.6)}
 .g-doll .g-portrait{width:128px;height:128px;margin-bottom:44px;border:0;border-radius:50%;box-shadow:0 0 0 3px #0d121a,0 0 0 5px var(--t-gold),0 0 30px rgba(0,0,0,.8)}
 .g-doll .g-portrait .cls-badge{border-radius:50%}
 .g-doll-nm{position:absolute;left:0;right:0;bottom:12px;text-align:center}
-.g-doll-nm b{display:block;font:700 18px 'Noto Serif Thai',serif;color:var(--t-gold-hi)}
+.g-doll-nm b{display:block;font:700 18px var(--title-font);color:var(--t-gold-hi)}
 .g-doll-nm span{font-size:12px;color:var(--t-dim)}
 body .g-sheet-exp{margin:0 0 4px}
 body .g-sheet .g-jexp{height:10px}
-body .g-sheet .g-jexp em{font-size:9px;line-height:10px}
+body .g-sheet .g-jexp em{font-size:10px;line-height:10px}
 .g-statbox{margin:10px 0;padding:10px 14px;border-radius:12px}
 .g-statbox .g-stats-head{font-size:13px}
 .g-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 18px}
@@ -69,7 +69,7 @@ body .g-bag-foot .g-gold{margin:0;font-size:16px}
 
 /* dialogue: the line on a card with the NPC's face, quest cards on the right */
 body .dlg-head{display:flex;justify-content:center;align-items:center;margin:-4px -6px 14px;padding:2px 44px 12px;text-align:center;border-bottom:1px solid rgba(232,200,130,.22)}
-body .dlg-head h3{font:700 19px 'Noto Serif Thai',serif}
+body .dlg-head h3{font:700 19px var(--title-font)}
 .dlg-wrap{display:grid;grid-template-columns:1fr;gap:14px}
 .dlg-main{display:grid;grid-template-columns:64px 1fr;gap:4px 16px;align-content:start;padding:14px 16px;border-radius:12px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line)}
 body .dlg-main .dlg-icon{grid-row:span 2;width:64px;height:64px;font-size:28px}
@@ -80,13 +80,13 @@ body .dlg-main .dlg-actions{grid-column:1/-1;justify-content:flex-start;gap:8px;
 #dlg-quests{display:flex;flex-direction:column;gap:8px;min-height:0;max-height:48vh;overflow:auto}
 #dlg-quests:empty{display:none}
 body #dlg-quests .quest{margin:0;text-align:left}
-body #dlg-quests .quest h4{text-align:center;font:700 17px 'Noto Serif Thai',serif}
+body #dlg-quests .quest h4{text-align:center;font:700 17px var(--title-font)}
 body #dlg-quests .quest .reward{padding-top:8px;margin-top:6px;border-top:1px solid var(--t-card-line);text-align:center}
 body #dlg-quests .quest button{display:block;margin:8px auto 0}
 
 /* full map: the world route and the legend in a side column */
 .map-side{flex:none;width:210px;display:flex;flex-direction:column;gap:8px;min-height:0;overflow:auto}
-.map-side-h{margin:0;display:flex;gap:8px;align-items:center;font:600 13px 'Noto Serif Thai',serif;color:var(--t-gold)}
+.map-side-h{margin:0;display:flex;gap:8px;align-items:center;font:600 13px var(--title-font);color:var(--t-gold)}
 .map-side-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--t-line),transparent)}
 .map-route{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:5px}
 .map-route li{display:grid;grid-template-columns:10px 1fr auto;gap:8px;align-items:center;padding:6px 10px;font-size:13px;border-radius:10px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line)}
@@ -104,8 +104,8 @@ body .map-side .map-legend{width:auto}
    search radius in metres, a footer (design "UI ใหม่") */
 .auto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .auto-card{min-width:0;display:flex;flex-direction:column;gap:9px;padding:12px 14px;border-radius:14px;background:var(--t-card);box-shadow:inset 0 0 0 1px var(--t-card-line)}
-body .auto-card h4{margin:0;font:700 16px 'Noto Serif Thai',serif;color:var(--t-ink)}
-body .auto-card h4 small{font:400 12px 'Noto Sans Thai',sans-serif;color:var(--t-dim);margin-left:6px}
+body .auto-card h4{margin:0;font:700 16px var(--title-font);color:var(--t-ink)}
+body .auto-card h4 small{font:400 12px var(--ui-font);color:var(--t-dim);margin-left:6px}
 body .auto-panel{font-size:14px;padding:16px 18px}
 body .auto-panel .ro-title{font-size:19px}
 body .auto-panel .auto-kc{position:absolute;left:4px;top:0;font-size:12px}
@@ -181,10 +181,12 @@ body .g-sk-top .g-skill-reset:disabled{filter:grayscale(.8);opacity:.45;cursor:d
 .g-cost{display:flex;align-items:center;gap:4px;padding:0 8px;border-radius:6px;background:rgba(0,0,0,.3);font-size:13px}
 .g-coin{width:14px;height:14px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 35%,#ffe7a6,#c79432 60%,#7a5612);box-shadow:0 0 0 1px rgba(0,0,0,.5)}
 .g-sk-main{flex:1;min-height:0;display:grid;grid-template-columns:1fr 420px;gap:12px}
-.g-sk-tree{--rows:4;display:grid;grid-template-columns:64px repeat(3,1fr);grid-template-rows:60px repeat(var(--rows),minmax(86px,1fr));padding:8px 10px 6px;border-radius:14px;overflow:auto}
+.g-sk-tree{--rows:4;display:grid;grid-template-columns:64px repeat(3,1fr);grid-template-rows:auto repeat(var(--rows),minmax(86px,1fr));padding:8px 10px 6px;border-radius:14px;overflow:auto}
 .g-colh{margin:0 6px 6px;padding:6px 8px;border-radius:10px;text-align:center;background:rgba(255,255,255,.05);box-shadow:inset 0 2px 0 var(--c),inset 0 0 0 1px rgba(255,255,255,.07)}
-.g-colh b{display:block;font:600 15px 'Noto Serif Thai',serif;color:var(--t-ink)}
-.g-colh small{font-size:12px;color:var(--t-dim)}
+.g-colh b{display:block;font:600 15px var(--title-font);color:var(--t-ink)}
+/* role and points on their own lines, so all three headers keep the same height */
+.g-colh small{display:block;font-size:12px;line-height:1.5;color:var(--t-dim);overflow-wrap:anywhere}
+.g-colh .g-colh-pts{color:var(--t-gold,#d8b26a)}
 .g-rowl{display:grid;place-items:center}
 .g-rowl span{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;line-height:1.1;text-align:center;color:#fff;background:linear-gradient(#4b87c8,#1d4a80);box-shadow:0 0 0 2px #0b1d33,0 0 0 3px rgba(201,169,106,.6)}
 .g-rowl.lock span{background:linear-gradient(#a99c84,#6c6150);box-shadow:0 0 0 2px #3a3328}
@@ -197,9 +199,14 @@ body .g-sk-top .g-skill-reset:disabled{filter:grayscale(.8);opacity:.45;cursor:d
 .g-cell.fork.left::after{left:50%;right:0} .g-cell.fork.right::after{left:0;right:50%} .g-cell.fork.mid::after{left:0;right:0}
 .g-cell.fork .g-node{position:relative;z-index:1}
 /* a line's passive beside its first skill: a short tie and a smaller node */
-.g-cell.dual{display:flex;gap:4px;justify-content:center;align-items:center}
-.g-cell.dual .g-tie{width:14px;height:3px;background:rgba(255,255,255,.12);flex:none}
-.g-node.g-pnode{transform:scale(.82);transform-origin:left center;margin-right:-10px}
+.g-cell.dual{display:flex;gap:2px;justify-content:center;align-items:center}
+.g-cell.dual .g-tie{width:10px;height:3px;background:rgba(255,255,255,.12);flex:none}
+/* both names wrap inside their own node, so a long skill name never runs into its passive */
+.g-cell.dual .g-node{max-width:92px}
+.g-cell.dual .g-node .g-nm{white-space:normal;text-align:center;line-height:1.25;overflow-wrap:anywhere}
+.g-node.g-pnode .g-ic{width:38px;height:38px}
+.g-node.g-pnode .g-lvp{top:29px;padding:0 4px;font-size:10px;line-height:14px}
+.g-node.g-pnode .g-nm{margin-top:6px;font-size:11px}
 .g-node.g-pnode .g-nm{color:#c9d8c2}
 .g-node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:0;border:0;background:none;cursor:pointer;font:inherit;color:var(--t-ink)}
 .g-node .g-ic{position:relative;width:48px;height:48px;border-radius:6px;overflow:hidden;display:grid;place-items:center;background:#1a130c;box-shadow:0 0 0 2px #120b05,0 0 0 4px #8a7048,0 3px 6px rgba(0,0,0,.4)}
@@ -221,7 +228,7 @@ body .g-sk-top .g-skill-reset:disabled{filter:grayscale(.8);opacity:.45;cursor:d
 .g-skd-head{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center}
 .g-skd-head .g-ic{width:64px;height:64px;border-radius:6px;overflow:hidden;box-shadow:0 0 0 2px #120b05,0 0 0 4px var(--t-gold)}
 .g-skd-head .g-ic img{width:100%;height:100%;object-fit:cover}
-.g-skd-head b{display:block;font:700 20px 'Noto Serif Thai',serif;color:var(--t-gold-hi)}
+.g-skd-head b{display:block;font:700 20px var(--title-font);color:var(--t-gold-hi)}
 .g-skd-head small{font-size:13px;color:#bcd2ee}
 body .g-skd-head .g-pips{display:flex;gap:4px;margin-top:5px}
 body .g-skd-head .g-pips i{flex:1 1 0;min-width:0;max-width:26px;height:6px;border:0;border-radius:3px;background:rgba(255,255,255,.15)}
@@ -244,7 +251,7 @@ body .g-skd-head .g-pips i.on{background:linear-gradient(#7fb7f0,#2f74c9)}
 .g-guide-btn{margin-left:auto;font:inherit;font-size:12px;padding:2px 9px;border-radius:999px;border:1px solid rgba(201,160,76,.45);background:rgba(201,160,76,.1);color:var(--t-gold-hi);cursor:pointer}
 .g-guide-btn[aria-expanded="true"]{background:rgba(201,160,76,.28)}
 .g-guide{margin-top:8px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(201,160,76,.25);font-size:13px;line-height:1.55;display:flex;flex-direction:column;gap:8px}
-.g-guide h5{margin:0;font:700 14px 'Noto Serif Thai',serif;color:var(--t-gold-hi)}
+.g-guide h5{margin:0;font:700 14px var(--title-font);color:var(--t-gold-hi)}
 .g-guide ul{margin:0;padding-left:18px;color:#cfd8e3}
 .g-guide ul li{margin:2px 0}
 .g-build{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;padding:7px 9px;border-radius:10px;background:rgba(255,255,255,.04)}
@@ -271,7 +278,7 @@ body .g-skd-head .g-pips i.on{background:linear-gradient(#7fb7f0,#2f74c9)}
 .g-skd-up small{font-size:13px;font-weight:500;opacity:.85}
 .g-skd-up:disabled{filter:grayscale(.8);opacity:.6;cursor:default}
 .g-sk-bar{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center;padding:8px 12px;border-radius:14px;background:rgba(0,0,0,.28);box-shadow:inset 0 0 0 1px rgba(232,200,130,.2)}
-.g-sk-bar > b{font:600 15px 'Noto Serif Thai',serif;color:var(--t-gold-hi)}
+.g-sk-bar > b{font:600 15px var(--title-font);color:var(--t-gold-hi)}
 .g-sk-slots{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
 .g-skslot{position:relative;display:flex;align-items:center;gap:6px;min-width:0;height:48px;padding:0 6px 0 4px;border-radius:10px;font-size:11px;line-height:1.25;background:linear-gradient(#2c3f5c,#172338);box-shadow:inset 0 0 0 1px rgba(111,160,216,.45)}
 .g-skslot img{width:34px;height:34px;border-radius:3px;flex:none}
@@ -296,7 +303,7 @@ body .net-chat .net-online + .drag-lock{margin-left:6px}
 
 /* settings: titled groups of rows, label on the left, a segmented control, slider or
    switch on the right (the selects become .g-seg rows, src/ui/segControls.js) */
-.set-h{margin:14px 0 2px;display:flex;gap:10px;align-items:center;font:600 14px 'Noto Serif Thai',serif;color:var(--t-gold)}
+.set-h{margin:14px 0 2px;display:flex;gap:10px;align-items:center;font:600 14px var(--title-font);color:var(--t-gold)}
 .set-h:first-child{margin-top:0}
 .set-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--t-line),transparent)}
 body .set-pane > label{display:grid;grid-template-columns:240px 1fr 56px;align-items:center;gap:16px;margin:0;padding:9px 0;font-size:15px;border-bottom:1px solid rgba(255,255,255,.07)}

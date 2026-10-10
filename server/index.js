@@ -83,6 +83,7 @@ import { ALLY_FOCUS } from '../src/training/kitCombat.js';
 import { navigation } from './navigation.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
 import { Pvp } from './pvp.js';
+import { settleKill, karmaRank, karmaTier } from '../src/data/karma.js';
 import { recallWhy } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
@@ -145,11 +146,12 @@ async function api(req, res, url) {
       for (const [ws, p] of presence.players) if (gmTokens.get(ws) === token) {
         gmTokens.delete(ws); p.admin = false; const state = combatants.get(p.id); if (state) state.god = false;
         send(ws, { t: 'gmAccess', admin: false });
+        send(ws, { t: 'identity', accountUid: null, characterUid: null });
       }
       return json(res, 200, { ok: true }); }
     if (req.method === 'POST' && url.pathname === '/api/google/link') { const r = await accounts.linkGoogle(id, (await readBody(req)).credential); return json(res, r.ok ? 200 : 400, r); }
-    if (req.method === 'GET' && url.pathname === '/api/me') return json(res, 200, { ok: true, id, google: await store.googleOf(id) });
-    if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, slots: await accounts.slots(id) });
+    if (req.method === 'GET' && url.pathname === '/api/me') return json(res, 200, { ok: true, id, ...await accounts.identity(id), google: await store.googleOf(id) });
+    if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, ...await accounts.identity(id), slots: await accounts.slots(id) });
     const rename = /^\/api\/slots\/(\d+)\/name$/.exec(url.pathname);
     if (rename && req.method === 'POST') {
       const slot = Number(rename[1]);
@@ -167,8 +169,14 @@ async function api(req, res, url) {
       const body = await readBody(req);
       if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
       const live = combatants.live(id, slot);
+      if (Object.hasOwn(body, 'characterUid')) {
+        if (typeof body.characterUid !== 'string' || !/^CHR-[0-9A-F]{32}$/i.test(body.characterUid)) return json(res, 400, { ok: false, code: 'invalid_character_uid' });
+        body.characterUid = body.characterUid.toUpperCase();
+      }
       if (live?.tradeBusy || live?.stashBusy) return json(res, 409, {ok:false,code:'save_busy'});   // resolve after reading: the old socket may have left meanwhile
-      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0 } : null);
+      if (live && Object.hasOwn(body, 'characterUid') && body.characterUid !== live.persist.characterUid) return json(res, 409, { ok: false, code: 'stale_character' });
+      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0, characterUid: live.persist.characterUid } : null,
+        Object.hasOwn(body, 'characterUid') ? { characterUid: body.characterUid } : live ? { characterUid: live.persist.characterUid } : {});
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
     if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
@@ -280,10 +288,13 @@ async function handle(ws, raw) {
             for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { combatants.drop(op.id); old.dirty=true; flushEntry(old, op); send(ows, { t: 'kicked' }); ows.close(); await accounts.writes.wait(`${id}:${m.slot}`, 10000); }
           };
           await kick();
-          const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved, quests = await accounts.quests(id, m.slot).catch(() => '{}');
+          const fresh = await accounts.character(id, m.slot).catch(() => null);
+          const characterUid = accounts.characterUid(id, m.slot), inventoryRevision = accounts.inventoryRevision(id, m.slot);
+          if (!fresh || !characterUid) { send(ws, { t: 'kicked', why: 'โหลดตัวละครไม่ได้ กรุณาเชื่อมต่อใหม่' }); ws.close(); return; }
+          const quests = await accounts.quests(id, m.slot).catch(() => '{}');
           await kick();   // a twin that signed in during the reads
           if (stopping || !presence.players.has(ws)) return;   // we were the one kicked meanwhile
-          combatants.load(r.you, fresh, { account: id, slot: m.slot, inventoryRevision: accounts.inventoryRevision(id, m.slot) }, quests);
+          combatants.load(r.you, fresh, { account: id, slot: m.slot, characterUid, inventoryRevision }, quests);
           presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
           gmTokens.set(ws, m.token);
           await authorizeGm(presence.players.get(ws));
@@ -307,7 +318,7 @@ async function handle(ws, raw) {
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
       case 'wbjoin': joinWorldBoss(ws); break;
-      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pk': case 'pvp_hit': pvpMsg(ws, m); break;
+      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
       case 'ttl': {   // wear a title: a signed-in character only one it has earned (src/data/titles.js)
@@ -360,6 +371,7 @@ async function handle(ws, raw) {
         if (GM_PREFIX.test(String(m.text ?? ''))) {
           let text = 'ระบบสิทธิ์ไม่พร้อม กรุณาลองใหม่';
           try { text = await gm(gmCtx, p, m.text); } catch (e) { console.error('[gm] command failed', e.message); }
+          pvpState(p.id);   // a level set by GM may open or close free PK
           send(ws, { t: 'c', id: null, name: '🛠️ GM', kind: 'gm', text }); break;
         }
         if (muted(p)) { send(ws, { t: 'c', id: null, name: 'ระบบ', text: 'คุณถูกห้ามแชทชั่วคราว' }); break; }
@@ -451,12 +463,33 @@ function correct(ws, extra = {}) {
 }
 function pvpPlayer(id) {
   const p = byId(id)?.p, s = combatants.get(id);
-  return p ? {...p,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
+  return p ? {...p,lv:s?.c.level ?? p.lv,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
     busy:!!s?.stashBusy || !!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
 }
+// what the room sees of someone's PvP standing: open to free PK here, in a duel, and their
+// บาป · บุญ, tier (name colour) and ยศ (src/data/karma.js)
+function karmaOf(id) {
+  const rec = combatants.get(id)?.persist ? combatants.get(id).c.rec : {}, sin = rec.sin || 0, merit = rec.merit || 0, rank = karmaRank({ sin, merit });
+  return { sin, merit, tier: karmaTier(sin), rank: rank?.name ?? null, rankColor: rank?.color ?? null };
+}
 function pvpState(id) {
-  const p = byId(id)?.p;
-  if (p) toMap(p.room, {t:'pvp_state',id,...pvp.view(id)});
+  const p = byId(id)?.p; if (!p) return;
+  const k = karmaOf(id);
+  toMap(p.room, {t:'pvp_state',id,...pvp.view(id),pk:pvp.open(pvpPlayer(id)),...k});
+}
+// a free-PK kill judged (src/data/karma.js settleKill): the killer gains บาป or บุญ
+function karmaKill(killerId, victimId) {
+  const k = combatants.get(killerId), v = combatants.get(victimId); if (!k?.persist || !v?.persist) return;
+  const res = settleKill({ victimSin: v.c.rec.sin || 0, provoked: pvp.provoked(victimId, killerId) });
+  k.c.note('pvpKill');
+  if (res.kind === 'murder') { k.c.note('sin', res.sin); k.c.note('pkKill'); }
+  if (res.kind === 'justice') { k.c.note('merit', res.merit); k.c.note('redKill'); }
+  k.dirty = true; titleNews(killerId);
+  const killer = byId(killerId), victim = byId(victimId);
+  if (killer) send(killer.ws, { t: 'karma', kind: res.kind, sin: res.sin, merit: res.merit, name: victim?.p.name ?? '', total: { sin: k.c.rec.sin, merit: k.c.rec.merit } });
+  if (victim) send(victim.ws, { t: 'karma', kind: 'slain', by: killer?.p.name ?? '', why: res.kind });
+  if (res.kind === 'justice' && killer) toMap(killer.p.room, { t: 'karma_news', killer: killer.p.name, victim: victim?.p.name ?? '' });
+  pvpState(killerId);
 }
 function endDuel(d) {
   if (!d) return;
@@ -464,7 +497,7 @@ function endDuel(d) {
 }
 function resetPvp(id) {
   endDuel(pvp.finish(id,'moved'));
-  Object.assign(pvp.state(id),{pk:false}); pvpState(id);
+  pvpState(id);
 }
 function recall(ws, followLeader = false) {
   const p=presence.players.get(ws); if(!p) return;
@@ -519,8 +552,7 @@ function pvpMsg(ws,m) {
   const p=presence.players.get(ws); if(!p) return;
   const a=pvpPlayer(p.id), b=pvpPlayer(Number(m.id ?? m.from));
   const no=why=>send(ws,{t:'pvp_no',why});
-  if(m.t==='pk') { if(typeof m.on!=='boolean')return; const why=pvp.toggle(a,m.on); if(why)return no(why); pvpState(p.id); }
-  else if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
+  if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
   else if(m.t==='duel_answer') {
     if(m.ok!==true) {pvp.decline(p.id,Number(m.from));return;}
     const r=pvp.accept(a,b); if(r.why)return no(r.why);
@@ -534,8 +566,8 @@ function pvpMsg(ws,m) {
     const r=combatants.pvpBasic(a.id,b.id,{knockout:!!pvp.view(a.id).duel}); if(!r)return no('cooldown');
     pvp.touch(a.id,b.id);
     toMap(p.room,{t:'pvp_hit',from:a.id,id:b.id,...r});
-    if(r.dead) {presence.setDead(byId(b.id).ws,true);resetPvp(b.id);}
-    if(r.won)endDuel(pvp.finish(a.id,'won',a.id));
+    if(r.dead) {presence.setDead(byId(b.id).ws,true);karmaKill(a.id,b.id);resetPvp(b.id);}
+    if(r.won) {const w=combatants.get(a.id);if(w?.persist){w.c.note('duelWin');w.dirty=true;titleNews(a.id);}endDuel(pvp.finish(a.id,'won',a.id));}
     pvpState(a.id);pvpState(b.id);
   }
 }
@@ -728,11 +760,18 @@ const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(
 const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
 
 async function sendWelcome(ws, message) {
-  const p = presence.players.get(ws), room = p?.room;
+  const p = presence.players.get(ws), room = p?.room, persisted = p && combatants.get(p.id)?.persist;
+  const token = gmTokens.get(ws), account = persisted?.account, slot = persisted?.slot, uid = persisted?.characterUid;
   await authorizeGm(p);
+  let identity = {};
+  try {
+    if (token && persisted && account === p.account && await accounts.auth(token) === account) identity = await accounts.characterIdentity(account, slot) ?? {};
+  } catch { /* Metadata is unavailable; never substitute a client UID. */ }
+  const current = p && combatants.get(p.id)?.persist;
+  if (gmTokens.get(ws) !== token || current !== persisted || current?.account !== account || current?.slot !== slot || current?.characterUid !== uid || identity.characterUid && identity.characterUid !== uid) identity = {};
   if (p && presence.players.get(ws) === p && p.room === room) {
-    const { admin, gmCommands, ...safe } = message;
-    send(ws, { ...safe, ...gmMetadata(p) });
+    const { admin, gmCommands, accountUid, characterUid, ...safe } = message;
+    send(ws, { ...safe, ...identity, ...gmMetadata(p) });
   }
 }
 function gmMetadata(p) {
@@ -760,7 +799,7 @@ async function adminCommand(p, args) {
     console.log(`[gm] ${p.account}: admin list`);
     return `บัญชีแอดมิน: ${ids.map(id => `${id}${protectedIds.includes(id) ? ' (ระบบ)' : ''}`).join(' · ') || '-'}`;
   }
-  if (!['add', 'remove'].includes(action) || !args[1] || args.length !== 2) return 'ใช้ /gm admin add|remove <accountId> หรือ /gm admin list';
+  if (!['add', 'remove'].includes(action) || !args[1] || args.length !== 2) return 'ใช้ /gm admin add|remove <AccountUID|accountId> หรือ /gm admin list';
   const result = await adminRoles[action](args[1], p.account);
   if (!result.ok) return `จัดการสิทธิ์ไม่สำเร็จ: ${result.why}`;
   if (result.changed) {
@@ -793,7 +832,7 @@ function rewardNews(map, e, up) {
   const ws = socketOf(e.to); if (ws) send(ws, up.lost ? { ...e, lost: up.lost } : e);
   const cardKept = e.card && !up.lost?.some(d => ITEMS[d.id]?.type === 'card');
   if (cardKept) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
-  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
+  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); pvpState(e.to); }   // Lv 20 opens free PK
 }
 // route what the monster world reports: map-wide news, or a message for one player
 function route(map, events, except = null) {
@@ -802,10 +841,19 @@ function route(map, events, except = null) {
       const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
       if (up.deferred) continue;
       rewardNews(map, e, up);
+    } else if (e.t === 'mstrike') {
+      const ws = socketOf(e.to);
+      if (ws) send(ws, e);
     } else if (e.t === 'ma') {
-      if (combatants.get(e.to)?.tradeBusy) continue;
+      if (combatants.get(e.to)?.tradeBusy) {
+        const ws = socketOf(e.to);
+        if (ws && e.attackId !== undefined) send(ws, { t: 'mstrike', stage: 'cancel', id: e.id, generation: e.generation, attackId: e.attackId });
+        continue;
+      }
       const ws = socketOf(e.to); if (!ws) continue;
       const p=presence.players.get(ws), monster=worldOf(map).byId(e.id);
+      if (!p || p.dead || p.room !== map) continue;
+      if (e.attackId !== undefined && (!monster || monster.hp <= 0 || e.generation !== monster.strikeGeneration)) continue;
       if(monster&&p&&!navigation(p.map).clear(e.origin ?? monster,p,.05))continue;
       combatants.touch(e.to);
       const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power, { skill: !!e.skill });   // signed-in: resolved here
@@ -826,7 +874,7 @@ function route(map, events, except = null) {
     else toMap(map, e, except);
   }
 }
-const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
+const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id),pk:pvp.open(pvpPlayer(p.id)),...karmaOf(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
 
 // World boss (src/combat/data/worldBoss.js): news to everyone at dusk and at nightfall (the boss
 // rises when its map's monsters run, server/monsters.js); at dawn the night-only maps send everyone
@@ -891,7 +939,7 @@ const flushEntry = (s, p = null) => {
   }
   s.dirty = false;
   return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), p ? {map:p.map,x:p.x,z:p.z,facing:p.f} : null,
-    { inventoryRevision: s.persist.inventoryRevision ?? 0 }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
+    { inventoryRevision: s.persist.inventoryRevision ?? 0, characterUid: s.persist.characterUid }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
 };
 const flush = id => flushEntry(combatants.get(id), byId(id)?.p);
 setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);

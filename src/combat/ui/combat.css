@@ -4,11 +4,11 @@
 /* Target frame */
 .g-target{position:absolute;top:140px;left:50%;transform:translateX(-50%);width:260px;padding:9px 13px 7px}
 .g-target-name{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
-.g-target-name span{font-size:9px;color:#d6b877}
+.g-target-name span{font-size:10px;color:#d6b877}
 .g-target.elite{border-color:#e0a2547a;box-shadow:0 0 22px #d27a2c40}
 .g-thp span{background:linear-gradient(90deg,#8d2b22,#d05440)}
 .g-target-tags{display:flex;gap:4px}
-.g-target-tags i{font-style:normal;font-size:8px;color:#cdb8ff}
+.g-target-tags i{font-style:normal;font-size:10px;color:#cdb8ff}
 .g-boss-warning{font-size:10px;line-height:1.5;color:#ffdda1;padding-top:5px}
 .boss-target .g-target-name{gap:8px;align-items:baseline}
 .boss-target .g-target-name b{min-width:0;overflow-wrap:anywhere}
@@ -30,15 +30,15 @@
 .g-skill-icon{display:grid;place-items:center;width:100%;height:100%;font-size:22px;color:#f1dfae}
 .g-skill-icon .icon-img{width:100%;height:100%;display:block;image-rendering:pixelated}
 .g-potion .g-skill-icon .icon-img{width:100%;height:100%}
-.g-skill kbd{position:absolute;left:3px;top:3px;margin:0;padding:0 3px;font-size:8px;background:#0b1512cc;border-color:#e1c98355;z-index:2}
-.g-skill small{position:absolute;right:4px;bottom:2px;font-size:9px;font-weight:600;color:#9fd0ec;text-shadow:0 1px 2px #000,0 0 3px #000;z-index:2}
+.g-skill kbd{position:absolute;left:3px;top:3px;margin:0;padding:0 3px;font-size:10px;background:#0b1512cc;border-color:#e1c98355;z-index:2}
+.g-skill small{position:absolute;right:4px;bottom:2px;font-size:10px;font-weight:600;color:#9fd0ec;text-shadow:0 1px 2px #000,0 0 3px #000;z-index:2}
 .g-potion small{color:#fff0c7}
 .g-potion .g-skill-icon{color:#ef8a6a}.g-potion.mp .g-skill-icon{color:#ecc85f}
 .g-cd{position:absolute;left:0;right:0;bottom:0;height:0;background:#0b0f1ccc;pointer-events:none;z-index:1}
 .g-sep{width:1px;height:34px;background:#cabc8633;margin:0 3px}
 .g-menu{height:46px;padding:0 9px;border-radius:4px;border:1px solid #cdb37a40;background:#1a2c25;font-size:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:3px}
 .g-menu kbd{margin:0}
-.g-float{position:absolute;left:0;top:0;font:700 16px 'Noto Sans Thai',sans-serif;color:#fff;text-shadow:0 2px 3px #000,0 0 8px #0008;white-space:nowrap;will-change:transform}
+.g-float{position:absolute;left:0;top:0;font:700 16px var(--ui-font);color:#fff;text-shadow:0 2px 3px #000,0 0 8px #0008;white-space:nowrap;will-change:transform}
 .g-float.crit{color:#ffd35c;font-size:22px}
 .g-float.dot{color:#d4a7ff;font-size:13px}
 .g-float.hurt{color:#ff6b55}
@@ -46,7 +46,7 @@
 .g-float.miss{color:#d9d9d9;font-size:12px}
 .g-float.exp{color:#f3dc95;font-size:12px}
 .g-plate{position:absolute;left:0;top:0;width:96px;text-align:center;pointer-events:none}
-.g-plate b{display:block;font-size:9px;font-weight:500;color:#f3edd5;text-shadow:0 1px 3px #000;white-space:nowrap}
+.g-plate b{display:block;font-size:10px;font-weight:500;color:#f3edd5;text-shadow:0 1px 3px #000;white-space:nowrap}
 .g-plate .g-bar{height:5px;margin:2px 0 0;border-color:#0006}
 .g-plate .g-bar span{background:#c9a35f}
 .g-plate.hostile .g-bar span{background:#d65a43}
@@ -54,7 +54,7 @@
 
 /* Death overlay */
 .g-death{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(#3a0c0c99,#100505dd);text-align:center;z-index:8}
-.g-death h2{font:500 36px 'Noto Serif Thai',serif;color:#eebf9f;margin:0 0 10px}
+.g-death h2{font:500 36px var(--title-font);color:#eebf9f;margin:0 0 10px}
 .g-death p{font-size:12px;line-height:1.9;color:#dccbbb}
 .g-death button{margin-top:14px;padding:10px 26px;border:1px solid #d7b671;background:#3b4b33;border-radius:3px;font-size:13px;color:#fff3cc}
 .g-death button:hover{background:#56693f}
@@ -71,7 +71,7 @@
 }
 @media(max-width:600px){
   .g-skill,.g-menu{width:38px;height:38px}
-  .g-menu{padding:0;font-size:8px}
+  .g-menu{padding:0;font-size:10px}
   .g-sep{display:none}
   .g-target{bottom:160px}
 }

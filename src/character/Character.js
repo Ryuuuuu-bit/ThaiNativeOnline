@@ -27,7 +27,8 @@ export const FRIENDS_MAX = 50;
 const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 // the records titles are earned from (src/data/titles.js): whole counts only
-const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank'];
+// sin / merit / pkKill / redKill / pvpKill / duelWin: บาป · บุญ and PvP counts (src/data/karma.js)
+const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank', 'sin', 'merit', 'pkKill', 'redKill', 'pvpKill', 'duelWin'];
 const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 

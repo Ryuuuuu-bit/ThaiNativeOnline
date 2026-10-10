@@ -11,7 +11,7 @@
 .training-sub { margin: 0 0 8px; font-size: 10px; line-height: 1.5; color: #cfc8ac; }
 .training-sum { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 0 0 8px; }
 .training-sum div { padding: 4px 2px; text-align: center; background: #0e1f1a99; border: 1px solid #cabc8626; border-radius: 3px; }
-.training-sum dt { font-size: 9px; color: #cfc8ac; } .training-sum dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.training-sum dt { font-size:10px; color: #cfc8ac; } .training-sum dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
 .training-log { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 1px; }
 .training-log li { display: flex; justify-content: space-between; padding: 1px 6px; background: linear-gradient(90deg, #0e1f1a99, transparent); font-variant-numeric: tabular-nums; }
 .training-log li span { color: #cfc8ac; } .training-log .crit b { color: #ffcf5a; } .training-log .miss b { color: #8fa3b8; } .training-log .bleed b { color: #ff7d6e; } .training-log .ko b { color: #9dffaa; }

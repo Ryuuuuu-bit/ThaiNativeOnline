@@ -1,3 +1,4 @@
+import { SANS, SERIF } from '../canvasFonts.js';
 import { EMBLEMS } from '../icons.js';
 
 // Canvas map symbols, drawn in code (no image assets): gold badges with an ink
@@ -63,7 +64,7 @@ export function unknownMark(g, x, y, r, alpha = .75) {
   g.save(); g.globalAlpha = alpha;
   g.fillStyle = 'rgba(245,234,205,.65)'; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
   g.setLineDash([r * .5, r * .35]); g.strokeStyle = '#7d6a48'; g.lineWidth = Math.max(1, r * .14); g.stroke(); g.setLineDash([]);
-  g.fillStyle = '#6d5a3a'; g.font = `600 ${Math.round(r * 1.25)}px "Noto Serif Thai", serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = '#6d5a3a'; g.font = `600 ${Math.round(r * 1.25)}px ${SERIF}`; g.textAlign = 'center'; g.textBaseline = 'middle';
   g.fillText('?', x, y + r * .08); g.restore();
 }
 // Quest marker ('!' offer, '?' hand-in): a pennant badge that bobs with `t`.
@@ -72,7 +73,7 @@ export function questMark(g, x, y, r, glyph = '!', t = 0) {
   g.save();
   g.fillStyle = 'rgba(255,200,90,.28)'; g.beginPath(); g.arc(x, y + bob, r * 1.7, 0, Math.PI * 2); g.fill();
   badge(g, x, y + bob, r, glyph === '?' ? null : 'quest', 'quest');
-  if (glyph === '?') { g.fillStyle = '#fff6dc'; g.font = `700 ${Math.round(r * 1.4)}px "Noto Sans Thai", sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('?', x, y + bob + r * .05); }
+  if (glyph === '?') { g.fillStyle = '#fff6dc'; g.font = `700 ${Math.round(r * 1.4)}px ${SANS}`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('?', x, y + bob + r * .05); }
   g.restore();
 }
 // Warp: glowing ring with turning yantra ticks.
@@ -145,7 +146,7 @@ export function compassRose(g, x, y, r, night = 0) {
 }
 // Map label: serif text with a paper halo so it reads over any ground.
 export function label(g, text, x, y, size, { color = '#3a2612', halo = 'rgba(246,236,208,.85)', weight = 500, serif = true, align = 'center' } = {}) {
-  g.save(); g.font = `${weight} ${size}px ${serif ? '"Noto Serif Thai", serif' : '"Noto Sans Thai", sans-serif'}`;
+  g.save(); g.font = `${weight} ${size}px ${serif ? SERIF : SANS}`;
   g.textAlign = align; g.textBaseline = 'middle'; g.lineJoin = 'round';
   g.strokeStyle = halo; g.lineWidth = Math.max(2, size * .32); g.strokeText(text, x, y);
   g.fillStyle = color; g.fillText(text, x, y); g.restore();

@@ -14,6 +14,8 @@ import { MAX_JOB_LEVEL } from '../data/progression.js';
 import { LOADOUT_COUNT, isItemLocked } from '../itemState.js';
 import { SKILLS as LEGACY_SKILLS } from '../../combat/data/skills.js';
 import { bindAccountPortrait } from '../../account/AccountPortrait.js';
+import { onIdentity } from '../../account/identity.js';
+import { uidRow } from '../../account/UidRow.js';
 import { InventoryWorkspace, compareToEquipped } from './InventoryWorkspace.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
@@ -101,6 +103,8 @@ export class CharacterUI {
   }
   buildPanels() {
     this.sheet = el('section', 'g-panel g-sheet glass', `<div class="panel-heading">ตัวละคร<button aria-label="ปิด">×</button></div><div class="g-sheet-body"></div>`);
+    const identity = el('div', 'g-character-uid'); this.sheet.querySelector('.panel-heading').after(identity);
+    onIdentity(value => identity.replaceChildren(uidRow('Character UID', value.characterUid, 'CHR')));
     this.bag = el('section', 'g-panel g-bag glass', `<div class="panel-heading">กระเป๋า<button aria-label="ปิด">×</button></div>
 <div class="g-bar g-weight" title="น้ำหนักสัมภาระ (STR เพิ่มความจุ)"><span></span><em></em></div>
       <div class="g-bag-tabs" role="tablist">${BAG_TABS.map((t, i) => `<button role="tab" data-tab="${t.id}" aria-selected="${i === 0}">${t.label}</button>`).join('')}</div>

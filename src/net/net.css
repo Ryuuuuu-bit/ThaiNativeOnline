@@ -5,7 +5,7 @@
 .net-chat { position: absolute; left: 34px; bottom: 250px; width: 300px; max-width: calc(100vw - 32px); z-index: 6; zoom: var(--ui, 1); pointer-events: none; font-size: 11px; color: #f0ead6; }
 .net-chat header { display: inline-flex; gap: 8px; align-items: center; padding: 3px 9px; border-radius: 3px; background: #142821b3; border: 1px solid #cabc8633; pointer-events: auto; cursor: text; }
 .net-chat header b { font-weight: 600; color: #e1c983; }
-.net-chat .net-online { font-size: 9px; color: #9fd7a8; }
+.net-chat .net-online { font-size:10px; color: #9fd7a8; }
 .net-chat.offline .net-online { color: #d9a08f; }
 .net-lines { max-height: 150px; overflow: hidden; margin-top: 4px; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; }
 .net-chat.typing .net-lines { overflow-y: auto; pointer-events: auto; background: #0d1c17aa; border-radius: 3px; padding: 4px; }
@@ -18,17 +18,17 @@
 .photo-mode .net-chat { display: none; }
 
 /* channel badge (minimap) and picker — src/net/Multiplayer.js ChannelPicker */
-#mini-ch{font:600 8px 'Noto Sans Thai',sans-serif;letter-spacing:.5px;color:#e8f0ff;background:#2b4a6acc;border:1px solid #9cc0e866;border-radius:8px;padding:1px 7px;line-height:1.4;white-space:nowrap}
+#mini-ch{font:600 10px var(--ui-font);letter-spacing:.5px;color:#e8f0ff;background:#2b4a6acc;border:1px solid #9cc0e866;border-radius:8px;padding:1px 7px;line-height:1.4;white-space:nowrap}
 #mini-ch:hover{background:#3c628acc}
 .minimap{overflow:visible}
 .ch-pick{position:absolute;right:0;top:calc(100% + 6px);width:190px;padding:8px;z-index:6;display:flex;flex-direction:column;gap:4px}
 .ch-pick header{font-size:11px;color:#f0d79a;margin-bottom:2px}
-.ch-pick p{margin:2px 0 0;font-size:9px;color:#b7c1a6}
+.ch-pick p{margin:2px 0 0;font-size:10px;color:#b7c1a6}
 .ch-pick button{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;background:#ffffff0d;border:1px solid #d3c48726;border-radius:3px;padding:6px 8px;font-size:11px}
 .ch-pick button:hover:not(:disabled){background:#ffffff1f}
 .ch-pick button:disabled{opacity:.6;cursor:default}
 .ch-pick button span{font-size:10px}
-.ch-pick button i{font:9px monospace;color:#b7c1a6;font-style:normal}
+.ch-pick button i{font:10px monospace;color:#b7c1a6;font-style:normal}
 .ch-pick .low span{color:#9fd49a}.ch-pick .mid span{color:#e8c986}.ch-pick .full span{color:#f08a6a}
 .ch-pick .here{border-color:#9cc0e8aa}
 
@@ -36,7 +36,7 @@
 .net-lines p.party b { color: #8fe0a8; }
 .soc-menu { position: fixed; z-index: 12; min-width: 160px; padding: 8px; display: flex; flex-direction: column; gap: 4px; transform: translate(-50%, 8px); }
 .soc-menu header { font-size: 12px; color: #f0d79a; margin-bottom: 2px; }
-.soc-menu header small { display: block; font-size: 9px; color: #b7c1a6; }
+.soc-menu header small { display: block; font-size:10px; color: #b7c1a6; }
 .soc-menu button, .soc-ask button, .soc-trade footer button { background: #2b4034; border: 1px solid #cdb37a66; border-radius: 3px; padding: 5px 9px; font-size: 11px; }
 .soc-menu button:hover, .soc-ask button:hover, .soc-trade footer button:hover:not(:disabled) { background: #3d5a48; }
 .soc-asks { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); z-index: 11; display: flex; flex-direction: column; gap: 6px; zoom: var(--ui, 1); }
@@ -69,7 +69,7 @@
 .soc-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .soc-sides section { background: #0b18148a; border: 1px solid #d3c48726; border-radius: 3px; padding: 8px; }
 .soc-sides h4 { margin: 0 0 6px; font-size: 11px; font-weight: 600; color: #e1c983; display: flex; justify-content: space-between; gap: 6px; }
-.soc-sides h4 i { font-style: normal; font-size: 9px; color: #e8c986; } .soc-sides h4 i.ok { color: #8fe0a8; } .soc-sides h4 i.no { color: #b7c1a6; }
+.soc-sides h4 i { font-style: normal; font-size:10px; color: #e8c986; } .soc-sides h4 i.ok { color: #8fe0a8; } .soc-sides h4 i.no { color: #b7c1a6; }
 .soc-list { display: flex; flex-direction: column; gap: 3px; min-height: 60px; }
 .soc-list p { margin: 0; font-size: 10px; color: #8d9f8f; }
 .soc-list .soc-it { display: flex; align-items: center; gap: 6px; text-align: left; background: #ffffff0a; border: 1px solid var(--rar); border-radius: 3px; padding: 3px 6px; font-size: 11px; }
@@ -78,11 +78,11 @@
 .soc-sides label { display: flex; gap: 6px; align-items: center; margin-top: 8px; font-size: 11px; }
 .soc-sides input { width: 100%; background: #06110e; border: 1px solid #c9bd802d; color: #f3eedb; border-radius: 3px; padding: 4px 6px; }
 .soc-gold { margin: 8px 0 0; font-size: 11px; color: #f0d79a; }
-.soc-hint { font-size: 9px; color: #b7c1a6; margin: 8px 0; }
+.soc-hint { font-size:10px; color: #b7c1a6; margin: 8px 0; }
 .soc-bag { display: grid; grid-template-columns: repeat(auto-fill, 40px); gap: 4px; margin-bottom: 10px; }
 .soc-bag .soc-it { position: relative; width: 40px; height: 40px; border: 1px solid var(--rar); background: #0d1c17; border-radius: 3px; padding: 0; display: grid; place-items: center; }
-.soc-bag .soc-it small { position: absolute; right: 2px; bottom: 0; font-size: 9px; text-shadow: 0 0 3px #000; }
-.soc-bag .soc-it i { position: absolute; right: 2px; top: 0; font-style: normal; font-size: 9px; color: #ffd36b; text-shadow: 0 0 3px #000; }
+.soc-bag .soc-it small { position: absolute; right: 2px; bottom: 0; font-size:10px; text-shadow: 0 0 3px #000; }
+.soc-bag .soc-it i { position: absolute; right: 2px; top: 0; font-style: normal; font-size:10px; color: #ffd36b; text-shadow: 0 0 3px #000; }
 .soc-trade footer { display: flex; gap: 8px; justify-content: flex-end; }
 .soc-trade footer button:disabled { opacity: .4; cursor: default; }
 @media (max-width: 900px) { .soc-party { left: 16px; top: 150px; width: 200px; } .soc-pf { grid-template-columns: 36px 1fr; } .soc-pf .cls-badge { width: 36px; height: 36px; } }
@@ -101,9 +101,9 @@
 .soc-rows p { margin: 6px 0; font-size: 10px; color: #8d9f8f; }
 .soc-row { display: flex; align-items: center; gap: 4px; padding: 4px 2px; border-top: 1px solid #f0e3b314; }
 .soc-row span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.soc-row b { font-weight: 500; } .soc-row small { display: block; font-size: 8px; color: #a9b49e; }
-.soc-row.off { opacity: .55; } .soc-row em { font-style: normal; font-size: 9px; color: #a9b49e; }
-.soc-row button { background: #2b4034; border: 1px solid #cdb37a55; border-radius: 3px; padding: 2px 6px; font-size: 9px; }
+.soc-row b { font-weight: 500; } .soc-row small { display: block; font-size:10px; color: #a9b49e; }
+.soc-row.off { opacity: .55; } .soc-row em { font-style: normal; font-size:10px; color: #a9b49e; }
+.soc-row button { background: #2b4034; border: 1px solid #cdb37a55; border-radius: 3px; padding: 2px 6px; font-size:10px; }
 @media (max-width: 900px) { .soc-panel { right: 20px; top: 220px; width: 250px; } }
 /* the party tab (design "UI ใหม่"): the window grows to the middle, one arch-topped card per member */
 .soc-panel.wide { right: auto; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(1100px, calc(100vw - 32px)); max-height: calc(100dvh - 60px); padding: 14px 16px; font-size: 13px; }

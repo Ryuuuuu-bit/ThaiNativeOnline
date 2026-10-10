@@ -1,0 +1,6 @@
+.account-uid{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:6px 0;color:#cfbd91;font-size:11px;min-width:0}
+.account-uid>small:first-child{font-weight:700}.account-uid code{font-size:10px;overflow-wrap:anywhere;user-select:text;max-width:100%}
+.account-uid button{padding:4px 8px;border:1px solid #cabc8666;border-radius:4px;background:#263c31;color:#e6d7ac;font:inherit;cursor:pointer}
+.account-uid [role=status]{flex-basis:100%;font-size:10px}.account-uid button:focus-visible{outline:2px solid #e6cb87;outline-offset:2px}
+.g-character-uid{padding:0 12px}.acc-identity{padding:0 10px}
+@media(max-width:600px){.account-uid button{min-height:40px}.account-uid code{flex-basis:100%}}

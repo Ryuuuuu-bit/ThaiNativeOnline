@@ -7,20 +7,21 @@ body.ui-touch .g-player .g-portrait{width:54px;height:54px;padding:3px;box-shado
 body.ui-touch .g-player-info{width:calc(100% - 36px);min-width:0;margin-left:-18px;padding:7px 9px 7px 24px;gap:3px;border-radius:6px 16px 16px 6px}
 body.ui-touch .g-player-name b{font-size:13px}body.ui-touch .g-player-name>span{display:none}
 body.ui-touch .g-player .g-lv{width:24px;height:24px;font-size:11px}
-body.ui-touch .g-player .g-bar{height:14px}body.ui-touch .g-player .g-bar em{font-size:9px;line-height:14px}
-body.ui-touch .g-player .g-bar::after{font-size:8px;line-height:14px}
-body.ui-touch .hud-vitals-footer{font-size:8px}.ui-touch .hud-wallet{display:none}
+body.ui-touch .g-player .g-bar{height:14px}body.ui-touch .g-player .g-bar em{font-size:10px;line-height:14px}
+body.ui-touch .g-player .g-bar::after{font-size:10px;line-height:14px}
+body.ui-touch .hud-vitals-footer{font-size:10px}.ui-touch .hud-wallet{display:none}
 body.ui-touch .g-player .g-buffs{top:calc(100% + 4px);left:42px}
 body.ui-touch .minimap{position:absolute;right:60px;top:calc(var(--mobile-top) + 12px);width:86px;padding:5px;border-radius:12px}
 body.ui-touch #minimap{height:72px;width:74px;border-radius:7px}
-body.ui-touch .mini-title{font-size:8px;margin-bottom:3px;justify-content:flex-end}
+body.ui-touch .mini-title{font-size:10px;margin-bottom:3px;justify-content:flex-end}
 body.ui-touch .mini-title>span:first-child,body.ui-touch .mini-footer{display:none}
 body.ui-touch .mm-btn{top:calc(var(--mobile-top) + 14px);right:max(10px,env(safe-area-inset-right));bottom:auto;width:42px;height:44px;border-radius:12px}
 body.ui-touch .mm-btn span{display:none}
-body.ui-touch .topbar{pointer-events:none;top:calc(var(--mobile-top) + 114px);left:auto;right:12px;width:144px}
+body.ui-touch .topbar{pointer-events:none;top:calc(var(--mobile-top) + 124px);left:auto;right:12px;width:144px}
 body.ui-touch .topbar .brand,body.ui-touch .top-actions,body.ui-touch .location .tiny,body.ui-touch .location .weather{display:none}
 body.ui-touch .location{position:static;min-width:0;transform:none;text-align:right}
-body.ui-touch .location h1{font-size:11px;letter-spacing:0;margin:0;color:#eee0b9}
+/* the place name sits under the minimap on a dark pill, never over it */
+body.ui-touch .location h1{display:inline-block;max-width:100%;font-size:12px;line-height:1.4;letter-spacing:0;margin:0;padding:2px 10px;border-radius:999px;background:#0d1d18cc;color:#eee0b9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.ui-touch .net-chat{position:absolute;left:12px!important;top:calc(var(--mobile-top) + 104px)!important;bottom:auto!important;width:calc(100vw - 172px)!important;max-width:260px;max-height:none;border-radius:18px;translate:none!important;transform:none!important;opacity:.95;padding:5px 8px}
 body.ui-touch .net-chat header{font-size:10px;min-height:26px;gap:5px}
 body.ui-touch .net-chat header .drag-lock{display:none}
@@ -50,7 +51,7 @@ body.ui-touch .touch-skill-pages{display:flex;justify-content:center;align-items
 body.ui-touch .touch-skill-pages button{width:44px;height:32px;border:0;background:none;color:#efd69c;font-size:22px;border-radius:6px}
 body.ui-touch .touch-skill-pages button:disabled{opacity:.25}
 body.ui-touch .action-exps{position:fixed;bottom:calc(-1 * (202px - 12px));left:50%;transform:translateX(-50%);width:min(350px,calc(100vw - 32px));pointer-events:none}
-body.ui-touch .action-exp{height:7px}body.ui-touch .action-exp em{font-size:7px;line-height:7px}
+body.ui-touch .action-exp{height:7px}body.ui-touch .action-exp em{font-size:10px;line-height:7px}
 body.ui-touch .action-jexp{height:2px}
 body.ui-touch .touch-side{left:50%!important;right:auto!important;bottom:calc(var(--mobile-bottom) + 328px)!important;transform:translateX(-50%)!important;translate:none!important;width:min(300px,calc(100vw - 32px));height:44px;gap:6px;align-items:center}
 body.ui-touch .touch-side .action-items{order:-1;margin-right:auto;gap:7px}
@@ -68,7 +69,7 @@ body.ui-touch .touch-btn.t-talk{width:58px;height:58px;right:12px;bottom:96px}
 body.ui-touch .touch-zone{width:44%;height:184px;bottom:calc(var(--mobile-bottom) + 22px)}
 body.ui-touch .touch-stick{width:112px;height:112px;left:max(76px,calc(env(safe-area-inset-left) + 66px));top:calc(100% - 72px);border:1px solid #dec58c99;opacity:.65}
 body.ui-touch .hotbar-tip{display:none!important}
-body.ui-touch.touch-menu :is(.touch-zone,.touch-pad,.touch-side,.hotbar.action-bar){display:none!important}
+body.ui-touch.touch-menu :is(.touch-zone,.touch-pad,.touch-side,.hotbar.action-bar,.action-exps){display:none!important}
 @media(orientation:landscape){
  body.ui-touch .hotbar.action-bar{bottom:calc(var(--mobile-bottom) + 30px)!important}
  body.ui-touch .touch-side{bottom:calc(var(--mobile-bottom) + 144px)!important;width:290px}
@@ -86,13 +87,13 @@ body.ui-touch .touch-skill-pages{width:100%;flex:none}
 body.ui-touch .mini-title :is(#mini-name,#mini-lv,small){display:none!important}
 body.ui-touch .mini-title{height:18px;padding:0;min-height:0;display:block}
 body.ui-touch .mini-title b{display:flex;justify-content:flex-end;min-height:0}
-body.ui-touch #mini-ch{font-size:9px;padding:1px 4px;margin:0}
+body.ui-touch #mini-ch{font-size:10px;padding:1px 4px;margin:0}
 body.ui-touch .map-frame{height:72px;width:74px;border:0;padding:0;box-shadow:none;border-radius:7px;overflow:hidden}
 body.ui-touch .map-frame::before,body.ui-touch .map-frame::after{display:none}
 body.ui-touch .touch-exps{position:absolute;bottom:calc(var(--mobile-bottom) + 9px);left:20px;right:20px;width:auto;transform:none;zoom:1;pointer-events:none;z-index:5;display:flex;flex-direction:column;gap:2px}
 body.ui-touch .touch-exps .g-bar{height:7px;margin:0;border-radius:4px;overflow:hidden}
 body.ui-touch .touch-exps .g-jexp{height:2px}
-body.ui-touch .touch-exps em{font-size:7px;line-height:7px}
+body.ui-touch .touch-exps em{font-size:10px;line-height:7px}
 body.ui-touch.ui-portrait .touch-zone{width:44%;height:184px;bottom:calc(var(--mobile-bottom) + 22px)}
 body.ui-touch .g-feed{top:calc(var(--mobile-top) + 162px);bottom:auto;max-width:calc(100vw - 24px)}
 body.photo-mode.ui-touch .touch-exps{display:none}

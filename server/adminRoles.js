@@ -1,4 +1,5 @@
 import { ACCOUNTS } from '../src/data/accounts.js';
+import { accountUid } from './uids.js';
 
 export function normalizeAdminAccount(value) {
   if (typeof value !== 'string') return null;
@@ -13,11 +14,13 @@ export async function openAdminRoles(store, { adminIds = '', gmId = '' } = {}) {
   const snapshot = () => ({ ids: [...new Set([...roots, ...dynamic])].sort(), protectedIds: [...roots].sort() });
   let queue = Promise.resolve();
   const mutate = (target, actor, enabled) => {
-    const id = normalizeAdminAccount(target), by = normalizeAdminAccount(actor);
-    if (!id || !by) return Promise.resolve({ ok: false, why: 'invalid_id' });
+    const uid = accountUid(target), legacy = normalizeAdminAccount(target), by = normalizeAdminAccount(actor);
+    if ((!uid && !legacy) || !by) return Promise.resolve({ ok: false, why: 'invalid_id' });
     // Serialize this process's cache publication in commit order. The store
     // also locks and rechecks authorization inside the durable transaction.
     const work = queue.catch(() => {}).then(async () => {
+      const id = uid ? await store.accountByUid(uid) : legacy;
+      if (!id) return { ok: false, why: 'account_missing' };
       const result = await store.setAdminRole(by, id, enabled, [...roots]);
       if (!result.ok) return result;
       dynamic = new Set(result.ids);

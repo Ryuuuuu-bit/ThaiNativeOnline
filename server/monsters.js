@@ -1,4 +1,5 @@
 import { monsterAttackMul, sameStatusSource } from '../src/combat/statusEffects.js';
+import { monsterAttackImpact, beginMonsterStrike, tickMonsterStrike, cancelMonsterStrike } from '../src/combat/monsterAttackTiming.js';
 // Shared monsters (phase 3a of docs/technical/SERVER_SPLIT.md): one set of monsters per
 // map, run on the server so everyone on the map fights the same ones. The behaviour
 // mirrors the browser's src/combat/Combat.js (wander → aggro → chase → attack → leash
@@ -74,7 +75,7 @@ export class MonsterWorld {
       chargeCd: 0, fleeCd: 0, pullCd: 0 };
   }
   byId(id) { return this.monsters.find(m => m.id === id); }
-  info(m) { return { id: m.id, type: m.type, x: round(m.x), z: round(m.z), f: round(m.f), hp: Math.round(m.hp), maxHp: m.maxHp, st: STATES.indexOf(m.state), ...(m.skillCast ? { skillCast: { ...m.skillCast } } : {}), ...(m.tier ? { lv: m.tier.lv } : {}) }; }
+  info(m) { return { id: m.id, type: m.type, x: round(m.x), z: round(m.z), f: round(m.f), hp: Math.round(m.hp), maxHp: m.maxHp, st: STATES.indexOf(m.state), generation: m.strikeGeneration ?? 0, ...(m.strike ? { strike: { ...m.strike } } : {}), ...(m.skillCast ? { skillCast: { ...m.skillCast } } : {}), ...(m.tier ? { lv: m.tier.lv } : {}) }; }
   list() { return this.monsters.filter(m => m.hp > 0).map(m => this.info(m)); }
   snapshot() {
     const out = [];
@@ -83,6 +84,8 @@ export class MonsterWorld {
   }
 
   spawn(m) {
+    cancelMonsterStrike(m);
+    m.strikeGeneration = (m.strikeGeneration ?? 0) + 1;
     if (m.spawn.chance && this.r() > m.spawn.chance) return false;
     if (m.def.worldBoss) {   // locked for this night: the tier of the players on the map, the HP of the players online
       m.tier = worldBossTier((this.seen ?? []).map(p => p.lv));
@@ -118,6 +121,13 @@ export class MonsterWorld {
     this.seen = players;
     if (this.wbZones?.length || this.wbDots?.length) this.worldBossAreas(dt, live, ev);
     for (const m of this.monsters) {
+      if (m.strike) {
+        const target = live.find(p => p.id === m.strike.to);
+        const reach = m.strike.pull ? PULL_REACH : m.def.range;
+        if (m.hp <= 0 || m.gone || m.state !== 'chase' || !target || m.target !== target.id
+          || dist(m, target) > reach || dist(m, m.home) > LEASH || m.debuffs.some(d => d.stun)
+          || (this.navigation && !this.navigation.clear(m, target, .05))) this.cancelStrike(m, ev);
+      }
       if (m.skillCast && m.state !== 'chase') ev.push(...cancelBossSkill(m));
       const wasMoving = m.moving; m.moving = false;
       if (m.spawn.summoned && (m.state === 'dead' || m.state === 'dormant')) { m.gone = true; continue; }   // minions do not come back
@@ -151,6 +161,14 @@ export class MonsterWorld {
         if (m.hp <= 0) continue;
       }
       m.attackTimer = Math.max(0, m.attackTimer - dt);
+      if (m.strike && m.target !== m.strike.to) this.cancelStrike(m, ev);
+      if (m.strike) {
+        const release = tickMonsterStrike(m, dt);
+        m.moving = false;
+        if (wasMoving) m.dirty = true;
+        if (release) { const { remaining, ...packet } = release; ev.push({ ...packet, t: 'ma', id: m.id }); }
+        continue;
+      }
       m.chargeCd = Math.max(0, m.chargeCd - dt); m.fleeCd = Math.max(0, m.fleeCd - dt); m.pullCd = Math.max(0, m.pullCd - dt);
       if (m.debuffs.some(d => d.stun) && m.state !== 'return') { ev.push(...cancelBossSkill(m)); m.charging = false; if (wasMoving) m.dirty = true; continue; }
       const rage = m.enraged ? WORLD_BOSS.rage : null;   // a world boss gone berserk
@@ -188,7 +206,7 @@ export class MonsterWorld {
               // a rooted monster lashes out and drags its target in
               if (def.pull && m.pullCd <= 0 && d <= PULL_REACH) {
                 m.pullCd = PULL_EVERY; m.attackTimer = swingDelay(def); m.f = Math.atan2(tg.x - m.x, tg.z - m.z); m.dirty = true;
-                ev.push({ t: 'ma', id: m.id, to: tg.id, power, pull: 1 });
+                this.startStrike(m, { to: tg.id, power, pull: 1 }, ev);
               }
             } else {
               if (def.charge && !m.charging && m.chargeCd <= 0 && d >= CHARGE.min && d <= CHARGE.max) m.charging = true;
@@ -200,7 +218,7 @@ export class MonsterWorld {
             if (m.attackTimer <= 0) {
               const charged = m.charged; m.charged = false;
               m.attackTimer = swingDelay(def) * (rage?.swing ?? 1);
-              ev.push({ t: 'ma', id: m.id, to: tg.id, power: power * (m.tier?.atk ?? 1) * (charged ? CHARGE.power : 1), ...(def.knock && this.r() < def.knock ? { knock: 1 } : {}) });
+              this.startStrike(m, { to: tg.id, power: power * (m.tier?.atk ?? 1) * (charged ? CHARGE.power : 1), ...(def.knock && this.r() < def.knock ? { knock: 1 } : {}) }, ev);
             }
           }
         }
@@ -215,6 +233,17 @@ export class MonsterWorld {
   }
 
   // pack / callSpirits: neighbours that are standing about join the fight on the same player
+  startStrike(m, payload, ev) {
+    if (monsterAttackImpact(m.type) === 0) { ev.push({ t: 'ma', id: m.id, ...payload }); return; }
+    const strike = beginMonsterStrike(m, payload);
+    ev.push({ t: 'mstrike', stage: 'windup', id: m.id, ...strike });
+  }
+
+  cancelStrike(m, ev) {
+    const strike = cancelMonsterStrike(m);
+    if (strike) ev.push({ t: 'mstrike', stage: 'cancel', id: m.id, generation: strike.generation, attackId: strike.attackId, to: strike.to });
+  }
+
   rally(m, playerId) {
     const r = m.def.pack ?? m.def.callSpirits; if (!r) return;
     for (const o of this.monsters) {
@@ -279,6 +308,7 @@ export class MonsterWorld {
       return ev;
     }
     m.state = 'dead'; m.respawn = m.spawn.respawn ?? RESPAWN; m.debuffs = []; m.taunt = null; m.target = null; m.charging = false;
+    this.cancelStrike(m, ev);
     ev.push(...cancelBossSkill(m));
     ev.push({ t: 'mgone', id: m.id, killed: true });
     if (m.def.worldBoss) { ev.push(...this.worldBossFall(m, players, night)); return ev; }

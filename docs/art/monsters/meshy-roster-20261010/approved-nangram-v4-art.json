@@ -1,0 +1,47 @@
+{
+  "asset": "artifacts/all-monster-models/rig/nangram-five-clips-v4.glb",
+  "sha256": "d2acc98d0bd7c84bc3a2fbc02f1cb690d3291f9e852ff4293e781552ec81a285",
+  "reviewer": "Game Director independent review",
+  "approved": true,
+  "scope": "Exported asset art gate; V4 runtime combat, facing, transitions and disposal QA remain separate",
+  "scores": {
+    "styleMatch": 8,
+    "readability": 8,
+    "technicalUsability": 8,
+    "thaiIdentity": 9
+  },
+  "evidence": {
+    "screenshotDirectory": "artifacts/all-monster-models/source-qa",
+    "screenshotsInspected": [
+      "nangram-v4-idle-mid-game.png",
+      "nangram-v4-attack-anticipation-game.png",
+      "nangram-v4-attack-impact-game.png",
+      "nangram-v4-attack-recovery-game.png",
+      "nangram-v4-attack-impact-front.png",
+      "nangram-v4-attack-impact-side.png",
+      "nangram-v4-hurt-mid-game.png",
+      "nangram-v4-hurt-mid-side.png",
+      "nangram-v4-die-last-game.png",
+      "nangram-v4-die-last-side.png"
+    ],
+    "proof": "artifacts/all-monster-models/source-qa/nangram-v4-fullmesh-proof.json",
+    "proofSamples": 138,
+    "proofPassed": true,
+    "maxEdgeDeltaMetres": 0.0082450688823155,
+    "maxRatio": 1.353442691956386,
+    "minimumFloorMetres": -0.00629763037309009
+  },
+  "observations": [
+    "The V3 attack readability blocker is resolved: anticipation turns away with a raised hand, impact sweeps to the opposite side, and recovery visibly returns toward idle in the actual gameplay-camera captures.",
+    "Asymmetric dancer hands and rotating skirt silhouette support a supernatural dance sweep while preserving Thai dancer identity.",
+    "Hurt recline and head response are distinct from upright idle; death forward tilt is legible as a spectral loss of posture, not a grounded collapse.",
+    "Chada crown and restrained red, cream and gold blocks remain identifiable across the inspected poses.",
+    "No severe tearing, disconnected accessories or non-finite geometry are evident in inspected screenshots; numerical proof matches the exact exported asset SHA."
+  ],
+  "limitations": [
+    "Static key-frame inspection and supplied exported-motion proof do not replace V4 runtime facing, hit timing, blending and death-removal checks.",
+    "The death clip uses a spectral forward tilt; it is not approved as a realistic grounded fall.",
+    "No model or runtime edits were performed in this review."
+  ],
+  "artifactSha256": "d2acc98d0bd7c84bc3a2fbc02f1cb690d3291f9e852ff4293e781552ec81a285"
+}

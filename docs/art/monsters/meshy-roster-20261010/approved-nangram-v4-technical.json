@@ -1,0 +1,27 @@
+{
+  "artifactSha256": "d2acc98d0bd7c84bc3a2fbc02f1cb690d3291f9e852ff4293e781552ec81a285",
+  "approved": true,
+  "passed": true,
+  "bytes": 1663708,
+  "triangles": 9998,
+  "drawCalls": 1,
+  "clips": ["idle", "walk", "attack", "hurt", "die"],
+  "validation": {
+    "gameLoaderAndSkinClipLoopBoundsTest": "passed: existing monster-model-assets checks against this exact candidate",
+    "embeddedBuffersAndTextures": true,
+    "normalizedWeightsMaxInfluences": 4,
+    "nonemptyFiniteClips": true,
+    "idleWalkLoopSeams": true,
+    "noStudioObjects": true,
+    "fullMeshActualAnimationSamples": 138,
+    "maxEdgeDeltaMetres": 0.0082450688823155,
+    "maxEdgeRatio": 1.353442691956386,
+    "minEdgeRatio": 0.5650553385492991,
+    "minFloorMetres": -0.00629763037309009,
+    "allVerticesFinite": true
+  },
+  "method": "Actual exported GLB, game GLTFLoader and THREE AnimationMixer. Every skinned vertex and triangle edge above 1mm sampled at 24Hz plus quarter/endpoints; no counterfactual weights or motion.",
+  "limits": {"maxEdgeDeltaMetres": 0.01, "maxEdgeRatio": 1.4, "minEdgeRatio": 0.5, "minFloorMetres": -0.01},
+  "localEvidence": ["artifacts/all-monster-models/source-qa/nangram-v4-fullmesh-proof.json", "artifacts/all-monster-models/verify-nangram-v4.test.mjs", "artifacts/all-monster-models/source-qa/nangram-v4-result.json"],
+  "limitations": ["Observed garment anchors; no hidden elbow or knee rig", "Death is a spectral forward bow, not a grounded fall", "Six millimetres of sampled hem penetration stays within the existing 1cm floor budget", "Performance and online server soak are not established by this asset check"]
+}

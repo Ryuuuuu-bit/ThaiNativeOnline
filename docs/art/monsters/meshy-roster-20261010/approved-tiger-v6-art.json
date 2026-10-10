@@ -1,0 +1,36 @@
+{
+  "asset": "artifacts/all-monster-models/rig/tiger-five-clips-v6.glb",
+  "artifactSha256": "bd32b1bbc15978fbbe1531f84b8f27ba81a311d05a8f6b6b901c511294d5a1ca",
+  "reviewer": "Game Director independent review",
+  "approved": true,
+  "scope": "Final exported Tiger V6 art gate; runtime animation transitions, collision, hit timing and death inactivity remain separate QA",
+  "scores": { "styleMatch": 8, "readability": 8, "technicalUsability": 8, "thaiIdentity": 8 },
+  "evidence": {
+    "screenshotDirectory": "artifacts/all-monster-models/source-qa",
+    "screenshotsInspected": [
+      "tiger-v6-idle-first-game.png", "tiger-v6-walk-quarter-game.png",
+      "tiger-v6-attack-anticipation-game.png", "tiger-v6-attack-mid-game.png",
+      "tiger-v6-attack-recovery-game.png", "tiger-v6-attack-mid-front.png",
+      "tiger-v6-attack-mid-side.png", "tiger-v6-hurt-mid-game.png",
+      "tiger-v6-hurt-mid-front.png", "tiger-v6-hurt-mid-side.png",
+      "tiger-v6-die-last-game.png", "tiger-v6-die-last-front.png",
+      "tiger-v6-die-last-side.png"
+    ],
+    "motionProof": "artifacts/all-monster-models/source-qa/tiger-v6-actual-boss-proof.json",
+    "motionProofShaMatchesExport": true
+  },
+  "observations": [
+    "Tiger head, claw silhouette, orange body and blue wrap remain clearly separated from the gameplay camera.",
+    "The raised attack arm is distinct from idle and anticipation, with recovery returning to the ready pose.",
+    "Inspected palms and wrists remain joined to forearms without the earlier long stretched bridge; no severe visible tearing appears in hurt or death views.",
+    "The wrap preserves hip coverage during the inspected waist compression and final death crouch, with the diagonal overlap and waist tie still identifiable.",
+    "The lowered head, dropped arms and deep crouch distinguish the final death pose from the standing attack-ready silhouette.",
+    "The restrained wrapped garment supports the authorized humanoid tiger folklore design without ornament competing with the tiger face."
+  ],
+  "limitations": [
+    "Death ends in a bowed crouch rather than a grounded prone body; runtime must clamp/stop that pose and remove the actor without returning to idle.",
+    "Hurt is restrained; runtime blend and hit timing must preserve its visible recoil.",
+    "Screenshot and supplied proof review do not establish runtime state transitions, combat inactivity, GPU disposal or physical-device performance.",
+    "Only this approval report was changed; no GLB or runtime edits were made."
+  ]
+}

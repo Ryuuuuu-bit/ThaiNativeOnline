@@ -1,0 +1,35 @@
+{
+  "artifactSha256": "bd32b1bbc15978fbbe1531f84b8f27ba81a311d05a8f6b6b901c511294d5a1ca",
+  "approved": true,
+  "passed": true,
+  "bytes": 1909436,
+  "triangles": 12256,
+  "drawCalls": 3,
+  "placement": {"baseHeight": 1.52, "existingMonsterSize": 1.25, "targetWorldHeightMetres": 1.9},
+  "clips": ["idle", "walk", "attack", "hurt", "die"],
+  "validation": {
+    "gameLoaderAndSkinClipLoopBoundsTest": "passed: existing monster-model-assets checks against this exact candidate",
+    "normalizedWeightsMaxInfluences": 4,
+    "nonemptyFiniteClips": true,
+    "idleWalkLoopSeams": true,
+    "noStudioObjects": true,
+    "actualExportFullMesh24HzEdgeViolations": 0,
+    "maxEdgeRatio": 1.9299757973549634,
+    "maxEdgeLengthChangeMetres": 0.055134703532983,
+    "worstChangeRegion": "Long torso/back triangle during the bowed death pose; independently viewed in final art review",
+    "tailBaseAttached": true,
+    "tailDeathCurlRadians": 0.6,
+    "wrapClosedOutwardSingleSided": true,
+    "wrapAnimatedHipSamples": 46768,
+    "wrapOutsideShellViolations": 0,
+    "wrapMinimumHorizontalClearanceMetres": 0.011864
+  },
+  "edgePolicy": {
+    "source": "Existing boss motion stretch policy, tests/boss-meshy-motion-assets.test.js",
+    "minimumSourceEdgeMetres": 0.005,
+    "condition": "Violation only when both posed/rest ratio exceeds 2 and extension exceeds 0.01 metres",
+    "scope": "Every selected skinned surface at 24Hz, all five clips and endpoints; actual exported matrices and weights, no counterfactual"
+  },
+  "localEvidence": ["artifacts/all-monster-models/source-qa/tiger-v6-actual-boss-proof.json", "artifacts/all-monster-models/verify-tiger-v6.test.mjs", "artifacts/all-monster-models/source-qa/tiger-v6-result.json", "artifacts/all-monster-models/rig/tiger-wrap-v6-skin-v5-overlap.json"],
+  "limitations": ["Defeated pose is a bowed crouch, not a grounded prone fall", "The rigid Pelvis-bound wrap has limited independent cloth motion", "A compressed front-waist crease remains under the reviewed wrap", "Performance and online server soak are not established by this asset check"]
+}

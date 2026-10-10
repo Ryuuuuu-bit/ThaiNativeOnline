@@ -4,18 +4,18 @@
 .action-bar { align-items: center; width: max-content; }   /* left: 50% would otherwise cap its width at half the screen */
 .hotbar-slot .hotbar-glyph { display: grid; place-items: center; width: 100%; height: 100%; font-size: 22px; color: #f1dfae; background: linear-gradient(#24372f, #12201b); }
 .hotbar-slot .hotbar-glyph .icon-img { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
-.hotbar-slot .mp { position: absolute; right: 3px; bottom: 2px; font-size: 9px; font-weight: 600; color: #9fd0ec; text-shadow: 0 1px 2px #000, 0 0 3px #000; z-index: 2; }
+.hotbar-slot .mp { position: absolute; right: 3px; bottom: 2px; font-size:10px; font-weight: 600; color: #9fd0ec; text-shadow: 0 1px 2px #000, 0 0 3px #000; z-index: 2; }
 .hotbar-slot.nomp img, .hotbar-slot.nomp .hotbar-glyph { opacity: .35; }
 .hotbar-slot.active { box-shadow: 0 0 0 2px #ffd88a, 0 0 12px #f1c06988; }
 .hotbar-auto { align-self: stretch; }
-.hotbar-auto kbd { margin: 0 0 0 2px; padding: 0 3px; font-size: 8px; line-height: 12px; vertical-align: 2px; }
-.action-bar .key, .action-bar .g-potion kbd, .action-bar .g-menu kbd { position: absolute; left: 3px; top: 3px; margin: 0; padding: 0 3px; border: 1px solid #e1c98355; border-radius: 2px; background: #0b1512cc; font-size: 8px; line-height: 12px; font-weight: 600; color: #fff; z-index: 2; }
+.hotbar-auto kbd { margin: 0 0 0 2px; padding: 0 3px; font-size:10px; line-height: 12px; vertical-align: 2px; }
+.action-bar .key, .action-bar .g-potion kbd, .action-bar .g-menu kbd { position: absolute; left: 3px; top: 3px; margin: 0; padding: 0 3px; border: 1px solid #e1c98355; border-radius: 2px; background: #0b1512cc; font-size:10px; line-height: 12px; font-weight: 600; color: #fff; z-index: 2; }
 .action-items, .action-menus { display: flex; gap: 5px; flex: none; }
 .action-bar .g-potion { width: 50px; height: 50px; border: 0; border-radius: 4px; background: #0b1411; }
 .action-bar .g-potion small { right: 3px; bottom: 2px; }
 .action-bar .g-menu { position: relative; width: 50px; height: 50px; padding: 12px 0 0; border: 1px solid #cabc8655; border-radius: 5px; background: linear-gradient(#24372f, #12201b); color: #f3eedb; font-size: 10px; line-height: 1.2; }
 .action-bar .g-menu:hover, .action-bar .g-potion:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px #e1c983, 0 4px 10px #0008; }
-@media (max-width: 900px) { .action-bar .g-potion, .action-bar .g-menu { width: 40px; height: 40px; } .action-bar .g-menu { font-size: 8px; padding-top: 10px; } }
+@media (max-width: 900px) { .action-bar .g-potion, .action-bar .g-menu { width: 40px; height: 40px; } .action-bar .g-menu { font-size:10px; padding-top: 10px; } }
 .ui-portrait .action-bar { flex-wrap: wrap; justify-content: center; }
 
 /* AUTO settings (src/ui/autoSettings.js) */
@@ -30,9 +30,9 @@
 .auto-slots button { position: relative; aspect-ratio: 1; padding: 0; border: 2px solid #e1c98366; border-radius: 4px; background: #0b1512; overflow: hidden; }
 .auto-slots button.survival { border-color: #6fe08a99; }
 .auto-slots button img, .auto-slots button span { width: 100%; height: 100%; display: grid; place-items: center; image-rendering: pixelated; }
-.auto-slots button small { position: absolute; left: 2px; top: 1px; font-size: 8px; color: #fff; text-shadow: 0 0 2px #000; }
+.auto-slots button small { position: absolute; left: 2px; top: 1px; font-size:10px; color: #fff; text-shadow: 0 0 2px #000; }
 .auto-slots button.off { opacity: .3; filter: grayscale(1); }
-.auto-slots button.off::after { content: 'ปิด'; position: absolute; inset: auto 0 2px; font-size: 8px; color: #ff9b8f; text-align: center; }
+.auto-slots button.off::after { content: 'ปิด'; position: absolute; inset: auto 0 2px; font-size:10px; color: #ff9b8f; text-align: center; }
 .auto-row { display: grid; grid-template-columns: 1fr 70px 30px; gap: 6px; align-items: center; margin: 4px 0; }
 .auto-row input { accent-color: #c69a52; width: 100%; }
 .auto-row b { text-align: right; color: #f1d9a0; }
@@ -42,15 +42,15 @@
 .auto-range span { flex: 1; }
 .auto-range button { padding: 3px 9px; border: 1px solid #ffffff22; border-radius: 3px; background: #0b1b1799; color: #c9cfbd; font-size: 10px; }
 .auto-range button[aria-pressed="true"] { background: #c69a52; border-color: #e6c27f; color: #1d140a; font-weight: 700; }
-.auto-note { margin: 10px 0 0; font-size: 9px; color: #9fae9c; line-height: 1.4; }
+.auto-note { margin: 10px 0 0; font-size:10px; color: #9fae9c; line-height: 1.4; }
 .hotbar-attack { align-self: stretch; min-width: 56px; padding: 4px 6px; border: 1px solid #e6a77a66; border-radius: 5px; background: linear-gradient(#4a2a1f, #24130d); color: #ffe2c4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; }
 .hotbar-attack b { font-size: 12px; }
-.hotbar-attack kbd { margin: 0; padding: 0 3px; font-size: 8px; line-height: 12px; }
+.hotbar-attack kbd { margin: 0; padding: 0 3px; font-size:10px; line-height: 12px; }
 .hotbar-attack:hover { box-shadow: 0 0 0 1px #f0b98a; }
 .hotbar-attack.on { box-shadow: 0 0 0 2px #ffb46b, 0 0 12px #ff8a3c88; }
 
 /* Skill level and not-learnt skills (job levels). */
-.hotbar-slot .slv { position: absolute; right: 3px; top: 2px; font-size: 9px; font-weight: 700; color: #ffe08a; text-shadow: 0 1px 2px #000, 0 0 3px #000; z-index: 2; }
+.hotbar-slot .slv { position: absolute; right: 3px; top: 2px; font-size:10px; font-weight: 700; color: #ffe08a; text-shadow: 0 1px 2px #000, 0 0 3px #000; z-index: 2; }
 .hotbar-slot .lock { display: none; position: absolute; inset: 0; place-items: center; font-size: 16px; z-index: 2; text-shadow: 0 1px 3px #000; }
 .hotbar-slot.locked .lock { display: grid; }
 .hotbar-slot.locked img, .hotbar-slot.locked .hotbar-glyph { filter: grayscale(1) brightness(.45); }

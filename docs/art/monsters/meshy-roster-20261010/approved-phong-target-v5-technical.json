@@ -1,0 +1,40 @@
+{
+  "artifactSha256": "36455b5787785641fca1ae3604ece2925b47a5aaf129a0699e38603bb08a4a78",
+  "approved": true,
+  "passed": true,
+  "bytes": 1652860,
+  "triangles": 14954,
+  "drawCalls": 2,
+  "clips": ["idle", "walk", "attack", "hurt", "die"],
+  "validation": {
+    "gameLoaderAndSkinClipLoopBoundsTest": "passed: exact candidate, existing monster-model-assets checks",
+    "embeddedBuffersAndTextures": true,
+    "normalizedWeightsMaxInfluences": 4,
+    "nonemptyFiniteClips": true,
+    "idleWalkLoopSeams": true,
+    "noStudioObjects": true,
+    "fullMeshActualAnimationSamples": 135,
+    "edgeViolations": 0,
+    "maxEdgeRatio": 2.039302664555383,
+    "maxPositiveEdgeExtensionMetres": 0.020295840129316088,
+    "minFloorMetres": -0.0001198008907651537,
+    "maxPlantedFootDriftMetres": 0.0002048145592458927,
+    "exportedWeightsMatchCommittedRepair": true,
+    "maxWeightDifference": 0
+  },
+  "method": "Actual exported GLB and game GLTFLoader/AnimationMixer at 24Hz and exact endpoints. Every skinned vertex and indexed triangle edge at least 5mm; no counterfactual weights or motion injected.",
+  "edgePolicy": {"source": "tests/boss-meshy-motion-assets.test.js BOSS_MOTION_LIMITS", "ratio": 2, "extensionMetres": 0.01, "minEdgeMetres": 0.005, "violationCondition": "Both ratio > 2 and positive extension > 1cm on the same edge"},
+  "placement": {"baseHeight": 1.9, "unchangedGameplaySize": 1, "worldHeightMetres": 1.9},
+  "localEvidence": [
+    "artifacts/all-monster-models/source-qa/phong-target-v5-actual-proof.json",
+    "artifacts/all-monster-models/source-qa/phong-target-v5-gallery.json",
+    "artifacts/all-monster-models/verify-phong-target-v5.test.mjs"
+  ],
+  "limitations": [
+    "The largest edge ratio and extension occur on different edges; neither alone is a violation of the existing combined biped gate",
+    "Only 46 triangles remain below the 15000-triangle asset budget",
+    "Death is an inactive bowed pose for spectral disappearance rather than a grounded prone fall",
+    "Attack impact timing remains a separate runtime QA gate",
+    "Performance and online server soak are not established by this asset check"
+  ]
+}

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { SANS, SERIF, afterFonts } from '../ui/canvasFonts.js';
 import { MAPS } from './maps.js';
 import { portalYaw } from './portal-layout.js';
 
@@ -38,13 +39,18 @@ const veilTexture = () => canvasTexture(64, (g, s) => {
 });
 function labelTexture(title, destination) {
   const c = document.createElement('canvas'); c.width = 512; c.height = 160;
-  const g = c.getContext('2d');
-  g.fillStyle = 'rgba(20,41,32,.78)'; g.strokeStyle = 'rgba(214,188,117,.7)'; g.lineWidth = 3;
-  g.beginPath(); g.roundRect(8, 18, 496, 124, 14); g.fill(); g.stroke();
-  g.textAlign = 'center'; g.textBaseline = 'middle';
-  g.fillStyle = '#9fe6ff'; g.font = '30px "Noto Sans Thai", sans-serif'; g.fillText(title, 256, 56, 470);
-  g.fillStyle = '#fff1c8'; g.font = '500 44px "Noto Serif Thai", serif'; g.fillText(`→ ${destination}`, 256, 104);
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+  const g = c.getContext('2d'), t = new THREE.CanvasTexture(c);
+  const paint = () => {
+    g.clearRect(0, 0, c.width, c.height);
+    g.fillStyle = 'rgba(20,41,32,.78)'; g.strokeStyle = 'rgba(214,188,117,.7)'; g.lineWidth = 3;
+    g.beginPath(); g.roundRect(8, 18, 496, 124, 14); g.fill(); g.stroke();
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillStyle = '#9fe6ff'; g.font = `500 30px ${SANS}`; g.fillText(title, 256, 56, 470);
+    g.fillStyle = '#fff1c8'; g.font = `600 44px ${SERIF}`; g.fillText(`→ ${destination}`, 256, 104, 470);
+    t.needsUpdate = true;
+  };
+  paint(); afterFonts(paint);
+  t.colorSpace = THREE.SRGBColorSpace; return t;
 }
 const glowMaterial = (map, color, side = THREE.FrontSide) => new THREE.MeshBasicMaterial({
   map, color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false, side,

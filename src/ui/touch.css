@@ -15,7 +15,7 @@
 
 /* Thumb buttons: ตี big in the corner, เป้า to its left, คุย above it. */
 .touch-pad { position: absolute; right: calc(var(--sr) + 14px); bottom: calc(var(--sb) + 14px); width: 168px; height: 160px; zoom: var(--t); z-index: 5; pointer-events: none; }
-.touch-btn { position: absolute; display: grid; place-items: center; border-radius: 50%; border: 2px solid #e1c98388; color: #fff3d6; font: 600 13px 'Noto Sans Thai', sans-serif; pointer-events: auto; touch-action: none;
+.touch-btn { position: absolute; display: grid; place-items: center; border-radius: 50%; border: 2px solid #e1c98388; color: #fff3d6; font: 600 13px var(--ui-font); pointer-events: auto; touch-action: none;
   background: radial-gradient(circle at 50% 35%, #3b4f45ee, #14231ded); box-shadow: 0 4px 14px #0009, inset 0 0 0 1px #0006; }
 .touch-btn.down { transform: scale(.92); border-color: #ffd88a; box-shadow: 0 0 16px #f1c069aa, inset 0 0 0 1px #0006; }
 .touch-btn.t-attack { right: 0; bottom: 0; width: 88px; height: 88px; font-size: 18px; border-color: #f0a46e; background: radial-gradient(circle at 50% 35%, #7a3a24f0, #2c120bf0); }
@@ -107,13 +107,24 @@ body.ui-touch .g-skills .g-sk-top .g-sk-job { flex: 1 1 160px; min-width: 0; }
 body.ui-touch .g-skills .g-sk-top .g-sk-job small { display: none; }
 body.ui-touch .g-skills .g-pchip.done, body.ui-touch .g-skills .g-pchip.lock, body.ui-touch .g-skills .g-sk-path i { display: none; }
 body.ui-touch .g-skills .g-sk-main { display: flex; flex-direction: column; gap: 8px; min-height: 0; flex: none; }
-body.ui-touch .g-skills .g-sk-tree { grid-template-columns: 36px repeat(3, minmax(0, 1fr)); grid-template-rows: 52px repeat(var(--rows), minmax(78px, auto)); padding: 6px 4px; overflow: visible; }
+body.ui-touch .g-skills .g-sk-tree { grid-template-columns: 36px repeat(3, minmax(0, 1fr)); grid-template-rows: auto repeat(var(--rows), minmax(78px, auto)); padding: 6px 4px; overflow: visible; }
 body.ui-touch .g-skills .g-colh { margin: 0 2px 4px; padding: 4px 4px; }
 body.ui-touch .g-skills .g-colh b { font-size: 13px; }
 body.ui-touch .g-skills .g-colh small { font-size: 10px; }
+/* a phone column is ~90px: the header keeps the line's name and points; the role reads in the card */
+body.ui-touch .g-skills .g-colh small:not(.g-colh-pts) { display: none; }
+body.ui-touch .g-skills .g-colh { overflow: hidden; }
 body.ui-touch .g-skills .g-rowl span { width: 34px; height: 34px; font-size: 10px; }
-body.ui-touch .g-skills .g-node .g-nm { font-size: 10px; }
-body.ui-touch .g-skills .g-node.g-pnode { transform: scale(.72); margin-right: -14px; }
+body.ui-touch .g-skills .g-node { max-width: calc(100% - 4px); }
+body.ui-touch .g-skills .g-node .g-nm { text-align: center; font-size: 10px; line-height: 1.3; max-width: 100%; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; white-space: normal; }
+/* a ~90px column cannot hold a skill and its passive side by side: the passive sits under its
+   skill on a short vertical tie, as a smaller node at full size text (no scale transform) */
+body.ui-touch .g-skills .g-cell.dual { flex-direction: column; gap: 2px; padding: 4px 0; }
+body.ui-touch .g-skills .g-cell.dual .g-tie { width: 3px; height: 8px; }
+body.ui-touch .g-skills .g-node.g-pnode .g-ic { width: 36px; height: 36px; }
+body.ui-touch .g-skills .g-node.g-pnode .g-lvp { top: 27px; padding: 0 4px; font-size: 10px; line-height: 14px; }
+body.ui-touch .g-skills .g-node.g-pnode .g-nm { margin-top: 6px; }
+body.ui-touch .g-skills .g-node.g-pnode :is(.g-plus, .g-bdg) { width: 16px; height: 16px; font-size: 11px; }
 body.ui-touch .g-skills .g-sk-card { overflow: visible; padding: 10px 12px; }
 body.ui-touch .g-skills .g-skd-up { position: sticky; bottom: -12px; z-index: 2; box-shadow: 0 -8px 16px rgba(0, 0, 0, .45); }
 body.ui-touch .g-skills .g-sk-bar { display: none; }   /* the action bar itself is on screen */

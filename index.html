@@ -9,6 +9,9 @@
     <meta name="theme-color" content="#182b25" />
     <meta name="description" content="นครอโยธยา เมืองหลวงริมแม่น้ำของโลกแฟนตาซี Thai Native Online" />
     <title>Thai Native Online — นครอโยธยา</title>
+    <!-- the two Thai UI faces used on first paint (src/ui/fonts.css) -->
+    <link rel="preload" href="/fonts/ibm-plex-sans-thai-looped-thai-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/trirong-thai-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <main id="app">
@@ -37,7 +40,7 @@
             <label>ขนาดหน้าจอ (HUD)<select id="hud-size"><option value="0.85">เล็ก</option><option value="1" selected>พอดีจอ</option><option value="1.15">ใหญ่</option><option value="1.3">ใหญ่มาก</option></select></label>
             <label class="dev-only">แรงลม <output id="wind-value">45%</output><input id="wind" type="range" min="0" max="100" value="45" /></label>
             <label class="check-label"><input id="particles" type="checkbox" checked /> <span>อนุภาค<small>ละอองแสง หิ่งห้อย และใบไม้ร่วง</small></span></label>
-            <label><span>มอนสเตอร์<small>สไตล์การวาดมอนสเตอร์</small></span><select id="monster-style"><option value="pixel">พิกเซล · แบบ RO</option><option value="3d">โมเดล 3D</option></select></label>
+            <label><span>มอนสเตอร์<small>สไตล์การวาดมอนสเตอร์</small></span><span>โมเดล 3D</span></label>
           </div>
           <div class="set-pane" data-pane="snd" hidden>
             <div class="set-row">เสียงทั้งหมด<button id="sound" class="set-switch" title="เปิดเสียง" aria-label="เปิดเสียง" aria-pressed="false"></button></div>

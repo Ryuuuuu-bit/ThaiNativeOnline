@@ -1,17 +1,21 @@
-export function fittedCamera(rect, width, height, focus = rect) {
-  const base = Math.min(width / (rect.maxX - rect.minX), height / (rect.maxZ - rect.minZ)) * .94;
-  const fit = Math.min(width / (focus.maxX - focus.minX), height / (focus.maxZ - focus.minZ)) * .94;
+// `pad` is canvas pixels at the bottom covered by on-map controls: the camera centres and
+// fits the map in the strip above them, so nothing starts hidden under the buttons.
+export function fittedCamera(rect, width, height, focus = rect, pad = 0) {
+  const h = Math.max(1, height - pad);
+  const base = Math.min(width / (rect.maxX - rect.minX), h / (rect.maxZ - rect.minZ)) * .94;
+  const fit = Math.min(width / (focus.maxX - focus.minX), h / (focus.maxZ - focus.minZ)) * .94;
   return { x: (focus.minX + focus.maxX) / 2, z: (focus.minZ + focus.maxZ) / 2, zoom: fit / base };
 }
 
-export function mapTransform(rect, width, height, camera) {
-  const k = Math.min(width / (rect.maxX - rect.minX), height / (rect.maxZ - rect.minZ)) * .94 * camera.zoom;
+export function mapTransform(rect, width, height, camera, pad = 0) {
+  const view = Math.max(1, height - pad);
+  const k = Math.min(width / (rect.maxX - rect.minX), view / (rect.maxZ - rect.minZ)) * .94 * camera.zoom;
   const w = (rect.maxX - rect.minX) * k, h = (rect.maxZ - rect.minZ) * k;
-  return { k, w, h, left: width / 2 + (rect.minX - camera.x) * k, top: height / 2 + (rect.minZ - camera.z) * k, minX: rect.minX, minZ: rect.minZ };
+  return { k, w, h, left: width / 2 + (rect.minX - camera.x) * k, top: view / 2 + (rect.minZ - camera.z) * k, minX: rect.minX, minZ: rect.minZ };
 }
 
-export function clampCamera(rect, width, height, camera) {
-  const { k } = mapTransform(rect, width, height, camera), halfX = width / (2 * k), halfZ = height / (2 * k);
+export function clampCamera(rect, width, height, camera, pad = 0) {
+  const { k } = mapTransform(rect, width, height, camera, pad), halfX = width / (2 * k), halfZ = Math.max(1, height - pad) / (2 * k);
   const clampAxis = (value, min, max, half) => max - min <= half * 2 ? (min + max) / 2 : Math.max(min + half, Math.min(max - half, value));
   camera.x = clampAxis(camera.x, rect.minX, rect.maxX, halfX);
   camera.z = clampAxis(camera.z, rect.minZ, rect.maxZ, halfZ);

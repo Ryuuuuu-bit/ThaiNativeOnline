@@ -20,6 +20,8 @@ import './account.css';
 
 import { readSession, writeSession } from './session.js';
 import { setAccountPicture } from './AccountPortrait.js';
+import { setIdentity, onIdentity } from './identity.js';
+import { uidRow } from './UidRow.js';
 
 async function refreshAccountProfile(session) {
   let timer;
@@ -33,6 +35,7 @@ async function refreshAccountProfile(session) {
 }
 
 export async function enterGame(root) {
+  setIdentity();
   // With the game server (Railway) accounts and saves live there; without it (plain dev) in this browser.
   const remote = await serverAccounts();
   const store = remote ? new ServerAccountStore(undefined, { googleClientId: remote.googleClientId }) : new AccountStore();
@@ -65,6 +68,7 @@ export async function enterGame(root) {
   if (remote && !session.guest && store.token && Number.isInteger(session.slot)) session.sync = startSaveSync(store, session.id, session.slot);
   session.store = store;
   await refreshAccountProfile(session);
+  setIdentity(session.guest ? {} : { accountUid: store.accountUid, characterUid: store.slots(session.id).find(s => s.slot === session.slot)?.characterUid });
   addSettingsButtons(session);
   return session;
 }
@@ -84,6 +88,8 @@ function addSettingsButtons(session) {
     location.reload();
   });
   settings.appendChild(row);
+  const identity = document.createElement('div'); identity.className = 'acc-identity'; settings.append(identity);
+  onIdentity(value => identity.replaceChildren(uidRow('Account UID', value.accountUid, 'ACC')));
   // already linked to Google (or signed in with it): say so instead of offering the link
   if (row.querySelector('[data-acc="google"]') && session.google) {
     const note = Object.assign(document.createElement('small'), { className: 'acc-linked', textContent: `✓ ผูกกับ Google แล้ว${session.google.email ? ` · ${session.google.email}` : ''}` });

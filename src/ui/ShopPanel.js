@@ -1,6 +1,6 @@
 import { ITEMS, RARITY_COLORS } from '../character/data/items.js';
 import { SHOPS } from '../data/shops.js';
-import { buy, sellPrice, stockOf } from '../shop/ShopSystem.js';
+import { buy, buyPrice, sellPrice, stockOf } from '../shop/ShopSystem.js';
 import { SaleBasket } from '../shop/SaleBasket.js';
 import { iconHtml } from './icons.js';
 import { SHOP_ICONS } from './HUD.js';
@@ -233,7 +233,7 @@ export class ShopPanel {
       const ids = stock.filter(id => groupOf(ITEMS[id]) === g && this.matches(ITEMS[id])); if (!ids.length) return '';
       return `<div class="sh-group"><p class="sh-gh"><b>${th}</b>${sub ? `<small>${sub}</small>` : ''}</p><div class="sh-rows">${ids.map(id => {
         const have = c.count(id);
-        return this.row('data-buy', id, ITEMS[id], { on: id === this.sel, tag: have ? `<i class="sh-tag">x${fmt(have)}</i>` : '', price: ITEMS[id].price, dim: c.gold < ITEMS[id].price });
+        return this.row('data-buy', id, ITEMS[id], { on: id === this.sel, tag: have ? `<i class="sh-tag">x${fmt(have)}</i>` : '', price: buyPrice(c, id), dim: c.gold < buyPrice(c, id) });
       }).join('')}</div></div>`;
     }).join('');
     return `<div class="sh-trade">${this.toolbar()}<div class="sh-split"><div class="sh-left">${groups || '<p class="shop-empty">ไม่พบสินค้า ลองเปลี่ยนคำค้นหรือหมวด</p>'}</div><aside class="sh-right">${this.buyDetail(this.sel)}</aside></div><p class="sh-receipt" role="status">${esc(this.receipt || 'เลือกสินค้า → ระบุจำนวน → ซื้อ')}</p></div>`;
@@ -241,8 +241,8 @@ export class ShopPanel {
   buyDetail(id) {
     const c = this.character, d = ITEMS[id];
     if (!d) return '<p class="shop-empty">เลือกสินค้าทางซ้าย</p>';
-    const one = single(d), n = one ? 1 : this.qty, cost = d.price * n, ok = c.gold >= cost && c.canTake(id, n);
-    const afford = Math.floor(c.gold / Math.max(1, d.price));
+    const one = single(d), n = one ? 1 : this.qty, cost = buyPrice(c, id) * n, ok = c.gold >= cost && c.canTake(id, n);
+    const afford = Math.floor(c.gold / Math.max(1, buyPrice(c, id)));
     const amount = one ? '' : `<div class="sh-qty"><button type="button" data-qd="-1" aria-label="ลด">−</button><input id="shop-qty" type="number" min="1" max="999" value="${n}" inputmode="numeric" aria-label="จำนวน"><button type="button" data-qd="1" aria-label="เพิ่ม">+</button></div>
       <div class="sh-quick">${[1, 10, 20, 50].map(q => `<button type="button" data-qty="${q}" class="${n === q ? 'on' : ''}${q > afford && q > 1 ? ' poor' : ''}">x${q}</button>`).join('')}</div>`;
     return `<div class="sh-dhead">${icon(d)}<span><b>${d.name}</b><small>${typeOf(d)}${d.weight ? ` · หนัก ${d.weight}` : ''}${d.slots ? ` · ช่องการ์ด ${d.slots}` : ''}</small></span></div>
@@ -314,7 +314,7 @@ export class ShopPanel {
         <div class="eh-bonus">${stats}<small>โบนัสหลังตีแสดงผลเมื่อสำเร็จเท่านั้น</small></div>
         <div class="eh-milestones" aria-label="โบนัสสะสมตามหมุดหมาย">${milestones}</div>
         <div class="eh-mats">
-          ${ore ? `<div class="eh-mat${have < 1 ? ' miss' : ''}">${icon(ore)}<span><b>${ore.name}</b><small>${have} / 1</small></span>${have < 1 && sells ? `<button type="button" class="sh-go alt sm" data-ebuy="${cost.ore}" ${pending ? 'disabled' : ''}>ซื้อ ${fmt(ore.price)}</button>` : ''}</div>` : ''}
+          ${ore ? `<div class="eh-mat${have < 1 ? ' miss' : ''}">${icon(ore)}<span><b>${ore.name}</b><small>${have} / 1</small></span>${have < 1 && sells ? `<button type="button" class="sh-go alt sm" data-ebuy="${cost.ore}" ${pending ? 'disabled' : ''}>ซื้อ ${fmt(buyPrice(c, cost.ore))}</button>` : ''}</div>` : ''}
           <div class="eh-mat${t.cards.length && cost?.risky ? ' miss' : ' off'}"><span class="sh-ic">❖</span><span><b>การ์ดที่ใส่ไว้</b><small>${t.cards.length ? `${t.cards.length} ใบ${cost?.risky ? ' · แตกด้วยถ้าพลาด' : ''}` : 'ไม่มี'}</small></span></div>
           <div class="eh-mat off"><span class="sh-ic">✦</span><span><b>ขั้นปลอดภัย</b><small>ถึง +${REFINE_SAFE} สำเร็จเสมอ</small></span></div>
         </div>
