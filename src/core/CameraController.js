@@ -5,13 +5,14 @@ import { spriteScale } from '../world/Atmosphere.js';
 
 const _dir = new THREE.Vector3(), _corner = new THREE.Vector3();
 
-// Orthographic 2.5D camera from the prototype: follows the player, right-drag
-// pans, wheel zooms. The view keeps the same angle everywhere in the city.
+// Orthographic 2.5D follow camera. Orbit changes heading, never the pitch.
 export class CameraController {
   constructor(renderer, host) {
     this.renderer = renderer; this.host = host;
     this.camera = new THREE.OrthographicCamera(-20, 20, 12, -12, .1, 220);
     this.offset = new THREE.Vector3(15, 23, 22);
+    this.defaultYaw = Math.atan2(this.offset.x, this.offset.z);
+    this.yaw = this.defaultYaw; this.orbitRadius = Math.hypot(this.offset.x, this.offset.z);
     this.focus = new THREE.Vector3(); this.desired = new THREE.Vector3(); this.panOffset = new THREE.Vector3();
     this.zoom = ZOOM_DEFAULT; this.panned = false;
     this.forward = new THREE.Vector3(-this.offset.x, 0, -this.offset.z).normalize();
@@ -28,7 +29,16 @@ export class CameraController {
   }
   resize() { this.renderer.setSize(this.host.clientWidth, this.host.clientHeight); this.updateProjection(); }
   setZoom(z) { this.zoom = THREE.MathUtils.clamp(z, ZOOM_MIN, ZOOM_MAX); this.updateProjection(); }
-  reset() { this.recenter(); this.setZoom(1); }
+  reset() { this.recenter(); this.setYaw(this.defaultYaw); this.setZoom(1); }
+  setYaw(yaw) {
+    this.yaw = Math.atan2(Math.sin(yaw), Math.cos(yaw));
+    this.offset.x = Math.sin(this.yaw) * this.orbitRadius;
+    this.offset.z = Math.cos(this.yaw) * this.orbitRadius;
+    this.forward.set(-this.offset.x, 0, -this.offset.z).normalize();
+    this.right.crossVectors(this.forward, this.camera.up).normalize();
+    fadeUniforms.uFadeDir.value.copy(this.offset).normalize();
+  }
+  orbit(dxPixels, startYaw) { this.setYaw(startYaw - dxPixels * .006); }
   // Drops a right-drag pan so the camera follows the player again (zoom is kept).
   recenter() { this.panned = false; this.panOffset.set(0, 0, 0); }
   pan(dxPixels, dyPixels, start) {
