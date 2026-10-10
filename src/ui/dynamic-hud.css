@@ -10,7 +10,7 @@ body.hud-dynamic .g-player .g-bar span{position:relative;z-index:1;transition:wi
 body.hud-dynamic .g-player .g-hp span{background:linear-gradient(90deg,#a73d3a,#db6551 72%,#edaa77)}
 body.hud-dynamic .g-player .g-mp span{background:linear-gradient(90deg,#245c87,#408fb2 72%,#84c9d0)}
 body.hud-dynamic .g-player .g-bar em{z-index:3;line-height:18px;letter-spacing:.025em;font-size:10px;text-shadow:0 1px 3px #000;font-variant-numeric:tabular-nums}
-.hud-dynamic .g-player .g-bar::after{content:attr(data-label);position:absolute;left:7px;top:0;z-index:3;font:700 9px/18px 'Noto Sans Thai',sans-serif;color:#fff3da;pointer-events:none}
+.hud-dynamic .g-player .g-bar::after{content:attr(data-label);position:absolute;left:7px;top:0;z-index:3;font:700 10px/18px var(--ui-font);color:#fff3da;pointer-events:none}
 .hud-hp-trail{position:absolute;inset:0 auto 0 0;background:#f6cb81;opacity:.8;z-index:0;border-radius:4px;pointer-events:none}
 .hud-vitals-footer{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:10px;line-height:1.5;color:#c9bd9c}
 .hud-state{display:flex;align-items:center;gap:5px}.hud-state::before{content:'';width:5px;height:5px;border-radius:50%;background:#8dd8b9;box-shadow:0 0 7px #7cd0ac60}
@@ -28,7 +28,7 @@ body.hud-dynamic .hotbar-slot.cooling{filter:saturate(.65)}
 body.hud-dynamic .hotbar-slot.locked{opacity:.46}
 body.hud-dynamic .hotbar-slot .cdt{font-variant-numeric:tabular-nums;text-shadow:0 1px 5px #000}
 body.hud-dynamic .action-exp{height:9px;overflow:hidden;border-radius:4px}
-body.hud-dynamic .action-exp em{font-size:8px;line-height:9px;letter-spacing:.03em}
+body.hud-dynamic .action-exp em{font-size:10px;line-height:9px;letter-spacing:.03em}
 body.hud-dynamic .action-exps .g-bar span{transition:width .55s ease-out}
 body.hud-dynamic .action-exp span{background:linear-gradient(90deg,#877149,#d7b66e,#f0dc9d)}
 body.hud-dynamic .action-jexp{height:3px;opacity:.75}
@@ -54,9 +54,9 @@ body.hud-dynamic .mm-btn{background:var(--hud-panel,var(--c-wood));border:1px so
 @media(min-width:901px){body.hud-dynamic .g-player{top:24px;left:24px}body.hud-dynamic .soc-party{top:164px}body.hud-dynamic .net-chat{bottom:24px;width:300px}body.hud-dynamic .minimap{top:24px;right:24px}}
 @media(max-width:900px),(max-height:560px){
   body.hud-dynamic .g-player-info{padding:6px 9px 6px 28px;gap:4px}
-  body.hud-dynamic .g-player-name b{font-size:14px}body.hud-dynamic .g-player-name>span{font-size:9px}
-  .hud-vitals-footer{font-size:9px;gap:7px}
-  body.hud-dynamic .g-player .g-bar{height:15px}body.hud-dynamic .g-player .g-bar em{line-height:15px;font-size:9px}.hud-dynamic .g-player .g-bar::after{font-size:8px;line-height:15px}
+  body.hud-dynamic .g-player-name b{font-size:14px}body.hud-dynamic .g-player-name>span{font-size:10px}
+  .hud-vitals-footer{font-size:10px;gap:7px}
+  body.hud-dynamic .g-player .g-bar{height:15px}body.hud-dynamic .g-player .g-bar em{line-height:15px;font-size:10px}.hud-dynamic .g-player .g-bar::after{font-size:10px;line-height:15px}
   body.hud-dynamic .online-actions{top:159px;right:12px;max-width:210px}
   body.hud-dynamic .online-actions button{min-height:36px;padding:5px 8px;font-size:10px}
   body.hud-dynamic .hotbar{padding:7px 9px 8px;gap:6px}
@@ -64,8 +64,8 @@ body.hud-dynamic .mm-btn{background:var(--hud-panel,var(--c-wood));border:1px so
   body.hud-dynamic .soc-party{top:190px}
   body.hud-dynamic .net-chat{bottom:112px;left:12px}
   body.hud-dynamic .net-chat:not(.typing) .net-lines{display:none}
-  body.hud-dynamic .net-chat:not(.typing) header::after{content:'แตะเพื่ออ่าน';margin-left:auto;font-size:9px;color:#d5c292}
+  body.hud-dynamic .net-chat:not(.typing) header::after{content:'แตะเพื่ออ่าน';margin-left:auto;font-size:10px;color:#d5c292}
 }
-@media(max-width:600px) and (min-height:561px){body.hud-dynamic .online-actions{top:204px;right:10px;max-width:195px}body.hud-dynamic .g-player-name>span{font-size:8px}.hud-wallet{display:none}body.hud-dynamic .net-chat{bottom:190px}}
+@media(max-width:600px) and (min-height:561px){body.hud-dynamic .online-actions{top:204px;right:10px;max-width:195px}body.hud-dynamic .g-player-name>span{font-size:10px}.hud-wallet{display:none}body.hud-dynamic .net-chat{bottom:190px}}
 body.photo-mode.hud-dynamic .online-actions{display:none}
 @media(prefers-reduced-motion:reduce){body.hud-dynamic *,body.hud-dynamic *::before,body.hud-dynamic *::after{animation:none!important;transition:none!important}.hud-dynamic .hotbar-slot:hover{transform:none!important}}

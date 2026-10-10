@@ -32,14 +32,14 @@ body.skin-classic :is(.settings,.shop,.fullmap,.dialogue,.g-panel,.auto-panel,.m
 /* ---------- blue ribbon titles, red round close buttons ---------- */
 body.skin-classic :is(.panel-heading,.auto-panel .ro-title,.dlg-head){margin:-6px -8px 14px;padding:7px 46px;border:0;border-radius:3px;
   background:var(--c-ribbon);box-shadow:inset 0 1px 0 rgba(190,220,255,.45),inset 0 -2px 0 rgba(0,0,0,.35),0 0 0 1px #0a1626,0 0 0 2px rgba(201,169,106,.6),0 3px 6px rgba(0,0,0,.5);
-  font:700 18px 'Cinzel','Noto Serif Thai',serif;letter-spacing:.06em;color:#f3e6c4;text-shadow:0 2px 0 #0a1a2e,0 0 8px rgba(0,0,0,.6)}
+  font:700 18px 'Cinzel',var(--title-font);letter-spacing:.06em;color:#f3e6c4;text-shadow:0 2px 0 #0a1a2e,0 0 8px rgba(0,0,0,.6)}
 body.skin-classic .panel-heading::before,body.skin-classic .panel-heading::after{display:none}
 body.skin-classic .dlg-head h3{color:#f3e6c4;text-shadow:inherit}
 body.skin-classic :is(.dlg-head span,.shop .panel-heading small){color:#bcd2ee;text-shadow:none}
-body.skin-classic :is(.panel-heading button,#dlg-close,.auto-panel .auto-close){right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;padding:0;font:700 17px/1 'Noto Sans Thai',sans-serif;color:#ffe9d6;text-shadow:none;
+body.skin-classic :is(.panel-heading button,#dlg-close,.auto-panel .auto-close){right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;padding:0;font:700 17px/1 var(--ui-font);color:#ffe9d6;text-shadow:none;
   background:radial-gradient(circle at 40% 35%,#ee6b55,#a5241a 60%,#5e100b);border:2px solid #d8b26a;box-shadow:0 0 0 2px #1a0f06,0 3px 6px rgba(0,0,0,.6)}
 body.skin-classic :is(.panel-heading button,#dlg-close,.auto-panel .auto-close):hover{background:radial-gradient(circle at 40% 35%,#ff8a72,#c8281a 60%,#6e140d);border-color:#f2d48c}
-body.skin-classic .exploration::before{margin:-4px -6px 8px;padding:4px 20px;border:0;border-radius:3px;font:700 14px 'Cinzel','Noto Serif Thai',serif;color:#f3e6c4;text-shadow:0 2px 0 #0a1a2e;
+body.skin-classic .exploration::before{margin:-4px -6px 8px;padding:4px 20px;border:0;border-radius:3px;font:700 14px 'Cinzel',var(--title-font);color:#f3e6c4;text-shadow:0 2px 0 #0a1a2e;
   background:var(--c-ribbon);box-shadow:inset 0 1px 0 rgba(190,220,255,.45),0 0 0 1px #0a1626,0 0 0 2px rgba(201,169,106,.6)}
 
 /* ---------- controls ---------- */
@@ -77,7 +77,7 @@ body.skin-classic .g-grid{padding:10px;border-radius:3px;background:rgba(0,0,0,.
 
 /* ---------- HUD ---------- */
 body.skin-classic .g-player .g-portrait{box-shadow:0 0 0 3px #1a0f07,0 0 0 5px #8a7048,0 0 0 6px #120b05,0 6px 14px rgba(0,0,0,.6)}
-body.skin-classic .g-player .g-lv,body.skin-classic .g-lv{background:radial-gradient(circle at 40% 35%,#4b87c8,#173c66);border:2px solid #d8b26a;color:#fff;font-family:'Cinzel','Noto Sans Thai',serif;box-shadow:0 0 0 2px #120b05}
+body.skin-classic .g-player .g-lv,body.skin-classic .g-lv{background:radial-gradient(circle at 40% 35%,#4b87c8,#173c66);border:2px solid #d8b26a;color:#fff;font-family:'Cinzel',var(--ui-font),serif;box-shadow:0 0 0 2px #120b05}
 body.skin-classic .g-buffs i{border-radius:3px;background:rgba(0,0,0,.45);border:0;box-shadow:0 0 0 1px #120b05,0 0 0 2px #8a7048}
 body.skin-classic .minimap .zoom-ctl button{border:0;color:var(--t-gold-hi);background:radial-gradient(circle at 40% 35%,#4a3a29,#1d1610);box-shadow:0 0 0 2px #120b05,0 0 0 3px #8a7048}
 body.skin-classic .hotbar.ro-window{border-radius:5px;background:linear-gradient(rgba(0,0,0,.2),rgba(0,0,0,.45)),var(--tex-stone,none);background-color:#2b2a27;
@@ -101,7 +101,7 @@ body.skin-classic .g-doll .g-portrait{box-shadow:0 0 0 3px #120b05,0 0 0 5px #8a
 body.skin-classic .g-bag-tabs{padding:0 4px;gap:3px;border-radius:0;background:none;border-bottom:2px solid #0d0905}
 body.skin-classic .g-bag-tabs button{border-radius:4px 4px 0 0;color:var(--t-dim);background:linear-gradient(#33281c,#211912);box-shadow:inset 0 0 0 1px rgba(201,169,106,.3)}
 body.skin-classic .g-bag-tabs button[aria-selected="true"]{color:var(--t-gold-hi);background:linear-gradient(#5a4630,#2a2017);box-shadow:inset 0 0 0 1px rgba(201,169,106,.7)}
-body.skin-classic .g-bag-foot{font-family:'Cinzel','Noto Sans Thai',serif}
+body.skin-classic .g-bag-foot{font-family:'Cinzel',var(--ui-font),serif}
 body.skin-classic :is(.shop-row,.map-route li,.training-sum div){border-radius:2px;background:rgba(0,0,0,.3);box-shadow:inset 0 0 0 1px rgba(201,169,106,.22)}
 body.skin-classic .shop-row b{color:var(--t-gold-hi)}
 body.skin-classic .map-route .here{background:linear-gradient(90deg,rgba(201,169,106,.3),rgba(201,169,106,.05));box-shadow:inset 0 0 0 1px #c9a96a}
@@ -117,7 +117,7 @@ body.skin-classic :is(.g-parch,.g-detail,.dlg-main,.dlg-wrap .quest,.auto-card){
 body.skin-classic .g-parch kbd,body.skin-classic .dlg-main kbd{color:#3d2b17;background:#f2e6c8;border-color:#6b5434}
 /* stats */
 body.skin-classic .g-statbox :is(.g-stats-head,.g-derived){color:#6c5434;border-color:rgba(90,60,25,.25)}
-body.skin-classic .g-statbox .g-stats-head{font-family:'Cinzel','Noto Serif Thai',serif;font-weight:700}
+body.skin-classic .g-statbox .g-stats-head{font-family:'Cinzel',var(--title-font);font-weight:700}
 body.skin-classic .g-statbox :is(.g-stat,.g-stat b,.g-derived b){color:#3d2b17}
 body.skin-classic .g-statbox .g-stat span small{color:#8d7553}
 body.skin-classic .g-statbox :is(.g-has-points,.g-bonus){color:#2e6a28!important;font-weight:600}

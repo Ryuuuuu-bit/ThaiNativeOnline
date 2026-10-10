@@ -69,11 +69,11 @@ body .inventory-workspace .g-eqs .g-equip-lock {width:44px;height:44px;min-width
 .inventory-workspace .g-card-pick button[aria-pressed=true] {border-color:#f1d188;background:#416044}
 .inventory-workspace .g-card-pick p,.inventory-workspace .g-card-pick header small {font-size:12px;line-height:1.6}
 /* Keep refine, lock, comparison and socket markers in separate corners. */
-body .inventory-workspace :is(.g-slot,.g-eqs) .g-card-slots {position:absolute;left:2px;bottom:2px;top:auto;right:auto;display:inline-flex;align-items:center;gap:3px;padding:1px 4px;min-height:17px;box-sizing:border-box;border:1px solid #a7b5c0;border-radius:3px;background:#102029;color:#e2eaf0;font:600 11px/15px 'Noto Sans Thai',sans-serif;letter-spacing:0;text-shadow:none;z-index:3;pointer-events:none}
+body .inventory-workspace :is(.g-slot,.g-eqs) .g-card-slots {position:absolute;left:2px;bottom:2px;top:auto;right:auto;display:inline-flex;align-items:center;gap:3px;padding:1px 4px;min-height:17px;box-sizing:border-box;border:1px solid #a7b5c0;border-radius:3px;background:#102029;color:#e2eaf0;font:600 11px/15px var(--ui-font);letter-spacing:0;text-shadow:none;z-index:3;pointer-events:none}
 body .inventory-workspace :is(.g-slot,.g-eqs) .g-card-slots.has-cards {background:#29213a;border-color:#d2b4eb;color:#f0dfff}
 body .inventory-workspace .g-card-slots span {width:auto;font-size:12px}
 body .inventory-workspace .g-card-slots b {font:inherit}
-body .inventory-workspace :is(.g-slot,.g-eqs) .g-plus {position:absolute;top:2px;right:2px;left:auto;bottom:auto;z-index:4;min-width:22px;padding:0 3px;box-sizing:border-box;border:1px solid #ffe2a0;border-radius:4px;background:#291e0b;color:#fff0b9;font:800 12px/18px 'Noto Sans Thai',sans-serif;font-style:normal;text-shadow:none;box-shadow:0 1px 3px #000b;pointer-events:none}
+body .inventory-workspace :is(.g-slot,.g-eqs) .g-plus {position:absolute;top:2px;right:2px;left:auto;bottom:auto;z-index:4;min-width:22px;padding:0 3px;box-sizing:border-box;border:1px solid #ffe2a0;border-radius:4px;background:#291e0b;color:#fff0b9;font:800 12px/18px var(--ui-font);font-style:normal;text-shadow:none;box-shadow:0 1px 3px #000b;pointer-events:none}
 body .inventory-workspace .g-slot .g-item-lock {left:2px;top:2px;right:auto;bottom:auto;font-size:12px;line-height:18px;width:18px;border-radius:3px;background:#0a1a13;color:#fff0b9;text-align:center;z-index:3;pointer-events:none}
 body .inventory-workspace .g-slot .g-cmp {left:auto;top:auto;right:2px;bottom:2px;padding:1px 2px;background:#0a1a13;border-radius:3px;font-size:12px;line-height:14px;z-index:3;pointer-events:none}
 .inventory-workspace .iw-item-name {display:block;font-size:14px;line-height:1.5;color:color-mix(in srgb,var(--rar) 60%,#fff0d7)}
@@ -121,6 +121,9 @@ body .inventory-workspace .g-slot .g-cmp {left:auto;top:auto;right:2px;bottom:2p
 }
 @media(max-width:760px),(max-height:520px) {
   body:not(.ui-touch) .inventory-workspace {zoom:calc(1 / var(--ui,1))}
+  /* the panes live inside the workspace: no second title bar, close button or touch offsets */
+  .inventory-workspace .g-panel>.panel-heading {display:none}
+  body.ui-touch .inventory-workspace :is(.g-sheet,.g-bag) {left:auto;right:auto;top:auto;width:auto;max-height:none}
   body .inventory-workspace {top:calc(8px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));transform:none;width:auto;max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:10px;zoom:1}
   .inventory-workspace .iw-columns {grid-template-columns:minmax(0,1fr);-webkit-overflow-scrolling:touch}
   .inventory-workspace[data-view=bag] .g-sheet,.inventory-workspace[data-view=sheet] .g-bag {display:none}

@@ -207,7 +207,7 @@ export class SkillPanel {
 
     // tree: the root on top, the three lines below it
     const lines = this.tree?.lines ?? [], rows = this.layout();
-    const cells = ['<div></div>', ...lines.map(l => `<div class="g-colh" style="--c:${l.color}"><b>${esc(l.name)}</b><small>${esc(l.role)} · ลงแล้ว ${[...l.skills, l.passive].filter(Boolean).reduce((n, id) => n + c.skillLevel(id), 0)} แต้ม</small></div>`)];
+    const cells = ['<div></div>', ...lines.map(l => `<div class="g-colh" style="--c:${l.color}"><b>${esc(l.name)}</b><small>${esc(l.role)}</small><small class="g-colh-pts">ลงแล้ว ${[...l.skills, l.passive].filter(Boolean).reduce((n, id) => n + c.skillLevel(id), 0)} แต้ม</small></div>`)];
     const node = (s, small = false) => {
       const lv = c.skillLevel(s.id), open = c.skillOpen(s.id), state = lv ? 'learned' : open ? 'avail' : 'locked';
       const ult = SKILL_BY_ID[s.id]?.ultimate, evo = c.evo[s.id], { req = {}, job = 1 } = c.skillReqs(s.id);

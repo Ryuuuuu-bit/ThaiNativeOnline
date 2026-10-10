@@ -20,7 +20,7 @@
 /* Skill art carries its own gold frame (tools/icons/normalize.py); advanced skills get a warm glow. */
 .hotbar-slot.adv { box-shadow: 0 0 0 1px #e8c56a88, 0 0 8px #e8b04a44; }
 .hotbar-slot img { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
-.hotbar-slot .key { position: absolute; left: 3px; top: 3px; padding: 0 3px; border: 1px solid #e1c98355; border-radius: 2px; background: #0b1512cc; font-size: 8px; line-height: 12px; font-weight: 600; color: #fff; z-index: 2; }
+.hotbar-slot .key { position: absolute; left: 3px; top: 3px; padding: 0 3px; border: 1px solid #e1c98355; border-radius: 2px; background: #0b1512cc; font-size:10px; line-height: 12px; font-weight: 600; color: #fff; z-index: 2; }
 .hotbar-slot .cd { position: absolute; inset: 0; background: conic-gradient(#0b0f1ccc calc(var(--cd, 0) * 360deg), transparent 0); pointer-events: none; }
 .hotbar-slot .cdt { position: absolute; inset: 0; display: grid; place-content: center; color: #fff; font-weight: 600; font-size: 14px; text-shadow: 0 1px 3px #000; font-variant-numeric: tabular-nums; }
 .hotbar-slot:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px #e1c983, 0 4px 10px #0008; }
