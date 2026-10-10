@@ -1,4 +1,5 @@
 import { EXTENDED_GEAR } from './extended-gear.js';
+import { PAINTED_ITEM_ICONS } from './painted-item-icons.js';
 import { FLASK_ITEMS } from './flask-items.js';
 import { EXPEDITION_GEAR } from './expedition-gear.js';
 import { HUNT_GEAR } from './hunt-gear.js';
@@ -78,7 +79,13 @@ export const ITEMS = {
   ...CARD_ITEMS,
 };
 
-// img: framed pixel art (public/ui/items, tools/icons/); icon is the fallback glyph.
+// Art-only overrides keep item IDs, stats, sockets and saved instances unchanged.
+for (const [id, img] of Object.entries(PAINTED_ITEM_ICONS)) {
+  if (!ITEMS[id] || ITEMS[id].retired) throw new Error(`Painted art has no active item: ${id}`);
+  ITEMS[id] = { ...ITEMS[id], img, imageArt: 'painted' };
+}
+
+// img: public/ui/items art; icon is the fallback glyph.
 export const RARITY_COLORS = { common: '#d9d3bd', rare: '#7fb7e8', epic: '#c79af0' };
 
 

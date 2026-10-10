@@ -12,8 +12,8 @@ const escapeAttr = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp
 
 // Keep source art untouched. One live frame replaces the baked PNG rim and
 // scales with inventory, skill tree, hotbar and small buff icons alike.
-export function assetIcon(url, alt = '') {
-  return `<span class="icon-img asset-icon"><img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}"></span>`;
+export function assetIcon(url, alt = '', imageArt = '') {
+  return `<span class="icon-img asset-icon${imageArt === 'painted' ? ' painted-art' : ''}"><img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}"></span>`;
 }
 
 // 24×24 line emblems (stroke = currentColor) for classes without a portrait yet.
@@ -37,6 +37,6 @@ export function classBadge(id, cls, { size = 26 } = {}) {
 export const classEmblem = (id, size = 26) => emblem(id, size);
 
 export function iconHtml(entry, alt = '') {
-  if (entry?.img) return assetIcon(`${BASE}${entry.img}`, alt);
+  if (entry?.img) return assetIcon(`${BASE}${entry.img}`, alt, entry.imageArt);
   return `<span class="icon-glyph">${entry?.icon ?? '✦'}</span>`;
 }
