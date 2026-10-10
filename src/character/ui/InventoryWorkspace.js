@@ -81,6 +81,20 @@ export class InventoryWorkspace {
       const button = e.target.closest('[data-item-action]');
       if (button) this.act(button.dataset.itemAction);
     });
+    ui.sheet.addEventListener('dragover', e => {
+      const slot = e.target.closest('[data-slot]')?.dataset.slot;
+      if (!this.dragEquipment || !slot) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = this.equipmentDropAllowed(slot) ? 'move' : 'none';
+      ui.sheet.querySelectorAll('[data-slot]').forEach(b => b.classList.toggle('equipment-drop-ready', b.dataset.slot === slot && this.equipmentDropAllowed(slot)));
+    });
+    ui.sheet.addEventListener('drop', e => {
+      const slot = e.target.closest('[data-slot]')?.dataset.slot;
+      if (!this.dragEquipment || !slot) return;
+      e.preventDefault();
+      this.dropEquipment(slot);
+    });
+    this.root.addEventListener('dragend', () => this.endEquipmentDrag());
     this.root.addEventListener('keydown', e => {
       // Navigation/activation in this window must not trigger world skills.
       if (e.code === 'Escape') { if (!this.tooltip.hidden) this.hideTooltip(); else this.close(); e.stopPropagation(); }
@@ -100,6 +114,31 @@ export class InventoryWorkspace {
     this.clear();
   }
   get desktop() { return !!this.desktopQuery?.matches; }
+  startEquipmentDrag(event, index) {
+    const item = this.ui.c.inventory[index];
+    if (ITEMS[item?.id]?.type !== 'equip') { event.preventDefault(); return; }
+    this.dragEquipment = { index, fingerprint: JSON.stringify(item) };
+    event.dataTransfer.setData('application/x-thainative-equipment', String(index));
+    event.dataTransfer.effectAllowed = 'move';
+    this.hideTooltip();
+  }
+  equipmentDropAllowed(slot) {
+    const { c } = this.ui, drag = this.dragEquipment, item = drag && c.inventory[drag.index], d = ITEMS[item?.id];
+    return !!(drag && item && JSON.stringify(item) === drag.fingerprint && d?.type === 'equip' && !d.retired && c.alive && c.level >= (d.minLevel ?? 1) && c.canWield(item.id) && equipDestination(c, item.id) === slot);
+  }
+  endEquipmentDrag() {
+    this.dragEquipment = null;
+    this.ui.sheet.querySelectorAll('.equipment-drop-ready').forEach(b => b.classList.remove('equipment-drop-ready'));
+  }
+  dropEquipment(slot) {
+    const allowed = this.equipmentDropAllowed(slot), index = this.dragEquipment?.index;
+    this.endEquipmentDrag();
+    if (!allowed) { this.ui.feed.log('ใส่ช่องนี้ไม่ได้ · ตรวจชนิดอุปกรณ์ อาชีพ เลเวล และช่องแหวนที่จะสวม', 'bad'); return false; }
+    this.clear();
+    const equipped = this.ui.c.useAt(index);
+    if (!equipped) this.ui.feed.log('สวมใส่ไม่ได้ในขณะนี้', 'bad');
+    return equipped;
+  }
   open(view) {
     this.hideTooltip();
     if (this.ui.sheet.hidden && this.ui.bag.hidden) { this.clear(); this.ui.cardPick.hidden = true; }
@@ -116,6 +155,7 @@ export class InventoryWorkspace {
     else this.open(view);
   }
   close() {
+    this.endEquipmentDrag();
     this.hideTooltip();
     this.ui.sheet.hidden = this.ui.bag.hidden = true;
     this.ui.cardPick.hidden = true; this.clear();
