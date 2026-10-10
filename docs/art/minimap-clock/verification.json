@@ -1,0 +1,47 @@
+{
+  "results": [
+    {
+      "skin": "modern",
+      "width": 1366,
+      "height": 768,
+      "hud": 1,
+      "map": {
+        "left": 1144.234375,
+        "right": 1345.53125,
+        "bottom": 246.4375
+      },
+      "clock": {
+        "left": 1152.75,
+        "right": 1337.015625,
+        "bottom": 239.625,
+        "top": 220.296875
+      },
+      "textRight": 1337.015625,
+      "footerBottom": 216.046875,
+      "label": "กลางคืน · 21:00"
+    },
+    {
+      "skin": "classic",
+      "width": 1920,
+      "height": 1080,
+      "hud": 1.3,
+      "map": {
+        "left": 1514.40625,
+        "right": 1882.5625,
+        "bottom": 450.578125
+      },
+      "clock": {
+        "left": 1530,
+        "right": 1866.96875,
+        "bottom": 438.109375,
+        "top": 403.578125
+      },
+      "textRight": 1866.96875,
+      "footerBottom": 395.78125,
+      "label": "กลางคืน · 21:00"
+    }
+  ],
+  "errors": [],
+  "phaseUpdates": true,
+  "touchCompact": true
+}

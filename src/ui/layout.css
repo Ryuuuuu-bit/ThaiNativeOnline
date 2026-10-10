@@ -334,6 +334,15 @@ body.skin-classic .g-seg button[aria-pressed="true"]{color:#fff;background:linea
   body .dialogue:has(#dlg-quests > *){width:min(1000px,calc(100% - 40px))}
   .dialogue:has(#dlg-quests > *) .dlg-wrap{grid-template-columns:1fr 380px}
 }
+/* Keep the world clock with map information, outside the central playfield. */
+body .minimap .mini-clock {
+  display: flex; justify-content: flex-end; gap: 6px; margin-top: 5px;
+  padding-top: 5px; border-top: 1px solid var(--t-line, #c9a96a33);
+  font-size: 11px; line-height: 1.5; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+/* Touch HUD previously hides time; retain its compact top cluster. */
+body.ui-touch .minimap .mini-clock { display: none; }
 /* the chat would run under the action bar on narrower desktops: lift it */
 @media (min-width:901px) and (max-width:1580px){ body .net-chat{bottom:132px} }
 @media (max-width:900px){
