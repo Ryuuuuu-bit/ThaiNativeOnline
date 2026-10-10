@@ -58,7 +58,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   menu.addEventListener('click', e => {
     const b = e.target.closest('[data-act]'); if (!b) return;
     menu.hidden = true;
-    if (b.dataset.act === 'w') { chat.open(`/w ${menu.dataset.name} `); return; }
+    if (b.dataset.act === 'w') { chat.startWhisper(menu.dataset.name); return; }
     if (b.dataset.act === 'fadd') { net.send({ t: 'fadd', name: menu.dataset.name }); return; }
     if (b.dataset.act === 'pvp_target') { game.net?.social?.pvp?.pick(Number(menu.dataset.id),menu.dataset.name); return; }
     net.send({ t: b.dataset.act, id: Number(menu.dataset.id) });
@@ -177,6 +177,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   });
   // "/p text" goes to the party · "/w name text" whispers · "/r text" answers the last whisper
   let lastFrom = null;
+  chat.whisperSend = (to, text) => net.send({ t: 'w', to, text });
   chat.filter = text => {
     const p = /^\/p\s+(.+)/.exec(text);
     if (p) { if (party) net.send({ t: 'pc', text: p[1] }); else chat.add('ระบบ', 'ยังไม่ได้อยู่ในปาร์ตี้'); return true; }
@@ -187,7 +188,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     if (/^\/(w|r|p)\b/.test(text)) { chat.add('ระบบ', 'ใช้: /p ข้อความ · /w ชื่อ ข้อความ · /r ข้อความ'); return true; }
     return false;
   };
-  net.on('w', m => { if (!m.echo) lastFrom = m.from; chat.add(m.echo ? `[กระซิบถึง ${m.to}]` : `[กระซิบจาก ${m.from}]`, m.text, 'whisper'); });
+  net.on('w', m => { if (!m.echo) lastFrom = m.from; chat.addWhisper(m); });
   // friends coming online and adding us: a chat line and the friends tab's notices
   const notes = [];
   const note = (kind, name, cls) => { notes.unshift({ kind, name, cls: cls ?? lists.friends.find(f => f.name === name)?.cls, at: Date.now() }); notes.length = Math.min(notes.length, 8); if (tab === 'friends') renderSoc(); };
@@ -301,7 +302,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     else if (d.boardRemove !== undefined) net.send({ t: 'party_board_remove' });
     else if (d.boardRequest !== undefined) net.send({ t: 'party_board_request', party: Number(d.boardRequest) });
     else if (d.boardApprove !== undefined || d.boardDecline !== undefined) net.send({ t: 'party_board_answer', from: Number(d.boardApprove ?? d.boardDecline), ok: d.boardApprove !== undefined });
-    else if (d.w) chat.open(`/w ${d.w} `);
+    else if (d.w) chat.startWhisper(d.w);
     else if (d.inv) { net.send({ t: 'pinv', id: Number(d.inv) }); chat.add('ระบบ', 'ส่งคำเชิญปาร์ตี้แล้ว'); }
     else if (d.fadd) net.send({ t: 'fadd', name: d.fadd });
     else if (d.fnameGo !== undefined) { const name = soc.querySelector('[data-fname]')?.value.trim(); if (name) { net.send({ t: 'fadd', name }); soc.querySelector('[data-fname]').value = ''; } }

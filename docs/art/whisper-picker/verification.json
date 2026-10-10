@@ -1,0 +1,47 @@
+{
+  "results": [
+    {
+      "width": 390,
+      "height": 844,
+      "b": {
+        "x": 12,
+        "y": 104,
+        "width": 366,
+        "height": 442
+      },
+      "choice": {
+        "x": 28,
+        "y": 346,
+        "width": 334,
+        "height": 44
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "b": {
+        "x": 12,
+        "y": 12,
+        "width": 420,
+        "height": 366
+      },
+      "choice": {
+        "x": 28,
+        "y": 210,
+        "width": 388,
+        "height": 44
+      }
+    }
+  ],
+  "errors": [],
+  "checks": [
+    "command normalization",
+    "reply vs echo",
+    "draft recipient isolation",
+    "search and self exclusion",
+    "name button",
+    "safe rendering",
+    "area route",
+    "touch choices"
+  ]
+}

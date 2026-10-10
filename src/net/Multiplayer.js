@@ -31,7 +31,9 @@ export function startMultiplayer(game) {
   const c = game.game.character, player = game.player;
   const remote = new RemotePlayers(game.scene, document.getElementById('nameplates'), (x, z) => game.world?.heightAt(x, z) ?? 0);
   const net = new NetClient(serverUrl());
-  const chat = new ChatBox(text => net.send({ t: 'c', text }));
+  const chat = new ChatBox((text, channel) => net.send({ t: 'c', text, scope: channel === 'area' ? 'area' : 'world' }));
+  const refreshWhisperContacts = () => chat.setWhisperContacts([...remote.list.values()].map(p=>p.name), c.name);
+  for(const event of ['welcome','join','leave','status'])net.on(event,()=>queueMicrotask(refreshWhisperContacts));
   game.game.hud.feed.connectChat(chat);
   const bossBanner = new WorldBossBanner({ onJoin: () => net.send({ t: 'wbjoin' }), canJoin: () => net.online && game.maps?.map?.id !== 'ruen_ho' });
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
