@@ -65,18 +65,36 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
 
   // ---- right-thumb buttons --------------------------------------------------------------
   const pad = el('div', 'touch-pad');
-  const btn = (cls, label, code, title) => {
+  const btn = (cls, label, code, title, immediate = true) => {
     const b = el('button', `touch-btn ${cls}`, label); b.type = 'button'; b.title = title; b.setAttribute('aria-label', title);
-    b.addEventListener('pointerdown', e => { e.preventDefault(); b.classList.add('down'); press(code); });
+    b.addEventListener('pointerdown', e => { e.preventDefault(); b.classList.add('down'); if (immediate) press(code); });
+    b.addEventListener('keydown', e => {
+      if (!['Enter', 'Space'].includes(e.code)) return;
+      e.preventDefault(); e.stopPropagation(); if (!e.repeat) press(code);
+    });
+    b.addEventListener('keyup', e => { if (['Enter', 'Space'].includes(e.code)) { e.preventDefault(); e.stopPropagation(); } });
     for (const n of ['pointerup', 'pointercancel', 'pointerleave']) b.addEventListener(n, () => b.classList.remove('down'));
     pad.append(b); return b;
   };
   btn('t-attack', '<b>ตี</b>', 'Space', 'ตีปกติใส่เป้าหมาย');
-  const targetBtn = btn('t-target', '<b>เป้า</b>', 'Tab', 'แตะ: ล็อกเป้าหมายถัดไป · กดค้าง: ปลดล็อก');
+  const targetBtn = btn('t-target', '<b>เป้า</b>', 'Tab', 'แตะ: ล็อกเป้าหมายถัดไป · กดค้าง: ปลดล็อก', false);
   // a long press on เป้า lets the target go
-  let hold = null;
-  targetBtn.addEventListener('pointerdown', () => { clearTimeout(hold); hold = setTimeout(() => { unlock(); targetBtn.classList.add('released'); setTimeout(() => targetBtn.classList.remove('released'), 400); }, 550); });
-  for (const n of ['pointerup', 'pointercancel', 'pointerleave']) targetBtn.addEventListener(n, () => clearTimeout(hold));
+  let hold = null, targetPointer = null, released = false;
+  targetBtn.addEventListener('pointerdown', e => {
+    if (targetPointer !== null) return;
+    targetPointer = e.pointerId; released = false; targetBtn.setPointerCapture(e.pointerId);
+    clearTimeout(hold); hold = setTimeout(() => { released = true; unlock(); targetBtn.classList.add('released'); setTimeout(() => targetBtn.classList.remove('released'), 400); }, 550);
+  });
+  targetBtn.addEventListener('pointerup', e => {
+    if (e.pointerId !== targetPointer) return;
+    clearTimeout(hold); targetPointer = null;
+    const bounds = targetBtn.getBoundingClientRect();
+    if (!released && e.clientX >= bounds.left && e.clientX <= bounds.right && e.clientY >= bounds.top && e.clientY <= bounds.bottom) press('Tab');
+  });
+  const cancelTarget = () => { clearTimeout(hold); targetPointer = null; targetBtn.classList.remove('down'); };
+  targetBtn.addEventListener('pointercancel', cancelTarget);
+  targetBtn.addEventListener('lostpointercapture', cancelTarget);
+  window.addEventListener('blur', cancelTarget);
   setInterval(() => targetBtn.classList.toggle('locked', locked()), 200);
   btn('t-talk', '<b>คุย</b>', 'KeyE', 'คุย / ใช้ของตรงหน้า');
   root.append(pad);
@@ -118,7 +136,9 @@ export function createTouchControls(root, input, { locked = () => false, unlock 
     map.addEventListener('click', () => input.emit('map'));
     side.append(map);
     const dock = el('div', 'touch-combat-dock');
-    dock.append(side, bar); root.append(dock);
+    // Potions/AUTO sit above the movement thumb; learned skills sit beside
+    // the attack thumb. Neither needs a panel over the player's character.
+    dock.append(bar); root.append(side, dock);
     return true;
   };
   // A menu open (settings, character / bag, shop, full map, AUTO settings): the joystick,

@@ -1,0 +1,41 @@
+/* Loaded after the existing mobile layout. Four learned skills per page. */
+body.ui-touch .touch-combat-dock{left:auto;right:max(12px,env(safe-area-inset-right));bottom:calc(var(--mobile-bottom) + 146px);transform:none;align-items:flex-end;width:116px;gap:0}
+body.ui-touch .touch-combat-dock .hotbar.action-bar{width:116px!important;max-width:none;padding:0;border:0;background:none;box-shadow:none;border-radius:0}
+body.ui-touch .action-bar .hotbar-row{display:grid;grid-template-columns:repeat(2,54px);gap:8px;width:116px!important;min-height:0;touch-action:pan-y}
+body.ui-touch .hotbar-row[data-touch-count='1']{grid-template-columns:54px;justify-content:end}
+body.ui-touch .hotbar-row .hotbar-sep{display:none}
+body.ui-touch .hotbar-slot{width:54px;height:54px;border-radius:50%;overflow:hidden;border:1px solid #dbc58b;box-shadow:0 3px 10px #0006;background:radial-gradient(circle at 35% 30%,#315949,#102922);padding:3px}
+body.ui-touch .hotbar-slot .asset-icon{border-radius:50%;overflow:hidden}
+body.ui-touch .hotbar-slot .key{display:none}
+body.ui-touch .hotbar-slot .slv{right:5px;bottom:3px;font-size:9px}
+body.ui-touch .hotbar-slot .mp{left:5px;bottom:3px;font-size:9px}
+body.ui-touch .touch-skill-pages{width:116px;height:44px;gap:4px;font-size:10px}
+body.ui-touch .touch-skill-pages button{width:44px;min-width:44px;min-height:44px}
+body.ui-touch .touch-skill-pages span{min-width:20px;white-space:nowrap;font-size:9px}
+body.ui-touch .touch-side{left:max(12px,env(safe-area-inset-left))!important;right:auto!important;bottom:calc(var(--mobile-bottom) + 174px)!important;transform:none!important;translate:none!important;width:auto;height:42px;gap:4px;display:flex;align-items:center;flex-wrap:nowrap}
+body.ui-touch .touch-side .action-items{margin:0;gap:4px}
+body.ui-touch .touch-side .g-potion{width:40px;height:40px;border-radius:12px}
+body.ui-touch .touch-side .hotbar-auto{min-width:54px;height:40px;padding:0 7px;font-size:10px}
+body.ui-touch .touch-side .hotbar-auto-cfg{width:28px;height:40px;padding:0;font-size:15px}
+body.ui-touch .touch-pad{width:164px;height:166px}
+body.ui-touch .touch-btn.t-talk{right:120px;bottom:80px;width:54px;height:54px}
+body.ui-touch .touch-btn.t-target{width:54px;height:54px}
+body.ui-touch .touch-btn.t-target.locked{box-shadow:0 0 0 2px #f5d988,0 3px 12px #0006}
+body.ui-touch .touch-btn.t-target.released{border-color:#8ddbb9}
+body.ui-touch.touch-menu .touch-side,body.photo-mode.ui-touch .touch-side{display:none!important}
+@media(orientation:landscape){
+ body.ui-touch .touch-combat-dock{right:184px;bottom:calc(var(--mobile-bottom) + 24px);width:240px}
+ body.ui-touch .touch-combat-dock .hotbar.action-bar{width:max-content!important}
+ body.ui-touch .action-bar .hotbar-row{grid-template-columns:repeat(4,54px);width:max-content!important}
+ body.ui-touch .hotbar-row[data-touch-count='1']{grid-template-columns:54px}
+ body.ui-touch .touch-skill-pages{align-self:flex-end}
+ body.ui-touch .touch-side{left:152px!important;bottom:calc(var(--mobile-bottom) + 24px)!important}
+ body.ui-touch .touch-pad{bottom:calc(var(--mobile-bottom) + 24px)}
+ body.ui-touch .touch-btn.t-talk{right:96px}
+}
+@media(orientation:landscape) and (max-width:740px){
+ body.ui-touch .action-bar .hotbar-row{grid-template-columns:repeat(2,48px);gap:6px}
+ body.ui-touch .hotbar-slot{width:48px;height:48px}
+ body.ui-touch .touch-combat-dock{width:102px;right:174px}
+ body.ui-touch .touch-side{left:286px!important;top:112px;bottom:auto!important}
+}

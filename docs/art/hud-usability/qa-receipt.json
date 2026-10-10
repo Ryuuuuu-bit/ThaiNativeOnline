@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "checks": [
+    "390x844: thumb groups in bounds, no overlap, learned skills only",
+    "320x640: thumb groups in bounds, no overlap, learned skills only",
+    "844x390: thumb groups in bounds, no overlap, learned skills only",
+    "640x360: thumb groups in bounds, no overlap, learned skills only",
+    "Short target tap cycles once; long hold releases without an extra cycle",
+    "Learned skill pages change",
+    "Explicit use consumes one potion; item selection alone consumes none",
+    "Inventory first selection does not mutate; seven equipment slots; mobile tabs; party unread and explicit party/whisper routing; chat text escaped",
+    "Menu keydown stays inside; W/Shift release clears input; styled hover visible; native tooltip absent; +6 badge >=12px",
+    "Desktop equipment and bag side by side; menu groups preserve bag action",
+    "PC inventory fits 1366x768 and 1920x1080 with both panes visible",
+    "Main menu opens and bag action opens inventory; combat controls gated"
+  ],
+  "images": [
+    "mobile-combat.png",
+    "combat-320x640.png",
+    "combat-844x390.png",
+    "combat-640x360.png",
+    "mobile-menu.png",
+    "mobile-inventory.png",
+    "mobile-inventory-selected.png",
+    "mobile-equipment.png",
+    "mobile-chat.png",
+    "desktop-menu.png",
+    "desktop-inventory.png",
+    "desktop-item-hover.png",
+    "desktop-inventory-1366x768.png",
+    "desktop-inventory-1920x1080.png"
+  ],
+  "errors": [],
+  "failures": []
+}

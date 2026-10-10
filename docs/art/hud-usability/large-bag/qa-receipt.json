@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "slots": 100,
+      "viewport": "1366x768",
+      "checks": [
+        "All slots rendered, count correct, 10000 stack displayed, workspace fits",
+        "Last slot reachable, selected safely, correct detail/actions, equipment column unchanged",
+        "Last-slot hover card visible and fits viewport",
+        "Search retains original indices; empty results and equipment category correct",
+        "Sorting and merging preserve every item quantity"
+      ],
+      "fixture": {
+        "renderMs": 4,
+        "lastId": "short_bow",
+        "lastName": "ธนูไม้ซ้อม"
+      }
+    },
+    {
+      "slots": 100,
+      "viewport": "1920x1080",
+      "checks": [
+        "All slots rendered, count correct, 10000 stack displayed, workspace fits",
+        "Last slot reachable, selected safely, correct detail/actions, equipment column unchanged",
+        "Last-slot hover card visible and fits viewport",
+        "Search retains original indices; empty results and equipment category correct",
+        "Sorting and merging preserve every item quantity"
+      ],
+      "fixture": {
+        "renderMs": 5.5,
+        "lastId": "short_bow",
+        "lastName": "ธนูไม้ซ้อม"
+      }
+    },
+    {
+      "slots": 300,
+      "viewport": "1366x768",
+      "checks": [
+        "All slots rendered, count correct, 10000 stack displayed, workspace fits",
+        "Last slot reachable, selected safely, correct detail/actions, equipment column unchanged",
+        "Last-slot hover card visible and fits viewport",
+        "Search retains original indices; empty results and equipment category correct",
+        "Sorting and merging preserve every item quantity"
+      ],
+      "fixture": {
+        "renderMs": 11.800000011920929,
+        "lastId": "short_bow",
+        "lastName": "ธนูไม้ซ้อม"
+      }
+    },
+    {
+      "slots": 300,
+      "viewport": "1920x1080",
+      "checks": [
+        "All slots rendered, count correct, 10000 stack displayed, workspace fits",
+        "Last slot reachable, selected safely, correct detail/actions, equipment column unchanged",
+        "Last-slot hover card visible and fits viewport",
+        "Search retains original indices; empty results and equipment category correct",
+        "Sorting and merging preserve every item quantity"
+      ],
+      "fixture": {
+        "renderMs": 9.600000023841858,
+        "lastId": "short_bow",
+        "lastName": "ธนูไม้ซ้อม"
+      }
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "limitations": [
+    "Synthetic local guest inventories; normal game capacity remains 24. No live account or server inventory changed.",
+    "Timing samples are diagnostic on this machine, not a performance benchmark."
+  ]
+}

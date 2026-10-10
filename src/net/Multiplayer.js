@@ -1,6 +1,5 @@
 import { NetClient, serverUrl } from './NetClient.js';
-import { titleHtml } from '../ui/titleTag.js';
-import { draggable } from '../ui/draggable.js';
+import { ChatBox } from './ChatBox.js';
 import { RemotePlayers } from './RemotePlayers.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
@@ -137,38 +136,4 @@ class ChannelPicker {
       return `<button type="button" data-ch="${c.ch}" class="${cls}${here ? ' here' : ''}" ${here || c.closing ? 'disabled' : ''}><b>CH ${c.ch}</b><span>${c.closing ? 'กำลังปิด' : here ? 'อยู่ที่นี่' : word}</span><i>${c.n}/${c.cap}</i></button>`;
     }).join('') + '<p>แชนแนลใหม่เปิดเองเมื่อคนแน่น · บอสอยู่ CH 1</p>';
   }
-}
-
-// Bottom-left chat: the last few lines fade out; Enter opens the input, Enter sends, Esc closes.
-class ChatBox {
-  constructor(send) {
-    this.root = document.createElement('section'); this.root.className = 'net-chat'; this.root.setAttribute('aria-label', 'แชท');
-    this.root.innerHTML = '<header><b>แชท</b><span class="net-online">ออฟไลน์</span></header><div class="net-lines" aria-live="polite"></div><input type="text" maxlength="120" placeholder="พิมพ์ข้อความ แล้วกด Enter" hidden>';
-    document.getElementById('app')?.append(this.root) ?? document.body.append(this.root);
-    this.lines = this.root.querySelector('.net-lines'); this.input = this.root.querySelector('input'); this.online = this.root.querySelector('.net-online');
-    window.addEventListener('keydown', e => {
-      if (e.code !== 'Enter' || e.target === this.input || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
-      if (e.target.tagName === 'BUTTON') e.target.blur();   // a clicked button keeps the focus: Enter opens the chat, not the button again
-      e.preventDefault(); this.open();
-    });
-    this.input.addEventListener('keydown', e => {
-      e.stopPropagation();
-      if (e.code === 'Enter') { const t = this.input.value.trim(); if (t && !this.online_) this.add('ระบบ', 'ออฟไลน์อยู่ · ข้อความยังส่งไม่ได้'); else if (t && !this.filter?.(t)) send(t); this.input.value = ''; this.close(); }
-      if (e.code === 'Escape') this.close();
-    });
-    this.input.addEventListener('blur', () => this.close());
-    this.root.querySelector('header').addEventListener('click', () => this.open());
-    draggable(this.root, { key: 'chat', lockable: true });   // movable by its title bar; the padlock keeps it put (phones start locked)
-  }
-  open(text = null) { this.input.hidden = false; this.root.classList.add('typing'); if (text !== null) this.input.value = text; this.input.focus(); }
-  close() { this.input.hidden = true; this.root.classList.remove('typing'); this.input.blur(); }
-  add(name, text, kind = '', title = null) {
-    const line = document.createElement('p'); line.innerHTML = `${titleHtml(title, { brackets: true })}<b></b> <span></span>`; if (kind) line.className = kind;
-    line.querySelector('b').textContent = name; line.querySelector('span').textContent = text;
-    this.lines.append(line); while (this.lines.children.length > 30) this.lines.firstChild.remove();
-    this.lines.scrollTop = this.lines.scrollHeight;
-    setTimeout(() => line.classList.add('old'), 12000);
-  }
-  setOnline(n) { this.online.textContent = `ออนไลน์ ${n} คน`; }
-  setStatus(on, final = false) { this.online_ = on; this.root.classList.toggle('offline', !on); if (!on) this.online.textContent = final ? 'ออฟไลน์' : 'ออฟไลน์ · กำลังเชื่อมต่อ'; }
 }
