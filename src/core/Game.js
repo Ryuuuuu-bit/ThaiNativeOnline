@@ -111,7 +111,7 @@ export class Game {
     });   // phones and tablets: joystick and thumb buttons (src/ui/TouchControls.js)
     this.bind();
     // graphics as this device last set them (the world reads the controls when it loads)
-    $('particles').checked = this.prefs.particles; $('quality').value = this.prefs.quality; $('monster-style').value = this.prefs.monsters;
+    $('particles').checked = this.prefs.particles; $('quality').value = this.prefs.quality;
     if (this.prefs.quality === 'low') $('quality').dispatchEvent(new Event('change'));
     this.startCombat();
     this.maps.attachCombat(this.game);
@@ -230,7 +230,6 @@ export class Game {
     $('hud-size').addEventListener('change', e => this.prefs.set({ hud: Number(e.target.value) }));
     $('wind').addEventListener('input', e => { windUniforms.uWind.value = Number(e.target.value) / 100; $('wind-value').value = `${e.target.value}%`; });
     $('particles').addEventListener('change', e => { this.world.atmosphere.setEnabled(e.target.checked); this.prefs.set({ particles: e.target.checked }); });
-    $('monster-style').addEventListener('change', e => { this.prefs.set({ monsters: e.target.value }); this.game?.view?.restyle(e.target.value); });
     $('debug-toggle').addEventListener('change', e => { if (e.target.checked !== !!this.debugOn) this.toggleDebug(); });
     $('time-mode').addEventListener('change', e => {
       const mode = e.target.value;
