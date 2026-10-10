@@ -89,7 +89,7 @@ test('authoritative destruction shows exact consumed resources and card loss, wi
   h.click(); h.click(); h.result();
   assert.match(h.html, /eh-result broke/); assert.doesNotMatch(h.html, /eh-result success/);
   assert.match(h.html, /ตีบวก \+5 ล้มเหลว.*ดาบเหล็กลายแตกสลาย/);
-  assert.match(h.html, /พร้อมการ์ดหมูป่า/); assert.match(h.html, /ใช้ 500 ทอง \+ แร่ศักดิ์สิทธิ์ 1 ชิ้น/);
+  assert.match(h.html, /พร้อมการ์ดหมูป่า/); assert.match(h.html, /ใช้ 500 ตำลึง \+ แร่ศักดิ์สิทธิ์ 1 ชิ้น/);
   assert.equal(h.c.equipment.weapon, 'iron_dap', 'destruction waits for authoritative sync');
   h.sync(); assert.equal(h.c.equipment.weapon, null); assert.deepEqual(h.c.cards.weapon, []);
   assert.equal(h.c.gold, gold - 500); assert.equal(h.c.count('sacred_ore'), ore - 1);

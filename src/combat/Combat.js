@@ -43,6 +43,7 @@ export class Combat extends Emitter {
     this.pending = null; // { skillId, target } waiting to get in range
     this.attackTimer = 0; this.gcd = 0; this.combatTimer = 0; this.projectiles = []; this.hold = false;
     this.phase = 'day';
+    character.evoContext = () => ({ fighting: this.inCombat, busy: !!this.pending || this.projectiles.length > 0 || character.buffs.length > 0 });
     // Hunter's dog: follows the player and bites whatever the player fights.
     this.pet = character.cls.pet ? { kind: character.cls.pet, x: 0, z: 0, facing: 0, moving: false, attackTimer: 0, frenzy: 0, placed: false } : null;
     for (const spawn of spawns) for (let i = 0; i < spawn.count; i++) {

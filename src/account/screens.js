@@ -146,7 +146,7 @@ function slotCard({ slot, character: c, needsRename }) {
       <span class="acc-icon">${classBadge(CLASS_ALIASES[c.classId] || c.classId, cls, { size: 34 })}</span>
       <b>${esc(c.name)}</b>
       <em>${esc(cls?.name ?? c.classId)} · Lv.${c.level ?? 1}</em>
-      <small>${c.gender === 'female' ? 'หญิง' : 'ชาย'} · ${(c.gold ?? 0).toLocaleString()} ทอง</small>
+      <small>${c.gender === 'female' ? 'หญิง' : 'ชาย'} · ${(c.gold ?? 0).toLocaleString()} ตำลึง</small>
       <span class="acc-enter">${needsRename ? 'เลือกชื่อใหม่ฟรี' : 'เข้าเกม'}</span>
     </button>
     <button type="button" class="acc-delete" data-delete="${slot}" title="ลบตัวละคร" aria-label="ลบ ${esc(c.name)}">ลบ</button>

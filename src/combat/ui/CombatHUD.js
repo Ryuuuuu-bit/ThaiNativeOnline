@@ -52,7 +52,7 @@ export class CombatHUD {
     const btn = this.death.querySelector('button'), hint = this.death.querySelector('.g-death-wait');
     if (!wait) { btn.disabled = false; btn.textContent = 'ฟื้นคืนชีพ'; hint.hidden = true; return; }
     let left = Math.max(0, Math.round(wait.secs));
-    hint.hidden = false; hint.textContent = `${wait.who} อยู่ในปาร์ตี้ · รอให้ชุบชีวิตตรงนี้ได้ ไม่เสียทอง`;
+    hint.hidden = false; hint.textContent = `${wait.who} อยู่ในปาร์ตี้ · รอให้ชุบชีวิตตรงนี้ได้ ไม่เสียตำลึง`;
     const paint = () => { btn.disabled = left > 0; btn.textContent = left > 0 ? `ฟื้นที่จุดปลอดภัย (${left})` : 'ฟื้นที่จุดปลอดภัย'; };
     paint();
     this.deathTick = setInterval(() => { left -= 1; paint(); if (left <= 0) { clearInterval(this.deathTick); this.deathTick = null; } }, 1000);
@@ -62,7 +62,7 @@ export class CombatHUD {
     this.safe = on;
   }
   buildDeath() {
-    this.death = el('section', 'g-death', `<h2>คุณหมดสติ</h2><p>วิญญาณยังไม่ไปไหน กลับไปตั้งหลักที่จุดปลอดภัย<br><small>เสียทอง 10% ที่ติดตัว</small></p><p class="g-death-wait" hidden></p><button>ฟื้นคืนชีพ</button>`);
+    this.death = el('section', 'g-death', `<h2>คุณหมดสติ</h2><p>วิญญาณยังไม่ไปไหน กลับไปตั้งหลักที่จุดปลอดภัย<br><small>เสียตำลึง 10% ที่ติดตัว</small></p><p class="g-death-wait" hidden></p><button>ฟื้นคืนชีพ</button>`);
     this.death.hidden = true; this.layer.append(this.death);
     this.death.querySelector('button').addEventListener('click', () => this.onRespawn?.());
   }
@@ -83,7 +83,7 @@ export class CombatHUD {
     cb.on('cast-done', endCast); cb.on('cast-cancel', endCast);
     cb.on('evo-fx', e => this.float(e.x, e.z, e.name, 'evo', 2.4));
     cb.on('kill', ({ monster, exp, gold, drops }) => {
-      feed.log(`ปราบ${monster.name} · +${exp} EXP · +${gold} ทอง`, 'exp');
+      feed.log(`ปราบ${monster.name} · +${exp} EXP · +${gold} ตำลึง`, 'exp');
       for (const d of drops) feed.log(`ได้รับ ${ITEMS[d.id].name}${d.qty > 1 ? ` ×${d.qty}` : ''}`, ITEMS[d.id].rarity === 'epic' || ITEMS[d.id].type === 'card' ? 'epic' : 'loot');
       const card = drops.find(d => ITEMS[d.id]?.type === 'card');
       if (card) feed.banner(`ได้รับ${ITEMS[card.id].name}!`, 'คลิกการ์ดในกระเป๋าเพื่อใส่ในช่องการ์ด (กด C ดูช่อง)');
@@ -94,7 +94,7 @@ export class CombatHUD {
     cb.on('phase', phase => this.setPhase(phase));
     cb.on('player-death', () => { this.death.hidden = false; this.deathWait(this.reviveWait?.() ?? null); });
     cb.on('player-revived', () => { this.death.hidden = true; this.deathWait(null); feed.log('ฟื้นคืนชีพตรงจุดที่ล้ม', 'gold'); });
-    cb.on('player-respawn', ({ goldLost }) => { this.death.hidden = true; this.deathWait(null); if (goldLost) feed.log(`เสียทอง ${goldLost}`, 'bad'); });
+    cb.on('player-respawn', ({ goldLost }) => { this.death.hidden = true; this.deathWait(null); if (goldLost) feed.log(`เสียตำลึง ${goldLost}`, 'bad'); });
   }
 
   // Night switches the whole UI to a moonlit theme (body.g-night).

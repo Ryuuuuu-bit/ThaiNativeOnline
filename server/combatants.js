@@ -149,7 +149,7 @@ export class Combatants {
     if (!s.c.alive && ['sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
     const questResult = applyQuestOp(s.c, msg, s.quests, at);
     const ok = questResult === null
-      ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true })
+      ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true || (msg.op === 'evo' && ((s.variantEffectsUntil ?? 0) > this.now() || s.casting.size > 0 || s.casts.some(cast => this.now() - cast.at < CAST_WINDOW && cast.left > 0) || s.c.buffs.length > 0)) })
       : questResult;
     if (ok) s.dirty = true;
     return ok;
@@ -335,6 +335,8 @@ export class Combatants {
     if (r.hit && m.hp > 0 && !cast.hit.has(m.id)) {
       cast.hit.add(m.id);
       for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
+        const owner = this.list.get(id);
+        if (owner) owner.variantEffectsUntil = Math.max(owner.variantEffectsUntil ?? 0, this.now() + d.duration);
         ev.push(world.debuff(m, { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, label: d.label, source: d.source || r.dmg, by: id, remaining: d.duration }));
       }
     }

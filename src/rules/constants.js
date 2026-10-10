@@ -21,7 +21,7 @@ export const VIEW = { width: 960, height: 540, zoom: 2 };
  *  Port note: legacy 2D-canvas setting, ignored by the 3D client. `window` access is guarded (1 in Node). */
 export const RENDER_SCALE = typeof window === 'undefined' ? 1 : ((window.screen?.height || 720) * (window.devicePixelRatio || 1) >= 900 ? 2 : 1);
 
-export const CURRENCY = { nameTh: 'บาท', symbol: '฿' };
+export const CURRENCY = { nameTh: 'ตำลึง', symbol: 'ตำลึง ' };
 
 export const NET = {
   sendRate: 15, // ส่งตำแหน่งตัวเองไป server กี่ครั้ง/วินาที

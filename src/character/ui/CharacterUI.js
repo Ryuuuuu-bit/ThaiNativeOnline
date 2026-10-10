@@ -43,7 +43,7 @@ function itemTip(id, cards = [], plus = 0) {
   // a weapon says its kind and who wields it (RO style: a bow is a hunter's)
   const wield = d.weapon ? `\n${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
   const refine = plus ? `\nตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}` : '';
-  return `${itemName(id, plus)}${where}${wield}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
+  return `${itemName(id, plus)}${where}${wield}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
 }
 const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
 
@@ -56,7 +56,7 @@ function itemCard({ id, cards = [], plus = 0, locked = false }, cmp) {
   const refine = plus ? `<i>ตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}</i>` : '';
   const slots = cardsLine(id, cards).trim();
   const tag = [d.type === 'card' ? `การ์ด${SLOT_LABELS[d.slot]}` : d.slot && SLOT_LABELS[d.slot], RARITY_TH[d.rarity], `น้ำหนัก ${d.weight || 0}`].filter(Boolean).join(' · ');
-  const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ทอง`;
+  const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
   const act = d.type === 'equip' ? 'คลิกเพื่อสวมใส่' : d.type === 'use' ? 'คลิกเพื่อใช้' : d.type === 'card' ? 'คลิกเพื่อใส่การ์ด (ถอดไม่ได้)' : 'ขายได้ที่ร้านค้า';
   return `<span class="g-detail-icon" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}">${iconHtml(d)}</span><div><b style="color:${RARITY_COLORS[d.rarity] || 'inherit'}">${esc(itemName(id, plus))}</b><small>${tag}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small><span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
@@ -109,7 +109,7 @@ export class CharacterUI {
       <div class="g-bag-tabs" role="tablist">${BAG_TABS.map((t, i) => `<button role="tab" data-tab="${t.id}" aria-selected="${i === 0}">${t.label}</button>`).join('')}</div>
       <div class="g-bag-tools"><input class="g-bag-search" type="search" placeholder="ค้นหา…" aria-label="ค้นหาไอเท็ม" /><button class="g-bag-sort" title="เรียงไอเท็มและรวมกองซ้ำ">เรียง</button><button type="button" class="g-bag-lock" aria-pressed="false" title="โหมดล็อก: แตะไอเท็มเพื่อป้องกันขาย ตีบวก ใส่/ถอดการ์ด และแลก">🔒 ล็อก</button><label class="g-bag-auto" title="เรียงให้เองทุกครั้งที่ได้ของ"><input type="checkbox" /> อัตโนมัติ</label></div>
       <div class="g-grid"></div><p class="g-bag-none" hidden>ไม่มีไอเท็มในหมวดนี้</p><div class="g-card-pick" hidden></div>
-      <div class="g-bag-foot"><span class="g-bag-count"></span><span class="g-gold"></span></div>
+      <div class="g-bag-foot"><span class="g-bag-count"></span><span class="g-gold" title="ตำลึงในกระเป๋า"></span></div>
       <div class="g-detail" hidden></div><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่ · ขายของได้ที่ร้านค้า (แท็บขาย)</p>`);
     this.loadouts = el('section', 'g-panel g-loadouts glass', '<div class="panel-heading">ชุดอุปกรณ์และแถบสกิล<button aria-label="ปิด">×</button></div><div class="g-loadout-body"></div>');
     for (const p of [this.sheet, this.bag, this.loadouts]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { p.hidden = true; }); this.layer.append(p); }

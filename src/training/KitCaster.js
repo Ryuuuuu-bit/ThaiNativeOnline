@@ -38,6 +38,7 @@ export class KitCaster {
     this.proxy = createTargetProxy(this.stub);
     this.adapters = new WeakMap();
     this.runner = o.runnerFactory(this.proxy, id => this.roll(id));
+    o.character.evoContext = () => ({ fighting: !!o.combat.inCombat, busy: (!o.combat.remote && o.combat.monsters.some(m => m.alive && m.debuffs.some(d => (d.remaining ?? d.duration ?? 0) > 0))) || !!o.combat.pending || o.combat.projectiles.length > 0 || o.character.buffs.length > 0 || this.busy });
   }
 
   // ---- action bar controller --------------------------------------------------

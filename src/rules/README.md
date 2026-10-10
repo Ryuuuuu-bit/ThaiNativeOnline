@@ -7,6 +7,34 @@ Content comments are in Thai as in the original.
 
 Owner: game-director, the lead (see CLAUDE.md). Character and Combat consume this layer; they do not edit it.
 
+## Skill paths and previews — 2026-10-10
+
+The user requested an A/B choice for every playable skill and readable calculated
+values. The five ready class kits have 50 active skills and 15 tree passives.
+The original fifteen active A/B pairs remain; additional pairs trade area, reach,
+control, recovery, tempo or stat focus. They use existing combat fields instead
+of adding new skills or effects. Proposal content is in
+`src/character/data/skill-path-design.js`, registered by `data/evolutions.js`.
+Passive choices replace that passive's per-level bonus through `passiveBonusAt`.
+Base skills remain unchanged until a valid choice at skill Lv 5. Existing saves
+without choices retain their original stats. Global damage, progression and
+economy formulas are unchanged.
+
+The user explicitly selected a switching fee of Job level × 10 **ตำลึง**, with
+the first selection free. `evolutionSwitchCost` centralizes that calculation;
+the server authorizes combat locks, charges once and preserves cooldowns,
+effects and current HP/MP. Currency labels change only presentation; `gold`
+keys and numerical balances remain compatible.
+
+`skillPreview.js` returns presentation data from the actual `skillStats`,
+`castInfo`, healing and support helpers. Damage ranges apply `rollDamage`'s
+variance, armor subtraction, minimum damage, critical multiplier and rounding.
+No selected target means a clearly marked before-armor estimate. Multi-hit
+totals assume every scheduled blow lands; they do not include additional
+targets, DoT, pet damage or guarantee hits. Healing is potential before HP/MP
+caps and combat context. Natural party balance and physical-device play remain
+separate validation from formula and authority tests.
+
 ## Modules
 
 | Module | What it holds |
