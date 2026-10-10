@@ -14,7 +14,7 @@ test('every item has a weight', () => {
 
 test('weight counts bag stacks and equipped items; STR raises the limit', () => {
   const c = Character.create('ทดสอบ', 'muaythai');
-  const expected = ITEMS.hand_wrap.weight + ITEMS.cloth_vest.weight + ITEMS.potion_s.weight * 5 + ITEMS.ether.weight * 2;
+  const expected = ITEMS.hand_wrap.weight + ITEMS.cloth_vest.weight + ITEMS.potion_s.weight * 5 + ITEMS.ether.weight * 2 + Object.values(c.flasks).reduce((n,item)=>n+ITEMS[item.id].weight,0);
   assert.equal(c.weight, expected);
   assert.equal(c.maxWeight, CARRY.base + c.stat('str') * CARRY.perStr);
   const before = c.maxWeight;
@@ -25,7 +25,7 @@ test('weight counts bag stacks and equipped items; STR raises the limit', () => 
 
 test('overweight keeps what fits and refuses the rest', () => {
   const c = hero(), w = ITEMS.hide.weight;
-  const fit = Math.floor(c.maxWeight / w);
+  const fit = Math.floor((c.maxWeight-c.weight) / w);
   const events = []; c.on('overweight', id => events.push(id));
   assert.equal(c.addItem('hide', fit + 5), false);
   assert.equal(c.count('hide'), fit);

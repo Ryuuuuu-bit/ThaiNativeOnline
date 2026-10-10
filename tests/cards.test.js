@@ -109,10 +109,10 @@ test('server rolls: cards add damage against a race and take it off monster swin
   const def = { ...MONSTERS.winyan, acc: 1e9 };
   const hurt1 = cs.swing(1, def, 1).dmg, hurt2 = cs.swing(2, def, 1).dmg;
   assert.ok(hurt1 < hurt2, `resisted (${hurt1} < ${hurt2})`);
-  assert.deepEqual(sane({ level: 5, equipment: { weapon: 'wood_sword', armor: 'cloth_vest' }, cards: { weapon: ['card_pray'], armor: ['card_pray'] } }, 'warrior').cards, { weapon: ['card_pray'], armor: [], head: [], cape: [], shoes: [], charm: [], charm2: [] }, 'a guest sheet is checked too');
+  assert.deepEqual(sane({ level: 5, equipment: { weapon: 'wood_sword', armor: 'cloth_vest' }, cards: { weapon: ['card_pray'], armor: ['card_pray'] } }, 'warrior').cards, { weapon: ['card_pray'], armor: [], head: [], cape: [], shoes: [], gloves:[],belt:[],amulet:[],charm: [], charm2: [] }, 'a guest sheet is checked too');
 });
 
-test('seven equipment slots: armor and two charms', async () => {
+test('legacy armor and two charms remain compatible with the expanded equipment slots', async () => {
   const { EQUIP_SLOTS } = await import('../src/character/data/items.js');
   const c = Character.create('ทดสอบ', 'muaythai');
   assert.deepEqual(Object.keys(c.equipment), EQUIP_SLOTS);

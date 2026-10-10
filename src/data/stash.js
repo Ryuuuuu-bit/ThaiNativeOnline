@@ -1,3 +1,4 @@
+import { instanceId } from '../character/data/flasks.js';
 // Shared vault rules. Storage UI must wait for the server's stash + character sync.
 import { ITEMS } from '../character/data/items.js';
 import { Character } from '../character/Character.js';
@@ -6,9 +7,9 @@ export const STASH_CAPACITY = 120;
 export const STASH_REQUEST = /^[A-Za-z0-9_-]{8,64}$/;
 export const emptyStash = () => ({ revision: 0, slots: Array(STASH_CAPACITY).fill(null) });
 const no = why => ({ ok: false, why });
-export const stashIdentity = s => s && ({ ...(s.roll?.iid ? { iid: s.roll.iid } : s.iid ? { iid: s.iid } : {}), id: s.id, plus: s.plus ?? 0, cards: [...(s.cards ?? [])], locked: s.locked === true });
+export const stashIdentity = s => s && ({ ...(instanceId(s) ? { iid: instanceId(s) } : s.iid ? { iid: s.iid } : {}), id: s.id, plus: s.plus ?? 0, cards: [...(s.cards ?? [])], locked: s.locked === true });
 export const sameStashItem = (a, b) => !!a && !!b && a.id === b.id && (a.plus ?? 0) === (b.plus ?? 0)
-  && (a.roll?.iid ?? a.iid) === (b.roll?.iid ?? b.iid)
+  && (instanceId(a) ?? a.iid) === (instanceId(b) ?? b.iid)
   && (a.locked === true) === (b.locked === true) && JSON.stringify(a.cards ?? []) === JSON.stringify(b.cards ?? []);
 
 // Canonical, bounded request: no client account, map, inventory or coordinates.
@@ -42,7 +43,7 @@ export function planStashMove(character, vault, move, uid) {
   let moved = 0;
   const add = (bag, s, storage) => {
     const def = ITEMS[s.id]; if (!def || def.retired) return 'item';
-    const target = def.type !== 'equip' ? bag.find(x => sameStashItem(x, s)) : null;
+    const target = !['equip', 'flask'].includes(def.type) ? bag.find(x => sameStashItem(x, s)) : null;
     if (target) {
       if (!Number.isSafeInteger(target.qty + s.qty)) return 'quantity';
       target.qty += s.qty;
@@ -56,7 +57,7 @@ export function planStashMove(character, vault, move, uid) {
   const deposit = (index, qty) => {
     const s = inventory[index], def = ITEMS[s?.id];
     if (!def || def.retired) return 'item';
-    if (!Number.isSafeInteger(s.qty) || s.qty < qty || (def.type === 'equip' && (qty !== 1 || s.qty !== 1))) return 'quantity';
+    if (!Number.isSafeInteger(s.qty) || s.qty < qty || (['equip', 'flask'].includes(def.type) && (qty !== 1 || s.qty !== 1))) return 'quantity';
     const why = add(slots, { ...s, qty }, true); if (why) return why;
     s.qty -= qty; if (!s.qty) inventory[index] = null; moved += qty;
     return null;
@@ -73,7 +74,7 @@ export function planStashMove(character, vault, move, uid) {
   } else if (move.action === 'withdraw') {
     const i = slots.findIndex(s => s?.uid === move.uid), s = slots[i], def = ITEMS[s?.id];
     if (!def) return no('item_changed');
-    if (!Number.isSafeInteger(s.qty) || move.qty > s.qty || (def.type === 'equip' && (move.qty !== 1 || s.qty !== 1))) return no('quantity');
+    if (!Number.isSafeInteger(s.qty) || move.qty > s.qty || (['equip', 'flask'].includes(def.type) && (move.qty !== 1 || s.qty !== 1))) return no('quantity');
     const why = add(inventory, { ...s, qty: move.qty }, false); if (why) return no(why);
     s.qty -= move.qty; if (!s.qty) slots[i] = null; moved = move.qty;
     const c = new Character({ ...character, inventory });

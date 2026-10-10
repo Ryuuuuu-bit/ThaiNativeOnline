@@ -11,10 +11,10 @@ import { socketCards } from './data/cards.js';
 // Tabs: id → label and which items belong (all shows every slot, empty ones too).
 export const BAG_TABS = [
   { id: 'all', label: 'ทั้งหมด', has: () => true },
-  { id: 'equip', label: 'อุปกรณ์', has: d => d.type === 'equip' },
+  { id: 'equip', label: 'อุปกรณ์', has: d => d.type === 'equip' || d.type === 'flask' },
   { id: 'use', label: 'ของใช้', has: d => d.type === 'use' },
   { id: 'card', label: 'การ์ด', has: d => d.type === 'card' },
-  { id: 'material', label: 'วัตถุดิบ', has: d => d.type !== 'equip' && d.type !== 'use' && d.type !== 'card' },
+  { id: 'material', label: 'วัตถุดิบ', has: d => d.type !== 'equip' && d.type !== 'use' && d.type !== 'flask' && d.type !== 'card' },
 ];
 export const inTab = (tab, id) => (BAG_TABS.find(t => t.id === tab) ?? BAG_TABS[0]).has(ITEMS[id] ?? {});
 
@@ -58,12 +58,12 @@ export const matchesSearch = (id, q) => !q || (ITEMS[id]?.name ?? '').toLowerCas
 // Auto-sort: gear first (weapon, armor, charm; rarer first), then consumables, then
 // materials; same items merged into one stack; empty slots last. Returns a new array
 // of the same length.
-const TYPE_ORDER = { equip: 0, card: 1, use: 2 }, SLOT_ORDER = { weapon: 0, offhand: 1, armor: 2, head: 3, cape: 4, shoes: 5, charm: 6 }, RARITY_ORDER = { epic: 0, rare: 1, common: 2 };
+const TYPE_ORDER = { equip: 0, card: 1, use: 2, flask: 0 }, SLOT_ORDER = { weapon: 0, offhand: 1, armor: 2, head: 3, cape: 4, shoes: 5, gloves: 6, belt: 7, amulet: 8, charm: 9 }, RARITY_ORDER = { epic: 0, rare: 1, common: 2 };
 export function sortedInventory(inventory) {
   const stacks = new Map(), gear = [];
   for (const s of inventory) {
     if (!s) continue;
-    if (ITEMS[s.id]?.type === 'equip') gear.push(cloneInstance(s));
+    if (['equip','flask'].includes(ITEMS[s.id]?.type)) gear.push(cloneInstance(s));
     else {
       const key = `${s.id}:${isItemLocked(s)}`;
       const old = stacks.get(key);
@@ -71,7 +71,7 @@ export function sortedInventory(inventory) {
     }
   }
   const items = [...gear, ...stacks.values()];
-  const key = s => { const d = ITEMS[s.id] ?? {}; return [TYPE_ORDER[d.type] ?? 2, SLOT_ORDER[d.slot] ?? 3, RARITY_ORDER[d.rarity] ?? 3, d.name ?? s.id]; };
+  const key = s => { const d = ITEMS[s.id] ?? {}; return [TYPE_ORDER[d.type] ?? 2, d.type === 'flask' ? (d.flask.kind === 'hp' ? 10 : 11) : SLOT_ORDER[d.slot] ?? 12, RARITY_ORDER[d.rarity] ?? 3, d.name ?? s.id]; };
   items.sort((a, b) => { const A = key(a), B = key(b); for (let i = 0; i < A.length; i++) { if (A[i] < B[i]) return -1; if (A[i] > B[i]) return 1; } return 0; });
   return [...items, ...Array(Math.max(0, inventory.length - items.length)).fill(null)];
 }

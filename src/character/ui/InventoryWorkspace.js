@@ -195,8 +195,10 @@ export class InventoryWorkspace {
     let action = '';
     if (worn) action = `<button type="button" data-item-action="unequip" ${!c.alive || !c.inventory.includes(null) ? 'disabled' : ''}>ถอดลงกระเป๋า</button>`;
     else if (d.type === 'equip') action = `<button type="button" data-item-action="equip" ${!c.alive || !c.canWield(item.id) || c.level < (d.minLevel ?? 1) || d.retired ? 'disabled' : ''}>สวมใส่</button>`;
+    else if (d.type === 'flask') action = `<button type="button" data-item-action="equip" ${!c.alive || c.level < d.minLevel ? 'disabled' : ''}>ใส่ช่อง ${d.flask.kind === 'hp' ? 'Q' : 'E'}</button>`;
     else if (d.type === 'use') action = `<button type="button" data-item-action="use" ${!c.alive ? 'disabled' : ''}>ใช้ไอเท็ม</button>`;
     else if (d.type === 'card') action = `<button type="button" data-item-action="socket" ${!c.alive || isItemLocked(item) ? 'disabled' : ''}>เลือกอุปกรณ์ใส่การ์ด</button>`;
+    if (!worn && d.type === 'use') action += '<button type="button" data-item-action="hotbar">ใส่ช่องลัด</button>';
     let comparison = '';
     if (!worn && d.type === 'equip') {
       // Match Character.equip's actual destination, including the second charm.
@@ -213,6 +215,7 @@ export class InventoryWorkspace {
     const item = this.item(), selected = this.selected;
     if (!item || JSON.stringify(item) !== selected.fingerprint) { this.clear(); return; }
     const { c } = this.ui;
+    if (action === 'hotbar') { window.dispatchEvent(new CustomEvent('hotbar-assign',{detail:{kind:'item',id:item.id}})); return; }
     if (action === 'socket') { this.ui.openCardPick(selected.index); return; }
     // Clear before Character emits inventory/change synchronously.
     this.clear(); this.ui.cardPick.hidden = true;

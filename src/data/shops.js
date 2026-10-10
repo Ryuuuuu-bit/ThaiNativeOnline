@@ -1,5 +1,7 @@
 import { EXPEDITIONS } from '../world/expeditions.js';
 import { expeditionGearIds } from '../character/data/expedition-gear.js';
+import { NORMAL_FLASK_IDS } from '../character/data/flask-items.js';
+import { EXTENDED_GEAR } from '../character/data/extended-gear.js';
 // Shop and training services. NPCs reference these by `shopType` or `trainer`.
 // `stock` lists item ids from src/character/data/items.js the shop sells at their price;
 // every shop with stock also buys anything from the bag at half price (sell tab),
@@ -32,6 +34,10 @@ export const SHOPS = {
 // Proximity comes from the surviving counter, never a removed vendor.
 export const SHOP_HOSTS = Object.freeze({ weapons: 'blacksmith', armor: 'blacksmith', charms: 'occult' });
 SHOPS.blacksmith.stock = [...new Set([...SHOPS.blacksmith.stock, ...SHOPS.weapons.stock, ...SHOPS.armor.stock])];
+SHOPS.blacksmith.stock.push(...Object.entries(EXTENDED_GEAR).filter(([,d]) => d.minLevel === 1).map(([id]) => id));
+for (const type of ['general','supplies','herbalist']) SHOPS[type].stock.push(...NORMAL_FLASK_IDS);
+SHOPS.herbalist.refillFlasks = true;
+SHOPS.herbalist.services.push('เติมประจุขวดชุบชีพและขวดฟื้นจิต');
 
 // One master per playable class (src/character/data/classes.js), each at the
 // class's hall (src/data/halls.js). `classId` links the trainer to its class;

@@ -42,9 +42,9 @@ test('all six weapon kinds scale from starter to Lv90 while keeping ATK/MATK ide
   }
 });
 
-test('armor, head, cape and shoes keep DEF only, scale across every expedition and cap at +10', () => {
+test('armor, head, cape, shoes, gloves and belt keep DEF only and cap at +10', () => {
   const gear = Object.values(ITEMS).filter(d => !d.retired && refinable(d) && d.slot !== 'weapon');
-  assert.deepEqual([...new Set(gear.map(d => d.slot))].sort(), ['armor', 'cape', 'head', 'shoes']);
+  assert.deepEqual([...new Set(gear.map(d => d.slot))].sort(), ['armor', 'belt', 'cape', 'gloves', 'head', 'shoes']);
   assert.deepEqual(REFINE_MILESTONES.map(n => value(ITEMS.cloth_vest, n)), [5, 14, 33]);
   assert.deepEqual(REFINE_MILESTONES.map(n => value(ITEMS.demon_rift_armor, n)), [9, 24, 57]);
   for (const d of gear) for (let n = 1; n <= REFINE_MAX; n++) {

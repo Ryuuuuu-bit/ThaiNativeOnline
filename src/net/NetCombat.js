@@ -1,3 +1,4 @@
+import { MONSTERS } from '../combat/data/monsters.js';
 import { keptLootDrops } from '../combat/lootDrops.js';
 import { sameStatusSource } from '../combat/statusEffects.js';
 import { Monster } from '../combat/Combat.js';
@@ -28,6 +29,14 @@ export function attachNetCombat(net, game) {
   const combat = game.game.combat, c = game.game.character;
   const byId = new Map();
   let serverPhase = null, selfId = null;
+  let locateAt = -Infinity, locateRequest = 0;
+  combat.seekMapTarget = cfg => {
+    if (!net.online || !combat.remote || Date.now() - locateAt < 1100) return combat.mapTarget ?? null;
+    locateAt = Date.now();
+    net.send({ t: 'auto_target', request: ++locateRequest, elites: cfg.elites, attackers: cfg.attackers,
+      exclude: combat.monsters.filter(m => Date.now() - (m.unreachableAt ?? -Infinity) < 6000).map(m => m.sid).filter(Number.isInteger).slice(0, 64) });
+    return combat.mapTarget ?? null;
+  };
 
   // ---- server → local monsters ---------------------------------------------------------
   const make = info => {
@@ -47,6 +56,7 @@ export function attachNetCombat(net, game) {
   const gone = m => { combat.cancelMonsterAttack(m); m.hp = 0; m.state = 'dead'; m.debuffs = []; if (combat.target === m) combat.setTarget(null); };
 
   net.on('mlist', msg => {
+    locateRequest++; combat.mapTarget = null;
     for (const m of combat.monsters) combat.cancelMonsterAttack(m);
     combat.emit('boss-skills-clear');
     // first list on this map: the local monsters step aside for the server's
@@ -65,6 +75,14 @@ export function attachNetCombat(net, game) {
     }
   });
   net.on('mspawn', msg => combat.emit('spawn', make(msg.m)));
+  net.on('auto_target', msg => {
+    if (msg.request !== locateRequest || msg.map !== game.maps?.map?.id) return;
+    if (!msg.m) { combat.mapTarget = null; return; }
+    let m = byId.get(msg.m.id);
+    if (!m) { m = make(msg.m); combat.emit('spawn', m); }
+    else Object.assign(m, { tx: msg.m.x, tz: msg.m.z, hp: msg.m.hp, state: STATES[msg.m.st] ?? 'idle' });
+    m.map = msg.map; combat.mapTarget = m;
+  });
   net.on('mt', msg => {
     for (const [sid, x, z, f, hp, st, mv] of msg.m) {
       const m = byId.get(sid); if (!m) continue;
@@ -106,6 +124,7 @@ export function attachNetCombat(net, game) {
     combat.emit('kill', { monster: m, exp: msg.exp, gold: msg.gold, drops: kept });
     if (lost.length) combat.emit('fail', 'กระเป๋าเต็ม · ของที่ตกหายไป');
     c.gold += msg.gold; c.gainExp(msg.exp);
+    const def = MONSTERS[msg.type]; if (def) c.refillFlasks('kill', def.boss ? 10 : def.elite ? 3 : 1);
     for (const d of kept) c.addInstance(d);
     c.emit('change');
   });

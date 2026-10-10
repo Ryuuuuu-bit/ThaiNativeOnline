@@ -1,3 +1,5 @@
+import { flaskFields, instanceId } from './data/flasks.js';
+import { availableSkillIds, cleanBindings } from './hotbarBindings.js';
 import { ITEMS, EQUIP_SLOTS, slotKind } from './data/items.js';
 import { sameCards, socketCards } from './data/cards.js';
 import { plusOf, refinable } from './data/refine.js';
@@ -8,19 +10,19 @@ export const isItemLocked = item => item?.locked === true;
 export const lockFields = item => isItemLocked(item) ? { locked: true } : {};
 export function cloneInstance(item) {
   if (!item) return null;
-  const { roll, ...rest } = item;
-  return { ...rest, ...(item.cards ? { cards: [...item.cards] } : {}), ...lockFields(item), ...rollFields(item) };
+  const { roll, flask, ...rest } = item;
+  return { ...rest, ...(item.cards ? { cards: [...item.cards] } : {}), ...lockFields(item), ...rollFields(item), ...flaskFields(item) };
 }
-export const gearReference = item => item ? { id: item.id, cards: [...(item.cards ?? [])], plus: item.plus ?? 0, ...(item.roll?.iid ? {iid:item.roll.iid} : {}) } : null;
-export const sameReference = (item, ref) => !!item && !!ref && item.id === ref.id && item.roll?.iid === ref.iid && (item.plus ?? 0) === (ref.plus ?? 0) && sameCards(item.cards, ref.cards);
+export const gearReference = item => item ? { id: item.id, cards: [...(item.cards ?? [])], plus: item.plus ?? 0, ...(instanceId(item) ? {iid:instanceId(item)} : {}) } : null;
+export const sameReference = (item, ref) => !!item && !!ref && item.id === ref.id && instanceId(item) === ref.iid && (item.plus ?? 0) === (ref.plus ?? 0) && sameCards(item.cards, ref.cards);
 export const cleanEquipmentLocks = (equipment, locks) => Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, !!equipment[slot] && locks?.[slot] === true]));
 
 export const LOADOUT_COUNT = 3;
 export const loadoutIndex = index => Number.isInteger(index) && index >= 0 && index < LOADOUT_COUNT;
 export const loadoutName = (name, index) => (typeof name === 'string' ? name.replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 20) : '') || `ชุด ${index + 1}`;
-export const availableHotbarSkills = c => c.kitSkills.length ? c.kitSkills.filter(id => c.skillLevel(id) > 0) : [...c.cls.skills];
-export const cleanHotbar = (c, input) => [...new Set(Array.isArray(input) ? input.filter(id => availableHotbarSkills(c).includes(id)) : [])].slice(0, 10);
-export const hotbarOrder = c => [...cleanHotbar(c, c.hotbar), ...availableHotbarSkills(c).filter(id => !c.hotbar.includes(id))];
+export const availableHotbarSkills = availableSkillIds;
+export const cleanHotbar = cleanBindings;
+export const hotbarOrder = c => cleanBindings(c,c.hotbar).filter(b => b?.kind === 'skill').map(b => b.id);
 export function cleanLoadouts(c, input) {
   return Array.from({ length: LOADOUT_COUNT }, (_, index) => {
     const p = Array.isArray(input) ? input[index] : null;

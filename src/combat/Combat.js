@@ -244,6 +244,7 @@ export class Combat extends Emitter {
     if (hasCard(m.type) && Math.random() < cardRate(m.def)) drops.push({ id: cardId(m.type), qty: 1 });
     this.emit('kill', { monster: m, exp, gold, drops });
     c.gold += gold; c.gainExp(exp);
+    c.refillFlasks('kill', m.def.boss ? 10 : m.def.elite ? 3 : 1);
     for (const d of drops) c.addInstance(d);
     if (this.target === m) { this.target = null; this.autoAttack = false; this.pending = null; this.emit('target', null); }
   }

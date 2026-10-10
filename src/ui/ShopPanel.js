@@ -10,7 +10,7 @@ import { STRIP } from '../character/data/cards.js';
 import { REFINE_SHOP, REFINE_SAFE, REFINE_MAX, REFINE_MILESTONES, refinable, refineCost, refineBonus } from '../character/data/refine.js';
 import './shop.css';
 const REFINE_WHY = { gold: 'ตำลึงไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', locked: 'ปลดล็อกอุปกรณ์ก่อนตีบวก', connection: 'รอเชื่อมต่อและข้อมูลอุปกรณ์ล่าสุดก่อนตีบวก', pending: 'รอข้อมูลอุปกรณ์จากการตีครั้งก่อน', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', dead: 'ต้องฟื้นคืนชีพก่อนตีบวก', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
-const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง' };
+const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'แหวน / เครื่องราง' };
 const plusName = (id, plus) => `${plus ? `+${plus} ` : ''}${ITEMS[id].name}`;
 const STRIP_WHY = { gold: 'ตำลึงไม่พอ', ash: 'ขี้เถ้าธูปไม่พอ', bag_full: 'กระเป๋าเต็ม', no_cards: 'ไอเท็มนี้ไม่มีการ์ด', no_shop: 'ต้องอยู่ที่ร้านหมออาคม และไม่ได้อยู่ระหว่างต่อสู้' };
 
@@ -23,18 +23,19 @@ export const describeItem = def => def.desc ?? Object.entries(def.bonus ?? {}).m
 
 // Shared categories for the shop's stock and the player's sale inventory.
 const GROUPS = [
-  ['use', 'ยา', 'ใช้ครั้งเดียว · ปุ่ม Q / F'],
+  ['use', 'ยา', 'ใช้ครั้งเดียว · จัดใส่ช่องลัด 1–0 ได้'],
+  ['flask', 'ขวดใช้ซ้ำ', 'ขวดเลือด Q · ขวดมานา E'],
   ['weapon', 'อาวุธ', 'สวมได้จากกระเป๋า (I)'],
-  ['wear', 'เครื่องแต่งกาย', 'เสื้อ · หมวก · ผ้าคลุม · รองเท้า'],
+  ['wear', 'เครื่องแต่งกาย', 'เสื้อ · หมวก · ผ้าคลุม · รองเท้า · ถุงมือ · เข็มขัด · สร้อย'],
   ['charm', 'เครื่องราง', 'ใส่ช่องเครื่องราง'],
   ['material', 'วัตถุดิบ', 'ใช้ตีบวก · ถอดการ์ด'],
   ['card', 'การ์ด', 'ใส่ช่องการ์ดของอุปกรณ์'],
   ['other', 'อื่น ๆ', ''],
 ];
-const groupOf = d => d.type === 'use' ? 'use' : d.type === 'equip' ? (d.slot === 'weapon' ? 'weapon' : d.slot?.startsWith('charm') ? 'charm' : 'wear')
+const groupOf = d => d.type === 'flask' ? 'flask' : d.type === 'use' ? 'use' : d.type === 'equip' ? (d.slot === 'weapon' ? 'weapon' : d.slot?.startsWith('charm') ? 'charm' : 'wear')
   : d.type === 'material' ? 'material' : d.type === 'card' ? 'card' : 'other';
-const typeOf = d => d.type === 'use' ? 'ยา · ใช้ครั้งเดียว' : d.type === 'equip' ? SLOT_TH[d.slot] ?? SLOT_TH.charm : d.type === 'material' ? 'วัตถุดิบ' : d.type === 'card' ? 'การ์ด' : 'ของใช้';
-const single = d => d.type === 'equip';
+const typeOf = d => d.type === 'flask' ? `ขวด${d.flask.kind === 'hp' ? 'เลือด Q' : 'มานา E'} · ใช้ซ้ำ` : d.type === 'use' ? 'ยา · ใช้ครั้งเดียว' : d.type === 'equip' ? SLOT_TH[d.slot] ?? SLOT_TH.charm : d.type === 'material' ? 'วัตถุดิบ' : d.type === 'card' ? 'การ์ด' : 'ของใช้';
+const single = d => ['equip','flask'].includes(d.type);
 const enhTier = n => `t${n >= 10 ? 5 : n >= 9 ? 4 : n >= 7 ? 3 : n >= 5 ? 2 : n >= 4 ? 1 : 0}`;
 const MILESTONE_TH = { 4: 'ปลอดภัย', 7: 'ชำนาญ', 10: 'ตำนาน' };
 const TABS = { buy: ['🛒', 'ซื้อ'], sell: ['💰', 'ขาย'], cards: ['🃏', 'ถอดการ์ด'], refine: ['🔨', 'ตีบวก'] };
@@ -66,6 +67,7 @@ export class ShopPanel {
       this.render();
     });
     list.addEventListener('click', e => {
+      if (e.target.closest('[data-refill-flasks]')) { this.character?.refillFlasks('town'); this.render(); return; }
       const sale = e.target.closest('[data-pick],[data-sale-clear],[data-sale-submit],[data-filter]');
       if (sale && this.character) {
         if (sale.dataset.pick !== undefined) { const i = +sale.dataset.pick; this.basket.set(i, this.basket.picks.has(i) ? 0 : this.character.inventory[i]?.qty); }
@@ -346,6 +348,7 @@ export class ShopPanel {
     list.innerHTML = this.tab === 'cards' ? `<div class="sh-pad">${this.cardsHtml()}</div>`
       : this.tab === 'refine' ? this.refineHtml()
       : this.tab === 'buy' ? this.buyHtml() : this.sellHtml();
+    if (SHOPS[this.shopType]?.refillFlasks) { const refill=document.createElement('button'); refill.type='button'; refill.dataset.refillFlasks=''; refill.className='ro-button sh-refill-flasks'; refill.textContent='เติมประจุขวด Q / E · ฟรีในเมือง'; list.prepend(refill); }
     const nextFeedback = list.querySelector('[data-forge-result]');
     // Preserve the one-shot result animation across the following server inventory sync.
     if (feedback && nextFeedback && feedback.dataset.forgeResult === nextFeedback.dataset.forgeResult) nextFeedback.replaceWith(feedback);

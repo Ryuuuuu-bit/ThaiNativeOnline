@@ -2,7 +2,7 @@
 // src/ui/TouchControls.js → setStick) are polled each frame; actions are
 // dispatched as named events.
 const MOVE = { KeyW: 'up', ArrowUp: 'up', KeyS: 'down', ArrowDown: 'down', KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right' };
-const ACTIONS = { KeyR: 'resetCamera', KeyH: 'photo', KeyE: 'interact', KeyM: 'map', Escape: 'escape', F3: 'debug' };
+export const ACTIONS = { Home: 'resetCamera', KeyH: 'photo', KeyF: 'interact', KeyM: 'map', Escape: 'escape', F3: 'debug' };
 // + / − zoom the camera (held keys repeat).
 const ZOOM_KEYS = { Equal: 1, NumpadAdd: 1, Minus: -1, NumpadSubtract: -1 };
 
@@ -13,6 +13,7 @@ export class InputManager {
     window.addEventListener('keydown', e => {
       // Escape closes panels even while a settings control has focus.
       if (e.code === 'Escape' && !e.repeat) return this.emit('escape');
+      if (this.blocked?.()) return;
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
       if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move'); }
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.shift = true;
@@ -31,12 +32,14 @@ export class InputManager {
     const spread = () => { const [a, b] = [...touches.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
     host.addEventListener('pointerdown', e => { if (e.pointerType === 'touch') { touches.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (touches.size === 2) pinch = spread(); } }, true);
     host.addEventListener('pointermove', e => {
+      if (this.blocked?.()) return;
       if (!touches.has(e.pointerId)) return;
       touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (touches.size === 2 && pinch) { const d = spread(); if (d > 0) { this.emit('zoomBy', d / pinch); pinch = d; } }
     });
     for (const name of ['pointerup', 'pointercancel']) host.addEventListener(name, e => { touches.delete(e.pointerId); if (touches.size < 2) pinch = 0; });
     host.addEventListener('pointerdown', e => {
+      if (this.blocked?.()) return;
       if (touches.size > 1) return;   // the second finger of a pinch is not a click
       if (e.button === 2) { e.preventDefault(); this.pan = { x: e.clientX, y: e.clientY, id: e.pointerId }; host.setPointerCapture(e.pointerId); this.emit('panStart', e.shiftKey); }
       // A click the combat layer consumed (a monster) must not also start a ground walk.
@@ -47,12 +50,13 @@ export class InputManager {
       this.cancelCameraDrag();
     };
     host.addEventListener('pointermove', e => {
+      if (this.blocked?.()) { this.cancelCameraDrag(); return; }
       if (!this.pan || e.pointerId !== this.pan.id) return;
       if (!(e.buttons & 2)) return endDrag(e);
       this.emit('pan', e.clientX - this.pan.x, e.clientY - this.pan.y);
     });
     for (const name of ['pointerup', 'pointercancel', 'lostpointercapture']) host.addEventListener(name, endDrag);
-    host.addEventListener('wheel', e => { e.preventDefault(); this.emit('zoom', e.deltaY); }, { passive: false });
+    host.addEventListener('wheel', e => { e.preventDefault(); if (!this.blocked?.()) this.emit('zoom', e.deltaY); }, { passive: false });
   }
   cancelCameraDrag() {
     if (!this.pan) return;
@@ -63,6 +67,7 @@ export class InputManager {
   get running() { return this.shift || this.stick.run; }
   // The touch joystick: x right, y down (screen), each -1..1; a push from rest counts as a move key.
   setStick(x, y, run = false) {
+    if (this.blocked?.()) { this.stick = { x: 0, y: 0, run: false }; return; }
     const was = this.stick.x || this.stick.y;
     Object.assign(this.stick, { x, y, run: run && !!(x || y) });
     if (!was && (x || y)) this.emit('move');

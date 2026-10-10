@@ -1,4 +1,5 @@
 import { monsterInterest } from './interest.js';
+import { locateAutoTarget } from './autoTargets.js';
 // ThaiNative Online server: serves the built game (dist/) and the realtime link at /ws.
 //   npm run build && npm start          (PORT, default 8787)
 // Phase 1 (docs/technical/SERVER_SPLIT.md): presence and chat. Phase 2: accounts and
@@ -408,7 +409,14 @@ async function handle(ws, raw) {
         // taking cards out and ตีบวก are rolled here: the result, then the character as it is now
         if (m.op === 'strip') { send(ws, { t: 'stripped', ...combatants.get(p.id).stripped }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
         else if (m.op === 'refine') { send(ws, { t: 'refined', ...combatants.get(p.id).refined }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
-        else if (!ok || m.op === 'loadout_apply' || ['quest_accept', 'quest_complete', 'talk'].includes(m.op)) send(ws, { t: 'sync', c: combatants.me(p.id) });
+        else if (!ok || m.op === 'loadout_apply' || ['flask_equip', 'flask_unequip', 'flask_use', 'flask_refill', 'quest_accept', 'quest_complete', 'talk'].includes(m.op)) send(ws, { t: 'sync', c: combatants.me(p.id) });
+        break;
+      }
+      case 'auto_target': {
+        const p = presence.players.get(ws); if (!p || p.dead || Date.now() - (ws.autoTargetAt ?? 0) < 1000) break;
+        ws.autoTargetAt = Date.now();
+        send(ws, { t: 'auto_target', map: p.map, ch: p.ch, request: m.request,
+          m: locateAutoTarget(worldOf(p.room), p, { elites: m.elites !== false, attackers: m.attackers !== false, exclude: m.exclude }) });
         break;
       }
       case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }

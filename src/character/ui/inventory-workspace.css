@@ -137,3 +137,41 @@ body .inventory-workspace .g-slot .g-cmp {left:auto;top:auto;right:2px;bottom:2p
   .inventory-workspace .g-stat {grid-template-columns:1fr auto 44px}
   .inventory-workspace .g-doll>.g-portrait {height:200px}
 }
+/* Ten-slot Thai paper doll: one weapon, no offhand or weapon-set tabs. */
+.inventory-workspace .g-doll-wrap.g-equip {grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:82px 82px 82px 62px 88px 68px;gap:9px;align-items:stretch;padding:12px;border:1px solid #bca36a66;border-radius:8px;background:radial-gradient(ellipse at 50% 40%,#47705744,transparent 65%),linear-gradient(135deg,#182e26,#0d1b17);}
+.inventory-workspace .g-doll-wrap .g-eqs {min-width:0;display:flex;flex-direction:column;gap:3px;}
+.inventory-workspace .g-doll-wrap .g-eqs>button[data-slot] {flex:1;min-height:0;width:100%;border:1px solid #bca36a88;border-radius:5px;background:linear-gradient(145deg,#1c342a,#091813);box-shadow:inset 0 0 0 2px #06120f55;}
+.inventory-workspace .g-doll-wrap .g-eqs>button[data-slot]:hover {border-color:#dfc58a;background:#213c30;}
+.inventory-workspace .g-doll-wrap .g-eqs small {font-size:10px;line-height:1.2;overflow:hidden;max-height:24px;text-overflow:ellipsis;}
+.inventory-workspace .g-doll-wrap .g-eqs small br {display:none;}
+.inventory-workspace .g-doll-wrap .g-eqs>button span {display:grid;place-items:center;}
+.inventory-workspace .g-doll-wrap .g-eqs .icon-img {max-width:100%;width:42px;height:42px;object-fit:contain;}
+.inventory-workspace .g-doll-weapon {grid-column:1;grid-row:2 / 5;}
+.inventory-workspace .g-doll-head {grid-column:2;grid-row:1;}
+.inventory-workspace .g-doll-armor {grid-column:2;grid-row:2 / 4;}
+.inventory-workspace .g-doll-belt {grid-column:2;grid-row:4;}
+.inventory-workspace .g-doll-gloves {grid-column:1;grid-row:5;}
+.inventory-workspace .g-doll-shoes {grid-column:3;grid-row:5;}
+.inventory-workspace .g-doll-amulet {grid-column:3;grid-row:1;}
+.inventory-workspace .g-doll-charm {grid-column:3;grid-row:2;}
+.inventory-workspace .g-doll-charm2 {grid-column:3;grid-row:3;}
+.inventory-workspace .g-doll-cape {grid-column:3;grid-row:4;}
+.inventory-workspace .g-doll-identity {grid-column:1;grid-row:1;align-self:center;text-align:center;overflow-wrap:anywhere;font-size:12px;}
+.inventory-workspace .g-doll-identity span {display:block;font-size:10px;color:#aebea7;}
+.inventory-workspace .g-doll-flasks {grid-column:1 / 4;grid-row:6;display:flex;justify-content:center;gap:12px;}
+.inventory-workspace .g-doll-flasks button {display:grid;grid-template-columns:36px 1fr;gap:2px 7px;align-content:center;padding:6px 10px;min-width:110px;color:#eedeb2;}
+.inventory-workspace .g-doll-flasks .icon-img {width:36px;height:44px;object-fit:contain;grid-row:1 / 3;}
+.inventory-workspace .g-doll-flasks b {font-size:11px;}
+.inventory-workspace .g-doll-flasks small {grid-column:2;font-size:10px;}
+@media(max-width:760px){.inventory-workspace .g-doll-wrap.g-equip {grid-template-rows:70px 70px 70px 58px 76px 62px;padding:8px;gap:7px;}.inventory-workspace .g-doll-wrap .g-eqs .icon-img{width:34px;height:34px;}}
+body .inventory-workspace .g-doll-wrap .g-eqs {align-items:stretch;padding:0;min-height:0;}
+body .inventory-workspace .g-doll-wrap .g-eqs>button[data-slot] {height:auto;min-height:0;display:grid;place-items:center;}
+body .inventory-workspace .g-doll-wrap .g-eqs>small {max-width:none;flex:none;min-height:20px;height:20px;max-height:20px;margin:0;font-size:11px;line-height:20px;white-space:nowrap;display:block;}
+body .inventory-workspace .g-doll-wrap .g-equip-lock {position:absolute;left:-4px;top:-4px;right:auto;bottom:auto;width:24px;height:24px;min-width:24px;min-height:24px;margin:0;padding:0;z-index:5;font-size:10px;background:#203b2c;}
+body .inventory-workspace .g-doll-wrap .g-doll-identity {position:static;inset:auto;min-width:0;align-self:center;}
+body .inventory-workspace .g-doll-wrap .g-doll-identity b {font-size:13px;line-height:1.3;}
+body .inventory-workspace .g-doll-wrap .g-pips {position:absolute;left:3px;bottom:3px;}
+body .inventory-workspace .g-doll-wrap .g-eqs>button[data-slot] {padding:0;}
+body .inventory-workspace .g-doll-wrap .g-doll-weapon .icon-img {width:74px;height:100px;max-width:100%;object-fit:contain;}
+body .inventory-workspace .g-doll-wrap .g-doll-armor .icon-img {width:64px;height:72px;max-width:100%;object-fit:contain;}
+body .inventory-workspace .g-doll-wrap .g-doll-belt .icon-img,body .inventory-workspace .g-doll-wrap .g-doll-cape .icon-img {width:30px;height:30px;}

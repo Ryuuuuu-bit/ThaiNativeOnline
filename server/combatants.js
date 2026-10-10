@@ -1,3 +1,4 @@
+import { MONSTERS } from '../src/combat/data/monsters.js';
 // Server-side damage (phase 3b of docs/technical/SERVER_SPLIT.md). The browser no longer
 // says how hard it hit: it says "I cast skill X" and "skill X landed on monster N", and the
 // server rolls the blow with the same rules the browser uses (src/training/kitCombat.js,
@@ -114,7 +115,7 @@ export class Combatants {
   }
   load(id, saved, persist, questsJson = '{}') {
     const c = fromSave(saved); if (!c) return false;
-    const state = { ...this.entry(c), persist, ack: 0, dirty: !!c.starterEquipmentMigrated, quests: questsFor(c, questsJson) };
+    const state = { ...this.entry(c), persist, ack: 0, dirty: !!c.starterEquipmentMigrated || (saved.flaskVersion ?? 0) < c.flaskVersion, quests: questsFor(c, questsJson) };
     if (reconcileQuestMasteries(c, state.quests)) state.dirty = true;
     this.list.set(id, state);
     return true;
@@ -131,6 +132,10 @@ export class Combatants {
     // shops: next to an NPC of that shop (src/data/shopSites.js), and not in the middle of a fight
     const atShop = shop => nearShop(shop, at.map, at.x, at.z) && this.now() - s.fightAt >= RULES.combatTimeout;
     if (msg.op === 'buy' && !atShop(msg.shop)) return false;
+    if (msg.op === 'flask_refill') {
+      if (!s.c.alive || at.map !== 'city' || !atShop('herbalist')) return false;
+      const ok = s.c.refillFlasks('town'); if (ok) s.dirty = true; return ok;
+    }
     // taking cards out: at หมออาคม's; the server rolls the outcome (sent back as `stripped`)
     if (msg.op === 'strip') {
       s.stripped = { ok: false, why: 'no_shop' };
@@ -154,7 +159,7 @@ export class Combatants {
     }
     // selling is done at a shop counter too; the fallen handle no items and no stats
     if (['sell', 'sell_batch'].includes(msg.op) && !nearAnyShop(at.map, at.x, at.z)) return false;
-    if (!s.c.alive && ['sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
+    if (!s.c.alive && ['flask_use', 'flask_equip', 'flask_unequip', 'sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
     const questResult = applyQuestOp(s.c, msg, s.quests, at);
     const ok = questResult === null
       ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true || (msg.op === 'evo' && ((s.variantEffectsUntil ?? 0) > this.now() || s.casting.size > 0 || s.casts.some(cast => this.now() - cast.at < (cast.window ?? CAST_WINDOW) && cast.left > 0) || s.c.buffs.length > 0)) })
@@ -173,6 +178,8 @@ export class Combatants {
     const lost = [];   // a full or overweight bag: the drop is lost (told, not silently)
     for (const d of k.drops ?? []) if (!c.addInstance(d)) lost.push(d);
     if (k.type) s.quests.onKill(k.type);
+    const def = MONSTERS[k.type];
+    if (def) c.refillFlasks('kill', def.boss ? 10 : def.elite ? 3 : 1);
     c.noteKill(k.type);   // the records behind the titles (src/data/titles.js)
     s.dirty = true;
     return { ...(c.level !== before ? { level: c.level } : {}), ...(lost.length ? { lost } : {}) };
