@@ -116,7 +116,9 @@ test('accounts retry captured final state and API saves cannot overwrite server 
   const loc={map:'paddy',x:0,z:-130,facing:3};
   c.gold=123;const flush=A.putCharacter('test',0,c,null,loc);c.gold=999;loc.z=999;
   const api=A.save('test',0,{'tno.character.v1':JSON.stringify(c),'tno.location.v1':JSON.stringify({map:'paddy'})});
-  await Promise.all([flush,api]);assert.equal((await A.character('test',0)).gold,123);
+  // The queue's retry timer is unref()'d (a retrying save must not keep the server alive), so hold the loop open while it runs.
+  const alive=setInterval(()=>{},50);try{await Promise.all([flush,api]);}finally{clearInterval(alive);}
+  assert.equal((await A.character('test',0)).gold,123);
   // The later API request owns its other keys; another server snapshot restores the authoritative position.
   await A.putCharacter('test',0,{...c,gold:123},null,{map:'paddy',x:0,z:-130,facing:3});
   assert.equal(JSON.parse((await store.listSlots('test'))[0].data['tno.location.v1']).z,-130);

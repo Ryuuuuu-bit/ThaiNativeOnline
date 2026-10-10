@@ -6,6 +6,7 @@ import { themeFor, npcMarker, landmarkMarker, edgePoint, portalStyle, overlapsBo
 import { paintBase } from './minimap/paintBase.js';
 import { mapDirectory, filterPlaces } from './mapDirectory.js';
 import { fittedCamera, mapTransform, placeLabels, clampCamera, clusterMarkers } from './minimap/mapLayout.js';
+import { SANS, afterFonts } from './canvasFonts.js';
 import { badge, bossLairMark, questMark, portalMark, pathMark, playerMark, monsterMark, npcDot, edgeArrow, compassRose, label, markerSample, routeLine, goalFlag } from './minimap/glyphs.js';
 
 // Painted north-up map of the loaded map (minimap + the M full map).
@@ -44,6 +45,7 @@ export class Minimap {
     this.bossLairs = this.directory.filter(e => e.category === 'bosses');
     this.build();
     this.bindFull();
+    afterFonts(() => this.redrawFull());
     for (const c of [canvas, fullCanvas]) decorateFrame(c?.parentElement);
   }
   build() {
@@ -66,6 +68,8 @@ export class Minimap {
     if (full) return this.fullMarkers(g, to, ui, state, p);
     const hits = full ? [] : null, cw = g.canvas.width, ch = g.canvas.height, onScreen = (x, y, m = 12) => x > -m && y > -m && x < cw + m && y < ch + m;
     const t = state.t ?? 0, targets = state.targets ?? new Set();
+    // Every badge reserves its box; the minimap's names are placed around them afterwards (placeLabels).
+    const obstacles = [], tags = [], keep = (x, y, r) => obstacles.push({ x: x - r, y: y - r, w: r * 2, h: r * 2 });
     // Three navigable hunting circuits, matching the expedition's painted trails.
     if(this.map?.expedition){
       g.save();g.strokeStyle='rgba(110,75,36,.55)';g.lineWidth=Math.max(1,ui*.12);g.setLineDash([ui*.35,ui*.2]);
@@ -98,7 +102,7 @@ export class Minimap {
       if (!!m.found !== found) continue;
       const [x, y] = to(l.x, l.z); if (!onScreen(x, y, 20)) continue;
       const r = ui * (full ? .62 : .55);
-      badge(g, x, y, r, m.glyph === 'hall' ? `class:${m.classId}` : m.glyph, m.glyph === 'hall' ? 'hall' : 'gold');
+      badge(g, x, y, r, m.glyph === 'hall' ? `class:${m.classId}` : m.glyph, m.glyph === 'hall' ? 'hall' : 'gold'); keep(x, y, r);
       if (targets.has(l.id) && !m.found) questMark(g, x, y - r * 1.9, r * .7, '!', t);
       if (full && m.found) label(g, l.name, x, y + r * 1.75, Math.round(ui * .5), { weight: 600 });
       hits?.push({ x, y, r: r * 1.5, title: m.found ? `${l.name}${l.text ? ` — ${l.text}` : ''}` : 'สถานที่ที่ยังไม่ค้นพบ', landmark: m.found ? l : null });
@@ -110,17 +114,17 @@ export class Minimap {
       if (this.landmarks.some(l => (l.purpose === m.purpose || l.classId === m.classId && m.classId) && Math.hypot(l.x - n.x, l.z - n.z) < 14)) continue;
       if (placed.some(([a, b]) => Math.hypot(a - x, b - y) < r * 1.5)) continue; // stalls side by side: one badge
       placed.push([x, y]);
-      badge(g, x, y, r, m.kind === 'trainer' ? `class:${m.classId}` : m.purpose, m.kind === 'trainer' ? 'hall' : 'shop');
+      badge(g, x, y, r, m.kind === 'trainer' ? `class:${m.classId}` : m.purpose, m.kind === 'trainer' ? 'hall' : 'shop'); keep(x, y, r);
       hits?.push({ x, y, r: r * 1.4, title: `${n.def.name}${SHOPS[n.def.shopType] ? ` · ${SHOPS[n.def.shopType].title}` : TRAINERS[n.def.trainer] ? ` · ${TRAINERS[n.def.trainer].title}` : ''}` });
     }
     landmarks(true);
-    for (const [x, y, m, n] of quests) { questMark(g, x, y, ui * .5, m.glyph, t); hits?.push({ x, y, r: ui, title: `${n.def.name} · ${m.glyph === '?' ? 'ส่งเควส' : 'มีเควส'}` }); }
+    for (const [x, y, m, n] of quests) { questMark(g, x, y, ui * .5, m.glyph, t); keep(x, y, ui * .5); hits?.push({ x, y, r: ui, title: `${n.def.name} · ${m.glyph === '?' ? 'ส่งเควส' : 'มีเควส'}` }); }
     // Hunting markers walk to the sign's clear approach point, outside the spawn centre.
     for(const camp of huntingFor(this.map?.id)) {
       const [x,y]=to(camp.x,camp.z);if(!onScreen(x,y,30))continue;
       const r=ui*.55;
-      badge(g,x,y,r,'combat','gold');
-      label(g,full ? `${camp.name} · ${huntingLevel(camp)}` : huntingLevel(camp),x,y+r*1.8,Math.round(ui*.5),{weight:600});
+      badge(g,x,y,r,'combat','gold');keep(x,y,r);
+      tags.push(this.miniTag(g,huntingLevel(camp),x,y,r,ui,-Math.hypot(camp.x-p.x,camp.z-p.z)-20,'#3a2612'));
       hits?.push({x,y,r:ui,title:`${camp.name} · ${huntingLevel(camp)} · จุดเก็บเลเวล${camp.party?` · ทีม ${camp.party[0]}–${camp.party[1]} คน`:""}`,goal:camp.approach});
     }
     // Warps (glowing rings) and trail exits (signposts), with the destination on the full map.
@@ -130,17 +134,24 @@ export class Minimap {
         // The signpost arrow points out of the map: north for exits in the north half, else south.
         if (path) pathMark(g, x, y, ui * (full ? .5 : .44), w.at.z < (this.bounds.minZ + this.bounds.maxZ) / 2 ? -Math.PI / 2 : Math.PI / 2);
         else portalMark(g, x, y, ui * (full ? .5 : .42), t);
+        keep(x, y, ui * .5);
       }
       if (full) label(g, `${w.name ?? 'ประตูวาป'} → ${w.toName ?? w.to}`, x, y - ui * 1.25, Math.round(ui * .5), { color: '#5a2e08', weight: 600 });
       hits?.push({ x, y, r: ui, title: `${w.name ?? 'ประตูวาป'} → ${w.toName ?? w.to}` });
     }
-    this.miniBossMarkers(g, to, ui, p);
+    this.miniBossMarkers(g, to, ui, p, tags, obstacles);
     if (hits) this.hits = hits;
+  }
+  // A minimap name waiting for placeLabels: never smaller than 9.5 CSS px, so it stays legible.
+  miniTag(g, text, x, y, radius, ui, priority, color) {
+    const size = Math.round(Math.max(ui * .55, 9.5 * devicePixelRatio));
+    g.font = `600 ${size}px ${SANS}`;
+    return { x, y, text, radius, size, width: g.measureText(text).width + 6, height: size * 1.5, priority, color };
   }
 
   // Permanent lairs, even when no monster is loaded/alive. Off-screen lairs
   // sit on the border; nearby border badges cluster instead of stacking text.
-  miniBossMarkers(g, to, ui, p) {
+  miniBossMarkers(g, to, ui, p, tags = [], marks = []) {
     const lairs = this.bossLairs ?? [], cw = g.canvas.width, ch = g.canvas.height, r = ui * .62;
     const points = lairs.map(entry => {
       let [x, y] = to(entry.x, entry.z);
@@ -148,9 +159,10 @@ export class Minimap {
       if (edge) { x = cw / 2 + edge.x; y = ch / 2 + edge.y; }
       return { x, y, entry };
     });
-    const labels = [], obstacles = [
+    const labels = [...tags], obstacles = [
       { x: cw / 2 - ui, y: ch / 2 - ui, w: ui * 2, h: ui * 2 },
       { x: cw - ui * 1.8, y: 0, w: ui * 1.8, h: ui * 1.8 },
+      ...marks,
     ];
     for (const portal of this.portals ?? []) {
       let [x, y] = to(portal.at.x, portal.at.z);
@@ -170,22 +182,20 @@ export class Minimap {
       bossLairMark(g, x, y, r);
       if (entries.length > 1) label(g, String(entries.length), x + r * .85, y - r * .7, ui * .5, { color: '#ffe0a0', halo: '#711f26', serif: false, weight: 700 });
       obstacles.push({ x: x - r - 2, y: y - r - 2, w: r * 2 + 4, h: r * 2 + 4 });
-      const text = `${e.bossName} · Lv ${e.level}`, size = Math.round(ui * .62);
-      g.font = `600 ${size}px "Noto Sans Thai", sans-serif`;
-      labels.push({ x, y, text, radius: r, size, width: g.measureText(text).width + 6, height: size * 1.6,
-        priority: -Math.hypot(e.x - p.x, e.z - p.z) });
+      labels.push(this.miniTag(g, `${e.bossName} · Lv ${e.level}`, x, y, r, ui, -Math.hypot(e.x - p.x, e.z - p.z), '#711f26'));
     }
     for (const placed of placeLabels(labels, obstacles, cw, ch)) {
       const box = placed.box;
-      label(g, placed.text, box.x + box.w / 2, box.y + box.h / 2, placed.size, { color: '#711f26', serif: false, weight: 600 });
+      label(g, placed.text, box.x + box.w / 2, box.y + box.h / 2, placed.size, { color: placed.color, serif: false, weight: 600 });
     }
   }
 
   fullMarkers(g, to, ui, state, p) {
     const cw = g.canvas.width, ch = g.canvas.height, r = ui * .52;
     const entries = filterPlaces(this.directory, this.filter, this.search, p), labels = [], obstacles = [
-      { x: cw / 2 - 145 * devicePixelRatio, y: ch - 64 * devicePixelRatio, w: 290 * devicePixelRatio, h: 64 * devicePixelRatio },
+      this.fullBar ?? { x: cw / 2 - 145 * devicePixelRatio, y: ch - 64 * devicePixelRatio, w: 290 * devicePixelRatio, h: 64 * devicePixelRatio },
       { x: cw - 65 * devicePixelRatio, y: 0, w: 65 * devicePixelRatio, h: 65 * devicePixelRatio },
+      ...this.fullScale ? [this.fullScale] : [],
     ];
     this.hits = [];
     const onScreen = (x, y) => x > -r && y > -r && x < cw + r && y < ch + r;
@@ -219,7 +229,7 @@ export class Minimap {
       const hit = { x, y, r: r * 1.5, title: `${title} · ${e.tag ?? ''}`, entry: cluster ? { cluster: members } : e, landmark: cluster ? null : e.landmark, goal: cluster ? null : e.goal };
       this.hits.push(hit);
       obstacles.push({ x: x - r - 3, y: y - r - 3, w: 2 * r + 6, h: 2 * r + 6 });
-      const size = Math.round(ui * .6); g.font = `600 ${size}px "Noto Sans Thai", sans-serif`;
+      const size = Math.round(ui * .6); g.font = `600 ${size}px ${SANS}`;
       const text = selected ? selected.name : title;
       labels.push({ x, y, text, hit, radius: r, size, width: g.measureText(text).width + 12, height: size * 1.65,
         priority: e.id === this.selectedId ? 200 : e.purpose === 'upgrade' ? 100 : e.category === 'bosses' ? 90 : e.category === 'shops' ? 80 : e.category === 'travel' ? 70 : 20 });
@@ -295,8 +305,9 @@ export class Minimap {
     const t0 = performance.now(), c = this.full, [cw, ch] = this.fit(c), g = c.getContext('2d'), B = this.base, R = B.rect;
     this.fullState = { p, yaw, state };
     if (!this.fullCamera) this.resetFull();
-    clampCamera(R, cw, ch, this.fullCamera);
-    const { k, w, h, left, top } = mapTransform(R, cw, ch, this.fullCamera);
+    const pad = this.fullInset(cw, ch);
+    clampCamera(R, cw, ch, this.fullCamera, pad);
+    const { k, w, h, left, top } = mapTransform(R, cw, ch, this.fullCamera, pad);
     g.clearRect(0, 0, cw, ch);
     g.fillStyle = '#d3c6a0'; g.fillRect(0, 0, cw, ch);
     g.imageSmoothingEnabled = true; g.drawImage(B.canvas, left, top, w, h);
@@ -304,12 +315,13 @@ export class Minimap {
     g.strokeStyle = '#6b4a22'; g.lineWidth = Math.max(1, devicePixelRatio); g.strokeRect(left, top, w, h);
     const ui = 22 * devicePixelRatio, to = (x, z) => [left + (x - R.minX) * k, top + (z - R.minZ) * k];
     this.fullView = { left, top, k, minX: R.minX, minZ: R.minZ, w, h };
+    // Scale bar: 50 units, just above the view buttons (its box is kept clear of labels).
+    const sx = ui, sy = ch - Math.max(ui, pad + ui * .35), units = 50 * k < cw * .35 ? 50 : 10, len = units * k;
+    this.fullScale = { x: sx - ui * .2, y: sy - ui * 1.05, w: len + ui * .4, h: ui * 1.3 };
     this.drawNav(g, to, ui * .8, state, p);
     this.markers(g, to, k, ui, state, { full: true, p });
     playerMark(g, ...to(p.x, p.z), ui * .55, yaw);
     compassRose(g, cw - ui * 1.5, ui * 1.5, ui, 0);
-    // Scale bar: 50 units.
-    const sx = ui, sy = ch - ui, units = 50 * k < cw * .35 ? 50 : 10, len = units * k;
     g.fillStyle = '#3a2612'; g.fillRect(sx, sy, len, Math.max(2, ui * .12)); g.fillRect(sx, sy - ui * .2, 2, ui * .4); g.fillRect(sx + len - 2, sy - ui * .2, 2, ui * .4);
     label(g, `${units} วา`, sx + len / 2, sy - ui * .6, Math.round(ui * .55), { serif: false });
     this.stats.fullMs = +(performance.now() - t0).toFixed(2);
@@ -317,9 +329,19 @@ export class Minimap {
   redrawFull() { if (this.fullState) this.drawFull(this.fullState.p, this.fullState.yaw, this.fullState.state); }
   resetFull(whole = false) {
     const [w, h] = this.fit(this.full), R = this.base.rect;
-    const short = h / devicePixelRatio < 300;
+    const pad = this.fullInset(w, h), short = (h - pad) / devicePixelRatio < 300;
     const focus = !whole && this.map?.id === 'city' ? short ? { minX: -70, maxX: 116, minZ: 8, maxZ: 122 } : { minX: Math.max(R.minX, -92), maxX: R.maxX, minZ: -119, maxZ: 177 } : R;
-    this.fullCamera = fittedCamera(R, w, h, focus); this.redrawFull();
+    this.fullCamera = fittedCamera(R, w, h, focus, pad); this.redrawFull();
+  }
+  // The view buttons (.atlas-view) float over the bottom of the full map: their box (canvas
+  // pixels) keeps labels off them, and the strip they cover is left out of the camera's view.
+  fullInset(cw, ch) {
+    const c = this.full, bar = c?.parentElement?.querySelector('.atlas-view');
+    const r = c?.getBoundingClientRect(), b = bar?.getBoundingClientRect();
+    if (!r?.height || !b?.height) { this.fullBar = null; return 0; }
+    const sx = cw / r.width, sy = ch / r.height, gap = 4 * devicePixelRatio;
+    this.fullBar = { x: (b.left - r.left) * sx - gap, y: (b.top - r.top) * sy - gap, w: b.width * sx + gap * 2, h: b.height * sy + gap * 2 };
+    return Math.max(0, ch - this.fullBar.y);
   }
   focusFull(p) {
     if (!this.fullCamera) this.resetFull();

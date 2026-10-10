@@ -74,3 +74,14 @@ test('crowded map labels never overlap each other, markers, or canvas edges; sel
     assert.ok(!placed.slice(0, i).some(p => overlaps(l.box, p.box)));
   }
 });
+
+test('a bottom inset (the full map view buttons) keeps the fitted map above it, and pan clamping honours it', () => {
+  const rect = { minX: -100, maxX: 130, minZ: -120, maxZ: 280 };
+  for (const [w, h, pad] of [[800, 600, 70], [374, 420, 90], [600, 250, 60]]) {
+    const camera = fittedCamera(rect, w, h, rect, pad), t = mapTransform(rect, w, h, camera, pad);
+    assert.ok(t.top >= 0 && t.top + t.h <= h - pad + 1e-9, `${w}x${h}`);
+    const clamped = clampCamera(rect, w, h, { x: 0, z: 999, zoom: 4 }, pad), n = mapTransform(rect, w, h, clamped, pad);
+    assert.ok(Math.abs(n.top + n.h - (h - pad)) < 1e-9, 'the south edge stops at the buttons, not under them');
+  }
+  assert.deepEqual(mapTransform(rect, 800, 600, { x: 0, z: 0, zoom: 1 }), mapTransform(rect, 800, 600, { x: 0, z: 0, zoom: 1 }, 0));
+});

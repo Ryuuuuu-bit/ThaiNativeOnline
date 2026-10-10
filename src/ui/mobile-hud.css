@@ -69,7 +69,7 @@ body.ui-touch .touch-btn.t-talk{width:58px;height:58px;right:12px;bottom:96px}
 body.ui-touch .touch-zone{width:44%;height:184px;bottom:calc(var(--mobile-bottom) + 22px)}
 body.ui-touch .touch-stick{width:112px;height:112px;left:max(76px,calc(env(safe-area-inset-left) + 66px));top:calc(100% - 72px);border:1px solid #dec58c99;opacity:.65}
 body.ui-touch .hotbar-tip{display:none!important}
-body.ui-touch.touch-menu :is(.touch-zone,.touch-pad,.touch-side,.hotbar.action-bar){display:none!important}
+body.ui-touch.touch-menu :is(.touch-zone,.touch-pad,.touch-side,.hotbar.action-bar,.action-exps){display:none!important}
 @media(orientation:landscape){
  body.ui-touch .hotbar.action-bar{bottom:calc(var(--mobile-bottom) + 30px)!important}
  body.ui-touch .touch-side{bottom:calc(var(--mobile-bottom) + 144px)!important;width:290px}
