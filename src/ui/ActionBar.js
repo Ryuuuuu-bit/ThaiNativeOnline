@@ -90,13 +90,14 @@ export class ActionBar {
 
   syncTouchPage() {
     if (!this.ctl) return;
-    const pages = skillPages(this.ctl.slots, i => this.ctl.level?.(i));
+    const pages = skillPages(this.ctl.slots, i => this.ctl.level?.(i), document.body.classList.contains('ui-touch') ? 4 : 5);
     this.page = ((this.page % pages.length) + pages.length) % pages.length;
-    const key = `${this.page}:${pages.flat().join(',')}`;
+    const key = `${this.page}:${pages.map(p => p.join(',')).join('|')}`;
     if (key === this.pageKey) return;
     this.pageKey = key;
     this.pager.dataset.singlePage = String(pages.length === 1 && pages[0].length > 0);
     this.slots.forEach(({ b }, i) => { b.dataset.touchHidden = String(!pages[this.page].includes(i)); });
+    this.row.dataset.touchCount = String(pages[this.page].length);
     this.pager.querySelector('span').textContent = pages[0].length ? `${this.page + 1} / ${pages.length}` : 'เรียนสกิลในเมนูวิชา';
     for (const button of this.pager.querySelectorAll('button')) button.disabled = pages.length <= 1;
   }

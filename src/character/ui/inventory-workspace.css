@@ -1,0 +1,126 @@
+/* Scoped inventory window: jade lacquer, brass controls, shared item art. */
+body .inventory-workspace {
+  position:absolute; top:64px; left:50%; transform:translateX(-50%);
+  width:min(920px,calc(100% - 32px)); max-height:calc(100dvh - 96px);
+  box-sizing:border-box; z-index:24; padding:14px; border:1px solid #bda16c88;
+  border-radius:8px; background:linear-gradient(140deg,#18382ff7,#0c1a17fa);
+  box-shadow:0 18px 64px #0009; color:#eee6cd; display:none;
+  flex-direction:column; overflow:hidden; pointer-events:auto;
+}
+body .inventory-workspace:has(.g-sheet:not([hidden]),.g-bag:not([hidden])) {display:flex}
+body .g-layer:has(.inventory-workspace .g-bag:not([hidden])) {z-index:5}
+.inventory-workspace .iw-heading {flex:none;margin-bottom:10px;font-size:16px;color:#ebd29c}
+.inventory-workspace .iw-heading button {min-width:44px;min-height:44px;font-size:24px}
+.inventory-workspace .iw-tabs {display:flex;gap:6px;flex:none;margin-bottom:10px}
+.inventory-workspace .iw-tabs button {flex:1;min-height:44px;padding:8px;font-size:13px;border:1px solid #b99c6255;border-radius:5px;background:#10271f;color:#d6dac8}
+.inventory-workspace .iw-tabs button[aria-selected=true] {background:#335646;color:#ffe3a7;border-color:#ceb178}
+.inventory-workspace .iw-columns {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;min-height:0;overflow:auto;overscroll-behavior:contain}
+body .inventory-workspace .g-panel {position:relative;inset:auto;width:auto;max-width:none;max-height:none;margin:0;padding:12px;zoom:1;translate:none!important;box-sizing:border-box;min-width:0;overflow:visible;border:1px solid #bda16c33;border-radius:5px;background:#081c1680;box-shadow:none}
+.inventory-workspace .g-panel>.panel-heading {font-size:13px;margin-bottom:10px;color:#c9bd98}
+.inventory-workspace .g-panel>.panel-heading button {display:none}
+.inventory-workspace .g-bag-tabs {flex-wrap:wrap;gap:5px}
+.inventory-workspace .g-bag-tabs button {flex:1 1 28%;min-height:44px;font-size:12px;padding:5px}
+.inventory-workspace .iw-category-count {display:inline-block;border-radius:12px;padding:0 5px;background:#0002;font-size:11px}
+.inventory-workspace .g-bag-tools {gap:6px;flex-wrap:wrap;margin:10px 0}
+.inventory-workspace .g-bag-search {flex:1 1 100%;min-height:44px;box-sizing:border-box;font-size:13px;padding:8px}
+.inventory-workspace .g-bag-sort,.inventory-workspace .g-bag-lock {min-height:44px;padding:8px 12px;font-size:12px}
+body .inventory-workspace .g-bag-lock {background:#18382d;color:#d9dfcb;border:1px solid #72836a;border-radius:5px;box-shadow:none}
+body .inventory-workspace .g-bag-lock[aria-pressed=true] {background:#2a4636;color:#ebd6a1;border-color:#bba16a}
+.inventory-workspace .g-bag-auto {font-size:12px;min-height:44px;gap:6px;cursor:pointer}
+.inventory-workspace .g-bag-auto input {width:18px;height:18px}
+.inventory-workspace .g-grid {grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}
+.inventory-workspace .g-slot {min-width:52px;min-height:52px;aspect-ratio:1;box-sizing:border-box}
+.inventory-workspace .g-slot.empty {cursor:default;opacity:.4}
+.inventory-workspace .iw-selected {outline:2px solid #f1d188!important;outline-offset:2px;background-color:#355d4980}
+.inventory-workspace button:focus-visible,.inventory-workspace input:focus-visible {outline:2px solid #ffe1a1;outline-offset:2px}
+.inventory-workspace button:disabled {opacity:.4;cursor:not-allowed}
+.inventory-workspace .g-doll-wrap {display:grid;grid-template-columns:76px minmax(0,1fr) 76px;gap:8px;align-items:center;margin-bottom:14px}
+.inventory-workspace .g-eq-col {display:flex;flex-direction:column;gap:10px;min-width:0}
+.inventory-workspace .g-eqs {position:relative;min-width:0;text-align:center}
+.inventory-workspace .g-eqs>button[data-slot] {width:56px;height:56px;min-height:44px;border:1px solid var(--rar,#bdab79);border-radius:5px;position:relative;background:#10251d;display:inline-grid;place-items:center}
+.inventory-workspace .g-eqs>small {display:block;font-size:10px;line-height:1.5;overflow-wrap:anywhere;white-space:normal;margin-top:4px}
+body .inventory-workspace .g-eqs .g-equip-lock {width:44px;height:44px;min-width:44px;min-height:44px;position:static;margin-top:2px;font-size:12px}
+.inventory-workspace .g-doll {display:flex;flex-direction:column;align-items:center;min-width:0;padding:12px 0;background:radial-gradient(ellipse,#4d6c4840,transparent 70%)}
+.inventory-workspace .g-doll>.g-portrait {width:100%;max-width:150px;height:220px;margin:0;border-radius:6px;border:1px solid #cab47b55;background:#142b22;display:block;box-shadow:none}
+.inventory-workspace .g-doll .g-portrait .cls-badge {border-radius:6px}
+.inventory-workspace .g-doll .cls-badge {width:100%;height:100%;display:grid;place-items:center}
+.inventory-workspace .g-doll .cls-badge img {width:100%;height:100%;object-fit:cover;object-position:center}
+.inventory-workspace .g-doll-nm {position:static;text-align:center;overflow-wrap:anywhere;font-size:12px;margin-top:10px}
+.inventory-workspace .g-doll-nm span {display:block;font-size:11px;color:#babf9f}
+.inventory-workspace .g-detail {display:block;margin-top:12px;padding:12px;border:1px solid #bda16c55;border-radius:5px;background:#071911;position:static}
+.inventory-workspace .g-detail[hidden],.inventory-workspace .g-card-pick[hidden] {display:none}
+.inventory-workspace .iw-item-card,.inventory-workspace .iw-comparison {display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;overflow-wrap:anywhere;font-size:12px}
+.inventory-workspace .g-detail-icon {width:44px;height:44px}
+.inventory-workspace .g-detail-icon .icon-img {width:40px;height:40px}
+.inventory-workspace .g-detail small {font-size:11px;line-height:1.6;display:block}
+.inventory-workspace .g-detail-bonus {display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.inventory-workspace .g-detail-bonus i {font-size:11px;font-style:normal}
+.inventory-workspace .iw-comparison {margin-top:12px;padding-top:10px;border-top:1px solid #bda16c33}
+.inventory-workspace .iw-comparison>b {grid-column:1/-1;color:#c8d1b9;font-size:12px}
+.inventory-workspace .iw-actions {display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.inventory-workspace .iw-actions button,.inventory-workspace .g-pick-confirm,.inventory-workspace .g-pick-cancel {min-height:44px;padding:8px 12px;border:1px solid #c9ad71;border-radius:5px;background:#365744;color:#ffe2a2;font-size:12px}
+.inventory-workspace .iw-selection-hint {font-size:12px;line-height:1.7;margin:0;color:#bccbb5}
+.inventory-workspace .iw-warning,.inventory-workspace .g-pick-warn {color:#ffd19a}
+.inventory-workspace .iw-score-note {color:#b1bba6;margin-top:8px}
+.inventory-workspace .g-hint {font-size:11px;line-height:1.6}
+.inventory-workspace .g-card-pick {position:sticky;inset:auto;bottom:0;max-height:none;overflow:visible;padding:12px;margin-top:10px;box-shadow:0 -8px 24px #0006;background:#152c22;border-color:#bda16c}
+.inventory-workspace .g-card-pick button[data-where] {min-height:48px;padding:8px;font-size:12px}
+.inventory-workspace .g-card-pick button[aria-pressed=true] {border-color:#f1d188;background:#416044}
+.inventory-workspace .g-card-pick p,.inventory-workspace .g-card-pick header small {font-size:12px;line-height:1.6}
+/* Keep refine, lock, comparison and socket markers in separate corners. */
+body .inventory-workspace :is(.g-slot,.g-eqs) .g-plus {position:absolute;top:2px;right:2px;left:auto;bottom:auto;z-index:4;min-width:22px;padding:0 3px;box-sizing:border-box;border:1px solid #ffe2a0;border-radius:4px;background:#291e0b;color:#fff0b9;font:800 12px/18px 'Noto Sans Thai',sans-serif;font-style:normal;text-shadow:none;box-shadow:0 1px 3px #000b;pointer-events:none}
+body .inventory-workspace .g-slot .g-item-lock {left:2px;top:2px;right:auto;bottom:auto;font-size:12px;line-height:18px;width:18px;border-radius:3px;background:#0a1a13;color:#fff0b9;text-align:center;z-index:3;pointer-events:none}
+body .inventory-workspace .g-slot .g-cmp {left:auto;top:auto;right:2px;bottom:2px;padding:1px 2px;background:#0a1a13;border-radius:3px;font-size:12px;line-height:14px;z-index:3;pointer-events:none}
+.inventory-workspace .iw-item-name {display:block;font-size:14px;line-height:1.5;color:color-mix(in srgb,var(--rar) 60%,#fff0d7)}
+.inventory-workspace .g-detail-bonus .iw-refine-bonus {flex-basis:100%;padding-top:4px;border-top:1px solid #d3b77544;color:#ffe3a0;font-size:12px;font-weight:700}
+.inventory-workspace .iw-tooltip {position:absolute;z-index:30;width:min(350px,calc(100% - 20px));max-height:calc(100% - 20px);box-sizing:border-box;overflow:auto;overscroll-behavior:contain;padding:16px;border:1px solid #d5b778;border-radius:8px;background:#0d211b;color:#f3ead2;box-shadow:0 10px 30px #000b;font-size:13px;line-height:1.65;pointer-events:auto}
+.inventory-workspace .iw-tooltip[hidden] {display:none}
+.inventory-workspace .iw-tooltip .iw-item-card {grid-template-columns:44px minmax(0,1fr);font-size:13px}
+.inventory-workspace .iw-tooltip small {display:block;margin-top:5px;font-size:12px;line-height:1.65;color:#d4dac7;white-space:pre-line}
+.inventory-workspace .iw-tooltip .g-detail-bonus {display:flex;flex-direction:column;gap:4px;margin:10px 0;padding:8px 10px;border-radius:4px;background:#28433680}
+.inventory-workspace .iw-tooltip .g-detail-bonus i {font-size:13px;line-height:1.6;font-style:normal;color:#e7f0df}
+.inventory-workspace .iw-tooltip .g-detail-bonus .iw-refine-bonus {color:#ffe3a0;font-size:13px}
+.inventory-workspace .iw-tooltip .iw-tooltip-hint {margin:12px 0 0;padding-top:8px;border-top:1px solid #d3b77544;font-size:12px;color:#cbbd98}
+.inventory-workspace .iw-detail-location {display:block;margin-bottom:10px;color:#e3cc96;font-size:12px}
+@media(min-width:761px) and (min-height:521px) {
+  /* Cancel inherited HUD zoom for this viewport-sized workspace only. */
+  body .inventory-workspace {zoom:calc(1 / var(--ui,1));width:min(1080px,calc(100vw - 32px));top:48px;max-height:calc(100dvh - 72px);padding:12px}
+  .inventory-workspace .iw-heading {margin:0 0 4px;font-size:15px}
+  .inventory-workspace .iw-heading button {min-width:32px;min-height:32px;font-size:22px}
+  .inventory-workspace .iw-tabs {gap:12px;margin:0 0 8px}
+  .inventory-workspace .iw-tabs button {flex:none;min-height:28px;padding:2px 4px;border:0;border-bottom:1px solid transparent;border-radius:0;background:transparent;color:#b8c7b3;font-size:12px}
+  .inventory-workspace .iw-tabs button[aria-selected=true] {background:transparent;border-color:#bca16c;color:#e7ce9a}
+  /* Separate scroll containers protect the paper doll when details grow. */
+  .inventory-workspace .iw-columns {grid-template-columns:minmax(290px,390px) minmax(0,1fr);max-height:calc(100dvh - 164px);overflow:hidden;gap:12px}
+  body .inventory-workspace .iw-columns>.g-panel {overflow-x:hidden;overflow-y:auto;min-height:0;max-height:calc(100dvh - 164px);overscroll-behavior:contain;scrollbar-gutter:stable;padding:12px}
+  .inventory-workspace .g-panel>.panel-heading {display:none}
+  .inventory-workspace .g-doll-wrap {grid-template-columns:76px minmax(0,1fr) 76px;gap:6px;align-items:start;margin-bottom:10px}
+  .inventory-workspace .g-eq-col {gap:9px}
+  .inventory-workspace .g-eqs {padding-top:2px}
+  body .inventory-workspace .g-eqs .g-equip-lock {position:absolute;left:-3px;top:-2px;right:auto;bottom:auto;width:24px;height:24px;min-width:24px;min-height:24px;padding:0;margin:0;border-radius:4px;background:#18382d;color:#d9dfcb;border:1px solid #72836a;z-index:5;font-size:11px;line-height:22px}
+  body .inventory-workspace .g-eqs .g-equip-lock[aria-pressed=true] {background:#2a4636;color:#ebd6a1;border-color:#bba16a}
+  .inventory-workspace .g-eqs>small {display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;max-height:30px;overflow:hidden;text-overflow:ellipsis;font-size:10px;line-height:15px}
+  .inventory-workspace .g-doll {min-height:0;padding:10px 4px;border-radius:7px;box-shadow:inset 0 0 0 1px #bda16c33;background:linear-gradient(#243d30,#0e211a)}
+  .inventory-workspace .g-doll>.g-portrait {width:100%;max-width:150px;height:180px;max-height:220px;flex:none;background:#12291f}
+  .inventory-workspace .g-doll .cls-badge img {object-fit:contain}
+  .inventory-workspace .g-doll-nm {margin-top:8px;font-size:11px}
+  .inventory-workspace .g-doll-nm b {font-size:14px}
+  .inventory-workspace .g-bag-tabs {flex-wrap:nowrap;margin:0 0 8px}
+  .inventory-workspace .g-bag-tabs button {flex:1 1 0;min-height:32px;padding:4px;font-size:12px;white-space:nowrap}
+  .inventory-workspace .g-bag-tools {margin:8px 0;gap:6px}
+  .inventory-workspace .g-bag-search {flex:1 1 170px;min-height:34px;padding:6px 8px}
+  .inventory-workspace .g-bag-sort,.inventory-workspace .g-bag-lock {min-height:34px;padding:5px 8px}
+  .inventory-workspace .g-bag-auto {min-height:34px;font-size:11px}
+  .inventory-workspace .g-statbox {padding:10px;margin:8px 0}
+  .inventory-workspace .g-stat-grid {gap:2px 10px}
+}
+@media(max-width:760px),(max-height:520px) {
+  body .inventory-workspace {top:calc(8px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));transform:none;width:auto;max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:10px;zoom:1}
+  .inventory-workspace .iw-columns {grid-template-columns:minmax(0,1fr);-webkit-overflow-scrolling:touch}
+  .inventory-workspace[data-view=bag] .g-sheet,.inventory-workspace[data-view=sheet] .g-bag {display:none}
+  body .inventory-workspace .g-panel {padding:10px}
+  .inventory-workspace .g-stat button,.inventory-workspace .g-guide-btn,.inventory-workspace .g-reset,.inventory-workspace .g-build button {min-height:44px;min-width:44px}
+  .inventory-workspace .g-stat-grid {grid-template-columns:1fr;gap:8px}
+  .inventory-workspace .g-stat {grid-template-columns:1fr auto 44px}
+  .inventory-workspace .g-doll>.g-portrait {height:200px}
+}
