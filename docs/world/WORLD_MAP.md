@@ -5,7 +5,7 @@ Owner: world-designer. Coordinates are world space (`src/world/CityMap.js`):
 (interface: `src/world/README.md`).
 
 Progression, one map at a time (Ragnarok-style, linked by portals):
-นครอโยธยา (city, safe) → warp → ทุ่งนาข้าว (paddy, primary Lv 1-4) → path → ป่าลึก
+นครที่ถูกลืมเลือน (city, safe) → warp → ทุ่งนาข้าว (paddy, primary Lv 1-4) → path → ป่าลึก
 (deep_forest, primary Lv 5-9) → path → วัดร้าง (wat_rang, primary Lv 10-14) → (dungeon under the
 ruined temple, later).
 
@@ -35,7 +35,7 @@ as future services and are excluded from the atlas's active shop filter.
 
 | id | Name | Band | Walk area | Safe | Levels | Who / why |
 | --- | --- | --- | --- | --- | --- | --- |
-| `city` | นครอโยธยา | `z ≥ -112` (`SEAM_Z`) | x ±122, z -108.5 … 266 (inside the walls, port, river bank) | yes | — | everyone: trade, equipment, quests, class halls, training dummy |
+| `city` | นครที่ถูกลืมเลือน | `z ≥ -112` (`SEAM_Z`) | x ±122, z -108.5 … 266 (inside the walls, port, river bank) | yes | — | everyone: trade, equipment, quests, class halls, training dummy |
 | `paddy` | ทุ่งนาข้าว | `-296 ≤ z < -112` | x ±122, z -293 … -113.5 | no | 1-5 | new characters: first hunts in the orchards, farmers' village shop, gathering in the paddies |
 | `deep_forest` | ป่าลึก | `-445 ≤ z < -296` (`FOREST_SEAM_Z`) | x ±122, z -442 … -298.5 | no | 3-9 | mid levels: forest spirits by day and night, the ruined chedi, the log bridge |
 | `wat_rang` | วัดร้าง | `z < -445` (`WAT_SEAM_Z`) | x ±122, z -592 … -447 | no | 5-14 | strongest characters, mostly evening and night: the wandering dead, the cemetery, the temple ruins and the boss |
@@ -51,7 +51,7 @@ touch; each map's `view` builds the neighbouring land as backdrop.
 | Portal | Style | Map | Trigger (x, z, r) | Arrives at | NPC exit node | Label |
 | --- | --- | --- | --- | --- | --- | --- |
 | `warp_to_paddy` | warp | city | 0, -107, 2.2 (in the gate passage) | paddy 0, -130, facing north | `gate_in` | ประตูวาป → ทุ่งนาข้าว |
-| `warp_to_city` | warp | paddy | 0, -122.5, 2.2 (outside the gate) | city 0, -99, facing south | `gate_out` | ประตูวาป → นครอโยธยา |
+| `warp_to_city` | warp | paddy | 0, -122.5, 2.2 (outside the gate) | city 0, -99, facing south | `gate_out` | ประตูวาป → นครที่ถูกลืมเลือน |
 | `path_to_forest` | path | paddy | -0.9, -290, 2.4 (north road past the banyan) | deep_forest 0, -311, facing north | `n6` | ทางเข้าป่า → ป่าลึก |
 | `path_to_paddy` | path | deep_forest | 0, -301, 2.4 (outside the forest gate rope) | paddy -1.6, -282, facing south | `fe` | ทางออกสู่ทุ่ง → ทุ่งนาข้าว |
 | `path_to_wat` | path | deep_forest | 8.5, -439, 2.4 (trail beyond the log bridge) | wat_rang -1.5, -459, facing north | `f5` | ทางสู่วัดร้าง → วัดร้าง |
@@ -67,7 +67,7 @@ Old saves on the retired `fields` map load on the zone map that owns the saved
 position; a position in a gap between walk areas moves to that map's nearest
 arrival point (`resolveLocation`).
 
-## นครอโยธยา (`city`) — safe, all levels
+## นครที่ถูกลืมเลือน (`city`) — safe, all levels
 
 Who: everyone. Why: shops, smiths, quests, learning a class, trying skills on
 the straw dummy at the port. No monsters (`src/data/spawns.js` has none in the city).

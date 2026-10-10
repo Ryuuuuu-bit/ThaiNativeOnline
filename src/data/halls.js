@@ -1,5 +1,5 @@
 // Class training halls (โรงฝึก): one Thai-style hall per class, each with its
-// master, in the ย่านสำนักครู quarter of นครอโยธยา, east of ลานฝึกครู. Placement
+// master, in the ย่านสำนักครู quarter of นครที่ถูกลืมเลือน, east of ลานฝึกครู. Placement
 // data owned by world-designer (docs/world/WORLD_MAP.md); the buildings are
 // built by environment-artist from these records and the masters' NPC data
 // (src/data/npcs.js) is content-designer's.

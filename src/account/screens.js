@@ -100,7 +100,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
         <div class="acc-select">
           <span class="eyebrow">${session.guest ? esc(ACCOUNTS.guestName) : `บัญชี ${esc(session.id)}`}</span>
           <h2>เลือกผู้เดินทาง</h2>
-          <p class="acc-select-intro">นครอโยธยารอการกลับมาของเจ้า</p>
+          <p class="acc-select-intro">นครที่ถูกลืมเลือนรอการกลับมาของเจ้า</p>
           <div class="acc-stage-slot"></div>
           <div class="acc-slots">${slots.map(slotCard).join('')}</div>
           <button type="button" class="acc-logout">${session.guest ? 'กลับไปหน้าเข้าสู่ระบบ' : 'ออกจากระบบ'}</button>

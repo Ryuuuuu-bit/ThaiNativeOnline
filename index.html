@@ -7,25 +7,25 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#182b25" />
-    <meta name="description" content="นครอโยธยา เมืองหลวงริมแม่น้ำของโลกแฟนตาซี Thai Native Online" />
-    <title>Thai Native Online — นครอโยธยา</title>
+    <meta name="description" content="นครที่ถูกลืมเลือน เมืองหลวงริมแม่น้ำของโลกแฟนตาซี Thai Native Online" />
+    <title>Thai Native Online — นครที่ถูกลืมเลือน</title>
     <!-- the two Thai UI faces used on first paint (src/ui/fonts.css) -->
     <link rel="preload" href="/fonts/ibm-plex-sans-thai-looped-thai-400-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/trirong-thai-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <main id="app">
-      <div id="world" aria-label="นครอโยธยา แผนที่สามมิติ มุมมอง 2.5D"></div>
+      <div id="world" aria-label="นครที่ถูกลืมเลือน แผนที่สามมิติ มุมมอง 2.5D"></div>
       <div class="vignette"></div>
       <div id="nameplates" aria-hidden="true"></div>
       <header class="topbar">
         <a class="brand" href="/" data-game-brand aria-label="Thai Native Online"></a>
-        <div class="location"><span class="tiny" id="region-sub">นครอโยธยา · ราชธานีริมแม่น้ำ</span><h1 id="region-name">นครอโยธยา</h1><span class="weather"><i id="sun-dot"></i><span id="clock">เช้า · 07:30</span></span></div>
+        <div class="location"><span class="tiny" id="region-sub">นครที่ถูกลืมเลือน · ราชธานีริมแม่น้ำ</span><h1 id="region-name">นครที่ถูกลืมเลือน</h1><span class="weather"><i id="sun-dot"></i><span id="clock">เช้า · 07:30</span></span></div>
         <div class="top-actions"><button id="map-toggle" title="แผนที่ (M)" aria-label="แผนที่">⌖</button><button id="settings-toggle" title="ตั้งค่า" aria-label="ตั้งค่า" aria-expanded="false">⚙</button></div>
       </header>
-      <aside class="character glass"><div class="portrait">♙</div><div class="character-info"><div class="character-name">ผู้เดินทาง <span>Lv. 1</span></div><div class="bar hp"><span></span></div><div class="bar energy"><span></span></div><small>ผู้มาเยือนแห่งนครอโยธยา</small></div></aside>
+      <aside class="character glass"><div class="portrait">♙</div><div class="character-info"><div class="character-name">ผู้เดินทาง <span>Lv. 1</span></div><div class="bar hp"><span></span></div><div class="bar energy"><span></span></div><small>ผู้มาเยือนแห่งนครที่ถูกลืมเลือน</small></div></aside>
       <aside class="exploration glass"><span class="eyebrow">บันทึกการเดินทาง</span><h2 id="journal-title">เมืองแห่งสายน้ำ</h2><p id="journal-text">ตลาด วัด และลานฝึกริมแม่น้ำ<br>ประตูวาปทิศเหนือพาออกสู่ทุ่งนา</p><div class="quest-line"><span id="quest-symbol">◇</span><span id="quest-text">ค้นพบสถานที่ 0/0</span></div><span class="quest-hint" id="quest-hint">เดินสำรวจเมืองเพื่อค้นพบสถานที่สำคัญ</span><div id="quest-tracker"></div></aside>
-      <aside class="minimap glass"><div class="zoom-ctl glass" role="group" aria-label="ซูมกล้อง"><button id="zoom-in" title="ซูมเข้า (+)" aria-label="ซูมเข้า">+</button><button id="zoom-out" title="ซูมออก (−)" aria-label="ซูมออก">−</button><button id="map-open" title="แผนที่ใหญ่ (M)" aria-label="เปิดแผนที่ใหญ่">⤢</button><button id="zoom-lock" title="ล็อกระยะกล้อง" aria-label="ล็อกระยะกล้อง" aria-pressed="false">🔓</button></div><div class="mini-title"><b><span id="mini-name">นครอโยธยา</span><i id="mini-lv" hidden></i><button id="mini-ch" type="button" title="เปลี่ยนแชนแนล" aria-label="แชนแนล" hidden>CH 1</button></b><small id="mini-sub">ราชธานีริมแม่น้ำ</small></div><div class="map-frame"><canvas id="minimap" aria-label="แผนที่ย่อ"></canvas></div><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
+      <aside class="minimap glass"><div class="zoom-ctl glass" role="group" aria-label="ซูมกล้อง"><button id="zoom-in" title="ซูมเข้า (+)" aria-label="ซูมเข้า">+</button><button id="zoom-out" title="ซูมออก (−)" aria-label="ซูมออก">−</button><button id="map-open" title="แผนที่ใหญ่ (M)" aria-label="เปิดแผนที่ใหญ่">⤢</button><button id="zoom-lock" title="ล็อกระยะกล้อง" aria-label="ล็อกระยะกล้อง" aria-pressed="false">🔓</button></div><div class="mini-title"><b><span id="mini-name">นครที่ถูกลืมเลือน</span><i id="mini-lv" hidden></i><button id="mini-ch" type="button" title="เปลี่ยนแชนแนล" aria-label="แชนแนล" hidden>CH 1</button></b><small id="mini-sub">ราชธานีริมแม่น้ำ</small></div><div class="map-frame"><canvas id="minimap" aria-label="แผนที่ย่อ"></canvas></div><div class="mini-footer"><i id="safety-dot"></i> <span id="safety">พื้นที่สงบ</span> <span id="coords">0, 0</span></div></aside>
       <section id="settings" class="settings glass" hidden aria-label="ตั้งค่า">
         <div class="panel-heading">ตั้งค่า<button id="settings-close" aria-label="ปิดการตั้งค่า">×</button></div>
         <div class="set-body">
@@ -73,11 +73,11 @@
           <div id="dlg-quests"></div>
         </div>
       </section>
-      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครอโยธยา</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
+      <section class="bottom"><div class="map-caption"><span class="eyebrow">THE FIRST CHAPTER</span><h2>นครที่ถูกลืมเลือน</h2><p>ราชธานีริมแม่น้ำ · ตลาด · วัด · ลานฝึก</p></div><span class="version">MAIN CITY <b>·</b> v0.2</span></section>
       <section id="shop" class="shop sh-v3 glass" hidden aria-label="ร้านค้า"><div class="panel-heading sh-head"><i id="shop-port" class="sh-port"></i><span class="sh-id"><b id="shop-title"></b><small id="shop-keeper"></small></span><span class="sh-chip">◉<span><small>ตำลึงของคุณ</small><b id="shop-gold"></b></span></span><button id="shop-close" aria-label="ปิดร้านค้า">×</button></div>
         <div class="sh-body"><nav id="shop-rail" class="sh-rail" aria-label="แท็บร้านค้า"></nav><div id="shop-list" class="sh-main"></div></div></section>
       <section id="fullmap-panel" class="fullmap atlas glass" hidden aria-label="แผนที่โลก">
-        <div class="panel-heading atlas-heading"><div><small>บันทึกเส้นทาง · อโยธยา</small><h2 id="map-title">นครอโยธยา</h2><span id="map-subtitle">เมืองปลอดภัย · ร้านค้าและสำนักครู</span></div><button id="fullmap-close" aria-label="ปิดแผนที่">×</button></div>
+        <div class="panel-heading atlas-heading"><div><small>บันทึกเส้นทาง · นครที่ถูกลืมเลือน</small><h2 id="map-title">นครที่ถูกลืมเลือน</h2><span id="map-subtitle">เมืองปลอดภัย · ร้านค้าและสำนักครู</span></div><button id="fullmap-close" aria-label="ปิดแผนที่">×</button></div>
         <div class="atlas-toolbar"><nav id="map-filters" aria-label="ประเภทสถานที่"></nav><span id="map-count" aria-live="polite"></span></div>
         <div class="fullmap-body">
           <div class="map-frame"><canvas id="fullmap" aria-label="แผนที่ · ลากเพื่อเลื่อน แตะเพื่อเลือกสถานที่"></canvas><div class="map-tip" hidden></div>
@@ -115,7 +115,7 @@
       <pre id="debug" hidden></pre>
       <button id="restore-ui" hidden>แสดงหน้าจอ · H</button>
       <div id="toast" role="status" hidden><strong id="toast-title"></strong><span id="toast-text"></span><small id="toast-purpose"></small></div>
-      <div id="loading"><img src="/ui/login/native-crest.svg" width="64" height="70" alt="Thai Native Online"><h2>นครอโยธยา</h2><p id="loading-text">กำลังเปิดประตูสู่ราชธานี…</p></div>
+      <div id="loading"><img src="/ui/login/native-crest.svg" width="64" height="70" alt="Thai Native Online"><h2>นครที่ถูกลืมเลือน</h2><p id="loading-text">กำลังเปิดประตูสู่ราชธานี…</p></div>
     </main>
     <script type="module" src="/src/main.js"></script>
   </body>

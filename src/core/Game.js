@@ -79,7 +79,7 @@ export class Game {
     this.player = new Player(this.scene);
     this.discovered = new Set();
     try { for (const id of JSON.parse(slotStorage.getItem('tno.discovered.v1') ?? '[]')) this.discovered.add(id); } catch { /* storage unavailable */ }
-    // Maps (src/world/maps.js): นครอโยธยา and ทุ่งนอกเมือง, one loaded at a time; warps move between them.
+    // Maps (src/world/maps.js): นครที่ถูกลืมเลือน and ทุ่งนอกเมือง, one loaded at a time; warps move between them.
     this.maps = new MapManager({
       scene: this.scene, clock: this.clock, player: this.player,
       progress: text => { $('loading-text').textContent = text; },
