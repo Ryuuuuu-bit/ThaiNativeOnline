@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "wear_sealed_mine_amulet_guard",
+  "family": "wear:sealed_mine:amulet",
+  "memberIDs": [
+    "wear_sealed_mine_amulet_guard",
+    "wear_sealed_mine_amulet_sage",
+    "wear_sealed_mine_amulet_hunter"
+  ],
+  "name": "สร้อยพระเครื่องผู้พิทักษ์ · เหมืองอาคมร้าง",
+  "type": "equip",
+  "levels": [
+    30
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-21399d1b-b3fd-4451-8643-baa5153f9581.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Necklace with framed seated-Buddha sacred tablet; necklace loop and pendant both readable. Existing name: สร้อยพระเครื่องผู้พิทักษ์ · เหมืองอาคมร้าง. อุปกรณ์สายผู้พิทักษ์แห่งเหมืองอาคมร้าง · ต้องการ Lv.30 Region sealed_mine. Minimum level 30; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.",
+  "master": "docs/art/items/painted-complete-v1/masters/wear_sealed_mine_amulet_guard.png",
+  "masterSha256": "986d33e905e6c6b29ea95613df2e99d2d354b490cdd4e2fd30c553d16df7cc66",
+  "originalSha256": "986d33e905e6c6b29ea95613df2e99d2d354b490cdd4e2fd30c553d16df7cc66",
+  "output": "public/ui/items/painted-complete-v1/wear_sealed_mine_amulet_guard.webp",
+  "sha256": "d05d3578987d8566acc4d4fb43c3f675bc243992a2de5f1191f3c4f9e2e433f4",
+  "bytes": 19790,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

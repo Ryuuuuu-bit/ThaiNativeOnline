@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "sabai",
+  "family": "equip:sabai",
+  "memberIDs": [
+    "sabai"
+  ],
+  "name": "สไบไหม",
+  "type": "equip",
+  "levels": [
+    5
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a127bd-f441-7a92-a1e3-49e6b362199a/exec-9c1d08d1-3bc5-48a4-9b2e-3360249f8d30.png",
+  "prompt": "One isolated Thai fantasy inventory cape icon: Hanging Thai cloth cape; broad drape and visible hem. Existing name: สไบไหม.   Minimum level 5; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  A soft Thai silk sabai sash draped as graceful broad hanging cape, deep jade-teal silk with wide flowing folds and clearly defined lower hem, narrow muted gold woven geometric Thai border selectively along hem, modest small brass shoulder fastening. Level5 silk, richer than cotton but not royal armored cape. No person or mannequin, no jewels or heavy plates. Soft hand-painted stylized broad silhouette readable32px. Complete drape centered square12% safe margin genuine transparent background. No labels, letters, digits, UI frame, badges, floor shadows or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/sabai.png",
+  "masterSha256": "904a58824e90e2deeb8511cdef277b93dc21b10505fb620aa19fb0d534c8cb05",
+  "originalSha256": "904a58824e90e2deeb8511cdef277b93dc21b10505fb620aa19fb0d534c8cb05",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/sabai.webp",
+  "sha256": "338b024d0ff39f1562da0f3ae403ee4faeb618345a8bb80eb5585725c7185665",
+  "bytes": 14662,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

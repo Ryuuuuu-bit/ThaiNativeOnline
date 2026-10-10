@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_marsh_head_guard",
+  "family": "hunt:marsh:head",
+  "memberIDs": [
+    "hunt_marsh_head_guard",
+    "hunt_marsh_head_sage",
+    "hunt_marsh_head_hunter"
+  ],
+  "name": "ผ้าโพกศีรษะผู้พิทักษ์ · บึงอาคม",
+  "type": "equip",
+  "levels": [
+    18
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-c886d226-a154-4bc4-8a90-bfc79c94b9c7.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Folded cloth head wrap; no metal helmet. Existing name: ผ้าโพกศีรษะผู้พิทักษ์ · บึงอาคม. เครื่องสวมใส่สายผู้พิทักษ์แห่งบึงอาคม · ต้องการ Lv.18 Region marsh. Minimum level 18; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_marsh_head_guard.png",
+  "masterSha256": "4906f05214df23b85c50e7f87c1fc1740186422f676fe2ded726a2f6f2c3fc8c",
+  "originalSha256": "4906f05214df23b85c50e7f87c1fc1740186422f676fe2ded726a2f6f2c3fc8c",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_marsh_head_guard.webp",
+  "sha256": "4cdf6ec5998f98d42c78bf3b416a830e6acaaafbef37dd0e5fb01441d33ed944",
+  "bytes": 15778,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

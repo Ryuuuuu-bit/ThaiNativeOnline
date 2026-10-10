@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_ghost_black",
+  "family": "card:card_ghost_black",
+  "memberIDs": [
+    "card_ghost_black"
+  ],
+  "name": "การ์ดผีชุดดำ",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-cbeb2f78-82de-43bd-a99c-61b902625962.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีชุดดำ ghost_black world boss, dark elder ghost woman. An ELDERLY Thai woman with deeply lined pale gray-green face, very long disheveled silver-streaked black hair, stooped narrow shoulders and flowing BLACK traditional Thai dress with muted indigo woven hem. Long bony hands summon a small jade-purple orb between palms; dark lavender mist curls beneath trailing skirt. Stern ancient face and bright pale violet eyes, no bride jewelry, crown or red clothes, no gore. Clear BLACK elder mage silhouette full body inside card fills80 percent face readable32px. Soft hand-painted stylized broad shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_ghost_black.png",
+  "masterSha256": "0a02695b39e6d28611473c6e722e5adb61afafa1bd76ebf695c29e13e41859ca",
+  "originalSha256": "0a02695b39e6d28611473c6e722e5adb61afafa1bd76ebf695c29e13e41859ca",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_ghost_black.webp",
+  "sha256": "8472badb1da5ee01ba9e1122d0caaed9da4deb68186fb805f01cdca7870c938c",
+  "bytes": 18838,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_grove_head_guard",
+  "family": "hunt:grove:head",
+  "memberIDs": [
+    "hunt_grove_head_guard",
+    "hunt_grove_head_sage",
+    "hunt_grove_head_hunter"
+  ],
+  "name": "ผ้าโพกศีรษะผู้พิทักษ์ · ดงไผ่",
+  "type": "equip",
+  "levels": [
+    6
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-b3438df6-48af-4502-bdcd-a0f96884b1f9.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Folded cloth head wrap; no metal helmet. Existing name: ผ้าโพกศีรษะผู้พิทักษ์ · ดงไผ่. เครื่องสวมใส่สายผู้พิทักษ์แห่งดงไผ่ · ต้องการ Lv.6 Region grove. Minimum level 6; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_grove_head_guard.png",
+  "masterSha256": "4b3b29a91d0a59bfaf8d7ef446774cefd1c7fb9f6477a3e26a713be5ed09311e",
+  "originalSha256": "4b3b29a91d0a59bfaf8d7ef446774cefd1c7fb9f6477a3e26a713be5ed09311e",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_grove_head_guard.webp",
+  "sha256": "41bd34d9bf5ae59c47095a1532267ad9f4fd686d63f7e61829a4996ee469b8b0",
+  "bytes": 16406,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

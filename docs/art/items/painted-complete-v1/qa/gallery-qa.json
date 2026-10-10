@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "category": "all",
+      "cards": 348
+    },
+    {
+      "width": 1440,
+      "category": "equip",
+      "cards": 184
+    },
+    {
+      "width": 1440,
+      "category": "flask",
+      "cards": 88
+    },
+    {
+      "width": 1440,
+      "category": "use",
+      "cards": 3
+    },
+    {
+      "width": 1440,
+      "category": "material",
+      "cards": 6
+    },
+    {
+      "width": 1440,
+      "category": "card",
+      "cards": 67
+    },
+    {
+      "width": 390,
+      "category": "all",
+      "cards": 348
+    },
+    {
+      "width": 390,
+      "category": "equip",
+      "cards": 184
+    },
+    {
+      "width": 390,
+      "category": "flask",
+      "cards": 88
+    },
+    {
+      "width": 390,
+      "category": "use",
+      "cards": 3
+    },
+    {
+      "width": 390,
+      "category": "material",
+      "cards": 6
+    },
+    {
+      "width": 390,
+      "category": "card",
+      "cards": 67
+    }
+  ],
+  "errors": [],
+  "failures": []
+}

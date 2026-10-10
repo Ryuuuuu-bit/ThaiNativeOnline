@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_leech",
+  "family": "card:card_leech",
+  "memberIDs": [
+    "card_leech"
+  ],
+  "name": "การ์ดปลิงควาย",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-7087f4b2-f609-41b3-a125-43a1a546a0ab.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ปลิงควาย leech, water beast. One large glossy dark chestnut-brown buffalo leech, elongated muscular segmented cylindrical body bent into thick S-curve. Obvious circular sucking disc at broader front, tiny rear sucker, olive-brown highlights and pronounced ring segmentation. It is a LEECH, no legs, eyes, snake head, fins, teeth or horns. Macro creature silhouette fills80 percent cream parchment card face, complete body contained, broad readable32px. Soft hand-painted stylized Thai fantasy nature illustration, restrained muted colors not photoreal. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous parchment edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_leech.png",
+  "masterSha256": "6db9e526bb747fcf4d5e831d826ef1bfdd15585a72505ea4d67321a7718b0a37",
+  "originalSha256": "6db9e526bb747fcf4d5e831d826ef1bfdd15585a72505ea4d67321a7718b0a37",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_leech.webp",
+  "sha256": "8092312b9d5ac21ffb32022d47e653146c24e0f69c57f2f3ffc0498a98bc9f26",
+  "bytes": 25554,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

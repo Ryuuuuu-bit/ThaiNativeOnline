@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_temple_head_guard",
+  "family": "hunt:temple:head",
+  "memberIDs": [
+    "hunt_temple_head_guard",
+    "hunt_temple_head_sage",
+    "hunt_temple_head_hunter"
+  ],
+  "name": "ผ้าโพกศีรษะผู้พิทักษ์ · วัดร้าง",
+  "type": "equip",
+  "levels": [
+    12
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-a67df3b6-d2fa-4066-9ec3-6af4e4a7d96f.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Folded cloth head wrap; no metal helmet. Existing name: ผ้าโพกศีรษะผู้พิทักษ์ · วัดร้าง. เครื่องสวมใส่สายผู้พิทักษ์แห่งวัดร้าง · ต้องการ Lv.12 Region temple. Minimum level 12; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_temple_head_guard.png",
+  "masterSha256": "e49fc980eb4f4d748bdb3f27fd53f1acdcb1f3dab6e7178755bede8a22ba0022",
+  "originalSha256": "e49fc980eb4f4d748bdb3f27fd53f1acdcb1f3dab6e7178755bede8a22ba0022",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_temple_head_guard.webp",
+  "sha256": "a56c8e967108b64ab91b500b7cbfb1f3bbd2becb67357b01cc088a16157bc158",
+  "bytes": 15414,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

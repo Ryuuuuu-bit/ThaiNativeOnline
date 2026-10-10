@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_sunken_city_head_guard",
+  "family": "hunt:sunken_city:head",
+  "memberIDs": [
+    "hunt_sunken_city_head_guard",
+    "hunt_sunken_city_head_sage",
+    "hunt_sunken_city_head_hunter"
+  ],
+  "name": "ผ้าโพกศีรษะผู้พิทักษ์ · นครบาดาล",
+  "type": "equip",
+  "levels": [
+    40
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-9753105b-8a05-442a-8cb1-05110cf4db6d.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Folded cloth head wrap; no metal helmet. Existing name: ผ้าโพกศีรษะผู้พิทักษ์ · นครบาดาล. เครื่องสวมใส่สายผู้พิทักษ์แห่งนครบาดาล · ต้องการ Lv.40 Region sunken_city. Minimum level 40; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_sunken_city_head_guard.png",
+  "masterSha256": "3767a959307d8a1d94d4d477d5cf5068b18624f0950ac58d7bf54d69c47287d8",
+  "originalSha256": "3767a959307d8a1d94d4d477d5cf5068b18624f0950ac58d7bf54d69c47287d8",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_sunken_city_head_guard.webp",
+  "sha256": "602d12fa05d4f2abcea6ae28ad10615de15f44822ba50ea63fd388169bb202a2",
+  "bytes": 16562,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

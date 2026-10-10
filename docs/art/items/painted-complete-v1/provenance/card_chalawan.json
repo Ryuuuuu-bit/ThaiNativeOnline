@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_chalawan",
+  "family": "card:card_chalawan",
+  "memberIDs": [
+    "card_chalawan"
+  ],
+  "name": "การ์ดชาละวัน",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-508c4966-f70d-49bc-8a91-5ae90f759784.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ชาละวัน chalawan boss, royal demon crocodile king of Thai folklore. A colossal olive-green crocodilian beast in commanding low raised-front pose, heavy broad jaw with ivory fangs, glowing jade eyes, enormous muscular forelimbs and long curved armored tail. Distinct royal Thai aged GOLD lotus/flame crown over brow, sparse gold neck collar and broad gold shoulder ornaments with jade inlays, naturally armored reptile scales dominate. FOUR reptile legs, no human body, no western dragon wings. Entire royal crown and tail inside card, clear imposing boss silhouette fills80 percent parchment face readable32px. Soft hand-painted stylized broad shapes Thai fantasy selective gold. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_chalawan.png",
+  "masterSha256": "c6dea84b05addcdddf177ff531e4f8206d670c9e5bf231f2654579f5f22f7b30",
+  "originalSha256": "c6dea84b05addcdddf177ff531e4f8206d670c9e5bf231f2654579f5f22f7b30",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_chalawan.webp",
+  "sha256": "11505db09184eb1e9422ce1c68f91e6b0f102bc034e2e5de854fde88905a0b6b",
+  "bytes": 34328,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_croc",
+  "family": "card:card_croc",
+  "memberIDs": [
+    "card_croc"
+  ],
+  "name": "การ์ดจระเข้บึง",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-4a4415b8-0bc7-40e1-8a57-c3c03a54d308.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature จระเข้บึง croc, swamp water beast. A stocky olive-green Siamese crocodile in low three-quarter crawling pose, broad flattened crocodile snout slightly open showing ivory teeth, muscular long tapering tail curled beside body, rough armored back scutes and FOUR short clawed legs. Pale tan underjaw, muddy dark green scales, no crown, magic or clothing. Clear broad low reptile silhouette fills80 percent cream parchment face with complete tail and legs inside border, readable32px. Soft hand-painted stylized broad shapes Thai fantasy nature illustration, no photoreal texture. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_croc.png",
+  "masterSha256": "f6e63a36169fd14d101a3c6bc298836a8256466a9e5f81225f7a74166d974d69",
+  "originalSha256": "f6e63a36169fd14d101a3c6bc298836a8256466a9e5f81225f7a74166d974d69",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_croc.webp",
+  "sha256": "a67d3b2690f60462394c961e05b253fba500b2dc3315071f390be5b3f444572f",
+  "bytes": 26830,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

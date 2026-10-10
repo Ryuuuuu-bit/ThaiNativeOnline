@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "flask_boss_pop_hp_2",
+  "family": "flask:flask_boss_pop_hp_2",
+  "memberIDs": [
+    "flask_boss_pop_hp_2"
+  ],
+  "name": "ปอบ · ขวดน้ำยาชุบชีพ ขั้น 2",
+  "type": "flask",
+  "levels": [
+    10
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-be1cda69-0be8-453b-a62d-b38eb7f54b3b.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Reusable HP flask tier 2, minimum Lv.10; red fluid and rounded silhouette; distinct themed ปอบ boss fittings; epic reward; tier-specific construction and ornament; tier 1 plain glass/brass, progressively stronger fittings at higher tiers; no numbers, UI bars or text.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.\nPhysical boss identifier: Pop demon fittings: olive-dark green leather wraps, compact ivory fang clasp and earthy bronze stopper. Tier-specific construction: reinforced glass foot and doubled neck rim, small physical charm. These are real material fittings on bottle, not a creature attached or floating effects. Colored liquid must occupy more than half visible bottle face, HP rounded red, MP elongated blue.",
+  "master": "docs/art/items/painted-complete-v1/masters/flask_boss_pop_hp_2.png",
+  "masterSha256": "3bd2c4b7fb1baa070657319393270692164bba4fffea415aefc10817aa5d8d20",
+  "originalSha256": "3bd2c4b7fb1baa070657319393270692164bba4fffea415aefc10817aa5d8d20",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/flask_boss_pop_hp_2.webp",
+  "sha256": "8bbe1564e8745eda4de2c5b1cf6916040cebf0e6379624f405c9b10cf71c2320",
+  "bytes": 18340,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

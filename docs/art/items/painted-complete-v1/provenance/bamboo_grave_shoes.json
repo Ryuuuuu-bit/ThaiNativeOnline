@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "bamboo_grave_shoes",
+  "family": "equip:bamboo_grave_shoes",
+  "memberIDs": [
+    "bamboo_grave_shoes"
+  ],
+  "name": "รองเท้า · ป่าช้าไผ่ดำ",
+  "type": "equip",
+  "levels": [
+    23
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-29aa0bab-7e72-404b-90f6-637353670ab9.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory icon for Thai Native Online. Subject: Pair of leather boots; distinct soles and cuffs. Existing name: รองเท้า · ป่าช้าไผ่ดำ. ศาสตรา ป่าช้าไผ่ดำ · ต้องการ Lv.23  Minimum level 23; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Style: soft stylized hand-painted Thai fantasy matching jade/gold/leather family; broad clear silhouette, gentle shading, selective Thai kanok or prajam-yam on fittings/cloth borders, never on every surface. Interpret authored material/region/tier distinctly: basic levels restrained plain, progressively ornate higher levels, palette appropriate to actual name. No photorealism. Composition: full isolated object or specifically requested pair, centered three-quarter view, occupy ONLY80%canvas with10%transparent inset ALL edges, readable32/48/64px. If wearable, show equipment alone with no human anatomy. Actual transparent alpha. No text, numbers, letters, UI frame, badges, border, watermark, glow, scene, ground or background shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/bamboo_grave_shoes.png",
+  "masterSha256": "f16432ccb2c6916f6116f7711f0d415855a7e48be062b7db624326327e748ac2",
+  "originalSha256": "f16432ccb2c6916f6116f7711f0d415855a7e48be062b7db624326327e748ac2",
+  "output": "public/ui/items/painted-complete-v1/bamboo_grave_shoes.webp",
+  "sha256": "abfb5740909964da91256f13646b7878aa05be8227bd81d48049ba89a16c4b0f",
+  "bytes": 22560,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

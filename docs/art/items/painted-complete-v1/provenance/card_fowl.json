@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_fowl",
+  "family": "card:card_fowl",
+  "memberIDs": [
+    "card_fowl"
+  ],
+  "name": "การ์ดไก่ป่า",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a127bd-f441-7a92-a1e3-49e6b362199a/exec-b297a9c9-cf3d-4cdc-9102-af18db1b20da.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ไก่ป่า fowl level1 wind beast: red junglefowl rooster, upright bright red comb and wattle, burnt-orange neck hackles, chestnut body, dark iridescent green arched long tail feathers, two yellow clawed legs and small sharp beak. Proud active pose, chicken silhouette unmistakable, not eagle or demon. Large illustration fills85% parchment card face for32px recognition. Soft hand-painted stylized charming fantasy broad color blocks, not photoreal. Worn cream physical parchment card with very narrow sparse aged brass Thai kanok corners, no label area. Whole card centered square15% genuinely transparent outer margin, no scene outside card or floor shadow. No writing, letters, digits, stats, UI frame, badges, watermark or other cards.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_fowl.png",
+  "masterSha256": "50b28188cfc34640a13888ce9dd1054953cd8d63068c8e26287bb83967f0f3b9",
+  "originalSha256": "50b28188cfc34640a13888ce9dd1054953cd8d63068c8e26287bb83967f0f3b9",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_fowl.webp",
+  "sha256": "bf74a231f692377a992efc3b3fefbcb4e55df2ed8c3c0c27b1eaae36a4caca47",
+  "bytes": 24820,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

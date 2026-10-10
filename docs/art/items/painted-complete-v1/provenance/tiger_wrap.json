@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "tiger_wrap",
+  "family": "equip:tiger_wrap",
+  "memberIDs": [
+    "tiger_wrap"
+  ],
+  "name": "ผ้าพันมือลายเสือ",
+  "type": "equip",
+  "levels": [
+    5
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-b0f6a696-b218-458f-b153-8f4ab4af078a.png",
+  "prompt": "One isolated Thai fantasy equipment inventory icon: Pair of wrapped Muay Thai hands; cloth wraps, not gloves. Existing name: ผ้าพันมือลายเสือ. ผ้าพันมือย้อมลายเสือสมิง หมัดหนักขึ้น  Minimum level 5; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Pair of empty Muay Thai fist wraps formed from ochre-orange woven cloth with bold black tiger stripes, finger openings and trailing tied cloth ends. These are wrapped cloth fists, no leather armored gauntlets, no flesh or whole character, no actual animal paws. Low-level tiger-inspired wraps with very restrained small brass tie bead, not ornate royal equipment. Soft hand-painted broad stylized forms and warm colors, legible32px. Whole pair square centered12% safe margin on genuine transparent background. No text, labels, numbers, UI border, badges, floor shadow or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/tiger_wrap.png",
+  "masterSha256": "8126e2e5219e2282c506d1ff90543661719b0f7cab47e7ab1c629db700800c85",
+  "originalSha256": "8126e2e5219e2282c506d1ff90543661719b0f7cab47e7ab1c629db700800c85",
+  "output": "public/ui/items/painted-complete-v1/tiger_wrap.webp",
+  "sha256": "6f6176f2362200432ca30b09cf03d6e4e13fe59857a818e4d7087a5125efda50",
+  "bytes": 27524,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

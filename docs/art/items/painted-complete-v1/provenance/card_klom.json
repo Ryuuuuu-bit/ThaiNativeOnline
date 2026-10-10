@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_klom",
+  "family": "card:card_klom",
+  "memberIDs": [
+    "card_klom"
+  ],
+  "name": "การ์ดผีตายทั้งกลม",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-8cffed31-25db-43b8-80d2-3a6adb246bde.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีตายทั้งกลม klom, dark Thai spirit of a woman who died while pregnant. A sorrowful pale lavender Thai adult woman with very long black hair, modest loose dusty mauve Thai shoulder cloth and full long skirt covering body, clearly rounded pregnant belly under fabric. One hand gently cradles belly, the other reaching wistfully outward. Eyes faint violet, trailing gray-purple haze at hem. Respectful eerie portrait, no child, exposed anatomy, wounds, blood or gore. Whole woman contained inside card fills80 percent face readable32px. Soft hand-painted stylized broad shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_klom.png",
+  "masterSha256": "8a5cf31e07047e90eff11902c0b637b10b65c73c7829ac1597c76a23e15ee6e7",
+  "originalSha256": "8a5cf31e07047e90eff11902c0b637b10b65c73c7829ac1597c76a23e15ee6e7",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_klom.webp",
+  "sha256": "8750a08690ff427b009f2511d1c64a3d64a315b06a1c120e505f1ca05c00c4c2",
+  "bytes": 21704,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

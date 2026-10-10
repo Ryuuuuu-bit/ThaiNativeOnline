@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "tusk",
+  "family": "material:tusk",
+  "memberIDs": [
+    "tusk"
+  ],
+  "name": "เขี้ยวหมูป่า",
+  "type": "material",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-6f020b8d-af1c-48d9-a125-5d4032782b1c.png",
+  "prompt": "One isolated Thai fantasy inventory material icon: เขี้ยวหมูป่า; วัตถุดิบ ขายได้; physical material pile/object, no equipment ornament; preserve its material identity and clearly readable outline. Two curved ivory wild boar tusks crossed compactly, sharp curved tips and broad natural beige roots, warm ivory with pale golden aged streaks. Raw animal material, no gold fittings, no carved ornaments, no weapons or attached head. Soft hand-painted stylized broad shapes, readable at32px. Entire tusks centered square with12% safe margins and genuinely transparent background. No labels, letters, numbers, UI frames, badges, floor shadows, scene or watermark.",
+  "master": "docs/art/items/painted-complete-v1/masters/tusk.png",
+  "masterSha256": "3ed4b81a9936d89c9b5b04d34c06b271d8d22f718bde0696bb3985b0f0fe979c",
+  "originalSha256": "3ed4b81a9936d89c9b5b04d34c06b271d8d22f718bde0696bb3985b0f0fe979c",
+  "output": "public/ui/items/painted-complete-v1/tusk.webp",
+  "sha256": "c728d8330fab81ebcfaa1a564b5404955a0a1f27e50e370d7b341c83ca1f7a15",
+  "bytes": 20198,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

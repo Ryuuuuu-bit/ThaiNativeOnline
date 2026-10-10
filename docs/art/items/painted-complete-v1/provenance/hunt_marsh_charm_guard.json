@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_marsh_charm_guard",
+  "family": "hunt:marsh:charm",
+  "memberIDs": [
+    "hunt_marsh_charm_guard",
+    "hunt_marsh_charm_sage",
+    "hunt_marsh_charm_hunter"
+  ],
+  "name": "ตะกรุดถักเชือกผู้พิทักษ์ · บึงอาคม",
+  "type": "equip",
+  "levels": [
+    18
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-f0d2da84-be3d-4b18-81c3-67a8dcfe3ac5.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: ตะกรุดถักเชือกผู้พิทักษ์ · บึงอาคม. Existing name: ตะกรุดถักเชือกผู้พิทักษ์ · บึงอาคม. เครื่องสวมใส่สายผู้พิทักษ์แห่งบึงอาคม · ต้องการ Lv.18 Region marsh. Minimum level 18; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_marsh_charm_guard.png",
+  "masterSha256": "a59f491d61d0e4e0fc10de85258f2cf3d3877899037a85eb52225f05a7695d02",
+  "originalSha256": "a59f491d61d0e4e0fc10de85258f2cf3d3877899037a85eb52225f05a7695d02",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_marsh_charm_guard.webp",
+  "sha256": "19a590ab3bf0f797701d03991da47a226b75c9ab2ea0ba0524f3cb5ca6470424",
+  "bytes": 20208,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

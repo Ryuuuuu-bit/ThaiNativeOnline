@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "hide_armor",
+  "family": "equip:hide_armor",
+  "memberIDs": [
+    "hide_armor"
+  ],
+  "name": "เกราะหนังสัตว์",
+  "type": "equip",
+  "levels": [
+    5
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-da4e29bb-85c2-44e9-9ea6-f3a923c2e16f.png",
+  "prompt": "One isolated Thai fantasy inventory equipment icon: Thai fantasy torso armor; broad readable chest silhouette. Existing name: เกราะหนังสัตว์.   Minimum level 5; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Simple level5 brown animal-hide cuirass, sleeveless thick leather vest with broad front chest, rough natural stitched seams, two practical leather side straps and modest bone buttons, slightly asymmetric layered hide shoulder panels. No character/mannequin, no metal armor or royal gilding, no jewels. Clearly early leather armor distinct from plain cotton vest. Soft hand-painted stylized broad shapes and warm brown leather blocks legible32px. Whole garment centered square12% safe margin genuine transparent background. No labels, text, numbers, UI frame, badges, floor shadow or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/hide_armor.png",
+  "masterSha256": "69f4fd8b4dcf3f63fbfce564ccfe87486d8ce3c1c2af450eeff4df9cf7883fd2",
+  "originalSha256": "69f4fd8b4dcf3f63fbfce564ccfe87486d8ce3c1c2af450eeff4df9cf7883fd2",
+  "output": "public/ui/items/painted-complete-v1/hide_armor.webp",
+  "sha256": "5ed3f5e3bb821edefc58c31bcb69a42152775911cfaa7274d1f179c4733eda6d",
+  "bytes": 25758,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_monkey",
+  "family": "card:card_monkey",
+  "memberIDs": [
+    "card_monkey"
+  ],
+  "name": "การ์ดลิงกัง",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-9dca7ae4-2f01-4280-81c7-bd91f30bef2c.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card inventory icon. Exact creature: ลิงกัง monkey, level3 wind beast. Large illustration of a tan-brown pig-tailed macaque crouched dynamically, expressive pale muzzle, brown hair cap, two rounded ears, long arms and short curled piglike tail, hands grasping parchment-side pose naturally, no weapons or clothes. Readable macaque silhouette, distinctive face dominates illustration, not baboon or ghost. Soft hand-painted charming fantasy broad shapes. Physical worn cream parchment card with very narrow sparse aged brass Thai kanok corners, creature fills85% card face, no label area. Entire card centered square with15% genuine transparent outer margin, no scene outside card or floor shadow. No writing, letters, digits, stats, rarity UI, badges, watermark or other cards.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_monkey.png",
+  "masterSha256": "42b4b3f9831541668cf304c900adc94ebc0b4507c44061cb3cff7af7d797ddaf",
+  "originalSha256": "42b4b3f9831541668cf304c900adc94ebc0b4507c44061cb3cff7af7d797ddaf",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_monkey.webp",
+  "sha256": "dc6d21b0a3cb91f08252346f5705f404ef29206c9c592859c33b853819ba7d4c",
+  "bytes": 24590,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

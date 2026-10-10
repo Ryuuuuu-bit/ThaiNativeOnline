@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "potion_s",
+  "family": "use:potion_s",
+  "memberIDs": [
+    "potion_s"
+  ],
+  "name": "ยาหม้อเล็ก",
+  "type": "use",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-7ba49ec5-b18e-408c-a3b3-449580e6dbc9.png",
+  "prompt": "Use case stylized-concept. One isolated Thai fantasy inventory icon. ยาหม้อเล็ก; ฟื้นฟู HP 60; single-use supply/container, distinct from permanent rechargeable flasks; preserve its material identity and clearly readable outline. Small rustic earthenware medicine pot with wide round belly, short rim and tied cream cloth lid, a small plain red fabric tie identifies healing medicine. Low-tier ordinary handmade brown pottery, not a luxury glass flask, no gold gems or gilding. Soft hand-painted broad forms, clear outline readable at32px, subtle Thai village character. Entire object centered square with 12% safe margins on genuinely transparent background, no floor shadow, no text, numbers, UI border, badges, other objects or watermark.",
+  "master": "docs/art/items/painted-complete-v1/masters/potion_s.png",
+  "masterSha256": "d49714099982837f4fb3911fa8a9467d2e1a70b972f4c986a436d93558dbd015",
+  "originalSha256": "d49714099982837f4fb3911fa8a9467d2e1a70b972f4c986a436d93558dbd015",
+  "output": "public/ui/items/painted-complete-v1/potion_s.webp",
+  "sha256": "38f3ab687fa7b0b6c24d1ccdfd59fb14ddef6819dbee180987609852fb2d9df8",
+  "bytes": 14904,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

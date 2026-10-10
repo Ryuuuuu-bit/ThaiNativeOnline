@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "wear_giant_valley_belt_guard",
+  "family": "wear:giant_valley:belt",
+  "memberIDs": [
+    "wear_giant_valley_belt_guard",
+    "wear_giant_valley_belt_sage",
+    "wear_giant_valley_belt_hunter"
+  ],
+  "name": "เข็มขัดลายกนกผู้พิทักษ์ · หุบเขายักษ์",
+  "type": "equip",
+  "levels": [
+    60
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-56e2b763-1b90-4327-8a10-b73d934726af.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Leather belt with one broad kanok buckle. Existing name: เข็มขัดลายกนกผู้พิทักษ์ · หุบเขายักษ์. อุปกรณ์สายผู้พิทักษ์แห่งหุบเขายักษ์ · ต้องการ Lv.60 Region giant_valley. Minimum level 60; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.",
+  "master": "docs/art/items/painted-complete-v1/masters/wear_giant_valley_belt_guard.png",
+  "masterSha256": "0f4849f105fc3284b7fa0e0cbdbed1c459fccf15cf353cefa79dd93010f40c7e",
+  "originalSha256": "0f4849f105fc3284b7fa0e0cbdbed1c459fccf15cf353cefa79dd93010f40c7e",
+  "output": "public/ui/items/painted-complete-v1/wear_giant_valley_belt_guard.webp",
+  "sha256": "9ba09b296842ae3d456613d17d67ffd963c4789b3ccfdaf229a5255276c87164",
+  "bytes": 19890,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

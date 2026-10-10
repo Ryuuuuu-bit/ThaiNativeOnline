@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_bamboo_grave_3",
+  "family": "card:card_bamboo_grave_3",
+  "memberIDs": [
+    "card_bamboo_grave_3"
+  ],
+  "name": "การ์ดเจ้าป่าช้า",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-3abbf94f-083e-4828-8d3f-a6d1e616daf2.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature เจ้าป่าช้า bamboo_grave_3 boss, elder graveyard guardian dark spirit. Stern pale ash-gray elderly Thai man with short swept WHITE hair, white mustache and pointed short white beard. Three short hollow BAMBOO tubes form a modest crown on his head. Moss-black and dark olive draped Thai robe and jongkraben, broad ochre-gold diagonal sash of folded leaf shapes, red woven cloth hanging at waist, gold wrist cuffs and leather sandals. Both open human palms held out commanding a graveyard ritual, subtle gray-jade mist, no staff or weapon. Whole elder and bamboo crown fully inside card with headroom, fills75 percent face readable32px. Soft hand-painted stylized broad shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_bamboo_grave_3.png",
+  "masterSha256": "6faccbe37f2ee706efa03483a84fc8816c2da4b9f3eecbfe5c8abfdfab487a50",
+  "originalSha256": "6faccbe37f2ee706efa03483a84fc8816c2da4b9f3eecbfe5c8abfdfab487a50",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_bamboo_grave_3.webp",
+  "sha256": "035a66e161b93f2c1dc09ff4f07e76dff149601c0a2ec759420bd2e7ad07457f",
+  "bytes": 20400,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

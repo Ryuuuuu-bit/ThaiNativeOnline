@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "sacred_ore",
+  "family": "material:sacred_ore",
+  "memberIDs": [
+    "sacred_ore"
+  ],
+  "name": "แร่ศักดิ์สิทธิ์",
+  "type": "material",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-d720ba56-13bc-43b2-9cb0-d0fc12ee7792.png",
+  "prompt": "One isolated Thai fantasy inventory crafting material icon: แร่ศักดิ์สิทธิ์; ใช้ตีบวกอาวุธ ครั้งละ 1 ก้อน; physical material pile/object, no equipment ornament; preserve its material identity and clearly readable outline. One rough jagged dark charcoal ore chunk with large luminous jade-green crystal veins and small warm gold mineral flecks, clearly unrefined sacred ore rock used in weapon forging, not jewelry or a cut gem. Soft stylized hand-painted broad facets, magical restrained jade internal light, readable compact silhouette at32px. Whole object centered square with12% safe margin, genuine transparent background. No gold frame, labels, text, numbers, UI badges, floor shadow, other objects or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/sacred_ore.png",
+  "masterSha256": "408d35cf3c2137d8601d9b1fb02bf84c5df9277db82b5bf1809fbf4c5c5f2012",
+  "originalSha256": "408d35cf3c2137d8601d9b1fb02bf84c5df9277db82b5bf1809fbf4c5c5f2012",
+  "output": "public/ui/items/painted-complete-v1/sacred_ore.webp",
+  "sha256": "9db7307977af849bb30876ff3c5e84d1d3eda0c68a8feb6318c2414216c1ac5e",
+  "bytes": 21498,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

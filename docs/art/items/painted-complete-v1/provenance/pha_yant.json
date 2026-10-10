@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "pha_yant",
+  "family": "equip:pha_yant",
+  "memberIDs": [
+    "pha_yant"
+  ],
+  "name": "ผ้ายันต์ห้าแถว",
+  "type": "equip",
+  "levels": [
+    5
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-8c75ec1e-a094-477e-adc9-8d482935521f.png",
+  "prompt": "One isolated Thai fantasy inventory cape icon: Hanging Thai cloth cape; broad drape and visible hem. Existing name: ผ้ายันต์ห้าแถว.   Minimum level 5; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Broad cream Thai sacred cloth cape hanging with folded shoulders and visible lower hem, five distinct vertical groups of abstract dark ink yantra linework across fabric suggesting traditional five-row warding geometry without readable letters, slim burgundy woven edge, simple cotton top tie. Modest level5 ritual textile, no armor plates, jeweled clasp or royal gold. Clear flexible fabric silhouette with soft folds. Soft hand-painted stylized broad forms legible32px. Entire cape centered square with15% safe margins genuine transparent background. No readable writing, labels, numbers, UI frame or badges, floor shadows or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/pha_yant.png",
+  "masterSha256": "acfd41e088258bd119349265db47c16b24348397109412f6fc75f5e0e1205663",
+  "originalSha256": "acfd41e088258bd119349265db47c16b24348397109412f6fc75f5e0e1205663",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/pha_yant.webp",
+  "sha256": "f0c9aabb3ae865994afc291adfe42318cfcff715f3a9a18730b06aa9380d3285",
+  "bytes": 17546,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "croc_scale",
+  "family": "material:croc_scale",
+  "memberIDs": [
+    "croc_scale"
+  ],
+  "name": "เกล็ดจระเข้",
+  "type": "material",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-ea5089bb-c898-4fa4-a001-41529850fcfd.png",
+  "prompt": "One isolated Thai fantasy inventory crafting material icon: เกล็ดจระเข้; เกล็ดแข็งจากจระเข้บึง ขายได้ราคาดี; physical material pile/object, no equipment ornament; preserve its material identity and clearly readable outline. Small compact pile of three detached crocodile scutes, thick irregular diamond-shaped dark olive-green scales with raised central ridges and lighter khaki edges, raw rough reptile material. Not full crocodile, armor or boots, no precious metals or ornate fittings. Soft hand-painted broad stylized shapes readable32px with clear scale texture. Entire pile centered square12% safe margins genuine transparent background. No text, labels, digits, UI frames, badges, floor shadow or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/croc_scale.png",
+  "masterSha256": "8347426848bdf98fabe768702040b09132efbd29f8cafe8a6e01a8e64c100489",
+  "originalSha256": "8347426848bdf98fabe768702040b09132efbd29f8cafe8a6e01a8e64c100489",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/croc_scale.webp",
+  "sha256": "54d1fcc80aed00257b732f4cd4c2165991eafd52bbec043ac46300ce99d668fc",
+  "bytes": 22072,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

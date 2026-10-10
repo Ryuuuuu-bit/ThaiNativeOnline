@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_krahang",
+  "family": "card:card_krahang",
+  "memberIDs": [
+    "card_krahang"
+  ],
+  "name": "การ์ดผีกระหัง",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-4ee324e5-913a-4aac-a0d8-8ae273316149.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีกระหัง krahang, Thai wind spirit. A shirtless wiry Thai male humanoid with messy hair and teal jongkraben trousers flying in crouch. His two outstretched HUMAN hands each grip a large circular woven BAMBOO WINNOWING TRAY, one on each side, functioning as his two wings. Two round straw wicker disk wing silhouettes, not feathered or bat wings. A long wooden rice pestle projects behind waist like tail. Human face and feet visible, playful eerie folklore character, no gore. Bold broad silhouette fills85 percent of cream parchment card face readable32px. Soft hand-painted stylized Thai fantasy illustration. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners, no label area. Whole square card centered15 percent transparent outer margin, clean contiguous parchment edges, no scene outside card or floor shadow. No writing, text, labels, letters, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_krahang.png",
+  "masterSha256": "f08a147eaf7fc3c228a90b3afe0a0b895ee9deb6f9cbd8d1e76f4a38cd6538e9",
+  "originalSha256": "f08a147eaf7fc3c228a90b3afe0a0b895ee9deb6f9cbd8d1e76f4a38cd6538e9",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_krahang.webp",
+  "sha256": "730acbae1f59e407568cffb0cc69efd89851e2c3552b48c007e868408f783fa6",
+  "bytes": 26860,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

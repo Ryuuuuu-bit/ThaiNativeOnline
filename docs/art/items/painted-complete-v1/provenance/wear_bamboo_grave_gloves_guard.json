@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "wear_bamboo_grave_gloves_guard",
+  "family": "wear:bamboo_grave:gloves",
+  "memberIDs": [
+    "wear_bamboo_grave_gloves_guard",
+    "wear_bamboo_grave_gloves_sage",
+    "wear_bamboo_grave_gloves_hunter"
+  ],
+  "name": "ถุงมือหนังลงยันต์ผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+  "type": "equip",
+  "levels": [
+    23
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-1a0e56d7-92ad-4208-b707-a5772171d8fb.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Pair of leather gloves with sparse yantra wrist bands. Existing name: ถุงมือหนังลงยันต์ผู้พิทักษ์ · ป่าช้าไผ่ดำ. อุปกรณ์สายผู้พิทักษ์แห่งป่าช้าไผ่ดำ · ต้องการ Lv.23 Region bamboo_grave. Minimum level 23; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/wear_bamboo_grave_gloves_guard.png",
+  "masterSha256": "f4e5b8418a30f73246c3d2dec33f28d6b2f6278f3e1564c59a75bc499871c193",
+  "originalSha256": "f4e5b8418a30f73246c3d2dec33f28d6b2f6278f3e1564c59a75bc499871c193",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/wear_bamboo_grave_gloves_guard.webp",
+  "sha256": "e52c0c1471bf9ba496c78325ddb1b7f131a951b97b64ac717678d8afcaa8cf2d",
+  "bytes": 23604,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

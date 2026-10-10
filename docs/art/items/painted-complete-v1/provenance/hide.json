@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "hide",
+  "family": "material:hide",
+  "memberIDs": [
+    "hide"
+  ],
+  "name": "หนังสัตว์",
+  "type": "material",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-0eaf2a94-8302-4167-899e-6ce22a592f09.png",
+  "prompt": "One isolated inventory crafting material icon for Thai Native Online: หนังสัตว์; วัตถุดิบ ขายได้; physical material pile/object, no equipment ornament; preserve its material identity and clearly readable outline. A folded rough warm brown animal hide with irregular natural edges, visible pale suede underside and darker leather surface, compact layered pile, clearly material hide rather than equipped armor. No metal, ornament or gems. Soft hand-painted stylized Thai fantasy, broad readable shapes at32px, gentle directional lighting. Complete compact subject centered square with12% safe margins, genuinely transparent background. No labels, letters, digits, UI frames, badges, floor shadows, other objects or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/hide.png",
+  "masterSha256": "272cd3be3760057ef2a6dab0209dd92cf81fa79471e8b6b5ce91dff06524fa38",
+  "originalSha256": "272cd3be3760057ef2a6dab0209dd92cf81fa79471e8b6b5ce91dff06524fa38",
+  "output": "public/ui/items/painted-complete-v1/hide.webp",
+  "sha256": "5223a26213bf87ac0601a59481150543316572be5448e62d831d7d5732115188",
+  "bytes": 20390,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

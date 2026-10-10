@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "wear_paddy_ring_guard",
+  "family": "wear:paddy:ring",
+  "memberIDs": [
+    "wear_paddy_ring_guard",
+    "wear_paddy_ring_sage",
+    "wear_paddy_ring_hunter"
+  ],
+  "name": "แหวนอักขระผู้พิทักษ์ · คันนา",
+  "type": "equip",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-f032390c-9d23-4312-b9af-dbe05b378b48.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Single engraved Thai ring with visible central opening. Existing name: แหวนอักขระผู้พิทักษ์ · คันนา. อุปกรณ์สายผู้พิทักษ์แห่งคันนา · ต้องการ Lv.1 Region paddy. Minimum level 1; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/wear_paddy_ring_guard.png",
+  "masterSha256": "0d881ff0d6422d38b7d651c41871db9d0cd4eb725c5174f0d07f2f67f3c958ce",
+  "originalSha256": "0d881ff0d6422d38b7d651c41871db9d0cd4eb725c5174f0d07f2f67f3c958ce",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/wear_paddy_ring_guard.webp",
+  "sha256": "f34d30fd6fdc7c1e67f9e4693fac4f61da0d5ac8a72773d6a3e76f6ea306b095",
+  "bytes": 20338,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

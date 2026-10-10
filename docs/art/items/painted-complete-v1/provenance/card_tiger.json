@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_tiger",
+  "family": "card:card_tiger",
+  "memberIDs": [
+    "card_tiger"
+  ],
+  "name": "การ์ดเสือสมิง",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-9444edc4-7f29-4674-934b-1f679b140928.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature เสือสมิง tiger, Thai HUMANOID HALF-TIGER GHOST, demon earth. Upright human torso, two human arms and two human legs, ashen gray skin partially covered with orange tiger-striped fur on shoulders and forearms. Human-feline hybrid face with clear tiger muzzle, small tiger ears, cream cheek ruff and sharp fangs, long clawed human hands. One striped tiger tail curls behind. Ragged indigo Thai sarong at waist, haunting amber eyes. Full standing biped pose, NEVER normal quadruped tiger, no armor or weapons. Clear recognizable upright ghost silhouette fills80 percent parchment face with complete tail inside border, readable32px. Soft hand-painted stylized broad shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent true transparent outer margin clean contiguous edge. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_tiger.png",
+  "masterSha256": "f9ff0b734508dcbbf2e4e7688a4b9cca7915f9d4c1d75ac612484c4f98b464c0",
+  "originalSha256": "f9ff0b734508dcbbf2e4e7688a4b9cca7915f9d4c1d75ac612484c4f98b464c0",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_tiger.webp",
+  "sha256": "c6a6fad5860c09a617ea49b2a88a82df0437efb23c9d195af740fec386f02e28",
+  "bytes": 23740,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

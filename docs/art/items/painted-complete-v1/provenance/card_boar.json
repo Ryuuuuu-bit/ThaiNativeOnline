@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_boar",
+  "family": "card:card_boar",
+  "memberIDs": [
+    "card_boar"
+  ],
+  "name": "การ์ดหมูป่า",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-156a83d3-547c-4221-bf06-fd3b12f28633.png",
+  "prompt": "Use case stylized-concept. One isolated physical Thai fantasy monster collectible card inventory icon. Exact creature: หมูป่า boar, earth beast level1. Large illustration of a stocky brown wild boar, swept dark mane, heavy shoulders, unmistakable curved ivory tusks, short cloven-hoof legs, snout facing three-quarter viewer, earthy warm brown palette. Image dominates85% of card face so species readable at32px. Soft hand-painted charming fantasy, not photoreal. Physical worn cream parchment card with very narrow sparse aged brass Thai kanok corner inlays, no label area or UI badges. Card and all artwork completely within square canvas with15% genuinely transparent outer safe margin, no background outside card, no floor shadow. No letters, text, numerals, stats, rarity border, watermark, spritesheet or other cards.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_boar.png",
+  "masterSha256": "76337ec23d7a767350a7bc42684a41c594b331861f0d0393395a14acffb70f0b",
+  "originalSha256": "76337ec23d7a767350a7bc42684a41c594b331861f0d0393395a14acffb70f0b",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_boar.webp",
+  "sha256": "d5daa704b5efa175d1a614381b26cfa5220b56008498a4af8b61bb3a28e51c4c",
+  "bytes": 26986,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

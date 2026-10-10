@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "ash",
+  "family": "material:ash",
+  "memberIDs": [
+    "ash"
+  ],
+  "name": "ขี้เถ้าธูป",
+  "type": "material",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-e703d5e0-e1d1-4d57-93f2-32f15a3b12d4.png",
+  "prompt": "One isolated Thai fantasy inventory material icon: ขี้เถ้าธูป; วัตถุดิบเวทมนตร์; physical material pile/object, no equipment ornament; preserve its material identity and clearly readable outline. Compact mound of pale gray incense ash on a small folded dark indigo cloth scrap, two short burnt incense stubs nestled on ash, fine soot-gray and cream granules but simplified readable mound. Clearly incense ash used for spellcraft, not rock ore, not sand bottle, not food, not fancy jewelry. Soft hand-painted broad shapes readable at32px, restrained Thai temple craft character. Entire subject centered square with12% safe margins, genuinely transparent background. No text, labels, numbers, UI border, badges, smoke cloud, scene, floor shadow or watermark.",
+  "master": "docs/art/items/painted-complete-v1/masters/ash.png",
+  "masterSha256": "a6d3688a8243e6b212268fdad51ce79802b66a8acd745524e9865f41fbb26294",
+  "originalSha256": "a6d3688a8243e6b212268fdad51ce79802b66a8acd745524e9865f41fbb26294",
+  "output": "public/ui/items/painted-complete-v1/ash.webp",
+  "sha256": "13b4b061875534bcc7e3565cdcfbaf4403ed5b45ca3c03987c043cb438b99be3",
+  "bytes": 15882,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
