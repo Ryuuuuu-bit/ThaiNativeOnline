@@ -37,3 +37,9 @@ body.ui-touch .net-chat.net-chat-tabs .chat-send { display: block; }
   body:not(.ui-touch) .net-chat-tabs .chat-tabs button {min-height:30px;font-size:12px}
   body:not(.ui-touch) .net-chat-tabs .net-lines {max-height:140px;font-size:12px;line-height:1.6}
 }
+/* Local combat/loot history keeps its category colours inside the System tab. */
+body .net-chat-tabs .net-lines p:is(.exp,.gold) span {color:#ecd193}
+body .net-chat-tabs .net-lines p.loot span {color:#b7dccd}
+body .net-chat-tabs .net-lines p.epic span {color:#e1bdeb}
+body .net-chat-tabs .net-lines p.bad span {color:#efb19e}
+body .net-chat-tabs .net-lines p[data-channel=system].old {opacity:1}

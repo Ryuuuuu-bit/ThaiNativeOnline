@@ -45,7 +45,10 @@
 .g-stat button:disabled,.g-reset:disabled{opacity:.3;cursor:default}
 .g-derived{display:grid;grid-template-columns:1fr auto 1fr auto;gap:5px 10px;font-size:10px;color:#b9c2ab;margin:12px 0;padding-top:10px;border-top:1px solid #f0e3b31a}
 .g-derived b{color:#f2e7c4;font-weight:500}
-.g-reset{width:100%;font-size:10px}
+.g-stat-footer{margin-top:12px;padding-top:12px;border-top:1px solid #bda16c33;min-width:0}
+body .g-stat-footer .g-reset{display:block;box-sizing:border-box;width:100%;height:auto;min-height:36px;padding:8px 12px;font-size:12px;line-height:1.5;white-space:normal}
+body .g-stat-footer .g-reset:disabled{opacity:.55}
+@media(max-width:760px),(pointer:coarse){body .g-stat-footer .g-reset{min-height:44px}}
 .g-gold{font-size:12px;color:#ecd38a;margin-bottom:10px}
 .g-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
 .g-slot{position:relative;aspect-ratio:1;border:1px solid var(--rar,#ffffff14);border-radius:3px;background:#0b1b1799;padding:0;font-size:18px}
@@ -224,6 +227,8 @@ body:has(.g-bag:not([hidden])) .training-panel,body:has(.g-sheet:not([hidden])) 
 body:has(.g-skills:not([hidden])) .training-panel{display:none}
 
 /* card slots (RO style, src/character/data/cards.js): worn gear's slots, bag pips, the picker */
+.g-card-slots{display:inline-flex;align-items:center;gap:3px;font-style:normal;white-space:nowrap}
+.g-card-slots b{font:inherit}
 .g-slot .g-pips{position:absolute;left:2px;bottom:1px;font-style:normal;font-size:7px;letter-spacing:-1px;color:#c79af0;text-shadow:0 0 3px #000}
 .g-slot .g-plus{position:absolute;right:3px;top:1px;z-index:1;font-style:normal;font-size:9px;font-weight:700;color:#ffd36b;text-shadow:0 0 3px #000,0 0 2px #000}
 .g-card-pick{position:absolute;inset:auto 10px 10px 10px;z-index:3;background:#16261fee;border:1px solid #c79af088;border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:4px;max-height:70%;overflow:auto}
