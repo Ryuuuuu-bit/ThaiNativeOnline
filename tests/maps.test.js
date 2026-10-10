@@ -156,13 +156,25 @@ test('monster areas live only on the zone maps; the city stays a safe zone', () 
 
 test('monster levels rise map by map, away from the city', () => {
   const levels = id => combatSpawns().filter(z => mapOf(z.x, z.z) === id && !MONSTERS[z.type].elite && !MONSTERS[z.type].boss).map(z => MONSTERS[z.type].level);
-  const warp = paddy.portals[0].at, near = combatSpawns().filter(z => mapOf(z.x, z.z) === 'paddy' && !MONSTERS[z.type].elite && Math.hypot(z.x - warp.x, z.z - warp.z) < 140);
+  // The three first-hunt pockets are within 80 m of the city warp. The older
+  // 140 m radius also included the second orchard and cobra channels.
+  const warp = paddy.portals[0].at, starter = new Set(['orchard_boars', 'rice_fowl', 'hunt_rice_edge']);
+  const near = combatSpawns().filter(z => starter.has(z.area));
   assert.ok(near.length);
+  for (const area of starter) assert.ok(near.some(z => z.area === area), area);
+  for (const z of near) assert.ok(Math.hypot(z.x - warp.x, z.z - warp.z) < 81, `${z.area} is beside the starting route`);
   assert.ok(Math.max(...near.map(z => MONSTERS[z.type].level)) <= 2, 'the hunt next to the warp is for new characters');
+  for (const area of starter) assert.ok(near.some(z => z.area === area && z.type === 'crab' && MONSTERS[z.type].level === 2 && z.active.includes('night')), `${area} retains a beginner night hunt`);
+  for (const [area, type, level] of [['orchard_monkeys', 'monkey', 3], ['paddy_channels', 'cobra', 4]]) {
+    const z = combatSpawns().find(z => z.area === area && z.type === type);
+    assert.ok(z && Math.hypot(z.x - warp.x, z.z - warp.z) > 100, `${type} belongs beyond the starter approach`);
+    assert.equal(MONSTERS[type].level, level);
+  }
   for (const z of near) assert.ok(!z.active.includes('night') || z.type !== 'boar', 'boars sleep at night');
   const avg = id => levels(id).reduce((a, b) => a + b, 0) / levels(id).length;
   assert.ok(avg('paddy') < avg('deep_forest') && avg('deep_forest') < avg('wat_rang'), 'average level rises paddy → forest → wat');
-  assert.ok(Math.max(...levels('paddy')) <= 3 && Math.min(...levels('wat_rang')) >= 4);
+  assert.deepEqual([Math.min(...levels('paddy')), Math.max(...levels('paddy'))], [1, 5], 'paddy includes northern forest ghosts');
+  assert.deepEqual([Math.min(...levels('wat_rang')), Math.max(...levels('wat_rang'))], [5, 14], 'wat includes entry spirits before its primary band');
   // The dead of the wat come out after dark: its night roster outnumbers its day roster.
   const count = (id, phase) => combatSpawns().filter(z => mapOf(z.x, z.z) === id && z.active.includes(phase)).reduce((n, z) => n + z.count, 0);
   assert.ok(count('wat_rang', 'night') > count('wat_rang', 'day'));

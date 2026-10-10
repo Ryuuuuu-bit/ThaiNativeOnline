@@ -77,7 +77,7 @@ export const MAPS = {
     visitors: [],
   },
   paddy: {
-    id: 'paddy', name: 'ทุ่งนาข้าว', sub: 'ทุ่งนา · หมู่บ้านชาวนา · สวนผลไม้', safe: false, theme: 'paddy', levels: [1, 3],
+    id: 'paddy', name: 'ทุ่งนาข้าว', sub: 'ทุ่งนา · หมู่บ้านชาวนา · สวนผลไม้', safe: false, theme: 'paddy', levels: [1, 5],
     intro: { title: 'ทุ่งนอกกำแพง', text: 'ทุ่งข้าว หมู่บ้านชาวนา และสวนผลไม้\nหมูป่ากับลิงกังชุกชุม ผีป่าออกยามค่ำ' },
     owns: { minZ: FOREST_SEAM_Z, maxZ: SEAM_Z },
     walk: [
@@ -100,7 +100,7 @@ export const MAPS = {
     visitors: ['guard_gate_w', 'guard_gate_e', 'herbalist'],
   },
   deep_forest: {
-    id: 'deep_forest', name: 'ป่าลึก', sub: 'ศาลปากป่า · ป่าทึบ · ไพรลึกเหนือลำธาร', safe: false, theme: 'forest', levels: [2, 5],
+    id: 'deep_forest', name: 'ป่าลึก', sub: 'ศาลปากป่า · ป่าทึบ · ไพรลึกเหนือลำธาร', safe: false, theme: 'forest', levels: [3, 9],
     intro: { title: 'ไพรลึกเหนือลำธาร', text: 'ศาลปากป่า ป่าทึบ และสะพานซุง\nผีป่าและผีพรายซ่อนตัวในเงาไม้' },
     owns: { minZ: WAT_SEAM_Z, maxZ: FOREST_SEAM_Z },
     walk: [
@@ -119,7 +119,7 @@ export const MAPS = {
     visitors: [],
   },
   wat_rang: {
-    id: 'wat_rang', name: 'วัดร้าง', sub: 'ศาลร้างกลางไพร · สุสานเก่า · โบสถ์ร้าง', safe: false, theme: 'wat', levels: [4, 8],
+    id: 'wat_rang', name: 'วัดร้าง', sub: 'ศาลร้างกลางไพร · สุสานเก่า · โบสถ์ร้าง', safe: false, theme: 'wat', levels: [5, 14],
     intro: { title: 'วัดร้างกลางไพร', text: 'ศาลร้าง สุสานเก่า และโบสถ์ร้าง\nวิญญาณเร่ร่อนชุมนุมยามราตรี' },
     owns: { minZ: KLONG_SEAM_Z, maxZ: WAT_SEAM_Z },
     walk: [
@@ -138,7 +138,7 @@ export const MAPS = {
     visitors: [],
   },
   klong: {
-    id: 'klong', name: 'คลองหนองบึง', sub: 'ดงอ้อ · คลองใหญ่ · หนองน้ำ · ถิ่นชาละวัน', safe: false, theme: 'klong', levels: [10, 25],
+    id: 'klong', name: 'คลองหนองบึง', sub: 'ดงอ้อ · คลองใหญ่ · หนองน้ำ · ถิ่นชาละวัน', safe: false, theme: 'klong', levels: [15, 22],
     intro: { title: 'คลองหนองบึง', text: 'ป่าอ้อ หนองน้ำ และคลองใหญ่ที่ไม่มีใครกล้าข้าม\nจระเข้และผีพรายน้ำซุ่มอยู่ใต้ผิวน้ำ' },
     owns: { minZ: BOUNDS.minZ, maxZ: KLONG_SEAM_Z },
     walk: [
