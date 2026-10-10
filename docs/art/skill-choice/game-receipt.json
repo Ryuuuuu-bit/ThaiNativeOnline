@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": [
+    "modern: actual game skill window and expanded descriptions stay within bounds",
+    "classic: actual game skill window and expanded descriptions stay within bounds",
+    "Actual game first choice needs explicit confirmation and charges zero"
+  ]
+}
