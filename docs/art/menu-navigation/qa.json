@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-10",
+  "environment": "isolated offline guest fixture, one headless Edge page; no live writes",
+  "results": [
+    "18 real menu actions, truthful badges, initial focus, Tab containment and Esc restoration",
+    "Five social destinations reach intended tabs; Esc closes focused friend input and restores opener",
+    "P opens party after other social tabs; settings close button restores original opener",
+    "Settings, inventory, loadouts, AUTO and skills close from focused controls",
+    "Three directory shortcuts open correct map category without initiating travel",
+    "All seven accepted quests plus completed history, search empty state, selection retained on progress event, input Escape",
+    "Ready filter and turn-in NPC map link; journal closes before map navigation",
+    "Equal-z overlays close actual later-painted journal first, even when Bestiary was opened later",
+    "Stacked Bestiary/inventory closes exactly one foremost window per Escape",
+    "Inventory tooltip dismisses before inventory window",
+    "Typing movement keys stays in input; 100-item fixture keeps search visible after scrolling",
+    "Journal and menu captures at 1920 large HUD, 1366 classic large HUD and 390 portrait"
+  ],
+  "pageErrors": []
+}

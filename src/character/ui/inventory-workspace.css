@@ -19,6 +19,7 @@ body .inventory-workspace .g-panel {position:relative;inset:auto;width:auto;max-
 .inventory-workspace .g-panel>.panel-heading {font-size:13px;margin-bottom:10px;color:#c9bd98}
 .inventory-workspace .g-panel>.panel-heading button {display:none}
 .inventory-workspace .g-bag-tabs {flex-wrap:wrap;gap:5px}
+.inventory-workspace .iw-bag-controls {position:sticky;top:-12px;z-index:6;margin:-12px -12px 8px;padding:12px;background:#10271ff7;border-bottom:1px solid #bda16c44;min-width:0}
 .inventory-workspace .g-bag-tabs button {flex:1 1 28%;min-height:44px;font-size:12px;padding:5px}
 .inventory-workspace .iw-category-count {display:inline-block;border-radius:12px;padding:0 5px;background:#0002;font-size:11px}
 .inventory-workspace .g-bag-tools {gap:6px;flex-wrap:wrap;margin:10px 0}

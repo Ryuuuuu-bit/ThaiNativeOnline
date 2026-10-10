@@ -31,6 +31,9 @@ import { WorldMapPanel } from '../ui/WorldMapPanel.js';
 import { WarpPanel } from '../ui/WarpPanel.js';
 import { StoragePanel } from '../ui/StoragePanel.js';
 import { BestiaryPanel } from '../ui/BestiaryPanel.js';
+import { QuestJournal } from '../ui/QuestJournal.js';
+import { bindWindowNavigation } from '../ui/windowNavigation.js';
+import { NPCS } from '../data/npcs.js';
 import { nextPortal } from '../ui/mapDirectory.js';
 import { WORLD_BOSS_NEWS } from '../combat/data/worldBoss.js';
 import { createClassAvatar } from '../training/TrainingGround.js';
@@ -50,7 +53,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get serviceModalOpen() { return !!(this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get serviceModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -99,6 +102,9 @@ export class Game {
     this.guide = new BestiaryPanel({ level: () => this.game?.character?.level ?? 1,
       prepare: () => { this.closeDialogue(); this.warp.close(); this.storage?.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); },
       locate: (monster, location) => this.locateMonster(monster, location) });
+    this.questJournal = new QuestJournal({ quests: this.quests,
+      prepare: () => { this.closeDialogue(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null); },
+      locate: npcId => this.locateQuestNpc(npcId) });
     this.storage = new StoragePanel({ character: () => this.game?.character,
       prepare: () => { this.closeDialogue(); this.warp.close(); this.guide.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
         const ui = this.game?.characterUI; if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; } },
@@ -217,13 +223,41 @@ export class Game {
       skills: () => characterUI()?.toggle('skills'),
       bag: () => characterUI()?.toggle('bag'),
       map: () => this.toggleMap(),
-      social: () => (this.net?.social ? this.net.social.toggle() : this.hud.toast('สังคม', 'ต้องเชื่อมต่อเซิร์ฟเวอร์ก่อน (ออนไลน์)')),
+      social: () => (this.net?.social ? this.net.social.toggle('party') : this.hud.toast('ปาร์ตี้', 'ต้องเชื่อมต่อเซิร์ฟเวอร์ก่อน (ออนไลน์)')),
+      recruit: () => this.net?.social?.toggle('board'),
+      friends: () => this.net?.social?.toggle('friends'),
+      titles: () => this.net?.social?.toggle('titles'),
+      rank: () => this.net?.social?.toggle('rank'),
+      quests: () => this.questJournal.show(),
+      shops: () => this.openMapDirectory('shops'),
+      teachers: () => this.openMapDirectory('training'),
+      travel: () => this.openMapDirectory('travel'),
       bestiary: () => this.guide.show(),
       loadouts: () => { this.stopWalk(); this.game?.combat?.cancelPending(); characterUI()?.toggle('loadouts'); },
       auto: () => document.querySelector('.hotbar-auto-cfg')?.click(),
       photo: () => this.togglePhoto(),
       settings: () => $('settings-toggle').click(),
     });
+    this.unbindWindowNavigation = bindWindowNavigation([
+      { root: () => this.questJournal.root, close: () => this.questJournal.close() },
+      { root: () => this.guide.root, close: () => this.guide.close() },
+      { root: () => this.storage.root, close: () => this.storage.close() },
+      { root: () => this.warp.root, close: () => this.warp.close() },
+      { root: () => this.net?.social?.root, close: () => this.net.social.close() },
+      { root: () => this.net?.social?.tradeRoot, close: () => this.net.social.cancelTrade() },
+      { root: () => characterUI()?.workspace.root, close: () => {
+        const workspace = characterUI().workspace;
+        if (!workspace.tooltip.hidden) workspace.hideTooltip(); else workspace.close();
+      } },
+      { root: () => characterUI()?.skills.root, close: () => { characterUI().skills.root.hidden = true; } },
+      { root: () => characterUI()?.loadouts, close: () => { characterUI().loadouts.hidden = true; } },
+      { root: () => this.menu.grid, close: () => this.menu.toggle(false) },
+      { root: () => $('settings'), close: () => $('settings-close').click() },
+      { root: () => $('fullmap-panel'), close: () => this.toggleMap() },
+      { root: () => $('shop'), close: () => this.shop.close() },
+      { root: () => $('dialogue'), close: () => this.closeDialogue() },
+      { root: () => document.querySelector('.auto-panel'), close: () => { document.querySelector('.auto-panel').hidden = true; } },
+    ], { fallback: () => this.menu.btn, onOpen: () => { this.input.keys.clear(); this.input.shift = false; } });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
     $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100, true));
     $('hud-size').value = String(this.prefs.hud);
@@ -430,6 +464,34 @@ export class Game {
     // QA fix: a hover tooltip left open when the panel closes (M, Esc, click-to-walk) never gets its mouseleave; reset it.
     const tip = panel.querySelector('.map-tip'); if (tip) tip.hidden = true;
     if (!panel.hidden) { this.mapPanel.refresh(); this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); }
+  }
+  openMapDirectory(category = 'all') {
+    this.mapPanel.category = category; this.mapPanel.query = ''; this.mapPanel.tab = 'places';
+    this.mapPanel.selected = null; this.mapPanel.clusterIds = null; $('map-search').value = '';
+    if ($('fullmap-panel').hidden) this.toggleMap();
+    this.mapPanel.refresh();
+    $('map-search').focus({ preventScroll: true });
+  }
+  locateQuestNpc(npcId) {
+    const npc = NPCS.find(n => n.id === npcId);
+    const destination = npc?.map ?? 'city';
+    this.openMapDirectory('all');
+    let entry = destination === this.maps.map.id
+      ? this.minimap.directory.find(e => e.npcId === npcId || e.landmark?.id === npc?.home?.near)
+      : this.minimap.directory.find(e => e.portal?.id === nextPortal(this.maps.map.id, destination)?.id);
+    const live = this.npcs?.npcs.find(n => n.id === npcId);
+    if (live && !live.indoors && Number.isFinite(live.x) && Number.isFinite(live.z)) {
+      entry = { id: `quest-npc:${npcId}`, name: npc?.name ?? npcId, x: live.x, z: live.z,
+        goal: { x: live.x, z: live.z }, category: 'places', purpose: 'quest', glyph: 'quest', tag: 'NPC เควสต์',
+        detail: 'ตำแหน่งขณะเปิดสมุด · NPC อาจเดินตามช่วงเวลา', npcId };
+      this.minimap.directory = this.minimap.directory.filter(e => e.id !== entry.id);
+      this.minimap.directory.push(entry);
+    }
+    if (entry) this.mapPanel.select(entry);
+    else {
+      this.mapPanel.query = npc?.name ?? npcId; $('map-search').value = this.mapPanel.query; this.mapPanel.refresh();
+      this.game?.hud?.feed?.log('ค้นหา NPC ในแผนที่ · ตำแหน่งอาจเปลี่ยนตามช่วงเวลา', 'gold', true);
+    }
   }
   locateMonster(monster, location) {
     if (!location || !this.minimap) return;

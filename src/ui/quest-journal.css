@@ -1,0 +1,52 @@
+/* Bestiary's jade lacquer, brass edges and Thai typography; scoped journal rules. */
+#quest-journal-overlay {
+  --journal-ink: var(--t-ink, #f0e5c9);
+  --journal-gold: var(--t-gold-hi, #eddaa9);
+  --journal-ready: var(--t-good, #9bd88f);
+  --journal-muted: #b5c4a8;
+  box-sizing: border-box;
+}
+#quest-journal-overlay .quest-journal-panel { color: var(--journal-ink); }
+#quest-journal-overlay .guide-body { grid-template-columns: 310px minmax(0, 1fr); }
+#quest-journal-overlay .guide-head h2,
+#quest-journal-overlay .guide-monster-head h3 { color: var(--journal-gold); overflow-wrap: anywhere; }
+#quest-journal-overlay .quest-journal-index { display: flex; flex-direction: column; }
+#quest-journal-list { display: flex; flex-direction: column; gap: 7px; min-height: 0; overflow: auto; scrollbar-width: thin; scrollbar-color: #ad9b65 #10271e; }
+#quest-journal-overlay .quest-journal-row { width: 100%; box-sizing: border-box; }
+#quest-journal-overlay .quest-journal-row > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+#quest-journal-overlay .quest-journal-mark { display: grid; place-items: center; flex: 0 0 30px; font-size: 20px; color: var(--journal-gold); }
+#quest-journal-overlay .quest-journal-status { color: var(--journal-muted); }
+#quest-journal-overlay .ready { color: var(--journal-ready); }
+#quest-journal-overlay .done { color: var(--journal-gold); }
+#quest-journal-overlay .quest-journal-description { font-size: 13px; line-height: 1.8; white-space: pre-line; overflow-wrap: anywhere; }
+#quest-journal-overlay .quest-journal-objectives { list-style: none; padding: 0; margin: 0; }
+#quest-journal-overlay .quest-journal-objectives li { padding: 10px 0; border-bottom: 1px solid #a6b08922; }
+#quest-journal-overlay .quest-journal-objectives li > div { display: flex; justify-content: space-between; gap: 12px; }
+#quest-journal-overlay .quest-journal-objectives span { overflow-wrap: anywhere; }
+#quest-journal-overlay .quest-journal-objectives b { flex-shrink: 0; font-weight: 500; color: var(--journal-gold); }
+#quest-journal-overlay .quest-journal-objectives small { display: block; margin-top: 5px; color: var(--journal-muted); line-height: 1.6; overflow-wrap: anywhere; }
+#quest-journal-overlay .fulfilled > div > span { color: var(--journal-ready); }
+#quest-journal-overlay .quest-journal-reward { padding: 12px; border-left: 2px solid #bfa56b; background: #ffffff04; color: var(--journal-gold); line-height: 1.8; overflow-wrap: anywhere; }
+#quest-journal-overlay .guide-locations button > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+#quest-journal-overlay button:disabled { opacity: .5; cursor: default; }
+#quest-journal-overlay .guide-detail:focus-visible { outline: 2px solid var(--journal-gold); outline-offset: -3px; }
+@media (max-width: 600px) {
+  #quest-journal-overlay .guide-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(170px, 34%) minmax(0, 1fr); }
+  #quest-journal-overlay .quest-journal-index { display: grid; grid-template-columns: minmax(0, 1fr) 120px; grid-template-rows: auto minmax(0, 1fr); gap: 8px; border-right: 0; border-bottom: 1px solid #ad9d633d; padding: 10px 13px; }
+  #quest-journal-overlay .quest-journal-index > label { grid-column: auto; font-size: 10px; gap: 4px; min-width: 0; }
+  #quest-journal-overlay .quest-journal-index > small { display: none; }
+  #quest-journal-list { grid-column: 1 / -1; flex-direction: row; padding: 2px 2px 5px; }
+  #quest-journal-overlay .quest-journal-row { flex: 0 0 200px; min-width: 0; max-width: none; }
+  #quest-journal-overlay .guide-detail { padding: 12px 16px; }
+}
+@media (max-height: 500px) and (min-width: 601px) {
+  #quest-journal-overlay .guide-body { grid-template-columns: 230px minmax(0, 1fr); }
+  #quest-journal-overlay .quest-journal-index > label { font-size: 10px; gap: 3px; }
+}
+@media (max-height: 360px) and (max-width: 600px) {
+  #quest-journal-overlay .guide-body { grid-template-columns: minmax(140px, 40%) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+  #quest-journal-overlay .quest-journal-index { display: flex; padding: 6px; border-right: 1px solid #ad9d633d; border-bottom: 0; }
+  #quest-journal-overlay .quest-journal-index > label { font-size: 0; gap: 0; }
+  #quest-journal-list { flex-direction: column; }
+  #quest-journal-overlay .quest-journal-row { flex: 0 0 auto; }
+}
