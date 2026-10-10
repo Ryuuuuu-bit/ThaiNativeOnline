@@ -48,6 +48,13 @@ One bar on every map, in the shared hotbar look: up to ten skills (keys 1–0), 
 
 The controller interface is documented at the top of `ActionBar.js`. `hud.setSafe(on)` (safe map) only silences the fight tips and Tab / Space; the bar is the same everywhere.
 
+### Hooks for ordinary monster strikes
+
+- `monsterAttackTiming.js` owns clip contact seconds (`tani: 13/24`, `phong: 0.5`, all other types: 0) and one-shot strike identities. Cooldown starts at windup, so the existing attack cadence is unchanged; a cancelled strike consumes that cooldown.
+- Offline `Combat.monsterAttack` reserves a normal strike and `updateMonster` releases the existing damage/status/knock/death path at contact. `cancelMonsterAttacks()` clears reservations on map leave. Boss skill telegraphs keep their separate lifecycle.
+- `server/monsters.js` sends targeted `mstrike` windup/cancel packets with spawn `generation`, monotonic `attackId`, target `to` and `remaining` seconds. A reserved strike releases one existing `ma` packet after rechecking live target, identity, range, leash and navigation. At 10 Hz, release occurs on the first server tick at or after contact.
+- `NetCombat` never turns a remote timer into damage: only `ma` applies HP. Generation/serial deduplication rejects old results and the first authoritative result still applies if its windup was lost. Reconnect `mlist` includes remaining strike time; `CombatView` starts/seeks the clip from explicit cues and cancels it on invalidation. Zero-contact monsters keep their immediate packet behavior.
+
 ### Hooks for class kits (`src/training/KitCaster.js`)
 
 - `combat.damageMonster(monster, amount, { crit, miss })`: apply an already rolled blow; emits `hit` / `miss`, then aggro, or the kill path (`kill` event, EXP, gold, loot). Returns true while the monster lives.

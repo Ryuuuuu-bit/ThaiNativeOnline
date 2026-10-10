@@ -4,6 +4,7 @@ import { RULES } from '../combat/data/rules.js';
 import { phaseOf } from '../core/WorldClock.js';
 import { WorldBossFX } from '../combat/WorldBossFX.js';
 import { shoveTo } from '../combat/monsterHit.js';
+import { acceptMonsterStrike, releaseMonsterStrike, cancelMonsterStrike } from '../combat/monsterAttackTiming.js';
 
 // Shared monsters (phases 3a–3b of docs/technical/SERVER_SPLIT.md). Once the server sends
 // a map's monsters, the browser's Combat (src/combat/Combat.js) stops running its own:
@@ -25,7 +26,7 @@ const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
 export function attachNetCombat(net, game) {
   const combat = game.game.combat, c = game.game.character;
   const byId = new Map();
-  let serverPhase = null;
+  let serverPhase = null, selfId = null;
 
   // ---- server → local monsters ---------------------------------------------------------
   const make = info => {
@@ -36,12 +37,16 @@ export function attachNetCombat(net, game) {
       m.id = ID(info.id); m.sid = info.id; byId.set(info.id, m); combat.monsters.push(m);
     }
     Object.assign(m, { x: info.x, z: info.z, tx: info.x, tz: info.z, facing: info.f ?? 0, hp: info.hp, maxHp: info.maxHp ?? m.maxHp, state: STATES[info.st] ?? 'idle', debuffs: [], skillCast: info.skillCast ?? null });
+    if (info.generation !== undefined && info.generation > (m.strikeGeneration ?? 0)) {
+      combat.cancelMonsterAttack(m); m.strikeGeneration = info.generation; m.strikeSequence = 0; m.releasedStrike = 0;
+    }
     if (info.lv && info.lv !== m.def.level) m.def = { ...m.def, level: info.lv };   // a world boss risen at its players' tier
     return m;
   };
-  const gone = m => { m.hp = 0; m.state = 'dead'; m.debuffs = []; if (combat.target === m) combat.setTarget(null); };
+  const gone = m => { combat.cancelMonsterAttack(m); m.hp = 0; m.state = 'dead'; m.debuffs = []; if (combat.target === m) combat.setTarget(null); };
 
   net.on('mlist', msg => {
+    for (const m of combat.monsters) combat.cancelMonsterAttack(m);
     combat.emit('boss-skills-clear');
     // first list on this map: the local monsters step aside for the server's
     if (!combat.remote) {
@@ -54,6 +59,7 @@ export function attachNetCombat(net, game) {
     for (const m of combat.monsters) if (m.alive && !msg.m.some(i => ID(i.id) === m.id)) { combat.emit('despawn', m); gone(m); }
     for (const info of msg.m) {
       const monster = make(info); combat.emit('spawn', monster);
+      if (info.strike && (selfId === null || info.strike.to === selfId) && acceptMonsterStrike(monster, info.strike, true)) combat.emit('monster-attack', monster);
       if (info.skillCast) { monster.skillCast = info.skillCast; combat.emit('boss-skill', { monster, stage: 'windup', cast: info.skillCast }); }
     }
   });
@@ -62,6 +68,7 @@ export function attachNetCombat(net, game) {
     for (const [sid, x, z, f, hp, st, mv] of msg.m) {
       const m = byId.get(sid); if (!m) continue;
       m.tx = x; m.tz = z; m.facing = f; m.hp = hp; m.state = STATES[st] ?? m.state; m.moving = !!mv;
+      if (m.strike && (!m.alive || m.state !== 'chase')) combat.cancelMonsterAttack(m);
     }
   });
   net.on('mh', msg => {
@@ -88,7 +95,7 @@ export function attachNetCombat(net, game) {
     combat.emit('fail', 'ขาดการเชื่อมต่อ · กำลังเชื่อมต่อใหม่');
   });
   // the server restarted (ids start over): forget the old monsters before the new list
-  net.on('welcome', () => { for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); } byId.clear(); combat.monsters.length = 0; });
+  net.on('welcome', msg => { selfId = msg?.you ?? null; for (const m of combat.monsters) if (m.alive) { combat.emit('despawn', m); gone(m); } byId.clear(); combat.monsters.length = 0; });
   net.on('mgone', msg => { const m = byId.get(msg.id); if (!m || !m.alive && m.state === 'dead') return; combat.emit('despawn', m); gone(m); });
   // this player's share of a kill: the usual kill event (log, quests) and the rewards
   net.on('kill', msg => {
@@ -120,7 +127,31 @@ export function attachNetCombat(net, game) {
 
   net.on('ma', msg => {   // res: resolved on the server (signed in); knock / pull: where the hit throws the player
     const m = byId.get(msg.id);
-    if (m && c.alive) combat.monsterAttack(m, msg.res ?? null, { knock: !!msg.knock, pull: !!msg.pull, power: msg.power ?? 1, skill: msg.skill });
+    if (!m || !c.alive) return;
+    const fx = { knock: !!msg.knock, pull: !!msg.pull, power: msg.power ?? 1, skill: msg.skill };
+    if (msg.attackId !== undefined) {
+      // The first authoritative result must land even if the start packet was lost.
+      if (releaseMonsterStrike(m, msg.attackId, msg.generation)) combat.releaseMonsterAttack(m, msg.res ?? null, fx);
+    } else combat.monsterAttack(m, msg.res ?? null, fx);
+  });
+  net.on('mstrike', msg => {
+    const m = byId.get(msg.id); if (!m || !m.alive) return;
+    if (msg.stage === 'windup') {
+      if (acceptMonsterStrike(m, msg)) {
+        m.attackTimer = m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay);
+        m.swungAtMe = Date.now();
+        combat.combatTimer = RULES.combatTimeout;
+        combat.emit('monster-attack', m);
+      }
+    } else if (msg.stage === 'cancel' && Number.isSafeInteger(msg.attackId) && msg.attackId > 0
+      && Number.isSafeInteger(msg.generation) && msg.generation >= (m.strikeGeneration ?? 0)) {
+      if (msg.generation > (m.strikeGeneration ?? 0)) {
+        combat.cancelMonsterAttack(m); m.strikeGeneration = msg.generation; m.strikeSequence = 0; m.releasedStrike = 0;
+      }
+      m.strikeSequence = Math.max(m.strikeSequence ?? 0, msg.attackId);
+      m.releasedStrike = Math.max(m.releasedStrike ?? 0, msg.attackId);
+      if (m.strike?.attackId === msg.attackId) { cancelMonsterStrike(m); combat.emit('monster-attack-cancel', m); }
+    }
   });
   net.on('mskill', msg => {
     const monster = byId.get(msg.id); if (!monster) return;

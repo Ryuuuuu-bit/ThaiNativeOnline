@@ -819,10 +819,19 @@ function route(map, events, except = null) {
       const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
       if (up.deferred) continue;
       rewardNews(map, e, up);
+    } else if (e.t === 'mstrike') {
+      const ws = socketOf(e.to);
+      if (ws) send(ws, e);
     } else if (e.t === 'ma') {
-      if (combatants.get(e.to)?.tradeBusy) continue;
+      if (combatants.get(e.to)?.tradeBusy) {
+        const ws = socketOf(e.to);
+        if (ws && e.attackId !== undefined) send(ws, { t: 'mstrike', stage: 'cancel', id: e.id, generation: e.generation, attackId: e.attackId });
+        continue;
+      }
       const ws = socketOf(e.to); if (!ws) continue;
       const p=presence.players.get(ws), monster=worldOf(map).byId(e.id);
+      if (!p || p.dead || p.room !== map) continue;
+      if (e.attackId !== undefined && (!monster || monster.hp <= 0 || e.generation !== monster.strikeGeneration)) continue;
       if(monster&&p&&!navigation(p.map).clear(e.origin ?? monster,p,.05))continue;
       combatants.touch(e.to);
       const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power, { skill: !!e.skill });   // signed-in: resolved here

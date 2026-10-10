@@ -1,0 +1,79 @@
+{
+  "monster": "phong",
+  "version": "target-v5",
+  "approved": true,
+  "passed": true,
+  "artifactSha256": "36455b5787785641fca1ae3604ece2925b47a5aaf129a0699e38603bb08a4a78",
+  "artifactBytes": 1652860,
+  "candidateOnly": true,
+  "productionRegisteredUrlVerified": false,
+  "worldHeight": 1.9000000000000001,
+  "modelSpecHeight": 1.9,
+  "gameplaySize": 1,
+  "runtimeBaselineCount": 35,
+  "checks": {
+    "exactServedBodyHash": true,
+    "fiveClips": true,
+    "continuousGatherPressRecovery": true,
+    "hpUnchangedBeforePress": true,
+    "oneHitAtPress": true,
+    "offlineImpactSeconds": 0.5,
+    "server10HzReleaseSeconds": 0.5,
+    "serverTimingToleranceSeconds": 0.1,
+    "hurt": true,
+    "deathHeld": true,
+    "deathCueCancelled": true,
+    "mapCueCancelled": true,
+    "noninteractiveCorpse": true,
+    "picking": true,
+    "collisionRejection": true,
+    "disposalAndFreshController": true,
+    "registryRestored": true,
+    "zeroPageErrors": true
+  },
+  "validation": {
+    "full": {
+      "total": 872,
+      "pass": 870,
+      "fail": 0,
+      "skip": 2
+    },
+    "build": {
+      "passed": true,
+      "modules": 298
+    }
+  },
+  "evidence": {
+    "runtimeResult": "artifacts/all-monster-models/runtime-qa/phong-windup-result.json",
+    "runtimeResultSha256": "1cc63429a92c40def4579bf2794a567441a750ba20e284b98a8f520a844cdbda",
+    "screenshots": [
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/phong-windup-gather.png",
+        "sha256": "ef8c4ad316794d7289f2d605ecd8fed7256d28e768fd2264f2b797d1afbcd7d0",
+        "mark": "gather"
+      },
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/phong-windup-prepress.png",
+        "sha256": "2115e3e3e7334b3cbffac48c081f24d19be710647334dd86704032b3e61aca6e",
+        "mark": "prepress"
+      },
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/phong-windup-press.png",
+        "sha256": "df47a3d6feb7fdb4c2241ae3d62916f7be674c39f95dfe1a2d0ed4b1cf4f4a15",
+        "mark": "press"
+      },
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/phong-windup-recovery.png",
+        "sha256": "6b2bd98697e969b92ef247e541112995c93925509ed35bf08f536e7ca9a1c906",
+        "mark": "recovery"
+      }
+    ],
+    "fullTestLog": "artifacts/all-monster-models/runtime-qa/windup-full-tests.log"
+  },
+  "limitations": [
+    "Browser timing verified the actual offline Combat/CombatView/MonsterModels pipeline with an ephemeral candidate registry entry; production URL needs fresh verification after admission.",
+    "Authoritative 10 Hz release was verified with actual MonsterWorld fixtures; lost-start, generation, cancellation and trade-freeze coverage uses automated route/unit fixtures, not a real WebSocket multiplayer session.",
+    "Browser used deterministic 1/24-second simulation steps and headless Edge SwiftShader; no network latency or rendering performance claim.",
+    "Ordinary non-stunning hurt does not cancel a valid queued strike; stun, death, invalid target/range and map leave cancel it. Hurt clip was verified after recovery."
+  ]
+}
