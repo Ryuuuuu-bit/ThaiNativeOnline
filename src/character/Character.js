@@ -22,9 +22,9 @@ import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (s
 import { TITLE_BY_ID, BOSS_TITLES, checkTitles } from '../data/titles.js';
 import { cloneInstance, isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
 import { cleanMasteries, masteryBonus } from './data/masteries.js';
+import { expandInventory } from './inventoryCapacity.js';
 
 const SAVE_KEY = 'tno.character.v1';
-const INVENTORY_SIZE = 24;
 export const FRIENDS_MAX = 50;
 // Gear bonus keys passed to computeDerived besides the base stats.
 const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
@@ -65,13 +65,13 @@ export class Character extends Emitter {
     this.friends = Array.isArray(friends) ? [...new Set(friends.filter(n => typeof n === 'string' && n.trim()).map(n => n.slice(0, 16)))].slice(0, FRIENDS_MAX) : [];
     // gear in the bag may carry cards (src/character/data/cards.js): only real ones, no more than its slots
     // and a plus from ตีบวก (src/character/data/refine.js): only on gear that takes one
-    this.inventory = inventory ? inventory.map(s => {
+    this.inventory = expandInventory(inventory).map(s => {
       if (!s) return null;
       const { cards: held, plus, locked, roll, flask, ...rest } = s, ok = socketCards(s.id, held, ITEMS), p = refinable(ITEMS[s.id]) ? plusOf(plus) : 0;
       const fields = { ...rollFields(s), ...flaskFields(s) };
       if (ITEMS[s.id]?.type === 'flask' && !fields.flask) return null;
       return { ...rest, ...((fields.roll || fields.flask) ? {qty:1} : {}), ...(ok.length ? { cards: ok } : {}), ...(p ? { plus: p } : {}), ...lockFields(s), ...fields };
-    }) : Array(INVENTORY_SIZE).fill(null);
+    });
     this.equipment = Object.fromEntries(EQUIP_SLOTS.map(s => [s, null]));
     for (const s of EQUIP_SLOTS) { const id = equipment?.[s]; if (id && ITEMS[id]?.type === 'equip' && ITEMS[id].slot === slotKind(s)) this.equipment[s] = id; }
     // the cards in the worn gear, per slot (they belong to that item and leave with it)

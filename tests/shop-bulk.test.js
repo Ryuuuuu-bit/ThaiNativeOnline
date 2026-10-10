@@ -94,3 +94,14 @@ test('stale sync replies do not create a resync storm while newer actions are pe
   net.emit('me', { ack: 1, hp: c.hp, mp: c.mp });
   assert.equal(net.messages.filter(m => m.t === 'resync').length, 1);
 });
+
+test('sale basket skips locked items and removes a selection locked after picking', () => {
+  const c = hero(); c.inventory = Array(500).fill(null);
+  c.inventory[499] = { id: 'ash', qty: 12 };
+  c.inventory[450] = { id: 'potion_s', qty: 10, locked: true };
+  const basket = new SaleBasket(c);
+  basket.set(499, 12); basket.set(450, 10);
+  assert.deepEqual(basket.lines(), [{index: 499, qty: 12}]);
+  c.inventory[499].locked = true;
+  assert.deepEqual(basket.lines(), []);
+});

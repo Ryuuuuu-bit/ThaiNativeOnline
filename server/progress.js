@@ -17,6 +17,7 @@
 // rewards run on the server (the same QuestSystem), and buying needs a shop of that kind on
 // the player's map and no fight going on.
 import { Character } from '../src/character/Character.js';
+import { expandInventory } from '../src/character/inventoryCapacity.js';
 import { CLASSES, CLASS_ALIASES, STATS } from '../src/character/data/classes.js';
 import { ITEMS, EQUIP_SLOTS } from '../src/character/data/items.js';
 import { buy } from '../src/shop/ShopSystem.js';
@@ -135,5 +136,5 @@ export function reconcileSave(data, server, quests = null) {
     const classId = CLASS_ALIASES[sent.classId] || sent.classId;
     truth = Character.create(String(sent.name ?? '').slice(0, 16), CLASSES[classId] ? classId : 'muaythai', sent.gender === 'female' ? 'female' : 'male').toJSON();
   }
-  return { ...data, [key]: JSON.stringify(truth), [QUESTS_KEY]: server ? quests ?? '{}' : '{}' };
+  return { ...data, [key]: JSON.stringify({ ...truth, inventory: expandInventory(truth.inventory) }), [QUESTS_KEY]: server ? quests ?? '{}' : '{}' };
 }

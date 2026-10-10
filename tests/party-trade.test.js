@@ -90,7 +90,8 @@ test('a trade: offers are checked, locking and confirming on both sides, then a 
 test('a swap that does not fit happens not at all', () => {
   const A = hero(), B = hero();
   A.addItem('krabi');
-  for (let i = 0; B.inventory.includes(null); i++) B.addItem('wood_sword');   // B's bag is full of swords
+  // Seed a full bag directly: weight can stop addItem before a 500-cell bag fills.
+  B.inventory = B.inventory.map(() => ({ id: 'wood_sword', qty: 1 }));
   const before = [JSON.stringify(A.toJSON()), JSON.stringify(B.toJSON())];
   const r = swap(A, B, cleanOffer({ items: [{ id: 'krabi', qty: 1 }], gold: 50 }), cleanOffer({ items: [], gold: 0 }));
   assert.deepEqual(r, { ok: false, why: 'room_b' });

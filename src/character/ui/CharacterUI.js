@@ -364,9 +364,11 @@ export class CharacterUI {
       this.sorting = true; try { sortBag(this.c); } finally { this.sorting = false; } return;
     }
     const filtered = this.tab !== 'all' || this.query.trim();
-    let shown = 0;
+    let shown = 0, emptyShown = 0;
+    // Capacity is independent of the number of decorative empty cells.
+    const emptyLimit = Math.max(0, 32 - inv.filter(Boolean).length);
     this.grid.innerHTML = inv.map((s, i) => {
-      if (!s) return filtered ? '' : `<button class="g-slot empty" data-index="${i}" aria-label="ช่องว่าง"></button>`;
+      if (!s) return filtered || emptyShown++ >= emptyLimit ? '' : `<button class="g-slot empty" data-index="${i}" aria-label="ช่องว่าง"></button>`;
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
       const d = ITEMS[s.id], cmp = compareToEquipped(this.c, s); shown++;
       const arrow = cmp > 0 ? '<i class="g-cmp up" aria-hidden="true">▲</i>' : cmp < 0 ? '<i class="g-cmp down" aria-hidden="true">▼</i>' : '';
