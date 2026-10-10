@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "checks": [
+    "boss geometry {\"x\":852,\"y\":444.8125,\"width\":284,\"height\":104.375}",
+    "classic 1146x967: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "classic 1366x768: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "classic 1920x1080: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "classic 390x844: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "boss geometry {\"x\":852,\"y\":444.8125,\"width\":284,\"height\":104.375}",
+    "modern 1146x967: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "modern 1366x768: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "modern 1920x1080: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "modern 390x844: enabled reset contained, readable card-slot badges; boss yields to inventory and returns within viewport",
+    "150% HUD: reset click returns allocated points and preserves level, gold and items; disabled state renders",
+    "Gameplay EXP/loot/target notices appear in System chat, with zero floating feed rows",
+    "Explicit boss join emits wbjoin once; disclosure and dismiss survive arrival reminders"
+  ],
+  "images": [
+    "classic-inventory-1146.png",
+    "classic-boss-gameplay.png",
+    "classic-inventory-390.png",
+    "modern-inventory-1146.png",
+    "modern-boss-gameplay.png",
+    "modern-inventory-390.png",
+    "disabled-reset-scaled.png",
+    "system-gameplay-messages.png",
+    "boss-online-folded.png"
+  ],
+  "errors": []
+}

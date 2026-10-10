@@ -30,6 +30,7 @@ export function startMultiplayer(game) {
   const remote = new RemotePlayers(game.scene, document.getElementById('nameplates'), (x, z) => game.world?.heightAt(x, z) ?? 0);
   const net = new NetClient(serverUrl());
   const chat = new ChatBox(text => net.send({ t: 'c', text }));
+  game.game.hud.feed.connectChat(chat);
   const bossBanner = new WorldBossBanner({ onJoin: () => net.send({ t: 'wbjoin' }), canJoin: () => net.online && game.maps?.map?.id !== 'ruen_ho' });
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
