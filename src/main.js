@@ -12,6 +12,7 @@ import './ui/skin-classic.css';   // carved-wood skin, on when body.skin-classic
 import './ui/dynamic-hud.css';
 import './ui/brand.css';
 import './ui/mobile-hud.css';
+import './ui/thumb-combat.css';
 import './ui/world-map.css';
 mountEntryBrand();
 

@@ -6,7 +6,7 @@ import { el, esc, setBar } from './dom.js';
 import './character.css';
 import { draggable } from '../../ui/draggable.js';
 import { classBadge, iconHtml } from '../../ui/icons.js';
-import { BAG_TABS, inTab, compareToWorn, matchesSearch, sortBag, sortedInventory } from '../bag.js';
+import { BAG_TABS, inTab, matchesSearch, sortBag, sortedInventory } from '../bag.js';
 import { SkillPanel } from './SkillPanel.js';
 import { RACE_LABELS, ELEMENT_LABELS } from '../data/cards.js';
 import { refineBonus } from '../data/refine.js';
@@ -14,6 +14,7 @@ import { MAX_JOB_LEVEL } from '../data/progression.js';
 import { LOADOUT_COUNT, isItemLocked } from '../itemState.js';
 import { SKILLS as LEGACY_SKILLS } from '../../combat/data/skills.js';
 import { bindAccountPortrait } from '../../account/AccountPortrait.js';
+import { InventoryWorkspace, compareToEquipped } from './InventoryWorkspace.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -37,28 +38,21 @@ const cardsLine = (id, cards = []) => {
   if (!n) return '\nไม่มีช่องการ์ด';
   return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
 };
-function itemTip(id, cards = [], plus = 0) {
-  const d = ITEMS[id];
-  const where = d.type === 'card' ? ` (การ์ด${SLOT_LABELS[d.slot]})` : d.slot ? ` (${SLOT_LABELS[d.slot]})` : '';
-  // a weapon says its kind and who wields it (RO style: a bow is a hunter's)
-  const wield = d.weapon ? `\n${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
-  const refine = plus ? `\nตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}` : '';
-  return `${itemName(id, plus)}${where}${wield}\n${d.desc || bonusText(d.bonus)}${refine}${cardsLine(id, cards)}${d.type === 'card' ? `\nคลิกเพื่อใส่ใน${SLOT_LABELS[d.slot]}ที่มีช่องว่าง (ใส่แล้วถอดไม่ได้)` : ''}\nน้ำหนัก ${d.weight || 0} · ราคาขาย ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
-}
 const pips = (id, cards = []) => { const n = ITEMS[id]?.slots ?? 0; return n ? `<i class="g-pips">${'◆'.repeat(cards.length)}${'◇'.repeat(Math.max(0, n - cards.length))}</i>` : ''; };
 
-// The card under the bag grid for the item under the pointer: name (+refine [slots]), slot, rarity,
+// Shared selected-item and hover detail: name (+refine [slots]), slot, rarity,
 // bonuses, refine bonus, card slots, weight, price.
 const RARITY_TH = { common: 'ธรรมดา', rare: 'หายาก', epic: 'ตำนาน' };
 function itemCard({ id, cards = [], plus = 0, locked = false }, cmp) {
   const d = ITEMS[id];
-  const bonus = d.bonus ? Object.entries(d.bonus).map(([k, v]) => `<i>${bonusLabel(k, v)}</i>`).join('') : '';
-  const refine = plus ? `<i>ตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}</i>` : '';
+  const bonus = d.bonus ? Object.entries(d.bonus).map(([k, v]) => `<i>${esc(bonusLabel(k, v))}</i>`).join('') : '';
+  const refine = plus ? `<i class="iw-refine-bonus">${esc(`ตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}`)}</i>` : '';
+  const wield = d.weapon ? `${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
   const slots = cardsLine(id, cards).trim();
   const tag = [d.type === 'card' ? `การ์ด${SLOT_LABELS[d.slot]}` : d.slot && SLOT_LABELS[d.slot], RARITY_TH[d.rarity], `น้ำหนัก ${d.weight || 0}`].filter(Boolean).join(' · ');
   const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
-  const act = d.type === 'equip' ? 'คลิกเพื่อสวมใส่' : d.type === 'use' ? 'คลิกเพื่อใช้' : d.type === 'card' ? 'คลิกเพื่อใส่การ์ด (ถอดไม่ได้)' : 'ขายได้ที่ร้านค้า';
-  return `<span class="g-detail-icon" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}">${iconHtml(d)}</span><div><b style="color:${RARITY_COLORS[d.rarity] || 'inherit'}">${esc(itemName(id, plus))}</b><small>${tag}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small><span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
+  const act = d.type === 'equip' ? 'อุปกรณ์สวมใส่' : d.type === 'use' ? 'ไอเท็มใช้ได้' : d.type === 'card' ? 'ใส่การ์ดด้วยปุ่มด้านล่าง (ติดถาวร)' : 'ขายได้ที่ร้านค้า';
+  return `<span class="g-detail-icon" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${RARITY_COLORS[d.rarity] || '#e7dbb8'}">${esc(itemName(id, plus))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
 
 export class CharacterUI {
@@ -110,9 +104,9 @@ export class CharacterUI {
       <div class="g-bag-tools"><input class="g-bag-search" type="search" placeholder="ค้นหา…" aria-label="ค้นหาไอเท็ม" /><button class="g-bag-sort" title="เรียงไอเท็มและรวมกองซ้ำ">เรียง</button><button type="button" class="g-bag-lock" aria-pressed="false" title="โหมดล็อก: แตะไอเท็มเพื่อป้องกันขาย ตีบวก ใส่/ถอดการ์ด และแลก">🔒 ล็อก</button><label class="g-bag-auto" title="เรียงให้เองทุกครั้งที่ได้ของ"><input type="checkbox" /> อัตโนมัติ</label></div>
       <div class="g-grid"></div><p class="g-bag-none" hidden>ไม่มีไอเท็มในหมวดนี้</p><div class="g-card-pick" hidden></div>
       <div class="g-bag-foot"><span class="g-bag-count"></span><span class="g-gold" title="ตำลึงในกระเป๋า"></span></div>
-      <div class="g-detail" hidden></div><p class="g-hint">คลิกเพื่อใช้หรือสวมใส่ · ขายของได้ที่ร้านค้า (แท็บขาย)</p>`);
+      <div class="g-detail" hidden></div><p class="g-hint">เลือกเพื่อดูรายละเอียด · กดปุ่มเพื่อใช้หรือสวมใส่ · ขายได้ที่ร้านค้า</p>`);
     this.loadouts = el('section', 'g-panel g-loadouts glass', '<div class="panel-heading">ชุดอุปกรณ์และแถบสกิล<button aria-label="ปิด">×</button></div><div class="g-loadout-body"></div>');
-    for (const p of [this.sheet, this.bag, this.loadouts]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { p.hidden = true; }); this.layer.append(p); }
+    for (const p of [this.sheet, this.bag, this.loadouts]) { p.hidden = true; p.querySelector('.panel-heading button').addEventListener('click', () => { if (p === this.loadouts) p.hidden = true; else this.workspace.close(); }); this.layer.append(p); }
     // Utility windows sit above the main-menu button, outside the HUD's stacking context.
     this.layer.parentElement?.append(this.loadouts);
     draggable(this.loadouts, { key: 'loadouts', handle: '.panel-heading' });
@@ -137,10 +131,8 @@ export class CharacterUI {
       }
       this.loadoutsKey = null; this.refreshLoadouts();
     });
-    draggable(this.sheet, { key: 'sheet', handle: '.panel-heading' }); draggable(this.bag, { key: 'bag', handle: '.panel-heading' });
     this.skills = new SkillPanel(this.layer, this.c, this.feed, name => { if (this[name].hidden) this.toggle(name); });
     this.grid = this.bag.querySelector('.g-grid'); this.detail = this.bag.querySelector('.g-detail');
-    this.grid.addEventListener('pointerover', e => this.showDetail(e.target.closest('[data-index]')));
     // tabs, search and sorting only change what the panel shows and the slot order
     this.tab = 'all'; this.query = '';
     this.bag.querySelector('.g-bag-tabs').addEventListener('click', e => {
@@ -154,7 +146,7 @@ export class CharacterUI {
     this.bag.querySelector('.g-bag-lock').addEventListener('click', e => {
       this.lockMode = !this.lockMode; e.currentTarget.setAttribute('aria-pressed', String(this.lockMode));
       this.bag.classList.toggle('locking', this.lockMode);
-      this.bag.querySelector('.g-hint').textContent = this.lockMode ? 'แตะไอเท็มเพื่อล็อก / ปลดล็อก · ของที่ล็อกยังสวมใส่ได้' : 'คลิกเพื่อใช้หรือสวมใส่ · ขายของได้ที่ร้านค้า (แท็บขาย)';
+      this.bag.querySelector('.g-hint').textContent = this.lockMode ? 'แตะไอเท็มเพื่อล็อก / ปลดล็อก · ของที่ล็อกยังสวมใส่ได้' : 'เลือกเพื่อดูรายละเอียด · กดปุ่มเพื่อใช้หรือสวมใส่ · ขายได้ที่ร้านค้า';
     });
     this.autoSort = this.bag.querySelector('.g-bag-auto input');
     this.autoSort.checked = pref.get(AUTO_SORT_KEY) === '1';
@@ -163,16 +155,30 @@ export class CharacterUI {
       const slot = e.target.closest('[data-index]'); if (!slot) return;
       const i = Number(slot.dataset.index), item = this.c.inventory[i]; if (!item) return;
       if (this.lockMode) { this.c.setItemLock(i, !isItemLocked(item)); this.c.save(); return; }
-      if (ITEMS[item.id].type === 'card') this.openCardPick(i);
-      else if (!this.c.useAt(i) && ITEMS[item.id].type === 'use') this.feed.log('HP เต็มอยู่แล้ว');
+      this.workspace.select(i);
     });
     // which item a card goes into (the card stays there for good)
     this.cardPick = this.bag.querySelector('.g-card-pick');
     this.cardPick.addEventListener('click', e => {
-      const b = e.target.closest('[data-where]'); if (!b) { if (e.target.closest('.g-pick-cancel')) this.cardPick.hidden = true; return; }
-      const card = this.c.inventory[this.pickCard]?.id, where = b.dataset.where === 'worn' ? 'worn' : Number(b.dataset.where);
-      this.cardPick.hidden = true;
-      if (card && this.c.insertCard(this.pickCard, where)) this.feed.log(`ใส่${ITEMS[card].name}แล้ว`, 'epic');
+      if (e.target.closest('.g-pick-cancel')) { this.cardPick.hidden = true; return; }
+      const b = e.target.closest('[data-where]');
+      if (b) {
+        this.pickWhere = b.dataset.worn === 'true' ? b.dataset.where : Number(b.dataset.where);
+        const target = this.c.cardTargets(this.pickCard).find(t => t.worn ? t.slot === this.pickWhere : t.index === this.pickWhere);
+        if (!target) return;
+        this.pickTarget = JSON.stringify(target.worn ? this.c.wornItem(target.slot) : this.c.inventory[target.index]);
+        this.cardPick.querySelectorAll('[data-where]').forEach(t => t.setAttribute('aria-pressed', String(t === b)));
+        this.cardPick.querySelector('.g-pick-confirm').disabled = false;
+        this.cardPick.querySelector('.iw-socket-target').textContent = `ยืนยันใส่การ์ดใน ${itemName(target.id, target.worn ? this.c.refine[target.slot] : this.c.inventory[target.index]?.plus)}${target.worn ? ` (${SLOT_LABELS[target.slot]})` : ''}`;
+        return;
+      }
+      if (!e.target.closest('.g-pick-confirm') || this.pickWhere === undefined) return;
+      const cardItem = this.c.inventory[this.pickCard];
+      const targetItem = typeof this.pickWhere === 'string' ? this.c.wornItem(this.pickWhere) : this.c.inventory[this.pickWhere];
+      if (JSON.stringify(cardItem) !== this.pickFingerprint || JSON.stringify(targetItem) !== this.pickTarget) { this.cardPick.hidden = true; return; }
+      const card = cardItem?.id, index = this.pickCard, where = this.pickWhere;
+      this.cardPick.hidden = true; this.workspace.clear();
+      if (card && this.c.insertCard(index, where)) this.feed.log(`ใส่${ITEMS[card].name}แล้ว`, 'epic');
     });
     this.sheet.addEventListener('click', e => {
       const lock = e.target.closest('[data-lock-slot]');
@@ -187,15 +193,16 @@ export class CharacterUI {
         for (const [k, n] of Object.entries(add)) for (let i = 0; i < n; i++) this.c.allocate(k);
         this.feed.log(`ลงแต้มตามแผน ${build.name}: ${Object.entries(add).map(([k, n]) => `${k.toUpperCase()} +${n}`).join(' · ')}`);
       }
-      const slot = e.target.closest('[data-slot]'); if (slot) this.c.unequip(slot.dataset.slot);
+      const slot = e.target.closest('[data-slot]'); if (slot) this.workspace.select(null, slot.dataset.slot);
       if (e.target.closest('.g-reset')) this.c.resetStats();
     });
+    this.workspace = new InventoryWorkspace(this, itemCard, SLOT_LABELS);
   }
 
   bind() {
     const c = this.c;
     c.on('change', () => this.refresh());
-    c.on('inventory', () => this.refreshInventory());
+    c.on('inventory', () => { this.cardPick.hidden = true; this.refreshInventory(); });
     c.on('loadout-result', r => this.reportLoadout(r));
     c.on('inventory-full', id => this.feed.log(`กระเป๋าเต็ม ทิ้ง ${ITEMS[id].name}`, 'bad'));
     c.on('cannot-wield', id => this.feed.log(`${c.cls.name}ใช้${ITEMS[id].name}ไม่ได้ · ใช้ได้เฉพาะ${c.weaponKindsTh}`, 'bad'));
@@ -215,11 +222,12 @@ export class CharacterUI {
     if (k === 'KeyC') { this.toggle('sheet'); return true; }
     if (k === 'KeyI') { this.toggle('bag'); return true; }
     if (k === 'KeyK') { this.toggle('skills'); return true; }
-    if (k === 'Escape' && (!this.sheet.hidden || !this.bag.hidden || !this.skills.hidden || !this.loadouts.hidden)) { this.sheet.hidden = true; this.bag.hidden = true; this.skills.root.hidden = true; this.loadouts.hidden = true; return true; }
+    if (k === 'Escape' && (!this.sheet.hidden || !this.bag.hidden || !this.skills.hidden || !this.loadouts.hidden)) { this.workspace.close(); this.skills.root.hidden = true; this.loadouts.hidden = true; return true; }
     return false;
   }
   quickPotion(kind) { if (!this.c.quickUse(kind)) this.feed.log(kind === 'hp' ? 'ไม่มียาฟื้น HP หรือ HP เต็มแล้ว' : 'ไม่มีน้ำผึ้งป่า', 'bad', true); }
   toggle(name) {
+    if (name === 'sheet' || name === 'bag') { this.workspace.toggle(name); return; }
     if (name === 'skills') { this.skills.toggle(); return; }
     const p = this[name]; p.hidden = !p.hidden;
     if (!p.hidden) { if (name === 'sheet') this.refreshSheet(); else if (name === 'loadouts') this.refreshLoadouts(); else this.refreshInventory(); }
@@ -261,7 +269,10 @@ export class CharacterUI {
     if (key === this.sheetKey) return;
     this.sheetKey = key;
     // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
-    const slotHtml = slot => { const id = c.equipment[slot]; return `<div class="g-eqs"><button data-slot="${slot}" class="${id ? '' : 'empty'}" title="${id ? `${itemTip(id, c.cards[slot], c.refine[slot])}\nคลิกเพื่อถอด` : `${SLOT_LABELS[slot]} · ว่าง`}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${id ? esc(itemName(id, c.refine[slot])) : SLOT_LABELS[slot]}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`; };
+    const slotHtml = slot => {
+      const id = c.equipment[slot];
+      return `<div class="g-eqs"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? RARITY_COLORS[ITEMS[id].rarity] : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${SLOT_LABELS[slot]}${id ? `<br>${esc(itemName(id, c.refine[slot]))}` : ' · ว่าง'}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`;
+    };
     const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
       <div class="g-doll-wrap g-equip">
@@ -285,6 +296,8 @@ export class CharacterUI {
       </div>
       </div>
       <button class="g-reset" ${Object.values(c.alloc).some(Boolean) ? '' : 'disabled'}>รีเซ็ตแต้มสถานะ</button>`;
+    if (this.workspace) this.sheet.querySelector('.g-doll-wrap').after(this.workspace.wornDetail);
+    this.workspace?.refresh();
   }
   // คู่มือลงแต้ม: what the stats do for this class and two or three builds (src/character/data/statguide.js)
   reportLoadout(r) {
@@ -326,30 +339,32 @@ export class CharacterUI {
     this.grid.innerHTML = inv.map((s, i) => {
       if (!s) return filtered ? '' : `<button class="g-slot empty" data-index="${i}" aria-label="ช่องว่าง"></button>`;
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
-      const d = ITEMS[s.id], cmp = compareToWorn(this.c, s.id); shown++;
-      const arrow = cmp > 0 ? '<i class="g-cmp up" title="ดีกว่าที่ใส่อยู่">▲</i>' : cmp < 0 ? '<i class="g-cmp down" title="แย่กว่าที่ใส่อยู่">▼</i>' : '';
+      const d = ITEMS[s.id], cmp = compareToEquipped(this.c, s.id); shown++;
+      const arrow = cmp > 0 ? '<i class="g-cmp up" aria-hidden="true">▲</i>' : cmp < 0 ? '<i class="g-cmp down" aria-hidden="true">▼</i>' : '';
       return `<button class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${RARITY_COLORS[d.rarity] || '#8d8a78'}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
     this.bag.querySelector('.g-bag-count').textContent = `ช่อง ${inv.filter(Boolean).length} / ${inv.length}`;
     this.refresh();
+    this.workspace?.refresh();
   }
   // The card picker: gear of the card's kind with a free slot (worn first).
   openCardPick(i) {
-    const card = ITEMS[this.c.inventory[i]?.id]; if (!card) return;
-    if (this.bag.hidden) this.toggle('bag');
+    const cardItem = this.c.inventory[i], card = ITEMS[cardItem?.id]; if (card?.type !== 'card') return;
+    // Opening may auto-sort: retain the selected instance, not its old bag index.
+    this.workspace.open('bag');
+    if (this.c.inventory[i] !== cardItem) i = this.c.inventory.findIndex(s => s && JSON.stringify(s) === JSON.stringify(cardItem));
+    if (i < 0) return;
     const targets = this.c.cardTargets(i); this.pickCard = i;
+    this.pickFingerprint = JSON.stringify(this.c.inventory[i]); this.pickWhere = undefined; this.pickTarget = null;
     this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${bonusText(card.bonus)}</small></header>`
-      + (targets.length ? targets.map(t => `<button data-where="${t.worn ? 'worn' : t.index}"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id, t.worn ? this.c.refine[t.slot] : this.c.inventory[t.index]?.plus))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
+      + (targets.length ? targets.map(t => `<button type="button" data-where="${t.worn ? t.slot : t.index}" data-worn="${!!t.worn}" aria-pressed="false"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(itemName(t.id, t.worn ? this.c.refine[t.slot] : this.c.inventory[t.index]?.plus))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
         : `<p>ไม่มี${SLOT_LABELS[card.slot]}ที่มีช่องการ์ดว่าง</p>`)
-      + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><button class="g-pick-cancel">ยกเลิก</button>';
+      + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><p class="iw-socket-target" aria-live="polite">เลือกอุปกรณ์ก่อนยืนยัน</p><button type="button" class="g-pick-confirm" disabled>ยืนยันใส่การ์ด</button><button type="button" class="g-pick-cancel">ยกเลิก</button>';
     this.cardPick.hidden = false;
   }
   showDetail(slot) {
-    const item = slot && this.c.inventory[Number(slot.dataset.index)];
-    if (!item) return;
-    this.detail.innerHTML = itemCard(item, compareToWorn(this.c, item.id));
-    this.detail.hidden = false;
+    if (slot) this.workspace.select(Number(slot.dataset.index));
   }
   // Per frame: buff timers count down.
   update() { if (this.c.buffs.length) this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml(); }
