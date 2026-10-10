@@ -27,9 +27,16 @@ test('events, kits and places point at sounds and tracks that exist', () => {
   for (const id of ['ui_click', 'ui_confirm', 'step', 'hit', 'hit_crit', 'miss', 'kill', 'whoosh']) assert.ok(SFX[id], id);
 });
 
-test('music tracks have a scale, tempo and 16-step patterns', () => {
+test('music tracks have a valid tempo and a score or legacy pattern', () => {
   for (const [id, t] of Object.entries(MUSIC)) {
     assert.ok(t.bpm >= 40 && t.bpm <= 160, `${id} bpm`);
+    if (t.style === 'calm') {
+      assert.equal(t.chords.length, 16, `${id} harmonic cycle`);
+      assert.equal(t.melody.length, t.chords.length, `${id} melody cycle`);
+      assert.ok(t.chords.every(c => c.length >= 3 && c.every(n => Number.isInteger(n) && n > 20 && n < 100)), `${id} pitches`);
+      assert.ok(t.melody.every(b => b.every(([at,n,len]) => at >= 0 && at < 4 && Number.isInteger(n) && len > 0)), `${id} note timing`);
+      continue;
+    }
     assert.ok(t.root > 50 && t.scale.length >= 5 && t.scale[0] === 0, `${id} scale`);
     if (t.style === 'rock') {
       const p = { rhythm: t.riff.rhythm, bass: t.riff.bass, ...t.drums };

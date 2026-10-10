@@ -1,0 +1,151 @@
+{
+  "errors": [],
+  "playback": {
+    "errors": [],
+    "tracks": 8,
+    "muted": true,
+    "context": "running",
+    "stopped": true
+  },
+  "loops": [
+    {
+      "id": "calm_river",
+      "peak": 0.2799825966358185,
+      "seamRms": 0.05941861921088922,
+      "seamMaxStep": 0.04844309389591217
+    },
+    {
+      "id": "calm_market",
+      "peak": 0.2758820354938507,
+      "seamRms": 0.05560037375872612,
+      "seamMaxStep": 0.041752254124730825
+    },
+    {
+      "id": "calm_temple",
+      "peak": 0.27524223923683167,
+      "seamRms": 0.057154423272789606,
+      "seamMaxStep": 0.0684738289564848
+    },
+    {
+      "id": "calm_paddy",
+      "peak": 0.2945418357849121,
+      "seamRms": 0.05586055959366679,
+      "seamMaxStep": 0.04118990432471037
+    },
+    {
+      "id": "calm_forest",
+      "peak": 0.2894414961338043,
+      "seamRms": 0.05578076467395378,
+      "seamMaxStep": 0.03625870123505592
+    },
+    {
+      "id": "calm_ruins",
+      "peak": 0.22854340076446533,
+      "seamRms": 0.05470679258598679,
+      "seamMaxStep": 0.03124246373772621
+    },
+    {
+      "id": "calm_marsh",
+      "peak": 0.2681157886981964,
+      "seamRms": 0.05855108277639265,
+      "seamMaxStep": 0.04180384427309036
+    },
+    {
+      "id": "calm_night",
+      "peak": 0.25710031390190125,
+      "seamRms": 0.05611037613764205,
+      "seamMaxStep": 0.03095189481973648
+    }
+  ],
+  "tracks": [
+    {
+      "id": "calm_river",
+      "name": "ริมน้ำอโยธยา",
+      "seconds": 60.470588235294116,
+      "rate": 22050,
+      "frames": 1333377,
+      "peak": 0.40298011255527055,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_river.wav",
+      "peakDb": -7.8943277233626175
+    },
+    {
+      "id": "calm_market",
+      "name": "ตลาดเช้าอโยธยา",
+      "seconds": 52,
+      "rate": 22050,
+      "frames": 1146600,
+      "peak": 0.41151724655180766,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_market.wav",
+      "peakDb": -7.712239178641697
+    },
+    {
+      "id": "calm_temple",
+      "name": "แสงสุวรรณเจดีย์",
+      "seconds": 68,
+      "rate": 22050,
+      "frames": 1499400,
+      "peak": 0.4452779761466515,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_temple.wav",
+      "peakDb": -7.02737569874623
+    },
+    {
+      "id": "calm_paddy",
+      "name": "ลมเหนือทุ่งข้าว",
+      "seconds": 57.333333333333336,
+      "rate": 22050,
+      "frames": 1264200,
+      "peak": 0.44398767535462524,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_paddy.wav",
+      "peakDb": -7.052581705805229
+    },
+    {
+      "id": "calm_forest",
+      "name": "เงาไม้กลางไพร",
+      "seconds": 64,
+      "rate": 22050,
+      "frames": 1411200,
+      "peak": 0.44194096890310763,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_forest.wav",
+      "peakDb": -7.092714730292101
+    },
+    {
+      "id": "calm_ruins",
+      "name": "เสียงกระซิบวัดร้าง",
+      "seconds": 70.20689655172414,
+      "rate": 22050,
+      "frames": 1548063,
+      "peak": 0.41141885712780135,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_ruins.wav",
+      "peakDb": -7.714316131344884
+    },
+    {
+      "id": "calm_marsh",
+      "name": "หมอกเหนือบึง",
+      "seconds": 65.93548387096774,
+      "rate": 22050,
+      "frames": 1453878,
+      "peak": 0.4682722450301068,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_marsh.wav",
+      "peakDb": -6.590031650571698
+    },
+    {
+      "id": "calm_night",
+      "name": "จันทร์เหนืออโยธยา",
+      "seconds": 70.20689655172414,
+      "rate": 22050,
+      "frames": 1548063,
+      "peak": 0.45128839892770284,
+      "clipping": false,
+      "file": "artifacts/location-music/calm_night.wav",
+      "peakDb": -6.910916611070192
+    }
+  ],
+  "source": "Production CalmMusicPlayer rendered by OfflineAudioContext; previews fade at endpoints, live score repeats without restarting its audio graph."
+}

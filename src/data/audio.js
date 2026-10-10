@@ -1,3 +1,5 @@
+import { CALM_MUSIC } from './calmMusic.js';
+
 // Content data only: sound effects and music (played by src/audio).
 //
 // SFX recipes are synthesized with Web Audio (no downloads). Each recipe is a
@@ -214,6 +216,7 @@ export const KIT_CAST_SFX = { muaythai: 'cast_fist', herbalist: 'cast_herb', hun
 // style 'thai': ระนาด melody, ฆ้องวง bass, ฉิ่ง (o = open "ฉิ่ง", c = closed "ฉับ"), กลอง.
 // scale = semitones above root (pentatonic); root in Hz.
 export const MUSIC = {
+  ...CALM_MUSIC,
   rock_title: {
     name: 'ศึกแรก', style: 'rock', bpm: 112, root: 196, scale: [0, 3, 5, 7, 10], gain: .55, drive: 16,
     riff: { chords: [0, 1, 2, 3], octave: -1, rhythm: 'X.....X.X...x.x.', bass: 'x.....x.x...x.x.' },
@@ -253,7 +256,7 @@ export const MUSIC = {
   },
 };
 // Which track plays where: the entry screens, then the city by time of day.
-export const MUSIC_FOR = { entry: 'rock_title', morning: 'rock_day', day: 'rock_day', evening: 'rock_day', night: 'rock_night' };
+export const MUSIC_FOR = { entry: 'calm_river', morning: 'calm_river', day: 'calm_river', evening: 'calm_river', night: 'calm_night' };
 
 // Default volumes (the player's own choice is remembered per browser).
 export const AUDIO_DEFAULTS = { master: .8, music: .5, sfx: .8, ambience: .6, muted: false };
