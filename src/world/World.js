@@ -1,10 +1,11 @@
 import { buildExpeditionWorld } from './ExpeditionWorld.js';
 import * as THREE from 'three';
-import { J, WATER_Y, MARSH_WATER_Y } from './CityMap.js';
+import { J } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, inView, walkable } from './maps.js';
 import { TerrainData, Occupancy, OCC, seedOccupancy, paintGround, buildGrassMask, makeGround, makeGrassField } from './Terrain.js';
 import { StaticBatcher } from './Batching.js';
 import { Collision } from './Collision.js';
+import { waterSurfaceFor, waterAllowsStanding } from './water-navigation.js';
 import { PropLibrary } from './props.js';
 import { Vegetation } from './Vegetation.js';
 import { buildWater } from './Water.js';
@@ -91,7 +92,7 @@ class WorldContext {
 
 const frame = () => new Promise(resolve => setTimeout(resolve, 0));
 // How far below the water's surface the ground may be and still be walked on (a wade, knee-deep).
-export const WADE = .22;
+export { WADE } from './water-navigation.js';
 
 // Free everything a built map put on the GPU. Shared module materials and
 // textures are only released (three re-uploads them if another map uses them).
@@ -176,6 +177,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
   const atmosphere = new Atmosphere(scene, ctx), boats = has('boats') ? new Boats(scene, ctx) : null, animals = has('animals') ? new Animals(scene, ctx) : null;
   lap('entities');
   const { collision } = ctx;
+  const waterSurface = waterSurfaceFor(map.view);
 
   const world = {
     map, root, ground, terrain, water, grass, atmosphere, boats, animals, collision, mask,
@@ -191,9 +193,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
       if (!walkable(map, x, z)) return false;
       if (collision.blocked(x, z, pad)) return false;
       if (collision.deckHeight(x, z) !== null) return true;
-      if (terrain.isDeep(x, z)) return false;
-      const surface = z < -600 ? MARSH_WATER_Y : WATER_Y;
-      return terrain.height(x, z) >= surface - WADE;
+      return waterAllowsStanding(terrain, waterSurface, x, z);
     },
     speedAt(x, z) { return terrain.isShallow(x, z) && collision.deckHeight(x, z) === null ? .62 : 1; },
     update(t, dt, focus, env) {

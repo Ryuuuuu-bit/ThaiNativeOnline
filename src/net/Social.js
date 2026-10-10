@@ -333,8 +333,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
   soc.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter' && e.target.matches('[data-fname]')) soc.querySelector('[data-fname-go]')?.click(); });   // typing does not walk the player
   window.addEventListener('keydown', e => {
     if (e.code !== 'KeyP' || e.repeat || ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
-    if (soc.hidden && party) tab = 'party';
-    toggleSoc();
+    toggleSoc(soc.hidden || tab !== 'party', 'party');
   });
 
   // ---- the trade window ----
@@ -394,6 +393,9 @@ export function attachSocial(net, c, chat, remote, game = null) {
   });
   win.addEventListener('keydown', e => { if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) e.stopPropagation(); });   // typing gold does not walk the player; a clicked button still lets W A S D through
   return {
+    get root() { return soc; }, get tradeRoot() { return win; },
+    close() { toggleSoc(false); },
+    cancelTrade() { if (trade) net.send({ t: 'tcancel' }); },
     get party() { return party; }, get trade() { return trade; },
     // the main menu's สังคม tile (src/ui/MainMenu.js): open on a tab, or close
     toggle(to = null) { toggleSoc(soc.hidden || (!!to && to !== tab), to); },

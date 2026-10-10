@@ -1,0 +1,25 @@
+{
+  "regular": {
+    "buttons": 0,
+    "commands": 0
+  },
+  "typingDistance": 0,
+  "submitted": "สวัสดีจาก QA",
+  "scrollBefore": {
+    "top": 461.1111145019531,
+    "zoom": 2,
+    "yaw": 0.5984188934785372
+  },
+  "scrollAfter": {
+    "top": 0,
+    "zoom": 2,
+    "yaw": 0.5984188934785372
+  },
+  "yawAfter": 0.5984188934785372,
+  "revoked": {
+    "buttons": 0,
+    "commands": 0
+  },
+  "errors": [],
+  "limitations": "Actual local Game with isolated guest state, blocked WebSocket/API writes and explicit private catalog fixture. Server authorization tested separately. Keyboard uses fixed simulation steps; not device FPS."
+}

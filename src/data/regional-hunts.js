@@ -1,4 +1,5 @@
 // Curated existing areas plus clear approaches; generated once, not at runtime.
+import { MONSTERS } from '../combat/data/monsters.js';
 export const REGIONAL_HUNTS = [
   {
     "id": "orchard_boars",
@@ -1025,4 +1026,8 @@ export const REGIONAL_HUNTS = [
   }
 ];
 
-for(const c of REGIONAL_HUNTS)if(!c.roster.some(r=>!r.active||r.active.includes('night'))){c.roster.push({type:c.map==='paddy'?'crab':'phibpa',count:1,active:['morning','day','evening','night']});c.levels[1]=Math.max(c.levels[1],c.map==='paddy'?2:3);}
+for(const c of REGIONAL_HUNTS) {
+  if(!c.roster.some(r=>!r.active||r.active.includes('night'))) c.roster.push({type:c.map==='paddy'?'crab':'phibpa',count:1,active:['morning','day','evening','night']});
+  const levels = c.roster.map(r => MONSTERS[r.type].level);
+  c.levels = [Math.min(...levels), Math.max(...levels)];
+}

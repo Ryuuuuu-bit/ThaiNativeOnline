@@ -15,8 +15,10 @@ body #menu-grid .mm-group summary:focus-visible,
 body #menu-grid button:focus-visible { outline: 2px solid var(--t-gold-hi, #f6e2ae); outline-offset: 2px; }
 body #menu-grid .mm-group-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0 10px 10px; }
 body #menu-grid .mm-group-tiles > button { min-width: 0; min-height: 76px; height: auto; padding: 10px 4px; font-size: 12px; }
+body #menu-grid .mm-group-tiles > button {overflow-wrap:anywhere;line-height:1.45}
 body #menu-grid .touch-utilities { flex: none; width: 100%; box-sizing: border-box; }
 body #menu-grid .touch-utilities button { height: auto; }
+.g-sk-path .g-future-class {font-size:11px;color:var(--t-mute,#b5b9a8);font-weight:400;margin-left:8px}
 @media (min-width:901px) and (min-height:521px) {
   body:not(.ui-touch) #menu-grid.mm-grouped {display:grid;grid-template-columns:1fr 1fr;align-items:start;width:min(440px,calc(100vw - 32px));gap:10px;padding:12px;background:#112b24f5;border:1px solid #a28e5c88;box-shadow:0 12px 36px #0008}
   body:not(.ui-touch) #menu-grid .mm-group-tiles {grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:0 8px 8px}

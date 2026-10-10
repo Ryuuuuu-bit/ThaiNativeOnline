@@ -256,6 +256,19 @@ bonus, growing by one percentage point per skill scaling step. Berserk drops its
 unused movement-speed field and retains its working attack-speed bonus. This avoids
 adding a separate network movement/security change to the skill revision.
 
+## Ordinary-monster progression decision
+
+The playable combat roster in `src/combat/data/monsters.js` now spaces ordinary
+Lv.1–20 hunting across paddy 1–4, forest 5–9, ruined-temple 10–14 and marsh
+15–20. The user requested clearer progression because the former biome bands
+repeated low levels. Existing boar/fowl Lv.1 and intro class-quest targets at
+Lv.5 remain accessible; transitional lower-level wildlife is intentional.
+Changed ordinary HP/ATK/DEF and gold scale by `(newLevel + 4) / (oldLevel + 4)`
+to preserve species identity, while EXP uses the existing playable
+`MONSTER_EXP_RATE`. Bosses, elites, above-20 ordinary monsters, species IDs,
+loot tables and the player EXP curve are unchanged. This does not alter the
+separate legacy rules roster or introduce a new progression formula.
+
 ## Tests
 
 `tests/rules/*.test.js` (`node --test`): ports of the original `combat`, `economy` and `skill-effects` tests (pure parts; positions replaced by `nearNpc`), plus tests for `effects.js` and `exp.js`.

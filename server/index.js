@@ -74,7 +74,9 @@ import { Parties, PARTY } from './parties.js';
 import { createPartyBoardHandlers } from './party-board.js';
 import { Trades, TRADE } from './trades.js';
 import { commitTrade } from './trade-service.js';
-import { gm, adminIds } from './gm.js';
+import { gm, GM_PREFIX, GM_COMMANDS } from './gm.js';
+import { openAdminRoles } from './adminRoles.js';
+import { authenticatedAdmin } from './gm-authority.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
 import { ALLY_FOCUS } from '../src/training/kitCombat.js';
@@ -95,6 +97,9 @@ const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '
   '.glb': 'model/gltf-binary', '.gltf': 'model/gltf+json', '.bin': 'application/octet-stream', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.woff2': 'font/woff2', '.ico': 'image/x-icon', '.txt': 'text/plain' };
 
 const store = await openStore(process.env.DATABASE_URL);
+const adminRoles = await openAdminRoles(store, { adminIds: process.env.ADMIN_IDS, gmId: process.env.GM_ID });
+const gmTokens = new WeakMap();
+const gmRoleEpoch = new Map();
 const accounts = new Accounts(store, { googleClientId: process.env.GOOGLE_CLIENT_ID || null });
 const stash = new StashService(accounts);
 // GM account: GM_ID + GM_PASSWORD is made here when missing (the memory store forgets accounts on restart)
@@ -136,7 +141,12 @@ async function api(req, res, url) {
     const id = await accounts.auth(token);
     if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
     if (!id) return json(res, 401, { ok: false, code: 'auth', msg: 'กรุณาเข้าสู่ระบบใหม่' });
-    if (req.method === 'POST' && url.pathname === '/api/logout') { await accounts.logout(token); return json(res, 200, { ok: true }); }
+    if (req.method === 'POST' && url.pathname === '/api/logout') { await accounts.logout(token);
+      for (const [ws, p] of presence.players) if (gmTokens.get(ws) === token) {
+        gmTokens.delete(ws); p.admin = false; const state = combatants.get(p.id); if (state) state.god = false;
+        send(ws, { t: 'gmAccess', admin: false });
+      }
+      return json(res, 200, { ok: true }); }
     if (req.method === 'POST' && url.pathname === '/api/google/link') { const r = await accounts.linkGoogle(id, (await readBody(req)).credential); return json(res, r.ok ? 200 : 400, r); }
     if (req.method === 'GET' && url.pathname === '/api/me') return json(res, 200, { ok: true, id, google: await store.googleOf(id) });
     if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, slots: await accounts.slots(id) });
@@ -212,7 +222,7 @@ const moveTo = (ws, ch, why) => {
   const r = presence.setChannel(ws, ch); if (!r) return;
   toMap(r.left, { t: 'leave', id: r.id }, ws);
   send(ws, { t: 'chmove', ch: r.ch, why });
-  send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
+  sendWelcome(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
   toMap(r.room, { t: 'join', p: r.joined }, ws);
 };
 const toAll = msg => { const s = JSON.stringify(msg); for (const [ws] of conns) if (presence.players.has(ws) && ws.readyState === 1) ws.send(s); };
@@ -260,7 +270,7 @@ async function handle(ws, raw) {
         const r = presence.join(ws, m, pickCh(m.map), {guest:!saved});
         if (!r) return;
         if (r.full) { send(ws, { t: 'full' }); ws.close(); return; }
-        if (id) Object.assign(presence.players.get(ws), { account: id, admin: ADMINS.has(String(id).toLowerCase()) });
+        if (id) Object.assign(presence.players.get(ws), { account: id, admin: false });
         if (saved) {
           // one tab per character: an older socket on the same slot is closed (its copy is saved first)
           // one tab per character: the older socket on the same slot is dropped from play at once
@@ -275,9 +285,11 @@ async function handle(ws, raw) {
           if (stopping || !presence.players.has(ws)) return;   // we were the one kicked meanwhile
           combatants.load(r.you, fresh, { account: id, slot: m.slot, inventoryRevision: accounts.inventoryRevision(id, m.slot) }, quests);
           presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
+          gmTokens.set(ws, m.token);
+          await authorizeGm(presence.players.get(ws));
           send(ws, { t: 'sync', c: combatants.me(r.you) });
         }
-        send(ws, { t: 'welcome', you: r.you, name:r.joined.name, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
+        sendWelcome(ws, { t: 'welcome', you: r.you, name:r.joined.name, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
         toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
         correct(ws); pvpState(r.you);
         // saved inside a night-only map (เรือนหอร้าง) and back by day: out through its door
@@ -315,14 +327,14 @@ async function handle(ws, raw) {
       case 'treq': case 'tans': case 'toffer': case 'tlock': case 'tconf': case 'tcancel': tradeMsg(ws, m); break;
       case 'map': {
         const p = presence.players.get(ws);
-        if (p?.map === m.map) { send(ws,{t:'welcome',you:p.id,roster:presence.inMap(p.room).filter(o=>o!==p).map(o=>presence.info(o)),online:presence.count,ch:p.ch,chs:chs(p.map)});arrive(ws,p.room);return; }
+        if (p?.map === m.map) { sendWelcome(ws,{t:'welcome',you:p.id,roster:presence.inMap(p.room).filter(o=>o!==p).map(o=>presence.info(o)),online:presence.count,ch:p.ch,chs:chs(p.map)});arrive(ws,p.room);return; }
         if (p && pvp.view(p.id).wait > 0) { correct(ws); return; }
         if (MAP_DATA[m.map]?.nightOnly && clock.phase !== 'night') { send(ws, { t: 'wbnews', state: 'closed' }); correct(ws); return; }   // เรือนหอร้าง opens only at night
         endTrade(presence.players.get(ws)?.id, 'moved');
         const r = presence.changeMap(ws, m, pickCh(m.map)); if (!r) { correct(ws); return; }
         resetPvp(r.id);
         toMap(r.left, { t: 'leave', id: r.id }, ws);
-        send(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map), ...(presence.players.get(ws)?.admin ? { admin: true } : {}) }); arrive(ws, r.room);
+        sendWelcome(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
         toMap(r.room, { t: 'join', p: r.joined }, ws);
         break;
       }
@@ -345,7 +357,11 @@ async function handle(ws, raw) {
       }
       case 'c': {
         const p = presence.players.get(ws); if (!p) return;
-        if (/^\/gm(\s|$)/i.test(String(m.text ?? ''))) { send(ws, { t: 'c', id: null, name: '🛠️ GM', text: p.admin ? gm(gmCtx, p, m.text) : 'คำสั่งนี้สำหรับ GM เท่านั้น' }); break; }
+        if (GM_PREFIX.test(String(m.text ?? ''))) {
+          let text = 'ระบบสิทธิ์ไม่พร้อม กรุณาลองใหม่';
+          try { text = await gm(gmCtx, p, m.text); } catch (e) { console.error('[gm] command failed', e.message); }
+          send(ws, { t: 'c', id: null, name: '🛠️ GM', kind: 'gm', text }); break;
+        }
         if (muted(p)) { send(ws, { t: 'c', id: null, name: 'ระบบ', text: 'คุณถูกห้ามแชทชั่วคราว' }); break; }
         const r = presence.chat(ws, m.text); if (r) toAll(r); break;
       }
@@ -473,7 +489,7 @@ function teleport(ws, p, destination, ch, position = {}) {
     budget: 0, budgetAt: now, t: now });
   const r = presence.enter(p, ch);
   toMap(left, { t: 'leave', id: p.id }, ws);
-  send(ws, { t: 'welcome', you: p.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(p.map), ...(p.admin ? { admin: true } : {}) });
+  sendWelcome(ws, { t: 'welcome', you: p.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(p.map) });
   toMap(r.room, { t: 'join', p: r.joined }, ws); correct(ws, position); arrive(ws, r.room);
   if (state?.persist) { state.dirty = true; flush(p.id); }
 }
@@ -705,11 +721,55 @@ function socialMsg(ws, m) {
 }
 
 // ---- GM commands (server/gm.js): accounts in ADMIN_IDS ---------------------------------------
-const ADMINS = adminIds(), mutes = new Map();   // ADMIN_IDS + GM_ID · account (or session) → muted until (ms)
+const mutes = new Map();   // ADMIN_IDS + GM_ID · account (or session) → muted until (ms)
 const muted = p => (mutes.get(p.account ?? `s${p.id}`) ?? 0) > Date.now();
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
+const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
+
+async function sendWelcome(ws, message) {
+  const p = presence.players.get(ws), room = p?.room;
+  await authorizeGm(p);
+  if (p && presence.players.get(ws) === p && p.room === room) {
+    const { admin, gmCommands, ...safe } = message;
+    send(ws, { ...safe, ...gmMetadata(p) });
+  }
+}
+function gmMetadata(p) {
+  const allowed = !!p?.admin && combatants.get(p.id)?.persist?.account === p.account;
+  return allowed ? { admin: true, gmCommands: GM_COMMANDS } : { admin: false };
+}
+async function authorizeGm(p) {
+  const live = p && byId(p.id);
+  if (!live || live.p !== p) return false;
+  const token = gmTokens.get(live.ws), epoch = gmRoleEpoch.get(p.account) ?? 0;
+  const current = () => presence.players.get(live.ws) === p && gmTokens.get(live.ws) === token && (gmRoleEpoch.get(p.account) ?? 0) === epoch;
+  const allowed = await authenticatedAdmin({ auth: t => accounts.auth(t), effective: id => adminRoles.effective(id), token, account: p.account, persistAccount: combatants.get(p.id)?.persist?.account, stillCurrent: current });
+  if (!current()) return false;
+  if (p.admin !== allowed) {
+    p.admin = allowed;
+    if (!allowed) { const state = combatants.get(p.id); if (state) state.god = false; }
+    send(live.ws, { t: 'gmAccess', ...gmMetadata(p) });
+  }
+  return allowed;
+}
+async function adminCommand(p, args) {
+  const action = String(args[0] ?? '').toLowerCase();
+  if (action === 'list') {
+    const { ids, protectedIds } = await adminRoles.list();
+    console.log(`[gm] ${p.account}: admin list`);
+    return `บัญชีแอดมิน: ${ids.map(id => `${id}${protectedIds.includes(id) ? ' (ระบบ)' : ''}`).join(' · ') || '-'}`;
+  }
+  if (!['add', 'remove'].includes(action) || !args[1] || args.length !== 2) return 'ใช้ /gm admin add|remove <accountId> หรือ /gm admin list';
+  const result = await adminRoles[action](args[1], p.account);
+  if (!result.ok) return `จัดการสิทธิ์ไม่สำเร็จ: ${result.why}`;
+  if (result.changed) {
+    gmRoleEpoch.set(result.id, (gmRoleEpoch.get(result.id) ?? 0) + 1);
+    for (const who of presence.players.values()) if (who.account === result.id) await authorizeGm(who);
+  }
+  console.log(`[gm] ${p.account}: admin ${action} ${result.id} changed=${result.changed}`);
+  return `${action === 'add' ? 'ให้' : 'ถอน'}สิทธิ์แอดมิน ${result.id}${result.changed ? ' แล้ว' : ' (ไม่มีการเปลี่ยนแปลง)'}`;
+}
 
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
 const clock = new WorldClock({ hour: 7.5 });   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
@@ -798,7 +858,7 @@ function leaveNightMap(ws, p) {
   Object.assign(p, { map: dest, x: door.arrive.x, z: door.arrive.z, f: door.arrive.facing ?? p.f, m: 0, dirty: true, slack: 0, budget: 0 });
   const r = presence.enter(p, pickCh(dest));
   toMap(left, { t: 'leave', id: p.id }, ws);
-  send(ws, { t: 'welcome', you: p.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(dest) });
+  sendWelcome(ws, { t: 'welcome', you: p.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(dest) });
   toMap(r.room, { t: 'join', p: r.joined }, ws); correct(ws); arrive(ws, r.room);
 }
 

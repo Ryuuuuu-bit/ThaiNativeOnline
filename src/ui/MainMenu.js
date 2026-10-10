@@ -10,10 +10,10 @@ import './menu-groups.css';
 
 const $ = id => document.getElementById(id);
 const GROUPS = [
-  ['character', 'ตัวละคร', ['sheet', 'skills', 'bag', 'loadouts']],
-  ['adventure', 'ผจญภัย', ['map', 'bestiary', 'auto']],
-  ['social', 'สังคม', ['social']],
-  ['settings', 'ตั้งค่า', ['photo', 'settings']],
+  ['character', 'ตัวละคร', ['sheet', 'skills', 'bag', 'loadouts', 'titles']],
+  ['adventure', 'ผจญภัย', ['quests', 'map', 'bestiary', 'shops', 'teachers', 'travel']],
+  ['social', 'สังคม', ['social', 'recruit', 'friends', 'rank']],
+  ['settings', 'ระบบ', ['auto', 'photo', 'settings']],
 ];
 
 export class MainMenu {
@@ -49,6 +49,7 @@ export class MainMenu {
     this.grid.hidden = !on;
     this.btn.setAttribute('aria-expanded', String(on));
     this.btn.classList.toggle('on', on);
+    if (on) this.grid.querySelector('[data-act]')?.focus({ preventScroll: true });
   }
   setAlert(on) {
     if (on === this.alert) return;
