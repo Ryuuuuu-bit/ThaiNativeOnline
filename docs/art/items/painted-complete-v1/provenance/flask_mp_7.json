@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "flask_mp_7",
+  "family": "flask:flask_mp_7",
+  "memberIDs": [
+    "flask_mp_7"
+  ],
+  "name": "ขวดน้ำมนต์ฟื้นจิต ขั้น 7",
+  "type": "flask",
+  "levels": [
+    60
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-a895d648-d0e6-4efa-abb6-7a7adf4534a5.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Reusable MP flask tier 7, minimum Lv.60; blue fluid and slender silhouette; ordinary city-shop bottle; tier-specific construction and ornament; tier 1 plain glass/brass, progressively stronger fittings at higher tiers; no numbers, UI bars or text.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.",
+  "master": "docs/art/items/painted-complete-v1/masters/flask_mp_7.png",
+  "masterSha256": "d4d67035d913f13fc89081578082a1bd61e468c69f1652eceb53f7771d187fdd",
+  "originalSha256": "d4d67035d913f13fc89081578082a1bd61e468c69f1652eceb53f7771d187fdd",
+  "output": "public/ui/items/painted-complete-v1/flask_mp_7.webp",
+  "sha256": "9bb45914b71073b6c3ea916d057aaf874f062f3a70da51ce877d15ad4311153e",
+  "bytes": 16748,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

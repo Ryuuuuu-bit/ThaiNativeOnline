@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "fallen_city_book",
+  "family": "equip:fallen_city_book",
+  "memberIDs": [
+    "fallen_city_book"
+  ],
+  "name": "ตำรา · นครอาคมล่มสลาย",
+  "type": "equip",
+  "levels": [
+    80
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-3e35ad96-fb56-4f3f-92ea-79c1e88998e6.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Thai herbal/occult manuscript; visible spine and pages. Existing name: ตำรา · นครอาคมล่มสลาย. ศาสตรา นครอาคมล่มสลาย · ต้องการ Lv.80  Minimum level 80; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/fallen_city_book.png",
+  "masterSha256": "6d7bbdcd1fd9f8c21721293ffa3eb52016c738536b696c01cd31bad3aaff9b2c",
+  "originalSha256": "6d7bbdcd1fd9f8c21721293ffa3eb52016c738536b696c01cd31bad3aaff9b2c",
+  "output": "public/ui/items/painted-complete-v1/fallen_city_book.webp",
+  "sha256": "8045935616bb79714537282f5a706763a9994826abe151b121c78a34f6c91dcf",
+  "bytes": 26916,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "bog_yant",
+  "family": "equip:bog_yant",
+  "memberIDs": [
+    "bog_yant"
+  ],
+  "name": "ผ้ายันต์โกงกาง",
+  "type": "equip",
+  "levels": [
+    15
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-693a524e-b351-41a7-afad-31812cbc908a.png",
+  "prompt": "One isolated Thai fantasy inventory equipment icon: Folded or hanging Thai yantra cloth; not a staff or book. Existing name: ผ้ายันต์โกงกาง. ยันต์ย้อมน้ำครำโกงกาง ผีน้ำเกรงกลัว  Minimum level 15; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Hanging broad woven cloth yantra talisman dyed murky mangrove olive-green and deep teal, soft folded upper edge, inked pale cream sacred geometric water circles and mangrove-root branching motif centered on fabric, two simple dark red cord ties. Level15 marsh ward textile, no readable writing or alphabet, no staff or book, no jeweled armor. Sparse Thai sacred geometry with clear broad cloth silhouette. Soft hand-painted stylized forms legible32px. Entire object square centered with generous15% transparent safe margins. True alpha background. No labels, digits, UI border, badges, floor shadow or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/bog_yant.png",
+  "masterSha256": "ed0d220f3d7081cb4d9d06cf2d351c51a192756cfcb989f440832739cce77adf",
+  "originalSha256": "ed0d220f3d7081cb4d9d06cf2d351c51a192756cfcb989f440832739cce77adf",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/bog_yant.webp",
+  "sha256": "d9dbc0be27f13ade33c1fdebbfa257797fdfc445c65ca640c0d8e8b888574fa8",
+  "bytes": 26310,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

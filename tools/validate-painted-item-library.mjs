@@ -9,6 +9,12 @@ const value = key => { const index = args.indexOf(key); return index < 0 ? null 
 const sharpModule = value('--sharp');
 if (!sharpModule) throw Error('Supply the offline Sharp module with --sharp MODULE_PATH');
 const sharp = createRequire(import.meta.url)(sharpModule);
+const alphaRange = async file => {
+  const alpha = await sharp(file).ensureAlpha().extractChannel('alpha').raw().toBuffer();
+  let min = 255, max = 0;
+  for (const value of alpha) { if (value < min) min = value; if (value > max) max = value; }
+  return { min, max };
+};
 const base = 'docs/art/items/painted-complete-v1';
 const backlog = JSON.parse(readFileSync(`${base}/backlog.json`));
 const hash = file => createHash('sha256').update(readFileSync(file)).digest('hex');
@@ -31,8 +37,9 @@ for (const group of backlog.groups) {
     if (distinctNewHashes.has(receipt.masterSha256)) throw Error(`Duplicated generated original: ${group.representativeID}`);
     distinctNewHashes.add(receipt.masterSha256);
     const masterMeta = await sharp(receipt.master).metadata();
-    const masterAlpha = (await sharp(receipt.master).ensureAlpha().extractChannel('alpha').stats()).channels[0];
-    if (!masterMeta.hasAlpha || masterAlpha.min !== 0 || masterAlpha.max !== 255) throw Error(`Original transparency invalid: ${file}`);
+    const masterAlpha = await alphaRange(receipt.master);
+    if (!masterMeta.hasAlpha || masterAlpha.min !== 0 || masterAlpha.max < 250) throw Error(`Original transparency invalid: ${file}`);
+    if (receipt.masterAlphaMin !== undefined && (receipt.masterAlphaMin !== masterAlpha.min || receipt.masterAlphaMax !== masterAlpha.max)) throw Error(`Original alpha receipt mismatch: ${file}`);
     const bytes = readFileSync(receipt.output).length;
     if (bytes !== receipt.bytes || bytes > 100_000) throw Error(`Icon exceeds transfer budget or receipt is stale: ${file}`);
     if (receipt.width !== 256 || receipt.height !== 256 || !receipt.hasAlpha || receipt.alphaMin !== 0 || receipt.alphaMax !== 255) throw Error(`Invalid export receipt: ${file}`);
@@ -43,7 +50,7 @@ for (const group of backlog.groups) {
   } else throw Error(`Unknown backlog status: ${group.status}`);
   const publicPath = `public/${image}`;
   const meta = await sharp(publicPath).metadata();
-  const alpha = (await sharp(publicPath).ensureAlpha().extractChannel('alpha').stats()).channels[0];
+  const alpha = await alphaRange(publicPath);
   if (meta.format !== 'webp' || meta.width !== 256 || meta.height !== 256 || !meta.hasAlpha || alpha.min !== 0 || alpha.max !== 255) throw Error(`Production graphics invalid: ${publicPath}`);
   if (runtime) for (const id of group.memberIDs) {
     if (ITEMS[id].img !== image || ITEMS[id].imageArt !== 'painted') throw Error(`Runtime art mapping mismatch: ${id}`);

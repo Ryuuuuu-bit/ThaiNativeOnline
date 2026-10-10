@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "fallen_city_bow",
+  "family": "equip:fallen_city_bow",
+  "memberIDs": [
+    "fallen_city_bow"
+  ],
+  "name": "ธนู · นครอาคมล่มสลาย",
+  "type": "equip",
+  "levels": [
+    80
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-65f12639-dab0-42de-93c2-1ea4bf8e2f7d.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: One Thai hunting bow; broad readable arc and string. Existing name: ธนู · นครอาคมล่มสลาย. ศาสตรา นครอาคมล่มสลาย · ต้องการ Lv.80  Minimum level 80; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/fallen_city_bow.png",
+  "masterSha256": "04726c9fee197c51b342a8438a4bfb66b864ef82b877a45de41196d48f157be9",
+  "originalSha256": "04726c9fee197c51b342a8438a4bfb66b864ef82b877a45de41196d48f157be9",
+  "output": "public/ui/items/painted-complete-v1/fallen_city_bow.webp",
+  "sha256": "fb85ee89204352f7eb6de0e7cf646280c20ba6c9e573215d519181ebb6a31b24",
+  "bytes": 15742,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

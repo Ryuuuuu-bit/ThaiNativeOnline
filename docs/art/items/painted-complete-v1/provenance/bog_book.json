@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "bog_book",
+  "family": "equip:bog_book",
+  "memberIDs": [
+    "bog_book"
+  ],
+  "name": "ตำรายาชาวบึง",
+  "type": "equip",
+  "levels": [
+    15
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-984a36b1-d854-4bce-ab6b-cf2fe268a6cc.png",
+  "prompt": "One isolated Thai fantasy inventory equipment icon: Marsh herbal medicine manuscript with crocodile-scale cover and readable pages; sparse aquatic plant accent. Thick marsh herbal medicine manuscript at three-quarter view, clearly layered cream paper pages and stitched brown spine, olive green crocodile-scaled leather cover with large readable scute pattern, restrained brass corner tabs with tiny Thai water-wave flourish, simple blue-green woven tie and one embossed reed leaf emblem no writing. Level15 practical marsh book, not weapon or staff, not ornate royal jewel tome. Soft hand-painted stylized broad forms readable32px. Entire book centered square with generous15% safe transparent margins. True alpha background. No letters, labels, numbers, UI frames, badges, floor shadow or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/bog_book.png",
+  "masterSha256": "759941fdf19477c1c639e3c61fabd92f8f9d6873b297ebc158657031f6e823e3",
+  "originalSha256": "759941fdf19477c1c639e3c61fabd92f8f9d6873b297ebc158657031f6e823e3",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/bog_book.webp",
+  "sha256": "6811b64e084b211e0a8668c35c3d2c064f431ef38e067b209d8019df5cf9d112",
+  "bytes": 26628,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

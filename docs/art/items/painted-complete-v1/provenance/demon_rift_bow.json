@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "jobID": "demon_rift_bow",
+  "family": "equip:demon_rift_bow",
+  "memberIDs": [
+    "demon_rift_bow"
+  ],
+  "name": "ธนู · ประตูรอยแยกอสูร",
+  "type": "equip",
+  "levels": [
+    90
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-0e4f002d-aa1a-4d1b-8aee-955694f60ead.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: One Thai hunting bow; broad readable arc and string. Existing name: ธนู · ประตูรอยแยกอสูร. ศาสตรา ประตูรอยแยกอสูร · ต้องการ Lv.90  Minimum level 90; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/demon_rift_bow.png",
+  "masterSha256": "7b6e20a852f28adb31775716fb86f20247212c95044ae9112d90982b8a8d2ba4",
+  "originalSha256": "7b6e20a852f28adb31775716fb86f20247212c95044ae9112d90982b8a8d2ba4",
+  "output": "public/ui/items/painted-complete-v1/demon_rift_bow.webp",
+  "sha256": "57ca6258a644134b5f4a9cd4a24796ff88ba42b5f7af958da55dbb316485f0e9",
+  "bytes": 15402,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
