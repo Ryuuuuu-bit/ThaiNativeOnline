@@ -241,7 +241,7 @@ function buy(c, { shop, id, qty = 1 }, ctx) {
   if (c.gold < cost) return NO('เงินไม่พอ');
   c.gold -= cost;
   addItem(c, id, qty);
-  return OK(`ซื้อ ${it.nameTh}${qty > 1 ? ` x${qty}` : ''} (-฿${cost.toLocaleString()})`);
+  return OK(`ซื้อ ${it.nameTh}${qty > 1 ? ` x${qty}` : ''} (-ตำลึง ${cost.toLocaleString()})`);
 }
 // Port (src/rules): proximity is injected, never computed from positions here.
 //  ▸ ctx.nearNpc(target) → boolean. target = an NPC id from NPCS ('shop', 'smith', 'quest', …) or a spot:
@@ -271,11 +271,11 @@ function buyback(c, { idx }, ctx) {
   const i = int(idx, 0, BUYBACK_MAX - 1, 0), e = c.buyback?.[i];
   if (!e || !ITEMS[e.id]) return NO('ไม่มีรายการนี้');
   const cost = e.price * e.qty;
-  if (c.gold < cost) return NO(`เงินไม่พอ (ต้องใช้ ฿${cost.toLocaleString()})`);
+  if (c.gold < cost) return NO(`เงินไม่พอ (ต้องใช้ ตำลึง ${cost.toLocaleString()})`);
   c.gold -= cost;
   addItem(c, e.id, e.qty);
   c.buyback.splice(i, 1);
-  return OK(`ซื้อคืน ${ITEMS[e.id].nameTh}${e.qty > 1 ? ` x${e.qty}` : ''} (-฿${cost.toLocaleString()})`);
+  return OK(`ซื้อคืน ${ITEMS[e.id].nameTh}${e.qty > 1 ? ` x${e.qty}` : ''} (-ตำลึง ${cost.toLocaleString()})`);
 }
 function sell(c, { id, qty = 1 }, ctx) {
   const it = ITEMS[id];
@@ -289,7 +289,7 @@ function sell(c, { id, qty = 1 }, ctx) {
   const gain = sellPrice(id) * qty;
   c.gold += gain;
   pushBuyback(c, id, qty);
-  return OK(`ขาย ${it.nameTh}${qty > 1 ? ` x${qty}` : ''} (+฿${gain.toLocaleString()})`);
+  return OK(`ขาย ${it.nameTh}${qty > 1 ? ` x${qty}` : ''} (+ตำลึง ${gain.toLocaleString()})`);
 }
 function sellMany(c, { kind }, ctx) {
   if (!atAnyShop(ctx)) return NO('ต้องขายที่ร้านในหมู่บ้าน');
@@ -299,7 +299,7 @@ function sellMany(c, { kind }, ctx) {
     gold += sellPrice(s.id) * s.qty; n += s.qty; pushBuyback(c, s.id, s.qty);
   }
   c.gold += gold;
-  return n ? OK(`ขาย ${n} ชิ้น (+฿${gold.toLocaleString()})`, { gold }) : NO('ไม่มีของให้ขาย');
+  return n ? OK(`ขาย ${n} ชิ้น (+ตำลึง ${gold.toLocaleString()})`, { gold }) : NO('ไม่มีของให้ขาย');
 }
 /** ขายหลายอย่างในครั้งเดียว (ตะกร้าขาย) · items = [[id, qty], ...] */
 function sellCart(c, { items }, ctx) {
@@ -315,7 +315,7 @@ function sellCart(c, { items }, ctx) {
     gold += sellPrice(id) * q; n += q; kinds++; pushBuyback(c, id, q);
   }
   c.gold += gold;
-  return n ? OK(`ขาย ${kinds} ชนิด ${n.toLocaleString()} ชิ้น (+฿${gold.toLocaleString()})`, { gold }) : NO('ไม่มีของให้ขาย');
+  return n ? OK(`ขาย ${kinds} ชนิด ${n.toLocaleString()} ชิ้น (+ตำลึง ${gold.toLocaleString()})`, { gold }) : NO('ไม่มีของให้ขาย');
 }
 function lock(c, { id }) {
   if (!ITEMS[id]) return NO('');
@@ -406,7 +406,7 @@ function demandSell(c, { npc, n = 1 }, ctx) {
   c.gold += gold; c.demand.n[d.npc] = sold + q;
   if (coins) addItem(c, COIN, coins);
   rec(c, 'demand', q);
-  return OK(`${d.who}รับซื้อ ${ITEMS[d.item].nameTh} x${q} (+฿${gold.toLocaleString()})${coins ? ` · ได้เบี้ยสำเภา ${coins}` : ''}`, { gold, coins });
+  return OK(`${d.who}รับซื้อ ${ITEMS[d.item].nameTh} x${q} (+ตำลึง ${gold.toLocaleString()})${coins ? ` · ได้เบี้ยสำเภา ${coins}` : ''}`, { gold, coins });
 }
 
 // ------------------------------------------------------------
@@ -494,11 +494,11 @@ function passiveReset(c) {
   if (!PASSIVES_ON) return NO('ต้นไม้พรสวรรค์ปิดใช้งานชั่วคราว');
   if ((c.passives?.length || 1) <= 1) return NO('ยังไม่ได้ลงแต้มพรสวรรค์');
   const cost = passiveResetCost(c);
-  if (c.gold < cost) return NO(`ต้องใช้เงิน ฿${cost}`);
+  if (c.gold < cost) return NO(`ต้องใช้เงิน ตำลึง ${cost}`);
   c.gold -= cost;
   const refund = resetPassives(c);
   clampHp(c);
-  return OK(`ล้างต้นไม้พรสวรรค์แล้ว${cost ? ` (฿${cost})` : ''}${refund ? ` · คืน SP ${refund}` : ''}`, { jobChanged: true });
+  return OK(`ล้างต้นไม้พรสวรรค์แล้ว${cost ? ` (ตำลึง ${cost})` : ''}${refund ? ` · คืน SP ${refund}` : ''}`, { jobChanged: true });
 }
 function bounty(c, { i }, ctx) {
   if (!near(ctx, 'camp')) return NO('ต้องกลับไปหาพรานบุญที่ค่าย (แมพ 1)');
@@ -507,7 +507,7 @@ function bounty(c, { i }, ctx) {
   b.claimed = true;
   c.gold += b.gold;
   const ups = gainExp(c, b.exp);
-  return OK(`ได้รับค่าหัว ${MONSTERS[b.mon].nameTh}: ${b.exp} EXP · ฿${b.gold}`, { exp: b.exp, ups });
+  return OK(`ได้รับค่าหัว ${MONSTERS[b.mon].nameTh}: ${b.exp} EXP · ตำลึง ${b.gold}`, { exp: b.exp, ups });
 }
 
 // ------------------------------------------------------------
@@ -584,7 +584,7 @@ function hotbar(c, { key, id }) {
 //  ยันต์คืนถิ่น (ไป-กลับ) · ย้อมสี · ฉายา · GM
 // ------------------------------------------------------------
 function recall(c, { to }) {
-  if (!count(c, 'yant_home')) return NO('ไม่มียันต์คืนถิ่น (ซื้อได้ที่ร้านยายติ๋ม ฿40)');
+  if (!count(c, 'yant_home')) return NO('ไม่มียันต์คืนถิ่น (ซื้อได้ที่ร้านยายติ๋ม ตำลึง 40)');
   if (to === 'hunt') {
     const m = MAPS[c.lastHunt];
     if (!m || !m.mon && !m.boss) return NO('ยังไม่มีจุดล่าล่าสุด');
@@ -607,7 +607,7 @@ function dye(c, { part, v }, ctx) {
   c.gold -= DYE_PRICE;
   c.appearance = { ...c.appearance, [part]: v };
   syncAppearance(c);
-  return OK(`ย้อม${part === 'hair' ? 'ผม' : 'ชุด'}ใหม่แล้ว! (-฿${DYE_PRICE})`, { jobChanged: true });
+  return OK(`ย้อม${part === 'hair' ? 'ผม' : 'ชุด'}ใหม่แล้ว! (-ตำลึง ${DYE_PRICE})`, { jobChanged: true });
 }
 function title(c, { id }) {
   if (id && !(c.titles || []).includes(id)) return NO('ยังไม่ได้ปลดล็อกฉายานี้');
@@ -624,7 +624,7 @@ function gm(c, { cmd = 'help', a1, a2, rest = '' }, ctx) {
   if (!ctx.admin) return NO('คำสั่งนี้ใช้ได้เฉพาะแอดมิน');
   const n = (v, d) => Math.max(0, Math.floor(Number(v) || d));
   switch (String(cmd).toLowerCase()) {
-    case 'gold': c.gold = Math.min(999999999, c.gold + n(a1, 1000000)); return OK(`เสกเงิน → ฿${c.gold.toLocaleString()}`, { gm: true });
+    case 'gold': c.gold = Math.min(999999999, c.gold + n(a1, 1000000)); return OK(`เสกเงิน → ตำลึง ${c.gold.toLocaleString()}`, { gm: true });
     case 'lv': case 'level': {
       const to = Math.min(MAX_LEVEL, Math.max(c.level, n(a1, MAX_LEVEL)));
       while (c.level < to) gainExp(c, expToNext(c.level) - c.exp);
@@ -727,12 +727,12 @@ function cardOut(c, { slot, idx = 0 }) {
   const i = int(idx, 0, 1, 0), id = list?.[i];
   if (!id) return NO('ช่องนี้ไม่มีการ์ด');
   const cost = cardRemoveCost(id);
-  if (c.gold < cost) return NO(`ถอดการ์ดต้องใช้ ฿${cost.toLocaleString()}`);
+  if (c.gold < cost) return NO(`ถอดการ์ดต้องใช้ ตำลึง ${cost.toLocaleString()}`);
   c.gold -= cost;
   list.splice(i, 1);
   addItem(c, id, 1, false);                                        // ถอดคืน ไม่นับเข้าสมุด (กันวนเทรด→ใส่→ถอด ปั๊มสมุดสะสม)
   clampHp(c);
-  return OK(`ถอด${CARD_BY_ID[id].nameTh}คืนกระเป๋า (-฿${cost.toLocaleString()})`);
+  return OK(`ถอด${CARD_BY_ID[id].nameTh}คืนกระเป๋า (-ตำลึง ${cost.toLocaleString()})`);
 }
 /** แลกการ์ด 3 ใบ → สุ่มการ์ดใหม่ 1 ใบ (ไม่รวมการ์ดผีหัวหน้า) ที่ร้านยายติ๋ม */
 function cardTrade(c, { ids }, ctx) {

@@ -1,3 +1,4 @@
+import { nearXZ } from './hitGeometry.js';
 import { moveSkillPlayer } from './skillMovement.js';
 import * as THREE from 'three';
 import { lockTime } from '../tempo.js';
@@ -85,7 +86,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
   const face = p => { const d = p.clone().sub(hero.pos()); R.facing = Math.atan2(d.x, d.z); };
   const anim = id => { const m = MOVES[id]; character.attack?.(character.has?.(m.clip) ? m.clip : m.fallback, m.speed); return m; };
   const hits = (id, fn) => MOVES[id].hits.forEach((t, i) => fx.after(t, () => fn(i, MOVES[id].hits.length)));
-  const near = (P, r) => tg.alive && tpos().distanceTo(P) <= r;
+  const near = (P, r) => tg.alive && nearXZ(tpos(), P, r);
   const hurt = (amt, crit, push = .12, id = R.current) => {
     const r = damage?.(id);
     if (!r || !r.dmg) return tg.hurt(amt, crit, push, hero.pos());

@@ -24,7 +24,7 @@ export function attachPvp(net,game,chat,social) {
   net.on('welcome',m=>{me=m.you;follow.stop();target=null;el('[data-target]').hidden=true;})
     .on('party',m=>{if(!m.id)follow.stop();el('[data-follow]').hidden=el('[data-warp]').hidden=!m.id||m.leader===me;})
     .on('pvp_state',m=>{if(m.id!==me){game.net?.remote?.list.get(m.id)?.plate.classList.toggle('pvp-enabled',m.pk);return;}pk=m.pk;el('[data-pk]').textContent=pk?'PK เปิด':'PK ปิด';el('[data-pk]').setAttribute('aria-pressed',String(pk));})
-    .on('duel_invite',m=>{invite=m.from;el('[data-ask] p').textContent=`${m.name} ท้าดวล · ผู้แพ้เหลือ 1 HP ไม่เสียทอง`;el('[data-ask]').hidden=false;clearTimeout(askTimer);askTimer=setTimeout(()=>{invite=null;el('[data-ask]').hidden=true;},30000);})
+    .on('duel_invite',m=>{invite=m.from;el('[data-ask] p').textContent=`${m.name} ท้าดวล · ผู้แพ้เหลือ 1 HP ไม่เสียตำลึง`;el('[data-ask]').hidden=false;clearTimeout(askTimer);askTimer=setTimeout(()=>{invite=null;el('[data-ask]').hidden=true;},30000);})
     .on('duel_start',m=>{follow.stop();const id=m.a===me?m.b:m.a;pick(id,game.net?.remote?.list.get(id)?.name??'คู่ดวล');note('เริ่มดวล · จำกัดเวลา 3 นาที');})
     .on('duel_end',m=>{target=null;el('[data-target]').hidden=true;note(m.winner===me?'คุณชนะการดวล':m.winner?'การดวลจบแล้ว':'ยุติการดวล');})
     .on('pvp_no',m=>{if(m.why!=='cooldown')note(WHY[m.why]??'ต่อสู้ไม่ได้');})

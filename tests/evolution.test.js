@@ -1,7 +1,8 @@
 // Skill evolution A/B, cast times and casting gear (src/rules/data/evolutions.js).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { EVOLUTIONS, EVO_LEVEL, EVO_SWITCH_GOLD, CAST_MS, evoId, evoOf } from '../src/rules/data/evolutions.js';
+import { EVOLUTIONS, EVO_LEVEL, evolutionSwitchCost, CAST_MS, evoId, evoOf } from '../src/rules/data/evolutions.js';
+import { KIT_PASSIVES, passiveBonusAt } from '../src/rules/data/kitpassives.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { castInfo, hitEffects, selfEffects, splashOf } from '../src/training/kitCombat.js';
 import { KIT_MOVES, KIT_SKILL_IDS } from '../src/character/data/kits.js';
@@ -16,7 +17,8 @@ const kitOf = id => Object.values(KIT_MOVES).flat().find(k => k.id === id);
 test('every class has paths, each path is a real, different rules skill', () => {
   for (const cls of Object.keys(KIT_MOVES)) assert.ok(KIT_SKILL_IDS[cls].filter(id => EVOLUTIONS[id]).length >= 3, `${cls} has 3+ evolving skills`);
   for (const [id, paths] of Object.entries(EVOLUTIONS)) {
-    assert.ok(kitOf(id), `${id} is a kit skill`);
+    assert.ok(kitOf(id) || KIT_PASSIVES[id], `${id} is a kit skill`);
+    if (KIT_PASSIVES[id]) { assert.notDeepEqual(passiveBonusAt(id, 5, 'A'), passiveBonusAt(id, 5, 'B')); continue; }
     const a = SKILL_BY_ID[evoId(id, 'A')], b = SKILL_BY_ID[evoId(id, 'B')];
     assert.ok(a && b && a.nameTh === paths.A.name && evoOf(evoId(id, 'B')) === paths.B);
     assert.notDeepEqual({ ...a, id: 0, evo: 0, nameTh: 0 }, { ...b, id: 0, evo: 0, nameTh: 0 }, `${id}: A and B differ`);
@@ -45,15 +47,15 @@ test('a path opens at skill Lv.5: free the first time, gold to switch, kept thro
   assert.equal(c.chooseEvo('boxer_kick', 'A'), true); assert.equal(c.gold, 1000);
   assert.equal(c.skillVariant('boxer_kick'), 'boxer_kick@A');
   assert.equal(c.chooseEvo('boxer_kick', 'A'), false, 'already on it');
-  assert.equal(c.chooseEvo('boxer_kick', 'B'), true); assert.equal(c.gold, 1000 - EVO_SWITCH_GOLD);
-  assert.equal(c.chooseEvo('boxer_jab', 'A'), false, 'no paths');
+  assert.equal(c.chooseEvo('boxer_kick', 'B'), true); assert.equal(c.gold, 1000 - evolutionSwitchCost(c.jobLevel, 'A', 'B'));
+  assert.equal(c.chooseEvo('unknown_skill', 'A'), false, 'unknown skill');
   c.skills.boxer_kick = 4; assert.equal(c.skillVariant('boxer_kick'), 'boxer_kick', 'below Lv.5 the path rests');
   const back = new Character(JSON.parse(JSON.stringify(c)));
   assert.deepEqual(back.evo, { boxer_kick: 'B' });
   assert.deepEqual(new Character({ ...c.toJSON(), evo: { boxer_kick: 'C', sword_twin: 'A' } }).evo, {}, 'unknown paths and other classes\' skills are dropped');
   // replayed on the server
   const s = fromSave({ ...c.toJSON(), skills: all('muaythai'), gold: 0 });
-  assert.equal(applyOp(s, { op: 'evo', id: 'boxer_croc', pick: 'B' }), true);
+  assert.equal(applyOp(s, { op: 'evo', id: 'boxer_croc', pick: 'B' }, null, null, { fighting: false, busy: false }), true);
   assert.equal(applyOp(s, { op: 'evo', id: 'boxer_croc', pick: 'A' }), false, 'no gold to switch');
   assert.equal(applyOp(s, { op: 'evo', id: 'boxer_croc', pick: 'X' }), false);
 });

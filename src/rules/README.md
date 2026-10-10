@@ -7,6 +7,34 @@ Content comments are in Thai as in the original.
 
 Owner: game-director, the lead (see CLAUDE.md). Character and Combat consume this layer; they do not edit it.
 
+## Skill paths and previews — 2026-10-10
+
+The user requested an A/B choice for every playable skill and readable calculated
+values. The five ready class kits have 50 active skills and 15 tree passives.
+The original fifteen active A/B pairs remain; additional pairs trade area, reach,
+control, recovery, tempo or stat focus. They use existing combat fields instead
+of adding new skills or effects. Proposal content is in
+`src/character/data/skill-path-design.js`, registered by `data/evolutions.js`.
+Passive choices replace that passive's per-level bonus through `passiveBonusAt`.
+Base skills remain unchanged until a valid choice at skill Lv 5. Existing saves
+without choices retain their original stats. Global damage, progression and
+economy formulas are unchanged.
+
+The user explicitly selected a switching fee of Job level × 10 **ตำลึง**, with
+the first selection free. `evolutionSwitchCost` centralizes that calculation;
+the server authorizes combat locks, charges once and preserves cooldowns,
+effects and current HP/MP. Currency labels change only presentation; `gold`
+keys and numerical balances remain compatible.
+
+`skillPreview.js` returns presentation data from the actual `skillStats`,
+`castInfo`, healing and support helpers. Damage ranges apply `rollDamage`'s
+variance, armor subtraction, minimum damage, critical multiplier and rounding.
+No selected target means a clearly marked before-armor estimate. Multi-hit
+totals assume every scheduled blow lands; they do not include additional
+targets, DoT, pet damage or guarantee hits. Healing is potential before HP/MP
+caps and combat context. Natural party balance and physical-device play remain
+separate validation from formula and authority tests.
+
 ## Modules
 
 | Module | What it holds |
@@ -170,6 +198,21 @@ rogue: {
 ```
 
 At Lv.1 with 5 in every stat this kills the Lv.1 ghost in 3 hits at about 38 DPS. The existing jobs sit at 23–45 DPS, inside the original "DPS spread < 2.5×" balance check. It also has the lowest HP of the melee jobs (143). Adding it needs gear, skills, a trainer NPC, quests and shop stock across `classes.js`, `skills.js`, `gear.js`, `items.js`, `npcs.js` and `village.js`, so the lead should decide on it separately.
+
+## Canonical kit damage delivery — 2026-10-10
+
+The all-class audit found shaman ghostfire's elevated visual endpoint could
+never pass its 3D proximity check, and kalp's visual wave range was shorter
+than its accepted rules range. Combat damage now uses a rules-driven timeline
+instead of visual callback proximity; effective A/B geometry drives hits.
+`skillHits.js` preserves authored kit strikes, rules AoE waves, focused volley
+counts, twelve tether ticks, and three alternating enemy bottle bounces.
+Fan projectiles count once on the primary. Support-only skills never attack.
+Repeated visual poison/burn callbacks no longer create extra full-strength
+blows: the rules' poison/burn effects supply their own normalized ticks.
+This deliberately removes accidental FX damage inflation without changing
+damage multipliers, costs or cooldowns. The calculated preview uses the same
+schedule and still assumes every displayed blow lands on its primary target.
 
 ## Tests
 

@@ -4,7 +4,7 @@ export function attachDynamicHUD(game, net) {
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   document.body.classList.add('hud-dynamic');
   const footer=document.createElement('div'); footer.className='hud-vitals-footer';
-  footer.innerHTML='<span class="hud-state" role="status"></span><span class="hud-wallet" title="ทองในกระเป๋า"></span>';
+  footer.innerHTML='<span class="hud-state" role="status"></span><span class="hud-wallet" title="ตำลึงในกระเป๋า"></span>';
   frame.querySelector('.g-player-info').append(footer);
   const state=footer.querySelector('.hud-state'), wallet=footer.querySelector('.hud-wallet');
   const hp=frame.querySelector('.g-hp'), mp=frame.querySelector('.g-mp');

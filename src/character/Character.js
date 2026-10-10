@@ -8,7 +8,7 @@ import { reqOf, passivesOf } from './data/skilltree.js';
 import { KIT_PASSIVES, kitPassiveBonus } from '../rules/data/kitpassives.js';
 import { RESIST_CAP, socketCards, STRIP } from './data/cards.js';
 import { refinable, refineBonus, refineCost, plusOf } from './data/refine.js';
-import { EVOLUTIONS, EVO_LEVEL, EVO_SWITCH_GOLD, evoId } from '../rules/data/evolutions.js';
+import { EVOLUTIONS, EVO_LEVEL, evolutionSwitchCost, evoId } from '../rules/data/evolutions.js';
 // Skill timing from gear and DEX: cooldown cut (DEX + `cdr`, ≤ CDR_MAX) and cast speed
 // (DEX + `cast`, ≤ CAST_MAX); `mpCost` makes skills dearer (src/character/data/items.js).
 export const CDR_MAX = .3, CAST_MAX = .5, CAST_PER_DEX = .003;
@@ -55,7 +55,7 @@ export class Character extends Emitter {
     while (this.skillPoints < 0) { const top = Object.keys(this.skills).filter(id => id !== ids[0] || this.skills[id] > 1).pop(); if (!top) break; if (--this.skills[top] <= 0) delete this.skills[top]; }
     // skill evolution paths chosen ({ kit skill id: 'A' | 'B' }, src/rules/data/evolutions.js)
     this.evo = {};
-    for (const [id, pick] of Object.entries(evo ?? {})) if (EVOLUTIONS[id]?.[pick] && ids.includes(id)) this.evo[id] = pick;
+    for (const [id, pick] of Object.entries(evo ?? {})) if (EVOLUTIONS[id]?.[pick] && learnable.includes(id)) this.evo[id] = pick;
     this.alloc = { ...emptyAlloc(), ...alloc };
     // friends: other characters' names (server/index.js keeps the list; online / offline notices)
     this.friends = Array.isArray(friends) ? [...new Set(friends.filter(n => typeof n === 'string' && n.trim()).map(n => n.slice(0, 16)))].slice(0, FRIENDS_MAX) : [];
@@ -288,7 +288,7 @@ export class Character extends Emitter {
   get kitPassives() { return passivesOf(this.classId); }
   get learnableSkills() { return [...this.kitSkills, ...this.kitPassives]; }
   // What the learnt passives add to the derived stats ({ patkMul, hp, petMul, … }).
-  get passiveBonus() { return kitPassiveBonus(this.skills); }
+  get passiveBonus() { return kitPassiveBonus(this.skills, this.evo); }
   get healPow() { return this.derived.healPow ?? 1; }
   get petBiteMul() { return 1 + (this.passiveBonus.petMul || 0); }
   // Points spent: every learnt level beyond the free first skill's first level.
@@ -331,12 +331,22 @@ export class Character extends Emitter {
     return true;
   }  // The rules id a kit skill casts with: its evolution path once the skill is at EVO_LEVEL.
   skillVariant(id) { const pick = this.evo?.[id]; return pick && this.skillLevel(id) >= EVO_LEVEL ? evoId(id, pick) : id; }
-  evoCost(id, pick) { return this.evo[id] && this.evo[id] !== pick ? EVO_SWITCH_GOLD : 0; }
-  // Take path A or B of a skill at EVO_LEVEL: free the first time, EVO_SWITCH_GOLD to switch.
+  evoCost(id, pick) { return evolutionSwitchCost(this.jobLevel, this.evo[id], pick); }
+  evoBlock(id, pick, context = this.evoContext?.() ?? {}) {
+    if (!this.alive) return 'ต้องฟื้นก่อนเปลี่ยนสาย';
+    if (![...this.kitSkills, ...passivesOf(this.classId)].includes(id) || !EVOLUTIONS[id]?.[pick]) return 'สกิลหรือสายไม่ถูกต้อง';
+    if (this.skillLevel(id) < EVO_LEVEL) return `เปิดเมื่อสกิล Lv.${EVO_LEVEL}`;
+    if (this.evo[id] === pick) return 'ใช้สายนี้อยู่แล้ว';
+    if (context.fighting || context.busy) return 'เปลี่ยนสายได้เมื่ออยู่นอกการต่อสู้และจบผลสกิลแล้ว';
+    if (this.gold < this.evoCost(id, pick)) return 'ตำลึงไม่พอ';
+    return null;
+  }
+  // First choice is free; later changes cost Job Lv × 10 and never reset skill state.
   chooseEvo(id, pick) {
-    if (!EVOLUTIONS[id]?.[pick] || this.skillLevel(id) < EVO_LEVEL || this.evo[id] === pick) return false;
+    if (this.evoBlock(id, pick)) return false;
     const cost = this.evoCost(id, pick); if (this.gold < cost) return false;
     this.gold -= cost; this.evo[id] = pick;
+    this.clampVitals();
     this.emit('skills'); this.emit('change');
     return true;
   }

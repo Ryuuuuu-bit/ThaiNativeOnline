@@ -26,7 +26,7 @@ export function describeObjective(o) {
 
 export function rewardText(r = {}) {
   const m = Object.hasOwn(MASTERIES, r.mastery ?? '') ? MASTERIES[r.mastery] : null;
-  return [r.gold && `${r.gold} ทอง`, r.exp && `${r.exp} EXP`,
+  return [r.gold && `${r.gold} ตำลึง`, r.exp && `${r.exp} EXP`,
     ...(r.items ?? []).map(([id, qty = 1]) => `${ITEMS[id]?.name ?? id}${qty > 1 ? ` ×${qty}` : ''}`),
     m && `${m.name} (${m.bonusText} · ไม่ใช้แต้มสกิล)`,
   ].filter(Boolean).join(' · ');

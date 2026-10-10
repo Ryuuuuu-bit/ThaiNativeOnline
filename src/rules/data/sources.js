@@ -55,12 +55,12 @@ function build() {
     add(cid, { kind: 'mon', sort: -p, ic: '🃏', text: `${monTxt(c.mon, m)} · ${pctTxt(p)}`, sub: W[c.mon] });
   }
   // 3) ร้าน NPC
-  for (const [sid, s] of Object.entries(SHOPS)) for (const id of s.stock || []) add(id, { kind: 'shop', sort: -1, ic: '🛒', text: `${s.nameTh.split(' ')[0]} · ฿${(ITEMS[id]?.price || 0).toLocaleString()}`, sub: s.nameTh.split(' ').slice(1).join(' ') || '', shop: sid });
+  for (const [sid, s] of Object.entries(SHOPS)) for (const id of s.stock || []) add(id, { kind: 'shop', sort: -1, ic: '🛒', text: `${s.nameTh.split(' ')[0]} · ตำลึง ${(ITEMS[id]?.price || 0).toLocaleString()}`, sub: s.nameTh.split(' ').slice(1).join(' ') || '', shop: sid });
   // 4) ทำเอง: อาหาร (ป้าสา) · ยา (ยายติ๋ม) · หลอม (ลุงดำ)
   const need = (n) => Object.entries(n).map(([k, q]) => `${ITEMS[k]?.nameTh || k}×${q}`).join(' + ');
   for (const r of RECIPES) add(r.out, { kind: 'craft', ic: '🍳', text: `ทำอาหารที่ป้าสา`, sub: need(r.need) });
   for (const r of BREWS) add(r.out, { kind: 'craft', ic: '🌿', text: `ปรุงยาที่ยายติ๋ม`, sub: need(r.need) });
-  for (const r of FORGE) add(r.out, { kind: 'craft', ic: '⚒️', text: `สร้างที่ลุงดำ · ฿${r.fee.toLocaleString()}`, sub: need(r.need) });
+  for (const r of FORGE) add(r.out, { kind: 'craft', ic: '⚒️', text: `สร้างที่ลุงดำ · ตำลึง ${r.fee.toLocaleString()}`, sub: need(r.need) });
   // 5) ตกปลา / เก็บสมุนไพร
   for (const [mapId, list] of Object.entries(FISH_BY_MAP)) {                  // ปลาประจำแดน: บอกแดนที่ตกได้
     if (!WORLD_SRC.fishMaps[mapId]) continue;
