@@ -10,6 +10,7 @@
 import { nameKey } from '../src/data/character-names.js';
 import { NameTaken, characterRecord, renameData, nameMigration, migrateCharacterNames } from './character-names.js';
 import { emptyStash } from '../src/data/stash.js';
+import { newUid, migrateUids, retryUid } from './uids.js';
 const revisionOf = row => Number(row?.inventoryRevision ?? 0);
 const tradeData = (row, snapshot) => {
   const { key, character } = characterRecord(row.data);
@@ -74,7 +75,7 @@ export class MemoryStore {
     };
     return locked(0);
   }
-  constructor() { this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; this.stashes = new Map(); this.stashReceipts = new Map(); this.locks = new Map(); }
+  constructor({ uidGenerator = newUid } = {}) { this.uidGenerator = uidGenerator; this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; this.stashes = new Map(); this.stashReceipts = new Map(); this.locks = new Map(); }
   withAccount(id, work) {
     const next = (this.locks.get(id) ?? Promise.resolve()).catch(() => {}).then(work);
     this.locks.set(id, next);
@@ -93,12 +94,20 @@ export class MemoryStore {
     return latest ? { email: latest.email, picture: latest.picture } : null;
   }
   async getAccount(id) { return this.accounts.get(id) ?? null; }
-  async createAccount(id, salt, hash) { if (this.accounts.has(id)) return false; this.accounts.set(id, { id, salt, hash, created: Date.now() }); return true; }
+  uniqueUid(kind) {
+    const used = new Set(kind === 'ACC' ? [...this.accounts.values()].map(a => a.accountUid) : [...this.slots.values()].flatMap(m => [...m.values()].map(s => s.characterUid)));
+    for (let i = 0; i < 8; i++) { const uid = this.uidGenerator(kind); if (!used.has(uid)) return uid; }
+    throw new Error('UID generation exhausted');
+  }
+  async accountByUid(uid) { return [...this.accounts.values()].find(a => a.accountUid === uid)?.id ?? null; }
+  async createAccount(id, salt, hash) { if (this.accounts.has(id)) return false; const accountUid = this.uniqueUid('ACC'); this.accounts.set(id, { id, salt, hash, accountUid, created: Date.now() }); return true; }
   async createSession(token, id, expires) { this.sessions.set(token, { token, account: id, expires }); }
   async getSession(token) { const s = this.sessions.get(token); return s && s.expires > Date.now() ? s : null; }
   async deleteSession(token) { this.sessions.delete(token); }
   async listSlots(id) { return [...(this.slots.get(id) ?? new Map()).entries()].map(([slot, v]) => ({ slot, ...v })).sort((a, b) => a.slot - b.slot); }
   async init() {
+    for (const account of this.accounts.values()) if (!account.accountUid) account.accountUid = this.uniqueUid('ACC');
+    for (const slots of this.slots.values()) for (const row of slots.values()) if (!row.characterUid) row.characterUid = this.uniqueUid('CHR');
     if (this.namesMigrated) return;
     const rows = [...this.slots].flatMap(([account, slots]) => [...slots].map(([slot,v]) => ({account,slot,data:v.data})));
     rows.sort((a,b) => (this.accounts.get(a.account)?.created ?? 0) - (this.accounts.get(b.account)?.created ?? 0) || (a.account < b.account ? -1 : a.account > b.account ? 1 : a.slot-b.slot));
@@ -106,9 +115,10 @@ export class MemoryStore {
     this.namesMigrated = true;
   }
   taken(key, id, slot) { for (const [account, slots] of this.slots) for (const [n, v] of slots) if (v.nameKey === key && (account !== id || n !== slot)) return true; return false; }
-  async putSlot(id, slot, data, { createOnly = false, inventoryRevision = 0 } = {}) {
+  async putSlot(id, slot, data, { createOnly = false, inventoryRevision = 0, characterUid = null } = {}) {
     return this.withAccount(id, () => {
     const old = this.slots.get(id)?.get(slot);
+    if (characterUid && old?.characterUid !== characterUid) return false;
     if (old && createOnly) return false;
     if (old && revisionOf(old) !== inventoryRevision) return false;
     const oldName = old?.nameKey && characterRecord(old.data).character?.name;
@@ -116,7 +126,7 @@ export class MemoryStore {
     const key = nameKey(characterRecord(data).character?.name);
     if (!old && this.taken(key, id, slot)) throw new NameTaken();
     if (!this.slots.has(id)) this.slots.set(id, new Map());
-    this.slots.get(id).set(slot, { ...old, data: structuredClone(data), inventoryRevision, updated: Date.now(), ...(!old ? {nameKey:key, needsRename:false} : {}) });
+    this.slots.get(id).set(slot, { ...old, data: structuredClone(data), inventoryRevision, updated: Date.now(), ...(!old ? {nameKey:key, needsRename:false, characterUid:this.uniqueUid('CHR')} : {}) });
     return true;
     });
   }
@@ -206,7 +216,7 @@ export class PgStore {
     } catch (error) { await client.query('rollback').catch(() => {}); throw error; }
     finally { client.release(); }
   }
-  constructor(pool) { this.pool = pool; this.kind = 'postgres'; }
+  constructor(pool, { uidGenerator = newUid } = {}) { this.pool = pool; this.uidGenerator = uidGenerator; this.kind = 'postgres'; }
   q(text, values) { return this.pool.query(text, values); }
   async init() {
     await this.q(`create table if not exists accounts (id text primary key, salt text not null, hash text not null, created timestamptz not null default now())`);
@@ -224,13 +234,15 @@ export class PgStore {
     await this.q(`alter table google_links add column if not exists profile_updated timestamptz`);
     await this.q(`delete from sessions where expires < now()`);
     await migrateCharacterNames(this.pool);
+    await migrateUids(this.pool, this.uidGenerator);
   }
-  async getAccount(id) { return (await this.q('select id, salt, hash from accounts where id = $1', [id])).rows[0] ?? null; }
-  async createAccount(id, salt, hash) { return (await this.q('insert into accounts (id, salt, hash) values ($1, $2, $3) on conflict do nothing', [id, salt, hash])).rowCount === 1; }
+  async getAccount(id) { return (await this.q('select id, salt, hash, account_uid as "accountUid" from accounts where id = $1', [id])).rows[0] ?? null; }
+  async accountByUid(uid) { return (await this.q('select id from accounts where account_uid = $1', [uid])).rows[0]?.id ?? null; }
+  async createAccount(id, salt, hash) { return retryUid(async () => (await this.q('insert into accounts (id, salt, hash, account_uid) values ($1, $2, $3, $4) on conflict (id) do nothing', [id, salt, hash, this.uidGenerator('ACC')])).rowCount === 1); }
   async createSession(token, id, expires) { await this.q('insert into sessions (token, account, expires) values ($1, $2, to_timestamp($3 / 1000.0))', [token, id, expires]); }
   async getSession(token) { const r = (await this.q('select token, account, extract(epoch from expires) * 1000 as expires from sessions where token = $1 and expires > now()', [token])).rows[0]; return r ? { ...r, expires: Number(r.expires) } : null; }
   async deleteSession(token) { await this.q('delete from sessions where token = $1', [token]); }
-  async listSlots(id) { return (await this.q('select slot, data, inventory_revision as "inventoryRevision", rename_required as "needsRename", extract(epoch from updated) * 1000 as updated from characters where account = $1 order by slot', [id])).rows.map(r => ({ ...r, inventoryRevision: revisionOf(r), updated: Number(r.updated) })); }
+  async listSlots(id) { return (await this.q('select slot, data, character_uid as "characterUid", inventory_revision as "inventoryRevision", rename_required as "needsRename", extract(epoch from updated) * 1000 as updated from characters where account = $1 order by slot', [id])).rows.map(r => ({ ...r, inventoryRevision: revisionOf(r), updated: Number(r.updated) })); }
   async withAccount(id, work) {
     const client = await this.pool.connect();
     try {
@@ -241,15 +253,16 @@ export class PgStore {
     } catch (e) { await client.query('rollback').catch(() => {}); throw e; }
     finally { client.release(); }
   }
-  async putSlot(id, slot, data, { createOnly = false, inventoryRevision = 0 } = {}) {
-    return this.withAccount(id, async client => {
-      const row = (await client.query('select inventory_revision as "inventoryRevision" from characters where account = $1 and slot = $2 for update', [id, slot])).rows[0];
+  async putSlot(id, slot, data, { createOnly = false, inventoryRevision = 0, characterUid = null } = {}) {
+    return retryUid(() => this.withAccount(id, async client => {
+      const row = (await client.query('select inventory_revision as "inventoryRevision", character_uid as "characterUid" from characters where account = $1 and slot = $2 for update', [id, slot])).rows[0];
+      if (characterUid && row?.characterUid !== characterUid) return false;
       if (row) {
         if (createOnly || revisionOf(row) !== inventoryRevision) return false;
         await client.query('update characters set data = $3, updated = now() where account = $1 and slot = $2', [id, slot, data]); return true;
       }
-      return (await client.query('insert into characters (account, slot, data, name_key, rename_required) values ($1, $2, $3, $4, false) on conflict (account, slot) do nothing', [id, slot, data, nameKey(characterRecord(data).character?.name)])).rowCount === 1;
-    });
+      return (await client.query('insert into characters (account, slot, data, name_key, rename_required, character_uid) values ($1, $2, $3, $4, false, $5) on conflict (account, slot) do nothing', [id, slot, data, nameKey(characterRecord(data).character?.name), this.uidGenerator('CHR')])).rowCount === 1;
+    }));
   }
   async renameSlot(id, slot, name) {
     const client = await this.pool.connect();

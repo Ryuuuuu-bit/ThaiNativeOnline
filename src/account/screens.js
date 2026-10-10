@@ -6,6 +6,7 @@ import { ModelPreview } from '../ui/ModelPreview.js';
 import { classBadge } from '../ui/icons.js';
 import { renderGoogleButton } from './google.js';
 import { checkName, NAME_HINT } from '../data/character-names.js';
+import { uidRow } from './UidRow.js';
 
 // Login and character-select screens. Both are overlays over #app and resolve
 // a Promise; src/account/index.js chains them before the world starts.
@@ -105,6 +106,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
           <button type="button" class="acc-logout">${session.guest ? 'กลับไปหน้าเข้าสู่ระบบ' : 'ออกจากระบบ'}</button>
         </div>`;
       const filled = slots.filter(s => s.character);
+      overlay.querySelector('.acc-select-intro').after(uidRow('Account UID', session.guest ? null : store.accountUid, 'ACC'));
       const slotHost = overlay.querySelector('.acc-stage-slot');
       if (filled.length) {
         slotHost.append(stage);

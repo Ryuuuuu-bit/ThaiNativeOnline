@@ -22,6 +22,16 @@ test('GM catalog/help are private; roles, command saves and logout use authentic
     return auth;
   };
   const root=await make('qaadmin','QAadmin'), regular=await make('qaregular','QAregular');
+  assert.match(root.accountUid,/^ACC-[0-9A-F]{32}$/); assert.notEqual(root.accountUid,regular.accountUid);
+  const own=await api('/api/me',root.token,'GET'), slots=await api('/api/slots',root.token,'GET');
+  assert.equal(own.accountUid,root.accountUid); assert.equal(slots.accountUid,root.accountUid); assert.match(slots.slots[0].characterUid,/^CHR-[0-9A-F]{32}$/);
+  const obsolete=(await api('/api/slots',regular.token,'GET')).slots[0].characterUid;
+  assert.ok((await api('/api/slots/0',regular.token,'DELETE')).ok);
+  assert.ok((await api('/api/slots/0',regular.token,'PUT',{data:{'tno.character.v1':JSON.stringify({name:'QAregular',classId:'warrior',gender:'male'})}})).ok);
+  const replacement=(await api('/api/slots',regular.token,'GET')).slots[0].characterUid;assert.notEqual(replacement,obsolete);
+  assert.equal((await api('/api/slots/0',regular.token,'PUT',{characterUid:obsolete,data:{'tno.character.v1':JSON.stringify({name:'Old',classId:'warrior'})}})).ok,false);
+  assert.equal((await api('/api/slots',regular.token,'GET')).slots[0].characterUid,replacement);
+  assert.equal((await api('/api/slots/0',regular.token,'PUT',{characterUid:null,data:{}})).code,'invalid_character_uid');
   const connect=async(auth,extra={})=>{
     const ws=new WebSocket(`ws://127.0.0.1:${port}/ws`),messages=[],history=[];
     ws.on('message',d=>{const m=JSON.parse(d);messages.push(m);history.push(m);});await once(ws,'open');t.after(()=>ws.terminate());
@@ -31,6 +41,9 @@ test('GM catalog/help are private; roles, command saves and logout use authentic
   };
   const a=await connect(root), b=await connect(regular), guest=await connect(null,{admin:true,account:'qaadmin'});
   assert.equal(a.welcome.admin,true);assert.ok(a.welcome.gmCommands.length>=24);
+  assert.equal(a.welcome.accountUid,root.accountUid);assert.equal(a.welcome.characterUid,slots.slots[0].characterUid);
+  assert.equal(guest.welcome.accountUid,undefined);assert.equal(guest.welcome.characterUid,undefined);
+  assert.ok(a.welcome.roster.every(p=>!('accountUid'in p)&&!('characterUid'in p)));
   for(const peer of [b,guest]){assert.equal(peer.welcome.admin,false);assert.equal(peer.welcome.gmCommands,undefined);assert.ok(peer.welcome.roster.every(p=>!('admin'in p)&&!('gmCommands'in p)));}
   const command=async(peer,text)=>{peer.send({t:'c',text,admin:true,account:'qaadmin',token:root.token});return(peer.wait(m=>m.t==='c'&&m.kind==='gm'));};
   assert.match((await command(b,'/gm help')).text,/สำหรับ GM เท่านั้น/);
@@ -39,7 +52,7 @@ test('GM catalog/help are private; roles, command saves and logout use authentic
   assert.match((await command(a,'/gm GOLD 500')).text,/520.*ตำลึง/);
   assert.equal((await a.wait(m=>m.t==='sync'&&m.c.gold===520)).c.gold,520);
   assert.ok(!b.history.some(m=>m.gmCommands||m.t==='c'&&m.text.includes('/gm gold')));
-  assert.match((await command(a,'/gm admin add QAREGULAR')).text,/qaregular/);
+  assert.match((await command(a,`/gm admin add ${regular.accountUid.toLowerCase()}`)).text,/qaregular/);
   const grant=await b.wait(m=>m.t==='gmAccess'&&m.admin===true);assert.ok(grant.gmCommands.length);
   assert.match((await command(b,'/gm god')).text,/เปิด/);
   b.send({t:'map',map:'city',x:0,z:0});const same=await b.wait(m=>m.t==='welcome');assert.equal(same.admin,true);assert.ok(same.gmCommands);
@@ -53,8 +66,10 @@ test('GM catalog/help are private; roles, command saves and logout use authentic
   assert.match((await command(a,'/gm admin list')).text,/qaadmin/);
   const closed=once(a.ws,'close');a.ws.close();await closed;
   const again=await connect(root);assert.equal(again.welcome.admin,true);
+  assert.equal(again.welcome.characterUid,a.welcome.characterUid);
   assert.equal((await again.wait(m=>m.t==='sync')).c.gold,520);
   assert.ok((await api('/api/logout',root.token)).ok);
+  assert.equal((await again.wait(m=>m.t==='identity')).accountUid,null);
   assert.equal((await again.wait(m=>m.t==='gmAccess'&&m.admin===false)).gmCommands,undefined);
   assert.match((await command(again,'/gm item potion_s 1')).text,/สำหรับ GM เท่านั้น/);
   assert.ok(!guest.history.some(m=>m.gmCommands||m.t==='c'&&m.text.includes('บัญชีแอดมิน:')));

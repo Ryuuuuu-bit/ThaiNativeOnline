@@ -11,6 +11,7 @@ import { attachCombatMeters } from './CombatMeters.js';
 import './net.css';
 import { ITEMS } from '../character/data/items.js';
 import { readSession, writeSession } from '../account/session.js';
+import { setIdentity } from '../account/identity.js';
 import { WorldBossBanner } from '../ui/WorldBossBanner.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
@@ -37,8 +38,9 @@ export function startMultiplayer(game) {
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
   const gmAccess = m => { chat.setGmCatalog(m.admin === true ? m.gmCommands : null); game.setDev?.(LOCAL_DEV || m.admin === true); };
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
-  net.on('welcome', m => { if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+  net.on('welcome', m => { setIdentity(m); if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
     .on('gmAccess', gmAccess)
+    .on('identity', setIdentity)
     .on('chans', m => chan.set(m.ch, m.list, true))
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
