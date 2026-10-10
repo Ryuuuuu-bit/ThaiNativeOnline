@@ -445,6 +445,66 @@
         "refineStatus": "SUCCEEDED",
         "consumedCredits": 30
       }
+    },
+    {
+      "id": "tani",
+      "name": "นางตานี",
+      "url": "/models/monsters/tani.glb",
+      "bytes": 1466376,
+      "sha256": "87c340de1798aa82d5f816ec35105a879df0978721367b3b6007dc7b3a39d8d1",
+      "spec": {
+        "url": "/models/monsters/tani.glb",
+        "height": 1.5714285714285716
+      },
+      "approval": {
+        "art": {
+          "path": "docs/art/monsters/meshy-roster-20261010/approved-tani-arm-v8-art.json",
+          "sha256": "a760ba55298eac841fbb9f5f7bf08348d5a30f1f052813292257e926892e4bd1"
+        },
+        "technical": {
+          "path": "docs/art/monsters/meshy-roster-20261010/approved-tani-arm-v8-technical.json",
+          "sha256": "fabbf58f39d607e0e57d3f9ce98765900c2e7220940e26abb644db82f3c4aa9c"
+        },
+        "qa": {
+          "path": "docs/art/monsters/meshy-roster-20261010/approved-tani-arm-v8-qa.json",
+          "sha256": "182c6b985c8ccb0a965e9ffe1e11494b0a08359ba7fe892d0a0a70094de043b6"
+        }
+      },
+      "source": {
+        "previewStatus": "SUCCEEDED",
+        "refineStatus": "SUCCEEDED",
+        "consumedCredits": 30
+      }
+    },
+    {
+      "id": "phong",
+      "name": "ผีโพง",
+      "url": "/models/monsters/phong.glb",
+      "bytes": 1652860,
+      "sha256": "36455b5787785641fca1ae3604ece2925b47a5aaf129a0699e38603bb08a4a78",
+      "spec": {
+        "url": "/models/monsters/phong.glb",
+        "height": 1.9
+      },
+      "approval": {
+        "art": {
+          "path": "docs/art/monsters/meshy-roster-20261010/approved-phong-target-v5-art.json",
+          "sha256": "47ea0aee7bce6743966dc86cf686961c48d546d2ec7ff62db19431cb94219342"
+        },
+        "technical": {
+          "path": "docs/art/monsters/meshy-roster-20261010/approved-phong-target-v5-technical.json",
+          "sha256": "a92340b417cb1292bc51ae1aced3f51d932171de94f799909240b9dac396c6bb"
+        },
+        "qa": {
+          "path": "docs/art/monsters/meshy-roster-20261010/approved-phong-target-v5-qa.json",
+          "sha256": "097065d277ba9178412f16ea43b49ed387b7c1926b9b5da908b1f7acf402c4e4"
+        }
+      },
+      "source": {
+        "previewStatus": "SUCCEEDED",
+        "refineStatus": "SUCCEEDED",
+        "consumedCredits": 30
+      }
     }
   ],
   "pending": [
@@ -757,17 +817,6 @@
       }
     },
     {
-      "id": "phong",
-      "name": "ผีโพง",
-      "stage": "refined-source-pending-rig",
-      "reason": "Not approved for gameplay: completed rig, five clips and final art, technical and QA evidence are required.",
-      "source": {
-        "previewStatus": "SUCCEEDED",
-        "refineStatus": "SUCCEEDED",
-        "consumedCredits": 30
-      }
-    },
-    {
       "id": "klom",
       "name": "ผีตายทั้งกลม",
       "stage": "refined-source-pending-rig",
@@ -787,17 +836,6 @@
         "previewStatus": "SUCCEEDED",
         "refineStatus": "NOT_STARTED",
         "consumedCredits": 20
-      }
-    },
-    {
-      "id": "tani",
-      "name": "นางตานี",
-      "stage": "refined-source-pending-rig",
-      "reason": "Not approved for gameplay: completed rig, five clips and final art, technical and QA evidence are required.",
-      "source": {
-        "previewStatus": "SUCCEEDED",
-        "refineStatus": "SUCCEEDED",
-        "consumedCredits": 30
       }
     }
   ],

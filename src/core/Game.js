@@ -336,6 +336,7 @@ export class Game {
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
   // then rebuild the minimap and debug overlay and reapply settings for the new one.
   leaveMap() {
+    this.game?.combat?.cancelMonsterAttacks();
     this.guide?.close();
     this.storage?.close();
     this.warp?.close();

@@ -1,0 +1,317 @@
+{
+  "type": "tani",
+  "artifactSha256": "87c340de1798aa82d5f816ec35105a879df0978721367b3b6007dc7b3a39d8d1",
+  "bytes": 1466376,
+  "errors": [],
+  "screens": [
+    {
+      "mark": "gather",
+      "frame": 5,
+      "hp": 10000,
+      "animation": {
+        "clip": "attack",
+        "clipTime": 0.20833333333335702,
+        "time": 0.20833333333335702,
+        "timeScale": 1
+      },
+      "screenshot": "tani-production-windup-gather.png"
+    },
+    {
+      "mark": "prepress",
+      "frame": 12,
+      "hp": 10000,
+      "animation": {
+        "clip": "attack",
+        "clipTime": 0.5000000000000568,
+        "time": 0.5000000000000568,
+        "timeScale": 1
+      },
+      "screenshot": "tani-production-windup-prepress.png"
+    },
+    {
+      "mark": "press",
+      "frame": 13,
+      "hp": 9917,
+      "animation": {
+        "clip": "attack",
+        "clipTime": 0.5416666666667282,
+        "time": 0.5416666666667282,
+        "timeScale": 1
+      },
+      "screenshot": "tani-production-windup-press.png"
+    },
+    {
+      "mark": "recovery",
+      "frame": 19,
+      "hp": 9917,
+      "animation": {
+        "clip": "attack",
+        "clipTime": 0.7916666666667567,
+        "time": 0.7916666666667567,
+        "timeScale": 1
+      },
+      "screenshot": "tani-production-windup-recovery.png"
+    }
+  ],
+  "initial": {
+    "baselineCount": 37,
+    "servedSha256": "87c340de1798aa82d5f816ec35105a879df0978721367b3b6007dc7b3a39d8d1",
+    "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hurt",
+      "die"
+    ],
+    "height": 2.2000000000000006,
+    "specHeight": 1.5714285714285716,
+    "gameplaySize": 1.4,
+    "hpAtGather": 10000,
+    "hpBefore": 10000
+  },
+  "final": {
+    "hits": [
+      {
+        "elapsed": 0.5416666666666666,
+        "hp": 9917,
+        "clipBeforeViewUpdate": {
+          "clip": "attack",
+          "clipTime": 0.5000000000000568,
+          "time": 0.5000000000000568,
+          "timeScale": 1
+        }
+      }
+    ],
+    "samples": [
+      {
+        "frame": 1,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.041666666666671404,
+          "time": 0.041666666666671404,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 2,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.08333333333334281,
+          "time": 0.08333333333334281,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 3,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.1250000000000142,
+          "time": 0.1250000000000142,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 4,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.16666666666668561,
+          "time": 0.16666666666668561,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 5,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.20833333333335702,
+          "time": 0.20833333333335702,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 6,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.2500000000000284,
+          "time": 0.2500000000000284,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 7,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.2916666666666998,
+          "time": 0.2916666666666998,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 8,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.33333333333337123,
+          "time": 0.33333333333337123,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 9,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.37500000000004263,
+          "time": 0.37500000000004263,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 10,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.41666666666671404,
+          "time": 0.41666666666671404,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 11,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.45833333333338544,
+          "time": 0.45833333333338544,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 12,
+        "hp": 10000,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.5000000000000568,
+          "time": 0.5000000000000568,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 13,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.5416666666667282,
+          "time": 0.5416666666667282,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 14,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.5833333333333997,
+          "time": 0.5833333333333997,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 15,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.625000000000071,
+          "time": 0.625000000000071,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 16,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.6666666666667425,
+          "time": 0.6666666666667425,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 17,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.7083333333334139,
+          "time": 0.7083333333334139,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 18,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.7500000000000853,
+          "time": 0.7500000000000853,
+          "timeScale": 1
+        }
+      },
+      {
+        "frame": 19,
+        "hp": 9917,
+        "animation": {
+          "clip": "attack",
+          "clipTime": 0.7916666666667567,
+          "time": 0.7916666666667567,
+          "timeScale": 1
+        }
+      }
+    ],
+    "blocked": true,
+    "targetable": true,
+    "hurt": {
+      "clip": "hurt",
+      "clipTime": 0.010000000000005116,
+      "time": 0.010000000000005116,
+      "timeScale": 1
+    },
+    "queued": true,
+    "mapCancelled": true,
+    "deathCancelled": true,
+    "death": {
+      "clip": "die",
+      "clipTime": 1,
+      "time": 1,
+      "timeScale": 1.4
+    },
+    "deathHeld": {
+      "clip": "die",
+      "clipTime": 1,
+      "time": 1,
+      "timeScale": 1.4
+    },
+    "noninteractive": true,
+    "retired": true,
+    "rebuilt": true,
+    "materials": 3,
+    "skeletons": 2,
+    "registryRestored": true,
+    "hpAfterRebuildDiffersFromPreHit": false
+  },
+  "passed": true,
+  "candidateOnly": false,
+  "productionRegisteredUrlVerified": true,
+  "registeredUrl": "/models/monsters/tani.glb",
+  "registryInjection": false,
+  "limitations": [
+    "Actual offline CombatView production URL pipeline tested in fresh headless Edge; authoritative online behavior covered by fixture tests, not genuine multiplayer WebSocket transport.",
+    "Public registered body matched the approved source SHA; unchanged source approval files remain candidate proof."
+  ]
+}

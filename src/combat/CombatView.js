@@ -8,6 +8,7 @@ import { BossTelegraphs } from './BossTelegraphs.js';
 import { disposeCombatModel, isCombatModelDisposed } from './CombatResources.js';
 import { applyMonsterFeedback } from './MonsterFeedback.js';
 import { BossMotion, BOSS_MOTION_PROFILES } from './BossMotion.js';
+import { monsterAttackImpact } from './monsterAttackTiming.js';
 
 // Monster rendering uses GLB models or built 3D fallbacks exclusively.
 export const MONSTER_STYLE = '3d';
@@ -281,6 +282,18 @@ export class CombatView {
     this.targetRing.rotation.x = -Math.PI / 2; this.targetRing.visible = false; this.root.add(this.targetRing);
 
     for (const m of combat.monsters) this.ensure(m);
+    combat.on('monster-attack', m => {
+      const v = this.ensure(m);
+      v.attackAnim = .25;
+      v.attackSequence = (v.attackSequence ?? 0) + 1;
+      v.animationState.attackId = `${m.strikeGeneration ?? 0}:${m.strike?.attackId ?? 0}:${v.attackSequence}`;
+      v.animationState.attackElapsed = m.strike ? Math.max(0, monsterAttackImpact(m.type) - m.strike.remaining) : 0;
+      v.animationState.attackCancelled = false;
+    });
+    combat.on('monster-attack-cancel', m => {
+      const v = this.views.get(m.id);
+      if (v) { v.attackAnim = 0; v.animationState.attackCancelled = true; }
+    });
     combat.on('spawn', m => {
       const v = this.ensure(m); v.group.visible = true; v.fade = 0; v.dying = 0; v.attackAnim = 0;
       if (v.bossMotion?.dead) v.bossMotion.reset();
@@ -434,7 +447,6 @@ export class CombatView {
       g.visible = true;
       g.position.set(m.x, this.groundHeight(m.x, m.z), m.z);
       g.rotation.y += Math.atan2(Math.sin(m.facing - g.rotation.y), Math.cos(m.facing - g.rotation.y)) * Math.min(1, dt * 10);
-      if (m.attackTimer > (m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay)) - .3) v.attackAnim = .25;
       v.attackAnim = Math.max(0, v.attackAnim - dt);
       v.animationState.hurt = v.flash > 0; v.animationState.dying = !!v.dying;
       v.animationState.bossMotion = v.bossMotion?.update(dt, v.animationState);

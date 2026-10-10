@@ -45,6 +45,8 @@ export const MONSTER_MODELS = {
   pusom: { url: '/models/monsters/pusom.glb', height: 1.9 },
   nangram: { url: '/models/monsters/nangram.glb', height: 1.9 },
   tiger: { url: '/models/monsters/tiger.glb', height: 1.52 },
+  tani: { url: '/models/monsters/tani.glb', height: 1.5714285714285716 },
+  phong: { url: '/models/monsters/phong.glb', height: 1.9 },
   // world boss, the ghost sisters (Meshy models, tools/meshy/): taller than any other ghost
   // like the other bosses: a painted-colour fill (and lighter boss fog) so they read in the dark hall at night
   ghost_red: { url: '/models/monsters/ghost_red.glb', height: 2.6, lift: .1, fill: .5, fogScale: .45, deathDim: .82 },
@@ -165,7 +167,7 @@ export function makeMonsterModel(type, fallback, monsterId, { bossMotion, loadMo
     for (const name of ['attack','hurt','die']) if (actions[name]) {
       actions[name].setLoop(THREE.LoopOnce, 1); actions[name].clampWhenFinished = true;
     }
-    let current = null, previousTime = null, wasAttacking = false, wasHurt = false, deathTime = 0;
+    let current = null, previousTime = null, wasAttacking = false, wasHurt = false, deathTime = 0, attackId = null;
     bossAnimator = createBossAnimator(type, mixer, actions);
     group.userData.animationState = () => bossAnimator ? bossAnimator.state() : ({ clip: current?.getClip().name, clipTime: current?.time, time: current?.time, timeScale: current?.timeScale });
     if (actions.die) actions.die.timeScale = 1.4;
@@ -184,7 +186,11 @@ export function makeMonsterModel(type, fallback, monsterId, { bossMotion, loadMo
       for (const { material, color } of deathColors) material.color.copy(color).multiplyScalar(1 - spec.deathDim * deathTime);
       if (bossAnimator) { bossAnimator.update(dt, moving, attacking, state); return; }
       if (dying) play('die');
-      else if (attacking && !wasAttacking && actions.attack) { play('attack'); actions.attack.reset().play(); }
+      else if (state.attackCancelled && current === actions.attack) play(moving ? 'walk' : 'idle');
+      else if (attacking && actions.attack && (state.attackId ? state.attackId !== attackId : !wasAttacking)) {
+        attackId = state.attackId; play('attack'); actions.attack.reset().play();
+        actions.attack.time = Math.min(state.attackElapsed ?? 0, actions.attack.getClip().duration);
+      }
       else if (hurt && !wasHurt && current !== actions.attack && actions.hurt) { play('hurt'); actions.hurt.reset().play(); }
       else if (current === actions.die || (current !== actions.attack && current !== actions.hurt) || !current?.isRunning()) play(moving ? 'walk' : 'idle');
       wasAttacking = attacking; wasHurt = hurt; mixer.update(dt);

@@ -8,9 +8,10 @@ shipping approval.
 
 ## Current bounded delivery
 
-Nangram V4 and the half-human tiger ghost V6 are admitted with separate embedded
-GLBs and five authored clips each. The runtime registry now contains 35 models;
-32 gameplay IDs remain pending. Their art, technical and runtime approvals are in
+Nangram V4, the half-human tiger ghost V6, Tani arm V8 and Phong target V5 are
+admitted with separate embedded GLBs and five authored clips each. The runtime
+registry now contains 37 models: 33 immutable baseline models and 4 accepted
+additions; 30 gameplay IDs remain pending. Their art, technical and runtime approvals are in
 `docs/art/monsters/meshy-roster-20261010/`. The remaining work stays explicitly
 pending in `production-roster.json`. This delivery does not assert that every
 monster model is finished.
