@@ -42,10 +42,11 @@ export function createViewPrefs() {
     // graphics quality (remembered): a phone, or a machine with little memory or few cores, starts on low
     quality: saved.quality === 'low' || saved.quality === 'high' ? saved.quality : weakDevice() ? 'low' : 'high',
     particles: saved.particles !== false,
-    monsters: saved.monsters === '3d' ? '3d' : 'pixel',   // how monsters are drawn: pixel sprites (RO style) or 3D models
+    monsters: '3d',   // pixel monsters are disabled, including older device preferences
     scale: 1,
     set(change) {
       Object.assign(prefs, change);
+      prefs.monsters = '3d';
       try { localStorage.setItem(KEY, JSON.stringify({ zoom: prefs.zoom, zoomV: 2, hud: prefs.hud, zoomLock: prefs.zoomLock, quality: prefs.quality, particles: prefs.particles, monsters: prefs.monsters })); } catch { /* storage unavailable */ }
       apply();
     },

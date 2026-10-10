@@ -1,0 +1,11 @@
+# เสือสมิง — corrected production brief
+
+The user specified a half-human, half-tiger ghost. The completed four-legged tiger generation is rejected for identity, not accepted as the final Suea Saming model. Retain both provider tasks, original GLB, previews and the actual 30-credit cost in provenance.
+
+Replacement: upright humanoid with clearly human torso, waist, arms and two legs; fierce feline-human face and white cheek ruff; selective striped shoulder and forearm fur, claws and one tiger tail. Muted burnt orange, cream, charcoal stripes, ashen skin and a ragged Thai indigo sarong. Model in neutral A-pose, empty hands, separated limbs and planted feet. Keep the torso readable from the elevated gameplay camera.
+
+The user authorized the replacement preview/refine pair at 30 credits **inside the existing 930-credit budget**. The rejected 30 credits remain charged. The current ledger is 920 credits: 32 previews at 20 credits, 25 refinements at 10 credits and the rejected animal tiger at 30 credits. Six rejected previews were not refined; their unused refinement reservations allowed `fallen_city_2` and `demon_rift_0` to be produced. `demon_rift_1` and `demon_rift_2` remain unsubmitted. The remaining 10 credits are reserved for the held spider texture stage after anatomy review.
+
+Operator command after that explicit approval: `node tools/monster-models/meshy-roster-runner.mjs rerun-tiger --approved-design`. It migrates the original lineage to `rejected_variants` without deleting sources, records rejected cost, and submits one replacement preview with unique operation ID `tno-tiger-halfhuman-v2-preview`. Subsequent refine uses `tno-tiger-halfhuman-v2-refine`; unknown submissions block automatic retry.
+
+The reviewed V6 export has 12,256 triangles, three draw calls and five authored clips. Harmonic topology-based skin weights repair the wrist, neck, arm and tail ownership; the tail base stays attached during the defeated bow. The fitted indigo wrap has outward winding and a visible diagonal overlap/tie. Art, technical and runtime approvals bind the exact final body in `meshy-roster-20261010/`. Runtime placement uses base height 1.52 with the existing gameplay size 1.25 for a 1.9m world height. The defeated pose is a bowed crouch rather than a grounded prone fall. Never integrate the rejected full-animal model as Suea Saming.

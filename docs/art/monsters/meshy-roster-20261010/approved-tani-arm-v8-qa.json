@@ -1,0 +1,79 @@
+{
+  "monster": "tani",
+  "version": "arm-v8",
+  "approved": true,
+  "passed": true,
+  "artifactSha256": "87c340de1798aa82d5f816ec35105a879df0978721367b3b6007dc7b3a39d8d1",
+  "artifactBytes": 1466376,
+  "candidateOnly": true,
+  "productionRegisteredUrlVerified": false,
+  "worldHeight": 2.2000000000000006,
+  "modelSpecHeight": 1.5714285714285716,
+  "gameplaySize": 1.4,
+  "runtimeBaselineCount": 35,
+  "checks": {
+    "exactServedBodyHash": true,
+    "fiveClips": true,
+    "continuousGatherPressRecovery": true,
+    "hpUnchangedBeforePress": true,
+    "oneHitAtPress": true,
+    "offlineImpactSeconds": 0.5416666666666666,
+    "server10HzReleaseSeconds": 0.6,
+    "serverTimingToleranceSeconds": 0.1,
+    "hurt": true,
+    "deathHeld": true,
+    "deathCueCancelled": true,
+    "mapCueCancelled": true,
+    "noninteractiveCorpse": true,
+    "picking": true,
+    "collisionRejection": true,
+    "disposalAndFreshController": true,
+    "registryRestored": true,
+    "zeroPageErrors": true
+  },
+  "validation": {
+    "full": {
+      "total": 872,
+      "pass": 870,
+      "fail": 0,
+      "skip": 2
+    },
+    "build": {
+      "passed": true,
+      "modules": 298
+    }
+  },
+  "evidence": {
+    "runtimeResult": "artifacts/all-monster-models/runtime-qa/tani-windup-result.json",
+    "runtimeResultSha256": "0b8f2f2d589c88a62324736887dde6bf790d79fdbe1b4b4a8f474e672b45fae4",
+    "screenshots": [
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/tani-windup-gather.png",
+        "sha256": "6d78a3c259e369990182145107d0b0a34a380ac2b67d0337c1f350cedee3bb42",
+        "mark": "gather"
+      },
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/tani-windup-prepress.png",
+        "sha256": "03498adfe5079c95576e16c8cc7e302aa66a35a800629f321438930f22e5c05b",
+        "mark": "prepress"
+      },
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/tani-windup-press.png",
+        "sha256": "d041f1054d6ffe516f0c84ccc8d9a57468c001045e9f389af62a726af71aced9",
+        "mark": "press"
+      },
+      {
+        "path": "artifacts/all-monster-models/runtime-qa/tani-windup-recovery.png",
+        "sha256": "a0f7ccd6bb85cacd286107bfcaaa552f1191c9eac5157242cd0f8197daeb3379",
+        "mark": "recovery"
+      }
+    ],
+    "fullTestLog": "artifacts/all-monster-models/runtime-qa/windup-full-tests.log"
+  },
+  "limitations": [
+    "Browser timing verified the actual offline Combat/CombatView/MonsterModels pipeline with an ephemeral candidate registry entry; production URL needs fresh verification after admission.",
+    "Authoritative 10 Hz release was verified with actual MonsterWorld fixtures; lost-start, generation, cancellation and trade-freeze coverage uses automated route/unit fixtures, not a real WebSocket multiplayer session.",
+    "Browser used deterministic 1/24-second simulation steps and headless Edge SwiftShader; no network latency or rendering performance claim.",
+    "Ordinary non-stunning hurt does not cancel a valid queued strike; stun, death, invalid target/range and map leave cancel it. Hurt clip was verified after recovery."
+  ]
+}

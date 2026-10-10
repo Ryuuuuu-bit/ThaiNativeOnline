@@ -1,0 +1,29 @@
+{
+  "reviewer": "logic_director",
+  "artifact": "artifacts/all-monster-models/rig/tani-five-clips-arm-v8.glb",
+  "artifactSha256": "87c340de1798aa82d5f816ec35105a879df0978721367b3b6007dc7b3a39d8d1",
+  "approved": true,
+  "approvedForRuntime": false,
+  "scope": "Actual exported body Art gate; runtime integration and combat QA remain separate",
+  "scores": { "styleMatch": 8, "readability": 8, "technicalUsability": 8, "ThaiIdentity": 8 },
+  "screenshotsReviewed": [
+    "tani-arm-v8-idle-first-game.png", "tani-arm-v8-walk-quarter-game.png",
+    "tani-arm-v8-attack-gather-game.png", "tani-arm-v8-attack-press-game.png", "tani-arm-v8-attack-recovery-game.png",
+    "tani-arm-v8-attack-gather-side.png", "tani-arm-v8-attack-press-side.png", "tani-arm-v8-attack-press-front.png",
+    "tani-arm-v8-hurt-mid-game.png", "tani-arm-v8-die-last-game.png", "tani-arm-v8-die-last-side.png"
+  ],
+  "observations": [
+    "Layered green leaf dress, exposed bare feet and Thai hair and ornaments preserve banana-leaf spirit identity rather than the chada dancer silhouette.",
+    "Actual attack now raises the leading palm during gather, then moves it lower and forward as the torso bows toward impact. Game and side comparisons establish a deliberate pressing gesture and recovery returns to the neutral silhouette. This resolves the V4 constant lateral-palms blocker at the minimum acceptance level.",
+    "The front impact remains restrained; strongest readability comes from the sequence and side/game views, not an isolated front pose.",
+    "Idle and walk retain the tall spirit silhouette. Hurt remains a modest recoil and head response. Death ends in a large forward tilt visibly distinct from idle, suitable for a spectral disappearance rather than a grounded corpse.",
+    "Reviewed arm, wrist, shoulder and leaf attachments show no visible floating segments, major skin tears or exposed body gaps at the supplied strongest poses."
+  ],
+  "validation": { "screenshotsInspected": 11, "sha256Verified": true, "meshProofReported": { "samples": 138, "result": "PASS", "maxExtensionMm": 9.719, "maxRatio": 1.315, "floorMm": 2.689 }, "buildRun": false },
+  "limitations": [
+    "Art review uses actual sampled PNGs; continuous timing and blend transitions still require runtime observation.",
+    "Attack acceptance depends on preserving gather, press and recovery timing. Runtime combat must align the damage cue with the pressing phase.",
+    "Death requires runtime inactive/despawn behavior; this report does not approve corpse persistence or gameplay state handling.",
+    "Only this approval report was changed; no GLB or runtime source edits were made."
+  ]
+}

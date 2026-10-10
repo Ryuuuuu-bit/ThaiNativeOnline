@@ -1,0 +1,127 @@
+{
+  "monster": "tiger",
+  "version": "v6",
+  "reviewRole": "gameplay-engineer",
+  "reviewScope": "Actual-game bounded runtime smoke, not art or deformation review.",
+  "approved": true,
+  "passed": true,
+  "artifact": "artifacts/all-monster-models/rig/tiger-five-clips-v6.glb",
+  "artifactSha256": "bd32b1bbc15978fbbe1531f84b8f27ba81a311d05a8f6b6b901c511294d5a1ca",
+  "artifactBytes": 1909436,
+  "browserServedSha256": "bd32b1bbc15978fbbe1531f84b8f27ba81a311d05a8f6b6b901c511294d5a1ca",
+  "pipeline": "window.game.game.view.ensure -> makeMonsterModel -> GLTFLoader -> SkeletonUtils clone -> AnimationMixer",
+  "environment": "Fresh Edge headless SwiftShader guest browser; shared no-HMR Vite5295 left unchanged; ephemeral candidate injection only.",
+  "actualChecks": {
+    "servedSha256": "bd32b1bbc15978fbbe1531f84b8f27ba81a311d05a8f6b6b901c511294d5a1ca",
+    "servedBytes": 1909436,
+    "clips": [
+      "idle",
+      "walk",
+      "attack",
+      "hurt",
+      "die"
+    ],
+    "baselineCount": 33,
+    "specHeight": 1.52,
+    "gameplaySize": 1.25,
+    "height": 1.9000000000000001,
+    "meshCount": 3,
+    "triangles": 12256,
+    "damage": {
+      "before": 1500,
+      "after": 1490,
+      "flash": 0
+    },
+    "hurt": {
+      "clip": "hurt",
+      "clipTime": 0.1,
+      "time": 0.1,
+      "timeScale": 1
+    },
+    "death": {
+      "clip": "die",
+      "clipTime": 0.013999999999987266,
+      "time": 0.013999999999987266,
+      "timeScale": 1.4
+    },
+    "dieDuration": 1,
+    "deathFinal": {
+      "clip": "die",
+      "clipTime": 1,
+      "time": 1,
+      "timeScale": 1.4
+    },
+    "deathStopped": {
+      "clip": "die",
+      "clipTime": 1,
+      "time": 1,
+      "timeScale": 1.4
+    },
+    "noninteractiveAfterDeath": true,
+    "deathHidden": true,
+    "targetable": true,
+    "pickOwner": true,
+    "blockedSpawnRejected": true,
+    "dead": true,
+    "deadState": "dead",
+    "loaded": true,
+    "retired": true,
+    "rebuilt": true,
+    "materialDisposals": 4,
+    "skeletonDisposals": 3,
+    "baselineCandidates": 0,
+    "remainingCandidates": 0,
+    "noAddedCandidateReferences": true,
+    "viewsRemoved": true,
+    "registryRestored": true,
+    "selectedClips": [
+      "idle",
+      "walk",
+      "attack",
+      "hurt",
+      "die"
+    ],
+    "dieEndpointStoppedNotLooping": true
+  },
+  "pageExceptions": [],
+  "network": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap",
+      "failure": {
+        "errorText": "net::ERR_NETWORK_ACCESS_DENIED"
+      }
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@400;500;600&display=swap",
+      "failure": {
+        "errorText": "net::ERR_NETWORK_ACCESS_DENIED"
+      }
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@400;500;600&display=swap",
+      "failure": {
+        "errorText": "net::ERR_NETWORK_ACCESS_DENIED"
+      }
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap",
+      "failure": {
+        "errorText": "net::ERR_NETWORK_ACCESS_DENIED"
+      }
+    }
+  ],
+  "evidence": {
+    "report": "artifacts/all-monster-models/runtime-qa/tiger-v6-result.json",
+    "harness": "artifacts/all-monster-models/runtime-qa/tiger-v6.cjs",
+    "screenshots": [
+      "artifacts/all-monster-models/runtime-qa/tiger-v6-game.png"
+    ]
+  },
+  "limitations": [
+    "Spec height1.52m preserves existing tiger gameplay size1.25 and yields required actual worldheight1.9m.",
+    "Bounded disposal/reference checks only; no FPS, leak soak, authoritative online server or art approval claim.",
+    "External Google font requests blocked; unrelated console404; model body loaded without fallback.",
+    "Inherited skeleton expectation was corrected for three clones; placement was then corrected to spec1.52 and exact unchanged artifact rerun at targetworld1.9m.",
+    "Prior parent fullsuite835pass0fail2skip; focused admission39pass0fail0skip/build297passed for Nangram; no broad suite/build repeated for this Tiger candidate."
+  ]
+}

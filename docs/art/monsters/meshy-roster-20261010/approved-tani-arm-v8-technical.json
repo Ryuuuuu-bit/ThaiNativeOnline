@@ -1,0 +1,41 @@
+{
+  "artifactSha256": "87c340de1798aa82d5f816ec35105a879df0978721367b3b6007dc7b3a39d8d1",
+  "approved": true,
+  "passed": true,
+  "bytes": 1466376,
+  "triangles": 10462,
+  "drawCalls": 2,
+  "clips": ["idle", "walk", "attack", "hurt", "die"],
+  "validation": {
+    "gameLoaderAndSkinClipLoopBoundsTest": "passed: exact candidate, existing monster-model-assets checks",
+    "embeddedBuffersAndTextures": true,
+    "normalizedWeightsMaxInfluences": 4,
+    "nonemptyFiniteClips": true,
+    "idleWalkLoopSeams": true,
+    "noStudioObjects": true,
+    "fullMeshActualAnimationSamples": 138,
+    "maxEdgeDeltaMetres": 0.009718969871410243,
+    "maxEdgeRatio": 1.314529736227957,
+    "minEdgeRatio": 0.5670031394703503,
+    "minFloorMetres": 0.002688537711253062,
+    "allVerticesFinite": true,
+    "exportedWeightsMatchCommittedRepair": true,
+    "maxWeightDifference": 0,
+    "preservedLeafBodyVertices": 288
+  },
+  "method": "Actual exported GLB and game GLTFLoader/AnimationMixer. Every skinned vertex and triangle edge above 1mm sampled at 24Hz plus quarter/endpoints; no counterfactual weights or motion injected. Limits apply in normalized source space.",
+  "limits": {"maxEdgeDeltaMetres": 0.01, "maxEdgeRatio": 1.4, "minEdgeRatio": 0.5, "minFloorMetres": -0.01},
+  "placement": {"baseHeight": 1.5714285714285716, "unchangedGameplaySize": 1.4, "worldHeightMetres": 2.2},
+  "localEvidence": [
+    "artifacts/all-monster-models/source-qa/tani-arm-v8-fullmesh-proof.json",
+    "artifacts/all-monster-models/rig/tani-arm-v8-exported-weight-authority.json",
+    "artifacts/all-monster-models/source-qa/tani-arm-v8-palm-travel.json",
+    "artifacts/all-monster-models/verify-tani-arm-v8.test.mjs"
+  ],
+  "limitations": [
+    "Observed legless robe with 12 joints; no hidden knees or planted feet",
+    "Attack readability relies on gather, press and recovery timing",
+    "Death is a held spectral bow, not a grounded prone fall",
+    "Performance and online server soak are not established by this asset check"
+  ]
+}

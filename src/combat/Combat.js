@@ -15,6 +15,7 @@ import { MONSTER_ACCURACY, killExp } from '../character/data/progression.js';
 import { afterHit, shoveTo } from './monsterHit.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 import { resetBossSkills, cancelBossSkill, tickBossSkills } from './bossSkills.js';
+import { monsterAttackImpact, beginMonsterStrike, tickMonsterStrike, cancelMonsterStrike } from './monsterAttackTiming.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -84,6 +85,8 @@ export class Combat extends Emitter {
       if (existing) Object.assign(existing, { x, z, home: { x, z }, hp: existing.maxHp, state: 'idle', debuffs: [], attackTimer: 0 });
       else this.monsters.push(monster);
       resetBossSkills(monster);
+      this.cancelMonsterAttack(monster);
+      monster.strikeGeneration = (monster.strikeGeneration ?? 0) + 1;
       this.emit('spawn', monster);
       return monster;
     }
@@ -231,6 +234,7 @@ export class Combat extends Emitter {
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
   kill(m) {
+    this.cancelMonsterAttack(m);
     for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
     m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn; m.debuffs = [];
     const c = this.character;
@@ -337,6 +341,7 @@ export class Combat extends Emitter {
 
   updateMonster(m, dt, p) {
     const c = this.character;
+    if (m.strike && (!m.alive || !c.alive || m.state !== 'chase')) this.cancelMonsterAttack(m);
     if (m.skillCast && m.state !== 'chase') for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
     if (m.state === 'dead' || m.state === 'dormant') {
       if (!this.isActive(m.spawn)) { m.state = 'dormant'; return; }
@@ -364,6 +369,16 @@ export class Combat extends Emitter {
     }
     m.attackTimer = Math.max(0, m.attackTimer - dt);
     m.moving = false;
+    if (m.strike) {
+      const valid = c.alive && m.state === 'chase' && !m.debuffs.some(d => d.stun)
+        && dist(m, m.home) <= LEASH && dist(m, p) <= m.def.range;
+      if (!valid) this.cancelMonsterAttack(m);
+      else {
+        const release = tickMonsterStrike(m, dt);
+        if (release) this.releaseMonsterAttack(m, null, release.fx);
+        return;
+      }
+    }
     if (m.debuffs.some(d => d.stun) && m.state !== 'return') {
       for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
       return;
@@ -418,11 +433,29 @@ export class Combat extends Emitter {
   // fx: { knock, pull } from the server (offline a knock is rolled here); a landed hit also
   // poisons / drains MP (src/combat/monsterHit.js).
   monsterAttack(m, res = null, fx = null) {
-    const c = this.character;
+    if (m.strike) return;
     m.attackTimer = m.def.attackDelay ?? (m.def.elite ? RULES.eliteAttackDelay : RULES.monsterAttackDelay);
     m.swungAtMe = Date.now();   // AUTO goes for the ones attacking us first (src/ui/autoSettings.js)
     this.combatTimer = COMBAT_TIMEOUT;
+    if (!this.remote && !res && !fx?.skill && monsterAttackImpact(m.type) > 0) {
+      beginMonsterStrike(m, { fx });
+      this.emit('monster-attack', m);
+      return;
+    }
     this.emit('monster-attack', m);
+    this.releaseMonsterAttack(m, res, fx);
+  }
+
+  cancelMonsterAttack(m) {
+    if (cancelMonsterStrike(m)) this.emit('monster-attack-cancel', m);
+  }
+
+  cancelMonsterAttacks() {
+    for (const m of this.monsters) this.cancelMonsterAttack(m);
+  }
+
+  releaseMonsterAttack(m, res = null, fx = null) {
+    const c = this.character;
     const at = this.world.playerPos();
     if (m.def.ranged) this.emit('projectile', { from: { x: m.x, z: m.z }, target: { x: at.x, z: at.z }, color: m.def.ranged, duration: .3 });
     if (res ? res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }

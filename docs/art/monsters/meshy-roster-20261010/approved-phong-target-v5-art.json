@@ -1,0 +1,20 @@
+{
+  "reviewer": "logic_director",
+  "artifact": "artifacts/all-monster-models/rig/phong-five-clips-target-v5.glb",
+  "artifactSha256": "36455b5787785641fca1ae3604ece2925b47a5aaf129a0699e38603bb08a4a78",
+  "approved": true,
+  "approvedForRuntime": false,
+  "scope": "Actual exported body Art gate; gameplay timing and runtime admission require separate QA",
+  "scores": { "styleMatch": 8, "readability": 8, "technicalUsability": 8, "ThaiIdentity": 8 },
+  "screenshotsReviewed": ["phong-target-v5-idle-first-game.png", "phong-target-v5-walk-quarter-game.png", "phong-target-v5-attack-anticipation-game.png", "phong-target-v5-attack-mid-game.png", "phong-target-v5-attack-recovery-game.png", "phong-target-v5-attack-mid-side.png", "phong-target-v5-hurt-mid-game.png", "phong-target-v5-die-last-game.png"],
+  "observations": [
+    "Gaunt torso, dark hair and bright nose flame retain recognizable Phong identity and preserve the flame focal point through the reviewed poses.",
+    "Leading hand gathers near the ribs and then reaches forward and lower across the torso, with a downward head and hungry body inclination. The side impact makes the targetward grasp clear, resolving the previous slight lateral arm lift. Recovery restores the open idle silhouette.",
+    "Attack motion meets minimum readability in sequence; an isolated game frame remains restrained. Preserve gather-to-grasp timing and target-facing orientation.",
+    "Idle and walk preserve the thin spirit silhouette. Hurt lifts the face in a modest recoil; death bows the head and narrows the hanging arms into an inactive silhouette.",
+    "No visible detached wrists, severe shoulder tearing or flame displacement appeared in the reviewed actual strongest poses."
+  ],
+  "attackTimingRequirement": { "impactMarkerSeconds": 0.5, "basis": "Actual sampled mid pose is the fullest reviewed hungry grasp; anticipation 0.18 and recovery 0.85 seconds", "status": "Required future gameplay metadata and runtime QA, not implemented or waived by this approval", "requirement": "Authoritative damage and visible impact cue must align with grasp rather than the start of gather. Confirm marker against continuous actual playback before admission." },
+  "validation": { "screenshotsInspected": 8, "sha256Verified": true, "meshProofReported": { "samples": 135, "result": "PASS", "combinedEdgeViolations": 0 }, "buildRun": false },
+  "limitations": ["This Art approval does not certify continuous blends, authoritative combat timing or runtime performance.", "Death needs runtime inactive/despawn behavior; pose approval alone does not approve persistent standing corpses.", "Only this report changed; no runtime or asset edits."]
+}
