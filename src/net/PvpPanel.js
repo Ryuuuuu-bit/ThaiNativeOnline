@@ -1,6 +1,6 @@
 import {PartyFollow} from './PartyFollow.js';
 import {SKILLS} from '../combat/data/skills.js';
-import {KARMA} from '../data/karma.js';
+import {KARMA,SIN_RANKS,MERIT_RANKS,sinRank,meritRank,shopMarkup} from '../data/karma.js';
 import './pvp.css';
 const WHY={guest:'ต้องเข้าสู่ระบบก่อน',safe:'เมืองเป็นพื้นที่ปลอดภัย',level:`ต้องถึง Lv ${KARMA.freeLevel} ก่อนจึง PK ได้`,protected:`ผู้เล่นต่ำกว่า Lv ${KARMA.freeLevel} ได้รับความคุ้มครองจาก PK`,duel:'ระหว่างดวลตีได้เฉพาะคู่ดวล',party:'โจมตีสมาชิกปาร์ตี้ไม่ได้',far:'เป้าหมายอยู่ไกลเกินไป',blocked:'มีสิ่งกีดขวางระหว่างเป้าหมาย',busy:'ทำไม่ได้ระหว่างต่อสู้ ดวล หรือแลกของ',dead:'ต้องฟื้นก่อน',room:'ต้องอยู่แผนที่และแชนแนลเดียวกัน',expired:'คำท้าดวลหมดอายุ',slow:'กรุณารอสักครู่',offline:'ไม่พบผู้เล่น',city:'อยู่ในเมืองแล้ว',cooldown:'ยังอยู่ในคูลดาวน์',self:'เลือกผู้เล่นอื่น'};
 export function attachPvp(net,game,chat,social) {
@@ -53,9 +53,13 @@ export function attachPvp(net,game,chat,social) {
     if(m.rank)plate.style.setProperty('--rank-color',m.rankColor);else plate.style.removeProperty('--rank-color');
     plate.dataset.karma=m.tier||'';
   }
+  // the online panel: the zone, both paths with the next rank, and the vendors' markup
   function showKarma(m){
-    const zone=m.pk?'เขต PK เสรี':`ปลอดภัยจาก PK${game.game.character.level<KARMA.freeLevel?` (ถึง Lv ${KARMA.freeLevel} จึง PK ได้)`:''}`;
-    el('[data-karma]').innerHTML=`<span>${zone}</span><span>บาป <b class="sin">${m.sin}</b> · บุญ <b class="merit">${m.merit}</b>${m.rank?` · ยศ <b style="color:${m.rankColor}">${m.rank}</b>`:''}</span>`;
+    const c=game.game.character;Object.assign(c.rec,{sin:m.sin,merit:m.merit});   // the shop prices read these
+    const zone=m.pk?'เขต PK เสรี':`ปลอดภัยจาก PK${c.level<KARMA.freeLevel?` (ถึง Lv ${KARMA.freeLevel} จึง PK ได้)`:''}`;
+    const path=(label,cls,n,r,first)=>{const next=r?r.next:first;return `<span>${label} <b class="${cls}">${n.toLocaleString()}</b>${r?` · <b style="color:${r.color}">${r.name}</b>`:''}${next?` <small>ขั้นต่อไป ${next.toLocaleString()}</small>`:''}</span>`;};
+    const markup=shopMarkup(m.sin);
+    el('[data-karma]').innerHTML=`<span>${zone}${m.rank?` · ยศ <b style="color:${m.rankColor}">${m.rank}</b>`:''}</span>${path('บาป','sin',m.sin,sinRank(m.sin),SIN_RANKS[0][0])}${path('บุญ','merit',m.merit,meritRank(m.merit),MERIT_RANKS[0][0])}${markup?`<span class="markup">ร้านในเมืองคิดเพิ่ม +${Math.round(markup*100)}%</span>`:''}`;
   }
   net.on('pvp_hit',m=>{
     if(m.from!==me)return;

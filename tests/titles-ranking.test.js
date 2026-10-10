@@ -9,10 +9,10 @@ import { Presence } from '../server/presence.js';
 import { Combatants } from '../server/combatants.js';
 import { reconcileSave } from '../server/progress.js';
 
-test('the titles tab lists 28 earnable titles (10 of them PK) in known categories, plus the rank titles', () => {
+test('the titles tab lists 36 earnable titles (16 of them PK) in known categories, plus the rank titles', () => {
   const cats = new Set(TITLE_CATS.map(([k]) => k));
-  assert.equal(TITLES.filter(t => !t.dynamic).length, 28);
-  assert.equal(TITLES.filter(t => t.cat === 'pvp').length, 10);
+  assert.equal(TITLES.filter(t => !t.dynamic).length, 36);
+  assert.equal(TITLES.filter(t => t.cat === 'pvp').length, 16);
   assert.ok(TITLES.every(t => cats.has(t.cat) && t.name && t.hint && t.color));
   assert.equal(new Set(TITLES.map(t => t.id)).size, TITLES.length);
 });

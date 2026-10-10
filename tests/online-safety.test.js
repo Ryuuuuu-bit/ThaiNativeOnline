@@ -6,7 +6,10 @@ import {collisionSourceHash as sourceHash} from '../tools/collision-source-hash.
 import {Presence} from '../server/presence.js';
 import {MAPS} from '../src/world/maps.js';
 import {Pvp} from '../server/pvp.js';
-import {KARMA,settleKill,karmaRank,karmaTier} from '../src/data/karma.js';
+import {KARMA,SIN_RANKS,MERIT_RANKS,settleKill,karmaRank,karmaTier,shopMarkup} from '../src/data/karma.js';
+import {buy,buyPrice,stockOf} from '../src/shop/ShopSystem.js';
+import {SHOPS} from '../src/data/shops.js';
+import {ITEMS} from '../src/character/data/items.js';
 import {Combatants} from '../server/combatants.js';
 import {Character} from '../src/character/Character.js';
 import {SaveQueue} from '../server/save-queue.js';
@@ -64,19 +67,26 @@ test('free PK opens at Lv 20 outside the city, protects lower levels and spares 
   p.touch(1,2);assert.equal(p.provoked(1,2),true);assert.equal(p.provoked(2,1),false);
   t=61;p.sweep(()=>null);assert.equal(p.provoked(1,2),false);
 });
-test('บาป บุญ: murder, justice and self-defence; monsters wear sin off; ranks and PK titles',()=>{
+test('บาป บุญ: murder, justice and self-defence; lifetime points; ten ranks a side; shop markup; PK titles',()=>{
   assert.deepEqual(settleKill({victimSin:0}),{kind:'murder',sin:KARMA.sinPerMurder,merit:0});
   assert.equal(settleKill({victimSin:0,provoked:true}).kind,'defense');
   const j=settleKill({victimSin:200});assert.equal(j.kind,'justice');assert.equal(j.merit,Math.round(KARMA.meritBase+200*KARMA.meritShare));
+  assert.equal(settleKill({victimSin:999999}).merit,Math.round(KARMA.meritBase+KARMA.meritSinCap*KARMA.meritShare));   // capped per kill
   assert.equal(settleKill({victimSin:KARMA.redAt-1}).kind,'murder');
   assert.equal(settleKill({victimSin:KARMA.redAt,provoked:true}).kind,'justice');   // a หัวแดง who struck first is still justice
   assert.equal(karmaTier(0),'');assert.equal(karmaTier(1),'stain');assert.equal(karmaTier(KARMA.redAt),'red');
+  assert.equal(SIN_RANKS.length,10);assert.equal(MERIT_RANKS.length,10);
   assert.equal(karmaRank({sin:0,merit:0}),null);assert.equal(karmaRank({merit:500}).name,'หลวง');
-  assert.equal(karmaRank({sin:150,merit:5000}).kind,'sin');
-  const c=Character.create('test','muaythai');c.note('sin',3);c.noteKill('boar');assert.equal(c.rec.sin,2);
+  assert.equal(karmaRank({sin:150,merit:5000}).kind,'merit');assert.equal(karmaRank({sin:3000,merit:400}).kind,'sin');   // the higher rank shows, sin on a tie
+  assert.equal(karmaRank({sin:50000}).name,'จ้าวนรกอเวจี');assert.equal(karmaRank({merit:50000}).name,'ตำนานผู้พิทักษ์ธรรม');
+  assert.equal(shopMarkup(0),0);assert.equal(shopMarkup(1),.01);assert.equal(shopMarkup(1e9),KARMA.maxMarkup);
+  const shopper=Character.create('shop','muaythai');shopper.rec.sin=50000;shopper.gold=1e6;
+  assert.equal(ITEMS.potion_s.price,10);assert.equal(buyPrice(shopper,'potion_s'),11);shopper.rec.sin=1;assert.equal(buyPrice(shopper,'potion_s'),11);shopper.rec.sin=0;assert.equal(buyPrice(shopper,'potion_s'),10);shopper.rec.sin=50000;
+  const before=shopper.gold;assert.ok(buy(shopper,Object.keys(SHOPS).find(k=>stockOf(k).includes('potion_s')),'potion_s',1).ok);assert.equal(before-shopper.gold,11);
+  const c=Character.create('test','muaythai');c.note('sin',3);c.noteKill('boar');assert.equal(c.rec.sin,3);   // monsters never touch บาป
   c.note('pkKill');c.note('redKill');c.note('duelWin');c.note('merit',1000);c.checkTitles();
   for(const id of ['pk1','redhunt1','duel1','merit1000'])assert.ok(c.titles.includes(id),id);
-  const back=new Character(c.toJSON());assert.equal(back.rec.sin,2);assert.equal(back.rec.merit,1000);
+  const back=new Character(c.toJSON());assert.equal(back.rec.sin,3);assert.equal(back.rec.merit,1000);
 });
 test('duel knockout leaves one HP without rewards and shares PvE basic rate limits',()=>{
   const cs=new Combatants({now:()=>0,random:()=>.5});

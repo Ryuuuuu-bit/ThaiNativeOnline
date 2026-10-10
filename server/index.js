@@ -418,7 +418,7 @@ wss.on('connection', ws => {
     conns.delete(ws);
     const departing = presence.players.get(ws);
     const r = presence.leave(ws);
-    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); partyBoard.disconnect(r.id); endDuel(pvp.leave(r.id)); karmaSeen.delete(r.id); if (r.account) friendNews(r, false); }
+    if (r) { endTrade(r.id, 'left'); leaveParty(r.id); partyBoard.disconnect(r.id); endDuel(pvp.leave(r.id)); if (r.account) friendNews(r, false); }
     if (r) { const s=combatants.get(r.id); if(!stopping){if(s?.persist)s.dirty=true;flushEntry(s,departing);} combatants.drop(r.id); }
     if (r) { toMap(r.map, { t: 'leave', id: r.id }); toAll({ t: 'online', n: presence.count }); }
   });
@@ -472,14 +472,11 @@ function karmaOf(id) {
   const rec = combatants.get(id)?.persist ? combatants.get(id).c.rec : {}, sin = rec.sin || 0, merit = rec.merit || 0, rank = karmaRank({ sin, merit });
   return { sin, merit, tier: karmaTier(sin), rank: rank?.name ?? null, rankColor: rank?.color ?? null };
 }
-const karmaSeen = new Map();
 function pvpState(id) {
   const p = byId(id)?.p; if (!p) return;
-  const k = karmaOf(id); karmaSeen.set(id, `${k.tier}|${k.rank}`);
+  const k = karmaOf(id);
   toMap(p.room, {t:'pvp_state',id,...pvp.view(id),pk:pvp.open(pvpPlayer(id)),...k});
 }
-// after a monster kill or a level up: the plate changes only when the tier or the rank did
-function karmaNews(id) { const k = karmaOf(id); if (karmaSeen.get(id) !== `${k.tier}|${k.rank}`) pvpState(id); }
 // a free-PK kill judged (src/data/karma.js settleKill): the killer gains บาป or บุญ
 function karmaKill(killerId, victimId) {
   const k = combatants.get(killerId), v = combatants.get(victimId); if (!k?.persist || !v?.persist) return;
@@ -835,8 +832,7 @@ function rewardNews(map, e, up) {
   const ws = socketOf(e.to); if (ws) send(ws, up.lost ? { ...e, lost: up.lost } : e);
   const cardKept = e.card && !up.lost?.some(d => ITEMS[d.id]?.type === 'card');
   if (cardKept) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
-  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); pvpState(e.to); }
-  else karmaNews(e.to);   // a monster slain wears off บาป
+  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); pvpState(e.to); }   // Lv 20 opens free PK
 }
 // route what the monster world reports: map-wide news, or a message for one player
 function route(map, events, except = null) {
