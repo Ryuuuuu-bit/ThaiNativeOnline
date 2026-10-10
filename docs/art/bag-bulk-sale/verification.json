@@ -97,11 +97,11 @@
         {
           "selector": ".g-slot[data-index=\"499\"]",
           "x": 917.5,
-          "y": 347,
+          "y": 351,
           "width": 54.5,
           "height": 54.5,
           "clientHeight": 51,
-          "scrollHeight": 58,
+          "scrollHeight": 51,
           "overflowY": "visible",
           "centerReachable": true
         }
@@ -143,7 +143,7 @@
           "width": 743,
           "height": 261.109375,
           "clientHeight": 259,
-          "scrollHeight": 572,
+          "scrollHeight": 612,
           "overflowY": "auto",
           "centerReachable": true
         },
@@ -154,7 +154,7 @@
           "width": 743,
           "height": 150,
           "clientHeight": 150,
-          "scrollHeight": 2442,
+          "scrollHeight": 2438,
           "overflowY": "auto",
           "centerReachable": true
         }
@@ -194,10 +194,18 @@
         "width": 40,
         "height": 40
       },
+      "painted": {
+        "x": 345,
+        "y": 610,
+        "width": 40,
+        "height": 40
+      },
+      "paintedLoaded": true,
+      "objectFit": "contain",
       "text": {
         "x": 397,
         "y": 614.375,
-        "width": 444.46875,
+        "width": 426.046875,
         "height": 31.25
       },
       "headerBackground": "rgb(21, 40, 32)"
@@ -358,11 +366,11 @@
         {
           "selector": ".g-slot[data-index=\"499\"]",
           "x": 1194.5,
-          "y": 523.75,
+          "y": 527.75,
           "width": 54.5,
           "height": 54.5,
           "clientHeight": 51,
-          "scrollHeight": 58,
+          "scrollHeight": 51,
           "overflowY": "visible",
           "centerReachable": true
         }
@@ -404,7 +412,7 @@
           "width": 743,
           "height": 367.1875,
           "clientHeight": 365,
-          "scrollHeight": 572,
+          "scrollHeight": 612,
           "overflowY": "auto",
           "centerReachable": true
         },
@@ -415,7 +423,7 @@
           "width": 743,
           "height": 325.46875,
           "clientHeight": 325,
-          "scrollHeight": 2442,
+          "scrollHeight": 2438,
           "overflowY": "auto",
           "centerReachable": true
         }
@@ -455,10 +463,18 @@
         "width": 40,
         "height": 40
       },
+      "painted": {
+        "x": 622,
+        "y": 662,
+        "width": 40,
+        "height": 40
+      },
+      "paintedLoaded": true,
+      "objectFit": "contain",
       "text": {
         "x": 674,
         "y": 666.375,
-        "width": 444.46875,
+        "width": 426.046875,
         "height": 31.25
       },
       "headerBackground": "rgb(21, 40, 32)"
@@ -652,10 +668,18 @@
         "width": 40,
         "height": 40
       },
+      "painted": {
+        "x": 62,
+        "y": 407,
+        "width": 40,
+        "height": 40
+      },
+      "paintedLoaded": true,
+      "objectFit": "contain",
       "text": {
         "x": 114,
         "y": 412,
-        "width": 214.46875,
+        "width": 196.046875,
         "height": 30
       },
       "headerBackground": "rgb(21, 40, 32)"
