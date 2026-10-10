@@ -8,6 +8,7 @@ const rand = (a, b) => a + Math.random() * (b - a);
 const randInt = (a, b) => Math.floor(rand(a, b + 1));
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 import { RULES } from './data/rules.js';
+import { monsterAttackMul, effectiveDefense, sameStatusSource } from './statusEffects.js';
 import { rollDamage } from '../rules/stats.js';
 import { followerAway } from '../classes/dog.js';
 import { MONSTER_ACCURACY, killExp } from '../character/data/progression.js';
@@ -200,7 +201,7 @@ export class Combat extends Emitter {
   rollPlayerDamage(skill, m) {
     const c = this.character;
     const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit ? 1 : c.critChance, critDmg: c.critDamage };
-    return rollDamage(atk, { def: m.def.def, eva: m.def.eva ?? 0 }, skill.scale === 'int' ? 'magic' : 'physical', skill.power);
+    return rollDamage(atk, effectiveDefense(m), skill.scale === 'int' ? 'magic' : 'physical', skill.power);
   }
 
   hitMonster(m, skill) {
@@ -225,7 +226,7 @@ export class Combat extends Emitter {
     this.aggro(m); return true;
   }
   // Debuff on a monster: { id, duration, slow?, stun?, dot?, source?, label? }; one of each id at a time.
-  debuff(m, d) { if (!m.alive) return; m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push({ ...d, remaining: d.duration }); this.emit('debuffed', { monster: m, debuff: d }); }
+  debuff(m, d) { if (!m.alive) return; if (d.taunt) { if (m.state === 'return') return; d = { ...d, duration: Math.min(m.def.boss ? 2 : 8, d.duration) }; m.state = 'chase'; } m.debuffs = m.debuffs.filter(o => !sameStatusSource(o, d)); m.debuffs.push({ ...d, remaining: d.duration }); this.emit('debuffed', { monster: m, debuff: d }); }
 
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
@@ -316,7 +317,7 @@ export class Combat extends Emitter {
           pet.pounce = null;
           if (this.remote) { this.damageMonster(target, 0, { skill: 'pet', pounce }); return; }   // online the server rolls the bite
           const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: c.critChance, critDmg: c.critDamage };
-          const r = rollDamage(atk, { def: target.def.def, eva: target.def.eva ?? 0 }, 'physical', skill.power);
+          const r = rollDamage(atk, effectiveDefense(target), 'physical', skill.power);
           if (!r.hit) { this.emit('miss', { x: target.x, z: target.z, monster: target }); this.aggro(target); return; }
           const dealt = r.dmg;
           target.hp = Math.max(0, target.hp - dealt);
@@ -429,7 +430,7 @@ export class Combat extends Emitter {
     if (res) { c.hp = Math.max(1, Math.round(res.hp + res.dmg)); dealt = c.damage(res.hp > 0 ? res.dmg : c.hp); }   // land exactly on the server's HP
     else {
       const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
-      const raw = m.def.atk * (fx?.power ?? night) * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
+      const raw = m.def.atk * monsterAttackMul(m) * (fx?.power ?? night) * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
       dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def))));
     }
     const p = this.world.playerPos();

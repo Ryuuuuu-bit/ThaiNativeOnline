@@ -1,3 +1,4 @@
+import { monsterAttackMul, sameStatusSource } from '../src/combat/statusEffects.js';
 // Shared monsters (phase 3a of docs/technical/SERVER_SPLIT.md): one set of monsters per
 // map, run on the server so everyone on the map fights the same ones. The behaviour
 // mirrors the browser's src/combat/Combat.js (wander → aggro → chase → attack → leash
@@ -69,7 +70,7 @@ export class MonsterWorld {
   make(spawn) {
     const def = MONSTERS[spawn.type]; if (!def) return null;
     return { get alive() { return this.hp > 0; }, id: nextId++, type: spawn.type, def, spawn, x: spawn.x, z: spawn.z, home: { x: spawn.x, z: spawn.z }, f: 0, hp: 0, maxHp: def.hp,
-      state: 'dormant', respawn: rand(0, 2, this.r), attackTimer: 0, wanderTimer: rand(1, 4, this.r), wanderTarget: null, debuffs: [], dotTimer: 0, target: null, contrib: new Map(), moving: false, dirty: true,
+      state: 'dormant', respawn: rand(0, 2, this.r), attackTimer: 0, wanderTimer: rand(1, 4, this.r), wanderTarget: null, debuffs: [], taunt: null, dotTimer: 0, target: null, contrib: new Map(), moving: false, dirty: true,
       chargeCd: 0, fleeCd: 0, pullCd: 0 };
   }
   byId(id) { return this.monsters.find(m => m.id === id); }
@@ -89,7 +90,7 @@ export class MonsterWorld {
       Object.assign(m, { cast: null, cds: {}, skillGap: WORLD_BOSS_CAST.gap });
     }
     const a = this.r() * Math.PI * 2, rr = Math.sqrt(this.r()) * (m.spawn.radius ?? 0);
-    Object.assign(m, { x: m.spawn.x + Math.cos(a) * rr, z: m.spawn.z + Math.sin(a) * rr, hp: m.maxHp, state: 'idle', debuffs: [], attackTimer: 0, target: null, contrib: new Map(), dirty: true, charging: false, summonAt: null });
+    Object.assign(m, { x: m.spawn.x + Math.cos(a) * rr, z: m.spawn.z + Math.sin(a) * rr, hp: m.maxHp, state: 'idle', debuffs: [], taunt: null, attackTimer: 0, target: null, contrib: new Map(), dirty: true, charging: false, summonAt: null });
     if (this.navigation && !this.navigation.canStand(m.x, m.z)) {
       let found = false;
       for (let i = 0; i < 80; i++) { const a = this.r() * Math.PI * 2, r = this.r() * Math.max(6, m.spawn.radius ?? 6); const x = m.spawn.x + Math.cos(a) * r, z = m.spawn.z + Math.sin(a) * r; if (this.navigation.canStand(x, z)) { m.x = x; m.z = z; found = true; break; } }
@@ -120,6 +121,16 @@ export class MonsterWorld {
       if (m.skillCast && m.state !== 'chase') ev.push(...cancelBossSkill(m));
       const wasMoving = m.moving; m.moving = false;
       if (m.spawn.summoned && (m.state === 'dead' || m.state === 'dormant')) { m.gone = true; continue; }   // minions do not come back
+      if (m.hp > 0) m.debuffs = m.debuffs.filter(d => (d.remaining -= dt) > 0);
+      if (m.taunt) {
+        const forced = live.find(p => p.id === m.taunt.by && dist(m, p) <= LEASH);
+        if (!forced || m.state === 'return' || dist(m, m.home) > LEASH || !m.debuffs.some(d => d.taunt && d.remaining > 0)) {
+          const prior = live.find(p => p.id === m.taunt.previous && dist(m, p) <= LEASH);
+          if (prior) m.target = prior.id;
+          m.debuffs = m.debuffs.filter(d => !d.taunt);
+          m.taunt = null;
+        } else m.target = forced.id;
+      }
       if (m.def.worldBoss && this.worldBossStep(m, dt, night, ev, live)) continue;
       if (m.state === 'dead' || m.state === 'dormant') {
         if (!isActive(m.spawn, phase)) { m.state = 'dormant'; continue; }
@@ -130,9 +141,8 @@ export class MonsterWorld {
         continue;
       }
       // out of its time: fade away once it is not fighting
-      if (!isActive(m.spawn, phase) && m.state !== 'chase') { m.hp = 0; m.state = 'dormant'; m.debuffs = []; m.respawn = rand(.5, 3, this.r); ev.push({ t: 'mgone', id: m.id, killed: false }); continue; }
+      if (!isActive(m.spawn, phase) && m.state !== 'chase') { m.hp = 0; m.state = 'dormant'; m.debuffs = []; m.taunt = null; m.respawn = rand(.5, 3, this.r); ev.push({ t: 'mgone', id: m.id, killed: false }); continue; }
       if(this.idleRadius && m.state==='idle' && !m.debuffs.length && live.every(p=>dist(m,p)>this.idleRadius)){m.wanderTarget=null;if(wasMoving)m.dirty=true;continue;}
-      m.debuffs = m.debuffs.filter(d => (d.remaining -= dt) > 0);
       const dot = m.debuffs.find(d => d.dot);
       if (dot && (m.dotTimer += dt) >= 1) {
         m.dotTimer = 0;
@@ -145,7 +155,7 @@ export class MonsterWorld {
       if (m.debuffs.some(d => d.stun) && m.state !== 'return') { ev.push(...cancelBossSkill(m)); m.charging = false; if (wasMoving) m.dirty = true; continue; }
       const rage = m.enraged ? WORLD_BOSS.rage : null;   // a world boss gone berserk
       const def = m.def, speed = def.speed * (rage?.speed ?? 1) * (1 - Math.max(0, ...m.debuffs.map(d => d.slow || 0)));
-      const power = (night && isGhost(def) ? NIGHT.ghostPower : 1) * (rage?.power ?? 1);
+      const power = monsterAttackMul(m) * (night && isGhost(def) ? NIGHT.ghostPower : 1) * (rage?.power ?? 1);
       if (m.state === 'flee') {
         // run from the blow, then turn and fight
         const from = m.fleeFrom, dx = m.x - from.x, dz = m.z - from.z, len = Math.hypot(dx, dz) || 1;
@@ -237,8 +247,14 @@ export class MonsterWorld {
 
   // → the event that shows it to the players on the map ({ t: 'md', id, d: { id, stun, slow, dot, label, secs } })
   debuff(m, d) {
-    m.debuffs = m.debuffs.filter(o => o.id !== d.id); m.debuffs.push(d);
-    return { t: 'md', id: m.id, d: { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, ...(d.label ? { label: d.label } : {}), secs: d.remaining } };
+    if (d.taunt) {
+      if (m.state === 'return' || m.hp <= 0) return { t: 'md', id: m.id, d: { id: d.id, secs: 0 } };
+      d = { ...d, remaining: Math.min(m.def.boss ? 2 : 8, d.remaining) };
+      m.taunt = { by: d.by, previous: m.taunt?.previous ?? m.target };
+      m.target = d.by; m.state = 'chase'; m.dirty = true;
+    }
+    m.debuffs = m.debuffs.filter(o => !sameStatusSource(o, d)); m.debuffs.push(d);
+    return { t: 'md', id: m.id, d: { id: d.id, by: d.by, sourceSkill: d.sourceSkill, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, armorBreak: d.armorBreak || 0, weak: d.weak || 0, taunt: !!d.taunt, ...(d.label ? { label: d.label } : {}), secs: d.remaining } };
   }
   aggro(m, playerId) {
     if (m.state === 'return' || m.state === 'flee') return;
@@ -261,7 +277,7 @@ export class MonsterWorld {
       ev.push(...this.summon(m, by));
       return ev;
     }
-    m.state = 'dead'; m.respawn = m.spawn.respawn ?? RESPAWN; m.debuffs = []; m.target = null; m.charging = false;
+    m.state = 'dead'; m.respawn = m.spawn.respawn ?? RESPAWN; m.debuffs = []; m.taunt = null; m.target = null; m.charging = false;
     ev.push(...cancelBossSkill(m));
     ev.push({ t: 'mgone', id: m.id, killed: true });
     if (m.def.worldBoss) { ev.push(...this.worldBossFall(m, players, night)); return ev; }
@@ -277,14 +293,14 @@ export class MonsterWorld {
     if (!night) {   // dawn: whatever still stands fades, and the next night is a new round
       if (m.hp > 0) { m.hp = 0; ev.push({ t: 'mgone', id: m.id, killed: false }); ev.push(...this.dismiss(m)); }
       this.wbZones = []; this.wbDots = [];
-      Object.assign(m, { state: 'dormant', wbDone: false, revive: null, enraged: false, cast: null, respawn: rand(.5, 3, this.r), debuffs: [], target: null, contrib: new Map() });
+      Object.assign(m, { state: 'dormant', wbDone: false, revive: null, enraged: false, cast: null, respawn: rand(.5, 3, this.r), debuffs: [], taunt: null, target: null, contrib: new Map() });
       return true;
     }
     if (m.state === 'dead' || m.state === 'dormant') {
       if (m.revive != null) {   // the twin still stands: rise again unless it falls first
         if ((m.revive -= dt) > 0) return true;
         const o = this.twin(m);
-        Object.assign(m, { revive: null, enraged: false, cast: null, hp: Math.round(m.maxHp * WORLD_BOSS.reviveHp), state: o?.target != null ? 'chase' : 'idle', target: o?.target ?? null, debuffs: [], attackTimer: 0, dirty: true });
+        Object.assign(m, { revive: null, enraged: false, cast: null, hp: Math.round(m.maxHp * WORLD_BOSS.reviveHp), state: o?.target != null ? 'chase' : 'idle', target: o?.target ?? null, debuffs: [], taunt: null, attackTimer: 0, dirty: true });
         ev.push({ t: 'mspawn', m: this.info(m) }, { t: 'wb', state: 'rise', type: m.type });
         return true;
       }
@@ -336,11 +352,11 @@ export class MonsterWorld {
     const hit = new Set();
     for (const sp of spots) for (const p of live) if (!hit.has(p.id) && Math.hypot(p.x - sp.x, p.z - sp.z) <= sp.r) {
       hit.add(p.id);
-      if (s.pct) ev.push({ t: 'wbhit', id: m.id, to: p.id, pct: s.pct * (m.enraged ? WORLD_BOSS.rage.power : 1), skill: s.id, ...(s.knock ? { knock: 1 } : {}) });
-      if (s.bleed) (this.wbDots ??= []).push({ id: m.id, to: p.id, pct: s.bleed.pct, left: s.bleed.secs, tick: 1, skill: s.id });
+      if (s.pct) ev.push({ t: 'wbhit', id: m.id, to: p.id, pct: s.pct * monsterAttackMul(m) * (m.enraged ? WORLD_BOSS.rage.power : 1), skill: s.id, ...(s.knock ? { knock: 1 } : {}) });
+      if (s.bleed) (this.wbDots ??= []).push({ id: m.id, to: p.id, pct: s.bleed.pct * monsterAttackMul(m), left: s.bleed.secs, tick: 1, skill: s.id });
     }
     if (s.pool) {
-      (this.wbZones ??= []).push(...spots.map(sp => ({ ...sp, id: m.id, pct: s.pool.pct, left: s.pool.secs, tick: 1, skill: s.id })));
+      (this.wbZones ??= []).push(...spots.map(sp => ({ ...sp, id: m.id, pct: s.pool.pct * monsterAttackMul(m), left: s.pool.secs, tick: 1, skill: s.id })));
       ev.push({ t: 'wbzone', id: m.id, skill: s.id, spots, secs: s.pool.secs });
     }
   }

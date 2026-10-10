@@ -257,7 +257,7 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
           if (Math.random() < .4) fx.emit({ p: add(hero.pos(), V(rand(-.6, .6), rand(.1, 1.8), rand(-.6, .6))), v: V(0, .5, 0), c: GOLD, life: .6, size: .07, size1: .01 });
           if (t > 2.4) { fx.kill(shell); return false; } });
         character.tint?.(C(1, .8, .35), .3, 1.4);
-        heal(hero.maxHp * .15); fx.after(.2, () => fx.popup(hp.clone().setY(hero.barY + .7), 'ป้องกัน +25 · โจมตี +15%', 'st'));
+        fx.after(.2, () => fx.popup(hp.clone().setY(hero.barY + .7), 'ตั้งแนวคุ้มกัน · ยั่วยุศัตรู', 'st'));
       });
       return 1.3;
     },
@@ -362,7 +362,7 @@ export function createWarriorSkills({ fx, character, player, dummy, groundHeight
         fx.shock(hp.x, hp.z, 3, CRIMSON, C(.6, .05, .02), .7); fx.after(.1, () => fx.shock(hp.x, hp.z, 2, EMBER, CRIMSON, .5));
         sigil(CRIMSON, 1.4, { p: hp.clone().setY(.06), life: 2.6, spin: -2 });
         character.tint?.(C(1, .25, .15), .5, 2.5);
-        fx.popup(hp.clone().setY(hero.barY + .7), 'โจมตี +35% · คริ +15% · ตีเร็ว +15% · วิ่งเร็ว +15%', 'st');
+        fx.popup(hp.clone().setY(hero.barY + .7), 'โจมตี +35% · คริ +15% · ตีเร็ว +15%', 'st');
         const eyes = [-1, 1].map(() => fx.glowSprite(C(2.6, .4, .2), .14));
         fx.addTask((dt, t) => {
           const h = headP(hero).add(V(0, -.3, 0)), s = sideOf(dirTo()).multiplyScalar(.06);

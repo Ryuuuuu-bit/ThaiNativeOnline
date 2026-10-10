@@ -214,6 +214,48 @@ This deliberately removes accidental FX damage inflation without changing
 damage multipliers, costs or cooldowns. The calculated preview uses the same
 schedule and still assumes every displayed blow lands on its primary target.
 
+## Class cooperation revision — 2026-10-10
+
+Five complete kits retain their skill IDs, point budgets, prerequisite graphs,
+damage multipliers, costs and cooldowns. See
+`docs/design/CLASS_SKILL_SYNERGY.md` for the owner split and scope.
+
+The deliberate balance changes give early defense and curse skills a useful party
+role instead of redundant self healing. Warrior guard now protects nearby party
+members with 25 flat DEF and 15% DEF for 8 seconds and provokes nearby enemies for
+4 seconds; shaman shield protects nearby allies with 18 DEF for 6 seconds. Their
+old self heals are removed, keeping recovery a reason to bring an herbalist.
+The defensive guard A path trades attack speed for stronger nearby protection;
+B remains a personal attack-tempo choice. The ancestor shield A protects a party
+for a shorter period while B lasts longer on its caster.
+
+Elbow applies 15% armor break for 4 seconds, curse applies 20% armor break and
+weakening for 5 seconds, and herbal zone weakens by 10% for 4 seconds. Existing
+warrior thrust, boxer kick, hunter volley and companion debuffs are preserved in
+both A/B paths, making their party-opening roles dependable. Blade wind slows by
+25% for 2 seconds to prepare crowd payoffs.
+
+Eleven payoff skills receive a conditional 15–20% damage bonus against an existing
+named condition. This bounded bonus rewards a teammate's setup without making
+the class mandatory or replacing normal solo damage. Several matching conditions
+give one bonus, capped at 25%; expired conditions do not count. The first source
+blow can seed DOT damage but DOT ticks do not reevaluate or compound the bonus.
+The implementation shares the calculation between local combat and the server.
+
+Provocation is limited to 8 seconds on ordinary enemies and 2 seconds on bosses,
+requires a living nearby caster and never redirects an already aimed boss warning.
+Armor-break and weak effects use the strongest active source, capped at 60%.
+Party defenses use strongest active flat/proportional values rather than unlimited
+addition. Healing, cleansing and resource recovery keep their own skill range,
+duration and server recipient rules. Fifteen existing passive A/B choices continue
+to use their differentiated consumed stats; none gains a free new multiplier.
+
+The former movement-speed field had no client movement consumer. Tiger tonic
+deliberately replaces its advertised 25% running bonus with an actual 10% dodge
+bonus, growing by one percentage point per skill scaling step. Berserk drops its
+unused movement-speed field and retains its working attack-speed bonus. This avoids
+adding a separate network movement/security change to the skill revision.
+
 ## Tests
 
 `tests/rules/*.test.js` (`node --test`): ports of the original `combat`, `economy` and `skill-effects` tests (pure parts; positions replaced by `nearNpc`), plus tests for `effects.js` and `exp.js`.

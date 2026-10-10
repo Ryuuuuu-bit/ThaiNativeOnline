@@ -352,9 +352,10 @@ async function handle(ws, raw) {
       case 'cast': {
         const p = presence.players.get(ws); if (!p) return;
         const ally = Number.isInteger(m.ally) && m.ally !== p.id ? m.ally : null;   // a heal aimed at one friend
-        combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill, { ally: ally !== null });
+        combatants.sit(p.id, false); const r = combatants.cast(p.id, m.skill, { ally: ally !== null, world: worldOf(p.room), player: p });
         if (!r.ok) send(ws, { t: 'nope', skill: m.skill, why: r.why });
         else if (r.support && combatants.get(p.id)?.c.alive) support(p, m.skill, r.support, r.single ? ally : null);
+        if (r.ok && r.effects?.length) route(p.room, r.effects);
         if (r.ok) syncQuestPractice(ws, p);
         break;
       }

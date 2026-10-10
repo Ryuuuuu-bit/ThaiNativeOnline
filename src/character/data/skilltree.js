@@ -14,9 +14,9 @@ const RED = '#c8322a', BLUE = '#2f74c9', GOLD = '#c9a04c';
 export const SKILL_TREE = {
   warrior: {
     lines: [
-      { name: 'ดาบคู่', passive: 'sword_t_mastery', role: 'เป้าเดียว · บอส', color: RED, skills: ['sword_thrust', 'sword_execute'] },
-      { name: 'วงจักร', passive: 'sword_t_breath', role: 'ฟาร์มหมู่', color: BLUE, skills: ['sword_wind', 'sword_whirl', 'sword_pikat', 'sword_leap'] },
-      { name: 'ธงชัย', passive: 'sword_t_hide', role: 'แทงก์ · ปาร์ตี้', color: GOLD, skills: ['sword_guard', 'sword_banner', 'sword_berserk'] },
+      { name: 'ดาบคู่', passive: 'sword_t_mastery', role: 'เปิดเกราะ · ปิดจังหวะ', color: RED, skills: ['sword_thrust', 'sword_execute'] },
+      { name: 'วงจักร', passive: 'sword_t_breath', role: 'ตรึงพื้นที่ · กวาดฝูง', color: BLUE, skills: ['sword_wind', 'sword_whirl', 'sword_pikat', 'sword_leap'] },
+      { name: 'ธงชัย', passive: 'sword_t_hide', role: 'ท้าศัตรู · คุ้มทีม', color: GOLD, skills: ['sword_guard', 'sword_banner', 'sword_berserk'] },
     ],
     req: {
       sword_t_hide: { req: { sword_guard: 3 }, job: 8 },
@@ -29,9 +29,9 @@ export const SKILL_TREE = {
   },
   muaythai: {
     lines: [
-      { name: 'หมัดศอกเข่า', passive: 'boxer_t_wit', role: 'เป้าเดียว · คอมโบ', color: RED, skills: ['boxer_elbow', 'boxer_knee', 'boxer_hanuman'] },
-      { name: 'เตะ', passive: 'boxer_t_shin', role: 'หมู่ · ระยะ', color: BLUE, skills: ['boxer_kick', 'boxer_croc', 'boxer_ngouy'] },
-      { name: 'ไหว้ครู', passive: 'boxer_t_calm', role: 'บัฟ · แทงก์', color: GOLD, skills: ['boxer_waikru', 'boxer_drum', 'boxer_iron'] },
+      { name: 'หมัดศอกเข่า', passive: 'boxer_t_wit', role: 'ศอกเปิดเกราะ · เข่าปิดชุด', color: RED, skills: ['boxer_elbow', 'boxer_knee', 'boxer_hanuman'] },
+      { name: 'เตะ', passive: 'boxer_t_shin', role: 'ขัดจังหวะ · ลดแรงศัตรู', color: BLUE, skills: ['boxer_kick', 'boxer_croc', 'boxer_ngouy'] },
+      { name: 'ไหว้ครู', passive: 'boxer_t_calm', role: 'ตั้งรับ · เร่งจังหวะทีม', color: GOLD, skills: ['boxer_waikru', 'boxer_drum', 'boxer_iron'] },
     ],
     req: {
       boxer_t_calm: { req: { boxer_waikru: 3 }, job: 8 },
@@ -44,9 +44,9 @@ export const SKILL_TREE = {
   },
   hunter: {
     lines: [
-      { name: 'ศรเหยี่ยว', passive: 'arch_t_eye', role: 'เป้าเดียว · บอส', color: RED, skills: ['arch_hawk', 'arch_snipe'] },
-      { name: 'ห่าศร', passive: 'arch_t_bow', role: 'ฟาร์มหมู่', color: BLUE, skills: ['arch_pierce', 'arch_volley', 'arch_trap', 'arch_meteor'] },
-      { name: 'หมาล่า', passive: 'arch_t_bond', role: 'คอนโทรล · น้องหมา', color: GOLD, skills: ['arch_poison', 'arch_garuda', 'arch_rain'] },
+      { name: 'ศรเหยี่ยว', passive: 'arch_t_eye', role: 'เล็งช่องเปิด · เป้าเดียว', color: RED, skills: ['arch_hawk', 'arch_snipe'] },
+      { name: 'ห่าศร', passive: 'arch_t_bow', role: 'ตรึงพื้นที่ · กวาดฝูง', color: BLUE, skills: ['arch_pierce', 'arch_volley', 'arch_trap', 'arch_meteor'] },
+      { name: 'หมาล่า', passive: 'arch_t_bond', role: 'คู่หูตรึงเป้า · ข่มขวัญ', color: GOLD, skills: ['arch_poison', 'arch_garuda', 'arch_rain'] },
     ],
     req: {
       arch_t_bond: { req: { arch_poison: 3 }, job: 8 },
@@ -59,9 +59,9 @@ export const SKILL_TREE = {
   },
   shaman: {
     lines: [
-      { name: 'คำสาป', passive: 'mage_t_tongue', role: 'คอนโทรล · เป้าเดียว', color: RED, skills: ['mage_yant', 'mage_thunder', 'mage_curse'] },
-      { name: 'ไฟนรก', passive: 'mage_t_fire', role: 'ฟาร์มหมู่', color: BLUE, skills: ['mage_ghostfire', 'mage_kalp', 'mage_storm'] },
-      { name: 'ผีบรรพบุรุษ', passive: 'mage_t_barami', role: 'ป้องกัน · ปาร์ตี้', color: GOLD, skills: ['mage_shield', 'mage_holy', 'mage_meditate'] },
+      { name: 'คำสาป', passive: 'mage_t_tongue', role: 'คำสาปเปิดช่อง · คุมศัตรู', color: RED, skills: ['mage_yant', 'mage_thunder', 'mage_curse'] },
+      { name: 'ไฟนรก', passive: 'mage_t_fire', role: 'ตรึงพื้นที่ · กวาดฝูง', color: BLUE, skills: ['mage_ghostfire', 'mage_kalp', 'mage_storm'] },
+      { name: 'ผีบรรพบุรุษ', passive: 'mage_t_barami', role: 'คุ้มวง · เติมพลังทีม', color: GOLD, skills: ['mage_shield', 'mage_holy', 'mage_meditate'] },
     ],
     req: {
       mage_t_barami: { req: { mage_shield: 3 }, job: 8 },
@@ -75,8 +75,8 @@ export const SKILL_TREE = {
   herbalist: {
     lines: [
       { name: 'พิธีโอสถ', passive: 'heal_t_recipe', role: 'ฮีลหลัก · ชุบชีวิต', color: GOLD, skills: ['heal_mist', 'heal_khwan', 'heal_amrita'] },
-      { name: 'สมุนไพรพิษ', passive: 'heal_t_venom', role: 'ดาเมจ · ฟาร์ม', color: BLUE, skills: ['heal_pill', 'heal_zone', 'heal_mortar'] },
-      { name: 'ยาบำรุง', passive: 'heal_t_hands', role: 'บัฟ · ปาร์ตี้', color: RED, skills: ['heal_tiger', 'heal_tonic', 'heal_mother'] },
+      { name: 'สมุนไพรพิษ', passive: 'heal_t_venom', role: 'พิษเปิดทาง · ครกเกื้อกูล', color: BLUE, skills: ['heal_pill', 'heal_zone', 'heal_mortar'] },
+      { name: 'ยาบำรุง', passive: 'heal_t_hands', role: 'ล้างสถานะ · บำรุงทีม', color: RED, skills: ['heal_tiger', 'heal_tonic', 'heal_mother'] },
     ],
     req: {
       heal_t_hands: { req: { heal_tiger: 3 }, job: 8 },

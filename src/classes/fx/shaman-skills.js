@@ -304,7 +304,7 @@ export function createShamanSkills({ fx, character, player, dummy, groundHeight,
           if (t > 2.2) { fx.kill(G); fx.kill(head); boneM.dispose(); return false; }
         });
         fx.shock(hp.x, hp.z, 1.8, BONE, DEATH, .5); character.tint?.(C(.4, .9, .6), .22, 1.2);
-        heal('HP +12%'); fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'ป้องกัน +24 · 8 วิ'));
+        fx.after(.2, () => pop(hp.clone().setY(hero.barY + .7), 'เกราะกระดูกคุ้มครอง'));
       });
       return 1.4;
     },

@@ -107,7 +107,7 @@ export const SKILLS = {
       mp: 12, cd: 11000, range: 220, delay: 4000, lowHp: 0.3, hmult: 1.1, sfx: 'buff',
       desc: 'ฝังเมล็ดบนเพื่อน 4 วิแล้วบานรักษาก้อนใหญ่ · ถ้าเลือดต่ำกว่า 30% บานทันที' },
     { id: 'heal_tiger', nameTh: 'ยาต้มพยัคฆ์เหิน', icon: '🐯', reqLv: 6, type: 'party', party: true, element: 'fire',
-      mp: 18, cd: 16000, radius: 200, buff: { defMul: 0.2, speed: 0.25, cleanse: true }, grow: { defMul: 0.03, speed: 0.025 }, duration: 8000, sfx: 'buff',
+      mp: 18, cd: 16000, radius: 200, buff: { defMul: 0.2, dodge: 0.10, cleanse: true }, grow: { defMul: 0.03, dodge: 0.01 }, duration: 8000, sfx: 'buff',
       desc: '[ทีม] ต้มยาพยัคฆ์ ไอยาแผ่ 200 รอบตัว · เพิ่มพลังป้องกัน 8 วิ ตามเลเวลสกิล' },
     { id: 'heal_khwan', nameTh: 'พิธีสู่ขวัญ', icon: '🪷', reqLv: 8, type: 'revive', ultimate: true, element: 'light', heals: true,
       mp: 35, cd: 40000, radius: 220, castMs: 1200, heal: 0.4, undying: 10000, sfx: 'buff',
@@ -223,7 +223,7 @@ export const SKILLS = {
       mp: 22, cd: 10000, mult: 6.5, distance: 130, radius: 70, leap: true, effect: { stun: { ms: 1000 } }, sfx: 'dash',
       desc: 'กระโดดข้ามไปฟาดดาบลงพื้น ทุกตัวในวงรอบจุดลงสะดุ้ง 1 วิ' },
     { id: 'sword_berserk', nameTh: 'โทสะขุนศึก', icon: '😤', reqLv: 70, type: 'buff',
-      mp: 30, cd: 30000, buff: { atkMul: 0.35, critAdd: 0.15, speed: 0.15, aspd: 0.15 }, duration: 10000, heal: 0, sfx: 'buff',
+      mp: 30, cd: 30000, buff: { atkMul: 0.35, critAdd: 0.15, aspd: 0.15 }, duration: 10000, heal: 0, sfx: 'buff',
       desc: 'ปลุกโทสะนักรบ โจมตี +35% คริ +15% ตีเร็วขึ้น 15% นาน 10 วิ' },
     { id: 'sword_execute', nameTh: 'ดาบประหารอสูร', icon: '⚡', reqLv: 100, type: 'melee', kind: 'physical',
       mp: 40, cd: 15000, mult: 16, range: 66, hits: 1, all: true, effect: { stun: { ms: 1500 } }, sfx: 'slash',
@@ -278,6 +278,56 @@ export const SKILLS = {
       desc: 'ติดตัว: สาย AGI ยิงรัว ความเร็วตี +3% และหลบ +2 ต่อเลเวล' },
   ],
 };
+
+const kitById = Object.fromEntries(Object.values(SKILLS).flat().map(s => [s.id, s]));
+const preparePayoff = {
+  sword_execute: { conditions: ['armorBreak', 'bleed'], damageBonus: .20, label: 'ประหารช่องเปิด' },
+  sword_pikat: { conditions: ['slow', 'stun'], damageBonus: .15, label: 'พิฆาตวงตรึง' },
+  boxer_knee: { conditions: ['stun', 'bleed'], damageBonus: .20, label: 'เข่าปิดจังหวะ' },
+  boxer_hanuman: { conditions: ['armorBreak', 'weak'], damageBonus: .15, label: 'คอมโบเปิดช่อง' },
+  arch_snipe: { conditions: ['slow', 'armorBreak'], damageBonus: .20, label: 'เล็งช่องเปิด' },
+  arch_rain: { conditions: ['bleed', 'weak'], damageBonus: .15, label: 'คู่หูตามรอย' },
+  arch_meteor: { conditions: ['slow', 'burn'], damageBonus: .15, label: 'ล่าฝูงติดวง' },
+  mage_kalp: { conditions: ['slow', 'weak'], damageBonus: .15, label: 'ไฟเผาคำสาป' },
+  mage_thunder: { conditions: ['poison', 'armorBreak'], damageBonus: .20, label: 'กระชากคำสาป' },
+  heal_pill: { conditions: ['slow', 'poison'], damageBonus: .15, label: 'ยาเสริมพิษ' },
+  heal_mortar: { conditions: ['poison', 'weak'], damageBonus: .15, label: 'ครกตำพิษ' },
+};
+for (const [id, synergy] of Object.entries(preparePayoff)) kitById[id].synergy = synergy;
+Object.assign(kitById.sword_guard, { type: 'party', party: true, radius: 140,
+  buff: { def: 25, defMul: .15 }, duration: 8000, heal: 0,
+  effect: { taunt: { ms: 4000, radius: 140 } },
+  desc: '[ปาร์ตี้] ตั้งแนวคุ้มกันรอบตัว ป้องกัน +25 และ +15% 8 วิ · ท้าศัตรูในวงให้มุ่งโจมตีตน 4 วิ' });
+Object.assign(kitById.mage_shield, { type: 'party', party: true, radius: 140,
+  buff: { def: 18 }, duration: 6000, heal: 0,
+  desc: '[ปาร์ตี้] เกราะกระดูกคุ้มเพื่อนใกล้ตัว ป้องกัน +18 นาน 6 วิ' });
+kitById.sword_wind.effect = { slow: { ms: 2000, pct: .25 } };
+kitById.boxer_elbow.effect.armorBreak = { ms: 4000, pct: .15 };
+Object.assign(kitById.mage_curse.effect, { weak: { ms: 5000, pct: .20 }, armorBreak: { ms: 5000, pct: .20 } });
+kitById.heal_zone.effect.weak = { ms: 4000, pct: .10 };
+
+// The canonical descriptions match the learned kit tools and party roles.
+const cooperationDescriptions = {
+  sword_thrust: 'พุ่งแทงให้มึน 0.5 วิ และลดเกราะ 30% 6 วิ เปิดช่องให้ทีม',
+  sword_guard: '[ปาร์ตี้] ป้องกัน +25 และ +15% 8 วิ · ท้าศัตรูใกล้ตัว 4 วิ',
+  sword_wind: 'คลื่นดาบทะลุแนว ช้าลง 25% 2 วิ เตรียมวงพิฆาต',
+  sword_pikat: 'เพลงดาบ 6 ครั้ง · แรงขึ้น 15% ต่อเป้าที่ช้าหรือมึน',
+  sword_execute: 'ดาบประหารมึน 1.5 วิ · แรงขึ้น 20% ต่อเป้าที่เกราะแตกหรือเลือดไหล',
+  arch_garuda: 'หมาเห่าข่มขวัญ มึน 1.5 วิ ลดพลังโจมตีศัตรู 20% 5 วิ',
+  arch_volley: 'ศรทะลุแนว ลดเกราะ 25% 5 วิ เปิดช่องให้ทีม',
+  arch_rain: 'ฝูงหมากัด 3 รอบ · แรงขึ้น 15% ต่อเป้าที่เลือดไหลหรืออ่อนแรง',
+  arch_snipe: 'ศรเล็งแรงขึ้น 20% ต่อเป้าที่ช้าหรือเกราะแตก',
+  arch_meteor: 'ห่าศรล้างฝูง · แรงขึ้น 15% ต่อเป้าที่ช้าหรือไฟลุก',
+  mage_shield: '[ปาร์ตี้] เกราะกระดูกคุ้มเพื่อนใกล้ตัว ป้องกัน +18 นาน 6 วิ',
+  mage_curse: 'คำสาปพิษและช้า · ลดพลังโจมตีและเกราะ 20% 5 วิ เปิดช่องให้ทีม',
+  mage_thunder: 'มือผีกระชาก · แรงขึ้น 20% ต่อเป้าที่ติดพิษหรือเกราะแตก',
+  mage_kalp: 'ไฟนรก 4 ระลอก · แรงขึ้น 15% ต่อเป้าที่ช้าหรืออ่อนแรง',
+  heal_pill: 'ยาเด้งรักษาเพื่อนและโจมตีผี · แรงขึ้น 15% ต่อเป้าที่ช้าหรือติดพิษ',
+  heal_zone: 'วงหนาดพิษและช้า · ลดพลังโจมตีศัตรู 10% 4 วิ',
+  heal_tiger: '[ปาร์ตี้] ล้างสถานะ ป้องกัน +20% และโอกาสหลบ +10% 8 วิ เพิ่มตามเลเวลสกิล',
+  heal_mortar: 'ครกยารักษาทีม · แรงขึ้น 15% ต่อเป้าที่ติดพิษหรืออ่อนแรง',
+};
+for (const [id, desc] of Object.entries(cooperationDescriptions)) kitById[id].desc = desc;
 
 /** ค้นหาสกิลด้วย id */
 export const SKILL_BY_ID = Object.fromEntries([

@@ -42,7 +42,7 @@ import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
 import { skillHitSchedule } from '../src/rules/skillHits.js';
-import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, within } from '../src/training/kitCombat.js';
+import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, tauntOf, within } from '../src/training/kitCombat.js';
 import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
 import { applyQuestOp, reconcileQuestMasteries, recordQuestCast, recordQuestSkillHit } from './class-quests.js';
 import { nearAnyShop } from '../src/data/shopSites.js';
@@ -205,7 +205,7 @@ export class Combatants {
 
   // `ally`: the heal is aimed at one friend (kitCombat.allyHeal): the caster does not get it, and
   // the result says `single` (server/index.js gives it to that friend alone).
-  cast(id, skillId, { ally = false } = {}) {
+  cast(id, skillId, { ally = false, world = null, player = null } = {}) {
     const s = this.list.get(id); if (!s) return { ok: false, why: 'no_sheet' };
     const c = s.c, now = this.now();
     if (!c.alive) return { ok: false, why: 'dead' };
@@ -252,7 +252,13 @@ export class Combatants {
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
     const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1) : null;
+    const effects = [];
+    const supportDuration = Math.max(support?.buff?.duration ?? 0, tauntOf(eff)?.duration ?? 0);
+    if (supportDuration > 0) s.variantEffectsUntil = Math.max(s.variantEffectsUntil ?? 0, now + supportDuration);
+    const challenge = kitSkill ? tauntOf(eff) : null;
+    if (challenge && world && player) for (const m of within(world.monsters, player, challenge.radius)) effects.push(world.debuff(m, { id: 'taunt', taunt: true, label: 'ยั่วยุ', remaining: challenge.duration, by: id }));
     recordQuestCast(this, id, skillId, now);
+    if (effects.length) return { ok: true, effects, ...(support ? { support } : {}), ...(single ? { single: true } : {}) };
     return support ? { ok: true, support, ...(single ? { single: true } : {}) } : { ok: true };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
@@ -274,7 +280,7 @@ export class Combatants {
     const s = this.list.get(id), p = players.find(x => x.id === id), m = world.byId(msg.id);
     if (!s || !p || p.dead || !m || m.hp <= 0) return [];
     const c = s.c, now = this.now(), night = phase === 'night';
-    const def = monsterDefense(m.def);
+    const def = monsterDefense(m);
     s.fightAt = now; c.sitting = false;
     if (msg.skill === 'basic' || msg.skill === 'pet') {
       const pet = msg.skill === 'pet';
@@ -303,8 +309,8 @@ export class Combatants {
     if (dist(m, p) > reach) return [];
     cast.left--;
     const stats = this.stats(c);
-    const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o.def), cast.eff ?? cast.skill, slv, this.r)
-      : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o.def), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
+    const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o), cast.eff ?? cast.skill, slv, this.r, o)
+      : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
     const primary = roll(m);
     const ev = this.strike(world, players, m, id, primary, cast, night);
     if (!primary.hit) return ev;
@@ -339,7 +345,7 @@ export class Combatants {
       for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
         const owner = this.list.get(id);
         if (owner) owner.variantEffectsUntil = Math.max(owner.variantEffectsUntil ?? 0, this.now() + d.duration);
-        ev.push(world.debuff(m, { id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, label: d.label, source: d.source || r.dmg, by: id, remaining: d.duration }));
+        ev.push(world.debuff(m, { ...d, id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, label: d.label, source: d.source || r.dmg, by: id, remaining: d.duration }));
       }
     }
     return ev;

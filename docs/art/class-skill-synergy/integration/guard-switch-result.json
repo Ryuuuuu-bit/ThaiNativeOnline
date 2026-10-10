@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "desktop: actual guard A to B confirmation leaves A until confirmed, spends500 of2500, selected type self and no party utility",
+    "mobile: actual guard A to B confirmation leaves A until confirmed, spends500 of2500, selected type self and no party utility"
+  ],
+  "errors": []
+}

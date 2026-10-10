@@ -6,6 +6,7 @@
 import { SKILL_BY_ID, skillStats } from '../rules/data/skills.js';
 import { rollDamage } from '../rules/stats.js';
 import { RULES } from '../combat/data/rules.js';
+import { effectiveDefense, synergyBonus } from '../combat/statusEffects.js';
 import { rollSkill, skillMult } from './damage.js';
 import './../rules/data/evolutions.js';   // registers the A/B paths ('<id>@A') and cast times in SKILL_BY_ID
 
@@ -47,14 +48,16 @@ export function castInfo(kitSkill, lv = 1) {
   };
 }
 
-export const monsterDefense = def => ({ def: def?.def ?? 0, eva: def?.eva ?? 0 });
+export const monsterDefense = effectiveDefense;
 
 // One blow of `skillId` against a defense { def, eva } → { hit, crit, dmg }.
 // A skill without a rules damage multiplier (a buff whose effect still strikes)
 // hits at RULES.kit.fallbackMult instead of the effect's hand-tuned number.
-export function rollBlow(derived, defense, skillId, lv = 1, rng = Math.random) {
-  if (skillMult(skillId, lv) !== null) return rollSkill(derived, defense, skillId, lv, rng);
-  return rollDamage(derived, defense, SKILL_BY_ID[skillId]?.kind || 'physical', KIT.fallbackMult, rng);
+export function rollBlow(derived, defense, skillId, lv = 1, rng = Math.random, target = null) {
+  const roll = skillMult(skillId, lv) !== null ? rollSkill(derived, defense, skillId, lv, rng)
+    : rollDamage(derived, defense, SKILL_BY_ID[skillId]?.kind || 'physical', KIT.fallbackMult, rng);
+  const bonus = synergyBonus(SKILL_BY_ID[skillId]?.synergy, target);
+  return roll.hit && bonus ? { ...roll, dmg: Math.round(roll.dmg * (1 + bonus)) } : roll;
 }
 
 // A healing skill's flat heal (the rules `hmult` × the caster's MATK): the tether ticks for its
@@ -70,7 +73,8 @@ export function healPower(skillId, lv = 1, matk = 0) {
 
 // The caster's side of a cast: { heal (share of max HP), hp (flat heal, healPower), mp (share of
 // max MP), buff } or null. buff is a Character buff ({ id, duration, atk?, def?, crit? },
-// src/character/Character.js); a flat rules DEF bonus becomes a share of the caster's own DEF (`ownDef`).
+// src/character/Character.js); flat rules DEF stays `defFlat`, proportional DEF stays `def`.
+// `ownDef` is retained only for call compatibility; recipients use their own defense.
 // `healPow`: the caster's healing power (Character.healPow: the herbalist's ตำรับโอสถ and gear), on every heal.
 export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1) {
   const base = SKILL_BY_ID[skillId];
@@ -81,10 +85,13 @@ export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1)
   if (b && seconds > 0) {
     buff = { id: `kit_${skillId}`, duration: seconds };
     if (b.atkMul) buff.atk = b.atkMul;
-    const def = (b.defMul ?? 0) + (b.def ? b.def / Math.max(10, ownDef) : 0);
-    if (def) buff.def = +def.toFixed(3);
+    if (b.def) buff.defFlat = b.def;
+    if (b.defMul) buff.def = b.defMul;
     if (b.critAdd) buff.crit = b.critAdd;
     if (b.aspd) buff.aspd = b.aspd;
+    if (b.dodge) buff.dodge = b.dodge;
+    if (b.hot) buff.hot = b.hot;
+    if (b.cleanse) buff.cleanse = true;
   }
   const hp = Math.round(healPower(skillId, lv, matk) * healPow);
   return heal || hp || mp || buff ? { heal, hp, mp, buff } : null;
@@ -120,11 +127,14 @@ export function hitEffects(skillId, firstBlow) {
   const out = [];
   if (e.stun) out.push({ id: 'stun', stun: true, duration: e.stun.ms / 1000, label: 'มึน' });
   if (e.slow) out.push({ id: 'slow', slow: e.slow.pct, duration: e.slow.ms / 1000, label: 'เชื่องช้า' });
+  if (e.armorBreak) out.push({ id: 'armorBreak', armorBreak: e.armorBreak.pct, duration: e.armorBreak.ms / 1000, label: 'เกราะแตก' });
+  if (e.weak) out.push({ id: 'weak', weak: e.weak.pct, duration: e.weak.ms / 1000, label: 'อ่อนแรง' });
+  if (e.taunt) out.push({ id: 'taunt', taunt: true, duration: e.taunt.ms / 1000, label: 'ยั่วยุ' });
   for (const k of Object.keys(DOT_LABELS)) {
     const d = e[k];
     if (d) out.push({ id: k, dot: +(d.ratio * 1000 / d.every).toFixed(3), duration: d.ticks * d.every / 1000, source: firstBlow, label: DOT_LABELS[k] });
   }
-  return out;
+  return out.map(d => ({ ...d, sourceSkill: skillId }));
 }
 
 // Live monsters a line / fan from `from` toward `to` covers (see splashOf), nearest first, leaving out `except`.
@@ -143,4 +153,10 @@ export function inShape(monsters, from, to, sp, except = null) {
 export function within(monsters, center, radius, except = null) {
   const d = m => Math.hypot(m.x - center.x, m.z - center.z);
   return monsters.filter(m => m !== except && m.alive && d(m) <= radius).sort((a, b) => d(a) - d(b));
+}
+
+// A self support cast can also challenge enemies in its authored radius.
+export function tauntOf(skillId) {
+  const t = SKILL_BY_ID[skillId]?.effect?.taunt;
+  return t?.radius > 0 ? { radius: metres(t.radius), duration: t.ms / 1000 } : null;
 }

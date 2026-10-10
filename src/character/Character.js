@@ -185,7 +185,7 @@ export class Character extends Emitter {
   get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + this.buffSum('atk'))); }
   get patk() { return Math.round(this.derived.patk * (1 + this.buffSum('atk'))); }
   get matk() { return Math.round(this.derived.matk * (1 + this.buffSum('atk'))); }
-  get defense() { return Math.round(this.derived.def * (1 + (this.buffs.find(b => b.def)?.def || 0))); }
+  get defense() { const active = this.buffs.filter(b => b.remaining > 0); const ratio = Math.min(.6, Math.max(0, ...active.map(b => b.def || 0))); const flat = Math.max(0, ...active.map(b => b.defFlat || 0)); return Math.round(this.derived.def * (1 + ratio) + flat); }
   get accuracy() { return this.derived.accuracy; }
   get evasion() { return this.derived.eva; }
   get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
@@ -279,7 +279,7 @@ export class Character extends Emitter {
       }
     }
   }
-  addBuff(buff) { this.buffs = this.buffs.filter(b => b.id !== buff.id); this.buffs.push({ ...buff, remaining: buff.duration }); this.emit('change'); }
+  addBuff(buff) { this.buffs = this.buffs.filter(b => b.id !== buff.id && (!buff.cleanse || !(b.poison > 0 || b.slow > 0 || b.dot > 0 || b.stun))); this.buffs.push({ ...buff, remaining: buff.duration }); this.emit('change'); }
 
   // ---- Job level and skills ----
   get jobExpNeeded() { return jobExpToNext(this.jobLevel); }
