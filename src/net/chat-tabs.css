@@ -1,4 +1,6 @@
-body .net-chat.net-chat-tabs { max-height: none; }
+/* The log owns the height limit; legacy HUD caps predate tabs and composer. */
+body .net-chat.net-chat-tabs,
+body.hud-dynamic .net-chat.net-chat-tabs { max-height: none; }
 body .net-chat-tabs [hidden] { display: none !important; }
 body .net-chat-tabs .chat-toggle {
   display: inline-flex; align-items: center; gap: 5px; min-height: 28px;
@@ -14,8 +16,13 @@ body .net-chat-tabs .chat-tabs button {
 }
 body .net-chat-tabs .chat-tabs [aria-selected="true"] { color: var(--t-gold-hi, #f6e2ae); background: #88704155; border-color: var(--t-gold, #c9a96a); }
 body .net-chat-tabs :is(button,input,[role="tabpanel"]):focus-visible { outline: 2px solid var(--t-gold-hi, #f6e2ae); outline-offset: 2px; }
+body .net-chat-tabs [role="tabpanel"]:focus-visible { outline-offset: -2px; }
 body .net-chat-tabs :is(.chat-unread,.chat-total) { display: inline-block; margin-left: 3px; padding: 0 3px; border-radius: 7px; background: #9a4838; color: #fff1db; font-size: 9px; }
-body .net-chat.net-chat-tabs .net-lines { display: block; overflow-y: auto; max-height: min(24dvh, 170px); }
+body .net-chat.net-chat-tabs .net-lines,
+body.hud-dynamic .net-chat.net-chat-tabs:not(.chat-collapsed) .net-lines {
+  display: block; min-height: 0; max-height: min(24dvh, 140px);
+  overflow-y: auto; overflow-x: hidden; overflow-wrap: anywhere;
+}
 body .net-chat-tabs .chat-compose { margin-top: 5px; }
 body .net-chat-tabs .chat-recipient { display: flex; align-items: center; gap: 6px; font-size: 11px; }
 body .net-chat-tabs .chat-recipient input { width: 100%; min-width: 0; box-sizing: border-box; }
