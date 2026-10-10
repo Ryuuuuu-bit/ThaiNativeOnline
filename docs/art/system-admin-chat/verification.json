@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "bounds": [
+    {
+      "width": 1366,
+      "height": 768,
+      "panel": {
+        "x": 20,
+        "y": 264,
+        "width": 480,
+        "height": 396
+      },
+      "field": {
+        "x": 31,
+        "y": 556,
+        "width": 413.859375,
+        "height": 36
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "panel": {
+        "x": 12,
+        "y": 104,
+        "width": 366,
+        "height": 425
+      },
+      "field": {
+        "x": 20,
+        "y": 422,
+        "width": 305.859375,
+        "height": 44
+      }
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "panel": {
+        "x": 12,
+        "y": 12,
+        "width": 820,
+        "height": 366
+      },
+      "field": {
+        "x": 20,
+        "y": 330,
+        "width": 759.859375,
+        "height": 44
+      }
+    }
+  ],
+  "errors": [],
+  "checks": [
+    "regular read-only",
+    "admin System composer",
+    "non-GM text blocked",
+    "Enter command submit",
+    "GM help prefills without execution",
+    "System stays selected",
+    "offline draft",
+    "revocation hides and blocks",
+    "PC and touch bounds"
+  ],
+  "transport": "stubbed send; no real admin command executed"
+}

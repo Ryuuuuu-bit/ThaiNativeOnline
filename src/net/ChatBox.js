@@ -127,11 +127,17 @@ export class ChatBox {
     this.lines.setAttribute('aria-labelledby', `chat-tab-${this.channel}`);
     this.root.querySelector('.chat-subtitle').textContent = CHANNELS[this.channel];
     for (const line of this.lines.children) line.hidden = line.dataset.channel !== this.channel;
-    this.input.hidden = this.collapsed || this.channel === 'system';
+    const system = this.channel === 'system';
+    this.input.hidden = this.collapsed || (system && !this.gmButton);
     this.compose.hidden = this.input.hidden;
-    this.root.querySelector('.chat-system-note').hidden = this.collapsed || this.channel !== 'system';
+    const note = this.root.querySelector('.chat-system-note');
+    note.hidden = this.collapsed || !system;
+    note.textContent = this.gmButton ? 'คำสั่ง Admin เท่านั้น · เริ่มด้วย /gm · ผลคำสั่งแสดงในช่องระบบ' : 'บันทึกการต่อสู้ ไอเทม และประกาศ · อ่านอย่างเดียว';
+    this.emojiToggle.hidden = system;
+    this.input.setAttribute('aria-label', system ? 'คำสั่ง Admin' : 'ข้อความแชท');
+    this.root.querySelector('.chat-send').textContent = system ? 'รัน' : 'ส่ง';
     this.recipientRow.hidden = this.channel !== 'whisper';
-    this.input.placeholder = this.channel === 'area' ? 'ข้อความถึงแผนที่และ CH นี้' : this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? `ข้อความถึง ${this.recipient.value || 'ผู้รับที่เลือก'}` : 'ข้อความถึงทุกคนในเซิร์ฟเวอร์';
+    this.input.placeholder = system ? '/gm help · พิมพ์คำสั่ง Admin' : this.channel === 'area' ? 'ข้อความถึงแผนที่และ CH นี้' : this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? `ข้อความถึง ${this.recipient.value || 'ผู้รับที่เลือก'}` : 'ข้อความถึงทุกคนในเซิร์ฟเวอร์';
     this.paintUnread();
   }
 
@@ -155,7 +161,7 @@ export class ChatBox {
   }
 
   open(text = null) {
-    if (this.channel === 'system') this.channel = 'general';
+    if (this.channel === 'system' && !this.gmButton) this.channel = 'general';
     if (text !== null) {
       this.input.value = text;
       const whisper = /^\/w\s+(\S+)(?:\s+([\s\S]*))?$/.exec(text);
@@ -180,12 +186,16 @@ export class ChatBox {
   }
 
   submit() {
-    if (this.channel === 'system') return;
+    if (this.channel === 'system' && !this.gmButton) return;
     const text = this.input.value.trim();
     if (!text) return;
     const fail = message => { this.feedback.textContent = message; this.feedback.hidden = false; };
     if (!this.online_) { fail('ออฟไลน์อยู่ · ข้อความยังส่งไม่ได้'); return; }
-    if (this.channel === 'whisper') {
+    if (this.channel === 'system') {
+      if (!/^\/gm(?:\s|$)/i.test(text)) { fail('ช่องระบบรับเฉพาะคำสั่ง /gm เช่น /gm help'); return; }
+      // The server intercepts /gm before any public-chat relay and rechecks roles.
+      this.send(text, 'system');
+    } else if (this.channel === 'whisper') {
       const to = this.recipient.value.trim();
       if (!to) { fail('เลือกหรือพิมพ์ชื่อผู้รับกระซิบ'); this.recipient.focus(); return; }
       if (!this.whisperSend) { fail('ระบบกระซิบยังไม่พร้อม'); return; }
@@ -260,6 +270,7 @@ export class ChatBox {
     const entries = Array.isArray(catalog) ? catalog.filter(c => typeof c?.id === 'string' && typeof c.usage === 'string' && typeof c.description === 'string').slice(0, 40) : [];
     if (!entries.length) {
       for (const line of [...this.lines.children]) if (line.classList.contains('gm')) line.remove();
+      this.paint();
       return;
     }
     const button = this.gmButton = document.createElement('button');
@@ -272,14 +283,15 @@ export class ChatBox {
       const row = document.createElement('button'); row.type = 'button';
       const usage = document.createElement('code'), description = document.createElement('span');
       usage.textContent = entry.usage; description.textContent = entry.description; row.append(usage, description);
-      row.addEventListener('click', () => { this.channel = 'general'; this.open(`/gm ${entry.id} `); });
+      row.addEventListener('click', () => { this.channel = 'system'; this.open(`/gm ${entry.id} `); });
       panel.append(row);
     }
     this.body.prepend(panel);
     button.addEventListener('click', e => {
-      e.stopPropagation(); const show = panel.hidden; this.open(); panel.hidden = !show;
+      e.stopPropagation(); const show = panel.hidden; this.select('system'); this.open(); panel.hidden = !show;
       button.setAttribute('aria-expanded', String(show));
     });
+    this.paint();
   }
   setStatus(on, final = false) {
     this.online_ = on; this.root.classList.toggle('offline', !on);
