@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_kumphi",
+  "family": "card:card_kumphi",
+  "memberIDs": [
+    "card_kumphi"
+  ],
+  "name": "การ์ดกุมภีล์",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-eb7f7b1b-310c-4719-9592-f4840727273a.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature กุมภีล์ kumphi, demonic giant water crocodile. Monstrous huge deep teal-olive crocodilian quadruped with exaggerated muscular shoulders, jagged dark armored ridge scutes, broad heavy jaw open in roar, oversized ivory fangs, glowing turquoise eyes and pale jade underbelly. FOUR stout reptilian legs, long thick tail curling forward, supernatural pale aqua vapor. Clearly a demonic beast much more massive and angular than ordinary crocodile, NO royal crown or armor (reserved for Chalawan), no human torso. Bold creature fills80 percent cream parchment face with whole tail inside border readable32px. Soft hand-painted stylized broad shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_kumphi.png",
+  "masterSha256": "5ef91333dd4a549c6333a020fab204063e74f93542f4d73b34a7e67e77546941",
+  "originalSha256": "5ef91333dd4a549c6333a020fab204063e74f93542f4d73b34a7e67e77546941",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_kumphi.webp",
+  "sha256": "c3b3037be77879e4e30ae1cd926a0d4f7a0a1484543b8b5162356cbf13f24c02",
+  "bytes": 28430,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

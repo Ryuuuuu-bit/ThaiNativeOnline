@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_sealed_mine_0",
+  "family": "card:card_sealed_mine_0",
+  "memberIDs": [
+    "card_sealed_mine_0"
+  ],
+  "name": "การ์ดวิญญาณคนงาน",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-86dc2743-c2dd-491f-b31d-37a3ae2783a9.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature วิญญาณคนงาน sealed_mine_0, dark spirit of Thai jade mine worker. Hunched pale gray-blue Thai human laborer ghost with cloth headwrap, dusty tan sleeveless work shirt, charcoal rolled trousers and bare feet. Holds a short worn iron PICKAXE slanted low across waist, a small jade-green crystal embedded in shoulder cloth emits faint light; grim weary face and translucent dusty haze. Distinct humble miner silhouette no crown, armor, hood or weapons beyond mining tool. Full person and whole pickaxe inside card fills75 percent face with ample headroom readable32px. Soft hand-painted stylized broad shapes Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_sealed_mine_0.png",
+  "masterSha256": "6d81a39c6610586864e224187dd9218beea7dea23a71f1f9b455509a29eb72f2",
+  "originalSha256": "6d81a39c6610586864e224187dd9218beea7dea23a71f1f9b455509a29eb72f2",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_sealed_mine_0.webp",
+  "sha256": "0e4f8dd6e7413562f7fe0a43c0387615e1d664daaf67abdeb025268c8e90c2a4",
+  "bytes": 13974,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

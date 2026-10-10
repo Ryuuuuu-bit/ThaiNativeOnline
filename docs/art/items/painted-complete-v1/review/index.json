@@ -1,0 +1,5460 @@
+{
+  "summary": {
+    "plannedNewMasters": 333,
+    "completedNewMasters": 333,
+    "reusedApprovedMasters": 15,
+    "mappedIDs": 516,
+    "activeIDs": 516,
+    "pendingMasters": 0
+  },
+  "sheets": [
+    {
+      "output": "artifacts/item-assets-completion/review/equip-1-jade.png",
+      "type": "equip",
+      "page": 1,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "bamboo_grave_sword",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_sword.webp",
+          "members": [
+            "bamboo_grave_sword"
+          ]
+        },
+        {
+          "id": "bamboo_grave_bow",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_bow.webp",
+          "members": [
+            "bamboo_grave_bow"
+          ]
+        },
+        {
+          "id": "bamboo_grave_wrap",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_wrap.webp",
+          "members": [
+            "bamboo_grave_wrap"
+          ]
+        },
+        {
+          "id": "bamboo_grave_dagger",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_dagger.webp",
+          "members": [
+            "bamboo_grave_dagger"
+          ]
+        },
+        {
+          "id": "bamboo_grave_talisman",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_talisman.webp",
+          "members": [
+            "bamboo_grave_talisman"
+          ]
+        },
+        {
+          "id": "bamboo_grave_book",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_book.webp",
+          "members": [
+            "bamboo_grave_book"
+          ]
+        },
+        {
+          "id": "bamboo_grave_armor",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_armor.webp",
+          "members": [
+            "bamboo_grave_armor"
+          ]
+        },
+        {
+          "id": "bamboo_grave_shoes",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_shoes.webp",
+          "members": [
+            "bamboo_grave_shoes"
+          ]
+        },
+        {
+          "id": "sealed_mine_sword",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_sword.webp",
+          "members": [
+            "sealed_mine_sword"
+          ]
+        },
+        {
+          "id": "sealed_mine_bow",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_bow.webp",
+          "members": [
+            "sealed_mine_bow"
+          ]
+        },
+        {
+          "id": "sealed_mine_wrap",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_wrap.webp",
+          "members": [
+            "sealed_mine_wrap"
+          ]
+        },
+        {
+          "id": "sealed_mine_dagger",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_dagger.webp",
+          "members": [
+            "sealed_mine_dagger"
+          ]
+        },
+        {
+          "id": "sealed_mine_talisman",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_talisman.webp",
+          "members": [
+            "sealed_mine_talisman"
+          ]
+        },
+        {
+          "id": "sealed_mine_book",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_book.webp",
+          "members": [
+            "sealed_mine_book"
+          ]
+        },
+        {
+          "id": "sealed_mine_armor",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_armor.webp",
+          "members": [
+            "sealed_mine_armor"
+          ]
+        },
+        {
+          "id": "sealed_mine_shoes",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_shoes.webp",
+          "members": [
+            "sealed_mine_shoes"
+          ]
+        },
+        {
+          "id": "sunken_city_sword",
+          "image": "/ui/items/painted-complete-v1/sunken_city_sword.webp",
+          "members": [
+            "sunken_city_sword"
+          ]
+        },
+        {
+          "id": "sunken_city_bow",
+          "image": "/ui/items/painted-complete-v1/sunken_city_bow.webp",
+          "members": [
+            "sunken_city_bow"
+          ]
+        },
+        {
+          "id": "sunken_city_wrap",
+          "image": "/ui/items/painted-complete-v1/sunken_city_wrap.webp",
+          "members": [
+            "sunken_city_wrap"
+          ]
+        },
+        {
+          "id": "sunken_city_dagger",
+          "image": "/ui/items/painted-complete-v1/sunken_city_dagger.webp",
+          "members": [
+            "sunken_city_dagger"
+          ]
+        },
+        {
+          "id": "sunken_city_talisman",
+          "image": "/ui/items/painted-complete-v1/sunken_city_talisman.webp",
+          "members": [
+            "sunken_city_talisman"
+          ]
+        },
+        {
+          "id": "sunken_city_book",
+          "image": "/ui/items/painted-complete-v1/sunken_city_book.webp",
+          "members": [
+            "sunken_city_book"
+          ]
+        },
+        {
+          "id": "sunken_city_armor",
+          "image": "/ui/items/painted-complete-v1/sunken_city_armor.webp",
+          "members": [
+            "sunken_city_armor"
+          ]
+        },
+        {
+          "id": "sunken_city_shoes",
+          "image": "/ui/items/painted-complete-v1/sunken_city_shoes.webp",
+          "members": [
+            "sunken_city_shoes"
+          ]
+        },
+        {
+          "id": "dusk_fort_sword",
+          "image": "/ui/items/painted-v2/dusk_fort_sword.webp",
+          "members": [
+            "dusk_fort_sword"
+          ]
+        },
+        {
+          "id": "dusk_fort_bow",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_bow.webp",
+          "members": [
+            "dusk_fort_bow"
+          ]
+        },
+        {
+          "id": "dusk_fort_wrap",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_wrap.webp",
+          "members": [
+            "dusk_fort_wrap"
+          ]
+        },
+        {
+          "id": "dusk_fort_dagger",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_dagger.webp",
+          "members": [
+            "dusk_fort_dagger"
+          ]
+        },
+        {
+          "id": "dusk_fort_talisman",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_talisman.webp",
+          "members": [
+            "dusk_fort_talisman"
+          ]
+        },
+        {
+          "id": "dusk_fort_book",
+          "image": "/ui/items/painted-v2/dusk_fort_book.webp",
+          "members": [
+            "dusk_fort_book"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-1-light.png",
+      "type": "equip",
+      "page": 1,
+      "theme": "light",
+      "items": [
+        {
+          "id": "bamboo_grave_sword",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_sword.webp",
+          "members": [
+            "bamboo_grave_sword"
+          ]
+        },
+        {
+          "id": "bamboo_grave_bow",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_bow.webp",
+          "members": [
+            "bamboo_grave_bow"
+          ]
+        },
+        {
+          "id": "bamboo_grave_wrap",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_wrap.webp",
+          "members": [
+            "bamboo_grave_wrap"
+          ]
+        },
+        {
+          "id": "bamboo_grave_dagger",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_dagger.webp",
+          "members": [
+            "bamboo_grave_dagger"
+          ]
+        },
+        {
+          "id": "bamboo_grave_talisman",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_talisman.webp",
+          "members": [
+            "bamboo_grave_talisman"
+          ]
+        },
+        {
+          "id": "bamboo_grave_book",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_book.webp",
+          "members": [
+            "bamboo_grave_book"
+          ]
+        },
+        {
+          "id": "bamboo_grave_armor",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_armor.webp",
+          "members": [
+            "bamboo_grave_armor"
+          ]
+        },
+        {
+          "id": "bamboo_grave_shoes",
+          "image": "/ui/items/painted-complete-v1/bamboo_grave_shoes.webp",
+          "members": [
+            "bamboo_grave_shoes"
+          ]
+        },
+        {
+          "id": "sealed_mine_sword",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_sword.webp",
+          "members": [
+            "sealed_mine_sword"
+          ]
+        },
+        {
+          "id": "sealed_mine_bow",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_bow.webp",
+          "members": [
+            "sealed_mine_bow"
+          ]
+        },
+        {
+          "id": "sealed_mine_wrap",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_wrap.webp",
+          "members": [
+            "sealed_mine_wrap"
+          ]
+        },
+        {
+          "id": "sealed_mine_dagger",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_dagger.webp",
+          "members": [
+            "sealed_mine_dagger"
+          ]
+        },
+        {
+          "id": "sealed_mine_talisman",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_talisman.webp",
+          "members": [
+            "sealed_mine_talisman"
+          ]
+        },
+        {
+          "id": "sealed_mine_book",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_book.webp",
+          "members": [
+            "sealed_mine_book"
+          ]
+        },
+        {
+          "id": "sealed_mine_armor",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_armor.webp",
+          "members": [
+            "sealed_mine_armor"
+          ]
+        },
+        {
+          "id": "sealed_mine_shoes",
+          "image": "/ui/items/painted-complete-v1/sealed_mine_shoes.webp",
+          "members": [
+            "sealed_mine_shoes"
+          ]
+        },
+        {
+          "id": "sunken_city_sword",
+          "image": "/ui/items/painted-complete-v1/sunken_city_sword.webp",
+          "members": [
+            "sunken_city_sword"
+          ]
+        },
+        {
+          "id": "sunken_city_bow",
+          "image": "/ui/items/painted-complete-v1/sunken_city_bow.webp",
+          "members": [
+            "sunken_city_bow"
+          ]
+        },
+        {
+          "id": "sunken_city_wrap",
+          "image": "/ui/items/painted-complete-v1/sunken_city_wrap.webp",
+          "members": [
+            "sunken_city_wrap"
+          ]
+        },
+        {
+          "id": "sunken_city_dagger",
+          "image": "/ui/items/painted-complete-v1/sunken_city_dagger.webp",
+          "members": [
+            "sunken_city_dagger"
+          ]
+        },
+        {
+          "id": "sunken_city_talisman",
+          "image": "/ui/items/painted-complete-v1/sunken_city_talisman.webp",
+          "members": [
+            "sunken_city_talisman"
+          ]
+        },
+        {
+          "id": "sunken_city_book",
+          "image": "/ui/items/painted-complete-v1/sunken_city_book.webp",
+          "members": [
+            "sunken_city_book"
+          ]
+        },
+        {
+          "id": "sunken_city_armor",
+          "image": "/ui/items/painted-complete-v1/sunken_city_armor.webp",
+          "members": [
+            "sunken_city_armor"
+          ]
+        },
+        {
+          "id": "sunken_city_shoes",
+          "image": "/ui/items/painted-complete-v1/sunken_city_shoes.webp",
+          "members": [
+            "sunken_city_shoes"
+          ]
+        },
+        {
+          "id": "dusk_fort_sword",
+          "image": "/ui/items/painted-v2/dusk_fort_sword.webp",
+          "members": [
+            "dusk_fort_sword"
+          ]
+        },
+        {
+          "id": "dusk_fort_bow",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_bow.webp",
+          "members": [
+            "dusk_fort_bow"
+          ]
+        },
+        {
+          "id": "dusk_fort_wrap",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_wrap.webp",
+          "members": [
+            "dusk_fort_wrap"
+          ]
+        },
+        {
+          "id": "dusk_fort_dagger",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_dagger.webp",
+          "members": [
+            "dusk_fort_dagger"
+          ]
+        },
+        {
+          "id": "dusk_fort_talisman",
+          "image": "/ui/items/painted-complete-v1/dusk_fort_talisman.webp",
+          "members": [
+            "dusk_fort_talisman"
+          ]
+        },
+        {
+          "id": "dusk_fort_book",
+          "image": "/ui/items/painted-v2/dusk_fort_book.webp",
+          "members": [
+            "dusk_fort_book"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-2-jade.png",
+      "type": "equip",
+      "page": 2,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "dusk_fort_armor",
+          "image": "/ui/items/painted-v2/dusk_fort_armor.webp",
+          "members": [
+            "dusk_fort_armor"
+          ]
+        },
+        {
+          "id": "dusk_fort_shoes",
+          "image": "/ui/items/painted-v2/dusk_fort_shoes.webp",
+          "members": [
+            "dusk_fort_shoes"
+          ]
+        },
+        {
+          "id": "giant_valley_sword",
+          "image": "/ui/items/painted-complete-v1/giant_valley_sword.webp",
+          "members": [
+            "giant_valley_sword"
+          ]
+        },
+        {
+          "id": "giant_valley_bow",
+          "image": "/ui/items/painted-complete-v1/giant_valley_bow.webp",
+          "members": [
+            "giant_valley_bow"
+          ]
+        },
+        {
+          "id": "giant_valley_wrap",
+          "image": "/ui/items/painted-complete-v1/giant_valley_wrap.webp",
+          "members": [
+            "giant_valley_wrap"
+          ]
+        },
+        {
+          "id": "giant_valley_dagger",
+          "image": "/ui/items/painted-complete-v1/giant_valley_dagger.webp",
+          "members": [
+            "giant_valley_dagger"
+          ]
+        },
+        {
+          "id": "giant_valley_talisman",
+          "image": "/ui/items/painted-complete-v1/giant_valley_talisman.webp",
+          "members": [
+            "giant_valley_talisman"
+          ]
+        },
+        {
+          "id": "giant_valley_book",
+          "image": "/ui/items/painted-complete-v1/giant_valley_book.webp",
+          "members": [
+            "giant_valley_book"
+          ]
+        },
+        {
+          "id": "giant_valley_armor",
+          "image": "/ui/items/painted-complete-v1/giant_valley_armor.webp",
+          "members": [
+            "giant_valley_armor"
+          ]
+        },
+        {
+          "id": "giant_valley_shoes",
+          "image": "/ui/items/painted-complete-v1/giant_valley_shoes.webp",
+          "members": [
+            "giant_valley_shoes"
+          ]
+        },
+        {
+          "id": "himmapan_sword",
+          "image": "/ui/items/painted-complete-v1/himmapan_sword.webp",
+          "members": [
+            "himmapan_sword"
+          ]
+        },
+        {
+          "id": "himmapan_bow",
+          "image": "/ui/items/painted-complete-v1/himmapan_bow.webp",
+          "members": [
+            "himmapan_bow"
+          ]
+        },
+        {
+          "id": "himmapan_wrap",
+          "image": "/ui/items/painted-complete-v1/himmapan_wrap.webp",
+          "members": [
+            "himmapan_wrap"
+          ]
+        },
+        {
+          "id": "himmapan_dagger",
+          "image": "/ui/items/painted-complete-v1/himmapan_dagger.webp",
+          "members": [
+            "himmapan_dagger"
+          ]
+        },
+        {
+          "id": "himmapan_talisman",
+          "image": "/ui/items/painted-complete-v1/himmapan_talisman.webp",
+          "members": [
+            "himmapan_talisman"
+          ]
+        },
+        {
+          "id": "himmapan_book",
+          "image": "/ui/items/painted-complete-v1/himmapan_book.webp",
+          "members": [
+            "himmapan_book"
+          ]
+        },
+        {
+          "id": "himmapan_armor",
+          "image": "/ui/items/painted-complete-v1/himmapan_armor.webp",
+          "members": [
+            "himmapan_armor"
+          ]
+        },
+        {
+          "id": "himmapan_shoes",
+          "image": "/ui/items/painted-complete-v1/himmapan_shoes.webp",
+          "members": [
+            "himmapan_shoes"
+          ]
+        },
+        {
+          "id": "fallen_city_sword",
+          "image": "/ui/items/painted-complete-v1/fallen_city_sword.webp",
+          "members": [
+            "fallen_city_sword"
+          ]
+        },
+        {
+          "id": "fallen_city_bow",
+          "image": "/ui/items/painted-complete-v1/fallen_city_bow.webp",
+          "members": [
+            "fallen_city_bow"
+          ]
+        },
+        {
+          "id": "fallen_city_wrap",
+          "image": "/ui/items/painted-complete-v1/fallen_city_wrap.webp",
+          "members": [
+            "fallen_city_wrap"
+          ]
+        },
+        {
+          "id": "fallen_city_dagger",
+          "image": "/ui/items/painted-complete-v1/fallen_city_dagger.webp",
+          "members": [
+            "fallen_city_dagger"
+          ]
+        },
+        {
+          "id": "fallen_city_talisman",
+          "image": "/ui/items/painted-complete-v1/fallen_city_talisman.webp",
+          "members": [
+            "fallen_city_talisman"
+          ]
+        },
+        {
+          "id": "fallen_city_book",
+          "image": "/ui/items/painted-complete-v1/fallen_city_book.webp",
+          "members": [
+            "fallen_city_book"
+          ]
+        },
+        {
+          "id": "fallen_city_armor",
+          "image": "/ui/items/painted-complete-v1/fallen_city_armor.webp",
+          "members": [
+            "fallen_city_armor"
+          ]
+        },
+        {
+          "id": "fallen_city_shoes",
+          "image": "/ui/items/painted-complete-v1/fallen_city_shoes.webp",
+          "members": [
+            "fallen_city_shoes"
+          ]
+        },
+        {
+          "id": "demon_rift_sword",
+          "image": "/ui/items/painted-complete-v1/demon_rift_sword.webp",
+          "members": [
+            "demon_rift_sword"
+          ]
+        },
+        {
+          "id": "demon_rift_bow",
+          "image": "/ui/items/painted-complete-v1/demon_rift_bow.webp",
+          "members": [
+            "demon_rift_bow"
+          ]
+        },
+        {
+          "id": "demon_rift_wrap",
+          "image": "/ui/items/painted-complete-v1/demon_rift_wrap.webp",
+          "members": [
+            "demon_rift_wrap"
+          ]
+        },
+        {
+          "id": "demon_rift_dagger",
+          "image": "/ui/items/painted-complete-v1/demon_rift_dagger.webp",
+          "members": [
+            "demon_rift_dagger"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-2-light.png",
+      "type": "equip",
+      "page": 2,
+      "theme": "light",
+      "items": [
+        {
+          "id": "dusk_fort_armor",
+          "image": "/ui/items/painted-v2/dusk_fort_armor.webp",
+          "members": [
+            "dusk_fort_armor"
+          ]
+        },
+        {
+          "id": "dusk_fort_shoes",
+          "image": "/ui/items/painted-v2/dusk_fort_shoes.webp",
+          "members": [
+            "dusk_fort_shoes"
+          ]
+        },
+        {
+          "id": "giant_valley_sword",
+          "image": "/ui/items/painted-complete-v1/giant_valley_sword.webp",
+          "members": [
+            "giant_valley_sword"
+          ]
+        },
+        {
+          "id": "giant_valley_bow",
+          "image": "/ui/items/painted-complete-v1/giant_valley_bow.webp",
+          "members": [
+            "giant_valley_bow"
+          ]
+        },
+        {
+          "id": "giant_valley_wrap",
+          "image": "/ui/items/painted-complete-v1/giant_valley_wrap.webp",
+          "members": [
+            "giant_valley_wrap"
+          ]
+        },
+        {
+          "id": "giant_valley_dagger",
+          "image": "/ui/items/painted-complete-v1/giant_valley_dagger.webp",
+          "members": [
+            "giant_valley_dagger"
+          ]
+        },
+        {
+          "id": "giant_valley_talisman",
+          "image": "/ui/items/painted-complete-v1/giant_valley_talisman.webp",
+          "members": [
+            "giant_valley_talisman"
+          ]
+        },
+        {
+          "id": "giant_valley_book",
+          "image": "/ui/items/painted-complete-v1/giant_valley_book.webp",
+          "members": [
+            "giant_valley_book"
+          ]
+        },
+        {
+          "id": "giant_valley_armor",
+          "image": "/ui/items/painted-complete-v1/giant_valley_armor.webp",
+          "members": [
+            "giant_valley_armor"
+          ]
+        },
+        {
+          "id": "giant_valley_shoes",
+          "image": "/ui/items/painted-complete-v1/giant_valley_shoes.webp",
+          "members": [
+            "giant_valley_shoes"
+          ]
+        },
+        {
+          "id": "himmapan_sword",
+          "image": "/ui/items/painted-complete-v1/himmapan_sword.webp",
+          "members": [
+            "himmapan_sword"
+          ]
+        },
+        {
+          "id": "himmapan_bow",
+          "image": "/ui/items/painted-complete-v1/himmapan_bow.webp",
+          "members": [
+            "himmapan_bow"
+          ]
+        },
+        {
+          "id": "himmapan_wrap",
+          "image": "/ui/items/painted-complete-v1/himmapan_wrap.webp",
+          "members": [
+            "himmapan_wrap"
+          ]
+        },
+        {
+          "id": "himmapan_dagger",
+          "image": "/ui/items/painted-complete-v1/himmapan_dagger.webp",
+          "members": [
+            "himmapan_dagger"
+          ]
+        },
+        {
+          "id": "himmapan_talisman",
+          "image": "/ui/items/painted-complete-v1/himmapan_talisman.webp",
+          "members": [
+            "himmapan_talisman"
+          ]
+        },
+        {
+          "id": "himmapan_book",
+          "image": "/ui/items/painted-complete-v1/himmapan_book.webp",
+          "members": [
+            "himmapan_book"
+          ]
+        },
+        {
+          "id": "himmapan_armor",
+          "image": "/ui/items/painted-complete-v1/himmapan_armor.webp",
+          "members": [
+            "himmapan_armor"
+          ]
+        },
+        {
+          "id": "himmapan_shoes",
+          "image": "/ui/items/painted-complete-v1/himmapan_shoes.webp",
+          "members": [
+            "himmapan_shoes"
+          ]
+        },
+        {
+          "id": "fallen_city_sword",
+          "image": "/ui/items/painted-complete-v1/fallen_city_sword.webp",
+          "members": [
+            "fallen_city_sword"
+          ]
+        },
+        {
+          "id": "fallen_city_bow",
+          "image": "/ui/items/painted-complete-v1/fallen_city_bow.webp",
+          "members": [
+            "fallen_city_bow"
+          ]
+        },
+        {
+          "id": "fallen_city_wrap",
+          "image": "/ui/items/painted-complete-v1/fallen_city_wrap.webp",
+          "members": [
+            "fallen_city_wrap"
+          ]
+        },
+        {
+          "id": "fallen_city_dagger",
+          "image": "/ui/items/painted-complete-v1/fallen_city_dagger.webp",
+          "members": [
+            "fallen_city_dagger"
+          ]
+        },
+        {
+          "id": "fallen_city_talisman",
+          "image": "/ui/items/painted-complete-v1/fallen_city_talisman.webp",
+          "members": [
+            "fallen_city_talisman"
+          ]
+        },
+        {
+          "id": "fallen_city_book",
+          "image": "/ui/items/painted-complete-v1/fallen_city_book.webp",
+          "members": [
+            "fallen_city_book"
+          ]
+        },
+        {
+          "id": "fallen_city_armor",
+          "image": "/ui/items/painted-complete-v1/fallen_city_armor.webp",
+          "members": [
+            "fallen_city_armor"
+          ]
+        },
+        {
+          "id": "fallen_city_shoes",
+          "image": "/ui/items/painted-complete-v1/fallen_city_shoes.webp",
+          "members": [
+            "fallen_city_shoes"
+          ]
+        },
+        {
+          "id": "demon_rift_sword",
+          "image": "/ui/items/painted-complete-v1/demon_rift_sword.webp",
+          "members": [
+            "demon_rift_sword"
+          ]
+        },
+        {
+          "id": "demon_rift_bow",
+          "image": "/ui/items/painted-complete-v1/demon_rift_bow.webp",
+          "members": [
+            "demon_rift_bow"
+          ]
+        },
+        {
+          "id": "demon_rift_wrap",
+          "image": "/ui/items/painted-complete-v1/demon_rift_wrap.webp",
+          "members": [
+            "demon_rift_wrap"
+          ]
+        },
+        {
+          "id": "demon_rift_dagger",
+          "image": "/ui/items/painted-complete-v1/demon_rift_dagger.webp",
+          "members": [
+            "demon_rift_dagger"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-3-jade.png",
+      "type": "equip",
+      "page": 3,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "demon_rift_talisman",
+          "image": "/ui/items/painted-complete-v1/demon_rift_talisman.webp",
+          "members": [
+            "demon_rift_talisman"
+          ]
+        },
+        {
+          "id": "demon_rift_book",
+          "image": "/ui/items/painted-complete-v1/demon_rift_book.webp",
+          "members": [
+            "demon_rift_book"
+          ]
+        },
+        {
+          "id": "demon_rift_armor",
+          "image": "/ui/items/painted-complete-v1/demon_rift_armor.webp",
+          "members": [
+            "demon_rift_armor"
+          ]
+        },
+        {
+          "id": "demon_rift_shoes",
+          "image": "/ui/items/painted-complete-v1/demon_rift_shoes.webp",
+          "members": [
+            "demon_rift_shoes"
+          ]
+        },
+        {
+          "id": "hunt_paddy_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_paddy_head_guard.webp",
+          "members": [
+            "hunt_paddy_head_guard",
+            "hunt_paddy_head_sage",
+            "hunt_paddy_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_paddy_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_paddy_cape_guard.webp",
+          "members": [
+            "hunt_paddy_cape_guard",
+            "hunt_paddy_cape_sage",
+            "hunt_paddy_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_paddy_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_paddy_charm_guard.webp",
+          "members": [
+            "hunt_paddy_charm_guard",
+            "hunt_paddy_charm_sage",
+            "hunt_paddy_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_grove_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_grove_head_guard.webp",
+          "members": [
+            "hunt_grove_head_guard",
+            "hunt_grove_head_sage",
+            "hunt_grove_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_grove_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_grove_cape_guard.webp",
+          "members": [
+            "hunt_grove_cape_guard",
+            "hunt_grove_cape_sage",
+            "hunt_grove_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_grove_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_grove_charm_guard.webp",
+          "members": [
+            "hunt_grove_charm_guard",
+            "hunt_grove_charm_sage",
+            "hunt_grove_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_temple_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_temple_head_guard.webp",
+          "members": [
+            "hunt_temple_head_guard",
+            "hunt_temple_head_sage",
+            "hunt_temple_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_temple_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_temple_cape_guard.webp",
+          "members": [
+            "hunt_temple_cape_guard",
+            "hunt_temple_cape_sage",
+            "hunt_temple_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_temple_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_temple_charm_guard.webp",
+          "members": [
+            "hunt_temple_charm_guard",
+            "hunt_temple_charm_sage",
+            "hunt_temple_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_marsh_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_marsh_head_guard.webp",
+          "members": [
+            "hunt_marsh_head_guard",
+            "hunt_marsh_head_sage",
+            "hunt_marsh_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_marsh_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_marsh_cape_guard.webp",
+          "members": [
+            "hunt_marsh_cape_guard",
+            "hunt_marsh_cape_sage",
+            "hunt_marsh_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_marsh_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_marsh_charm_guard.webp",
+          "members": [
+            "hunt_marsh_charm_guard",
+            "hunt_marsh_charm_sage",
+            "hunt_marsh_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_bamboo_grave_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_head_guard.webp",
+          "members": [
+            "hunt_bamboo_grave_head_guard",
+            "hunt_bamboo_grave_head_sage",
+            "hunt_bamboo_grave_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_bamboo_grave_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_cape_guard.webp",
+          "members": [
+            "hunt_bamboo_grave_cape_guard",
+            "hunt_bamboo_grave_cape_sage",
+            "hunt_bamboo_grave_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_bamboo_grave_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_charm_guard.webp",
+          "members": [
+            "hunt_bamboo_grave_charm_guard",
+            "hunt_bamboo_grave_charm_sage",
+            "hunt_bamboo_grave_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sealed_mine_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_head_guard.webp",
+          "members": [
+            "hunt_sealed_mine_head_guard",
+            "hunt_sealed_mine_head_sage",
+            "hunt_sealed_mine_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sealed_mine_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_cape_guard.webp",
+          "members": [
+            "hunt_sealed_mine_cape_guard",
+            "hunt_sealed_mine_cape_sage",
+            "hunt_sealed_mine_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sealed_mine_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_charm_guard.webp",
+          "members": [
+            "hunt_sealed_mine_charm_guard",
+            "hunt_sealed_mine_charm_sage",
+            "hunt_sealed_mine_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sunken_city_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sunken_city_head_guard.webp",
+          "members": [
+            "hunt_sunken_city_head_guard",
+            "hunt_sunken_city_head_sage",
+            "hunt_sunken_city_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sunken_city_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sunken_city_cape_guard.webp",
+          "members": [
+            "hunt_sunken_city_cape_guard",
+            "hunt_sunken_city_cape_sage",
+            "hunt_sunken_city_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sunken_city_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sunken_city_charm_guard.webp",
+          "members": [
+            "hunt_sunken_city_charm_guard",
+            "hunt_sunken_city_charm_sage",
+            "hunt_sunken_city_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_dusk_fort_head_sage",
+          "image": "/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+          "members": [
+            "hunt_dusk_fort_head_guard",
+            "hunt_dusk_fort_head_sage",
+            "hunt_dusk_fort_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_dusk_fort_cape_sage",
+          "image": "/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+          "members": [
+            "hunt_dusk_fort_cape_guard",
+            "hunt_dusk_fort_cape_sage",
+            "hunt_dusk_fort_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_dusk_fort_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_dusk_fort_charm_guard.webp",
+          "members": [
+            "hunt_dusk_fort_charm_guard",
+            "hunt_dusk_fort_charm_sage",
+            "hunt_dusk_fort_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_giant_valley_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_giant_valley_head_guard.webp",
+          "members": [
+            "hunt_giant_valley_head_guard",
+            "hunt_giant_valley_head_sage",
+            "hunt_giant_valley_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_giant_valley_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_giant_valley_cape_guard.webp",
+          "members": [
+            "hunt_giant_valley_cape_guard",
+            "hunt_giant_valley_cape_sage",
+            "hunt_giant_valley_cape_hunter"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-3-light.png",
+      "type": "equip",
+      "page": 3,
+      "theme": "light",
+      "items": [
+        {
+          "id": "demon_rift_talisman",
+          "image": "/ui/items/painted-complete-v1/demon_rift_talisman.webp",
+          "members": [
+            "demon_rift_talisman"
+          ]
+        },
+        {
+          "id": "demon_rift_book",
+          "image": "/ui/items/painted-complete-v1/demon_rift_book.webp",
+          "members": [
+            "demon_rift_book"
+          ]
+        },
+        {
+          "id": "demon_rift_armor",
+          "image": "/ui/items/painted-complete-v1/demon_rift_armor.webp",
+          "members": [
+            "demon_rift_armor"
+          ]
+        },
+        {
+          "id": "demon_rift_shoes",
+          "image": "/ui/items/painted-complete-v1/demon_rift_shoes.webp",
+          "members": [
+            "demon_rift_shoes"
+          ]
+        },
+        {
+          "id": "hunt_paddy_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_paddy_head_guard.webp",
+          "members": [
+            "hunt_paddy_head_guard",
+            "hunt_paddy_head_sage",
+            "hunt_paddy_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_paddy_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_paddy_cape_guard.webp",
+          "members": [
+            "hunt_paddy_cape_guard",
+            "hunt_paddy_cape_sage",
+            "hunt_paddy_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_paddy_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_paddy_charm_guard.webp",
+          "members": [
+            "hunt_paddy_charm_guard",
+            "hunt_paddy_charm_sage",
+            "hunt_paddy_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_grove_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_grove_head_guard.webp",
+          "members": [
+            "hunt_grove_head_guard",
+            "hunt_grove_head_sage",
+            "hunt_grove_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_grove_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_grove_cape_guard.webp",
+          "members": [
+            "hunt_grove_cape_guard",
+            "hunt_grove_cape_sage",
+            "hunt_grove_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_grove_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_grove_charm_guard.webp",
+          "members": [
+            "hunt_grove_charm_guard",
+            "hunt_grove_charm_sage",
+            "hunt_grove_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_temple_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_temple_head_guard.webp",
+          "members": [
+            "hunt_temple_head_guard",
+            "hunt_temple_head_sage",
+            "hunt_temple_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_temple_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_temple_cape_guard.webp",
+          "members": [
+            "hunt_temple_cape_guard",
+            "hunt_temple_cape_sage",
+            "hunt_temple_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_temple_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_temple_charm_guard.webp",
+          "members": [
+            "hunt_temple_charm_guard",
+            "hunt_temple_charm_sage",
+            "hunt_temple_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_marsh_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_marsh_head_guard.webp",
+          "members": [
+            "hunt_marsh_head_guard",
+            "hunt_marsh_head_sage",
+            "hunt_marsh_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_marsh_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_marsh_cape_guard.webp",
+          "members": [
+            "hunt_marsh_cape_guard",
+            "hunt_marsh_cape_sage",
+            "hunt_marsh_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_marsh_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_marsh_charm_guard.webp",
+          "members": [
+            "hunt_marsh_charm_guard",
+            "hunt_marsh_charm_sage",
+            "hunt_marsh_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_bamboo_grave_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_head_guard.webp",
+          "members": [
+            "hunt_bamboo_grave_head_guard",
+            "hunt_bamboo_grave_head_sage",
+            "hunt_bamboo_grave_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_bamboo_grave_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_cape_guard.webp",
+          "members": [
+            "hunt_bamboo_grave_cape_guard",
+            "hunt_bamboo_grave_cape_sage",
+            "hunt_bamboo_grave_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_bamboo_grave_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_charm_guard.webp",
+          "members": [
+            "hunt_bamboo_grave_charm_guard",
+            "hunt_bamboo_grave_charm_sage",
+            "hunt_bamboo_grave_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sealed_mine_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_head_guard.webp",
+          "members": [
+            "hunt_sealed_mine_head_guard",
+            "hunt_sealed_mine_head_sage",
+            "hunt_sealed_mine_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sealed_mine_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_cape_guard.webp",
+          "members": [
+            "hunt_sealed_mine_cape_guard",
+            "hunt_sealed_mine_cape_sage",
+            "hunt_sealed_mine_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sealed_mine_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_charm_guard.webp",
+          "members": [
+            "hunt_sealed_mine_charm_guard",
+            "hunt_sealed_mine_charm_sage",
+            "hunt_sealed_mine_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sunken_city_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sunken_city_head_guard.webp",
+          "members": [
+            "hunt_sunken_city_head_guard",
+            "hunt_sunken_city_head_sage",
+            "hunt_sunken_city_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sunken_city_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sunken_city_cape_guard.webp",
+          "members": [
+            "hunt_sunken_city_cape_guard",
+            "hunt_sunken_city_cape_sage",
+            "hunt_sunken_city_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_sunken_city_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_sunken_city_charm_guard.webp",
+          "members": [
+            "hunt_sunken_city_charm_guard",
+            "hunt_sunken_city_charm_sage",
+            "hunt_sunken_city_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_dusk_fort_head_sage",
+          "image": "/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+          "members": [
+            "hunt_dusk_fort_head_guard",
+            "hunt_dusk_fort_head_sage",
+            "hunt_dusk_fort_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_dusk_fort_cape_sage",
+          "image": "/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+          "members": [
+            "hunt_dusk_fort_cape_guard",
+            "hunt_dusk_fort_cape_sage",
+            "hunt_dusk_fort_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_dusk_fort_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_dusk_fort_charm_guard.webp",
+          "members": [
+            "hunt_dusk_fort_charm_guard",
+            "hunt_dusk_fort_charm_sage",
+            "hunt_dusk_fort_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_giant_valley_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_giant_valley_head_guard.webp",
+          "members": [
+            "hunt_giant_valley_head_guard",
+            "hunt_giant_valley_head_sage",
+            "hunt_giant_valley_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_giant_valley_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_giant_valley_cape_guard.webp",
+          "members": [
+            "hunt_giant_valley_cape_guard",
+            "hunt_giant_valley_cape_sage",
+            "hunt_giant_valley_cape_hunter"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-4-jade.png",
+      "type": "equip",
+      "page": 4,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "hunt_giant_valley_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_giant_valley_charm_guard.webp",
+          "members": [
+            "hunt_giant_valley_charm_guard",
+            "hunt_giant_valley_charm_sage",
+            "hunt_giant_valley_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_himmapan_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_himmapan_head_guard.webp",
+          "members": [
+            "hunt_himmapan_head_guard",
+            "hunt_himmapan_head_sage",
+            "hunt_himmapan_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_himmapan_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_himmapan_cape_guard.webp",
+          "members": [
+            "hunt_himmapan_cape_guard",
+            "hunt_himmapan_cape_sage",
+            "hunt_himmapan_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_himmapan_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_himmapan_charm_guard.webp",
+          "members": [
+            "hunt_himmapan_charm_guard",
+            "hunt_himmapan_charm_sage",
+            "hunt_himmapan_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_fallen_city_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_fallen_city_head_guard.webp",
+          "members": [
+            "hunt_fallen_city_head_guard",
+            "hunt_fallen_city_head_sage",
+            "hunt_fallen_city_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_fallen_city_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_fallen_city_cape_guard.webp",
+          "members": [
+            "hunt_fallen_city_cape_guard",
+            "hunt_fallen_city_cape_sage",
+            "hunt_fallen_city_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_fallen_city_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_fallen_city_charm_guard.webp",
+          "members": [
+            "hunt_fallen_city_charm_guard",
+            "hunt_fallen_city_charm_sage",
+            "hunt_fallen_city_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_demon_rift_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_demon_rift_head_guard.webp",
+          "members": [
+            "hunt_demon_rift_head_guard",
+            "hunt_demon_rift_head_sage",
+            "hunt_demon_rift_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_demon_rift_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_demon_rift_cape_guard.webp",
+          "members": [
+            "hunt_demon_rift_cape_guard",
+            "hunt_demon_rift_cape_sage",
+            "hunt_demon_rift_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_demon_rift_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_demon_rift_charm_guard.webp",
+          "members": [
+            "hunt_demon_rift_charm_guard",
+            "hunt_demon_rift_charm_sage",
+            "hunt_demon_rift_charm_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_gloves_guard.webp",
+          "members": [
+            "wear_paddy_gloves_guard",
+            "wear_paddy_gloves_sage",
+            "wear_paddy_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_belt_guard.webp",
+          "members": [
+            "wear_paddy_belt_guard",
+            "wear_paddy_belt_sage",
+            "wear_paddy_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_amulet_guard.webp",
+          "members": [
+            "wear_paddy_amulet_guard",
+            "wear_paddy_amulet_sage",
+            "wear_paddy_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_ring_guard.webp",
+          "members": [
+            "wear_paddy_ring_guard",
+            "wear_paddy_ring_sage",
+            "wear_paddy_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_gloves_guard.webp",
+          "members": [
+            "wear_grove_gloves_guard",
+            "wear_grove_gloves_sage",
+            "wear_grove_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_belt_guard.webp",
+          "members": [
+            "wear_grove_belt_guard",
+            "wear_grove_belt_sage",
+            "wear_grove_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_amulet_guard.webp",
+          "members": [
+            "wear_grove_amulet_guard",
+            "wear_grove_amulet_sage",
+            "wear_grove_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_ring_guard.webp",
+          "members": [
+            "wear_grove_ring_guard",
+            "wear_grove_ring_sage",
+            "wear_grove_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_gloves_guard.webp",
+          "members": [
+            "wear_temple_gloves_guard",
+            "wear_temple_gloves_sage",
+            "wear_temple_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_belt_guard.webp",
+          "members": [
+            "wear_temple_belt_guard",
+            "wear_temple_belt_sage",
+            "wear_temple_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_amulet_guard.webp",
+          "members": [
+            "wear_temple_amulet_guard",
+            "wear_temple_amulet_sage",
+            "wear_temple_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_ring_guard.webp",
+          "members": [
+            "wear_temple_ring_guard",
+            "wear_temple_ring_sage",
+            "wear_temple_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_gloves_guard.webp",
+          "members": [
+            "wear_marsh_gloves_guard",
+            "wear_marsh_gloves_sage",
+            "wear_marsh_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_belt_guard.webp",
+          "members": [
+            "wear_marsh_belt_guard",
+            "wear_marsh_belt_sage",
+            "wear_marsh_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_amulet_guard.webp",
+          "members": [
+            "wear_marsh_amulet_guard",
+            "wear_marsh_amulet_sage",
+            "wear_marsh_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_ring_guard.webp",
+          "members": [
+            "wear_marsh_ring_guard",
+            "wear_marsh_ring_sage",
+            "wear_marsh_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_gloves_guard.webp",
+          "members": [
+            "wear_bamboo_grave_gloves_guard",
+            "wear_bamboo_grave_gloves_sage",
+            "wear_bamboo_grave_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_belt_guard.webp",
+          "members": [
+            "wear_bamboo_grave_belt_guard",
+            "wear_bamboo_grave_belt_sage",
+            "wear_bamboo_grave_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_amulet_guard.webp",
+          "members": [
+            "wear_bamboo_grave_amulet_guard",
+            "wear_bamboo_grave_amulet_sage",
+            "wear_bamboo_grave_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_ring_guard.webp",
+          "members": [
+            "wear_bamboo_grave_ring_guard",
+            "wear_bamboo_grave_ring_sage",
+            "wear_bamboo_grave_ring_hunter"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-4-light.png",
+      "type": "equip",
+      "page": 4,
+      "theme": "light",
+      "items": [
+        {
+          "id": "hunt_giant_valley_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_giant_valley_charm_guard.webp",
+          "members": [
+            "hunt_giant_valley_charm_guard",
+            "hunt_giant_valley_charm_sage",
+            "hunt_giant_valley_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_himmapan_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_himmapan_head_guard.webp",
+          "members": [
+            "hunt_himmapan_head_guard",
+            "hunt_himmapan_head_sage",
+            "hunt_himmapan_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_himmapan_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_himmapan_cape_guard.webp",
+          "members": [
+            "hunt_himmapan_cape_guard",
+            "hunt_himmapan_cape_sage",
+            "hunt_himmapan_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_himmapan_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_himmapan_charm_guard.webp",
+          "members": [
+            "hunt_himmapan_charm_guard",
+            "hunt_himmapan_charm_sage",
+            "hunt_himmapan_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_fallen_city_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_fallen_city_head_guard.webp",
+          "members": [
+            "hunt_fallen_city_head_guard",
+            "hunt_fallen_city_head_sage",
+            "hunt_fallen_city_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_fallen_city_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_fallen_city_cape_guard.webp",
+          "members": [
+            "hunt_fallen_city_cape_guard",
+            "hunt_fallen_city_cape_sage",
+            "hunt_fallen_city_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_fallen_city_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_fallen_city_charm_guard.webp",
+          "members": [
+            "hunt_fallen_city_charm_guard",
+            "hunt_fallen_city_charm_sage",
+            "hunt_fallen_city_charm_hunter"
+          ]
+        },
+        {
+          "id": "hunt_demon_rift_head_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_demon_rift_head_guard.webp",
+          "members": [
+            "hunt_demon_rift_head_guard",
+            "hunt_demon_rift_head_sage",
+            "hunt_demon_rift_head_hunter"
+          ]
+        },
+        {
+          "id": "hunt_demon_rift_cape_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_demon_rift_cape_guard.webp",
+          "members": [
+            "hunt_demon_rift_cape_guard",
+            "hunt_demon_rift_cape_sage",
+            "hunt_demon_rift_cape_hunter"
+          ]
+        },
+        {
+          "id": "hunt_demon_rift_charm_guard",
+          "image": "/ui/items/painted-complete-v1/hunt_demon_rift_charm_guard.webp",
+          "members": [
+            "hunt_demon_rift_charm_guard",
+            "hunt_demon_rift_charm_sage",
+            "hunt_demon_rift_charm_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_gloves_guard.webp",
+          "members": [
+            "wear_paddy_gloves_guard",
+            "wear_paddy_gloves_sage",
+            "wear_paddy_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_belt_guard.webp",
+          "members": [
+            "wear_paddy_belt_guard",
+            "wear_paddy_belt_sage",
+            "wear_paddy_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_amulet_guard.webp",
+          "members": [
+            "wear_paddy_amulet_guard",
+            "wear_paddy_amulet_sage",
+            "wear_paddy_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_paddy_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_paddy_ring_guard.webp",
+          "members": [
+            "wear_paddy_ring_guard",
+            "wear_paddy_ring_sage",
+            "wear_paddy_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_gloves_guard.webp",
+          "members": [
+            "wear_grove_gloves_guard",
+            "wear_grove_gloves_sage",
+            "wear_grove_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_belt_guard.webp",
+          "members": [
+            "wear_grove_belt_guard",
+            "wear_grove_belt_sage",
+            "wear_grove_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_amulet_guard.webp",
+          "members": [
+            "wear_grove_amulet_guard",
+            "wear_grove_amulet_sage",
+            "wear_grove_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_grove_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_grove_ring_guard.webp",
+          "members": [
+            "wear_grove_ring_guard",
+            "wear_grove_ring_sage",
+            "wear_grove_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_gloves_guard.webp",
+          "members": [
+            "wear_temple_gloves_guard",
+            "wear_temple_gloves_sage",
+            "wear_temple_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_belt_guard.webp",
+          "members": [
+            "wear_temple_belt_guard",
+            "wear_temple_belt_sage",
+            "wear_temple_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_amulet_guard.webp",
+          "members": [
+            "wear_temple_amulet_guard",
+            "wear_temple_amulet_sage",
+            "wear_temple_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_temple_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_temple_ring_guard.webp",
+          "members": [
+            "wear_temple_ring_guard",
+            "wear_temple_ring_sage",
+            "wear_temple_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_gloves_guard.webp",
+          "members": [
+            "wear_marsh_gloves_guard",
+            "wear_marsh_gloves_sage",
+            "wear_marsh_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_belt_guard.webp",
+          "members": [
+            "wear_marsh_belt_guard",
+            "wear_marsh_belt_sage",
+            "wear_marsh_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_amulet_guard.webp",
+          "members": [
+            "wear_marsh_amulet_guard",
+            "wear_marsh_amulet_sage",
+            "wear_marsh_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_marsh_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_marsh_ring_guard.webp",
+          "members": [
+            "wear_marsh_ring_guard",
+            "wear_marsh_ring_sage",
+            "wear_marsh_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_gloves_guard.webp",
+          "members": [
+            "wear_bamboo_grave_gloves_guard",
+            "wear_bamboo_grave_gloves_sage",
+            "wear_bamboo_grave_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_belt_guard.webp",
+          "members": [
+            "wear_bamboo_grave_belt_guard",
+            "wear_bamboo_grave_belt_sage",
+            "wear_bamboo_grave_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_amulet_guard.webp",
+          "members": [
+            "wear_bamboo_grave_amulet_guard",
+            "wear_bamboo_grave_amulet_sage",
+            "wear_bamboo_grave_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_bamboo_grave_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_bamboo_grave_ring_guard.webp",
+          "members": [
+            "wear_bamboo_grave_ring_guard",
+            "wear_bamboo_grave_ring_sage",
+            "wear_bamboo_grave_ring_hunter"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-5-jade.png",
+      "type": "equip",
+      "page": 5,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "wear_sealed_mine_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_gloves_guard.webp",
+          "members": [
+            "wear_sealed_mine_gloves_guard",
+            "wear_sealed_mine_gloves_sage",
+            "wear_sealed_mine_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_sealed_mine_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_belt_guard.webp",
+          "members": [
+            "wear_sealed_mine_belt_guard",
+            "wear_sealed_mine_belt_sage",
+            "wear_sealed_mine_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_sealed_mine_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_amulet_guard.webp",
+          "members": [
+            "wear_sealed_mine_amulet_guard",
+            "wear_sealed_mine_amulet_sage",
+            "wear_sealed_mine_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_sealed_mine_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_ring_guard.webp",
+          "members": [
+            "wear_sealed_mine_ring_guard",
+            "wear_sealed_mine_ring_sage",
+            "wear_sealed_mine_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_gloves_guard.webp",
+          "members": [
+            "wear_sunken_city_gloves_guard",
+            "wear_sunken_city_gloves_sage",
+            "wear_sunken_city_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_belt_guard.webp",
+          "members": [
+            "wear_sunken_city_belt_guard",
+            "wear_sunken_city_belt_sage",
+            "wear_sunken_city_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_amulet_guard.webp",
+          "members": [
+            "wear_sunken_city_amulet_guard",
+            "wear_sunken_city_amulet_sage",
+            "wear_sunken_city_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_ring_guard.webp",
+          "members": [
+            "wear_sunken_city_ring_guard",
+            "wear_sunken_city_ring_sage",
+            "wear_sunken_city_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_gloves_guard",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+          "members": [
+            "wear_dusk_fort_gloves_guard",
+            "wear_dusk_fort_gloves_sage",
+            "wear_dusk_fort_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_belt_guard",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+          "members": [
+            "wear_dusk_fort_belt_guard",
+            "wear_dusk_fort_belt_sage",
+            "wear_dusk_fort_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_amulet_sage",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+          "members": [
+            "wear_dusk_fort_amulet_guard",
+            "wear_dusk_fort_amulet_sage",
+            "wear_dusk_fort_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_ring_sage",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+          "members": [
+            "wear_dusk_fort_ring_guard",
+            "wear_dusk_fort_ring_sage",
+            "wear_dusk_fort_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_gloves_guard.webp",
+          "members": [
+            "wear_giant_valley_gloves_guard",
+            "wear_giant_valley_gloves_sage",
+            "wear_giant_valley_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_belt_guard.webp",
+          "members": [
+            "wear_giant_valley_belt_guard",
+            "wear_giant_valley_belt_sage",
+            "wear_giant_valley_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_amulet_guard.webp",
+          "members": [
+            "wear_giant_valley_amulet_guard",
+            "wear_giant_valley_amulet_sage",
+            "wear_giant_valley_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_ring_guard.webp",
+          "members": [
+            "wear_giant_valley_ring_guard",
+            "wear_giant_valley_ring_sage",
+            "wear_giant_valley_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_gloves_guard.webp",
+          "members": [
+            "wear_himmapan_gloves_guard",
+            "wear_himmapan_gloves_sage",
+            "wear_himmapan_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_belt_guard.webp",
+          "members": [
+            "wear_himmapan_belt_guard",
+            "wear_himmapan_belt_sage",
+            "wear_himmapan_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_amulet_guard.webp",
+          "members": [
+            "wear_himmapan_amulet_guard",
+            "wear_himmapan_amulet_sage",
+            "wear_himmapan_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_ring_guard.webp",
+          "members": [
+            "wear_himmapan_ring_guard",
+            "wear_himmapan_ring_sage",
+            "wear_himmapan_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_gloves_guard.webp",
+          "members": [
+            "wear_fallen_city_gloves_guard",
+            "wear_fallen_city_gloves_sage",
+            "wear_fallen_city_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_belt_guard.webp",
+          "members": [
+            "wear_fallen_city_belt_guard",
+            "wear_fallen_city_belt_sage",
+            "wear_fallen_city_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_amulet_guard.webp",
+          "members": [
+            "wear_fallen_city_amulet_guard",
+            "wear_fallen_city_amulet_sage",
+            "wear_fallen_city_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_ring_guard.webp",
+          "members": [
+            "wear_fallen_city_ring_guard",
+            "wear_fallen_city_ring_sage",
+            "wear_fallen_city_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_gloves_guard.webp",
+          "members": [
+            "wear_demon_rift_gloves_guard",
+            "wear_demon_rift_gloves_sage",
+            "wear_demon_rift_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_belt_guard.webp",
+          "members": [
+            "wear_demon_rift_belt_guard",
+            "wear_demon_rift_belt_sage",
+            "wear_demon_rift_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_amulet_guard.webp",
+          "members": [
+            "wear_demon_rift_amulet_guard",
+            "wear_demon_rift_amulet_sage",
+            "wear_demon_rift_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_ring_guard.webp",
+          "members": [
+            "wear_demon_rift_ring_guard",
+            "wear_demon_rift_ring_sage",
+            "wear_demon_rift_ring_hunter"
+          ]
+        },
+        {
+          "id": "hand_wrap",
+          "image": "/ui/items/painted-complete-v1/hand_wrap.webp",
+          "members": [
+            "hand_wrap"
+          ]
+        },
+        {
+          "id": "krabi",
+          "image": "/ui/items/painted-complete-v1/krabi.webp",
+          "members": [
+            "krabi"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-5-light.png",
+      "type": "equip",
+      "page": 5,
+      "theme": "light",
+      "items": [
+        {
+          "id": "wear_sealed_mine_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_gloves_guard.webp",
+          "members": [
+            "wear_sealed_mine_gloves_guard",
+            "wear_sealed_mine_gloves_sage",
+            "wear_sealed_mine_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_sealed_mine_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_belt_guard.webp",
+          "members": [
+            "wear_sealed_mine_belt_guard",
+            "wear_sealed_mine_belt_sage",
+            "wear_sealed_mine_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_sealed_mine_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_amulet_guard.webp",
+          "members": [
+            "wear_sealed_mine_amulet_guard",
+            "wear_sealed_mine_amulet_sage",
+            "wear_sealed_mine_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_sealed_mine_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sealed_mine_ring_guard.webp",
+          "members": [
+            "wear_sealed_mine_ring_guard",
+            "wear_sealed_mine_ring_sage",
+            "wear_sealed_mine_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_gloves_guard.webp",
+          "members": [
+            "wear_sunken_city_gloves_guard",
+            "wear_sunken_city_gloves_sage",
+            "wear_sunken_city_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_belt_guard.webp",
+          "members": [
+            "wear_sunken_city_belt_guard",
+            "wear_sunken_city_belt_sage",
+            "wear_sunken_city_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_amulet_guard.webp",
+          "members": [
+            "wear_sunken_city_amulet_guard",
+            "wear_sunken_city_amulet_sage",
+            "wear_sunken_city_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_sunken_city_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_sunken_city_ring_guard.webp",
+          "members": [
+            "wear_sunken_city_ring_guard",
+            "wear_sunken_city_ring_sage",
+            "wear_sunken_city_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_gloves_guard",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+          "members": [
+            "wear_dusk_fort_gloves_guard",
+            "wear_dusk_fort_gloves_sage",
+            "wear_dusk_fort_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_belt_guard",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+          "members": [
+            "wear_dusk_fort_belt_guard",
+            "wear_dusk_fort_belt_sage",
+            "wear_dusk_fort_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_amulet_sage",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+          "members": [
+            "wear_dusk_fort_amulet_guard",
+            "wear_dusk_fort_amulet_sage",
+            "wear_dusk_fort_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_dusk_fort_ring_sage",
+          "image": "/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+          "members": [
+            "wear_dusk_fort_ring_guard",
+            "wear_dusk_fort_ring_sage",
+            "wear_dusk_fort_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_gloves_guard.webp",
+          "members": [
+            "wear_giant_valley_gloves_guard",
+            "wear_giant_valley_gloves_sage",
+            "wear_giant_valley_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_belt_guard.webp",
+          "members": [
+            "wear_giant_valley_belt_guard",
+            "wear_giant_valley_belt_sage",
+            "wear_giant_valley_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_amulet_guard.webp",
+          "members": [
+            "wear_giant_valley_amulet_guard",
+            "wear_giant_valley_amulet_sage",
+            "wear_giant_valley_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_giant_valley_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_giant_valley_ring_guard.webp",
+          "members": [
+            "wear_giant_valley_ring_guard",
+            "wear_giant_valley_ring_sage",
+            "wear_giant_valley_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_gloves_guard.webp",
+          "members": [
+            "wear_himmapan_gloves_guard",
+            "wear_himmapan_gloves_sage",
+            "wear_himmapan_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_belt_guard.webp",
+          "members": [
+            "wear_himmapan_belt_guard",
+            "wear_himmapan_belt_sage",
+            "wear_himmapan_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_amulet_guard.webp",
+          "members": [
+            "wear_himmapan_amulet_guard",
+            "wear_himmapan_amulet_sage",
+            "wear_himmapan_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_himmapan_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_himmapan_ring_guard.webp",
+          "members": [
+            "wear_himmapan_ring_guard",
+            "wear_himmapan_ring_sage",
+            "wear_himmapan_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_gloves_guard.webp",
+          "members": [
+            "wear_fallen_city_gloves_guard",
+            "wear_fallen_city_gloves_sage",
+            "wear_fallen_city_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_belt_guard.webp",
+          "members": [
+            "wear_fallen_city_belt_guard",
+            "wear_fallen_city_belt_sage",
+            "wear_fallen_city_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_amulet_guard.webp",
+          "members": [
+            "wear_fallen_city_amulet_guard",
+            "wear_fallen_city_amulet_sage",
+            "wear_fallen_city_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_fallen_city_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_fallen_city_ring_guard.webp",
+          "members": [
+            "wear_fallen_city_ring_guard",
+            "wear_fallen_city_ring_sage",
+            "wear_fallen_city_ring_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_gloves_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_gloves_guard.webp",
+          "members": [
+            "wear_demon_rift_gloves_guard",
+            "wear_demon_rift_gloves_sage",
+            "wear_demon_rift_gloves_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_belt_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_belt_guard.webp",
+          "members": [
+            "wear_demon_rift_belt_guard",
+            "wear_demon_rift_belt_sage",
+            "wear_demon_rift_belt_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_amulet_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_amulet_guard.webp",
+          "members": [
+            "wear_demon_rift_amulet_guard",
+            "wear_demon_rift_amulet_sage",
+            "wear_demon_rift_amulet_hunter"
+          ]
+        },
+        {
+          "id": "wear_demon_rift_ring_guard",
+          "image": "/ui/items/painted-complete-v1/wear_demon_rift_ring_guard.webp",
+          "members": [
+            "wear_demon_rift_ring_guard",
+            "wear_demon_rift_ring_sage",
+            "wear_demon_rift_ring_hunter"
+          ]
+        },
+        {
+          "id": "hand_wrap",
+          "image": "/ui/items/painted-complete-v1/hand_wrap.webp",
+          "members": [
+            "hand_wrap"
+          ]
+        },
+        {
+          "id": "krabi",
+          "image": "/ui/items/painted-complete-v1/krabi.webp",
+          "members": [
+            "krabi"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-6-jade.png",
+      "type": "equip",
+      "page": 6,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "tiger_wrap",
+          "image": "/ui/items/painted-complete-v1/tiger_wrap.webp",
+          "members": [
+            "tiger_wrap"
+          ]
+        },
+        {
+          "id": "bone_dagger",
+          "image": "/ui/items/painted-complete-v1/bone_dagger.webp",
+          "members": [
+            "bone_dagger"
+          ]
+        },
+        {
+          "id": "mongkol",
+          "image": "/ui/items/painted-complete-v1/mongkol.webp",
+          "members": [
+            "mongkol"
+          ]
+        },
+        {
+          "id": "wood_sword",
+          "image": "/ui/items/painted-complete-v1/wood_sword.webp",
+          "members": [
+            "wood_sword"
+          ]
+        },
+        {
+          "id": "iron_dap",
+          "image": "/ui/items/painted-complete-v1/iron_dap.webp",
+          "members": [
+            "iron_dap"
+          ]
+        },
+        {
+          "id": "short_bow",
+          "image": "/ui/items/painted-complete-v1/short_bow.webp",
+          "members": [
+            "short_bow"
+          ]
+        },
+        {
+          "id": "reed_wand",
+          "image": "/ui/items/painted-complete-v1/reed_wand.webp",
+          "members": [
+            "reed_wand"
+          ]
+        },
+        {
+          "id": "herb_book",
+          "image": "/ui/items/painted-complete-v1/herb_book.webp",
+          "members": [
+            "herb_book"
+          ]
+        },
+        {
+          "id": "palm_book",
+          "image": "/ui/items/painted-complete-v1/palm_book.webp",
+          "members": [
+            "palm_book"
+          ]
+        },
+        {
+          "id": "bone_yant",
+          "image": "/ui/items/painted-complete-v1/bone_yant.webp",
+          "members": [
+            "bone_yant"
+          ]
+        },
+        {
+          "id": "bamboo_bow",
+          "image": "/ui/items/painted-complete-v1/bamboo_bow.webp",
+          "members": [
+            "bamboo_bow"
+          ]
+        },
+        {
+          "id": "cloth_vest",
+          "image": "/ui/items/painted-complete-v1/cloth_vest.webp",
+          "members": [
+            "cloth_vest"
+          ]
+        },
+        {
+          "id": "hide_armor",
+          "image": "/ui/items/painted-complete-v1/hide_armor.webp",
+          "members": [
+            "hide_armor"
+          ]
+        },
+        {
+          "id": "takrut",
+          "image": "/ui/items/painted-v2/takrut.webp",
+          "members": [
+            "takrut"
+          ]
+        },
+        {
+          "id": "tiger_fang",
+          "image": "/ui/items/painted-complete-v1/tiger_fang.webp",
+          "members": [
+            "tiger_fang"
+          ]
+        },
+        {
+          "id": "pha_khao",
+          "image": "/ui/items/painted-complete-v1/pha_khao.webp",
+          "members": [
+            "pha_khao"
+          ]
+        },
+        {
+          "id": "ngob",
+          "image": "/ui/items/painted-complete-v1/ngob.webp",
+          "members": [
+            "ngob"
+          ]
+        },
+        {
+          "id": "chada",
+          "image": "/ui/items/painted-complete-v1/chada.webp",
+          "members": [
+            "chada"
+          ]
+        },
+        {
+          "id": "pakhaoma",
+          "image": "/ui/items/painted-complete-v1/pakhaoma.webp",
+          "members": [
+            "pakhaoma"
+          ]
+        },
+        {
+          "id": "sabai",
+          "image": "/ui/items/painted-complete-v1/sabai.webp",
+          "members": [
+            "sabai"
+          ]
+        },
+        {
+          "id": "sandals",
+          "image": "/ui/items/painted-complete-v1/sandals.webp",
+          "members": [
+            "sandals"
+          ]
+        },
+        {
+          "id": "hide_boots",
+          "image": "/ui/items/painted-complete-v1/hide_boots.webp",
+          "members": [
+            "hide_boots"
+          ]
+        },
+        {
+          "id": "kris",
+          "image": "/ui/items/painted-complete-v1/kris.webp",
+          "members": [
+            "kris"
+          ]
+        },
+        {
+          "id": "horn_bow",
+          "image": "/ui/items/painted-complete-v1/horn_bow.webp",
+          "members": [
+            "horn_bow"
+          ]
+        },
+        {
+          "id": "bog_book",
+          "image": "/ui/items/painted-complete-v1/bog_book.webp",
+          "members": [
+            "bog_book"
+          ]
+        },
+        {
+          "id": "bog_yant",
+          "image": "/ui/items/painted-complete-v1/bog_yant.webp",
+          "members": [
+            "bog_yant"
+          ]
+        },
+        {
+          "id": "croc_wrap",
+          "image": "/ui/items/painted-complete-v1/croc_wrap.webp",
+          "members": [
+            "croc_wrap"
+          ]
+        },
+        {
+          "id": "croc_dagger",
+          "image": "/ui/items/painted-complete-v1/croc_dagger.webp",
+          "members": [
+            "croc_dagger"
+          ]
+        },
+        {
+          "id": "croc_armor",
+          "image": "/ui/items/painted-complete-v1/croc_armor.webp",
+          "members": [
+            "croc_armor"
+          ]
+        },
+        {
+          "id": "croc_boots",
+          "image": "/ui/items/painted-complete-v1/croc_boots.webp",
+          "members": [
+            "croc_boots"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-6-light.png",
+      "type": "equip",
+      "page": 6,
+      "theme": "light",
+      "items": [
+        {
+          "id": "tiger_wrap",
+          "image": "/ui/items/painted-complete-v1/tiger_wrap.webp",
+          "members": [
+            "tiger_wrap"
+          ]
+        },
+        {
+          "id": "bone_dagger",
+          "image": "/ui/items/painted-complete-v1/bone_dagger.webp",
+          "members": [
+            "bone_dagger"
+          ]
+        },
+        {
+          "id": "mongkol",
+          "image": "/ui/items/painted-complete-v1/mongkol.webp",
+          "members": [
+            "mongkol"
+          ]
+        },
+        {
+          "id": "wood_sword",
+          "image": "/ui/items/painted-complete-v1/wood_sword.webp",
+          "members": [
+            "wood_sword"
+          ]
+        },
+        {
+          "id": "iron_dap",
+          "image": "/ui/items/painted-complete-v1/iron_dap.webp",
+          "members": [
+            "iron_dap"
+          ]
+        },
+        {
+          "id": "short_bow",
+          "image": "/ui/items/painted-complete-v1/short_bow.webp",
+          "members": [
+            "short_bow"
+          ]
+        },
+        {
+          "id": "reed_wand",
+          "image": "/ui/items/painted-complete-v1/reed_wand.webp",
+          "members": [
+            "reed_wand"
+          ]
+        },
+        {
+          "id": "herb_book",
+          "image": "/ui/items/painted-complete-v1/herb_book.webp",
+          "members": [
+            "herb_book"
+          ]
+        },
+        {
+          "id": "palm_book",
+          "image": "/ui/items/painted-complete-v1/palm_book.webp",
+          "members": [
+            "palm_book"
+          ]
+        },
+        {
+          "id": "bone_yant",
+          "image": "/ui/items/painted-complete-v1/bone_yant.webp",
+          "members": [
+            "bone_yant"
+          ]
+        },
+        {
+          "id": "bamboo_bow",
+          "image": "/ui/items/painted-complete-v1/bamboo_bow.webp",
+          "members": [
+            "bamboo_bow"
+          ]
+        },
+        {
+          "id": "cloth_vest",
+          "image": "/ui/items/painted-complete-v1/cloth_vest.webp",
+          "members": [
+            "cloth_vest"
+          ]
+        },
+        {
+          "id": "hide_armor",
+          "image": "/ui/items/painted-complete-v1/hide_armor.webp",
+          "members": [
+            "hide_armor"
+          ]
+        },
+        {
+          "id": "takrut",
+          "image": "/ui/items/painted-v2/takrut.webp",
+          "members": [
+            "takrut"
+          ]
+        },
+        {
+          "id": "tiger_fang",
+          "image": "/ui/items/painted-complete-v1/tiger_fang.webp",
+          "members": [
+            "tiger_fang"
+          ]
+        },
+        {
+          "id": "pha_khao",
+          "image": "/ui/items/painted-complete-v1/pha_khao.webp",
+          "members": [
+            "pha_khao"
+          ]
+        },
+        {
+          "id": "ngob",
+          "image": "/ui/items/painted-complete-v1/ngob.webp",
+          "members": [
+            "ngob"
+          ]
+        },
+        {
+          "id": "chada",
+          "image": "/ui/items/painted-complete-v1/chada.webp",
+          "members": [
+            "chada"
+          ]
+        },
+        {
+          "id": "pakhaoma",
+          "image": "/ui/items/painted-complete-v1/pakhaoma.webp",
+          "members": [
+            "pakhaoma"
+          ]
+        },
+        {
+          "id": "sabai",
+          "image": "/ui/items/painted-complete-v1/sabai.webp",
+          "members": [
+            "sabai"
+          ]
+        },
+        {
+          "id": "sandals",
+          "image": "/ui/items/painted-complete-v1/sandals.webp",
+          "members": [
+            "sandals"
+          ]
+        },
+        {
+          "id": "hide_boots",
+          "image": "/ui/items/painted-complete-v1/hide_boots.webp",
+          "members": [
+            "hide_boots"
+          ]
+        },
+        {
+          "id": "kris",
+          "image": "/ui/items/painted-complete-v1/kris.webp",
+          "members": [
+            "kris"
+          ]
+        },
+        {
+          "id": "horn_bow",
+          "image": "/ui/items/painted-complete-v1/horn_bow.webp",
+          "members": [
+            "horn_bow"
+          ]
+        },
+        {
+          "id": "bog_book",
+          "image": "/ui/items/painted-complete-v1/bog_book.webp",
+          "members": [
+            "bog_book"
+          ]
+        },
+        {
+          "id": "bog_yant",
+          "image": "/ui/items/painted-complete-v1/bog_yant.webp",
+          "members": [
+            "bog_yant"
+          ]
+        },
+        {
+          "id": "croc_wrap",
+          "image": "/ui/items/painted-complete-v1/croc_wrap.webp",
+          "members": [
+            "croc_wrap"
+          ]
+        },
+        {
+          "id": "croc_dagger",
+          "image": "/ui/items/painted-complete-v1/croc_dagger.webp",
+          "members": [
+            "croc_dagger"
+          ]
+        },
+        {
+          "id": "croc_armor",
+          "image": "/ui/items/painted-complete-v1/croc_armor.webp",
+          "members": [
+            "croc_armor"
+          ]
+        },
+        {
+          "id": "croc_boots",
+          "image": "/ui/items/painted-complete-v1/croc_boots.webp",
+          "members": [
+            "croc_boots"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-7-jade.png",
+      "type": "equip",
+      "page": 7,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "chalawan_fang",
+          "image": "/ui/items/painted-complete-v1/chalawan_fang.webp",
+          "members": [
+            "chalawan_fang"
+          ]
+        },
+        {
+          "id": "bia_kae",
+          "image": "/ui/items/painted-v2/bia_kae.webp",
+          "members": [
+            "bia_kae"
+          ]
+        },
+        {
+          "id": "pha_yant",
+          "image": "/ui/items/painted-complete-v1/pha_yant.webp",
+          "members": [
+            "pha_yant"
+          ]
+        },
+        {
+          "id": "prakam",
+          "image": "/ui/items/painted-v2/prakam.webp",
+          "members": [
+            "prakam"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/equip-7-light.png",
+      "type": "equip",
+      "page": 7,
+      "theme": "light",
+      "items": [
+        {
+          "id": "chalawan_fang",
+          "image": "/ui/items/painted-complete-v1/chalawan_fang.webp",
+          "members": [
+            "chalawan_fang"
+          ]
+        },
+        {
+          "id": "bia_kae",
+          "image": "/ui/items/painted-v2/bia_kae.webp",
+          "members": [
+            "bia_kae"
+          ]
+        },
+        {
+          "id": "pha_yant",
+          "image": "/ui/items/painted-complete-v1/pha_yant.webp",
+          "members": [
+            "pha_yant"
+          ]
+        },
+        {
+          "id": "prakam",
+          "image": "/ui/items/painted-v2/prakam.webp",
+          "members": [
+            "prakam"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/flask-1-jade.png",
+      "type": "flask",
+      "page": 1,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "flask_hp_1",
+          "image": "/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "members": [
+            "flask_hp_1"
+          ]
+        },
+        {
+          "id": "flask_mp_1",
+          "image": "/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "members": [
+            "flask_mp_1"
+          ]
+        },
+        {
+          "id": "flask_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "members": [
+            "flask_hp_2"
+          ]
+        },
+        {
+          "id": "flask_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "members": [
+            "flask_mp_2"
+          ]
+        },
+        {
+          "id": "flask_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "members": [
+            "flask_hp_3"
+          ]
+        },
+        {
+          "id": "flask_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "members": [
+            "flask_mp_3"
+          ]
+        },
+        {
+          "id": "flask_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "members": [
+            "flask_hp_4"
+          ]
+        },
+        {
+          "id": "flask_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "members": [
+            "flask_mp_4"
+          ]
+        },
+        {
+          "id": "flask_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "members": [
+            "flask_hp_5"
+          ]
+        },
+        {
+          "id": "flask_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "members": [
+            "flask_mp_5"
+          ]
+        },
+        {
+          "id": "flask_hp_6",
+          "image": "/ui/items/painted-v2/flask_hp_6.webp",
+          "members": [
+            "flask_hp_6"
+          ]
+        },
+        {
+          "id": "flask_mp_6",
+          "image": "/ui/items/painted-v2/flask_mp_6.webp",
+          "members": [
+            "flask_mp_6"
+          ]
+        },
+        {
+          "id": "flask_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "members": [
+            "flask_hp_7"
+          ]
+        },
+        {
+          "id": "flask_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "members": [
+            "flask_mp_7"
+          ]
+        },
+        {
+          "id": "flask_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "members": [
+            "flask_hp_8"
+          ]
+        },
+        {
+          "id": "flask_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "members": [
+            "flask_mp_8"
+          ]
+        },
+        {
+          "id": "flask_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_hp_9.webp",
+          "members": [
+            "flask_hp_9"
+          ]
+        },
+        {
+          "id": "flask_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_mp_9.webp",
+          "members": [
+            "flask_mp_9"
+          ]
+        },
+        {
+          "id": "flask_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_hp_10.webp",
+          "members": [
+            "flask_hp_10"
+          ]
+        },
+        {
+          "id": "flask_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_mp_10.webp",
+          "members": [
+            "flask_mp_10"
+          ]
+        },
+        {
+          "id": "flask_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_hp_11.webp",
+          "members": [
+            "flask_hp_11"
+          ]
+        },
+        {
+          "id": "flask_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_mp_11.webp",
+          "members": [
+            "flask_mp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_bamboo_grave_3_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_bamboo_grave_3_hp_4.webp",
+          "members": [
+            "flask_boss_bamboo_grave_3_hp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_bamboo_grave_3_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_bamboo_grave_3_mp_4.webp",
+          "members": [
+            "flask_boss_bamboo_grave_3_mp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_sealed_mine_3_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sealed_mine_3_hp_5.webp",
+          "members": [
+            "flask_boss_sealed_mine_3_hp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_sealed_mine_3_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sealed_mine_3_mp_5.webp",
+          "members": [
+            "flask_boss_sealed_mine_3_mp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_sunken_city_3_hp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sunken_city_3_hp_6.webp",
+          "members": [
+            "flask_boss_sunken_city_3_hp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_sunken_city_3_mp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sunken_city_3_mp_6.webp",
+          "members": [
+            "flask_boss_sunken_city_3_mp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_dusk_fort_3_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_dusk_fort_3_hp_7.webp",
+          "members": [
+            "flask_boss_dusk_fort_3_hp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_dusk_fort_3_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_dusk_fort_3_mp_7.webp",
+          "members": [
+            "flask_boss_dusk_fort_3_mp_7"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/flask-1-light.png",
+      "type": "flask",
+      "page": 1,
+      "theme": "light",
+      "items": [
+        {
+          "id": "flask_hp_1",
+          "image": "/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "members": [
+            "flask_hp_1"
+          ]
+        },
+        {
+          "id": "flask_mp_1",
+          "image": "/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "members": [
+            "flask_mp_1"
+          ]
+        },
+        {
+          "id": "flask_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "members": [
+            "flask_hp_2"
+          ]
+        },
+        {
+          "id": "flask_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "members": [
+            "flask_mp_2"
+          ]
+        },
+        {
+          "id": "flask_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "members": [
+            "flask_hp_3"
+          ]
+        },
+        {
+          "id": "flask_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "members": [
+            "flask_mp_3"
+          ]
+        },
+        {
+          "id": "flask_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "members": [
+            "flask_hp_4"
+          ]
+        },
+        {
+          "id": "flask_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "members": [
+            "flask_mp_4"
+          ]
+        },
+        {
+          "id": "flask_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "members": [
+            "flask_hp_5"
+          ]
+        },
+        {
+          "id": "flask_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "members": [
+            "flask_mp_5"
+          ]
+        },
+        {
+          "id": "flask_hp_6",
+          "image": "/ui/items/painted-v2/flask_hp_6.webp",
+          "members": [
+            "flask_hp_6"
+          ]
+        },
+        {
+          "id": "flask_mp_6",
+          "image": "/ui/items/painted-v2/flask_mp_6.webp",
+          "members": [
+            "flask_mp_6"
+          ]
+        },
+        {
+          "id": "flask_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "members": [
+            "flask_hp_7"
+          ]
+        },
+        {
+          "id": "flask_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "members": [
+            "flask_mp_7"
+          ]
+        },
+        {
+          "id": "flask_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "members": [
+            "flask_hp_8"
+          ]
+        },
+        {
+          "id": "flask_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "members": [
+            "flask_mp_8"
+          ]
+        },
+        {
+          "id": "flask_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_hp_9.webp",
+          "members": [
+            "flask_hp_9"
+          ]
+        },
+        {
+          "id": "flask_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_mp_9.webp",
+          "members": [
+            "flask_mp_9"
+          ]
+        },
+        {
+          "id": "flask_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_hp_10.webp",
+          "members": [
+            "flask_hp_10"
+          ]
+        },
+        {
+          "id": "flask_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_mp_10.webp",
+          "members": [
+            "flask_mp_10"
+          ]
+        },
+        {
+          "id": "flask_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_hp_11.webp",
+          "members": [
+            "flask_hp_11"
+          ]
+        },
+        {
+          "id": "flask_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_mp_11.webp",
+          "members": [
+            "flask_mp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_bamboo_grave_3_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_bamboo_grave_3_hp_4.webp",
+          "members": [
+            "flask_boss_bamboo_grave_3_hp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_bamboo_grave_3_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_bamboo_grave_3_mp_4.webp",
+          "members": [
+            "flask_boss_bamboo_grave_3_mp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_sealed_mine_3_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sealed_mine_3_hp_5.webp",
+          "members": [
+            "flask_boss_sealed_mine_3_hp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_sealed_mine_3_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sealed_mine_3_mp_5.webp",
+          "members": [
+            "flask_boss_sealed_mine_3_mp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_sunken_city_3_hp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sunken_city_3_hp_6.webp",
+          "members": [
+            "flask_boss_sunken_city_3_hp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_sunken_city_3_mp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_sunken_city_3_mp_6.webp",
+          "members": [
+            "flask_boss_sunken_city_3_mp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_dusk_fort_3_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_dusk_fort_3_hp_7.webp",
+          "members": [
+            "flask_boss_dusk_fort_3_hp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_dusk_fort_3_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_dusk_fort_3_mp_7.webp",
+          "members": [
+            "flask_boss_dusk_fort_3_mp_7"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/flask-2-jade.png",
+      "type": "flask",
+      "page": 2,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "flask_boss_giant_valley_3_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_giant_valley_3_hp_8.webp",
+          "members": [
+            "flask_boss_giant_valley_3_hp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_giant_valley_3_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_giant_valley_3_mp_8.webp",
+          "members": [
+            "flask_boss_giant_valley_3_mp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_himmapan_3_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_himmapan_3_hp_9.webp",
+          "members": [
+            "flask_boss_himmapan_3_hp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_himmapan_3_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_himmapan_3_mp_9.webp",
+          "members": [
+            "flask_boss_himmapan_3_mp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_fallen_city_3_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_fallen_city_3_hp_10.webp",
+          "members": [
+            "flask_boss_fallen_city_3_hp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_fallen_city_3_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_fallen_city_3_mp_10.webp",
+          "members": [
+            "flask_boss_fallen_city_3_mp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_demon_rift_3_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_demon_rift_3_hp_11.webp",
+          "members": [
+            "flask_boss_demon_rift_3_hp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_demon_rift_3_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_demon_rift_3_mp_11.webp",
+          "members": [
+            "flask_boss_demon_rift_3_mp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_pop_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pop_hp_2.webp",
+          "members": [
+            "flask_boss_pop_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_pop_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pop_mp_2.webp",
+          "members": [
+            "flask_boss_pop_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_pusom_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pusom_hp_2.webp",
+          "members": [
+            "flask_boss_pusom_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_pusom_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pusom_mp_2.webp",
+          "members": [
+            "flask_boss_pusom_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_chalawan_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_chalawan_hp_3.webp",
+          "members": [
+            "flask_boss_chalawan_hp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_chalawan_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_chalawan_mp_3.webp",
+          "members": [
+            "flask_boss_chalawan_mp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_1.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_1.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_2.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_2.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_3.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_3.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_4.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_4.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_5.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_5.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_6.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_6.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_7.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_7.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_8.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_8.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_8"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/flask-2-light.png",
+      "type": "flask",
+      "page": 2,
+      "theme": "light",
+      "items": [
+        {
+          "id": "flask_boss_giant_valley_3_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_giant_valley_3_hp_8.webp",
+          "members": [
+            "flask_boss_giant_valley_3_hp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_giant_valley_3_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_giant_valley_3_mp_8.webp",
+          "members": [
+            "flask_boss_giant_valley_3_mp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_himmapan_3_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_himmapan_3_hp_9.webp",
+          "members": [
+            "flask_boss_himmapan_3_hp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_himmapan_3_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_himmapan_3_mp_9.webp",
+          "members": [
+            "flask_boss_himmapan_3_mp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_fallen_city_3_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_fallen_city_3_hp_10.webp",
+          "members": [
+            "flask_boss_fallen_city_3_hp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_fallen_city_3_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_fallen_city_3_mp_10.webp",
+          "members": [
+            "flask_boss_fallen_city_3_mp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_demon_rift_3_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_demon_rift_3_hp_11.webp",
+          "members": [
+            "flask_boss_demon_rift_3_hp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_demon_rift_3_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_demon_rift_3_mp_11.webp",
+          "members": [
+            "flask_boss_demon_rift_3_mp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_pop_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pop_hp_2.webp",
+          "members": [
+            "flask_boss_pop_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_pop_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pop_mp_2.webp",
+          "members": [
+            "flask_boss_pop_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_pusom_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pusom_hp_2.webp",
+          "members": [
+            "flask_boss_pusom_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_pusom_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_pusom_mp_2.webp",
+          "members": [
+            "flask_boss_pusom_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_chalawan_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_chalawan_hp_3.webp",
+          "members": [
+            "flask_boss_chalawan_hp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_chalawan_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_chalawan_mp_3.webp",
+          "members": [
+            "flask_boss_chalawan_mp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_1.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_1.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_2.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_2.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_3.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_3.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_4.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_4.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_5.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_5.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_6.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_6.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_7.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_7.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_8.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_8.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_8"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/flask-3-jade.png",
+      "type": "flask",
+      "page": 3,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "flask_boss_ghost_red_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_9.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_9.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_10.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_10.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_11.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_11.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_1.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_1.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_2.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_2.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_3.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_3.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_4.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_4.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_5.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_5.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_6.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_6.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_7.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_7.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_8.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_8.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_9.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_9.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_10.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_10.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_11.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_11.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_11"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/flask-3-light.png",
+      "type": "flask",
+      "page": 3,
+      "theme": "light",
+      "items": [
+        {
+          "id": "flask_boss_ghost_red_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_9.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_9.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_10.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_10.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_hp_11.webp",
+          "members": [
+            "flask_boss_ghost_red_hp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_red_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_11.webp",
+          "members": [
+            "flask_boss_ghost_red_mp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_1.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_1",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_1.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_1"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_2.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_2",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_2.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_2"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_3.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_3",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_3.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_3"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_4.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_4",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_4.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_4"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_5.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_5",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_5.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_5"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_6.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_6",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_6.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_6"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_7.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_7",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_7.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_7"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_8.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_8",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_8.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_8"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_9.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_9",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_9.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_9"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_10.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_10",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_10.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_10"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_hp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_hp_11.webp",
+          "members": [
+            "flask_boss_ghost_black_hp_11"
+          ]
+        },
+        {
+          "id": "flask_boss_ghost_black_mp_11",
+          "image": "/ui/items/painted-complete-v1/flask_boss_ghost_black_mp_11.webp",
+          "members": [
+            "flask_boss_ghost_black_mp_11"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/use-1-jade.png",
+      "type": "use",
+      "page": 1,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "potion_s",
+          "image": "/ui/items/painted-complete-v1/potion_s.webp",
+          "members": [
+            "potion_s"
+          ]
+        },
+        {
+          "id": "potion_m",
+          "image": "/ui/items/painted-complete-v1/potion_m.webp",
+          "members": [
+            "potion_m"
+          ]
+        },
+        {
+          "id": "ether",
+          "image": "/ui/items/painted-complete-v1/ether.webp",
+          "members": [
+            "ether"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/use-1-light.png",
+      "type": "use",
+      "page": 1,
+      "theme": "light",
+      "items": [
+        {
+          "id": "potion_s",
+          "image": "/ui/items/painted-complete-v1/potion_s.webp",
+          "members": [
+            "potion_s"
+          ]
+        },
+        {
+          "id": "potion_m",
+          "image": "/ui/items/painted-complete-v1/potion_m.webp",
+          "members": [
+            "potion_m"
+          ]
+        },
+        {
+          "id": "ether",
+          "image": "/ui/items/painted-complete-v1/ether.webp",
+          "members": [
+            "ether"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/material-1-jade.png",
+      "type": "material",
+      "page": 1,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "hide",
+          "image": "/ui/items/painted-complete-v1/hide.webp",
+          "members": [
+            "hide"
+          ]
+        },
+        {
+          "id": "tusk",
+          "image": "/ui/items/painted-complete-v1/tusk.webp",
+          "members": [
+            "tusk"
+          ]
+        },
+        {
+          "id": "sacred_ore",
+          "image": "/ui/items/painted-complete-v1/sacred_ore.webp",
+          "members": [
+            "sacred_ore"
+          ]
+        },
+        {
+          "id": "gold_leaf",
+          "image": "/ui/items/painted-complete-v1/gold_leaf.webp",
+          "members": [
+            "gold_leaf"
+          ]
+        },
+        {
+          "id": "ash",
+          "image": "/ui/items/painted-complete-v1/ash.webp",
+          "members": [
+            "ash"
+          ]
+        },
+        {
+          "id": "croc_scale",
+          "image": "/ui/items/painted-complete-v1/croc_scale.webp",
+          "members": [
+            "croc_scale"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/material-1-light.png",
+      "type": "material",
+      "page": 1,
+      "theme": "light",
+      "items": [
+        {
+          "id": "hide",
+          "image": "/ui/items/painted-complete-v1/hide.webp",
+          "members": [
+            "hide"
+          ]
+        },
+        {
+          "id": "tusk",
+          "image": "/ui/items/painted-complete-v1/tusk.webp",
+          "members": [
+            "tusk"
+          ]
+        },
+        {
+          "id": "sacred_ore",
+          "image": "/ui/items/painted-complete-v1/sacred_ore.webp",
+          "members": [
+            "sacred_ore"
+          ]
+        },
+        {
+          "id": "gold_leaf",
+          "image": "/ui/items/painted-complete-v1/gold_leaf.webp",
+          "members": [
+            "gold_leaf"
+          ]
+        },
+        {
+          "id": "ash",
+          "image": "/ui/items/painted-complete-v1/ash.webp",
+          "members": [
+            "ash"
+          ]
+        },
+        {
+          "id": "croc_scale",
+          "image": "/ui/items/painted-complete-v1/croc_scale.webp",
+          "members": [
+            "croc_scale"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/card-1-jade.png",
+      "type": "card",
+      "page": 1,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "card_boar",
+          "image": "/ui/items/painted-complete-v1/card_boar.webp",
+          "members": [
+            "card_boar"
+          ]
+        },
+        {
+          "id": "card_monkey",
+          "image": "/ui/items/painted-complete-v1/card_monkey.webp",
+          "members": [
+            "card_monkey"
+          ]
+        },
+        {
+          "id": "card_fowl",
+          "image": "/ui/items/painted-complete-v1/card_fowl.webp",
+          "members": [
+            "card_fowl"
+          ]
+        },
+        {
+          "id": "card_cobra",
+          "image": "/ui/items/painted-complete-v1/card_cobra.webp",
+          "members": [
+            "card_cobra"
+          ]
+        },
+        {
+          "id": "card_crab",
+          "image": "/ui/items/painted-complete-v1/card_crab.webp",
+          "members": [
+            "card_crab"
+          ]
+        },
+        {
+          "id": "card_dhole",
+          "image": "/ui/items/painted-complete-v1/card_dhole.webp",
+          "members": [
+            "card_dhole"
+          ]
+        },
+        {
+          "id": "card_monitor",
+          "image": "/ui/items/painted-complete-v1/card_monitor.webp",
+          "members": [
+            "card_monitor"
+          ]
+        },
+        {
+          "id": "card_buffalo",
+          "image": "/ui/items/painted-complete-v1/card_buffalo.webp",
+          "members": [
+            "card_buffalo"
+          ]
+        },
+        {
+          "id": "card_phibpa",
+          "image": "/ui/items/painted-complete-v1/card_phibpa.webp",
+          "members": [
+            "card_phibpa"
+          ]
+        },
+        {
+          "id": "card_pray",
+          "image": "/ui/items/painted-complete-v1/card_pray.webp",
+          "members": [
+            "card_pray"
+          ]
+        },
+        {
+          "id": "card_kongkoi",
+          "image": "/ui/items/painted-complete-v1/card_kongkoi.webp",
+          "members": [
+            "card_kongkoi"
+          ]
+        },
+        {
+          "id": "card_khamot",
+          "image": "/ui/items/painted-complete-v1/card_khamot.webp",
+          "members": [
+            "card_khamot"
+          ]
+        },
+        {
+          "id": "card_winyan",
+          "image": "/ui/items/painted-complete-v1/card_winyan.webp",
+          "members": [
+            "card_winyan"
+          ]
+        },
+        {
+          "id": "card_phitaihong",
+          "image": "/ui/items/painted-complete-v1/card_phitaihong.webp",
+          "members": [
+            "card_phitaihong"
+          ]
+        },
+        {
+          "id": "card_headless",
+          "image": "/ui/items/painted-complete-v1/card_headless.webp",
+          "members": [
+            "card_headless"
+          ]
+        },
+        {
+          "id": "card_pret",
+          "image": "/ui/items/painted-complete-v1/card_pret.webp",
+          "members": [
+            "card_pret"
+          ]
+        },
+        {
+          "id": "card_krahang",
+          "image": "/ui/items/painted-complete-v1/card_krahang.webp",
+          "members": [
+            "card_krahang"
+          ]
+        },
+        {
+          "id": "card_soldier",
+          "image": "/ui/items/painted-complete-v1/card_soldier.webp",
+          "members": [
+            "card_soldier"
+          ]
+        },
+        {
+          "id": "card_takian",
+          "image": "/ui/items/painted-complete-v1/card_takian.webp",
+          "members": [
+            "card_takian"
+          ]
+        },
+        {
+          "id": "card_pusom",
+          "image": "/ui/items/painted-complete-v1/card_pusom.webp",
+          "members": [
+            "card_pusom"
+          ]
+        },
+        {
+          "id": "card_tiger",
+          "image": "/ui/items/painted-complete-v1/card_tiger.webp",
+          "members": [
+            "card_tiger"
+          ]
+        },
+        {
+          "id": "card_krasue",
+          "image": "/ui/items/painted-complete-v1/card_krasue.webp",
+          "members": [
+            "card_krasue"
+          ]
+        },
+        {
+          "id": "card_pop",
+          "image": "/ui/items/painted-complete-v1/card_pop.webp",
+          "members": [
+            "card_pop"
+          ]
+        },
+        {
+          "id": "card_leech",
+          "image": "/ui/items/painted-complete-v1/card_leech.webp",
+          "members": [
+            "card_leech"
+          ]
+        },
+        {
+          "id": "card_wraith",
+          "image": "/ui/items/painted-complete-v1/card_wraith.webp",
+          "members": [
+            "card_wraith"
+          ]
+        },
+        {
+          "id": "card_croc",
+          "image": "/ui/items/painted-complete-v1/card_croc.webp",
+          "members": [
+            "card_croc"
+          ]
+        },
+        {
+          "id": "card_python",
+          "image": "/ui/items/painted-complete-v1/card_python.webp",
+          "members": [
+            "card_python"
+          ]
+        },
+        {
+          "id": "card_phong",
+          "image": "/ui/items/painted-complete-v1/card_phong.webp",
+          "members": [
+            "card_phong"
+          ]
+        },
+        {
+          "id": "card_klom",
+          "image": "/ui/items/painted-complete-v1/card_klom.webp",
+          "members": [
+            "card_klom"
+          ]
+        },
+        {
+          "id": "card_kumphi",
+          "image": "/ui/items/painted-complete-v1/card_kumphi.webp",
+          "members": [
+            "card_kumphi"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/card-1-light.png",
+      "type": "card",
+      "page": 1,
+      "theme": "light",
+      "items": [
+        {
+          "id": "card_boar",
+          "image": "/ui/items/painted-complete-v1/card_boar.webp",
+          "members": [
+            "card_boar"
+          ]
+        },
+        {
+          "id": "card_monkey",
+          "image": "/ui/items/painted-complete-v1/card_monkey.webp",
+          "members": [
+            "card_monkey"
+          ]
+        },
+        {
+          "id": "card_fowl",
+          "image": "/ui/items/painted-complete-v1/card_fowl.webp",
+          "members": [
+            "card_fowl"
+          ]
+        },
+        {
+          "id": "card_cobra",
+          "image": "/ui/items/painted-complete-v1/card_cobra.webp",
+          "members": [
+            "card_cobra"
+          ]
+        },
+        {
+          "id": "card_crab",
+          "image": "/ui/items/painted-complete-v1/card_crab.webp",
+          "members": [
+            "card_crab"
+          ]
+        },
+        {
+          "id": "card_dhole",
+          "image": "/ui/items/painted-complete-v1/card_dhole.webp",
+          "members": [
+            "card_dhole"
+          ]
+        },
+        {
+          "id": "card_monitor",
+          "image": "/ui/items/painted-complete-v1/card_monitor.webp",
+          "members": [
+            "card_monitor"
+          ]
+        },
+        {
+          "id": "card_buffalo",
+          "image": "/ui/items/painted-complete-v1/card_buffalo.webp",
+          "members": [
+            "card_buffalo"
+          ]
+        },
+        {
+          "id": "card_phibpa",
+          "image": "/ui/items/painted-complete-v1/card_phibpa.webp",
+          "members": [
+            "card_phibpa"
+          ]
+        },
+        {
+          "id": "card_pray",
+          "image": "/ui/items/painted-complete-v1/card_pray.webp",
+          "members": [
+            "card_pray"
+          ]
+        },
+        {
+          "id": "card_kongkoi",
+          "image": "/ui/items/painted-complete-v1/card_kongkoi.webp",
+          "members": [
+            "card_kongkoi"
+          ]
+        },
+        {
+          "id": "card_khamot",
+          "image": "/ui/items/painted-complete-v1/card_khamot.webp",
+          "members": [
+            "card_khamot"
+          ]
+        },
+        {
+          "id": "card_winyan",
+          "image": "/ui/items/painted-complete-v1/card_winyan.webp",
+          "members": [
+            "card_winyan"
+          ]
+        },
+        {
+          "id": "card_phitaihong",
+          "image": "/ui/items/painted-complete-v1/card_phitaihong.webp",
+          "members": [
+            "card_phitaihong"
+          ]
+        },
+        {
+          "id": "card_headless",
+          "image": "/ui/items/painted-complete-v1/card_headless.webp",
+          "members": [
+            "card_headless"
+          ]
+        },
+        {
+          "id": "card_pret",
+          "image": "/ui/items/painted-complete-v1/card_pret.webp",
+          "members": [
+            "card_pret"
+          ]
+        },
+        {
+          "id": "card_krahang",
+          "image": "/ui/items/painted-complete-v1/card_krahang.webp",
+          "members": [
+            "card_krahang"
+          ]
+        },
+        {
+          "id": "card_soldier",
+          "image": "/ui/items/painted-complete-v1/card_soldier.webp",
+          "members": [
+            "card_soldier"
+          ]
+        },
+        {
+          "id": "card_takian",
+          "image": "/ui/items/painted-complete-v1/card_takian.webp",
+          "members": [
+            "card_takian"
+          ]
+        },
+        {
+          "id": "card_pusom",
+          "image": "/ui/items/painted-complete-v1/card_pusom.webp",
+          "members": [
+            "card_pusom"
+          ]
+        },
+        {
+          "id": "card_tiger",
+          "image": "/ui/items/painted-complete-v1/card_tiger.webp",
+          "members": [
+            "card_tiger"
+          ]
+        },
+        {
+          "id": "card_krasue",
+          "image": "/ui/items/painted-complete-v1/card_krasue.webp",
+          "members": [
+            "card_krasue"
+          ]
+        },
+        {
+          "id": "card_pop",
+          "image": "/ui/items/painted-complete-v1/card_pop.webp",
+          "members": [
+            "card_pop"
+          ]
+        },
+        {
+          "id": "card_leech",
+          "image": "/ui/items/painted-complete-v1/card_leech.webp",
+          "members": [
+            "card_leech"
+          ]
+        },
+        {
+          "id": "card_wraith",
+          "image": "/ui/items/painted-complete-v1/card_wraith.webp",
+          "members": [
+            "card_wraith"
+          ]
+        },
+        {
+          "id": "card_croc",
+          "image": "/ui/items/painted-complete-v1/card_croc.webp",
+          "members": [
+            "card_croc"
+          ]
+        },
+        {
+          "id": "card_python",
+          "image": "/ui/items/painted-complete-v1/card_python.webp",
+          "members": [
+            "card_python"
+          ]
+        },
+        {
+          "id": "card_phong",
+          "image": "/ui/items/painted-complete-v1/card_phong.webp",
+          "members": [
+            "card_phong"
+          ]
+        },
+        {
+          "id": "card_klom",
+          "image": "/ui/items/painted-complete-v1/card_klom.webp",
+          "members": [
+            "card_klom"
+          ]
+        },
+        {
+          "id": "card_kumphi",
+          "image": "/ui/items/painted-complete-v1/card_kumphi.webp",
+          "members": [
+            "card_kumphi"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/card-2-jade.png",
+      "type": "card",
+      "page": 2,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "card_nangram",
+          "image": "/ui/items/painted-complete-v1/card_nangram.webp",
+          "members": [
+            "card_nangram"
+          ]
+        },
+        {
+          "id": "card_tani",
+          "image": "/ui/items/painted-complete-v1/card_tani.webp",
+          "members": [
+            "card_tani"
+          ]
+        },
+        {
+          "id": "card_chalawan",
+          "image": "/ui/items/painted-complete-v1/card_chalawan.webp",
+          "members": [
+            "card_chalawan"
+          ]
+        },
+        {
+          "id": "card_ghost_red",
+          "image": "/ui/items/painted-complete-v1/card_ghost_red.webp",
+          "members": [
+            "card_ghost_red"
+          ]
+        },
+        {
+          "id": "card_ghost_black",
+          "image": "/ui/items/painted-complete-v1/card_ghost_black.webp",
+          "members": [
+            "card_ghost_black"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_0",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_0.webp",
+          "members": [
+            "card_bamboo_grave_0"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_1",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_1.webp",
+          "members": [
+            "card_bamboo_grave_1"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_2",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_2.webp",
+          "members": [
+            "card_bamboo_grave_2"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_3",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_3.webp",
+          "members": [
+            "card_bamboo_grave_3"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_0",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_0.webp",
+          "members": [
+            "card_sealed_mine_0"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_1",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_1.webp",
+          "members": [
+            "card_sealed_mine_1"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_2",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_2.webp",
+          "members": [
+            "card_sealed_mine_2"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_3",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_3.webp",
+          "members": [
+            "card_sealed_mine_3"
+          ]
+        },
+        {
+          "id": "card_sunken_city_0",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_0.webp",
+          "members": [
+            "card_sunken_city_0"
+          ]
+        },
+        {
+          "id": "card_sunken_city_1",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_1.webp",
+          "members": [
+            "card_sunken_city_1"
+          ]
+        },
+        {
+          "id": "card_sunken_city_2",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_2.webp",
+          "members": [
+            "card_sunken_city_2"
+          ]
+        },
+        {
+          "id": "card_sunken_city_3",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_3.webp",
+          "members": [
+            "card_sunken_city_3"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_0",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_0.webp",
+          "members": [
+            "card_dusk_fort_0"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_1",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_1.webp",
+          "members": [
+            "card_dusk_fort_1"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_2",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_2.webp",
+          "members": [
+            "card_dusk_fort_2"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_3",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_3.webp",
+          "members": [
+            "card_dusk_fort_3"
+          ]
+        },
+        {
+          "id": "card_giant_valley_0",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_0.webp",
+          "members": [
+            "card_giant_valley_0"
+          ]
+        },
+        {
+          "id": "card_giant_valley_1",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_1.webp",
+          "members": [
+            "card_giant_valley_1"
+          ]
+        },
+        {
+          "id": "card_giant_valley_2",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_2.webp",
+          "members": [
+            "card_giant_valley_2"
+          ]
+        },
+        {
+          "id": "card_giant_valley_3",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_3.webp",
+          "members": [
+            "card_giant_valley_3"
+          ]
+        },
+        {
+          "id": "card_himmapan_0",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_0.webp",
+          "members": [
+            "card_himmapan_0"
+          ]
+        },
+        {
+          "id": "card_himmapan_1",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_1.webp",
+          "members": [
+            "card_himmapan_1"
+          ]
+        },
+        {
+          "id": "card_himmapan_2",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_2.webp",
+          "members": [
+            "card_himmapan_2"
+          ]
+        },
+        {
+          "id": "card_himmapan_3",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_3.webp",
+          "members": [
+            "card_himmapan_3"
+          ]
+        },
+        {
+          "id": "card_fallen_city_0",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_0.webp",
+          "members": [
+            "card_fallen_city_0"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/card-2-light.png",
+      "type": "card",
+      "page": 2,
+      "theme": "light",
+      "items": [
+        {
+          "id": "card_nangram",
+          "image": "/ui/items/painted-complete-v1/card_nangram.webp",
+          "members": [
+            "card_nangram"
+          ]
+        },
+        {
+          "id": "card_tani",
+          "image": "/ui/items/painted-complete-v1/card_tani.webp",
+          "members": [
+            "card_tani"
+          ]
+        },
+        {
+          "id": "card_chalawan",
+          "image": "/ui/items/painted-complete-v1/card_chalawan.webp",
+          "members": [
+            "card_chalawan"
+          ]
+        },
+        {
+          "id": "card_ghost_red",
+          "image": "/ui/items/painted-complete-v1/card_ghost_red.webp",
+          "members": [
+            "card_ghost_red"
+          ]
+        },
+        {
+          "id": "card_ghost_black",
+          "image": "/ui/items/painted-complete-v1/card_ghost_black.webp",
+          "members": [
+            "card_ghost_black"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_0",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_0.webp",
+          "members": [
+            "card_bamboo_grave_0"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_1",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_1.webp",
+          "members": [
+            "card_bamboo_grave_1"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_2",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_2.webp",
+          "members": [
+            "card_bamboo_grave_2"
+          ]
+        },
+        {
+          "id": "card_bamboo_grave_3",
+          "image": "/ui/items/painted-complete-v1/card_bamboo_grave_3.webp",
+          "members": [
+            "card_bamboo_grave_3"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_0",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_0.webp",
+          "members": [
+            "card_sealed_mine_0"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_1",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_1.webp",
+          "members": [
+            "card_sealed_mine_1"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_2",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_2.webp",
+          "members": [
+            "card_sealed_mine_2"
+          ]
+        },
+        {
+          "id": "card_sealed_mine_3",
+          "image": "/ui/items/painted-complete-v1/card_sealed_mine_3.webp",
+          "members": [
+            "card_sealed_mine_3"
+          ]
+        },
+        {
+          "id": "card_sunken_city_0",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_0.webp",
+          "members": [
+            "card_sunken_city_0"
+          ]
+        },
+        {
+          "id": "card_sunken_city_1",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_1.webp",
+          "members": [
+            "card_sunken_city_1"
+          ]
+        },
+        {
+          "id": "card_sunken_city_2",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_2.webp",
+          "members": [
+            "card_sunken_city_2"
+          ]
+        },
+        {
+          "id": "card_sunken_city_3",
+          "image": "/ui/items/painted-complete-v1/card_sunken_city_3.webp",
+          "members": [
+            "card_sunken_city_3"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_0",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_0.webp",
+          "members": [
+            "card_dusk_fort_0"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_1",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_1.webp",
+          "members": [
+            "card_dusk_fort_1"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_2",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_2.webp",
+          "members": [
+            "card_dusk_fort_2"
+          ]
+        },
+        {
+          "id": "card_dusk_fort_3",
+          "image": "/ui/items/painted-complete-v1/card_dusk_fort_3.webp",
+          "members": [
+            "card_dusk_fort_3"
+          ]
+        },
+        {
+          "id": "card_giant_valley_0",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_0.webp",
+          "members": [
+            "card_giant_valley_0"
+          ]
+        },
+        {
+          "id": "card_giant_valley_1",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_1.webp",
+          "members": [
+            "card_giant_valley_1"
+          ]
+        },
+        {
+          "id": "card_giant_valley_2",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_2.webp",
+          "members": [
+            "card_giant_valley_2"
+          ]
+        },
+        {
+          "id": "card_giant_valley_3",
+          "image": "/ui/items/painted-complete-v1/card_giant_valley_3.webp",
+          "members": [
+            "card_giant_valley_3"
+          ]
+        },
+        {
+          "id": "card_himmapan_0",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_0.webp",
+          "members": [
+            "card_himmapan_0"
+          ]
+        },
+        {
+          "id": "card_himmapan_1",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_1.webp",
+          "members": [
+            "card_himmapan_1"
+          ]
+        },
+        {
+          "id": "card_himmapan_2",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_2.webp",
+          "members": [
+            "card_himmapan_2"
+          ]
+        },
+        {
+          "id": "card_himmapan_3",
+          "image": "/ui/items/painted-complete-v1/card_himmapan_3.webp",
+          "members": [
+            "card_himmapan_3"
+          ]
+        },
+        {
+          "id": "card_fallen_city_0",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_0.webp",
+          "members": [
+            "card_fallen_city_0"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/card-3-jade.png",
+      "type": "card",
+      "page": 3,
+      "theme": "jade",
+      "items": [
+        {
+          "id": "card_fallen_city_1",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_1.webp",
+          "members": [
+            "card_fallen_city_1"
+          ]
+        },
+        {
+          "id": "card_fallen_city_2",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_2.webp",
+          "members": [
+            "card_fallen_city_2"
+          ]
+        },
+        {
+          "id": "card_fallen_city_3",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_3.webp",
+          "members": [
+            "card_fallen_city_3"
+          ]
+        },
+        {
+          "id": "card_demon_rift_0",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_0.webp",
+          "members": [
+            "card_demon_rift_0"
+          ]
+        },
+        {
+          "id": "card_demon_rift_1",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_1.webp",
+          "members": [
+            "card_demon_rift_1"
+          ]
+        },
+        {
+          "id": "card_demon_rift_2",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_2.webp",
+          "members": [
+            "card_demon_rift_2"
+          ]
+        },
+        {
+          "id": "card_demon_rift_3",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_3.webp",
+          "members": [
+            "card_demon_rift_3"
+          ]
+        }
+      ]
+    },
+    {
+      "output": "artifacts/item-assets-completion/review/card-3-light.png",
+      "type": "card",
+      "page": 3,
+      "theme": "light",
+      "items": [
+        {
+          "id": "card_fallen_city_1",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_1.webp",
+          "members": [
+            "card_fallen_city_1"
+          ]
+        },
+        {
+          "id": "card_fallen_city_2",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_2.webp",
+          "members": [
+            "card_fallen_city_2"
+          ]
+        },
+        {
+          "id": "card_fallen_city_3",
+          "image": "/ui/items/painted-complete-v1/card_fallen_city_3.webp",
+          "members": [
+            "card_fallen_city_3"
+          ]
+        },
+        {
+          "id": "card_demon_rift_0",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_0.webp",
+          "members": [
+            "card_demon_rift_0"
+          ]
+        },
+        {
+          "id": "card_demon_rift_1",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_1.webp",
+          "members": [
+            "card_demon_rift_1"
+          ]
+        },
+        {
+          "id": "card_demon_rift_2",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_2.webp",
+          "members": [
+            "card_demon_rift_2"
+          ]
+        },
+        {
+          "id": "card_demon_rift_3",
+          "image": "/ui/items/painted-complete-v1/card_demon_rift_3.webp",
+          "members": [
+            "card_demon_rift_3"
+          ]
+        }
+      ]
+    }
+  ]
+}

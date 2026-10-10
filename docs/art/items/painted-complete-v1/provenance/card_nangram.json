@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_nangram",
+  "family": "card:card_nangram",
+  "memberIDs": [
+    "card_nangram"
+  ],
+  "name": "การ์ดผีนางรำ",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-7e96fbfe-c5e9-49cf-8ab7-1cdc78905f6f.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีนางรำ nangram, dark Thai classical dancer spirit. Full graceful pale lavender Thai woman wearing ornate tall Thai gold chada headdress, dusty red-gold sabai drape and emerald long Thai skirt, aged brass wrist cuffs. Classic Thai dance pose with one arm curved high and the other elegantly forward, human fingers arched backward, flowing long black hair. Subtle violet ghost haze around hem, elegant eerie face. Entire chada tip and hands fully INSIDE card with ample headroom, bold identifiable dancer silhouette fills75 percent face readable32px. Soft hand-painted stylized broad shapes selective gold Thai fantasy. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_nangram.png",
+  "masterSha256": "3c5c0235985951182ff23a6a8a2c7cc18a7bfd3c309482d877b0a6501ff2cd5f",
+  "originalSha256": "3c5c0235985951182ff23a6a8a2c7cc18a7bfd3c309482d877b0a6501ff2cd5f",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_nangram.webp",
+  "sha256": "fab0235824afb5a063d259f09725cd4c3ffabcecb8b349a32e257f629ef33b7f",
+  "bytes": 22470,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

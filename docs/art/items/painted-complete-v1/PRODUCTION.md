@@ -26,6 +26,8 @@ Run `node tools/assemble-painted-items.mjs` to refresh the incremental gallery. 
 
 `tools/painted-item-review-sheets.mjs` assembles diagnostic contact sheets from the exported textures on jade and light backgrounds, showing each representative ID and the same image at 128, 32, 48 and 64 pixels. These sheets are review evidence, never new production assets. `tools/validate-painted-item-library.mjs` independently checks originals, exports, semantic coverage, retirement exclusions and an optional captured gameplay baseline.
 
+Judge transparent edges on the composited sheets and in the browser. The native transparent-image viewer can exaggerate hidden RGB in nearly transparent pixels: the first monster cards appeared to have red/yellow fringes in that viewer, while raw alpha inspection and actual jade/light composites were clean. Their unchanged originals remain the approved candidates; no pixel cleanup or opaque replacement was applied.
+
 ## Release gates
 
 - All 333 requested new semantic masters have original PNGs and verified production exports.

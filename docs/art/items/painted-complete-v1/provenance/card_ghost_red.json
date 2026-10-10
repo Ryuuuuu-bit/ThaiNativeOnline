@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_ghost_red",
+  "family": "card:card_ghost_red",
+  "memberIDs": [
+    "card_ghost_red"
+  ],
+  "name": "การ์ดผีชุดแดง",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-5e1b9825-4dda-4e87-b22f-5e5a7dc2f783.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีชุดแดง ghost_red world boss, fire spirit bride. Fierce pale ash-white Thai adult bride ghost with long wild black hair, crimson traditional Thai wedding sabai and rich red long skirt, sparse aged gold floral ornaments, small red wedding flower at hair. Reaching clawed HUMAN hands, angry glowing warm red eyes, reddish supernatural wisps surround trailing dress. No crown, weapons, exposed anatomy or gore. Striking RED bride silhouette full body contained inside card fills80 percent face readable32px. Soft hand-painted stylized broad shapes eerie Thai fantasy selective gold. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners no label area. Whole square card centered15 percent genuine transparent outer margin clean contiguous edges. No scene outside card, floor shadow, writing, labels, digits, stats, UI badges, watermark, checkerboard or colored matte.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_ghost_red.png",
+  "masterSha256": "5c353055ef6374d6342afe0d61a8fde21ced0fbe6c321e9a9d89a0f181c7b35c",
+  "originalSha256": "5c353055ef6374d6342afe0d61a8fde21ced0fbe6c321e9a9d89a0f181c7b35c",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_ghost_red.webp",
+  "sha256": "90e607e2d981906b40a2d5a40ac66f41fd6d7607ea3ef922bec8bfbc5125f2fc",
+  "bytes": 21472,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

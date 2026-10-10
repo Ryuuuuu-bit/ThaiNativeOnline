@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_fallen_city_2",
+  "family": "card:card_fallen_city_2",
+  "memberIDs": [
+    "card_fallen_city_2"
+  ],
+  "name": "การ์ดราชองครักษ์วิญญาณ",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-afd72ec8-e3fe-4857-a779-f0d8807d6de2.png",
+  "prompt": "Use case: stylized-concept. One isolated physical Thai fantasy monster collectible card inventory icon. Exact subject: Individual Thai monster card portrait of ราชองครักษ์วิญญาณ (fallen_city_2); demon dark; its own recognizable creature silhouette, not reused winyan art; card-shaped parchment with sparse Thai border, no labels/stat text. Physical creature identity fromgame EXPEDITION_MONSTERS.shape/look: Royal spirit bodyguard: elder Thai royal guard ghost withroyalpointedhelmet, agedivorygoldarmor andelder greybeard, broadshoulders. Portrait creature fills85% ofcardface withlarge distinctive silhouette, highmaterialcontrast at32/48/64px. Soft stylized handpainted broadforms matching approveditemfamily, gentlelighting notphotoreal; simplify microdetail. Physical worncream parchment rectangularcard withnarrow sparse agedbrass Thaikanok corners, no labelarea. Fullsinglecard centered squarecanvas with15% genuinelytransparent outside margin, creature portrait entirelyinsideparchment. No outside scene/floor shadow, letters, labels, text, numbers, stats, UI frames/badges, watermark, gore, nudity, extra cards. Distinct authentic creature identity, no generic reuse.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_fallen_city_2.png",
+  "masterSha256": "02658252a8c5cad3c7ae86ceeb618ebb5c359c54c778e242185231f7985aea99",
+  "originalSha256": "02658252a8c5cad3c7ae86ceeb618ebb5c359c54c778e242185231f7985aea99",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_fallen_city_2.webp",
+  "sha256": "e6bfb060b4862a05d48bc59273102d1c62509aa0a4bab16453ebe7f8139330b1",
+  "bytes": 25790,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
