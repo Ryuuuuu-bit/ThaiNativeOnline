@@ -17,13 +17,16 @@ import { bindAccountPortrait } from '../../account/AccountPortrait.js';
 import { onIdentity } from '../../account/identity.js';
 import { uidRow } from '../../account/UidRow.js';
 import { InventoryWorkspace, compareToEquipped } from './InventoryWorkspace.js';
+import { FlaskEquipment } from './FlaskEquipment.js';
+import { dragBinding } from './HotbarEditor.js';
 import { affixLines } from '../data/affixes.js';
 import { instanceName, instanceColor, instanceQuality } from '../itemPresentation.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
 
-const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', charm: 'เครื่องราง', charm2: 'เครื่องราง 2' };
+const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'แหวน / เครื่องราง 1', charm2: 'แหวน / เครื่องราง 2' };
+const DOLL_LABELS = { charm: 'แหวน 1', charm2: 'แหวน 2' };
 const BONUS_LABELS = { atk: 'ATK', matk: 'MATK', def: 'DEF', hp: 'HP', mp: 'MP', crit: 'คริ', critDmg: 'แรงคริ', acc: 'แม่นยำ', eva: 'หลบ', cdr: 'ลดคูลดาวน์', cast: 'ร่ายเร็ว', mpCost: 'MP ที่ใช้' };
 const PERCENT_BONUS = new Set(['crit', 'critDmg', 'cdr', 'cast', 'mpCost']);
 // card keys: vs_<race> (more damage against it), res_<race | element> (less damage from it)
@@ -50,7 +53,7 @@ const pips = (id, cards = []) => {
 // Shared selected-item and hover detail: name (+refine [slots]), slot, rarity,
 // bonuses, refine bonus, card slots, weight, price.
 const RARITY_TH = { common: 'ธรรมดา', rare: 'หายาก', epic: 'ตำนาน' };
-function itemCard({ id, cards = [], plus = 0, locked = false, roll = null }, cmp) {
+function itemCard({ id, cards = [], plus = 0, locked = false, roll = null, flask = null }, cmp) {
   const d = ITEMS[id];
   const item = { id, cards, plus, roll }, color = instanceColor(item);
   const bonus = d.bonus ? Object.entries(d.bonus).map(([k, v]) => `<i>${esc(bonusLabel(k, v))}</i>`).join('') : '';
@@ -61,7 +64,7 @@ function itemCard({ id, cards = [], plus = 0, locked = false, roll = null }, cmp
   const rolled = affixLines(id, roll).map(a => `<i class="iw-affix" title="${esc(`ช่วงค่าสุ่ม ${a.min}–${a.max}`)}">${esc(`${a.kind === 'prefix' ? 'นำหน้า' : 'ต่อท้าย'} · ${a.label} T${a.tier}: ${bonusLabel(a.key, a.value)}`)}</i>`).join('');
   const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
   const act = d.type === 'equip' ? 'อุปกรณ์สวมใส่' : d.type === 'use' ? 'ไอเท็มใช้ได้' : d.type === 'card' ? 'ใส่การ์ดด้วยปุ่มด้านล่าง (ติดถาวร)' : 'ขายได้ที่ร้านค้า';
-  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${rolled ? `<span class="g-detail-bonus iw-affix-list">${rolled}</span>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
+  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${flask && d.flask ? `<small>ขั้น ${d.flask.tier} · ฟื้น ${d.flask.kind.toUpperCase()} ${d.flask.recovery} · ประจุ ${flask.charges}/${d.flask.maxCharges} · ใช้ ${d.flask.cost} ต่อครั้ง</small>` : ''}${rolled ? `<span class="g-detail-bonus iw-affix-list">${rolled}</span>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
 
 export class CharacterUI {
@@ -77,6 +80,7 @@ export class CharacterUI {
     this.layer = layer; this.c = character; this.feed = feed; this.buffIcons = buffIcons;
     document.body.classList.add('game-on');
     this.buildFrame(); this.buildQuickButtons(); this.buildPanels(); this.bind();
+    this.flaskPicker = new FlaskEquipment(this);
     this.refresh(); this.refreshInventory();
   }
 
@@ -98,8 +102,9 @@ export class CharacterUI {
   buildQuickButtons() {
     this.potionHp = el('button', 'g-skill g-potion', `<span class="g-skill-icon">${iconHtml(ITEMS.potion_s)}</span><kbd>Q</kbd><small></small>`);
     this.potionHp.title = 'ดื่มยาฟื้น HP'; this.potionHp.addEventListener('click', () => this.quickPotion('hp'));
-    this.potionMp = el('button', 'g-skill g-potion mp', `<span class="g-skill-icon">${iconHtml(ITEMS.ether)}</span><kbd>F</kbd><small></small>`);
-    this.potionMp.title = 'ดื่มน้ำผึ้งฟื้น MP'; this.potionMp.addEventListener('click', () => this.quickPotion('mp'));
+    this.potionMp = el('button', 'g-skill g-potion mp', `<span class="g-skill-icon">${iconHtml(ITEMS.ether)}</span><kbd>E</kbd><small></small>`);
+    this.potionMp.title = 'ใช้ขวดฟื้น MP · E'; this.potionMp.addEventListener('click', () => this.quickPotion('mp'));
+    for (const [kind,b] of [['hp',this.potionHp],['mp',this.potionMp]]) { b.type='button'; b.append(el('span','flask-charge-bar')); b.addEventListener('contextmenu', e => { e.preventDefault(); this.flaskPicker.open(kind); }); }
     this.trayExp = el('div', 'g-bar g-exp action-exp', '<span></span><em></em>'); this.trayExp.title = 'Base EXP';
     this.trayJexp = el('div', 'g-bar g-jexp action-jexp', '<span></span><em></em>');
     const exps = el('div', 'action-exps'); exps.append(this.trayExp, this.trayJexp);
@@ -204,9 +209,11 @@ export class CharacterUI {
         for (const [k, n] of Object.entries(add)) for (let i = 0; i < n; i++) this.c.allocate(k);
         this.feed.log(`ลงแต้มตามแผน ${build.name}: ${Object.entries(add).map(([k, n]) => `${k.toUpperCase()} +${n}`).join(' · ')}`);
       }
+      const flask = e.target.closest('[data-flask-kind]'); if (flask) { this.flaskPicker.open(flask.dataset.flaskKind); return; }
       const slot = e.target.closest('[data-slot]'); if (slot) this.workspace.select(null, slot.dataset.slot);
       if (e.target.closest('.g-reset')) this.c.resetStats();
     });
+    this.grid.addEventListener('dragstart', e => { const button=e.target.closest('[data-index]'), item=this.c.inventory[+button?.dataset.index]; if (ITEMS[item?.id]?.type === 'use') dragBinding(e,{kind:'item',id:item.id}); else e.preventDefault(); });
     this.workspace = new InventoryWorkspace(this, itemCard, SLOT_LABELS);
   }
 
@@ -227,16 +234,18 @@ export class CharacterUI {
 
   // Returns true when the key was handled.
   handleKey(e) {
+    if (this.flasksOpen) { if (e.code === 'Escape') this.flaskPicker.close(); return true; }
     const k = e.code;
     if (k === 'KeyQ') { this.quickPotion('hp'); return true; }
-    if (k === 'KeyF') { this.quickPotion('mp'); return true; }
+    if (k === 'KeyE') { this.quickPotion('mp'); return true; }
     if (k === 'KeyC') { this.toggle('sheet'); return true; }
     if (k === 'KeyI') { this.toggle('bag'); return true; }
     if (k === 'KeyK') { this.toggle('skills'); return true; }
     if (k === 'Escape' && (!this.sheet.hidden || !this.bag.hidden || !this.skills.hidden || !this.loadouts.hidden)) { this.workspace.close(); this.skills.root.hidden = true; this.loadouts.hidden = true; return true; }
     return false;
   }
-  quickPotion(kind) { if (!this.c.quickUse(kind)) this.feed.log(kind === 'hp' ? 'ไม่มียาฟื้น HP หรือ HP เต็มแล้ว' : 'ไม่มีน้ำผึ้งป่า', 'bad', true); }
+  get flasksOpen() { return !this.flaskPicker.root.hidden; }
+  quickPotion(kind) { if (!this.c.useFlask(kind)) this.feed.log('ขวดยายังไม่พร้อม: ตรวจประจุ คูลดาวน์ หรือ HP / MP เต็มแล้ว', 'bad', true); }
   toggle(name) {
     if (name === 'sheet' || name === 'bag') { this.workspace.toggle(name); return; }
     if (name === 'skills') { this.skills.toggle(); return; }
@@ -261,8 +270,7 @@ export class CharacterUI {
     this.frame.classList.toggle('g-low', c.hp / c.maxHp < .3);
     this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml();
     this.frame.querySelector('.g-portrait').classList.toggle('g-points', c.points > 0);
-    this.potionHp.querySelector('small').textContent = c.count('potion_s') + c.count('potion_m');
-    this.potionMp.querySelector('small').textContent = c.count('ether');
+    this.refreshFlasks();
     if (!this.sheet.hidden) this.refreshSheet();
     if (!this.loadouts.hidden) this.refreshLoadouts();
     this.bag.querySelector('.g-gold').textContent = `◉ ${c.gold.toLocaleString()}`;
@@ -274,22 +282,32 @@ export class CharacterUI {
   }
   // Rebuilt only when something it shows changed: 'change' fires for every HP tick in a fight, and
   // a sheet rebuilt between pointerdown and click eats the click on a + button.
+  refreshFlasks() {
+    for (const [kind,b] of [['hp',this.potionHp],['mp',this.potionMp]]) {
+      const info = this.c.flaskInfo(kind), d = info?.definition;
+      const signature = `${info?.item?.id}|${info?.charges}|${Math.ceil(info?.cooldown ?? 0)}`; if (b.dataset.flaskState === signature) continue; b.dataset.flaskState = signature;
+      b.querySelector('.g-skill-icon').innerHTML = d ? iconHtml(d) : '＋'; b.querySelector('small').textContent = info ? `${info.charges}/${info.maxCharges}` : 'ว่าง';
+      b.style.setProperty('--charges', info ? info.charges / info.maxCharges : 0); b.classList.toggle('flask-empty', !info || info.charges < info.cost);
+      b.title = info ? `${d.name} · ฟื้น ${info.recovery} · ใช้ ${info.cost} ประจุ${info.cooldown > 0 ? ` · คูลดาวน์ ${info.cooldown.toFixed(1)} วิ` : ''} · คลิกขวาเพื่อเปลี่ยน` : 'ยังไม่มีขวด · เลือกจากหน้าตัวละคร';
+      b.setAttribute('aria-label', `${kind.toUpperCase()} ${kind === 'hp' ? 'Q' : 'E'}: ${b.title}`);
+    }
+  }
   refreshSheet() {
     const c = this.c, s = c.stats;
-    const key = JSON.stringify([c.level, c.exp, c.jobLevel, c.jobExp, c.points, c.alloc, c.equipment, c.cards, c.refine, c.equipmentLocks, c.buffs.map(b => b.id), c.maxHp, c.maxMp, c.patk, c.matk, c.defense]);
+    const key = JSON.stringify([c.level, c.exp, c.jobLevel, c.jobExp, c.points, c.alloc, c.equipment, c.cards, c.refine, c.equipmentLocks, c.flasks, c.buffs.map(b => b.id), c.maxHp, c.maxMp, c.patk, c.matk, c.defense]);
     if (key === this.sheetKey) return;
     this.sheetKey = key;
     // paper doll: worn gear in two columns around the portrait (design "UI ใหม่")
     const slotHtml = slot => {
       const id = c.equipment[slot];
-      return `<div class="g-eqs"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot], c.gearRolls?.[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? instanceColor(c.wornItem(slot)) : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${SLOT_LABELS[slot]}${id ? `<br>${esc(itemName(id, c.refine[slot], c.gearRolls?.[slot]))}` : ' · ว่าง'}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`;
+      return `<div class="g-eqs g-doll-${slot}"><button type="button" data-slot="${slot}" aria-label="${esc(`${SLOT_LABELS[slot]}: ${id ? itemName(id, c.refine[slot], c.gearRolls?.[slot]) : 'ว่าง'}`)}" class="${id ? '' : 'empty'}" style="--rar:${id ? instanceColor(c.wornItem(slot)) : '#555'}"><span>${id ? iconHtml(ITEMS[id]) : '·'}</span>${id && c.refine[slot] ? `<i class="g-plus" aria-hidden="true">+${c.refine[slot]}</i>` : ''}${id ? pips(id, c.cards[slot]) : ''}</button><small>${DOLL_LABELS[slot] ?? SLOT_LABELS[slot]}${id ? '' : ' · ว่าง'}</small>${id ? `<button type="button" class="g-equip-lock" data-lock-slot="${slot}" aria-pressed="${c.isLocked(slot)}" aria-label="${c.isLocked(slot) ? 'ปลดล็อก' : 'ล็อก'}${SLOT_LABELS[slot]}">${c.isLocked(slot) ? '🔒' : '🔓'}</button>` : ''}</div>`;
     };
     const jobMax = c.jobLevel >= MAX_JOB_LEVEL;
     this.sheet.querySelector('.g-sheet-body').innerHTML = `
       <div class="g-doll-wrap g-equip">
-        <div class="g-eq-col">${['weapon', 'head', 'armor', 'cape'].map(slotHtml).join('')}</div>
-        <div class="g-doll"><span class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 60 })}</span><div class="g-doll-nm"><b>${esc(c.name)}</b><span>${c.cls.name} · Lv ${c.level} · Job ${c.jobLevel}</span></div></div>
-        <div class="g-eq-col">${['shoes', 'charm', 'charm2'].map(slotHtml).join('')}</div>
+        ${['weapon','head','armor','gloves','belt','shoes','amulet','charm','charm2','cape'].map(slotHtml).join('')}
+        <div class="g-doll-nm g-doll-identity"><b>${esc(c.name)}</b><span>${c.cls.name} · Lv ${c.level} · Job ${c.jobLevel}</span></div>
+        <div class="g-doll-flasks">${['hp','mp'].map(kind => { const f=c.flaskInfo(kind); return `<button type="button" data-flask-kind="${kind}">${f ? iconHtml(f.definition) : '＋'}<b>${kind==='hp'?'Q':'E'} · ${kind.toUpperCase()}</b><small>${f ? `ขั้น ${f.definition.flask.tier} · ${f.charges}/${f.maxCharges}` : 'เลือกขวด'}</small></button>`; }).join('')}</div>
       </div>
       <div class="g-bar g-exp g-sheet-exp"><span style="width:${Math.min(100, c.exp / c.expNeeded * 100)}%"></span><em>Base Lv ${c.level} · EXP ${(c.exp / c.expNeeded * 100).toFixed(1)}%</em></div>
       <div class="g-bar g-jexp g-sheet-exp"><span style="width:${jobMax ? 100 : Math.min(100, c.jobExp / c.jobExpNeeded * 100)}%"></span><em>Job Lv ${c.jobLevel}${jobMax ? ' · สูงสุด' : ` · ${(c.jobExp / c.jobExpNeeded * 100).toFixed(1)}%`}</em></div>
@@ -352,7 +370,7 @@ export class CharacterUI {
       if (!inTab(this.tab, s.id) || !matchesSearch(s.id, this.query)) return '';
       const d = ITEMS[s.id], cmp = compareToEquipped(this.c, s); shown++;
       const arrow = cmp > 0 ? '<i class="g-cmp up" aria-hidden="true">▲</i>' : cmp < 0 ? '<i class="g-cmp down" aria-hidden="true">▼</i>' : '';
-      return `<button class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus, s.roll))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${instanceColor(s)}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
+      return `<button draggable="${d.type === 'use'}" class="g-slot rar-${d.rarity || 'none'}${isItemLocked(s) ? ' item-locked' : ''}" data-index="${i}" aria-label="${esc(itemName(s.id, s.plus, s.roll))}${isItemLocked(s) ? ' · ล็อกแล้ว' : ''}" style="--rar:${instanceColor(s)}"><span>${iconHtml(d)}</span>${arrow}${isItemLocked(s) ? '<i class="g-item-lock">🔒</i>' : ''}${s.plus ? `<i class="g-plus">+${s.plus}</i>` : ''}${pips(s.id, s.cards)}${s.qty > 1 ? `<small>${s.qty}</small>` : ''}</button>`;
     }).join('');
     this.bag.querySelector('.g-bag-none').hidden = !filtered || shown > 0;
     this.bag.querySelector('.g-bag-count').textContent = `ช่อง ${inv.filter(Boolean).length} / ${inv.length}`;
@@ -378,5 +396,5 @@ export class CharacterUI {
     if (slot) this.workspace.select(Number(slot.dataset.index));
   }
   // Per frame: buff timers count down.
-  update() { if (this.c.buffs.length) this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml(); }
+  update() { this.refreshFlasks(); if (this.c.buffs.length) this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml(); }
 }

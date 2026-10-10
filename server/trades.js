@@ -1,3 +1,4 @@
+import { flaskFields } from '../src/character/data/flasks.js';
 // Player trade (RO style): two signed-in players face to face swap items from the bag and gold.
 // Pure logic, no sockets (server/index.js wires it). The server's own characters
 // (server/combatants.js) are the only truth: an offer names items the way ops do (id, qty,
@@ -48,7 +49,7 @@ export class Trades {
     const clean = cleanOffer(offer); if (!clean) return 'bad_offer';
     const why = offerWhy(c, clean); if (why) return why;
     // Display metadata comes only from the owned bag after the reference was checked.
-    clean.items = clean.items.map(e => ({ ...e, ...rollFields(c.inventory.find(s => s?.id === e.id && sameGear(s, e.cards, e.plus, e.iid))) }));
+    clean.items = clean.items.map(e => ({ ...e, ...rollFields(c.inventory.find(s => s?.id === e.id && sameGear(s, e.cards, e.plus, e.iid))), ...flaskFields(c.inventory.find(s => s?.id === e.id && sameGear(s, e.cards, e.plus, e.iid))) }));
     t.offer[id] = clean; t.locked.clear(); t.confirmed.clear();
     return true;
   }
@@ -75,8 +76,8 @@ export function cleanOffer(o) {
   for (const e of o.items) {
     const def = ITEMS[e?.id]; if (!def) return null;
     if (e.iid != null && (typeof e.iid !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(e.iid))) return null;
-    const qty = def.type === 'equip' ? 1 : Math.floor(Number(e.qty) || 0); if (qty < 1) return null;
-    items.push({ id: e.id, qty, ...(def.type === 'equip' && e.iid ? { iid: e.iid } : {}), ...(Array.isArray(e.cards) && e.cards.length ? { cards: e.cards.map(String) } : {}), ...(Number.isInteger(e.plus) && e.plus > 0 ? { plus: e.plus } : {}) });
+    const qty = ['equip', 'flask'].includes(def.type) ? 1 : Math.floor(Number(e.qty) || 0); if (qty < 1) return null;
+    items.push({ id: e.id, qty, ...(['equip', 'flask'].includes(def.type) && e.iid ? { iid: e.iid } : {}), ...(Array.isArray(e.cards) && e.cards.length ? { cards: e.cards.map(String) } : {}), ...(Number.isInteger(e.plus) && e.plus > 0 ? { plus: e.plus } : {}) });
   }
   return { items, gold };
 }
@@ -89,7 +90,7 @@ export function offerWhy(c, o) {
 }
 // Takes one offer entry out of a bag (an array of slots, changed in place) → the instance, or null.
 function take(bag, e) {
-  if (ITEMS[e.id].type === 'equip') {
+  if (['equip', 'flask'].includes(ITEMS[e.id].type)) {
     const i = bag.findIndex(s => s?.id === e.id && !isItemLocked(s) && sameGear(s, e.cards, e.plus, e.iid)); if (i < 0) return null;
     const s = bag[i]; bag[i] = null; return s;
   }

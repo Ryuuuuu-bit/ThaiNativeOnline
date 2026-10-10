@@ -1,13 +1,15 @@
 import { assetIcon } from './icons.js';
-import { skillPages } from './SkillPager.js';
-import { orderedController } from '../character/itemState.js';
+import { useAutoFlask } from '../character/ui/autoFlasks.js';
+import { bindingController } from '../character/ui/hotbarController.js';
+import { HotbarEditor, HOTBAR_DRAG, dragBinding } from '../character/ui/HotbarEditor.js';
+import { iconHtml } from './icons.js';
 // The one action bar, the same on every map and for every class (the hotbar look
-// from src/classes/fx/fx.css): up to ten skills on keys 1–0, AUTO on G, then the
-// potions (Q / F) and the EXP bar from CharacterUI (the main menu opens the windows).
+// from src/classes/fx/fx.css): up to ten skills on keys 1–0, AUTO on R, then the
+// reusable flasks (Q / E) and the EXP bar from CharacterUI (the main menu opens the windows).
 //
 //   const bar = new ActionBar(host, { potions, menus });
 //   bar.setSkills(controller, label)   swap the skills (class kit or legacy combat skills)
-//   bar.handleKey(e) → bool             1–0 cast, G toggles AUTO
+//   bar.handleKey(e) → bool             1–0 activate bindings, R toggles AUTO
 //   bar.update(dt)                      cooldown sweeps, MP / pending states, AUTO
 //   bar.bindAuto({ character, combat }) lets AUTO drink potions and choose targets by the
 //                                       ⚙ settings (src/ui/autoSettings.js)
@@ -22,9 +24,9 @@ import { orderedController } from '../character/itemState.js';
 // }
 import '../classes/fx/fx.css';
 import './actionbar.css';
-import { AutoPanel, autoPotion, castOrder, loadAuto, normalizeAuto, pickTarget, saveAuto } from './autoSettings.js';
+import { AUTO_RANGES, AutoPanel, castOrder, loadAuto, normalizeAuto, pickTarget, saveAuto } from './autoSettings.js';
 
-export const AUTO_KEY = 'KeyG';
+export const AUTO_KEY = 'KeyR';
 const keyLabel = i => String((i + 1) % 10);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
@@ -33,8 +35,8 @@ export class ActionBar {
     this.host = host; this.ctl = null; this.slots = []; this.auto = false; this.next = 0; this.autoWait = .4;
     this.bar = el('nav', 'hotbar action-bar ro-window panel'); this.bar.setAttribute('aria-label', 'แถบสกิล');
     this.row = el('div', 'hotbar-row');
-    this.autoBtn = el('button', 'ro-button hotbar-auto', '<b>AUTO <kbd>G</kbd></b><small>สกิลอัตโนมัติ</small>');
-    this.autoBtn.type = 'button'; this.autoBtn.setAttribute('aria-pressed', 'false'); this.autoBtn.title = 'ใช้สกิลที่พร้อมวนไปเรื่อย ๆ กับเป้าหมาย (ปุ่ม G)';
+    this.autoBtn = el('button', 'ro-button hotbar-auto', '<b>AUTO <kbd>R</kbd></b><small>สกิลอัตโนมัติ</small>');
+    this.autoBtn.type = 'button'; this.autoBtn.setAttribute('aria-pressed', 'false'); this.autoBtn.title = 'ใช้สกิลที่พร้อมวนไปเรื่อย ๆ กับเป้าหมาย (ปุ่ม R)';
     this.autoBtn.addEventListener('click', () => this.setAuto(!this.auto));
     this.cfgBtn = el('button', 'ro-button hotbar-auto-cfg', '⚙'); this.cfgBtn.type = 'button'; this.cfgBtn.title = 'ตั้งค่า AUTO';
     this.autoCfg = loadAuto(); this.potionWait = 0;
@@ -52,6 +54,8 @@ export class ActionBar {
     if (menus.length) { const m = el('div', 'action-menus'); m.append(...menus); this.bar.append(m); }
     this.tip = el('div', 'hotbar-tip ro-window'); this.tip.hidden = true;
     host.append(this.bar, this.tip);
+    this.editor = new HotbarEditor(host, this);
+    this.editBtn = el('button', 'ro-button hotbar-edit', 'จัดช่อง'); this.editBtn.type = 'button'; this.editBtn.title = 'เลือกสกิลและไอเทมในช่องลัด'; this.editBtn.addEventListener('click', () => this.editor.open(0)); this.bar.append(this.editBtn);
     this.page = 0; this.pageKey = '';
     this.pager = el('div', 'touch-skill-pages');
     this.pager.innerHTML = '<button type="button" aria-label="สกิลหน้าก่อน">‹</button><span aria-live="polite"></span><button type="button" aria-label="สกิลหน้าถัดไป">›</button>';
@@ -66,9 +70,11 @@ export class ActionBar {
     this.row.addEventListener('click', e => { if (this.suppressTap) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
   }
 
+  get chooserOpen() { return !this.editor.root.hidden; }
+
   setSkills(controller, label) {
     this.baseController = controller;
-    return this.renderSkills(this.character ? orderedController(controller, this.character.hotbarSkills) : controller, label);
+    return this.renderSkills(this.character ? bindingController(controller, this.character) : controller, label);
   }
   renderSkills(controller, label) {
     this.ctl = controller; this.setAuto(false); this.next = 0;
@@ -76,9 +82,20 @@ export class ActionBar {
     this.row.replaceChildren();
     this.slots = controller.slots.map((s, i) => {
       const b = el('button', 'hotbar-slot' + (s.lv >= 20 ? ' adv' : ''),
-        `${s.icon ? assetIcon(s.icon) : `<span class="hotbar-glyph">${s.html ?? ''}</span>`}<span class="key">${keyLabel(i)}</span><span class="mp"></span><span class="slv"></span><span class="lock">🔒</span><span class="cd"></span><span class="cdt"></span>`);
+        `${s.item ? iconHtml(s.item) : s.icon ? assetIcon(s.icon) : `<span class="hotbar-glyph">${s.html ?? ''}</span>`}<span class="key">${keyLabel(i)}</span><span class="mp"></span><span class="slv"></span><span class="lock">🔒</span><span class="cd"></span><span class="cdt"></span>`);
       b.type = 'button'; b.setAttribute('aria-label', `${s.name} (ปุ่ม ${keyLabel(i)})`);
-      b.addEventListener('click', () => this.cast(i));
+      b.addEventListener('click', () => s.kind === 'empty' ? this.editor.open(i) : this.cast(i));
+      b.addEventListener('contextmenu', e => { e.preventDefault(); this.editor.open(i); });
+      b.addEventListener('keydown', e => { if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); this.editor.open(i); } });
+      b.draggable = true; b.addEventListener('dragstart', e => dragBinding(e, { from: i }));
+      b.addEventListener('dragover', e => { if (e.dataTransfer.types.includes(HOTBAR_DRAG)) { e.preventDefault(); b.classList.add('drag-over'); } });
+      b.addEventListener('dragleave', () => b.classList.remove('drag-over'));
+      b.addEventListener('drop', e => { e.preventDefault(); b.classList.remove('drag-over');
+        try { const payload = JSON.parse(e.dataTransfer.getData(HOTBAR_DRAG));
+          if (Number.isInteger(payload.from) && payload.from >= 0 && payload.from < 10) { const next = [...this.character.hotbarBindings]; [next[i], next[payload.from]] = [next[payload.from], next[i]]; this.character.setHotbar(next); }
+          else this.character.setHotbarBinding(i, payload);
+        } catch { /* Ignore foreign drag data. */ }
+      });
       b.addEventListener('pointerenter', () => this.showTip(i, b)); b.addEventListener('pointerleave', () => this.hideTip());
       b.addEventListener('focus', () => this.showTip(i, b)); b.addEventListener('blur', () => this.hideTip());
       if (i === 6) this.row.append(el('span', 'hotbar-sep'));
@@ -90,7 +107,8 @@ export class ActionBar {
 
   syncTouchPage() {
     if (!this.ctl) return;
-    const pages = skillPages(this.ctl.slots, i => this.ctl.level?.(i), document.body.classList.contains('ui-touch') ? 4 : 5);
+    const size = document.body.classList.contains('ui-touch') ? 4 : 5;
+    const pages = Array.from({length: Math.ceil(this.slots.length / size)}, (_, p) => this.slots.map((_, i) => i).slice(p * size, (p + 1) * size));
     this.page = ((this.page % pages.length) + pages.length) % pages.length;
     const key = `${this.page}:${pages.map(p => p.join(',')).join('|')}`;
     if (key === this.pageKey) return;
@@ -116,9 +134,9 @@ export class ActionBar {
     this.offSkillOrder?.(); this.character = character; this.combat = combat; this.atkBtn.hidden = !combat?.basicSkillId?.();
     const reorder = () => {
       if (!this.baseController) return;
-      const order = JSON.stringify(character?.hotbarSkills ?? []); if (order === this.skillOrderKey) return;
+      const order = JSON.stringify(character?.hotbarBindings ?? []); if (order === this.skillOrderKey) return;
       this.skillOrderKey = order;
-      this.renderSkills(orderedController(this.baseController, character?.hotbarSkills ?? []));
+      this.renderSkills(bindingController(this.baseController, character));
     };
     this.offSkillOrder = character?.on('skills', reorder); this.skillOrderKey = ''; reorder();
   }
@@ -139,7 +157,7 @@ export class ActionBar {
   toggleAuto() { this.setAuto(!this.auto); }
 
   cast(i, fromAuto = false) {
-    if (!this.ctl || !this.slots[i]) return false;
+    if (!this.ctl || !this.slots[i] || (fromAuto && this.ctl.slots[i]?.kind !== 'skill')) return false;
     if (!fromAuto && this.auto) this.setAuto(false);   // a manual cast takes control back
     const ok = this.ctl.cast(i, fromAuto);
     if (ok) { const b = this.slots[i].b; b.classList.add('fire'); setTimeout(() => b.classList.remove('fire'), 250); }
@@ -147,6 +165,7 @@ export class ActionBar {
   }
 
   handleKey(e) {
+    if (!this.editor.root.hidden) { if (e.code === 'Escape') this.editor.close(); return true; }
     if (e.repeat) return false;
     const m = /^Digit(\d)$/.exec(e.code);
     if (m) { const i = (Number(m[1]) + 9) % 10; if (!this.slots[i]) return false; this.cast(i); return true; }
@@ -161,8 +180,8 @@ export class ActionBar {
     this.slots.forEach((sl, i) => {
       const { b, cdt } = sl;
       // MP cost and skill level (they change as skills are learnt)
-      const s = ctl.slots[i], lv = ctl.level?.(i), shown = `${s.mp}|${lv}`;
-      if (sl.shown !== shown) { sl.shown = shown; sl.mp.textContent = s.mp || ''; sl.slv.textContent = lv > 0 ? lv : ''; b.classList.toggle('locked', lv === 0); }
+      const s = ctl.slots[i], lv = ctl.level?.(i), shown = `${s.mp}|${lv}|${s.kind === 'item' ? this.character.count(s.id) : ''}`;
+      if (sl.shown !== shown) { sl.shown = shown; sl.mp.textContent = s.kind === 'item' ? this.character.count(s.id) : s.mp || '';  sl.slv.textContent = lv > 0 ? lv : ''; b.classList.toggle('locked', lv === 0); }
       const [left, total] = ctl.cooldown(i);
       b.style.setProperty('--cd', left > 0 && total > 0 ? Math.min(1, left / total) : 0); b.classList.toggle('cooling', left > 0);
       cdt.textContent = left > 0 ? (left >= 10 ? Math.ceil(left) : left.toFixed(1)) : '';
@@ -173,8 +192,7 @@ export class ActionBar {
     const c = this.character, cfg = this.autoCfg, hp = c ? c.hp / c.maxHp : 1;
     // potions first, even mid-cast (one every 1.5 s at most)
     if (c?.alive && (this.potionWait -= dt) <= 0) {
-      const kind = autoPotion(cfg, hp, c.mp / c.maxMp);
-      if (kind && c.quickUse(kind)) this.potionWait = 1.5;
+      if (useAutoFlask(c, cfg)) this.potionWait = 1.5;
     }
     if (ctl.busy) return;
     // the player is walking somewhere by hand: AUTO waits until they stop
@@ -183,15 +201,17 @@ export class ActionBar {
     if ((this.autoWait -= dt) > 0) return;
     // the target, by the priority in the settings
     if (c?.alive && cb?.monsters && cb.world?.playerPos) {
+
       // a monster the player clicked themselves is kept for a few seconds while it lives
-      const stuck = cb.target?.alive && Date.now() - (cb.manualTargetAt ?? -Infinity) < 4000;
-      const t = stuck ? cb.target : pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target, Date.now(), c?.cls?.range ?? 2);
-      if (t && t !== cb.target) cb.setTarget(t);
+      const pos = cb.world.playerPos(), radius = AUTO_RANGES[cfg.range] ?? AUTO_RANGES.mid;
+      const stuck = cb.target?.alive && Math.hypot(cb.target.x - pos.x, cb.target.z - pos.z) <= radius && Date.now() - (cb.manualTargetAt ?? -Infinity) < 4000;
+      const t = stuck ? cb.target : cfg.range === 'map' && cb.remote ? cb.seekMapTarget?.(cfg) : pickTarget(cb.monsters, cb.world.playerPos(), cfg, cb.target, Date.now(), c?.cls?.range ?? 2);
+      if (t !== cb.target) { cb.setTarget(t ?? null); if (!t) { cb.cancelPending?.(); cb.world.stop?.(); } }
     }
     // the next enabled skill that is ready (survival skills first when HP is low)
     const order = castOrder(this.slots.map((_, i) => ({ survival: this.survival(i) })), cfg, hp, this.next);
     for (const i of order) {
-      if (ctl.cooldown(i)[0] <= 0 && this.cast(i, true)) { this.next = i + 1; this.autoWait = .35; this.swing(); return; }
+      if (ctl.slots[i]?.kind === 'skill' && ctl.cooldown(i)[0] <= 0 && this.cast(i, true)) { this.next = i + 1; this.autoWait = .35; this.swing(); return; }
     }
     // nothing ready: the basic attack fills the gaps (its speed follows AGI and buffs)
     this.swing();

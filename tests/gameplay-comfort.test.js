@@ -10,9 +10,10 @@ import { readSession, writeSession } from '../src/account/session.js';
 const hero = () => new Character({ name: 'test', classId: 'muaythai' });
 test('material tenths fit exactly at capacity and refuse one extra', () => {
   const c = hero();
+  const equippedWeight = c.weight; // Migrated characters now carry two starter flasks.
   for (const d of Object.values(ITEMS).filter(d => d.type === 'material')) assert.equal(d.weight, .1);
   assert.equal(c.addItem('hide', 3), true);
-  assert.equal(c.weight, .3);
+  assert.equal(c.weight, equippedWeight + .3);
   const room = c.carryRoom('hide');
   assert.equal(c.addItem('hide', room), true);
   assert.equal(c.weight, c.maxWeight);

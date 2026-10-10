@@ -218,3 +218,7 @@ body .sh-ic > .icon-img, body .eh-item > .icon-img { flex: none; }
 @media(min-width:761px) and (min-height:521px){
  body .shop.sh-v3:has(.sh-split.eh){zoom:1;box-sizing:border-box;max-height:calc(100dvh - 148px)}
 }
+/* Town flask service follows the shop's jade lacquer and brass controls. */
+body .shop.sh-v3 .sh-refill-flasks {display:block;margin:8px 10px;padding:9px 14px;min-height:40px;max-width:calc(100% - 20px);border:1px solid #bca46c;border-radius:6px;background:linear-gradient(#294b3a,#19372b);color:#fff0c9;font:600 12px var(--ui-font,sans-serif);line-height:1.5;white-space:normal;text-align:center;box-shadow:inset 0 1px 0 #e7cf8a26;cursor:pointer;}
+body .shop.sh-v3 .sh-refill-flasks:hover {background:#345e46;border-color:#e4ca89;}
+body .shop.sh-v3 .sh-refill-flasks:focus-visible {outline:2px solid #f2d99a;outline-offset:3px;}

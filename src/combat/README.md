@@ -41,7 +41,7 @@ Keys: `1–0` the action bar's skills, `G` AUTO, `Q` / `F` potions, `C` characte
 
 ### Action bar (`rpg.hud.bar`, `src/ui/ActionBar.js`)
 
-One bar on every map, in the shared hotbar look: up to ten skills (keys 1–0), AUTO (G), the potion buttons (Q / F, with counts) and the C / I menu buttons from CharacterUI. A controller fills the skill slots:
+One bar on every map: ten customizable skill/consumable positions (keys 1–0), AUTO (R), and reusable HP/MP flasks (Q/E with charge indicators). F interacts with NPCs and Home resets the camera. A class controller supplies available skills; the hotbar adapter resolves saved bindings by skill ID rather than assuming a controller index is a bar position:
 
 - `LegacyCaster.js`: the class's four `SKILLS` through `Combat.useSkill` (default, and for classes without a kit).
 - `src/training/KitCaster.js`: the class's ten-skill kit (`src/classes` `CLASS_KITS`); TrainingGround swaps it in with `rpg.hud.setSkills(controller, label)` once the character exists.
@@ -90,3 +90,12 @@ The controller interface is documented at the top of `ActionBar.js`. `hud.setSaf
 ### Hooks for equipment drops
 
 - `lootDrops.rollLootDrops(def, { random, uuid, level, multiplier })` shares legacy independent rows plus one bounded level pool roll. Online `MonsterWorld` supplies server RNG/UUID; rewards and NetCombat retain exact instances with `addInstance`. Gear operation/trade/stash requests use `iid` references, never client affix values.
+- The extra equipment pool now includes gloves, belts and amulets. Rings share the existing `charm` kind and two accessory positions. `boss-flask-loot.js` adds one separate bounded themed bottle roll; flask instances carry their own UUID and remaining charges.
+- Flask use and recharge flow through Character and authoritative server progress/kill rewards. The town refill service checks the city herbalist's actual location. Saving, swapping or reconnecting never fills an existing flask.
+- `HotbarEditor` and `hotbarController` preserve ten typed bindings with empty positions. AUTO skips item bindings. Current-map target discovery refreshes through the server locator instead of treating stale distant snapshots as live targets. See `docs/design/EQUIPMENT_HOTBAR_FLASKS.md` for schemas, tier tables and controls.
+
+### Hooks for reusable flasks and whole-map AUTO
+
+- `rollLootDrops` adds at most one boss flask from `data/boss-flask-loot.js`, with the server UUID and authentic initial charges. Character accepts exact instances through `addInstance`; `instanceId` handles both gear rolls and flasks.
+- `Combatants.rewardState` fills worn flasks by credited monster rank (1 / 3 / 10); local Combat and NetCombat mirror that reward. `flask_refill` accepts only a living player outside combat at the actual city herbalist counter. Save/load, equip and ordinary login never refill.
+- `combat.seekMapTarget(settings)` uses rate-limited `auto_target` messages. The server selects a live target in the player actual channel world, with priority and unreachable exclusions. Client replies require current map and request nonce; ordinary radius selection always measures from the current player position.

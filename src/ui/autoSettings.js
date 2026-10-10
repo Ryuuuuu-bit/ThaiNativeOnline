@@ -11,7 +11,7 @@ import { assetIcon } from './icons.js';
 //   new AutoPanel(host, getSettings, onChange).open(slots)
 import { draggable } from './draggable.js';
 const KEY = 'thainative.auto';
-export const AUTO_RANGES = { near: 7, mid: 11, far: 14 };   // metres around the player
+export const AUTO_RANGES = { near: 7, mid: 11, far: 14, map: Infinity };   // current map only
 export const DEFAULT_AUTO = {
   off: [],              // slot indices AUTO skips
   basic: true,          // basic attacks between skills (casters may turn it off to save MP)
@@ -50,8 +50,9 @@ export function pickTarget(monsters, me, s, current = null, now = Date.now(), re
   const R = AUTO_RANGES[s.range] ?? AUTO_RANGES.mid;
   const hitting = m => s.attackers && m.swungAtMe && now - m.swungAtMe < ATTACKER_SECS * 1000;
   const reachable = m => !(now - (m.unreachableAt ?? -Infinity) < UNREACHABLE_SECS * 1000);
-  const near = monsters.filter(m => m.alive && m.state !== 'dormant' && dist(m, me) <= R && reachable(m));
-  const live = current?.alive && current.state !== 'dormant' && reachable(current) && dist(current, me) <= R + 2 ? current : null;
+  const sameMap = m => !me.map || !m.map || m.map === me.map;
+  const near = monsters.filter(m => sameMap(m) && m.alive && m.state !== 'dormant' && dist(m, me) <= R && reachable(m));
+  const live = sameMap(current ?? {}) && current?.alive && current.state !== 'dormant' && reachable(current) && dist(current, me) <= R ? current : null;
   if (live && (hitting(live) || (dist(live, me) <= reach + 1 && !near.some(hitting)))) return live;
   const score = m => (hitting(m) ? -1000 : 0) + dist(m, me) - (s.elites && (m.def?.boss || m.def?.elite) ? ELITE_PULL : 0);
   const best = near.sort((a, b) => score(a) - score(b))[0] ?? null;
@@ -63,7 +64,7 @@ export function pickTarget(monsters, me, s, current = null, now = Date.now(), re
 // survival line, survival skills (quick buffs / heals) are tried first.
 export function castOrder(slots, s, hpFrac, next = 0) {
   const n = slots.length, order = [];
-  for (let k = 0; k < n; k++) { const i = (next + k) % n; if (!s.off.includes(i)) order.push(i); }
+  for (let k = 0; k < n; k++) { const i = (next + k) % n; if (slots[i] && slots[i].type !== 'item' && (!slots[i].kind || slots[i].kind === 'skill') && !s.off.includes(i)) order.push(i); }
   if (s.survive && hpFrac * 100 < s.survive) {
     const sv = order.filter(i => slots[i]?.survival), rest = order.filter(i => !slots[i]?.survival);
     return [...sv, ...rest];
@@ -103,23 +104,23 @@ export class AutoPanel {
     const s = this.get(), slots = this.slots ?? [];
     const sw = (key, label, hint = '') => `<label class="auto-orow"><span>${label}${hint ? `<small>${hint}</small>` : ''}</span><input type="checkbox" class="auto-sw" data-key="${key}" ${s[key] ? 'checked' : ''}></label>`;
     const stepper = (key, label, hint = '') => `<div class="auto-stepper"><span>${label}${hint ? `<small>${hint}</small>` : ''}</span><div class="auto-step"><button type="button" data-step="${key}:-5" aria-label="ลด">−</button><output>${s[key] ? `${s[key]}%` : 'ปิด'}</output><button type="button" data-step="${key}:5" aria-label="เพิ่ม">+</button></div></div>`;
-    const survivors = slots.filter(sl => sl.survival).map(sl => sl.name).join(' · ');
-    this.root.innerHTML = `<div class="ro-title"><kbd class="auto-kc">G</kbd>ตั้งค่า AUTO<button class="auto-close" aria-label="ปิด">×</button></div>
+    const survivors = slots.filter(sl => sl?.survival).map(sl => sl.name).join(' · ');
+    this.root.innerHTML = `<div class="ro-title"><kbd class="auto-kc">R</kbd>ตั้งค่า AUTO<button class="auto-close" aria-label="ปิด">×</button></div>
       <div class="auto-grid">
         <div class="auto-card"><h4>สกิล <small>แตะเพื่อเปิด/ปิด</small></h4>
-          <div class="auto-skills">${slots.map((sl, i) => { const off = s.off.includes(i); return `<button type="button" data-slot="${i}" class="${off ? 'off' : ''}${sl.survival ? ' survival' : ''}" title="${sl.name}${sl.survival ? ' · สกิลเอาตัวรอด' : ''}"><i class="k">${(i + 1) % 10}</i>${off ? '' : '<i class="ok">✓</i>'}${sl.icon ? assetIcon(sl.icon) : `<b>${sl.html ?? ''}</b>`}<span>${sl.name}</span></button>`; }).join('')}</div>
+          <div class="auto-skills">${slots.map((sl, i) => { if (!sl || sl.type === 'item' || (sl.kind && sl.kind !== 'skill')) return ''; const off = s.off.includes(i); return `<button type="button" data-slot="${i}" class="${off ? 'off' : ''}${sl.survival ? ' survival' : ''}" title="${sl.name}${sl.survival ? ' · สกิลเอาตัวรอด' : ''}"><i class="k">${(i + 1) % 10}</i>${off ? '' : '<i class="ok">✓</i>'}${sl.icon ? assetIcon(sl.icon) : `<b>${sl.html ?? ''}</b>`}<span>${sl.name}</span></button>`; }).join('')}</div>
           <div class="auto-legend"><span><i class="atk"></i>สกิลโจมตี</span><span><i class="sv"></i>สกิลเอาตัวรอด ใช้ก่อนเมื่อ HP ต่ำ</span></div>
           ${sw('basic', 'ตีปกติระหว่างรอสกิล', 'ปิดไว้เพื่อประหยัด MP สำหรับสายเวท')}</div>
         <div class="auto-card"><h4>ฟื้นฟู</h4>
-          ${stepper('hpPotion', 'ดื่มยา HP เมื่อต่ำกว่า', 'ใช้ยาหม้อที่ดีที่สุดในกระเป๋า')}
+          ${stepper('hpPotion', 'ดื่มยา HP เมื่อต่ำกว่า', 'ใช้ขวดเลือดที่สวมใส่ในช่อง Q')}
           ${stepper('survive', 'ใช้สกิลเอาตัวรอดเมื่อ HP ต่ำกว่า', survivors)}
-          ${stepper('mpPotion', 'ดื่มยา MP เมื่อต่ำกว่า', 'ใช้น้ำผึ้งป่า')}
-          <p class="auto-note">ยาที่ใช้คือของในช่อง Q และ F · ตั้งเป็น "ปิด" ถ้าไม่อยากให้ AUTO ดื่มยาเอง</p></div>
+          ${stepper('mpPotion', 'ดื่มยา MP เมื่อต่ำกว่า', 'ใช้ขวดมานาที่สวมใส่ในช่อง E')}
+          <p class="auto-note">ยาที่ใช้คือของในช่อง Q และ E · ตั้งเป็น "ปิด" ถ้าไม่อยากให้ AUTO ดื่มยาเอง</p></div>
         <div class="auto-card"><h4>เป้าหมาย</h4>
           ${sw('attackers', 'ตัวที่กำลังตีเราก่อน', 'AUTO สู้กลับมอนที่ตีเราอยู่')}
           ${sw('elites', 'หัวหน้า / บอส ก่อน')}
-          <div class="auto-orow col"><span>ระยะหาเป้าหมาย<small>เดินหามอนรอบตัวในระยะนี้</small></span>
-            <div class="auto-radius">${Object.entries({ near: 'ใกล้', mid: 'กลาง', far: 'ไกล' }).map(([k, t]) => `<button type="button" data-range="${k}" aria-pressed="${s.range === k}">${t} ${AUTO_RANGES[k]} ม.</button>`).join('')}</div></div>
+          <div class="auto-orow col"><span>รัศมีรอบตัว<small>เดินหามอนรอบตัวในระยะนี้</small></span>
+            <div class="auto-radius">${Object.entries({ near: 'ใกล้', mid: 'กลาง', far: 'ไกล', map: 'ทั้งแผนที่ปัจจุบัน' }).map(([k, t]) => `<button type="button" data-range="${k}" aria-pressed="${s.range === k}">${t}${k === 'map' ? '' : ` ${AUTO_RANGES[k]} ม.`}</button>`).join('')}</div></div>
           <div class="auto-orow"><span>ของที่ตก<small>เข้ากระเป๋าเองอยู่แล้ว</small></span><b class="auto-good">อัตโนมัติ</b></div>
           <p class="auto-note">AUTO ทำงานเฉพาะตอนออนไลน์ · ใช้สกิลเองเมื่อไหร่ AUTO จะหยุด</p></div>
       </div>
