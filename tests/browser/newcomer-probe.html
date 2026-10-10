@@ -1,0 +1,60 @@
+<!doctype html><meta charset="utf-8"><title>Newcomer browser check</title>
+<body style="margin:0"><pre id="out">pending</pre>
+<script type="module">
+import { Character } from '/src/character/Character.js';
+import { NEWCOMER_QUESTS } from '/src/data/quests.js';
+const params=new URLSearchParams(location.search),mobile=params.get('mobile');
+const width=mobile==='landscape'?844:mobile?390:1600,height=mobile==='landscape'?390:mobile?844:900;
+const R={steps:[],shots:{},uiShots:{},errors:[]},out=document.getElementById('out');
+const step=(name,pass)=>{R.steps.push([name,pass]);if(!pass)throw Error(name);};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+localStorage.clear();Character.create('ผู้มาใหม่ทดสอบ','shaman','male').save();
+sessionStorage.setItem('tno.session.v1',JSON.stringify({id:'guest',guest:true,prefix:''}));
+const f=document.createElement('iframe');f.style.cssText=`width:${width}px;height:${height}px;border:0;display:block`;
+f.src=`/?at=-9,-101&t=22${mobile?'&touch=1':''}`;document.body.prepend(f);
+try{
+  const end=Date.now()+240000;
+  while(Date.now()<end&&!f.contentWindow.game?.quests?.character)await sleep(250);
+  const w=f.contentWindow,g=w.game,d=w.document;
+  step('character+quests ready',!!g?.quests?.character);
+  step('full guide initially closed',w.getComputedStyle(d.getElementById('newcomer-guide')).display==='none');
+  w.addEventListener('error',e=>R.errors.push(e.message));
+  step('night first quest offered',g.quests.offers(NEWCOMER_QUESTS[0].giver).length>0);
+  const npc=g.npcs.npcs.find(n=>n.id===NEWCOMER_QUESTS[0].giver);
+  step('night keeper visible',!!npc&&!npc.hidden);
+  g.talking=npc;g.hud.openDialogue(npc,g.npcs.label(npc),npc.def.dialogue[0]);g.refreshDialogue();
+  step('keeper has accept button',!!d.querySelector(`button[data-quest="${NEWCOMER_QUESTS[0].id}"]`));
+  d.querySelector(`button[data-quest="${NEWCOMER_QUESTS[0].id}"]`).click();
+  step('accept button accepts real quest',g.quests.status(NEWCOMER_QUESTS[0].id)==='active');
+  g.closeDialogue();g.questUI.toggleJournal(true);
+  step('reward preview visible',d.getElementById('newcomer-guide').textContent.includes('รางวัล:'));
+  for(const panel of ['bag','map']){
+    g.questUI.toggleJournal(true);
+    d.querySelector(`#newcomer-guide button[data-panel="${panel}"]`).click();
+    step(`${panel} action opens panel`,panel==='map'?!d.getElementById('fullmap-panel').hidden:!g.game.characterUI.bag.hidden);
+    if(panel==='map')step('map selects route to quest destination',g.mapPanel.selected?.portal?.to==='paddy');
+    if(panel==='map')g.toggleMap();else g.game.characterUI.toggle('bag');
+  }
+  g.game.character.level=5;g.game.character.jobLevel=3;g.game.character.emit('change');
+  for(const panel of ['sheet','skills']){
+    g.questUI.toggleJournal(true);d.querySelector(`#newcomer-guide button[data-panel="${panel}"]`).click();
+    const root=panel==='skills'?g.game.characterUI.skills.root:g.game.characterUI.sheet;
+    step(`${panel} action opens panel`,!root.hidden);g.game.characterUI.toggle(panel);
+  }
+  g.game.character.level=3;g.game.character.emit('change');g.questUI.toggleJournal(true);
+  d.querySelector('#newcomer-guide button[data-panel="bestiary"]').click();
+  step('bestiary action opens',g.guide.open);g.guide.close();
+  g.game.character.level=1;g.game.character.emit('change');g.questUI.toggleJournal(true);
+  if(mobile)d.querySelector('.touch-rotate button')?.click();
+  await sleep(1500);
+  const root=d.querySelector('.exploration'),bounds=root.getBoundingClientRect();
+  step('journal fits viewport',bounds.left>=0&&bounds.right<=width+1&&bounds.top>=0&&bounds.bottom<=height+1);
+  step('no horizontal guide overflow',root.scrollWidth<=root.clientWidth+1);
+  step('touch targets at least 44px',[...d.querySelectorAll('#newcomer-guide button')].every(b=>b.getBoundingClientRect().height>=44));
+  step('summary targets at least 44px',[...d.querySelectorAll('#newcomer-guide summary')].filter(b=>b.getBoundingClientRect().height>0).every(b=>b.getBoundingClientRect().height>=44));
+  const close=d.getElementById('newcomer-journal-toggle').getBoundingClientRect();
+  step('close inside journal header',close.left>=bounds.left&&close.right<=bounds.right&&close.top>=bounds.top&&close.bottom<=bounds.bottom);
+  R.uiShots[mobile||'desktop']={width,height};
+}catch(e){R.errors.push(String(e.stack??e));}
+R.steps.push(['done',true]);out.textContent='QA_RESULT '+JSON.stringify(R);
+</script>

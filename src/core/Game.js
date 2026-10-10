@@ -21,6 +21,8 @@ import { QUESTS } from '../data/quests.js';
 import { SHOPS } from '../data/shops.js';
 import { QuestSystem } from '../quest/QuestSystem.js';
 import { QuestUI } from '../ui/QuestUI.js';
+import { NEWCOMER_GUIDE } from '../data/newcomer-guide.js';
+import { newcomerDestination } from '../quest/newcomerJourney.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { PostFX } from '../world/PostFX.js';
 import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
@@ -49,7 +51,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get serviceModalOpen() { return !!(this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get serviceModalOpen() { return !!(document.body.classList.contains('newcomer-journal-open') || this.warp?.open || this.guide?.open || this.storage?.open || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -86,6 +88,15 @@ export class Game {
     // Quests and vendors attach to the character once one exists (after creation or load).
     this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id), storage: slotStorage });
     this.questUI = new QuestUI(this.quests, {
+      onPanel: panel => {
+        if (panel === 'map') this.locateNewcomerGoal();
+        else if (panel === 'bestiary') this.guide?.show?.();
+        else if (['bag', 'sheet', 'skills'].includes(panel)) {
+          const ui = this.game?.characterUI;
+          const root = panel === 'skills' ? ui?.skills.root : ui?.[panel];
+          if (root?.hidden) ui.toggle(panel);
+        } else { this.questUI.toggleJournal(true); this.questUI.guide.scrollIntoView({ block: 'nearest' }); }
+      },
       // accepting / finishing a quest is a line in the feed, not a popup
       onAccept: id => { if (this.quests.accept(id)) this.game?.hud?.feed?.log(`รับเควส · ${this.quests.defs.get(id).title}`, 'gold'); this.refreshDialogue(); },
       onComplete: id => { if (this.quests.complete(id)) this.game?.hud?.feed?.log(`เควสสำเร็จ · ${this.quests.defs.get(id).title}`, 'gold'); this.refreshDialogue(); },
@@ -148,6 +159,7 @@ export class Game {
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (document.body.classList.contains('newcomer-journal-open')) return this.questUI.toggleJournal(false);
       if (this.storage.open) return this.storage.close();
       if (this.guide.open) return this.guide.close();
       if (this.warp.open) return this.warp.close();
@@ -447,6 +459,21 @@ export class Game {
     }
     if ($('fullmap-panel').hidden) this.toggleMap();
     if (entry) this.mapPanel.select(entry);
+  }
+  locateNewcomerGoal() {
+    const goal = newcomerDestination(this.quests, NEWCOMER_GUIDE);
+    if ($('fullmap-panel').hidden) this.toggleMap();
+    if (!goal) return;
+    this.mapPanel.category='all'; this.mapPanel.query=''; $('map-search').value='';
+    let entry;
+    if(goal.map!==this.maps.map.id) {
+      const portal=nextPortal(this.maps.map.id,goal.map);
+      entry=this.minimap.directory.find(e=>e.portal?.id===portal?.id);
+    } else {
+      entry=this.minimap.directory.find(e=>(goal.npcId&&e.npcId===goal.npcId)||(goal.id&&e.id===goal.id));
+      if(!entry)entry={...goal,id:`quest:${goal.npcId}`,category:'training',glyph:'travel',tag:'เป้าหมายเควส',goal};
+    }
+    if(entry)this.mapPanel.select(entry);
   }
   // What the minimap draws on top of the painted map (refreshed with the HUD, ~8 times a second).
   minimapState() {
