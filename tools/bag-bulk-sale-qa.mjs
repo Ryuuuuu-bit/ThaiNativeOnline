@@ -51,7 +51,7 @@ try {
     await page.setViewportSize({ width, height });
     await page.goto('http://127.0.0.1:5197/tools/bag-bulk-sale-fixture.html');
     await page.evaluate(async mobile => {
-      for (const css of ['/src/style.css', '/src/ui/theme.css', '/src/ui/layout.css', '/src/ui/dynamic-hud.css', '/src/ui/touch.css', '/src/ui/mobile-hud.css', '/src/net/net.css']) await import(css);
+      for (const css of ['/src/style.css', '/src/ui/theme.css', '/src/ui/layout.css', '/src/ui/icon-theme.css', '/src/ui/dynamic-hud.css', '/src/ui/touch.css', '/src/ui/mobile-hud.css', '/src/net/net.css']) await import(css);
       const { Character } = await import('/src/character/Character.js');
       const { CharacterUI } = await import('/src/character/ui/CharacterUI.js');
       const { ShopPanel } = await import('/src/ui/ShopPanel.js');
@@ -61,7 +61,7 @@ try {
       const c = Character.create('Bag QA', 'warrior'); c.gold = 12345;
       const ids = ['potion_s', 'potion_m', 'hide', 'tusk', 'iron_dap'];
       c.inventory = Array.from({ length: 500 }, (_, i) => ({ id: ids[i % ids.length], qty: i % 5 === 4 ? 1 : 3, ...(i % 37 === 0 ? { locked: true } : {}) }));
-      const enhanced = { id: 'iron_dap', qty: 1, plus: 10, cards: ['card_boar', 'card_boar'], roll: rollEquipment('iron_dap', { level: 100, random: () => .99 }) };
+      const enhanced = { id: 'dusk_fort_sword', qty: 1, plus: 10, cards: ['card_boar', 'card_boar'], roll: rollEquipment('dusk_fort_sword', { level: 100, random: () => .99 }) };
       c.inventory[499] = enhanced;
       const ui = new CharacterUI(document.querySelector('#fixture'), c, { log() {}, banner() {} }); ui.toggle('bag');
       const shop = new ShopPanel(() => {});
@@ -72,6 +72,7 @@ try {
     const suffix = `${width}x${height}`;
     await check(`500 occupied ${suffix}`, async () => {
       assert.equal(await page.locator('.g-grid .g-slot').count(), 500);
+      await page.waitForFunction(() => { const img = document.querySelector('.g-slot[data-index="499"] .painted-art > img'); return img?.complete && img.naturalWidth === 256; });
       assert.match(await page.locator('.g-bag-count').innerText(), /500 \/ 500/);
       await bounds('bag top ' + suffix, width > 900 ? ['.inventory-workspace', '.g-bag-search', '.g-bag-count'] : ['.inventory-workspace', '.g-bag-search'], width, height);
     });
@@ -140,10 +141,12 @@ try {
       await bounds('sale end ' + suffix, ['[data-pick="499"]'], width, height);
       const icon = await page.locator('[data-pick="499"]').evaluate(row => {
         const rect = el => { const r = el.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; };
-        return { holder: rect(row.querySelector('.sh-ic')), image: rect(row.querySelector('.icon-img')), text: rect(row.querySelector('.sh-tx')), headerBackground: getComputedStyle(document.querySelector('.sh-sale-tools')).backgroundColor };
+        const img = row.querySelector('.painted-art > img');
+        return { holder: rect(row.querySelector('.sh-ic')), image: rect(row.querySelector('.icon-img')), painted: rect(img), paintedLoaded: img.complete && img.naturalWidth === 256, objectFit: getComputedStyle(img).objectFit, text: rect(row.querySelector('.sh-tx')), headerBackground: getComputedStyle(document.querySelector('.sh-sale-tools')).backgroundColor };
       });
       receipt.bounds.push({ label: 'sale icon ' + suffix, ...icon });
       assert.ok(icon.image.x >= icon.holder.x - 1 && icon.image.y >= icon.holder.y - 1 && icon.image.x + icon.image.width <= icon.holder.x + icon.holder.width + 1 && icon.image.y + icon.image.height <= icon.holder.y + icon.holder.height + 1 && icon.image.x + icon.image.width <= icon.text.x + 1, `sale icon overlap: ${JSON.stringify(icon)}`);
+      assert.ok(icon.paintedLoaded && icon.objectFit === 'contain' && icon.painted.x >= icon.image.x - 1 && icon.painted.y >= icon.image.y - 1 && icon.painted.x + icon.painted.width <= icon.image.x + icon.image.width + 1 && icon.painted.y + icon.painted.height <= icon.image.y + icon.image.height + 1, `painted image bounds: ${JSON.stringify(icon)}`);
       await page.locator('[data-sale-qty="499"]').scrollIntoViewIfNeeded();
       await bounds('basket end ' + suffix, ['[data-sale-qty="499"]'], width, height);
       await page.locator('[data-sale-submit]').scrollIntoViewIfNeeded();
