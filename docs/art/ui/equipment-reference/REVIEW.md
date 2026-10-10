@@ -23,8 +23,8 @@ Changed implementation files:
 - public/ui/equipment/reference-panel-v1.webp
 - docs/art/ui/equipment-reference/ (reference, master, prompt, export receipt, review)
 
-Validation: npm test 998 total, 996 passed, zero failed, two existing skips.
-Latest build passed with 324 modules. Actual headless Edge desktop/mobile WebGL
+Validation: npm test 1006 total, 1004 passed, zero failed, two existing skips.
+Latest build passed with 325 modules. Actual headless Edge desktop/mobile WebGL
 checks passed: all ten slots, empty/populated states, locks, refinement, sockets,
 UID clipboard, focus across redraws, flask chooser Escape, Q/E meters, valid,
 wrong-slot and stale-instance drops, unchanged bag, stats and vertical scrolling.
@@ -40,3 +40,8 @@ replace the second ring when the equip API selects another destination.
 Small-screen long names and UIDs use ellipsis; UID copying retains the full value.
 QA uses local guest fixtures, makes no authenticated account writes and does not
 establish GPU performance. Production smoke is recorded separately after release.
+
+Combined release baseline includes inventory capacity 500 and bounded 32 decorative
+cells from PR85. Fresh desktop/mobile equipment and bag integration passed;
+combined-reference-desktop/mobile.png and combined-bag-desktop/mobile.png
+are stored with the QA evidence. The final source diff remains the 12 intended files.
