@@ -72,3 +72,10 @@ The controller interface is documented at the top of `ActionBar.js`. `hud.setSaf
 
 - Monster: add to `MONSTERS` (`shape` is one of `boar`, `tiger`, `monkey`, `spirit`, `krasue`; set `elite`/`boss`/`rare` as needed) and give it a `LOOT` table.
 - Skill: add to `SKILLS`. `kind` is `damage`, `aoe`, `buff`, `heal`, `debuff` or `pet`. Then reference the id from a class in `src/character/data/classes.js`.
+
+### Hooks for coordinated class skills
+
+- `statusEffects.js` reads live debuffs: strongest active armor break / weakness wins, capped at 60%. Distinct caster + skill sources keep independent expiry; `md` packets preserve these keys.
+- `kitCombat.rollBlow(..., rng, liveTarget)` grants the skill's optional `synergy` bonus once per blow when any condition is active, capped at 25%; DOT ticks never re-evaluate the bonus.
+- `effect.taunt: { ms, radius }` uses pixel radius. `KitCaster.applySelf` and server `Combatants.cast(..., { world, player })` challenge nearby enemies without a target or damage callback. Normal taunts cap at 8 seconds, bosses at 2; fixed boss telegraphs retain their aim.
+- Character support accepts `defFlat`, proportional `def`, `dodge`, `hot`, and `cleanse`. Defense takes strongest active flat and strongest proportional bonuses (proportional capped at 60%); cleansing removes negative effects immediately while preserving positive buffs.

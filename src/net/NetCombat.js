@@ -1,3 +1,4 @@
+import { sameStatusSource } from '../combat/statusEffects.js';
 import { Monster } from '../combat/Combat.js';
 import { RULES } from '../combat/data/rules.js';
 import { phaseOf } from '../core/WorldClock.js';
@@ -74,7 +75,7 @@ export function attachNetCombat(net, game) {
   // an effect the server landed on a monster (anyone's): stun / slow / damage over time
   net.on('md', msg => {
     const m = byId.get(msg.id); if (!m?.alive || !msg.d?.id) return;
-    m.debuffs = m.debuffs.filter(o => o.id !== msg.d.id);
+    m.debuffs = m.debuffs.filter(o => !sameStatusSource(o, msg.d));
     m.debuffs.push({ ...msg.d, remaining: msg.d.secs });
     combat.emit('debuffed', { monster: m, debuff: msg.d });
   });

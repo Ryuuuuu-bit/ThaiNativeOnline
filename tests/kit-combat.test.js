@@ -67,7 +67,7 @@ test('a blow against a monster uses its DEF and EVA (same formula as the dummy)'
 
 test('rules effects become Combat debuffs and Character buffs', () => {
   const e = hitEffects('boxer_elbow', 40);
-  assert.deepEqual(e.map(x => x.id).sort(), ['bleed', 'stun']);
+  assert.deepEqual(e.map(x => x.id).sort(), ['armorBreak', 'bleed', 'stun']);
   const bleed = e.find(x => x.id === 'bleed');
   assert.equal(bleed.source, 40); assert.ok(bleed.dot > 0 && bleed.duration > 0);
   const w = selfEffects('boxer_iron', 1, 20);
@@ -213,4 +213,9 @@ test('a target leaving skill reach before its hit takes no damage', () => {
   caster.update(2);
   assert.equal(events.filter(([n]) => n === 'hit').length, 0);
   assert.equal(caster.hitCasts.length, 0);
+});
+
+test('offline support cast challenges nearby monsters without selecting or hurting them', () => {
+  const {caster,combat,boar}=setup();const skill=SKILL_BY_ID.boxer_waikru,old=skill.effect;skill.effect={taunt:{ms:4000,radius:140}};
+  try {combat.setTarget(null);const hp=boar.hp;const i=caster.slots.findIndex(s=>s.id==='boxer_waikru');assert.equal(caster.cast(i),true);assert.equal(boar.hp,hp);assert.equal(boar.state,'chase');assert.equal(boar.debuffs.some(d=>d.taunt),true);}finally{skill.effect=old;}
 });

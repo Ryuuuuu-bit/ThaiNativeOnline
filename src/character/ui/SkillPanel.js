@@ -79,9 +79,20 @@ function yourNumbers(c, kitSkill, id, lv) {
     if (typeof value !== 'number') continue;
     const [label, format] = BUFF_TH[k] ?? [k, n => n]; rows.push([label, String(format(value))]);
   }
+  if (v.self?.buff?.cleanse || v.stats.buff?.cleanse) rows.push(['ล้างสถานะ', 'ล้างพิษ เชื่องช้า มึน และความเสียหายต่อเนื่องเมื่อรับบัฟ']);
+  if (v.self?.buff?.dodge) rows.push(['หลบการโจมตี', '+' + Math.round(v.self.buff.dodge * 100) + '% โอกาสหลบระหว่างบัฟ']);
+  if (v.self?.buff?.hot) rows.push(['ฟื้นตัวต่อเนื่อง', (v.self.buff.hot * 100).toFixed(1) + '% HP สูงสุด / วิระหว่างบัฟ']);
+  if (v.synergy) {
+    const names = { stun: 'มึน', slow: 'เชื่องช้า', poison: 'พิษ', bleed: 'เลือดไหล', burn: 'ไฟลุก', armorBreak: 'เกราะแตก', weak: 'อ่อนแรง' };
+    const conditions = (v.synergy.conditions ?? []).map(k => names[k] ?? k).join(' / ');
+    rows.push(['จังหวะร่วมทีม', esc(v.synergy.label ?? 'ใช้ประโยชน์จากสถานะศัตรู')]);
+    rows.push(['เงื่อนไข', 'เป้าหมายมี ' + esc(conditions)]);
+    rows.push(['โบนัสเมื่อเข้าเงื่อนไข', '+' + Math.round(Math.min(.25, Math.max(0, v.synergy.damageBonus)) * 100) + '% ดาเมจ · ใช้โบนัสครั้งเดียวแม้ติดหลายสถานะ']);
+  }
   if (v.duration) rows.push(['ระยะเวลาผล', v.duration.toFixed(1) + ' วิ']);
   if (v.splash) rows.push(['พื้นที่', v.splash.chain ? 'ส่งต่ออีก ' + v.splash.chain + ' เป้าใน ' + v.splash.radius + ' ม.' : v.splash.line ? 'แนวยาว ' + v.splash.length + ' ม. กว้าง ' + v.splash.width + ' ม.' : v.splash.cone ? 'พัดระยะ ' + v.splash.length + ' ม.' : 'รัศมี ' + v.splash.radius.toFixed(1) + ' ม. รอบ' + (v.splash.around === 'self' ? 'ตัวเอง' : 'เป้าหมาย')]);
-  for (const effect of v.effects) rows.push([effect.label, effect.duration.toFixed(1) + ' วิ' + (effect.slow ? ' · ช้า ' + Math.round(effect.slow * 100) + '%' : effect.dot ? ' · ต่อวินาที ' + (effect.dot * 100).toFixed(1) + '% ของดาเมจแรก' : '')]);
+  for (const effect of v.effects) rows.push([effect.label, effect.duration.toFixed(1) + ' วิ' + (effect.slow ? ' · ช้า ' + Math.round(effect.slow * 100) + '%' : effect.armorBreak ? ' · ลด DEF ' + Math.round(effect.armorBreak * 100) + '%' : effect.weak ? ' · ลดการโจมตี ' + Math.round(effect.weak * 100) + '%' : effect.dot ? ' · ต่อวินาที ' + (effect.dot * 100).toFixed(1) + '% ของดาเมจแรก' : '')]);
+  if (v.effectSpec?.taunt) rows.push(['ยั่วยุ', 'รับเป้าในรัศมี ' + ((v.effectSpec.taunt.radius ?? v.stats.radius ?? 140) / RULES.kit.pxPerMeter).toFixed(1) + ' ม. · ศัตรูทั่วไป ' + (Math.min(8000, v.effectSpec.taunt.ms) / 1000).toFixed(1) + ' วิ · บอสไม่เกิน 2 วิ']);
   for (const key of ['poison', 'bleed', 'burn']) { const dot = v.effectSpec?.[key]; if (dot) rows.push(['สูตร ' + ({ poison: 'พิษ', bleed: 'เลือดไหล', burn: 'ไฟลุก' }[key]), 'ดาเมจแรก × ' + dot.ratio + ' × 1000/' + dot.every + ' ต่อวินาที · ระยะ ' + dot.ticks + ' × ' + (dot.every / 1000) + ' = ' + (dot.ticks * dot.every / 1000).toFixed(1) + ' วิ (ยอดเพิ่มนี้ไม่รวมในดาเมจตรง)']); }
   rows.push(['ใช้ SP', fmt(v.mp)], ['คูลดาวน์จริง', v.cooldown.toFixed(2) + ' วิ'], ['เวลาร่ายจริง', v.cast.toFixed(2) + ' วิ'], ['ระยะใช้สกิล', v.range.toFixed(1) + ' ม.']);
   return '<div class="g-yours"><span class="g-yours-h">ระบบคำนวณจากค่าสถานะปัจจุบัน · สกิล Lv ' + v.level + '</span>' + rows.map(([k,value]) => '<div><span>' + esc(k) + '</span><em>' + value + '</em></div>').join('') + '<small>ดาเมจนี้ก่อนหักเกราะ ไม่รวมโบนัสที่ขึ้นกับชนิดเป้าหมายหรือ PvP; การพลาด ระยะ การเคลื่อนที่ และผลซ้ำอาจทำให้ยอดจริงต่างกัน ผลฮีล/ฟื้น SP เป็นของคุณ สมาชิกปาร์ตี้ที่คิดเป็น % ใช้ค่าสูงสุดของคนนั้น ผลจริงไม่เกิน HP/SP ที่ขาด</small></div>';
@@ -218,6 +229,8 @@ export class SkillPanel {
       : ROWS.filter(([, has]) => has(now) || has(nx)).map(([k, has, f]) => `<div><span>${k}</span><b>${!lv || maxed ? f(lv ? now : nx) : `${f(now)} → <i>${f(nx)}</i>`}</b></div>`).join('');
     const pips = Array.from({ length: MAX_SKILL_LEVEL }, (_, i) => `<i class="${i < lv ? 'on' : ''}"></i>`).join('');
     const paths = EVOLUTIONS[s.id], ready = lv >= EVO_LEVEL;
+    const effective = SKILL_BY_ID[c.skillVariant(s.id)] ?? SKILL_BY_ID[s.id];
+    const description = paths?.[c.evo[s.id]]?.desc ?? effective?.desc ?? s.desc;
     const evoHtml = !paths ? '' : `<div class="g-sk-evo"><span>ทางเลือก A / B ${ready ? '' : `<small>เปิดที่สกิล Lv.${EVO_LEVEL}</small>`}</span><small>เลือกครั้งแรกฟรี · เปลี่ยนสาย Job Lv × 10 ตำลึง (${c.jobLevel * 10}) · นอกการต่อสู้ หลังจบผลสกิล (คูลดาวน์เดิมคงอยู่)</small>${['A', 'B'].map(p => {
       const on = c.evo[s.id] === p, cost = c.evoCost(s.id, p);
       const why = c.evoBlock(s.id, p), previewCharacter = new Character({ ...c.toJSON(), evo: { ...c.evo, [s.id]: p } });
@@ -228,11 +241,11 @@ export class SkillPanel {
       return `<div class="g-path-option"><button type="button" data-evo="${s.id}:${p}" class="${on ? 'on' : ''}" ${ready && !why ? '' : 'disabled'} title="${esc(why ?? paths[p].desc)}" style="--evo:${paths[p].color}"><b>${p}</b> ${esc(paths[p].name)}${on ? ' ✓' : cost && ready ? ` · ${cost} ตำลึง` : ready ? ' · ฟรี' : ''}<small>${esc(paths[p].desc)}</small>${why && !on ? `<small>${esc(why)}</small>` : ''}</button><details><summary>ดูผลที่คำนวณ · สาย ${p}${lv < EVO_LEVEL ? ` · ตัวอย่าง Lv.${EVO_LEVEL}` : ''}</summary>${details}</details></div>`;
     }).join('')}${this.pendingEvo?.id === s.id ? `<div class="g-evo-confirm" role="group" aria-label="ยืนยันเปลี่ยนสาย"><p>ยืนยัน ${esc(paths[this.pendingEvo.pick].name)} · ${this.pendingEvo.cost ? `${this.pendingEvo.cost} ตำลึง` : 'เลือกครั้งแรกฟรี'}<br>ยอดปัจจุบัน ${fmt(c.gold)} → ${fmt(c.gold - this.pendingEvo.cost)} ตำลึง</p><button type="button" data-evo-confirm>ยืนยัน</button><button type="button" data-evo-cancel>ยกเลิก</button></div>` : ''}</div>`;
     const label = locked ? esc(treeBlock) : maxed ? 'เลเวลสูงสุดแล้ว' : block ?? (lv ? 'อัปเลเวล <small>ใช้ 1 แต้ม</small>' : 'เรียนสกิล <small>ใช้ 1 แต้ม</small>');
-    card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${s.passive ? 'ติดตัว · ไม่ต้องร่าย ไม่กินช่องลัด' : `${TYPE_TH[SKILL_BY_ID[s.id]?.type] ?? 'สกิล'} · ${SKILL_BY_ID[s.id]?.kind === 'physical' ? 'กายภาพ' : SKILL_BY_ID[s.id]?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}`}</small><div class="g-pips">${pips}</div></div>
+    card.innerHTML = `<div class="g-skd-head"><span class="g-ic">${s.icon ? assetIcon(s.icon) : ''}</span><div><b>${esc(s.name)}</b><small>${s.passive ? 'ติดตัว · ไม่ต้องร่าย ไม่กินช่องลัด' : `${TYPE_TH[effective?.type] ?? 'สกิล'} · ${effective?.kind === 'physical' ? 'กายภาพ' : effective?.kind === 'magic' ? 'เวทย์' : 'สนับสนุน'}`}</small><div class="g-pips">${pips}</div></div>
         <span class="g-skd-lv">Lv ${lv}/${MAX_SKILL_LEVEL}<small>${locked ? 'ยังไม่ปลด' : lv ? 'เรียนแล้ว' : 'เรียนได้'}</small></span></div>
       ${cmp ? `<div class="g-cmp">${cmp}</div>` : ''}
       ${s.passive ? '' : yourNumbers(c, s, c.skillVariant(s.id), lv)}
-      ${s.desc ? `<p class="g-skd-desc">${esc(s.desc)}</p>` : ''}
+      ${description ? `<p class="g-skd-desc">${esc(description)}</p>` : ''}
       ${evoHtml}
       <div class="g-reqs"><span><b class="g-lvtag">ปลด</b><span class="${c.jobLevel >= need ? 'ok' : 'no'}">${c.jobLevel >= need ? '✓' : '✗'} Job Lv ${need}</span></span>${reqs.map(([k, n]) => `<span><b class="g-lvtag">ก่อน</b><span class="${c.skillLevel(k) >= n ? 'ok' : 'no'}">${c.skillLevel(k) >= n ? '✓' : '✗'} ${esc(this.name(k))} Lv ${n}</span></span>`).join('')}<span><b class="g-lvtag">แต้ม</b><span class="${c.skillPoints > 0 ? 'ok' : 'no'}">${c.skillPoints > 0 ? '✓' : '✗'} เหลือ ${c.skillPoints} แต้ม</span></span></div>
       <button type="button" class="g-skd-up" data-learn="${s.id}" ${block ? 'disabled' : ''}>${label}</button>`;

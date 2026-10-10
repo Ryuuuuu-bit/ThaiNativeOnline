@@ -113,6 +113,23 @@ for (const [id, paths] of Object.entries(PROPOSED_PASSIVE_PATHS)) {
   PASSIVE_PATH_BONUSES[id] = Object.fromEntries(Object.entries(paths).map(([pick, path]) => [pick, path.bonusPerLevel]));
 }
 
+// Preserve role-defining setup even where an evolution replaces the whole effect object.
+const sharedSetup = {
+  sword_thrust: { armorBreak: { ms: 6000, pct: .30 } },
+  boxer_kick: { weak: { ms: 5000, pct: .25 } },
+  boxer_elbow: { armorBreak: { ms: 4000, pct: .15 } },
+  boxer_ngouy: { armorBreak: { ms: 8000, pct: .40 } },
+  arch_garuda: { weak: { ms: 5000, pct: .20 } },
+  arch_volley: { armorBreak: { ms: 5000, pct: .25 } },
+  mage_curse: { weak: { ms: 5000, pct: .20 }, armorBreak: { ms: 5000, pct: .20 } },
+  heal_zone: { weak: { ms: 4000, pct: .10 } },
+};
+for (const [id, effects] of Object.entries(sharedSetup)) {
+  for (const path of Object.values(EVOLUTIONS[id] ?? {})) {
+    path.effect = { ...(path.effect ?? SKILL_BY_ID[id].effect), ...effects };
+  }
+}
+
 const META = new Set(['name', 'desc', 'color', 'passive', 'bonusPerLevel']);
 // cast times, then the paths (which inherit them unless they set their own)
 for (const [id, ms] of Object.entries(CAST_MS)) if (SKILL_BY_ID[id]) SKILL_BY_ID[id].castMs = ms;

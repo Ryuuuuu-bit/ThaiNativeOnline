@@ -42,5 +42,8 @@ export function skillPreview(id, level, stats, options = {}) {
     restoreMp: self ? Math.round((stats.maxMp ?? 0) * self.mp) : 0,
     duration: (st.duration ?? 0) / 1000,
     effects: hitEffects(id, 1), effectSpec: base.effect ?? null,
+    // The damage estimate above is unconditional. Show the setup separately so
+    // players can compare a solo cast with a cast that uses a teammate's control.
+    synergy: base.synergy ?? null,
     stats: st };
 }

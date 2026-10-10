@@ -1,6 +1,5 @@
 import { RULES } from '../combat/data/rules.js';
-import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, within } from './kitCombat.js';
-import { rollSkill } from './damage.js';
+import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, tauntOf, within } from './kitCombat.js';
 import { allyTarget, createTargetProxy, monsterTarget, stubTarget } from './targets.js';
 import { evoOf } from '../rules/data/evolutions.js';
 import { skillHitSchedule } from '../rules/skillHits.js';
@@ -154,8 +153,10 @@ export class KitCaster {
 
   applySelf(id) {
     const c = this.character, e = selfEffects(this.eid(id), Math.max(1, this.lv(id)), c.defense, this.stats()?.matk ?? 0, c.healPow ?? 1);
-    if (!e) return;
     const p = this.player.position;
+    const taunt = tauntOf(this.eid(id));
+    if (taunt) for (const m of within(this.combat.monsters, p, taunt.radius)) this.combat.debuff(m, { id: 'taunt', taunt: true, duration: taunt.duration, label: 'ยั่วยุ' });
+    if (!e) return;
     if (e.heal || e.hp) { const amount = c.heal(c.maxHp * e.heal + e.hp); if (amount) this.combat.emit('heal', { amount, x: p.x, z: p.z }); }
     if (e.mp) { c.mp = Math.min(c.maxMp, Math.round(c.mp + c.maxMp * e.mp)); c.emit('change'); }
     if (e.buff) c.addBuff(e.buff);
@@ -205,7 +206,7 @@ export class KitCaster {
         const m = cast.monster, sp = cast.info.splash;
         if (!m.alive || dist(m, this.player.position) > cast.info.range + 1.5) continue;
         if (sp?.around === 'self' && dist(m, this.player.position) > sp.radius) continue;
-        const roll = rollBlow(this.stats(), monsterDefense(m.def), cast.eff, cast.lv);
+        const roll = rollBlow(this.stats(), monsterDefense(m), cast.eff, cast.lv, Math.random, m);
         this.hurt(m, roll.dmg, roll.crit, true, cast, roll.hit);
       }
     }
@@ -217,8 +218,8 @@ export class KitCaster {
   // runners show MISS (they fall back to the effect's own number when dmg is 0).
   roll(id) {
     this.lastSkill = id;
-    const t = this.proxy.current, defense = t?.monster ? monsterDefense(t.monster.def) : this.dummyDefense();
-    const r = rollSkill(this.stats(), defense, this.eid(id), Math.max(1, this.lv(id)));
+    const t = this.proxy.current, defense = t?.monster ? monsterDefense(t.monster) : this.dummyDefense();
+    const r = rollBlow(this.stats(), defense, this.eid(id), Math.max(1, this.lv(id)), Math.random, t?.monster);
     return r.hit ? r : { ...r, dmg: -1 };
   }
   adapter(m) {
@@ -234,7 +235,7 @@ export class KitCaster {
   hurt(m, amount, crit, exact, cast = null, hit = true) {
     if (!m.alive) return 0;
     const id = cast?.id ?? this.runner.current ?? this.lastSkill, eff = cast?.eff ?? this.eid(id), lv = cast?.lv ?? Math.max(1, this.lv(id));
-    const r = exact ? { hit, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m.def), eff, lv);
+    const r = exact ? { hit, crit, dmg: amount } : rollBlow(this.stats(), monsterDefense(m), eff, lv, Math.random, m);
     this.strike(m, r, id, cast);
     if (!r.hit) return 0;
     const info = cast?.info ?? this.infos[this.slots.findIndex(s => s.id === id)];
@@ -242,14 +243,14 @@ export class KitCaster {
     if (sp?.line || sp?.cone) {
       // a piercing shot / a fan: everyone else on its path takes one blow per cast
       const splashed = cast?.splashed ?? (this.splashed ??= new Set());
-      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!splashed.has(o)) { splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id, cast); }
+      for (const o of inShape(this.combat.monsters, this.player.position, m, sp, m)) if (!splashed.has(o)) { splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o), eff, lv, Math.random, o), id, cast); }
     } else if (sp?.chain) {
       // a chain (an evolution path): the blow jumps on to the nearest few, each once per cast
       const splashed = cast?.splashed ?? (this.splashed ??= new Set());
-      for (const o of within(this.combat.monsters, m, sp.radius, m).filter(o => !splashed.has(o)).slice(0, sp.chain)) { splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id, cast); }
+      for (const o of within(this.combat.monsters, m, sp.radius, m).filter(o => !splashed.has(o)).slice(0, sp.chain)) { splashed.add(o); this.strike(o, rollBlow(this.stats(), monsterDefense(o), eff, lv, Math.random, o), id, cast); }
     } else if (sp) {
       const center = sp.around === 'self' ? this.player.position : m;
-      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o.def), eff, lv), id, cast);
+      for (const o of within(this.combat.monsters, center, sp.radius, m)) this.strike(o, rollBlow(this.stats(), monsterDefense(o), eff, lv, Math.random, o), id, cast);
     }
     return r.hit ? r.dmg : 0;
   }
