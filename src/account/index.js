@@ -19,6 +19,18 @@ import '../character/ui/character.css';
 import './account.css';
 
 import { readSession, writeSession } from './session.js';
+import { setAccountPicture } from './AccountPortrait.js';
+
+async function refreshAccountProfile(session) {
+  let timer;
+  try {
+    session.google = !session.guest && session.store?.me ? (await Promise.race([
+      session.store.me(), new Promise(resolve => { timer = setTimeout(() => resolve(null), 3000); }),
+    ]))?.google ?? null : null;
+  } catch { session.google = null; }
+  finally { clearTimeout(timer); }
+  setAccountPicture(session.google?.picture);
+}
 
 export async function enterGame(root) {
   // With the game server (Railway) accounts and saves live there; without it (plain dev) in this browser.
@@ -52,6 +64,7 @@ export async function enterGame(root) {
   // a signed-in character is kept on the server while playing (guests stay in this browser)
   if (remote && !session.guest && store.token && Number.isInteger(session.slot)) session.sync = startSaveSync(store, session.id, session.slot);
   session.store = store;
+  await refreshAccountProfile(session);
   addSettingsButtons(session);
   return session;
 }
@@ -64,7 +77,7 @@ function addSettingsButtons(session) {
   row.addEventListener('click', e => {
     const act = e.target.closest('[data-acc]')?.dataset.acc;
     if (!act) return;
-    if (act === 'google') { linkGoogle(row, session.store); return; }
+    if (act === 'google') { linkGoogle(row, session); return; }
     session.sync?.push(true);
     if (act === 'logout') session.store?.logout?.();
     writeSession(act === 'switch' ? { id: session.id, guest: session.guest, token: session.token } : null);
@@ -72,19 +85,20 @@ function addSettingsButtons(session) {
   });
   settings.appendChild(row);
   // already linked to Google (or signed in with it): say so instead of offering the link
-  if (row.querySelector('[data-acc="google"]')) session.store.me?.().then(r => {
-    if (!r?.google) return;
-    const note = Object.assign(document.createElement('small'), { className: 'acc-linked', textContent: `✓ ผูกกับ Google แล้ว${r.google.email ? ` · ${r.google.email}` : ''}` });
+  if (row.querySelector('[data-acc="google"]') && session.google) {
+    const note = Object.assign(document.createElement('small'), { className: 'acc-linked', textContent: `✓ ผูกกับ Google แล้ว${session.google.email ? ` · ${session.google.email}` : ''}` });
     row.querySelector('[data-acc="google"]').replaceWith(note);
-  }).catch(() => {});
+  }
 }
 
 // Settings → "ผูกบัญชี Google": Google's button, then the link on the server.
-function linkGoogle(row, store) {
+function linkGoogle(row, session) {
+  const store = session.store;
   const box = row.querySelector('.acc-google-link'), btn = row.querySelector('[data-acc="google"]');
   box.hidden = false; btn.hidden = true;
   renderGoogleButton(box, store.googleClientId, async credential => {
     const r = await store.linkGoogle(credential);
+    if (r.ok) await refreshAccountProfile(session);
     box.replaceChildren(Object.assign(document.createElement('small'), { textContent: r.ok ? 'ผูกบัญชี Google แล้ว · ครั้งหน้ากดเข้าสู่ระบบด้วย Google ได้เลย' : r.msg ?? 'ผูกไม่สำเร็จ' }));
   }, { text: 'continue_with' }).catch(() => { box.textContent = 'โหลดปุ่ม Google ไม่ได้'; });
 }

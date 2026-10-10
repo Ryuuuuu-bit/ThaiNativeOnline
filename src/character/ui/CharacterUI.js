@@ -13,6 +13,7 @@ import { refineBonus } from '../data/refine.js';
 import { MAX_JOB_LEVEL } from '../data/progression.js';
 import { LOADOUT_COUNT, isItemLocked } from '../itemState.js';
 import { SKILLS as LEGACY_SKILLS } from '../../combat/data/skills.js';
+import { bindAccountPortrait } from '../../account/AccountPortrait.js';
 
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
@@ -88,6 +89,7 @@ export class CharacterUI {
         <div class="g-buffs"></div>
       </div>`);
     this.layer.append(this.frame);
+    this.stopAccountPortrait = bindAccountPortrait(this.frame.querySelector('.g-portrait'));
   }
   // Potion and menu buttons; the combat HUD places them on its action bar.
   buildQuickButtons() {

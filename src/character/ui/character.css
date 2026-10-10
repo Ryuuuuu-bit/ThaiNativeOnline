@@ -155,6 +155,10 @@
 /* Class art (src/ui/icons.js): portrait in a gold ring, or a gold line emblem. */
 .g-portrait{overflow:hidden;padding:0}
 .g-portrait .cls-badge{width:100%;height:100%;border-radius:2px;border:0;box-shadow:none}
+.g-player .g-account-photo{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);object-fit:cover;object-position:center;border-radius:50%;pointer-events:none}
+.g-player .g-account-photo[hidden]{display:none}
+.g-player .g-portrait[data-portrait=google]>.cls-badge{visibility:hidden}
+.g-player .g-lv{z-index:1}
 .g-class-icon .cls-badge{width:52px;height:52px}
 .g-class-locked .g-shadow svg{display:block}
 .g-buffs i{display:inline-flex;align-items:center;gap:3px;padding:1px 4px 1px 1px}
