@@ -27,7 +27,7 @@ for(const p of PADDY_TRAILS)path(p.points,p.width,'#d0bc8e');
 for(const [x,z]of [[-81,-125],[-49,-124],[-66,-128],[-44,-165],[-98,-190]]){el('rect',{x:x-3,y:z-2,width:6,height:4,rx:.4,fill:'#be9f68',stroke:'#4e3b28','stroke-width':.5});path([[x-3,z],[x,z-2.2],[x+3,z]],.7,'#dcc593');}
 text(-65,-145,'หมู่บ้านชาวนา','region');text(-67,-211,'นาข้าว / ร่องน้ำ','region');text(65,-188,'สวนผลไม้','region');
 el('circle',{cx:12,cy:-284,r:7,fill:'#708147'});el('circle',{cx:12,cy:-284,r:3.8,fill:'#8e9954'});text(21,-275,'ต้นไทรโบราณ','tiny');
-for(const p of MAPS.paddy.portals){el('circle',{cx:p.at.x,cy:p.at.z,r:3.2,fill:'none',stroke:'#a3ddbd','stroke-width':1});text(p.at.x,p.at.z+(p.to==='city'?8:-7),p.to==='city'?'กลับนครอโยธยา':'สู่ป่าลึก','label');}
+for(const p of MAPS.paddy.portals){el('circle',{cx:p.at.x,cy:p.at.z,r:3.2,fill:'none',stroke:'#a3ddbd','stroke-width':1});text(p.at.x,p.at.z+(p.to==='city'?8:-7),p.to==='city'?'กลับนครที่ถูกลืมเลือน':'สู่ป่าลึก','label');}
 const order=['hunt_rice_edge','rice_fowl','orchard_boars','paddy_channels','orchard_monkeys','hunt_paddy_loop_7','grassland','hunt_banyan'];
 const names=['คันนาฝึกหัด','ทุ่งไก่ป่า','สวนหมูป่า','ร่องน้ำงูเห่า','สวนลิงกัง','ทุ่งปูนา','ทุ่งหญ้าชายป่า','เงาต้นไทร'];
 const camps=order.map(id=>huntingFor('paddy').find(c=>c.id===id)), buttons=[];

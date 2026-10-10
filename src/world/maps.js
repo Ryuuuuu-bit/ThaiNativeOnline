@@ -1,5 +1,5 @@
 // Map registry, Ragnarok-style: one map is loaded at a time and maps are linked
-// by portals. นครอโยธยา lies inside the city walls; north of the wall the land
+// by portals. นครที่ถูกลืมเลือน lies inside the city walls; north of the wall the land
 // is split into three zone maps along the bands where the scenery changes:
 //   paddy       ทุ่งนาข้าว   rice fields, farmers' village, orchards, banyan (Lv 1-3)
 //   deep_forest ป่าลึก       forest gate, dense forest, log bridge, deep forest (Lv 2-5)
@@ -57,7 +57,7 @@ const FULL_X = { minX: -122, maxX: 122 };
 
 export const MAPS = {
   city: {
-    id: 'city', name: 'นครอโยธยา', sub: 'ราชธานีริมแม่น้ำ', safe: true, theme: 'city', levels: null,
+    id: 'city', name: 'นครที่ถูกลืมเลือน', sub: 'ราชธานีริมแม่น้ำ', safe: true, theme: 'city', levels: null,
     intro: { title: 'เมืองแห่งสายน้ำ', text: 'ตลาด วัด และลานฝึกริมแม่น้ำ\nประตูวาปทิศเหนือพาออกสู่ทุ่งนา' },
     owns: { minZ: SEAM_Z, maxZ: BOUNDS.maxZ },
     walk: [

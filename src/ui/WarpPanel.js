@@ -52,7 +52,7 @@ export class WarpPanel {
     const service = getWarpService(npc.id);
     if (!service) return;
     this.previousFocus = document.activeElement; this.service = service; this.selected = null; this.category = this.map() === 'city' ? 'city' : 'field';
-    this.$('#warp-search').value = ''; this.$('#warp-keeper').textContent = `${service.name} · ${this.map() === 'city' ? 'นครอโยธยา' : 'ศาลาพักทาง'}`;
+    this.$('#warp-search').value = ''; this.$('#warp-keeper').textContent = `${service.name} · ${this.map() === 'city' ? 'นครที่ถูกลืมเลือน' : 'ศาลาพักทาง'}`;
     this.root.hidden = false; this.renderList(); this.renderSelection(); this.$('#warp-close').focus();
   }
   close() { this.root.hidden = true; this.previousFocus?.focus?.({ preventScroll: true }); }

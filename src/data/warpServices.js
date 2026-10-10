@@ -35,7 +35,7 @@ export const getWarpDestination = id => WARP_DESTINATIONS.find(d => d.id === id)
 export const WARP_NPCS = WARP_SERVICES.map(s => {
   const activity = { do: 'stay', at: { x: s.x, z: s.z, face: s.face, link: s.link }, state: 'idle', anim: 'look' };
   return { id: s.npcId, name: s.name, occupation: 'warp_keeper', map: s.map, warpService: s.id, storageService: s.map === 'city', interactionRadius: WARP_RANGE,
-    dialogue: ['ศาลาพักทางเชื่อมถึงกันทั่วอโยธยา จะให้ข้าพาไปที่ใด?', 'เลือกจุดหมายก่อนออกเดินทาง หากจะเข้าป่าลึก จงเตรียมเสบียงและเพื่อนร่วมทางให้พร้อม'],
+    dialogue: ['ศาลาพักทางเชื่อมถึงกันทั่วนครที่ถูกลืมเลือน จะให้ข้าพาไปที่ใด?', 'เลือกจุดหมายก่อนออกเดินทาง หากจะเข้าป่าลึก จงเตรียมเสบียงและเพื่อนร่วมทางให้พร้อม'],
     look: { top: '#e4d8b8', bottom: '#314f41', sash: '#bca462', trim: '#c9b77b', sleeves: true, hat: 'cloth' },
     schedule: { morning: activity, day: activity, evening: activity, night: activity } };
 });

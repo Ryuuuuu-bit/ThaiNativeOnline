@@ -1,4 +1,4 @@
-// Geography of นครอโยธยา: bounds, water, roads and the analytic terrain shape.
+// Geography of นครที่ถูกลืมเลือน: bounds, water, roads and the analytic terrain shape.
 // Pure data and math (no three.js) so collision, painting, minimap and NPC
 // navigation all read the same source of truth. North is -z, the river is +z.
 import { HALLS } from '../data/halls.js';

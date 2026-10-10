@@ -1,5 +1,5 @@
 import { EXPEDITIONS } from '../world/expeditions.js';
-// Monster spawn areas. นครอโยธยา is a safe city: every area lies on one of the
+// Monster spawn areas. นครที่ถูกลืมเลือน is a safe city: every area lies on one of the
 // three wild zone maps north of the wall (src/world/maps.js), which map an area
 // belongs to follows from its position (mapOf). Placement is world-designer's
 // (docs/world/WORLD_MAP.md); monster stats are content-designer's
