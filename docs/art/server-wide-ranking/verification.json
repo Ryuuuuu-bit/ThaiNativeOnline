@@ -1,0 +1,48 @@
+{
+  "total": 4,
+  "level": [
+    {
+      "name": "อรุณ",
+      "cls": "warrior",
+      "lv": 60,
+      "cp": 3734,
+      "enh": 0,
+      "title": null
+    },
+    {
+      "name": "สายฝน",
+      "cls": "herbalist",
+      "lv": 45,
+      "cp": 2850,
+      "enh": 0,
+      "title": null
+    },
+    {
+      "name": "Guide",
+      "cls": "hunter",
+      "lv": 40,
+      "cp": 2017,
+      "enh": 0,
+      "title": null
+    },
+    {
+      "name": "Ryuu",
+      "cls": "shaman",
+      "lv": 10,
+      "cp": 693,
+      "enh": 0,
+      "title": null
+    }
+  ],
+  "myRank": {
+    "cpRank": 4,
+    "lvRank": 4,
+    "enhRank": 0,
+    "cp": 693,
+    "lv": 10,
+    "enh": 0,
+    "gap10": 0
+  },
+  "errors": [],
+  "fixture": "4 offline saved envelopes, 3 accounts, 2 slots for one account; actual createRanking + rankPane"
+}

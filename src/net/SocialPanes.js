@@ -158,7 +158,7 @@ export function rankPane(st) {
   const rankLine = (label, r, v) => `<div><span>${label}</span><b>${r ? `#${r} · ${v}` : 'ยังไม่ติดอันดับ'}</b></div>`;
   const holders = TITLES.filter(t => t.dynamic).map(t => `<div class="sw-rt"><span><b style="color:${t.color}">${t.name}</b><small>${t.hint}</small></span><em>${d.holders?.[t.id] ?? 0} คน</em></div>`).join('');
   return `<div class="sw-cols r2"><div class="sw-rank">
-    <div class="sw-bar">${pills}</div><p class="sw-meta">อัปเดตทุก 1 นาที · ทั้งเซิร์ฟ ${fmt(d.total)} ตัวละคร</p>
+    <div class="sw-bar">${pills}</div><p class="sw-meta">อัปเดตทุก 1 นาที · ทั้งเซิร์ฟ ${fmt(d.total)} ตัวละคร · รวมออนไลน์และออฟไลน์</p>
     ${list.length ? `<div class="sw-pods">${podium}</div>
     <section class="sw-box sw-table"><div class="sw-rrow hd"><span>อันดับ</span><span>ชื่อ</span><span>อาชีพ</span><span>เลเวล</span><span>${COL[st.board]}</span></div>
       ${top}${mine ? `${gapTo >= 9 ? `<p class="sw-gap">··· อันดับ 9 – ${gapTo} ···</p>` : ''}${mine}` : ''}</section>` : '<p class="sw-empty">ยังไม่มีใครในตารางนี้</p>'}</div>
