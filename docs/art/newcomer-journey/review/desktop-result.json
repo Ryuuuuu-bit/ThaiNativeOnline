@@ -1,0 +1,81 @@
+{
+ "steps": [
+  [
+   "character+quests ready",
+   true
+  ],
+  [
+   "full guide initially closed",
+   true
+  ],
+  [
+   "night first quest offered",
+   true
+  ],
+  [
+   "night keeper visible",
+   true
+  ],
+  [
+   "keeper has accept button",
+   true
+  ],
+  [
+   "accept button accepts real quest",
+   true
+  ],
+  [
+   "reward preview visible",
+   true
+  ],
+  [
+   "bag action opens panel",
+   true
+  ],
+  [
+   "map action opens panel",
+   true
+  ],
+  [
+   "map selects route to quest destination",
+   true
+  ],
+  [
+   "sheet action opens panel",
+   true
+  ],
+  [
+   "skills action opens panel",
+   true
+  ],
+  [
+   "bestiary action opens",
+   true
+  ],
+  [
+   "journal fits viewport",
+   true
+  ],
+  [
+   "no horizontal guide overflow",
+   true
+  ],
+  [
+   "touch targets at least 44px",
+   true
+  ],
+  [
+   "summary targets at least 44px",
+   true
+  ],
+  [
+   "close inside journal header",
+   true
+  ],
+  [
+   "done",
+   true
+  ]
+ ],
+ "errors": []
+}

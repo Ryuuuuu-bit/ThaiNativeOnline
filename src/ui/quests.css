@@ -34,3 +34,28 @@ body #dialogue:has(#dlg-quests > *) .dlg-actions button { min-height:44px; }
   body #dialogue:has(#dlg-quests > *) .dlg-wrap { grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); align-items:start; }
   body #dialogue:has(#dlg-quests > *) #dlg-quests { max-height:none; overflow:visible; }
 }
+/* The existing quest journal also hosts the journey; touch opens the same panel. */
+body .exploration:has(#newcomer-guide > *) { display:block; max-height:calc(100dvh - 330px); overflow:auto; overscroll-behavior:contain; }
+body #newcomer-guide { font-size:12px; line-height:1.6; }
+body #newcomer-guide :is(h3,p,ul,ol) { display:block; margin:8px 0; color:var(--t-text); font-size:12px; line-height:1.6; }
+body #newcomer-guide h3 { color:var(--t-gold); font-size:14px; }
+body #newcomer-guide summary { cursor:pointer; min-height:44px; font-weight:600; }
+body #newcomer-guide small { display:block; color:var(--t-muted); }
+body #newcomer-guide .done { color:var(--t-good); }
+body #newcomer-guide .newcomer-next { border-left:3px solid var(--t-gold); padding:6px 8px; background:var(--t-card); }
+body #newcomer-guide .newcomer-actions { display:flex; gap:6px; flex-wrap:wrap; }
+body #newcomer-guide button { min-height:44px; padding:7px 10px; border:1px solid var(--t-card-line); border-radius:6px; background:var(--t-card); }
+body #newcomer-journal-toggle { position:absolute; left:20px; top:190px; z-index:22; min-height:44px; padding:8px 12px; background:var(--t-card); border:1px solid var(--t-gold); border-radius:8px; }
+body.newcomer-journal-open .exploration:has(#newcomer-guide) { display:block!important; zoom:1; position:absolute; left:50%; right:auto; top:70px; transform:translateX(-50%); width:min(580px,calc(100vw - 24px)); max-height:calc(100dvh - 170px); padding:16px; z-index:24; }
+
+body.ui-touch:not(.newcomer-journal-open) .exploration:has(#newcomer-guide) { display:none!important; }
+body.ui-touch #newcomer-journal-toggle { top:145px; left:12px; font-size:12px; }
+
+body.photo-mode #newcomer-journal-toggle { display:none; }
+
+body.newcomer-journal-open #newcomer-journal-toggle,
+body.ui-touch.newcomer-journal-open #newcomer-journal-toggle { position:static; transform:none; width:100%; margin-bottom:10px; z-index:25; }
+body.newcomer-journal-open .exploration::before { display:none; }
+body:not(.newcomer-journal-open) #newcomer-guide { display:none; }
+body:not(.newcomer-journal-open) .exploration:not(:has(#quest-tracker > *)) { display:none; }
+

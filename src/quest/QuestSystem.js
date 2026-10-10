@@ -63,6 +63,7 @@ export class QuestSystem extends Emitter {
       };
     }
     character.on('inventory', () => this.emit('change'));
+    character.on('change', () => this.emit('change'));
     this.emit('change');
   }
 
@@ -83,7 +84,7 @@ export class QuestSystem extends Emitter {
   }
   // Quests an NPC can offer, and active quests ready to hand in to them.
   offers(npcId) { return [...this.defs.values()].filter(q => q.giver === npcId && this.canAccept(q)); }
-  locked(npcId) { return [...this.defs.values()].filter(q => q.classId && q.giver === npcId && this.matchesClass(q) && this.status(q.id) === 'none' && !this.canAccept(q)); }
+  locked(npcId) { return [...this.defs.values()].filter(q => q.giver === npcId && this.matchesClass(q) && this.status(q.id) === 'none' && !this.canAccept(q)); }
   ready(npcId) { return this.active().filter(q => this.turnInOf(q) === npcId && this.isComplete(q.id)); }
   active() { return [...this.defs.values()].filter(q => this.status(q.id) === 'active' && this.matchesClass(q)); }
   // '!' an offer, '?' ready to hand in, '…' in progress for this NPC.
