@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "checks": [
+    "1366x768: expanded previews fit all65 skills; free/paid/cancel/current/focus/skill-switch/combat guards pass",
+    "1920x1080: expanded previews fit all65 skills; free/paid/cancel/current/focus/skill-switch/combat guards pass",
+    "390x844: expanded previews fit all65 skills; free/paid/cancel/current/focus/skill-switch/combat guards pass"
+  ],
+  "images": [
+    "confirm-1366.png",
+    "confirm-1920.png",
+    "confirm-390.png"
+  ],
+  "errors": []
+}

@@ -1,0 +1,288 @@
+/* Scoped detail-card overrides; keep the panel's existing responsive scroll flow. */
+.g-skills .g-sk-card {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.g-skills .g-sk-card > * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.g-skills .g-sk-evo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  min-width: 0;
+}
+
+.g-skills .g-sk-evo > * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.g-skills .g-sk-evo > small,
+.g-skills .g-evo-instruction {
+  display: block;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--t-dim, #d5c9b5);
+  white-space: normal;
+}
+
+.g-skills .g-path-option {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid rgba(201, 160, 76, .35);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, .18);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.g-skills .g-path-option.on {
+  border-color: var(--evo, #c9a04c);
+  background: rgba(201, 160, 76, .08);
+}
+
+.g-skills .g-path-option.is-pending {
+  border-color: var(--t-gold-hi, #ffe9a8);
+  box-shadow: inset 0 0 0 1px var(--t-gold-hi, #ffe9a8);
+  background: rgba(201, 160, 76, .12);
+}
+
+.g-skills .g-path-option > * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.g-skills .g-path-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 8px;
+  line-height: 1.5;
+  color: var(--t-gold-hi, #ffe9a8);
+}
+
+.g-skills .g-path-head > * {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.g-skills .g-path-head > strong {
+  flex: 1 1 140px;
+}
+
+.g-skills .g-path-head > b {
+  color: var(--evo, #ffe9a8);
+}
+
+.g-skills .g-path-head > span {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(201, 160, 76, .14);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--t-dim, #d5c9b5);
+}
+
+.g-skills .g-path-block {
+  display: block;
+  font-size: 12px;
+  line-height: 1.65;
+  color: #efb99b;
+  white-space: normal;
+}
+
+.g-skills .g-path-desc,
+.g-skills .g-path-desc p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--t-ink, #dfe8f3);
+  white-space: normal;
+}
+
+.g-skills .g-path-desc p + p {
+  margin-top: 6px;
+}
+
+.g-skills .g-path-option .g-path-action {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--evo, #c9a04c);
+  border-radius: 8px;
+  background: rgba(201, 160, 76, .16);
+  color: var(--t-gold-hi, #ffe9a8);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.g-skills .g-path-option .g-path-action:hover:not(:disabled) {
+  background: rgba(201, 160, 76, .26);
+}
+
+.g-skills .g-path-option .g-path-action:disabled {
+  opacity: .65;
+  cursor: default;
+}
+
+.g-skills .g-path-option.on .g-path-action:disabled {
+  opacity: 1;
+}
+
+.g-skills .g-path-option details {
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Restore the disclosure marker suppressed by the older flex summary rule. */
+.g-skills .g-path-option summary {
+  display: list-item;
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 0;
+  color: var(--t-gold-hi, #e5cf91);
+  line-height: 1.6;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.g-skills .g-path-option summary:focus-visible,
+.g-skills .g-path-option .g-path-action:focus-visible,
+.g-skills .g-path-option .g-evo-confirm button:focus-visible {
+  outline: 2px solid #7ff0d0;
+  outline-offset: 2px;
+}
+
+/* Labels and long numeric previews must both be able to shrink and wrap. */
+.g-skills .g-sk-card .g-yours > div,
+.g-skills .g-sk-card .g-cmp > div {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  min-width: 0;
+}
+
+.g-skills .g-sk-card .g-yours > div > span,
+.g-skills .g-sk-card .g-cmp > div > span {
+  flex: 1 1 120px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.g-skills .g-sk-card .g-yours em,
+.g-skills .g-sk-card .g-cmp b {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.g-skills .g-path-option .g-yours > div {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.g-skills .g-path-option .g-yours > div > span {
+  flex: none;
+}
+
+.g-skills .g-path-option .g-yours em,
+.g-skills .g-path-option details > div > em {
+  display: block;
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.g-skills .g-path-option details > div {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.g-skills .g-path-option .g-evo-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  scroll-margin-block: 16px;
+}
+
+.g-skills .g-path-option .g-evo-confirm p {
+  flex: 0 0 100%;
+  min-width: 0;
+  margin: 0 0 10px;
+  line-height: 1.65;
+}
+
+.g-skills .g-path-option .g-evo-confirm button {
+  flex: 1 1 120px;
+  min-width: 0;
+  min-height: 44px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  text-align: center;
+  border: 1px solid rgba(201, 160, 76, .5);
+  background: rgba(201, 160, 76, .12);
+  color: var(--t-ink, #dfe8f3);
+}
+
+.g-skills .g-path-option .g-evo-confirm button[data-evo-confirm] {
+  background: linear-gradient(#f6dc96, #c9a04c);
+  color: #2a1806;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .g-skills .g-sk-card .g-skd-head {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .g-skills .g-sk-card .g-skd-lv {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .g-skills .g-path-option {
+    padding: 10px;
+  }
+}
