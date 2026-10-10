@@ -1,0 +1,1687 @@
+{
+  "checks": [
+    {
+      "check": "guest saved character enters actual city",
+      "pass": true
+    },
+    {
+      "check": "ten equipment slots and one weapon",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_armor.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/bia_kae.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/takrut.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_shoes.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ether.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/wood_sword.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ngob.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sandals.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/pakhaoma.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/bamboo_bow.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_boar.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_monkey.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_m.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/hide.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/tusk.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sacred_ore.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/gold_leaf.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ash.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/croc_scale.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "Q health flask chooser",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_armor.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/bia_kae.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/takrut.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_shoes.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ether.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/wood_sword.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ngob.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sandals.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/pakhaoma.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/bamboo_bow.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_boar.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_monkey.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_m.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/hide.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/tusk.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sacred_ore.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/gold_leaf.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ash.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/croc_scale.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "curated inventory actual type counts",
+      "pass": true,
+      "typeCounts": {
+        "use": 3,
+        "equip": 10,
+        "flask": 16,
+        "card": 2,
+        "material": 6
+      }
+    },
+    {
+      "check": "bag includes legacy gear, generated gear, cards and materials",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_armor.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/bia_kae.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/takrut.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_shoes.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ether.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/wood_sword.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ngob.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sandals.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/pakhaoma.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/bamboo_bow.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_boar.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_monkey.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_m.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/hide.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/tusk.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sacred_ore.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/gold_leaf.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ash.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/croc_scale.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "legacy weapon tooltip resolves new art",
+      "pass": true
+    },
+    {
+      "check": "actual city general shop icons",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_m.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ether.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_9.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_9.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_10.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_10.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_11.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_11.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "item hotbar and Q/E icons",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "mobile sheet",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_cape_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/hunt_dusk_fort_head_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_amulet_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_armor.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/bia_kae.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/takrut.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_gloves_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_belt_guard.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/dusk_fort_shoes.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "document overflow diagnostic",
+      "width": {
+        "viewport": 390,
+        "scroll": 390,
+        "offenders": [
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3387.3125,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3386.3125,
+            "width": 54
+          },
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3548.25,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3547.25,
+            "width": 54
+          },
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3709.171875,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3708.171875,
+            "width": 54
+          },
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3870.09375,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3869.09375,
+            "width": 54
+          }
+        ]
+      }
+    },
+    {
+      "check": "mobile bag",
+      "pass": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ether.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/wear_dusk_fort_ring_sage.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/wood_sword.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/herb_book.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ngob.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/cloth_vest.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sandals.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/pakhaoma.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/bamboo_bow.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_boar.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/card_monkey.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_m.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/hide.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/tusk.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/sacred_ore.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/gold_leaf.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/ash.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/croc_scale.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_1.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_2.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_3.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_4.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_5.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_7.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_hp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/flask_mp_8.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-complete-v1/potion_s.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_hp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:5314/ui/items/painted-v2/flask_mp_6.webp",
+          "width": 256,
+          "fit": "contain",
+          "render": "auto"
+        }
+      ]
+    },
+    {
+      "check": "document overflow diagnostic",
+      "width": {
+        "viewport": 390,
+        "scroll": 390,
+        "offenders": [
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3315.34375,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3314.34375,
+            "width": 54
+          },
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3476.265625,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3475.265625,
+            "width": 54
+          },
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3637.1875,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3636.1875,
+            "width": 54
+          },
+          {
+            "tag": "DIV",
+            "cls": "fx-hp",
+            "right": 3798.109375,
+            "width": 56
+          },
+          {
+            "tag": "I",
+            "cls": "",
+            "right": 3797.109375,
+            "width": 54
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": []
+}

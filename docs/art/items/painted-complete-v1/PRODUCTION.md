@@ -2,7 +2,7 @@
 
 ## Scope and ownership
 
-Replace the active inventory icon library with the approved soft hand-painted Thai fantasy family. The audited baseline contains 516 active item IDs and six retired items. `backlog.json` lists every active ID exactly once in 348 semantic groups: 15 approved V2 masters and 333 new, individually generated images. Generation is ongoing; the preview manifest reports completed exports and must not be treated as release approval.
+The active inventory icon library now uses the approved soft hand-painted Thai fantasy family. The audited baseline contains 516 active item IDs and six retired items. `backlog.json` lists every active ID exactly once in 348 semantic groups: 15 approved V2 masters and 333 new, individually generated images. All generations and exports are complete. Independent approval of the exact348-master set is recorded in `ART_REVIEW.md` and `art-review.json`; `completion-manifest.json` records all516 mappings.
 
 Hunt and extended equipment may share the same physical base only within the exact region, level tier and equipment slot across three stat profiles. Named legacy equipment, expedition weapon kinds, each monster card and each boss/kind/tier flask combination have separate masters. This does not change item stats or inventory instance identity.
 
@@ -37,4 +37,6 @@ Judge transparent edges on the composited sheets and in the browser. The native 
 - QA checks the equipment panel, bag, shops, tooltip and hotbar presentation; `npm test` and `npm run build` pass.
 - Release through the task branch and reviewed PR, then verify live asset paths and deployment health.
 
-Screenshots, review results, completion counts and any limitations will be recorded when these gates are complete.
+All333 new original hashes are distinct. The complete348-master production library totals7,112,102 bytes; originals remain outside public output. Runtime validation confirms exact516 coverage and all522 item definitions unchanged apart from `img`/`imageArt`. Six retired items and all15 original V2 paths/bytes are preserved. Tests pass1007 total /1005 passed /0 failed /2 skipped; build passes326 modules with the existing main-chunk size warning. Final UI evidence is recorded separately in `QA.md`.
+
+At32px, fine ornament, similar brass jewelry and adjacent flask tiers need their existing tooltips. Dark bamboo bows/wraps retain silhouettes but lose interior detail; the starter paddy belt has a generous brass focal buckle. These were accepted as nonblocking by the independent art review. Every named physical base, monster card and boss/kind/tier flask has its own image; identical physical regional equipment bases may share across stat profiles.
