@@ -1,0 +1,649 @@
+{
+  "schema": 2,
+  "mode": "raw",
+  "startedAt": "2026-10-09T19:43:22.679Z",
+  "url": "http://127.0.0.1:5191/tools/hunter-dog/review.html?seed=3334&raw=%2Fartifacts%2Fhunter-dog%2Fmeshy_output%2F20261010_023649_hunter-dog-model_01a1222a%2Fraw.glb",
+  "asset": {
+    "localPath": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\artifacts\\hunter-dog\\meshy_output\\20261010_023649_hunter-dog-model_01a1222a\\raw.glb",
+    "bytes": 3333736,
+    "sha256": "9cf26fb699d7f085d0d240e679a2e971f92cbfa8c97c672d99e6688716eb3961",
+    "loadedResponse": {
+      "url": "http://127.0.0.1:5191/artifacts/hunter-dog/meshy_output/20261010_023649_hunter-dog-model_01a1222a/raw.glb",
+      "status": 200,
+      "bytes": 3333736,
+      "sha256": "9cf26fb699d7f085d0d240e679a2e971f92cbfa8c97c672d99e6688716eb3961"
+    },
+    "afterSha256": "9cf26fb699d7f085d0d240e679a2e971f92cbfa8c97c672d99e6688716eb3961"
+  },
+  "animator": null,
+  "browser": {
+    "headless": true,
+    "channel": "msedge",
+    "instances": 1,
+    "pages": 1,
+    "closed": true
+  },
+  "images": [
+    {
+      "sample": {
+        "id": "front-static",
+        "phase": "static",
+        "view": "front",
+        "time": 0,
+        "amount": 1
+      },
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.2845599949359894,
+          0,
+          -0.9513485133647919
+        ],
+        "max": [
+          0.2845599949359894,
+          1.5139380097389221,
+          0.9513485133647919
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": 0,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "framing": {
+        "view": "front",
+        "projection": "orthographic",
+        "sourceAxisCameraOffset": [
+          0,
+          0,
+          1
+        ],
+        "position": [
+          0,
+          0.7569690048694611,
+          12
+        ],
+        "target": [
+          0,
+          0.7569690048694611,
+          0
+        ],
+        "orthoHalfHeight": 0.8780840456485748,
+        "framingUsesAllSampledPoses": false,
+        "framingUsesStaticBounds": true
+      },
+      "assetErrors": [],
+      "memory": {
+        "geometries": 2,
+        "textures": 4
+      },
+      "animationState": null,
+      "image": {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\docs\\art\\reviews\\hunter-dog\\raw\\front-static.png",
+        "width": 960,
+        "height": 720,
+        "bytes": 121503,
+        "sha256": "08db01de607d6c3778f15bfe0eec7b518ff1137543176f8f9779cc84c3c247e4"
+      }
+    },
+    {
+      "sample": {
+        "id": "side-static",
+        "phase": "static",
+        "view": "side",
+        "time": 0,
+        "amount": 1
+      },
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.2845599949359894,
+          0,
+          -0.9513485133647919
+        ],
+        "max": [
+          0.2845599949359894,
+          1.5139380097389221,
+          0.9513485133647919
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": 0,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "framing": {
+        "view": "side",
+        "projection": "orthographic",
+        "sourceAxisCameraOffset": [
+          1,
+          0,
+          0
+        ],
+        "position": [
+          12,
+          0.7569690048694611,
+          0
+        ],
+        "target": [
+          0,
+          0.7569690048694611,
+          0
+        ],
+        "orthoHalfHeight": 0.8780840456485748,
+        "framingUsesAllSampledPoses": false,
+        "framingUsesStaticBounds": true
+      },
+      "assetErrors": [],
+      "memory": {
+        "geometries": 2,
+        "textures": 4
+      },
+      "animationState": null,
+      "image": {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\docs\\art\\reviews\\hunter-dog\\raw\\side-static.png",
+        "width": 960,
+        "height": 720,
+        "bytes": 183472,
+        "sha256": "46e387f39ecaa1624bfe8521e37a021e8f00b20e9d52f1634e519d5f77735994"
+      }
+    },
+    {
+      "sample": {
+        "id": "back-static",
+        "phase": "static",
+        "view": "back",
+        "time": 0,
+        "amount": 1
+      },
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.2845599949359894,
+          0,
+          -0.9513485133647919
+        ],
+        "max": [
+          0.2845599949359894,
+          1.5139380097389221,
+          0.9513485133647919
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": 0,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "framing": {
+        "view": "back",
+        "projection": "orthographic",
+        "sourceAxisCameraOffset": [
+          0,
+          0,
+          -1
+        ],
+        "position": [
+          0,
+          0.7569690048694611,
+          -12
+        ],
+        "target": [
+          0,
+          0.7569690048694611,
+          0
+        ],
+        "orthoHalfHeight": 0.8780840456485748,
+        "framingUsesAllSampledPoses": false,
+        "framingUsesStaticBounds": true
+      },
+      "assetErrors": [],
+      "memory": {
+        "geometries": 2,
+        "textures": 4
+      },
+      "animationState": null,
+      "image": {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\docs\\art\\reviews\\hunter-dog\\raw\\back-static.png",
+        "width": 960,
+        "height": 720,
+        "bytes": 102338,
+        "sha256": "02510bf8dc2834cb84e8623a27c2a2a66fcfe8e1a8f8879db600fad1c3e41b33"
+      }
+    },
+    {
+      "sample": {
+        "id": "three-quarter-static",
+        "phase": "static",
+        "view": "three-quarter",
+        "time": 0,
+        "amount": 1
+      },
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.2845599949359894,
+          0,
+          -0.9513485133647919
+        ],
+        "max": [
+          0.2845599949359894,
+          1.5139380097389221,
+          0.9513485133647919
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": 0,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "framing": {
+        "view": "three-quarter",
+        "projection": "orthographic",
+        "sourceAxisCameraOffset": [
+          1,
+          0.25,
+          1
+        ],
+        "position": [
+          8.355727485873498,
+          2.8459008763378355,
+          8.355727485873498
+        ],
+        "target": [
+          0,
+          0.7569690048694611,
+          0
+        ],
+        "orthoHalfHeight": 1.0411479874332925,
+        "framingUsesAllSampledPoses": false,
+        "framingUsesStaticBounds": true
+      },
+      "assetErrors": [],
+      "memory": {
+        "geometries": 2,
+        "textures": 4
+      },
+      "animationState": null,
+      "image": {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\docs\\art\\reviews\\hunter-dog\\raw\\three-quarter-static.png",
+        "width": 960,
+        "height": 720,
+        "bytes": 140312,
+        "sha256": "f35cfec9b1fa6658cfcb1dab1457613305f79ced875d65032304fc6ac4236809"
+      }
+    },
+    {
+      "sample": {
+        "id": "gameplay-static",
+        "phase": "static",
+        "view": "gameplay",
+        "time": 0,
+        "amount": 1
+      },
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.2845599949359894,
+          0,
+          -0.9513485133647919
+        ],
+        "max": [
+          0.2845599949359894,
+          1.5139380097389221,
+          0.9513485133647919
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": 0,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "framing": {
+        "view": "gameplay",
+        "projection": "orthographic",
+        "sourceAxisCameraOffset": [
+          0.65,
+          1,
+          1
+        ],
+        "position": [
+          5.011442016385237,
+          8.466879799308288,
+          7.709910794438826
+        ],
+        "target": [
+          0,
+          0.7569690048694611,
+          0
+        ],
+        "orthoHalfHeight": 1.382933119172629,
+        "framingUsesAllSampledPoses": false,
+        "framingUsesStaticBounds": true
+      },
+      "assetErrors": [],
+      "memory": {
+        "geometries": 2,
+        "textures": 4
+      },
+      "animationState": null,
+      "image": {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\docs\\art\\reviews\\hunter-dog\\raw\\gameplay-static.png",
+        "width": 960,
+        "height": 720,
+        "bytes": 85200,
+        "sha256": "cbcd175a00e488cf4de70488ef19573b3654f9ca0b537d7368c4e166e1006b63"
+      }
+    }
+  ],
+  "failures": [],
+  "assetLoadErrors": [],
+  "pageErrors": [],
+  "warnings": [
+    {
+      "type": "warning",
+      "text": "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported."
+    }
+  ],
+  "limits": [
+    "Raw imported static GLB only; no production builder, rig motion, or runtime installation approval.",
+    "Finite geometry/bone checks are not anatomy, skin strain, planted-foot or terrain approval.",
+    "Source rotation and scale are preserved; front/side/back are source-axis camera labels, not verified anatomical facing."
+  ],
+  "raw": {
+    "mode": "raw",
+    "seed": 3334,
+    "sourceUrl": "/artifacts/hunter-dog/meshy_output/20261010_023649_hunter-dog-model_01a1222a/raw.glb",
+    "loader": "gltfLoader().loadAsync",
+    "rawLoaded": true,
+    "animation": "none; imported rest geometry only, no production builder",
+    "orientation": {
+      "upAxis": "+Y (glTF convention)",
+      "frontLabel": "Camera on source +Z; muzzle direction unverified",
+      "sideLabel": "Camera on source +X",
+      "backLabel": "Camera on source -Z",
+      "rotationApplied": [
+        0,
+        0,
+        0
+      ],
+      "sourceNodeTransforms": "preserved"
+    },
+    "normalization": {
+      "method": "bounds center X/Z; minimum Y to ground 0; translation only",
+      "translation": [
+        0.005250990390777588,
+        0.7507639527320862,
+        0.0002995431423187256
+      ],
+      "scaleApplied": [
+        1,
+        1,
+        1
+      ],
+      "rotationApplied": [
+        0,
+        0,
+        0
+      ],
+      "sourceBounds": {
+        "min": [
+          -0.28981098532676697,
+          -0.7507639527320862,
+          -0.9516480565071106
+        ],
+        "max": [
+          0.2793090045452118,
+          0.7631740570068359,
+          0.9510489702224731
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "authoredSceneTransform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "quaternion": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "sourceUnits": "as authored in GLB; no inferred species size or production scale",
+      "groundPlaneY": -0.006
+    },
+    "sourceAudit": {
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.28981098532676697,
+          -0.7507639527320862,
+          -0.9516480565071106
+        ],
+        "max": [
+          0.2793090045452118,
+          0.7631740570068359,
+          0.9510489702224731
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": -0.7507639527320862,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "normalizedAudit": {
+      "passed": true,
+      "errors": [],
+      "meshes": 1,
+      "skinnedMeshes": 0,
+      "vertices": 8915,
+      "triangles": 6255,
+      "boneCount": 0,
+      "bones": [],
+      "bounds": {
+        "min": [
+          -0.2845599949359894,
+          0,
+          -0.9513485133647919
+        ],
+        "max": [
+          0.2845599949359894,
+          1.5139380097389221,
+          0.9513485133647919
+        ],
+        "size": [
+          0.5691199898719788,
+          1.5139380097389221,
+          1.9026970267295837
+        ]
+      },
+      "minimumY": 0,
+      "emissive": [
+        {
+          "name": "",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "intensity": 1,
+          "emissive": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    "assetErrors": []
+  },
+  "repeatability": {
+    "sample": {
+      "id": "front-static",
+      "phase": "static",
+      "view": "front",
+      "time": 0,
+      "amount": 1
+    },
+    "sameBounds": true,
+    "sameBones": true
+  },
+  "passed": true,
+  "finishedAt": "2026-10-09T19:43:24.541Z"
+}

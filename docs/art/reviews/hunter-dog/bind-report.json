@@ -1,0 +1,709 @@
+{
+  "version": 1,
+  "candidateOnly": true,
+  "publicationApproved": false,
+  "source": {
+    "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\tools\\hunter-dog\\source\\meshy-body.glb",
+    "bytes": 3333736,
+    "sha256": "9cf26fb699d7f085d0d240e679a2e971f92cbfa8c97c672d99e6688716eb3961",
+    "positionSHA256": "fd6b107fab7fbb3941f7c79267317c1f000d5bc3ed1946b978d4b4b708da0eae"
+  },
+  "donor": {
+    "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\tools\\hunter-dog\\source\\original-dog.glb",
+    "bytes": 110156,
+    "sha256": "8e6ba30272053c7432c4b05c0979b4e2f111f1ca36ae5b646a18a3cf3d7763d3"
+  },
+  "output": {
+    "path": "C:\\Users\\panup\\.codex\\worktrees\\hunter-dog-model\\ThaiNativeOnline\\artifacts\\hunter-dog\\bound\\hunter-dog-bound.glb",
+    "bytes": 831080,
+    "sha256": "341c647c886e302e4485511481042df5abde243a66a8b2ff8ac8668e29caa541"
+  },
+  "normalization": {
+    "yawRadians": 0.06061530800079598,
+    "scale": 0.38866816745651744,
+    "rawGroundY": -0.7507639527320862,
+    "rawAnatomicalOrigin": [
+      -0.0355,
+      -0.750764,
+      0.0425
+    ],
+    "canonicalWithers": [
+      -0.0129011,
+      0.45,
+      0.1450903
+    ],
+    "canonicalWithersMeters": 0.45,
+    "builderWithersMeters": 0.5625,
+    "worldWithersMeters": 0.45,
+    "builderScale": 1.25,
+    "worldActorScale": 0.8,
+    "note": "No vertex editing beyond uniform scale, yaw and translation; genuine head turn and lowered tail retained."
+  },
+  "geometry": {
+    "vertices": 8915,
+    "triangles": 6255,
+    "rawBounds": {
+      "min": [
+        -0.289811,
+        -0.750764,
+        -0.9516481
+      ],
+      "max": [
+        0.279309,
+        0.7631741,
+        0.951049
+      ]
+    },
+    "candidateBounds": {
+      "min": [
+        -0.1063235,
+        0,
+        -0.3878893
+      ],
+      "max": [
+        0.1426759,
+        0.5884195,
+        0.3459144
+      ]
+    },
+    "topologyAndUVsPreserved": true
+  },
+  "rig": {
+    "joints": 38,
+    "namesAndHierarchyPreserved": true,
+    "fittedJointPositions": {
+      "tripo::Root": [
+        0,
+        0.0125,
+        0
+      ],
+      "tripo::Spine_0": [
+        -0.0047585,
+        0.365645,
+        -0.1778541
+      ],
+      "bone_2": [
+        -0.0036561,
+        0.3481549,
+        -0.2110185
+      ],
+      "tripo::Tail_0": [
+        0.0061899,
+        0.280138,
+        -0.2797582
+      ],
+      "tripo::Tail_1": [
+        0.0108277,
+        0.266146,
+        -0.3509074
+      ],
+      "tripo::Spine_1": [
+        -0.0015799,
+        0.377305,
+        -0.1254802
+      ],
+      "bone_28": [
+        -0.0001672,
+        0.2840247,
+        -0.102203
+      ],
+      "bone_29": [
+        -0.0001672,
+        0.2840247,
+        -0.102203
+      ],
+      "tripo::1_Left_Limb_0": [
+        0.0583738,
+        0.3112315,
+        -0.1641633
+      ],
+      "tripo::1_Left_Limb_1": [
+        0.0602573,
+        0.1965743,
+        -0.1331269
+      ],
+      "tripo::1_Left_Limb_2": [
+        0.0634252,
+        0.0838606,
+        -0.2092489
+      ],
+      "tripo::1_Left_Limb_3": [
+        0.0676017,
+        0.0173983,
+        -0.172511
+      ],
+      "tripo::1_Right_Limb_0": [
+        -0.066478,
+        0.3170615,
+        -0.1682676
+      ],
+      "tripo::1_Right_Limb_1": [
+        -0.0684739,
+        0.1926877,
+        -0.1369958
+      ],
+      "tripo::1_Right_Limb_2": [
+        -0.0738893,
+        0.0838606,
+        -0.2262253
+      ],
+      "tripo::1_Right_Limb_3": [
+        -0.0751789,
+        0.0173983,
+        -0.1833149
+      ],
+      "tripo::Spine_2": [
+        -0.0051009,
+        0.3811917,
+        -0.0551775
+      ],
+      "tripo::Spine_3": [
+        -0.0049779,
+        0.3811917,
+        0.0110101
+      ],
+      "tripo::Spine_4": [
+        -0.0046193,
+        0.3831351,
+        0.0810774
+      ],
+      "bone_16": [
+        0.0324852,
+        0.3734184,
+        0.1021885
+      ],
+      "tripo::0_Left_Limb_0": [
+        0.0488756,
+        0.3054014,
+        0.1284506
+      ],
+      "tripo::0_Left_Limb_1": [
+        0.0510508,
+        0.1790843,
+        0.1322124
+      ],
+      "tripo::0_Left_Limb_2": [
+        0.0571189,
+        0.0469371,
+        0.1552072
+      ],
+      "tripo::0_Left_Limb_3": [
+        0.0610948,
+        0.0173983,
+        0.1822227
+      ],
+      "bone_21": [
+        -0.0385934,
+        0.3734184,
+        0.0987146
+      ],
+      "tripo::0_Right_Limb_0": [
+        -0.0484662,
+        0.3092881,
+        0.1285175
+      ],
+      "tripo::0_Right_Limb_1": [
+        -0.0523457,
+        0.1790843,
+        0.128753
+      ],
+      "tripo::0_Right_Limb_2": [
+        -0.0551187,
+        0.0469371,
+        0.1472223
+      ],
+      "tripo::0_Right_Limb_3": [
+        -0.0535176,
+        0.0173983,
+        0.1736032
+      ],
+      "bone_26": [
+        0.0300611,
+        0.3073448,
+        0.0750788
+      ],
+      "bone_27": [
+        -0.028132,
+        0.3073448,
+        0.0786105
+      ],
+      "tripo::Spine_5": [
+        0.0010876,
+        0.3967385,
+        0.1430324
+      ],
+      "tripo::Spine_6": [
+        0.0115062,
+        0.4161719,
+        0.1735507
+      ],
+      "tripo::Spine_7": [
+        0.0280143,
+        0.4356053,
+        0.2017526
+      ],
+      "bone_14": [
+        0.0687292,
+        0.4900188,
+        0.2374412
+      ],
+      "bone_15": [
+        0.0245864,
+        0.4939055,
+        0.2607575
+      ],
+      "tripo::Head_0": [
+        0.0496488,
+        0.4589254,
+        0.237431
+      ],
+      "tripo::Head_1": [
+        0.075516,
+        0.4356053,
+        0.2786933
+      ]
+    },
+    "orientation": "Minimal world rotation projects each source chain direction onto fitted anatomical direction, preserving donor roll; inverse binds recomputed."
+  },
+  "transfer": {
+    "method": "Four-influence barycentric nearest triangle on fitted donor proxy; regional BVHs; opposite limbs excluded; exact seam copies share weights.",
+    "regularization": {
+      "iterations": 48,
+      "strength": 0.45,
+      "weldedVertices": 3115,
+      "adjacency": "Actual indexed surface welded only at identical positions; inverse-edge-length weighted smoothing; per-vertex anatomical masks retained.",
+      "equivalentSkinGroups": [
+        {
+          "representative": "tripo::Spine_0",
+          "members": [
+            "tripo::Spine_0",
+            "tripo::Spine_1",
+            "bone_28",
+            "bone_29",
+            "tripo::Spine_2",
+            "tripo::Spine_3"
+          ]
+        },
+        {
+          "representative": "tripo::Tail_0",
+          "members": [
+            "tripo::Tail_0",
+            "tripo::Tail_1"
+          ]
+        },
+        {
+          "representative": "tripo::1_Left_Limb_2",
+          "members": [
+            "tripo::1_Left_Limb_2",
+            "tripo::1_Left_Limb_3"
+          ]
+        },
+        {
+          "representative": "tripo::1_Right_Limb_2",
+          "members": [
+            "tripo::1_Right_Limb_2",
+            "tripo::1_Right_Limb_3"
+          ]
+        },
+        {
+          "representative": "tripo::Spine_4",
+          "members": [
+            "tripo::Spine_4",
+            "bone_16",
+            "bone_21",
+            "bone_26",
+            "bone_27",
+            "tripo::Spine_5"
+          ]
+        },
+        {
+          "representative": "tripo::0_Left_Limb_2",
+          "members": [
+            "tripo::0_Left_Limb_2",
+            "tripo::0_Left_Limb_3"
+          ]
+        },
+        {
+          "representative": "tripo::0_Right_Limb_2",
+          "members": [
+            "tripo::0_Right_Limb_2",
+            "tripo::0_Right_Limb_3"
+          ]
+        },
+        {
+          "representative": "tripo::Head_0",
+          "members": [
+            "tripo::Head_0",
+            "tripo::Head_1"
+          ]
+        }
+      ]
+    },
+    "regions": {
+      "head": {
+        "uniqueVertices": 378,
+        "medianMeters": 0.0115803,
+        "p95Meters": 0.025397,
+        "maxMeters": 0.0323619,
+        "donorTriangles": 1254
+      },
+      "earR": {
+        "uniqueVertices": 68,
+        "medianMeters": 0.0201967,
+        "p95Meters": 0.040368,
+        "maxMeters": 0.0427917,
+        "donorTriangles": 185
+      },
+      "earL": {
+        "uniqueVertices": 63,
+        "medianMeters": 0.0188721,
+        "p95Meters": 0.0396356,
+        "maxMeters": 0.0413824,
+        "donorTriangles": 206
+      },
+      "body": {
+        "uniqueVertices": 917,
+        "medianMeters": 0.013009,
+        "p95Meters": 0.0343063,
+        "maxMeters": 0.0563154,
+        "donorTriangles": 2375
+      },
+      "FR": {
+        "uniqueVertices": 231,
+        "medianMeters": 0.0052608,
+        "p95Meters": 0.0323334,
+        "maxMeters": 0.0518063,
+        "donorTriangles": 533
+      },
+      "FL": {
+        "uniqueVertices": 248,
+        "medianMeters": 0.0066338,
+        "p95Meters": 0.0304717,
+        "maxMeters": 0.041008,
+        "donorTriangles": 510
+      },
+      "HL": {
+        "uniqueVertices": 223,
+        "medianMeters": 0.0060607,
+        "p95Meters": 0.0202528,
+        "maxMeters": 0.0429071,
+        "donorTriangles": 691
+      },
+      "HR": {
+        "uniqueVertices": 231,
+        "medianMeters": 0.0085506,
+        "p95Meters": 0.0316803,
+        "maxMeters": 0.0398238,
+        "donorTriangles": 593
+      },
+      "tail": {
+        "uniqueVertices": 756,
+        "medianMeters": 0.0115812,
+        "p95Meters": 0.0190819,
+        "maxMeters": 0.0226047,
+        "donorTriangles": 171
+      }
+    },
+    "worstPrunedMass": 0.08671569228128469,
+    "jointWeightMass": {
+      "tripo::Root": 77.6554487,
+      "tripo::Spine_0": 171.8879641,
+      "bone_2": 673.4350727,
+      "tripo::Tail_0": 1140.5819802,
+      "tripo::Tail_1": 1143.8870744,
+      "tripo::Spine_1": 174.0781876,
+      "bone_28": 179.6157083,
+      "bone_29": 161.0952934,
+      "tripo::1_Left_Limb_0": 89.9540513,
+      "tripo::1_Left_Limb_1": 182.9238316,
+      "tripo::1_Left_Limb_2": 138.9282513,
+      "tripo::1_Left_Limb_3": 114.4460439,
+      "tripo::1_Right_Limb_0": 114.0449412,
+      "tripo::1_Right_Limb_1": 179.405409,
+      "tripo::1_Right_Limb_2": 104.276463,
+      "tripo::1_Right_Limb_3": 121.7366653,
+      "tripo::Spine_2": 182.3418659,
+      "tripo::Spine_3": 194.089136,
+      "tripo::Spine_4": 141.6645614,
+      "bone_16": 156.5060466,
+      "tripo::0_Left_Limb_0": 124.8836489,
+      "tripo::0_Left_Limb_1": 78.4283631,
+      "tripo::0_Left_Limb_2": 159.1499014,
+      "tripo::0_Left_Limb_3": 162.1056105,
+      "bone_21": 146.9410967,
+      "tripo::0_Right_Limb_0": 112.2698853,
+      "tripo::0_Right_Limb_1": 88.6667235,
+      "tripo::0_Right_Limb_2": 130.3430646,
+      "tripo::0_Right_Limb_3": 130.3891705,
+      "bone_26": 151.3770787,
+      "bone_27": 143.7345837,
+      "tripo::Spine_5": 135.2668921,
+      "tripo::Spine_6": 479.7273123,
+      "tripo::Spine_7": 556.9371536,
+      "bone_14": 97.2417761,
+      "bone_15": 72.9229207,
+      "tripo::Head_0": 358.5923297,
+      "tripo::Head_1": 343.4684928
+    },
+    "maximumPermittedDistanceMeters": 0.08
+  },
+  "texture": {
+    "processor": "D:\\Project\\ThaiNativeOnline\\tools\\monster-models\\node_modules\\sharp\\dist\\index.cjs",
+    "sourceBytes": 2971540,
+    "outputBytes": 317084,
+    "sourceWidth": 2048,
+    "sourceHeight": 2048,
+    "width": 1024,
+    "height": 1024,
+    "encoding": "1024 edge, JPEG quality 90, 4:4:4, mozjpeg; unchanged UVs, material and texture design; canonical source retains original 2048 JPEG",
+    "psnrVsDownsampledSourceDb": 37.949814853926334,
+    "pixelRMSEVsDownsampledSource": 3.22886165696093
+  },
+  "audit": {
+    "structuralPass": true,
+    "errors": [],
+    "poseFinite": true,
+    "poseStrainPass": true,
+    "equivalentSkinMatrixError": 1.1920928955078125e-7,
+    "visualApprovalRequired": true,
+    "exactProductionControllerSHA256": "00fcbc8675d2f8269dc56e755fcce9813144e3a3aa9481a83015d8adff9da240",
+    "controllerSource": "src/classes/dog.js riggedDog; exact function evaluated locally, SCALE=1.25; actual GLTFLoader/SkeletonUtils/SkinnedMesh",
+    "skin": {
+      "maxWeightSumError": 4.470348358154297e-8,
+      "zeroWeightVertices": 0,
+      "invalidJointIndices": 0,
+      "crossLegInfluences": 0,
+      "seamDifferences": 0,
+      "histogram": [
+        0,
+        0,
+        1837,
+        1854,
+        5224
+      ],
+      "usedJoints": 38,
+      "unusedJointNames": [],
+      "bindPoseErrorMeters": 5.5825387874885183e-8,
+      "geometryEncodingErrorMeters": 3.2178014862321816e-8,
+      "topologyEqual": true,
+      "namesEqual": true
+    },
+    "poseSampling": {
+      "hz": 24,
+      "extraSamples": "Exact attack/bite windup, transition, impact .55 and recovery; gait cycle boundaries",
+      "samples": 305,
+      "measuredIndexedEdges": 11265,
+      "minimumMeasuredModelEdgeMeters": 0.005,
+      "failWhenBoth": {
+        "ratio": 2,
+        "extensionMeters": 0.01
+      },
+      "phases": {
+        "idle": {
+          "samples": 49,
+          "minimumY": -0.0027159,
+          "maximumEdgeRatio": 1.5405587,
+          "maximumEdgeExtensionMeters": 0.0053465,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              -0.0027159,
+              -0.5008609
+            ],
+            "max": [
+              0.2217092,
+              0.7350777,
+              0.4323931
+            ]
+          },
+          "largestStrainExamples": []
+        },
+        "trot": {
+          "samples": 51,
+          "minimumY": -0.0571722,
+          "maximumEdgeRatio": 1.5295856,
+          "maximumEdgeExtensionMeters": 0.0145538,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              -0.0571722,
+              -0.5008648
+            ],
+            "max": [
+              0.1783449,
+              0.7534279,
+              0.4344003
+            ]
+          },
+          "largestStrainExamples": []
+        },
+        "run": {
+          "samples": 52,
+          "minimumY": -0.0517971,
+          "maximumEdgeRatio": 1.9664613,
+          "maximumEdgeExtensionMeters": 0.0282439,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              -0.0517971,
+              -0.5181822
+            ],
+            "max": [
+              0.1783449,
+              0.8048131,
+              0.4976529
+            ]
+          },
+          "largestStrainExamples": []
+        },
+        "attack": {
+          "samples": 73,
+          "minimumY": -0.0347476,
+          "maximumEdgeRatio": 1.5967988,
+          "maximumEdgeExtensionMeters": 0.0122466,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              -0.0347476,
+              -0.5265102
+            ],
+            "max": [
+              0.1783449,
+              0.7357554,
+              0.5915683
+            ]
+          },
+          "largestStrainExamples": []
+        },
+        "bite": {
+          "samples": 30,
+          "minimumY": -0.033269,
+          "maximumEdgeRatio": 1.6117761,
+          "maximumEdgeExtensionMeters": 0.0122466,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              -0.033269,
+              -0.5221111
+            ],
+            "max": [
+              0.1783449,
+              0.7357194,
+              0.5914742
+            ]
+          },
+          "largestStrainExamples": []
+        },
+        "howl": {
+          "samples": 25,
+          "minimumY": 0,
+          "maximumEdgeRatio": 1.9022188,
+          "maximumEdgeExtensionMeters": 0.0196926,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              0,
+              -0.5008116
+            ],
+            "max": [
+              0.1783449,
+              0.7802791,
+              0.4377915
+            ]
+          },
+          "largestStrainExamples": []
+        },
+        "glow": {
+          "samples": 25,
+          "minimumY": 0,
+          "maximumEdgeRatio": 1.5404047,
+          "maximumEdgeExtensionMeters": 0.0052703,
+          "maximumBadEdgesInPose": 0,
+          "badEdgeSamples": 0,
+          "nonfiniteVertices": 0,
+          "worstEdge": null,
+          "bounds": {
+            "min": [
+              -0.1329044,
+              0,
+              -0.5008116
+            ],
+            "max": [
+              0.2043717,
+              0.7350777,
+              0.4323931
+            ]
+          },
+          "largestStrainExamples": []
+        }
+      },
+      "donorFloorComparison": {
+        "idle": {
+          "donorBuilderMinimumY": -0.0006861,
+          "candidateBuilderMinimumY": -0.0027159,
+          "donorWorldMinimumY": -0.0005489,
+          "candidateWorldMinimumY": -0.0021727
+        },
+        "trot": {
+          "donorBuilderMinimumY": -0.0271444,
+          "candidateBuilderMinimumY": -0.0571722,
+          "donorWorldMinimumY": -0.0217155,
+          "candidateWorldMinimumY": -0.0457378
+        },
+        "run": {
+          "donorBuilderMinimumY": -0.0395849,
+          "candidateBuilderMinimumY": -0.0517971,
+          "donorWorldMinimumY": -0.0316679,
+          "candidateWorldMinimumY": -0.0414377
+        },
+        "bite": {
+          "donorBuilderMinimumY": -0.0235989,
+          "candidateBuilderMinimumY": -0.033269,
+          "donorWorldMinimumY": -0.0188791,
+          "candidateWorldMinimumY": -0.0266152
+        }
+      },
+      "floorIsMeasurementOnly": true,
+      "plantedFootClaim": false,
+      "note": "Model runtime scale 1.25 included; actor scale and terrain excluded. No planted-foot IK exists. Parent changes to attack controller require a fresh audit."
+    },
+    "downloadBudget": {
+      "maximumBytes": 1200000,
+      "actualBytes": 831080,
+      "passed": true
+    }
+  },
+  "limitations": [
+    "The head's genuine turn and asymmetrical stance are preserved, not mirrored into a symmetric pose.",
+    "The naturally lowered tail is fitted as generated; geometry is not curled or sculpted.",
+    "Joint centers are anatomical estimates, not an automatic landmark detector. Visual pose approval remains required.",
+    "Canonical withers height is 0.45 m; builder scale 1.25 makes 0.5625 m; CombatView actor scale 0.8 makes 0.45 m in the world.",
+    "Numerical audit runs the actual existing procedural controller in Node Three with texture decoding stubbed. It does not approve material appearance or gameplay-camera readability.",
+    "Existing controller has no independent jaw animation or planted-foot IK. Pose strain/floor measurements are reported without hiding inherited gait limitations.",
+    "Candidate is not compressed with gltfpack; no publication, runtime modification, build or browser run occurs."
+  ]
+}

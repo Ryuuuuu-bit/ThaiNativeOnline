@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ตรวจโมเดลชาวเมือง — Thai Native Online</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#14271f;color:#efe5c9;font:14px system-ui,sans-serif}
+    header{padding:12px 16px;border-bottom:1px solid #65704c;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    h1{font-size:18px;margin:0;color:#e0c687}label{display:flex;align-items:center;gap:6px}
+    button,select,input{font:inherit;color:inherit;background:#254234;border:1px solid #7e8158;border-radius:5px;min-height:36px;padding:6px 10px}
+    button{cursor:pointer}button[aria-pressed=true]{background:#685b31;border-color:#dac481}input{min-width:120px;max-width:320px}
+    #controls{padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}#source{width:300px}
+    #stage{height:calc(100dvh - 190px);min-height:320px;position:relative}canvas{display:block;width:100%;height:100%}
+    #status{padding:9px 16px;background:#193329;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;min-height:48px}
+    .note{color:#b8c4ac;font-size:12px}#error{color:#ffbba5;white-space:pre-wrap;padding:10px 16px}
+    @media(max-width:700px){button,select,input{min-width:44px;min-height:44px}header,#controls{padding:8px}#stage{height:55dvh}#source{width:100%}}
+  </style>
+</head>
+<body>
+  <header><h1>สมุดตรวจชาวเมือง · โมเดลจริง</h1><span class="note">ต้นฉบับ / ตัวเรนเดอร์จริง / ฉากเมือง — บันทึกสถานะ fallback แยกชัดเจน</span></header>
+  <div id="controls">
+    <label>โหมด <select id="mode"><option value="raw">ต้นฉบับ GLB</option><option value="registry" selected>NPC ตามทะเบียน</option><option value="city">ฉากเมืองจริง</option></select></label>
+    <label>ตระกูล <select id="family"></select></label><label>ตัวละคร <select id="npc"></select></label>
+    <label>GLB <input id="source" placeholder="/artifacts/.../candidate.glb"></label><button id="load">โหลด</button>
+    <label>ท่า <select id="pose"></select></label><label>มุม <select id="view"><option value="front">หน้า</option><option value="side">ข้าง</option><option value="back">หลัง</option><option value="threequarter">สามส่วนสี่</option><option value="gameplay">เล่นจริง</option><option value="top">บน</option></select></label>
+    <label>ภาพใกล้ <select id="detail-target"><option value="hand:left">มือซ้าย</option><option value="hand:right">มือขวา</option></select></label><select id="detail-angle" aria-label="มุมภาพใกล้"><option value="front">หน้า</option><option value="back">หลัง</option><option value="side">ข้าง</option><option value="top">บน</option></select><button id="inspect-detail">ตรวจภาพใกล้</button>
+    <label>เวลา <input id="time" type="number" value="0.5" min="0" step="0.1" style="width:80px;min-width:70px"></label><button id="seek">ตั้งเวลา</button>
+    <label>ช่วงวัน <select id="phase"><option value="morning">เช้า</option><option value="day" selected>กลางวัน</option><option value="evening">เย็น</option><option value="night">กลางคืน</option></select></label>
+    <button id="play" aria-pressed="false">เคลื่อนไหว</button>
+  </div>
+  <div id="stage" aria-label="ภาพโมเดลสามมิติ"></div><div id="status" role="status">กำลังเตรียมเครื่องมือตรวจ…</div><div id="error" role="alert" hidden></div>
+  <script type="module" src="./review.js"></script>
+</body>
+</html>

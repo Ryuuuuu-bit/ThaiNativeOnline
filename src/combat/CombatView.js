@@ -465,7 +465,14 @@ export class CombatView {
       const pet = this.combat.pet;
       this.pet.position.set(pet.x, this.groundHeight(pet.x, pet.z), pet.z);
       this.pet.rotation.y += Math.atan2(Math.sin(pet.facing - this.pet.rotation.y), Math.cos(pet.facing - this.pet.rotation.y)) * Math.min(1, dt * 12);
-      this.pet.userData.animate(elapsed, pet.moving, pet.attackTimer > (pet.frenzy > 0 ? .35 : 1.05), { run: pet.pounce ? 1 : 0 });
+      // Combat resets its cooldown when a bite lands. Start the visible strike
+      // there, then recover; global elapsed time cannot align repeated bites.
+      // Skill actors supply their own anticipation and .55 impact phase.
+      this.petBiteRemaining = Math.max(0, (this.petBiteRemaining ?? 0) - dt);
+      if (pet.attackTimer > (this.petAttackTimer ?? 0)) this.petBiteRemaining = .25;
+      this.petAttackTimer = pet.attackTimer;
+      const bite = this.petBiteRemaining > 0 ? .55 + .45 * (1 - this.petBiteRemaining / .25) : undefined;
+      this.pet.userData.animate(elapsed, pet.moving, false, { run: pet.pounce ? 1 : 0, bite });
     }
     this.targetRing.visible = !!target?.alive;
     if (target?.alive) {

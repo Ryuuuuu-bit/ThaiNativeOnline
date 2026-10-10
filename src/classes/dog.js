@@ -2,9 +2,9 @@ import * as THREE from 'three';
 import { gltfLoader } from '../core/gltf.js';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 
-// น้องหมาของนายพราน: a Thai Ridgeback-style hunting dog (fawn coat, the darker ridge
-// down the back, upright ears, sickle tail, red collar with a brass bell).
-// The body is the Tripo model public/models/hunter-dog.glb (rigged, no clips: every pose is
+// น้องหมาของนายพราน: a stylized Thai hunting dog with alert ears, charcoal/brown
+// coat, crimson collar and a brass charm. Meshy body, locally fitted canine rig.
+// The body is public/models/hunter-dog.glb (rigged, no clips: every pose is
 // driven here from code, so gait, bite and glow blend freely); until it has loaded, or if
 // it can't, a primitive stand-in with the same animate() API takes its place.
 // Units: metres-ish, origin on the ground between the paws, facing +Z, shoulder ≈ .6.
@@ -12,11 +12,12 @@ import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
 // dog.userData.animate(t, moving, attacking, o)
 //   t        time in seconds (any monotonic clock)
 //   moving   walking/trotting
-//   attacking  snapping at a target (jaw works on its own clock)
+//   attacking  repeating a bounded anticipation/lunge/head-snap/recovery
 //   o.run    0..1 blend from trot to a full gallop
-//   o.bite   0..1 phase of one scripted bite (lunge, jaw open, snap shut) — overrides `attacking`
+//   o.bite   0..1 phase of one scripted bite — strike peaks at the skill's .55 hit phase
 //   o.glow   0..1 spirit glow (emissive jade) for summoned dogs
-//   o.howl   0..1 head thrown back to the sky, jaw open (a howl / war bark)
+//   o.howl   0..1 head raised for a howl / war bark
+// The loaded closed-mouth mesh has no separate jaw; the primitive fallback does.
 //
 // followerDog() is the dog that heels behind the hunter in the world (the first
 // makeDog() without `transient` still in a scene); the skill kit borrows it.
@@ -134,8 +135,10 @@ function primitiveDog({ coat = '#b8733c', glowColor = '#5dffa8' } = {}) {
   return g;
 }
 
-// ---- the Tripo dog ------------------------------------------------------------------------
-const URL = (import.meta.env?.BASE_URL ?? '/') + 'models/hunter-dog.glb';
+// ---- the locally rigged Meshy companion ---------------------------------------------------
+// Public model responses are cached for a day; the revision also refreshes
+// existing players' cached dog after the replacement ships.
+const URL = (import.meta.env?.BASE_URL ?? '/') + 'models/hunter-dog.glb?v=meshy-hound-1';
 const SCALE = 1.25;   // model shoulder ≈ .45 → ≈ .56, same as the stand-in
 let source = null;
 const loadSource = () => (source ??= gltfLoader().loadAsync(URL).then(gltf => {
@@ -160,28 +163,34 @@ function riggedDog(src, glowColor) {
   const hips = J('Spine_0'), mid = J('Spine_4'), neck = J('Spine_6'), neck2 = J('Spine_7'), head = J('Head_0'), tail = joint('bone_2'), tail1 = J('Tail_0'), ears = [joint('bone_14'), joint('bone_15')];
   const animate = (t, moving, attacking, o) => {
     const run = o.run ?? 0, glow = o.glow ?? 0;
+    const bite = o.bite != null ? THREE.MathUtils.clamp(o.bite, 0, 1) : attacking ? (t * 2.4) % 1 : null;
+    const windup = bite != null && bite < .23 ? Math.sin(bite / .23 * Math.PI) : 0;
+    // Only the pose changes. hunter-skills.js retains damage and hit timing.
+    const strike = bite == null ? 0 : bite < .55
+      ? THREE.MathUtils.smoothstep(bite, .18, .55)
+      : 1 - THREE.MathUtils.smoothstep(bite, .55, 1);
     for (const m of mats) m.emissiveIntensity = glow * .6;
     const f = moving ? 7.5 + run * 4.5 : 0, ph = t * f;
     for (const L of legs) {
       const trot = (L.front ? L.side : 1 - L.side) * Math.PI, gal = L.front ? L.side * .45 : Math.PI + L.side * .45;
       const p = ph + trot * (1 - run) + gal * run, amp = moving ? .38 + run * .32 : 0;
       const swing = Math.sin(p) * amp, lift = moving ? Math.max(0, Math.cos(p)) * (.6 + run * .4) : 0;
-      rot(L.j[0], [X, -swing]);
-      if (L.front) { rot(L.j[1], [X, lift * .5]); rot(L.j[2], [X, lift * .9]); }
-      else { rot(L.j[1], [X, lift * .6]); rot(L.j[2], [X, -lift * .9]); }
+      const reach = L.front ? .12 * windup - .16 * strike : -.07 * windup + .13 * strike;
+      rot(L.j[0], [X, -swing + reach]);
+      if (L.front) { rot(L.j[1], [X, lift * .5 + .1 * strike]); rot(L.j[2], [X, lift * .9 + .04 * strike]); }
+      else { rot(L.j[1], [X, lift * .6 + .13 * windup]); rot(L.j[2], [X, -lift * .9 - .1 * windup]); }
     }
     inner.position.y = moving ? Math.abs(Math.sin(ph)) * (.015 + run * .035) : Math.sin(t * 2.2) * .003;
-    rot(hips, [X, moving ? Math.sin(ph) * run * .1 : 0]); rot(mid, [X, moving ? -Math.sin(ph) * run * .06 : Math.sin(t * 2.2) * .01]);
+    rot(hips, [X, (moving ? Math.sin(ph) * run * .1 : 0) + .045 * windup - .035 * strike]); rot(mid, [X, moving ? -Math.sin(ph) * run * .06 : Math.sin(t * 2.2) * .01]);
     let pitch, fwd = 0, yaw = 0;
-    if (o.bite != null) { const b = o.bite; pitch = .75 * Math.sin(Math.min(1, b / .7) * Math.PI); fwd = Math.sin(Math.min(1, b / .8) * Math.PI) * .1; }
+    if (bite != null) { pitch = -.08 * windup + .5 * strike; fwd = -.025 * windup + .14 * strike; }
     else if (o.howl) { pitch = -1.5 * o.howl; }
-    else if (attacking) { const s = Math.sin(t * 16); pitch = .3 + s * .12; fwd = .05; }
     else { pitch = moving ? Math.sin(ph * 2) * .05 + run * .2 : Math.sin(t * .7) * .05; yaw = moving ? 0 : Math.sin(t * .45) * .4; }
     inner.position.z = fwd;
     rot(neck, [X, pitch * .45]); rot(neck2, [Y, yaw], [X, pitch * .3]); rot(head, [X, pitch * .35]);
     const wag = Math.sin(t * (moving || attacking ? 14 : 6)) * (moving ? .35 : .5);
-    rot(tail, [Y, wag], [X, .35 + run * .25]); rot(tail1, [X, .15]);
-    ears.forEach((e, i) => rot(e, [X, (t % 4.3) < .12 ? .25 : 0], [Y, (i ? 1 : -1) * run * .25]));
+    rot(tail, [Y, wag], [X, .35 + run * .25 + .1 * strike]); rot(tail1, [X, .15]);
+    ears.forEach((e, i) => rot(e, [X, ((t % 4.3) < .12 ? .25 : 0) + .15 * strike], [Y, (i ? 1 : -1) * run * .25]));
   };
   return { inner, animate };
 }

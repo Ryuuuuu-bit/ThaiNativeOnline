@@ -1,0 +1,1568 @@
+{
+  "schema": 1,
+  "reviewedOn": "2026-10-10",
+  "scope": "Read-only grasp direction for eight frozen registered tool families, plus confirmed prayer/sweep/watch follow-ups. No prototype, runtime, mesh or texture is accepted by this document.",
+  "sourceOfTruth": [
+    "docs/art/ART_BIBLE.md",
+    "docs/art/npcs/CITY_NPC_REFRESH.md"
+  ],
+  "status": "P2_ACTIONS_CONFIRMED_NEW_CANDIDATES_PENDING",
+  "ownership": {
+    "swordPrototype": "Copernicus: fit-grip.mjs static hand closure and measured fit after Occultist freeze",
+    "runtimePoseAndWatchRepair": "Parent",
+    "thisDocument": "Independent Art specialist; documentation only"
+  },
+  "criteria": {
+    "styleTarget": 8,
+    "readabilityTarget": 8,
+    "technicalUsabilityTarget": 8,
+    "anatomy": [
+      "Preserve four fingers plus one anatomical thumb per hand; distinct tips and a natural palm web. No backward digit bends, spikes, fused fingertips, collapsed web or wrist twist.",
+      "A held tool must be visibly supported by palm/fingers with an opposing thumb; do not substitute centroid equality, an attachment pivot or prop occlusion for a real grasp.",
+      "Static closure may retain the existing 24-bone rig, but geometry changes require a new asset pin and renewed native anatomy/deformation QA. Preserve open palms for states that actually need them."
+    ],
+    "prop": [
+      "Fit the actual handle surface and wrist axis after any local closure, not an invented hilt point. Keep guard, cutting edge, shaft and head clear of skin in the relevant state.",
+      "Judge grip at a meaningful palm/thumb view and normal 2.5D view; do not require every naturally occluded side/back angle to expose the grip."
+    ],
+    "validation": [
+      "Retain every existing native body, indexed-edge, limb, floor and contact gate unchanged. A texture-only receipt cannot certify a geometry-edited prototype.",
+      "Pin new source/production bytes and actual pose times. Inspect rest palm/back/thumb-side, held-state palm/thumb-side and side plus gameplay views, then sweep the relevant native motion.",
+      "No fully verified finger count, continuous-frame Art approval, live city navigation, night/mobile or full release claim follows from these bounded still witnesses."
+    ],
+    "technicalBasis": [
+      {
+        "path": "tools/npc-models/contacts.mjs",
+        "line": 188,
+        "reason": "Authored anatomical thumb landmark support; PCA alone remains unverified."
+      },
+      {
+        "path": "tools/npc-models/contacts.mjs",
+        "line": 243,
+        "reason": "Measured contact is a hand-owned surface centroid, not proof of a closed grasp."
+      },
+      {
+        "path": "src/npc/NPCModels.js",
+        "line": 133,
+        "reason": "Current contact/socket adapter does not articulate fingers."
+      }
+    ]
+  },
+  "families": [
+    {
+      "family": "blacksmith",
+      "baselineAssetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "hammer",
+      "state": "work-hammer",
+      "observedFinding": "Open fingers visibly intersect the rectangular hammer shaft; present contact does not read as a grasp.",
+      "direction": "Seat the shaft across the palm web, curl four fingers around it and oppose the visible thumb; align the hammer head to the working arc rather than the forearm.",
+      "additionalCheck": "Check finger tips against the shaft and head clearance throughout the hammer stroke.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/blacksmith/blacksmith-work-hammer-hand-right-front.png",
+          "sha256": "cda932dbe3ea6ab6982cd91dd629147ef1a559f52886ed60082317455087586a",
+          "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/blacksmith/blacksmith-work-hammer-prop-hammer-side.png",
+          "sha256": "9ad9df6a7c454ee13a84d05a9f450272115c259c635445d5989adb84cd1ddddc",
+          "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/blacksmith/blacksmith-work-hammer-0_5-threequarter.png",
+          "sha256": "d930cb7933fa4e8fd7fba771330b96577671ce7cb8356f344bc39358dc5213fd",
+          "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af"
+        }
+      ]
+    },
+    {
+      "family": "enhancer",
+      "baselineAssetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "hammer",
+      "state": "work-hammer",
+      "observedFinding": "Straight open fingers lie along the handle and the thumb does not visibly oppose them.",
+      "direction": "Fit the cylindrical handle into the palm web, wrap fingers around its actual radius and bring the thumb across the handle.",
+      "additionalCheck": "Preserve the distinct narrow refinement craftsman silhouette and clear wrist/cuff.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/enhancer/enhancer-work-hammer-hand-right-front.png",
+          "sha256": "8a6a2084276885fe56867992533fc84700b3644cdc0271950d9f8fdc778dc5d8",
+          "assetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/enhancer/enhancer-work-hammer-prop-hammer-side.png",
+          "sha256": "2df063dcc400ba3128a7143b944a948cd87cd5ced7ca26c88b0dd5d209fb7a79",
+          "assetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/enhancer/enhancer-work-hammer-0_5-threequarter.png",
+          "sha256": "67885734bb5dff20b8c472b79e76df18f2af26e7dc5a5f6aaceac43a5891c45a",
+          "assetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900"
+        }
+      ]
+    },
+    {
+      "family": "master_sword",
+      "baselineAssetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "sword",
+      "state": "work-sword",
+      "observedFinding": "Source right/left hands each visibly show four fingers plus a thumb. Registered work right hand is splayed at the guard/finger-tip neighborhood; side blade runs above the forearm while the palm hangs below.",
+      "direction": "Use a local static grip-shape prototype: four fingers close around the actual hilt, thumb opposes near the palm web. Then fit the hilt axis/contact, put the guard ahead of knuckles and keep the blade clear of wrist/forearm. Socket translation alone cannot close the current splayed hand.",
+      "additionalCheck": "Inspect the real blade edge/spine orientation, thumb-side contact, guard clearance and five separate preserved digits. Right hand has 170 runtime vertices / 59 welded source positions; no finger bones.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_sword/master_sword-source-rest-right-front.png",
+          "sha256": "87bf6dbe31786f82b2123aa00a684ddba7df7cd91d65d2d49bc3615397be6a0f",
+          "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_sword/master_sword-source-rest-left-front.png",
+          "sha256": "4355e92b3424dd0b01c27343f22889e98e486bed9a23c54e52109fbadf2cc01b",
+          "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_sword/master_sword-work-sword-hand-right-front.png",
+          "sha256": "fb94d059feeffdf010844f2ebb1144bafa725367e96c9c1657f8461573034832",
+          "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_sword/master_sword-work-sword-hand-right-back.png",
+          "sha256": "eb4bd946c554c02e935bfc98008838aa563a25eda7dd63350ccdd9b822567c71",
+          "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_sword/master_sword-work-sword-prop-sword-side.png",
+          "sha256": "050578f585ece17e99eb56351ff821a79b55e9fe9eebacc22a6ac4ef247669c1",
+          "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_sword/master_sword-work-sword-0_5-threequarter.png",
+          "sha256": "cc4c23a44098443ad93f285420116a52667519e4a4d6e4c9e1e07a7bf651dc67",
+          "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+        }
+      ]
+    },
+    {
+      "family": "master_hunter",
+      "baselineAssetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "left",
+      "bone": "LeftHand",
+      "prop": "bow",
+      "state": "work-aim",
+      "observedFinding": "Bow curve lies sideways across open finger surfaces; current pose lacks a readable supporting grip and draw alignment.",
+      "direction": "Fit the bow grip to the left palm web with opposing thumb/finger support. Adjust the bow plane to the intended aim; align the right draw hand to that same plane.",
+      "additionalCheck": "Show bow clearance from palm/forearm and a coherent draw/release silhouette; do not claim string contact from a hidden view.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_hunter/master_hunter-work-aim-hand-left-front.png",
+          "sha256": "3b330993c2aafae3e4750e69d6b5bf6f076015e85e085771c07bfa907faf8e81",
+          "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_hunter/master_hunter-work-aim-prop-bow-side.png",
+          "sha256": "2418b7f8b2b9cbae940272ce3466b21c0441ff623f43b3808a10ed819f744753",
+          "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_hunter/master_hunter-work-aim-0_5-threequarter.png",
+          "sha256": "eb1ffa3d382c704db9e20812dc06e0d4ca73f9d1198a0cffc2fcd68c2313f4c2",
+          "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2"
+        }
+      ]
+    },
+    {
+      "family": "master_bandit",
+      "baselineAssetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "knife",
+      "state": "idle-lean",
+      "observedFinding": "Knife passes through a loose/open hand; the visible witness does not establish a closed grasp.",
+      "direction": "Seat the knife handle inside the palm web and close fingers/oppose thumb; establish the blade-facing direction from the actual knife surface.",
+      "additionalCheck": "Keep the short blade clear of the thumb and forearm; charcoal textile edge repair is already closed and is not reopened here.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_bandit/master_bandit-idle-lean-hand-right-front.png",
+          "sha256": "537ee0a73f89313e2525bbe0bfa8733d4428a484a21c0dedd8d48dedc3801f56",
+          "assetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_bandit/master_bandit-idle-lean-prop-knife-side.png",
+          "sha256": "5d572e149d8e85eadc114edb4dc635453558d149079ae1af533ae03b097919d6",
+          "assetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b"
+        }
+      ]
+    },
+    {
+      "family": "city_guard",
+      "baselineAssetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "spear",
+      "state": "idle-guard",
+      "observedFinding": "Straight fingers run alongside the angled spear without a visible wrap.",
+      "direction": "Fit the shaft inside the palm and wrap fingers with thumb opposition. Keep a deliberate supporting shaft angle through idle and patrol.",
+      "additionalCheck": "Inspect spear tip direction and body clearance; a hand-centroid match alone is insufficient.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/city_guard/city_guard-idle-guard-hand-right-front.png",
+          "sha256": "9c292de2880f05a8fe63e2a52fd6defe2c5e5264885e350ae727e0e692e24baf",
+          "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/city_guard/city_guard-idle-guard-prop-spear-side.png",
+          "sha256": "f1a234c02308c1d44feb62ec28076c2730ae85d5cf24dcafdd1dbf284d473e3a",
+          "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/city_guard/city_guard-idle-guard-prop-spearTip-side.png",
+          "sha256": "4d6f9e6e7d37b9d6a4347d5606827ebd2f5eaebeea95d0936aebb9c7aa85b466",
+          "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d"
+        }
+      ]
+    },
+    {
+      "family": "master_shaman",
+      "baselineAssetSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "staff",
+      "state": "sit-chant",
+      "observedFinding": "Open right hand does not wrap the staff; the shaft reads horizontally across the upper-chest level in this chant witness.",
+      "direction": "Fit the shaft into the right palm with visible thumb opposition and a purposeful supported staff orientation.",
+      "additionalCheck": "Check torso clearance from multiple views. Side projection alone is not proof of physical chest penetration; Greek-key textile repair remains closed.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_shaman/master_shaman-sit-chant-hand-right-front.png",
+          "sha256": "f48d7456b9a9d75db0d250388cbaf914d4231d121f7f4a0a38eb1cb4971d3adc",
+          "assetSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/master_shaman/master_shaman-sit-chant-prop-staff-side.png",
+          "sha256": "c1554bba11a5b594d3071a8fd80878768e4f02cc08cdb0dab529343312943a91",
+          "assetSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600"
+        }
+      ]
+    },
+    {
+      "family": "boatman",
+      "baselineAssetSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+      "priority": "P2",
+      "status": "REPAIR_PENDING_ACTUAL_PROTOTYPE_REVIEW",
+      "hand": "right",
+      "bone": "RightHand",
+      "prop": "paddle",
+      "state": "sit-rest",
+      "observedFinding": "Upward open palm has finger tips intersecting the paddle shaft without a readable opposing-thumb grip.",
+      "direction": "Fit the shaft to the palm web and close fingers around it; keep the paddle blade orientation coherent with the resting or rowing state.",
+      "additionalCheck": "Hat/shaft overlap in side projection is not a confirmed collision. Flat-studio paddle minimum Y was -0.11756 m; actual dock/water placement is untested.",
+      "thumb": {
+        "semanticVertex": null,
+        "status": "UNASSIGNED: identify the actual anatomical thumb on this family; PCA across-palm sign is not a thumb witness",
+        "hint": "Choose the source thumb from palm/back/thumb-side views; author an exact hash-pinned surface index and verify it in the fully hand-owned patch."
+      },
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/boatman/boatman-sit-rest-hand-right-front.png",
+          "sha256": "737add0e5ffc862f9ebc936c9098e1105dd66c0206b216a953819f97b67f1265",
+          "assetSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/boatman/boatman-sit-rest-prop-paddle-side.png",
+          "sha256": "514ee839ab704833576f987214ec3f08a4b5d63a15820677cb5f4be315a525fb",
+          "assetSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17"
+        }
+      ]
+    }
+  ],
+  "swordPrototypeGate": {
+    "status": "NOT_YET_SEEN",
+    "decision": "Static finger closure plus actual hilt/palm-web fit is required for the presently splayed sword hand; translation/rotation alone cannot make it closed.",
+    "reviewOrder": "First inspect the sword prototype anatomy and grip closeups independently; then inspect the remaining seven tool families against their own hand shapes and props.",
+    "requiredWitnesses": [
+      "Exact candidate asset hash and source baseline",
+      "Same right hand palm/back/thumb-side without the prop to check digit preservation",
+      "Actual held sword palm/thumb-side and blade/forearm side",
+      "Actual work prep/peak/release plus idle/walk/talk states affected by the change",
+      "Existing unchanged numeric QA receipt for the new exact bytes"
+    ]
+  },
+  "otherConfirmedActions": [
+    {
+      "family": "monk_novice",
+      "baselineAssetSha256": "08969d9abb9f5fa412b516257b2f7b24ccac694df71831743c614798d9d09298",
+      "priority": "P2",
+      "finding": "Sweep broom head moves from below the flat floor to well above it; broom also remains across the face during prayer.",
+      "measurements": {
+        "state": "work-sweep",
+        "broomMinYMetres": [
+          {
+            "time": 0.25,
+            "value": -0.1954303899
+          },
+          {
+            "time": 0.5,
+            "value": 0.2130196649
+          },
+          {
+            "time": 0.75,
+            "value": 0.5252151269
+          }
+        ],
+        "bodyRoot": [
+          0,
+          0,
+          0
+        ],
+        "bodyMinYMetres": -0.000019
+      },
+      "direction": "Use a grounded sweep arc with a real shaft grip; stow/hide broom during prayer. Do not lift the body or weaken floor gates.",
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_novice/monk_novice-work-sweep-0_25-front.png",
+          "sha256": "e6da2181f7f51bd877b0afe1c62dcfdce6e1ea9715b4060d3b5ab33355c45e8b",
+          "assetSha256": "08969d9abb9f5fa412b516257b2f7b24ccac694df71831743c614798d9d09298"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_novice/monk_novice-work-sweep-0_5-threequarter.png",
+          "sha256": "66813dbbd437b4a2c485929acab6a4581bcc411b4ab8f52a4d626f5c1682fef9",
+          "assetSha256": "08969d9abb9f5fa412b516257b2f7b24ccac694df71831743c614798d9d09298"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_novice/monk_novice-work-sweep-0_75-side.png",
+          "sha256": "61d475349ae9fdc696255ac83c55cbef2cac22a98e020a90c2bbee30a92af3e5",
+          "assetSha256": "08969d9abb9f5fa412b516257b2f7b24ccac694df71831743c614798d9d09298"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_novice/monk_novice-idle-pray-0_5-front.png",
+          "sha256": "50c2d5cf00c12892fffce10dc2267fc4e528fcd7ca7d71f9f6163b151f536db9",
+          "assetSha256": "08969d9abb9f5fa412b516257b2f7b24ccac694df71831743c614798d9d09298"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_novice/monk_novice-work-sweep-hand-right-front.png",
+          "sha256": "80e33383502dfdd8f7ce22d4a97e8fae2dd741c251531e8631fb88067eba51b7",
+          "assetSha256": "08969d9abb9f5fa412b516257b2f7b24ccac694df71831743c614798d9d09298"
+        }
+      ]
+    },
+    {
+      "family": "monk_elder",
+      "baselineAssetSha256": "b478bed00ad41d824e43aa849ba24c47d1d55d18f5b8cd25a53c90145cb0adfa",
+      "priority": "P2",
+      "finding": "Prayer shows separated upward open palms rather than palms together in a Thai wai.",
+      "direction": "Align both palms/fingers as a coherent wai with wrists and robe clearance; keep the body-mounted bowl separate from held-tool requirements.",
+      "evidence": [
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_elder/monk_elder-idle-pray-0_5-front.png",
+          "sha256": "235260cfea06732a19b749afa4982db8dfe1d0da88bcd685fd4fb48e11e5e00a",
+          "assetSha256": "b478bed00ad41d824e43aa849ba24c47d1d55d18f5b8cd25a53c90145cb0adfa"
+        },
+        {
+          "path": "docs/art/npcs/reviews/registry-15-1/monk_elder/monk_elder-sit-pray-0_5-threequarter.png",
+          "sha256": "af7d74712415575494e1ee7e19b188da3d3c66c796b25e67ef7118aa0d90d283",
+          "assetSha256": "b478bed00ad41d824e43aa849ba24c47d1d55d18f5b8cd25a53c90145cb0adfa"
+        }
+      ]
+    }
+  ],
+  "watchRepair": {
+    "family": "master_herbal",
+    "priority": "P2",
+    "status": "COMPLETE_MASK_MAPPED_V4_PAINT_AND_ART_PENDING",
+    "bodyAssetSha256": "086a3adff2f954b09b89a2dd491a0392ab862bb6e0626f62eaeda242e8c1ac57",
+    "geometryBasisSha256": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
+    "finding": "Anatomical left wrist has a dark strap and silver circular watch-like face in the actual Meshy source; opposite wrist has a gold bracelet. This is not new hem/sash paint leakage.",
+    "direction": "Locally repaint the left accessory as matte woven cord/cloth with a plain wooden token/disc; remove metallic watch-face cues. Preserve actual skin, shirt cuff, palms, UV seams and opposite gold bracelet.",
+    "evidence": [
+      {
+        "path": "docs/art/npcs/reviews/registry-15-1/master_herbal/master_herbal-work-grind-0_5-threequarter.png",
+        "sha256": "372b8d74e50020b2d27e24c063335d0b56d49425c0725c2adc0f842ab079a771",
+        "assetSha256": "086a3adff2f954b09b89a2dd491a0392ab862bb6e0626f62eaeda242e8c1ac57"
+      },
+      {
+        "path": "docs/art/npcs/reviews/registry-15-1/master_herbal/master_herbal-idle-hand-left-front.png",
+        "sha256": "72360f4da4c0b132f3870d5c9ccf77b04f645db257ce4689ab98a7b535ea4d8a",
+        "assetSha256": "086a3adff2f954b09b89a2dd491a0392ab862bb6e0626f62eaeda242e8c1ac57"
+      }
+    ],
+    "measurement": {
+      "coordinateSystem": "Actual decoded shipped mesh in native rest, Y-up canonical metres; zero-based runtime vertex and indexed-triangle IDs. KHR_texture_transform applied; top-origin 1024x1024 RGB texture pixels.",
+      "leftHand": [
+        0.44899041584023036,
+        1.1791172571014,
+        0.1692062339828579
+      ],
+      "leftForeArm": [
+        0.3154073542615253,
+        1.0010051255707335,
+        -0.058342603543259916
+      ],
+      "forearmToHandAxis": [
+        0.41961044344188736,
+        0.5594849347716767,
+        0.714775267841603
+      ],
+      "inspectionEnvelopeOnly": {
+        "description": "Search near the left wrist, elbowward of LeftHand. This is NOT an approved repaint mask: skin and ivory cuff are also present.",
+        "axialMetres": [
+          -0.15,
+          -0.07
+        ],
+        "maxRadialMetres": 0.09
+      },
+      "seedCharts": [
+        {
+          "name": "Dark accessory edge",
+          "seedVertex": 13107,
+          "vertexIds": [
+            13104,
+            13105,
+            13106,
+            13107,
+            13108,
+            13109,
+            13110,
+            13111,
+            13112,
+            13113,
+            13114,
+            13115,
+            13116,
+            13117,
+            13118,
+            13119,
+            13120,
+            13121,
+            13122
+          ],
+          "triangleIds": [
+            11364,
+            11365,
+            11366,
+            11367,
+            11368,
+            11369,
+            11370,
+            11371,
+            11372,
+            11373,
+            11374,
+            11375,
+            11376,
+            11377,
+            11378,
+            11379,
+            11380,
+            11381,
+            11382
+          ],
+          "bounds": {
+            "min": [
+              0.3585219466066667,
+              1.1120210732391276,
+              0.09662331943235364
+            ],
+            "max": [
+              0.3781544977890132,
+              1.1572704220678658,
+              0.15195141125531925
+            ]
+          },
+          "uvPixelBounds": {
+            "min": [
+              50.63601282704095,
+              119.78713899652428
+            ],
+            "max": [
+              78.32256502311328,
+              157.04582475957608
+            ]
+          },
+          "sample": {
+            "pixel": [
+              54,
+              157
+            ],
+            "rgb": [
+              35,
+              35,
+              47
+            ]
+          }
+        },
+        {
+          "name": "Silver face/bezel candidate chart",
+          "seedVertex": 13147,
+          "vertexIds": [
+            13128,
+            13129,
+            13130,
+            13131,
+            13132,
+            13133,
+            13134,
+            13135,
+            13136,
+            13137,
+            13138,
+            13139,
+            13140,
+            13141,
+            13142,
+            13143,
+            13144,
+            13145,
+            13146,
+            13147
+          ],
+          "triangleIds": [
+            11386,
+            11387,
+            11388,
+            11389,
+            11390,
+            11391,
+            11392,
+            11393,
+            11394,
+            11395,
+            11396,
+            11397,
+            11398,
+            11399,
+            11400,
+            11401,
+            11402,
+            11403,
+            11404,
+            11405,
+            11406
+          ],
+          "bounds": {
+            "min": [
+              0.3585219466066667,
+              1.0780053167489634,
+              0.13872306334650614
+            ],
+            "max": [
+              0.38781328244686575,
+              1.1359580829659826,
+              0.16077031124196534
+            ]
+          },
+          "uvPixelBounds": {
+            "min": [
+              69.34314268925198,
+              80.0278702963549
+            ],
+            "max": [
+              102.2676912467434,
+              114.78597312228914
+            ]
+          },
+          "sample": {
+            "pixel": [
+              70,
+              110
+            ],
+            "rgb": [
+              189,
+              190,
+              194
+            ]
+          }
+        },
+        {
+          "name": "Opposite strap seam A",
+          "seedVertex": 13897,
+          "vertexIds": [
+            13896,
+            13897,
+            13898
+          ],
+          "triangleIds": [
+            11936
+          ],
+          "bounds": {
+            "min": [
+              0.44429622996813867,
+              1.100997433977512,
+              0.07310625931926296
+            ],
+            "max": [
+              0.45238021851329846,
+              1.1081365442929847,
+              0.07856557773617195
+            ]
+          },
+          "sample": {
+            "pixel": [
+              1019,
+              774
+            ],
+            "rgb": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "name": "Opposite strap seam B",
+          "seedVertex": 13930,
+          "vertexIds": [
+            13927,
+            13928,
+            13929,
+            13930
+          ],
+          "triangleIds": [
+            11953,
+            11954
+          ],
+          "bounds": {
+            "min": [
+              0.4493355940379645,
+              1.0607874542335143,
+              0.06691203313876248
+            ],
+            "max": [
+              0.46056919337455715,
+              1.0828347000872207,
+              0.07741072214911071
+            ]
+          },
+          "sample": {
+            "pixel": [
+              2,
+              898
+            ],
+            "rgb": [
+              9,
+              9,
+              9
+            ]
+          }
+        }
+      ],
+      "method": "Connected indexed UV charts welded by POSITION+UV rounded to 1e-6; POSITION-only welding connects the whole source. These seeds locate actual accessory pixels but do not segment every watch/skin boundary.",
+      "safety": "Use actual indexed UV-face ownership plus source accessory colour and left-wrist bounds. Do not fill UV rectangles or the spatial envelope wholesale. Protect skin/ivory cuff/gold bracelet and limit gutter padding to unused texels with nearer repaired ownership. Decode masks using actual channel count.",
+      "limits": "Four measured chart seeds are a repair starting point, not a complete independently approved watch mask. Final front/three-quarter wrist rendering must prove no residual silver face and no skin/cuff bleed."
+    },
+    "priorMaskNote": "The original four charts / 43 triangles were incomplete; v3 a20b31cc... remains an Art HOLD. Historical seed measurements are retained below.",
+    "completeAccessoryMask": {
+      "source": "artifacts/city-npc-models/master_herbal/master_herbal.glb",
+      "sourceSHA256": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
+      "triangleCount": 325,
+      "triangleIds": [
+        11362,
+        11363,
+        11364,
+        11365,
+        11366,
+        11367,
+        11368,
+        11369,
+        11370,
+        11371,
+        11372,
+        11373,
+        11374,
+        11375,
+        11376,
+        11377,
+        11378,
+        11379,
+        11380,
+        11381,
+        11382,
+        11386,
+        11387,
+        11388,
+        11389,
+        11390,
+        11391,
+        11392,
+        11393,
+        11394,
+        11395,
+        11396,
+        11397,
+        11398,
+        11399,
+        11400,
+        11401,
+        11402,
+        11403,
+        11404,
+        11405,
+        11406,
+        11407,
+        11408,
+        11409,
+        11412,
+        11413,
+        11414,
+        11415,
+        11416,
+        11417,
+        11423,
+        11424,
+        11425,
+        11426,
+        11427,
+        11428,
+        11429,
+        11430,
+        11431,
+        11432,
+        11434,
+        11435,
+        11474,
+        11475,
+        11476,
+        11477,
+        11478,
+        11479,
+        11480,
+        11481,
+        11482,
+        11483,
+        11484,
+        11485,
+        11486,
+        11487,
+        11488,
+        11489,
+        11490,
+        11491,
+        11492,
+        11493,
+        11494,
+        11495,
+        11496,
+        11497,
+        11498,
+        11499,
+        11500,
+        11501,
+        11502,
+        11503,
+        11504,
+        11517,
+        11524,
+        11525,
+        11526,
+        11527,
+        11528,
+        11529,
+        11530,
+        11531,
+        11533,
+        11534,
+        11535,
+        11536,
+        11537,
+        11538,
+        11540,
+        11541,
+        11542,
+        11543,
+        11544,
+        11600,
+        11601,
+        11605,
+        11606,
+        11607,
+        11608,
+        11609,
+        11610,
+        11611,
+        11612,
+        11613,
+        11614,
+        11615,
+        11616,
+        11617,
+        11618,
+        11619,
+        11620,
+        11621,
+        11622,
+        11623,
+        11624,
+        11625,
+        11626,
+        11627,
+        11628,
+        11629,
+        11630,
+        11631,
+        11632,
+        11633,
+        11634,
+        11635,
+        11636,
+        11637,
+        11658,
+        11660,
+        11661,
+        11662,
+        11663,
+        11664,
+        11665,
+        11671,
+        11672,
+        11673,
+        11674,
+        11675,
+        11676,
+        11677,
+        11678,
+        11679,
+        11680,
+        11681,
+        11682,
+        11683,
+        11684,
+        11685,
+        11686,
+        11687,
+        11688,
+        11689,
+        11690,
+        11710,
+        11711,
+        11712,
+        11713,
+        11714,
+        11715,
+        11716,
+        11717,
+        11718,
+        11719,
+        11720,
+        11721,
+        11722,
+        11723,
+        11724,
+        11725,
+        11726,
+        11758,
+        11759,
+        11760,
+        11761,
+        11762,
+        11763,
+        11764,
+        11765,
+        11766,
+        11767,
+        11788,
+        11789,
+        11790,
+        11791,
+        11792,
+        11793,
+        11794,
+        11829,
+        11846,
+        11847,
+        11848,
+        11849,
+        11850,
+        11851,
+        11853,
+        11854,
+        11855,
+        11856,
+        11857,
+        11858,
+        11859,
+        11860,
+        11861,
+        11862,
+        11863,
+        11864,
+        11865,
+        11866,
+        11867,
+        11868,
+        11869,
+        11870,
+        11871,
+        11872,
+        11873,
+        11874,
+        11875,
+        11876,
+        11877,
+        11878,
+        11880,
+        11881,
+        11882,
+        11883,
+        11884,
+        11886,
+        11892,
+        11893,
+        11894,
+        11895,
+        11896,
+        11897,
+        11898,
+        11899,
+        11900,
+        11901,
+        11902,
+        11903,
+        11904,
+        11905,
+        11906,
+        11907,
+        11908,
+        11909,
+        11911,
+        11912,
+        11913,
+        11914,
+        11915,
+        11916,
+        11917,
+        11918,
+        11919,
+        11920,
+        11921,
+        11922,
+        11923,
+        11924,
+        11925,
+        11926,
+        11927,
+        11928,
+        11929,
+        11930,
+        11931,
+        11932,
+        11933,
+        11934,
+        11935,
+        11936,
+        11937,
+        11938,
+        11939,
+        11940,
+        11941,
+        11942,
+        11943,
+        11944,
+        11945,
+        11946,
+        11947,
+        11948,
+        11949,
+        11950,
+        11951,
+        11952,
+        11953,
+        11954,
+        11955,
+        11956,
+        11982,
+        11994,
+        11995,
+        11996,
+        11997,
+        11998,
+        11999,
+        12000,
+        12001,
+        12002,
+        12003,
+        12461
+      ],
+      "runtimeVertexCount": 535,
+      "uniquePositionCount": 175,
+      "bounds": {
+        "min": [
+          0.3585219466066667,
+          1.0545932340701998,
+          0.04129523025930831
+        ],
+        "max": [
+          0.46056919337455715,
+          1.1643045409662849,
+          0.16570469603581522
+        ]
+      },
+      "uvIslands": {
+        "selectedCount": 111,
+        "wholeCount": 109,
+        "cutCharts": [
+          {
+            "seedVertex": 13317,
+            "selectedTriangleIds": [
+              11529,
+              11530,
+              11531
+            ],
+            "protectedTriangleIds": [
+              11532
+            ]
+          },
+          {
+            "seedVertex": 13806,
+            "selectedTriangleIds": [
+              11892,
+              11893,
+              11894
+            ],
+            "protectedTriangleIds": [
+              11889,
+              11890,
+              11891
+            ]
+          }
+        ]
+      },
+      "surfaceComponents": [
+        {
+          "triangleCount": 323
+        },
+        {
+          "triangleCount": 2,
+          "triangleIds": [
+            11895,
+            12461
+          ]
+        }
+      ],
+      "fullMaskReceipt": {
+        "path": "artifacts/city-npc-models/watch-mask-4/accessory-mask.json",
+        "sha256": "4f8291c39cc8f577fc1c40cb0ecf1fb8a47d693b3e98009f346d4ee43d91eb33"
+      },
+      "signedFaceWitness": {
+        "path": "artifacts/city-npc-models/watch-mask-4/signed-face-witness.json",
+        "sha256": "73f4149ae43531d28e51093dc8a8b5f75388bcf37a64a0137ff780b2401e2f84",
+        "faces": 325
+      },
+      "views": [
+        {
+          "name": "outer",
+          "towardCamera": [
+            -0.7071067811865475,
+            0,
+            0.7071067811865475
+          ],
+          "source": {
+            "path": "artifacts/city-npc-models/watch-mask-4/outer-source.png",
+            "sha256": "c5fb5e69e2a509aef48b261eca51e21638a06ca0acfe6dc673c493c486210b29"
+          },
+          "overlay": {
+            "path": "artifacts/city-npc-models/watch-mask-4/outer-candidate.png",
+            "sha256": "70c9c46bad8e9533de000e16a33a76edabdaf1948031eeed4e7c651b02dc53be"
+          }
+        },
+        {
+          "name": "inner",
+          "towardCamera": [
+            0.7071067811865475,
+            0,
+            -0.7071067811865475
+          ],
+          "source": {
+            "path": "artifacts/city-npc-models/watch-mask-4/inner-source.png",
+            "sha256": "7fa8200e2f4036fc1fd1677126eaec5d90e9dde20ed2d6000636c8e7a848c6b2"
+          },
+          "overlay": {
+            "path": "artifacts/city-npc-models/watch-mask-4/inner-candidate.png",
+            "sha256": "a663467af78072b40b92c5c6850887b84d1f133fe3e5cd9db6422900145c2ec0"
+          }
+        },
+        {
+          "name": "upper",
+          "towardCamera": [
+            0,
+            1,
+            0
+          ],
+          "source": {
+            "path": "artifacts/city-npc-models/watch-mask-4/upper-source.png",
+            "sha256": "7367c5b4c65efc1a994e19bbbb6e4a009932c52351f07d3fa6e93c665ff6d7c7"
+          },
+          "overlay": {
+            "path": "artifacts/city-npc-models/watch-mask-4/upper-candidate.png",
+            "sha256": "3c29a066ac7974835089a5e71df1f8658aeeb23f98c89ad48ebb3f020248fe72"
+          }
+        },
+        {
+          "name": "lower",
+          "towardCamera": [
+            0,
+            -1,
+            0
+          ],
+          "source": {
+            "path": "artifacts/city-npc-models/watch-mask-4/lower-source.png",
+            "sha256": "6e40754aa80d03e972801f067fcc4cfd6d0f5bc1d18ba5a5b32fe8ddebb6b963"
+          },
+          "overlay": {
+            "path": "artifacts/city-npc-models/watch-mask-4/lower-candidate.png",
+            "sha256": "ec1e71acc3b94123d402786012fe2c6ad164ea0dfbcfdefd038728d028d01dae"
+          }
+        }
+      ],
+      "parentRegion": {
+        "name": "complete-left-wrist-accessory",
+        "triangles": [
+          11362,
+          11363,
+          11364,
+          11365,
+          11366,
+          11367,
+          11368,
+          11369,
+          11370,
+          11371,
+          11372,
+          11373,
+          11374,
+          11375,
+          11376,
+          11377,
+          11378,
+          11379,
+          11380,
+          11381,
+          11382,
+          11386,
+          11387,
+          11388,
+          11389,
+          11390,
+          11391,
+          11392,
+          11393,
+          11394,
+          11395,
+          11396,
+          11397,
+          11398,
+          11399,
+          11400,
+          11401,
+          11402,
+          11403,
+          11404,
+          11405,
+          11406,
+          11407,
+          11408,
+          11409,
+          11412,
+          11413,
+          11414,
+          11415,
+          11416,
+          11417,
+          11423,
+          11424,
+          11425,
+          11426,
+          11427,
+          11428,
+          11429,
+          11430,
+          11431,
+          11432,
+          11434,
+          11435,
+          11474,
+          11475,
+          11476,
+          11477,
+          11478,
+          11479,
+          11480,
+          11481,
+          11482,
+          11483,
+          11484,
+          11485,
+          11486,
+          11487,
+          11488,
+          11489,
+          11490,
+          11491,
+          11492,
+          11493,
+          11494,
+          11495,
+          11496,
+          11497,
+          11498,
+          11499,
+          11500,
+          11501,
+          11502,
+          11503,
+          11504,
+          11517,
+          11524,
+          11525,
+          11526,
+          11527,
+          11528,
+          11529,
+          11530,
+          11531,
+          11533,
+          11534,
+          11535,
+          11536,
+          11537,
+          11538,
+          11540,
+          11541,
+          11542,
+          11543,
+          11544,
+          11600,
+          11601,
+          11605,
+          11606,
+          11607,
+          11608,
+          11609,
+          11610,
+          11611,
+          11612,
+          11613,
+          11614,
+          11615,
+          11616,
+          11617,
+          11618,
+          11619,
+          11620,
+          11621,
+          11622,
+          11623,
+          11624,
+          11625,
+          11626,
+          11627,
+          11628,
+          11629,
+          11630,
+          11631,
+          11632,
+          11633,
+          11634,
+          11635,
+          11636,
+          11637,
+          11658,
+          11660,
+          11661,
+          11662,
+          11663,
+          11664,
+          11665,
+          11671,
+          11672,
+          11673,
+          11674,
+          11675,
+          11676,
+          11677,
+          11678,
+          11679,
+          11680,
+          11681,
+          11682,
+          11683,
+          11684,
+          11685,
+          11686,
+          11687,
+          11688,
+          11689,
+          11690,
+          11710,
+          11711,
+          11712,
+          11713,
+          11714,
+          11715,
+          11716,
+          11717,
+          11718,
+          11719,
+          11720,
+          11721,
+          11722,
+          11723,
+          11724,
+          11725,
+          11726,
+          11758,
+          11759,
+          11760,
+          11761,
+          11762,
+          11763,
+          11764,
+          11765,
+          11766,
+          11767,
+          11788,
+          11789,
+          11790,
+          11791,
+          11792,
+          11793,
+          11794,
+          11829,
+          11846,
+          11847,
+          11848,
+          11849,
+          11850,
+          11851,
+          11853,
+          11854,
+          11855,
+          11856,
+          11857,
+          11858,
+          11859,
+          11860,
+          11861,
+          11862,
+          11863,
+          11864,
+          11865,
+          11866,
+          11867,
+          11868,
+          11869,
+          11870,
+          11871,
+          11872,
+          11873,
+          11874,
+          11875,
+          11876,
+          11877,
+          11878,
+          11880,
+          11881,
+          11882,
+          11883,
+          11884,
+          11886,
+          11892,
+          11893,
+          11894,
+          11895,
+          11896,
+          11897,
+          11898,
+          11899,
+          11900,
+          11901,
+          11902,
+          11903,
+          11904,
+          11905,
+          11906,
+          11907,
+          11908,
+          11909,
+          11911,
+          11912,
+          11913,
+          11914,
+          11915,
+          11916,
+          11917,
+          11918,
+          11919,
+          11920,
+          11921,
+          11922,
+          11923,
+          11924,
+          11925,
+          11926,
+          11927,
+          11928,
+          11929,
+          11930,
+          11931,
+          11932,
+          11933,
+          11934,
+          11935,
+          11936,
+          11937,
+          11938,
+          11939,
+          11940,
+          11941,
+          11942,
+          11943,
+          11944,
+          11945,
+          11946,
+          11947,
+          11948,
+          11949,
+          11950,
+          11951,
+          11952,
+          11953,
+          11954,
+          11955,
+          11956,
+          11982,
+          11994,
+          11995,
+          11996,
+          11997,
+          11998,
+          11999,
+          12000,
+          12001,
+          12002,
+          12003,
+          12461
+        ],
+        "minX": 0.3575219466066667,
+        "maxX": 0.46156919337455715,
+        "minY": 1.0535932340702,
+        "maxY": 1.1653045409662848,
+        "minZ": 0.04029523025930831,
+        "maxZ": 0.16670469603581523,
+        "matteAccessoryOnly": true,
+        "motif": "S",
+        "repeat": 0.08,
+        "strength": 1,
+        "shadeMode": "geometry",
+        "ink": [
+          119,
+          54,
+          40
+        ],
+        "ground": [
+          119,
+          54,
+          40
+        ]
+      },
+      "protectedAdjacentTriangleIds": [
+        11283,
+        11284,
+        11287,
+        11314,
+        11315,
+        11442,
+        11443,
+        11444,
+        11451,
+        11452,
+        11454,
+        11473,
+        11532,
+        11539,
+        11650,
+        11651,
+        11703,
+        11738,
+        11740,
+        11797,
+        11852,
+        11879,
+        11885,
+        11888,
+        11889,
+        11890
+      ],
+      "method": "Full local welded-edge topology, complete source-UV texel evaluation with KHR_texture_transform, complete seed UV charts plus adjacency grown across actual matte accessory surfaces; explicit authored mixed edge 11531. No POSITION-only component assumption.",
+      "paintSafety": [
+        "Keep the exact source hash and triangle allowlist. Bounds are padded by 1 mm for numerical containment, not a spatial-only selector.",
+        "Retain matteAccessoryOnly: max source RGB <55 OR channel spread <32. Protect warm skin, ivory cuff and the opposite gold bracelet; do not broaden the colour predicate or fill whole cut UV islands.",
+        "Two charts contain skin boundaries: 13317 keeps triangles 11529..11531 but excludes 11532; 13806 keeps 11892..11894 but excludes 11889..11891. Mixed accessory edge 11531 still requires source-colour gating.",
+        "Retain complete source UV-face ownership: exclude shared texels when another source face is unmodified. Gutter padding only in unused texels closer to painted ownership; ties remain original.",
+        "Apply a coherent matte cord/wood treatment over the full component, rather than four isolated patches. Final skin/cuff/no-watch-cue closure requires the new v4 source/registered wrist captures."
+      ],
+      "status": "SOURCE_SURFACE_HANDOFF_ONLY_V4_ART_PENDING",
+      "limitations": [
+        "Texture projections are read-only CPU diagnostics of the actual frozen indexed mesh/UVs; no lighting, geometry, pose, texture or rig was altered. Blue marks selected faces and is not an edited production candidate.",
+        "Warm skin transitions on 26 adjacent excluded faces are intentionally protected. The raw source is globally connected, so this component is explicitly cut at those boundaries, not inferred from POSITION-only connectivity."
+      ]
+    }
+  },
+  "limits": [
+    "All eight grasp repairs and the watch repair remain pending new exact-byte captures. Existing captures and P2 findings stay historical evidence.",
+    "No new geometry, rig, texture, runtime, paid job, browser or Blender operation was performed for this direction document."
+  ]
+}

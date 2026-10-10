@@ -1,0 +1,3538 @@
+{
+  "schema": 1,
+  "kind": "multi-angle",
+  "label": "city-npc-full-current-1",
+  "startedAt": "2026-10-10T03:28:35.371Z",
+  "url": "http://127.0.0.1:5192/tools/npc-models/review.html?family=%5Bredacted%5D&mode=%5Bredacted%5D&npc=%5Bredacted%5D&adapter=%5Bredacted%5D",
+  "mode": "registry",
+  "family": "general_merchant",
+  "requested": {
+    "npc": "general_merchant",
+    "ids": null,
+    "map": null
+  },
+  "modules": [
+    {
+      "path": "tools/npc-models/review.html",
+      "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+      "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+    },
+    {
+      "path": "tools/npc-models/review.js",
+      "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+      "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+    },
+    {
+      "path": "tools/npc-models/capture.mjs",
+      "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+    },
+    {
+      "path": "tools/npc-models/gameplay-qa.mjs",
+      "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+      "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3"
+    },
+    {
+      "path": "public/models/npcs/profiles.json",
+      "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+      "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+    },
+    {
+      "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+      "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+      "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+    },
+    {
+      "path": "src/core/gltf.js",
+      "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+      "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+    },
+    {
+      "path": "src/entities/NPC.js",
+      "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+      "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+    },
+    {
+      "path": "src/data/npcs.js",
+      "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+      "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+    },
+    {
+      "path": "src/npc/NPCModels.js",
+      "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+      "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+    },
+    {
+      "path": "src/npc/NPCModelRenderer.js",
+      "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+      "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+    },
+    {
+      "path": "src/npc/NPCActivityPoses.js",
+      "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+      "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+    },
+    {
+      "path": "src/npc/NPCToolPresentation.js",
+      "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+      "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+    },
+    {
+      "path": "src/npc/NPCRenderer.js",
+      "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+      "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+    },
+    {
+      "path": "src/npc/NPCManager.js",
+      "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+      "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+    },
+    {
+      "path": "src/npc/NPCData.js",
+      "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+      "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+    },
+    {
+      "path": "src/npc/NPCSchedule.js",
+      "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+      "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+    },
+    {
+      "path": "src/npc/body/gearParts.js",
+      "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+      "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+    },
+    {
+      "path": "src/npc/body/blade.js",
+      "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+      "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+    },
+    {
+      "path": "src/npc/body/rig.js",
+      "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+      "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+    },
+    {
+      "path": "src/core/WorldClock.js",
+      "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+      "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+    },
+    {
+      "path": "src/core/CameraController.js",
+      "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+      "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+    },
+    {
+      "path": "src/world/World.js",
+      "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+      "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+    },
+    {
+      "path": "src/world/maps.js",
+      "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+      "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.js",
+      "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+      "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.json",
+      "beforeSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+      "afterSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/general_merchant-4f38b1e684ed-contacts.json",
+      "beforeSha256": "2b61d8a0e79e5f2051c5035a03e3cee93939d193ef9a71beaddff1a00f03dd3c",
+      "afterSha256": "2b61d8a0e79e5f2051c5035a03e3cee93939d193ef9a71beaddff1a00f03dd3c"
+    }
+  ],
+  "bundledProfilesBefore": [],
+  "browser": {
+    "channel": "msedge",
+    "headless": true,
+    "instances": 1,
+    "pages": 1,
+    "closed": true,
+    "sharedBatch": true,
+    "closedAtBatchEnd": true
+  },
+  "evidence": "render-review",
+  "assets": [
+    {
+      "url": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=woven-v1-904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6&rev=%5Bredacted%5D",
+      "status": 200,
+      "bytes": 654412,
+      "sha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+      "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+    }
+  ],
+  "images": [
+    {
+      "id": "general_merchant-idle-0_5-front",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-idle-0_5-front.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "851f3e720ab5e9ea1b9e085e90ddbfc71bc7cd0d95fc60a7cb0898bad006b693",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "front",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            0.005961875597657179,
+            2.1080538155464144,
+            24.93938885113623
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.5969547387212515,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.0164250337187704,
+                    1.2359995617399326,
+                    0.035508126262931636
+                  ],
+                  "quaternion": [
+                    -0.37721161746471704,
+                    -0.0548902524411453,
+                    -0.05899143556020623,
+                    0.9226150152512941
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.014052698778985162,
+                    1.0650529079674553,
+                    0.03953840511898645
+                  ],
+                  "quaternion": [
+                    0.04461084230419307,
+                    -0.003941285924976285,
+                    -0.00709361823695978,
+                    0.9989714808714394
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.01850546314328729,
+                    1.3853397105051524,
+                    0.03438165872819474
+                  ],
+                  "quaternion": [
+                    0.25051738831972326,
+                    0.009127216918576264,
+                    -0.024716481312314843,
+                    0.9677534952725948
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2328241397355186,
+                    0.8557014122537892,
+                    0.048576643297926395
+                  ],
+                  "quaternion": [
+                    0.956816668520994,
+                    0.10962073679005356,
+                    -0.18410998548578217,
+                    0.19643999121975378
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2176504535001645,
+                    0.8716505457058157,
+                    0.04595426399092838
+                  ],
+                  "quaternion": [
+                    0.9384678663167477,
+                    -0.10202289752116067,
+                    0.20595417238621874,
+                    0.257783380000103
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.12015700736765907,
+                    0.12864821162248358,
+                    -0.06873883386616117
+                  ],
+                  "quaternion": [
+                    0.8778693466008503,
+                    0.26877450632814626,
+                    0.2687751865409239,
+                    0.2913169650853676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.10773629583374006,
+                    0.12353615973230092,
+                    -0.057389810179741534
+                  ],
+                  "quaternion": [
+                    0.8528822256529917,
+                    -0.3270835399237343,
+                    -0.32708526513502095,
+                    0.24212289525716346
+                  ]
+                }
+              },
+              "poseOffset": [
+                0.009533045377956757,
+                -0.00010565004773361668,
+                -0.00043341673511502484
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.2492859468773025,
+                    0.7226626673950747,
+                    0.06445555893708779
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.2156692252175476,
+                      0.6883880576797199,
+                      0.013599118707294355
+                    ],
+                    "max": [
+                      0.28434347733116605,
+                      0.7734270316391076,
+                      0.113887005720688
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.23636385919502093,
+                    0.7434707495211603,
+                    0.07774595384715322
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2724197261358517,
+                      0.6966740732263121,
+                      0.013450466057511712
+                    ],
+                    "max": [
+                      -0.20048758163844466,
+                      0.8178128045026946,
+                      0.16572871415868468
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.028324808132453,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2724197261358517,
+                  -0.0004404695621537834,
+                  -0.23067896272568286
+                ],
+                "max": [
+                  0.28434347733116605,
+                  1.7196672534603712,
+                  0.17183972110590773
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-idle-0_5-back",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-idle-0_5-back.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "e8468e26a06933288dccccf2d147014593da777b0ec8373e63707f9039374f7c",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "back",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            0.005961875597657179,
+            2.1080538155464144,
+            -24.998228092756
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.5969547387212515,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.0164250337187704,
+                    1.2359995617399326,
+                    0.035508126262931636
+                  ],
+                  "quaternion": [
+                    -0.37721161746471704,
+                    -0.0548902524411453,
+                    -0.05899143556020623,
+                    0.9226150152512941
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.014052698778985162,
+                    1.0650529079674553,
+                    0.03953840511898645
+                  ],
+                  "quaternion": [
+                    0.04461084230419307,
+                    -0.003941285924976285,
+                    -0.00709361823695978,
+                    0.9989714808714394
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.01850546314328729,
+                    1.3853397105051524,
+                    0.03438165872819474
+                  ],
+                  "quaternion": [
+                    0.25051738831972326,
+                    0.009127216918576264,
+                    -0.024716481312314843,
+                    0.9677534952725948
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2328241397355186,
+                    0.8557014122537892,
+                    0.048576643297926395
+                  ],
+                  "quaternion": [
+                    0.956816668520994,
+                    0.10962073679005356,
+                    -0.18410998548578217,
+                    0.19643999121975378
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2176504535001645,
+                    0.8716505457058157,
+                    0.04595426399092838
+                  ],
+                  "quaternion": [
+                    0.9384678663167477,
+                    -0.10202289752116067,
+                    0.20595417238621874,
+                    0.257783380000103
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.12015700736765907,
+                    0.12864821162248358,
+                    -0.06873883386616117
+                  ],
+                  "quaternion": [
+                    0.8778693466008503,
+                    0.26877450632814626,
+                    0.2687751865409239,
+                    0.2913169650853676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.10773629583374006,
+                    0.12353615973230092,
+                    -0.057389810179741534
+                  ],
+                  "quaternion": [
+                    0.8528822256529917,
+                    -0.3270835399237343,
+                    -0.32708526513502095,
+                    0.24212289525716346
+                  ]
+                }
+              },
+              "poseOffset": [
+                0.009533045377956757,
+                -0.00010565004773361668,
+                -0.00043341673511502484
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.2492859468773025,
+                    0.7226626673950747,
+                    0.06445555893708779
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.2156692252175476,
+                      0.6883880576797199,
+                      0.013599118707294355
+                    ],
+                    "max": [
+                      0.28434347733116605,
+                      0.7734270316391076,
+                      0.113887005720688
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.23636385919502093,
+                    0.7434707495211603,
+                    0.07774595384715322
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2724197261358517,
+                      0.6966740732263121,
+                      0.013450466057511712
+                    ],
+                    "max": [
+                      -0.20048758163844466,
+                      0.8178128045026946,
+                      0.16572871415868468
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.086955459175506,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2724197261358517,
+                  -0.0004404695621537834,
+                  -0.23067896272568286
+                ],
+                "max": [
+                  0.28434347733116605,
+                  1.7196672534603712,
+                  0.17183972110590773
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-idle-0_5-threequarter",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-idle-0_5-threequarter.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "678bb1d1fdd07b03a59c27a9f90ecd47225dfe624670ea0c3abe2773449a13cf",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "threequarter",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15.070833418691848,
+            7.450494692052816,
+            18.801669808057852
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.5969547387212515,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.0164250337187704,
+                    1.2359995617399326,
+                    0.035508126262931636
+                  ],
+                  "quaternion": [
+                    -0.37721161746471704,
+                    -0.0548902524411453,
+                    -0.05899143556020623,
+                    0.9226150152512941
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.014052698778985162,
+                    1.0650529079674553,
+                    0.03953840511898645
+                  ],
+                  "quaternion": [
+                    0.04461084230419307,
+                    -0.003941285924976285,
+                    -0.00709361823695978,
+                    0.9989714808714394
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.01850546314328729,
+                    1.3853397105051524,
+                    0.03438165872819474
+                  ],
+                  "quaternion": [
+                    0.25051738831972326,
+                    0.009127216918576264,
+                    -0.024716481312314843,
+                    0.9677534952725948
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2328241397355186,
+                    0.8557014122537892,
+                    0.048576643297926395
+                  ],
+                  "quaternion": [
+                    0.956816668520994,
+                    0.10962073679005356,
+                    -0.18410998548578217,
+                    0.19643999121975378
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2176504535001645,
+                    0.8716505457058157,
+                    0.04595426399092838
+                  ],
+                  "quaternion": [
+                    0.9384678663167477,
+                    -0.10202289752116067,
+                    0.20595417238621874,
+                    0.257783380000103
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.12015700736765907,
+                    0.12864821162248358,
+                    -0.06873883386616117
+                  ],
+                  "quaternion": [
+                    0.8778693466008503,
+                    0.26877450632814626,
+                    0.2687751865409239,
+                    0.2913169650853676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.10773629583374006,
+                    0.12353615973230092,
+                    -0.057389810179741534
+                  ],
+                  "quaternion": [
+                    0.8528822256529917,
+                    -0.3270835399237343,
+                    -0.32708526513502095,
+                    0.24212289525716346
+                  ]
+                }
+              },
+              "poseOffset": [
+                0.009533045377956757,
+                -0.00010565004773361668,
+                -0.00043341673511502484
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.2492859468773025,
+                    0.7226626673950747,
+                    0.06445555893708779
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.2156692252175476,
+                      0.6883880576797199,
+                      0.013599118707294355
+                    ],
+                    "max": [
+                      0.28434347733116605,
+                      0.7734270316391076,
+                      0.113887005720688
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.23636385919502093,
+                    0.7434707495211603,
+                    0.07774595384715322
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2724197261358517,
+                      0.6966740732263121,
+                      0.013450466057511712
+                    ],
+                    "max": [
+                      -0.20048758163844466,
+                      0.8178128045026946,
+                      0.16572871415868468
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.221869055672705,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2724197261358517,
+                  -0.0004404695621537834,
+                  -0.23067896272568286
+                ],
+                "max": [
+                  0.28434347733116605,
+                  1.7196672534603712,
+                  0.17183972110590773
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-idle-0_5-gameplay",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-idle-0_5-gameplay.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "30dd426a79acf45145f9b5806d0bdcd8a32a329e0e8e6894d5246cc79a9b329d",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "gameplay",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15,
+            23,
+            22
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.5969547387212515,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.0164250337187704,
+                    1.2359995617399326,
+                    0.035508126262931636
+                  ],
+                  "quaternion": [
+                    -0.37721161746471704,
+                    -0.0548902524411453,
+                    -0.05899143556020623,
+                    0.9226150152512941
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.014052698778985162,
+                    1.0650529079674553,
+                    0.03953840511898645
+                  ],
+                  "quaternion": [
+                    0.04461084230419307,
+                    -0.003941285924976285,
+                    -0.00709361823695978,
+                    0.9989714808714394
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.01850546314328729,
+                    1.3853397105051524,
+                    0.03438165872819474
+                  ],
+                  "quaternion": [
+                    0.25051738831972326,
+                    0.009127216918576264,
+                    -0.024716481312314843,
+                    0.9677534952725948
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2328241397355186,
+                    0.8557014122537892,
+                    0.048576643297926395
+                  ],
+                  "quaternion": [
+                    0.956816668520994,
+                    0.10962073679005356,
+                    -0.18410998548578217,
+                    0.19643999121975378
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2176504535001645,
+                    0.8716505457058157,
+                    0.04595426399092838
+                  ],
+                  "quaternion": [
+                    0.9384678663167477,
+                    -0.10202289752116067,
+                    0.20595417238621874,
+                    0.257783380000103
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.12015700736765907,
+                    0.12864821162248358,
+                    -0.06873883386616117
+                  ],
+                  "quaternion": [
+                    0.8778693466008503,
+                    0.26877450632814626,
+                    0.2687751865409239,
+                    0.2913169650853676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.10773629583374006,
+                    0.12353615973230092,
+                    -0.057389810179741534
+                  ],
+                  "quaternion": [
+                    0.8528822256529917,
+                    -0.3270835399237343,
+                    -0.32708526513502095,
+                    0.24212289525716346
+                  ]
+                }
+              },
+              "poseOffset": [
+                0.009533045377956757,
+                -0.00010565004773361668,
+                -0.00043341673511502484
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.2492859468773025,
+                    0.7226626673950747,
+                    0.06445555893708779
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.2156692252175476,
+                      0.6883880576797199,
+                      0.013599118707294355
+                    ],
+                    "max": [
+                      0.28434347733116605,
+                      0.7734270316391076,
+                      0.113887005720688
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.23636385919502093,
+                    0.7434707495211603,
+                    0.07774595384715322
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2724197261358517,
+                      0.6966740732263121,
+                      0.013450466057511712
+                    ],
+                    "max": [
+                      -0.20048758163844466,
+                      0.8178128045026946,
+                      0.16572871415868468
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 35.185224171518364,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2724197261358517,
+                  -0.0004404695621537834,
+                  -0.23067896272568286
+                ],
+                "max": [
+                  0.28434347733116605,
+                  1.7196672534603712,
+                  0.17183972110590773
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-talk-0_25-front",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-talk-0_25-front.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "b25654a237b3aa1eb426ae307d50de63fb2431e92dbf148b7d5e2f024abde970",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.25,
+        "pose": "talk",
+        "view": "front",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            -0.0017876938092038774,
+            2.108933162908718,
+            24.93954495845453
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "talk",
+            "anim": "talk",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": true,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.3469547387212515,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "talk",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.005578359060204428,
+                    1.2361191958854012,
+                    0.03594992153788884
+                  ],
+                  "quaternion": [
+                    -0.37544470709026495,
+                    -0.05603985953968837,
+                    -0.05603986761349916,
+                    0.9234502365035913
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.004335366561030545,
+                    1.0651606003754917,
+                    0.039980200393943656
+                  ],
+                  "quaternion": [
+                    0.044623617280953286,
+                    -0.003793911780076809,
+                    -0.0037939088323952295,
+                    0.9989894620414871
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.006672187144581414,
+                    1.3854728152340805,
+                    0.03533585599837681
+                  ],
+                  "quaternion": [
+                    0.25799526466495243,
+                    -0.04594968235673458,
+                    -0.008303288576148017,
+                    0.9650171633191802
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2244850303652744,
+                    0.851683183358534,
+                    0.01378986604119679
+                  ],
+                  "quaternion": [
+                    0.9649537739905817,
+                    0.12163228482634048,
+                    -0.17771511647774677,
+                    0.149957122953724
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2260850944675136,
+                    0.8692282542128583,
+                    0.0402726797761226
+                  ],
+                  "quaternion": [
+                    0.9410177007810152,
+                    -0.10073179931302995,
+                    0.2059293100998829,
+                    0.24886122746654912
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.12015700746812714,
+                    0.1286482115857105,
+                    -0.0687388338381188
+                  ],
+                  "quaternion": [
+                    0.8778693466008503,
+                    0.26877450632814626,
+                    0.2687751865409238,
+                    0.29131696508536753
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.1077362958196064,
+                    0.12353615974237375,
+                    -0.05738981018224648
+                  ],
+                  "quaternion": [
+                    0.8528822256529917,
+                    -0.3270835399237343,
+                    -0.32708526513502084,
+                    0.2421228952571636
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.2418253453820746,
+                    0.7178402152829383,
+                    0.016584872600054826
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.20826456769699053,
+                      0.6827847680767952,
+                      -0.03303364257107422
+                    ],
+                    "max": [
+                      0.27671980686459974,
+                      0.7642334581399886,
+                      0.06815949149276054
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.24395132327285896,
+                    0.7403899327083389,
+                    0.06980991097215299
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2802951944830075,
+                      0.693671732523647,
+                      0.0053498207053487845
+                    ],
+                    "max": [
+                      -0.2085026212620208,
+                      0.8137947704727632,
+                      0.1589004486202005
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.028553793941832,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2802951944830075,
+                  -0.000604085093418179,
+                  -0.23071053559850976
+                ],
+                "max": [
+                  0.27671980686459974,
+                  1.7215895637162426,
+                  0.17218350861534018
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-walk-0_5-threequarter",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-walk-0_5-threequarter.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "82f935452e40c33097bcdc81222032defa2004b4300e96fac4d8938334fc9e1a",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.5,
+        "pose": "walk",
+        "view": "threequarter",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15.103846229665642,
+            7.452900454530955,
+            18.80975704047124
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "walk",
+            "anim": "walk",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "walk",
+              "clip": "walk",
+              "clipTime": 0.640528617104732,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "walk",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.005249026015587007,
+                    1.2410754422219357,
+                    0.032551924984339786
+                  ],
+                  "quaternion": [
+                    -0.3832580411518883,
+                    -0.07812445776507045,
+                    -0.06165861147455877,
+                    0.918263610672821
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.0036081490434674763,
+                    1.0702281171106607,
+                    0.03933040621747906
+                  ],
+                  "quaternion": [
+                    0.03710548462206405,
+                    -0.01138564877023365,
+                    -0.0050097793807865115,
+                    0.9992339326321927
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.00637643371754561,
+                    1.3903135262487119,
+                    0.029706047631557826
+                  ],
+                  "quaternion": [
+                    0.2481973649798745,
+                    -0.02014244974378004,
+                    -0.013414420308671939,
+                    0.9684071473669942
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.26917511887039863,
+                    0.8796404642163249,
+                    0.07201434668008319
+                  ],
+                  "quaternion": [
+                    0.9350889299304403,
+                    0.15807911135358868,
+                    -0.14871718408528925,
+                    0.28018366435121195
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.18849959327760785,
+                    0.8612042505100265,
+                    -0.049073645773835314
+                  ],
+                  "quaternion": [
+                    0.9657075249236043,
+                    -0.08915031090089007,
+                    0.22669138872598754,
+                    0.08984549934675215
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.1289850454709407,
+                    0.13317463816001723,
+                    -0.09103150195258672
+                  ],
+                  "quaternion": [
+                    0.8473341959279346,
+                    0.30492749298758565,
+                    0.2725832894521574,
+                    0.3387363791765825
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.11388761379501772,
+                    0.12958232957593163,
+                    -0.0006246469093640072
+                  ],
+                  "quaternion": [
+                    0.8540936167214951,
+                    -0.3216266016784852,
+                    -0.3195698214998567,
+                    0.2548639026338416
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.30260317728196723,
+                    0.7539037917408653,
+                    0.10800452486471528
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.27344487018620445,
+                      0.7191606100904906,
+                      0.0540650032519103
+                    ],
+                    "max": [
+                      0.331514658838614,
+                      0.8106543458338984,
+                      0.15942629165867686
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.19327519237269147,
+                    0.728379823154895,
+                    -0.060291048609629985
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2337610186312245,
+                      0.6812180781159022,
+                      -0.1244900503500316
+                    ],
+                    "max": [
+                      -0.16159967325102192,
+                      0.7816166124671631,
+                      0.04492399615685441
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.24834362955499,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2535652856957097,
+                  0.0005022832444370843,
+                  -0.2294998496304018
+                ],
+                "max": [
+                  0.331514658838614,
+                  1.7235360256100583,
+                  0.18683507283740539
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-walk-0_75-side",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-walk-0_75-side.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "e805f0639290350f091e7e04f0a3a8d0fcbea47d4fb5a2fd676b687f6ce454f1",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.75,
+        "pose": "walk",
+        "view": "side",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            24.993818869923764,
+            2.1107544248912884,
+            -0.0484745487802533
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "walk",
+            "anim": "walk",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "walk",
+              "clip": "walk",
+              "clipTime": 0.9607929256570982,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "walk",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.005352590951426336,
+                    1.2436891752375938,
+                    0.03443556783811429
+                  ],
+                  "quaternion": [
+                    -0.3788102436706349,
+                    -0.07613314027665394,
+                    -0.05807183822784347,
+                    0.9205075806175251
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.004162753548570059,
+                    1.0727786376217134,
+                    0.03995662008121809
+                  ],
+                  "quaternion": [
+                    0.04042556646700428,
+                    -0.006682351916800303,
+                    -0.004576472947279831,
+                    0.9991497263393744
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.003881289528924756,
+                    1.392966798773887,
+                    0.03240970374710614
+                  ],
+                  "quaternion": [
+                    0.24425798042650682,
+                    -0.016793877488993216,
+                    -0.008070909355473232,
+                    0.9695312604977231
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2588390936306366,
+                    0.8733763392991005,
+                    0.04642050878084374
+                  ],
+                  "quaternion": [
+                    0.9449828766144174,
+                    0.11303717841829242,
+                    -0.15390388244845787,
+                    0.26560036716313623
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.20332814057069237,
+                    0.8630219383286322,
+                    -0.029632139245979343
+                  ],
+                  "quaternion": [
+                    0.9496285450617754,
+                    -0.13986973740235187,
+                    0.24182943639243737,
+                    0.14198805159205777
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.1419208193230799,
+                    0.15393980150114733,
+                    -0.14674755083308388
+                  ],
+                  "quaternion": [
+                    0.8981362980103869,
+                    0.2613231563670516,
+                    0.28130476920953634,
+                    0.21431057845268087
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.10137787963945971,
+                    0.13109479353861558,
+                    -0.023682816413692798
+                  ],
+                  "quaternion": [
+                    0.8521701374146837,
+                    -0.3216689858543782,
+                    -0.3328602602423983,
+                    0.24400649365685928
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.27971921109187303,
+                    0.7444437382362572,
+                    0.08052103481355224
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.24952786896880375,
+                      0.7114133190929021,
+                      0.026779193479974123
+                    ],
+                    "max": [
+                      0.31122920502318197,
+                      0.8005486941143829,
+                      0.1320365220809516
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.22404094824184428,
+                    0.7312587168633417,
+                    -0.0302617972133944
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2612084090678811,
+                      0.6863280500922517,
+                      -0.09351955241804788
+                    ],
+                    "max": [
+                      -0.19100858857639308,
+                      0.7910500831930052,
+                      0.07237889769223946
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.082835081518095,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.2612084090678811,
+                  -0.000046841441993602465,
+                  -0.2683916890774549
+                ],
+                "max": [
+                  0.31122920502318197,
+                  1.724674844029959,
+                  0.17144259151694832
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "general_merchant-work-sell-0_5-threequarter",
+      "path": "docs/art/npcs/reviews/release/general_merchant/general_merchant-work-sell-0_5-threequarter.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "30fb5ab3d0d7cc16278a6d1bbc13cf3227824404de6d131e0eea9e84640b081f",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "general_merchant",
+        "time": 0.5,
+        "pose": "work-sell",
+        "view": "threequarter",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "general_merchant"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15.063083849483128,
+            7.4522373095110765,
+            18.801825915376153
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "general_merchant",
+            "name": "เจ๊กฮวด",
+            "family": "general_merchant",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "work",
+            "anim": "sell",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": "general",
+              "trainer": null,
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "general_merchant",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.5969547387212515,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.5712982534457269,
+                7.467224126804884e-9,
+                -0.2291038834550363
+              ],
+              "sourceMax": [
+                0.5734785926211049,
+                1.7200001155514042,
+                0.23703743842108968
+              ],
+              "scale": 0.9810352434326209,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "work",
+              "seatedPresentation": null,
+              "props": {}
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    0.005578359060204429,
+                    1.2361666795802306,
+                    0.04005369461746349
+                  ],
+                  "quaternion": [
+                    -0.36433653850944725,
+                    -0.055363362446223384,
+                    -0.05670829496656212,
+                    0.9278889772422063
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.004335366561030545,
+                    1.0651606003754917,
+                    0.039980200393943656
+                  ],
+                  "quaternion": [
+                    0.05660799025666797,
+                    -0.0037481128083557023,
+                    -0.003839161522959415,
+                    0.9983820651074804
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    0.006672187144581414,
+                    1.3854920233093444,
+                    0.04302394868387775
+                  ],
+                  "quaternion": [
+                    0.26252498799694823,
+                    0.03220150248445665,
+                    -0.028290903063090612,
+                    0.9639726752967744
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.22448503081285692,
+                    0.8598405313693944,
+                    0.0564071841312334
+                  ],
+                  "quaternion": [
+                    0.9553542629691444,
+                    0.11177267539343048,
+                    -0.1840759181262877,
+                    0.20228978626723076
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.22608509451378705,
+                    0.8702936641441599,
+                    0.04135636223702998
+                  ],
+                  "quaternion": [
+                    0.9419208798530161,
+                    -0.10148369495242637,
+                    0.20555981054819542,
+                    0.24542061837440948
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.12015700746812714,
+                    0.1286482115857105,
+                    -0.0687388338381188
+                  ],
+                  "quaternion": [
+                    0.8778693466008503,
+                    0.26877450632814626,
+                    0.2687751865409238,
+                    0.29131696508536753
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.1077362958196064,
+                    0.12353615974237375,
+                    -0.05738981018224648
+                  ],
+                  "quaternion": [
+                    0.8528822256529917,
+                    -0.3270835399237343,
+                    -0.32708526513502084,
+                    0.2421228952571636
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+              "skins": [
+                {
+                  "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                  "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                  "materials": [
+                    "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 413,
+                  "weldedVertices": 182,
+                  "centre": [
+                    0.24182534604172365,
+                    0.7270956098925029,
+                    0.07374321538663808
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.2082645685655109,
+                      0.6929106001531404,
+                      0.022638592690929132
+                    ],
+                    "max": [
+                      0.27671980731700596,
+                      0.7783748660133146,
+                      0.12330978444028304
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 443,
+                  "weldedVertices": 202,
+                  "centre": [
+                    -0.24395132333389727,
+                    0.7412428979426515,
+                    0.06995113198790515
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.28029519453913154,
+                      0.6945529078440305,
+                      0.005428278981449708
+                    ],
+                    "max": [
+                      -0.20850262126675856,
+                      0.8142382153170795,
+                      0.1594953621580323
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [],
+              "evidenceAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.217870523221,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 14314,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.28029519453913154,
+                  -0.000604085093418179,
+                  -0.23071053559850976
+                ],
+                "max": [
+                  0.27671980731700596,
+                  1.7233161039081586,
+                  0.17218350861534018
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 35,
+          "triangles": 30616,
+          "memory": {
+            "geometries": 18,
+            "textures": 5
+          }
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "sit",
+      "skipped": true,
+      "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+    },
+    {
+      "id": "registered-authored-witnesses",
+      "npc": "general_merchant",
+      "images": 28,
+      "roles": [
+        {
+          "state": "work",
+          "anim": "sell",
+          "carrying": false
+        }
+      ],
+      "retained": [],
+      "contactMeaning": "Fully hand-owned centroid distance is diagnostic only. Natural palm/thumb-web targets and intentional parked/stowed props require independent measured and visual review."
+    }
+  ],
+  "failures": [],
+  "pageErrors": [],
+  "requestErrors": [],
+  "warnings": [],
+  "limits": [
+    "No Art PASS is inferred from capture completion. Review actual images before acceptance.",
+    "No account, database, shop purchase, storage transaction, quest reward, Meshy/API or server flow is invoked.",
+    "SwiftShader frame times are not production performance measurements. Finite vertices do not prove skin strain, anatomy or planted-foot contacts.",
+    "Fully hand-owned centroid/prop alignment is measured at rendered poses. It cannot prove a closed grip, natural digits, anatomical thumb or weapon edge direction. Those remain image review gates."
+  ],
+  "boot": {
+    "snapshot": {
+      "schema": 1,
+      "mode": "registry",
+      "family": "general_merchant",
+      "time": 0.5,
+      "pose": "idle",
+      "view": "front",
+      "map": null,
+      "phase": "day",
+      "hour": 12.5,
+      "selectedIds": [
+        "general_merchant"
+      ],
+      "assetUrl": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=city-npcs-1",
+      "nativeClips": null,
+      "rawPose": null,
+      "raw": null,
+      "cacheSize": 1,
+      "warnings": [],
+      "camera": {
+        "position": [
+          0.005961875597657179,
+          2.1080538155464144,
+          24.93938885113623
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ],
+        "zoom": 2,
+        "detail": null,
+        "closeRegion": null,
+        "closeSurface": null
+      },
+      "npcs": [
+        {
+          "id": "general_merchant",
+          "name": "เจ๊กฮวด",
+          "family": "general_merchant",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0,
+          "state": "idle",
+          "anim": "rest",
+          "path": null,
+          "indoors": false,
+          "shown": true,
+          "talking": false,
+          "services": {
+            "shopType": "general",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "interactionRadius": 3.6,
+          "status": {
+            "family": "general_merchant",
+            "active": true,
+            "reason": null,
+            "error": null
+          },
+          "rootVisible": true,
+          "visibleProceduralParts": [],
+          "duplicateBodyParts": [],
+          "retainedParts": [
+            "spear",
+            "spearTip",
+            "hammer",
+            "sword",
+            "swordScabbard",
+            "knife",
+            "knifeScabbard",
+            "staff",
+            "paddle",
+            "rod",
+            "broom",
+            "bow",
+            "basket"
+          ],
+          "animation": {
+            "phase": "idle",
+            "clip": "idle",
+            "clipTime": 0.5969547387212515,
+            "active": true,
+            "fallbackReason": null
+          },
+          "normalization": {
+            "sourceMin": [
+              -0.5712982534457269,
+              7.467224126804884e-9,
+              -0.2291038834550363
+            ],
+            "sourceMax": [
+              0.5734785926211049,
+              1.7200001155514042,
+              0.23703743842108968
+            ],
+            "scale": 0.9810352434326209,
+            "targetHeight": 1.72,
+            "facingYaw": 0,
+            "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+            "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+            "footOrigin": [
+              0,
+              0,
+              0
+            ],
+            "sourceHeight": 1.72
+          },
+          "visualPolicy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "poseWitness": {
+            "joints": {
+              "Spine": {
+                "position": [
+                  0.0164250337187704,
+                  1.2359995617399326,
+                  0.035508126262931636
+                ],
+                "quaternion": [
+                  -0.37721161746471704,
+                  -0.0548902524411453,
+                  -0.05899143556020623,
+                  0.9226150152512941
+                ]
+              },
+              "Spine02": {
+                "position": [
+                  0.014052698778985162,
+                  1.0650529079674553,
+                  0.03953840511898645
+                ],
+                "quaternion": [
+                  0.04461084230419307,
+                  -0.003941285924976285,
+                  -0.00709361823695978,
+                  0.9989714808714394
+                ]
+              },
+              "Head": {
+                "position": [
+                  0.01850546314328729,
+                  1.3853397105051524,
+                  0.03438165872819474
+                ],
+                "quaternion": [
+                  0.25051738831972326,
+                  0.009127216918576264,
+                  -0.024716481312314843,
+                  0.9677534952725948
+                ]
+              },
+              "LeftHand": {
+                "position": [
+                  0.2328241397355186,
+                  0.8557014122537892,
+                  0.048576643297926395
+                ],
+                "quaternion": [
+                  0.956816668520994,
+                  0.10962073679005356,
+                  -0.18410998548578217,
+                  0.19643999121975378
+                ]
+              },
+              "RightHand": {
+                "position": [
+                  -0.2176504535001645,
+                  0.8716505457058157,
+                  0.04595426399092838
+                ],
+                "quaternion": [
+                  0.9384678663167477,
+                  -0.10202289752116067,
+                  0.20595417238621874,
+                  0.257783380000103
+                ]
+              },
+              "LeftFoot": {
+                "position": [
+                  0.12015700736765907,
+                  0.12864821162248358,
+                  -0.06873883386616117
+                ],
+                "quaternion": [
+                  0.8778693466008503,
+                  0.26877450632814626,
+                  0.2687751865409239,
+                  0.2913169650853676
+                ]
+              },
+              "RightFoot": {
+                "position": [
+                  -0.10773629583374006,
+                  0.12353615973230092,
+                  -0.057389810179741534
+                ],
+                "quaternion": [
+                  0.8528822256529917,
+                  -0.3270835399237343,
+                  -0.32708526513502095,
+                  0.24212289525716346
+                ]
+              }
+            },
+            "poseOffset": [
+              0.009533045377956757,
+              -0.00010565004773361668,
+              -0.00043341673511502484
+            ],
+            "sourceSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+            "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+          },
+          "resources": {
+            "model": "a787d507-e6c6-4bf5-9917-c7f4b07b493f",
+            "skins": [
+              {
+                "geometry": "87a4e6a2-467e-4b78-b9a6-73ea100a4087",
+                "skeleton": "7ffa852d-deab-4b64-b187-c8c668c3107b",
+                "materials": [
+                  "b3b5653f-82e5-42b9-85cd-219aacc06c8d"
+                ]
+              }
+            ]
+          },
+          "contactWitness": {
+            "hands": {
+              "left": {
+                "bone": "LeftHand",
+                "minimumWeight": 0.9999,
+                "vertices": 413,
+                "weldedVertices": 182,
+                "centre": [
+                  0.2492859468773025,
+                  0.7226626673950747,
+                  0.06445555893708779
+                ],
+                "bounds": {
+                  "min": [
+                    0.2156692252175476,
+                    0.6883880576797199,
+                    0.013599118707294355
+                  ],
+                  "max": [
+                    0.28434347733116605,
+                    0.7734270316391076,
+                    0.113887005720688
+                  ]
+                },
+                "thumb": null,
+                "thumbStatus": "unverified-no-semantic-thumb-landmark"
+              },
+              "right": {
+                "bone": "RightHand",
+                "minimumWeight": 0.9999,
+                "vertices": 443,
+                "weldedVertices": 202,
+                "centre": [
+                  -0.23636385919502093,
+                  0.7434707495211603,
+                  0.07774595384715322
+                ],
+                "bounds": {
+                  "min": [
+                    -0.2724197261358517,
+                    0.6966740732263121,
+                    0.013450466057511712
+                  ],
+                  "max": [
+                    -0.20048758163844466,
+                    0.8178128045026946,
+                    0.16572871415868468
+                  ]
+                },
+                "thumb": null,
+                "thumbStatus": "unverified-no-semantic-thumb-landmark"
+              }
+            },
+            "props": [],
+            "evidenceAssetSha256": null,
+            "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+          },
+          "cameraDistance": 25.028324808132453,
+          "model": {
+            "meshes": 1,
+            "skins": 1,
+            "bones": 24,
+            "vertices": 14314,
+            "finite": true,
+            "errors": [],
+            "bounds": {
+              "min": [
+                -0.2724197261358517,
+                -0.0004404695621537834,
+                -0.23067896272568286
+              ],
+              "max": [
+                0.28434347733116605,
+                1.7196672534603712,
+                0.17183972110590773
+              ]
+            }
+          }
+        }
+      ],
+      "rendered": {
+        "calls": 35,
+        "triangles": 30616,
+        "memory": {
+          "geometries": 18,
+          "textures": 5
+        }
+      }
+    },
+    "limits": [
+      "Raw source preview normalizes total source bounds for display; it does not certify anatomical crown height.",
+      "Isolated registry poses call actual NPC.animate in place; only city mode exercises native navigation/schedules.",
+      "Unsupported pose adapters remain visible procedural fallback, never an invented adapter.",
+      "Hand close-ups use actual skinned hand-owned vertices. No finger count or anatomical thumb is inferred from bone names/PCA."
+    ],
+    "families": [
+      {
+        "id": "warp_keeper",
+        "npcIds": [
+          "warp_city_market",
+          "warp_city_port",
+          "warp_city_forge",
+          "warp_city_training",
+          "warp_city_temple",
+          "warp_city_gate"
+        ],
+        "states": [
+          "idle",
+          "look",
+          "talk",
+          "walk"
+        ]
+      },
+      {
+        "id": "general_merchant",
+        "npcIds": [
+          "general_merchant",
+          "vendor_lanterns"
+        ],
+        "states": [
+          "idle",
+          "look",
+          "talk",
+          "sell",
+          "walk"
+        ]
+      },
+      {
+        "id": "blacksmith",
+        "npcIds": [
+          "blacksmith"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "hammer"
+        ]
+      },
+      {
+        "id": "gate_supplier",
+        "npcIds": [
+          "gate_supplier",
+          "vendor_fruit",
+          "vendor_rice",
+          "fish_vendor_w",
+          "vendor_pottery"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sell",
+          "look"
+        ]
+      },
+      {
+        "id": "enhancer",
+        "npcIds": [
+          "enhancer"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "hammer"
+        ]
+      },
+      {
+        "id": "herbalist",
+        "npcIds": [
+          "herbalist"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "grind",
+          "gather"
+        ]
+      },
+      {
+        "id": "occultist",
+        "npcIds": [
+          "occultist"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "chant"
+        ]
+      },
+      {
+        "id": "master_muay",
+        "npcIds": [
+          "master_muay"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "box"
+        ]
+      },
+      {
+        "id": "master_sword",
+        "npcIds": [
+          "master_sword"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sword"
+        ]
+      },
+      {
+        "id": "master_hunter",
+        "npcIds": [
+          "master_hunter"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "aim"
+        ]
+      },
+      {
+        "id": "master_herbal",
+        "npcIds": [
+          "master_herbal"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "grind"
+        ]
+      },
+      {
+        "id": "master_shaman",
+        "npcIds": [
+          "master_shaman"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "chant"
+        ]
+      },
+      {
+        "id": "master_bandit",
+        "npcIds": [
+          "master_bandit"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "lean"
+        ]
+      },
+      {
+        "id": "city_guard",
+        "npcIds": [
+          "guard_port",
+          "guard_market",
+          "guard_center",
+          "guard_temple",
+          "guard_patrol",
+          "guard_gate_w",
+          "guard_gate_e"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "look",
+          "guard"
+        ]
+      },
+      {
+        "id": "monk_elder",
+        "npcIds": [
+          "monk_elder",
+          "monk_teacher"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "look",
+          "sit",
+          "pray"
+        ]
+      },
+      {
+        "id": "monk_novice",
+        "npcIds": [
+          "monk_young"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "pray",
+          "sweep"
+        ]
+      },
+      {
+        "id": "boatman",
+        "npcIds": [
+          "boatman"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "rest"
+        ]
+      }
+    ]
+  },
+  "contactEvidence": {
+    "path": "/artifacts/city-npc-models/contacts/general_merchant-4f38b1e684ed-contacts.json",
+    "sha256": "2b61d8a0e79e5f2051c5035a03e3cee93939d193ef9a71beaddff1a00f03dd3c",
+    "assetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+    "geometryAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+    "checks": {
+      "maxRestFrameError": 0.000010987938594664293,
+      "maxContactError": 7.925014474707378e-16,
+      "numericContactPassed": true,
+      "axisReviewRequired": false,
+      "visualApproved": false
+    },
+    "thumbStatus": {
+      "left": "UNVERIFIED: PCA across-palm axis cannot identify the anatomical thumb",
+      "right": "UNVERIFIED: PCA across-palm axis cannot identify the anatomical thumb"
+    }
+  },
+  "assetIdentity": {
+    "pathname": "/models/npcs/general_merchant.glb",
+    "expectedSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+    "loaded": [
+      {
+        "url": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=woven-v1-904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6&rev=%5Bredacted%5D",
+        "status": 200,
+        "bytes": 654412,
+        "sha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+        "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+      }
+    ],
+    "passed": true
+  },
+  "bundledProfilesAfter": [],
+  "disposal": {
+    "disposed": true,
+    "groupsReleased": 0,
+    "cacheSize": 0,
+    "phaseListeners": 0
+  },
+  "finishedAt": "2026-10-10T03:28:39.007Z",
+  "capturePassed": true,
+  "passed": true,
+  "archive": {
+    "originalReport": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/report.json",
+    "reportSha256": "8c39c4e993f34e2888de0a3477cff7e04e04fe27b40f52d39835e5f8d61d6a29",
+    "originalImageCount": 28,
+    "portableImageCount": 8,
+    "note": "Full immutable research receipt and all original PNGs remain in the local ignored archive. Only the selected exact witnesses ship in Git."
+  }
+}

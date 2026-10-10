@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "kind": "consecutive-family-captures",
+  "startedAt": "2026-10-10T03:56:38.403Z",
+  "manifestPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-plan-1.json",
+  "manifestSha256": "0c581ee8014177847bc5e23aa6c655316f8b5cce849b754e6baa3fa4460a9fc2",
+  "browser": {
+    "channel": "msedge",
+    "instances": 1,
+    "pages": 1,
+    "closed": true
+  },
+  "families": [
+    {
+      "family": "warp_keeper",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\warp_keeper\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "general_merchant",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\general_merchant\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "blacksmith",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\blacksmith\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "enhancer",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\enhancer\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "herbalist",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\herbalist\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "master_muay",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\master_muay\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "master_sword",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\master_sword\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "master_hunter",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\master_hunter\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "master_shaman",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\master_shaman\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "master_bandit",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\master_bandit\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "city_guard",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\city_guard\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "boatman",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\boatman\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "gate_supplier",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\gate_supplier\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "occultist",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\occultist\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "master_herbal",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\master_herbal\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "monk_elder",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\monk_elder\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    },
+    {
+      "family": "monk_novice",
+      "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\bundled-production-1\\monk_novice\\report.json",
+      "capturePassed": true,
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "images": 1
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "finishedAt": "2026-10-10T03:56:50.305Z"
+}

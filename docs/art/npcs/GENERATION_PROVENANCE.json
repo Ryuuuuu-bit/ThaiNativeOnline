@@ -1,0 +1,482 @@
+{
+  "schema": 1,
+  "provider": "Meshy",
+  "generationDate": "2026-10-10",
+  "families": {
+    "general_merchant": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12250-6844-724f-9df2-cb5240c1f6c5",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12255-a3a8-73ee-8ce6-ceac43f50f7e",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225b-f939-7080-8711-d8592adb18e0",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "blacksmith": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12250-7824-7043-aeb8-f21dbdb62c0b",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-8d8d-7359-8b64-bcaa37edf8e1",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225a-ed11-705b-9ced-2db26fdf656e",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12263-e1b9-734d-9450-245f2869081a",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "gate_supplier": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12250-8745-704e-8e46-a4f81a728a15",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          },
+          "refine": {
+            "taskId": "01a12255-b0c0-700e-90f0-914f61268d1a",
+            "status": "SUCCEEDED",
+            "consumedCredits": 10
+          },
+          "rigging": {
+            "taskId": "01a1225c-0c60-7543-899b-126b2e76ccc5",
+            "status": "SUCCEEDED",
+            "consumedCredits": 5
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12260-7cab-7071-8bfc-de542c555e88",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12268-028c-73ac-a652-39057b674130",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1226d-811b-73bc-9f4d-3c3f0ba1489c",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "enhancer": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12250-95bf-7086-9452-786209b30a4e",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12255-c218-70f1-a86e-68bfcb7509c7",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225c-1da7-7150-aaba-37e1dc938d4d",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "herbalist": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12250-a5f5-751e-9135-025027f5c575",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12255-cf35-7750-bf43-3047fa09bf81",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225c-2f8b-7780-b1f0-d188ee5acbc4",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "occultist": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12250-b3a2-7200-a9c0-f329829c9bb8",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          },
+          "refine": {
+            "taskId": "01a12255-dc3f-7430-80ac-c7652962f41e",
+            "status": "SUCCEEDED",
+            "consumedCredits": 10
+          },
+          "rigging": {
+            "taskId": "01a1225c-5586-73a6-a744-2e60cc2b77f2",
+            "status": "SUCCEEDED",
+            "consumedCredits": 5
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12260-8a52-7343-b125-99801d0adb5d",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12268-099c-7246-b042-d530b7ebdc74",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1226d-92d3-712f-be76-de8686692adc",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "master_muay": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12250-c014-7782-a0eb-64536c292af3",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12255-eb8a-7658-a79d-56626c96d49b",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225c-6758-7295-ae93-a509c49f3df2",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "master_sword": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12250-d026-765a-962a-b36641e14931",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12255-fb27-74e1-9fe2-b5b0143e9104",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225c-791c-72df-b1ed-ecae95245598",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "master_hunter": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12250-e015-7257-b9bd-4b41df75b26c",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-9d31-72e7-a8b2-99540a7f91a1",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225a-fb2e-74f0-bc68-2941ac58750d",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12263-f3c3-7265-bc06-134932f0058b",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "master_herbal": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12250-ec3e-77ab-a959-4d0a19659f69",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-c65a-7031-ab56-b231f42c23a5",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225b-2560-776f-8be3-73c06f3e4b4c",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12264-2b95-705d-af0c-0c253fd18df8",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "master_shaman": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12250-fd04-754f-8386-db4264d6372d",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12256-0da7-76fd-a7ae-5f6db8527baa",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225c-8ab5-7547-a622-a81da6fa30db",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "master_bandit": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12251-0ca1-7727-9e8a-c10fe927b07f",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-a99f-729b-bc5d-51c00fb8c50f",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225b-0b70-7655-a271-b479aa2aa0a9",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12264-0679-7692-a98e-76754fa936a3",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "city_guard": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12251-1c38-73f1-aaa1-41f76d614df9",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-b95e-76f6-b917-03b6f14edb86",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225b-183a-74ea-a52f-ab504f43a253",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12264-19b2-7107-978b-504730fcbf33",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "monk_elder": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12251-2b0c-7505-9ee2-de5303be3cd6",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-d75a-72d0-8798-810dc48e4d58",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225b-33f0-71ab-9ec7-c13d71c7a38e",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12264-3db3-7090-b93a-824b911aec17",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "monk_novice": {
+      "rejectedAttempts": [
+        {
+          "generation": 1,
+          "preview": {
+            "taskId": "01a12251-3a87-7630-821f-22d8346cd3a6",
+            "status": "SUCCEEDED",
+            "consumedCredits": 20
+          }
+        }
+      ],
+      "selected": {
+        "generation": 2,
+        "preview": {
+          "taskId": "01a12257-e3e8-7145-a056-43ad9433b89e",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a1225b-4082-76ee-949a-b68e902acfd9",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a12264-4f3a-74d2-810b-42228208fa67",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "boatman": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12251-4673-706a-8951-863f33e0f83b",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12256-1a58-76ba-9a30-6e60f19b9576",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1225c-a2c1-74e0-9b05-f6894d286eca",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    },
+    "warp_keeper": {
+      "rejectedAttempts": [],
+      "selected": {
+        "generation": 1,
+        "preview": {
+          "taskId": "01a12244-448b-7000-83cc-17882d71a44e",
+          "status": "SUCCEEDED",
+          "consumedCredits": 20
+        },
+        "refine": {
+          "taskId": "01a12246-a22a-71ca-b384-0f1239a8c917",
+          "status": "SUCCEEDED",
+          "consumedCredits": 10
+        },
+        "rigging": {
+          "taskId": "01a1224d-728c-74d5-b846-fc4ec763e52b",
+          "status": "SUCCEEDED",
+          "consumedCredits": 5
+        }
+      }
+    }
+  },
+  "totals": {
+    "preview": 26,
+    "refine": 19,
+    "rigging": 19,
+    "credits": 805
+  },
+  "maximumAuthorisedNpcCredits": 805,
+  "localThaiTextileCredits": 0,
+  "accountBalance": {
+    "credits": 953,
+    "verifiedWith": "meshy balance --output-schema v1 --format json --no-update-check",
+    "date": "2026-10-10",
+    "scope": "Shared account; separate companion dog generation consumed 30 credits"
+  },
+  "rejectedAttemptPolicy": "All paid rejected drafts are retained in task lineage; they are not shipping assets.",
+  "generationReceiptSHA256": "cc89d289f61a0d75848037f2c19185d727a2d2afea47891cc03140936d58765e",
+  "acceptance": "Generation completed. Individual anatomy, textile and runtime acceptance receipts determine release; generation success alone is not approval."
+}

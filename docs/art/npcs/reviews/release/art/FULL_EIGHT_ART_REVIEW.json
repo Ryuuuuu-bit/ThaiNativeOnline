@@ -1,0 +1,4088 @@
+{
+  "schema": 1,
+  "kind": "bounded-eight-family-art-tech-review",
+  "reviewedDate": "2026-10-10",
+  "captureLabel": "city-npc-full-current-1",
+  "verdict": "HOLD_OCCULTIST_P2_SEVEN_FAMILIES_SCOPED_READY",
+  "finalParentApproval": false,
+  "automaticArtPassFromRuntimeOrCPU": false,
+  "scope": {
+    "families": [
+      "warp_keeper",
+      "general_merchant",
+      "blacksmith",
+      "herbalist",
+      "occultist",
+      "master_muay",
+      "master_herbal",
+      "master_shaman"
+    ],
+    "excluded": "Remaining nine families in the 17-family batch; earlier specialist approvals are not extended by this review.",
+    "ownedFiles": [
+      "docs/art/npcs/reviews/FULL_EIGHT_ART_REVIEW.md",
+      "docs/art/npcs/reviews/FULL_EIGHT_ART_REVIEW.json"
+    ],
+    "codeEdits": false,
+    "browserLaunches": false,
+    "blenderLaunches": false,
+    "paidCalls": false,
+    "servicesOrSchedulesEdited": false
+  },
+  "sources": [
+    "docs/art/ART_BIBLE.md",
+    "docs/art/npcs/NPC_MODEL_BRIEFS.json"
+  ],
+  "validation": {
+    "batch": {
+      "path": "docs/art/npcs/reviews/city-npc-full-current-1/batch-report.json",
+      "sha256": "46839ce18e71d3446372c5ed1794e98a2d3ace420981866e9e1999095da757d5",
+      "keys": [
+        "schema",
+        "kind",
+        "startedAt",
+        "manifestPath",
+        "manifestSha256",
+        "browser",
+        "families",
+        "failures",
+        "passed",
+        "finishedAt"
+      ],
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "instances": 1,
+        "pages": 1,
+        "closed": true
+      }
+    },
+    "requestedPNGCount": 232,
+    "pngHashesMatched": 232,
+    "receiptPinsCount": 232,
+    "receiptHashAlgorithm": "SHA-256 over UTF-8 JSON.stringify(parsed image.receipt), with parsed property order preserved; report byte hash also pins the original serialized receipts.",
+    "receiptChecks": "All 232 registry receipts report active models, active native animation, and poseWitness sourceSha256 matching each exact loaded/current GLB. Source/rest/grasp/anatomy approval is not inferred.",
+    "visuallyInspected": 176,
+    "hashOnly": 56,
+    "inspectionMethod": "24 front/back/three-quarter originals, two additional occultist side originals, eight original hammer/staff detail views and two additional blacksmith work originals; remaining inspected images reviewed in labeled, in-memory contact sheets. Body sheet crops (280,20)-(1000,735) scaled to fit 400x408; full hand source frames scaled to fit; eight gameplay frames additionally cropped (440,235)-(840,635) at original pixel scale. No source PNG altered and no inspection sheet saved.",
+    "fullResolutionOriginalCount": 36,
+    "gameplayOriginalPixelCrops": 8,
+    "requestedReportsPassed": true,
+    "browsersClosed": true,
+    "exactLoadedAssetPinsMatchedCurrent": true,
+    "captureModuleBeforeAfterStable": true,
+    "sourceNativeClips": [
+      "idle",
+      "walk"
+    ],
+    "build": {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "PASS",
+      "warning": "Production bundle chunk exceeds 500 kB; no performance approval inferred."
+    },
+    "initialModuleMismatches": [
+      {
+        "path": "tools/npc-models/gameplay-qa.mjs",
+        "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+        "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+        "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+      }
+    ],
+    "finalModuleMismatches": [
+      {
+        "path": "tools/npc-models/gameplay-qa.mjs",
+        "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+        "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+        "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69"
+      }
+    ],
+    "finalBatchSha256": "46839ce18e71d3446372c5ed1794e98a2d3ace420981866e9e1999095da757d5",
+    "parentRuntimeQA": "Parent reports full-17 runtime/14,561-sample PASS and CPU actual-vertex tool floor checks; not independently rerun and not used for Art verdict."
+  },
+  "scores": [
+    {
+      "family": "warp_keeper",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "Cream/green/gold wrap costume, cream cloth headwrap and friendly face produce a clear civic silhouette. Headwrap stays fitted in inspected front/back/side/angles; continuous lower wrap remains coherent in sampled walk. No authored work witness in the requested report."
+    },
+    {
+      "family": "general_merchant",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "Cream blouse, dark navy skirt, orange sash and large bun separate this merchant from the herbalist. Front/back/talk/sell/walk preserve readable face and skirt outline; no inherited supplier basket is rendered."
+    },
+    {
+      "family": "blacksmith",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "Broad build, beard, blue-gray shirt, crimson apron/sash, fitted white headband and block hammer retain forge identity. Hammer remains visible and clear of floor/body in inspected body/work views. Hand/prop closeups show open fingers and occlusion, so complete grasp or local finger clearance is not certified."
+    },
+    {
+      "family": "herbalist",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "White buttoned blouse, dark red-brown long skirt, green forearm details/sandals and bun retain a readable medicine-vendor costume. Both gather and grind witnesses preserve the source body outline. No held medicine tool is present in these samples; those labels do not prove work mechanics."
+    },
+    {
+      "family": "occultist",
+      "styleMatch": 7,
+      "readability": 8,
+      "technicalUsability": 7,
+      "gate": 8,
+      "meetsGate": false,
+      "verdict": "HOLD_P2",
+      "observation": "Black/crimson costume, older face and open-palmed pose retain occult identity, but the red procedural headband projects forward as a stiff crescent above the brow. Side idle/talk/walk/chant corroborate the headwear-fit defect. Sit witness is standing visual fallback."
+    },
+    {
+      "family": "master_muay",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "Bare athletic torso, red shorts, broad cream waist cloth, wrist/ankle wraps and head detail create the strongest martial silhouette in this set. Open palms during box work do not obscure the role at gameplay scale. No fist geometry or boxing-mechanics certification requested."
+    },
+    {
+      "family": "master_herbal",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "Gray hair, older broad face, cream wrap shirt, green waist panel and wide dark brown trousers distinguish the teacher from the herbal vendor. Open-palmed talk/grind/walk preserve the costume and body outline; no grinding implement/mechanic is certified."
+    },
+    {
+      "family": "master_shaman",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "meetsGate": true,
+      "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+      "observation": "Cream/gold long coat, red sash, topknot and tall brown staff form a clear ritual silhouette, including the gameplay crop. Native hands remain open. Staff appears aligned beside the hand in body/detail views and sampled bottom stays above floor when tilted. No full grasp/contact proof; sit-chant stands as explicit visual fallback."
+    }
+  ],
+  "scoreLimits": "Art Bible >=8/10 gate applies to bounded sampled visual presentation. Technical score is visible body/wardrobe/headwear/tool usability; not complete skin topology/anatomy, continuous collision, planted feet, grip, seating or production performance certification.",
+  "findings": [
+    {
+      "id": "F8-01",
+      "priority": "P2",
+      "status": "OPEN",
+      "family": "occultist",
+      "title": "Procedural red headband projects as a rigid crescent/visor",
+      "observation": "Idle and talk full-resolution side images show the red strip jutting forward beyond the forehead/nose silhouette instead of following a tied forehead band. Front/three-quarter and sampled walk/chant corroborate the raised crescent. Eyes are still visible; this is a headwear fit/style defect, not a claim of face obstruction in every angle.",
+      "identity": "Rendered receipt contactWitness.props names the actual separate part headband in frame head.",
+      "action": "Parent can refit only the family headband/socket to the actual head, or use explicit active-model suppressedAccessories: ['headband']. Keep the source body, native animations, black/crimson wardrobe, authored sit schedule and services. Suppression must remain distinct from bakedAccessories and leave procedural fallback/other families unchanged.",
+      "acceptance": "Fresh front/back/side/three-quarter idle, talk, chant and walk views at multiple times plus gameplay must show a fitted band or its explicit absence, with no projecting crescent, new head intersection or lost face/costume readability. Actual images must close this P2; runtime/CPU pass alone cannot.",
+      "evidence": [
+        "occultist-idle-0_5-side",
+        "occultist-talk-0_75-side",
+        "occultist-idle-0_5-front",
+        "occultist-idle-0_5-threequarter",
+        "occultist-walk-0_5-side",
+        "occultist-sit-chant-0_75-side"
+      ]
+    }
+  ],
+  "observations": {
+    "noAdditionalP2Established": "No other confirmed major prop float, body/wardrobe intersection, broken limb or skin tear was established in the inspected samples. Projection/occlusion around open hand/hammer/staff does not prove complete 3D clearance.",
+    "sourceHands": "Open/relaxed source hands retained. Hand count, thumb anatomy and closed grasp not certified. Do not require finger-fist geometry just to turn readable role tools into a purported grip.",
+    "muayWork": "The box witness is an arm gesture with open hands. Muay role is readable from build/costume/wraps at gameplay scale; actual punching mechanics not approved.",
+    "roleWitnesses": "Sell/gather/grind/chant file names identify authored states, not proof of transactions, tool contact, medicine processing or seated motion.",
+    "standingFallbacks": [
+      {
+        "family": "occultist",
+        "policy": {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        },
+        "seatedApproved": false
+      },
+      {
+        "family": "master_shaman",
+        "policy": {
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        },
+        "seatedApproved": false
+      }
+    ],
+    "wardrobe": "Wraps, skirts, broad sash/waist panels, selective gold trim, sandals, martial wraps and ritual staff retain Thai-fantasy identity without demanding added ornament.",
+    "gameplay": "Registry gameplay views show small isolated characters on an empty plane. Original-scale crops support color-block/silhouette/tool comparison; they do not approve live city/UI contrast or interaction."
+  },
+  "modulePins": [
+    {
+      "path": "tools/npc-models/review.html",
+      "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+      "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+      "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+    },
+    {
+      "path": "tools/npc-models/review.js",
+      "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+      "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+      "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+    },
+    {
+      "path": "tools/npc-models/capture.mjs",
+      "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+    },
+    {
+      "path": "tools/npc-models/gameplay-qa.mjs",
+      "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+      "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+      "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69"
+    },
+    {
+      "path": "public/models/npcs/profiles.json",
+      "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+      "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+      "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+    },
+    {
+      "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+      "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+      "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+      "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+    },
+    {
+      "path": "src/core/gltf.js",
+      "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+      "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+      "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+    },
+    {
+      "path": "src/entities/NPC.js",
+      "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+      "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+      "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+    },
+    {
+      "path": "src/data/npcs.js",
+      "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+      "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+      "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+    },
+    {
+      "path": "src/npc/NPCModels.js",
+      "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+      "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+      "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+    },
+    {
+      "path": "src/npc/NPCModelRenderer.js",
+      "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+      "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+      "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+    },
+    {
+      "path": "src/npc/NPCActivityPoses.js",
+      "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+      "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+      "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+    },
+    {
+      "path": "src/npc/NPCToolPresentation.js",
+      "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+      "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+      "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+    },
+    {
+      "path": "src/npc/NPCRenderer.js",
+      "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+      "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+      "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+    },
+    {
+      "path": "src/npc/NPCManager.js",
+      "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+      "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+      "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+    },
+    {
+      "path": "src/npc/NPCData.js",
+      "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+      "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+      "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+    },
+    {
+      "path": "src/npc/NPCSchedule.js",
+      "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+      "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+      "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+    },
+    {
+      "path": "src/npc/body/gearParts.js",
+      "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+      "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+      "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+    },
+    {
+      "path": "src/npc/body/blade.js",
+      "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+      "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+      "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+    },
+    {
+      "path": "src/npc/body/rig.js",
+      "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+      "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+      "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+    },
+    {
+      "path": "src/core/WorldClock.js",
+      "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+      "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+      "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+    },
+    {
+      "path": "src/core/CameraController.js",
+      "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+      "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+      "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+    },
+    {
+      "path": "src/world/World.js",
+      "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+      "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+      "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+    },
+    {
+      "path": "src/world/maps.js",
+      "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+      "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+      "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.js",
+      "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+      "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+      "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.json",
+      "beforeSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+      "afterSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+      "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/warp_keeper-099119c59cee-contacts.json",
+      "beforeSha256": "29ce5cca7dda21436bab6b2d5b175a0bf59bcf9fd20383f4087f9ffb5a2e12f0",
+      "afterSha256": "29ce5cca7dda21436bab6b2d5b175a0bf59bcf9fd20383f4087f9ffb5a2e12f0",
+      "currentSha256": "29ce5cca7dda21436bab6b2d5b175a0bf59bcf9fd20383f4087f9ffb5a2e12f0"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/general_merchant-4f38b1e684ed-contacts.json",
+      "beforeSha256": "2b61d8a0e79e5f2051c5035a03e3cee93939d193ef9a71beaddff1a00f03dd3c",
+      "afterSha256": "2b61d8a0e79e5f2051c5035a03e3cee93939d193ef9a71beaddff1a00f03dd3c",
+      "currentSha256": "2b61d8a0e79e5f2051c5035a03e3cee93939d193ef9a71beaddff1a00f03dd3c"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/blacksmith-7acc63e9351e-contacts.json",
+      "beforeSha256": "76872db6851d55a720edd542c81836223e7eaa6803aa363b5bec5a474095b851",
+      "afterSha256": "76872db6851d55a720edd542c81836223e7eaa6803aa363b5bec5a474095b851",
+      "currentSha256": "76872db6851d55a720edd542c81836223e7eaa6803aa363b5bec5a474095b851"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/herbalist-faf5763f946f-contacts.json",
+      "beforeSha256": "ddc592eb6a00bb0a5023067a33244e0c97dedeb60658a4ce7f31c82951ea7bd2",
+      "afterSha256": "ddc592eb6a00bb0a5023067a33244e0c97dedeb60658a4ce7f31c82951ea7bd2",
+      "currentSha256": "ddc592eb6a00bb0a5023067a33244e0c97dedeb60658a4ce7f31c82951ea7bd2"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/occultist-619e684d6e16-contacts.json",
+      "beforeSha256": "548117c08d5ee96081d15d9edbf1b1d41a1f279bd349258b772d566da04e8f96",
+      "afterSha256": "548117c08d5ee96081d15d9edbf1b1d41a1f279bd349258b772d566da04e8f96",
+      "currentSha256": "548117c08d5ee96081d15d9edbf1b1d41a1f279bd349258b772d566da04e8f96"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/master_muay-c5f36e6b0f78-contacts.json",
+      "beforeSha256": "8fd14687eb35e4c0a44b55f4966bc5f31ae5d131fb87f35186b6ba4043198c18",
+      "afterSha256": "8fd14687eb35e4c0a44b55f4966bc5f31ae5d131fb87f35186b6ba4043198c18",
+      "currentSha256": "8fd14687eb35e4c0a44b55f4966bc5f31ae5d131fb87f35186b6ba4043198c18"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/master_herbal-c699a77238d1-contacts.json",
+      "beforeSha256": "9b807926068d2c440036213db2c411c32a2b43668e901d70c3112deb390783f0",
+      "afterSha256": "9b807926068d2c440036213db2c411c32a2b43668e901d70c3112deb390783f0",
+      "currentSha256": "9b807926068d2c440036213db2c411c32a2b43668e901d70c3112deb390783f0"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/master_shaman-a11dd0734c6b-contacts.json",
+      "beforeSha256": "c59f5d916fce6984c6b31f8da903680b5e37cbee3ff0de62637190f511f16473",
+      "afterSha256": "c59f5d916fce6984c6b31f8da903680b5e37cbee3ff0de62637190f511f16473",
+      "currentSha256": "c59f5d916fce6984c6b31f8da903680b5e37cbee3ff0de62637190f511f16473"
+    }
+  ],
+  "evidence": [
+    {
+      "family": "warp_keeper",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/report.json",
+      "reportSha256": "636160c20d42820cad55579ff2228c198c8664636ca7cd39eae3970443a3c336",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/warp_keeper.glb",
+        "expectedSha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/warp_keeper.glb?v=woven-v4-b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 639000,
+            "sha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+      "imageCount": 21,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "warp_keeper",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": null,
+          "trainer": null,
+          "warpService": "city_market",
+          "storageService": true,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "warp_keeper-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-0_5-front.png",
+          "sha256": "c2751ff7aae8cbd3fda4b8457cb370630ac550f671ccb8e545c945eed741ad90",
+          "receiptSha256": "63219be0a9176b2683d88504f7e5d420af2182337e8c0e26f3153db8577cb1f7",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "warp_keeper-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-0_5-side.png",
+          "sha256": "30bbfaa0cf356810ad2e757ec0e3c3fe3a6d2a98506b3efaaffc3a743a4beb0a",
+          "receiptSha256": "5d30f0833119dffb8c3bef8bbe7c110bb2d86185e1a3961b5daa1a5f0c0457a9",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-0_5-back.png",
+          "sha256": "07244ba4d2946f5c200f1fe7102a9af7610304738fbbfacdbf25043e2d365156",
+          "receiptSha256": "da9f524b8d4d9ac74b89e049cef47471847f59af623f6c9380f757d74e7da8e0",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "warp_keeper-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-0_5-threequarter.png",
+          "sha256": "ff053edfaf20c9cc978b61c70171fc46a1905be6ea6e108fb2ceac6f6c2a7036",
+          "receiptSha256": "473fffc51c90fe4b4d0eef43e3fa971d4831357036d6620407530d2b9fb40883",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "warp_keeper-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-0_5-gameplay.png",
+          "sha256": "caca1dc4e37f49489e317db3cd9d5be8ee54a835bb4eb56b4de282f2bb6c452e",
+          "receiptSha256": "d5fb32fb2b2fb92d997e4e5e45b93af10a80c151d937f524e2a1c4f328b87bd6",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "warp_keeper-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-talk-0_25-front.png",
+          "sha256": "dab88904b82385a2e84f96a4884f12693c015c5acb6de9492de7f6e53d7068e7",
+          "receiptSha256": "80a719963f191e54ac0981b832e9956f5ebdbe3988d2bd2919386632a56ec868",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "warp_keeper-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-talk-0_5-threequarter.png",
+          "sha256": "95115b6156e67f93ab3476245cd7c0c2eec81be065c7c98738ec7417eb68c346",
+          "receiptSha256": "05e4d5142fa1e9834868e7d40d3d287baf8f3e0325eae281a28e5939016607b6",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-talk-0_75-side.png",
+          "sha256": "9457649993eac1f3bb123b76b5f499203bc005c0d2db4d9dafaf9bbfd886e87d",
+          "receiptSha256": "1e6efa265afc9bdefe7ca13b27904c5b8526541a8180adee32e501233151f93c",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "warp_keeper-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_25-front.png",
+          "sha256": "8878a5b47fb6c5289d7dd7b442c56191e508af475472c6b21d2b58247a6aee1d",
+          "receiptSha256": "2dccdb44e69efd618bbfe9525e36812893b5c9a9b4c8b788d42f476172e12ea8",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_5-front.png",
+          "sha256": "7a219e2ae01c404dc1206d6f5abfd4173a94dba8b50e8f11e07e58c3c2290c97",
+          "receiptSha256": "2610e57d5d0e0d87cba8c51e8115a36d4069e157fb22e85354d6367176fe56b5",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "warp_keeper-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_5-side.png",
+          "sha256": "9059ec6963362781ad7a641bdb44b9ab65d3b9be7407e89add1d78c5ab27ce5e",
+          "receiptSha256": "c67ed07861ba70df322da04f833930ea4e8e96cb9c729c775666d2b23af1a8e9",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_5-back.png",
+          "sha256": "6c3428d51a503fdc29d22ca29e5f624098780204a388344c4bc67c7254a5c876",
+          "receiptSha256": "fcc9d581f74cf9980f5c400012ce24b7899b3be99e0d0b14df846deccc55951b",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_5-threequarter.png",
+          "sha256": "4248ccd00e33b725571a23248a87f1eaddd8b2003dfbb73b40507954a05a0a30",
+          "receiptSha256": "8e2944c1d72c1a60a420f6685308ea890ec9e62d4a197db6f22bba27fab1594c",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "warp_keeper-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_5-gameplay.png",
+          "sha256": "fd598d86da402f9b0851f73f3f321e42562713d9d1752fa24c9f0b2dfd5c30a9",
+          "receiptSha256": "8e29d64711f6a3c9cbd4a3a4b0aba5175be0ea6d315a507b24670307bde8de6d",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "warp_keeper-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-walk-0_75-side.png",
+          "sha256": "2aab86524f9c347dfb437340babac894a43e885f81003bed4863d5bf69871c7d",
+          "receiptSha256": "b8d6daa916e99265fec5f85e27631953a1779a538183a62e51a7a8f5541f82e5",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-hand-left-front.png",
+          "sha256": "1067263f42ae5182df1f1f732ea1b00d785dc099a4e4abf51424529c6dce7812",
+          "receiptSha256": "c9ef4db6e91e0093f82a77f1bd1ae65d3881627f312cd2c5d54aa8f061ec646c",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-hand-left-back.png",
+          "sha256": "bab1c8af41c1ecad3631aca28a792ab3d91591ae1e2b0e71e1a218b4859c26ff",
+          "receiptSha256": "c7c6bb528238df7b62de6189c9c1cdcac0358a23575868db6b3595839caadab2",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-hand-left-side.png",
+          "sha256": "3e40f2817d3f92cd70ba95a092b8c32eeede5e2c3883c1bb1392c51dfe967053",
+          "receiptSha256": "81fcc8ea80c09f43b189131fc1fc0f30882ba1ee1f51a1804a0aab4d003ce259",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-hand-right-front.png",
+          "sha256": "91bda68599aea648d893784e4d924a2df01eacca06b7854c4a803a91d4118fa3",
+          "receiptSha256": "845347074923fe615024ce1625851c3fb9ac1d978e7d09bdb2763f439b3e2bd3",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-hand-right-back.png",
+          "sha256": "5cc1659d43575ca494c7fe9c000bbda4c347625c1c6b0f490b2234ac3de1ea3e",
+          "receiptSha256": "5caae124494ed410b63f645644cb9238e328dd7e8f2e8e924c22e7b22d441804",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "warp_keeper-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/warp_keeper/warp_keeper-idle-hand-right-side.png",
+          "sha256": "a160bf9305c03b37e47b278846dc498eab8392ce51f188f5f171e0694dd48838",
+          "receiptSha256": "a72463822bffd2152a8bcffdce1089e491db78aa43bac367afe7ad467f7dc39d",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        }
+      ],
+      "visuallyInspectedCount": 16,
+      "finalReportSha256": "636160c20d42820cad55579ff2228c198c8664636ca7cd39eae3970443a3c336",
+      "finalBodySha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": []
+    },
+    {
+      "family": "general_merchant",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/report.json",
+      "reportSha256": "8c39c4e993f34e2888de0a3477cff7e04e04fe27b40f52d39835e5f8d61d6a29",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/general_merchant.glb",
+        "expectedSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/general_merchant.glb?v=woven-v1-904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 654412,
+            "sha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+      "imageCount": 28,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "general_merchant",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": "general",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "general_merchant-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-0_5-front.png",
+          "sha256": "851f3e720ab5e9ea1b9e085e90ddbfc71bc7cd0d95fc60a7cb0898bad006b693",
+          "receiptSha256": "813af35be4900d77fcd0aca3495f588a953458e0f6ec05ce1ae4118cdf9690ff",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "general_merchant-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-0_5-side.png",
+          "sha256": "6fd084ddb2c835e156367b79e357ad347f44821af6bd719e528c1f1173e42d02",
+          "receiptSha256": "0981e44e45fe0f7e25cc890b6650fa703d933788d7a7010a2fe4048164db31e4",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-0_5-back.png",
+          "sha256": "e8468e26a06933288dccccf2d147014593da777b0ec8373e63707f9039374f7c",
+          "receiptSha256": "85baa5f980895f3fc8e9bfc90cae2847947dd529f62cf4e6f7c325edc80f7e7c",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "general_merchant-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-0_5-threequarter.png",
+          "sha256": "678bb1d1fdd07b03a59c27a9f90ecd47225dfe624670ea0c3abe2773449a13cf",
+          "receiptSha256": "ee890852bfa5621cc0436f2ca4de8d2022f331d28eaac042ad9f31bd5caef4e8",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "general_merchant-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-0_5-gameplay.png",
+          "sha256": "30dd426a79acf45145f9b5806d0bdcd8a32a329e0e8e6894d5246cc79a9b329d",
+          "receiptSha256": "a72e9c564fbf4b28c4176e776a36360a756c44875dd9b77b6ee0d2adf40f1cf9",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "general_merchant-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-talk-0_25-front.png",
+          "sha256": "b25654a237b3aa1eb426ae307d50de63fb2431e92dbf148b7d5e2f024abde970",
+          "receiptSha256": "905e0da5502f6bb80f40f5476fc8ccdf09e17dc1fabfafbd43d4e4ae46b4a038",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-talk-0_5-threequarter.png",
+          "sha256": "40afe6080e62cd75778d69968ca8fff6274439558ce61f16c7ce10a6dc16ebd9",
+          "receiptSha256": "fcdbbec17d7a77166a47d87702f6d77ad47affc6f3bbf3eaeb2dff74faa89fa7",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-talk-0_75-side.png",
+          "sha256": "3ad5dcbcb1e45cfa4643618e4995605b569c750435df7829a3fcfed593eb8063",
+          "receiptSha256": "085c40511aa764d2168e9a2a650a4ffb9fe02734f24302dbe8ec4d310bda2995",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_25-front.png",
+          "sha256": "7d38222c45c70e2e1e5b819229c5ca8726f904e15aa1f31a0cdf7bdd92bcc655",
+          "receiptSha256": "880ec50a84f18868b28b3dc8e8c50c6ea4b2fa7256a8c0d9f6e3e4aa8be5eb22",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_5-front.png",
+          "sha256": "7dd7523f961ba5e05db4bf25c6b9f1e12a969cbf2d772cc855ff77acf084df49",
+          "receiptSha256": "44c7a7b485d6f0bc4bdc52fe311a63557811abd1ede58eb2bba47214c85e1002",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_5-side.png",
+          "sha256": "41637c4275a7b4704d0dbf3d6d3d955304759bcdc6f51550e435ce8d6557606f",
+          "receiptSha256": "03603946533a3169d2fb307852b55a82111a25f3d0748e57bb11882d1db3c319",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_5-back.png",
+          "sha256": "ea4260e23dfd9546a166c8a46e4fe97fc6e382635b126027f24fb3b4c804a448",
+          "receiptSha256": "f86715fafae714e52b6a86a2a72098d32916b02ef2cbb56b44d97cbfd6e46261",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_5-threequarter.png",
+          "sha256": "82f935452e40c33097bcdc81222032defa2004b4300e96fac4d8938334fc9e1a",
+          "receiptSha256": "407035497f747eb5613779d3dd330b850f44935352c88bf56929cae02cd39e50",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_5-gameplay.png",
+          "sha256": "60cb3ccffce6d9287aadcc4c6edc55919237f37fc2321a2e79ab36643a245c3c",
+          "receiptSha256": "f6551112285918b9f2bc607d4b1f9302ef79cb3b66be62b401c81ea51fa55abe",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-walk-0_75-side.png",
+          "sha256": "e805f0639290350f091e7e04f0a3a8d0fcbea47d4fb5a2fd676b687f6ce454f1",
+          "receiptSha256": "1acbe08ba0b3b17b6d66e4d9b164bfa8c92864bbbf72d3a02a880abd573589bb",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-work-sell-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_25-front.png",
+          "sha256": "d5d2ce4ce53312828542c7bbb53358c034d23855e90a9d8191f9ce7fcb8ff597",
+          "receiptSha256": "7d5b2879f5e6d7254fe18c3ccff1f47064852ce005db2680b48ba0d300fdc2db",
+          "pose": "work-sell",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-work-sell-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_5-front.png",
+          "sha256": "4e9447a4fecc8e56cc9c53a4613676bf5f90a4f7a3cfde58c1bf5396b02fd20d",
+          "receiptSha256": "e260d6bf0cf6c89911cd0877ab93c7bc822baf98df090300612f34445192da25",
+          "pose": "work-sell",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-work-sell-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_5-side.png",
+          "sha256": "87fe945037bd574086160734f0336216bb40ecbb2c427f1e671b7b2e96124bf0",
+          "receiptSha256": "68eca9bbe25ace7a877ede932a456b4ffd18c698d94f36f65bb3337aa6811251",
+          "pose": "work-sell",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-work-sell-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_5-back.png",
+          "sha256": "efc8636f2264c49965636bd404900df94f695d9af5a6b7c60c20d3d1be965ac6",
+          "receiptSha256": "0b58d7bd803d9048b7d345d12153f2d956a935c15ed1e37a626f9074ac0eea8b",
+          "pose": "work-sell",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-work-sell-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_5-threequarter.png",
+          "sha256": "30fb5ab3d0d7cc16278a6d1bbc13cf3227824404de6d131e0eea9e84640b081f",
+          "receiptSha256": "4f6371c81e7250e28bec26c3d88ef85b7005a282b46a6720af17e8eda241917e",
+          "pose": "work-sell",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-work-sell-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_5-gameplay.png",
+          "sha256": "b82abfb610ed5a8d6d62563d66db1e86c23635b765b5a444218bdcd2367afc92",
+          "receiptSha256": "a73f22f632c87b4c3339ef50f0dd3f6fce6a537759f20e875208e7ab3864cf01",
+          "pose": "work-sell",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "general_merchant-work-sell-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-work-sell-0_75-side.png",
+          "sha256": "5cb1786fee0f2aff157787b56bcd9f6d05a4f83c639a49e7e35c37b865193299",
+          "receiptSha256": "d2ba9ed5579885a6654ee28f68f1facfb8b7a5ce809d1749c5f1695c53478ee7",
+          "pose": "work-sell",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-hand-left-front.png",
+          "sha256": "c6db58177793e1e48ef73344d5b04b520bca63c0f46da5bc85a08ce6cc1116c5",
+          "receiptSha256": "d89103844d11368cefd9d0f3433a7c2e4a4cab8c5b0bad64d0c6ad58033ed60d",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-hand-left-back.png",
+          "sha256": "161692c1d4a871b439d4df3e6fc424d5b48f887a42a39289529795c0db669ada",
+          "receiptSha256": "b9e01a1754a5c1f388ed2b94452a682e010ca21056080b428a11e77146c41158",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-hand-left-side.png",
+          "sha256": "00331c55ccde1cb781379ccc50e53f17b63ebf322fd86f0021c887cc3e98acd8",
+          "receiptSha256": "b03e2f48ff9344ca83dfd7c8b5fad3a41166c4432af183d4b58d1fa7c183ea34",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-hand-right-front.png",
+          "sha256": "c53fc2e59c6a0cb941a0e40bf947fff79ef586f676a89f3001c5fc60e98b7293",
+          "receiptSha256": "b26c7bfbcad26a56f0c94b0576fec64e1ecddb2db1b29295c39660c73a07d482",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-hand-right-back.png",
+          "sha256": "97c962a8b6059473475769627d5870b419ec48251a743bd4e31c06f8ee8fa894",
+          "receiptSha256": "c52b8c417f39c015ed38a7b9be57b971055d774ed08c3878bf40346a51b2ae2c",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "general_merchant-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/general_merchant/general_merchant-idle-hand-right-side.png",
+          "sha256": "1e8707d9885789aa678b90f9f561e8ca6bb3e5847b3701177cf7d86e1fe420e0",
+          "receiptSha256": "812a1f7059598699018c4b2ffcbe02a00078ecb552c4845294fe260c8aa51c84",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        }
+      ],
+      "visuallyInspectedCount": 21,
+      "finalReportSha256": "8c39c4e993f34e2888de0a3477cff7e04e04fe27b40f52d39835e5f8d61d6a29",
+      "finalBodySha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": []
+    },
+    {
+      "family": "blacksmith",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/report.json",
+      "reportSha256": "1ac62190c00c7afd34daaa6085ed4869ac27c58db7df6d2daf671edf3c62ffac",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/blacksmith.glb",
+        "expectedSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/blacksmith.glb?v=woven-v1-f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 575092,
+            "sha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+      "imageCount": 32,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "blacksmith",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": "blacksmith",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "blacksmith-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-0_5-front.png",
+          "sha256": "895ba0adb8637b25d83a17d11d54c7ae51185f4145aa02a1a44ae0d5b3f7eb7a",
+          "receiptSha256": "c3e465d369120a51c0181425c59a52e8877a13aa6a97c778f86cda9f3464792b",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "blacksmith-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-0_5-side.png",
+          "sha256": "2acbab7cb279aefa6f97ddeba6f030fad016cf65a0f4ea3618bb33b6447425f7",
+          "receiptSha256": "8f1509dfef42df8ac4cb02c7dd829f0b1b4b2b29e84240c515bf50fd2f579f49",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-0_5-back.png",
+          "sha256": "88ffc9836459e0a52acd44a774ee699bdcee7c6acaa49cc9b9b8d82af829ce40",
+          "receiptSha256": "1ce45413242ba469eb2a37c00d58721318a9929a34b72c8a9805d7ef6630eef1",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "blacksmith-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-0_5-threequarter.png",
+          "sha256": "9d102ba83801dee91d2000fd2bf2263455c6769a14af529517e715a83bbf8555",
+          "receiptSha256": "0ba93b452b439825c164fa9003051e9472259276c6e6d7a7df6ab70bbb2bc6cd",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "blacksmith-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-0_5-gameplay.png",
+          "sha256": "950ee25b9d75d44fb7616f436493a6350ed78d632027bd9502e7f77b92148a85",
+          "receiptSha256": "ab031b22c16e322e56ab99b25a7fd3c3444fdc46a20f4a2b9f403ee6f8573229",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "blacksmith-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-talk-0_25-front.png",
+          "sha256": "fcb99f0b700531492a4bd83daff29c737428d339862a3ed29c187da5a96bb519",
+          "receiptSha256": "2df8298f0c6fe7d89d248294dcd2de19542a5f7ba1ffb9a8dbb2b6356f9198b8",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-talk-0_5-threequarter.png",
+          "sha256": "d1061d99abd708f5de7eb968c519957f092aa90eb937823906c5d88af76e6f51",
+          "receiptSha256": "68607ddf1779237157ce213a02a1cc279af455fd50e121ea0a5036097ea592ec",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-talk-0_75-side.png",
+          "sha256": "2ada5b8f4b12cdac139b9146f3fc8d745e080cd5f6000271b6966a38e454160f",
+          "receiptSha256": "cd06c89dc694480e7ca1f2c08d7322be71deb2d9ff1cf79b9ef92d130f647dc1",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_25-front.png",
+          "sha256": "81c1eb8d41521bd4375b5136d6ade6b3765a93a64a1e792f9f489af3d0e96b3e",
+          "receiptSha256": "75a44d0608e6c8ad160b181bb4b17d08a43db3e5181afd1a9f45bd7daff81328",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_5-front.png",
+          "sha256": "b21923d272bd0b80a7c0fdc9282a7adcfee372c4d8c89b51a78bcbf9360aa77c",
+          "receiptSha256": "bf9770c5d62aea07df502fbe569359e74c73e66ebf6457961bf78278e37cd038",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_5-side.png",
+          "sha256": "bd27f5e7a48fe87676c3113dcb12285b5da0f863ef92fe3ad1492ee959aa7d15",
+          "receiptSha256": "a243962391fb92552660d76f9c8786ac9484c2ea7c0e18ed0abd5e3449a61637",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_5-back.png",
+          "sha256": "1c9e3b7752a5a87d7b8e3ea58324e81ec3bfb87aa9e71087c1d053232ce1c904",
+          "receiptSha256": "703e402e83f1afb061da79f624538dfac2c6860dcd2b964d8ca6f389625fb6e6",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_5-threequarter.png",
+          "sha256": "93b38266fc88294962be94053deabd89b3a878ce1a16cda7fabc9cf766bf8d81",
+          "receiptSha256": "019e13af74ae11d55c77cd1e38f0edd3f0670a967d6c91e47311bc9f9cbec63a",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_5-gameplay.png",
+          "sha256": "21953eb90ef1ddb61f2703b650c27506c840d8e3e45557800c2b8ea47e0b78d6",
+          "receiptSha256": "4c39d9c2a1fd82a61a17ff05547e73cb6765a930006470d9867ecef0c91304dd",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-walk-0_75-side.png",
+          "sha256": "373244d8d0228e880fd3b256ca2fb20f3b157050be53a1a7496fb03746636496",
+          "receiptSha256": "339c9f4f579968ddf8261f8f537e79939976188aefafc4e1eb6a895a5fa5ca34",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_25-front.png",
+          "sha256": "ca0a1470ce386c322c8b2cbb27cca8304a59e2fc2c44cef8e6aa3b42ca96493d",
+          "receiptSha256": "f4cd9cbc44bc4a1b4fc0c7185afff2e45b4a3357eda8ecba67fd83d3df9107ea",
+          "pose": "work-hammer",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_5-front.png",
+          "sha256": "ca0a1470ce386c322c8b2cbb27cca8304a59e2fc2c44cef8e6aa3b42ca96493d",
+          "receiptSha256": "8deda661fef34a23196a821b5c13e85fdb9c2fbee9c7ea83061481b0d061b466",
+          "pose": "work-hammer",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_5-side.png",
+          "sha256": "825cff3a75c47d4a9a2a9ecb2b2244d16890fa56a1d1e40841acbd9ab67308d2",
+          "receiptSha256": "8174bc095d6c998470b05f337a95e2b3b1ea3a85fade96d6e3d84f83bb6e7e7b",
+          "pose": "work-hammer",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_5-back.png",
+          "sha256": "d75ed95be92bd0b8f6b4ae7d8f96352cfbdcd33863d434d4641053f82c393497",
+          "receiptSha256": "7b08afe4c3d7c80b354281993ef20fada03dbe5c167ba58d8af74a58c00d9e4b",
+          "pose": "work-hammer",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_5-threequarter.png",
+          "sha256": "f48f88f99a4c1d8918a125e4389a34d9ebb2edcbc4d4698bc70d7bfe28402c99",
+          "receiptSha256": "bb4ff4c837b958bd36c857c0bef18c3aec2eda6427b89c8d9c60ba1ec31a0a1d",
+          "pose": "work-hammer",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_5-gameplay.png",
+          "sha256": "f8217c22ccacdb1404514de0c91144ab05911b3b489518c633dc148336283522",
+          "receiptSha256": "458894963177c71838a8c3231da4a0a4e047e1dee100e0809fbef518a203c95b",
+          "pose": "work-hammer",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "blacksmith-work-hammer-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-0_75-side.png",
+          "sha256": "825cff3a75c47d4a9a2a9ecb2b2244d16890fa56a1d1e40841acbd9ab67308d2",
+          "receiptSha256": "730b1538894d42f296a080b49b6d6367379697b8f6e3bea37b1814bbacb5b521",
+          "pose": "work-hammer",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-hand-left-front.png",
+          "sha256": "aa6fe515fb2639b101cc5c7176d3a24b4a675360a3b76dcc7dbb5dcbcea7832e",
+          "receiptSha256": "0e66cddcfb92156cd5a2f129e57cf96bd4c64dfcc0372350f72f0403871d981d",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-hand-left-back.png",
+          "sha256": "2b9f9f040356da6c81c6c929d0b6e59235b9e0c5fa0003c8f920ef179110b808",
+          "receiptSha256": "a2d1a80d814bc941f405142b6e46bf7d910910559af3f206f0aba124ef5cdf0b",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-hand-left-side.png",
+          "sha256": "285ba1f5c0d36c81d3a0ee3d17b2bffee1146a0d3db13efb2c71631f8935fb39",
+          "receiptSha256": "b890b4f1247b6b6c41bde277c8e4ac6330521a420f2d68bee498279696498469",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-hand-right-front.png",
+          "sha256": "b52aa7553383d523d5ede9f1c854cef3b0537a8b807447be1c3a28c48e7c244d",
+          "receiptSha256": "233dee61b3cf4b1e365e17a80eb73de4addc991b211152a6b389e879082ecc74",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-hand-right-back.png",
+          "sha256": "56a425c0cf7c3b372605fd34e4388c59e2f9874c284857118fe75c3c4e996d2f",
+          "receiptSha256": "0be5d686dfa7b85b933f70aa89c00e4db56f291b2a55d3aa1bea2c96f252a5fd",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-idle-hand-right-side.png",
+          "sha256": "e444230feb4780253fd35475c7395bc04ac3b7a40ca16c4475b05e015c9d11a5",
+          "receiptSha256": "6538eb678822bae86b0dbf0d02c7c62d0799126fe8e4de64baba062aae6ddcc6",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "blacksmith-work-hammer-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-hand-right-front.png",
+          "sha256": "8ab0d167ebe2d5491b77890f66855669157c924a796a423f8f9481bdd9d01c91",
+          "receiptSha256": "bf5410a3fee3d23b484b4a33fa68e5281201e4dcdc508ea2431e414c4ff7edec",
+          "pose": "work-hammer",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "blacksmith-work-hammer-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-hand-right-back.png",
+          "sha256": "054dce46ff2390588f68e3cd97282cc826cfc1e74f91e83efc741593f9008e8a",
+          "receiptSha256": "9550f7d21ff49b8a343f6fcd50e77779ba04ef37199a3755ee881dba14b82890",
+          "pose": "work-hammer",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "blacksmith-work-hammer-prop-hammer-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-prop-hammer-front.png",
+          "sha256": "6c3c75946f2b3b76fc11962e98638550ad908a2083d738566113f5e87fa32d85",
+          "receiptSha256": "7619f1c21a63e49ef9626cbfe0668a1edc9678751940f32dce17121257175dd2",
+          "pose": "work-hammer",
+          "view": "prop-hammer-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "blacksmith-work-hammer-prop-hammer-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/blacksmith/blacksmith-work-hammer-prop-hammer-side.png",
+          "sha256": "7e7e00b0ceaeae308375f44a1e426d5a3eab02c595e8d7425bd5e059a4eb7349",
+          "receiptSha256": "bf5d64ec96053ae269de90bdd75fc3e408b4dc525966df51952d424aa05b0b88",
+          "pose": "work-hammer",
+          "view": "prop-hammer-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        }
+      ],
+      "visuallyInspectedCount": 25,
+      "finalReportSha256": "1ac62190c00c7afd34daaa6085ed4869ac27c58db7df6d2daf671edf3c62ffac",
+      "finalBodySha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": [
+        "headband",
+        "hammer"
+      ]
+    },
+    {
+      "family": "herbalist",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/report.json",
+      "reportSha256": "9baf4722a2576507398202e3b6a192fbbdbf45a29fe3e8d9df83c556d0f2862b",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/herbalist.glb",
+        "expectedSha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/herbalist.glb?v=woven-v1-a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 658504,
+            "sha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+      "imageCount": 35,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "herbalist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": "herbalist",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "herbalist-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-0_5-front.png",
+          "sha256": "44b94f556ee50968237ce4309a26044325b1ef6d9870d2531c30c280533b0960",
+          "receiptSha256": "302052ca1aff3fbe9d13a64ce463d7da42beca30bd1cce7f19591b7589ce03da",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "herbalist-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-0_5-side.png",
+          "sha256": "659983452eb1cde09c6b918691ba319fa57d9461250d30f54021a11d2e55b223",
+          "receiptSha256": "10b7a45c251ff84cb71bde524f79b34b25101125c19f8705ef070b6f43e34744",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-0_5-back.png",
+          "sha256": "603c87a2737ddfd984e9c81480cee16823ac264a473383e1520e5e9108cc9f30",
+          "receiptSha256": "1304df0c7cfe7f96e51b425f5f5f2dc672992b3fb5d00096e514b0dec6702b63",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "herbalist-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-0_5-threequarter.png",
+          "sha256": "3e34fafd0b294c888ec8add8c7e85fcc2dfd2e981084466644660b2719754024",
+          "receiptSha256": "a2e3d00b151eda241d6c8514a245707edcc32aee09cb7c1b4a6257e8e8ccf739",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "herbalist-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-0_5-gameplay.png",
+          "sha256": "ef17e231ee1257b6a4c35e283f6f8beddb02345ddf08dbeaa692a0eaf2c38c01",
+          "receiptSha256": "9679b99e21684a233a46fc610d184952429dfbd90eda7e4e3248644dccd6d2c8",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "herbalist-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-talk-0_25-front.png",
+          "sha256": "ece1cb1cf53ef39f25481319c66026226c7cbb69bd8023df4c3374bd61990444",
+          "receiptSha256": "2bf296c9508aa317f3c0cea54a78e9aa4f7e551df1cb034888d6f28c44fe346b",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-talk-0_5-threequarter.png",
+          "sha256": "477fc75ee1b71f8b932ca5c6d44c1720922cd3afb344b5c61f2c567e0f0d9360",
+          "receiptSha256": "933a89afab66fe2765ce378ee64fef43bcf08f6c29dcb95c2e4e137c72466bf6",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-talk-0_75-side.png",
+          "sha256": "cc900c74aef8ef9a2d230a52d33ad1ce9b2d4f004b2b4611d129cd23e4a28dae",
+          "receiptSha256": "cf88c82a65c61a9ff05d60cd685c4bb6ca65d9341088b5eb01d200c99219018e",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_25-front.png",
+          "sha256": "b8f0378e9a00a34b53273f2595eb6aba2864169c1a0f22f52967a8f8933d5675",
+          "receiptSha256": "435246c3845ff2c8482359bb4001a63d3e4bdd314d7860948be5d0f350a2593e",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_5-front.png",
+          "sha256": "2ad2e41c8208f9c75240a7ebb8edf3c98dc3fac10457ec35c22138b7864ccb62",
+          "receiptSha256": "c189ec80d18ea90eb5040f0211f26381f866b746ed275986f513ca1a5b2ddd46",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_5-side.png",
+          "sha256": "943603b6fcea154b2034074f632979d9584fc2282aec3445ed9d7d114326aab6",
+          "receiptSha256": "6727186a35419dddb1507884657a173b69c2cc06ce86d674099c87bd56bbcb22",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_5-back.png",
+          "sha256": "ea70dbe2e4ceb9dcc6f188263e9695c9be53167764f6dc0b3fdb3686bdbdd65f",
+          "receiptSha256": "6f49a1ae1bf66a3f09dcb5168fa82aa5637e3fc8e69f40c97f2fd5bdbd9100ee",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_5-threequarter.png",
+          "sha256": "97b4fb2229efd2a719ce08dd582b073026bb0e646165b98841a0e535f9663d2f",
+          "receiptSha256": "ca2986e5c5b706a5a7eb59473f9561dbd503e1e5cc80f12f5bbc420c6c3b39ed",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_5-gameplay.png",
+          "sha256": "a21a53f0a46120e8f2c59de5fda3d7866f9281c09487b8d93701ad01a53b7abb",
+          "receiptSha256": "6891f11eaeeb17c3701fbd17511b15aec23e2833b0136904f0074d4295947484",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-walk-0_75-side.png",
+          "sha256": "967dfc8a98ddcd3d6ae0a57dac81729eaf53f7bea29c7c8824b5edda625a9802",
+          "receiptSha256": "e799574f5a80efc61ca78b553d3a74c74bf92f092e787f4c94c628bffea8ac51",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-gather-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_25-front.png",
+          "sha256": "0884833d6e28d3e15a65088567df8a980955d1abf905c2b9b41eb0356907d5e2",
+          "receiptSha256": "8ef089554a808120ae25878e94fc32bb3ed26cb30b1b3a57d09c5a1d4fa74532",
+          "pose": "work-gather",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-gather-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_5-front.png",
+          "sha256": "6232b85a3f080d5f1078c6eecd7f70b30aad68047bf40edc935228cece5f8d91",
+          "receiptSha256": "1902c31e269a9f1ce5d672feabd1d180aadb50b5fec89f82002923b246605544",
+          "pose": "work-gather",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-work-gather-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_5-side.png",
+          "sha256": "45235ff96166b8237ecabbf8c1fd431d2e9a203a08196a185367f37269fba5c4",
+          "receiptSha256": "0259dae1ec86938c34ab35f20c619132c20fcad787fb075b1deb39886759ac8a",
+          "pose": "work-gather",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-work-gather-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_5-back.png",
+          "sha256": "1ba5e689d39663dc652d5a80483ef64694f393731c0b634dcbd6efaf99de44e5",
+          "receiptSha256": "6421326d32f1624893e70475df433aa6ec3cf7ca70eeadba535ae26360011c97",
+          "pose": "work-gather",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-gather-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_5-threequarter.png",
+          "sha256": "d65316cb33efebf8f8975c18377f44cadee8d53057a6bfcfd12bae41568b07e6",
+          "receiptSha256": "2ae0fc26ac9a9a37e5c4c6eb90b41ed5fed710fca957ff1d44b79edbe3256818",
+          "pose": "work-gather",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-gather-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_5-gameplay.png",
+          "sha256": "c2640dc7939f100ade8f96c7702eb251d9a2cefe555a8dc2564faef5ac1be327",
+          "receiptSha256": "91181636154c5fc3697654a93fe618abd355fe5b807468a7a95ebf26b3de66d0",
+          "pose": "work-gather",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-work-gather-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-gather-0_75-side.png",
+          "sha256": "9fcf8e68a2db556a78eeca9d273d07de841a3f399d8cd697a7d8695807d04607",
+          "receiptSha256": "de9d23af8079709af862c0640f20e901e0b8b9190c64ee9016d52f2ad88fd924",
+          "pose": "work-gather",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-grind-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_25-front.png",
+          "sha256": "4bdc660942119fec518e91d2ddbd5154109f96c13a701db607063aede3cef08e",
+          "receiptSha256": "5f65bddd3c28a9374912807b6951d748e092957d4fc01f1edccf45feda39a263",
+          "pose": "work-grind",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-grind-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_5-front.png",
+          "sha256": "53a6d3ecd67354221a7fe83c9442a2a9ca265d914644c83b781b783d9aa3a047",
+          "receiptSha256": "2c8258678bc98c984e26fdaaa60a4603fa81363d588ab9c7c6ac3bf5176e0fbe",
+          "pose": "work-grind",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-work-grind-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_5-side.png",
+          "sha256": "9733a68471a836125415fb6eb033eb714d23455a6baad76b22b3940bf3c570bb",
+          "receiptSha256": "fdf8c8a933e839cbc4433931619c4d423c285f98a031ad128747f175a3b9617e",
+          "pose": "work-grind",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-grind-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_5-back.png",
+          "sha256": "b933a1a36b5c12e8bb21267a606fa70a07ed3ae1113813b9f099e27a15a48c72",
+          "receiptSha256": "6b82c74792dde3de6801f041ff96762e82663940acdf4d8b5d24d6c33c7a1a35",
+          "pose": "work-grind",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-work-grind-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_5-threequarter.png",
+          "sha256": "64630549a5a622c14e1aaa3b76d1a5303a818b103c3f47a69f03b007098e0d79",
+          "receiptSha256": "95b05f2caa483b835d279d053594a66703f6f4698274a91d611e1bd2c0d43b9e",
+          "pose": "work-grind",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-work-grind-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_5-gameplay.png",
+          "sha256": "5882fc961575476c575e5f6e26f1064715335cb9aa30ff537ca486fa1f1979ab",
+          "receiptSha256": "f28eecf951ca6edc6292391c01aea12a36676d4f4a31609b99c1ff8284eae51b",
+          "pose": "work-grind",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "herbalist-work-grind-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-work-grind-0_75-side.png",
+          "sha256": "734705282f61e890d5d43442666cf1da45a8632cfc5a3e105c4240aa90d4a8b0",
+          "receiptSha256": "4ca3091506832d2629f82137960358e315b4571bc203224488d4966a12570f82",
+          "pose": "work-grind",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-hand-left-front.png",
+          "sha256": "5529f097c821c6e045c9603b4bfaefa0c06e329405690c13b6e444b474ccac4c",
+          "receiptSha256": "0a6f57979d58ab7af10643a1c79518d30d679e3a656f6daed543564752966c8f",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-hand-left-back.png",
+          "sha256": "7ece0e4e9bbcb546198d25ea0aa08a5327fd660468a4a0a249a8dec89130c868",
+          "receiptSha256": "859a29d0409fc36033817dab8c3b928281695711c06ffd66b8720e2a0e9f9fcf",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-hand-left-side.png",
+          "sha256": "c048328cacfd6c5f0622c115ac702fc70001f47ad45d0bedf0b56b26677dc410",
+          "receiptSha256": "40ecdbba4d2280c6f36369a617964af3b0c3fee6b72c2f8350ef705667557ad9",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-hand-right-front.png",
+          "sha256": "00a4337b3ca543f28b17d09cf9593adb2988da9b581208f1c0e3d80e8ac7ee35",
+          "receiptSha256": "28cb9e4dc7ee5ec335035216c92ae94ae8451b9902bea58ca301fbafd884f149",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-hand-right-back.png",
+          "sha256": "c8290d69c67394deeff5dc16907a25f072e64cae7d7347863128226bf46eb7a4",
+          "receiptSha256": "c99d800d3fab06f89991455dcf8bb2a09e37c132ff89ba937325991dcd073ad3",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "herbalist-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/herbalist/herbalist-idle-hand-right-side.png",
+          "sha256": "8259bdc64420d3e7ccefd7c6dc330052d178f85311ed280811b9bf06590606a6",
+          "receiptSha256": "58dd52c62cbab5087b18a8987804abed7fe7b4a01b3621a5fbb805e086f62b6c",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        }
+      ],
+      "visuallyInspectedCount": 24,
+      "finalReportSha256": "9baf4722a2576507398202e3b6a192fbbdbf45a29fe3e8d9df83c556d0f2862b",
+      "finalBodySha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": []
+    },
+    {
+      "family": "occultist",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/report.json",
+      "reportSha256": "cfae37d68309af292a721119da10ff8f8d51bc21b3f0ba79517568fc188b8203",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/occultist.glb",
+        "expectedSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/occultist.glb?v=woven-v2-bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 604108,
+            "sha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+      "imageCount": 28,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "occultist-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-0_5-front.png",
+          "sha256": "a5b6f60af6125b60deff76db3e2e3b365d3c49c3cb08b153c2a29142fb3727b5",
+          "receiptSha256": "5938a88be50e3e0cf1b58e5a888c492eb4e2b62295b4865e806fddf5f85fe52b",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "occultist-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-0_5-side.png",
+          "sha256": "48142a0c9562bd61044e17d0bea76d2ad5372d94cc5672d1d252d278f919affe",
+          "receiptSha256": "77b91d12af30ce2c0c14e9fa096c96e53434648f909399aef314fc3171044077",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "occultist-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-0_5-back.png",
+          "sha256": "ffd88478adf628de1aff7ff3d1b8052f77d4b566a94e68dbae5d12dee1e8dd1b",
+          "receiptSha256": "e110c7d538f9ce26f1d34f848b3d99de1ba274b803d21e4899742d51951d7308",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "occultist-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-0_5-threequarter.png",
+          "sha256": "63c8002ca80ef55059dc663f10b97e0f2e69829ce6ddf704a6eaeb3bd1ba52b9",
+          "receiptSha256": "095587f14c8f9dcf347c7fbfa8d17d43b16f39c2adf44da0bbd34992da6dc396",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "occultist-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-0_5-gameplay.png",
+          "sha256": "c89d70aba93a1cf04cb2f18394166976a3488a99fa18dd2c9b6f9b31c36a83dc",
+          "receiptSha256": "8166a785f60cb4b146581c2b352d92efc847dcbb9bde69239a4bc0064e9748bf",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "occultist-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-talk-0_25-front.png",
+          "sha256": "01b5b4d544822b9fd88ff48f39be66be04817915fce823fdf21ca75729f1b768",
+          "receiptSha256": "ada7cb339e751145b2898d98b6c55c73a98fc6a8ab16cfc9f396e6acc0342b4c",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "occultist-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-talk-0_5-threequarter.png",
+          "sha256": "6a14d31a30272aad0941f241954f4f983c5d650d807d24721610d85fab7c2102",
+          "receiptSha256": "2aba8be1e9b322b31203c2a402538bd139dc5e9ddab8da53e01bc9ffe0c54a52",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-talk-0_75-side.png",
+          "sha256": "935c97f00de1f0058aa0611590be06f820ef164be8ded8f9dfd56e0b8215c450",
+          "receiptSha256": "81568c537323c4b4f6a13e6ebe719b59a5f6a39deb3ed8e1ef8adce27a9646fe",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "occultist-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_25-front.png",
+          "sha256": "f64bcb1c5521a66b3e95ac15347f145bb0f266a3335b6a177cfc6577a06723fc",
+          "receiptSha256": "5b3642d9aeb29e22224aa224f2fdf321f14d3d1a3ef51800322d21a78e08ec58",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_5-front.png",
+          "sha256": "2302ad032dc0f63b867ca2b01da2b4456bb759a542b0f68956f99a61717f9c1d",
+          "receiptSha256": "c713df1a68d45f0cc2e202b1010658817e175cb99a86ee7df2ab7744938e06d7",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "occultist-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_5-side.png",
+          "sha256": "81975b1583da8b587a90cfee9f3b20f3488051a0698bb1cb9f1c10eb8d7bdd7e",
+          "receiptSha256": "6e7fde97224f2c39e3668a5c28b8364b04c04d439ad2b5228a5acf5f527b2386",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_5-back.png",
+          "sha256": "b8f679540ca3f21eae6459526c0173384bf975c9eea9abf18d6ac874595d0a45",
+          "receiptSha256": "d48db80b26b96caf4997f17cf2bd168bae530abbfc7b35a4502bd73b7e34c71b",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_5-threequarter.png",
+          "sha256": "97db821d79c07f7d2c20274b25461e5a013c96515a84d94daaadab6b62a34dbd",
+          "receiptSha256": "61abdbff0372b83d6505914f6be79dc75b561f33c2847e2c80cae8a223a22503",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "occultist-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_5-gameplay.png",
+          "sha256": "b8fa617a98abbd34b0742a89eda8541158b9a9f1ff16bd41a2d377c70a2508ad",
+          "receiptSha256": "996fcb21de49b350f52a4595c2bc49e9ec49cd2965d91a1c480acce0f82d6bd2",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "occultist-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-walk-0_75-side.png",
+          "sha256": "6df96e50c41efd229bb014ff43df5f8d7fa3dd695cd0cf7fb6a4d587d337057c",
+          "receiptSha256": "674f6518b12803fe06491757dfbd93bb82b86fdb6db1ba7b294bfef0871bc1bf",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-sit-chant-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_25-front.png",
+          "sha256": "90c082e1af4fe9960eb8f0c996541ce539d3163522d081293242a5cac337ebe5",
+          "receiptSha256": "c715eac0b4a5249b6c13a8c4a97728475844e4af2d5a22d5b4199188f52d819a",
+          "pose": "sit-chant",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-sit-chant-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_5-front.png",
+          "sha256": "2455aedd87ba5ff495e9040af2f82ac0ccc76486f3ebe6fce3e799d268b1e0d5",
+          "receiptSha256": "4a8548126d7cbfa172c2d470e04f2e5e55f0d78854a24c6603bc60f3bb456c3a",
+          "pose": "sit-chant",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-sit-chant-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_5-side.png",
+          "sha256": "e3f2f27a60fb1bca57ec4e839d87347171ab8d4b13fb9cc5de1cb9ff8127d432",
+          "receiptSha256": "2c304de4817da8ea4d425e606d0afba473d305aae8fd2f2a6a94460552f858db",
+          "pose": "sit-chant",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-sit-chant-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_5-back.png",
+          "sha256": "fe4763b7e6c9cbec8bcee3c11ed95c50aef82e9519ffd3af2ae95172c886cb61",
+          "receiptSha256": "31d81067f98c1a413933e097ff5395f01e1fb671b6804403403e70b0cd1fbd9d",
+          "pose": "sit-chant",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-sit-chant-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_5-threequarter.png",
+          "sha256": "9d8e2febcec7b638d33f605a1a21afa799458c238d9d46b4280fac785b33d9e4",
+          "receiptSha256": "b94a9e237aaf0c06317b46dd644920aec44327fe21e3ee66493c032fd70e7e88",
+          "pose": "sit-chant",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-sit-chant-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_5-gameplay.png",
+          "sha256": "816b5c2cef0d3846f581d8f3eb5b5eb5ef18cd488048fe1fdc6bd334b7e4285d",
+          "receiptSha256": "bbb0ab9d566919a37b3b23cef09be16befca40309ad109421c1e064f9c136613",
+          "pose": "sit-chant",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "occultist-sit-chant-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-sit-chant-0_75-side.png",
+          "sha256": "e0f40b7da53a1fac6ede126eef92eb0ac8a358394ea554bdb7ffbc92715992ae",
+          "receiptSha256": "2b3bc0d19e39dd55551a027688af162ea829c13d90be363c3efdf24aac9387b8",
+          "pose": "sit-chant",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-hand-left-front.png",
+          "sha256": "58bc37943764df2f5847e348fae67482fc5294b1351fbdc2e8be4c67e6c4fa4b",
+          "receiptSha256": "b9bc672a8a7b2a99b9a7e87ac38a55c208b97cddb3c376988fbf4b1753b3ac18",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-hand-left-back.png",
+          "sha256": "91f0280fd0c8884b68b9573bb33d536f7df6c22f76e95a4f9c8068543f411a3d",
+          "receiptSha256": "784d3fe241e21cddc7bd7c35a2dd1dd4ce99ef673e7941fc2be25faaffb3db69",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-hand-left-side.png",
+          "sha256": "1cead11d380c4237ebb1facb9d17e10dfb5e1b8f734dedfa0796fb920fbc0477",
+          "receiptSha256": "67cbc509acfeb6f7228450c6d6da2925982a5fb894dbe7e13f9e0c43e6f1d01d",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-hand-right-front.png",
+          "sha256": "bf3bd86b559c6bdc55ddaffaa006f6d69a4b6dd6608be5e9bbc24412205c77f8",
+          "receiptSha256": "af4b7933ae0b7ca74743cd9150c12e49601b2f4bf08d05207af93007992abee6",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-hand-right-back.png",
+          "sha256": "9f62ebfe4c0a3d7978c9164b9dc467c9b880322d4f48aa3bf9a9e89bc0d21b7f",
+          "receiptSha256": "542fb7e25fb4e5ca0d55191e71f302012f8bf2df78cb7e8fb0cf124a1f5f1e54",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "occultist-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/occultist/occultist-idle-hand-right-side.png",
+          "sha256": "cf77174083f9c854138d52d7de5d60ee8a90fd3341b970c37dbd5334d960bd3f",
+          "receiptSha256": "e6e1a8fde4d4a39c08ea8348aaf9910803523d5bacb3d7ddb93b6b1e26ab02d2",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        }
+      ],
+      "visuallyInspectedCount": 23,
+      "finalReportSha256": "cfae37d68309af292a721119da10ff8f8d51bc21b3f0ba79517568fc188b8203",
+      "finalBodySha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": [
+        "headband"
+      ]
+    },
+    {
+      "family": "master_muay",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/report.json",
+      "reportSha256": "f0ab42a2bd4eed0b776481a9673058a6e68ee879520a2a53dfc8eba91efffbcf",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/master_muay.glb",
+        "expectedSha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_muay.glb?v=woven-v1-939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 562288,
+            "sha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+      "imageCount": 28,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "master_muay",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": null,
+          "trainer": "muay",
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "master_muay-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-0_5-front.png",
+          "sha256": "926a32d430743b8dd0d3a2ef9261935194e7bb37eee028e1d0bf2d405e61dcaf",
+          "receiptSha256": "3ada55f081a646813f007c8e9c6ca4bfec5ad828acca789653ae1324361214af",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_muay-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-0_5-side.png",
+          "sha256": "0ec3753793f775e8a56f65afb9e7649c9ae64ea7d28757ce820283b8ea39138c",
+          "receiptSha256": "3da83f67aad95ec37a3e88980825bdd84ac55a216c5fdba4cd59d7fb8c2f2290",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-0_5-back.png",
+          "sha256": "fedbcf5c0413acaae9a5ee3e99699a43099819f0c660225e4f231a25c887b923",
+          "receiptSha256": "121c9d6c02120bb478080cd1022a4968bedd8a4935b438b245d1a8a308bae12b",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_muay-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-0_5-threequarter.png",
+          "sha256": "72b125987fc9fca39e5425c94dcef097e9093df1ba42cd182a5df4c1783d8caa",
+          "receiptSha256": "8d79446d7f6e775141b998af87cefd21d3f1de7391a3d47a1fe367bfca61ab81",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_muay-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-0_5-gameplay.png",
+          "sha256": "ecd89766f52c6c821e1c6f5f7cd151ab440e2b25fc738427cebcaa7caffa91db",
+          "receiptSha256": "9c4c5390306f8860f33a0377b957d2d7f131a88f047cedec5801b63eda6ac0eb",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "master_muay-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-talk-0_25-front.png",
+          "sha256": "cab3b759bdad50a310bd3f2b579a5b6af3043f1038bfd6eaabdb5e141da5a209",
+          "receiptSha256": "eeeab3a83ce421b3926ee8ffad3d7025ec221c55768b44385e39e1ae40f78acc",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-talk-0_5-threequarter.png",
+          "sha256": "8d247d73ee990a0550d6b6a78e648d46047d44de19e2fd769da40dd351463c89",
+          "receiptSha256": "bdc7677bf3d87d608a2a3b0e579666159835d150ac9c0bd980a0e27f69b0d8ce",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-talk-0_75-side.png",
+          "sha256": "55d484c2671b0a4335792906f8d4d42771af35c5fbd14ef260079f2dcb443da9",
+          "receiptSha256": "89635db3cc6e00f3fca97fd91d5f832055ab90aa1861a68151129f4bf59f7a41",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_25-front.png",
+          "sha256": "41ccead1768e7401438c88484313f9512fc67255a89333d996f3b076281cae79",
+          "receiptSha256": "715ba568a5a4efee972dd81247047a6473fd5c7c29cb1ce538be58323d6a89d3",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_5-front.png",
+          "sha256": "c9cc4fc1ed4e364c3a5295a5552806384fcc6271e08893aff45bf9f6d4dd2c40",
+          "receiptSha256": "81d47fe04ae8535fdc46b521012bf52bf01cb65a00eda0ac7c6c67bbde35347a",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_5-side.png",
+          "sha256": "b5bca53694c28e498eb4cafd6b9c63a684de2758b27b07e08ff163a0a2c4653b",
+          "receiptSha256": "def442e2c399a89d7f8ba8b2031bd555cc90a4c2d87d7cba9c946e34a3b64a5a",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_5-back.png",
+          "sha256": "64eb8a716ed71559b7f9fa0eced91d0844c32c43e4f309a9f4ffab6d8d2ff7e8",
+          "receiptSha256": "67a8066506182bf735648b2fbc5cf6d1ae68e61d89c72c71c242f8a110a36d49",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_5-threequarter.png",
+          "sha256": "e0b19deeaa27c7f4fbe08dcb459ec507a385264fca761ef758d31d547914fb16",
+          "receiptSha256": "387f6cf6afec21f8242a8ba775304e3dc49249aeca5bf95c25e29bf75ed945ce",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_5-gameplay.png",
+          "sha256": "c9b674ce70784ea51ab6b19d45c3cb538d9c3b0f09b8525845f5570cfc14ee32",
+          "receiptSha256": "e39d4fde7d31f99352a943664554a4dc9f929ffb7f8316bfde8d8f6fdc1907fe",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-walk-0_75-side.png",
+          "sha256": "824f38c79d90a96685d7cfdd528da275fa2113f095dc18b7c7b753c245de217c",
+          "receiptSha256": "23ad8a6e3185d36c1a8e8e312f352d1271eabd12b26376392001040157bbdd02",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-work-box-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_25-front.png",
+          "sha256": "860dbfc2845c82ed8bcf70e6babed1463c05ec2a1042727d3a87f97f9d5f3874",
+          "receiptSha256": "67f2915f0fa6c8a5f5d21715bd5cfa10c13e3b9d10a8a5943553da673d6dd251",
+          "pose": "work-box",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-work-box-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_5-front.png",
+          "sha256": "7716f72ca94a1b47e52e21ed1ebfc7d3a03b3519e35cf70b1dd6b138e67d658c",
+          "receiptSha256": "9dac4e5c701072b28a886fac91c458893b2e3d62cec8cd5f9b86658c9285588b",
+          "pose": "work-box",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-work-box-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_5-side.png",
+          "sha256": "7f359b58de4f9886f4309de6bcba2dec9a0646020880f2821595bbbf29866e77",
+          "receiptSha256": "a81b72a07fba0f89b79bf4bf410e5771f2ce7506030cf83cfb2a89716727a6df",
+          "pose": "work-box",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-work-box-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_5-back.png",
+          "sha256": "b46fad64217f1c3b52ca9c236338c24cbfd77902090b3dd869ea6bcd8883f3ac",
+          "receiptSha256": "9f09c334dbc8278cef9d3198605fcd213708e0af52d76a74784478d4fe1fb577",
+          "pose": "work-box",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-work-box-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_5-threequarter.png",
+          "sha256": "c42cabdd2ec450f5ff21a029b91b5a42ca264cc8ae02f99390cf527d610e2fac",
+          "receiptSha256": "0b15cde2a485f024ccc248a62f864fcbeca5cd7238c3c370143202870169f11d",
+          "pose": "work-box",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-work-box-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_5-gameplay.png",
+          "sha256": "185c5144a8c57a86d5e147eba2c190dbd00cfc835478a260ac0bd3fa4b6147bd",
+          "receiptSha256": "25127618871ec0ff5371fda76415d5545a139c1718c96a3f06fe1dea96ada58b",
+          "pose": "work-box",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_muay-work-box-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-work-box-0_75-side.png",
+          "sha256": "cf2353355843c2a900d8e8ac00615f8a4c57807b9d985db8130d6e108c39dbfb",
+          "receiptSha256": "62273d0b81ba9d0320a57b0aeb1c43e612cf6dbb8c272576a548de760b3c500e",
+          "pose": "work-box",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-hand-left-front.png",
+          "sha256": "20391fd3d21142e21b9ae4ea8fbc6ccb8f9e440ebdd1cc33351345730ae2407e",
+          "receiptSha256": "e27637495919a7b58f142985ad0fcfb37f16c94bef02485e696d60506f2fcebf",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-hand-left-back.png",
+          "sha256": "1d6cc29042c899bbb081a9c7b93b101cf91d51260dd76e0517d0103e7c714f8e",
+          "receiptSha256": "867c29594c252d9df50fa7c0b7f3c16a0c0c182163533278f98a4005b1681af4",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-hand-left-side.png",
+          "sha256": "4fe106611634a033b80e91bba358da84f64e5542b0f7513fdb4a83b3695235cb",
+          "receiptSha256": "2e33bdef19a5af1f8d076b6d8a2cb6bbc00352dfce4675375487245f3789d9ba",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-hand-right-front.png",
+          "sha256": "803d2bc42cd1866e1f1ae9a81931fa671a8d50bd171d2f3bb55374644dc2f4ca",
+          "receiptSha256": "a04ff94acf3b67557c7696378817e9b6af327de28d8cfbc24b9477bc236d1115",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-hand-right-back.png",
+          "sha256": "6a2bf58691bde490bdc3e5984d55702e87ab52361fac9e854edaa7d48116b02a",
+          "receiptSha256": "e2d5baa5364e5bce0754f62ce5f3f7e6b7a099df244cb61315c6f0ff983fbb41",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_muay-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_muay/master_muay-idle-hand-right-side.png",
+          "sha256": "8146f2e8ff385f630c2e3fa0ae74a34074040c32913d59dfdff43a710a8ae056",
+          "receiptSha256": "971a686ed80c83af9d1cc73652439db61e67e6315a452980f6e783d0311711b5",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        }
+      ],
+      "visuallyInspectedCount": 21,
+      "finalReportSha256": "f0ab42a2bd4eed0b776481a9673058a6e68ee879520a2a53dfc8eba91efffbcf",
+      "finalBodySha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": []
+    },
+    {
+      "family": "master_herbal",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/report.json",
+      "reportSha256": "0f70eaade52e280ef4b80a389e8f6c9f595a832472619eeab60577022771e8f6",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/master_herbal.glb",
+        "expectedSha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_herbal.glb?v=woven-v4-528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 640888,
+            "sha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+      "imageCount": 28,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "master_herbal",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": null,
+          "trainer": "herbal",
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "master_herbal-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-0_5-front.png",
+          "sha256": "b18ed47660709326e7684304e8e5dfb8e7a7e18ea316472c58a4100610ebc33a",
+          "receiptSha256": "5f2f1538f72c14efa4d30566582e1d01e01c547a48004bfb1162b21c454bf921",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_herbal-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-0_5-side.png",
+          "sha256": "c7c4dd7081c153e4efd2971ea2c3bfbf711f7340597724e38f3e50c6e11cbb6b",
+          "receiptSha256": "0b57444a57b04386e8e2b09b4c69122bbda3e70b183d0bad3df050aa3cbe1e84",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-0_5-back.png",
+          "sha256": "8eeaeabb7b4a243ac32e6a0db395e2fd41fc5b723babb1e1d676db6bec90b492",
+          "receiptSha256": "e99171479bedf4442295a0c18c5b6ee81a5a16cc18c31eec4d62bab8104f5b1f",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_herbal-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-0_5-threequarter.png",
+          "sha256": "ca8f6c171953815aebeddde4ddbe04f66f1379daa69796d360a5a27650f0cf22",
+          "receiptSha256": "a24eebdc81494521a50642910f0c1f527a22ab01a08245cd3982ee9f9d6c30ef",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_herbal-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-0_5-gameplay.png",
+          "sha256": "2beb95efcd2b1a529c6ac78389c78528d255d5e67414a76c18955288313870a8",
+          "receiptSha256": "673291be2adee391e56dd26ec64ae6ac176f3c850c16133c45951e3a746424f3",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "master_herbal-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-talk-0_25-front.png",
+          "sha256": "6f67491d2216538385205e91e52bb575304746b0f96c46fc080df0cf68d83e1f",
+          "receiptSha256": "c0df1eaf197655c944198d983c00f0fe9b15d8fce8b70df5b2cca25944a3cf91",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-talk-0_5-threequarter.png",
+          "sha256": "7173e63fa192c9f3b936852b1df0ec4025e2487816d11da2d144a7aabf58ec85",
+          "receiptSha256": "999c960bdd1e0ac2568d972ac3c030d5fef23607d51bb55416b65301173a88f0",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-talk-0_75-side.png",
+          "sha256": "0522d2439a5ce410a226c7142f1328e23714b73acb93db6a4939f01f61545773",
+          "receiptSha256": "183d07679f5cc643759466878518d615f9693c49a4e8f7cab46766423aef2428",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_25-front.png",
+          "sha256": "6b170c9a55e7adf868022ff6f196c2e9b808a6033a0e7c746c894e1ff89cf6a1",
+          "receiptSha256": "69d9774baa8589e63e03f9ca7a68430cd09740d975a03c9730d1937a55ae07d5",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_5-front.png",
+          "sha256": "c33a1d8dab7f04f89321a07e625ba142d0aa48b97e4ccdf732cc642d294e496d",
+          "receiptSha256": "9c275f5e0f467c42bbdece9ccd5ed15fb42a9bf2dd4c9caef369e52de18e4744",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_5-side.png",
+          "sha256": "7999a369f38e6c8c06d5a5572fcfcc6d11d8f4df671436c698a27bc8cb0862c6",
+          "receiptSha256": "7ae36eb74c7848ac2c81aea6bac66becef6ada61d7fe2fa3179f016a08ba076a",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_5-back.png",
+          "sha256": "8b02e357e616a4625b83732b049da4f9505c3e37f48adab08811b1e094ba3aa3",
+          "receiptSha256": "700128f05be1df7c0a4d8a9a7c59f244a84996f997d85d601a8bfb2cc99f3418",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_5-threequarter.png",
+          "sha256": "033d116032c7ead1da15afeaeaa6a7cdf36d68136d97406f4540ec95d86ecb7a",
+          "receiptSha256": "2b6a0cd78e875d0fc03f5dc0638afa1e2fd8a48c74434ce3a9ec8eccee52e9c5",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_5-gameplay.png",
+          "sha256": "4335f12ac097b6f9dbbab7b5562b8884065bce8db2c5469109dbdd748386ac5f",
+          "receiptSha256": "b9366664b4da2faf53e3a8ce910984aa3c74b1cfbd0a9d50f267b96599e6279b",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-walk-0_75-side.png",
+          "sha256": "9c538e951d342b00b62ea80e4b4d29d602257ef5bbeb9c143c4791d27a5d64b4",
+          "receiptSha256": "289994c78825c7cdbc99bb07e48a21dce2e6e31fd258ea1f948e2542271062a2",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-work-grind-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_25-front.png",
+          "sha256": "d532ede13a5cef354ff116f37050d990ae98603d27f3f7567e8d8a67232a6bea",
+          "receiptSha256": "56a99ed139b5d4c6d531e3d6bee1db6364a296743ea6904c945090610ac07908",
+          "pose": "work-grind",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-work-grind-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_5-front.png",
+          "sha256": "e37f4f5ee12219ce18fb6ed6d8a273d711b3bfa6b2e67ebcfcbc993a81433dc5",
+          "receiptSha256": "d4b510d72d45bc667abb052af9ba872ea49a4178c8bb10049a0d3204951d93b6",
+          "pose": "work-grind",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-work-grind-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_5-side.png",
+          "sha256": "9f40f6f3811f0ee2391e504019bb5e904e836666fc033e2f5086a5ba87f20879",
+          "receiptSha256": "646f13b9a2e1f69246aae1312194354ffda1c426533611f35a6855dd998948c9",
+          "pose": "work-grind",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-work-grind-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_5-back.png",
+          "sha256": "bbc4ce3a3a43f4bdbbed024449bae734b43f65732fb25cb7742d94c9a9a8fee1",
+          "receiptSha256": "5f128be26eb61e25e51895fb8d0a5b910840b07e62eed790b404989b3bc13b38",
+          "pose": "work-grind",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-work-grind-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_5-threequarter.png",
+          "sha256": "4c29a09aa35963788c59b227f3b52745e5aa4f4bd9a88ab10b06b4c30677bdf7",
+          "receiptSha256": "9a9bd02f72ae5c1bca83d9f452a89c6a6f57099c8ba97ef96da3281459121529",
+          "pose": "work-grind",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-work-grind-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_5-gameplay.png",
+          "sha256": "b767e58d87c7c6276625b15028635710157bc3876517164fadf635a87b455ed8",
+          "receiptSha256": "400f10bb4938c7e1ed49ae0aea3e91bc76618370f000126fb9dffc37c297031f",
+          "pose": "work-grind",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_herbal-work-grind-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-work-grind-0_75-side.png",
+          "sha256": "5528dcea3327aeb7ad207967ff9696fd7e58f9e25b1ff9b0a5b330ff07ad0355",
+          "receiptSha256": "ac765b1094dc7525c5ec3f5da99c44404312c7a6cd7bcf9f64ebef123e9966aa",
+          "pose": "work-grind",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-hand-left-front.png",
+          "sha256": "35560085de2fefae9a8df3105c52f74901b24c26d46aad33160fcf301f65e9a1",
+          "receiptSha256": "b3b2b02192581f783f09e1d38649df6a8ebe24ae99dd8ca9107654cca9ec56ed",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-hand-left-back.png",
+          "sha256": "b2549bdd4b7b62d79ecbeb6d42d33d8bdf2a181daa5601ac3eca0fd5b9808f57",
+          "receiptSha256": "5dc87e17485242e679a1c7f645a678684e93449689c045ac2b869f1b982dbba5",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-hand-left-side.png",
+          "sha256": "dba813108ebecdeaa13ad7908d9bc95a1c9c661315f10b6fabccf57ff2a427eb",
+          "receiptSha256": "481aa2b3ab1ec6510b9dfe07d3000a1615a5f24277f35c91122c67f545db5c0a",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-hand-right-front.png",
+          "sha256": "9d76ad3f78a503364227f4815aeec92c512379f15bab797f6d402bfaf141c8c1",
+          "receiptSha256": "6108830dbe2b9c11a938653dfbda7bf480e6dcd170520309a62d7daefa64f955",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-hand-right-back.png",
+          "sha256": "d6f2279ca8fc984a870039e35b89abc5a99be447f80927e220e05675a24293be",
+          "receiptSha256": "62e81b18afd8f2ef3c61f6c1765ec1060f35f243d892820a1658b5b169862efb",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_herbal-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_herbal/master_herbal-idle-hand-right-side.png",
+          "sha256": "de9ff56bf3ce8cbc5ce83f03ffb7c97285319836727fc8de0b11957646a9983a",
+          "receiptSha256": "21ab5938b849bba5ba2bc765ad8996d0606257b7abf693ea695d3fe6a7e64d17",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        }
+      ],
+      "visuallyInspectedCount": 21,
+      "finalReportSha256": "0f70eaade52e280ef4b80a389e8f6c9f595a832472619eeab60577022771e8f6",
+      "finalBodySha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": []
+    },
+    {
+      "family": "master_shaman",
+      "report": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/report.json",
+      "reportSha256": "864ad025da0cc94c4216f3a2ff0057d1b5e8bc4d076ccc0e142e3ff77abef853",
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "assetIdentity": {
+        "pathname": "/models/npcs/master_shaman.glb",
+        "expectedSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_shaman.glb?v=woven-v2-4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 622072,
+            "sha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+      "imageCount": 32,
+      "imageHashMismatches": [],
+      "statuses": [
+        {
+          "family": "master_shaman",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        },
+        {
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "services": [
+        {
+          "shopType": null,
+          "trainer": "shaman",
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "images": [
+        {
+          "id": "master_shaman-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-0_5-front.png",
+          "sha256": "d933391a64fa50eea7254d6f1c521559c2d03ba9022f0cb8b546a062e1fe0550",
+          "receiptSha256": "5fd405b1d97f7671377edeb1c091491b4b884ddcc7f806957399549d4edfff16",
+          "pose": "idle",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_shaman-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-0_5-side.png",
+          "sha256": "52a42638739b9ac7ccfaa0f02d22fd3a340a39af608a5984254b759d4c946e00",
+          "receiptSha256": "9c9cf54131e53877f69af075667a7908016b4cb8b8f9f4772ad594234c0c3f5c",
+          "pose": "idle",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-0_5-back.png",
+          "sha256": "07688a289bb620fc45dc120f4127bba5ddb5069401f248cc17d28fda9c5b0e1d",
+          "receiptSha256": "3bc56a80fd3337f9ebaa3578e78eccf70cc9ac7932ef9c263fd90fcd2990037f",
+          "pose": "idle",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_shaman-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-0_5-threequarter.png",
+          "sha256": "a5fb75c1ffb3e2700e58081d6cb869d7e825483160d38486da516efbf216934a",
+          "receiptSha256": "a31b561f554476e91b7b1ae92960870997b274de9dbc3d3647c52af3339afa58",
+          "pose": "idle",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_shaman-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-0_5-gameplay.png",
+          "sha256": "dfacc83b8f37079bb68bbff03a95bf97d6d8cb46f03455a670d8072cb8d8fe5a",
+          "receiptSha256": "d7c987a78e123d01920ac616f5689fab63d1842cb6b3b70ed4eac6825052bda3",
+          "pose": "idle",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "source-frame sheet plus original-pixel gameplay crop"
+        },
+        {
+          "id": "master_shaman-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-talk-0_25-front.png",
+          "sha256": "7914955c1639e7c91ed1b26f7d9145b1e6e7816ad30691f7db3535a8f5b19b0d",
+          "receiptSha256": "f2541c15fd52ac9fc2c25024ab171eab2351c593ddbe56934828f34b9b1f56d3",
+          "pose": "talk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-talk-0_5-threequarter.png",
+          "sha256": "5d71adbb97020ab87d78f778f1345cc927dadadaffc724bc0072981370d0cf15",
+          "receiptSha256": "590bad2f9665a54208f299cb23d27ec4290713fead8812b60e9d6aeddcf7ce1a",
+          "pose": "talk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-talk-0_75-side.png",
+          "sha256": "53626f0502391904d870b8d13c3b6e08021cc1de59d5593510447e02ea709c78",
+          "receiptSha256": "68973484790795aa310b614d8b5763c58bfe3e6a142120805c35fffe7c73bdf5",
+          "pose": "talk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_25-front.png",
+          "sha256": "28a9764fe795831fa615650f9574370e7aea4d49ca37d77ef78cf197c1af4210",
+          "receiptSha256": "8b21ea374e52c4c6a21db745c912cf7e7441d755c013aa896b1c537eed3dabea",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_5-front.png",
+          "sha256": "093cc4efb1b9f86fb2f6c6375669996b0f60f77b6473a3802d567f0ef90cab6f",
+          "receiptSha256": "ea144d4099d5fd71393af2de9cbad0ef2021d5bda6260d9e6b574a7d30b0b3c0",
+          "pose": "walk",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_5-side.png",
+          "sha256": "979fa5dd9c6568a2769448dd4f34ab6ae259cf832e263fa3a5dcef3c23a1fb9d",
+          "receiptSha256": "29928c2a9e2c7274c38ecf23deef16d04b01e8a350b2fc868a610143c50adfd1",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_5-back.png",
+          "sha256": "70ce10006efc91d5ede3f18d1ad9f3c09b754b7a634ce36de5aae7a8e9444615",
+          "receiptSha256": "ace315ccc684e926e80d55d9d03a2177f876fb71c641cd0b5a2699f962cafb3f",
+          "pose": "walk",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_5-threequarter.png",
+          "sha256": "c1874e40532dee4518ffc57f794205127cc5b27e36fae9f525535148fd56c96a",
+          "receiptSha256": "db9a4cdc6e3e5041f2ff17d413158227fa86c8d9b936373c3df5985f85daf403",
+          "pose": "walk",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_5-gameplay.png",
+          "sha256": "65d25f14ce715994c95fd278c5c37ba5303a55930debab07e06140592fedb6a8",
+          "receiptSha256": "3d563d5bc3227b75b6cd9937628f1ff952e5264d947ea160467d3a4cebb007b6",
+          "pose": "walk",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-walk-0_75-side.png",
+          "sha256": "5cca85ce5d1a477263052225d08111b343e10ab91c3f42f00970085892ddf5df",
+          "receiptSha256": "92797bf431847a60fe7bc469add1771a7ad9c3514e0b202ba4cedc9705eed8cb",
+          "pose": "walk",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_25-front.png",
+          "sha256": "bf3483e839cc0228b965409645bff998f95e25d5a032383924154300e6543c81",
+          "receiptSha256": "b912273024baf38ff8ef0529eea7f206af7c81c2179be3398da670ae77374ebe",
+          "pose": "sit-chant",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_5-front.png",
+          "sha256": "0609ea4f4548c7817bac9aa3ef9e7523c8dfcdbb5f44bf41dc6f86e8ad209e2f",
+          "receiptSha256": "f42cf4a83907f17d57ff9e56f234fffb7486e6b1bfc76e4d1ad4fbfe19757eef",
+          "pose": "sit-chant",
+          "view": "front",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_5-side.png",
+          "sha256": "f094d32ca5673289b3dad53b684928ad59c3b4906a59054724add052fb723535",
+          "receiptSha256": "d7e74924394cbca21d87cc0daa00e13212907bad8e62740e3aa743a914c9d7ba",
+          "pose": "sit-chant",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_5-back.png",
+          "sha256": "244508c6d5b1d9f944fe4c24707bca1ec01e5eea0d25a324b9d9467c26b8cd0b",
+          "receiptSha256": "a08c1b67957cb8156e161459c7fcb8aa9ff672767902bdf5b29738242b9344a1",
+          "pose": "sit-chant",
+          "view": "back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_5-threequarter.png",
+          "sha256": "9c533e67c94f33cc89a6e773f04c8d53f703c77af4b3aa3498394c918893b061",
+          "receiptSha256": "93b7bbb9aa0f1325242f6b15d75e42cce69200f5108429a2ded097c0a9cd6b35",
+          "pose": "sit-chant",
+          "view": "threequarter",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_5-gameplay.png",
+          "sha256": "40e1e192c8740f40fa8e53e2d9aee349535890e1fa2fccf8b8f38fe52f8b71f1",
+          "receiptSha256": "7c663e3c72a5ed3c197971e920c49c737a5474c5a97db9cb4472c6e9ddca5baf",
+          "pose": "sit-chant",
+          "view": "gameplay",
+          "mode": "registry",
+          "visuallyInspected": false,
+          "inspectionMode": "hash-only"
+        },
+        {
+          "id": "master_shaman-sit-chant-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-0_75-side.png",
+          "sha256": "a6af1b0a8bf6c9be3622d6e087215f06585f5f4af2fbb927b5198bf81b7437b3",
+          "receiptSha256": "5202aad38b107e80b2368e24c965fb6c0fba0a6c952107b0e375b2fdad49fa28",
+          "pose": "sit-chant",
+          "view": "side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-hand-left-front.png",
+          "sha256": "31d64c9297d5a12218458748b15b65ee4457c3cda32cb121059379054764418a",
+          "receiptSha256": "ff9208ed1e0dd6b21a49ce409e35a10ca1fbbe5980d36c5e9dad20172dad13ce",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-hand-left-back.png",
+          "sha256": "13ed81d2de1c6570a19a657f40493df129a15c971300cd1595b61974e7be6f91",
+          "receiptSha256": "4fb716c24d5cb05c6433f1b67a7e740ac40460852353c44ccd240399359ac1a0",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-hand-left-side.png",
+          "sha256": "eddcb86bc5aca60e2b80b50e05b21d31158ffa7ecfcdd0dc08f838849012b2c7",
+          "receiptSha256": "a01d947121068402b7bb5f91b5f4f7214f9b466c15fc4eb26b94a786b62eaaa5",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-hand-right-front.png",
+          "sha256": "3f4fc597ba20d82e0c566bfaa46f339a9a8b3d795f70e328f7e4e98df148f1c1",
+          "receiptSha256": "6534ed78d8ea2ea3e4e4279be3f243906a11f51e1fa47d50552e64dfa973d06c",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-hand-right-back.png",
+          "sha256": "a12b253e77a8bb49dbc4a33a9e6d33160f38358c388f78e06d49a21e770f5f3f",
+          "receiptSha256": "8505bb8cae751f97c2d59e0ac8cfaca4bc2baae2c3b5b357addf191d56fde71b",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-idle-hand-right-side.png",
+          "sha256": "41b4202b6b15dcb322b438669dcdad2be2970a005232b929f7a27a2cc2b9cdde",
+          "receiptSha256": "b2026858174924b949ee43180d1d2afe94f2b2582d4de98fc5ad6cb2e7863c25",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "labeled in-memory source-frame contact sheet"
+        },
+        {
+          "id": "master_shaman-sit-chant-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-hand-right-front.png",
+          "sha256": "1c2b5d26cac18ae0c6b0f928ee14ba742507ce0f97cb6eae2fd451c03e9ba8f3",
+          "receiptSha256": "801e3ae73c06fdc4709702bc89de5e7dcd02d43864719d9e3e16f5ac32238000",
+          "pose": "sit-chant",
+          "view": "hand-right-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_shaman-sit-chant-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-hand-right-back.png",
+          "sha256": "a0b37f87666a420785f2f8d8a0521970087831862a8affad972130eeeb866ea3",
+          "receiptSha256": "a88e8b1bfc509b1fa14d68d82714cabe28d50a825b9455632d1997cd1f2d0030",
+          "pose": "sit-chant",
+          "view": "hand-right-back",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_shaman-sit-chant-prop-staff-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-prop-staff-front.png",
+          "sha256": "54224ceeef2f7d9faab9fcfc9859bd651cb9be5ec6b00c3ce2b50d1fb11eab42",
+          "receiptSha256": "46cb91ae90065afd497cc28e9631e9702dd7c032735bda71712257504d854d1e",
+          "pose": "sit-chant",
+          "view": "prop-staff-front",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        },
+        {
+          "id": "master_shaman-sit-chant-prop-staff-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/master_shaman/master_shaman-sit-chant-prop-staff-side.png",
+          "sha256": "5ca7f11b4444971046fb51f4d5c6a4a97e0181187d7ff8354fada637ae925079",
+          "receiptSha256": "100c2e14de8ada3267d41903130e2cda33267491d08c419580ed0ed9d2367d4a",
+          "pose": "sit-chant",
+          "view": "prop-staff-side",
+          "mode": "registry",
+          "visuallyInspected": true,
+          "inspectionMode": "full-resolution original"
+        }
+      ],
+      "visuallyInspectedCount": 25,
+      "finalReportSha256": "864ad025da0cc94c4216f3a2ff0057d1b5e8bc4d076ccc0e142e3ff77abef853",
+      "finalBodySha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+      "finalAssetPinsMatch": true,
+      "finalReceiptFailures": [],
+      "finalPNGMismatches": [],
+      "visibleProceduralProps": [
+        "staff"
+      ]
+    }
+  ],
+  "limitations": [
+    "Finite sampled idle/walk/talk/authored role images; not continuous animation/collision proof.",
+    "No run, crowded city, night/mobile variants, planted-foot or skin-strain measurements approved.",
+    "No finger/thumb anatomy, closed grasp, strike/grind/gather/chant mechanics or seated certification.",
+    "No live role services, economy, storage/warp permissions, schedules or standalone UI execution tested here; preserve their existing contracts.",
+    "Existing full batch capture verified only for requested eight reports/232 PNGs and batch-report pin; remaining 306 PNGs not independently hashed or visually reviewed in this task.",
+    "Later gameplay QA text/script changes are separate; render/body/profile capture hashes remain current at final audit. Art findings pin the registry batch and do not approve later QA runtime.",
+    "No all-17, production-performance, release/deployment or final parent approval."
+  ],
+  "handoff": "Seven scoped families meet the visual 8/10 gate and are ready for parent inspection. Hold occultist on F8-01; parent chooses a bounded headband refit or explicit suppression and supplies fresh actual evidence for closure. No core/body/profile/helper edit performed by reviewer."
+}

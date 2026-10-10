@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "subject": "hunter companion dog, not the dhole enemy",
+  "direction": "Original stylized Thai Ridgeback hunting companion; stronger alert silhouette, charcoal/warm-brown coat, crimson collar and restrained antique brass charm",
+  "source": "public/models/hunter-dog.glb",
+  "sourceSha256": "8e6ba30272053c7432c4b05c0979b4e2f111f1ca36ae5b646a18a3cf3d7763d3",
+  "runtime": "src/classes/dog.js: makeDog, followerDog, followerAway",
+  "shoulderHeightMeters": 0.56,
+  "shoulderHeightSpace": "makeDog local space after existing 1.25 body scale; before CombatView world scale 0.8",
+  "canonicalShoulderHeightMeters": 0.45,
+  "pipeline": {
+    "provider": "Meshy CLI 0.4.0",
+    "stages": ["text-to-3d preview", "text-to-3d refine", "local skin binding and packaging", "actual runtime visual and motion review"],
+    "estimatedCredits": 30,
+    "estimateSource": "meshy make --dry-run",
+    "generation": {
+      "mode": "preview",
+      "prompt": "Stylized anime MMORPG Thai Ridgeback hunting dog. Athletic muscular chest, slim waist, upright triangular ears, amber eyes, charcoal coat with warm brown muzzle and legs, clear dorsal ridge. One natural raised sickle tail. Crimson cloth collar, small antique brass talisman. Four anatomically correct canine legs, natural elbows, stifles and hocks, four separate grounded paws in neutral quadruped stance. Closed mouth, head aligned with spine. Broad smooth hand-painted fur shapes. No armor, wings, extra limbs, long mane, hair-strand noise or realism.",
+      "model_type": "standard",
+      "should_remesh": true,
+      "topology": "triangle",
+      "target_polycount": 6000,
+      "target_formats": ["glb"]
+    },
+    "texture": {
+      "enable_pbr": false,
+      "texture_resolution": "2k",
+      "remove_lighting": true,
+      "texture_prompt": "Soft hand-painted anime Thai fantasy game materials. Charcoal coat, warm brown muzzle and lower legs, cream chest patch, amber eyes, black nose, crimson cloth collar, small antique brass charm. Broad readable color regions and a dark dorsal ridge. No photographic hair strands, hard baked shadows, text, glowing runes, excessive ornament or shiny metal armor. Friendly loyal alert expression, coherent with stylized MMORPG character models."
+    }
+  },
+  "acceptance": {
+    "anatomy": "one head, one tail, four separated canine limbs; coherent elbows, forward stifles and rear hocks; no crossed/backward paws or disconnected accessories",
+    "animation": ["idle", "trot", "run", "bite", "howl", "spirit glow"],
+    "views": ["front", "side", "back", "three-quarter", "gameplay camera"],
+    "gameplay": "visual replacement only; preserve follow, combat damage, skill timing and companion scale",
+    "budget": { "trianglesTarget": 6000, "trianglesMaximum": 12000, "drawCallsMaximum": 4, "textureMaximum": 2048 },
+    "reviewScoresMinimum": 8
+  }
+}

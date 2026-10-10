@@ -1,0 +1,506 @@
+{
+  "schema": 1,
+  "kind": "approved-render-gallery",
+  "label": "approved-gallery-final-1",
+  "startedAt": "2026-10-10T03:57:16.404Z",
+  "url": "about:blank (local HTML image grid; original receipts linked below)",
+  "mode": "gallery",
+  "family": "warp_keeper",
+  "requested": {
+    "npc": null,
+    "ids": null,
+    "map": null
+  },
+  "modules": [
+    {
+      "path": "tools/npc-models/capture.mjs",
+      "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+    }
+  ],
+  "bundledProfilesBefore": [],
+  "browser": {
+    "channel": "msedge",
+    "headless": true,
+    "instances": 1,
+    "pages": 1,
+    "closed": true,
+    "sharedBatch": false
+  },
+  "evidence": "render-review",
+  "assets": [],
+  "images": [
+    {
+      "id": "approved-npc-gallery",
+      "path": "docs/art/npcs/reviews/release/approved-npc-gallery.png",
+      "width": 1280,
+      "height": 2661,
+      "sha256": "17fba972a180a6accc4e6b7dde04bf05c3d5af0b4dc8719796e9dd5f426864fa",
+      "receipt": {
+        "manifestPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\approved-gallery.json",
+        "manifestSha256": "412256e76af857c49a10142078084d21ee244bc79447bc7eb10bba1750673ae4",
+        "entries": [
+          {
+            "family": "warp_keeper",
+            "npcId": "warp_city_market",
+            "thai": "เจ้าหน้าที่พักทาง · ศาลาตลาดใหญ่",
+            "english": "warp_keeper",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\warp_keeper\\report.json",
+            "reportSha256": "d9c0bd7620c9f630fce908afb6210e42c09f708856a15a506c1c372a67f37697",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\warp_keeper\\warp_keeper-idle-0_5-threequarter.png",
+            "imageId": "warp_keeper-idle-0_5-threequarter",
+            "imageSha256": "ff053edfaf20c9cc978b61c70171fc46a1905be6ea6e108fb2ceac6f6c2a7036",
+            "assetSha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a"
+          },
+          {
+            "family": "general_merchant",
+            "npcId": "general_merchant",
+            "thai": "เจ๊กฮวด",
+            "english": "general_merchant",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\general_merchant\\report.json",
+            "reportSha256": "b8fa45d479983a317bcd81a5cd0e60e586536af4767385a44da39d4bc87498e8",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\general_merchant\\general_merchant-idle-0_5-threequarter.png",
+            "imageId": "general_merchant-idle-0_5-threequarter",
+            "imageSha256": "678bb1d1fdd07b03a59c27a9f90ecd47225dfe624670ea0c3abe2773449a13cf",
+            "assetSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6"
+          },
+          {
+            "family": "blacksmith",
+            "npcId": "blacksmith",
+            "thai": "ลุงดำ",
+            "english": "blacksmith",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\blacksmith\\report.json",
+            "reportSha256": "616111fe830a4b120f3d2c318237f4303acd45945e45f83cb52e3f5569c4db27",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\blacksmith\\blacksmith-idle-0_5-threequarter.png",
+            "imageId": "blacksmith-idle-0_5-threequarter",
+            "imageSha256": "9d102ba83801dee91d2000fd2bf2263455c6769a14af529517e715a83bbf8555",
+            "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af"
+          },
+          {
+            "family": "enhancer",
+            "npcId": "enhancer",
+            "thai": "หมื่นเพชรศาสตรา",
+            "english": "enhancer",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\enhancer\\report.json",
+            "reportSha256": "760f40dfd629c7835183bc26bf9ba496418080e6a1268c14bfaa461ac411bcfb",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\enhancer\\enhancer-idle-0_5-threequarter.png",
+            "imageId": "enhancer-idle-0_5-threequarter",
+            "imageSha256": "1e76f11803f2e66555d3b021fe9677cba9ee8c02deaf5dbca268258c62074738",
+            "assetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900"
+          },
+          {
+            "family": "herbalist",
+            "npcId": "herbalist",
+            "thai": "หมอยาเย็น",
+            "english": "herbalist",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\herbalist\\report.json",
+            "reportSha256": "2c0b994f5d018524b9a0151e1515e071ee855fd978206a5f384ab4309ce99385",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\herbalist\\herbalist-idle-0_5-threequarter.png",
+            "imageId": "herbalist-idle-0_5-threequarter",
+            "imageSha256": "3e34fafd0b294c888ec8add8c7e85fcc2dfd2e981084466644660b2719754024",
+            "assetSha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a"
+          },
+          {
+            "family": "master_muay",
+            "npcId": "master_muay",
+            "thai": "ครูมวยเสือ",
+            "english": "master_muay",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_muay\\report.json",
+            "reportSha256": "eb3d3a3122c99abb5da3f374734551b656c432d3663f2461305ced8ab8af0933",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_muay\\master_muay-idle-0_5-threequarter.png",
+            "imageId": "master_muay-idle-0_5-threequarter",
+            "imageSha256": "72b125987fc9fca39e5425c94dcef097e9093df1ba42cd182a5df4c1783d8caa",
+            "assetSha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c"
+          },
+          {
+            "family": "master_sword",
+            "npcId": "master_sword",
+            "thai": "ครูดาบสิงห์",
+            "english": "master_sword",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_sword\\report.json",
+            "reportSha256": "55d55625133a959d591199cd698b1fb974a83c1b23a3c2da8c63c74ec7908c68",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_sword\\master_sword-idle-0_5-threequarter.png",
+            "imageId": "master_sword-idle-0_5-threequarter",
+            "imageSha256": "f5b8198eabcc7cbda62709d53533435c5cb028fc9e89d525cca3dbbff01f1b27",
+            "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+          },
+          {
+            "family": "master_hunter",
+            "npcId": "master_hunter",
+            "thai": "พรานบุญ",
+            "english": "master_hunter",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_hunter\\report.json",
+            "reportSha256": "b0f014d47ceb20a4d140011bb6ce3013d158efb3237b3c7f8f144c69f9f77883",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_hunter\\master_hunter-idle-0_5-threequarter.png",
+            "imageId": "master_hunter-idle-0_5-threequarter",
+            "imageSha256": "3393e8461f3b2f0413ddf1ce0020d99d7d085bc34e411f9fc612f07a7de00f21",
+            "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2"
+          },
+          {
+            "family": "master_shaman",
+            "npcId": "master_shaman",
+            "thai": "หมอผีจันทร์",
+            "english": "master_shaman",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_shaman\\report.json",
+            "reportSha256": "289b11c66e9effb72a983b53c09c3741b3baee4da44ad78bc2b6590aa3898fbf",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_shaman\\master_shaman-idle-0_5-threequarter.png",
+            "imageId": "master_shaman-idle-0_5-threequarter",
+            "imageSha256": "a5fb75c1ffb3e2700e58081d6cb869d7e825483160d38486da516efbf216934a",
+            "assetSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600"
+          },
+          {
+            "family": "master_bandit",
+            "npcId": "master_bandit",
+            "thai": "เสือดำ",
+            "english": "master_bandit",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_bandit\\report.json",
+            "reportSha256": "c447570b3c9bb6dee35dd4975c92a0dd9bed81754efe5b853b1b730edcc257df",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_bandit\\master_bandit-idle-0_5-threequarter.png",
+            "imageId": "master_bandit-idle-0_5-threequarter",
+            "imageSha256": "c3b571c1e61abed93b69c2247b08b93b929b2628f030f50a65a65523c8330efa",
+            "assetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b"
+          },
+          {
+            "family": "city_guard",
+            "npcId": "guard_port",
+            "thai": "หมื่นท่า",
+            "english": "city_guard",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\city_guard\\report.json",
+            "reportSha256": "af380d6281a49dc786acf79e65127c5a86fe36e17adf146cd2072c069a8df047",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\city_guard\\city_guard-idle-0_5-threequarter.png",
+            "imageId": "city_guard-idle-0_5-threequarter",
+            "imageSha256": "d48daa762549fc008ae7f8ca2e23b7d00fee5d3a00dbb225abfa086b9da13ecf",
+            "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d"
+          },
+          {
+            "family": "boatman",
+            "npcId": "boatman",
+            "thai": "ตาแจว",
+            "english": "boatman",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\boatman\\report.json",
+            "reportSha256": "9eb9dea269a3051c41b1973a019a6c2fdcbd9954c132e38e87ea8b3440ef89ad",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\boatman\\boatman-idle-0_5-threequarter.png",
+            "imageId": "boatman-idle-0_5-threequarter",
+            "imageSha256": "3612f50904826c67e30eea7d2d67ecf1c9ccf6c00e8d2ff46d9a131a52e502da",
+            "assetSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17"
+          },
+          {
+            "family": "gate_supplier",
+            "npcId": "gate_supplier",
+            "thai": "แม่ค้าเสบียงจันทร์เพ็ญ",
+            "english": "gate_supplier",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\gate_supplier\\report.json",
+            "reportSha256": "5897590aea6510817a0f624f1621d8a85791465aca2db46e752f1f70cd9b8e8c",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\gate_supplier\\gate_supplier-idle-0_5-threequarter.png",
+            "imageId": "gate_supplier-idle-0_5-threequarter",
+            "imageSha256": "6937d75a84d424c7c29378f23a39e13116033190a4ff47f538879c333f8eb211",
+            "assetSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506"
+          },
+          {
+            "family": "occultist",
+            "npcId": "occultist",
+            "thai": "หมออาคมเฒ่า",
+            "english": "occultist",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\occultist\\report.json",
+            "reportSha256": "fa38c28608cd4187ed2c98149d698c256530b33ea530543eb4cd1173bd0ad66d",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\occultist\\occultist-idle-0_5-threequarter.png",
+            "imageId": "occultist-idle-0_5-threequarter",
+            "imageSha256": "fc3b722e0a1fe935633be483eed373ec1e8c15ad68106c66daa52f62d72c4201",
+            "assetSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+          },
+          {
+            "family": "master_herbal",
+            "npcId": "master_herbal",
+            "thai": "หมอหลวงพรหม",
+            "english": "master_herbal",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_herbal\\report.json",
+            "reportSha256": "5df4c7cd82910f990efc2b7ff13992cb20402dcb02e2427c47f8c31ce4b5845e",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_herbal\\master_herbal-idle-0_5-threequarter.png",
+            "imageId": "master_herbal-idle-0_5-threequarter",
+            "imageSha256": "ca8f6c171953815aebeddde4ddbe04f66f1379daa69796d360a5a27650f0cf22",
+            "assetSha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50"
+          },
+          {
+            "family": "monk_elder",
+            "npcId": "monk_elder",
+            "thai": "พระอาจารย์มั่น",
+            "english": "monk_elder",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_elder\\report.json",
+            "reportSha256": "4c6d7ff13a6c0cb8bb682ef0360d04f1a969fb1c10ec40be70fb696c162c1d31",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_elder\\monk_elder-idle-0_5-threequarter.png",
+            "imageId": "monk_elder-idle-0_5-threequarter",
+            "imageSha256": "c02a63f091ed5655e8c05f61b8a8730107443e6e0a8c9bd04d69661072fe82bf",
+            "assetSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837"
+          },
+          {
+            "family": "monk_novice",
+            "npcId": "monk_young",
+            "thai": "พระน้อย",
+            "english": "monk_novice",
+            "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_novice\\report.json",
+            "reportSha256": "ac6adadbe27a2f9e9cfb69d2019c759b11b3800fa38fb21b5e67758b7c89a184",
+            "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_novice\\monk_novice-idle-0_5-threequarter.png",
+            "imageId": "monk_novice-idle-0_5-threequarter",
+            "imageSha256": "8c0e5490224fa9f41eeab39484651af46539d974e6fa565a8cbc6b94eb2ec988",
+            "assetSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60"
+          }
+        ],
+        "webglContexts": 0
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "approved-receipt-image-grid",
+      "families": [
+        "warp_keeper",
+        "general_merchant",
+        "blacksmith",
+        "enhancer",
+        "herbalist",
+        "master_muay",
+        "master_sword",
+        "master_hunter",
+        "master_shaman",
+        "master_bandit",
+        "city_guard",
+        "boatman",
+        "gate_supplier",
+        "occultist",
+        "master_herbal",
+        "monk_elder",
+        "monk_novice"
+      ],
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "pageErrors": [],
+  "requestErrors": [],
+  "warnings": [],
+  "limits": [
+    "No Art PASS is inferred from capture completion. Review actual images before acceptance.",
+    "No account, database, shop purchase, storage transaction, quest reward, Meshy/API or server flow is invoked.",
+    "SwiftShader frame times are not production performance measurements. Finite vertices do not prove skin strain, anatomy or planted-foot contacts."
+  ],
+  "gallery": {
+    "manifestPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\approved-gallery.json",
+    "manifestSha256": "412256e76af857c49a10142078084d21ee244bc79447bc7eb10bba1750673ae4",
+    "entries": [
+      {
+        "family": "warp_keeper",
+        "npcId": "warp_city_market",
+        "thai": "เจ้าหน้าที่พักทาง · ศาลาตลาดใหญ่",
+        "english": "warp_keeper",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\warp_keeper\\report.json",
+        "reportSha256": "d9c0bd7620c9f630fce908afb6210e42c09f708856a15a506c1c372a67f37697",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\warp_keeper\\warp_keeper-idle-0_5-threequarter.png",
+        "imageId": "warp_keeper-idle-0_5-threequarter",
+        "imageSha256": "ff053edfaf20c9cc978b61c70171fc46a1905be6ea6e108fb2ceac6f6c2a7036",
+        "assetSha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a"
+      },
+      {
+        "family": "general_merchant",
+        "npcId": "general_merchant",
+        "thai": "เจ๊กฮวด",
+        "english": "general_merchant",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\general_merchant\\report.json",
+        "reportSha256": "b8fa45d479983a317bcd81a5cd0e60e586536af4767385a44da39d4bc87498e8",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\general_merchant\\general_merchant-idle-0_5-threequarter.png",
+        "imageId": "general_merchant-idle-0_5-threequarter",
+        "imageSha256": "678bb1d1fdd07b03a59c27a9f90ecd47225dfe624670ea0c3abe2773449a13cf",
+        "assetSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6"
+      },
+      {
+        "family": "blacksmith",
+        "npcId": "blacksmith",
+        "thai": "ลุงดำ",
+        "english": "blacksmith",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\blacksmith\\report.json",
+        "reportSha256": "616111fe830a4b120f3d2c318237f4303acd45945e45f83cb52e3f5569c4db27",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\blacksmith\\blacksmith-idle-0_5-threequarter.png",
+        "imageId": "blacksmith-idle-0_5-threequarter",
+        "imageSha256": "9d102ba83801dee91d2000fd2bf2263455c6769a14af529517e715a83bbf8555",
+        "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af"
+      },
+      {
+        "family": "enhancer",
+        "npcId": "enhancer",
+        "thai": "หมื่นเพชรศาสตรา",
+        "english": "enhancer",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\enhancer\\report.json",
+        "reportSha256": "760f40dfd629c7835183bc26bf9ba496418080e6a1268c14bfaa461ac411bcfb",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\enhancer\\enhancer-idle-0_5-threequarter.png",
+        "imageId": "enhancer-idle-0_5-threequarter",
+        "imageSha256": "1e76f11803f2e66555d3b021fe9677cba9ee8c02deaf5dbca268258c62074738",
+        "assetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900"
+      },
+      {
+        "family": "herbalist",
+        "npcId": "herbalist",
+        "thai": "หมอยาเย็น",
+        "english": "herbalist",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\herbalist\\report.json",
+        "reportSha256": "2c0b994f5d018524b9a0151e1515e071ee855fd978206a5f384ab4309ce99385",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\herbalist\\herbalist-idle-0_5-threequarter.png",
+        "imageId": "herbalist-idle-0_5-threequarter",
+        "imageSha256": "3e34fafd0b294c888ec8add8c7e85fcc2dfd2e981084466644660b2719754024",
+        "assetSha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a"
+      },
+      {
+        "family": "master_muay",
+        "npcId": "master_muay",
+        "thai": "ครูมวยเสือ",
+        "english": "master_muay",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_muay\\report.json",
+        "reportSha256": "eb3d3a3122c99abb5da3f374734551b656c432d3663f2461305ced8ab8af0933",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_muay\\master_muay-idle-0_5-threequarter.png",
+        "imageId": "master_muay-idle-0_5-threequarter",
+        "imageSha256": "72b125987fc9fca39e5425c94dcef097e9093df1ba42cd182a5df4c1783d8caa",
+        "assetSha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c"
+      },
+      {
+        "family": "master_sword",
+        "npcId": "master_sword",
+        "thai": "ครูดาบสิงห์",
+        "english": "master_sword",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_sword\\report.json",
+        "reportSha256": "55d55625133a959d591199cd698b1fb974a83c1b23a3c2da8c63c74ec7908c68",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_sword\\master_sword-idle-0_5-threequarter.png",
+        "imageId": "master_sword-idle-0_5-threequarter",
+        "imageSha256": "f5b8198eabcc7cbda62709d53533435c5cb028fc9e89d525cca3dbbff01f1b27",
+        "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47"
+      },
+      {
+        "family": "master_hunter",
+        "npcId": "master_hunter",
+        "thai": "พรานบุญ",
+        "english": "master_hunter",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_hunter\\report.json",
+        "reportSha256": "b0f014d47ceb20a4d140011bb6ce3013d158efb3237b3c7f8f144c69f9f77883",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_hunter\\master_hunter-idle-0_5-threequarter.png",
+        "imageId": "master_hunter-idle-0_5-threequarter",
+        "imageSha256": "3393e8461f3b2f0413ddf1ce0020d99d7d085bc34e411f9fc612f07a7de00f21",
+        "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2"
+      },
+      {
+        "family": "master_shaman",
+        "npcId": "master_shaman",
+        "thai": "หมอผีจันทร์",
+        "english": "master_shaman",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_shaman\\report.json",
+        "reportSha256": "289b11c66e9effb72a983b53c09c3741b3baee4da44ad78bc2b6590aa3898fbf",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_shaman\\master_shaman-idle-0_5-threequarter.png",
+        "imageId": "master_shaman-idle-0_5-threequarter",
+        "imageSha256": "a5fb75c1ffb3e2700e58081d6cb869d7e825483160d38486da516efbf216934a",
+        "assetSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600"
+      },
+      {
+        "family": "master_bandit",
+        "npcId": "master_bandit",
+        "thai": "เสือดำ",
+        "english": "master_bandit",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_bandit\\report.json",
+        "reportSha256": "c447570b3c9bb6dee35dd4975c92a0dd9bed81754efe5b853b1b730edcc257df",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_bandit\\master_bandit-idle-0_5-threequarter.png",
+        "imageId": "master_bandit-idle-0_5-threequarter",
+        "imageSha256": "c3b571c1e61abed93b69c2247b08b93b929b2628f030f50a65a65523c8330efa",
+        "assetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b"
+      },
+      {
+        "family": "city_guard",
+        "npcId": "guard_port",
+        "thai": "หมื่นท่า",
+        "english": "city_guard",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\city_guard\\report.json",
+        "reportSha256": "af380d6281a49dc786acf79e65127c5a86fe36e17adf146cd2072c069a8df047",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\city_guard\\city_guard-idle-0_5-threequarter.png",
+        "imageId": "city_guard-idle-0_5-threequarter",
+        "imageSha256": "d48daa762549fc008ae7f8ca2e23b7d00fee5d3a00dbb225abfa086b9da13ecf",
+        "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d"
+      },
+      {
+        "family": "boatman",
+        "npcId": "boatman",
+        "thai": "ตาแจว",
+        "english": "boatman",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\boatman\\report.json",
+        "reportSha256": "9eb9dea269a3051c41b1973a019a6c2fdcbd9954c132e38e87ea8b3440ef89ad",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\boatman\\boatman-idle-0_5-threequarter.png",
+        "imageId": "boatman-idle-0_5-threequarter",
+        "imageSha256": "3612f50904826c67e30eea7d2d67ecf1c9ccf6c00e8d2ff46d9a131a52e502da",
+        "assetSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17"
+      },
+      {
+        "family": "gate_supplier",
+        "npcId": "gate_supplier",
+        "thai": "แม่ค้าเสบียงจันทร์เพ็ญ",
+        "english": "gate_supplier",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\gate_supplier\\report.json",
+        "reportSha256": "5897590aea6510817a0f624f1621d8a85791465aca2db46e752f1f70cd9b8e8c",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\gate_supplier\\gate_supplier-idle-0_5-threequarter.png",
+        "imageId": "gate_supplier-idle-0_5-threequarter",
+        "imageSha256": "6937d75a84d424c7c29378f23a39e13116033190a4ff47f538879c333f8eb211",
+        "assetSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506"
+      },
+      {
+        "family": "occultist",
+        "npcId": "occultist",
+        "thai": "หมออาคมเฒ่า",
+        "english": "occultist",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\occultist\\report.json",
+        "reportSha256": "fa38c28608cd4187ed2c98149d698c256530b33ea530543eb4cd1173bd0ad66d",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\occultist\\occultist-idle-0_5-threequarter.png",
+        "imageId": "occultist-idle-0_5-threequarter",
+        "imageSha256": "fc3b722e0a1fe935633be483eed373ec1e8c15ad68106c66daa52f62d72c4201",
+        "assetSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+      },
+      {
+        "family": "master_herbal",
+        "npcId": "master_herbal",
+        "thai": "หมอหลวงพรหม",
+        "english": "master_herbal",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_herbal\\report.json",
+        "reportSha256": "5df4c7cd82910f990efc2b7ff13992cb20402dcb02e2427c47f8c31ce4b5845e",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\master_herbal\\master_herbal-idle-0_5-threequarter.png",
+        "imageId": "master_herbal-idle-0_5-threequarter",
+        "imageSha256": "ca8f6c171953815aebeddde4ddbe04f66f1379daa69796d360a5a27650f0cf22",
+        "assetSha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50"
+      },
+      {
+        "family": "monk_elder",
+        "npcId": "monk_elder",
+        "thai": "พระอาจารย์มั่น",
+        "english": "monk_elder",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_elder\\report.json",
+        "reportSha256": "4c6d7ff13a6c0cb8bb682ef0360d04f1a969fb1c10ec40be70fb696c162c1d31",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_elder\\monk_elder-idle-0_5-threequarter.png",
+        "imageId": "monk_elder-idle-0_5-threequarter",
+        "imageSha256": "c02a63f091ed5655e8c05f61b8a8730107443e6e0a8c9bd04d69661072fe82bf",
+        "assetSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837"
+      },
+      {
+        "family": "monk_novice",
+        "npcId": "monk_young",
+        "thai": "พระน้อย",
+        "english": "monk_novice",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_novice\\report.json",
+        "reportSha256": "ac6adadbe27a2f9e9cfb69d2019c759b11b3800fa38fb21b5e67758b7c89a184",
+        "imagePath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\release\\monk_novice\\monk_novice-idle-0_5-threequarter.png",
+        "imageId": "monk_novice-idle-0_5-threequarter",
+        "imageSha256": "8c0e5490224fa9f41eeab39484651af46539d974e6fa565a8cbc6b94eb2ec988",
+        "assetSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60"
+      }
+    ],
+    "webglContexts": 0
+  },
+  "bundledProfilesAfter": [],
+  "disposal": {
+    "disposed": true,
+    "webglContexts": 0,
+    "mode": "HTML image grid"
+  },
+  "finishedAt": "2026-10-10T03:57:17.178Z",
+  "capturePassed": true,
+  "passed": true
+}

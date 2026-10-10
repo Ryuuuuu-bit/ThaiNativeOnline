@@ -1,0 +1,3901 @@
+{
+  "finalScopedProfileRecheck": [{"family":"city_guard","sha256":"0e24e503616760ebfecc0f0c60faba4945cfd8e69bc5cc500f52553207e3b18d","differentFromOldCPU":[]},{"family":"gate_supplier","sha256":"1ee8e2afa85935c3cb60975bc1add5dbdb64b90c7c03df0d4243f2fb41d1a270","differentFromOldCPU":[]}],
+  "finalPostCaptureCatalogPin": {"path":"artifacts/city-npc-models/candidate-profiles.json","sha256":"ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe"},
+  "schema": "independent-offline-art-review-v1",
+  "scope": [
+    "city_guard",
+    "gate_supplier"
+  ],
+  "capture": "city-npc-full-current-1",
+  "verdict": "PASS",
+  "criteria": "docs/art/ART_BIBLE.md >=8 in every category",
+  "counts": {
+    "batchFamilies": 17,
+    "batchPNG": 538,
+    "scopedPNG": 66,
+    "verifiedPNG": 66,
+    "actuallyViewedPNG": 66,
+    "guard": 34,
+    "supplier": 32
+  },
+  "scores": [
+    {
+      "family": "city_guard",
+      "style": 8.5,
+      "readability": 8.5,
+      "technical": 8,
+      "verdict": "PASS"
+    },
+    {
+      "family": "gate_supplier",
+      "style": 8.5,
+      "readability": 8,
+      "technical": 8.5,
+      "verdict": "PASS"
+    }
+  ],
+  "findings": [
+    {
+      "id": "T2-01",
+      "priority": "P3",
+      "family": "city_guard",
+      "blocking": false,
+      "description": "Small blade-to-collar gap in magnified side spearTip capture; below meaningful gameplay scale.",
+      "witness": "city_guard-idle-guard-prop-spearTip-side",
+      "minimalFix": "Optional accessory-only polish: overlap blade base into collar or extend collar neck. No body, weights or hand changes."
+    }
+  ],
+  "batch": {
+    "pin": {
+      "path": "docs/art/npcs/reviews/city-npc-full-current-1/batch-report.json",
+      "sha256": "46839ce18e71d3446372c5ed1794e98a2d3ace420981866e9e1999095da757d5"
+    },
+    "passed": true,
+    "browser": {
+      "channel": "msedge",
+      "instances": 1,
+      "pages": 1,
+      "closed": true
+    },
+    "familyCount": 17,
+    "imageCount": 538,
+    "scopedEntries": [
+      {
+        "family": "gate_supplier",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\city-npc-full-current-1\\gate_supplier\\report.json",
+        "capturePassed": true,
+        "disposal": {
+          "disposed": true,
+          "groupsReleased": 0,
+          "cacheSize": 0,
+          "phaseListeners": 0
+        },
+        "images": 32
+      },
+      {
+        "family": "city_guard",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\city-npc-full-current-1\\city_guard\\report.json",
+        "capturePassed": true,
+        "disposal": {
+          "disposed": true,
+          "groupsReleased": 0,
+          "cacheSize": 0,
+          "phaseListeners": 0
+        },
+        "images": 34
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "family": "city_guard",
+      "reportPin": {
+        "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/report.json",
+        "sha256": "9528a69f43ac450ae2b5d55423781172372df1cc26101bdb536570692e39ee80"
+      },
+      "passed": true,
+      "capturePassed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "modules": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "captureStable": true,
+          "currentMatches": false
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+          "afterSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/city_guard-d0544edba825-contacts.json",
+          "beforeSha256": "9a3219c4447930790a15da07d3b28e37b596f30ca83c4973f8eba12a93a5f7e8",
+          "afterSha256": "9a3219c4447930790a15da07d3b28e37b596f30ca83c4973f8eba12a93a5f7e8",
+          "currentSha256": "9a3219c4447930790a15da07d3b28e37b596f30ca83c4973f8eba12a93a5f7e8",
+          "captureStable": true,
+          "currentMatches": true
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:5192/models/npcs/city_guard.glb?v=woven-v1-1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d&rev=%5Bredacted%5D",
+          "status": 200,
+          "bytes": 590612,
+          "sha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "transport": "Exact HTTP response bytes fulfilled to GLTFLoader",
+          "path": "public/models/npcs/city_guard.glb",
+          "currentSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "currentBytes": 590612,
+          "verified": true
+        }
+      ],
+      "images": [
+        {
+          "id": "city_guard-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-0_5-front.png",
+          "sha256": "624960849bbf0af54c1ede6ea2773dbe5ea9e87d5e345f53552c214e84a2cc4e",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-0_5-side.png",
+          "sha256": "7977a68814615fbb6f2db22dd01e2b420e2a5d69a8202b42da4b7ebaf4a2569a",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-0_5-back.png",
+          "sha256": "8bf304343cdf73628aed5045f5c80734c38f4901d0f9ba337b74e45172994a50",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-0_5-threequarter.png",
+          "sha256": "d48daa762549fc008ae7f8ca2e23b7d00fee5d3a00dbb225abfa086b9da13ecf",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-0_5-gameplay.png",
+          "sha256": "f935e8fd9e018bebb5ded1ef2170fc897d3a8a997015892b78eeefb934722563",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-talk-0_25-front.png",
+          "sha256": "c3f98206c1f8858e0e5b71173f2a042562524c2b51c31d658c50163e240b2174",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-talk-0_5-threequarter.png",
+          "sha256": "d4e547fe33c5becb6c3c1e6246a662599ec6066f5bb6db2c12e7506e4c877863",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-talk-0_75-side.png",
+          "sha256": "5aca7267bd9e621ea000548de16bae2c789dfa2b342acc0fd8525d369c067fda",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_25-front.png",
+          "sha256": "bbfde63e0b18aec8a7e6dd70ed1d8dfdbab13b92d639ecce2e284cae03dfebcb",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_5-front.png",
+          "sha256": "78977bcbdef5f2b96b7fc23568fce5650b08924aafe8b1786ab04d978b5da45d",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_5-side.png",
+          "sha256": "84cce9876b38ae5cc94914a6f4c23d0274454b81337e40f754919e3e830f7780",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_5-back.png",
+          "sha256": "6e25b4a014edb106fa891507a1d4268fc620c80aeec6e2d1d10e7b767d09adfa",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_5-threequarter.png",
+          "sha256": "22329e872047e7231a124721cb7517c8b2413b19e8076cef6df377a5a0db6986",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_5-gameplay.png",
+          "sha256": "f6f31b2a50d3ab87d3f46bcf43c9684c7dff3933f07965c23188078a3bc86da4",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-walk-0_75-side.png",
+          "sha256": "c8b7783a457c418e84f08caefe509c29ceb5d654dce19b012fcece5766391469",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "back-holstered"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_25-front.png",
+          "sha256": "7ca18ab3d36ff47afea136574f496b13d13bd97c6181cda7fb738f3ea3b302b4",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_5-front.png",
+          "sha256": "a43a0f09243d00daa24132390a038a99afc305b2b01ccaf9c35b455e99e5e424",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_5-side.png",
+          "sha256": "e2de0a3e1d96c45558b6cfae36a38a1477eca47e480cabf405a9988aed27bb4a",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_5-back.png",
+          "sha256": "91b7e7c318e52011bd2ae5d47ad30edbf63c1e8d5589e8258b9540f6ca20d2a4",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_5-threequarter.png",
+          "sha256": "a9a2e3969f82d9b1ab3c98d040c38fcc928e76b5e529a092a73904ca19e6a942",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_5-gameplay.png",
+          "sha256": "0ace909a9db4bb4f2b7459037324c40a267dac004f0711f1856e74dc1bce51e7",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-0_75-side.png",
+          "sha256": "de671a93b21e290fc868f5c888c42f268d58b2edc046b383d7da268f5cb389f9",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-hand-left-front.png",
+          "sha256": "678815c5011d78a780883c05f98c5630a9ab672c86da70c2ee71c0da5cd7abd2",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-hand-left-back.png",
+          "sha256": "ff746dbe58b9e94596a734ffd12a4895501ed3f55cb0da292c7760a68ff0b835",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-back",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-hand-left-side.png",
+          "sha256": "a2279c8a40c13b6e55d0c2dbd040c97b8cd5a02d445dc710e0c96b42513b4ebd",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-hand-right-front.png",
+          "sha256": "64e8a2f75096f98e83f6bce4d6e0cd2e560270f7ae88cee0238a56295a10d0b2",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-hand-right-back.png",
+          "sha256": "365b8eb126d3d04f994d32344e3e87ff5ed4e918c67ac7a851e2c6f5cbceb54b",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-back",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-hand-right-side.png",
+          "sha256": "74d63dfe6b93dab9ce260421307250d83bf7d6bbf101d16161c06a46e8c508ce",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-hand-right-front.png",
+          "sha256": "64e8a2f75096f98e83f6bce4d6e0cd2e560270f7ae88cee0238a56295a10d0b2",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-hand-right-back.png",
+          "sha256": "365b8eb126d3d04f994d32344e3e87ff5ed4e918c67ac7a851e2c6f5cbceb54b",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "hand-right-back",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-prop-spear-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-prop-spear-front.png",
+          "sha256": "a2a6069bd1b24343d036a151ea3935a3632c5166fca0dc8789c57bce586154c7",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "prop-spear-front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-prop-spear-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-prop-spear-side.png",
+          "sha256": "86d625c6a63a493ce97ede22de71dcc487aad14503882e09d09f86742840624b",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "prop-spear-side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-prop-spearTip-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-prop-spearTip-front.png",
+          "sha256": "1082e0e78412926dc01904742c14b4a3872e4fdf330ea5e3cfd63e08cc91f39d",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "prop-spearTip-front",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        },
+        {
+          "id": "city_guard-idle-guard-prop-spearTip-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/city_guard-idle-guard-prop-spearTip-side.png",
+          "sha256": "cff2b94c69748294539a023f4c6a62f3615ad7a07bbe32bc290f6202fb8d1a1c",
+          "verified": true,
+          "pose": "idle-guard",
+          "time": 0.5,
+          "view": "prop-spearTip-side",
+          "npcId": "guard_port",
+          "sourceSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+          "sourceVerified": true,
+          "visibleParts": [
+            "helmet",
+            "helmetTrim",
+            "spear",
+            "spearTip"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "spear": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+          "actuallyViewed": true
+        }
+      ],
+      "cases": [
+        {
+          "id": "work",
+          "skipped": true,
+          "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+        },
+        {
+          "id": "sit",
+          "skipped": true,
+          "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+        },
+        {
+          "id": "registered-authored-witnesses",
+          "npc": "guard_port",
+          "images": 34,
+          "roles": [
+            {
+              "state": "idle",
+              "anim": "guard",
+              "carrying": false
+            }
+          ],
+          "retained": [
+            "spear",
+            "spearTip",
+            "helmet",
+            "helmetTrim"
+          ],
+          "contactMeaning": "Fully hand-owned centroid distance is diagnostic only. Natural palm/thumb-web targets and intentional parked/stowed props require independent measured and visual review."
+        }
+      ],
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "warnings": [],
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "assetIdentity": {
+        "pathname": "/models/npcs/city_guard.glb",
+        "expectedSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/city_guard.glb?v=woven-v1-1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 590612,
+            "sha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      }
+    },
+    {
+      "family": "gate_supplier",
+      "reportPin": {
+        "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/report.json",
+        "sha256": "4788cd39bbacdc348a20b484e22846892608cf7f7fc9b27361c034b4f0671120"
+      },
+      "passed": true,
+      "capturePassed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "modules": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "captureStable": true,
+          "currentMatches": false
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+          "afterSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/gate_supplier-55bce431f91a-contacts.json",
+          "beforeSha256": "d78b1db04cd027f76c694e701299ec61631dddd96cb838558709a98be8b52b45",
+          "afterSha256": "d78b1db04cd027f76c694e701299ec61631dddd96cb838558709a98be8b52b45",
+          "currentSha256": "d78b1db04cd027f76c694e701299ec61631dddd96cb838558709a98be8b52b45",
+          "captureStable": true,
+          "currentMatches": true
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:5192/models/npcs/gate_supplier.glb?v=woven-v2-182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506&rev=%5Bredacted%5D",
+          "status": 200,
+          "bytes": 646720,
+          "sha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "transport": "Exact HTTP response bytes fulfilled to GLTFLoader",
+          "path": "public/models/npcs/gate_supplier.glb",
+          "currentSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "currentBytes": 646720,
+          "verified": true
+        }
+      ],
+      "images": [
+        {
+          "id": "gate_supplier-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-0_5-front.png",
+          "sha256": "4e9a2e84be2330a4d48e71be294ad4491fc8ae40714cec3936c758aeeff5af0e",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-0_5-side.png",
+          "sha256": "cf9d1f02087697d180364f236c307370ca1afc6d98a383cbc4ea1baa56a61e52",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-0_5-back.png",
+          "sha256": "d681679d7788e7a474a9bbc93cdd6ba4d4e56b58a22d35947c12b2d5526a5cb4",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-0_5-threequarter.png",
+          "sha256": "6937d75a84d424c7c29378f23a39e13116033190a4ff47f538879c333f8eb211",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-0_5-gameplay.png",
+          "sha256": "0fe37c10b675f7e16e25a4367714af68283369bb643c3919b6c039a17e560b21",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-talk-0_25-front.png",
+          "sha256": "9dba4ba92228cad4aacfbd282bfdce556d20d58b293c42f73eb2b623f9c3fe27",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-talk-0_5-threequarter.png",
+          "sha256": "105756c5ae45a952f2fbdf0b1bf52d4681953684cbe0dfe3cdedc5b2308efebb",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-talk-0_75-side.png",
+          "sha256": "60d1495b0a91ca1584820389e51ff8e1a15255cb23edac808dc167496a217c18",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_25-front.png",
+          "sha256": "4ab7c41001ee66010a505dc0307a000a2b30d1202897420544845e480d682435",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_5-front.png",
+          "sha256": "49ec25941d9d819d4d001d8303cfd00ba21f5f19a6ab79b742f8263638522bbc",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_5-side.png",
+          "sha256": "ede65a05e1ce3b283c5d4e30ba3718a968ddeac3725dea3b07d2246235aea99c",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_5-back.png",
+          "sha256": "de5b16826308fc0ccb95d26c332d9bfa577c21b39cc6c8514dfe5d334d279f9d",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_5-threequarter.png",
+          "sha256": "4b6dea5b4a6e9e8e39b42ae8a3470194b44fb5525cbd2d89e173cc2fda019b20",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_5-gameplay.png",
+          "sha256": "9aaf62fa7eb0d5fb6e2ad4543c45591b83f03bbf483b107582941efeffbdad9d",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-walk-0_75-side.png",
+          "sha256": "60efaaa447fe0a9db811b009b9f96c9cefd0e39df6222295cd86a4e5800d7508",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_25-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_25-front.png",
+          "sha256": "448b7cddb30ebf101032aff3aeffb7e54debc1c62743970d195eefa4ecb7af72",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_5-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_5-front.png",
+          "sha256": "3213c07b42e6d4f03ef076848ab23d4b74dba01850e8d8aaa3811322896ff815",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_5-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_5-side.png",
+          "sha256": "6d43dc9feb77afc1d491629530bf13a33bf6425583f9ec2ffbf000c38ce98f16",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_5-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_5-back.png",
+          "sha256": "c32c745e0c0cba8990f755bedfe394b07f26071c155f2f68c5cdefa1885fc984",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_5-threequarter.png",
+          "sha256": "16269b0808ce0fa56e7a811c45f2a74b58fe9a6bd7d277e33919c66d3c5324a5",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_5-gameplay.png",
+          "sha256": "c0739066c5a8ed53b7f8816b4139f2a96d8fee2ada09c8afcbdf169b3c4add23",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-0_75-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-0_75-side.png",
+          "sha256": "cb7e131771c60119263997ac5c16973398f2e767ae4602fbdad4b476fcf0c7f3",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-hand-left-front.png",
+          "sha256": "acae80f88706c452855daf04223d72ee28292a3ce39ba7881e26465a1b0b1ca0",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-hand-left-back.png",
+          "sha256": "adaa5d9d2201d0f0b0c5628a51b5f202aa5fd2e99665a289a0381ed5869ec20e",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-back",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-hand-left-side.png",
+          "sha256": "84b2af16dd11fbfe3d58883e6ea39211099c58536d7f678b55b99d3277096aa0",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-hand-right-front.png",
+          "sha256": "1d1093022e113f4c5a6ab47776c438232da84db963c1bb6d65d2d9aaf51dca89",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-hand-right-back.png",
+          "sha256": "aa4573a7fee19225d86ef8492b11c602e69f0b87fa59da28936a866ab8628f93",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-back",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-idle-hand-right-side.png",
+          "sha256": "0b1b4f347936bf7fcbc4dc27ee4da8d2be023b160cef467c28ffd32100fc8a24",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-hand-left-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-hand-left-front.png",
+          "sha256": "8c48f06381b4c0a7515188efe872fb5e50ce8214d2c1fb8699b6c4dcb052214f",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-hand-left-back",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-hand-left-back.png",
+          "sha256": "d9bdb1999f3f44e18f33fe789b19686071e8718369d457a6dac822ffa5cc6644",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "hand-left-back",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-prop-basket-front",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-prop-basket-front.png",
+          "sha256": "7b0c4880ea876a204999dd312b7ac478326c98745f9ad775b8f904997b38c712",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "prop-basket-front",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        },
+        {
+          "id": "gate_supplier-work-sell-prop-basket-side",
+          "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/gate_supplier-work-sell-prop-basket-side.png",
+          "sha256": "5532cef3a2fb96b76fb1fe8b8d8bcd44339bc42f8e4012039032e3c499b3eb3e",
+          "verified": true,
+          "pose": "work-sell",
+          "time": 0.5,
+          "view": "prop-basket-side",
+          "npcId": "gate_supplier",
+          "sourceSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+          "sourceVerified": true,
+          "visibleParts": [
+            "basket"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "basket": "ground-display"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "actuallyViewed": true
+        }
+      ],
+      "cases": [
+        {
+          "id": "sit",
+          "skipped": true,
+          "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+        },
+        {
+          "id": "registered-authored-witnesses",
+          "npc": "gate_supplier",
+          "images": 32,
+          "roles": [
+            {
+              "state": "work",
+              "anim": "sell",
+              "carrying": false
+            }
+          ],
+          "retained": [
+            "basket"
+          ],
+          "contactMeaning": "Fully hand-owned centroid distance is diagnostic only. Natural palm/thumb-web targets and intentional parked/stowed props require independent measured and visual review."
+        }
+      ],
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "warnings": [],
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "assetIdentity": {
+        "pathname": "/models/npcs/gate_supplier.glb",
+        "expectedSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/gate_supplier.glb?v=woven-v2-182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 646720,
+            "sha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      }
+    }
+  ],
+  "sourceGeometry": [
+    {
+      "family": "city_guard",
+      "root": {
+        "path": "artifacts/city-npc-models/city_guard/city_guard.glb",
+        "sha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891"
+      },
+      "public": {
+        "path": "public/models/npcs/city_guard.glb",
+        "sha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d"
+      },
+      "checks": {
+        "meshes": true,
+        "nodes": true,
+        "skins": true,
+        "animations": true,
+        "accessors": true,
+        "accessorEncodedBytes": true
+      },
+      "allNonTextureChecksPass": true,
+      "accessorBufferViewsChecked": 10,
+      "encodedViews": [
+        {
+          "bufferView": 1,
+          "meshopt": true,
+          "rootEncodedSha256": "38be6eee4b41cb3b18c20dd7686d12f4bd2b06f769e763204fa3d03d996122e4",
+          "publicEncodedSha256": "38be6eee4b41cb3b18c20dd7686d12f4bd2b06f769e763204fa3d03d996122e4",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 2,
+          "meshopt": true,
+          "rootEncodedSha256": "15daf19d84efc25d57b3807591d07b20c8e43b4f489ddac13815df23a8817901",
+          "publicEncodedSha256": "15daf19d84efc25d57b3807591d07b20c8e43b4f489ddac13815df23a8817901",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 3,
+          "meshopt": true,
+          "rootEncodedSha256": "a831a411acfdcc9f3522bcb080f6b5a027ddc97cf3b0dda02f7a5a8589f4daeb",
+          "publicEncodedSha256": "a831a411acfdcc9f3522bcb080f6b5a027ddc97cf3b0dda02f7a5a8589f4daeb",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 4,
+          "meshopt": true,
+          "rootEncodedSha256": "47c4e1b8a41c0fe0782cac73aa6c9b5b9e7d4e74c4d11f9be15c3fa9f9a93e5d",
+          "publicEncodedSha256": "47c4e1b8a41c0fe0782cac73aa6c9b5b9e7d4e74c4d11f9be15c3fa9f9a93e5d",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 5,
+          "meshopt": true,
+          "rootEncodedSha256": "24de8305548dfdd1d3edaba15183c742afbd8a81ab5c02d2c2d04d5a308a6d8b",
+          "publicEncodedSha256": "24de8305548dfdd1d3edaba15183c742afbd8a81ab5c02d2c2d04d5a308a6d8b",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 6,
+          "meshopt": true,
+          "rootEncodedSha256": "7cff400216e599c3c54bf27b34aec11acaea0fc4215ae2f021940db265160c4b",
+          "publicEncodedSha256": "7cff400216e599c3c54bf27b34aec11acaea0fc4215ae2f021940db265160c4b",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 7,
+          "meshopt": true,
+          "rootEncodedSha256": "ca73aaa972071775c240ea30ed76341794b51447e400fd07a38cddc61296bec2",
+          "publicEncodedSha256": "ca73aaa972071775c240ea30ed76341794b51447e400fd07a38cddc61296bec2",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 8,
+          "meshopt": true,
+          "rootEncodedSha256": "adc79574f2fa5568d3a00de49046bb61beaef2dbb7ad2e02c46ee3ea068d70da",
+          "publicEncodedSha256": "adc79574f2fa5568d3a00de49046bb61beaef2dbb7ad2e02c46ee3ea068d70da",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 9,
+          "meshopt": true,
+          "rootEncodedSha256": "ceead2b4a659d965867878066d2167e91f9cbfe21d9ccb1b69043962f3618eab",
+          "publicEncodedSha256": "ceead2b4a659d965867878066d2167e91f9cbfe21d9ccb1b69043962f3618eab",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 10,
+          "meshopt": true,
+          "rootEncodedSha256": "a76b3a652f58559c36fce8cd1b44c9650e3699a3751fab0a97926c7b28644e3b",
+          "publicEncodedSha256": "a76b3a652f58559c36fce8cd1b44c9650e3699a3751fab0a97926c7b28644e3b",
+          "metadataEqual": true
+        }
+      ],
+      "method": "Compare JSON meshes/nodes/skins/animations/accessors plus actual EXT_meshopt_compression encoded bytes and codec metadata; texture repacking shifts encoded offsets. Fallback buffer 1 is virtual and must not be read from BIN 0."
+    },
+    {
+      "family": "gate_supplier",
+      "root": {
+        "path": "artifacts/city-npc-models/gate_supplier/gate_supplier.glb",
+        "sha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403"
+      },
+      "public": {
+        "path": "public/models/npcs/gate_supplier.glb",
+        "sha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506"
+      },
+      "checks": {
+        "meshes": true,
+        "nodes": true,
+        "skins": true,
+        "animations": true,
+        "accessors": true,
+        "accessorEncodedBytes": true
+      },
+      "allNonTextureChecksPass": true,
+      "accessorBufferViewsChecked": 10,
+      "encodedViews": [
+        {
+          "bufferView": 1,
+          "meshopt": true,
+          "rootEncodedSha256": "d917f11512d0a8c1fdb0b7636181a3f222e7ce8aab6da48b941efd0282eb3c78",
+          "publicEncodedSha256": "d917f11512d0a8c1fdb0b7636181a3f222e7ce8aab6da48b941efd0282eb3c78",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 2,
+          "meshopt": true,
+          "rootEncodedSha256": "cde72abeb2fb39148ca7e5de3e6e9c6caa377e2e264d0cd69d49610f2533d3f4",
+          "publicEncodedSha256": "cde72abeb2fb39148ca7e5de3e6e9c6caa377e2e264d0cd69d49610f2533d3f4",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 3,
+          "meshopt": true,
+          "rootEncodedSha256": "e6208235c28038a5ceb0d90ad9807ce32c1096e3a7b2729e83560d5a74bb5de2",
+          "publicEncodedSha256": "e6208235c28038a5ceb0d90ad9807ce32c1096e3a7b2729e83560d5a74bb5de2",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 4,
+          "meshopt": true,
+          "rootEncodedSha256": "eb4cdf909c1e63cdd5ca364946346eb2a26d8b9003da65abf9e405dbe8157d76",
+          "publicEncodedSha256": "eb4cdf909c1e63cdd5ca364946346eb2a26d8b9003da65abf9e405dbe8157d76",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 5,
+          "meshopt": true,
+          "rootEncodedSha256": "6c34baa69a9ce2d557461a46667d2c8cea48e1fe43f98a8ef70de63ff6528cf0",
+          "publicEncodedSha256": "6c34baa69a9ce2d557461a46667d2c8cea48e1fe43f98a8ef70de63ff6528cf0",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 6,
+          "meshopt": true,
+          "rootEncodedSha256": "3aaebe8254e0a164c5c4b0f3a1b13d24506db2c30375cfb0c18df30347171125",
+          "publicEncodedSha256": "3aaebe8254e0a164c5c4b0f3a1b13d24506db2c30375cfb0c18df30347171125",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 7,
+          "meshopt": true,
+          "rootEncodedSha256": "ad67aea3cafda79ccabc3c0eb6cd7adac022f57d4ece6bab7b38f79f0987ecc9",
+          "publicEncodedSha256": "ad67aea3cafda79ccabc3c0eb6cd7adac022f57d4ece6bab7b38f79f0987ecc9",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 8,
+          "meshopt": true,
+          "rootEncodedSha256": "e3b10a31cb1f517f188f3c894582f8ddd47c9648838476fdf36f34ebaff19ae2",
+          "publicEncodedSha256": "e3b10a31cb1f517f188f3c894582f8ddd47c9648838476fdf36f34ebaff19ae2",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 9,
+          "meshopt": true,
+          "rootEncodedSha256": "3ff3260d51530d5c30e930758c7a1d162435a92c5fd4bf366d4d5ee304fc8088",
+          "publicEncodedSha256": "3ff3260d51530d5c30e930758c7a1d162435a92c5fd4bf366d4d5ee304fc8088",
+          "metadataEqual": true
+        },
+        {
+          "bufferView": 10,
+          "meshopt": true,
+          "rootEncodedSha256": "1393066fdf9ee9c56d2818d70f0193c6b95a40396bc0fb9c88114664c88f96b1",
+          "publicEncodedSha256": "1393066fdf9ee9c56d2818d70f0193c6b95a40396bc0fb9c88114664c88f96b1",
+          "metadataEqual": true
+        }
+      ],
+      "method": "Compare JSON meshes/nodes/skins/animations/accessors plus actual EXT_meshopt_compression encoded bytes and codec metadata; texture repacking shifts encoded offsets. Fallback buffer 1 is virtual and must not be read from BIN 0."
+    }
+  ],
+  "numeric": {
+    "passed": true,
+    "families": 17,
+    "totalSamples": 14561,
+    "pins": [
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/runtime-audit.json",
+        "sha256": "0df559e1f4f470ffe267948aaaa1fef50acf4c85b3774b153920b33a920de209"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/city_guard-runtime.json",
+        "sha256": "38580f5a5d3541fba929a7c2e2576fd0575d5aac64175360c9b7b4287a42a1f3"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/gate_supplier-runtime.json",
+        "sha256": "7372147dae3e0c2a1b01cb3e7f3a72e4400878dc3ac97da3d34c6410a1a2a145"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/catalog.snapshot.json",
+        "sha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/runtime-audit-helper.snapshot.mjs",
+        "sha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+      }
+    ],
+    "runtimeModules": [
+      {
+        "path": "src/entities/NPC.js",
+        "sha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+        "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCModels.js",
+        "sha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+        "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCModelRenderer.js",
+        "sha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+        "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCData.js",
+        "sha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+        "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+        "verified": true
+      },
+      {
+        "path": "src/npc/body/rig.js",
+        "sha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+        "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+        "verified": true
+      },
+      {
+        "path": "src/npc/body/gearParts.js",
+        "sha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+        "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+        "verified": true
+      },
+      {
+        "path": "src/data/npcs.js",
+        "sha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+        "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+        "verified": true
+      },
+      {
+        "path": "src/npc/body/blade.js",
+        "sha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+        "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCToolPresentation.js",
+        "sha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+        "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+        "verified": true
+      }
+    ],
+    "results": [
+      {
+        "family": "city_guard",
+        "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\city_guard\\city_guard.glb",
+        "sha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+        "sourceVerified": true,
+        "profileHash": "0e24e503616760ebfecc0f0c60faba4945cfd8e69bc5cc500f52553207e3b18d",
+        "passed": true,
+        "roles": [
+          {
+            "id": "guard_port",
+            "state": "idle",
+            "anim": "guard",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 249,
+              "activeSamples": 249,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8084772,
+              "maxEdgeExtension": 0.0217773,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0007819,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0283808
+            },
+            "propFloors": {
+              "spear": 0.005,
+              "spearTip": 2.375
+            }
+          },
+          {
+            "id": "guard_port",
+            "state": "idle",
+            "anim": "look",
+            "kind": "available-idle",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 253,
+              "activeSamples": 253,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8171545,
+              "maxEdgeExtension": 0.0220075,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0007819,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0283808
+            },
+            "propFloors": {
+              "spear": 0.005,
+              "spearTip": 2.375
+            }
+          },
+          {
+            "id": "guard_port",
+            "state": "talk",
+            "anim": "talk",
+            "kind": "actual-interaction",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 269,
+              "activeSamples": 269,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8126285,
+              "maxEdgeExtension": 0.0218506,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0004208,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.1102046
+            },
+            "propFloors": {
+              "spear": 0.005,
+              "spearTip": 2.375
+            }
+          },
+          {
+            "id": "guard_port",
+            "state": "walk",
+            "anim": "walk",
+            "kind": "native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 34,
+              "activeSamples": 34,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8528403,
+              "maxEdgeExtension": 0.0323171,
+              "maxSegmentDrift": 0.0000173,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001929,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.1588218
+            },
+            "propFloors": {
+              "spear": 0.2176869,
+              "spearTip": 2.1669875
+            }
+          },
+          {
+            "id": "guard_port",
+            "state": "walk",
+            "anim": "run",
+            "kind": "available-native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 22,
+              "activeSamples": 22,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8477938,
+              "maxEdgeExtension": 0.0301187,
+              "maxSegmentDrift": 0.0000184,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001948,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.2354065
+            },
+            "propFloors": {
+              "spear": 0.2134633,
+              "spearTip": 2.160921
+            }
+          }
+        ]
+      },
+      {
+        "family": "gate_supplier",
+        "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\gate_supplier\\gate_supplier.glb",
+        "sha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+        "sourceVerified": true,
+        "profileHash": "1ee8e2afa85935c3cb60975bc1add5dbdb64b90c7c03df0d4243f2fb41d1a270",
+        "passed": true,
+        "roles": [
+          {
+            "id": "gate_supplier",
+            "state": "work",
+            "anim": "sell",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 251,
+              "activeSamples": 251,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.7380841,
+              "maxEdgeExtension": 0.0189723,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001544,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0487878
+            },
+            "propFloors": {
+              "basket": 0.01
+            }
+          },
+          {
+            "id": "gate_supplier",
+            "state": "idle",
+            "anim": "look",
+            "kind": "available-idle",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 253,
+              "activeSamples": 253,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8277903,
+              "maxEdgeExtension": 0.018867,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0007343,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0127378
+            },
+            "propFloors": {
+              "basket": 0.01
+            }
+          },
+          {
+            "id": "gate_supplier",
+            "state": "talk",
+            "anim": "talk",
+            "kind": "actual-interaction",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 268,
+              "activeSamples": 268,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8159693,
+              "maxEdgeExtension": 0.0184893,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001544,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0636714
+            },
+            "propFloors": {
+              "basket": 0.01
+            }
+          },
+          {
+            "id": "gate_supplier",
+            "state": "walk",
+            "anim": "walk",
+            "kind": "native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 34,
+              "activeSamples": 34,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 2.0124468,
+              "maxEdgeExtension": 0.0318926,
+              "maxSegmentDrift": 0.0000202,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001487,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.1531351
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "gate_supplier",
+            "state": "walk",
+            "anim": "run",
+            "kind": "available-native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 22,
+              "activeSamples": 22,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.9723081,
+              "maxEdgeExtension": 0.0276541,
+              "maxSegmentDrift": 0.0000208,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0002225,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.1935658
+            },
+            "propFloors": {}
+          }
+        ]
+      }
+    ],
+    "limits": {
+      "bytes": 800000,
+      "targetTriangles": 12000,
+      "triangles": 16000,
+      "sampleHz": 30,
+      "edgeMinimum": 0.005,
+      "edgeRatio": 2,
+      "edgeExtension": 0.01,
+      "segmentDrift": 0.005,
+      "handDrift": 0.001,
+      "rootDrift": 0.001,
+      "hipStart": 0.005,
+      "loopPosition": 0.03,
+      "kneeBackward": 0.005,
+      "kneeFlexDegrees": 8,
+      "jointSpeed": 12,
+      "idleArmDegrees": 55,
+      "floor": -0.01
+    },
+    "sampling": {
+      "hz": 30,
+      "denseRoleSeconds": 8,
+      "additionalAuthoredSineExtrema": true,
+      "nativeKeys": true,
+      "nativeEndpoint": "actual production modulo wrap, plus pre-end sample",
+      "canonicalBodies": true
+    },
+    "scope": "Actual NPC.animate + NPCModelRenderer + createMeshy24NPCPoseAdapter; isolated QA approval/hash injection only, no registration/publication or family writes",
+    "catalogKeys": [
+      "schema",
+      "acceptance",
+      "families"
+    ],
+    "profileMatches": [
+      {
+        "family": "city_guard",
+        "match": true,
+        "serializedProfileSha256": "0e24e503616760ebfecc0f0c60faba4945cfd8e69bc5cc500f52553207e3b18d",
+        "keys": [
+          "schema",
+          "family",
+          "revision",
+          "geometryAssetSha256",
+          "assetSha256",
+          "qa",
+          "calibration",
+          "handScale",
+          "grips",
+          "sockets",
+          "normalization",
+          "bakedAccessories",
+          "inspectionOnly",
+          "productionApproved",
+          "inspectionProvenance"
+        ],
+        "geometryAssetSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+        "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+        "calibrationSourceHashes": {
+          "body": "526d8df0d719f26a472fc97a0ee579d1c0a0a8f3ca2538b6e1935bbed29905b6",
+          "walk": "2dbdfd7dcc369b038b9ff051d75ba161f857605d356d455e35a42a5734cdc01e",
+          "run": "4339a7b5f01085c0246db2b1796523d306de69d60764729073732f61f4480bc7"
+        }
+      },
+      {
+        "family": "gate_supplier",
+        "match": true,
+        "serializedProfileSha256": "1ee8e2afa85935c3cb60975bc1add5dbdb64b90c7c03df0d4243f2fb41d1a270",
+        "keys": [
+          "schema",
+          "family",
+          "revision",
+          "geometryAssetSha256",
+          "assetSha256",
+          "qa",
+          "calibration",
+          "handScale",
+          "grips",
+          "sockets",
+          "normalization",
+          "bakedAccessories",
+          "inspectionOnly",
+          "productionApproved",
+          "inspectionProvenance"
+        ],
+        "geometryAssetSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+        "assetSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+        "calibrationSourceHashes": {
+          "body": "7ebbbf418f7979279a4927b1ba0ccb5270878122fab60c8e061e21edc3b49fe3",
+          "walk": "c27360bd028add2f50fc5d6027f0736bc4f89277573813b9b8605b06663a4302",
+          "run": "bc9e2c6d46a073c2055ebc76d1cfb686ca215128445057cdb38b0edcc6a05821"
+        }
+      }
+    ]
+  },
+  "validation": {
+    "build": "npm run build PASS; existing large-chunk warning",
+    "browserOpenedByReviewer": false,
+    "codeEdits": false
+  },
+  "limitations": [
+    "Only these two families visually approved; other 15 batch families not approved by this report.",
+    "Single captured lighting/neutral review ground; no full city/night approval.",
+    "Hand side views can occlude thumb/web and distal fingers. No centroid, PCA or numeric grip certification.",
+    "Captured native gait phases are not proof of continuous foot plant or collision-free motion at every instant.",
+    "Guard rear inner helmet/hair contact partly occluded; no historical hat authenticity claim.",
+    "QA helper gameplay-qa.mjs changed after capture; exact stable capture hashes retained alongside current hashes."
+  ]
+}
