@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "croc_boots",
+  "family": "equip:croc_boots",
+  "memberIDs": [
+    "croc_boots"
+  ],
+  "name": "รองเท้าหนังจระเข้",
+  "type": "equip",
+  "levels": [
+    15
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-5c295a39-494a-4caf-a6b2-1c4501f77a27.png",
+  "prompt": "One isolated Thai fantasy inventory footwear icon: Pair of crocodile-hide leather boots; distinct cuffs and soles, sparse scale texture. Pair of dark olive-green crocodile-hide boots, medium-height thick rolled cuffs, brown tough soles, chunky reptile-scale leather panels on toes and shafts, small restrained aged brass strap buckles with sparse water-wave motif. Practical level15 marsh footwear clearly crocodile material distinct from plain brown leather boots. No armored metal greaves, no jewels, no character feet. Soft hand-painted stylized broad forms readable32px. Entire pair centered square15% safe transparent margins. Genuine alpha background. No labels, text, digits, UI frames, badges, floor shadows or scene.",
+  "master": "docs/art/items/painted-complete-v1/masters/croc_boots.png",
+  "masterSha256": "77465adfc4086365ff6726d62e3931df7be9f3a6f2f91a91f5dc6c378b649271",
+  "originalSha256": "77465adfc4086365ff6726d62e3931df7be9f3a6f2f91a91f5dc6c378b649271",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/croc_boots.webp",
+  "sha256": "82721797b6820ab235c319b077a0c06000542fa7ae854e9c0723aea40f76d189",
+  "bytes": 21688,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

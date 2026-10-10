@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_giant_valley_head_guard",
+  "family": "hunt:giant_valley:head",
+  "memberIDs": [
+    "hunt_giant_valley_head_guard",
+    "hunt_giant_valley_head_sage",
+    "hunt_giant_valley_head_hunter"
+  ],
+  "name": "ผ้าโพกศีรษะผู้พิทักษ์ · หุบเขายักษ์",
+  "type": "equip",
+  "levels": [
+    60
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-91576ea6-e98c-41f9-8744-51b778b1b869.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Folded cloth head wrap; no metal helmet. Existing name: ผ้าโพกศีรษะผู้พิทักษ์ · หุบเขายักษ์. เครื่องสวมใส่สายผู้พิทักษ์แห่งหุบเขายักษ์ · ต้องการ Lv.60 Region giant_valley. Minimum level 60; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_giant_valley_head_guard.png",
+  "masterSha256": "b45f94f25e093de09697c17fd0d1b98def903d86fdf3a44593c5e3f363bfcfd7",
+  "originalSha256": "b45f94f25e093de09697c17fd0d1b98def903d86fdf3a44593c5e3f363bfcfd7",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_giant_valley_head_guard.webp",
+  "sha256": "1e19ef63bab99d0ad6043a0d24f4be9751a11b79d96e56ebbf1872fd4832443a",
+  "bytes": 15494,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

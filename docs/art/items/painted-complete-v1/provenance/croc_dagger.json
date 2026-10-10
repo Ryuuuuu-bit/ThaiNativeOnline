@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "croc_dagger",
+  "family": "equip:croc_dagger",
+  "memberIDs": [
+    "croc_dagger"
+  ],
+  "name": "มีดคู่เขี้ยวจระเข้",
+  "type": "equip",
+  "levels": [
+    15
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-4be895e2-c217-4789-8c9e-1ab2b9cb4360.png",
+  "prompt": "One isolated Thai fantasy inventory dual weapon icon: Pair of short Thai blades; two unmistakable daggers. Existing name: มีดคู่เขี้ยวจระเข้. มีดคู่ทำจากเขี้ยวจระเข้บึง โค้งคมทั้งสองเล่ม  Minimum level 15; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate.  Two short sharp curved ivory crocodile-fang daggers crossed diagonally, clearly two separate thick fang blades with tapered hooks, dark marsh-green crocodile hide wrapped handles and small aged brass root collars. Level15 marsh blades made from crocodile teeth, distinct from porous ghost-bone daggers, no steel sword blades or giant animal jaw. Soft hand-painted stylized broad clear forms legible32px. Entire pair centered square with generous15% safe transparent margins. Genuine alpha background. No letters, labels, text, numbers, UI frame, badges, scene, person or floor shadows.",
+  "master": "docs/art/items/painted-complete-v1/masters/croc_dagger.png",
+  "masterSha256": "2abdbdcb93a8daae52e88071b08dfc3f7d588fb58fbdee82252e401baa0851a3",
+  "originalSha256": "2abdbdcb93a8daae52e88071b08dfc3f7d588fb58fbdee82252e401baa0851a3",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/croc_dagger.webp",
+  "sha256": "a62b5410d38520a11298efec3e9e102e52fde42222e4da16e1824f45ac57ae69",
+  "bytes": 14328,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

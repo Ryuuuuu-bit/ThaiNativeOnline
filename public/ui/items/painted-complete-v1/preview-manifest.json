@@ -1,11 +1,11 @@
 {
   "summary": {
     "plannedNewMasters": 333,
-    "completedNewMasters": 155,
+    "completedNewMasters": 200,
     "reusedApprovedMasters": 15,
-    "mappedIDs": 244,
+    "mappedIDs": 331,
     "activeIDs": 516,
-    "pendingMasters": 178
+    "pendingMasters": 133
   },
   "items": [
     {
@@ -1037,6 +1037,295 @@
       "bytes": 16406
     },
     {
+      "id": "hunt_grove_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · ดงไผ่",
+      "type": "equip",
+      "levels": [
+        6
+      ],
+      "memberIDs": [
+        "hunt_grove_cape_guard",
+        "hunt_grove_cape_sage",
+        "hunt_grove_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_grove_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18038
+    },
+    {
+      "id": "hunt_grove_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · ดงไผ่",
+      "type": "equip",
+      "levels": [
+        6
+      ],
+      "memberIDs": [
+        "hunt_grove_charm_guard",
+        "hunt_grove_charm_sage",
+        "hunt_grove_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_grove_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 25524
+    },
+    {
+      "id": "hunt_temple_head_guard",
+      "name": "ผ้าโพกศีรษะผู้พิทักษ์ · วัดร้าง",
+      "type": "equip",
+      "levels": [
+        12
+      ],
+      "memberIDs": [
+        "hunt_temple_head_guard",
+        "hunt_temple_head_sage",
+        "hunt_temple_head_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_temple_head_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15414
+    },
+    {
+      "id": "hunt_temple_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · วัดร้าง",
+      "type": "equip",
+      "levels": [
+        12
+      ],
+      "memberIDs": [
+        "hunt_temple_cape_guard",
+        "hunt_temple_cape_sage",
+        "hunt_temple_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_temple_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18350
+    },
+    {
+      "id": "hunt_temple_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · วัดร้าง",
+      "type": "equip",
+      "levels": [
+        12
+      ],
+      "memberIDs": [
+        "hunt_temple_charm_guard",
+        "hunt_temple_charm_sage",
+        "hunt_temple_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_temple_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 23666
+    },
+    {
+      "id": "hunt_marsh_head_guard",
+      "name": "ผ้าโพกศีรษะผู้พิทักษ์ · บึงอาคม",
+      "type": "equip",
+      "levels": [
+        18
+      ],
+      "memberIDs": [
+        "hunt_marsh_head_guard",
+        "hunt_marsh_head_sage",
+        "hunt_marsh_head_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_marsh_head_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15778
+    },
+    {
+      "id": "hunt_marsh_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · บึงอาคม",
+      "type": "equip",
+      "levels": [
+        18
+      ],
+      "memberIDs": [
+        "hunt_marsh_cape_guard",
+        "hunt_marsh_cape_sage",
+        "hunt_marsh_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_marsh_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18636
+    },
+    {
+      "id": "hunt_marsh_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · บึงอาคม",
+      "type": "equip",
+      "levels": [
+        18
+      ],
+      "memberIDs": [
+        "hunt_marsh_charm_guard",
+        "hunt_marsh_charm_sage",
+        "hunt_marsh_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_marsh_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20208
+    },
+    {
+      "id": "hunt_bamboo_grave_head_guard",
+      "name": "ผ้าโพกศีรษะผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "hunt_bamboo_grave_head_guard",
+        "hunt_bamboo_grave_head_sage",
+        "hunt_bamboo_grave_head_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_head_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14290
+    },
+    {
+      "id": "hunt_bamboo_grave_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "hunt_bamboo_grave_cape_guard",
+        "hunt_bamboo_grave_cape_sage",
+        "hunt_bamboo_grave_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15418
+    },
+    {
+      "id": "hunt_bamboo_grave_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · ป่าช้าไผ่ดำ",
+      "type": "equip",
+      "levels": [
+        23
+      ],
+      "memberIDs": [
+        "hunt_bamboo_grave_charm_guard",
+        "hunt_bamboo_grave_charm_sage",
+        "hunt_bamboo_grave_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_bamboo_grave_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19550
+    },
+    {
+      "id": "hunt_sealed_mine_head_guard",
+      "name": "ผ้าโพกศีรษะผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "hunt_sealed_mine_head_guard",
+        "hunt_sealed_mine_head_sage",
+        "hunt_sealed_mine_head_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_head_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17860
+    },
+    {
+      "id": "hunt_sealed_mine_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "hunt_sealed_mine_cape_guard",
+        "hunt_sealed_mine_cape_sage",
+        "hunt_sealed_mine_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19316
+    },
+    {
+      "id": "hunt_sealed_mine_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · เหมืองอาคมร้าง",
+      "type": "equip",
+      "levels": [
+        30
+      ],
+      "memberIDs": [
+        "hunt_sealed_mine_charm_guard",
+        "hunt_sealed_mine_charm_sage",
+        "hunt_sealed_mine_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_sealed_mine_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20178
+    },
+    {
+      "id": "hunt_sunken_city_head_guard",
+      "name": "ผ้าโพกศีรษะผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "hunt_sunken_city_head_guard",
+        "hunt_sunken_city_head_sage",
+        "hunt_sunken_city_head_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_sunken_city_head_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 16562
+    },
+    {
+      "id": "hunt_sunken_city_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "hunt_sunken_city_cape_guard",
+        "hunt_sunken_city_cape_sage",
+        "hunt_sunken_city_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_sunken_city_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19314
+    },
+    {
+      "id": "hunt_sunken_city_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · นครบาดาล",
+      "type": "equip",
+      "levels": [
+        40
+      ],
+      "memberIDs": [
+        "hunt_sunken_city_charm_guard",
+        "hunt_sunken_city_charm_sage",
+        "hunt_sunken_city_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_sunken_city_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24672
+    },
+    {
       "id": "hunt_dusk_fort_head_sage",
       "name": "ผ้าโพกศีรษะผู้จารอาคม · ป้อมอสูรสนธยา",
       "type": "equip",
@@ -1069,6 +1358,74 @@
       "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
+    },
+    {
+      "id": "hunt_dusk_fort_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · ป้อมอสูรสนธยา",
+      "type": "equip",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "hunt_dusk_fort_charm_guard",
+        "hunt_dusk_fort_charm_sage",
+        "hunt_dusk_fort_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_dusk_fort_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20170
+    },
+    {
+      "id": "hunt_giant_valley_head_guard",
+      "name": "ผ้าโพกศีรษะผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "hunt_giant_valley_head_guard",
+        "hunt_giant_valley_head_sage",
+        "hunt_giant_valley_head_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_giant_valley_head_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15494
+    },
+    {
+      "id": "hunt_giant_valley_cape_guard",
+      "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "hunt_giant_valley_cape_guard",
+        "hunt_giant_valley_cape_sage",
+        "hunt_giant_valley_cape_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_giant_valley_cape_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17518
+    },
+    {
+      "id": "hunt_giant_valley_charm_guard",
+      "name": "ตะกรุดถักเชือกผู้พิทักษ์ · หุบเขายักษ์",
+      "type": "equip",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "hunt_giant_valley_charm_guard",
+        "hunt_giant_valley_charm_sage",
+        "hunt_giant_valley_charm_hunter"
+      ],
+      "image": "/ui/items/painted-complete-v1/hunt_giant_valley_charm_guard.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24116
     },
     {
       "id": "wear_bamboo_grave_belt_guard",
@@ -2003,6 +2360,231 @@
       "bytes": 18850
     },
     {
+      "id": "flask_boss_sunken_city_3_mp_6",
+      "name": "นาคราชเฝ้าประตู · ขวดน้ำมนต์ฟื้นจิต ขั้น 6",
+      "type": "flask",
+      "levels": [
+        50
+      ],
+      "memberIDs": [
+        "flask_boss_sunken_city_3_mp_6"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_sunken_city_3_mp_6.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 12916
+    },
+    {
+      "id": "flask_boss_dusk_fort_3_hp_7",
+      "name": "เจ้าอสูรสนธยา · ขวดน้ำยาชุบชีพ ขั้น 7",
+      "type": "flask",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "flask_boss_dusk_fort_3_hp_7"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_dusk_fort_3_hp_7.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 22868
+    },
+    {
+      "id": "flask_boss_dusk_fort_3_mp_7",
+      "name": "เจ้าอสูรสนธยา · ขวดน้ำมนต์ฟื้นจิต ขั้น 7",
+      "type": "flask",
+      "levels": [
+        60
+      ],
+      "memberIDs": [
+        "flask_boss_dusk_fort_3_mp_7"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_dusk_fort_3_mp_7.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17150
+    },
+    {
+      "id": "flask_boss_giant_valley_3_hp_8",
+      "name": "ยักษ์เฝ้าหุบเขา · ขวดน้ำยาชุบชีพ ขั้น 8",
+      "type": "flask",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "flask_boss_giant_valley_3_hp_8"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_giant_valley_3_hp_8.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26588
+    },
+    {
+      "id": "flask_boss_giant_valley_3_mp_8",
+      "name": "ยักษ์เฝ้าหุบเขา · ขวดน้ำมนต์ฟื้นจิต ขั้น 8",
+      "type": "flask",
+      "levels": [
+        70
+      ],
+      "memberIDs": [
+        "flask_boss_giant_valley_3_mp_8"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_giant_valley_3_mp_8.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18272
+    },
+    {
+      "id": "flask_boss_himmapan_3_hp_9",
+      "name": "พญาปักษาทมิฬ · ขวดน้ำยาชุบชีพ ขั้น 9",
+      "type": "flask",
+      "levels": [
+        80
+      ],
+      "memberIDs": [
+        "flask_boss_himmapan_3_hp_9"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_himmapan_3_hp_9.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 20986
+    },
+    {
+      "id": "flask_boss_himmapan_3_mp_9",
+      "name": "พญาปักษาทมิฬ · ขวดน้ำมนต์ฟื้นจิต ขั้น 9",
+      "type": "flask",
+      "levels": [
+        80
+      ],
+      "memberIDs": [
+        "flask_boss_himmapan_3_mp_9"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_himmapan_3_mp_9.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18048
+    },
+    {
+      "id": "flask_boss_fallen_city_3_hp_10",
+      "name": "ขุนพลอาคม · ขวดน้ำยาชุบชีพ ขั้น 10",
+      "type": "flask",
+      "levels": [
+        90
+      ],
+      "memberIDs": [
+        "flask_boss_fallen_city_3_hp_10"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_fallen_city_3_hp_10.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19324
+    },
+    {
+      "id": "flask_boss_fallen_city_3_mp_10",
+      "name": "ขุนพลอาคม · ขวดน้ำมนต์ฟื้นจิต ขั้น 10",
+      "type": "flask",
+      "levels": [
+        90
+      ],
+      "memberIDs": [
+        "flask_boss_fallen_city_3_mp_10"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_fallen_city_3_mp_10.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14756
+    },
+    {
+      "id": "flask_boss_demon_rift_3_hp_11",
+      "name": "เจ้าอสูรรอยแยก · ขวดน้ำยาชุบชีพ ขั้น 11",
+      "type": "flask",
+      "levels": [
+        100
+      ],
+      "memberIDs": [
+        "flask_boss_demon_rift_3_hp_11"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_demon_rift_3_hp_11.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24072
+    },
+    {
+      "id": "flask_boss_demon_rift_3_mp_11",
+      "name": "เจ้าอสูรรอยแยก · ขวดน้ำมนต์ฟื้นจิต ขั้น 11",
+      "type": "flask",
+      "levels": [
+        100
+      ],
+      "memberIDs": [
+        "flask_boss_demon_rift_3_mp_11"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_demon_rift_3_mp_11.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15972
+    },
+    {
+      "id": "flask_boss_pop_hp_2",
+      "name": "ปอบ · ขวดน้ำยาชุบชีพ ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_boss_pop_hp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_pop_hp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 18340
+    },
+    {
+      "id": "flask_boss_pop_mp_2",
+      "name": "ปอบ · ขวดน้ำมนต์ฟื้นจิต ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_boss_pop_mp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_pop_mp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14210
+    },
+    {
+      "id": "flask_boss_pusom_hp_2",
+      "name": "ผีปู่โสม · ขวดน้ำยาชุบชีพ ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_boss_pusom_hp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_pusom_hp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21484
+    },
+    {
+      "id": "flask_boss_pusom_mp_2",
+      "name": "ผีปู่โสม · ขวดน้ำมนต์ฟื้นจิต ขั้น 2",
+      "type": "flask",
+      "levels": [
+        10
+      ],
+      "memberIDs": [
+        "flask_boss_pusom_mp_2"
+      ],
+      "image": "/ui/items/painted-complete-v1/flask_boss_pusom_mp_2.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 15428
+    },
+    {
       "id": "flask_boss_ghost_black_hp_11",
       "name": "ผีชุดดำ · ขวดน้ำยาชุบชีพ ขั้น 11",
       "type": "flask",
@@ -2603,6 +3185,66 @@
       "bytes": 21704
     },
     {
+      "id": "croc_dagger",
+      "name": "มีดคู่เขี้ยวจระเข้",
+      "type": "equip",
+      "levels": [
+        15
+      ],
+      "memberIDs": [
+        "croc_dagger"
+      ],
+      "image": "/ui/items/painted-complete-v1/croc_dagger.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 14328
+    },
+    {
+      "id": "croc_armor",
+      "name": "เกราะเกล็ดจระเข้",
+      "type": "equip",
+      "levels": [
+        15
+      ],
+      "memberIDs": [
+        "croc_armor"
+      ],
+      "image": "/ui/items/painted-complete-v1/croc_armor.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 28524
+    },
+    {
+      "id": "croc_boots",
+      "name": "รองเท้าหนังจระเข้",
+      "type": "equip",
+      "levels": [
+        15
+      ],
+      "memberIDs": [
+        "croc_boots"
+      ],
+      "image": "/ui/items/painted-complete-v1/croc_boots.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 21688
+    },
+    {
+      "id": "chalawan_fang",
+      "name": "เขี้ยวชาละวัน",
+      "type": "equip",
+      "levels": [
+        25
+      ],
+      "memberIDs": [
+        "chalawan_fang"
+      ],
+      "image": "/ui/items/painted-complete-v1/chalawan_fang.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17480
+    },
+    {
       "id": "bia_kae",
       "name": "เบี้ยแก้",
       "type": "equip",
@@ -2618,6 +3260,21 @@
       "bytes": null
     },
     {
+      "id": "pha_yant",
+      "name": "ผ้ายันต์ห้าแถว",
+      "type": "equip",
+      "levels": [
+        5
+      ],
+      "memberIDs": [
+        "pha_yant"
+      ],
+      "image": "/ui/items/painted-complete-v1/pha_yant.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 17546
+    },
+    {
       "id": "prakam",
       "name": "ลูกประคำไม้กฤษณา",
       "type": "equip",
@@ -2631,6 +3288,66 @@
       "origin": "reuse",
       "status": "อนุมัติแล้ว",
       "bytes": null
+    },
+    {
+      "id": "card_boar",
+      "name": "การ์ดหมูป่า",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_boar"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_boar.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 26986
+    },
+    {
+      "id": "card_monkey",
+      "name": "การ์ดลิงกัง",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_monkey"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_monkey.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24590
+    },
+    {
+      "id": "card_fowl",
+      "name": "การ์ดไก่ป่า",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_fowl"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_fowl.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 24820
+    },
+    {
+      "id": "card_cobra",
+      "name": "การ์ดงูเห่านา",
+      "type": "card",
+      "levels": [
+        1
+      ],
+      "memberIDs": [
+        "card_cobra"
+      ],
+      "image": "/ui/items/painted-complete-v1/card_cobra.webp",
+      "origin": "new",
+      "status": "รอตรวจภาพ",
+      "bytes": 19254
     }
   ]
 }

@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_dusk_fort_charm_guard",
+  "family": "hunt:dusk_fort:charm",
+  "memberIDs": [
+    "hunt_dusk_fort_charm_guard",
+    "hunt_dusk_fort_charm_sage",
+    "hunt_dusk_fort_charm_hunter"
+  ],
+  "name": "ตะกรุดถักเชือกผู้พิทักษ์ · ป้อมอสูรสนธยา",
+  "type": "equip",
+  "levels": [
+    50
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-e4999adc-f419-4a36-8a7a-cb534ceea6a4.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: ตะกรุดถักเชือกผู้พิทักษ์ · ป้อมอสูรสนธยา. Existing name: ตะกรุดถักเชือกผู้พิทักษ์ · ป้อมอสูรสนธยา. เครื่องสวมใส่สายผู้พิทักษ์แห่งป้อมอสูรสนธยา · ต้องการ Lv.50 Region dusk_fort. Minimum level 50; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_dusk_fort_charm_guard.png",
+  "masterSha256": "1901ae9927eac6cf8a39d68daa6edea4ecbac49e61650902604ed086e7b5c438",
+  "originalSha256": "1901ae9927eac6cf8a39d68daa6edea4ecbac49e61650902604ed086e7b5c438",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_dusk_fort_charm_guard.webp",
+  "sha256": "f3602cc08b15d75813373f9959608508491a60479a512099c38d4d7416973060",
+  "bytes": 20170,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
