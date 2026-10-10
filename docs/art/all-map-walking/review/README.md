@@ -54,7 +54,9 @@ parity 8.5/10. Review covered fourteen top-down maps plus Game and side-loop vie
 An earlier concurrent full run had an unrelated world-boss day-window timing
 failure. Its isolated 2/2 rerun and the final full suite passed without source
 changes. See [technical report](../../../technical/ALL_MAP_WALKABILITY.md)
-and `comparison.json`, `service-access.json`, `world-before.json`, `world-after.json`.
+and the compact `comparison.json` and `service-access.json` receipts. Full raw
+sample reports remain local under `artifacts/all-map-walking/before/report.json`
+and `artifacts/all-map-walking/after/report.json`; the audit tools reproduce them.
 
 Solid scenery, deep water and map boundaries remain blocked. Every NPC schedule
 and purchase flow was not exercised. This review does not include deployment.
