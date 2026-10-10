@@ -150,3 +150,31 @@ test('explicit equipment action retains the online operation contract, without s
   assert.equal(sent.length, 1); assert.equal(sent[0].t, 'op'); assert.equal(sent[0].op, 'use'); assert.equal(sent[0].id, 'iron_dap');
 });
 
+test('equipment drag refuses wrong slots, stale instances, class and level restrictions without mutation', () => {
+  const { c, panel } = harness(); c.addItem('iron_dap');
+  const index = c.inventory.findIndex(s => s?.id === 'iron_dap');
+  const start = () => panel.startEquipmentDrag({ dataTransfer: { setData() {} }, preventDefault() {} }, index);
+  start(); const before = JSON.stringify(c.toJSON());
+  assert.equal(panel.dropEquipment('head'), false); assert.equal(JSON.stringify(c.toJSON()), before);
+  start(); c.inventory[index] = { ...c.inventory[index], plus: 3 };
+  const updated = JSON.stringify(c.toJSON());
+  assert.equal(panel.dropEquipment('weapon'), false); assert.equal(JSON.stringify(c.toJSON()), updated);
+  start(); c.level = 0; assert.equal(panel.equipmentDropAllowed('weapon'), false);
+  c.level = 100; c.canWield = () => false; assert.equal(panel.equipmentDropAllowed('weapon'), false);
+});
+
+test('equipment drag uses authoritative use operation once and respects automatic ring destination', () => {
+  const { c, panel } = harness(); c.addItem('iron_dap');
+  const index = c.inventory.findIndex(s => s?.id === 'iron_dap');
+  const sent = [], net = new Emitter(); net.online = true; net.send = msg => sent.push(msg);
+  attachNetProgress(net, c); net.emit('sync', { c: { ...c.toJSON(), ack: 0 } });
+  panel.startEquipmentDrag({ dataTransfer: { setData() {} }, preventDefault() {} }, index);
+  assert.equal(panel.equipmentDropAllowed('weapon'), true); assert.equal(sent.length, 0);
+  panel.dropEquipment('weapon'); panel.dropEquipment('weapon');
+  assert.equal(sent.length, 1); assert.equal(sent[0].op, 'use'); assert.equal(sent[0].id, 'iron_dap');
+  const local = harness(), charm = Object.keys(ITEMS).find(id => ITEMS[id].type === 'equip' && ITEMS[id].slot === 'charm' && !ITEMS[id].retired && (ITEMS[id].minLevel ?? 1) <= local.c.level);
+  local.c.equipment.charm = charm; local.c.addItem(charm);
+  local.panel.startEquipmentDrag({ dataTransfer: { setData() {} }, preventDefault() {} }, local.c.inventory.findIndex(s => s?.id === charm));
+  assert.equal(local.panel.equipmentDropAllowed('charm'), false); assert.equal(local.panel.equipmentDropAllowed('charm2'), true);
+});
+
