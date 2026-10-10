@@ -1,0 +1,3174 @@
+{
+  "schema": 1,
+  "kind": "bounded-npc-art-tech-followup",
+  "reviewedDate": "2026-10-10",
+  "captureLabel": "stowed-tools-current-2",
+  "previousReview": "docs/art/npcs/reviews/STOWED_TOOLS_ART_REVIEW.json",
+  "verdict": "SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+  "finalApproval": false,
+  "automaticPassFromTests": false,
+  "summary": "All five earlier P2 presentation findings closed on actual current-2 images. Optional P3 tool suspension remains. No new P2 established in inspected samples.",
+  "scope": {
+    "families": [
+      "master_sword",
+      "master_bandit",
+      "enhancer",
+      "master_hunter",
+      "boatman"
+    ],
+    "excluded": "All other families, including keeper, novice, guards and suppliers; no extension to all 17.",
+    "ownedFiles": [
+      "docs/art/npcs/reviews/STOWED_TOOLS_ART_REVIEW_2.md",
+      "docs/art/npcs/reviews/STOWED_TOOLS_ART_REVIEW_2.json"
+    ],
+    "codeEdited": false,
+    "newCaptureLaunched": false,
+    "browserLaunched": false,
+    "blenderLaunched": false,
+    "paidCalls": false
+  },
+  "validation": {
+    "pngCount": 166,
+    "pngHashesMatched": 166,
+    "visuallyInspected": 71,
+    "hashOnly": 95,
+    "bodyHashesUnchangedFromReview1": true,
+    "reportsCapturePassed": true,
+    "browsersClosed": true,
+    "registryActiveNativeReceipts": 160,
+    "sourceRestImages": 6,
+    "nativeClipsReported": [
+      "idle",
+      "walk"
+    ],
+    "sourceRestVisuallyReinspected": false,
+    "captureOrNumericFixturesUsedForArtClosure": false,
+    "build": {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "PASS",
+      "warning": "Bundle chunk exceeds 500 kB; no performance approval.",
+      "output": "\n> thai-native-online@0.1.0 build\n> vite build\n\nvite v8.3.2 building client environment for production...\ntransforming...\n✓ 261 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   17.51 kB │ gzip:   5.12 kB\ndist/assets/main-BFln_JQ3.css    251.00 kB │ gzip:  52.73 kB\ndist/assets/main-D7O0B-sI.js   1,933.87 kB │ gzip: 580.97 kB\n\n✓ built in 427ms\n[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+    },
+    "finalRevalidation": [
+      {
+        "family": "master_sword",
+        "reportSha256": "a4aba290e34140de6603a4df3a5495f08e902605c68cedafc5aeeb78facc7b4f",
+        "bodySha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+        "pngCount": 38,
+        "pngMismatches": [],
+        "moduleMismatches": [
+          {
+            "path": "tools/npc-models/gameplay-qa.mjs",
+            "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+          },
+          {
+            "path": "artifacts/city-npc-models/candidate-profiles.json",
+            "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+          }
+        ]
+      },
+      {
+        "family": "master_bandit",
+        "reportSha256": "23887df0ec9c3b6694e38b8c0f98e381edfe96fb3cda21435a09b9ada47650e6",
+        "bodySha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+        "pngCount": 32,
+        "pngMismatches": [],
+        "moduleMismatches": [
+          {
+            "path": "tools/npc-models/gameplay-qa.mjs",
+            "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+          },
+          {
+            "path": "artifacts/city-npc-models/candidate-profiles.json",
+            "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+          }
+        ]
+      },
+      {
+        "family": "enhancer",
+        "reportSha256": "ac6492ff6d3e7f11a22fb3b9eafed5ad1e96d7a7dc9fd9e9d9deecc3f928c271",
+        "bodySha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+        "pngCount": 32,
+        "pngMismatches": [],
+        "moduleMismatches": [
+          {
+            "path": "tools/npc-models/gameplay-qa.mjs",
+            "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+          },
+          {
+            "path": "artifacts/city-npc-models/candidate-profiles.json",
+            "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+          }
+        ]
+      },
+      {
+        "family": "master_hunter",
+        "reportSha256": "e0d77ea4f297ff470ccab6f5fc0fe9907f8cf685828d2b6907f699f67a4a9e20",
+        "bodySha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+        "pngCount": 32,
+        "pngMismatches": [],
+        "moduleMismatches": [
+          {
+            "path": "tools/npc-models/gameplay-qa.mjs",
+            "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+          },
+          {
+            "path": "artifacts/city-npc-models/candidate-profiles.json",
+            "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+          }
+        ]
+      },
+      {
+        "family": "boatman",
+        "reportSha256": "ed00f57e5b7d56d90555a264ba604259257c70ecb3a87bc6724cc0b973fafff3",
+        "bodySha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+        "pngCount": 32,
+        "pngMismatches": [],
+        "moduleMismatches": [
+          {
+            "path": "tools/npc-models/gameplay-qa.mjs",
+            "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+            "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+          },
+          {
+            "path": "artifacts/city-npc-models/candidate-profiles.json",
+            "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+            "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+          }
+        ]
+      }
+    ],
+    "current2Only": "Capture module hashes were stable and matched current files at initial audit. Parent changed candidate-profiles.json and gameplay-qa.mjs during review; exact capture/current pins are recorded. Verdict stays on captured current-2."
+  },
+  "scores": [
+    {
+      "family": "master_sword",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "scale": 10,
+      "recommendation": "Ready for separate parent inspection/approval",
+      "basis": "Distinct indigo/crimson costume and long covered sword silhouette; sampled floor clearance; optional support and palm/guard recheck."
+    },
+    {
+      "family": "master_bandit",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "scale": 10,
+      "recommendation": "Ready for separate parent inspection/approval",
+      "basis": "Bare native hair/face readable, black/crimson costume and hip knife preserved; sheath partly occluded by hand/sash."
+    },
+    {
+      "family": "enhancer",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "scale": 10,
+      "recommendation": "Ready for separate parent inspection/approval",
+      "basis": "Oxblood/gold blocks, unobscured face and hanging hammer readable; optional belt suspension."
+    },
+    {
+      "family": "master_hunter",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "scale": 10,
+      "recommendation": "Ready for separate parent inspection/approval",
+      "basis": "Hair/eyes exposed and pack removed; full bow curve visible from back/angled views, side stand-off remains optional polish."
+    },
+    {
+      "family": "boatman",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "scale": 10,
+      "recommendation": "Ready for separate parent inspection/approval",
+      "basis": "Ngob/river-worker costume and large blade recognizable; carried paddle clears hat in inspected multi-view samples, stationary blade stays at floor; face shaded by brim."
+    }
+  ],
+  "scoreLimits": "Art Bible >=8/10 targets applied to bounded costume/tool presentation at body scale. Technical score is sampled visible usability, not continuous collision clearance, planted feet, skin strain, grasp, seating or runtime performance.",
+  "findings": [
+    {
+      "id": "ST-01",
+      "priority": "P2",
+      "status": "CLOSED_ON_CURRENT_2_IMAGES",
+      "families": [
+        "master_hunter"
+      ],
+      "title": "Hunter cap obscured brow/eyes",
+      "resolution": "The bulbous clothHat is absent. Native hair, forehead and eyes are visible in inspected front, side, talk/idle three-quarter and prop-front views.",
+      "policy": {
+        "suppressedAccessories": [
+          "clothHat",
+          "pack"
+        ],
+        "provenance": "Explicit suppression; no baked-accessory inference."
+      },
+      "evidence": [
+        "master_hunter-idle-0_5-front",
+        "master_hunter-idle-0_5-threequarter",
+        "master_hunter-talk-0_5-threequarter",
+        "master_hunter-work-aim-0_5-side",
+        "master_hunter-work-aim-prop-bow-front"
+      ]
+    },
+    {
+      "id": "ST-02",
+      "priority": "P2",
+      "status": "CLOSED_ON_CURRENT_2_IMAGES",
+      "families": [
+        "master_bandit"
+      ],
+      "title": "Bandit raised headband",
+      "resolution": "The floating red ring and raised tails are absent in front/back/side, talk, lean and walking samples; native crown silhouette remains.",
+      "policy": {
+        "suppressedAccessories": [
+          "headband"
+        ],
+        "provenance": "Explicit suppression; no baked-accessory inference."
+      },
+      "evidence": [
+        "master_bandit-idle-0_5-front",
+        "master_bandit-idle-0_5-back",
+        "master_bandit-idle-lean-0_5-side",
+        "master_bandit-talk-0_5-threequarter",
+        "master_bandit-walk-0_75-side"
+      ]
+    },
+    {
+      "id": "ST-03",
+      "priority": "P2",
+      "status": "CLOSED_ON_CURRENT_2_IMAGES",
+      "families": [
+        "master_hunter"
+      ],
+      "title": "Hunter pack obscured bow and floated behind torso",
+      "resolution": "The rectangular pack is absent, eliminating that object's gap and occlusion. The bow's continuous curve is visible across the back and beside the torso in angled views. Edge-on bow remains rod-like and has a visible stand-off without a bridging strap: optional suspension polish, not a claim of physical support.",
+      "policy": {
+        "suppressedAccessories": [
+          "clothHat",
+          "pack"
+        ],
+        "provenance": "Explicit suppression; no baked-pack inference."
+      },
+      "evidence": [
+        "master_hunter-walk-0_5-back",
+        "master_hunter-work-aim-0_5-back",
+        "master_hunter-idle-0_5-threequarter",
+        "master_hunter-work-aim-prop-bow-side",
+        "master_hunter-walk-0_5-gameplay"
+      ]
+    },
+    {
+      "id": "ST-04",
+      "priority": "P2",
+      "status": "CLOSED_ON_CURRENT_2_IMAGES",
+      "families": [
+        "boatman"
+      ],
+      "title": "Moving paddle intersected ngob brim",
+      "resolution": "The upper shaft visibly projects outside the wide brim in front/back/three-quarter walking captures. Side samples at 0.5 and 0.75 s show a close approach at the rear brim, with no shaft emerging through the straw surface. Stationary blade remains parked at the floor; moving blade clears it. Closure rests on actual pixels, not the prior numeric fixture.",
+      "parameters": {
+        "carriedRotationZRadians": -0.8,
+        "backDistanceMetresAtUnitHeight": 0.24,
+        "physicalScaleUnchanged": true,
+        "hatRetained": true
+      },
+      "evidence": [
+        "boatman-walk-0_25-front",
+        "boatman-walk-0_5-back",
+        "boatman-walk-0_5-threequarter",
+        "boatman-walk-0_5-side",
+        "boatman-walk-0_75-side",
+        "boatman-sit-rest-prop-paddle-front",
+        "boatman-sit-rest-prop-paddle-side"
+      ],
+      "limits": "Sampled views do not certify a full-cycle minimum clearance. Hat still hides eyes in front/overhead views; retain existing optional dialogue readability note."
+    },
+    {
+      "id": "ST-05",
+      "priority": "P2",
+      "status": "CLOSED_ON_CURRENT_2_IMAGES",
+      "families": [
+        "enhancer"
+      ],
+      "title": "Enhancer lifted procedural headband",
+      "resolution": "The raised forward procedural band/ends are absent in inspected angled, side and walking views. The remaining red detail follows the original head/hair silhouette; no replacement or baked-headband provenance is inferred.",
+      "policy": {
+        "suppressedAccessories": [
+          "headband"
+        ],
+        "provenance": "Explicit suppression; source GLB unchanged."
+      },
+      "evidence": [
+        "enhancer-idle-0_5-front",
+        "enhancer-idle-0_5-threequarter",
+        "enhancer-work-hammer-0_5-side",
+        "enhancer-walk-0_5-side",
+        "enhancer-walk-0_75-side"
+      ]
+    },
+    {
+      "id": "ST-06",
+      "priority": "P3",
+      "status": "OPEN_OPTIONAL_POLISH",
+      "families": [
+        "master_sword",
+        "master_bandit",
+        "enhancer",
+        "master_hunter",
+        "boatman"
+      ],
+      "title": "Make stowed tool suspension legible",
+      "observation": "Visible sash-to-sheath/hammer loops and back-tool lashings are absent or unreadable. Bow has a noticeable side gap. Sword guard is close to the relaxed hand; view occlusion cannot prove full 3D clearance. No actual skin penetration is established by these samples.",
+      "action": "Optional later small tie/loop from existing sash or back strap to retained tool; preserve source body, open hands, tool scale and stow placement. If undertaken, recapture side/back/hand closeups. Do not promote this advisory to P2 or invent gripping.",
+      "evidence": [
+        "master_sword-work-sword-hand-right-front",
+        "master_sword-work-sword-hand-right-back",
+        "master_sword-work-sword-prop-sword-side",
+        "master_bandit-idle-lean-prop-knife-front",
+        "enhancer-work-hammer-prop-hammer-side",
+        "master_hunter-work-aim-prop-bow-side",
+        "boatman-walk-0_5-back"
+      ]
+    }
+  ],
+  "claims": {
+    "handGraspCertified": false,
+    "sourceDigitAnatomyCertified": false,
+    "thumbCertified": false,
+    "rejectedSwordGripOrProximalCandidatesApproved": false,
+    "seatedCertified": false,
+    "sourceBodyBytesUnchanged": true,
+    "authoredWorkMechanicsCertified": false,
+    "scheduleOrStandaloneUIPolicy": "Preserve authored schedule, identity/services and standalone UI. Boatman authored sit is explicitly standing visual fallback; excluded continuous-robed families receive no seating approval.",
+    "boatmanSitPolicy": {
+      "roleMotion": {
+        "arm": 0.3,
+        "head": 0.25,
+        "torso": 0.2,
+        "stance": 0.25,
+        "seated": "upright"
+      },
+      "activityPoses": {
+        "wai": false
+      },
+      "authoredState": "sit",
+      "seatedPresentation": "standing visual fallback",
+      "props": {
+        "paddle": "ground-parked"
+      }
+    },
+    "suppressedAccessoriesAreBaked": false
+  },
+  "evidence": [
+    {
+      "family": "master_sword",
+      "report": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/report.json",
+      "reportSha256": "a4aba290e34140de6603a4df3a5495f08e902605c68cedafc5aeeb78facc7b4f",
+      "assetIdentity": {
+        "pathname": "/models/npcs/master_sword.glb",
+        "expectedSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_sword.glb?v=woven-v1-758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 637936,
+            "sha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          },
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_sword.glb",
+            "status": 200,
+            "bytes": 637936,
+            "sha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+      "sameBodyAsReview1": true,
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "registryCount": 32,
+      "statuses": [
+        {
+          "family": "master_sword",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {
+            "sword": "sheathed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {
+            "sword": "sheathed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {
+            "sword": "sheathed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {
+            "sword": "sheathed"
+          }
+        }
+      ],
+      "modulePins": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/master_sword-e3c4f36d1c81-contacts.json",
+          "beforeSha256": "9815a1e7b46440aab9f4b61d7944661a9333897982675e8a25ba96ea9000f17e",
+          "afterSha256": "9815a1e7b46440aab9f4b61d7944661a9333897982675e8a25ba96ea9000f17e",
+          "currentSha256": "9815a1e7b46440aab9f4b61d7944661a9333897982675e8a25ba96ea9000f17e"
+        }
+      ],
+      "imageCount": 38,
+      "visuallyInspectedCount": 14,
+      "images": [
+        {
+          "id": "master_sword-source-rest-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-source-rest-left-front.png",
+          "sha256": "4355e92b3424dd0b01c27343f22889e98e486bed9a23c54e52109fbadf2cc01b",
+          "pose": "rest",
+          "view": "hand-left-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-source-rest-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-source-rest-left-back.png",
+          "sha256": "7dac6e56417f1bdf8c5bf78c4657d06652990117feae45eba9f8e3d57490e963",
+          "pose": "rest",
+          "view": "hand-left-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-source-rest-left-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-source-rest-left-side.png",
+          "sha256": "83fce9b6b846ad7b4d26946c6184ec8b85117ff7034b9970d662ed79dbabb330",
+          "pose": "rest",
+          "view": "hand-left-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-source-rest-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-source-rest-right-front.png",
+          "sha256": "87bf6dbe31786f82b2123aa00a684ddba7df7cd91d65d2d49bc3615397be6a0f",
+          "pose": "rest",
+          "view": "hand-right-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-source-rest-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-source-rest-right-back.png",
+          "sha256": "c6293f625561a8383e9ad27185cc3e7fee666ce61e4c7ab83b45dbb5c1d804ef",
+          "pose": "rest",
+          "view": "hand-right-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-source-rest-right-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-source-rest-right-side.png",
+          "sha256": "c311b196310b7624d4528d126d3b36b3bfe567d3cb41682f4a3d58d4d587a0cc",
+          "pose": "rest",
+          "view": "hand-right-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-0_5-front.png",
+          "sha256": "a6dca184470ae04b1190a25ef531f8ece024a2e851720ad9d052daa57407d8d4",
+          "pose": "idle",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-0_5-side.png",
+          "sha256": "60cbc7cad6032755366abb28f3fef18c07632c5e87e37d45d0d9d179e055be5d",
+          "pose": "idle",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-0_5-back.png",
+          "sha256": "63dd5ecfca2c510738f3e5d77a576cf8ccaa1a5a6176182fed1e9e6be1faef4b",
+          "pose": "idle",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-0_5-threequarter.png",
+          "sha256": "f5b8198eabcc7cbda62709d53533435c5cb028fc9e89d525cca3dbbff01f1b27",
+          "pose": "idle",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-0_5-gameplay.png",
+          "sha256": "2db1a4a6abbaf7fd1d74df070b1ce0ba625801a4a2054182f4ac3a21350b9b1c",
+          "pose": "idle",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-talk-0_25-front.png",
+          "sha256": "106c516c2e39c8815983d6c84265d80a9da45ef91fb6c28c5df2e19a0a3f9f08",
+          "pose": "talk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-talk-0_5-threequarter.png",
+          "sha256": "80976c14bdfa0fc38763c04546b9fe383bd4fe033c05010d809886204fdc5057",
+          "pose": "talk",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-talk-0_75-side.png",
+          "sha256": "13950f3dd512d86b9339fc7d3cb00f28a6b82ee4654d8c9b7aae7e0ade16eb21",
+          "pose": "talk",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_25-front.png",
+          "sha256": "eebb2682d726ba250408e20ac1ce0abb53b9c4156beefa7820fe1ce31432b944",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_5-front.png",
+          "sha256": "c1305965815ee533cd5161ef6061737743774140c7beaec6862b06b1a68fb483",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_5-side.png",
+          "sha256": "5a0d929119c227704b10ad48700f68847683ab760d8d295a7b51f658c502727b",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_5-back.png",
+          "sha256": "f81c633434e36e0322a9053a27d300d0c2a1eca716bb1903e88c31fd0223ed2f",
+          "pose": "walk",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_5-threequarter.png",
+          "sha256": "4657f9b0b6e31f013095b499d5e7509f0ed0c00832d4bfc1ac221fab9b1aff16",
+          "pose": "walk",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_5-gameplay.png",
+          "sha256": "fa0d9e5b17cb3b471c80038074aae05bd1b49866f2fd378dfb68e59fe0d06876",
+          "pose": "walk",
+          "view": "gameplay",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-walk-0_75-side.png",
+          "sha256": "29dfe12890f9bbf5da2d9f0a9427972d9a1c586f1bdfb12afc0be41a3ed56b0e",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-work-sword-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_25-front.png",
+          "sha256": "eebf99659cdb39eae5aae75b026c3dfdc87df77d675f76bc839a2165be9dc121",
+          "pose": "work-sword",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-work-sword-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_5-front.png",
+          "sha256": "1a25cab869514c5d3afd845fb4aa528aeccd91b2d2f951d63b092ab6f328be26",
+          "pose": "work-sword",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-work-sword-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_5-side.png",
+          "sha256": "c3552ea4224273f63934474ef408bd5f54d8072932a67484adf1ef6668907f7c",
+          "pose": "work-sword",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-work-sword-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_5-back.png",
+          "sha256": "9531416709b5a97209c3bf117dcab0b70dc424d4a1e62e99b988e795ff546e32",
+          "pose": "work-sword",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-work-sword-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_5-threequarter.png",
+          "sha256": "b10eeec05df874f28dcceddeb3ebd0616ad20b36d3c88fe04aa2dac4658dc980",
+          "pose": "work-sword",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-work-sword-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_5-gameplay.png",
+          "sha256": "203ec412c702c2c4aee02fa3d72cf3d8acc1dd944085262d9d005b387d79a01c",
+          "pose": "work-sword",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-work-sword-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-0_75-side.png",
+          "sha256": "dfaa38341677963288db7d6c27670532540f82d14227d542a64c768d687d7b01",
+          "pose": "work-sword",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-hand-left-front.png",
+          "sha256": "8c194745d348d2792f525ae8af7b00a9791373283b15b3d4c42ed184ecf07645",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-hand-left-back.png",
+          "sha256": "6ef470a8007129f0b4fd475c2ad8b9fb8819268db4e5f271c53b0f8f70955b83",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-hand-left-side.png",
+          "sha256": "f9257db248bdb11fff2b8b4a83c6a6806c6916a894cf19dc467964a92534de06",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-hand-right-front.png",
+          "sha256": "383d32e129097e8b155a3d01f8ad6d212ee47e7f4986adec064d385e371a564d",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-hand-right-back.png",
+          "sha256": "8e50e93e551834478c62240f920be81d83d6f19829d860546845ba25eb0be249",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-idle-hand-right-side.png",
+          "sha256": "0c73d4ec4d513b885dcbf291fc5c446e18d2b8046bd51e103669bc98832bce1e",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_sword-work-sword-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-hand-right-front.png",
+          "sha256": "b7fa009305dd91c0adee454a9d9f60a7b33e540e928b3c777b0fee917a155eab",
+          "pose": "work-sword",
+          "view": "hand-right-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-work-sword-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-hand-right-back.png",
+          "sha256": "3cc5706d991ad78631b8bb13ddfd9b51bab56adee7c265fee51e18e0e80396b5",
+          "pose": "work-sword",
+          "view": "hand-right-back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-work-sword-prop-sword-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-prop-sword-front.png",
+          "sha256": "4472c438c3dfe2380c6971500b9f641f38800c061910f0e1c292b51597705c6f",
+          "pose": "work-sword",
+          "view": "prop-sword-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_sword-work-sword-prop-sword-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_sword/master_sword-work-sword-prop-sword-side.png",
+          "sha256": "aa7d87b85332f8ef1b1f898d0a70ecafe45f0f8eda77a99b8f3b310894744e63",
+          "pose": "work-sword",
+          "view": "prop-sword-side",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "family": "master_bandit",
+      "report": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/report.json",
+      "reportSha256": "23887df0ec9c3b6694e38b8c0f98e381edfe96fb3cda21435a09b9ada47650e6",
+      "assetIdentity": {
+        "pathname": "/models/npcs/master_bandit.glb",
+        "expectedSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=woven-v3-d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 676228,
+            "sha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+      "sameBodyAsReview1": true,
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "registryCount": 32,
+      "statuses": [
+        {
+          "family": "master_bandit",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {
+            "knife": "sheathed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {
+            "knife": "sheathed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {
+            "knife": "sheathed"
+          }
+        }
+      ],
+      "modulePins": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/master_bandit-03197e2d2cd3-contacts.json",
+          "beforeSha256": "7572ab534923ecace35ec688ab8c0892130c8594d241379c4f44948763cf644b",
+          "afterSha256": "7572ab534923ecace35ec688ab8c0892130c8594d241379c4f44948763cf644b",
+          "currentSha256": "7572ab534923ecace35ec688ab8c0892130c8594d241379c4f44948763cf644b"
+        }
+      ],
+      "imageCount": 32,
+      "visuallyInspectedCount": 14,
+      "images": [
+        {
+          "id": "master_bandit-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-0_5-front.png",
+          "sha256": "7049b13572b24f813e42c35437c5c780c8b535289fe61db1ab2417611d60c095",
+          "pose": "idle",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-0_5-side.png",
+          "sha256": "0744c8107e00cb5cab6d92b08046bc75333d010fc7a33fcc8ac3061f7873e01b",
+          "pose": "idle",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-0_5-back.png",
+          "sha256": "0001fa57e67d7d03c090932f84f6eb4de8efcaadfa122b87b8075a17daae7bee",
+          "pose": "idle",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-0_5-threequarter.png",
+          "sha256": "c3b571c1e61abed93b69c2247b08b93b929b2628f030f50a65a65523c8330efa",
+          "pose": "idle",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-0_5-gameplay.png",
+          "sha256": "e79715fe2c117c17a1146aef390abd2c5891b195a2af271e81cd6c9c851f009f",
+          "pose": "idle",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-talk-0_25-front.png",
+          "sha256": "662447b5acba1c95b2c8adbbe0a81cad3d8e78fb6f2dbb4d7e4363feefb5fdb2",
+          "pose": "talk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-talk-0_5-threequarter.png",
+          "sha256": "f74348629e4035ba0f6117e8976a94dc85e3246f3eb769b69532cd39ce5f5217",
+          "pose": "talk",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-talk-0_75-side.png",
+          "sha256": "633ea57cb5d3f28189e93885edf8724508a6a4c78a10f65f30ce51d31a529f85",
+          "pose": "talk",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_25-front.png",
+          "sha256": "fbaf51375851ad668b5deb0caefb7b26af8ff5711433bc5beb81c84cb54c7a8a",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_5-front.png",
+          "sha256": "9ea0fcbd47de5ee79f06c0cafb04ed5242b7943bf5d752919cdd6bd7fb2362f3",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_5-side.png",
+          "sha256": "efbfde85a14aee07eaa9a5eeaff62d675ddc2c1c88fdd7f155d6054c546b04bd",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_5-back.png",
+          "sha256": "03691d60ac9f4a53913e66d58da8f41c7ef418b2d247aac2a4dd2367bcbbd56e",
+          "pose": "walk",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_5-threequarter.png",
+          "sha256": "32603c3a808e3416ec0e16396b8a307d39d0bb5ed8f48ca1a16a79448049d32f",
+          "pose": "walk",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_5-gameplay.png",
+          "sha256": "bfb68ef56e363913bab6f464e3c0b8be902b15f3d901afb7da4547ba3aff82bc",
+          "pose": "walk",
+          "view": "gameplay",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-walk-0_75-side.png",
+          "sha256": "cd0304ae7c9049c97bf6b79edd823494fa2657bdf0122a908f6d725aa3149289",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-lean-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_25-front.png",
+          "sha256": "311eaefa93a4a8e309a46e5ceab8df5d05a9463c039363c11e41e7c143669dbe",
+          "pose": "idle-lean",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-lean-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_5-front.png",
+          "sha256": "e10e292c889759ce99b4f548b6546d54f7736e14b116d56c2233af157cdef2f9",
+          "pose": "idle-lean",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-lean-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_5-side.png",
+          "sha256": "0b8d959f73491ecdc02e880785fbf29f088cc47fb8116a9bf756bf6a9cd2bdef",
+          "pose": "idle-lean",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-lean-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_5-back.png",
+          "sha256": "6b704d18c0ee9261b6ba3ab6c18eecef61a1977c933b138a4dc4daa53e75ca14",
+          "pose": "idle-lean",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-lean-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_5-threequarter.png",
+          "sha256": "da926d684a817c63a4d6cbc7ac7cf782e0ad2de8e0b230e633060c1de97b4912",
+          "pose": "idle-lean",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-lean-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_5-gameplay.png",
+          "sha256": "4e3810de251e5a43d359aebf61d0de9a4c01400b5abf961d40f2f5cad65513d8",
+          "pose": "idle-lean",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-lean-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-0_75-side.png",
+          "sha256": "5ea87fc1dffdaab9656480c2042758203208bdade463fa346b8de67a0d76f64d",
+          "pose": "idle-lean",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-hand-left-front.png",
+          "sha256": "cdd067b2ebfbbca0f64989a24565bff240948f73634ff6fee0bf642308b86061",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-hand-left-back.png",
+          "sha256": "c0a0bee84121c7a312690fb806460612c7ccfaaf43c45e9059f9622f995c6129",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-hand-left-side.png",
+          "sha256": "8aeb66ea31dea07a7d013f8434ad665bab8a6afcf5417a227cd7a9121383a54e",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-hand-right-front.png",
+          "sha256": "e1f218ae41b860309c7e254b6c585cfeda3dfde72d32f781698e8afe2ca4429b",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-hand-right-back.png",
+          "sha256": "30dbcb194d5e2a3caeafecb1e15217f8da7f82b294e059512157fd69c5c8e761",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-hand-right-side.png",
+          "sha256": "5844a9f15c516fb13546612dcd791fb4a307b99624513cf26c2ab4ea1c93f3a3",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_bandit-idle-lean-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-hand-right-front.png",
+          "sha256": "58e75d3d77e32ca9b19d821e0aa0b25561520ce33175a1060b877c8dc9bd295d",
+          "pose": "idle-lean",
+          "view": "hand-right-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-lean-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-hand-right-back.png",
+          "sha256": "49a7215f8952b75ab4e4fa4865829223f308435d2affe261ba87f7049d10b335",
+          "pose": "idle-lean",
+          "view": "hand-right-back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-lean-prop-knife-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-prop-knife-front.png",
+          "sha256": "df32c7f1df8b9dd0874d288d7071382a09927c5d9eb0068a035ac154d1523e5d",
+          "pose": "idle-lean",
+          "view": "prop-knife-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_bandit-idle-lean-prop-knife-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_bandit/master_bandit-idle-lean-prop-knife-side.png",
+          "sha256": "28259fb1fd3640cf76bf89a4e75f52115a4ffe14cff0f74995682a7cc58d604f",
+          "pose": "idle-lean",
+          "view": "prop-knife-side",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "family": "enhancer",
+      "report": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/report.json",
+      "reportSha256": "ac6492ff6d3e7f11a22fb3b9eafed5ad1e96d7a7dc9fd9e9d9deecc3f928c271",
+      "assetIdentity": {
+        "pathname": "/models/npcs/enhancer.glb",
+        "expectedSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/enhancer.glb?v=woven-v2-f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 601860,
+            "sha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+      "sameBodyAsReview1": true,
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "registryCount": 32,
+      "statuses": [
+        {
+          "family": "enhancer",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {
+            "hammer": "belt-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {
+            "hammer": "belt-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {
+            "hammer": "belt-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {
+            "hammer": "belt-stowed"
+          }
+        }
+      ],
+      "modulePins": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/enhancer-0f1011b44b64-contacts.json",
+          "beforeSha256": "0ab5b684f593c97036e18c68229dcf13e06574644c34aabced2649e852d92f2d",
+          "afterSha256": "0ab5b684f593c97036e18c68229dcf13e06574644c34aabced2649e852d92f2d",
+          "currentSha256": "0ab5b684f593c97036e18c68229dcf13e06574644c34aabced2649e852d92f2d"
+        }
+      ],
+      "imageCount": 32,
+      "visuallyInspectedCount": 14,
+      "images": [
+        {
+          "id": "enhancer-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-0_5-front.png",
+          "sha256": "11724a5602f0cdaf5be5db1a7a90a1e57f45bfc5c4eb9224bf740b4ce9493fda",
+          "pose": "idle",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-0_5-side.png",
+          "sha256": "fbaa663006f9ee6f846e8f09cf80663f47a692507460ae60158c88220794bd98",
+          "pose": "idle",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-0_5-back.png",
+          "sha256": "4a023d2787a9942425038aad9aabd5adb76d52b6d8303bd907125d3629a31d2f",
+          "pose": "idle",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-0_5-threequarter.png",
+          "sha256": "1e76f11803f2e66555d3b021fe9677cba9ee8c02deaf5dbca268258c62074738",
+          "pose": "idle",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-0_5-gameplay.png",
+          "sha256": "d943e8eaf0cba801da1b76a4627445239d020612f79685d8c10c9d657601a625",
+          "pose": "idle",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-talk-0_25-front.png",
+          "sha256": "03998eb92fc268d7a4a2827b3dbb0e4b08369c61782dfd20b18da7e8d5ccc9af",
+          "pose": "talk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-talk-0_5-threequarter.png",
+          "sha256": "a425bee03f987056c250277938eeabc94fd3a94ae9ad8d9f3b4bdc3364b9a99c",
+          "pose": "talk",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-talk-0_75-side.png",
+          "sha256": "41130d4398d27656b86db665c809a7992e7e6af7cf8b48240a3455c309b66194",
+          "pose": "talk",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_25-front.png",
+          "sha256": "068a9504db5409386a552222f3ede84207a25df0d7cb16d1c31e263e9b90b8a5",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_5-front.png",
+          "sha256": "9f8343630545e0d50592c2dd7175d549715c5b9288dd3674afa03ed838fcdbe9",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_5-side.png",
+          "sha256": "32df26ebbaa217b9d8e887c6b6eb1d8133505510e8831aa2861875382910bda0",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_5-back.png",
+          "sha256": "a43705c34d40f0cb47800fed87d7a9300d3572e740261ee5d680282c342442c5",
+          "pose": "walk",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_5-threequarter.png",
+          "sha256": "6a28d7400533b0c38d84b1a828ec934f7380ef9344ee9401a8b0d3e9f2a9a273",
+          "pose": "walk",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_5-gameplay.png",
+          "sha256": "aa057ff14ead674dafd8418c1cb87a10434b7e8c5732f02a02640d1c6ba76e5a",
+          "pose": "walk",
+          "view": "gameplay",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-walk-0_75-side.png",
+          "sha256": "7f0e25d8509950186f26cc7231228c655cd6837814222a78c61ac7d28bdb862e",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-work-hammer-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_25-front.png",
+          "sha256": "1ee2675e0edcf9d6ae253cbb08b38a47566c4f24a3aa34217f62db5bff71e62b",
+          "pose": "work-hammer",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-work-hammer-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_5-front.png",
+          "sha256": "d1e3bdb190ea9f15bdac3764b063c87650c4d128391b9505ac2ee9fe5892dbe3",
+          "pose": "work-hammer",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-work-hammer-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_5-side.png",
+          "sha256": "419ebf5d99e576b6e93b3884aebed199a8bae1ccad75eaa5b8700c390a2a43aa",
+          "pose": "work-hammer",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-work-hammer-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_5-back.png",
+          "sha256": "07436a2052fe402b186f037a1c247fc0b530c19a236392b30920e9e08bfa8356",
+          "pose": "work-hammer",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-work-hammer-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_5-threequarter.png",
+          "sha256": "d237bd45c8f338b603a61f672286744d1bd68a389cc7b2c4e0cafde80667537d",
+          "pose": "work-hammer",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-work-hammer-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_5-gameplay.png",
+          "sha256": "e9b1c3919204a65a497f8e1d0bd9b222dd6a39eaba9bbd5648fda3ee5cb8fae5",
+          "pose": "work-hammer",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-work-hammer-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-0_75-side.png",
+          "sha256": "bf8fa850a5126ef56c6c06c5ee53bbde3b2849245a1d6e5bad6a8560b54cc15b",
+          "pose": "work-hammer",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-hand-left-front.png",
+          "sha256": "17e123dee60b044fa19423b0ab9fa85b4bd0d1ff335e676a29b3bc38fead5b2d",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-hand-left-back.png",
+          "sha256": "718c07de6022dae1aeaf800ae364d153187e978198a41d4bb3753829b479db59",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-hand-left-side.png",
+          "sha256": "55863d5823145fe6430e9c7f60936af5cc90b8fda4feeeea37dc7d4ce9d14261",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-hand-right-front.png",
+          "sha256": "d1ae9f4c344753434e5cb80da88bb8fc18560b01523323228960aba1febea018",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-hand-right-back.png",
+          "sha256": "13007662f4c9c74c38ed1baee7e2c86c6209ca187cfef151ad43f0c10a964f88",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-idle-hand-right-side.png",
+          "sha256": "0c24dfefaabc245a7c79f759d3c15adbde97c4dbd49a1ef3a87b5005a312d587",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "enhancer-work-hammer-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-hand-right-front.png",
+          "sha256": "3d1f46fe744c7af6b2dc85c5a43b0b8a4ad66cc802a135e4edde8ce32f150532",
+          "pose": "work-hammer",
+          "view": "hand-right-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-work-hammer-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-hand-right-back.png",
+          "sha256": "127f9b922e895a7401cd9aeb1846b58bfa0d22843387d00918e4a87f1957aeaf",
+          "pose": "work-hammer",
+          "view": "hand-right-back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-work-hammer-prop-hammer-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-prop-hammer-front.png",
+          "sha256": "e9d509226cf0dd82d9ce0976233f4151eb80952212e1a5e6e7e58c5e9b9f5e4f",
+          "pose": "work-hammer",
+          "view": "prop-hammer-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "enhancer-work-hammer-prop-hammer-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/enhancer/enhancer-work-hammer-prop-hammer-side.png",
+          "sha256": "25f9436e8c3f93b6381ff3fb030a51c441a8efbdc47b4d110d89a2e8e2afc3c4",
+          "pose": "work-hammer",
+          "view": "prop-hammer-side",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "family": "master_hunter",
+      "report": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/report.json",
+      "reportSha256": "e0d77ea4f297ff470ccab6f5fc0fe9907f8cf685828d2b6907f699f67a4a9e20",
+      "assetIdentity": {
+        "pathname": "/models/npcs/master_hunter.glb",
+        "expectedSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/master_hunter.glb?v=woven-v1-08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 629864,
+            "sha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+      "sameBodyAsReview1": true,
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "registryCount": 32,
+      "statuses": [
+        {
+          "family": "master_hunter",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {
+            "bow": "back-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {
+            "bow": "back-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {
+            "bow": "back-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "work",
+          "seatedPresentation": null,
+          "props": {
+            "bow": "back-stowed"
+          }
+        }
+      ],
+      "modulePins": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/master_hunter-0d35aac66523-contacts.json",
+          "beforeSha256": "cd6b543443c6e4d64e1b0a6dc19ddc212b1b95cb24149072c251b69846bd8e4c",
+          "afterSha256": "cd6b543443c6e4d64e1b0a6dc19ddc212b1b95cb24149072c251b69846bd8e4c",
+          "currentSha256": "cd6b543443c6e4d64e1b0a6dc19ddc212b1b95cb24149072c251b69846bd8e4c"
+        }
+      ],
+      "imageCount": 32,
+      "visuallyInspectedCount": 14,
+      "images": [
+        {
+          "id": "master_hunter-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-0_5-front.png",
+          "sha256": "8195897b7efe5c2f1cbbcdd6ebdf80c9a602a925c0a352004b7571b62c97b647",
+          "pose": "idle",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-0_5-side.png",
+          "sha256": "5dbd26535880756efe292d21103741bd2c2c21b5e3cc04dc2388ae8c793fadc2",
+          "pose": "idle",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-0_5-back.png",
+          "sha256": "ef4655690ea5bc8272f05d803864425bdd947e6f1d3cc3a67cce8d5137a2802a",
+          "pose": "idle",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-0_5-threequarter.png",
+          "sha256": "3393e8461f3b2f0413ddf1ce0020d99d7d085bc34e411f9fc612f07a7de00f21",
+          "pose": "idle",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-0_5-gameplay.png",
+          "sha256": "2dd4741f3cba663175f6bacce78e5b8f8d54f8c08734642dec71b8931ffe43bf",
+          "pose": "idle",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-talk-0_25-front.png",
+          "sha256": "3773c5b8b936d336a4778291786f7e893fd2fc85c809cc46752cd7adefd06f14",
+          "pose": "talk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-talk-0_5-threequarter.png",
+          "sha256": "04d7de670697e837a5ee9094ecbd0abc3f5be56f50ad7a7c7b526e77d3ea197e",
+          "pose": "talk",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-talk-0_75-side.png",
+          "sha256": "a2a0124aff2a29c20367f7b69f579a79e9c1087d7e4d6b33011b83853b5cf196",
+          "pose": "talk",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_25-front.png",
+          "sha256": "630357462ff35baeb95dfc3ff3990b25c8fd00731f708718dfb736e4914cfc96",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_5-front.png",
+          "sha256": "59269bf53b33f2a465ab90cad4e4c51d10cea64436d9a9bf01df0ade1a3b4563",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_5-side.png",
+          "sha256": "efc8242fcd810deb73284b24d8456c4848bc8f692a2928e4526b348342626692",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_5-back.png",
+          "sha256": "2089f0be8437b20bec07f12550d2cb02b362f6ac1f34fbb24995d91d5ca2bd00",
+          "pose": "walk",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_5-threequarter.png",
+          "sha256": "693def2cff32d27f24dfe369b4759fd20d51a5eceae8247df05ec3aa6b61d28d",
+          "pose": "walk",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_5-gameplay.png",
+          "sha256": "a23081ef65c6fd49d3e677779beee6489fe4c01e56be5541b070fb2cbc86344b",
+          "pose": "walk",
+          "view": "gameplay",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-walk-0_75-side.png",
+          "sha256": "32c89379613def34710f8ba846c255a58cb167b772ad2db7cf158ada51e475b3",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-work-aim-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_25-front.png",
+          "sha256": "530474e76ea9573370ccb0fa4fabc31fa9e223268ca61bfbc42913ce84a88522",
+          "pose": "work-aim",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-work-aim-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_5-front.png",
+          "sha256": "798635fae9fb91e4bbad1624601d1341ef421bc0e7db86419e2178dd2985ad6d",
+          "pose": "work-aim",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-work-aim-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_5-side.png",
+          "sha256": "2b351550bcb6a48677c2095fb481b87f97737d4e57ff45fe52a836d73a889114",
+          "pose": "work-aim",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-work-aim-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_5-back.png",
+          "sha256": "8500495a817aa3ccaca27a7dc051bfe8cbf6d9b31bfd4bfd8cd94668e9ba9ab6",
+          "pose": "work-aim",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-work-aim-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_5-threequarter.png",
+          "sha256": "a36895e2f38f9b39bfdf610b7b410bd83157bdd9b7bd7fd61cc8c02610f209dd",
+          "pose": "work-aim",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-work-aim-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_5-gameplay.png",
+          "sha256": "49687fc69f8aaa306b5afa93d7daaeba41a0402845eebb7d8a2ddb26446d4bfd",
+          "pose": "work-aim",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-work-aim-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-0_75-side.png",
+          "sha256": "885ae8ea2aeb6fd13696ab6460d133849cace38f202e094ac690bc7c4aab314e",
+          "pose": "work-aim",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-hand-left-front.png",
+          "sha256": "06da21782c5534e90c0add9d7bc2c2885dfd9af63b2210f0d71065c80b0f49ac",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-hand-left-back.png",
+          "sha256": "c5542e2fd0a16871c6c3493014800edd9ba361b1784450fa259e4efdd97d9a4a",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-hand-left-side.png",
+          "sha256": "e7e384e8b4d342026c341872f5aa60538e8bc8cf613e7c21b19d0e967aafface",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-hand-right-front.png",
+          "sha256": "3b9e1ac106d50c8707950d953ae86ac3caa886ebb4435b071ab03e2ba6299e78",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-hand-right-back.png",
+          "sha256": "baee1bfbe4ec52d07f149d6451b636319e3265a5ba18de29d0b09db5b66b55bc",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-idle-hand-right-side.png",
+          "sha256": "12338c6b4a0664b0f634c91bb2c012dc6686e0e827b5979b12a361d88c4163f0",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "master_hunter-work-aim-hand-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-hand-left-front.png",
+          "sha256": "77cfe5d900dae13a493a513d6c38d108b874df396831dfc83ca78040827081c4",
+          "pose": "work-aim",
+          "view": "hand-left-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-work-aim-hand-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-hand-left-back.png",
+          "sha256": "abbea63e771fa7be2eef3d9ecf72705b45ad96fdab0c1345416907e1ac008c2b",
+          "pose": "work-aim",
+          "view": "hand-left-back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-work-aim-prop-bow-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-prop-bow-front.png",
+          "sha256": "4857e0a4afa27611712bc874d526269c14ed93bba35a55726c5ec1aa5aa1ae60",
+          "pose": "work-aim",
+          "view": "prop-bow-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "master_hunter-work-aim-prop-bow-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/master_hunter/master_hunter-work-aim-prop-bow-side.png",
+          "sha256": "c6703f2b5659e395c78fb9af61046ae9a4d90d2ca2090f42b44c3534516af931",
+          "pose": "work-aim",
+          "view": "prop-bow-side",
+          "visuallyInspected": true
+        }
+      ]
+    },
+    {
+      "family": "boatman",
+      "report": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/report.json",
+      "reportSha256": "ed00f57e5b7d56d90555a264ba604259257c70ecb3a87bc6724cc0b973fafff3",
+      "assetIdentity": {
+        "pathname": "/models/npcs/boatman.glb",
+        "expectedSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/boatman.glb?v=woven-v2-9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 607056,
+            "sha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "currentBodySha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+      "sameBodyAsReview1": true,
+      "capturePassed": true,
+      "passed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "registryCount": 32,
+      "statuses": [
+        {
+          "family": "boatman",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "animations": [
+        {
+          "active": true,
+          "clip": "idle"
+        },
+        {
+          "active": true,
+          "clip": "walk"
+        }
+      ],
+      "visualPolicies": [
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {
+            "paddle": "ground-parked"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {
+            "paddle": "ground-parked"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {
+            "paddle": "back-stowed"
+          }
+        },
+        {
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {
+            "paddle": "ground-parked"
+          }
+        }
+      ],
+      "modulePins": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+          "currentSha256": "161edbf90cd1b5d956d22d97f068b1df086f53d13096da5ba4529b2eb85f06b1"
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "afterSha256": "6f9748ecdca2973b0dd796cbe5cb1afede0067d29624e8b6e763340a1dcf8c1a",
+          "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/boatman-e0a9a8f08253-contacts.json",
+          "beforeSha256": "f230225b4ff05edaa4560af2d463827df6d523264b28257aec89a771ffaa0cd5",
+          "afterSha256": "f230225b4ff05edaa4560af2d463827df6d523264b28257aec89a771ffaa0cd5",
+          "currentSha256": "f230225b4ff05edaa4560af2d463827df6d523264b28257aec89a771ffaa0cd5"
+        }
+      ],
+      "imageCount": 32,
+      "visuallyInspectedCount": 15,
+      "images": [
+        {
+          "id": "boatman-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-0_5-front.png",
+          "sha256": "ac16b329ccc7020bc688b8fb334da545af14dafca34ad7630678ae9653dfd366",
+          "pose": "idle",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-0_5-side.png",
+          "sha256": "d54a51583e4858528a3a9e99e2bafca8e5cf1cad99980b9bb672d9d901a63960",
+          "pose": "idle",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-0_5-back.png",
+          "sha256": "abb06892d155414c74067f913698eb757792ed79c5aaf2ff0f3aba4ea08fc57c",
+          "pose": "idle",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-0_5-threequarter.png",
+          "sha256": "3612f50904826c67e30eea7d2d67ecf1c9ccf6c00e8d2ff46d9a131a52e502da",
+          "pose": "idle",
+          "view": "threequarter",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-0_5-gameplay.png",
+          "sha256": "174baf59ce73582e0ca609da913efc2bff9138ce8b085436a4cba7667732aa19",
+          "pose": "idle",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-talk-0_25-front.png",
+          "sha256": "ab40b7a676cb57cf4f6bfd5838287eff99bc6fa2c8b5b04c5f13a4e81e3b1dcf",
+          "pose": "talk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-talk-0_5-threequarter.png",
+          "sha256": "81c98f9c1503aeb82994731535c5c2121e1480e050a4230bd87dd5fd65d566d1",
+          "pose": "talk",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-talk-0_75-side.png",
+          "sha256": "c6f9d3ab75d668f70fb865dae4d521196540cfc30aab1db8c32d0ba89360bc49",
+          "pose": "talk",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_25-front.png",
+          "sha256": "3342ce5f123a3500eec295f8517e1aef7cd71915b412c0d731b6dbbc99b1d3e3",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_5-front.png",
+          "sha256": "04f205eec456b06111fa13a750b43a85aac20115796e325d2f9cf0e7dae4f542",
+          "pose": "walk",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_5-side.png",
+          "sha256": "5442e2bcdb94157eb47ed3a01de7d518fd79920f9e83324ae59cc525107fade3",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_5-back.png",
+          "sha256": "c921bee28b9283520e3d6f42b8725be65e661ce772d59e3c5db06b66dd7f9377",
+          "pose": "walk",
+          "view": "back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_5-threequarter.png",
+          "sha256": "7ba6e1d6eaefaa152ab1ddc4cbfb6e798e258b09cca337872e0e42ceda45ed79",
+          "pose": "walk",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_5-gameplay.png",
+          "sha256": "98a79592477f89ad19e857b5050f7f54e95b776c60ae4f316a2b0bd787029bd5",
+          "pose": "walk",
+          "view": "gameplay",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-walk-0_75-side.png",
+          "sha256": "960ad140391a2987751cf742d860c6a174ac9ca87a7947bc659e1499f162a413",
+          "pose": "walk",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-sit-rest-0_25-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_25-front.png",
+          "sha256": "21caa28ef81a224950e0063d9fb381f7828c5083cf8d5cca93bf9011535fd1ab",
+          "pose": "sit-rest",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-sit-rest-0_5-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_5-front.png",
+          "sha256": "0835762c60d415f6bbf2d5e8fc5e38f8575ec9f18ef6674fc9cbda5a56ddb2d6",
+          "pose": "sit-rest",
+          "view": "front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-sit-rest-0_5-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_5-side.png",
+          "sha256": "48af064f3f5993039e264d568de1bfde33b01ca2ecbf6f6a3e7c5561f878cae2",
+          "pose": "sit-rest",
+          "view": "side",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-sit-rest-0_5-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_5-back.png",
+          "sha256": "0b783ed5d0f89c57b39ab1901767142c0c42e61abb3af35f22d618e2a86f27f0",
+          "pose": "sit-rest",
+          "view": "back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-sit-rest-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_5-threequarter.png",
+          "sha256": "d46e29162ff8ed64f523c4e0aba17d6fb213815274c06bfe24da3b9073dfb4ce",
+          "pose": "sit-rest",
+          "view": "threequarter",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-sit-rest-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_5-gameplay.png",
+          "sha256": "819fe4713c9b0ad7045fb8c3f2b8abbc8999c8d832f84b7c19d7df6a8a52903b",
+          "pose": "sit-rest",
+          "view": "gameplay",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-sit-rest-0_75-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-0_75-side.png",
+          "sha256": "cef26af620fd14a3a76222ccd73a266c9c1c080a16fb5bf88c8903aefbbfd4b1",
+          "pose": "sit-rest",
+          "view": "side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-hand-left-front.png",
+          "sha256": "c4aa503ff623be7045e845273b3abb77965b19fa0eb4ead23525a484868d3274",
+          "pose": "idle",
+          "view": "hand-left-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-hand-left-back.png",
+          "sha256": "c019cf22b546242b5fcf7fd16eff705cf45301d4b3edee3fb7e95d84e30bb0f5",
+          "pose": "idle",
+          "view": "hand-left-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-hand-left-side.png",
+          "sha256": "d963905d3dbdb1babddd2c28a02055471387bdc7829ed0719e1183526b4efbc0",
+          "pose": "idle",
+          "view": "hand-left-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-hand-right-front.png",
+          "sha256": "bfda10ca3a6b0197cda442b4ac95cc833736422b1a49419a4784aaeabba2fa94",
+          "pose": "idle",
+          "view": "hand-right-front",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-hand-right-back.png",
+          "sha256": "5b66879daea1ca11206f835979f20df32b881a73ed52179955545a9805517900",
+          "pose": "idle",
+          "view": "hand-right-back",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-idle-hand-right-side.png",
+          "sha256": "aa649fa1908b6a79994b09b8309ae9f8acaaf6950ff1af895259d935d62342c9",
+          "pose": "idle",
+          "view": "hand-right-side",
+          "visuallyInspected": false
+        },
+        {
+          "id": "boatman-sit-rest-hand-right-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-hand-right-front.png",
+          "sha256": "d5fe12977c73f817274977a9205d20da341bd62a2147b6901d96c1656a262669",
+          "pose": "sit-rest",
+          "view": "hand-right-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-sit-rest-hand-right-back",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-hand-right-back.png",
+          "sha256": "4641148e007a6326025bd106d10fec20e4670d3eb6a7341df019d09815f5ac16",
+          "pose": "sit-rest",
+          "view": "hand-right-back",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-sit-rest-prop-paddle-front",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-prop-paddle-front.png",
+          "sha256": "2ae1a735f706ab53a7074b94abaccb2906d9ddc6b4059d1cca82b2d884eeba4d",
+          "pose": "sit-rest",
+          "view": "prop-paddle-front",
+          "visuallyInspected": true
+        },
+        {
+          "id": "boatman-sit-rest-prop-paddle-side",
+          "path": "docs/art/npcs/reviews/stowed-tools-current-2/boatman/boatman-sit-rest-prop-paddle-side.png",
+          "sha256": "af9f752e3dc02424ba55ded8ed37fb480284044c2972f6caa6e18a1951e54ed8",
+          "pose": "sit-rest",
+          "view": "prop-paddle-side",
+          "visuallyInspected": true
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Actual PNG review is a finite sample, not a continuous animation/collision proof.",
+    "No new walk-head detail capture; full-body side, back and three-quarter pixels resolve the prior brim defect in sampled poses.",
+    "No source hand/anatomy/grip approval; no bow draw, sword strike, hammer contact or rowing mechanics approved.",
+    "No seated approval; authored sit has standing visual fallback.",
+    "Gameplay overviews show tiny characters on an empty floor, not city/UI interaction acceptance or guaranteed bow curvature at every gameplay angle.",
+    "Boatman eyes remain hidden by brim in front/overhead views; optional dialogue-fit consideration retained without removing the Thai hat.",
+    "No run, crowded-city/day/night/mobile, schedules/services execution, source topology, performance, release/deployment or all-17 approval."
+  ],
+  "handoff": "Parent can inspect the pinned five-family current-2 evidence and decide final approval separately. No further helper/core/model/catalog edits requested by this review."
+}

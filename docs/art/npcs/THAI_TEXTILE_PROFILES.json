@@ -1,0 +1,3449 @@
+{
+  "schema": 1,
+  "purpose": "Measured garment-only preview profiles: keeper plus sixteen distinct families. No cuff masks; no release or full anatomy acceptance implied.",
+  "capturedAt": "2026-10-09T21:13:14.237Z",
+  "units": "canonical native rest metres",
+  "colourConvention": "inkRGB/groundRGB are hexadecimal display colours; ink/ground are equivalent 0..255 RGB arrays consumed by the parent texture helper.",
+  "applicationRules": [
+    "Require sourceSHA256 equality before applying a profile. A changed candidate requires remeasurement or explicit geometry-equivalence proof.",
+    "Each proposed spatial/colour selector needs parent rendered front/back and fold inspection, UV overlap exclusion and the existing non-texture byte/rig/animation preservation checks. Selected vertex samples prove a real surface basis, not every rasterised texel.",
+    "Use the role wardrobe image only as measurement aid. PNG camera pose is not the rest coordinate frame and may predate current rig weights.",
+    "Do not decorate skin, palms, fingers, hair, feet or props. No keeper or generic cuff masks. Keep patterns out of unresolved costume fixes.",
+    "Monks T only at low strength. Do not increase ornament or contrast to simulate a religious costume.",
+    "Do not apply one role hem height to another role. These are independently inspected bounded preview bands; asymmetric sash/robe edges may require a parent chart/edge-aware mask after preview."
+  ],
+  "warpV4Review": {
+    "scope": "Independent textile-only front/back/gameplay idle and walk-side image inspection. No new captures or body QA.",
+    "assetSHA256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+    "sourceSHA256": "099119c59cee2870dc2650cc974a6a76d81f1ef8f29a9a6e99f3d9840a6f5704",
+    "report": "docs/art/npcs/reviews/warp-textile-4/report.json",
+    "images": [
+      "docs/art/npcs/reviews/warp-textile-4/warp_keeper-idle-0-front.png",
+      "docs/art/npcs/reviews/warp-textile-4/warp_keeper-idle-0-back.png",
+      "docs/art/npcs/reviews/warp-textile-4/warp_keeper-idle-0-gameplay.png",
+      "docs/art/npcs/reviews/warp-textile-4/warp_keeper-walk-0-side.png"
+    ],
+    "verdict": "PASS_scoped_textile",
+    "scores": {
+      "style": 8.5,
+      "readability": 8,
+      "technicalUsability": 8
+    },
+    "observations": [
+      "Patchy cuff motifs removed; rolled sleeves remain plain.",
+      "Restrained jade/ivory hem and actual waistband provide coherent Thai-inspired woven identity.",
+      "No visible skin leakage in the bounded inspected views; no confirmed textile P1/P2."
+    ],
+    "limitations": [
+      "Distant flat-studio gameplay view merges the small motifs into a border; individual rosette recognition at live city/night/mobile cameras is untested.",
+      "This does not certify all cloth motion, hand anatomy or current release readiness."
+    ],
+    "textureContract": {
+      "bytes": 639000,
+      "width": 1024,
+      "height": 1024,
+      "geometryRigAnimationUnchanged": true,
+      "unchangedDataHashCount": 10
+    }
+  },
+  "profiles": [
+    {
+      "family": "warp_keeper",
+      "revision": "woven-v4",
+      "ink": [
+        228,
+        210,
+        159
+      ],
+      "ground": [
+        47,
+        91,
+        72
+      ],
+      "strength": 0.82,
+      "garment": "Actual lower jade wrap and green waist strip; rolled sleeves stay plain.",
+      "regions": [
+        {
+          "name": "woven-lower-wrap",
+          "minY": 0.185,
+          "maxY": 0.26,
+          "maxX": 0.24,
+          "repeat": 0.095,
+          "motif": "P"
+        },
+        {
+          "name": "waistband",
+          "minY": 0.925,
+          "maxY": 0.97,
+          "maxX": 0.25,
+          "repeat": 0.075,
+          "motif": "W",
+          "greenOnly": true
+        }
+      ],
+      "inkRGB": "#e4d29f",
+      "groundRGB": "#2f5b48",
+      "basis": {
+        "source": "artifacts/city-npc-models/warp_keeper/warp_keeper.glb",
+        "sourceSHA256": "099119c59cee2870dc2650cc974a6a76d81f1ef8f29a9a6e99f3d9840a6f5704",
+        "wardrobeImage": "docs/art/npcs/reviews/warp-textile-4/warp_keeper-idle-0-front.png",
+        "wardrobeImageSHA256": "293d2fdee8ec0827c67368bba9fa58d8107bb9d00162f262dd85505dc6e2abf6",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "woven-lower-wrap",
+            "selectedVertexCount": 403,
+            "uniquePositionCount": 245,
+            "actualBounds": {
+              "min": [
+                -0.18087106467450864,
+                0.18509199878066696,
+                -0.23077210574169751
+              ],
+              "max": [
+                0.17020575265180105,
+                0.25994749087511104,
+                0.0666556615503919
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 4855,
+                "position": [
+                  -0.076829,
+                  0.185092,
+                  -0.219644
+                ],
+                "textureRGB": [
+                  160,
+                  131,
+                  73
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10286,
+                "position": [
+                  0.111623,
+                  0.259947,
+                  0.007968
+                ],
+                "textureRGB": [
+                  140,
+                  140,
+                  90
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2133,
+                "position": [
+                  -0.180556,
+                  0.200735,
+                  -0.073187
+                ],
+                "textureRGB": [
+                  164,
+                  134,
+                  84
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3515,
+                "position": [
+                  -0.135307,
+                  0.242415,
+                  0.036314
+                ],
+                "textureRGB": [
+                  154,
+                  124,
+                  70
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5253,
+                "position": [
+                  -0.038824,
+                  0.236011,
+                  0.019412
+                ],
+                "textureRGB": [
+                  163,
+                  130,
+                  76
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10308,
+                "position": [
+                  0.095875,
+                  0.228241,
+                  0.021616
+                ],
+                "textureRGB": [
+                  164,
+                  134,
+                  80
+                ]
+              }
+            ]
+          },
+          {
+            "name": "waistband",
+            "selectedVertexCount": 294,
+            "uniquePositionCount": 176,
+            "actualBounds": {
+              "min": [
+                -0.1601883718327929,
+                0.9251444320568568,
+                -0.17754409229463575
+              ],
+              "max": [
+                0.17807933234518503,
+                0.9699738658172319,
+                0.10403073881313882
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 10404,
+                "position": [
+                  0.153617,
+                  0.925144,
+                  -0.014289
+                ],
+                "textureRGB": [
+                  187,
+                  179,
+                  158
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3199,
+                "position": [
+                  -0.141081,
+                  0.969974,
+                  -0.120326
+                ],
+                "textureRGB": [
+                  117,
+                  126,
+                  97
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2440,
+                "position": [
+                  -0.153994,
+                  0.929554,
+                  -0.029408
+                ],
+                "textureRGB": [
+                  174,
+                  167,
+                  149
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3485,
+                "position": [
+                  -0.060976,
+                  0.969449,
+                  -0.16715
+                ],
+                "textureRGB": [
+                  85,
+                  94,
+                  67
+                ]
+              },
+              {
+                "runtimeVertexIndex": 7507,
+                "position": [
+                  0.094825,
+                  0.954856,
+                  -0.156127
+                ],
+                "textureRGB": [
+                  100,
+                  94,
+                  78
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10976,
+                "position": [
+                  0.142489,
+                  0.953596,
+                  -0.010615
+                ],
+                "textureRGB": [
+                  74,
+                  93,
+                  71
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "inspected_woven_v4_scoped_pass",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "general_merchant",
+      "ink": [
+        211,
+        184,
+        127
+      ],
+      "ground": [
+        28,
+        44,
+        61
+      ],
+      "garment": "Indigo ankle wrap: blue surface begins at measured Y .1610; inset border above the existing dark hem.",
+      "regions": [
+        {
+          "name": "indigo-wrap-hem",
+          "minY": 0.185,
+          "maxY": 0.225,
+          "maxX": 0.24,
+          "repeat": 0.08,
+          "motif": "W",
+          "blueOnly": true
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#d3b87f",
+      "groundRGB": "#1c2c3d",
+      "strength": 0.72,
+      "basis": {
+        "source": "artifacts/city-npc-models/general_merchant/general_merchant.glb",
+        "sourceSHA256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/general_merchant.png",
+        "wardrobeImageSHA256": "a21d0fe6f8f98b7dbc0b25f27bcafe5828be22161c499c9e730a31d049bdb159",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "indigo-wrap-hem",
+            "selectedVertexCount": 140,
+            "uniquePositionCount": 73,
+            "actualBounds": {
+              "min": [
+                -0.234396134079071,
+                0.18635179976380795,
+                -0.22857898735388188
+              ],
+              "max": [
+                0.21011898776235793,
+                0.21732277846886242,
+                0.13289086225682392
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 2652,
+                "position": [
+                  -0.099383,
+                  0.186352,
+                  -0.205272
+                ],
+                "textureRGB": [
+                  52,
+                  53,
+                  57
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2311,
+                "position": [
+                  -0.159436,
+                  0.217323,
+                  -0.152358
+                ],
+                "textureRGB": [
+                  21,
+                  40,
+                  55
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1519,
+                "position": [
+                  -0.209514,
+                  0.186771,
+                  0.041237
+                ],
+                "textureRGB": [
+                  53,
+                  54,
+                  58
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2313,
+                "position": [
+                  -0.102743,
+                  0.212809,
+                  -0.165587
+                ],
+                "textureRGB": [
+                  28,
+                  37,
+                  46
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6987,
+                "position": [
+                  -0.04206,
+                  0.187191,
+                  0.06234
+                ],
+                "textureRGB": [
+                  20,
+                  37,
+                  55
+                ]
+              },
+              {
+                "runtimeVertexIndex": 11926,
+                "position": [
+                  0.12487,
+                  0.19958,
+                  -0.06333
+                ],
+                "textureRGB": [
+                  39,
+                  43,
+                  44
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "gate_supplier",
+      "ink": [
+        199,
+        165,
+        110
+      ],
+      "ground": [
+        34,
+        46,
+        65
+      ],
+      "garment": "Corrected full indigo skirt: blue cloth begins around Y .293 m; inset W hem border Y .318-.363 m remeasured on the exact passing body, excluding ankles, skin and baked hat.",
+      "regions": [
+        {
+          "name": "full-skirt-hem",
+          "minY": 0.318,
+          "maxY": 0.363,
+          "maxX": 0.24,
+          "repeat": 0.082,
+          "motif": "W",
+          "blueOnly": true
+        }
+      ],
+      "revision": "woven-v2",
+      "inkRGB": "#c7a56e",
+      "groundRGB": "#222e41",
+      "strength": 0.72,
+      "basis": {
+        "source": "artifacts/city-npc-models/gate_supplier/gate_supplier.glb",
+        "sourceSHA256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/gate_supplier.png",
+        "wardrobeImageSHA256": "e225306c1b9cdf92c961042e82b8a9b121c5c89aaba26514ad020530d65e59ea",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "full-skirt-hem",
+            "selectedVertexCount": 182,
+            "uniquePositionCount": 103,
+            "actualBounds": {
+              "min": [
+                -0.1912512374748844,
+                0.3185302192271343,
+                -0.2958315835276886
+              ],
+              "max": [
+                0.1854416732766983,
+                0.3629396548829056,
+                0.005795721565803269
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 1140,
+                "position": [
+                  -0.191251,
+                  0.344042,
+                  -0.193679
+                ],
+                "textureRGB": [
+                  30,
+                  36,
+                  48
+                ]
+              },
+              {
+                "runtimeVertexIndex": 11640,
+                "position": [
+                  0.185442,
+                  0.334593,
+                  -0.174887
+                ],
+                "textureRGB": [
+                  27,
+                  34,
+                  44
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1689,
+                "position": [
+                  -0.149361,
+                  0.31853,
+                  -0.119454
+                ],
+                "textureRGB": [
+                  29,
+                  32,
+                  39
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8449,
+                "position": [
+                  0.055258,
+                  0.36294,
+                  -0.273469
+                ],
+                "textureRGB": [
+                  25,
+                  33,
+                  46
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1186,
+                "position": [
+                  -0.028522,
+                  0.344567,
+                  -0.295832
+                ],
+                "textureRGB": [
+                  29,
+                  35,
+                  49
+                ]
+              },
+              {
+                "runtimeVertexIndex": 4311,
+                "position": [
+                  0.03636,
+                  0.360945,
+                  0.005796
+                ],
+                "textureRGB": [
+                  27,
+                  35,
+                  48
+                ]
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/gate_supplier-55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403.glb",
+        "remeasuredAt": "2026-10-09T22:00:50.392Z",
+        "wardrobeImageNote": "Historical garment identification aid only; current counts/bounds/full arrays were independently measured from the new exact source, without assuming equivalence.",
+        "priorBasis": {
+          "sourceSHA256": "15c3aa670e276369fe5f1809db39dc4a01da00486f1755235a0b7c081b1d2f31",
+          "revision": "woven-v1",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/7f1474f3dbad352f2a1af90477e36a6cefdd6ef5a8eeb2c927ce281c11ace6a2/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "7f1474f3dbad352f2a1af90477e36a6cefdd6ef5a8eeb2c927ce281c11ace6a2",
+          "selectedVertexCounts": [
+            182
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "7756d3c396c1d489728bc681ad8e4489c74244d53323b971389ac5b72f12fb94",
+          "uvAttributeFloat64LESHA256": "1c1bbe99a0f893b3bd284e8a9a4504f08dffe55e230d3a58690b79825bf452a0",
+          "triangleIndicesUint32LESHA256": "2511509f71ac2d2e8783a4a20f495c60ac067b7b01e8f5e01a0dac4bc82a217d",
+          "embeddedColourSHA256": "a4d42839f21a671583039e2dd043e0656abca6b707319f87920c238dd270832e",
+          "UVTransformJSONSHA256": "c0b21a02dd62e4694db2681f4063444f5ecb927bbe328f80e3cb9c0e5bf44f97",
+          "vertexCount": 14260,
+          "triangleCount": 12343,
+          "scope": "Complete decoded arrays measured now; not an inferred equivalence to the old basis."
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/gate_supplier/gate_supplier-qa.json",
+          "frozenReport": "artifacts/city-npc-models/garment-basis/gate_supplier-55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403-qa.json",
+          "reportSHA256": "61ec28b55eb4c9cb0cf2089c9d997b8bba58f9d59fb3673d1355e5fbed43a7be",
+          "assetSHA256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+          "auditPassed": true,
+          "height": 1.72
+        }
+      },
+      "previewStatus": "remeasured_woven_v2_pending_parent_render",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_pending"
+    },
+    {
+      "family": "blacksmith",
+      "ink": [
+        191,
+        140,
+        80
+      ],
+      "ground": [
+        97,
+        39,
+        33
+      ],
+      "strength": 0.62,
+      "garment": "Crimson waist-wrap lower ends: dense red source surfaces at Y .5969-.635; brown baked apron stays plain.",
+      "regions": [
+        {
+          "name": "crimson-waist-wrap-edge",
+          "minY": 0.61,
+          "maxY": 0.65,
+          "maxX": 0.22,
+          "repeat": 0.08,
+          "motif": "W",
+          "redOnly": true
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#bf8c50",
+      "groundRGB": "#612721",
+      "basis": {
+        "source": "artifacts/city-npc-models/blacksmith/blacksmith.glb",
+        "sourceSHA256": "7acc63e9351e52ca07bc4878170f844f6dbf3bafac4bf04e5bcd0c1d74a92c4f",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/blacksmith.png",
+        "wardrobeImageSHA256": "e5624919fc5759955155b22aafbcd5037a93f6f9e60e8ffffb8be3f3b250e6c6",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "crimson-waist-wrap-edge",
+            "selectedVertexCount": 159,
+            "uniquePositionCount": 66,
+            "actualBounds": {
+              "min": [
+                -0.21523463620060812,
+                0.6101837740415912,
+                -0.18334599650760386
+              ],
+              "max": [
+                0.21206192257218281,
+                0.6499737843237402,
+                0.1196461321193347
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 2672,
+                "position": [
+                  -0.183844,
+                  0.610184,
+                  0.045945
+                ],
+                "textureRGB": [
+                  102,
+                  40,
+                  55
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10105,
+                "position": [
+                  0.203768,
+                  0.649974,
+                  -0.093792
+                ],
+                "textureRGB": [
+                  33,
+                  23,
+                  22
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2643,
+                "position": [
+                  -0.215235,
+                  0.613123,
+                  -0.020091
+                ],
+                "textureRGB": [
+                  53,
+                  23,
+                  25
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3522,
+                "position": [
+                  -0.184159,
+                  0.621417,
+                  -0.103871
+                ],
+                "textureRGB": [
+                  65,
+                  20,
+                  25
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8740,
+                "position": [
+                  0.026865,
+                  0.628346,
+                  -0.162139
+                ],
+                "textureRGB": [
+                  49,
+                  24,
+                  17
+                ]
+              },
+              {
+                "runtimeVertexIndex": 13415,
+                "position": [
+                  0.171852,
+                  0.622992,
+                  -0.142716
+                ],
+                "textureRGB": [
+                  63,
+                  34,
+                  30
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "enhancer",
+      "ink": [
+        211,
+        182,
+        117
+      ],
+      "ground": [
+        88,
+        25,
+        34
+      ],
+      "garment": "Oxblood hip shirt: lower dense red edge begins around Y .7395-.7803; border inset above the existing lower piping.",
+      "regions": [
+        {
+          "name": "oxblood-shirt-lower-edge",
+          "minY": 0.79,
+          "maxY": 0.83,
+          "maxX": 0.24,
+          "repeat": 0.08,
+          "motif": "P",
+          "redOnly": true
+        }
+      ],
+      "revision": "woven-v2",
+      "inkRGB": "#d3b675",
+      "groundRGB": "#581922",
+      "strength": 0.72,
+      "basis": {
+        "source": "artifacts/city-npc-models/enhancer/enhancer.glb",
+        "sourceSHA256": "0f1011b44b64b11db9f0ae4801a7637a12b30d556bb23a0a6f480917c42ffe81",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/enhancer.png",
+        "wardrobeImageSHA256": "5b813bbc5756d489a1a5c7265cf7f9d7f1dac5c5157adabf9484fed89caa1dbf",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "oxblood-shirt-lower-edge",
+            "selectedVertexCount": 182,
+            "uniquePositionCount": 95,
+            "actualBounds": {
+              "min": [
+                -0.21991926924805186,
+                0.7902361479428415,
+                -0.30054641127833737
+              ],
+              "max": [
+                0.224280154481664,
+                0.8290813075347191,
+                0.032051979351330806
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 2591,
+                "position": [
+                  -0.184749,
+                  0.790236,
+                  -0.190835
+                ],
+                "textureRGB": [
+                  51,
+                  37,
+                  34
+                ]
+              },
+              {
+                "runtimeVertexIndex": 9623,
+                "position": [
+                  0.036984,
+                  0.829081,
+                  0.00801
+                ],
+                "textureRGB": [
+                  73,
+                  26,
+                  34
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1995,
+                "position": [
+                  -0.218764,
+                  0.815853,
+                  -0.165533
+                ],
+                "textureRGB": [
+                  68,
+                  40,
+                  37
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2689,
+                "position": [
+                  -0.081967,
+                  0.825512,
+                  -0.007318
+                ],
+                "textureRGB": [
+                  76,
+                  23,
+                  31
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8148,
+                "position": [
+                  -0.01278,
+                  0.821627,
+                  0.023443
+                ],
+                "textureRGB": [
+                  57,
+                  6,
+                  21
+                ]
+              },
+              {
+                "runtimeVertexIndex": 12254,
+                "position": [
+                  0.156774,
+                  0.793281,
+                  -0.042804
+                ],
+                "textureRGB": [
+                  77,
+                  24,
+                  30
+                ]
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/enhancer-0f1011b44b64b11db9f0ae4801a7637a12b30d556bb23a0a6f480917c42ffe81.glb",
+        "remeasuredAt": "2026-10-09T21:51:58.047Z",
+        "priorBasis": {
+          "sourceSHA256": "4b2a12005fcf018458f727748303ef9075b5d5a05d5fce6ea9500d1c79dd1e83",
+          "revision": "woven-v1",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410",
+          "selectedVertexCounts": [
+            182
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "19e1c430b252413810f7b6fdb54b0fc1ad7ab24ee9ec2243b4297b5e7a135aef",
+          "uvAttributeFloat64LESHA256": "8ca048f68429a7f0ce9cf7e0b66eecd1c2b44fc6c8a505a6712bb268f055cce3",
+          "triangleIndicesUint32LESHA256": "d1d546c60b77d60af847c9900486aa6762babccf8abde6cf29da9249a79b2657",
+          "embeddedColourSHA256": "ac1917f53c631fa4587d8a90da6ffdd77a2541d94dc9a8d1d1d96b1a4a51ae2c",
+          "UVTransformJSONSHA256": "490635508eaa5ef79cd17729cb0f9b11bb99c47c288f13b4dfc92ff4f1016f1b",
+          "vertexCount": 15013,
+          "triangleCount": 12341,
+          "scope": "Complete decoded arrays measured now; not an inferred equivalence to the old basis."
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/enhancer/enhancer-qa.json",
+          "reportSHA256": "fdf02431be5707a29e3cd1cd4b583c19f67333bd202b4421e4c8f029c15ab533",
+          "assetSHA256": "0f1011b44b64b11db9f0ae4801a7637a12b30d556bb23a0a6f480917c42ffe81",
+          "auditPassed": true,
+          "height": 1.72
+        }
+      },
+      "previewStatus": "remeasured_woven_v2_pending_parent_render",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_pending"
+    },
+    {
+      "family": "herbalist",
+      "ink": [
+        177,
+        151,
+        96
+      ],
+      "ground": [
+        74,
+        48,
+        27
+      ],
+      "strength": 0.65,
+      "garment": "Long brown skirt: dominant actual lower rim Y .1642-.173; ankles are below this border. Green forearms and blouse stay plain.",
+      "regions": [
+        {
+          "name": "brown-skirt-hem",
+          "minY": 0.184,
+          "maxY": 0.224,
+          "maxX": 0.24,
+          "repeat": 0.078,
+          "motif": "W"
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#b19760",
+      "groundRGB": "#4a301b",
+      "basis": {
+        "source": "artifacts/city-npc-models/herbalist/herbalist.glb",
+        "sourceSHA256": "faf5763f946f5c10dd5d4cb01510ef5eba47d4064c263a9102e96cee609c6524",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/herbalist.png",
+        "wardrobeImageSHA256": "ac44c376c5641c9c7aa48ac67765071a0e72a4b6985c180bd71be8a0f3d1d9ab",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "brown-skirt-hem",
+            "selectedVertexCount": 243,
+            "uniquePositionCount": 93,
+            "actualBounds": {
+              "min": [
+                -0.1904252854714163,
+                0.1843568431452506,
+                -0.18050030074359144
+              ],
+              "max": [
+                0.2152440772569424,
+                0.22299206575039981,
+                0.15461778917649785
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 10959,
+                "position": [
+                  0.035192,
+                  0.184357,
+                  -0.036773
+                ],
+                "textureRGB": [
+                  142,
+                  101,
+                  83
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8314,
+                "position": [
+                  -0.012577,
+                  0.222992,
+                  0.078817
+                ],
+                "textureRGB": [
+                  48,
+                  19,
+                  13
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1168,
+                "position": [
+                  -0.190425,
+                  0.208294,
+                  -0.004647
+                ],
+                "textureRGB": [
+                  40,
+                  17,
+                  11
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2931,
+                "position": [
+                  -0.118719,
+                  0.193071,
+                  -0.02386
+                ],
+                "textureRGB": [
+                  67,
+                  30,
+                  12
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5950,
+                "position": [
+                  -0.057617,
+                  0.207559,
+                  -0.133781
+                ],
+                "textureRGB": [
+                  45,
+                  21,
+                  11
+                ]
+              },
+              {
+                "runtimeVertexIndex": 11409,
+                "position": [
+                  0.043695,
+                  0.186247,
+                  -0.149634
+                ],
+                "textureRGB": [
+                  52,
+                  26,
+                  13
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "occultist",
+      "ink": [
+        172,
+        136,
+        81
+      ],
+      "ground": [
+        91,
+        29,
+        32
+      ],
+      "strength": 0.65,
+      "garment": "Fresh final-source measured red front sash-end border; charcoal shirt/trousers stay plain. No cuff or skin decoration.",
+      "regions": [
+        {
+          "name": "red-sash-end-border",
+          "minY": 0.604,
+          "maxY": 0.644,
+          "maxX": 0.18,
+          "repeat": 0.075,
+          "motif": "W",
+          "redOnly": true,
+          "minZ": 0.015
+        }
+      ],
+      "revision": "woven-v2",
+      "inkRGB": "#ac8851",
+      "groundRGB": "#5b1d20",
+      "basis": {
+        "source": "artifacts/city-npc-models/occultist/occultist.glb",
+        "sourceSHA256": "619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/occultist.png",
+        "wardrobeImageSHA256": "6c35cc32878ed43894afebdea16cdc3d7ced26f3b5496dcf80675377fca4971f",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "red-sash-end-border",
+            "selectedVertexCount": 538,
+            "uniquePositionCount": 131,
+            "actualBounds": {
+              "min": [
+                -0.09424134479633911,
+                0.6051444117172439,
+                0.0370147435324481
+              ],
+              "max": [
+                -0.004057622427406149,
+                0.6438845696101224,
+                0.08940319405349045
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 4742,
+                "position": [
+                  -0.094241,
+                  0.621312,
+                  0.044679
+                ],
+                "textureRGB": [
+                  106,
+                  27,
+                  30
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8519,
+                "position": [
+                  -0.004058,
+                  0.638845,
+                  0.064941
+                ],
+                "textureRGB": [
+                  89,
+                  24,
+                  22
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6633,
+                "position": [
+                  -0.046367,
+                  0.605144,
+                  0.041109
+                ],
+                "textureRGB": [
+                  97,
+                  27,
+                  29
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6460,
+                "position": [
+                  -0.052142,
+                  0.643885,
+                  0.043629
+                ],
+                "textureRGB": [
+                  106,
+                  28,
+                  28
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8185,
+                "position": [
+                  -0.013296,
+                  0.640105,
+                  0.037015
+                ],
+                "textureRGB": [
+                  102,
+                  32,
+                  34
+                ]
+              },
+              {
+                "runtimeVertexIndex": 8056,
+                "position": [
+                  -0.013926,
+                  0.642835,
+                  0.089403
+                ],
+                "textureRGB": [
+                  86,
+                  13,
+                  30
+                ]
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/occultist-619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61.glb",
+        "remeasuredAt": "2026-10-09T22:26:20.256Z",
+        "wardrobeImageNote": "Historical garment identification aid only. New full source/UV/index arrays and selectors were measured from the exact frozen passing source; this PNG is not a fresh final body/chant or painted-textile QA witness.",
+        "priorBasis": {
+          "sourceSHA256": "cc947d4a9c2dc5de543ff117ceb50aeea26969557ffac7b984624dac651b451d",
+          "revision": "woven-v1",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/0e4f7e9d1714b07d985adb1b9c37a639b469291e19785ed500fdc2fed9e101fb/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "0e4f7e9d1714b07d985adb1b9c37a639b469291e19785ed500fdc2fed9e101fb",
+          "selectedVertexCounts": [
+            538
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "61e91a49dcb3331601b95c6d6072a473cdce06ecc8dc166bf46d72ce9178e760",
+          "uvAttributeFloat64LESHA256": "4f902da801202487c5c9593efb02d6f25155716e7a6f224db234ee8cceffd59f",
+          "triangleIndicesUint32LESHA256": "89a0986d72a40b613ad40905bd7170d7e18032f7bfb00cb66d59a4d829152265",
+          "embeddedColourSHA256": "97ab467d062c10e99c642c41b05793189bc442bcfdace4506b95b591daa404d1",
+          "UVTransformJSONSHA256": "b5211f26b9834ebe9a8b2992b472c5a9d26f7bf3a555833ca13d8749e16be4d0",
+          "vertexCount": 16063,
+          "triangleCount": 12440,
+          "scope": "Complete decoded arrays independently measured from final source now; no equivalence to historical geometry is inferred."
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/occultist/occultist-qa.json",
+          "frozenReport": "artifacts/city-npc-models/garment-basis/occultist-619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61-qa.json",
+          "reportSHA256": "d2dd800891023727bcb0d8a67b2bef468664ff5f2bb322b85d5f9fb050a75674",
+          "assetSHA256": "619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61",
+          "auditPassed": true,
+          "failureCount": 0,
+          "height": 1.72
+        },
+        "bodyFreezeReceipt": {
+          "path": "artifacts/city-npc-models/occultist/validation-receipt.json",
+          "frozenReport": "artifacts/city-npc-models/garment-basis/occultist-619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61-validation-receipt.json",
+          "reportSHA256": "be9595b36bf50183b1468140075bdcf694a7882889f12db451e25393ddfd45b8",
+          "status": "FROZEN_NATIVE_PASS"
+        }
+      },
+      "previewStatus": "remeasured_woven_v2_pending_parent_render",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_and_runtime_chant_pending"
+    },
+    {
+      "family": "master_muay",
+      "ink": [
+        210,
+        183,
+        128
+      ],
+      "ground": [
+        119,
+        27,
+        30
+      ],
+      "strength": 0.7,
+      "garment": "Repaired bare-chest source; only crimson shorts. Red lower edge measured at Y .5792-.620; legs and torso receive no pattern.",
+      "regions": [
+        {
+          "name": "red-shorts-hem",
+          "minY": 0.606,
+          "maxY": 0.646,
+          "maxX": 0.24,
+          "repeat": 0.078,
+          "motif": "W",
+          "redOnly": true
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#d2b780",
+      "groundRGB": "#771b1e",
+      "basis": {
+        "source": "artifacts/city-npc-models/master_muay/master_muay.glb",
+        "sourceSHA256": "c5f36e6b0f78e3b30edd644c551b4ee4cc426d6b7e396d46a51c21786802ed4c",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/master_muay.png",
+        "wardrobeImageSHA256": "465e6e70b6853799302bf47d25c38b7a74c6ec37be462d5863df9ba9963aa8f5",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "red-shorts-hem",
+            "selectedVertexCount": 377,
+            "uniquePositionCount": 176,
+            "actualBounds": {
+              "min": [
+                -0.23545848502048583,
+                0.6060892818529702,
+                -0.1653265463185889
+              ],
+              "max": [
+                0.23173306950727057,
+                0.64577431339294,
+                0.055355841750190427
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 2632,
+                "position": [
+                  -0.216981,
+                  0.606089,
+                  -0.015195
+                ],
+                "textureRGB": [
+                  72,
+                  39,
+                  48
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2509,
+                "position": [
+                  -0.206587,
+                  0.645774,
+                  0.01882
+                ],
+                "textureRGB": [
+                  138,
+                  13,
+                  19
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2216,
+                "position": [
+                  -0.234409,
+                  0.614593,
+                  -0.064014
+                ],
+                "textureRGB": [
+                  64,
+                  18,
+                  21
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2739,
+                "position": [
+                  -0.166272,
+                  0.608399,
+                  0.011051
+                ],
+                "textureRGB": [
+                  128,
+                  91,
+                  73
+                ]
+              },
+              {
+                "runtimeVertexIndex": 4300,
+                "position": [
+                  -0.06496,
+                  0.637375,
+                  -0.148319
+                ],
+                "textureRGB": [
+                  119,
+                  13,
+                  13
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10260,
+                "position": [
+                  0.124856,
+                  0.608714,
+                  -0.165117
+                ],
+                "textureRGB": [
+                  84,
+                  31,
+                  39
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "master_sword",
+      "ink": [
+        214,
+        189,
+        127
+      ],
+      "ground": [
+        19,
+        50,
+        73
+      ],
+      "garment": "Long indigo front panel: actual front lower rim around Y .4366-.450. Restrict to blue front-facing cloth, leaving brown trousers alone.",
+      "regions": [
+        {
+          "name": "indigo-front-panel-border",
+          "minY": 0.455,
+          "maxY": 0.495,
+          "maxX": 0.18,
+          "repeat": 0.075,
+          "motif": "P",
+          "blueOnly": true,
+          "minZ": -0.03
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#d6bd7f",
+      "groundRGB": "#133249",
+      "strength": 0.72,
+      "basis": {
+        "source": "artifacts/city-npc-models/master_sword/master_sword.glb",
+        "sourceSHA256": "e3c4f36d1c81fee1b294406411066603b714e523d5c7d360ae642667a8c45cd8",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/master_sword.png",
+        "wardrobeImageSHA256": "9679f8cb1e5b8c4e307de032645ae40cdbd616de320f25fd06c335e28d8031f8",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "indigo-front-panel-border",
+            "selectedVertexCount": 6,
+            "uniquePositionCount": 4,
+            "actualBounds": {
+              "min": [
+                -0.08288491898198469,
+                0.4554330610740407,
+                0.033964568431825215
+              ],
+              "max": [
+                0.10630144342803194,
+                0.4931233534982633,
+                0.04047375851541546
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 5042,
+                "position": [
+                  0.106301,
+                  0.455433,
+                  0.033965
+                ],
+                "textureRGB": [
+                  26,
+                  42,
+                  55
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5032,
+                "position": [
+                  -0.082885,
+                  0.493123,
+                  0.035959
+                ],
+                "textureRGB": [
+                  10,
+                  43,
+                  74
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5032,
+                "position": [
+                  -0.082885,
+                  0.493123,
+                  0.035959
+                ],
+                "textureRGB": [
+                  10,
+                  43,
+                  74
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5033,
+                "position": [
+                  -0.024827,
+                  0.484724,
+                  0.040474
+                ],
+                "textureRGB": [
+                  10,
+                  45,
+                  75
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5040,
+                "position": [
+                  -0.013069,
+                  0.474016,
+                  0.037849
+                ],
+                "textureRGB": [
+                  10,
+                  43,
+                  76
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5042,
+                "position": [
+                  0.106301,
+                  0.455433,
+                  0.033965
+                ],
+                "textureRGB": [
+                  26,
+                  42,
+                  55
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "master_hunter",
+      "ink": [
+        172,
+        137,
+        89
+      ],
+      "ground": [
+        85,
+        43,
+        24
+      ],
+      "strength": 0.6,
+      "garment": "Rust waist-wrap lower ends: dense dyed surface begins around Y .6396-.685. Avoid skin and dark cropped trousers.",
+      "regions": [
+        {
+          "name": "rust-waist-wrap-border",
+          "minY": 0.677,
+          "maxY": 0.717,
+          "maxX": 0.19,
+          "repeat": 0.082,
+          "motif": "W",
+          "redOnly": true
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#ac8959",
+      "groundRGB": "#552b18",
+      "basis": {
+        "source": "artifacts/city-npc-models/master_hunter/master_hunter.glb",
+        "sourceSHA256": "0d35aac66523b53d2c7dfdc79de23b42e1187d8c7a8be8c88055194870bd7860",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/master_hunter.png",
+        "wardrobeImageSHA256": "f1acd3e65f6880c0ea06484db151c485caf613af6c60e2afeed9819a0e02b444",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "rust-waist-wrap-border",
+            "selectedVertexCount": 350,
+            "uniquePositionCount": 124,
+            "actualBounds": {
+              "min": [
+                -0.18913207629888407,
+                0.677165330244586,
+                -0.2548659694647118
+              ],
+              "max": [
+                0.18924060166294776,
+                0.7167453833635251,
+                0.0713282446815568
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 5339,
+                "position": [
+                  -0.021573,
+                  0.677165,
+                  0.025134
+                ],
+                "textureRGB": [
+                  70,
+                  32,
+                  21
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3442,
+                "position": [
+                  -0.106822,
+                  0.716745,
+                  -0.236913
+                ],
+                "textureRGB": [
+                  50,
+                  26,
+                  14
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1262,
+                "position": [
+                  -0.185353,
+                  0.697323,
+                  -0.195653
+                ],
+                "textureRGB": [
+                  58,
+                  31,
+                  24
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3283,
+                "position": [
+                  -0.114801,
+                  0.712336,
+                  -0.231454
+                ],
+                "textureRGB": [
+                  40,
+                  20,
+                  11
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6929,
+                "position": [
+                  0.032915,
+                  0.711181,
+                  -0.241533
+                ],
+                "textureRGB": [
+                  103,
+                  82,
+                  55
+                ]
+              },
+              {
+                "runtimeVertexIndex": 12658,
+                "position": [
+                  0.067981,
+                  0.713911,
+                  -0.224735
+                ],
+                "textureRGB": [
+                  66,
+                  40,
+                  25
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "master_herbal",
+      "ink": [
+        180,
+        178,
+        117
+      ],
+      "ground": [
+        32,
+        73,
+        60
+      ],
+      "strength": 0.65,
+      "garment": "Jade hip waist cloth, measured green surfaces at Y .6245-.695. Small lower border; cream shirt and brown pants stay plain.",
+      "regions": [
+        {
+          "name": "jade-waist-cloth-edge",
+          "minY": 0.672,
+          "maxY": 0.712,
+          "maxX": 0.23,
+          "repeat": 0.078,
+          "motif": "W",
+          "greenOnly": true
+        },
+        {
+          "name": "complete-left-wrist-accessory",
+          "triangles": [
+            11362,
+            11363,
+            11364,
+            11365,
+            11366,
+            11367,
+            11368,
+            11369,
+            11370,
+            11371,
+            11372,
+            11373,
+            11374,
+            11375,
+            11376,
+            11377,
+            11378,
+            11379,
+            11380,
+            11381,
+            11382,
+            11386,
+            11387,
+            11388,
+            11389,
+            11390,
+            11391,
+            11392,
+            11393,
+            11394,
+            11395,
+            11396,
+            11397,
+            11398,
+            11399,
+            11400,
+            11401,
+            11402,
+            11403,
+            11404,
+            11405,
+            11406,
+            11407,
+            11408,
+            11409,
+            11412,
+            11413,
+            11414,
+            11415,
+            11416,
+            11417,
+            11423,
+            11424,
+            11425,
+            11426,
+            11427,
+            11428,
+            11429,
+            11430,
+            11431,
+            11432,
+            11434,
+            11435,
+            11474,
+            11475,
+            11476,
+            11477,
+            11478,
+            11479,
+            11480,
+            11481,
+            11482,
+            11483,
+            11484,
+            11485,
+            11486,
+            11487,
+            11488,
+            11489,
+            11490,
+            11491,
+            11492,
+            11493,
+            11494,
+            11495,
+            11496,
+            11497,
+            11498,
+            11499,
+            11500,
+            11501,
+            11502,
+            11503,
+            11504,
+            11517,
+            11524,
+            11525,
+            11526,
+            11527,
+            11528,
+            11529,
+            11530,
+            11531,
+            11533,
+            11534,
+            11535,
+            11536,
+            11537,
+            11538,
+            11540,
+            11541,
+            11542,
+            11543,
+            11544,
+            11600,
+            11601,
+            11605,
+            11606,
+            11607,
+            11608,
+            11609,
+            11610,
+            11611,
+            11612,
+            11613,
+            11614,
+            11615,
+            11616,
+            11617,
+            11618,
+            11619,
+            11620,
+            11621,
+            11622,
+            11623,
+            11624,
+            11625,
+            11626,
+            11627,
+            11628,
+            11629,
+            11630,
+            11631,
+            11632,
+            11633,
+            11634,
+            11635,
+            11636,
+            11637,
+            11658,
+            11660,
+            11661,
+            11662,
+            11663,
+            11664,
+            11665,
+            11671,
+            11672,
+            11673,
+            11674,
+            11675,
+            11676,
+            11677,
+            11678,
+            11679,
+            11680,
+            11681,
+            11682,
+            11683,
+            11684,
+            11685,
+            11686,
+            11687,
+            11688,
+            11689,
+            11690,
+            11710,
+            11711,
+            11712,
+            11713,
+            11714,
+            11715,
+            11716,
+            11717,
+            11718,
+            11719,
+            11720,
+            11721,
+            11722,
+            11723,
+            11724,
+            11725,
+            11726,
+            11758,
+            11759,
+            11760,
+            11761,
+            11762,
+            11763,
+            11764,
+            11765,
+            11766,
+            11767,
+            11788,
+            11789,
+            11790,
+            11791,
+            11792,
+            11793,
+            11794,
+            11829,
+            11846,
+            11847,
+            11848,
+            11849,
+            11850,
+            11851,
+            11853,
+            11854,
+            11855,
+            11856,
+            11857,
+            11858,
+            11859,
+            11860,
+            11861,
+            11862,
+            11863,
+            11864,
+            11865,
+            11866,
+            11867,
+            11868,
+            11869,
+            11870,
+            11871,
+            11872,
+            11873,
+            11874,
+            11875,
+            11876,
+            11877,
+            11878,
+            11880,
+            11881,
+            11882,
+            11883,
+            11884,
+            11886,
+            11892,
+            11893,
+            11894,
+            11895,
+            11896,
+            11897,
+            11898,
+            11899,
+            11900,
+            11901,
+            11902,
+            11903,
+            11904,
+            11905,
+            11906,
+            11907,
+            11908,
+            11909,
+            11911,
+            11912,
+            11913,
+            11914,
+            11915,
+            11916,
+            11917,
+            11918,
+            11919,
+            11920,
+            11921,
+            11922,
+            11923,
+            11924,
+            11925,
+            11926,
+            11927,
+            11928,
+            11929,
+            11930,
+            11931,
+            11932,
+            11933,
+            11934,
+            11935,
+            11936,
+            11937,
+            11938,
+            11939,
+            11940,
+            11941,
+            11942,
+            11943,
+            11944,
+            11945,
+            11946,
+            11947,
+            11948,
+            11949,
+            11950,
+            11951,
+            11952,
+            11953,
+            11954,
+            11955,
+            11956,
+            11982,
+            11994,
+            11995,
+            11996,
+            11997,
+            11998,
+            11999,
+            12000,
+            12001,
+            12002,
+            12003,
+            12461
+          ],
+          "minX": 0.3575219466066667,
+          "maxX": 0.46156919337455715,
+          "minY": 1.0535932340702,
+          "maxY": 1.1653045409662848,
+          "minZ": 0.04029523025930831,
+          "maxZ": 0.16670469603581523,
+          "matteAccessoryOnly": true,
+          "motif": "S",
+          "repeat": 0.08,
+          "strength": 1,
+          "shadeMode": "geometry",
+          "ink": [
+            119,
+            54,
+            40
+          ],
+          "ground": [
+            119,
+            54,
+            40
+          ]
+        },
+        {
+          "name": "matte-woven-wrist-cord-0",
+          "triangles": [
+            11364,
+            11365,
+            11366,
+            11367,
+            11368,
+            11369,
+            11370,
+            11371,
+            11372,
+            11373,
+            11374,
+            11375,
+            11376,
+            11377,
+            11378,
+            11379,
+            11380,
+            11381,
+            11382
+          ],
+          "minX": 0.3575219466066667,
+          "maxX": 0.3791544977890132,
+          "minY": 1.1110210732391277,
+          "maxY": 1.1582704220678657,
+          "minZ": 0.09562331943235364,
+          "maxZ": 0.15295141125531925,
+          "matteAccessoryOnly": true,
+          "motif": "S",
+          "repeat": 0.08,
+          "strength": 1,
+          "ink": [
+            119,
+            54,
+            40
+          ],
+          "ground": [
+            119,
+            54,
+            40
+          ],
+          "shadeMode": "geometry"
+        },
+        {
+          "name": "matte-wood-token-replaces-silver-watch-face",
+          "triangles": [
+            11386,
+            11387,
+            11388,
+            11389,
+            11390,
+            11391,
+            11392,
+            11393,
+            11394,
+            11395,
+            11396,
+            11397,
+            11398,
+            11399,
+            11400,
+            11401,
+            11402,
+            11403,
+            11404,
+            11405,
+            11406
+          ],
+          "minX": 0.3575219466066667,
+          "maxX": 0.38881328244686575,
+          "minY": 1.0770053167489635,
+          "maxY": 1.1369580829659824,
+          "minZ": 0.13772306334650614,
+          "maxZ": 0.16177031124196534,
+          "matteAccessoryOnly": true,
+          "motif": "S",
+          "repeat": 0.08,
+          "strength": 1,
+          "ink": [
+            152,
+            106,
+            63
+          ],
+          "ground": [
+            152,
+            106,
+            63
+          ],
+          "shadeMode": "geometry"
+        },
+        {
+          "name": "matte-woven-wrist-cord-2",
+          "triangles": [
+            11936
+          ],
+          "minX": 0.44329622996813867,
+          "maxX": 0.45338021851329846,
+          "minY": 1.099997433977512,
+          "maxY": 1.1091365442929846,
+          "minZ": 0.07210625931926296,
+          "maxZ": 0.07956557773617196,
+          "matteAccessoryOnly": true,
+          "motif": "S",
+          "repeat": 0.08,
+          "strength": 1,
+          "ink": [
+            119,
+            54,
+            40
+          ],
+          "ground": [
+            119,
+            54,
+            40
+          ],
+          "shadeMode": "geometry"
+        },
+        {
+          "name": "matte-woven-wrist-cord-3",
+          "triangles": [
+            11953,
+            11954
+          ],
+          "minX": 0.4483355940379645,
+          "maxX": 0.46156919337455715,
+          "minY": 1.0597874542335144,
+          "maxY": 1.0838347000872206,
+          "minZ": 0.06591203313876248,
+          "maxZ": 0.07841072214911071,
+          "matteAccessoryOnly": true,
+          "motif": "S",
+          "repeat": 0.08,
+          "strength": 1,
+          "ink": [
+            119,
+            54,
+            40
+          ],
+          "ground": [
+            119,
+            54,
+            40
+          ],
+          "shadeMode": "geometry"
+        }
+      ],
+      "revision": "woven-v4",
+      "inkRGB": "#b4b275",
+      "groundRGB": "#20493c",
+      "basis": {
+        "source": "artifacts/city-npc-models/master_herbal/master_herbal.glb",
+        "sourceSHA256": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/master_herbal.png",
+        "wardrobeImageSHA256": "6036b63bf8523943d0a4ac0203488d9109ce63ac10ed45735f247c7240429d52",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "jade-waist-cloth-edge",
+            "selectedVertexCount": 118,
+            "uniquePositionCount": 56,
+            "actualBounds": {
+              "min": [
+                -0.2037877765798744,
+                0.672021026066479,
+                -0.2750302801912014
+              ],
+              "max": [
+                0.2234038329487208,
+                0.7116010832484211,
+                0.15793564336760813
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 6067,
+                "position": [
+                  -0.084523,
+                  0.672021,
+                  0.103237
+                ],
+                "textureRGB": [
+                  17,
+                  61,
+                  48
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6689,
+                "position": [
+                  -0.057016,
+                  0.711601,
+                  0.148067
+                ],
+                "textureRGB": [
+                  49,
+                  64,
+                  45
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3286,
+                "position": [
+                  -0.203788,
+                  0.702047,
+                  -0.19986
+                ],
+                "textureRGB": [
+                  46,
+                  72,
+                  61
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5984,
+                "position": [
+                  -0.084838,
+                  0.672546,
+                  0.149222
+                ],
+                "textureRGB": [
+                  37,
+                  70,
+                  59
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6720,
+                "position": [
+                  -0.046832,
+                  0.687664,
+                  0.139983
+                ],
+                "textureRGB": [
+                  54,
+                  90,
+                  80
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10172,
+                "position": [
+                  0.100884,
+                  0.691549,
+                  0.107647
+                ],
+                "textureRGB": [
+                  50,
+                  73,
+                  65
+                ]
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/master_herbal-c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166.glb",
+        "remeasuredAt": "2026-10-09T21:51:58.047Z",
+        "priorBasis": {
+          "sourceSHA256": "db2572c3536b97503d6a42b3a285a72d63362f22c7105775d8d275a0cbe7223d",
+          "revision": "woven-v1",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410",
+          "selectedVertexCounts": [
+            118
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "260cd459f272a35e333bcfcaaa3fe1966638a13ce1e341ccf715b6e77c8681c7",
+          "uvAttributeFloat64LESHA256": "8398014e439db412c01f186250d9cb54a2df1bdb9318b9317db36a47f8a2249b",
+          "triangleIndicesUint32LESHA256": "afe329401879fbe187eab3dd2ae98f8af39693217f5b7cf36262d2f30eac680e",
+          "embeddedColourSHA256": "3032f063e8d6055b638b27e419021040269db93752277e119118fc0e2363205b",
+          "UVTransformJSONSHA256": "6ce448b7a0b11b1ffbe94a3517115232bf9460d21f38a3fed3d5d765f1c1070d",
+          "vertexCount": 14609,
+          "triangleCount": 12462,
+          "scope": "Complete decoded arrays measured now; not an inferred equivalence to the old basis."
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/master_herbal/master_herbal-qa.json",
+          "reportSHA256": "aae1da74b0db459d2da53018aae5e41f6cd4b64ed07ee9aacb8b94d4e8d446d8",
+          "assetSHA256": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
+          "auditPassed": true,
+          "height": 1.72
+        }
+      },
+      "previewStatus": "woven_v4_scoped_watch_art_pass",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_pending",
+      "chartPadding": 3,
+      "watchArtReview": {
+        "verdict": "PASS_SCOPED_WATCH_P2_CLOSED",
+        "assetSHA256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+        "assetBytes": 640888,
+        "customProfile": "artifacts/city-npc-models/textiles/master_herbal/woven-v4-profile.json",
+        "customProfileSHA256": "05457f72cee13d4613a92a35c1763dc6cbcc4025723fe975f2f0c0b4d83bf216",
+        "report": "docs/art/npcs/reviews/watch-repair-4/report.json",
+        "reportSHA256": "97c58f51b5a469c013791623b317d1dc40d49ee3301c15697f5db7141181e37e",
+        "review": "docs/art/npcs/reviews/watch-repair-4/ART_REVIEW.md",
+        "scores": {
+          "style": 8,
+          "readability": 8,
+          "technicalUsability": 8
+        },
+        "inspectedImages": 6,
+        "nonTextureEncodedChunksUnchanged": 10,
+        "unchangedJSON": [
+          "nodes",
+          "skins",
+          "animations",
+          "accessors",
+          "meshes"
+        ],
+        "visibleClaim": "Plain matte brown-red bracelet/accessory; carved wood, token details and material substance are not established by the captures.",
+        "limits": [
+          "Only supplied idle 0.5 studio wrist/body views; no full motion, live city/night/mobile or deployment approval."
+        ],
+        "priorFullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/4b5a8866e9e1dda228d92595dd61f35568549d04d2fad09bb67643cdde055a2d/THAI_TEXTILE_PROFILES.json"
+      }
+    },
+    {
+      "family": "master_shaman",
+      "ink": [
+        203,
+        172,
+        112
+      ],
+      "ground": [
+        130,
+        65,
+        27
+      ],
+      "strength": 0.65,
+      "garment": "Asymmetric ivory robe hem cannot use a circumferential horizontal band. Use actual front ochre sash ends: red/orange surfaces at Y .600-.650 and Z .05-.13.",
+      "regions": [
+        {
+          "name": "plain-rear-wrap-edge-replaces-meander",
+          "minY": 0.255,
+          "maxY": 0.385,
+          "maxX": 0.25,
+          "maxZ": 0.065,
+          "repeat": 0.1,
+          "motif": "S",
+          "goldOnly": true,
+          "ink": [
+            178,
+            146,
+            90
+          ],
+          "ground": [
+            178,
+            146,
+            90
+          ],
+          "strength": 1,
+          "shadeMode": "geometry"
+        },
+        {
+          "name": "ochre-front-sash-end-border",
+          "minY": 0.603,
+          "maxY": 0.643,
+          "maxX": 0.1,
+          "repeat": 0.075,
+          "motif": "P",
+          "redOnly": true,
+          "minZ": 0.04
+        }
+      ],
+      "revision": "woven-v2",
+      "inkRGB": "#cbac70",
+      "groundRGB": "#82411b",
+      "basis": {
+        "source": "artifacts/city-npc-models/master_shaman/master_shaman.glb",
+        "sourceSHA256": "a11dd0734c6bac6428b2c60e51e2a8f63aac0eafea83baf53edf4aaac0869902",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/master_shaman.png",
+        "wardrobeImageSHA256": "5ff93263c3e2d29b83be515077206aa58cdad5c316a4f3b48738e50a936042ff",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "ochre-front-sash-end-border",
+            "selectedVertexCount": 73,
+            "uniquePositionCount": 28,
+            "actualBounds": {
+              "min": [
+                -0.06669241839408002,
+                0.6035696068735182,
+                0.05575060034341811
+              ],
+              "max": [
+                0.09677218852237501,
+                0.6396850991603622,
+                0.1373253830245562
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 6949,
+                "position": [
+                  -0.00769,
+                  0.60357,
+                  0.134701
+                ],
+                "textureRGB": [
+                  140,
+                  58,
+                  20
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5316,
+                "position": [
+                  -0.056404,
+                  0.639685,
+                  0.083152
+                ],
+                "textureRGB": [
+                  126,
+                  46,
+                  9
+                ]
+              },
+              {
+                "runtimeVertexIndex": 5352,
+                "position": [
+                  -0.066692,
+                  0.609764,
+                  0.102995
+                ],
+                "textureRGB": [
+                  152,
+                  81,
+                  49
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6376,
+                "position": [
+                  -0.023018,
+                  0.630446,
+                  0.124307
+                ],
+                "textureRGB": [
+                  145,
+                  83,
+                  58
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6947,
+                "position": [
+                  -0.000341,
+                  0.622257,
+                  0.127352
+                ],
+                "textureRGB": [
+                  136,
+                  53,
+                  11
+                ]
+              },
+              {
+                "runtimeVertexIndex": 9274,
+                "position": [
+                  0.062232,
+                  0.611129,
+                  0.101315
+                ],
+                "textureRGB": [
+                  121,
+                  65,
+                  42
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "master_bandit",
+      "ink": [
+        177,
+        135,
+        91
+      ],
+      "ground": [
+        91,
+        29,
+        31
+      ],
+      "strength": 0.58,
+      "garment": "Red waist sash only: dense red lower ends around Y .6569-.710. This profile does not repair or approve the held athletic chest texture.",
+      "regions": [
+        {
+          "name": "coherent-dark-chest-wrap",
+          "minY": 1.18,
+          "maxY": 1.48,
+          "maxX": 0.29,
+          "repeat": 0.1,
+          "motif": "S",
+          "creamOnly": true,
+          "ink": [
+            43,
+            36,
+            31
+          ],
+          "ground": [
+            43,
+            36,
+            31
+          ],
+          "strength": 1,
+          "shadeMode": "geometry"
+        },
+        {
+          "name": "red-waist-sash-border",
+          "minY": 0.681,
+          "maxY": 0.721,
+          "maxX": 0.22,
+          "repeat": 0.08,
+          "motif": "W",
+          "redOnly": true
+        }
+      ],
+      "limitations": [
+        "Chest colour/design repair remains a separate art gate; sash decoration must not imply body release."
+      ],
+      "revision": "woven-v3",
+      "inkRGB": "#b1875b",
+      "groundRGB": "#5b1d1f",
+      "basis": {
+        "source": "artifacts/city-npc-models/master_bandit/master_bandit.glb",
+        "sourceSHA256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/master_bandit.png",
+        "wardrobeImageSHA256": "a73fe45839aac180bfe12896b9d8e97d2138011f647a7f27d307f38df2060eb8",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "red-waist-sash-border",
+            "selectedVertexCount": 310,
+            "uniquePositionCount": 107,
+            "actualBounds": {
+              "min": [
+                -0.21912422267448184,
+                0.6810497759511185,
+                -0.2017475732005739
+              ],
+              "max": [
+                0.21982587231131345,
+                0.7208398096020479,
+                0.15384298751795183
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 15724,
+                "position": [
+                  0.191794,
+                  0.68105,
+                  -0.109044
+                ],
+                "textureRGB": [
+                  111,
+                  18,
+                  13
+                ]
+              },
+              {
+                "runtimeVertexIndex": 15550,
+                "position": [
+                  0.179511,
+                  0.72084,
+                  -0.123637
+                ],
+                "textureRGB": [
+                  105,
+                  12,
+                  5
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2657,
+                "position": [
+                  -0.217864,
+                  0.699003,
+                  -0.201748
+                ],
+                "textureRGB": [
+                  97,
+                  15,
+                  19
+                ]
+              },
+              {
+                "runtimeVertexIndex": 3141,
+                "position": [
+                  -0.154872,
+                  0.715696,
+                  0.052741
+                ],
+                "textureRGB": [
+                  66,
+                  15,
+                  14
+                ]
+              },
+              {
+                "runtimeVertexIndex": 6933,
+                "position": [
+                  -0.063324,
+                  0.714541,
+                  0.131061
+                ],
+                "textureRGB": [
+                  85,
+                  0,
+                  2
+                ]
+              },
+              {
+                "runtimeVertexIndex": 13419,
+                "position": [
+                  0.111899,
+                  0.710656,
+                  0.064289
+                ],
+                "textureRGB": [
+                  61,
+                  42,
+                  38
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile",
+      "chartPadding": 4
+    },
+    {
+      "family": "city_guard",
+      "ink": [
+        198,
+        169,
+        104
+      ],
+      "ground": [
+        65,
+        65,
+        40
+      ],
+      "strength": 0.67,
+      "garment": "Actual olive front sash: cloth samples at Y .545-.595, Z about .043. Restrict to front sash instead of ornamenting red shirt or pants.",
+      "regions": [
+        {
+          "name": "olive-front-sash-end-border",
+          "minY": 0.563,
+          "maxY": 0.603,
+          "maxX": 0.17,
+          "repeat": 0.08,
+          "motif": "P",
+          "minZ": 0.025
+        }
+      ],
+      "revision": "woven-v1",
+      "inkRGB": "#c6a968",
+      "groundRGB": "#414128",
+      "basis": {
+        "source": "artifacts/city-npc-models/city_guard/city_guard.glb",
+        "sourceSHA256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/city_guard.png",
+        "wardrobeImageSHA256": "ebab6d24a3fbdf831a35efb8fb492bf07f269a9f51030ade62cdc2475b5b18c9",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "olive-front-sash-end-border",
+            "selectedVertexCount": 745,
+            "uniquePositionCount": 182,
+            "actualBounds": {
+              "min": [
+                -0.10721236383638821,
+                0.5630445982542714,
+                0.025019201572489602
+              ],
+              "max": [
+                0.09940182183236879,
+                0.6026246508414452,
+                0.07866749463868056
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 9593,
+                "position": [
+                  -0.034981,
+                  0.563045,
+                  0.037408
+                ],
+                "textureRGB": [
+                  67,
+                  61,
+                  45
+                ]
+              },
+              {
+                "runtimeVertexIndex": 9149,
+                "position": [
+                  -0.059758,
+                  0.602625,
+                  0.05893
+                ],
+                "textureRGB": [
+                  68,
+                  36,
+                  23
+                ]
+              },
+              {
+                "runtimeVertexIndex": 7135,
+                "position": [
+                  -0.099968,
+                  0.593596,
+                  0.037303
+                ],
+                "textureRGB": [
+                  77,
+                  62,
+                  31
+                ]
+              },
+              {
+                "runtimeVertexIndex": 10382,
+                "position": [
+                  0.004704,
+                  0.591706,
+                  0.025544
+                ],
+                "textureRGB": [
+                  107,
+                  25,
+                  31
+                ]
+              },
+              {
+                "runtimeVertexIndex": 11468,
+                "position": [
+                  0.022026,
+                  0.576378,
+                  0.055885
+                ],
+                "textureRGB": [
+                  110,
+                  79,
+                  25
+                ]
+              },
+              {
+                "runtimeVertexIndex": 12045,
+                "position": [
+                  0.047118,
+                  0.564619,
+                  0.043812
+                ],
+                "textureRGB": [
+                  132,
+                  81,
+                  62
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "previewStatus": "proposed_mask_pending_parent_render",
+      "bodyReleaseStatus": "not_assessed_by_textile_profile"
+    },
+    {
+      "family": "monk_elder",
+      "ink": [
+        153,
+        98,
+        36
+      ],
+      "ground": [
+        117,
+        72,
+        30
+      ],
+      "strength": 0.22,
+      "garment": "Plain lower robe/under-wrap rim: dense clothed source edge around Y .329-.345, above bare calves. Tonal stitch only, no rosettes or gold ornament.",
+      "regions": [
+        {
+          "name": "tonal-lower-robe-edge",
+          "minY": 0.353,
+          "maxY": 0.376,
+          "maxX": 0.19,
+          "repeat": 0.09,
+          "motif": "T"
+        }
+      ],
+      "revision": "woven-v3",
+      "inkRGB": "#996224",
+      "groundRGB": "#75481e",
+      "basis": {
+        "source": "artifacts/city-npc-models/monk_elder/monk_elder.glb",
+        "sourceSHA256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/monk_elder.png",
+        "wardrobeImageSHA256": "9cc0bda4ed751b5db902006a01840b1100d9f10675fdf4b9da4d3cf1c71f3e5c",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "tonal-lower-robe-edge",
+            "selectedVertexCount": 40,
+            "priorSelectedVertexCount": 40,
+            "uniquePositionCount": 25,
+            "actualBounds": {
+              "min": [
+                -0.16988153223125263,
+                0.35328082401188493,
+                -0.19855474617205332
+              ],
+              "max": [
+                0.16513186913156586,
+                0.37480319463186446,
+                0.013728793059677113
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 10734,
+                "position": [
+                  0.15956763498636017,
+                  0.35328082401188493,
+                  -0.18438154070076596
+                ],
+                "textureRGB": [
+                  109,
+                  50,
+                  10
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 8173,
+                "position": [
+                  0.06444947413664731,
+                  0.37480319463186446,
+                  -0.18060192840806422
+                ],
+                "textureRGB": [
+                  35,
+                  21,
+                  20
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 2484,
+                "position": [
+                  -0.16988153223125263,
+                  0.36640407808293746,
+                  -0.1369275040593264
+                ],
+                "textureRGB": [
+                  95,
+                  61,
+                  13
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 2453,
+                "position": [
+                  -0.06258483071878412,
+                  0.3628346425784479,
+                  -0.026271229466053925
+                ],
+                "textureRGB": [
+                  104,
+                  58,
+                  22
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 4622,
+                "position": [
+                  -0.0579655342035319,
+                  0.3592650731969934,
+                  -0.16621873235973453
+                ],
+                "textureRGB": [
+                  36,
+                  21,
+                  18
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 6870,
+                "position": [
+                  0.05689029817533131,
+                  0.3685039817689514,
+                  0.010054237315184511
+                ],
+                "textureRGB": [
+                  108,
+                  58,
+                  23
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/monk_elder-20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236.glb",
+        "remeasuredAt": "2026-10-09T23:05:43.224Z",
+        "priorBasis": {
+          "sourceSHA256": "b3bc1fc9dd1eb4aea4523a98a771d09e9d216e734f1e42da87726d92008e354f",
+          "revision": "woven-v2",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/1e2a1c1c585b554473a76384c959b52f181b4d91ef0da18c8fe8379c3430a263/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "1e2a1c1c585b554473a76384c959b52f181b4d91ef0da18c8fe8379c3430a263",
+          "selectedVertexCounts": [
+            40
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "293fbcc21428266c42159a7792dccc367b5014d943def72ca5017d009aaa12dc",
+          "rawPositionsFloat64LESHA256": "7c90b18251ac2cdccf11b3e29adbd6af9d71b0da21b13874975debcf4a08578c",
+          "uvAttributeFloat64LESHA256": "25af4efcfc2a48f2f56e1c5ddebf2795b556396264e048aa571a0b7115f8cfba",
+          "triangleIndicesUint32LESHA256": "591faf24337a7c507c4eaaf7f6e6630ffcdb5133a3dd1bf559d8503feb5fa2c8",
+          "imageSHA256": "4e821af9a0a01f05d1687078d1c4511cb69aeaa077a654b326156fe705a36e39",
+          "textureInfoSHA256": "c97f643ff4786e5f878cca0d627f0a57addcfda2ca7b89597050aa8ec9cdd668",
+          "vertexCount": 13552,
+          "triangleCount": 12311
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/monk_elder/monk_elder-qa.json",
+          "reportSHA256": "f1df41a456d2aff856f6ba4635f35f7828345cce3df0334f322d5714479ff7ac",
+          "assetSHA256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "auditPassed": true,
+          "height": 1.72
+        },
+        "measurementReceipt": "artifacts/city-npc-models/garment-basis/monk-wai-v3-preflight/receipt.json"
+      },
+      "previewStatus": "remeasured_woven_v3_pending_render",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_pending"
+    },
+    {
+      "family": "monk_novice",
+      "ink": [
+        174,
+        115,
+        39
+      ],
+      "ground": [
+        156,
+        93,
+        24
+      ],
+      "strength": 0.2,
+      "garment": "Actual 1.2 m novice robe: lower orange rim at Y .1178-.125. Narrow tonal edge scaled to this garment, not an adult hem.",
+      "regions": [
+        {
+          "name": "tonal-small-robe-hem",
+          "minY": 0.139,
+          "maxY": 0.159,
+          "maxX": 0.16,
+          "repeat": 0.065,
+          "motif": "T"
+        }
+      ],
+      "revision": "woven-v3",
+      "inkRGB": "#ae7327",
+      "groundRGB": "#9c5d18",
+      "basis": {
+        "source": "artifacts/city-npc-models/monk_novice/monk_novice.glb",
+        "sourceSHA256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/monk_novice.png",
+        "wardrobeImageSHA256": "f19fc8155004b1ddabd8f41b598a4f5a0959b1ef1bc6a25cb9cf47921cfba18d",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "tonal-small-robe-hem",
+            "selectedVertexCount": 365,
+            "priorSelectedVertexCount": 365,
+            "uniquePositionCount": 153,
+            "actualBounds": {
+              "min": [
+                -0.12406703539914737,
+                0.13968138517430523,
+                -0.14719937265030672
+              ],
+              "max": [
+                0.15243925864467517,
+                0.15630837097126374,
+                0.06865852252178464
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 7005,
+                "position": [
+                  0.002210286807635742,
+                  0.13968138517430523,
+                  0.012771340047867397
+                ],
+                "textureRGB": [
+                  163,
+                  85,
+                  10
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 8286,
+                "position": [
+                  0.017885086689105323,
+                  0.15630837097126374,
+                  0.04023883159797975
+                ],
+                "textureRGB": [
+                  173,
+                  91,
+                  9
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 3152,
+                "position": [
+                  -0.12406703539914737,
+                  0.1487639214293968,
+                  -0.06655486283332532
+                ],
+                "textureRGB": [
+                  165,
+                  102,
+                  67
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 3942,
+                "position": [
+                  -0.014709750365797691,
+                  0.14495516657727092,
+                  -0.12266173893293147
+                ],
+                "textureRGB": [
+                  162,
+                  84,
+                  9
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 7555,
+                "position": [
+                  -0.001598538529377691,
+                  0.15264603460636014,
+                  0.05356971944085914
+                ],
+                "textureRGB": [
+                  173,
+                  91,
+                  9
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              },
+              {
+                "runtimeVertexIndex": 10528,
+                "position": [
+                  0.104169710697741,
+                  0.1450284170712943,
+                  -0.083181760984278
+                ],
+                "textureRGB": [
+                  162,
+                  84,
+                  10
+                ],
+                "textureRGBBasis": "Prior actual sample; complete UV/index arrays and embedded image/texture-info verified identical."
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/monk_novice-36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5.glb",
+        "remeasuredAt": "2026-10-09T23:05:43.224Z",
+        "priorBasis": {
+          "sourceSHA256": "2c9dedd9ca8df66e7f6d8b5e3c448898c9c4f3f0536af5d7004573ec9196efdd",
+          "revision": "woven-v2",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/1e2a1c1c585b554473a76384c959b52f181b4d91ef0da18c8fe8379c3430a263/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "1e2a1c1c585b554473a76384c959b52f181b4d91ef0da18c8fe8379c3430a263",
+          "selectedVertexCounts": [
+            365
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "2603258f1c58ac709aef90050a650ceef71fc3d4ae5e257b9254dedc915173ca",
+          "rawPositionsFloat64LESHA256": "bc0865192e9ef33259211a9866771f8d04d83cf66cbf126d3d38f240d88ef9df",
+          "uvAttributeFloat64LESHA256": "aba0583484678cd2a2e83b314ba6703b3245073d07652bb8e9c23e1593a2b286",
+          "triangleIndicesUint32LESHA256": "946888f6788ed8c7641c4d53a1e0574b19e3f83764641cb397d28cee4722e3a3",
+          "imageSHA256": "02e5672878979dd3f99b89343f055edb9c110c282f0ecec9068f31ee7ad7c6e2",
+          "textureInfoSHA256": "d9e5018eb88c78b56a60e9e047f4b83a37827c36ae5c4f59b9087a741c7209e3",
+          "vertexCount": 13416,
+          "triangleCount": 12251
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/monk_novice/monk_novice-qa.json",
+          "reportSHA256": "baeac2ea88da08419c67d6c8f75140959e1d509f22dcb78623be0572ba5dabe9",
+          "assetSHA256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "auditPassed": true,
+          "height": 1.2
+        },
+        "measurementReceipt": "artifacts/city-npc-models/garment-basis/monk-wai-v3-preflight/receipt.json"
+      },
+      "previewStatus": "remeasured_woven_v3_pending_render",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_pending"
+    },
+    {
+      "family": "boatman",
+      "ink": [
+        190,
+        180,
+        146
+      ],
+      "ground": [
+        33,
+        58,
+        69
+      ],
+      "strength": 0.58,
+      "garment": "Blue-gray hip shirt: blue lower cloth and existing ivory piping around Y .660-.705. Quiet T edge just above piping; sash ends and bare shins unchanged.",
+      "regions": [
+        {
+          "name": "blue-gray-shirt-lower-edge",
+          "minY": 0.69,
+          "maxY": 0.73,
+          "maxX": 0.23,
+          "repeat": 0.085,
+          "motif": "T",
+          "blueOnly": true
+        }
+      ],
+      "revision": "woven-v2",
+      "inkRGB": "#beb492",
+      "groundRGB": "#213a45",
+      "basis": {
+        "source": "artifacts/city-npc-models/boatman/boatman.glb",
+        "sourceSHA256": "e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44",
+        "wardrobeImage": "artifacts/city-npc-models/wardrobe-inspection/boatman.png",
+        "wardrobeImageSHA256": "b195683e0c2ecf171deac6baf94f612ee21eef88bd88974c1855e95eb8f384a6",
+        "measurementFrame": "Three.js decoded native rest world vertices, metres, Y up; abs(X) masks. Embedded base-colour JPEG sampled at actual UV with KHR_texture_transform. Wardrobe PNG is a garment identification aid, not an anatomy or mask QA receipt.",
+        "regions": [
+          {
+            "name": "blue-gray-shirt-lower-edge",
+            "selectedVertexCount": 75,
+            "uniquePositionCount": 51,
+            "actualBounds": {
+              "min": [
+                -0.19764898396857844,
+                0.6907086793899433,
+                -0.3033566799098805
+              ],
+              "max": [
+                0.21305960144381098,
+                0.7298687620421345,
+                0.035750944848250366
+              ]
+            },
+            "samples": [
+              {
+                "runtimeVertexIndex": 1769,
+                "position": [
+                  -0.173712,
+                  0.690709,
+                  -0.146296
+                ],
+                "textureRGB": [
+                  24,
+                  24,
+                  26
+                ]
+              },
+              {
+                "runtimeVertexIndex": 12631,
+                "position": [
+                  0.149018,
+                  0.729869,
+                  -0.062307
+                ],
+                "textureRGB": [
+                  23,
+                  32,
+                  39
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1474,
+                "position": [
+                  -0.197649,
+                  0.704987,
+                  -0.092018
+                ],
+                "textureRGB": [
+                  20,
+                  36,
+                  52
+                ]
+              },
+              {
+                "runtimeVertexIndex": 1763,
+                "position": [
+                  -0.063896,
+                  0.715801,
+                  0.010239
+                ],
+                "textureRGB": [
+                  21,
+                  37,
+                  52
+                ]
+              },
+              {
+                "runtimeVertexIndex": 2987,
+                "position": [
+                  -0.117124,
+                  0.693333,
+                  -0.043619
+                ],
+                "textureRGB": [
+                  18,
+                  40,
+                  54
+                ]
+              },
+              {
+                "runtimeVertexIndex": 9138,
+                "position": [
+                  0.059569,
+                  0.723255,
+                  -0.016637
+                ],
+                "textureRGB": [
+                  27,
+                  30,
+                  35
+                ]
+              }
+            ]
+          }
+        ],
+        "frozenSource": "artifacts/city-npc-models/garment-basis/boatman-e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44.glb",
+        "remeasuredAt": "2026-10-09T21:51:58.047Z",
+        "priorBasis": {
+          "sourceSHA256": "6d643e8e4950dc068d835683b3344d8c69c1640297d8325edb802bac080084ec",
+          "revision": "woven-v1",
+          "fullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410/THAI_TEXTILE_PROFILES.json",
+          "snapshotSHA256": "1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410",
+          "selectedVertexCounts": [
+            75
+          ]
+        },
+        "fullGeometryFingerprints": {
+          "worldRestPositionsFloat64LESHA256": "eb47bdb6086bd475a135f0cff0df7ed59f33b2a9a960a58d694ca25c45583862",
+          "uvAttributeFloat64LESHA256": "6cda1b0a3c4a72946bacab3f41ce07501834cfa9eeb3db4d7672140e87b930f9",
+          "triangleIndicesUint32LESHA256": "bc2a420d61966a749a2337dad39a7c0fd741a9fba8be7742a71ff398e3000b56",
+          "embeddedColourSHA256": "9af993a11d30c00bc630ed9d3abbafea3e8185a7a43d2f82b514880546973b26",
+          "UVTransformJSONSHA256": "ccbd2565c6d864d2c0074c0a45db2058399941e08e0c186e8b8022c8243b6303",
+          "vertexCount": 15187,
+          "triangleCount": 12325,
+          "scope": "Complete decoded arrays measured now; not an inferred equivalence to the old basis."
+        },
+        "matchingBodyQA": {
+          "path": "artifacts/city-npc-models/boatman/boatman-qa.json",
+          "reportSHA256": "826a7e1b2d3af6a94e71e6cffd1722f922fc3e8250cb1e91da5caa26d69cccff",
+          "assetSHA256": "e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44",
+          "auditPassed": true,
+          "height": 1.72
+        }
+      },
+      "previewStatus": "remeasured_woven_v2_pending_parent_render",
+      "bodyReleaseStatus": "matching_native_audit_pass_full_art_pending"
+    }
+  ],
+  "updatedAt": "2026-10-09T22:58:52.054Z",
+  "remeasurementReceipt": {
+    "scope": "Only five newly frozen passing bodies remeasured. Prior profiles/outputs preserved; exact parent custom Shaman v2 and Bandit v3 settings retained without rewriting their files.",
+    "priorFullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410/THAI_TEXTILE_PROFILES.json",
+    "priorProfileSHA256": "1d3b3aa54c2cd8f62ce85246018a43606242ed84e49a4b93997478e69cae8410",
+    "updatedFamilies": [
+      {
+        "family": "enhancer",
+        "previousSHA": "4b2a12005fcf018458f727748303ef9075b5d5a05d5fce6ea9500d1c79dd1e83",
+        "newSHA": "0f1011b44b64b11db9f0ae4801a7637a12b30d556bb23a0a6f480917c42ffe81",
+        "counts": [
+          182
+        ],
+        "previousCounts": [
+          182
+        ]
+      },
+      {
+        "family": "boatman",
+        "previousSHA": "6d643e8e4950dc068d835683b3344d8c69c1640297d8325edb802bac080084ec",
+        "newSHA": "e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44",
+        "counts": [
+          75
+        ],
+        "previousCounts": [
+          75
+        ]
+      },
+      {
+        "family": "master_herbal",
+        "previousSHA": "db2572c3536b97503d6a42b3a285a72d63362f22c7105775d8d275a0cbe7223d",
+        "newSHA": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
+        "counts": [
+          118
+        ],
+        "previousCounts": [
+          118
+        ]
+      },
+      {
+        "family": "monk_elder",
+        "previousSHA": "8b36a1e5dbaa7ffcf913a5fea85d4545b9e90f35f3ea1d9893782453d347a466",
+        "newSHA": "b3bc1fc9dd1eb4aea4523a98a771d09e9d216e734f1e42da87726d92008e354f",
+        "counts": [
+          40
+        ],
+        "previousCounts": [
+          40
+        ]
+      },
+      {
+        "family": "monk_novice",
+        "previousSHA": "4f2b2e6eb9e75fe0aafe06f6eb60c4f70b2a8b9e2533dbb65669be6d6882661f",
+        "newSHA": "2c9dedd9ca8df66e7f6d8b5e3c448898c9c4f3f0536af5d7004573ec9196efdd",
+        "counts": [
+          365
+        ],
+        "previousCounts": [
+          365
+        ]
+      }
+    ],
+    "preservedCustomProfiles": [
+      {
+        "family": "master_shaman",
+        "revision": "woven-v2",
+        "profilePath": "artifacts/city-npc-models/textiles/master_shaman/woven-v2-profile.json",
+        "profileSHA256": "d4bad27777b9a9602f7eca197645587b1c23aac0699ad9913ee65b7405cfc4d1",
+        "sourceSHA256": "a11dd0734c6bac6428b2c60e51e2a8f63aac0eafea83baf53edf4aaac0869902",
+        "acceptedAssetSHA256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+        "captureReport": "docs/art/npcs/reviews/cloth-repair-2/master_shaman/report.json",
+        "verdict": "PASS_scoped_textile_costume_P2_closed",
+        "fullBodyRelease": "pending"
+      },
+      {
+        "family": "master_bandit",
+        "revision": "woven-v3",
+        "profilePath": "artifacts/city-npc-models/textiles/master_bandit/woven-v3-profile.json",
+        "profileSHA256": "7c13e663fd84d0d2fad4c6303a8e264090a63837b3120a9c7cf768edcd68acd5",
+        "sourceSHA256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+        "acceptedAssetSHA256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+        "captureReport": "docs/art/npcs/reviews/bandit-edges-3/report.json",
+        "verdict": "PASS_scoped_textile_costume_P2_closed",
+        "fullBodyRelease": "pending"
+      }
+    ],
+    "heldFamilies": [
+      {
+        "family": "gate_supplier",
+        "qaReport": "artifacts/city-npc-models/gate_supplier/gate_supplier-qa.json",
+        "currentAssetSHA256": "15c3aa670e276369fe5f1809db39dc4a01da00486f1755235a0b7c081b1d2f31",
+        "profileSourceSHA256": "15c3aa670e276369fe5f1809db39dc4a01da00486f1755235a0b7c081b1d2f31",
+        "auditPassed": false,
+        "action": "Skip painting/publication until corrected body is frozen and remeasured. SHA equality alone is insufficient."
+      },
+      {
+        "family": "occultist",
+        "qaReport": "artifacts/city-npc-models/occultist/occultist-qa.json",
+        "currentAssetSHA256": "afc40c18044ab6f599ceaf79689be7358a1e32cc47680560c1a7713901b304f2",
+        "profileSourceSHA256": "cc947d4a9c2dc5de543ff117ceb50aeea26969557ffac7b984624dac651b451d",
+        "auditPassed": false,
+        "action": "Skip painting/publication until corrected body is frozen and remeasured. SHA equality alone is insufficient."
+      }
+    ]
+  },
+  "gateSupplierRemeasurement": {
+    "scope": "Gate Supplier only. Other sixteen profile objects and runtime/texture files remain unchanged.",
+    "capturedAt": "2026-10-09T22:00:50.392Z",
+    "priorFullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/7f1474f3dbad352f2a1af90477e36a6cefdd6ef5a8eeb2c927ce281c11ace6a2/THAI_TEXTILE_PROFILES.json",
+    "priorProfileSHA256": "7f1474f3dbad352f2a1af90477e36a6cefdd6ef5a8eeb2c927ce281c11ace6a2",
+    "previousSHA": "15c3aa670e276369fe5f1809db39dc4a01da00486f1755235a0b7c081b1d2f31",
+    "newSHA": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+    "revision": "woven-v2",
+    "counts": [
+      182
+    ],
+    "uniquePositionCounts": [
+      103
+    ],
+    "qaPassed": true,
+    "priorWovenV1": "artifacts/city-npc-models/textiles/gate_supplier/woven-v1/gate_supplier.glb",
+    "priorWovenV1Status": "Historical failed-body preview; not the woven-v2 basis or acceptance evidence.",
+    "supersedes": "Historical Gate Supplier hold entry in remeasurementReceipt.heldFamilies only; Occultist remains held.",
+    "visualReview": "Pending parent painting and current pinned captures."
+  },
+  "occultistRemeasurement": {
+    "scope": "Only final frozen Occultist profile updated to woven-v2. Other sixteen profiles, current public/stage assets and runtime/core profiles are unchanged.",
+    "sourceSHA256": "619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61",
+    "freezeStatus": "FROZEN_NATIVE_PASS",
+    "priorFullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/0e4f7e9d1714b07d985adb1b9c37a639b469291e19785ed500fdc2fed9e101fb/THAI_TEXTILE_PROFILES.json",
+    "priorProfileSHA256": "0e4f7e9d1714b07d985adb1b9c37a639b469291e19785ed500fdc2fed9e101fb",
+    "matchingQASHA256": "d2dd800891023727bcb0d8a67b2bef468664ff5f2bb322b85d5f9fb050a75674",
+    "selectedVertexCounts": [
+      538
+    ],
+    "closure": "Supersedes the historical Occultist failed-body hold in remeasurementReceipt.heldFamilies for textile preparation only. Painted texture, body Art, upright native/runtime chant and full release remain pending."
+  },
+  "masterHerbalWatchV4Review": {
+    "verdict": "PASS_SCOPED_WATCH_P2_CLOSED",
+    "assetSHA256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+    "assetBytes": 640888,
+    "customProfile": "artifacts/city-npc-models/textiles/master_herbal/woven-v4-profile.json",
+    "customProfileSHA256": "05457f72cee13d4613a92a35c1763dc6cbcc4025723fe975f2f0c0b4d83bf216",
+    "report": "docs/art/npcs/reviews/watch-repair-4/report.json",
+    "reportSHA256": "97c58f51b5a469c013791623b317d1dc40d49ee3301c15697f5db7141181e37e",
+    "review": "docs/art/npcs/reviews/watch-repair-4/ART_REVIEW.md",
+    "scores": {
+      "style": 8,
+      "readability": 8,
+      "technicalUsability": 8
+    },
+    "inspectedImages": 6,
+    "nonTextureEncodedChunksUnchanged": 10,
+    "unchangedJSON": [
+      "nodes",
+      "skins",
+      "animations",
+      "accessors",
+      "meshes"
+    ],
+    "visibleClaim": "Plain matte brown-red bracelet/accessory; carved wood, token details and material substance are not established by the captures.",
+    "limits": [
+      "Only supplied idle 0.5 studio wrist/body views; no full motion, live city/night/mobile or deployment approval."
+    ],
+    "priorFullProfileSnapshot": "artifacts/city-npc-models/garment-basis/profile-snapshots/4b5a8866e9e1dda228d92595dd61f35568549d04d2fad09bb67643cdde055a2d/THAI_TEXTILE_PROFILES.json"
+  }
+}

@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "reviewedAt": "2026-10-10T03:56:09.979Z",
+  "method": "Recorded human/agent Art review, actual HTTP-byte-pinned runtime captures and dense skin audit. Curation grants no new approval.",
+  "families": [
+    {
+      "family": "warp_keeper",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+      "runtimeReport": "docs/art/npcs/reviews/release/warp_keeper/report.json",
+      "runtimeReportSha256": "d9c0bd7620c9f630fce908afb6210e42c09f708856a15a506c1c372a67f37697",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "general_merchant",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+      "runtimeReport": "docs/art/npcs/reviews/release/general_merchant/report.json",
+      "runtimeReportSha256": "b8fa45d479983a317bcd81a5cd0e60e586536af4767385a44da39d4bc87498e8",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "blacksmith",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+      "runtimeReport": "docs/art/npcs/reviews/release/blacksmith/report.json",
+      "runtimeReportSha256": "616111fe830a4b120f3d2c318237f4303acd45945e45f83cb52e3f5569c4db27",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "enhancer",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+      "runtimeReport": "docs/art/npcs/reviews/release/enhancer/report.json",
+      "runtimeReportSha256": "760f40dfd629c7835183bc26bf9ba496418080e6a1268c14bfaa461ac411bcfb",
+      "artEvidence": "docs/art/npcs/reviews/release/art/STOWED_TOOLS_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "herbalist",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+      "runtimeReport": "docs/art/npcs/reviews/release/herbalist/report.json",
+      "runtimeReportSha256": "2c0b994f5d018524b9a0151e1515e071ee855fd978206a5f384ab4309ce99385",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "master_muay",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+      "runtimeReport": "docs/art/npcs/reviews/release/master_muay/report.json",
+      "runtimeReportSha256": "eb3d3a3122c99abb5da3f374734551b656c432d3663f2461305ced8ab8af0933",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "master_sword",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+      "runtimeReport": "docs/art/npcs/reviews/release/master_sword/report.json",
+      "runtimeReportSha256": "55d55625133a959d591199cd698b1fb974a83c1b23a3c2da8c63c74ec7908c68",
+      "artEvidence": "docs/art/npcs/reviews/release/art/STOWED_TOOLS_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "master_hunter",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+      "runtimeReport": "docs/art/npcs/reviews/release/master_hunter/report.json",
+      "runtimeReportSha256": "b0f014d47ceb20a4d140011bb6ce3013d158efb3237b3c7f8f144c69f9f77883",
+      "artEvidence": "docs/art/npcs/reviews/release/art/STOWED_TOOLS_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "master_shaman",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+      "runtimeReport": "docs/art/npcs/reviews/release/master_shaman/report.json",
+      "runtimeReportSha256": "289b11c66e9effb72a983b53c09c3741b3baee4da44ad78bc2b6590aa3898fbf",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "master_bandit",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+      "runtimeReport": "docs/art/npcs/reviews/release/master_bandit/report.json",
+      "runtimeReportSha256": "c447570b3c9bb6dee35dd4975c92a0dd9bed81754efe5b853b1b730edcc257df",
+      "artEvidence": "docs/art/npcs/reviews/release/art/STOWED_TOOLS_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "city_guard",
+      "approved": true,
+      "art": {
+        "style": 8.5,
+        "readability": 8.5,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+      "runtimeReport": "docs/art/npcs/reviews/release/city_guard/report.json",
+      "runtimeReportSha256": "af380d6281a49dc786acf79e65127c5a86fe36e17adf146cd2072c069a8df047",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_TWO_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "boatman",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+      "runtimeReport": "docs/art/npcs/reviews/release/boatman/report.json",
+      "runtimeReportSha256": "9eb9dea269a3051c41b1973a019a6c2fdcbd9954c132e38e87ea8b3440ef89ad",
+      "artEvidence": "docs/art/npcs/reviews/release/art/STOWED_TOOLS_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "gate_supplier",
+      "approved": true,
+      "art": {
+        "style": 8.5,
+        "readability": 8,
+        "technicalUsability": 8.5
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+      "runtimeReport": "docs/art/npcs/reviews/release/gate_supplier/report.json",
+      "runtimeReportSha256": "5897590aea6510817a0f624f1621d8a85791465aca2db46e752f1f70cd9b8e8c",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_TWO_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "occultist",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+      "runtimeReport": "docs/art/npcs/reviews/release/occultist/report.json",
+      "runtimeReportSha256": "fa38c28608cd4187ed2c98149d698c256530b33ea530543eb4cd1173bd0ad66d",
+      "artEvidence": "docs/art/npcs/reviews/release/art/OCCULTIST_FINAL_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "master_herbal",
+      "approved": true,
+      "art": {
+        "style": 8,
+        "readability": 8,
+        "technicalUsability": 8
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+      "runtimeReport": "docs/art/npcs/reviews/release/master_herbal/report.json",
+      "runtimeReportSha256": "5df4c7cd82910f990efc2b7ff13992cb20402dcb02e2427c47f8c31ce4b5845e",
+      "artEvidence": "docs/art/npcs/reviews/release/art/FULL_EIGHT_ART_REVIEW.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics."
+      ]
+    },
+    {
+      "family": "monk_elder",
+      "approved": true,
+      "art": {
+        "style": 8.5,
+        "readability": 8,
+        "technicalUsability": 8.5
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+      "runtimeReport": "docs/art/npcs/reviews/release/monk_elder/report.json",
+      "runtimeReportSha256": "4c6d7ff13a6c0cb8bb682ef0360d04f1a969fb1c10ec40be70fb696c162c1d31",
+      "artEvidence": "docs/art/npcs/reviews/release/art/RESPECTFUL_BOW_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics.",
+        "Bowed chant with relaxed hands; forced wai rejected, unsupported bowl hidden."
+      ]
+    },
+    {
+      "family": "monk_novice",
+      "approved": true,
+      "art": {
+        "style": 8.5,
+        "readability": 8,
+        "technicalUsability": 8.5
+      },
+      "unresolvedIssues": [],
+      "assetSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+      "runtimeReport": "docs/art/npcs/reviews/release/monk_novice/report.json",
+      "runtimeReportSha256": "ac6adadbe27a2f9e9cfb69d2019c759b11b3800fa38fb21b5e67758b7c89a184",
+      "artEvidence": "docs/art/npcs/reviews/release/art/RESPECTFUL_BOW_ART_REVIEW_2.json",
+      "limitations": [
+        "Meshy-24 has no finger bones; no closed-grasp certification.",
+        "Work tools may be sheathed/stowed/parked; sampled gestures do not certify work mechanics.",
+        "Bowed chant with relaxed hands; forced wai rejected, unsupported bowl hidden."
+      ]
+    }
+  ]
+}

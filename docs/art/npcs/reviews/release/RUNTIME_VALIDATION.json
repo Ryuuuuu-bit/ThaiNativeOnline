@@ -1,0 +1,4620 @@
+{
+  "schema": 1,
+  "passed": true,
+  "sampling": {
+    "hz": 30,
+    "denseRoleSeconds": 8,
+    "additionalAuthoredSineExtrema": true,
+    "nativeKeys": true,
+    "nativeEndpoint": "actual production modulo wrap, plus pre-end sample",
+    "canonicalBodies": true
+  },
+  "runtime": {
+    "src/entities/NPC.js": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+    "src/npc/NPCModels.js": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+    "src/npc/NPCModelRenderer.js": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+    "src/npc/NPCData.js": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+    "src/npc/body/rig.js": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+    "src/npc/body/gearParts.js": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+    "src/data/npcs.js": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+    "src/npc/body/blade.js": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+    "src/npc/NPCToolPresentation.js": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+  },
+  "scope": "Final per-family profiles: 14 unchanged full-audit rows plus 3 exact final-detail rechecks; no numeric Art approval.",
+  "auditArchives": [
+    {
+      "path": "artifacts/city-npc-models/runtime-qa/release-all-1/runtime-audit.json",
+      "sha256": "0df559e1f4f470ffe267948aaaa1fef50acf4c85b3774b153920b33a920de209"
+    },
+    {
+      "path": "artifacts/city-npc-models/runtime-qa/release-details-1/runtime-audit.json",
+      "sha256": "af8213be51f76f00837b10ec1867237b725dfad4b1ca11f53f42155fff202046"
+    }
+  ],
+  "results": [
+    {
+      "family": "warp_keeper",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\warp_keeper\\warp_keeper.glb",
+      "sha256": "099119c59cee2870dc2650cc974a6a76d81f1ef8f29a9a6e99f3d9840a6f5704",
+      "profileHash": "46ae5b6b9e908255698955af6feef02fc8cd5f3e15c993492d29f1d46391c5ff",
+      "passed": true,
+      "results": [
+        {
+          "id": "warp_city_market",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 254,
+            "activeSamples": 254,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7057337,
+            "maxEdgeExtension": 0.0184272,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000833,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0188767
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 1.8333333333333333,
+            "vertex": 9189,
+            "rest": [
+              0.06679348389661222,
+              -8.174957281054857e-7,
+              0.04135355282601047
+            ],
+            "posed": [
+              0.06688531300903544,
+              -0.0008329778078541147,
+              0.040538194619888474
+            ]
+          }
+        },
+        {
+          "id": "warp_city_market",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7008802,
+            "maxEdgeExtension": 0.0184904,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002191,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0942172
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9189,
+            "rest": [
+              0.06679348389661222,
+              -8.174957281054857e-7,
+              0.04135355282601047
+            ],
+            "posed": [
+              0.06703016205584411,
+              -0.0002190777292390979,
+              0.041193321110041564
+            ]
+          }
+        },
+        {
+          "id": "warp_city_market",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8835562,
+            "maxEdgeExtension": 0.0322856,
+            "maxSegmentDrift": 0.0000136,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000709,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1445648
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.9333333969116211,
+            "vertex": 9019,
+            "rest": [
+              0.09209500013809946,
+              0.0008388431713728698,
+              0.09500187964748372
+            ],
+            "posed": [
+              0.13349793527532072,
+              -0.00007085796621607407,
+              -0.020102417119968102
+            ]
+          }
+        },
+        {
+          "id": "warp_city_market",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.2801712,
+            "maxEdgeExtension": 0.0297465,
+            "maxSegmentDrift": 0.0000157,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000586,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2128819
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9189,
+            "rest": [
+              0.06679348389661222,
+              -8.174957281054857e-7,
+              0.04135355282601047
+            ],
+            "posed": [
+              0.06645459048296798,
+              -0.00005855591610078395,
+              0.04137308451021407
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "general_merchant",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\general_merchant\\general_merchant.glb",
+      "sha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
+      "profileHash": "7aec9e53075d594816679658068b67ff4abff887c49b484b9fd389a1a3911048",
+      "passed": true,
+      "results": [
+        {
+          "id": "general_merchant",
+          "state": "work",
+          "anim": "sell",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 251,
+            "activeSamples": 251,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6864909,
+            "maxEdgeExtension": 0.0164069,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0006041,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0627309
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 10093,
+            "rest": [
+              0.07311119152975021,
+              0.00041998344964002196,
+              -0.05493108898001037
+            ],
+            "posed": [
+              0.07554673652186039,
+              -0.000604085093418179,
+              -0.05621884523810791
+            ]
+          }
+        },
+        {
+          "id": "general_merchant",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 252,
+            "activeSamples": 252,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8041311,
+            "maxEdgeExtension": 0.0158289,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0008547,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0167193
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 5.933333333333334,
+            "vertex": 10093,
+            "rest": [
+              0.07311119152975021,
+              0.00041998344964002196,
+              -0.05493108898001037
+            ],
+            "posed": [
+              0.07630210253559133,
+              -0.000854670374688809,
+              -0.056840717535173585
+            ]
+          }
+        },
+        {
+          "id": "general_merchant",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.643918,
+            "maxEdgeExtension": 0.0151214,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0006041,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0487846
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 10093,
+            "rest": [
+              0.07311119152975021,
+              0.00041998344964002196,
+              -0.05493108898001037
+            ],
+            "posed": [
+              0.07554673652186039,
+              -0.000604085093418179,
+              -0.05621884523810791
+            ]
+          }
+        },
+        {
+          "id": "general_merchant",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7545297,
+            "maxEdgeExtension": 0.0784745,
+            "maxSegmentDrift": 0.0000167,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000703,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1289012
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 1.0666567222976684,
+            "vertex": 10619,
+            "rest": [
+              0.14586707106655616,
+              7.467224126804884e-9,
+              0.11126311281228488
+            ],
+            "posed": [
+              0.14552376615546947,
+              -0.00007029105606001647,
+              0.11143408023630672
+            ]
+          }
+        },
+        {
+          "id": "general_merchant",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9709385,
+            "maxEdgeExtension": 0.0647437,
+            "maxSegmentDrift": 0.0000183,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001532,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1867559
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.20000001788139343,
+            "vertex": 1606,
+            "rest": [
+              -0.16552369626323477,
+              0.0017824472720391327,
+              0.1196624167830149
+            ],
+            "posed": [
+              -0.15800728845720513,
+              -0.0001531777809071328,
+              0.01200225953814904
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "blacksmith",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\blacksmith\\blacksmith.glb",
+      "sha256": "7acc63e9351e52ca07bc4878170f844f6dbf3bafac4bf04e5bcd0c1d74a92c4f",
+      "profileHash": "be5017d4c9bc9a0fc7429d5feb9d390581028b18d54c3a8d64ec16b4c5e5974d",
+      "passed": true,
+      "results": [
+        {
+          "id": "blacksmith",
+          "state": "work",
+          "anim": "hammer",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.645388,
+            "maxEdgeExtension": 0.0232876,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0015682,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2178199
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 813,
+            "rest": [
+              -0.18436866921189443,
+              0.00041990301204329156,
+              0.09087980547488636
+            ],
+            "posed": [
+              -0.1852214330799633,
+              -0.001568232011718148,
+              0.08888250062328709
+            ]
+          }
+        },
+        {
+          "id": "blacksmith",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6656167,
+            "maxEdgeExtension": 0.0241338,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0036948,
+            "maxFootDriftFromFirst": 0.0013636,
+            "maxHandTravelFromFirst": 0.0305277
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 11.664585070331306,
+            "vertex": 813,
+            "rest": [
+              -0.18436866921189443,
+              0.00041990301204329156,
+              0.09087980547488636
+            ],
+            "posed": [
+              -0.18447451593198005,
+              -0.003694801543472406,
+              0.08614155318161854
+            ]
+          }
+        },
+        {
+          "id": "blacksmith",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 268,
+            "activeSamples": 268,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6641444,
+            "maxEdgeExtension": 0.0240319,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0015682,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0808476
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 813,
+            "rest": [
+              -0.18436866921189443,
+              0.00041990301204329156,
+              0.09087980547488636
+            ],
+            "posed": [
+              -0.1852214330799633,
+              -0.001568232011718148,
+              0.08888250062328709
+            ]
+          }
+        },
+        {
+          "id": "blacksmith",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6812102,
+            "maxEdgeExtension": 0.0251942,
+            "maxSegmentDrift": 0.0000158,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001161,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1477545
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.1666666716337204,
+            "vertex": 12509,
+            "rest": [
+              0.21794158201150826,
+              0.0016795644621509975,
+              -0.15499971216734046
+            ],
+            "posed": [
+              0.2049031178662175,
+              -0.00011612759888234802,
+              -0.010114721074708538
+            ]
+          }
+        },
+        {
+          "id": "blacksmith",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7003996,
+            "maxEdgeExtension": 0.0248939,
+            "maxSegmentDrift": 0.0000159,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000849,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2326277
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.5,
+            "vertex": 13835,
+            "rest": [
+              0.2777830703810017,
+              0.0016788642265960435,
+              0.12510553369923547
+            ],
+            "posed": [
+              0.2749188853113128,
+              -0.00008493688108907792,
+              0.020222097308431913
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "enhancer",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\enhancer\\enhancer.glb",
+      "sha256": "0f1011b44b64b11db9f0ae4801a7637a12b30d556bb23a0a6f480917c42ffe81",
+      "profileHash": "53e357d189626a420c4e98cc0084845fae1a118fd471379574eca7ec21bea716",
+      "passed": true,
+      "results": [
+        {
+          "id": "enhancer",
+          "state": "work",
+          "anim": "hammer",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "hammer": 0.5715829
+          },
+          "metrics": {
+            "samples": 254,
+            "activeSamples": 254,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6610405,
+            "maxEdgeExtension": 0.0175816,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0014062,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0815191
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 11641,
+            "rest": [
+              0.16034314762664642,
+              0.00010501081793358306,
+              -0.036714417934413934
+            ],
+            "posed": [
+              0.16079032570156965,
+              -0.0014061790688753462,
+              -0.039444854280089425
+            ]
+          }
+        },
+        {
+          "id": "enhancer",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "hammer": 0.566423
+          },
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6762349,
+            "maxEdgeExtension": 0.0239944,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0019157,
+            "maxFootDriftFromFirst": 0.0015655,
+            "maxHandTravelFromFirst": 0.0225159
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.6,
+            "vertex": 11641,
+            "rest": [
+              0.16034314762664642,
+              0.00010501081793358306,
+              -0.036714417934413934
+            ],
+            "posed": [
+              0.16070695616382874,
+              -0.0019156889581353892,
+              -0.04054132802208904
+            ]
+          }
+        },
+        {
+          "id": "enhancer",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "hammer": 0.5715829
+          },
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6748834,
+            "maxEdgeExtension": 0.0139072,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0014062,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0197461
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 11641,
+            "rest": [
+              0.16034314762664642,
+              0.00010501081793358306,
+              -0.036714417934413934
+            ],
+            "posed": [
+              0.16079032570156965,
+              -0.0014061790688753462,
+              -0.039444854280089425
+            ]
+          }
+        },
+        {
+          "id": "enhancer",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "hammer": 0.5715158
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9632923,
+            "maxEdgeExtension": 0.0200633,
+            "maxSegmentDrift": 0.0000195,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001611,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0971813
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.8000000715255737,
+            "vertex": 3696,
+            "rest": [
+              -0.10495865076263372,
+              2.2104300604699706e-9,
+              -0.2636960372319407
+            ],
+            "posed": [
+              -0.10513583363224566,
+              -0.00016106578405117807,
+              -0.1606150437810275
+            ]
+          }
+        },
+        {
+          "id": "enhancer",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "hammer": 0.5715159
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0350095,
+            "maxEdgeExtension": 0.022381,
+            "maxSegmentDrift": 0.0000195,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001504,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0830901
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 11641,
+            "rest": [
+              0.16034314762664642,
+              0.00010501081793358306,
+              -0.036714417934413934
+            ],
+            "posed": [
+              0.15955103554383837,
+              -0.00015036578051934766,
+              -0.03966965818757612
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "herbalist",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\herbalist\\herbalist.glb",
+      "sha256": "faf5763f946f5c10dd5d4cb01510ef5eba47d4064c263a9102e96cee609c6524",
+      "profileHash": "9615f18b7d2a167935f3245f91d1f378fb6207dbd0dfc630f91dcdce61169d06",
+      "passed": true,
+      "results": [
+        {
+          "id": "herbalist",
+          "state": "work",
+          "anim": "gather",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 249,
+            "activeSamples": 249,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6736811,
+            "maxEdgeExtension": 0.0256288,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.001054,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1080259
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9502,
+            "rest": [
+              0.017973710678283905,
+              -3.321407114948265e-7,
+              -0.09451514823633525
+            ],
+            "posed": [
+              0.02032589645102756,
+              -0.0010539954113671056,
+              -0.09647522675241466
+            ]
+          }
+        },
+        {
+          "id": "herbalist",
+          "state": "work",
+          "anim": "grind",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 257,
+            "activeSamples": 257,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6656448,
+            "maxEdgeExtension": 0.0253888,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.001054,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0494353
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9502,
+            "rest": [
+              0.017973710678283905,
+              -3.321407114948265e-7,
+              -0.09451514823633525
+            ],
+            "posed": [
+              0.02032589645102756,
+              -0.0010539954113671056,
+              -0.09647522675241466
+            ]
+          }
+        },
+        {
+          "id": "herbalist",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6888195,
+            "maxEdgeExtension": 0.0260748,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0010955,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0163652
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 5.6,
+            "vertex": 9502,
+            "rest": [
+              0.017973710678283905,
+              -3.321407114948265e-7,
+              -0.09451514823633525
+            ],
+            "posed": [
+              0.02076975366054068,
+              -0.0010955212177841918,
+              -0.09647238582019246
+            ]
+          }
+        },
+        {
+          "id": "herbalist",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 268,
+            "activeSamples": 268,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6847054,
+            "maxEdgeExtension": 0.0259544,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.001054,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1016919
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9502,
+            "rest": [
+              0.017973710678283905,
+              -3.321407114948265e-7,
+              -0.09451514823633525
+            ],
+            "posed": [
+              0.02032589645102756,
+              -0.0010539954113671056,
+              -0.09647522675241466
+            ]
+          }
+        },
+        {
+          "id": "herbalist",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.1833795,
+            "maxEdgeExtension": 0.0283913,
+            "maxSegmentDrift": 0.0000101,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001105,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1409236
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.6000000238418579,
+            "vertex": 9502,
+            "rest": [
+              0.017973710678283905,
+              -3.321407114948265e-7,
+              -0.09451514823633525
+            ],
+            "posed": [
+              0.024025008274045412,
+              -0.0001104771265483877,
+              -0.08559677526938425
+            ]
+          }
+        },
+        {
+          "id": "herbalist",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0944278,
+            "maxEdgeExtension": 0.0271016,
+            "maxSegmentDrift": 0.000025,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000899,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2004204
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.13333334028720856,
+            "vertex": 2695,
+            "rest": [
+              -0.048797945821243416,
+              0.0010500504151129601,
+              0.1488433607216206
+            ],
+            "posed": [
+              -0.050436348268841136,
+              -0.00008993316736895719,
+              0.07764270658557662
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "master_muay",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\master_muay\\master_muay.glb",
+      "sha256": "c5f36e6b0f78e3b30edd644c551b4ee4cc426d6b7e396d46a51c21786802ed4c",
+      "profileHash": "9d785f0596e237299d10a05229a51cc1fed52623a6fa7ba50228ad4d2bcc2f45",
+      "passed": true,
+      "results": [
+        {
+          "id": "master_muay",
+          "state": "work",
+          "anim": "box",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 263,
+            "activeSamples": 263,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.2806731,
+            "maxEdgeExtension": 0.0308851,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0003121,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1901323
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1605,
+            "rest": [
+              -0.29593178151685756,
+              6.242831143424108e-7,
+              0.013571070164073773
+            ],
+            "posed": [
+              -0.29593229428232626,
+              -0.0003120531520289185,
+              0.020138727200897766
+            ]
+          }
+        },
+        {
+          "id": "master_muay",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8240072,
+            "maxEdgeExtension": 0.0130704,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0006046,
+            "maxFootDriftFromFirst": 0.0000154,
+            "maxHandTravelFromFirst": 0.0270527
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 5.7,
+            "vertex": 1605,
+            "rest": [
+              -0.29593178151685756,
+              6.242831143424108e-7,
+              0.013571070164073773
+            ],
+            "posed": [
+              -0.2958693131211476,
+              -0.0006045617490082113,
+              0.012694844418199541
+            ]
+          }
+        },
+        {
+          "id": "master_muay",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9066523,
+            "maxEdgeExtension": 0.0167219,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001101,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2356569
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1605,
+            "rest": [
+              -0.29593178151685756,
+              6.242831143424108e-7,
+              0.013571070164073773
+            ],
+            "posed": [
+              -0.29589271147357377,
+              -0.00011013464817144788,
+              0.013452461818044853
+            ]
+          }
+        },
+        {
+          "id": "master_muay",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0193819,
+            "maxEdgeExtension": 0.0139363,
+            "maxSegmentDrift": 0.0000191,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000217,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1459771
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.06666667014360428,
+            "vertex": 1638,
+            "rest": [
+              -0.3100004084697693,
+              6.51300564153244e-7,
+              0.0593450390148515
+            ],
+            "posed": [
+              -0.3134184092150821,
+              -0.00021697215653085518,
+              0.004636647683699341
+            ]
+          }
+        },
+        {
+          "id": "master_muay",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.7,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0345635,
+            "maxEdgeExtension": 0.0193898,
+            "maxSegmentDrift": 0.0000157,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000227,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2200149
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.46666669845581055,
+            "vertex": 1158,
+            "rest": [
+              -0.3561945105427359,
+              0.0004203334779331757,
+              0.004437095942309205
+            ],
+            "posed": [
+              -0.3454655445351231,
+              -0.00022698398124445049,
+              0.0887658960398916
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "master_sword",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\master_sword\\master_sword.glb",
+      "sha256": "e3c4f36d1c81fee1b294406411066603b714e523d5c7d360ae642667a8c45cd8",
+      "profileHash": "83244d80ebb68ec111dd2ad8279573eb3503b12c8780d57e7f4d01aff8f2867c",
+      "passed": true,
+      "results": [
+        {
+          "id": "master_sword",
+          "state": "work",
+          "anim": "sword",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "sword": 0.0923129,
+            "swordScabbard": 0.0544132
+          },
+          "metrics": {
+            "samples": 248,
+            "activeSamples": 248,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8741108,
+            "maxEdgeExtension": 0.0268865,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": 0.000173,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1670171
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 449,
+            "rest": [
+              -0.21075899841431753,
+              0.0018899453310807868,
+              -0.05684882023153626
+            ],
+            "posed": [
+              -0.2109152778572764,
+              0.00017298951563052669,
+              -0.049697072490632266
+            ]
+          }
+        },
+        {
+          "id": "master_sword",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "sword": 0.0897497,
+            "swordScabbard": 0.05185
+          },
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7385577,
+            "maxEdgeExtension": 0.0258583,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0009468,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0281093
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 8,
+            "vertex": 13709,
+            "rest": [
+              0.1903959342177215,
+              0.0018897976795905947,
+              -0.027767454886660548
+            ],
+            "posed": [
+              0.19044661209075536,
+              -0.0009467668729412244,
+              -0.03165325535616631
+            ]
+          }
+        },
+        {
+          "id": "master_sword",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "sword": 0.0949092,
+            "swordScabbard": 0.0570096
+          },
+          "metrics": {
+            "samples": 268,
+            "activeSamples": 268,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7362265,
+            "maxEdgeExtension": 0.0258171,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": 0.0001868,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0703795
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1758,
+            "rest": [
+              -0.221572647921956,
+              0.00010502538249231438,
+              -0.2306022859468472
+            ],
+            "posed": [
+              -0.220920299912857,
+              0.0001867889636131235,
+              -0.23115795724931942
+            ]
+          }
+        },
+        {
+          "id": "master_sword",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "sword": 0.0901372,
+            "swordScabbard": 0.0522328
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7642628,
+            "maxEdgeExtension": 0.0265942,
+            "maxSegmentDrift": 0.0000205,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002157,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1601942
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.9000000357627869,
+            "vertex": 1758,
+            "rest": [
+              -0.221572647921956,
+              0.00010502538249231438,
+              -0.2306022859468472
+            ],
+            "posed": [
+              -0.21566288376853107,
+              -0.000215709884911731,
+              -0.17272163240453822
+            ]
+          }
+        },
+        {
+          "id": "master_sword",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.25,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "sword": 0.0983164,
+            "swordScabbard": 0.060412
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.1576295,
+            "maxEdgeExtension": 0.0379221,
+            "maxSegmentDrift": 0.0000173,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001642,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.234328
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.1666666716337204,
+            "vertex": 435,
+            "rest": [
+              -0.28645461837291075,
+              0.004094805422936878,
+              0.008873098040996064
+            ],
+            "posed": [
+              -0.2868381700548689,
+              -0.00016416419178438078,
+              -0.08420513758174242
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "master_hunter",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\master_hunter\\master_hunter.glb",
+      "sha256": "0d35aac66523b53d2c7dfdc79de23b42e1187d8c7a8be8c88055194870bd7860",
+      "profileHash": "b87042ffd3791fc6fce8f835255a5ae7b342d398dee65057be2a181eaa67298d",
+      "passed": true,
+      "results": [
+        {
+          "id": "master_hunter",
+          "state": "work",
+          "anim": "aim",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "bow": 0.6495671
+          },
+          "metrics": {
+            "samples": 243,
+            "activeSamples": 243,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8669123,
+            "maxEdgeExtension": 0.0223814,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000267,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0355783
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1086,
+            "rest": [
+              -0.10503750038424592,
+              2.271245771887918e-8,
+              -0.11670321080355298
+            ],
+            "posed": [
+              -0.10568679753849175,
+              -0.00026703253303857167,
+              -0.10982201070489228
+            ]
+          }
+        },
+        {
+          "id": "master_hunter",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "bow": 0.6434153
+          },
+          "metrics": {
+            "samples": 254,
+            "activeSamples": 254,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.5979038,
+            "maxEdgeExtension": 0.0243363,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0006151,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0220314
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 7.8,
+            "vertex": 1086,
+            "rest": [
+              -0.10503750038424592,
+              2.271245771887918e-8,
+              -0.11670321080355298
+            ],
+            "posed": [
+              -0.10525696354904074,
+              -0.0006151411582770898,
+              -0.11794120470133523
+            ]
+          }
+        },
+        {
+          "id": "master_hunter",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "bow": 0.6495671
+          },
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.5921322,
+            "maxEdgeExtension": 0.0242615,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002142,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1197898
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1086,
+            "rest": [
+              -0.10503750038424592,
+              2.271245771887918e-8,
+              -0.11670321080355298
+            ],
+            "posed": [
+              -0.10573840947633906,
+              -0.00021415723816555022,
+              -0.11718801458442044
+            ]
+          }
+        },
+        {
+          "id": "master_hunter",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "bow": 0.6438254
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6197764,
+            "maxEdgeExtension": 0.0252198,
+            "maxSegmentDrift": 0.0000217,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001317,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1655721
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.1666666716337204,
+            "vertex": 13720,
+            "rest": [
+              0.1846212798741136,
+              0.0017844128978711008,
+              -0.016545771610404547
+            ],
+            "posed": [
+              0.16814998562693745,
+              -0.00013171894035163653,
+              -0.029966089542398044
+            ]
+          }
+        },
+        {
+          "id": "master_hunter",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "bow": 0.6290194
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6844651,
+            "maxEdgeExtension": 0.0282026,
+            "maxSegmentDrift": 0.0000217,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001345,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2438159
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.30000001192092896,
+            "vertex": 1073,
+            "rest": [
+              -0.1297094978611077,
+              0.006929213185346166,
+              0.027758649607578678
+            ],
+            "posed": [
+              -0.12424277661310851,
+              -0.00013445327842218698,
+              -0.01238206969297917
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "master_shaman",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\master_shaman\\master_shaman.glb",
+      "sha256": "a11dd0734c6bac6428b2c60e51e2a8f63aac0eafea83baf53edf4aaac0869902",
+      "profileHash": "df1ff7e6f2de733977e5522bf0b9e970afcfaa271124134a318ff28dfdd6bc00",
+      "passed": true,
+      "results": [
+        {
+          "id": "master_shaman",
+          "state": "sit",
+          "anim": "chant",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 247,
+            "activeSamples": 247,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9710597,
+            "maxEdgeExtension": 0.0249233,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0008896,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0075
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 2219,
+            "rest": [
+              -0.09398888275026174,
+              0.00010515508041986705,
+              -0.09564064960585683
+            ],
+            "posed": [
+              -0.09494006379557451,
+              -0.0008895922549455768,
+              -0.0967317246307027
+            ]
+          }
+        },
+        {
+          "id": "master_shaman",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 254,
+            "activeSamples": 254,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.71406,
+            "maxEdgeExtension": 0.0247955,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0017731,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0243233
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.3,
+            "vertex": 2219,
+            "rest": [
+              -0.09398888275026174,
+              0.00010515508041986705,
+              -0.09564064960585683
+            ],
+            "posed": [
+              -0.09554281532399223,
+              -0.0017730666493090486,
+              -0.09810657937209269
+            ]
+          }
+        },
+        {
+          "id": "master_shaman",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7003526,
+            "maxEdgeExtension": 0.0244371,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0008896,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0434801
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 2219,
+            "rest": [
+              -0.09398888275026174,
+              0.00010515508041986705,
+              -0.09564064960585683
+            ],
+            "posed": [
+              -0.09494006379557451,
+              -0.0008895922549455768,
+              -0.0967317246307027
+            ]
+          }
+        },
+        {
+          "id": "master_shaman",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9414051,
+            "maxEdgeExtension": 0.036774,
+            "maxSegmentDrift": 0.0000032,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002586,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1574991
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.46666669845581055,
+            "vertex": 10399,
+            "rest": [
+              0.13099772056546832,
+              0.0008401611741650839,
+              -0.21322626837938066
+            ],
+            "posed": [
+              0.12013808370690104,
+              -0.0002585931162793941,
+              -0.15545154584293108
+            ]
+          }
+        },
+        {
+          "id": "master_shaman",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.18,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9463308,
+            "maxEdgeExtension": 0.037303,
+            "maxSegmentDrift": 0.0000132,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001609,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2228764
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.5,
+            "vertex": 3542,
+            "rest": [
+              -0.11897575877382527,
+              0.00010508728171550167,
+              -0.2100764220626482
+            ],
+            "posed": [
+              -0.12192252869510622,
+              -0.00016092225509003392,
+              -0.09670770326610986
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "master_bandit",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\master_bandit\\master_bandit.glb",
+      "sha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+      "profileHash": "8057656c509e5f237740f3ad6cd3372d1563a174a0a17c778e087eb8a53a5347",
+      "passed": true,
+      "results": [
+        {
+          "id": "master_bandit",
+          "state": "idle",
+          "anim": "lean",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "knife": 0.6239035,
+            "knifeScabbard": 0.6020122
+          },
+          "metrics": {
+            "samples": 248,
+            "activeSamples": 248,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.1005032,
+            "maxEdgeExtension": 0.0419419,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002962,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0184633
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 5.266666666666667,
+            "vertex": 1119,
+            "rest": [
+              -0.16642084060245088,
+              0.0012598413580827742,
+              -0.16920164456683703
+            ],
+            "posed": [
+              -0.16791056494078538,
+              -0.0002961686195608439,
+              -0.1675547834872393
+            ]
+          }
+        },
+        {
+          "id": "master_bandit",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "knife": 0.6239035,
+            "knifeScabbard": 0.6020122
+          },
+          "metrics": {
+            "samples": 252,
+            "activeSamples": 252,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8169824,
+            "maxEdgeExtension": 0.0325802,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002962,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0174501
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 5.266666666666667,
+            "vertex": 1119,
+            "rest": [
+              -0.16642084060245088,
+              0.0012598413580827742,
+              -0.16920164456683703
+            ],
+            "posed": [
+              -0.16791056494078538,
+              -0.0002961686195608439,
+              -0.1675547834872393
+            ]
+          }
+        },
+        {
+          "id": "master_bandit",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "knife": 0.6290631,
+            "knifeScabbard": 0.6071718
+          },
+          "metrics": {
+            "samples": 268,
+            "activeSamples": 268,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8943478,
+            "maxEdgeExtension": 0.0337495,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": 0.0000756,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0911835
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 784,
+            "rest": [
+              -0.2735074360570432,
+              -2.728548333983496e-9,
+              -0.0991753902675885
+            ],
+            "posed": [
+              -0.27365331098849427,
+              0.0000755516221256401,
+              -0.09915304193891271
+            ]
+          }
+        },
+        {
+          "id": "master_bandit",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "knife": 0.6289931,
+            "knifeScabbard": 0.6070953
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9008459,
+            "maxEdgeExtension": 0.0355401,
+            "maxSegmentDrift": 0.0000111,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002184,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.158708
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.9666666984558105,
+            "vertex": 15931,
+            "rest": [
+              0.25993081286617703,
+              0.0014695604661019493,
+              0.10523411189307968
+            ],
+            "posed": [
+              0.2883820548718722,
+              -0.0002184160317045939,
+              0.005911462623125835
+            ]
+          }
+        },
+        {
+          "id": "master_bandit",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {
+            "knife": 0.6289931,
+            "knifeScabbard": 0.6070953
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8692173,
+            "maxEdgeExtension": 0.0350223,
+            "maxSegmentDrift": 0.0000089,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001729,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2335671
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.13333334028720856,
+            "vertex": 760,
+            "rest": [
+              -0.3142423068157665,
+              0.0012598437772937162,
+              0.08087711764928862
+            ],
+            "posed": [
+              -0.3199051111750142,
+              -0.00017289220590982804,
+              0.006534295699049231
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "city_guard",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\city_guard\\city_guard.glb",
+      "sha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
+      "profileHash": "0e24e503616760ebfecc0f0c60faba4945cfd8e69bc5cc500f52553207e3b18d",
+      "passed": true,
+      "results": [
+        {
+          "id": "guard_port",
+          "state": "idle",
+          "anim": "guard",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "spearStationary": "ground-parked",
+            "spearMoving": "back-holstered"
+          },
+          "propFloors": {
+            "spear": 0.005,
+            "spearTip": 2.375
+          },
+          "metrics": {
+            "samples": 249,
+            "activeSamples": 249,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8084772,
+            "maxEdgeExtension": 0.0217773,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0007819,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0283808
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 14017,
+            "rest": [
+              0.18412550054331556,
+              0.000525390227301791,
+              -0.058970362673844895
+            ],
+            "posed": [
+              0.18453153774045905,
+              -0.00078189233945339,
+              -0.061573186824683046
+            ]
+          }
+        },
+        {
+          "id": "guard_port",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "spearStationary": "ground-parked",
+            "spearMoving": "back-holstered"
+          },
+          "propFloors": {
+            "spear": 0.005,
+            "spearTip": 2.375
+          },
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8171545,
+            "maxEdgeExtension": 0.0220075,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0007819,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0283808
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 14017,
+            "rest": [
+              0.18412550054331556,
+              0.000525390227301791,
+              -0.058970362673844895
+            ],
+            "posed": [
+              0.18453153774045905,
+              -0.00078189233945339,
+              -0.061573186824683046
+            ]
+          }
+        },
+        {
+          "id": "guard_port",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "spearStationary": "ground-parked",
+            "spearMoving": "back-holstered"
+          },
+          "propFloors": {
+            "spear": 0.005,
+            "spearTip": 2.375
+          },
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8126285,
+            "maxEdgeExtension": 0.0218506,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0004208,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1102046
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 13625,
+            "rest": [
+              0.14832453395156742,
+              0.00021027085419196093,
+              -0.12091248914867736
+            ],
+            "posed": [
+              0.15061501955783296,
+              -0.00042076476887134394,
+              -0.12316585348120682
+            ]
+          }
+        },
+        {
+          "id": "guard_port",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "spearStationary": "ground-parked",
+            "spearMoving": "back-holstered"
+          },
+          "propFloors": {
+            "spear": 0.2176869,
+            "spearTip": 2.1669875
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8528403,
+            "maxEdgeExtension": 0.0323171,
+            "maxSegmentDrift": 0.0000173,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001929,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1588218
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.5333333611488342,
+            "vertex": 1216,
+            "rest": [
+              -0.25346023935136136,
+              0.00031618779350454115,
+              0.03583260922419218
+            ],
+            "posed": [
+              -0.27233838638653757,
+              -0.00019286221494088058,
+              -0.02101580809119441
+            ]
+          }
+        },
+        {
+          "id": "guard_port",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "spearStationary": "ground-parked",
+            "spearMoving": "back-holstered"
+          },
+          "propFloors": {
+            "spear": 0.2134633,
+            "spearTip": 2.160921
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8477938,
+            "maxEdgeExtension": 0.0301187,
+            "maxSegmentDrift": 0.0000184,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001948,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.2354065
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.13333334028720856,
+            "vertex": 1214,
+            "rest": [
+              -0.2678435736349426,
+              0.0005261452590675775,
+              0.03478273721632741
+            ],
+            "posed": [
+              -0.2751653808116373,
+              -0.0001947835042712625,
+              -0.03955246766213655
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "boatman",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\boatman\\boatman.glb",
+      "sha256": "e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44",
+      "profileHash": "e2fde813590d216d51e8d41c4750148b454f347ddad73029edd89ec45ec15405",
+      "passed": true,
+      "results": [
+        {
+          "id": "boatman",
+          "state": "sit",
+          "anim": "rest",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "paddleFloorClearance": 0.02
+          },
+          "propFloors": {
+            "paddle": 0.005
+          },
+          "metrics": {
+            "samples": 243,
+            "activeSamples": 243,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8616366,
+            "maxEdgeExtension": 0.0290964,
+            "maxSegmentDrift": 1e-7,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0003267,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0057483
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1381,
+            "rest": [
+              -0.15859387603626807,
+              1.3376606081539458e-8,
+              -0.11606003072087986
+            ],
+            "posed": [
+              -0.1592667978287437,
+              -0.00032670780710668555,
+              -0.11709665357559199
+            ]
+          }
+        },
+        {
+          "id": "boatman",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "paddleFloorClearance": 0.02
+          },
+          "propFloors": {
+            "paddle": 0.005
+          },
+          "metrics": {
+            "samples": 254,
+            "activeSamples": 254,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9251983,
+            "maxEdgeExtension": 0.0333485,
+            "maxSegmentDrift": 1e-7,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.001052,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0191582
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 1.6,
+            "vertex": 1381,
+            "rest": [
+              -0.15859387603626807,
+              1.3376606081539458e-8,
+              -0.11606003072087986
+            ],
+            "posed": [
+              -0.1588932884882565,
+              -0.0010519710151256061,
+              -0.11789111915159156
+            ]
+          }
+        },
+        {
+          "id": "boatman",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "paddleFloorClearance": 0.02
+          },
+          "propFloors": {
+            "paddle": 0.005
+          },
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8874256,
+            "maxEdgeExtension": 0.0308551,
+            "maxSegmentDrift": 1e-7,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0003267,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0640983
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1381,
+            "rest": [
+              -0.15859387603626807,
+              1.3376606081539458e-8,
+              -0.11606003072087986
+            ],
+            "posed": [
+              -0.1592667978287437,
+              -0.00032670780710668555,
+              -0.11709665357559199
+            ]
+          }
+        },
+        {
+          "id": "boatman",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "paddleFloorClearance": 0.02
+          },
+          "propFloors": {
+            "paddle": 0.3988156
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0410735,
+            "maxEdgeExtension": 0.0342067,
+            "maxSegmentDrift": 0.0000158,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000189,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0674677
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.7333333492279053,
+            "vertex": 1381,
+            "rest": [
+              -0.15859387603626807,
+              1.3376606081539458e-8,
+              -0.11606003072087986
+            ],
+            "posed": [
+              -0.16170357541493746,
+              -0.00018904794007894605,
+              -0.08760753376513586
+            ]
+          }
+        },
+        {
+          "id": "boatman",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "paddleFloorClearance": 0.02
+          },
+          "propFloors": {
+            "paddle": 0.40274
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9695735,
+            "maxEdgeExtension": 0.0323943,
+            "maxSegmentDrift": 0.0000158,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.00008,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0836233
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.4333333671092987,
+            "vertex": 1381,
+            "rest": [
+              -0.15859387603626807,
+              1.3376606081539458e-8,
+              -0.11606003072087986
+            ],
+            "posed": [
+              -0.15376745566577876,
+              -0.0000799533340009641,
+              -0.03909883862960162
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "gate_supplier",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\gate_supplier\\gate_supplier.glb",
+      "sha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
+      "profileHash": "1ee8e2afa85935c3cb60975bc1add5dbdb64b90c7c03df0d4243f2fb41d1a270",
+      "passed": true,
+      "results": [
+        {
+          "id": "gate_supplier",
+          "state": "work",
+          "anim": "sell",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "basketStationary": "ground-display",
+            "basketMoving": "stowed"
+          },
+          "propFloors": {
+            "basket": 0.01
+          },
+          "metrics": {
+            "samples": 251,
+            "activeSamples": 251,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7380841,
+            "maxEdgeExtension": 0.0189723,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001544,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0487878
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 8226,
+            "rest": [
+              0.03079602773574197,
+              0.00041978619644159157,
+              -0.11189455552105279
+            ],
+            "posed": [
+              0.03110921255588306,
+              -0.00015443133127338938,
+              -0.11250161026742167
+            ]
+          }
+        },
+        {
+          "id": "gate_supplier",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "basketStationary": "ground-display",
+            "basketMoving": "stowed"
+          },
+          "propFloors": {
+            "basket": 0.01
+          },
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8277903,
+            "maxEdgeExtension": 0.018867,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0007343,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0127378
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 7.166666666666667,
+            "vertex": 8226,
+            "rest": [
+              0.03079602773574197,
+              0.00041978619644159157,
+              -0.11189455552105279
+            ],
+            "posed": [
+              0.031046679601719085,
+              -0.0007342554451738349,
+              -0.11332025108399413
+            ]
+          }
+        },
+        {
+          "id": "gate_supplier",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "basketStationary": "ground-display",
+            "basketMoving": "stowed"
+          },
+          "propFloors": {
+            "basket": 0.01
+          },
+          "metrics": {
+            "samples": 268,
+            "activeSamples": 268,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8159693,
+            "maxEdgeExtension": 0.0184893,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001544,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0636714
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 8226,
+            "rest": [
+              0.03079602773574197,
+              0.00041978619644159157,
+              -0.11189455552105279
+            ],
+            "posed": [
+              0.03110921255588306,
+              -0.00015443133127338938,
+              -0.11250161026742167
+            ]
+          }
+        },
+        {
+          "id": "gate_supplier",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "basketStationary": "ground-display",
+            "basketMoving": "stowed"
+          },
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0124468,
+            "maxEdgeExtension": 0.0318926,
+            "maxSegmentDrift": 0.0000202,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001487,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1531351
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.5666667222976685,
+            "vertex": 3680,
+            "rest": [
+              -0.08342974484526267,
+              0.00021002613322333675,
+              0.0004413979885374286
+            ],
+            "posed": [
+              -0.09586323321617457,
+              -0.00014867320613133617,
+              -0.017102611001624357
+            ]
+          }
+        },
+        {
+          "id": "gate_supplier",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.3,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "basketStationary": "ground-display",
+            "basketMoving": "stowed"
+          },
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9723081,
+            "maxEdgeExtension": 0.0276541,
+            "maxSegmentDrift": 0.0000208,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002225,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1935658
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.20000001788139343,
+            "vertex": 3680,
+            "rest": [
+              -0.08342974484526267,
+              0.00021002613322333675,
+              0.0004413979885374286
+            ],
+            "posed": [
+              -0.08408460447688929,
+              -0.00022254092124959768,
+              -0.11251171148440589
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "occultist",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\occultist\\occultist.glb",
+      "sha256": "619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61",
+      "profileHash": "b19bfcc53d03108ddbbe8e951df5eee7420fc39071a2c0100405d47d4c631539",
+      "passed": true,
+      "results": [
+        {
+          "id": "occultist",
+          "state": "sit",
+          "anim": "chant",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 247,
+            "activeSamples": 247,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9937565,
+            "maxEdgeExtension": 0.0253856,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0012783,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.005548
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9521,
+            "rest": [
+              0.030588824587494012,
+              0.00010469087916019796,
+              -0.19595089526916443
+            ],
+            "posed": [
+              0.03542988178208789,
+              -0.0012783351112955227,
+              -0.19927953682754707
+            ]
+          }
+        },
+        {
+          "id": "occultist",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7770894,
+            "maxEdgeExtension": 0.0175126,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0016413,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0214177
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 8,
+            "vertex": 9521,
+            "rest": [
+              0.030588824587494012,
+              0.00010469087916019796,
+              -0.19595089526916443
+            ],
+            "posed": [
+              0.036336997152260186,
+              -0.001641320183024209,
+              -0.19926233671189575
+            ]
+          }
+        },
+        {
+          "id": "occultist",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 268,
+            "activeSamples": 268,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8962802,
+            "maxEdgeExtension": 0.0187864,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0012783,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0292638
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9521,
+            "rest": [
+              0.030588824587494012,
+              0.00010469087916019796,
+              -0.19595089526916443
+            ],
+            "posed": [
+              0.03542988178208789,
+              -0.0012783351112955227,
+              -0.19927953682754707
+            ]
+          }
+        },
+        {
+          "id": "occultist",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.818217,
+            "maxEdgeExtension": 0.0332292,
+            "maxSegmentDrift": 0.0000212,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001523,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0620955
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 1.0666567222976684,
+            "vertex": 9631,
+            "rest": [
+              0.0790927701074472,
+              -3.1904005708182764e-7,
+              -0.24781445851134593
+            ],
+            "posed": [
+              0.07930242920801439,
+              -0.00015229757808454377,
+              -0.2471704498601997
+            ]
+          }
+        },
+        {
+          "id": "occultist",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9171233,
+            "maxEdgeExtension": 0.0446561,
+            "maxSegmentDrift": 0.0000222,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001482,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1380072
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.6666566865348816,
+            "vertex": 9631,
+            "rest": [
+              0.0790927701074472,
+              -3.1904005708182764e-7,
+              -0.24781445851134593
+            ],
+            "posed": [
+              0.0793040837420626,
+              -0.000148196485366245,
+              -0.24718240877852793
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "master_herbal",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\master_herbal\\master_herbal.glb",
+      "sha256": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
+      "profileHash": "29f3108415633bfd13cee4b663504d385081577dbcf7876f9f9ea2b2297a2324",
+      "passed": true,
+      "results": [
+        {
+          "id": "master_herbal",
+          "state": "work",
+          "anim": "grind",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 257,
+            "activeSamples": 257,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9105221,
+            "maxEdgeExtension": 0.0423308,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002935,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0344326
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 2473,
+            "rest": [
+              -0.08693717355577124,
+              0.0007348761747434975,
+              -0.15671011731548745
+            ],
+            "posed": [
+              -0.09029749992198599,
+              -0.00029354010453247595,
+              -0.15858774407864676
+            ]
+          }
+        },
+        {
+          "id": "master_herbal",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 254,
+            "activeSamples": 254,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9103147,
+            "maxEdgeExtension": 0.0330887,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0010452,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0307509
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 4.3,
+            "vertex": 2469,
+            "rest": [
+              -0.08777705326323082,
+              0.0007348660021809856,
+              -0.18526654385517397
+            ],
+            "posed": [
+              -0.09317154157872709,
+              -0.0010451716780353736,
+              -0.1859327668308553
+            ]
+          }
+        },
+        {
+          "id": "master_herbal",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9040817,
+            "maxEdgeExtension": 0.0329897,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002935,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0722837
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 2473,
+            "rest": [
+              -0.08693717355577124,
+              0.0007348761747434975,
+              -0.15671011731548745
+            ],
+            "posed": [
+              -0.09029749992198599,
+              -0.00029354010453247595,
+              -0.15858774407864676
+            ]
+          }
+        },
+        {
+          "id": "master_herbal",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9237993,
+            "maxEdgeExtension": 0.0332851,
+            "maxSegmentDrift": 0.0000163,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002126,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1237765
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.8666667342185974,
+            "vertex": 3248,
+            "rest": [
+              -0.19066425203391668,
+              0.00010495862759324324,
+              -0.1969200360256755
+            ],
+            "posed": [
+              -0.18697552092341801,
+              -0.00021262385055199177,
+              -0.1291720158437318
+            ]
+          }
+        },
+        {
+          "id": "master_herbal",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.23,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "ground"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9384509,
+            "maxEdgeExtension": 0.0439415,
+            "maxSegmentDrift": 0.0000176,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0002941,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1747047
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.36666667461395264,
+            "vertex": 1566,
+            "rest": [
+              -0.2769638044287258,
+              0.0015749382901679447,
+              0.07384106746344538
+            ],
+            "posed": [
+              -0.2775975105803784,
+              -0.00029406573388790247,
+              0.10130482921787393
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "monk_elder",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk_elder\\monk_elder.glb",
+      "sha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+      "profileHash": "0eb9c2a5d07746766cb39746b261be84a53e1a157afa478a2fe356289dd852f6",
+      "passed": true,
+      "results": [
+        {
+          "id": "monk_elder",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 252,
+            "activeSamples": 252,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8952874,
+            "maxEdgeExtension": 0.0366976,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0010694,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0193871
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 3.7666666666666666,
+            "vertex": 9642,
+            "rest": [
+              0.12103725938078091,
+              -3.4797693865095184e-7,
+              -0.02427678357963381
+            ],
+            "posed": [
+              0.12124042082886749,
+              -0.0010693946375579001,
+              -0.025841548109525936
+            ]
+          }
+        },
+        {
+          "id": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 246,
+            "activeSamples": 246,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8601853,
+            "maxEdgeExtension": 0.0342623,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0010694,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0201378
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 3.7666666666666666,
+            "vertex": 9642,
+            "rest": [
+              0.12103725938078091,
+              -3.4797693865095184e-7,
+              -0.02427678357963381
+            ],
+            "posed": [
+              0.12124042082886749,
+              -0.0010693946375579001,
+              -0.025841548109525936
+            ]
+          }
+        },
+        {
+          "id": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 241,
+            "activeSamples": 241,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8600864,
+            "maxEdgeExtension": 0.0342536,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000464,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0064605
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9642,
+            "rest": [
+              0.12103725938078091,
+              -3.4797693865095184e-7,
+              -0.02427678357963381
+            ],
+            "posed": [
+              0.12141618830475143,
+              -0.00046399220677946246,
+              -0.024978911374483243
+            ]
+          }
+        },
+        {
+          "id": "monk_elder",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 269,
+            "activeSamples": 269,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.8934661,
+            "maxEdgeExtension": 0.0365329,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.000464,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.026402
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 9642,
+            "rest": [
+              0.12103725938078091,
+              -3.4797693865095184e-7,
+              -0.02427678357963381
+            ],
+            "posed": [
+              0.12141618830475143,
+              -0.00046399220677946246,
+              -0.024978911374483243
+            ]
+          }
+        },
+        {
+          "id": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9082531,
+            "maxEdgeExtension": 0.0487106,
+            "maxSegmentDrift": 0.0000222,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001735,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0421901
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.9333333969116211,
+            "vertex": 1898,
+            "rest": [
+              -0.17639016414993514,
+              0.0007342361295401925,
+              -0.00180959332300068
+            ],
+            "posed": [
+              -0.1652646719663966,
+              -0.0001735408061032898,
+              0.04259323370025164
+            ]
+          }
+        },
+        {
+          "id": "monk_elder",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {},
+          "propFloors": {},
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9787821,
+            "maxEdgeExtension": 0.0438027,
+            "maxSegmentDrift": 0.0000215,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000934,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.073947
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.23333334922790527,
+            "vertex": 3997,
+            "rest": [
+              -0.11581303522766542,
+              0.004093783790424621,
+              0.049949154670910656
+            ],
+            "posed": [
+              -0.1138832571979673,
+              -0.00009338375479950627,
+              -0.060379882339575
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    },
+    {
+      "family": "monk_novice",
+      "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk_novice\\monk_novice.glb",
+      "sha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+      "profileHash": "c9af4e1cc2b5fb1db68d47135ac225ce2f5ca17f178889ba55fdc8d8f41559b4",
+      "passed": true,
+      "results": [
+        {
+          "id": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "broomScale": 0.5242608450253584
+          },
+          "propFloors": {},
+          "metrics": {
+            "samples": 247,
+            "activeSamples": 247,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.4356165,
+            "maxEdgeExtension": 0.0153384,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0004829,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0157282
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 8,
+            "vertex": 1975,
+            "rest": [
+              -0.12025812822580567,
+              -1.7899809938634746e-7,
+              0.060601317701401314
+            ],
+            "posed": [
+              -0.12039245103141483,
+              -0.00048288616340433615,
+              0.05998853705183338
+            ]
+          }
+        },
+        {
+          "id": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "carrying": false,
+          "kind": "authored-role",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "broomScale": 0.5242608450253584
+          },
+          "propFloors": {
+            "broom": 0.005
+          },
+          "metrics": {
+            "samples": 248,
+            "activeSamples": 248,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.583124,
+            "maxEdgeExtension": 0.0082898,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000195,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0267445,
+            "minimumBroomFloor": 0.005
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1975,
+            "rest": [
+              -0.12025812822580567,
+              -1.7899809938634746e-7,
+              0.060601317701401314
+            ],
+            "posed": [
+              -0.12058822050547463,
+              -0.000019529875740385345,
+              0.06043644596654946
+            ]
+          }
+        },
+        {
+          "id": "monk_young",
+          "state": "idle",
+          "anim": "look",
+          "carrying": false,
+          "kind": "available-idle",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "broomScale": 0.5242608450253584
+          },
+          "propFloors": {
+            "broom": 0.005
+          },
+          "metrics": {
+            "samples": 253,
+            "activeSamples": 253,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 2.0297917,
+            "maxEdgeExtension": 0.0220862,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0004829,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0153583,
+            "minimumBroomFloor": 0.005
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 8,
+            "vertex": 1975,
+            "rest": [
+              -0.12025812822580567,
+              -1.7899809938634746e-7,
+              0.060601317701401314
+            ],
+            "posed": [
+              -0.12039245103141483,
+              -0.00048288616340433615,
+              0.05998853705183338
+            ]
+          }
+        },
+        {
+          "id": "monk_young",
+          "state": "talk",
+          "anim": "talk",
+          "carrying": false,
+          "kind": "actual-interaction",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "broomScale": 0.5242608450253584
+          },
+          "propFloors": {
+            "broom": 0.005
+          },
+          "metrics": {
+            "samples": 266,
+            "activeSamples": 266,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.6221166,
+            "maxEdgeExtension": 0.0136711,
+            "maxSegmentDrift": 0,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000195,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0144097,
+            "minimumBroomFloor": 0.005
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0,
+            "vertex": 1975,
+            "rest": [
+              -0.12025812822580567,
+              -1.7899809938634746e-7,
+              0.060601317701401314
+            ],
+            "posed": [
+              -0.12058822050547463,
+              -0.000019529875740385345,
+              0.06043644596654946
+            ]
+          }
+        },
+        {
+          "id": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "carrying": false,
+          "kind": "native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "broomScale": 0.5242608450253584
+          },
+          "propFloors": {
+            "broom": 0.3053617
+          },
+          "metrics": {
+            "samples": 34,
+            "activeSamples": 34,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.7983304,
+            "maxEdgeExtension": 0.0582539,
+            "maxSegmentDrift": 0.0000083,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0000957,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.0655576,
+            "minimumBroomFloor": 0.3053617
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.4333333671092987,
+            "vertex": 1977,
+            "rest": [
+              -0.09989557737638394,
+              0.0020507151002439987,
+              0.0931228859647874
+            ],
+            "posed": [
+              -0.12919888349963643,
+              -0.0000956973896775673,
+              -0.004277249917015974
+            ]
+          }
+        },
+        {
+          "id": "monk_young",
+          "state": "walk",
+          "anim": "run",
+          "carrying": false,
+          "kind": "available-native-phase",
+          "passed": true,
+          "failures": [],
+          "roleMotion": {
+            "arm": 0.12,
+            "head": 0.65,
+            "torso": 0.15,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "toolFit": {
+            "broomScale": 0.5242608450253584
+          },
+          "propFloors": {
+            "broom": 0.3065758
+          },
+          "metrics": {
+            "samples": 22,
+            "activeSamples": 22,
+            "edgeViolations": 0,
+            "maxEdgeRatio": 1.9919994,
+            "maxEdgeExtension": 0.0431002,
+            "maxSegmentDrift": 0.0000153,
+            "maxRigidHandDrift": 0,
+            "backwardKneeSamples": 0,
+            "minFloor": -0.0001016,
+            "maxFootDriftFromFirst": 0,
+            "maxHandTravelFromFirst": 0.1158588,
+            "minimumBroomFloor": 0.3065758
+          },
+          "worst": null,
+          "worstFloor": {
+            "time": 0.06666667014360428,
+            "vertex": 1975,
+            "rest": [
+              -0.12025812822580567,
+              -1.7899809938634746e-7,
+              0.060601317701401314
+            ],
+            "posed": [
+              -0.12391646350374025,
+              -0.0001016302314088743,
+              0.042832332733277495
+            ]
+          }
+        }
+      ],
+      "auditHelperSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+    }
+  ],
+  "limitations": [
+    "Selected retained-tool vertices have floor checks; no mesh-pair collision, city terrain, cloth simulation or finger articulation is certified."
+  ]
+}

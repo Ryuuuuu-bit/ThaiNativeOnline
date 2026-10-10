@@ -11,7 +11,7 @@ import { J } from '../world/CityMap.js';
 const NEAR = 48, MID = 95, FAR_TICK = 1, MID_TICK = .2;
 
 export class NPCManager {
-  constructor(scene, world, defs, clock) {
+  constructor(scene, world, defs, clock, rendererOptions = {}) {
     this.world = world; this.clock = clock;
     // world.contains (World hook): the nav graph covers the current map only.
     this.nav = NavGraph.fromRoads(world.contains);
@@ -25,7 +25,7 @@ export class NPCManager {
       return npc;
     });
     for (const npc of this.npcs) npc.setActivity(activityFor(npc.def, clock.phase), true);
-    this.renderer = new NPCRenderer(scene, this.npcs);
+    this.renderer = new NPCRenderer(scene, this.npcs, rendererOptions);
     this.offPhase = clock.onPhase(phase => {
       // Stagger reactions so the town does not move in lockstep.
       for (const npc of this.npcs) npc.pending = { activity: activityFor(npc.def, phase), delay: Math.random() * 10 };
@@ -84,7 +84,7 @@ export class NPCManager {
       npc.accum = 0; npc.dirty = true;
       npc.shown = !npc.indoors && npc.distance < MID + 10;
     }
-    this.renderer.update();
+    this.renderer.update(dt, t, focus);
   }
   nearestInteractable(x, z) {
     let best = null, bd = Infinity;

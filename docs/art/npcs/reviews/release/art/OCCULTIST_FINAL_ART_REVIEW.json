@@ -1,0 +1,1935 @@
+{
+  "schema": 1,
+  "kind": "bounded-occultist-final-art-tech-review",
+  "reviewedDate": "2026-10-10",
+  "captureLabel": "occultist-final-current-1",
+  "verdict": "F8-01_CLOSED_SCOPED_ART_READY_FOR_PARENT_APPROVAL",
+  "finalParentApproval": false,
+  "automaticArtPassFromRuntimeOrCPU": false,
+  "scope": {
+    "families": [
+      "occultist"
+    ],
+    "ownedFiles": [
+      "docs/art/npcs/reviews/OCCULTIST_FINAL_ART_REVIEW.md",
+      "docs/art/npcs/reviews/OCCULTIST_FINAL_ART_REVIEW.json"
+    ],
+    "codeEdits": false,
+    "browserLaunches": false,
+    "blenderLaunches": false,
+    "paidCalls": false,
+    "bodyOrCatalogEdits": false,
+    "servicesOrSchedulesEdited": false,
+    "excluded": "The other seven families retain their pinned FULL_EIGHT_ART_REVIEW results. Monks and live city/paddy QA are outside this review."
+  },
+  "sources": [
+    "docs/art/ART_BIBLE.md",
+    "docs/art/npcs/NPC_MODEL_BRIEFS.json"
+  ],
+  "previousReview": {
+    "path": "docs/art/npcs/reviews/FULL_EIGHT_ART_REVIEW.json",
+    "sha256": "0feb5893ecc8a65fc4d39fffbce67b95b772fbf4883e6a9439c562cdb1ecea53",
+    "markdownSha256": "6832d70ad75820494c485683d881399268f9de5aedd15a18445e3648440cbb1e",
+    "captureLabel": "city-npc-full-current-1",
+    "finding": "F8-01",
+    "historicalReviewUnchanged": true
+  },
+  "scores": {
+    "family": "occultist",
+    "styleMatch": 8,
+    "readability": 8,
+    "technicalUsability": 8,
+    "gate": 8,
+    "meetsGate": true,
+    "rationale": {
+      "styleMatch": "Bare gray-dark hair and aged face fit the brief; charcoal wrapped tunic, loose cropped trousers, broad crimson sash and sandals preserve restrained Thai-fantasy identity. Removing the rigid projecting crescent restores the intended silhouette.",
+      "readability": "Face and hair are clear in front/side/three-quarter views. Broad black/crimson color blocks and open-palmed stance still distinguish the role in the three actual registry gameplay frames.",
+      "technicalUsability": "No projecting or floating head accessory remains in idle/talk/walk/chant samples. Body/costume outline stays coherent, with no new visible limb/skin tear or major wardrobe intersection established in these views."
+    }
+  },
+  "scoreLimits": "An 8/10 sampled presentation gate, not complete anatomy/topology, continuous collision, planted feet, grip, seated motion, work mechanics, UI integration or performance certification.",
+  "findings": [
+    {
+      "id": "F8-01",
+      "family": "occultist",
+      "priority": "P2",
+      "previousStatus": "OPEN",
+      "status": "CLOSED_ON_ACTUAL_FRESH_IMAGES",
+      "title": "Projecting legacy red headband removed through explicit suppression",
+      "implementationObserved": {
+        "suppressedAccessories": [
+          "headband"
+        ],
+        "bakedAccessories": [],
+        "policyPath": "artifacts/city-npc-models/candidate-profiles.json",
+        "sourceBodySha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+        "sourceBodyMatchesPreviousReview": true
+      },
+      "observation": "The raised red crescent is visibly absent in front, side, back and three-quarter idle views, all sampled talk/walk/chant views and registry gameplay. Gray hair follows the native head silhouette; brow, eyes, forehead and profile are unobstructed. No replacement floating strip or new headwear intersection is visible.",
+      "provenance": "Explicit suppressedAccessories ['headband']; bakedAccessories remains []. This is suppression of a separate legacy prop, not a baked-body accessory claim.",
+      "closureEvidence": [
+        "occultist-idle-0_5-front",
+        "occultist-idle-0_5-side",
+        "occultist-idle-0_5-back",
+        "occultist-idle-0_5-threequarter",
+        "occultist-idle-0_5-gameplay",
+        "occultist-talk-0_25-front",
+        "occultist-talk-0_5-threequarter",
+        "occultist-talk-0_75-side",
+        "occultist-walk-0_25-front",
+        "occultist-walk-0_5-front",
+        "occultist-walk-0_5-side",
+        "occultist-walk-0_5-back",
+        "occultist-walk-0_5-threequarter",
+        "occultist-walk-0_5-gameplay",
+        "occultist-walk-0_75-side",
+        "occultist-sit-chant-0_25-front",
+        "occultist-sit-chant-0_5-front",
+        "occultist-sit-chant-0_5-side",
+        "occultist-sit-chant-0_5-back",
+        "occultist-sit-chant-0_5-threequarter",
+        "occultist-sit-chant-0_5-gameplay",
+        "occultist-sit-chant-0_75-side"
+      ],
+      "numericFixtureUsedForClosure": false,
+      "action": "No further occultist headband/body changes requested by this bounded review. Parent retains separate final approval."
+    }
+  ],
+  "otherSevenPinnedUnchanged": [
+    {
+      "family": "warp_keeper",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "636160c20d42820cad55579ff2228c198c8664636ca7cd39eae3970443a3c336",
+      "bodySha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a"
+    },
+    {
+      "family": "general_merchant",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "8c39c4e993f34e2888de0a3477cff7e04e04fe27b40f52d39835e5f8d61d6a29",
+      "bodySha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6"
+    },
+    {
+      "family": "blacksmith",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "1ac62190c00c7afd34daaa6085ed4869ac27c58db7df6d2daf671edf3c62ffac",
+      "bodySha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af"
+    },
+    {
+      "family": "herbalist",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "9baf4722a2576507398202e3b6a192fbbdbf45a29fe3e8d9df83c556d0f2862b",
+      "bodySha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a"
+    },
+    {
+      "family": "master_muay",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "f0ab42a2bd4eed0b776481a9673058a6e68ee879520a2a53dfc8eba91efffbcf",
+      "bodySha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c"
+    },
+    {
+      "family": "master_herbal",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "0f70eaade52e280ef4b80a389e8f6c9f595a832472619eeab60577022771e8f6",
+      "bodySha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50"
+    },
+    {
+      "family": "master_shaman",
+      "styleMatch": 8,
+      "readability": 8,
+      "technicalUsability": 8,
+      "gate": 8,
+      "captureLabel": "city-npc-full-current-1",
+      "reportSha256": "864ad025da0cc94c4216f3a2ff0057d1b5e8bc4d076ccc0e142e3ff77abef853",
+      "bodySha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600"
+    }
+  ],
+  "observations": {
+    "naturalHands": "Open source palms retained. Closeups show faceted low-poly digits and sleeve occlusion; no additional material gameplay defect established. No fist/digit replacement, closed grasp or complete thumb anatomy certification.",
+    "chant": {
+      "authoredState": "sit",
+      "seatedPresentation": "standing visual fallback",
+      "visiblePosture": "standing",
+      "seatedApproved": false,
+      "servicesAndSchedulePreservedByReview": true
+    },
+    "services": {
+      "shopType": "occult",
+      "trainer": null,
+      "warpService": null,
+      "storageService": false,
+      "faction": null
+    },
+    "noAdditionalP2Established": true,
+    "gameplay": "Three actual registry gameplay images show the isolated small character on a neutral plane; native dark clothes/crimson sash remain readable. They do not establish live-city lighting/UI readability or service functionality."
+  },
+  "validation": {
+    "report": {
+      "path": "docs/art/npcs/reviews/occultist-final-current-1/occultist/report.json",
+      "sha256": "7be64c54dc148c7fcb7d79968695294346583bcd6c2b67a2a7c7817bba0a5aa4",
+      "capturePassed": true,
+      "passed": true,
+      "startedAt": "2026-10-10T03:46:50.362Z",
+      "finishedAt": "2026-10-10T03:46:54.169Z",
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "warnings": []
+    },
+    "pngCount": 28,
+    "pngHashesMatched": 28,
+    "receiptPinsCount": 28,
+    "visuallyInspected": 28,
+    "hashOnly": 0,
+    "receiptHashAlgorithm": "SHA-256 over UTF-8 JSON.stringify(parsed image.receipt), preserving parsed property order; report byte hash also pins original serialized receipts.",
+    "inspectionMethod": "All 28 original 1280x770 PNGs opened directly with view_image at native resolution; no source image altered, no derivative inspection sheet created.",
+    "receiptChecks": "All 28 report active model/native animation and poseWitness.sourceSha256 matching the exact loaded/current body. Rendered procedural parts/contactWitness.props are empty; retainedParts is an inventory and is not visibility proof.",
+    "exactLoadedAssetPinsMatchedCurrent": true,
+    "sourceBodyMatchesPreviousReview": true,
+    "sourceNativeClips": [
+      "idle",
+      "walk"
+    ],
+    "captureModuleBeforeAfterStable": true,
+    "currentModulesMatchCaptured": true,
+    "build": {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "PASS",
+      "warning": "Production bundle chunk exceeds 500 kB; no performance approval inferred."
+    },
+    "parentQA": "User reports fullcity2 PASS 107 cases/292 images and paddy PASS 9 cases/18 images; changed-monks/occultist scoped-city QA was running. These were not independently inspected/rerun and are not used for Art closure."
+  },
+  "assetIdentity": {
+    "pathname": "/models/npcs/occultist.glb",
+    "expectedSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+    "loaded": [
+      {
+        "url": "http://127.0.0.1:5192/models/npcs/occultist.glb?v=woven-v2-bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac&rev=%5Bredacted%5D",
+        "status": 200,
+        "bytes": 604108,
+        "sha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+        "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+      }
+    ],
+    "passed": true
+  },
+  "currentBodySha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+  "modulePins": [
+    {
+      "path": "tools/npc-models/review.html",
+      "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+      "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+      "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+    },
+    {
+      "path": "tools/npc-models/review.js",
+      "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+      "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+      "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+    },
+    {
+      "path": "tools/npc-models/capture.mjs",
+      "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+    },
+    {
+      "path": "tools/npc-models/gameplay-qa.mjs",
+      "beforeSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+      "afterSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+      "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69"
+    },
+    {
+      "path": "public/models/npcs/profiles.json",
+      "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+      "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+      "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+    },
+    {
+      "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+      "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+      "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+      "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+    },
+    {
+      "path": "src/core/gltf.js",
+      "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+      "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+      "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+    },
+    {
+      "path": "src/entities/NPC.js",
+      "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+      "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+      "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+    },
+    {
+      "path": "src/data/npcs.js",
+      "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+      "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+      "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+    },
+    {
+      "path": "src/npc/NPCModels.js",
+      "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+      "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+      "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+    },
+    {
+      "path": "src/npc/NPCModelRenderer.js",
+      "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+      "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+      "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+    },
+    {
+      "path": "src/npc/NPCActivityPoses.js",
+      "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+      "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+      "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+    },
+    {
+      "path": "src/npc/NPCToolPresentation.js",
+      "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+      "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+      "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+    },
+    {
+      "path": "src/npc/NPCRenderer.js",
+      "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+      "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+      "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+    },
+    {
+      "path": "src/npc/NPCManager.js",
+      "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+      "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+      "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+    },
+    {
+      "path": "src/npc/NPCData.js",
+      "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+      "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+      "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+    },
+    {
+      "path": "src/npc/NPCSchedule.js",
+      "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+      "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+      "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+    },
+    {
+      "path": "src/npc/body/gearParts.js",
+      "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+      "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+      "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+    },
+    {
+      "path": "src/npc/body/blade.js",
+      "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+      "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+      "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+    },
+    {
+      "path": "src/npc/body/rig.js",
+      "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+      "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+      "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+    },
+    {
+      "path": "src/core/WorldClock.js",
+      "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+      "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+      "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+    },
+    {
+      "path": "src/core/CameraController.js",
+      "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+      "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+      "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+    },
+    {
+      "path": "src/world/World.js",
+      "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+      "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+      "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+    },
+    {
+      "path": "src/world/maps.js",
+      "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+      "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+      "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.js",
+      "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+      "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+      "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.json",
+      "beforeSha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe",
+      "afterSha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe",
+      "currentSha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/occultist-619e684d6e16-contacts.json",
+      "beforeSha256": "548117c08d5ee96081d15d9edbf1b1d41a1f279bd349258b772d566da04e8f96",
+      "afterSha256": "548117c08d5ee96081d15d9edbf1b1d41a1f279bd349258b772d566da04e8f96",
+      "currentSha256": "548117c08d5ee96081d15d9edbf1b1d41a1f279bd349258b772d566da04e8f96"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "occultist-idle-0_5-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-0_5-front.png",
+      "sha256": "9893f5ad85c8e89bd5e63a3709d6322b491068981f2cb7d67cf4b09995cb8ba9",
+      "receiptSha256": "d2fb181b6340390c3c5a4a544fc091ea1051db3b6b4ae4fe2c735f2d5f5423a9",
+      "pose": "idle",
+      "view": "front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-0_5-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-0_5-side.png",
+      "sha256": "d5cd8d192adf34271b25fc55da67ddcfd3da7fbdba8470c50b6e5895b9d83eff",
+      "receiptSha256": "6ddce60e29b7ff3925aa189b83f57def07ddbd92e5e5271b11e815cf92ad9b91",
+      "pose": "idle",
+      "view": "side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-0_5-back",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-0_5-back.png",
+      "sha256": "c1f40c2d3289d73681ec9054fb109c92d5064bce7b4573212dcb2b663a5e75cf",
+      "receiptSha256": "d05ad5d3369f826a56242a349fb8102c93015b734a3574052874c40296d887ae",
+      "pose": "idle",
+      "view": "back",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-0_5-threequarter",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-0_5-threequarter.png",
+      "sha256": "fc3b722e0a1fe935633be483eed373ec1e8c15ad68106c66daa52f62d72c4201",
+      "receiptSha256": "e6c83e406272a65f0417091619aae5011efd2223b40ed6203f209f2ab55a2eb7",
+      "pose": "idle",
+      "view": "threequarter",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-0_5-gameplay",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-0_5-gameplay.png",
+      "sha256": "3c32c768bafce470de57419a48f14e24952485cc3a7b5d23862d7f28444ae6cd",
+      "receiptSha256": "3736a89621e9d20c1f55d2a6956b3acb5a3516b3b43d68680639c57c9f1d222d",
+      "pose": "idle",
+      "view": "gameplay",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-talk-0_25-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-talk-0_25-front.png",
+      "sha256": "7cdc354aff1c35efcbe9845570339d2457260550d0ff14f670e6a4f8377b7938",
+      "receiptSha256": "bb2e3876c1604aedf9f1cc8fad9f9f87b6223120fc7ab1ed2a90361e12ccf8dc",
+      "pose": "talk",
+      "view": "front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-talk-0_5-threequarter",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-talk-0_5-threequarter.png",
+      "sha256": "6820d00a394282a782f61a46271f0ffabf26f80ffce2884bab71579dc652086e",
+      "receiptSha256": "1ff9434fac8252facc1e8d8de3296291dd32c05943d44a92265bcb8a212ac7a6",
+      "pose": "talk",
+      "view": "threequarter",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-talk-0_75-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-talk-0_75-side.png",
+      "sha256": "eda39b9489736de5d6dfe8345ad3a04a2ce91f7150e2eec85a2337bbf180b9e7",
+      "receiptSha256": "c693c21fb1136622bb8e7dc78bc47feeec71dc67e0f47964b050afd02f0c07ed",
+      "pose": "talk",
+      "view": "side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "talk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_25-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_25-front.png",
+      "sha256": "8b42e50cfa7c0e9dcf5ec40d6a77ab36d967db3fea3cbebf143ec6f0d8dab57b",
+      "receiptSha256": "f5436f741c93c9bb5b6ad47614853b91b6cfc6df55c14d012637fbec8c424be8",
+      "pose": "walk",
+      "view": "front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_5-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_5-front.png",
+      "sha256": "ecd4c57f9b3fecea20efc907fc5a1307998bb7d019442e1a92522e58778a029d",
+      "receiptSha256": "9bb731ccf3573ddd19194e7a28191e652722b960dcb511d15db9262fe9bbe0e7",
+      "pose": "walk",
+      "view": "front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_5-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_5-side.png",
+      "sha256": "05678e44dca5e3267bdd1cf58511249fb362f693e7186d4945bfabbb3308f8b3",
+      "receiptSha256": "6f2539ecf5d90c189895af2a52896fa8c856643e72f493508613dfa55451fe40",
+      "pose": "walk",
+      "view": "side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_5-back",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_5-back.png",
+      "sha256": "03bead95ad495313f34d4523d07107172d03e8c617a592b75ca7b453d15c11b6",
+      "receiptSha256": "f90822c8103135de7f61e86af12a271920090aecb0df6ced784e258b2ccf56d5",
+      "pose": "walk",
+      "view": "back",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_5-threequarter",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_5-threequarter.png",
+      "sha256": "ddef6b1ec65ad1fe49011bbf8a4c504dd8a9c88af3f752dc4466d9d8dcaadba7",
+      "receiptSha256": "8704562a02cd5bd617cfd286d18507939b6231bf2fdda3eadf3be64898315072",
+      "pose": "walk",
+      "view": "threequarter",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_5-gameplay",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_5-gameplay.png",
+      "sha256": "78dffa087815e3de767979d2647aed94cca494fd5c664371929ad5c11a525638",
+      "receiptSha256": "fcf5a2eadfa4826aa3b06ae1a39cdfaa101dc29704d3ca1b891b73536a9503cb",
+      "pose": "walk",
+      "view": "gameplay",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-walk-0_75-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-walk-0_75-side.png",
+      "sha256": "abb608f7b3c1c707b18233675283a7af221a21586fd1d88478933c7a29b2d187",
+      "receiptSha256": "67f02a6c7b587635cca69a4e7ec01696fa91e3c7ac89cbb58074baf1b118a620",
+      "pose": "walk",
+      "view": "side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "walk",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "walk",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_25-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_25-front.png",
+      "sha256": "76e574e494c75468457946ef9d45c822d61c04660203941fde664a49e6048248",
+      "receiptSha256": "e9ff70e2f17ca1e6bd512c45f05a31b019169f3e23223b0167add506e64099a5",
+      "pose": "sit-chant",
+      "view": "front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_5-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_5-front.png",
+      "sha256": "90e771055aec74e6aac06ebf82f31a201af4c27680489d6749b5dbefdc6891a2",
+      "receiptSha256": "163e84030b765dad24e736e7aa75de76b9929a3a40352b4c513c96bfe2e1366c",
+      "pose": "sit-chant",
+      "view": "front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_5-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_5-side.png",
+      "sha256": "71a13ca0fee8d7eb896ba7207ed82dd15770e8358bed0a148ccb70c7920836ab",
+      "receiptSha256": "950f33a323aadc349f8ba84fad285bcdcffc68a27725f3e703e80bceeb184744",
+      "pose": "sit-chant",
+      "view": "side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_5-back",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_5-back.png",
+      "sha256": "8ca5d6c99c3bcd65f567e32888310e0312d953cbe9c30ced8979b4a847b36b32",
+      "receiptSha256": "53c33d17aee7b2e4cef3abc6411dfa9f37e45ca43255a9ad97299c2342340d15",
+      "pose": "sit-chant",
+      "view": "back",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_5-threequarter",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_5-threequarter.png",
+      "sha256": "83a19e4c585725cdd5baaf433bf43f20656cb331e97542c99da32651daea0ab1",
+      "receiptSha256": "f7528d312982dd0b9447a5d3d6fe878422fa616c25a7ae8e0f047203c9c33489",
+      "pose": "sit-chant",
+      "view": "threequarter",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_5-gameplay",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_5-gameplay.png",
+      "sha256": "93988deee6a44c8fc0de43e296f09fa31f31275438f69ad8c2eb8a9c44e1366e",
+      "receiptSha256": "89090c69e0ea7af94c361bffdb84bb4a49a6d97528ba17cadc944526f34b87e0",
+      "pose": "sit-chant",
+      "view": "gameplay",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-sit-chant-0_75-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-sit-chant-0_75-side.png",
+      "sha256": "6cf7bafa1e8b70140962f3561aea0c524afd1e4c9d7ac54a960bb722c4caf9ae",
+      "receiptSha256": "b398b2e19ed2b862cfc5bea519002609c3ea783a6c4b84ae9bda03e781e18bd4",
+      "pose": "sit-chant",
+      "view": "side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "sit",
+          "seatedPresentation": "standing visual fallback",
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-hand-left-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-hand-left-front.png",
+      "sha256": "e57c813202916c15caf38fc1cc6cc75885b2c3b777a3153a846103c81085843b",
+      "receiptSha256": "24b70530afb667a62b506b5bbe196a1dc1dc541a38b72a032cd92ea31d9e20f2",
+      "pose": "idle",
+      "view": "hand-left-front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-hand-left-back",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-hand-left-back.png",
+      "sha256": "019fc6301e4b68eac480cb31c7da1c08fa3d1adcc6af2e177bd1bdb8fcb284ee",
+      "receiptSha256": "d039dfaf88a77f2fa13d34a111c0d4cfe1d66f0554a91d2fbc2e32b15e0a1775",
+      "pose": "idle",
+      "view": "hand-left-back",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-hand-left-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-hand-left-side.png",
+      "sha256": "0600292e9603bb7a75eb030452078729a164f984d6b6e8aa746ef11592215a33",
+      "receiptSha256": "8504404b52063da57afb952406265fe8b4678754347a066993e0b89ca3d7891b",
+      "pose": "idle",
+      "view": "hand-left-side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-hand-right-front",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-hand-right-front.png",
+      "sha256": "bf3bd86b559c6bdc55ddaffaa006f6d69a4b6dd6608be5e9bbc24412205c77f8",
+      "receiptSha256": "4c94e89a081981299316bd3bf8bdbc383ef3e32a9b71783cd116cfbe2291c821",
+      "pose": "idle",
+      "view": "hand-right-front",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-hand-right-back",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-hand-right-back.png",
+      "sha256": "9f62ebfe4c0a3d7978c9164b9dc467c9b880322d4f48aa3bf9a9e89bc0d21b7f",
+      "receiptSha256": "f53d9c312a0b7721bed9af1305b4fc5dd7daac891664018a155eeb9b0831a1bc",
+      "pose": "idle",
+      "view": "hand-right-back",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    },
+    {
+      "id": "occultist-idle-hand-right-side",
+      "path": "C:/Users/panup/.codex/worktrees/city-npc-models/ThaiNativeOnline/docs/art/npcs/reviews/occultist-final-current-1/occultist/occultist-idle-hand-right-side.png",
+      "sha256": "bfd5a88e477f6285ed69504342fd38e557579a7c5490dd2f8270786f17a10987",
+      "receiptSha256": "e356710a28bf87daea1cb908e5a20aa3e1bbd78cb373b050550ef35782519207",
+      "pose": "idle",
+      "view": "hand-right-side",
+      "mode": "registry",
+      "hashMatches": true,
+      "statuses": [
+        {
+          "family": "occultist",
+          "active": true,
+          "reason": null,
+          "error": null
+        }
+      ],
+      "native": [
+        {
+          "active": true,
+          "clip": "idle",
+          "sourceSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac"
+        }
+      ],
+      "visualPolicy": [
+        {
+          "roleMotion": {
+            "arm": 0.17,
+            "head": 0.25,
+            "torso": 0.2,
+            "stance": 0.25,
+            "seated": "upright"
+          },
+          "activityPoses": {
+            "wai": false
+          },
+          "authoredState": "idle",
+          "seatedPresentation": null,
+          "props": {}
+        }
+      ],
+      "renderedProps": [],
+      "services": [
+        {
+          "shopType": "occult",
+          "trainer": null,
+          "warpService": null,
+          "storageService": false,
+          "faction": null
+        }
+      ],
+      "visuallyInspected": true,
+      "inspection": "original PNG via view_image"
+    }
+  ],
+  "limitations": [
+    "Samples cannot prove continuous animation clearance or every lighting/view.",
+    "No seated or hand-grasp certification.",
+    "Live city/paddy, two monks and remaining families were not re-reviewed.",
+    "Parent owns final approval and PR; no implementation changes made."
+  ],
+  "handoff": "Close only F8-01 against occultist-final-current-1. Occultist now meets the 8/8/8 sampled Art gate; retain seven earlier pinned 8/8/8 results and their existing limitations. Continue parent final actual-city QA and approval separately."
+}

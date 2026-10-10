@@ -1,0 +1,4674 @@
+{
+  "schema": "independent-offline-art-review-v1",
+  "capture": "monk-respectful-bow-current-2",
+  "scope": [
+    "monk_elder",
+    "monk_novice"
+  ],
+  "verdict": "PASS",
+  "scores": [
+    {
+      "family": "monk_elder",
+      "style": 8.5,
+      "readability": 8,
+      "technical": 8.5,
+      "verdict": "PASS"
+    },
+    {
+      "family": "monk_novice",
+      "style": 8.5,
+      "readability": 8,
+      "technical": 8.5,
+      "verdict": "PASS"
+    }
+  ],
+  "counts": {
+    "totalPNG": 84,
+    "verifiedPNG": 84,
+    "actuallyViewedPNG": 84,
+    "elder": 40,
+    "novice": 44
+  },
+  "closedFindings": [
+    {
+      "id": "RB-01",
+      "priority": "P2",
+      "status": "CLOSED for pinned current-2 captures",
+      "reason": "Both active-GLB profiles suppress bowl; actual idle/talk/walk/chant/upright fallback/novice work/return-idle PNGs have no unsupported bowl. No bowl visible in any of 84 receipts or images."
+    }
+  ],
+  "visualMeaning": {
+    "chant": "Gentle head bow with separated relaxed upward-open native hands; not a flat-palmed wai.",
+    "seated": "Elder sit-pray explicitly renders upright standing fallback for continuous robe. No seated pose claim.",
+    "noviceWork": "Broom ground-parked during work-sweep scheduled state, not held or an actual sweeping grip.",
+    "noviceTravel": "Broom back-stowed during walking; hidden during chant."
+  },
+  "batch": {
+    "schema": 1,
+    "kind": "consecutive-family-captures",
+    "startedAt": "2026-10-10T03:44:32.190Z",
+    "manifestPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\monk-respectful-bow-plan-2.json",
+    "manifestSha256": "22c6c7a80dbc21f5f72c7463cb8356ee1de2a9f72099563e2012b5b3c73e0eb5",
+    "browser": {
+      "channel": "msedge",
+      "instances": 1,
+      "pages": 1,
+      "closed": true
+    },
+    "families": [
+      {
+        "family": "monk_elder",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\monk-respectful-bow-current-2\\monk_elder\\report.json",
+        "capturePassed": true,
+        "disposal": {
+          "disposed": true,
+          "groupsReleased": 0,
+          "cacheSize": 0,
+          "phaseListeners": 0
+        },
+        "images": 40
+      },
+      {
+        "family": "monk_novice",
+        "reportPath": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\docs\\art\\npcs\\reviews\\monk-respectful-bow-current-2\\monk_novice\\report.json",
+        "capturePassed": true,
+        "disposal": {
+          "disposed": true,
+          "groupsReleased": 0,
+          "cacheSize": 0,
+          "phaseListeners": 0
+        },
+        "images": 44
+      }
+    ],
+    "failures": [],
+    "passed": true,
+    "finishedAt": "2026-10-10T03:44:43.733Z",
+    "pin": {
+      "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/batch-report.json",
+      "sha256": "f761d156d93497c0dea6bb9968dde9552160da64f076b8e8a39965beb760d720"
+    }
+  },
+  "plan": {
+    "path": "docs/art/npcs/reviews/monk-respectful-bow-plan-2.json",
+    "sha256": "22c6c7a80dbc21f5f72c7463cb8356ee1de2a9f72099563e2012b5b3c73e0eb5"
+  },
+  "capturedCatalogSha256": "adc1451240bde96409652b4cd7a81032e499d1f2f5b9dec321f53317e2551d2e",
+  "postCaptureCatalog": {
+    "path": "artifacts/city-npc-models/candidate-profiles.json",
+    "sha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe"
+  },
+  "receipts": [
+    {
+      "family": "monk_elder",
+      "reportPin": {
+        "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/report.json",
+        "sha256": "75c6d34efc31321e280a1400b81163869fad822e7ff7dd6b09fbd5f9be9e645f"
+      },
+      "passed": true,
+      "capturePassed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "modules": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "afterSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "adc1451240bde96409652b4cd7a81032e499d1f2f5b9dec321f53317e2551d2e",
+          "afterSha256": "adc1451240bde96409652b4cd7a81032e499d1f2f5b9dec321f53317e2551d2e",
+          "currentSha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe",
+          "captureStable": true,
+          "currentMatches": false
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/monk_elder-203576808752-contacts.json",
+          "beforeSha256": "f2da5660fd9a6a0ad2962063974344326b76a830cafd07239cad58afe3a722e3",
+          "afterSha256": "f2da5660fd9a6a0ad2962063974344326b76a830cafd07239cad58afe3a722e3",
+          "currentSha256": "f2da5660fd9a6a0ad2962063974344326b76a830cafd07239cad58afe3a722e3",
+          "captureStable": true,
+          "currentMatches": true
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:5192/models/npcs/monk_elder.glb?v=woven-v3-5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837&rev=%5Bredacted%5D",
+          "status": 200,
+          "bytes": 637560,
+          "sha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "transport": "Exact HTTP response bytes fulfilled to GLTFLoader",
+          "path": "public/models/npcs/monk_elder.glb",
+          "currentSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "verified": true
+        }
+      ],
+      "images": [
+        {
+          "id": "monk_elder-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-0_5-front.png",
+          "sha256": "bf342fca5dad7712e39880a5d4b90d65abd4e80e2bd6be37907fa50ad0284114",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-0_5-side.png",
+          "sha256": "17fa06cd9832a68cbb51c1ccf5f55435dc3fec4d85b5d88b63b0ebd729d4b1da",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-0_5-back.png",
+          "sha256": "fb63d3c9a08695038f08ee38f94461d88e36d6f7c32e1028ba57557f71b81b0e",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-0_5-threequarter.png",
+          "sha256": "c02a63f091ed5655e8c05f61b8a8730107443e6e0a8c9bd04d69661072fe82bf",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-0_5-gameplay.png",
+          "sha256": "68f038ba15ee3ef01bba676d8047834428bfe1fc599d1361926cf18d32264443",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-talk-0_25-front.png",
+          "sha256": "ffd46a45f8ed668d5e868a0a5a06f9b8bd5cf19b2133d8495c15135864ab4f22",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "talk",
+          "anim": "talk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-talk-0_5-threequarter.png",
+          "sha256": "77931cc07da97908e1dc8cac85e66ad9cd48a484466b4443b5a2168b24d6a65c",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_elder",
+          "state": "talk",
+          "anim": "talk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-talk-0_75-side.png",
+          "sha256": "51629dbb075313bd2b61b183e21ec3a4e4b7bec6723021f02a5e18b419678161",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "talk",
+          "anim": "talk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_25-front.png",
+          "sha256": "301e57fee0a00d9585d19d6e7d6169c1d4415161f61c4f57d0dc79802b368fba",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_5-front.png",
+          "sha256": "47b9fdc32c43dd71ea3b402ec97d695a5f0632343f52993a5bb2de4db0ab8438",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_5-side.png",
+          "sha256": "b2dfa9cb6df9e7bf5550904a53ae4efb5de2b674c48b38d449186c212d401941",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_5-back.png",
+          "sha256": "496cb387e0db20022d174a1e42d4933c09df324a42b6b061af40f8b5892f0657",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_5-threequarter.png",
+          "sha256": "89703e9d37a290217830f9233d5d5a02b97d4faf1619300f67f62360ca147114",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_5-gameplay.png",
+          "sha256": "0059c32f8162c0e133492eee47a001bce7d6902a7d83783afbb910a96f8e5f0d",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-walk-0_75-side.png",
+          "sha256": "f792a777982e63f6db8b0f1cad96cb052d9c93b94316aeb76d596d2c03167393",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_25-front.png",
+          "sha256": "86b42f739bee2a0c9f8090f09955c0e0a3ccd0853590c3fb401e7412c3764d84",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_5-front.png",
+          "sha256": "294f0610ce9286bdec58d179c3326b607e7aea33d38a3f1c22cb2a79560ec630",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_5-side.png",
+          "sha256": "ba6e32c5671cc06cca33c130f4b6df0e48fe132ba809dc14d92ea2ab8079bd65",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_5-back.png",
+          "sha256": "dc985ae589b86583939436c24d604c6b36fc43c86d8dd2ed216ab0c50cc459f5",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_5-threequarter.png",
+          "sha256": "3f0eba30a53614ad2d014206050ac515269b5b721bf44c307df3a1e485a89f40",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_5-gameplay.png",
+          "sha256": "0e967d0b644a5c50af7a0073d8a8191486c4f153438e56dbc5dc977e9bdb2661",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-pray-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-pray-0_75-side.png",
+          "sha256": "1a1f073a1e7da71c433a43f56397f2e3dba7dd78da97b2fbeed174cea4e15186",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_25-front.png",
+          "sha256": "52190a1fee813e55bb25d1cbfa444ccbb1f2fa64a43a2d633af18daaa87cb0b5",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_5-front.png",
+          "sha256": "341183e06b85c5710d08064e0e1f99c2fc3935ee3a4d1cfac7abd43885b15557",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_5-side.png",
+          "sha256": "babc113d1bc96517df1dc596d2bff99294bcbae5ae5b2ce0d9e89e2644cfb188",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_5-back.png",
+          "sha256": "c40d040b0abbb0650f4f74b2029c41eba8693a40ccdd9060105cb52f669b30b5",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_5-threequarter.png",
+          "sha256": "c900aefccebda84a9e87eca222f302194a5fc317dc03046b633f211b04fc716a",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_5-gameplay.png",
+          "sha256": "ee85027c2e0159a09c92320ac2ff9e88a0e1c857d026e535eb9ced76ae1e7242",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-sit-pray-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-sit-pray-0_75-side.png",
+          "sha256": "7d972ebe5078e4523a053722d9bdbac8b6c842b11e604fc589c03bf6183a3f9d",
+          "verified": true,
+          "pose": "sit-pray",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_elder",
+          "state": "sit",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "sit",
+            "seatedPresentation": "standing visual fallback",
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-hand-left-front.png",
+          "sha256": "9485f8bb8b7c601ae5024ae378d2dbc6b56aaf87e21ef15e6dec023865c57911",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-hand-left-back.png",
+          "sha256": "8b2853052f61aa89932a3d6ee3baffc930e3e07a1d66165cff0c85d7971407f3",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-back",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-hand-left-side.png",
+          "sha256": "b2dfa23fd44783862bea84164f7b580cba7c2e00e595a36760d833ddbc650e4d",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-hand-right-front.png",
+          "sha256": "c233c5a13f847a35735132c2d7c0ccdf628cb1864d4489f2a84c6e9ccb03b107",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-hand-right-back.png",
+          "sha256": "eec36f8d987158dce14badd88a3816e17e4e75a0a79d16650f90189ad8157cab",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-back",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-idle-hand-right-side.png",
+          "sha256": "8fca44929f3cb1b0cbfeb6e5c98a8b6e8bd42b45668f2a807ee3a11897a8fcf5",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-pray-hand-left-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-pray-hand-left-front.png",
+          "sha256": "b65510c95cf42dff123325c25a8fbe97d070883216f6bc7f25027aa51ddd5080",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-pray-hand-left-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-pray-hand-left-side.png",
+          "sha256": "63d6d122b69d9f3eedea18102fe66cc8b45470a80330703bfac84a2b5da3f20f",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-left-side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-pray-hand-right-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-pray-hand-right-front.png",
+          "sha256": "954e1d0fa7e28d7b920e9c1a8f45a06f7b5b4100f5f7fe3aaa31d0579ee969c0",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-pray-hand-right-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-pray-hand-right-side.png",
+          "sha256": "b27298b1f9e40b4458407f47e005c09173967f06118e9b265bb880a68be91417",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-right-side",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_elder-return-idle-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_elder/monk_elder-return-idle-threequarter.png",
+          "sha256": "b489fe8571bd33286de10a373eaffdcfa460c2dd4628d25588d282701d38df9e",
+          "verified": true,
+          "pose": "idle",
+          "time": 1,
+          "view": "threequarter",
+          "npcId": "monk_elder",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {}
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+          "actuallyViewed": true
+        }
+      ],
+      "cases": [
+        {
+          "id": "work",
+          "skipped": true,
+          "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+        },
+        {
+          "id": "registered-authored-witnesses",
+          "npc": "monk_elder",
+          "images": 40,
+          "roles": [
+            {
+              "state": "idle",
+              "anim": "pray",
+              "carrying": false
+            },
+            {
+              "state": "sit",
+              "anim": "pray",
+              "carrying": false
+            }
+          ],
+          "retained": [
+            "bowl"
+          ],
+          "contactMeaning": "Fully hand-owned centroid distance is diagnostic only. Natural palm/thumb-web targets and intentional parked/stowed props require independent measured and visual review."
+        }
+      ],
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "warnings": [],
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "assetIdentity": {
+        "pathname": "/models/npcs/monk_elder.glb",
+        "expectedSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/monk_elder.glb?v=woven-v3-5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 637560,
+            "sha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "profile": {
+        "sha256": "0eb9c2a5d07746766cb39746b261be84a53e1a157afa478a2fe356289dd852f6",
+        "roleMotion": {
+          "arm": 0.12,
+          "head": 0.65,
+          "torso": 0.15
+        },
+        "activityPoses": {
+          "wai": false
+        },
+        "keys": [
+          "schema",
+          "family",
+          "revision",
+          "geometryAssetSha256",
+          "assetSha256",
+          "qa",
+          "calibration",
+          "handScale",
+          "grips",
+          "sockets",
+          "normalization",
+          "bakedAccessories",
+          "inspectionOnly",
+          "productionApproved",
+          "inspectionProvenance",
+          "activityPoses",
+          "roleMotion",
+          "suppressedAccessories"
+        ],
+        "priorCPUDiff": [
+          "suppressedAccessories"
+        ],
+        "diffValues": [
+          {
+            "field": "suppressedAccessories",
+            "current": [
+              "bowl"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "family": "monk_novice",
+      "reportPin": {
+        "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/report.json",
+        "sha256": "ae745d055982589fce3773f7a10222d6a5e1eecde39166709373f943d6ff980a"
+      },
+      "passed": true,
+      "capturePassed": true,
+      "browser": {
+        "channel": "msedge",
+        "headless": true,
+        "instances": 1,
+        "pages": 1,
+        "closed": true,
+        "sharedBatch": true,
+        "closedAtBatchEnd": true
+      },
+      "modules": [
+        {
+          "path": "tools/npc-models/review.html",
+          "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "currentSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/review.js",
+          "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "currentSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/capture.mjs",
+          "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "currentSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "tools/npc-models/gameplay-qa.mjs",
+          "beforeSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "afterSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "currentSha256": "1ea3a7496950b7d7ec5e499b805f87d51d76b700a97bc4a1925d20b9b8cb3b69",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "public/models/npcs/profiles.json",
+          "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "currentSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+          "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "currentSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/gltf.js",
+          "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "currentSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/entities/NPC.js",
+          "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "currentSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/data/npcs.js",
+          "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "currentSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModels.js",
+          "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "currentSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCModelRenderer.js",
+          "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "currentSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCActivityPoses.js",
+          "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "currentSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCToolPresentation.js",
+          "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "currentSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCRenderer.js",
+          "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "currentSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCManager.js",
+          "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "currentSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCData.js",
+          "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "currentSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/NPCSchedule.js",
+          "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "currentSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/gearParts.js",
+          "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "currentSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/blade.js",
+          "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "currentSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/npc/body/rig.js",
+          "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "currentSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/WorldClock.js",
+          "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "currentSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/core/CameraController.js",
+          "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "currentSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/World.js",
+          "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "currentSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "src/world/maps.js",
+          "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "currentSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.js",
+          "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "currentSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+          "captureStable": true,
+          "currentMatches": true
+        },
+        {
+          "path": "artifacts/city-npc-models/candidate-profiles.json",
+          "beforeSha256": "adc1451240bde96409652b4cd7a81032e499d1f2f5b9dec321f53317e2551d2e",
+          "afterSha256": "adc1451240bde96409652b4cd7a81032e499d1f2f5b9dec321f53317e2551d2e",
+          "currentSha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe",
+          "captureStable": true,
+          "currentMatches": false
+        },
+        {
+          "path": "artifacts/city-npc-models/contacts/monk_novice-36e7bf448812-contacts.json",
+          "beforeSha256": "f11a8c66022550121b18c7c97e355eaa7fbe14a20c56ec010063e0a410cb3fb9",
+          "afterSha256": "f11a8c66022550121b18c7c97e355eaa7fbe14a20c56ec010063e0a410cb3fb9",
+          "currentSha256": "f11a8c66022550121b18c7c97e355eaa7fbe14a20c56ec010063e0a410cb3fb9",
+          "captureStable": true,
+          "currentMatches": true
+        }
+      ],
+      "assets": [
+        {
+          "url": "http://127.0.0.1:5192/models/npcs/monk_novice.glb?v=woven-v3-6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60&rev=%5Bredacted%5D",
+          "status": 200,
+          "bytes": 454468,
+          "sha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "transport": "Exact HTTP response bytes fulfilled to GLTFLoader",
+          "path": "public/models/npcs/monk_novice.glb",
+          "currentSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "verified": true
+        }
+      ],
+      "images": [
+        {
+          "id": "monk_novice-idle-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-0_5-front.png",
+          "sha256": "aca0492b47026ab0b1053cfbe1c86ba0b6c91e4e01f87a9126d1f7304dfa3bce",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-0_5-side.png",
+          "sha256": "a6afdea5932fa0526861c93f39e7eca2455f1244ecdada7679cb8d30a6c54525",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-0_5-back.png",
+          "sha256": "30036285ff66b10bc38aecc8f1fa44276b20fb08b3d17a7c588c6d4c5374bdab",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-0_5-threequarter.png",
+          "sha256": "8c0e5490224fa9f41eeab39484651af46539d974e6fa565a8cbc6b94eb2ec988",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-0_5-gameplay.png",
+          "sha256": "58b6949fefcb588053422668badd43fb2c4554a4997b3a092a47d34a7f5aff55",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-talk-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-talk-0_25-front.png",
+          "sha256": "414ffe2e33437730c3b0c1af59d7c9582d2329eacd26e1d13c7332fac59a61a0",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "talk",
+          "anim": "talk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-talk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-talk-0_5-threequarter.png",
+          "sha256": "9c7e9500a5c30d99b03aff589d0ddc39268d98d96eb6830330a10debf6cb1e69",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_young",
+          "state": "talk",
+          "anim": "talk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-talk-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-talk-0_75-side.png",
+          "sha256": "63ae18380d0d0be9358e288c800be82031b2cf39689cd5b5902e14c47d30c7fc",
+          "verified": true,
+          "pose": "talk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "talk",
+          "anim": "talk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "talk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_25-front.png",
+          "sha256": "cf01f19d5b643fa1fbe0c476aad0f8528b6fd660bc050aee5b40ab5878a4ef0c",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_5-front.png",
+          "sha256": "2c87dcb4941a2c7195e1bbde34997306ba4e0323c957c5f353c09201c316ec76",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_5-side.png",
+          "sha256": "7d1e967d7db1e6a849a67dd7d03bc706cad28c621d36005b89d3a863e6c3125e",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_5-back.png",
+          "sha256": "4180311a3505a68b0fb18fae3df7dd8cc467a97714e0e9747e0737bd73dcc073",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_5-threequarter.png",
+          "sha256": "57abf147132b2ca7090aa38d2de49a0819e708164c1d0358338201f0ddbefcf0",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_5-gameplay.png",
+          "sha256": "e99c21bbe932bca84ae520a5692111003462a14875c81f92da27e6227369de8b",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-walk-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-walk-0_75-side.png",
+          "sha256": "12abaad3efe432f49757fcc2235104115333946efd9b1eae729b188741d16c54",
+          "verified": true,
+          "pose": "walk",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "walk",
+          "anim": "walk",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "walk",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "back-stowed"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_25-front.png",
+          "sha256": "6104d61f7daea8f935b1ce68117259b2c634587802e65e7bef9bd4630c32b0fd",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_5-front.png",
+          "sha256": "aa5722a679f79a2d8b1458c1207c3674026c8475f85f623ea0ac2bc3307ffe72",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_5-side.png",
+          "sha256": "03076493251856409d5d12fc11a78731ad3bb2f4b1ac74216dc8f705b3eb4e24",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_5-back.png",
+          "sha256": "51f99a432b12d69fda9e99e6447e019fe89f9b88dee8a1929290d63ee177e573",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_5-threequarter.png",
+          "sha256": "05ced494099555f6a1e87f10afa26e9d592006661c9d8bc1413c5c8734bdbc1c",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_5-gameplay.png",
+          "sha256": "32ec959b8f3bd6065b41f53c7066f0f6181e7708d06a18da29eb8c151eb46d6d",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-pray-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-pray-0_75-side.png",
+          "sha256": "8b765557d026968f21dd06a1fc2b74b7301b8caeb7deeb12dde654998b015177",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_25-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_25-front.png",
+          "sha256": "d0bcfd9ae0bb11868f33d0cc420fcc2965be67dac2463d3767a95ee9d289982f",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.25,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_5-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_5-front.png",
+          "sha256": "8f77b296d03939948222162b7ac2ec5881bdaf2908ff66c5a623d8c9f5ae6d0b",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "front",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_5-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_5-side.png",
+          "sha256": "4d70fa7b1a2adb957bdaa634a89e633e2ebce025c376c2081f8c67fd8002b73c",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_5-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_5-back.png",
+          "sha256": "9602681224bf9f6b986b15b59b9f332390f2b08b77a640f2f54383958928ee28",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "back",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_5-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_5-threequarter.png",
+          "sha256": "01bf240689e00b1211ec237844df5fd73af07c57d0c3930f78594213b406cbed",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "threequarter",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_5-gameplay",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_5-gameplay.png",
+          "sha256": "79552c82e78130d416fb769bf419e932d4fee287673667321d50c781d5f62fc4",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "gameplay",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-0_75-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-0_75-side.png",
+          "sha256": "b3306a45484b43c6dce095f1c8a0a770d4694873594e83272ff5ecb7e8a654f7",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.75,
+          "view": "side",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-hand-left-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-hand-left-front.png",
+          "sha256": "76b0e7fb6842608dd472d30cd15ed2e5c66275a825d2ae2caddcff5891c30910",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-hand-left-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-hand-left-back.png",
+          "sha256": "a246fc706f91249e4086c8061c3382c802fd2f48fd7f57b45803e2d9b768ff3d",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-back",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-hand-left-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-hand-left-side.png",
+          "sha256": "fac9899e80a902aa647d7ff815d8ab2e3738f3acc9ed594d61a121545f3abc79",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-left-side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-hand-right-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-hand-right-front.png",
+          "sha256": "d65eb456f99135835b7699d8a679d8fb0ac0481875ae0bc53d4cb22fc382b72d",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-hand-right-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-hand-right-back.png",
+          "sha256": "5b5bc9175bd5b84b585af9f652d488b324bbff32ce2856ebfeaa56560f69b8f2",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-back",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-idle-hand-right-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-idle-hand-right-side.png",
+          "sha256": "1d8c539d36eb62394fafb36a76f4b429c2e7a84dfab6794bfb5821acbef55acd",
+          "verified": true,
+          "pose": "idle",
+          "time": 0.5,
+          "view": "hand-right-side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-hand-right-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-hand-right-front.png",
+          "sha256": "bc1595fc64a04802050437ec3c4f2a6103a17a912d08b56dc8993867cde556eb",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-hand-right-back",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-hand-right-back.png",
+          "sha256": "9ecea0a1d0d57e051e60f0e19664c490484bc6aaeb0222b079a7ab2e126941ef",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "hand-right-back",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-prop-broom-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-prop-broom-front.png",
+          "sha256": "2368509a8235b7e814cbdcb64f1cdcd538bfa3474ddd6744d7bc941369d2e6fc",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "prop-broom-front",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-work-sweep-prop-broom-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-work-sweep-prop-broom-side.png",
+          "sha256": "491932a677200282cf9fb3c152ef44cc5bf3c20eaa7a7b7ec23f0875ce0b8b1d",
+          "verified": true,
+          "pose": "work-sweep",
+          "time": 0.5,
+          "view": "prop-broom-side",
+          "npcId": "monk_young",
+          "state": "work",
+          "anim": "sweep",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "work",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-pray-hand-left-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-pray-hand-left-front.png",
+          "sha256": "a0e06c39bbf69a1a8f8fc9f01ab06debbd41c05bb9cfa3204bda265a57c942ad",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-left-front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-pray-hand-left-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-pray-hand-left-side.png",
+          "sha256": "9ec26b7aae3e5b6178a7bc24743f12c6f1cf45d5f8a6afcbccf4d19c9f9b277f",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-left-side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-pray-hand-right-front",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-pray-hand-right-front.png",
+          "sha256": "91bcafd5d1e74a3c05715f826c721beb4094ac4027703ff65a3dfd30d7c932a0",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-right-front",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-pray-hand-right-side",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-pray-hand-right-side.png",
+          "sha256": "4d3d4337d13b7fb776a1c4c18ff8f5ec6aa4b5402620c50d01b76ca4d800066e",
+          "verified": true,
+          "pose": "idle-pray",
+          "time": 0.5,
+          "view": "hand-right-side",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "pray",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        },
+        {
+          "id": "monk_novice-return-idle-threequarter",
+          "path": "docs/art/npcs/reviews/monk-respectful-bow-current-2/monk_novice/monk_novice-return-idle-threequarter.png",
+          "sha256": "c2fd47d9c388160443487944641120327c70b1db58b2cd8594ff9ab83695930d",
+          "verified": true,
+          "pose": "idle",
+          "time": 1,
+          "view": "threequarter",
+          "npcId": "monk_young",
+          "state": "idle",
+          "anim": "rest",
+          "sourceSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+          "visibleParts": [
+            "broom"
+          ],
+          "policy": {
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "broom": "ground-parked"
+            }
+          },
+          "bodyFinite": true,
+          "bodyErrors": [],
+          "contactDiagnosticSourceSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+          "actuallyViewed": true
+        }
+      ],
+      "cases": [
+        {
+          "id": "sit",
+          "skipped": true,
+          "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+        },
+        {
+          "id": "registered-authored-witnesses",
+          "npc": "monk_young",
+          "images": 44,
+          "roles": [
+            {
+              "state": "idle",
+              "anim": "pray",
+              "carrying": false
+            },
+            {
+              "state": "work",
+              "anim": "sweep",
+              "carrying": false
+            }
+          ],
+          "retained": [
+            "broom",
+            "bowl"
+          ],
+          "contactMeaning": "Fully hand-owned centroid distance is diagnostic only. Natural palm/thumb-web targets and intentional parked/stowed props require independent measured and visual review."
+        }
+      ],
+      "failures": [],
+      "pageErrors": [],
+      "requestErrors": [],
+      "warnings": [],
+      "disposal": {
+        "disposed": true,
+        "groupsReleased": 0,
+        "cacheSize": 0,
+        "phaseListeners": 0
+      },
+      "assetIdentity": {
+        "pathname": "/models/npcs/monk_novice.glb",
+        "expectedSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+        "loaded": [
+          {
+            "url": "http://127.0.0.1:5192/models/npcs/monk_novice.glb?v=woven-v3-6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60&rev=%5Bredacted%5D",
+            "status": 200,
+            "bytes": 454468,
+            "sha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+            "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+          }
+        ],
+        "passed": true
+      },
+      "profile": {
+        "sha256": "c9af4e1cc2b5fb1db68d47135ac225ce2f5ca17f178889ba55fdc8d8f41559b4",
+        "roleMotion": {
+          "arm": 0.12,
+          "head": 0.65,
+          "torso": 0.15
+        },
+        "activityPoses": {
+          "wai": false
+        },
+        "keys": [
+          "schema",
+          "family",
+          "revision",
+          "geometryAssetSha256",
+          "assetSha256",
+          "qa",
+          "calibration",
+          "handScale",
+          "grips",
+          "sockets",
+          "normalization",
+          "bakedAccessories",
+          "inspectionOnly",
+          "productionApproved",
+          "inspectionProvenance",
+          "activityPoses",
+          "stowedTools",
+          "roleMotion",
+          "suppressedAccessories"
+        ],
+        "priorCPUDiff": [
+          "suppressedAccessories"
+        ],
+        "diffValues": [
+          {
+            "field": "suppressedAccessories",
+            "current": [
+              "bowl"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "checks": [
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/runtime-audit.json",
+        "sha256": "bb0ade8dd4771cdb2a881e1b8d8b2d37c1beacc498a6ae16c15222ce577dfef5",
+        "currentSha256": "bb0ade8dd4771cdb2a881e1b8d8b2d37c1beacc498a6ae16c15222ce577dfef5",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/monk_elder-runtime.json",
+        "sha256": "e354a3776b56610fe1df1cccaf90dba96d7af503f0cec206c4d68966c8974197",
+        "currentSha256": "e354a3776b56610fe1df1cccaf90dba96d7af503f0cec206c4d68966c8974197",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/monk_novice-runtime.json",
+        "sha256": "1c3a54dd119a6fd5495341f8796ce4dd02e3b052e9fd03add11fdb3a905616aa",
+        "currentSha256": "1c3a54dd119a6fd5495341f8796ce4dd02e3b052e9fd03add11fdb3a905616aa",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/catalog.snapshot.json",
+        "sha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+        "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/runtime-audit-helper.snapshot.mjs",
+        "sha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954",
+        "currentSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954",
+        "verified": true
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk_elder\\monk_elder.glb",
+        "sha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+        "verified": true,
+        "currentSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\public\\models\\npcs\\monk_elder.glb",
+        "sha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+        "verified": true,
+        "currentSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk-wai-trials\\trial-7\\monk_elder\\stage-1\\pose-relaxed-source.glb",
+        "sha256": "7391634b074bd632c286e3688528982f4d8d844cbd86ce93d31a25d3bf95b258",
+        "verified": true,
+        "currentSha256": "7391634b074bd632c286e3688528982f4d8d844cbd86ce93d31a25d3bf95b258"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_elder-v2-walking.glb",
+        "sha256": "a158f0971a99c99c1558f3e22778718429cbdd0cda914d8137670291361ec2f4",
+        "verified": true,
+        "currentSha256": "a158f0971a99c99c1558f3e22778718429cbdd0cda914d8137670291361ec2f4"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_elder-v2-running.glb",
+        "sha256": "c0896b4938dac1e7a27cb3b25722a39ebf347ab19ba08a2a1e0a04cce4964334",
+        "verified": true,
+        "currentSha256": "c0896b4938dac1e7a27cb3b25722a39ebf347ab19ba08a2a1e0a04cce4964334"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_elder-v2-rigged.glb",
+        "sha256": "cdcd4aa95dd0fc3590b74822c2698577622fbe54ec56c03bfa0a009dad2b2479",
+        "verified": true,
+        "currentSha256": "cdcd4aa95dd0fc3590b74822c2698577622fbe54ec56c03bfa0a009dad2b2479"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_elder-v2-walking.glb",
+        "sha256": "a158f0971a99c99c1558f3e22778718429cbdd0cda914d8137670291361ec2f4",
+        "verified": true,
+        "currentSha256": "a158f0971a99c99c1558f3e22778718429cbdd0cda914d8137670291361ec2f4"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_elder-v2-running.glb",
+        "sha256": "c0896b4938dac1e7a27cb3b25722a39ebf347ab19ba08a2a1e0a04cce4964334",
+        "verified": true,
+        "currentSha256": "c0896b4938dac1e7a27cb3b25722a39ebf347ab19ba08a2a1e0a04cce4964334"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk_novice\\monk_novice.glb",
+        "sha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+        "verified": true,
+        "currentSha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\public\\models\\npcs\\monk_novice.glb",
+        "sha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+        "verified": true,
+        "currentSha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk-wai-trials\\trial-7\\monk_novice\\stage-1\\pose-relaxed-source.glb",
+        "sha256": "bc15f850ba9ca8b14aca7fe0d6810e4738eb6d7a5b6498ddd285908f7b1186b7",
+        "verified": true,
+        "currentSha256": "bc15f850ba9ca8b14aca7fe0d6810e4738eb6d7a5b6498ddd285908f7b1186b7"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_novice-v2-walking.glb",
+        "sha256": "fe3b12f24a19db0625e4d290a2f0c08b2e061700bc4e4fea046b7fe7c502f8f5",
+        "verified": true,
+        "currentSha256": "fe3b12f24a19db0625e4d290a2f0c08b2e061700bc4e4fea046b7fe7c502f8f5"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_novice-v2-running.glb",
+        "sha256": "d74025b39d7f74835c2c7b4760aba1fac03514fb73dd415825c82e87a80fa368",
+        "verified": true,
+        "currentSha256": "d74025b39d7f74835c2c7b4760aba1fac03514fb73dd415825c82e87a80fa368"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_novice-v2-rigged.glb",
+        "sha256": "81ee974b584e4c3d8aaa11437159d8c56548ec2514112df9884cb2a24533ca2a",
+        "verified": true,
+        "currentSha256": "81ee974b584e4c3d8aaa11437159d8c56548ec2514112df9884cb2a24533ca2a"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_novice-v2-walking.glb",
+        "sha256": "fe3b12f24a19db0625e4d290a2f0c08b2e061700bc4e4fea046b7fe7c502f8f5",
+        "verified": true,
+        "currentSha256": "fe3b12f24a19db0625e4d290a2f0c08b2e061700bc4e4fea046b7fe7c502f8f5"
+      },
+      {
+        "path": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\meshy_output\\20261010_030444_city-npc-models_01a12244\\monk_novice-v2-running.glb",
+        "sha256": "d74025b39d7f74835c2c7b4760aba1fac03514fb73dd415825c82e87a80fa368",
+        "verified": true,
+        "currentSha256": "d74025b39d7f74835c2c7b4760aba1fac03514fb73dd415825c82e87a80fa368"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/runtime-audit.json",
+        "sha256": "0df559e1f4f470ffe267948aaaa1fef50acf4c85b3774b153920b33a920de209",
+        "currentSha256": "0df559e1f4f470ffe267948aaaa1fef50acf4c85b3774b153920b33a920de209",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/city_guard-runtime.json",
+        "sha256": "38580f5a5d3541fba929a7c2e2576fd0575d5aac64175360c9b7b4287a42a1f3",
+        "currentSha256": "38580f5a5d3541fba929a7c2e2576fd0575d5aac64175360c9b7b4287a42a1f3",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/gate_supplier-runtime.json",
+        "sha256": "7372147dae3e0c2a1b01cb3e7f3a72e4400878dc3ac97da3d34c6410a1a2a145",
+        "currentSha256": "7372147dae3e0c2a1b01cb3e7f3a72e4400878dc3ac97da3d34c6410a1a2a145",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/catalog.snapshot.json",
+        "sha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+        "currentSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+        "verified": true
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/release-all-1/runtime-audit-helper.snapshot.mjs",
+        "sha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954",
+        "currentSha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954",
+        "verified": true
+      },
+      {
+        "path": "docs/art/npcs/reviews/city-npc-full-current-1/city_guard/report.json",
+        "sha256": "9528a69f43ac450ae2b5d55423781172372df1cc26101bdb536570692e39ee80",
+        "currentSha256": "9528a69f43ac450ae2b5d55423781172372df1cc26101bdb536570692e39ee80",
+        "verified": true
+      },
+      {
+        "path": "docs/art/npcs/reviews/city-npc-full-current-1/gate_supplier/report.json",
+        "sha256": "4788cd39bbacdc348a20b484e22846892608cf7f7fc9b27361c034b4f0671120",
+        "currentSha256": "4788cd39bbacdc348a20b484e22846892608cf7f7fc9b27361c034b4f0671120",
+        "verified": true
+      },
+      {
+        "path": "docs/art/npcs/reviews/city-npc-full-current-1/batch-report.json",
+        "sha256": "46839ce18e71d3446372c5ed1794e98a2d3ace420981866e9e1999095da757d5",
+        "currentSha256": "46839ce18e71d3446372c5ed1794e98a2d3ace420981866e9e1999095da757d5",
+        "verified": true
+      }
+    ],
+    "source": [
+      {
+        "family": "monk_elder",
+        "root": {
+          "path": "artifacts/city-npc-models/monk_elder/monk_elder.glb",
+          "sha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236"
+        },
+        "public": {
+          "path": "public/models/npcs/monk_elder.glb",
+          "sha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837"
+        },
+        "checks": {
+          "meshes": true,
+          "nodes": true,
+          "skins": true,
+          "animations": true,
+          "accessors": true
+        },
+        "views": [
+          {
+            "bufferView": 1,
+            "rootEncodedSha256": "be68168c60df27291042cfcaa3e8d476122266031d845f293a3a0727d14e342a",
+            "publicEncodedSha256": "be68168c60df27291042cfcaa3e8d476122266031d845f293a3a0727d14e342a",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 2,
+            "rootEncodedSha256": "b620f8b79d65d7c469fd5be23ca37b01c1b9ba072d88e8df3e3f91d57680538b",
+            "publicEncodedSha256": "b620f8b79d65d7c469fd5be23ca37b01c1b9ba072d88e8df3e3f91d57680538b",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 3,
+            "rootEncodedSha256": "2e193484eaf91b3188fd50df545acfff7d614a2991c755770e6703857a7e7927",
+            "publicEncodedSha256": "2e193484eaf91b3188fd50df545acfff7d614a2991c755770e6703857a7e7927",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 4,
+            "rootEncodedSha256": "1cc9c682453950f8045b8d61bba7595f0d965fed55158b28dbf0758edce0f93d",
+            "publicEncodedSha256": "1cc9c682453950f8045b8d61bba7595f0d965fed55158b28dbf0758edce0f93d",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 5,
+            "rootEncodedSha256": "d84789bf74832463c4e4fc6cea09778d1db8192c76437d8055159bc83ad5d462",
+            "publicEncodedSha256": "d84789bf74832463c4e4fc6cea09778d1db8192c76437d8055159bc83ad5d462",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 6,
+            "rootEncodedSha256": "81d347b99fad746a33cd9fdb080882664eb90a669abc644142a08369ab6ea466",
+            "publicEncodedSha256": "81d347b99fad746a33cd9fdb080882664eb90a669abc644142a08369ab6ea466",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 7,
+            "rootEncodedSha256": "430576db89bba7aaf7323b96fc872a19ca38b9561d94f4b7334c253de4424027",
+            "publicEncodedSha256": "430576db89bba7aaf7323b96fc872a19ca38b9561d94f4b7334c253de4424027",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 8,
+            "rootEncodedSha256": "e3b10a31cb1f517f188f3c894582f8ddd47c9648838476fdf36f34ebaff19ae2",
+            "publicEncodedSha256": "e3b10a31cb1f517f188f3c894582f8ddd47c9648838476fdf36f34ebaff19ae2",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 9,
+            "rootEncodedSha256": "7a64e50009a797e0af26ddac540bc255fd076ac5e390796c881e3a158fd94e3e",
+            "publicEncodedSha256": "7a64e50009a797e0af26ddac540bc255fd076ac5e390796c881e3a158fd94e3e",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 10,
+            "rootEncodedSha256": "aa50619c3519a84b8f63b6bdfdf10ae62d433dbad5f673c3bcd0eab78866ab0f",
+            "publicEncodedSha256": "aa50619c3519a84b8f63b6bdfdf10ae62d433dbad5f673c3bcd0eab78866ab0f",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          }
+        ],
+        "pass": true,
+        "method": "JSON mesh/node/skin/native-animation/accessor identity and actual meshopt encoded data; virtual fallback buffer excluded"
+      },
+      {
+        "family": "monk_novice",
+        "root": {
+          "path": "artifacts/city-npc-models/monk_novice/monk_novice.glb",
+          "sha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5"
+        },
+        "public": {
+          "path": "public/models/npcs/monk_novice.glb",
+          "sha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60"
+        },
+        "checks": {
+          "meshes": true,
+          "nodes": true,
+          "skins": true,
+          "animations": true,
+          "accessors": true
+        },
+        "views": [
+          {
+            "bufferView": 1,
+            "rootEncodedSha256": "51404f346e1453d3cbee39752c3fa8708a4d984418497f737b9be3b2b794a242",
+            "publicEncodedSha256": "51404f346e1453d3cbee39752c3fa8708a4d984418497f737b9be3b2b794a242",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 2,
+            "rootEncodedSha256": "575696b8c21f3575a332dba58932efcbd0d0b9d2d7db43d17c8e12a94b0a3532",
+            "publicEncodedSha256": "575696b8c21f3575a332dba58932efcbd0d0b9d2d7db43d17c8e12a94b0a3532",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 3,
+            "rootEncodedSha256": "5424f33f8a4e5a3430f9059e25b0b8ec60e3d11c726ffe28bffb70b73555c6bf",
+            "publicEncodedSha256": "5424f33f8a4e5a3430f9059e25b0b8ec60e3d11c726ffe28bffb70b73555c6bf",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 4,
+            "rootEncodedSha256": "8d530caa161ece20ba315c776efc8820d4291bb6e5aad699f33d3d65ffda75df",
+            "publicEncodedSha256": "8d530caa161ece20ba315c776efc8820d4291bb6e5aad699f33d3d65ffda75df",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 5,
+            "rootEncodedSha256": "c83b081f0f2d049cbcaafa14fdea834ae85bde3624fb2ad125a6ec2e37cbd8a5",
+            "publicEncodedSha256": "c83b081f0f2d049cbcaafa14fdea834ae85bde3624fb2ad125a6ec2e37cbd8a5",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 6,
+            "rootEncodedSha256": "eba8a720530137ed432a045502ac12a1881d97768655eedb80842f159b02954b",
+            "publicEncodedSha256": "eba8a720530137ed432a045502ac12a1881d97768655eedb80842f159b02954b",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 7,
+            "rootEncodedSha256": "15e100561902abff5bc6c2b4b4b552ee28ce1e91c1cfe8ddfe566d1ed853d462",
+            "publicEncodedSha256": "15e100561902abff5bc6c2b4b4b552ee28ce1e91c1cfe8ddfe566d1ed853d462",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 8,
+            "rootEncodedSha256": "e3b10a31cb1f517f188f3c894582f8ddd47c9648838476fdf36f34ebaff19ae2",
+            "publicEncodedSha256": "e3b10a31cb1f517f188f3c894582f8ddd47c9648838476fdf36f34ebaff19ae2",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 9,
+            "rootEncodedSha256": "9910d9db0dceeb943f2635e552ab0102b1b3d3ca3c950816a3017d2741eadbcc",
+            "publicEncodedSha256": "9910d9db0dceeb943f2635e552ab0102b1b3d3ca3c950816a3017d2741eadbcc",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          },
+          {
+            "bufferView": 10,
+            "rootEncodedSha256": "e6ae754525ac3eb0438c403c74ff1b27b6a30ae7ec1bedba6d342b84194c0cf0",
+            "publicEncodedSha256": "e6ae754525ac3eb0438c403c74ff1b27b6a30ae7ec1bedba6d342b84194c0cf0",
+            "metadataMatches": true,
+            "encodedBytesMatch": true
+          }
+        ],
+        "pass": true,
+        "method": "JSON mesh/node/skin/native-animation/accessor identity and actual meshopt encoded data; virtual fallback buffer excluded"
+      }
+    ],
+    "profile": [
+      {
+        "family": "city_guard",
+        "sha256": "0e24e503616760ebfecc0f0c60faba4945cfd8e69bc5cc500f52553207e3b18d",
+        "differentFromOldCPU": []
+      },
+      {
+        "family": "gate_supplier",
+        "sha256": "1ee8e2afa85935c3cb60975bc1add5dbdb64b90c7c03df0d4243f2fb41d1a270",
+        "differentFromOldCPU": []
+      },
+      {
+        "family": "monk_elder",
+        "sha256": "0eb9c2a5d07746766cb39746b261be84a53e1a157afa478a2fe356289dd852f6",
+        "differentFromOldCPU": [
+          "suppressedAccessories"
+        ],
+        "suppressedAccessories": [
+          "bowl"
+        ],
+        "roleMotion": {
+          "arm": 0.12,
+          "head": 0.65,
+          "torso": 0.15
+        },
+        "activityPoses": {
+          "wai": false
+        }
+      },
+      {
+        "family": "monk_novice",
+        "sha256": "c9af4e1cc2b5fb1db68d47135ac225ce2f5ca17f178889ba55fdc8d8f41559b4",
+        "differentFromOldCPU": [
+          "suppressedAccessories"
+        ],
+        "suppressedAccessories": [
+          "bowl"
+        ],
+        "roleMotion": {
+          "arm": 0.12,
+          "head": 0.65,
+          "torso": 0.15
+        },
+        "activityPoses": {
+          "wai": false
+        }
+      }
+    ],
+    "currentCatalog": {
+      "path": "artifacts/city-npc-models/candidate-profiles.json",
+      "sha256": "ebfbefa688e548c170454b740e84ef48c13a930b575e318f7731f9d7d30b4efe"
+    }
+  },
+  "historicalCPU": {
+    "passed": true,
+    "pins": [
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/runtime-audit.json",
+        "sha256": "bb0ade8dd4771cdb2a881e1b8d8b2d37c1beacc498a6ae16c15222ce577dfef5"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/monk_elder-runtime.json",
+        "sha256": "e354a3776b56610fe1df1cccaf90dba96d7af503f0cec206c4d68966c8974197"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/monk_novice-runtime.json",
+        "sha256": "1c3a54dd119a6fd5495341f8796ce4dd02e3b052e9fd03add11fdb3a905616aa"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/catalog.snapshot.json",
+        "sha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+      },
+      {
+        "path": "artifacts/city-npc-models/runtime-qa/respectful-bow-1/runtime-audit-helper.snapshot.mjs",
+        "sha256": "4f2e30e24299749fdc4a4cc94f84ded57863a7b567db77b24d197869f6358954"
+      }
+    ],
+    "runtimeModules": [
+      {
+        "path": "src/entities/NPC.js",
+        "sha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCModels.js",
+        "sha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCModelRenderer.js",
+        "sha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCData.js",
+        "sha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+        "verified": true
+      },
+      {
+        "path": "src/npc/body/rig.js",
+        "sha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+        "verified": true
+      },
+      {
+        "path": "src/npc/body/gearParts.js",
+        "sha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+        "verified": true
+      },
+      {
+        "path": "src/data/npcs.js",
+        "sha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+        "verified": true
+      },
+      {
+        "path": "src/npc/body/blade.js",
+        "sha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+        "verified": true
+      },
+      {
+        "path": "src/npc/NPCToolPresentation.js",
+        "sha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+        "verified": true
+      }
+    ],
+    "results": [
+      {
+        "family": "monk_elder",
+        "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk_elder\\monk_elder.glb",
+        "sha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
+        "sourceVerified": true,
+        "profileHash": "7187ba9972c2879bfa0a4fa184f2d842255b6d7a7014783e0f377aab1400b941",
+        "passed": true,
+        "roles": [
+          {
+            "id": "monk_elder",
+            "state": "idle",
+            "anim": "look",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 252,
+              "activeSamples": 252,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8952874,
+              "maxEdgeExtension": 0.0366976,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0010694,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0193871
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "monk_elder",
+            "state": "idle",
+            "anim": "pray",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 246,
+              "activeSamples": 246,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8601853,
+              "maxEdgeExtension": 0.0342623,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0010694,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0201378
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "monk_elder",
+            "state": "sit",
+            "anim": "pray",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 241,
+              "activeSamples": 241,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8600864,
+              "maxEdgeExtension": 0.0342536,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.000464,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0064605
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "monk_elder",
+            "state": "talk",
+            "anim": "talk",
+            "kind": "actual-interaction",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 269,
+              "activeSamples": 269,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.8934661,
+              "maxEdgeExtension": 0.0365329,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.000464,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.026402
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "monk_elder",
+            "state": "walk",
+            "anim": "walk",
+            "kind": "native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 34,
+              "activeSamples": 34,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.9082531,
+              "maxEdgeExtension": 0.0487106,
+              "maxSegmentDrift": 0.0000222,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001735,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0421901
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "monk_elder",
+            "state": "walk",
+            "anim": "run",
+            "kind": "available-native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 22,
+              "activeSamples": 22,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.9787821,
+              "maxEdgeExtension": 0.0438027,
+              "maxSegmentDrift": 0.0000215,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0000934,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.073947
+            },
+            "propFloors": {}
+          }
+        ]
+      },
+      {
+        "family": "monk_novice",
+        "canonicalCandidate": "C:\\Users\\panup\\.codex\\worktrees\\city-npc-models\\ThaiNativeOnline\\artifacts\\city-npc-models\\monk_novice\\monk_novice.glb",
+        "sha256": "36e7bf4488129894cb7cc71d52ee131ff6a3d158f447f31f5d10fde464e6e6f5",
+        "sourceVerified": true,
+        "profileHash": "ce6ee9600b64fe8a1069404dfea5ad5eb72248ff47c217d3376875778d4ddcd5",
+        "passed": true,
+        "roles": [
+          {
+            "id": "monk_young",
+            "state": "idle",
+            "anim": "pray",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 247,
+              "activeSamples": 247,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.4356165,
+              "maxEdgeExtension": 0.0153384,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0004829,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0157282
+            },
+            "propFloors": {}
+          },
+          {
+            "id": "monk_young",
+            "state": "work",
+            "anim": "sweep",
+            "kind": "authored-role",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 248,
+              "activeSamples": 248,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.583124,
+              "maxEdgeExtension": 0.0082898,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0000195,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0267445,
+              "minimumBroomFloor": 0.005
+            },
+            "propFloors": {
+              "broom": 0.005
+            }
+          },
+          {
+            "id": "monk_young",
+            "state": "idle",
+            "anim": "look",
+            "kind": "available-idle",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 253,
+              "activeSamples": 253,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 2.0297917,
+              "maxEdgeExtension": 0.0220862,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0004829,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0153583,
+              "minimumBroomFloor": 0.005
+            },
+            "propFloors": {
+              "broom": 0.005
+            }
+          },
+          {
+            "id": "monk_young",
+            "state": "talk",
+            "anim": "talk",
+            "kind": "actual-interaction",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 266,
+              "activeSamples": 266,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.6221166,
+              "maxEdgeExtension": 0.0136711,
+              "maxSegmentDrift": 0,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0000195,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0144097,
+              "minimumBroomFloor": 0.005
+            },
+            "propFloors": {
+              "broom": 0.005
+            }
+          },
+          {
+            "id": "monk_young",
+            "state": "walk",
+            "anim": "walk",
+            "kind": "native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 34,
+              "activeSamples": 34,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.7983304,
+              "maxEdgeExtension": 0.0582539,
+              "maxSegmentDrift": 0.0000083,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0000957,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.0655576,
+              "minimumBroomFloor": 0.3053617
+            },
+            "propFloors": {
+              "broom": 0.3053617
+            }
+          },
+          {
+            "id": "monk_young",
+            "state": "walk",
+            "anim": "run",
+            "kind": "available-native-phase",
+            "passed": true,
+            "failures": [],
+            "roleMotion": {
+              "arm": 0.12,
+              "head": 0.65,
+              "torso": 0.15,
+              "stance": 0.25,
+              "seated": "upright"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "metrics": {
+              "samples": 22,
+              "activeSamples": 22,
+              "edgeViolations": 0,
+              "maxEdgeRatio": 1.9919994,
+              "maxEdgeExtension": 0.0431002,
+              "maxSegmentDrift": 0.0000153,
+              "maxRigidHandDrift": 0,
+              "backwardKneeSamples": 0,
+              "minFloor": -0.0001016,
+              "maxFootDriftFromFirst": 0,
+              "maxHandTravelFromFirst": 0.1158588,
+              "minimumBroomFloor": 0.3065758
+            },
+            "propFloors": {
+              "broom": 0.3065758
+            }
+          }
+        ]
+      }
+    ],
+    "limits": {
+      "bytes": 800000,
+      "targetTriangles": 12000,
+      "triangles": 16000,
+      "sampleHz": 30,
+      "edgeMinimum": 0.005,
+      "edgeRatio": 2,
+      "edgeExtension": 0.01,
+      "segmentDrift": 0.005,
+      "handDrift": 0.001,
+      "rootDrift": 0.001,
+      "hipStart": 0.005,
+      "loopPosition": 0.03,
+      "kneeBackward": 0.005,
+      "kneeFlexDegrees": 8,
+      "jointSpeed": 12,
+      "idleArmDegrees": 55,
+      "floor": -0.01
+    },
+    "sampling": {
+      "hz": 30,
+      "denseRoleSeconds": 8,
+      "additionalAuthoredSineExtrema": true,
+      "nativeKeys": true,
+      "nativeEndpoint": "actual production modulo wrap, plus pre-end sample",
+      "canonicalBodies": true
+    },
+    "scope": "Actual NPC.animate + NPCModelRenderer + createMeshy24NPCPoseAdapter; isolated QA approval/hash injection only, no registration/publication or family writes",
+    "actualTotalSamples": 2134,
+    "status": "PASS for unchanged geometry/native animation and exact bowed-role configuration; historical catalog predates bowl suppression.",
+    "candidateDifference": "Only suppressedAccessories:[bowl] differs in each scoped monk profile versus CPU catalog. This does not rename old CPU evidence as a fresh current-2 or whole-city audit.",
+    "waiOverrideUsed": false
+  },
+  "validation": {
+    "build": "npm run build PASS (445 ms); existing large-chunk warning",
+    "browserOpenedByReviewer": false,
+    "codeEdits": false,
+    "paidCalls": false
+  },
+  "limitations": [
+    "No full city/night approval; planned scoped city check is separate. Prior whole-city capture uses older catalog.",
+    "Static PNG witnesses do not prove uninterrupted foot planting or every transition frame; native walking includes lifted soles.",
+    "Some closeups occlude/crop heel or web: elder right-side overlaps projected opposite hand; novice idle left/right sides have broom shaft over palm; novice rear right hand is robe-occluded.",
+    "Native magnified angular palm/web surfaces remain visible; anatomy accepted from natural open shape, actual finger/thumb separation and intact body silhouette. No microscopic smoothness or closed-grip claim.",
+    "No authored elder work state or novice sit state exists in this receipt; these are explicitly skipped, not invented.",
+    "The forced measured-wai candidate remains HOLD for its actual indexed-strain failures; earlier old-PCA CPU receipt is not used."
+  ]
+}

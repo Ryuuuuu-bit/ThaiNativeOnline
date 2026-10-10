@@ -1,0 +1,6 @@
+# Full development/rejected captures remain recoverable in the local workspace.
+# Ship the exact curated release evidence instead of hundreds of research PNGs.
+*
+!.gitignore
+!release/
+!release/**

@@ -1,0 +1,5023 @@
+{
+  "schema": 1,
+  "kind": "multi-angle",
+  "label": "city-npc-full-current-1",
+  "startedAt": "2026-10-10T03:29:20.985Z",
+  "url": "http://127.0.0.1:5192/tools/npc-models/review.html?family=%5Bredacted%5D&mode=%5Bredacted%5D&npc=%5Bredacted%5D&adapter=%5Bredacted%5D",
+  "mode": "registry",
+  "family": "master_bandit",
+  "requested": {
+    "npc": "master_bandit",
+    "ids": null,
+    "map": null
+  },
+  "modules": [
+    {
+      "path": "tools/npc-models/review.html",
+      "beforeSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a",
+      "afterSha256": "67fb7e557c860d3200e92880399a4eafea5518bd343cba70e87a7db729773f7a"
+    },
+    {
+      "path": "tools/npc-models/review.js",
+      "beforeSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474",
+      "afterSha256": "b28d5b8b88dbba71cf433164cfa21ec97792d6a7f0182eff58ada20a5515d474"
+    },
+    {
+      "path": "tools/npc-models/capture.mjs",
+      "beforeSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013",
+      "afterSha256": "7c9c9683093085a21871a0a87a0f99ab202a70dbef38eac56d4a69a7ebd98013"
+    },
+    {
+      "path": "tools/npc-models/gameplay-qa.mjs",
+      "beforeSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3",
+      "afterSha256": "39494e03aa74bb110ad9b506621bf5eb584be7234ad36aad67fed37b16abcfd3"
+    },
+    {
+      "path": "public/models/npcs/profiles.json",
+      "beforeSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203",
+      "afterSha256": "a36e70898fc3f2dc72db68c18b34095c4db90f7ce38c23a5d92d60dce62c6203"
+    },
+    {
+      "path": "docs/art/npcs/NPC_MODEL_BRIEFS.json",
+      "beforeSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f",
+      "afterSha256": "7b17af0c3944e805fb5b8d78a7508785cefc2cb7ebbd9276388d013d111f2d1f"
+    },
+    {
+      "path": "src/core/gltf.js",
+      "beforeSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e",
+      "afterSha256": "eba6dc13944fe4f9baca002d95b17ce1a13c760c8c95fe190f4bf372bb70ff8e"
+    },
+    {
+      "path": "src/entities/NPC.js",
+      "beforeSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036",
+      "afterSha256": "9fffae4cad74b8e300898808a0597b3a7a3d45c892a0ece7e69bd92c21b7c036"
+    },
+    {
+      "path": "src/data/npcs.js",
+      "beforeSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf",
+      "afterSha256": "8ddbac5e066f07eacb6bf52f2af0af807e416337a0f6af61078a68a1e7ae05bf"
+    },
+    {
+      "path": "src/npc/NPCModels.js",
+      "beforeSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc",
+      "afterSha256": "0761c77b85411cf86515aa56b1706f422dcc7cd90765705b4dc6010a4066bacc"
+    },
+    {
+      "path": "src/npc/NPCModelRenderer.js",
+      "beforeSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a",
+      "afterSha256": "a3052cd44eb32f822d1aaee41b6574be8e26722789c34d4154a7a2d21ac3d71a"
+    },
+    {
+      "path": "src/npc/NPCActivityPoses.js",
+      "beforeSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d",
+      "afterSha256": "9ef9061f01ce442b21fb0d435985c3c3bf081616517e23c6b74e5b93ce9c629d"
+    },
+    {
+      "path": "src/npc/NPCToolPresentation.js",
+      "beforeSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa",
+      "afterSha256": "d1f67cab0e0dc150a3cb5c125ab0545871f2830f8a7af47558dbbda4135f11fa"
+    },
+    {
+      "path": "src/npc/NPCRenderer.js",
+      "beforeSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7",
+      "afterSha256": "4825b50bddcb0180139b76cdb27403ae68b94da6878d7ae09478400c488e73f7"
+    },
+    {
+      "path": "src/npc/NPCManager.js",
+      "beforeSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15",
+      "afterSha256": "ffaf8a85f5b5ce371511c73f4ec2d76bd80207f7bd9782a8178ec1b196246d15"
+    },
+    {
+      "path": "src/npc/NPCData.js",
+      "beforeSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da",
+      "afterSha256": "252deaad791938bdae52a767670e87da58ab61cb46503bb97f5f004a1e3417da"
+    },
+    {
+      "path": "src/npc/NPCSchedule.js",
+      "beforeSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69",
+      "afterSha256": "6ed56522d882ec2d3a402c481ae8dee836d18447c8eaf2c77415eec2b8582c69"
+    },
+    {
+      "path": "src/npc/body/gearParts.js",
+      "beforeSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3",
+      "afterSha256": "d5826d75c762654bf5021f2fbdcb3d105df125c4c78bad7b1ef1c1b926997ba3"
+    },
+    {
+      "path": "src/npc/body/blade.js",
+      "beforeSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3",
+      "afterSha256": "45ba3995c55b397328988d0a4c2f10b9d04253ec36411806ac3abdd0178ea4f3"
+    },
+    {
+      "path": "src/npc/body/rig.js",
+      "beforeSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf",
+      "afterSha256": "c49157e0bd63357bcbc3b9a3b74c48ad6b0157d74dc7b2455d1943c90b12ecbf"
+    },
+    {
+      "path": "src/core/WorldClock.js",
+      "beforeSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c",
+      "afterSha256": "f0d8bf403fdafeaa8030d9f30bdddfa193d0209850afc6ff55980c3f0fd2602c"
+    },
+    {
+      "path": "src/core/CameraController.js",
+      "beforeSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a",
+      "afterSha256": "2e13f84fbf7f474cec40771d53f1e82e7b9cbc47b7b74729c36e16f62fccae6a"
+    },
+    {
+      "path": "src/world/World.js",
+      "beforeSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f",
+      "afterSha256": "ae8701e7d28e106223ba24f302f633d0c356ce08cc45a969dd685d3203f48e0f"
+    },
+    {
+      "path": "src/world/maps.js",
+      "beforeSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d",
+      "afterSha256": "cdde98067bac34f20bfb61c67c8ffb8b877a86a66195aeff8d5bb18e1200486d"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.js",
+      "beforeSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f",
+      "afterSha256": "d449935cb27f59e7b9e2876c01f6f53c340fe923e782a83f23f4c5c5c8b3801f"
+    },
+    {
+      "path": "artifacts/city-npc-models/candidate-profiles.json",
+      "beforeSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c",
+      "afterSha256": "4fa4fce60c8c7d685e6352d486af023996337e308dc292b1e5565dfec9a4231c"
+    },
+    {
+      "path": "artifacts/city-npc-models/contacts/master_bandit-03197e2d2cd3-contacts.json",
+      "beforeSha256": "7572ab534923ecace35ec688ab8c0892130c8594d241379c4f44948763cf644b",
+      "afterSha256": "7572ab534923ecace35ec688ab8c0892130c8594d241379c4f44948763cf644b"
+    }
+  ],
+  "bundledProfilesBefore": [],
+  "browser": {
+    "channel": "msedge",
+    "headless": true,
+    "instances": 1,
+    "pages": 1,
+    "closed": true,
+    "sharedBatch": true,
+    "closedAtBatchEnd": true
+  },
+  "evidence": "render-review",
+  "assets": [
+    {
+      "url": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=woven-v3-d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b&rev=%5Bredacted%5D",
+      "status": 200,
+      "bytes": 676228,
+      "sha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+      "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+    }
+  ],
+  "images": [
+    {
+      "id": "master_bandit-idle-0_5-front",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-idle-0_5-front.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "7049b13572b24f813e42c35437c5c780c8b535289fe61db1ab2417611d60c095",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "front",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            -0.0045859925865317785,
+            2.1083212496669907,
+            24.942306419493146
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.8452078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.010497318643779391,
+                    1.2888615062272157,
+                    0.013055340886234407
+                  ],
+                  "quaternion": [
+                    -0.19200751707836458,
+                    0.02167569583524303,
+                    0.02351699940109306,
+                    0.9808721773679937
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.004849146650222439,
+                    1.0800551589784588,
+                    0.000013992079539565903
+                  ],
+                  "quaternion": [
+                    0.031005452433743804,
+                    0.01231675105551278,
+                    0.013884660671875871,
+                    0.9993468745940232
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.018350474881780765,
+                    1.4223450071559713,
+                    -0.01281718691404574
+                  ],
+                  "quaternion": [
+                    0.04077108490224488,
+                    -0.0022899526201484327,
+                    -0.050275006614139986,
+                    0.9979002447453551
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2536243922689692,
+                    0.8157255142271058,
+                    0.02634602274623432
+                  ],
+                  "quaternion": [
+                    0.8243228718903948,
+                    0.30789852537600815,
+                    0.4653250730200021,
+                    0.0957229086263703
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.28542088072523153,
+                    0.8457006086823917,
+                    0.029420296876977885
+                  ],
+                  "quaternion": [
+                    0.8456563799801079,
+                    -0.25483071526391515,
+                    -0.46485521761601667,
+                    0.06193722247542931
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224273008152918,
+                    0.12770186198231814,
+                    -0.06746339256720882
+                  ],
+                  "quaternion": [
+                    0.8331637677759606,
+                    0.35885931540527627,
+                    0.35885857348714983,
+                    0.21972403611573676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134126964693,
+                    0.12662537065964946,
+                    -0.08047709073926822
+                  ],
+                  "quaternion": [
+                    0.8508541289989212,
+                    -0.3261892641935328,
+                    -0.3261896465259323,
+                    0.25149180819592587
+                  ]
+                }
+              },
+              "poseOffset": [
+                -0.0062643176850737115,
+                -0.00006421750563687226,
+                -0.00034410563953430755
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.317400942832005,
+                    0.6871753663119976,
+                    0.05886544912932794
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.27842017235872496,
+                      0.6362118445809495,
+                      -0.0010523741881147686
+                    ],
+                    "max": [
+                      0.3393388483947918,
+                      0.7552184458133684,
+                      0.11686576117763162
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.33928050616600103,
+                    0.7230919186545215,
+                    0.060057379490605876
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3604035379056166,
+                      0.6897102329682874,
+                      -0.004639459274898838
+                    ],
+                    "max": [
+                      -0.3186056602298117,
+                      0.7730046083810833,
+                      0.12006540872984775
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2590199708436639,
+                      0.6290002932824945,
+                      0.019590646028518677
+                    ],
+                    "max": [
+                      -0.18851543246070793,
+                      1.0282934534700647,
+                      0.04759064316749595
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2625181355652181,
+                      0.607109002368043,
+                      0.017590641975403054
+                    ],
+                    "max": [
+                      -0.17386908023893383,
+                      0.9406616132438949,
+                      0.04959064722061185
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.031254244384446,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.3604035379056166,
+                  -0.0000069236098937078784,
+                  -0.21303330836827788
+                ],
+                "max": [
+                  0.351231552732553,
+                  1.7197685757492631,
+                  0.16002920346233776
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-idle-0_5-back",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-idle-0_5-back.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "0001fa57e67d7d03c090932f84f6eb4de8efcaadfa122b87b8075a17daae7bee",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "back",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            -0.0045859925865317785,
+            2.1083212496669907,
+            -24.995310524399084
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.8452078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.010497318643779391,
+                    1.2888615062272157,
+                    0.013055340886234407
+                  ],
+                  "quaternion": [
+                    -0.19200751707836458,
+                    0.02167569583524303,
+                    0.02351699940109306,
+                    0.9808721773679937
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.004849146650222439,
+                    1.0800551589784588,
+                    0.000013992079539565903
+                  ],
+                  "quaternion": [
+                    0.031005452433743804,
+                    0.01231675105551278,
+                    0.013884660671875871,
+                    0.9993468745940232
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.018350474881780765,
+                    1.4223450071559713,
+                    -0.01281718691404574
+                  ],
+                  "quaternion": [
+                    0.04077108490224488,
+                    -0.0022899526201484327,
+                    -0.050275006614139986,
+                    0.9979002447453551
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2536243922689692,
+                    0.8157255142271058,
+                    0.02634602274623432
+                  ],
+                  "quaternion": [
+                    0.8243228718903948,
+                    0.30789852537600815,
+                    0.4653250730200021,
+                    0.0957229086263703
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.28542088072523153,
+                    0.8457006086823917,
+                    0.029420296876977885
+                  ],
+                  "quaternion": [
+                    0.8456563799801079,
+                    -0.25483071526391515,
+                    -0.46485521761601667,
+                    0.06193722247542931
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224273008152918,
+                    0.12770186198231814,
+                    -0.06746339256720882
+                  ],
+                  "quaternion": [
+                    0.8331637677759606,
+                    0.35885931540527627,
+                    0.35885857348714983,
+                    0.21972403611573676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134126964693,
+                    0.12662537065964946,
+                    -0.08047709073926822
+                  ],
+                  "quaternion": [
+                    0.8508541289989212,
+                    -0.3261892641935328,
+                    -0.3261896465259323,
+                    0.25149180819592587
+                  ]
+                }
+              },
+              "poseOffset": [
+                -0.0062643176850737115,
+                -0.00006421750563687226,
+                -0.00034410563953430755
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.317400942832005,
+                    0.6871753663119976,
+                    0.05886544912932794
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.27842017235872496,
+                      0.6362118445809495,
+                      -0.0010523741881147686
+                    ],
+                    "max": [
+                      0.3393388483947918,
+                      0.7552184458133684,
+                      0.11686576117763162
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.33928050616600103,
+                    0.7230919186545215,
+                    0.060057379490605876
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3604035379056166,
+                      0.6897102329682874,
+                      -0.004639459274898838
+                    ],
+                    "max": [
+                      -0.3186056602298117,
+                      0.7730046083810833,
+                      0.12006540872984775
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2590199708436639,
+                      0.6290002932824945,
+                      0.019590646028518677
+                    ],
+                    "max": [
+                      -0.18851543246070793,
+                      1.0282934534700647,
+                      0.04759064316749595
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2625181355652181,
+                      0.607109002368043,
+                      0.017590641975403054
+                    ],
+                    "max": [
+                      -0.17386908023893383,
+                      0.9406616132438949,
+                      0.04959064722061185
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.08407039804866,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.3604035379056166,
+                  -0.0000069236098937078784,
+                  -0.21303330836827788
+                ],
+                "max": [
+                  0.351231552732553,
+                  1.7197685757492631,
+                  0.16002920346233776
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-idle-0_5-threequarter",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-idle-0_5-threequarter.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "c3b571c1e61abed93b69c2247b08b93b929b2628f030f50a65a65523c8330efa",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "threequarter",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15.060285550507658,
+            7.450762126173392,
+            18.80458737641477
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.8452078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.010497318643779391,
+                    1.2888615062272157,
+                    0.013055340886234407
+                  ],
+                  "quaternion": [
+                    -0.19200751707836458,
+                    0.02167569583524303,
+                    0.02351699940109306,
+                    0.9808721773679937
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.004849146650222439,
+                    1.0800551589784588,
+                    0.000013992079539565903
+                  ],
+                  "quaternion": [
+                    0.031005452433743804,
+                    0.01231675105551278,
+                    0.013884660671875871,
+                    0.9993468745940232
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.018350474881780765,
+                    1.4223450071559713,
+                    -0.01281718691404574
+                  ],
+                  "quaternion": [
+                    0.04077108490224488,
+                    -0.0022899526201484327,
+                    -0.050275006614139986,
+                    0.9979002447453551
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2536243922689692,
+                    0.8157255142271058,
+                    0.02634602274623432
+                  ],
+                  "quaternion": [
+                    0.8243228718903948,
+                    0.30789852537600815,
+                    0.4653250730200021,
+                    0.0957229086263703
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.28542088072523153,
+                    0.8457006086823917,
+                    0.029420296876977885
+                  ],
+                  "quaternion": [
+                    0.8456563799801079,
+                    -0.25483071526391515,
+                    -0.46485521761601667,
+                    0.06193722247542931
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224273008152918,
+                    0.12770186198231814,
+                    -0.06746339256720882
+                  ],
+                  "quaternion": [
+                    0.8331637677759606,
+                    0.35885931540527627,
+                    0.35885857348714983,
+                    0.21972403611573676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134126964693,
+                    0.12662537065964946,
+                    -0.08047709073926822
+                  ],
+                  "quaternion": [
+                    0.8508541289989212,
+                    -0.3261892641935328,
+                    -0.3261896465259323,
+                    0.25149180819592587
+                  ]
+                }
+              },
+              "poseOffset": [
+                -0.0062643176850737115,
+                -0.00006421750563687226,
+                -0.00034410563953430755
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.317400942832005,
+                    0.6871753663119976,
+                    0.05886544912932794
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.27842017235872496,
+                      0.6362118445809495,
+                      -0.0010523741881147686
+                    ],
+                    "max": [
+                      0.3393388483947918,
+                      0.7552184458133684,
+                      0.11686576117763162
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.33928050616600103,
+                    0.7230919186545215,
+                    0.060057379490605876
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3604035379056166,
+                      0.6897102329682874,
+                      -0.004639459274898838
+                    ],
+                    "max": [
+                      -0.3186056602298117,
+                      0.7730046083810833,
+                      0.12006540872984775
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2590199708436639,
+                      0.6290002932824945,
+                      0.019590646028518677
+                    ],
+                    "max": [
+                      -0.18851543246070793,
+                      1.0282934534700647,
+                      0.04759064316749595
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2625181355652181,
+                      0.607109002368043,
+                      0.017590641975403054
+                    ],
+                    "max": [
+                      -0.17386908023893383,
+                      0.9406616132438949,
+                      0.04959064722061185
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.217822338990086,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.3604035379056166,
+                  -0.0000069236098937078784,
+                  -0.21303330836827788
+                ],
+                "max": [
+                  0.351231552732553,
+                  1.7197685757492631,
+                  0.16002920346233776
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-idle-0_5-gameplay",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-idle-0_5-gameplay.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "e79715fe2c117c17a1146aef390abd2c5891b195a2af271e81cd6c9c851f009f",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "idle",
+        "view": "gameplay",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15,
+            23,
+            22
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "rest",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.8452078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.010497318643779391,
+                    1.2888615062272157,
+                    0.013055340886234407
+                  ],
+                  "quaternion": [
+                    -0.19200751707836458,
+                    0.02167569583524303,
+                    0.02351699940109306,
+                    0.9808721773679937
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.004849146650222439,
+                    1.0800551589784588,
+                    0.000013992079539565903
+                  ],
+                  "quaternion": [
+                    0.031005452433743804,
+                    0.01231675105551278,
+                    0.013884660671875871,
+                    0.9993468745940232
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.018350474881780765,
+                    1.4223450071559713,
+                    -0.01281718691404574
+                  ],
+                  "quaternion": [
+                    0.04077108490224488,
+                    -0.0022899526201484327,
+                    -0.050275006614139986,
+                    0.9979002447453551
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2536243922689692,
+                    0.8157255142271058,
+                    0.02634602274623432
+                  ],
+                  "quaternion": [
+                    0.8243228718903948,
+                    0.30789852537600815,
+                    0.4653250730200021,
+                    0.0957229086263703
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.28542088072523153,
+                    0.8457006086823917,
+                    0.029420296876977885
+                  ],
+                  "quaternion": [
+                    0.8456563799801079,
+                    -0.25483071526391515,
+                    -0.46485521761601667,
+                    0.06193722247542931
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224273008152918,
+                    0.12770186198231814,
+                    -0.06746339256720882
+                  ],
+                  "quaternion": [
+                    0.8331637677759606,
+                    0.35885931540527627,
+                    0.35885857348714983,
+                    0.21972403611573676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134126964693,
+                    0.12662537065964946,
+                    -0.08047709073926822
+                  ],
+                  "quaternion": [
+                    0.8508541289989212,
+                    -0.3261892641935328,
+                    -0.3261896465259323,
+                    0.25149180819592587
+                  ]
+                }
+              },
+              "poseOffset": [
+                -0.0062643176850737115,
+                -0.00006421750563687226,
+                -0.00034410563953430755
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.317400942832005,
+                    0.6871753663119976,
+                    0.05886544912932794
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.27842017235872496,
+                      0.6362118445809495,
+                      -0.0010523741881147686
+                    ],
+                    "max": [
+                      0.3393388483947918,
+                      0.7552184458133684,
+                      0.11686576117763162
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.33928050616600103,
+                    0.7230919186545215,
+                    0.060057379490605876
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3604035379056166,
+                      0.6897102329682874,
+                      -0.004639459274898838
+                    ],
+                    "max": [
+                      -0.3186056602298117,
+                      0.7730046083810833,
+                      0.12006540872984775
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2590199708436639,
+                      0.6290002932824945,
+                      0.019590646028518677
+                    ],
+                    "max": [
+                      -0.18851543246070793,
+                      1.0282934534700647,
+                      0.04759064316749595
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2625181355652181,
+                      0.607109002368043,
+                      0.017590641975403054
+                    ],
+                    "max": [
+                      -0.17386908023893383,
+                      0.9406616132438949,
+                      0.04959064722061185
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.27373677258034307
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 35.185224171518364,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.3604035379056166,
+                  -0.0000069236098937078784,
+                  -0.21303330836827788
+                ],
+                "max": [
+                  0.351231552732553,
+                  1.7197685757492631,
+                  0.16002920346233776
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-talk-0_25-front",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-talk-0_25-front.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "662447b5acba1c95b2c8adbbe0a81cad3d8e78fb6f2dbb4d7e4363feefb5fdb2",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.25,
+        "pose": "talk",
+        "view": "front",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            -0.0020853457379036433,
+            2.1082158940496765,
+            24.942207239058078
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "talk",
+            "anim": "talk",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": true,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.5952078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "talk",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.0036976977862285573,
+                    1.2889414749861723,
+                    0.013391706250796597
+                  ],
+                  "quaternion": [
+                    -0.19068163482973066,
+                    0.021957693097734005,
+                    0.021957679870344,
+                    0.9811606566445673
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.0012742621515769658,
+                    1.0801179319824818,
+                    0.00035035744410175616
+                  ],
+                  "quaternion": [
+                    0.031025354626892397,
+                    0.012266532006243279,
+                    0.012266536261822015,
+                    0.9993680461426375
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.011118550128358481,
+                    1.4225173146209222,
+                    -0.012129476994886116
+                  ],
+                  "quaternion": [
+                    0.03678784446083668,
+                    -0.02758723261154561,
+                    -0.049632868296234436,
+                    0.9977084631702042
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2588904614580652,
+                    0.807620179845858,
+                    -0.0184740668436049
+                  ],
+                  "quaternion": [
+                    0.8285518696839501,
+                    0.2834447299603858,
+                    0.4796069668440836,
+                    0.056018203748969986
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2800549170307373,
+                    0.8422960109296445,
+                    0.005062458238726475
+                  ],
+                  "quaternion": [
+                    0.8466518301194044,
+                    -0.24273251870088675,
+                    -0.4721252301837379,
+                    0.0368696335838907
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224272991430212,
+                    0.1277018620234262,
+                    -0.06746339281761222
+                  ],
+                  "quaternion": [
+                    0.8331637677759607,
+                    0.3588593154052761,
+                    0.35885857348714967,
+                    0.2197240361157367
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134128508624,
+                    0.12662537062896106,
+                    -0.08047709072977478
+                  ],
+                  "quaternion": [
+                    0.8508541289989211,
+                    -0.32618926419353284,
+                    -0.3261896465259323,
+                    0.2514918081959259
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.3222503908682408,
+                    0.6763029227872921,
+                    0.0013097492159343976
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.28343709311405485,
+                      0.6213904822800962,
+                      -0.05912298062154364
+                    ],
+                    "max": [
+                      0.34419791837047875,
+                      0.7406428215376678,
+                      0.058640859257993005
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.33431130677424664,
+                    0.7183044951075624,
+                    0.028615146739359144
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3553538622758111,
+                      0.6866286565500355,
+                      -0.036263829472443665
+                    ],
+                    "max": [
+                      -0.31353213295382193,
+                      0.7692268267450504,
+                      0.08758138005079225
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24205651879310608,
+                    1.0368329286575317,
+                    0.3439269959926605,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2528965621684701,
+                      0.6290631165780878,
+                      0.019926995038986206
+                    ],
+                    "max": [
+                      -0.18239202378551414,
+                      1.028356276765658,
+                      0.04792699217796348
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2348737865686414,
+                    0.9772644102573389,
+                    0.033926995992660636
+                  ],
+                  "centroidDistance": 0.27744598361034056
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24205651879310608,
+                    1.0368329286575317,
+                    0.3439269959926605,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2563947268900243,
+                      0.6071718256636363,
+                      0.017926990985870583
+                    ],
+                    "max": [
+                      -0.16774567156374004,
+                      0.9407244365394881,
+                      0.04992699623107938
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2348737865686414,
+                    0.9772644102573389,
+                    0.033926995992660636
+                  ],
+                  "centroidDistance": 0.27744598361034056
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.031146209486927,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.3553538622758111,
+                  0.0000755516221256401,
+                  -0.21271183695207022
+                ],
+                "max": [
+                  0.35118317080000383,
+                  1.7194753892826153,
+                  0.159509371175998
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-walk-0_5-threequarter",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-walk-0_5-threequarter.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "32603c3a808e3416ec0e16396b8a307d39d0bb5ed8f48ca1a16a79448049d32f",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "walk",
+        "view": "threequarter",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15.086730885075376,
+            7.459449163973353,
+            18.80939314186608
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "walk",
+            "anim": "walk",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "walk",
+              "clip": "walk",
+              "clipTime": 0.7431083472546005,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "walk",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.005244242345033205,
+                    1.3068499517276013,
+                    0.011555939298386452
+                  ],
+                  "quaternion": [
+                    -0.19645265686903612,
+                    -0.010899432377937803,
+                    0.02087810296893706,
+                    0.9802304120966837
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.0004334476523829983,
+                    1.097899138793851,
+                    0.0007379262830298147
+                  ],
+                  "quaternion": [
+                    0.02583569289037848,
+                    0.007563143614328698,
+                    0.008769225025504496,
+                    0.9995991279127656
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.011752323047016582,
+                    1.4401150958921312,
+                    -0.015560973203748796
+                  ],
+                  "quaternion": [
+                    0.03791557465126084,
+                    -0.056950636887306,
+                    -0.04619108894531196,
+                    0.9965868840498301
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.3150647298460019,
+                    0.8740816290991268,
+                    0.09958995810682195
+                  ],
+                  "quaternion": [
+                    0.7441611387278559,
+                    0.3628963657363164,
+                    0.5106619815632931,
+                    0.23185076872779165
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.22808079737486392,
+                    0.8476772973103417,
+                    -0.1112634131727687
+                  ],
+                  "quaternion": [
+                    0.8761439079809655,
+                    -0.17368615573389623,
+                    -0.4414025444096948,
+                    -0.08584152730794549
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.2238868659564966,
+                    0.165662054209185,
+                    -0.18097929904885085
+                  ],
+                  "quaternion": [
+                    0.8210170691740651,
+                    0.36809935647123193,
+                    0.38951203993099565,
+                    0.1967592589190496
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.209243775146372,
+                    0.13802605751315694,
+                    0.021842547183461347
+                  ],
+                  "quaternion": [
+                    0.8342200646356772,
+                    -0.33631718766348934,
+                    -0.3016679971852314,
+                    0.31617092164018723
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.36904420697991136,
+                    0.7616067268054841,
+                    0.17760093492926915
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.32528703486717736,
+                      0.7066386230571136,
+                      0.1178061249512729
+                    ],
+                    "max": [
+                      0.3915880477143924,
+                      0.8359979672364722,
+                      0.24511990203427803
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.2805853015304156,
+                    0.7218151813285332,
+                    -0.12782799569503459
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3032883869201928,
+                      0.6804551055944925,
+                      -0.18890095860216233
+                    ],
+                    "max": [
+                      -0.25769675625331107,
+                      0.7748687289139031,
+                      -0.067234205451815
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9902341961860657,
+                    0.1376590132713318,
+                    -0.02204969897866249,
+                    0,
+                    0.02265581302344799,
+                    -0.00283751729875803,
+                    0.9997392892837524,
+                    0,
+                    0.13756056129932404,
+                    -0.990475594997406,
+                    -0.0059285834431648254,
+                    0,
+                    -0.23509785532951355,
+                    1.0492429733276367,
+                    0.3495839536190033,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2529100944431131,
+                      0.6432016592034897,
+                      0.025016278762427402
+                    ],
+                    "max": [
+                      -0.17581999311302415,
+                      1.041906738377268,
+                      0.053601834349724764
+                    ]
+                  },
+                  "forward": [
+                    0.13756056402219147,
+                    -0.9904756146028344,
+                    -0.005928583560514933
+                  ],
+                  "up": [
+                    0.022655813205762078,
+                    -0.0028375173215918776,
+                    0.9997392973287763
+                  ],
+                  "worldGrip": [
+                    -0.233867523688823,
+                    0.9906940679904074,
+                    0.03930905893445019
+                  ],
+                  "centroidDistance": 0.3200206266621025
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9902341961860657,
+                    0.1376590132713318,
+                    -0.02204969897866249,
+                    0,
+                    0.02265581302344799,
+                    -0.00283751729875803,
+                    0.9997392892837524,
+                    0,
+                    0.13756056129932404,
+                    -0.990475594997406,
+                    -0.0059285834431648254,
+                    0,
+                    -0.23509785532951355,
+                    1.0492429733276367,
+                    0.3495839536190033,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2549688000427392,
+                      0.6210150456949477,
+                      0.02237319329370241
+                    ],
+                    "max": [
+                      -0.1599002026930525,
+                      0.9547684068141878,
+                      0.05565206147082041
+                    ]
+                  },
+                  "forward": [
+                    0.13756056402219147,
+                    -0.9904756146028344,
+                    -0.005928583560514933
+                  ],
+                  "up": [
+                    0.022655813205762078,
+                    -0.0028375173215918776,
+                    0.9997392973287763
+                  ],
+                  "worldGrip": [
+                    -0.233867523688823,
+                    0.9906940679904074,
+                    0.03930905893445019
+                  ],
+                  "centroidDistance": 0.3200206266621025
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.239772205665183,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.34786936375202177,
+                  0.000047182164387026937,
+                  -0.28851247603759345
+                ],
+                "max": [
+                  0.3915880477143924,
+                  1.737088545574907,
+                  0.24511990203427803
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-walk-0_75-side",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-walk-0_75-side.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "cd0304ae7c9049c97bf6b79edd823494fa2657bdf0122a908f6d725aa3149289",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.75,
+        "pose": "walk",
+        "view": "side",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            24.96193862251233,
+            2.1133632120851704,
+            -0.028980247386442864
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "walk",
+            "anim": "walk",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "walk",
+              "clip": "walk",
+              "clipTime": 0.04799579858423275,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "walk",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.0036475635118703494,
+                    1.2988521928466048,
+                    0.013550578310510635
+                  ],
+                  "quaternion": [
+                    -0.19102052000434977,
+                    0.024060521033758313,
+                    0.02128618969195914,
+                    0.9810602175171312
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    0.0012080587148692685,
+                    1.0900272009592609,
+                    0.0004893832682854897
+                  ],
+                  "quaternion": [
+                    0.03122939387904584,
+                    0.012880835528690817,
+                    0.012312606048040534,
+                    0.9993533953343687
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.010862138003734138,
+                    1.4324235861844985,
+                    -0.012046303617397067
+                  ],
+                  "quaternion": [
+                    0.04419504167072335,
+                    -0.04863834945385015,
+                    -0.05045340185649114,
+                    0.9965618713824383
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.2325882550254932,
+                    0.8143405032974376,
+                    -0.011130652432619209
+                  ],
+                  "quaternion": [
+                    0.847311473836699,
+                    0.26651010056487917,
+                    0.4544418651726933,
+                    0.06723018711374786
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.283729634535182,
+                    0.8504156159348728,
+                    -0.01577529778914738
+                  ],
+                  "quaternion": [
+                    0.8431457452913392,
+                    -0.23847271040741147,
+                    -0.4816825811993153,
+                    0.014761756604444702
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20248544608062743,
+                    0.13401255813462115,
+                    -0.03562567797177295
+                  ],
+                  "quaternion": [
+                    0.8239997074114288,
+                    0.3735013884468129,
+                    0.34283011480859443,
+                    0.2529598872436006
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.222957377894363,
+                    0.13858907812442484,
+                    -0.0903073639085308
+                  ],
+                  "quaternion": [
+                    0.8445253030895576,
+                    -0.33352119822317505,
+                    -0.33248632064519035,
+                    0.25493816511739537
+                  ]
+                }
+              },
+              "poseOffset": [
+                0,
+                0,
+                0
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.28999290663161,
+                    0.6801448023723755,
+                    0.007468746259722478
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.25550289541470184,
+                      0.6255911895083983,
+                      -0.05241602149976052
+                    ],
+                    "max": [
+                      0.3126854516895953,
+                      0.7451075808335097,
+                      0.06476880597462054
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.3397893743091638,
+                    0.7263496569417988,
+                    0.002591060124205021
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.3605802057078558,
+                      0.6959392575363016,
+                      -0.06237162197356827
+                    ],
+                    "max": [
+                      -0.31814774111888405,
+                      0.7782265128002654,
+                      0.06058230792115005
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9927377104759216,
+                    0.12029405683279037,
+                    0.001059375237673521,
+                    0,
+                    -0.0009006590116769075,
+                    -0.0013737637782469392,
+                    0.9999986290931702,
+                    0,
+                    0.12029534578323364,
+                    -0.992737352848053,
+                    -0.0012554433196783066,
+                    0,
+                    -0.24240660667419434,
+                    1.0461275577545166,
+                    0.3437867760658264,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.25296705897164945,
+                      0.6388093490643816,
+                      0.01964912052154999
+                    ],
+                    "max": [
+                      -0.18224587618244537,
+                      1.038094156448065,
+                      0.04777462360780904
+                    ]
+                  },
+                  "forward": [
+                    0.12029534589782723,
+                    -0.9927373537937365,
+                    -0.0012554433208742445
+                  ],
+                  "up": [
+                    -0.0009006590312204012,
+                    -0.0013737638080563823,
+                    0.9999986507922445
+                  ],
+                  "worldGrip": [
+                    -0.23490968163358047,
+                    0.9869891833548899,
+                    0.03371187444776297
+                  ],
+                  "centroidDistance": 0.28266803453649764
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9927377104759216,
+                    0.12029405683279037,
+                    0.001059375237673521,
+                    0,
+                    -0.0009006590116769075,
+                    -0.0013737637782469392,
+                    0.9999986290931702,
+                    0,
+                    0.12029534578323364,
+                    -0.992737352848053,
+                    -0.0012554433196783066,
+                    0,
+                    -0.24240660667419434,
+                    1.0461275577545166,
+                    0.3437867760658264,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.25641982718435874,
+                      0.6168917334464044,
+                      0.017608491336208787
+                    ],
+                    "max": [
+                      -0.16755572686843329,
+                      0.95048946045743,
+                      0.049689708460480875
+                    ]
+                  },
+                  "forward": [
+                    0.12029534589782723,
+                    -0.9927373537937365,
+                    -0.0012554433208742445
+                  ],
+                  "up": [
+                    -0.0009006590312204012,
+                    -0.0013737638080563823,
+                    0.9999986507922445
+                  ],
+                  "worldGrip": [
+                    -0.23490968163358047,
+                    0.9869891833548899,
+                    0.03371187444776297
+                  ],
+                  "centroidDistance": 0.28266803453649764
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.051257926798932,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.3654626749876538,
+                  -0.00005300874190632716,
+                  -0.21298687962330465
+                ],
+                "max": [
+                  0.3517229761200872,
+                  1.7298985857176357,
+                  0.15502638485041892
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-idle-lean-0_5-threequarter",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-idle-lean-0_5-threequarter.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "da926d684a817c63a4d6cbc7ac7cf782e0ad2de8e0b230e633060c1de97b4912",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "idle-lean",
+        "view": "threequarter",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            15.066847523664897,
+            7.450422584522568,
+            18.878011019526166
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": null,
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "lean",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.8452078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.010497318643779391,
+                    1.2890029647804204,
+                    0.010548785889197939
+                  ],
+                  "quaternion": [
+                    -0.19788925870629873,
+                    0.021816406823684586,
+                    0.023386522701685952,
+                    0.9797024835315559
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.004849146650222439,
+                    1.0800551589784588,
+                    0.000013992079539565903
+                  ],
+                  "quaternion": [
+                    0.02500884906613287,
+                    0.012399836818843251,
+                    0.013810510685802711,
+                    0.9995149180026534
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.018350474881780765,
+                    1.4221663921300693,
+                    -0.016923642679607942
+                  ],
+                  "quaternion": [
+                    0.03745071905952633,
+                    -0.05312955097424173,
+                    -0.04769372730580609,
+                    0.9967447029359522
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.1687651144713918,
+                    0.8595907523594148,
+                    0.16565095990410303
+                  ],
+                  "quaternion": [
+                    0.8135767898849229,
+                    0.3083625350622326,
+                    0.4142490419359992,
+                    0.26721355748209
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2062672988096125,
+                    0.8868237034596114,
+                    0.15939978173736102
+                  ],
+                  "quaternion": [
+                    0.8360802008395822,
+                    -0.2549740882337345,
+                    -0.42439974988297935,
+                    0.23631114860299252
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224273008152918,
+                    0.12770186198231814,
+                    -0.06746339256720882
+                  ],
+                  "quaternion": [
+                    0.8331637677759606,
+                    0.35885931540527627,
+                    0.35885857348714983,
+                    0.21972403611573676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134126964693,
+                    0.12662537065964946,
+                    -0.08047709073926822
+                  ],
+                  "quaternion": [
+                    0.8508541289989212,
+                    -0.3261892641935328,
+                    -0.3261896465259323,
+                    0.25149180819592587
+                  ]
+                }
+              },
+              "poseOffset": [
+                -0.0062643176850737115,
+                -0.00006421750563687226,
+                -0.00034410563953430755
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.21037889475770366,
+                    0.7395384192321965,
+                    0.23985225757562728
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.18027513581427712,
+                      0.6856727520251275,
+                      0.1775312650672374
+                    ],
+                    "max": [
+                      0.23382104180389052,
+                      0.8147254547861639,
+                      0.30832917395880777
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.23918508034992014,
+                    0.7732683297138958,
+                    0.2293567518391726
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.26806204843473996,
+                      0.7329960563079019,
+                      0.16264032722085944
+                    ],
+                    "max": [
+                      -0.22370560631286301,
+                      0.8223257495061533,
+                      0.29183823674125076
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2590199708436639,
+                      0.6290002932824945,
+                      0.019590646028518677
+                    ],
+                    "max": [
+                      -0.18851543246070793,
+                      1.0282934534700647,
+                      0.04759064316749595
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.28269493271542795
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2625181355652181,
+                      0.607109002368043,
+                      0.017590641975403054
+                    ],
+                    "max": [
+                      -0.17386908023893383,
+                      0.9406616132438949,
+                      0.04959064722061185
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.28269493271542795
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 25.27643153300486,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.34727959159113786,
+                  -0.0000069236098937078784,
+                  -0.21448599264195428
+                ],
+                "max": [
+                  0.351231552732553,
+                  1.7190894924476157,
+                  0.30832917395880777
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "master_bandit-idle-lean-prop-knife-side",
+      "path": "docs/art/npcs/reviews/release/master_bandit/master_bandit-idle-lean-prop-knife-side.png",
+      "width": 1280,
+      "height": 770,
+      "sha256": "28259fb1fd3640cf76bf89a4e75f52115a4ffe14cff0f74995682a7cc58d604f",
+      "receipt": {
+        "schema": 1,
+        "mode": "registry",
+        "family": "master_bandit",
+        "time": 0.5,
+        "pose": "idle-lean",
+        "view": "prop-knife-side",
+        "map": null,
+        "phase": "day",
+        "hour": 12.5,
+        "selectedIds": [
+          "master_bandit"
+        ],
+        "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+        "nativeClips": null,
+        "rawPose": null,
+        "raw": null,
+        "cacheSize": 1,
+        "warnings": [],
+        "camera": {
+          "position": [
+            24.49964112005525,
+            4.537158196632395,
+            0.03359064459800731
+          ],
+          "focus": [
+            0,
+            0,
+            0
+          ],
+          "zoom": 2,
+          "detail": {
+            "kind": "prop",
+            "side": null,
+            "part": "knife",
+            "angle": "side",
+            "id": "master_bandit"
+          },
+          "closeRegion": null,
+          "closeSurface": null
+        },
+        "npcs": [
+          {
+            "id": "master_bandit",
+            "name": "เสือดำ",
+            "family": "master_bandit",
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0,
+            "state": "idle",
+            "anim": "lean",
+            "path": null,
+            "indoors": false,
+            "shown": true,
+            "talking": false,
+            "services": {
+              "shopType": null,
+              "trainer": "bandit",
+              "warpService": null,
+              "storageService": false,
+              "faction": null
+            },
+            "interactionRadius": 3.6,
+            "status": {
+              "family": "master_bandit",
+              "active": true,
+              "reason": null,
+              "error": null
+            },
+            "rootVisible": true,
+            "visibleProceduralParts": [
+              "knife",
+              "knifeScabbard"
+            ],
+            "duplicateBodyParts": [],
+            "retainedParts": [
+              "spear",
+              "spearTip",
+              "hammer",
+              "sword",
+              "swordScabbard",
+              "knife",
+              "knifeScabbard",
+              "staff",
+              "paddle",
+              "rod",
+              "broom",
+              "bow",
+              "basket",
+              "ngob",
+              "helmet",
+              "helmetTrim",
+              "headband",
+              "mongkol",
+              "clothHat"
+            ],
+            "animation": {
+              "phase": "idle",
+              "clip": "idle",
+              "clipTime": 0.8452078551054001,
+              "active": true,
+              "fallbackReason": null
+            },
+            "normalization": {
+              "sourceMin": [
+                -0.7116176206075588,
+                -2.728548333983496e-9,
+                -0.21256120827967528
+              ],
+              "sourceMax": [
+                0.708539890866671,
+                1.7200000557339539,
+                0.21515538346910829
+              ],
+              "scale": 1.023011510064933,
+              "targetHeight": 1.72,
+              "facingYaw": 0,
+              "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+              "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+              "footOrigin": [
+                0,
+                0,
+                0
+              ],
+              "sourceHeight": 1.72
+            },
+            "visualPolicy": {
+              "roleMotion": {
+                "arm": 0.3,
+                "head": 0.25,
+                "torso": 0.2,
+                "stance": 0.25,
+                "seated": "ground"
+              },
+              "activityPoses": {
+                "wai": false
+              },
+              "authoredState": "idle",
+              "seatedPresentation": null,
+              "props": {
+                "knife": "sheathed"
+              }
+            },
+            "poseWitness": {
+              "joints": {
+                "Spine": {
+                  "position": [
+                    -0.010497318643779391,
+                    1.2890029647804204,
+                    0.010548785889197939
+                  ],
+                  "quaternion": [
+                    -0.19788925870629873,
+                    0.021816406823684586,
+                    0.023386522701685952,
+                    0.9797024835315559
+                  ]
+                },
+                "Spine02": {
+                  "position": [
+                    -0.004849146650222439,
+                    1.0800551589784588,
+                    0.000013992079539565903
+                  ],
+                  "quaternion": [
+                    0.02500884906613287,
+                    0.012399836818843251,
+                    0.013810510685802711,
+                    0.9995149180026534
+                  ]
+                },
+                "Head": {
+                  "position": [
+                    -0.018350474881780765,
+                    1.4221663921300693,
+                    -0.016923642679607942
+                  ],
+                  "quaternion": [
+                    0.03745071905952633,
+                    -0.05312955097424173,
+                    -0.04769372730580609,
+                    0.9967447029359522
+                  ]
+                },
+                "LeftHand": {
+                  "position": [
+                    0.1687651144713918,
+                    0.8595907523594148,
+                    0.16565095990410303
+                  ],
+                  "quaternion": [
+                    0.8135767898849229,
+                    0.3083625350622326,
+                    0.4142490419359992,
+                    0.26721355748209
+                  ]
+                },
+                "RightHand": {
+                  "position": [
+                    -0.2062672988096125,
+                    0.8868237034596114,
+                    0.15939978173736102
+                  ],
+                  "quaternion": [
+                    0.8360802008395822,
+                    -0.2549740882337345,
+                    -0.42439974988297935,
+                    0.23631114860299252
+                  ]
+                },
+                "LeftFoot": {
+                  "position": [
+                    0.20224273008152918,
+                    0.12770186198231814,
+                    -0.06746339256720882
+                  ],
+                  "quaternion": [
+                    0.8331637677759606,
+                    0.35885931540527627,
+                    0.35885857348714983,
+                    0.21972403611573676
+                  ]
+                },
+                "RightFoot": {
+                  "position": [
+                    -0.20545134126964693,
+                    0.12662537065964946,
+                    -0.08047709073926822
+                  ],
+                  "quaternion": [
+                    0.8508541289989212,
+                    -0.3261892641935328,
+                    -0.3261896465259323,
+                    0.25149180819592587
+                  ]
+                }
+              },
+              "poseOffset": [
+                -0.0062643176850737115,
+                -0.00006421750563687226,
+                -0.00034410563953430755
+              ],
+              "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+              "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+            },
+            "resources": {
+              "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+              "skins": [
+                {
+                  "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                  "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                  "materials": [
+                    "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                  ]
+                }
+              ]
+            },
+            "contactWitness": {
+              "hands": {
+                "left": {
+                  "bone": "LeftHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 303,
+                  "weldedVertices": 114,
+                  "centre": [
+                    0.21037889475770366,
+                    0.7395384192321965,
+                    0.23985225757562728
+                  ],
+                  "bounds": {
+                    "min": [
+                      0.18027513581427712,
+                      0.6856727520251275,
+                      0.1775312650672374
+                    ],
+                    "max": [
+                      0.23382104180389052,
+                      0.8147254547861639,
+                      0.30832917395880777
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                },
+                "right": {
+                  "bone": "RightHand",
+                  "minimumWeight": 0.9999,
+                  "vertices": 197,
+                  "weldedVertices": 76,
+                  "centre": [
+                    -0.23918508034992014,
+                    0.7732683297138958,
+                    0.2293567518391726
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.26806204843473996,
+                      0.7329960563079019,
+                      0.16264032722085944
+                    ],
+                    "max": [
+                      -0.22370560631286301,
+                      0.8223257495061533,
+                      0.29183823674125076
+                    ]
+                  },
+                  "thumb": null,
+                  "thumbStatus": "unverified-no-semantic-thumb-landmark"
+                }
+              },
+              "props": [
+                {
+                  "name": "knife",
+                  "frame": "foreR",
+                  "vertices": 132,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2590199708436639,
+                      0.6290002932824945,
+                      0.019590646028518677
+                    ],
+                    "max": [
+                      -0.18851543246070793,
+                      1.0282934534700647,
+                      0.04759064316749595
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.28269493271542795
+                },
+                {
+                  "name": "knifeScabbard",
+                  "frame": "foreR",
+                  "vertices": 72,
+                  "matrix": [
+                    0.9928086400032043,
+                    0.11971220374107361,
+                    5.100087019371813e-16,
+                    0,
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1,
+                    0,
+                    0.11971220374107361,
+                    -0.9928086400032043,
+                    2.123301534595612e-15,
+                    0,
+                    -0.24817992746829987,
+                    1.0367701053619385,
+                    0.343590646982193,
+                    1
+                  ],
+                  "bounds": {
+                    "min": [
+                      -0.2625181355652181,
+                      0.607109002368043,
+                      0.017590641975403054
+                    ],
+                    "max": [
+                      -0.17386908023893383,
+                      0.9406616132438949,
+                      0.04959064722061185
+                    ]
+                  },
+                  "forward": [
+                    0.11971220329876356,
+                    -0.9928086363349966,
+                    2.1233015267504837e-15
+                  ],
+                  "up": [
+                    -8.153200337090993e-16,
+                    2.033095913844818e-15,
+                    1
+                  ],
+                  "worldGrip": [
+                    -0.2409971952438352,
+                    0.9772015869617456,
+                    0.033590646982193106
+                  ],
+                  "centroidDistance": 0.28269493271542795
+                }
+              ],
+              "evidenceAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+              "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+            },
+            "cameraDistance": 24.91624666445922,
+            "model": {
+              "meshes": 1,
+              "skins": 1,
+              "bones": 24,
+              "vertices": 17821,
+              "finite": true,
+              "errors": [],
+              "bounds": {
+                "min": [
+                  -0.34727959159113786,
+                  -0.0000069236098937078784,
+                  -0.21448599264195428
+                ],
+                "max": [
+                  0.351231552732553,
+                  1.7190894924476157,
+                  0.30832917395880777
+                ]
+              }
+            }
+          }
+        ],
+        "rendered": {
+          "calls": 41,
+          "triangles": 31278,
+          "memory": {
+            "geometries": 21,
+            "textures": 5
+          }
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "work",
+      "skipped": true,
+      "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+    },
+    {
+      "id": "sit",
+      "skipped": true,
+      "reason": "No authored scheduled state on this actual representative NPC; no invented pose or support claim"
+    },
+    {
+      "id": "registered-authored-witnesses",
+      "npc": "master_bandit",
+      "images": 32,
+      "roles": [
+        {
+          "state": "idle",
+          "anim": "lean",
+          "carrying": false
+        }
+      ],
+      "retained": [
+        "knife",
+        "headband"
+      ],
+      "contactMeaning": "Fully hand-owned centroid distance is diagnostic only. Natural palm/thumb-web targets and intentional parked/stowed props require independent measured and visual review."
+    }
+  ],
+  "failures": [],
+  "pageErrors": [],
+  "requestErrors": [],
+  "warnings": [],
+  "limits": [
+    "No Art PASS is inferred from capture completion. Review actual images before acceptance.",
+    "No account, database, shop purchase, storage transaction, quest reward, Meshy/API or server flow is invoked.",
+    "SwiftShader frame times are not production performance measurements. Finite vertices do not prove skin strain, anatomy or planted-foot contacts.",
+    "Fully hand-owned centroid/prop alignment is measured at rendered poses. It cannot prove a closed grip, natural digits, anatomical thumb or weapon edge direction. Those remain image review gates."
+  ],
+  "boot": {
+    "snapshot": {
+      "schema": 1,
+      "mode": "registry",
+      "family": "master_bandit",
+      "time": 0.5,
+      "pose": "idle",
+      "view": "front",
+      "map": null,
+      "phase": "day",
+      "hour": 12.5,
+      "selectedIds": [
+        "master_bandit"
+      ],
+      "assetUrl": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=city-npcs-1",
+      "nativeClips": null,
+      "rawPose": null,
+      "raw": null,
+      "cacheSize": 1,
+      "warnings": [],
+      "camera": {
+        "position": [
+          -0.0045859925865317785,
+          2.1083212496669907,
+          24.942306419493146
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ],
+        "zoom": 2,
+        "detail": null,
+        "closeRegion": null,
+        "closeSurface": null
+      },
+      "npcs": [
+        {
+          "id": "master_bandit",
+          "name": "เสือดำ",
+          "family": "master_bandit",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0,
+          "state": "idle",
+          "anim": "rest",
+          "path": null,
+          "indoors": false,
+          "shown": true,
+          "talking": false,
+          "services": {
+            "shopType": null,
+            "trainer": "bandit",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "interactionRadius": 3.6,
+          "status": {
+            "family": "master_bandit",
+            "active": true,
+            "reason": null,
+            "error": null
+          },
+          "rootVisible": true,
+          "visibleProceduralParts": [
+            "knife",
+            "knifeScabbard"
+          ],
+          "duplicateBodyParts": [],
+          "retainedParts": [
+            "spear",
+            "spearTip",
+            "hammer",
+            "sword",
+            "swordScabbard",
+            "knife",
+            "knifeScabbard",
+            "staff",
+            "paddle",
+            "rod",
+            "broom",
+            "bow",
+            "basket",
+            "ngob",
+            "helmet",
+            "helmetTrim",
+            "headband",
+            "mongkol",
+            "clothHat"
+          ],
+          "animation": {
+            "phase": "idle",
+            "clip": "idle",
+            "clipTime": 0.8452078551054001,
+            "active": true,
+            "fallbackReason": null
+          },
+          "normalization": {
+            "sourceMin": [
+              -0.7116176206075588,
+              -2.728548333983496e-9,
+              -0.21256120827967528
+            ],
+            "sourceMax": [
+              0.708539890866671,
+              1.7200000557339539,
+              0.21515538346910829
+            ],
+            "scale": 1.023011510064933,
+            "targetHeight": 1.72,
+            "facingYaw": 0,
+            "measurement": "Prepared canonical total bounds including baked accessories; anatomical crown not separately measured",
+            "convention": "Prepared asset faces +Z; compensate outer npc.look.scale exactly once",
+            "footOrigin": [
+              0,
+              0,
+              0
+            ],
+            "sourceHeight": 1.72
+          },
+          "visualPolicy": {
+            "roleMotion": {
+              "arm": 0.3,
+              "head": 0.25,
+              "torso": 0.2,
+              "stance": 0.25,
+              "seated": "ground"
+            },
+            "activityPoses": {
+              "wai": false
+            },
+            "authoredState": "idle",
+            "seatedPresentation": null,
+            "props": {
+              "knife": "sheathed"
+            }
+          },
+          "poseWitness": {
+            "joints": {
+              "Spine": {
+                "position": [
+                  -0.010497318643779391,
+                  1.2888615062272157,
+                  0.013055340886234407
+                ],
+                "quaternion": [
+                  -0.19200751707836458,
+                  0.02167569583524303,
+                  0.02351699940109306,
+                  0.9808721773679937
+                ]
+              },
+              "Spine02": {
+                "position": [
+                  -0.004849146650222439,
+                  1.0800551589784588,
+                  0.000013992079539565903
+                ],
+                "quaternion": [
+                  0.031005452433743804,
+                  0.01231675105551278,
+                  0.013884660671875871,
+                  0.9993468745940232
+                ]
+              },
+              "Head": {
+                "position": [
+                  -0.018350474881780765,
+                  1.4223450071559713,
+                  -0.01281718691404574
+                ],
+                "quaternion": [
+                  0.04077108490224488,
+                  -0.0022899526201484327,
+                  -0.050275006614139986,
+                  0.9979002447453551
+                ]
+              },
+              "LeftHand": {
+                "position": [
+                  0.2536243922689692,
+                  0.8157255142271058,
+                  0.02634602274623432
+                ],
+                "quaternion": [
+                  0.8243228718903948,
+                  0.30789852537600815,
+                  0.4653250730200021,
+                  0.0957229086263703
+                ]
+              },
+              "RightHand": {
+                "position": [
+                  -0.28542088072523153,
+                  0.8457006086823917,
+                  0.029420296876977885
+                ],
+                "quaternion": [
+                  0.8456563799801079,
+                  -0.25483071526391515,
+                  -0.46485521761601667,
+                  0.06193722247542931
+                ]
+              },
+              "LeftFoot": {
+                "position": [
+                  0.20224273008152918,
+                  0.12770186198231814,
+                  -0.06746339256720882
+                ],
+                "quaternion": [
+                  0.8331637677759606,
+                  0.35885931540527627,
+                  0.35885857348714983,
+                  0.21972403611573676
+                ]
+              },
+              "RightFoot": {
+                "position": [
+                  -0.20545134126964693,
+                  0.12662537065964946,
+                  -0.08047709073926822
+                ],
+                "quaternion": [
+                  0.8508541289989212,
+                  -0.3261892641935328,
+                  -0.3261896465259323,
+                  0.25149180819592587
+                ]
+              }
+            },
+            "poseOffset": [
+              -0.0062643176850737115,
+              -0.00006421750563687226,
+              -0.00034410563953430755
+            ],
+            "sourceSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+            "note": "Measured joint transforms; ankle stability does not alone prove sole contact or skin strain."
+          },
+          "resources": {
+            "model": "3bd16f77-6a7b-4649-8dd9-7278d4162a62",
+            "skins": [
+              {
+                "geometry": "1b9cbe6d-ca08-4c00-ad47-5fe434ebd2cb",
+                "skeleton": "930973fc-e267-4bd3-a5ab-12ab0c525526",
+                "materials": [
+                  "074cba30-c6ff-475c-b93a-5fbf90877b9b"
+                ]
+              }
+            ]
+          },
+          "contactWitness": {
+            "hands": {
+              "left": {
+                "bone": "LeftHand",
+                "minimumWeight": 0.9999,
+                "vertices": 303,
+                "weldedVertices": 114,
+                "centre": [
+                  0.317400942832005,
+                  0.6871753663119976,
+                  0.05886544912932794
+                ],
+                "bounds": {
+                  "min": [
+                    0.27842017235872496,
+                    0.6362118445809495,
+                    -0.0010523741881147686
+                  ],
+                  "max": [
+                    0.3393388483947918,
+                    0.7552184458133684,
+                    0.11686576117763162
+                  ]
+                },
+                "thumb": null,
+                "thumbStatus": "unverified-no-semantic-thumb-landmark"
+              },
+              "right": {
+                "bone": "RightHand",
+                "minimumWeight": 0.9999,
+                "vertices": 197,
+                "weldedVertices": 76,
+                "centre": [
+                  -0.33928050616600103,
+                  0.7230919186545215,
+                  0.060057379490605876
+                ],
+                "bounds": {
+                  "min": [
+                    -0.3604035379056166,
+                    0.6897102329682874,
+                    -0.004639459274898838
+                  ],
+                  "max": [
+                    -0.3186056602298117,
+                    0.7730046083810833,
+                    0.12006540872984775
+                  ]
+                },
+                "thumb": null,
+                "thumbStatus": "unverified-no-semantic-thumb-landmark"
+              }
+            },
+            "props": [
+              {
+                "name": "knife",
+                "frame": "foreR",
+                "vertices": 132,
+                "matrix": [
+                  0.9928086400032043,
+                  0.11971220374107361,
+                  5.100087019371813e-16,
+                  0,
+                  -8.153200337090993e-16,
+                  2.033095913844818e-15,
+                  1,
+                  0,
+                  0.11971220374107361,
+                  -0.9928086400032043,
+                  2.123301534595612e-15,
+                  0,
+                  -0.24817992746829987,
+                  1.0367701053619385,
+                  0.343590646982193,
+                  1
+                ],
+                "bounds": {
+                  "min": [
+                    -0.2590199708436639,
+                    0.6290002932824945,
+                    0.019590646028518677
+                  ],
+                  "max": [
+                    -0.18851543246070793,
+                    1.0282934534700647,
+                    0.04759064316749595
+                  ]
+                },
+                "forward": [
+                  0.11971220329876356,
+                  -0.9928086363349966,
+                  2.1233015267504837e-15
+                ],
+                "up": [
+                  -8.153200337090993e-16,
+                  2.033095913844818e-15,
+                  1
+                ],
+                "worldGrip": null,
+                "centroidDistance": null
+              },
+              {
+                "name": "knifeScabbard",
+                "frame": "foreR",
+                "vertices": 72,
+                "matrix": [
+                  0.9928086400032043,
+                  0.11971220374107361,
+                  5.100087019371813e-16,
+                  0,
+                  -8.153200337090993e-16,
+                  2.033095913844818e-15,
+                  1,
+                  0,
+                  0.11971220374107361,
+                  -0.9928086400032043,
+                  2.123301534595612e-15,
+                  0,
+                  -0.24817992746829987,
+                  1.0367701053619385,
+                  0.343590646982193,
+                  1
+                ],
+                "bounds": {
+                  "min": [
+                    -0.2625181355652181,
+                    0.607109002368043,
+                    0.017590641975403054
+                  ],
+                  "max": [
+                    -0.17386908023893383,
+                    0.9406616132438949,
+                    0.04959064722061185
+                  ]
+                },
+                "forward": [
+                  0.11971220329876356,
+                  -0.9928086363349966,
+                  2.1233015267504837e-15
+                ],
+                "up": [
+                  -8.153200337090993e-16,
+                  2.033095913844818e-15,
+                  1
+                ],
+                "worldGrip": null,
+                "centroidDistance": null
+              }
+            ],
+            "evidenceAssetSha256": null,
+            "note": "Actual skinned hand patches and rendered instanced prop matrices. Centroid alignment is not a closed-grip, finger count, thumb anatomy or blade orientation pass."
+          },
+          "cameraDistance": 25.031254244384446,
+          "model": {
+            "meshes": 1,
+            "skins": 1,
+            "bones": 24,
+            "vertices": 17821,
+            "finite": true,
+            "errors": [],
+            "bounds": {
+              "min": [
+                -0.3604035379056166,
+                -0.0000069236098937078784,
+                -0.21303330836827788
+              ],
+              "max": [
+                0.351231552732553,
+                1.7197685757492631,
+                0.16002920346233776
+              ]
+            }
+          }
+        }
+      ],
+      "rendered": {
+        "calls": 41,
+        "triangles": 31278,
+        "memory": {
+          "geometries": 21,
+          "textures": 5
+        }
+      }
+    },
+    "limits": [
+      "Raw source preview normalizes total source bounds for display; it does not certify anatomical crown height.",
+      "Isolated registry poses call actual NPC.animate in place; only city mode exercises native navigation/schedules.",
+      "Unsupported pose adapters remain visible procedural fallback, never an invented adapter.",
+      "Hand close-ups use actual skinned hand-owned vertices. No finger count or anatomical thumb is inferred from bone names/PCA."
+    ],
+    "families": [
+      {
+        "id": "warp_keeper",
+        "npcIds": [
+          "warp_city_market",
+          "warp_city_port",
+          "warp_city_forge",
+          "warp_city_training",
+          "warp_city_temple",
+          "warp_city_gate"
+        ],
+        "states": [
+          "idle",
+          "look",
+          "talk",
+          "walk"
+        ]
+      },
+      {
+        "id": "general_merchant",
+        "npcIds": [
+          "general_merchant",
+          "vendor_lanterns"
+        ],
+        "states": [
+          "idle",
+          "look",
+          "talk",
+          "sell",
+          "walk"
+        ]
+      },
+      {
+        "id": "blacksmith",
+        "npcIds": [
+          "blacksmith"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "hammer"
+        ]
+      },
+      {
+        "id": "gate_supplier",
+        "npcIds": [
+          "gate_supplier",
+          "vendor_fruit",
+          "vendor_rice",
+          "fish_vendor_w",
+          "vendor_pottery"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sell",
+          "look"
+        ]
+      },
+      {
+        "id": "enhancer",
+        "npcIds": [
+          "enhancer"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "hammer"
+        ]
+      },
+      {
+        "id": "herbalist",
+        "npcIds": [
+          "herbalist"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "grind",
+          "gather"
+        ]
+      },
+      {
+        "id": "occultist",
+        "npcIds": [
+          "occultist"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "chant"
+        ]
+      },
+      {
+        "id": "master_muay",
+        "npcIds": [
+          "master_muay"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "box"
+        ]
+      },
+      {
+        "id": "master_sword",
+        "npcIds": [
+          "master_sword"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sword"
+        ]
+      },
+      {
+        "id": "master_hunter",
+        "npcIds": [
+          "master_hunter"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "aim"
+        ]
+      },
+      {
+        "id": "master_herbal",
+        "npcIds": [
+          "master_herbal"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "grind"
+        ]
+      },
+      {
+        "id": "master_shaman",
+        "npcIds": [
+          "master_shaman"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "chant"
+        ]
+      },
+      {
+        "id": "master_bandit",
+        "npcIds": [
+          "master_bandit"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "lean"
+        ]
+      },
+      {
+        "id": "city_guard",
+        "npcIds": [
+          "guard_port",
+          "guard_market",
+          "guard_center",
+          "guard_temple",
+          "guard_patrol",
+          "guard_gate_w",
+          "guard_gate_e"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "look",
+          "guard"
+        ]
+      },
+      {
+        "id": "monk_elder",
+        "npcIds": [
+          "monk_elder",
+          "monk_teacher"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "look",
+          "sit",
+          "pray"
+        ]
+      },
+      {
+        "id": "monk_novice",
+        "npcIds": [
+          "monk_young"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "pray",
+          "sweep"
+        ]
+      },
+      {
+        "id": "boatman",
+        "npcIds": [
+          "boatman"
+        ],
+        "states": [
+          "idle",
+          "talk",
+          "walk",
+          "sit",
+          "rest"
+        ]
+      }
+    ]
+  },
+  "contactEvidence": {
+    "path": "/artifacts/city-npc-models/contacts/master_bandit-03197e2d2cd3-contacts.json",
+    "sha256": "7572ab534923ecace35ec688ab8c0892130c8594d241379c4f44948763cf644b",
+    "assetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+    "geometryAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
+    "checks": {
+      "maxRestFrameError": 0.000001098146104772102,
+      "maxContactError": 2.5330675498269e-16,
+      "numericContactPassed": true,
+      "axisReviewRequired": true,
+      "visualApproved": false
+    },
+    "thumbStatus": {
+      "left": "UNVERIFIED: PCA across-palm axis cannot identify the anatomical thumb",
+      "right": "UNVERIFIED: PCA across-palm axis cannot identify the anatomical thumb"
+    }
+  },
+  "assetIdentity": {
+    "pathname": "/models/npcs/master_bandit.glb",
+    "expectedSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+    "loaded": [
+      {
+        "url": "http://127.0.0.1:5192/models/npcs/master_bandit.glb?v=woven-v3-d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b&rev=%5Bredacted%5D",
+        "status": 200,
+        "bytes": 676228,
+        "sha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+        "transport": "Exact HTTP response bytes fulfilled to GLTFLoader"
+      }
+    ],
+    "passed": true
+  },
+  "bundledProfilesAfter": [],
+  "disposal": {
+    "disposed": true,
+    "groupsReleased": 0,
+    "cacheSize": 0,
+    "phaseListeners": 0
+  },
+  "finishedAt": "2026-10-10T03:29:25.482Z",
+  "capturePassed": true,
+  "passed": true,
+  "archive": {
+    "originalReport": "docs/art/npcs/reviews/city-npc-full-current-1/master_bandit/report.json",
+    "reportSha256": "6545d0a0c52e1b6a7f6ca83ff71226cbd4a4282e5dcff2f099c1b613396ee41a",
+    "originalImageCount": 32,
+    "portableImageCount": 9,
+    "note": "Full immutable research receipt and all original PNGs remain in the local ignored archive. Only the selected exact witnesses ship in Git."
+  }
+}

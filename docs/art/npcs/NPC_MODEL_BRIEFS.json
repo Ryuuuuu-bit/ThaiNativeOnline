@@ -1,0 +1,2063 @@
+{
+  "schema": 1,
+  "status": "all_seventeen_design_briefs_ready_assets_unreviewed",
+  "scope": {
+    "newMeshyFamilies": 17,
+    "cityNpcIds": 32,
+    "paddyGateGuardIds": 2,
+    "totalNpcIds": 34,
+    "classGlbSubstitutions": false,
+    "paidRasterConceptStage": false
+  },
+  "sourceOfTruth": [
+    "docs/GAME_VISION.md",
+    "docs/world/WORLD_MAP.md",
+    "docs/art/ART_BIBLE.md",
+    "docs/technical/PLAYER_QOL.md",
+    "docs/world/CLASSES.md",
+    "docs/world/CLASS_QUESTS.md",
+    "docs/technical/PERFORMANCE_BUDGET.md"
+  ],
+  "provider": {
+    "name": "Meshy",
+    "cliVersion": "0.4.0",
+    "route": "text-to-3d preview -> refine -> rigging",
+    "commonCliFlags": [
+      "--async",
+      "--output-schema",
+      "v1",
+      "--format",
+      "json",
+      "--no-update-check"
+    ],
+    "requestUsage": "Each preview/refine object is a CLI --data JSON body. For unsubmitted previews also pass that family previewCliFlags, including --pose-mode a-pose. Replace task-ID placeholders with the successful task of that same family before submission.",
+    "aiModelPolicy": "Remaining previews explicitly pin meshy-7.1 current full-model tier. Actual keeper preview omitted ai_model; keep its submitted payload and record actual resolved provider model later. No evidence-based claim that meshy-6 has superior style.",
+    "riggingBoneCount": {
+      "expectedApproximately": 24,
+      "actual": "unknown until delivered rig",
+      "policy": "Informational humanoid expectation only; resolve actual bones/sockets. No fabricated fixed bone-count acceptance."
+    },
+    "previewPosePolicy": "For every unsubmitted preview pass explicit CLI --pose-mode a-pose in addition to preview.pose_mode=a-pose in --data; do not rely on the CLI auto default or retroactively add flags to the submitted keeper request."
+  },
+  "pricing": {
+    "verifiedDate": "2026-10-10",
+    "source": "https://docs.meshy.ai/en/api/pricing",
+    "previewCredits": 20,
+    "refine2kCredits": 10,
+    "riggingCredits": 5,
+    "perFamilyCredits": 35,
+    "batchEstimatedCredits": 595,
+    "userReportedAvailableCredits": 1758,
+    "estimatedBalanceAfterBatch": 1163,
+    "extraPaidStagesIncluded": false,
+    "note": "Price verified against official documentation; balance is parent-reported, not checked here. No paid submission performed by this brief task."
+  },
+  "sharedDesign": {
+    "proportionHeads": 6,
+    "adultWorldBodyHeightMeters": 1.72,
+    "noviceWorldBodyHeightMeters": 1.2,
+    "heightMeasurement": "Grounded soles to anatomical crown, excluding external headwear, after all runtime scales. Normalize once and compensate any retained look.scale; do not double-multiply height.",
+    "face": "Rounded natural anime chin and jaw; no needle chin, angular skull spike, mask hiding the face or photoreal pores.",
+    "sourcePose": "Neutral A-pose; arms separated from torso; two arms, two legs, five separate natural digits including one thumb on each palm; forward grounded feet.",
+    "excludedFromBodies": [
+      "held tools",
+      "baked hats or headbands",
+      "hunter pack",
+      "smith apron",
+      "monk bowl",
+      "armor",
+      "extra limbs",
+      "photoreal hair or fur"
+    ],
+    "minimumScores": {
+      "style": 8,
+      "readability": 8,
+      "technicalUsability": 8
+    },
+    "raw": {
+      "modelType": "standard",
+      "targetTriangles": 12000,
+      "textureMaximumPixels": 2048,
+      "maximumActualTriangles": 16000
+    },
+    "shippingTargets": {
+      "maximumBodyTriangles": 16000,
+      "textureMaximumPixels": 1024,
+      "glbBytesExclusiveTarget": 800000,
+      "bodyPrimitiveTarget": 1,
+      "bodyMaterialTarget": 1,
+      "targetBodyTriangles": 12000
+    },
+    "acceptance": "All sizes, anatomy, motion and Art scores remain untested until real outputs; target counts are not proof of generated counts.",
+    "headwearException": "warp_keeper has a parent-submitted baked cream cloth headwrap. Other families retain separate existing headwear. See actualSubmission; no second preview proposed.",
+    "topologyPolicy": "12k requested target, 16k actual maximum. Do not force a lossy remesh on a <=16k candidate with correct hands/anatomy merely to hit 12k. Actual topology and shipping bytes remain QA targets."
+  },
+  "propSocketDefinitions": {
+    "tool_R": {
+      "boneSemantic": "right_hand",
+      "legacyFrame": "foreR",
+      "legacyGripLocal": [
+        0,
+        -0.31,
+        0
+      ],
+      "uses": [
+        "hammer",
+        "sword",
+        "knife",
+        "staff",
+        "spear",
+        "paddle",
+        "broom"
+      ],
+      "rule": "Resolve the delivered hand bone and fit to actual palm contact. Preserve existing prop geometry; do not copy a forearm offset blindly onto a wrist."
+    },
+    "tool_L": {
+      "boneSemantic": "left_hand",
+      "legacyFrame": "foreL",
+      "legacyGripLocal": [
+        0,
+        -0.31,
+        0
+      ],
+      "uses": [
+        "bow"
+      ],
+      "rule": "Attach only when requested by this NPC's existing look.props."
+    },
+    "basket_L": {
+      "boneSemantic": "left_hand",
+      "legacyFrame": "foreL",
+      "legacyGripLocal": [
+        0,
+        -0.31,
+        0
+      ],
+      "uses": [
+        "basket"
+      ],
+      "rule": "Do not add a basket to every seller sharing the female supplier body."
+    },
+    "headwear": {
+      "boneSemantic": "head",
+      "legacyFrame": "head",
+      "uses": [
+        "cloth",
+        "ngob",
+        "helmet",
+        "headband",
+        "headbandRed",
+        "mongkol"
+      ],
+      "rule": "Existing procedural headwear, fitted once to the generated skull; no duplicate baked hat."
+    },
+    "apron": {
+      "boneSemantic": "upper_torso",
+      "legacyFrame": "upper",
+      "uses": [
+        "apron"
+      ],
+      "rule": "Existing smith apron, calibrated to chest and waist."
+    },
+    "pack": {
+      "boneSemantic": "upper_torso",
+      "legacyFrame": "upper",
+      "uses": [
+        "pack"
+      ],
+      "rule": "Existing hunter pack, clear of shoulder and neck motion."
+    },
+    "bowl_upper": {
+      "boneSemantic": "upper_torso",
+      "legacyFrame": "upper",
+      "uses": [
+        "bowl"
+      ],
+      "rule": "Preserve current body-mounted monk bowl; no new hand-held bowl animation."
+    }
+  },
+  "families": [
+    {
+      "id": "warp_keeper",
+      "status": "brief_only",
+      "priority": 1,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "warp_city_market",
+        "warp_city_port",
+        "warp_city_forge",
+        "warp_city_training",
+        "warp_city_temple",
+        "warp_city_gate"
+      ],
+      "names": [
+        "เจ้าหน้าที่พักทาง · ศาลาตลาดใหญ่",
+        "เจ้าหน้าที่พักทาง · ท่าเรือหลวง",
+        "เจ้าหน้าที่พักทาง · ย่านช่างศาสตรา",
+        "เจ้าหน้าที่พักทาง · ลานฝึกและสำนักครู",
+        "เจ้าหน้าที่พักทาง · วัดสุวรรณเจดีย์",
+        "เจ้าหน้าที่พักทาง · ประตูเมืองทิศเหนือ"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/warp_keeper.glb",
+      "silhouette": "Approachable ivory/jade official with a broad muted-brass sash; uniform shared by six service IDs.",
+      "preview": {
+        "mode": "preview",
+        "prompt": "Stylized anime Thai fantasy MMORPG NPC, friendly adult Thai male travel keeper. Full body, six-head proportions, warm brown skin, soft rounded chin, expressive eyes, dark hair under a cream cloth headwrap. Ivory cotton long-sleeve tunic, jade-green chong kraben, antique brass sash clasp, sandals. Broad hand-painted shapes, modest Thai woven borders. Neutral symmetric A-pose, straight head, level shoulders, separate arms, five natural fingers per hand, two grounded feet. No held props, armor, weapons, cape, extra limbs, photorealism or noisy detail.",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ]
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "01a12244-448b-7000-83cc-17882d71a44e",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "texture_prompt": "Soft hand-painted anime Thai fantasy NPC. Warm medium brown skin, friendly expressive eyes and a rounded natural chin. Cream cloth headwrap and ivory cotton tunic with subtle woven gold borders, jade-green wrapped trousers, antique brass sash clasp, brown sandals. Broad readable color blocks, gentle warm shading. Thai town travel-keeper uniform, modest and approachable. No photographic skin pores, harsh shadows, Chinese imperial motifs, shiny armor, text, logos or glowing runes.",
+        "target_formats": [
+          "glb"
+        ]
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [],
+      "existingStateWitnesses": [
+        "idle",
+        "look",
+        "talk",
+        "walk"
+      ],
+      "preserve": "Six city anchors, all-day schedules, original warpService IDs, storageService=true, arrivals, range and account permissions. No seventh warehouse NPC.",
+      "plannedPreviewBeforeParentSubmission": {
+        "mode": "preview",
+        "ai_model": "meshy-6",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG service keeper, six-head proportions, 1.72 m. Friendly adult man, rounded natural chin, tidy short Thai hair, balanced build. Ivory sleeved cotton shirt, jade chong kraben, broad muted-brass sash, simple sandals. Neutral A-pose; arms clear of torso, open palms, five separate natural fingers including one visible thumb per hand. Two arms, two legs, forward grounded feet. No held objects, hats, armor, extra limbs, oversized ornament or photoreal hair/fur."
+      },
+      "actualSubmission": {
+        "submittedBy": "parent",
+        "taskId": "01a12244-448b-7000-83cc-17882d71a44e",
+        "requestPath": "artifacts/city-npc-models/warp-keeper-preview-request.json",
+        "requestSha256": "9333fea28ac8640b11e401af68e85046f08a110ba2c82da1c2d944260eef7243",
+        "aiModel": "Not explicitly set in submitted payload; record provider result later.",
+        "resultState": "SUCCEEDED in retained provider task receipt; source design/anatomy/rig acceptance not established by this brief.",
+        "taskReceiptPath": "artifacts/city-npc-models/meshy_output/20261010_030444_city-npc-models_01a12244/task_01a12244-448b-7000-83cc-17882d71a44e.json",
+        "poseProvenance": "Submitted JSON requests a-pose; parent observed welcoming palms-up and reports CLI auto default may have overridden data. Actual resolved pose and model version are not asserted. Existing task is retained without duplicate generation."
+      },
+      "propPolicyOverrides": {
+        "headwear": "Parent submitted a cream cloth headwrap in the body prompt. If present in source, suppress existing clothHat for these six IDs to avoid duplicate headwear; do not remove the generated wrap to fake original brief compliance."
+      },
+      "promptCharacterCounts": {
+        "preview": 554,
+        "texture": 483
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "warp_city_market",
+          "name": "เจ้าหน้าที่พักทาง · ศาลาตลาดใหญ่",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": "city_market",
+            "storageService": true,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": 17,
+            "z": 42,
+            "face": -1.5707963267948966,
+            "link": "pl_se"
+          },
+          "currentHeadwear": "cloth",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "warp_city_port",
+          "name": "เจ้าหน้าที่พักทาง · ท่าเรือหลวง",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": "city_port",
+            "storageService": true,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": 7,
+            "z": 146,
+            "face": -1.5707963267948966,
+            "link": "port_c"
+          },
+          "currentHeadwear": "cloth",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "warp_city_forge",
+          "name": "เจ้าหน้าที่พักทาง · ย่านช่างศาสตรา",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": "city_forge",
+            "storageService": true,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": -33,
+            "z": 78,
+            "face": -1.5707963267948966,
+            "link": "bl2"
+          },
+          "currentHeadwear": "cloth",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "warp_city_training",
+          "name": "เจ้าหน้าที่พักทาง · ลานฝึกและสำนักครู",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": "city_training",
+            "storageService": true,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": 68,
+            "z": 52,
+            "face": -1.5707963267948966,
+            "link": "tr4"
+          },
+          "currentHeadwear": "cloth",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "warp_city_temple",
+          "name": "เจ้าหน้าที่พักทาง · วัดสุวรรณเจดีย์",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": "city_temple",
+            "storageService": true,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": 24,
+            "z": -50,
+            "face": -1.5707963267948966,
+            "link": "tg"
+          },
+          "currentHeadwear": "cloth",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "warp_city_gate",
+          "name": "เจ้าหน้าที่พักทาง · ประตูเมืองทิศเหนือ",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": "city_gate",
+            "storageService": true,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": 2,
+            "z": -93,
+            "face": -1.5707963267948966,
+            "link": "ave2"
+          },
+          "currentHeadwear": "cloth",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "plannedRefineBeforeParentSubmission": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG keeper. Cream cloth headwrap, ivory shirt #e4d8b8, jade trousers #314f41, muted gold sash #bca462, warm Thai skin, dark hair, brown sandals. Broad calm cloth regions and subtle woven hems; readable rounded face and five-finger palms. Matte materials, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glowing runes, oversaturation, shiny armor, painted held props or false digits. Preserve geometry and the six-head silhouette."
+      },
+      "actualRefineRequest": {
+        "requestPath": "artifacts/city-npc-models/warp-keeper-refine-request.json",
+        "requestSha256": "28145c73e8fbeca088995568283f03fe42d8c55b02071dd2172bad4bc54da715",
+        "submittedBy": "parent",
+        "taskOwnership": "Existing parent-owned successful refine; retain this task instead of submitting a duplicate.",
+        "note": "This is the existing parent request, not permission or instruction to submit a duplicate refine.",
+        "taskId": "01a12246-a22a-71ca-b384-0f1239a8c917",
+        "resultState": "SUCCEEDED",
+        "taskReceiptPath": "artifacts/city-npc-models/meshy_output/20261010_030444_city-npc-models_01a12244/task_01a12246-a22a-71ca-b384-0f1239a8c917.json"
+      },
+      "actualPaidProvenance": {
+        "previewCredits": 20,
+        "refineCredits": 10,
+        "parentReportedPreviewPlusRefineCredits": 30,
+        "riggingStatus": "Pending; no rig delivery or acceptance asserted here."
+      }
+    },
+    {
+      "id": "general_merchant",
+      "status": "brief_only",
+      "priority": 2,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "general_merchant",
+        "vendor_lanterns"
+      ],
+      "names": [
+        "เจ๊กฮวด",
+        "ลุงโคม"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/general_merchant.glb",
+      "silhouette": "Welcoming rounded male trader; ivory upper block, indigo trousers and ochre sash. Age/tint variant for lantern seller.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG town merchant, six-head proportions, 1.72 m. Friendly middle-aged man, comfortably rounded build, natural rounded chin, neat short hair. Ivory cotton wrap shirt, indigo chong kraben, ochre waist sash, simple sandals. Neutral A-pose; arms clear of torso, open palms, five separate natural fingers including one visible thumb per hand. Two arms, two legs, forward grounded feet. No held goods, hats, armor, extra limbs, oversize ornament or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG merchant. Ivory shirt, muted indigo trousers #3d4a6b, ochre sash #d4a443, warm tan skin, dark hair and brown sandals. Broad matte cloth folds, quiet hem bands, readable rounded face and five-finger palms. Allow gray-hair/cloth tint variation for the lantern seller. No photographic hair/fur, baked shadows/highlights, text, neon, shiny armor, painted goods or false digits. Preserve body geometry; all merchandise stays separate."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "look",
+        "talk",
+        "sell",
+        "walk"
+      ],
+      "preserve": "general_keeper stock/shopType=general and stall_lanterns_v future service. No new purchasable lantern stock or inherited supplier basket.",
+      "promptCharacterCounts": {
+        "preview": 476,
+        "texture": 465
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "general_merchant",
+          "name": "เจ๊กฮวด",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "general",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "general_keeper",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "vendor_lanterns",
+          "name": "ลุงโคม",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "lanterns",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "stall_lanterns_v",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "blacksmith",
+      "status": "brief_only",
+      "priority": 3,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "blacksmith"
+      ],
+      "names": [
+        "ลุงดำ"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/blacksmith.glb",
+      "silhouette": "Burly elderly bare-arm craftsman, gray crop and crimson waistcloth; existing external apron and hammer.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG blacksmith elder, six-head proportions, 1.72 m. Burly broad bare chest and thick working forearms, friendly mature face, rounded natural chin, short gray crop. Dark brown chong kraben, crimson waistcloth, simple sandals; torso ready for a separate apron. Neutral A-pose, open palms, five separate natural fingers with visible thumbs; two arms, two legs, forward grounded feet. No baked apron, held hammer, hats, armor, extra limbs, photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG smith. Dark warm skin #7a5236, gray crop #9a948a, charcoal-brown trousers #3a2e24, crimson waistcloth #a8432f, matte sandals. Broad soft muscle shading, mature rounded face, readable five-finger palms. Existing apron, headband and hammer remain separate, not painted on skin. No photographic pores/hair/fur, hard baked shadows, shiny armor, oversaturation, text, glowing marks or false digits. Preserve source geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "apron",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "hammer"
+      ],
+      "preserve": "forge_smith equipment counter, weapons/armor aliases, prices, interactionRadius and night-home schedule. Enhancer remains a distinct NPC/family.",
+      "promptCharacterCounts": {
+        "preview": 469,
+        "texture": 455
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "blacksmith",
+          "name": "ลุงดำ",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "blacksmith",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "forge_smith",
+          "currentHeadwear": "headband",
+          "currentProps": [
+            "hammer",
+            "apron"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "gate_supplier",
+      "title": "แม่ค้าเสบียงจันทร์เพ็ญ / แม่ค้าตลาด",
+      "status": "brief_only",
+      "priority": 4,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "gate_supplier",
+        "vendor_fruit",
+        "vendor_rice",
+        "fish_vendor_w",
+        "vendor_pottery"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/gate_supplier.glb",
+      "silhouette": "Capable middle-aged woman, practical sturdy build, compact bun. Terracotta sabai over a modest ivory blouse, indigo pha sin, cloth waist tie, simple sandals. Clear wrists.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Capable middle-aged woman, practical sturdy build, compact bun. Terracotta sabai over a modest ivory blouse, indigo pha sin, cloth waist tie, simple sandals. Clear wrists. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Terracotta wrap #a8432f, ivory blouse, indigo skirt #34405c, warm tan skin and black-brown bun. One woven hem band; restrained per-ID cloth recolors, no painted produce. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "basket_L",
+        "tool_R",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "sell",
+        "look"
+      ],
+      "preserve": "Gate supplier (-8,-99), link gate_in; stall_fruit_v/stall_rice_v/fishW_v1/stall_pottery_v. Keep each existing shopType; four market sellers have no stock. Basket only on eligible ID.",
+      "names": [
+        "แม่ค้าเสบียงจันทร์เพ็ญ",
+        "แม่ค้าผลไม้จำปา",
+        "นางข้าวหอม",
+        "แม่ค้าปลาบุญมา",
+        "ช่างปั้นมี"
+      ],
+      "promptCharacterCounts": {
+        "preview": 467,
+        "texture": 479
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "gate_supplier",
+          "name": "แม่ค้าเสบียงจันทร์เพ็ญ",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "supplies",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": {
+            "x": -8,
+            "z": -99,
+            "face": 1.5707963267948966,
+            "link": "gate_in"
+          },
+          "currentHeadwear": null,
+          "currentProps": [
+            "basket"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "vendor_fruit",
+          "name": "แม่ค้าผลไม้จำปา",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "fruit",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "stall_fruit_v",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "vendor_rice",
+          "name": "นางข้าวหอม",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "rice",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "stall_rice_v",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "fish_vendor_w",
+          "name": "แม่ค้าปลาบุญมา",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "fish",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "fishW_v1",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "vendor_pottery",
+          "name": "ช่างปั้นมี",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "pottery",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "stall_pottery_v",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "enhancer",
+      "title": "หมื่นเพชรศาสตรา",
+      "status": "brief_only",
+      "priority": 5,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "enhancer"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/enhancer.glb",
+      "silhouette": "Upright middle-aged male refinement craftsman, narrower than the smith, short dark hair. Oxblood sleeved wrap shirt, charcoal chong kraben, muted gold sash, simple sandals.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Upright middle-aged male refinement craftsman, narrower than the smith, short dark hair. Oxblood sleeved wrap shirt, charcoal chong kraben, muted gold sash, simple sandals. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Oxblood shirt #5a2a22, charcoal trousers #2b2622, muted gold sash #c9a35a, warm medium-brown skin and dark hair. Restrained cuff bands; hammer and red headband stay separate. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "hammer"
+      ],
+      "preserve": "enhance_master (-50,89.9), shopType=enhance; original night home schedule and distinct refinement service.",
+      "names": [
+        "หมื่นเพชรศาสตรา"
+      ],
+      "promptCharacterCounts": {
+        "preview": 468,
+        "texture": 484
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "enhancer",
+          "name": "หมื่นเพชรศาสตรา",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "enhance",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "enhance_master",
+          "currentHeadwear": "headbandRed",
+          "currentProps": [
+            "hammer"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "herbalist",
+      "title": "หมอยาเย็น",
+      "status": "brief_only",
+      "priority": 6,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "herbalist"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/herbalist.glb",
+      "silhouette": "Gentle adult woman, compact bun, kind rounded face, practical slim build. Cream blouse, muted sage shoulder cloth, brown pha sin, simple sandals. Forearms clear for workbench grinding.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Gentle adult woman, compact bun, kind rounded face, practical slim build. Cream blouse, muted sage shoulder cloth, brown pha sin, simple sandals. Forearms clear for workbench grinding. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Cream blouse #e3d8b8, sage cloth #5f7a4a, brown skirt #6b5a45, warm skin and dark bun. Quiet green hem accents; no painted herbs, bottles, book, mortar or pestle. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "grind",
+        "gather"
+      ],
+      "preserve": "herb_keeper (10.3,65); preserve morning herb_gather visitor excursion in paddy, night home and medicine stock.",
+      "names": [
+        "หมอยาเย็น"
+      ],
+      "promptCharacterCounts": {
+        "preview": 480,
+        "texture": 472
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "herbalist",
+          "name": "หมอยาเย็น",
+          "residentMap": "city",
+          "renderScope": "city plus existing paddy gathering visitor",
+          "services": {
+            "shopType": "herbalist",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "herb_keeper",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "occultist",
+      "title": "หมออาคมเฒ่า",
+      "status": "brief_only",
+      "priority": 7,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "occultist"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/occultist.glb",
+      "silhouette": "Aged lean male occult shopkeeper, thoughtful face, short gray-dark hair. Charcoal wrap tunic and loose trousers, broad crimson sash, simple sandals. Cloth clear of wrists and knees for sitting.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Aged lean male occult shopkeeper, thoughtful face, short gray-dark hair. Charcoal wrap tunic and loose trousers, broad crimson sash, simple sandals. Cloth clear of wrists and knees for sitting. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Charcoal shirt/trousers #2b2622, crimson sash #a8432f, warm aged skin, gray-dark hair. Readable dark cloth folds and muted brass hem accents; no skull necklace or painted charms. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "sit",
+        "chant"
+      ],
+      "preserve": "occult_keeper (9.8,86); preserve all-day seated chant, occult stock and charms shop alias.",
+      "names": [
+        "หมออาคมเฒ่า"
+      ],
+      "promptCharacterCounts": {
+        "preview": 489,
+        "texture": 488
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "occultist",
+          "name": "หมออาคมเฒ่า",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": "occult",
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "occult_keeper",
+          "currentHeadwear": "headbandRed",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "master_muay",
+      "title": "ครูมวยเสือ",
+      "status": "brief_only",
+      "priority": 8,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "master_muay"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/master_muay.glb",
+      "silhouette": "Veteran male Thai boxing master, broad athletic torso, strong legs, mature calm face, short dark-gray crop. Bare chest, crimson short chong kraben, cream forearm wraps, bare feet. No gloves.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Veteran male Thai boxing master, broad athletic torso, strong legs, mature calm face, short dark-gray crop. Bare chest, crimson short chong kraben, cream forearm wraps, bare feet. No gloves. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Warm brown skin, crimson shorts #a8432f, cream cotton wraps, dark-gray crop. Broad soft anatomy shading; no bruises or tattoos. Mongkol stays separate; natural fingers remain exposed. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "box"
+      ],
+      "preserve": "hall_muaythai_master (98,111.5); trainer=muay and existing class quests; box work, original night home.",
+      "names": [
+        "ครูมวยเสือ"
+      ],
+      "promptCharacterCounts": {
+        "preview": 486,
+        "texture": 493
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "master_muay",
+          "name": "ครูมวยเสือ",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": "muay",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "hall_muaythai_master",
+          "currentHeadwear": "mongkol",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "master_sword",
+      "title": "ครูดาบสิงห์",
+      "status": "brief_only",
+      "priority": 9,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "master_sword"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/master_sword.glb",
+      "silhouette": "Veteran male Thai sword instructor, upright broad shoulders, mature face, neat dark-gray hair. Indigo sleeved wrap jacket, crimson sash, dark chong kraben, simple sandals. Wrists exposed.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Veteran male Thai sword instructor, upright broad shoulders, mature face, neat dark-gray hair. Indigo sleeved wrap jacket, crimson sash, dark chong kraben, simple sandals. Wrists exposed. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Indigo jacket #3d4a6b, crimson sash #a8432f, dark brown trousers, warm tan skin and gray-dark hair. Cream cuff trim, matte fabric; sword remains a separately gripped existing prop. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "sword"
+      ],
+      "preserve": "hall_warrior_master (104,62); trainer=sword and class quests; existing sword geometry/work pose, night home.",
+      "names": [
+        "ครูดาบสิงห์"
+      ],
+      "promptCharacterCounts": {
+        "preview": 483,
+        "texture": 490
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "master_sword",
+          "name": "ครูดาบสิงห์",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": "sword",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "hall_warrior_master",
+          "currentHeadwear": null,
+          "currentProps": [
+            "sword"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "master_hunter",
+      "title": "พรานบุญ",
+      "status": "brief_only",
+      "priority": 10,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "master_hunter"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/master_hunter.glb",
+      "silhouette": "Experienced male Thai hunter, lean wiry build, alert mature face, short dark hair. Brown sleeveless wrap shirt, olive-dark chong kraben, narrow rust sash, simple sandals. Back clear for separate pack.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Experienced male Thai hunter, lean wiry build, alert mature face, short dark hair. Brown sleeveless wrap shirt, olive-dark chong kraben, narrow rust sash, simple sandals. Back clear for separate pack. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Earth-brown shirt #6b5338, olive-charcoal trousers #4a3f33, rust sash, warm tan skin and dark hair. Broad matte cloth/leather shading; no painted bow, quiver, pack or fur pelt. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_L",
+        "tool_R",
+        "pack",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "aim"
+      ],
+      "preserve": "hall_hunter_master (104,78); trainer=hunter and class quests; existing bow left-hand, pack upper-torso, aim pose and night home.",
+      "names": [
+        "พรานบุญ"
+      ],
+      "promptCharacterCounts": {
+        "preview": 496,
+        "texture": 486
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "master_hunter",
+          "name": "พรานบุญ",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": "hunter",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "hall_hunter_master",
+          "currentHeadwear": "cloth",
+          "currentProps": [
+            "bow",
+            "pack"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "master_herbal",
+      "title": "หมอหลวงพรหม",
+      "status": "brief_only",
+      "priority": 11,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "master_herbal"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/master_herbal.glb",
+      "silhouette": "Older male Thai herbal scholar, silver hair in a small high bun, calm broad face. Cream sleeved scholar wrap, jade waistcloth, brown trousers, simple sandals. Hands clear for workbench grinding.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Older male Thai herbal scholar, silver hair in a small high bun, calm broad face. Cream sleeved scholar wrap, jade waistcloth, brown trousers, simple sandals. Hands clear for workbench grinding. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Cream shirt #e3d8b8, jade waistcloth, brown trousers #6b5a45, silver hair #c9c4ba, warm mature skin. Quiet green hem band; no painted medicine containers, book or staff. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "grind"
+      ],
+      "preserve": "hall_herbalist_master (104,94), trainer=herbal; distinct male herbal teacher, existing class quests and night home.",
+      "names": [
+        "หมอหลวงพรหม"
+      ],
+      "promptCharacterCounts": {
+        "preview": 490,
+        "texture": 479
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "master_herbal",
+          "name": "หมอหลวงพรหม",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": "herbal",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "hall_herbalist_master",
+          "currentHeadwear": null,
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "master_shaman",
+      "title": "หมอผีจันทร์",
+      "status": "brief_only",
+      "priority": 12,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "master_shaman"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/master_shaman.glb",
+      "silhouette": "Mature male Thai ritual master, lean composed build, dark high bun. Ivory wrap robe with separated lower panels, pale trousers, narrow ochre sash, simple sandals. Knees and wrists clear for seated chanting.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Mature male Thai ritual master, lean composed build, dark high bun. Ivory wrap robe with separated lower panels, pale trousers, narrow ochre sash, simple sandals. Knees and wrists clear for seated chanting. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Ivory robe/trousers #e8e0cc, muted ochre sash, warm skin and dark bun. Subtle woven borders and soft readable folds; no skull ornament, glowing runes or painted staff. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "sit",
+        "chant"
+      ],
+      "preserve": "hall_shaman_master (89.5,85.5), trainer=shaman; existing all-day seated chant, staff eligibility and class quests.",
+      "names": [
+        "หมอผีจันทร์"
+      ],
+      "promptCharacterCounts": {
+        "preview": 502,
+        "texture": 477
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "master_shaman",
+          "name": "หมอผีจันทร์",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": "shaman",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "hall_shaman_master",
+          "currentHeadwear": null,
+          "currentProps": [
+            "staff"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "master_bandit",
+      "title": "เสือดำ",
+      "status": "brief_only",
+      "priority": 13,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "master_bandit"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/master_bandit.glb",
+      "silhouette": "Mature male Thai forest rogue instructor, lean agile build, short dark hair, sharp but human face. Charcoal sleeveless wrap shirt, loose dark chong kraben, crimson sash, soft sandals. Face and hands unobscured.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Mature male Thai forest rogue instructor, lean agile build, short dark hair, sharp but human face. Charcoal sleeveless wrap shirt, loose dark chong kraben, crimson sash, soft sandals. Face and hands unobscured. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Charcoal cloth #2b2622, crimson sash #a8432f, brown sandals, warm tan skin, dark hair. Quiet folds and cream seams; no mask, glowing eyes, painted knives or monster skin. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "lean"
+      ],
+      "preserve": "hall_assassin_master (89.5,98.5), trainer=bandit; existing all-day lean, single existing knife and class quests, no new dual-weapon mechanic.",
+      "names": [
+        "เสือดำ"
+      ],
+      "promptCharacterCounts": {
+        "preview": 506,
+        "texture": 480
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "master_bandit",
+          "name": "เสือดำ",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": "bandit",
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "hall_assassin_master",
+          "currentHeadwear": "headbandRed",
+          "currentProps": [
+            "knife"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "city_guard",
+      "title": "ทหารอโยธยา",
+      "status": "brief_only",
+      "priority": 14,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "guard_port",
+        "guard_market",
+        "guard_center",
+        "guard_temple",
+        "guard_patrol",
+        "guard_gate_w",
+        "guard_gate_e"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/city_guard.glb",
+      "silhouette": "Disciplined adult male Thai guard, sturdy balanced build, short hair and calm face. Brick-red sleeved uniform, brown chong kraben, broad muted-brass sash, simple boots. Clear hands; helmet and spear separate.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Disciplined adult male Thai guard, sturdy balanced build, short hair and calm face. Brick-red sleeved uniform, brown chong kraben, broad muted-brass sash, simple boots. Clear hands; helmet and spear separate. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Brick-red shirt #a8432f, brown trousers #3a3229, muted brass sash #c9a35a, warm skin, dark hair and matte boots. Quiet rank/cuff accents; no armor plates, undead skin or painted spear/helmet. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "look",
+        "guard"
+      ],
+      "preserve": "Five city guard posts/patrols plus gate guards (-4,-116)/(4,-116) in paddy. Preserve city_guard faction, visitor filtering, routes and spear/helmet; no new Karma behavior.",
+      "names": [
+        "หมื่นท่า",
+        "ขุนตลาด",
+        "ทหารหลักเมือง",
+        "ทหารรักษาวัด",
+        "หมื่นตระเวน",
+        "นายประตูอิน",
+        "นายประตูจัน"
+      ],
+      "promptCharacterCounts": {
+        "preview": 504,
+        "texture": 501
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "guard_port",
+          "name": "หมื่นท่า",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": null,
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "guard_market",
+          "name": "ขุนตลาด",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": null,
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "guard_center",
+          "name": "ทหารหลักเมือง",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": {
+            "x": 4.5,
+            "z": -27,
+            "face": 1.5707963267948966,
+            "link": "center"
+          },
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "guard_temple",
+          "name": "ทหารรักษาวัด",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": {
+            "x": 21.5,
+            "z": -48.5,
+            "face": -1.5707963267948966,
+            "link": "tg"
+          },
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "guard_patrol",
+          "name": "หมื่นตระเวน",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": null,
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "guard_gate_w",
+          "name": "นายประตูอิน",
+          "residentMap": "city",
+          "renderScope": "paddy visitor, original gate posts; city activities filtered home",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": {
+            "x": -4,
+            "z": -116,
+            "face": 3.141592653589793,
+            "link": "gate_out"
+          },
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "guard_gate_e",
+          "name": "นายประตูจัน",
+          "residentMap": "city",
+          "renderScope": "paddy visitor, original gate posts; city activities filtered home",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": "city_guard"
+          },
+          "dayAnchor": {
+            "x": 4,
+            "z": -116,
+            "face": 3.141592653589793,
+            "link": "gate_out"
+          },
+          "currentHeadwear": "helmet",
+          "currentProps": [
+            "spear"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "monk_elder",
+      "title": "พระอาจารย์มั่น / พระครูใบฎีกา",
+      "status": "brief_only",
+      "priority": 15,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "monk_elder",
+        "monk_teacher"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/monk_elder.glb",
+      "silhouette": "Adult male Thai Buddhist monk, shaved head, serene mature face. Saffron one-shoulder robe, broad separated lower folds, bare feet. Open hands outside cloth; coherent knees for walking, sitting and prayer.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Adult male Thai Buddhist monk, shaved head, serene mature face. Saffron one-shoulder robe, broad separated lower folds, bare feet. Open hands outside cloth; coherent knees for walking, sitting and prayer. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Muted saffron robe #c9782c, warm mature skin, softly shaded shaved scalp. Broad matte folds, quiet darker hem, no metallic ornament or text. Age variants for two monks; no painted bowl/staff. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "bowl_upper"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "look",
+        "sit",
+        "pray"
+      ],
+      "preserve": "Existing temple routes, temple_sala prayer, homes/curfews; adult body for elder and teacher. Preserve separate body-mounted bowl.",
+      "names": [
+        "พระอาจารย์มั่น",
+        "พระครูใบฎีกา"
+      ],
+      "promptCharacterCounts": {
+        "preview": 500,
+        "texture": 501
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "monk_elder",
+          "name": "พระอาจารย์มั่น",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": null,
+          "currentHeadwear": "none",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        },
+        {
+          "id": "monk_teacher",
+          "name": "พระครูใบฎีกา",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "temple_sala",
+          "currentHeadwear": "none",
+          "currentProps": [],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "monk_novice",
+      "title": "พระน้อย",
+      "status": "brief_only",
+      "priority": 16,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "monk_young"
+      ],
+      "targetWorldBodyHeightMeters": 1.2,
+      "suggestedModelPath": "public/models/npcs/monk_novice.glb",
+      "silhouette": "Young male Thai monastery novice, shaved head, gentle youthful face, slim small build. Saffron one-shoulder robe with broad lower panels, bare feet. Youthful face without giant head; hands clear for separate broom.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.20 m; rounded natural chin. Young male Thai monastery novice, shaved head, gentle youthful face, slim small build. Saffron one-shoulder robe with broad lower panels, bare feet. Youthful face without giant head; hands clear for separate broom. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Muted saffron cloth #c9782c, warm youthful skin, softly shaded shaved scalp. Broad clean folds and simple hem; no decorative gold, adult wrinkles or painted broom/bowl/staff. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.2"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "bowl_upper"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "sit",
+        "pray",
+        "sweep"
+      ],
+      "preserve": "monk_young name/occupation unchanged; existing temple_sweep, routes, home and broom. Authorized 1.2 m youthful appearance only, no new novice service.",
+      "names": [
+        "พระน้อย"
+      ],
+      "promptCharacterCounts": {
+        "preview": 510,
+        "texture": 484
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "monk_young",
+          "name": "พระน้อย",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "temple_sweep",
+          "currentHeadwear": "none",
+          "currentProps": [
+            "broom"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    },
+    {
+      "id": "boatman",
+      "title": "ตาแจว",
+      "status": "brief_only",
+      "priority": 17,
+      "newMeshyBodyRequired": true,
+      "npcIds": [
+        "boatman"
+      ],
+      "targetWorldBodyHeightMeters": 1.72,
+      "suggestedModelPath": "public/models/npcs/boatman.glb",
+      "silhouette": "Older male Thai river boatman, lean working build, friendly weathered face, short gray-dark hair. Blue-gray loose shirt, brown knee-length chong kraben, simple sandals. Arms and palms clear for separate paddle.",
+      "preview": {
+        "mode": "preview",
+        "ai_model": "meshy-7.1",
+        "model_type": "standard",
+        "pose_mode": "a-pose",
+        "should_remesh": true,
+        "topology": "triangle",
+        "target_polycount": 12000,
+        "target_formats": [
+          "glb"
+        ],
+        "prompt": "Thai anime MMORPG humanoid, six-head proportions, 1.72 m; rounded natural chin. Older male Thai river boatman, lean working build, friendly weathered face, short gray-dark hair. Blue-gray loose shirt, brown knee-length chong kraben, simple sandals. Arms and palms clear for separate paddle. Neutral A-pose, arms clear of torso, open palms with five separate natural fingers and visible thumbs. Two arms, two legs, forward grounded feet. No held props, hats, armor, wings, extra limbs or photoreal hair/fur."
+      },
+      "refine": {
+        "mode": "refine",
+        "preview_task_id": "<SUCCEEDED_PREVIEW_TASK_ID_FOR_THIS_FAMILY>",
+        "enable_pbr": false,
+        "texture_resolution": "2k",
+        "remove_lighting": true,
+        "target_formats": [
+          "glb"
+        ],
+        "texture_prompt": "Soft hand-painted Thai anime MMORPG materials. Blue-gray shirt #6f7f86, brown trousers, tan aged skin and gray-dark hair. Broad matte folds, quiet cream hem; no painted paddle, boat, fish or wet highlights. Separate woven ngob. Broad calm color regions, readable rounded face and five-finger palms, matte cloth/hair, restrained antique brass. No photographic hair/fur, baked shadows/highlights, text, glow, oversaturation, shiny armor, painted held props or false digits. Preserve geometry."
+      },
+      "riggingCliFlags": {
+        "--input-task-id": "<SUCCEEDED_TEXTURED_REFINE_TASK_ID_FOR_THIS_FAMILY>",
+        "--height-meters": "1.72"
+      },
+      "requiredPropSockets": [
+        "tool_R",
+        "tool_L",
+        "headwear"
+      ],
+      "existingStateWitnesses": [
+        "idle",
+        "talk",
+        "walk",
+        "sit",
+        "rest"
+      ],
+      "preserve": "pdock_end daytime seated rest, night home; preserve future boat-travel dialogue only, existing paddle and ngob.",
+      "names": [
+        "ตาแจว"
+      ],
+      "promptCharacterCounts": {
+        "preview": 506,
+        "texture": 490
+      },
+      "promptMaximumCharacters": 600,
+      "npcBindings": [
+        {
+          "id": "boatman",
+          "name": "ตาแจว",
+          "residentMap": "city",
+          "renderScope": "city",
+          "services": {
+            "shopType": null,
+            "trainer": null,
+            "warpService": null,
+            "storageService": false,
+            "faction": null
+          },
+          "dayAnchor": "pdock_end",
+          "currentHeadwear": "ngob",
+          "currentProps": [
+            "paddle"
+          ],
+          "scheduleSource": "src/data/npcs.js; all original phase activities retained"
+        }
+      ],
+      "previewCliFlags": {
+        "--pose-mode": "a-pose"
+      }
+    }
+  ],
+  "pendingFamilyIds": [],
+  "routePolicy": {
+    "implementation": "Visual-only explicit npc.id registry.",
+    "preserve": [
+      "NPC IDs/names, services, class quest givers/rewards and server proximity checks.",
+      "Schedules, road/nav nodes, arrival spots, work/hall anchors, movement speeds and curfews.",
+      "Existing prop geometry and per-ID eligibility; shared body must not inherit another seller's prop.",
+      "City/paddy map boundaries and both gate guards at z=-116."
+    ],
+    "excluded": "No background citizen, field supplier or field keeper refresh; no service activation, new quest gate, boat travel, Karma reaction or duplicate shop."
+  }
+}

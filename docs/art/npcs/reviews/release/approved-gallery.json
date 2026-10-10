@@ -1,0 +1,158 @@
+{
+  "schema": 1,
+  "entries": [
+    {
+      "family": "warp_keeper",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/warp_keeper/report.json",
+      "imageId": "warp_keeper-idle-0_5-threequarter",
+      "sha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+      "labelThai": "เจ้าหน้าที่พักทาง · ศาลาตลาดใหญ่",
+      "labelEnglish": "warp_keeper"
+    },
+    {
+      "family": "general_merchant",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/general_merchant/report.json",
+      "imageId": "general_merchant-idle-0_5-threequarter",
+      "sha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+      "labelThai": "เจ๊กฮวด",
+      "labelEnglish": "general_merchant"
+    },
+    {
+      "family": "blacksmith",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/blacksmith/report.json",
+      "imageId": "blacksmith-idle-0_5-threequarter",
+      "sha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+      "labelThai": "ลุงดำ",
+      "labelEnglish": "blacksmith"
+    },
+    {
+      "family": "enhancer",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/enhancer/report.json",
+      "imageId": "enhancer-idle-0_5-threequarter",
+      "sha256": "f43a718f93f9109070ff61a4a67e8c6d4f0959d30a232c47c357a1a1d10b7900",
+      "labelThai": "หมื่นเพชรศาสตรา",
+      "labelEnglish": "enhancer"
+    },
+    {
+      "family": "herbalist",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/herbalist/report.json",
+      "imageId": "herbalist-idle-0_5-threequarter",
+      "sha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+      "labelThai": "หมอยาเย็น",
+      "labelEnglish": "herbalist"
+    },
+    {
+      "family": "master_muay",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/master_muay/report.json",
+      "imageId": "master_muay-idle-0_5-threequarter",
+      "sha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+      "labelThai": "ครูมวยเสือ",
+      "labelEnglish": "master_muay"
+    },
+    {
+      "family": "master_sword",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/master_sword/report.json",
+      "imageId": "master_sword-idle-0_5-threequarter",
+      "sha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+      "labelThai": "ครูดาบสิงห์",
+      "labelEnglish": "master_sword"
+    },
+    {
+      "family": "master_hunter",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/master_hunter/report.json",
+      "imageId": "master_hunter-idle-0_5-threequarter",
+      "sha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+      "labelThai": "พรานบุญ",
+      "labelEnglish": "master_hunter"
+    },
+    {
+      "family": "master_shaman",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/master_shaman/report.json",
+      "imageId": "master_shaman-idle-0_5-threequarter",
+      "sha256": "4012487041af9629786455fc43adc89ecca177a4cdbd867af0cccb02fbae5600",
+      "labelThai": "หมอผีจันทร์",
+      "labelEnglish": "master_shaman"
+    },
+    {
+      "family": "master_bandit",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/master_bandit/report.json",
+      "imageId": "master_bandit-idle-0_5-threequarter",
+      "sha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+      "labelThai": "เสือดำ",
+      "labelEnglish": "master_bandit"
+    },
+    {
+      "family": "city_guard",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/city_guard/report.json",
+      "imageId": "city_guard-idle-0_5-threequarter",
+      "sha256": "1c176fabbc9b484fa6fa5f78df396aa4616db59ea0b7b2f7f52a7c35f55d728d",
+      "labelThai": "หมื่นท่า",
+      "labelEnglish": "city_guard"
+    },
+    {
+      "family": "boatman",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/boatman/report.json",
+      "imageId": "boatman-idle-0_5-threequarter",
+      "sha256": "9119e95859ebb3afb6f04d7c191c4d9f20b553d0ae40185f3fa918df58cf2a17",
+      "labelThai": "ตาแจว",
+      "labelEnglish": "boatman"
+    },
+    {
+      "family": "gate_supplier",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/gate_supplier/report.json",
+      "imageId": "gate_supplier-idle-0_5-threequarter",
+      "sha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+      "labelThai": "แม่ค้าเสบียงจันทร์เพ็ญ",
+      "labelEnglish": "gate_supplier"
+    },
+    {
+      "family": "occultist",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/occultist/report.json",
+      "imageId": "occultist-idle-0_5-threequarter",
+      "sha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+      "labelThai": "หมออาคมเฒ่า",
+      "labelEnglish": "occultist"
+    },
+    {
+      "family": "master_herbal",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/master_herbal/report.json",
+      "imageId": "master_herbal-idle-0_5-threequarter",
+      "sha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+      "labelThai": "หมอหลวงพรหม",
+      "labelEnglish": "master_herbal"
+    },
+    {
+      "family": "monk_elder",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/monk_elder/report.json",
+      "imageId": "monk_elder-idle-0_5-threequarter",
+      "sha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+      "labelThai": "พระอาจารย์มั่น",
+      "labelEnglish": "monk_elder"
+    },
+    {
+      "family": "monk_novice",
+      "approved": true,
+      "report": "docs/art/npcs/reviews/release/monk_novice/report.json",
+      "imageId": "monk_novice-idle-0_5-threequarter",
+      "sha256": "6a5eeeb24cd55be030e2a41aff49c202bdaf71eaa6222dda97bafdeb032ebf60",
+      "labelThai": "พระน้อย",
+      "labelEnglish": "monk_novice"
+    }
+  ]
+}

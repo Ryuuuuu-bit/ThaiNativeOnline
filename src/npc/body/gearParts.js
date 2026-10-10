@@ -1,6 +1,7 @@
 import { RIG } from './rig.js';
 import { lathe, blob, paint, merge, cyl, box } from './shape.js';
 import * as THREE from 'three';
+import { beveledBlade } from './blade.js';
 
 // Headwear and carried props, in the same format as BODY_PARTS. Hats sit on
 // the skull (head frame: skull centre y .135, top y .265); hand props are
@@ -29,12 +30,19 @@ export const GEAR_PARTS = [
     frames: ['foreR'], color: () => '#6b5a45', when: hasProp('spear') },
   { name: 'spearTip', geo: () => merge(new THREE.ConeGeometry(.036, .22, 4).translate(0, HY + 1.78, .02), blob(.035, .02, .035, 0, HY + 1.64, .02, 6)), frames: ['foreR'], color: () => '#b9bec1', when: hasProp('spear') },
   { name: 'hammer', geo: () => merge(cyl(.02, .022, .45, 6).rotateX(Math.PI / 2).translate(0, HY, .17), box(.17, .1, .1).translate(0, HY, .4)), frames: ['foreR'], color: () => '#4c4b48', when: hasProp('hammer') },
-  { name: 'sword', geo: () => merge(box(.035, .012, .85).translate(0, HY, .6), box(.12, .035, .03).translate(0, HY, .14), cyl(.016, .016, .16, 6).rotateX(Math.PI / 2).translate(0, HY, .05)), frames: ['foreR'], color: () => '#b9bec1', when: hasProp('sword') },
-  { name: 'knife', geo: () => merge(box(.03, .01, .3).translate(0, HY, .26), cyl(.014, .014, .1, 6).rotateX(Math.PI / 2).translate(0, HY, .06)), frames: ['foreR'], color: () => '#b9bec1', when: hasProp('knife') },
+  { name: 'sword', geo: () => merge(beveledBlade(.035, .012, .85).translate(0, HY, .6), box(.12, .035, .03).translate(0, HY, .14), cyl(.016, .016, .16, 6).rotateX(Math.PI / 2).translate(0, HY, .05)), frames: ['foreR'], color: () => '#b9bec1', when: hasProp('sword') },
+  { name: 'swordScabbard', geo: () => merge(box(.052, .032, .89).translate(0, HY, .61),
+    box(.064, .042, .025).translate(0, HY, .18), box(.06, .04, .028).translate(0, HY, 1.045)),
+    frames: ['foreR'], color: () => '#443225', when: hasProp('sword'), whenNpc: npc => npc.id === 'master_sword', modelOnly: true },
+  { name: 'knife', geo: () => merge(beveledBlade(.03, .01, .3).translate(0, HY, .26), cyl(.014, .014, .1, 6).rotateX(Math.PI / 2).translate(0, HY, .06)), frames: ['foreR'], color: () => '#b9bec1', when: hasProp('knife') },
+  { name: 'knifeScabbard', geo: () => merge(box(.046, .026, .32).translate(0, HY, .27), box(.053, .032, .02).translate(0, HY, .11)),
+    frames: ['foreR'], color: () => '#3b2924', when: hasProp('knife'), whenNpc: npc => npc.id === 'master_bandit', modelOnly: true },
   { name: 'staff', geo: () => merge(cyl(.022, .028, 1.9, 6).translate(0, HY + .18, .02), blob(.035, .045, .035, 0, HY + 1.14, .02, 8)), frames: ['foreR'], color: () => '#7a5a3a', when: hasProp('staff') },
   { name: 'paddle', geo: () => merge(cyl(.022, .022, 1.5, 6).translate(0, HY + .2, .03), box(.15, .42, .025).translate(0, HY - .7, .03)), frames: ['foreR'], color: () => '#8a6a45', when: hasProp('paddle') },
   { name: 'rod', geo: () => cyl(.008, .02, 2.8, 5).translate(0, 1.4, 0).rotateX(1.05).translate(0, HY, .03), frames: ['foreR'], color: () => '#5a4a35', when: hasProp('rod') },
-  { name: 'broom', geo: () => merge(cyl(.018, .018, 1.1, 5).translate(0, HY - .4, .16), new THREE.ConeGeometry(.12, .3, 8).rotateX(Math.PI).translate(0, HY - 1.05, .16)), frames: ['foreR'], color: () => '#a68d5d', when: hasProp('broom') },
+  { name: 'broom', geo: () => merge(cyl(.018, .018, 1.1, 5).translate(0, HY - .4, .16),
+    ...Array.from({length:9},(_,i)=>cyl(.007,.015,.3,5).rotateZ((i-4)*.064).translate((i-4)*.024,HY-1.05,.16))),
+    frames: ['foreR'], color: () => '#a68d5d', when: hasProp('broom') },
   { name: 'bow', geo: () => new THREE.TorusGeometry(.55, .016, 5, 16, 2).rotateZ(Math.PI - 1).rotateY(Math.PI / 2).translate(0, HY, -.45), frames: ['foreL'], color: () => '#5a4a35', when: hasProp('bow') },
   { name: 'basket', geo: () => paint(merge(cyl(.15, .11, .2, 12).translate(0, HY - .14, .06), new THREE.TorusGeometry(.13, .008, 4, 12, Math.PI).translate(0, HY - .03, .06)), rings(.03, .82)), frames: ['foreL'], color: () => '#a5824f', when: hasProp('basket') },
   // Worn and carried on the body.
