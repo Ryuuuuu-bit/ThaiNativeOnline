@@ -72,7 +72,8 @@ import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
 import { Parties, PARTY } from './parties.js';
 import { createPartyBoardHandlers } from './party-board.js';
-import { Trades, TRADE, swap } from './trades.js';
+import { Trades, TRADE } from './trades.js';
+import { commitTrade } from './trade-service.js';
 import { gm, adminIds } from './gm.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
@@ -155,7 +156,8 @@ async function api(req, res, url) {
       const slot = Number(m[1]);
       const body = await readBody(req);
       if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
-      const live = combatants.live(id, slot);   // resolve after reading: the old socket may have left meanwhile
+      const live = combatants.live(id, slot);
+      if (live?.tradeBusy || live?.stashBusy) return json(res, 409, {ok:false,code:'save_busy'});   // resolve after reading: the old socket may have left meanwhile
       const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0 } : null);
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
@@ -232,7 +234,7 @@ async function handle(ws, raw) {
     const active = combatants.get(presence.players.get(ws)?.id);
     // Keep the source bag unchanged while its SQL transfer is in flight. A refused
     // optimistic op is acknowledged with a sync, so NetProgress can reconcile it.
-    if (active?.stashBusy && !['stash_open', 'stash_move', 'resync'].includes(m.t)) {
+    if ((active?.stashBusy || active?.tradeBusy) && !['stash_open', 'stash_move', 'resync'].includes(m.t)) {
       if (m.t === 'op') {
         if (Number.isSafeInteger(m.n) && m.n > active.ack) active.ack = m.n;
         send(ws, { t: 'sync', c: combatants.me(presence.players.get(ws).id) });
@@ -583,6 +585,7 @@ function sendTrade(t) {
   }
 }
 function endTrade(id, why, ok = false) {
+  if (trades.of(id)?.committing) return;
   const t = id != null && trades.cancel(id); if (!t) return;
   for (const pid of [t.a, t.b]) { const o = byId(pid); if (!o) continue; send(o.ws, { t: 'tend', ok, why }); const c = combatants.me(pid); if (c) send(o.ws, { t: 'sync', c }); }
 }
@@ -606,9 +609,16 @@ function tradeMsg(ws, m) {
     else if (m.t === 'tconf') {
       const other = byId(trades.other(t, me.id)), why = tradeWhy(me, other?.p); if (why) return endTrade(me.id, why);
       if (trades.confirm(me.id) === 'swap') {
-        const r = swap(combatants.get(t.a).c, combatants.get(t.b).c, t.offer[t.a], t.offer[t.b]);
-        if (r.ok) for (const pid of [t.a, t.b]) { const s = combatants.get(pid); s.dirty = true; flush(pid); }
-        return endTrade(me.id, r.ok ? 'done' : r.why, r.ok);
+        if (t.committing) return;
+        commitTrade(accounts, t, [combatants.get(t.a), combatants.get(t.b)], [byId(t.a).p, byId(t.b).p], {
+          reward: (s, { id, k }) => {
+            rewardNews(byId(id)?.p.room, k, combatants.rewardState(s, id, k));
+          },
+        }).then(r => {
+          t.committing = false;
+          endTrade(me.id, r.ok ? 'done' : r.why, r.ok);
+        }).catch(error => console.warn('trade', error.message));
+        return;
       }
     }
     sendTrade(t);
@@ -699,7 +709,7 @@ const ADMINS = adminIds(), mutes = new Map();   // ADMIN_IDS + GM_ID · account 
 const muted = p => (mutes.get(p.account ?? `s${p.id}`) ?? 0) > Date.now();
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !combatants.get(target.p.id)?.stashBusy ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
+const gmCtx = { presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
 
 // ---- shared monsters and the world clock (phase 3a) ------------------------------------
 const clock = new WorldClock({ hour: 7.5 });   // Thai wall time: 24 real minutes a game day, days from Thai midnight (WorldClock.wallHour)
@@ -718,17 +728,22 @@ const worldOf = room => {
   return worlds.get(room);
 };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
+function rewardNews(map, e, up) {
+  titleNews(e.to);
+  const ws = socketOf(e.to); if (ws) send(ws, up.lost ? { ...e, lost: up.lost } : e);
+  const cardKept = e.card && !up.lost?.some(d => ITEMS[d.id]?.type === 'card');
+  if (cardKept) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
+  if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
+}
 // route what the monster world reports: map-wide news, or a message for one player
 function route(map, events, except = null) {
   for (const e of events) {
     if (e.t === 'kill') {
       const up = combatants.reward(e.to, e);   // a signed-in character's rewards land on the server's copy
-      titleNews(e.to);
-      const ws = socketOf(e.to); if (ws) send(ws, up.lost ? { ...e, lost: up.lost } : e);   // lost: drops a full bag could not take
-      const cardKept = e.card && !up.lost?.some(d => ITEMS[d.id]?.type === 'card');
-      if (cardKept) { const who = ws && presence.players.get(ws); toAll({ t: 'cardnews', name: who?.name ?? 'ใครบางคน', card: e.card, monster: e.type }); }
-      if (up.level && ws) { const r = presence.setLevel(ws, up.level); if (r) toMap(map, { t: 'lv', ...r }, ws); }
+      if (up.deferred) continue;
+      rewardNews(map, e, up);
     } else if (e.t === 'ma') {
+      if (combatants.get(e.to)?.tradeBusy) continue;
       const ws = socketOf(e.to); if (!ws) continue;
       const p=presence.players.get(ws), monster=worldOf(map).byId(e.id);
       if(monster&&p&&!navigation(p.map).clear(e.origin ?? monster,p,.05))continue;
@@ -739,6 +754,7 @@ function route(map, events, except = null) {
       send(ws, res ? { ...e, res } : e);
     }
     else if (e.t === 'wbhit') {   // a world boss skill landed on this player: a share of max HP (signed in: resolved here)
+      if (combatants.get(e.to)?.tradeBusy) continue;
       const ws = socketOf(e.to); if (!ws) continue;
       combatants.touch(e.to);
       const res = combatants.pctHit(e.to, e.pct);
@@ -808,6 +824,7 @@ setInterval(() => toAll({ t: 'clock', h: +clock.hour.toFixed(3) }), 10000);
 // signed-in characters: MP to the browser 1×/s, saved to the database every 30 s when changed
 const flushEntry = (s, p = null) => {
   if (!s?.persist || !s.dirty) return;
+  if (s.tradeBusy) return s.tradeFlush ??= s.tradeTask.then(() => { s.tradeFlush = null; return flushEntry(s, p); });
   if (s.stashBusy) {
     // Disconnect/shutdown must save the adopted bag, never capture the old one.
     return s.stashFlush ??= s.stashTask.then(() => { s.stashFlush = null; return flushEntry(s, p); });

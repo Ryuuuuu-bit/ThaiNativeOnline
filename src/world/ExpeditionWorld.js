@@ -1,3 +1,4 @@
+import { disposeResources } from './ResourceLifecycle.js';
 import * as THREE from 'three';
 import { TerrainData, makeGround, makeGrassField } from './Terrain.js';
 import { Collision } from './Collision.js';
@@ -60,6 +61,6 @@ export function buildExpeditionWorld(scene, map) {
  const maskTexture=new THREE.DataTexture(data,width,height);maskTexture.userData.rect=r;maskTexture.needsUpdate=true;
  const mask={data,width,height,texture:maskTexture},grass=makeGrassField(root,mask,windUniforms);
  const atmosphere=new Atmosphere(root,{terrain,glows,smokes:[]});
- const world={map,root,terrain,collision,ground,mask,grass,atmosphere,spots,footprints:[],market:[],water:{dispose(){}},stats:{houses:1,forestTrees:210,buildMs:Math.round(performance.now()-started)},contains:(x,z)=>map.walk.some(r=>x>=r.minX&&x<=r.maxX&&z>=r.minZ&&z<=r.maxZ),heightAt:h,canStand(x,z,pad=.28){return world.contains(x,z)&&!collision.blocked(x,z,pad);},speedAt:()=>1,update(t,dt,focus,env){windUniforms.uTime.value=t;grass.update(focus);atmosphere.update(t,dt,focus,env);},dispose(){root.removeFromParent();const gs=new Set(),ms=new Set(),ts=new Set();root.traverse(o=>{if(o.geometry)gs.add(o.geometry);for(const m of [].concat(o.material??[]))ms.add(m);for(const t of o.userData?.textures??[])ts.add(t);});for(const m of ms){for(const v of Object.values(m))if(v?.isTexture)ts.add(v);m.dispose();}for(const g of gs)g.dispose();for(const t of ts)t.dispose();return {geometries:gs.size,materials:ms.size,textures:ts.size};}};
+ const world={map,root,terrain,collision,ground,mask,grass,atmosphere,spots,footprints:[],market:[],water:{dispose(){}},stats:{houses:1,forestTrees:210,buildMs:Math.round(performance.now()-started)},contains:(x,z)=>map.walk.some(r=>x>=r.minX&&x<=r.maxX&&z>=r.minZ&&z<=r.maxZ),heightAt:h,canStand(x,z,pad=.28){return world.contains(x,z)&&!collision.blocked(x,z,pad);},speedAt:()=>1,update(t,dt,focus,env){windUniforms.uTime.value=t;grass.update(focus);atmosphere.update(t,dt,focus,env);},dispose(){root.removeFromParent();return disposeResources(root);}};
  return world;
 }

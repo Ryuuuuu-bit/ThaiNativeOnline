@@ -9,6 +9,17 @@ const seq = (...v) => { let i = 0; return () => v[i++ % v.length]; };
 const world = (zones = [zone()], random = seq(.5)) => new MonsterWorld('test', { zones, random });
 const run = (w, players, secs, phase = 'day') => { const ev = []; for (let t = 0; t < secs; t += .1) ev.push(...w.update(.1, players, phase)); return ev; };
 
+test('overkill counts only removed HP and cannot steal the reward from the top contributor', () => {
+  const w = world(), players = [{ id: 1, x: 1, z: 0, lv: 1 }, { id: 2, x: 0, z: 1, lv: 1 }];
+  run(w, [], 1); const m = w.monsters[0]; m.hp = m.maxHp = 125;
+  w.damage(m, 1, 124, {}, players);
+  assert.equal(m.contrib.get(1), 124);
+  const events = w.damage(m, 2, 1250, {}, players);
+  const winner = events.find(e => e.t === 'kill' && e.to === 1);
+  assert.ok(winner && winner.gold > 0);
+  assert.ok(!events.some(e => e.t === 'kill' && e.to === 2));
+});
+
 test('real maps get their spawn areas; the city has none', () => {
   assert.ok(new MonsterWorld('paddy').monsters.length > 5);
   assert.equal(new MonsterWorld('city').monsters.length, 0);
