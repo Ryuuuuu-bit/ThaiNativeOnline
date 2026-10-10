@@ -145,11 +145,12 @@ async function api(req, res, url) {
       for (const [ws, p] of presence.players) if (gmTokens.get(ws) === token) {
         gmTokens.delete(ws); p.admin = false; const state = combatants.get(p.id); if (state) state.god = false;
         send(ws, { t: 'gmAccess', admin: false });
+        send(ws, { t: 'identity', accountUid: null, characterUid: null });
       }
       return json(res, 200, { ok: true }); }
     if (req.method === 'POST' && url.pathname === '/api/google/link') { const r = await accounts.linkGoogle(id, (await readBody(req)).credential); return json(res, r.ok ? 200 : 400, r); }
-    if (req.method === 'GET' && url.pathname === '/api/me') return json(res, 200, { ok: true, id, google: await store.googleOf(id) });
-    if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, slots: await accounts.slots(id) });
+    if (req.method === 'GET' && url.pathname === '/api/me') return json(res, 200, { ok: true, id, ...await accounts.identity(id), google: await store.googleOf(id) });
+    if (req.method === 'GET' && url.pathname === '/api/slots') return json(res, 200, { ok: true, id, ...await accounts.identity(id), slots: await accounts.slots(id) });
     const rename = /^\/api\/slots\/(\d+)\/name$/.exec(url.pathname);
     if (rename && req.method === 'POST') {
       const slot = Number(rename[1]);
@@ -167,8 +168,14 @@ async function api(req, res, url) {
       const body = await readBody(req);
       if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
       const live = combatants.live(id, slot);
+      if (Object.hasOwn(body, 'characterUid')) {
+        if (typeof body.characterUid !== 'string' || !/^CHR-[0-9A-F]{32}$/i.test(body.characterUid)) return json(res, 400, { ok: false, code: 'invalid_character_uid' });
+        body.characterUid = body.characterUid.toUpperCase();
+      }
       if (live?.tradeBusy || live?.stashBusy) return json(res, 409, {ok:false,code:'save_busy'});   // resolve after reading: the old socket may have left meanwhile
-      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0 } : null);
+      if (live && Object.hasOwn(body, 'characterUid') && body.characterUid !== live.persist.characterUid) return json(res, 409, { ok: false, code: 'stale_character' });
+      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0, characterUid: live.persist.characterUid } : null,
+        Object.hasOwn(body, 'characterUid') ? { characterUid: body.characterUid } : live ? { characterUid: live.persist.characterUid } : {});
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
     if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
@@ -280,10 +287,13 @@ async function handle(ws, raw) {
             for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { combatants.drop(op.id); old.dirty=true; flushEntry(old, op); send(ows, { t: 'kicked' }); ows.close(); await accounts.writes.wait(`${id}:${m.slot}`, 10000); }
           };
           await kick();
-          const fresh = await accounts.character(id, m.slot).catch(() => null) ?? saved, quests = await accounts.quests(id, m.slot).catch(() => '{}');
+          const fresh = await accounts.character(id, m.slot).catch(() => null);
+          const characterUid = accounts.characterUid(id, m.slot), inventoryRevision = accounts.inventoryRevision(id, m.slot);
+          if (!fresh || !characterUid) { send(ws, { t: 'kicked', why: 'โหลดตัวละครไม่ได้ กรุณาเชื่อมต่อใหม่' }); ws.close(); return; }
+          const quests = await accounts.quests(id, m.slot).catch(() => '{}');
           await kick();   // a twin that signed in during the reads
           if (stopping || !presence.players.has(ws)) return;   // we were the one kicked meanwhile
-          combatants.load(r.you, fresh, { account: id, slot: m.slot, inventoryRevision: accounts.inventoryRevision(id, m.slot) }, quests);
+          combatants.load(r.you, fresh, { account: id, slot: m.slot, characterUid, inventoryRevision }, quests);
           presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
           gmTokens.set(ws, m.token);
           await authorizeGm(presence.players.get(ws));
@@ -728,11 +738,18 @@ const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(
 const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
 
 async function sendWelcome(ws, message) {
-  const p = presence.players.get(ws), room = p?.room;
+  const p = presence.players.get(ws), room = p?.room, persisted = p && combatants.get(p.id)?.persist;
+  const token = gmTokens.get(ws), account = persisted?.account, slot = persisted?.slot, uid = persisted?.characterUid;
   await authorizeGm(p);
+  let identity = {};
+  try {
+    if (token && persisted && account === p.account && await accounts.auth(token) === account) identity = await accounts.characterIdentity(account, slot) ?? {};
+  } catch { /* Metadata is unavailable; never substitute a client UID. */ }
+  const current = p && combatants.get(p.id)?.persist;
+  if (gmTokens.get(ws) !== token || current !== persisted || current?.account !== account || current?.slot !== slot || current?.characterUid !== uid || identity.characterUid && identity.characterUid !== uid) identity = {};
   if (p && presence.players.get(ws) === p && p.room === room) {
-    const { admin, gmCommands, ...safe } = message;
-    send(ws, { ...safe, ...gmMetadata(p) });
+    const { admin, gmCommands, accountUid, characterUid, ...safe } = message;
+    send(ws, { ...safe, ...identity, ...gmMetadata(p) });
   }
 }
 function gmMetadata(p) {
@@ -760,7 +777,7 @@ async function adminCommand(p, args) {
     console.log(`[gm] ${p.account}: admin list`);
     return `บัญชีแอดมิน: ${ids.map(id => `${id}${protectedIds.includes(id) ? ' (ระบบ)' : ''}`).join(' · ') || '-'}`;
   }
-  if (!['add', 'remove'].includes(action) || !args[1] || args.length !== 2) return 'ใช้ /gm admin add|remove <accountId> หรือ /gm admin list';
+  if (!['add', 'remove'].includes(action) || !args[1] || args.length !== 2) return 'ใช้ /gm admin add|remove <AccountUID|accountId> หรือ /gm admin list';
   const result = await adminRoles[action](args[1], p.account);
   if (!result.ok) return `จัดการสิทธิ์ไม่สำเร็จ: ${result.why}`;
   if (result.changed) {
@@ -900,7 +917,7 @@ const flushEntry = (s, p = null) => {
   }
   s.dirty = false;
   return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), p ? {map:p.map,x:p.x,z:p.z,facing:p.f} : null,
-    { inventoryRevision: s.persist.inventoryRevision ?? 0 }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
+    { inventoryRevision: s.persist.inventoryRevision ?? 0, characterUid: s.persist.characterUid }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
 };
 const flush = id => flushEntry(combatants.get(id), byId(id)?.p);
 setInterval(() => { for (const [ws, p] of presence.players) { const s = combatants.get(p.id); if (s?.persist) send(ws, { t: 'me', hp: Math.round(s.c.hp), mp: Math.round(s.c.mp), ack: s.ack }); } }, 1000);

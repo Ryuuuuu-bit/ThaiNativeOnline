@@ -32,3 +32,7 @@ Every per-character save goes through `slotStorage` (Storage-like, prefixes keys
 - **No slot chosen** (tests, other pages): the prefix is empty, so behaviour is unchanged.
 - **Data:** `src/data/accounts.js` holds the slot count, id rules, minimum password length and PBKDF2 iterations.
 - **Tests:** `tests/account.test.js`.
+
+## UID hooks
+
+ServerAccountStore reads private accountUid/characterUid metadata outside save JSON, with token/epoch guards against old login responses. Guest/logout/failed resume clear it. identity.js publishes presentation metadata from account initialization and private Multiplayer welcome/identity messages; it is not authentication and is never written into session or character saves. UidRow supplies wrapped selectable text, keyboard-safe copy and visible fallback in selection/settings/CharacterUI. SaveSync passes the selected incarnation UID as a compare-only guard; the server owns permanent UID columns. See docs/technical/ACCOUNT_CHARACTER_UID.md.

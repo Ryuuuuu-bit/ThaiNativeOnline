@@ -1,0 +1,134 @@
+[
+  {
+    "name": "desktop",
+    "view": "selection",
+    "guest": false,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "copied": true,
+    "fallback": true,
+    "errors": []
+  },
+  {
+    "name": "desktop",
+    "view": "selection",
+    "guest": true,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "errors": []
+  },
+  {
+    "name": "desktop",
+    "view": "sheet",
+    "guest": false,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "copied": true,
+    "fallback": true,
+    "errors": []
+  },
+  {
+    "name": "desktop",
+    "view": "sheet",
+    "guest": true,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "errors": []
+  },
+  {
+    "name": "desktop",
+    "view": "settings",
+    "guest": false,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "copied": true,
+    "fallback": true,
+    "errors": []
+  },
+  {
+    "name": "desktop",
+    "view": "settings",
+    "guest": true,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "view": "selection",
+    "guest": false,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "copied": true,
+    "fallback": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "view": "selection",
+    "guest": true,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "view": "sheet",
+    "guest": false,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "copied": true,
+    "fallback": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "view": "sheet",
+    "guest": true,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "view": "settings",
+    "guest": false,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "copied": true,
+    "fallback": true,
+    "errors": []
+  },
+  {
+    "name": "mobile",
+    "view": "settings",
+    "guest": true,
+    "wrapped": true,
+    "selectable": true,
+    "copy": true,
+    "viewport": true,
+    "errors": []
+  }
+]
