@@ -73,6 +73,7 @@ test('card removal rejects locked-only return stacks in a full bag before chargi
   const c = new Character({ name: 'CardReturn', classId: 'warrior', gold: 10000,
     inventory: [{ id: 'iron_dap', qty: 1, cards: ['card_boar'] }, { id: 'card_boar', qty: 1, locked: true },
       { id: 'ash', qty: 100 }, ...Array.from({ length: 21 }, () => ({ id: 'cloth_vest', qty: 1 }))] });
+  c.inventory = c.inventory.map(s => s ?? { id: 'cloth_vest', qty: 1 });
   const before = json(c); let rolls = 0;
   assert.deepEqual(c.stripCards(0, () => { rolls++; return 0; }), { ok: false, why: 'bag_full' });
   assert.equal(json(c), before); assert.equal(rolls, 0);
@@ -149,7 +150,7 @@ test('three presets preserve distinct owned instances, locks and stacks through 
   assert.ok(c.saveLoadout(1, 'ล่าบอส')); assert.ok(c.saveLoadout(2, 'ชุดสำรอง'));
   assert.equal(c.saveLoadout(3, 'fourth'), false); assert.equal(c.saveLoadout(-1), false);
   c.setItemLock('weapon', true); // lock changes after saving must follow the actual instance
-  while (c.inventory.includes(null)) c.addItem('wood_sword');
+  c.inventory = c.inventory.map(s => s ?? { id: 'wood_sword', qty: 1 });
   const before = ledger(c); c.hp = 10; c.mp = 1;
   assert.ok(c.applyLoadout(0).ok); assert.equal(c.equipment.weapon, 'wood_sword'); assert.ok(c.isLocked('weapon'));
   assert.deepEqual(ledger(c), before); assert.equal(c.hp, 10); assert.equal(c.mp, 1);
@@ -169,7 +170,7 @@ test('missing/changed gear, duplicate references and full-bag returns roll back 
   c.unequip('charm'); c.unequip('charm2'); c.inventory[indexOf(c, 'takrut')] = null;
   before = json(c); assert.equal(c.applyLoadout(1).why, 'missing'); assert.equal(json(c), before);
   const d = hero(); d.unequip('weapon'); d.saveLoadout(0); d.equip(indexOf(d, 'wood_sword'));
-  while (d.inventory.includes(null)) d.addItem('wood_sword');
+  d.inventory = d.inventory.map(s => s ?? { id: 'wood_sword', qty: 1 });
   before = json(d); assert.equal(d.applyLoadout(0).why, 'bag_full'); assert.equal(json(d), before);
   for (const cls of Object.keys(CLASSES)) {
     const who = hero(cls); who.saveLoadout(0);

@@ -175,3 +175,20 @@ body .inventory-workspace .g-doll-wrap .g-eqs>button[data-slot] {padding:0;}
 body .inventory-workspace .g-doll-wrap .g-doll-weapon .icon-img {width:74px;height:100px;max-width:100%;object-fit:contain;}
 body .inventory-workspace .g-doll-wrap .g-doll-armor .icon-img {width:64px;height:72px;max-width:100%;object-fit:contain;}
 body .inventory-workspace .g-doll-wrap .g-doll-belt .icon-img,body .inventory-workspace .g-doll-wrap .g-doll-cape .icon-img {width:30px;height:30px;}
+
+/* Large bags keep controls, capacity and item actions outside the scrolling grid. */
+@media(min-width:901px){
+ body .inventory-workspace{width:min(1180px,calc(100% - 48px));top:32px;max-height:calc(100dvh - 64px)}
+ .inventory-workspace .iw-columns{grid-template-columns:minmax(300px,360px) minmax(0,1fr);max-height:calc(100dvh - 144px)}
+ body .inventory-workspace .iw-columns>.g-bag{display:flex;flex-direction:column;overflow:hidden;max-height:calc(100dvh - 144px)}
+ .inventory-workspace .iw-bag-controls,.inventory-workspace .g-bag-foot,.inventory-workspace .iw-detail,.inventory-workspace .g-bag-none{flex:none}
+ .inventory-workspace .g-grid{flex:1 1 auto;min-height:150px;overflow:auto;align-content:start;overscroll-behavior:contain;scrollbar-gutter:stable;padding:4px;grid-template-columns:repeat(auto-fill,minmax(54px,1fr))}
+}
+
+@media(min-width:901px){.inventory-workspace .g-bag .iw-detail{max-height:34dvh;overflow:auto;overscroll-behavior:contain}.inventory-workspace .g-bag .g-card-pick{max-height:40dvh;overflow:auto}}
+
+@media(min-width:901px){
+ .inventory-workspace .g-doll-wrap.g-equip{grid-template-rows:62px 62px 62px 44px 62px 56px;gap:7px;padding:10px}
+ body .inventory-workspace .g-doll-wrap .g-doll-weapon .icon-img{width:58px;height:78px}
+ body .inventory-workspace .g-doll-wrap .g-doll-armor .icon-img{width:52px;height:58px}
+}

@@ -1,0 +1,770 @@
+{
+  "passed": true,
+  "checks": [
+    "500 occupied 1366x768",
+    "slot 499 detail and grid end 1366x768",
+    "sparse bag preserves indexes and caps nodes 1366x768",
+    "filtered select all excludes locks 1366x768",
+    "dense sale basket bounds and end 1366x768",
+    "review then confirm one safe stub batch 1366x768",
+    "newly locked basket line invalidated 1366x768",
+    "500 occupied 1920x1080",
+    "slot 499 detail and grid end 1920x1080",
+    "sparse bag preserves indexes and caps nodes 1920x1080",
+    "filtered select all excludes locks 1920x1080",
+    "dense sale basket bounds and end 1920x1080",
+    "review then confirm one safe stub batch 1920x1080",
+    "newly locked basket line invalidated 1920x1080",
+    "500 occupied 390x844",
+    "slot 499 detail and grid end 390x844",
+    "sparse bag preserves indexes and caps nodes 390x844",
+    "filtered select all excludes locks 390x844",
+    "dense sale basket bounds and end 390x844",
+    "review then confirm one safe stub batch 390x844",
+    "newly locked basket line invalidated 390x844"
+  ],
+  "failures": [],
+  "bounds": [
+    {
+      "label": "bag top 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": ".inventory-workspace",
+          "x": 93,
+          "y": 32,
+          "width": 1180,
+          "height": 704,
+          "clientHeight": 704,
+          "scrollHeight": 704,
+          "overflowY": "hidden",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-search",
+          "x": 490,
+          "y": 195.796875,
+          "width": 560.484375,
+          "height": 34,
+          "clientHeight": 34,
+          "scrollHeight": 34,
+          "overflowY": "clip",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-count",
+          "x": 490,
+          "y": 605.515625,
+          "width": 88.03125,
+          "height": 22,
+          "clientHeight": 22,
+          "scrollHeight": 22,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag actions 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": ".g-bag [data-item-action=\"lock\"]",
+          "x": 570.265625,
+          "y": 659.9375,
+          "width": 80.953125,
+          "height": 44,
+          "clientHeight": 42,
+          "scrollHeight": 42,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag end 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": ".g-slot[data-index=\"499\"]",
+          "x": 917.5,
+          "y": 347,
+          "width": 54.5,
+          "height": 54.5,
+          "clientHeight": 51,
+          "scrollHeight": 58,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "PC persistent bag controls 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": ".g-bag-search",
+          "x": 490,
+          "y": 194,
+          "width": 560.484375,
+          "height": 34,
+          "clientHeight": 34,
+          "scrollHeight": 34,
+          "overflowY": "clip",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-count",
+          "x": 490,
+          "y": 419.5,
+          "width": 88.03125,
+          "height": 22,
+          "clientHeight": 22,
+          "scrollHeight": 22,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag .iw-detail",
+          "x": 490,
+          "y": 456,
+          "width": 743,
+          "height": 261.109375,
+          "clientHeight": 259,
+          "scrollHeight": 572,
+          "overflowY": "auto",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-grid",
+          "x": 490,
+          "y": 257,
+          "width": 743,
+          "height": 150,
+          "clientHeight": 150,
+          "scrollHeight": 2442,
+          "overflowY": "auto",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale end 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": "[data-pick=\"499\"]",
+          "x": 303,
+          "y": 597,
+          "width": 578,
+          "height": 66,
+          "clientHeight": 64,
+          "scrollHeight": 64,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale icon 1366x768",
+      "holder": {
+        "x": 343,
+        "y": 608,
+        "width": 44,
+        "height": 44
+      },
+      "image": {
+        "x": 345,
+        "y": 610,
+        "width": 40,
+        "height": 40
+      },
+      "text": {
+        "x": 397,
+        "y": 614.375,
+        "width": 444.46875,
+        "height": 31.25
+      },
+      "headerBackground": "rgb(21, 40, 32)"
+    },
+    {
+      "label": "basket end 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": "[data-sale-qty=\"499\"]",
+          "x": 1128,
+          "y": 401,
+          "width": 68,
+          "height": 38,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "overflowY": "clip",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale totals and actions 1366x768",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "values": [
+        {
+          "selector": "#shop",
+          "x": 133,
+          "y": 32,
+          "width": 1100,
+          "height": 688,
+          "clientHeight": 688,
+          "scrollHeight": 688,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".sh-basket .sh-total",
+          "x": 910,
+          "y": 520.5,
+          "width": 286,
+          "height": 37,
+          "clientHeight": 37,
+          "scrollHeight": 37,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".sh-after",
+          "x": 910,
+          "y": 569.5,
+          "width": 286,
+          "height": 18,
+          "clientHeight": 18,
+          "scrollHeight": 18,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": "[data-sale-submit]",
+          "x": 910,
+          "y": 599.5,
+          "width": 286,
+          "height": 46,
+          "clientHeight": 46,
+          "scrollHeight": 46,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": "[data-sale-clear]",
+          "x": 1164.0625,
+          "y": 315,
+          "width": 31.9375,
+          "height": 32,
+          "clientHeight": 32,
+          "scrollHeight": 32,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag top 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": ".inventory-workspace",
+          "x": 370,
+          "y": 32,
+          "width": 1180,
+          "height": 1016,
+          "clientHeight": 1016,
+          "scrollHeight": 1016,
+          "overflowY": "hidden",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-search",
+          "x": 767,
+          "y": 197.515625,
+          "width": 560.484375,
+          "height": 34,
+          "clientHeight": 34,
+          "scrollHeight": 34,
+          "overflowY": "clip",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-count",
+          "x": 767,
+          "y": 917.515625,
+          "width": 88.03125,
+          "height": 22,
+          "clientHeight": 22,
+          "scrollHeight": 22,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag actions 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": ".g-bag [data-item-action=\"lock\"]",
+          "x": 847.265625,
+          "y": 943.15625,
+          "width": 80.953125,
+          "height": 44,
+          "clientHeight": 42,
+          "scrollHeight": 42,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag end 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": ".g-slot[data-index=\"499\"]",
+          "x": 1194.5,
+          "y": 523.75,
+          "width": 54.5,
+          "height": 54.5,
+          "clientHeight": 51,
+          "scrollHeight": 58,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "PC persistent bag controls 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": ".g-bag-search",
+          "x": 767,
+          "y": 195.75,
+          "width": 560.484375,
+          "height": 34,
+          "clientHeight": 34,
+          "scrollHeight": 34,
+          "overflowY": "clip",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-count",
+          "x": 767,
+          "y": 596.71875,
+          "width": 88.03125,
+          "height": 22,
+          "clientHeight": 22,
+          "scrollHeight": 22,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag .iw-detail",
+          "x": 767,
+          "y": 633.21875,
+          "width": 743,
+          "height": 367.1875,
+          "clientHeight": 365,
+          "scrollHeight": 572,
+          "overflowY": "auto",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-grid",
+          "x": 767,
+          "y": 258.75,
+          "width": 743,
+          "height": 325.46875,
+          "clientHeight": 325,
+          "scrollHeight": 2442,
+          "overflowY": "auto",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale end 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": "[data-pick=\"499\"]",
+          "x": 580,
+          "y": 649,
+          "width": 578,
+          "height": 66,
+          "clientHeight": 64,
+          "scrollHeight": 64,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale icon 1920x1080",
+      "holder": {
+        "x": 620,
+        "y": 660,
+        "width": 44,
+        "height": 44
+      },
+      "image": {
+        "x": 622,
+        "y": 662,
+        "width": 40,
+        "height": 40
+      },
+      "text": {
+        "x": 674,
+        "y": 666.375,
+        "width": 444.46875,
+        "height": 31.25
+      },
+      "headerBackground": "rgb(21, 40, 32)"
+    },
+    {
+      "label": "basket end 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": "[data-sale-qty=\"499\"]",
+          "x": 1405,
+          "y": 453,
+          "width": 68,
+          "height": 38,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "overflowY": "clip",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale totals and actions 1920x1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "values": [
+        {
+          "selector": "#shop",
+          "x": 410,
+          "y": 32,
+          "width": 1100,
+          "height": 740,
+          "clientHeight": 740,
+          "scrollHeight": 740,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".sh-basket .sh-total",
+          "x": 1187,
+          "y": 572.5,
+          "width": 286,
+          "height": 37,
+          "clientHeight": 37,
+          "scrollHeight": 37,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".sh-after",
+          "x": 1187,
+          "y": 621.5,
+          "width": 286,
+          "height": 18,
+          "clientHeight": 18,
+          "scrollHeight": 18,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": "[data-sale-submit]",
+          "x": 1187,
+          "y": 651.5,
+          "width": 286,
+          "height": 46,
+          "clientHeight": 46,
+          "scrollHeight": 46,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": "[data-sale-clear]",
+          "x": 1441.0625,
+          "y": 315,
+          "width": 31.9375,
+          "height": 32,
+          "clientHeight": 32,
+          "scrollHeight": 32,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag top 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "values": [
+        {
+          "selector": ".inventory-workspace",
+          "x": 8,
+          "y": 8,
+          "width": 374,
+          "height": 828,
+          "clientHeight": 828,
+          "scrollHeight": 828,
+          "overflowY": "hidden",
+          "centerReachable": true
+        },
+        {
+          "selector": ".g-bag-search",
+          "x": 29,
+          "y": 273,
+          "width": 332,
+          "height": 44,
+          "clientHeight": 44,
+          "scrollHeight": 44,
+          "overflowY": "clip",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag actions 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "values": [
+        {
+          "selector": ".g-bag [data-item-action=\"lock\"]",
+          "x": 109.265625,
+          "y": 769.46875,
+          "width": 80.953125,
+          "height": 44,
+          "clientHeight": 42,
+          "scrollHeight": 42,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "bag end 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "values": [
+        {
+          "selector": ".g-slot[data-index=\"499\"]",
+          "x": 299.390625,
+          "y": 367.328125,
+          "width": 61.59375,
+          "height": 61.59375,
+          "clientHeight": 58,
+          "scrollHeight": 58,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale end 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "values": [
+        {
+          "selector": "[data-pick=\"499\"]",
+          "x": 20,
+          "y": 395,
+          "width": 348,
+          "height": 64,
+          "clientHeight": 62,
+          "scrollHeight": 62,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale icon 390x844",
+      "holder": {
+        "x": 60,
+        "y": 405,
+        "width": 44,
+        "height": 44
+      },
+      "image": {
+        "x": 62,
+        "y": 407,
+        "width": 40,
+        "height": 40
+      },
+      "text": {
+        "x": 114,
+        "y": 412,
+        "width": 214.46875,
+        "height": 30
+      },
+      "headerBackground": "rgb(21, 40, 32)"
+    },
+    {
+      "label": "basket end 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "values": [
+        {
+          "selector": "[data-sale-qty=\"499\"]",
+          "x": 289,
+          "y": 573.28125,
+          "width": 68,
+          "height": 38,
+          "clientHeight": 36,
+          "scrollHeight": 36,
+          "overflowY": "clip",
+          "centerReachable": true
+        }
+      ]
+    },
+    {
+      "label": "sale totals and actions 390x844",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "values": [
+        {
+          "selector": "#shop",
+          "x": 8,
+          "y": 16,
+          "width": 374,
+          "height": 812,
+          "clientHeight": 812,
+          "scrollHeight": 812,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".sh-basket .sh-total",
+          "x": 33,
+          "y": 662,
+          "width": 324,
+          "height": 33,
+          "clientHeight": 33,
+          "scrollHeight": 33,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": ".sh-after",
+          "x": 33,
+          "y": 703,
+          "width": 324,
+          "height": 18,
+          "clientHeight": 18,
+          "scrollHeight": 18,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": "[data-sale-submit]",
+          "x": 33,
+          "y": 729,
+          "width": 324,
+          "height": 46,
+          "clientHeight": 46,
+          "scrollHeight": 46,
+          "overflowY": "visible",
+          "centerReachable": true
+        },
+        {
+          "selector": "[data-sale-clear]",
+          "x": 325.0625,
+          "y": 480.28125,
+          "width": 31.9375,
+          "height": 32,
+          "clientHeight": 32,
+          "scrollHeight": 32,
+          "overflowY": "visible",
+          "centerReachable": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "docs/art/bag-bulk-sale/bag-500-1366x768-top.png",
+    "docs/art/bag-bulk-sale/bag-500-1366x768-actions.png",
+    "docs/art/bag-bulk-sale/bag-500-1366x768-last.png",
+    "docs/art/bag-bulk-sale/bag-sparse-1366x768.png",
+    "docs/art/bag-bulk-sale/sale-filtered-1366x768.png",
+    "docs/art/bag-bulk-sale/sale-500-1366x768.png",
+    "docs/art/bag-bulk-sale/bag-500-1920x1080-top.png",
+    "docs/art/bag-bulk-sale/bag-500-1920x1080-actions.png",
+    "docs/art/bag-bulk-sale/bag-500-1920x1080-last.png",
+    "docs/art/bag-bulk-sale/bag-sparse-1920x1080.png",
+    "docs/art/bag-bulk-sale/sale-filtered-1920x1080.png",
+    "docs/art/bag-bulk-sale/sale-500-1920x1080.png",
+    "docs/art/bag-bulk-sale/bag-500-390x844-top.png",
+    "docs/art/bag-bulk-sale/bag-500-390x844-actions.png",
+    "docs/art/bag-bulk-sale/bag-500-390x844-last.png",
+    "docs/art/bag-bulk-sale/bag-sparse-390x844.png",
+    "docs/art/bag-bulk-sale/sale-filtered-390x844.png",
+    "docs/art/bag-bulk-sale/sale-500-390x844.png"
+  ],
+  "errors": [],
+  "transport": "sellBatch and save stubbed; no account, server or WebGL session"
+}
