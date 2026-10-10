@@ -6,3 +6,5 @@
 /tools/monster-models/meshy/rigs/fallen_city_3-*.json -text whitespace=cr-at-eol
 /tools/monster-models/meshy/rigs/demon_rift_3-*.json -text whitespace=cr-at-eol
 /docs/art/boss-detail-02/*.json -text whitespace=cr-at-eol
+/docs/art/monsters/meshy-roster-20261010/approved-*.json -text whitespace=cr-at-eol
+/docs/art/monsters/meshy-roster-20261010/delivery-review/*.json -text whitespace=cr-at-eol

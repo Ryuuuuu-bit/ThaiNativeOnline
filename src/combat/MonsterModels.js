@@ -43,6 +43,8 @@ export const MONSTER_MODELS = {
   phitaihong: { url: '/models/monsters/phitaihong.glb', height: 1.9 },
   soldier: { url: '/models/monsters/soldier.glb', height: 1.95 },
   pusom: { url: '/models/monsters/pusom.glb', height: 1.9 },
+  nangram: { url: '/models/monsters/nangram.glb', height: 1.9 },
+  tiger: { url: '/models/monsters/tiger.glb', height: 1.52 },
   // world boss, the ghost sisters (Meshy models, tools/meshy/): taller than any other ghost
   // like the other bosses: a painted-colour fill (and lighter boss fog) so they read in the dark hall at night
   ghost_red: { url: '/models/monsters/ghost_red.glb', height: 2.6, lift: .1, fill: .5, fogScale: .45, deathDim: .82 },

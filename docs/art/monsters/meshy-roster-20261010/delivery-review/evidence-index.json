@@ -1,0 +1,92 @@
+{
+  "scope": "Only NangramV4/TigerV6 delivery evidence; exact copies with public font URLs only, no signed download URLs/tokens detected.",
+  "files": [
+    {
+      "file": "nangram-v4-production-game.png",
+      "source": "artifacts/all-monster-models/runtime-qa/nangram-v4-production-game.png",
+      "bytes": 1234941,
+      "sha256": "89049d3cf8540bfdedfafe27be95cc2dd93d2fa29c1a40760d05078ee83a0a6f"
+    },
+    {
+      "file": "tiger-v6-production-game.png",
+      "source": "artifacts/all-monster-models/runtime-qa/tiger-v6-production-game.png",
+      "bytes": 1238647,
+      "sha256": "91b11feb9a3f6694cffaa52d637aab0b5b83f20797f7f39389788063da13094e"
+    },
+    {
+      "file": "nangram-v4-attack-impact-game.png",
+      "source": "artifacts/all-monster-models/source-qa/nangram-v4-attack-impact-game.png",
+      "bytes": 108328,
+      "sha256": "dbfdf65df703521e6f4912f80c8d4bae6f722971faf2b45ea6be6236c8d0e80c"
+    },
+    {
+      "file": "nangram-v4-die-last-game.png",
+      "source": "artifacts/all-monster-models/source-qa/nangram-v4-die-last-game.png",
+      "bytes": 99502,
+      "sha256": "daebc194bdb04ab2fd30391b49ce9910678153d86ebf25be586424fe75730ecd"
+    },
+    {
+      "file": "tiger-v6-attack-mid-game.png",
+      "source": "artifacts/all-monster-models/source-qa/tiger-v6-attack-mid-game.png",
+      "bytes": 122690,
+      "sha256": "8120661a58d0ec978be4e245d1b51dba682ba6cf6eabe3e90c1b1c365c45d3be"
+    },
+    {
+      "file": "tiger-v6-die-last-game.png",
+      "source": "artifacts/all-monster-models/source-qa/tiger-v6-die-last-game.png",
+      "bytes": 116326,
+      "sha256": "c90f85ed43f0286585a86410865ce48a26738e118a862c317e24fe94ac0c1851"
+    },
+    {
+      "file": "nangram-v4-fullmesh-proof.json",
+      "source": "artifacts/all-monster-models/source-qa/nangram-v4-fullmesh-proof.json",
+      "bytes": 70717,
+      "sha256": "bfc6889350b3ed272cbe9efb3b2b45b61fa376615f7766744ed11c78cc7075de"
+    },
+    {
+      "file": "tiger-v6-actual-boss-proof.json",
+      "source": "artifacts/all-monster-models/source-qa/tiger-v6-actual-boss-proof.json",
+      "bytes": 460098,
+      "sha256": "2e7bd2fef5327c0b191807c506babd26419e17157228c258040c130a70fd3c66"
+    },
+    {
+      "file": "nangram-v4-production-result.json",
+      "source": "artifacts/all-monster-models/runtime-qa/nangram-v4-production-result.json",
+      "bytes": 8208,
+      "sha256": "ab73afe00d18ebdae0fda9ddef9a02a485cafd563f40a3d9580e89b7c82eb756"
+    },
+    {
+      "file": "tiger-v6-production-result.json",
+      "source": "artifacts/all-monster-models/runtime-qa/tiger-v6-production-result.json",
+      "bytes": 8561,
+      "sha256": "620c787b642f7ab8057dae18837276efbfd3b9e43b70f5b71fd3b93a5f61fe70"
+    }
+  ],
+  "approvalFiles": [
+    {
+      "file": "docs/art/monsters/meshy-roster-20261010/approved-nangram-v4-art.json",
+      "sha256": "3de580a1fd4412adfa68a7e47cfaaea69f0b6d0987acd1cb8b4b25d30e020e15"
+    },
+    {
+      "file": "docs/art/monsters/meshy-roster-20261010/approved-nangram-v4-technical.json",
+      "sha256": "9fed5c4393c8430fb75ae7db90536f0c2e4a8858cc261cce566cd4cd8b36905c"
+    },
+    {
+      "file": "docs/art/monsters/meshy-roster-20261010/approved-nangram-v4-qa.json",
+      "sha256": "115a57ff5841f144e10b3663268bb98965716181f66f3cd4a99648b91bcc3f62"
+    },
+    {
+      "file": "docs/art/monsters/meshy-roster-20261010/approved-tiger-v6-art.json",
+      "sha256": "2184d3b356509752abf88aa12b091e28902e9c70d6c507c361bcebe94f1b2e51"
+    },
+    {
+      "file": "docs/art/monsters/meshy-roster-20261010/approved-tiger-v6-technical.json",
+      "sha256": "78af320c6d6c24abf91395f990071475f2c37ad922b7ee78c0b93bb22e0cf3ff"
+    },
+    {
+      "file": "docs/art/monsters/meshy-roster-20261010/approved-tiger-v6-qa.json",
+      "sha256": "804fb0bee59de4a1f423d2c91f50922bbc7005d96320d48395fadb77778b7c73"
+    }
+  ],
+  "limitations": "Original source GLBs, measured topology/weights, calibration, pose plans and Harness receipts remain local ignored artifacts."
+}

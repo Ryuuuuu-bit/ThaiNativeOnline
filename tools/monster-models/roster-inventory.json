@@ -1,0 +1,560 @@
+{
+  "schema": 1,
+  "approvedBaseline": [
+    {
+      "id": "boar",
+      "url": "/models/monsters/boar.glb",
+      "bytes": 1462528,
+      "sha256": "cf77c100bbbcf5f23b14b611f8b165ce77bb2915a88928c1991918381126166d",
+      "spec": {
+        "url": "/models/monsters/boar.glb",
+        "height": 1.25
+      }
+    },
+    {
+      "id": "pray",
+      "url": "/models/monsters/pray.glb",
+      "bytes": 1363060,
+      "sha256": "31f9145d0a28adc0ad4fd5b9aff7f7ec0cd2d56d2e7af70f118fba9e8211e3b2",
+      "spec": {
+        "url": "/models/monsters/pray.glb",
+        "height": 1.9,
+        "lift": 0.16
+      }
+    },
+    {
+      "id": "krasue",
+      "url": "/models/monsters/krasue.glb",
+      "bytes": 1293400,
+      "sha256": "0da5f68891ac2f4f7f832e8c6c604252b6f771b1a7794d7e10540a89eeadcc08",
+      "spec": {
+        "url": "/models/monsters/krasue.glb",
+        "height": 1.55,
+        "lift": 0.45,
+        "deathDim": 0.7
+      }
+    },
+    {
+      "id": "fowl",
+      "url": "/models/monsters/fowl.glb",
+      "bytes": 1497328,
+      "sha256": "435e56dc2fd46e4c7c182e437202b1f1013a5d1ab43716814a2e9c546c74b962",
+      "spec": {
+        "url": "/models/monsters/fowl.glb",
+        "height": 1.2
+      }
+    },
+    {
+      "id": "cobra",
+      "url": "/models/monsters/cobra.glb",
+      "bytes": 1128688,
+      "sha256": "de3c9d1d66adaaf32ee0818b8cb0762ce15eac8afc81b4ab304e543665f53d5a",
+      "spec": {
+        "url": "/models/monsters/cobra.glb",
+        "height": 1.05
+      }
+    },
+    {
+      "id": "crab",
+      "url": "/models/monsters/crab.glb",
+      "bytes": 1226568,
+      "sha256": "feffd3d663ef90ada186ceb5eaded5499c450ac6ff80494f16883c7dafc9834e",
+      "spec": {
+        "url": "/models/monsters/crab.glb",
+        "height": 0.65
+      }
+    },
+    {
+      "id": "buffalo",
+      "url": "/models/monsters/buffalo.glb",
+      "bytes": 1027060,
+      "sha256": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735",
+      "spec": {
+        "url": "/models/monsters/buffalo.glb",
+        "height": 1.6
+      }
+    },
+    {
+      "id": "monkey",
+      "url": "/models/monsters/monkey.glb",
+      "bytes": 1472928,
+      "sha256": "e0f9f051768d3e33cde7438aa9d4ecc515e3c58ae473d720546eee1de0802ea2",
+      "spec": {
+        "url": "/models/monsters/monkey.glb",
+        "height": 1.3
+      }
+    },
+    {
+      "id": "dhole",
+      "url": "/models/monsters/dhole.glb",
+      "bytes": 1514444,
+      "sha256": "6b672bd3a26fc1d2d0b9e61e6e03ba5beb9d032e74fea811df1319b96b531152",
+      "spec": {
+        "url": "/models/monsters/dhole.glb",
+        "height": 1.065
+      }
+    },
+    {
+      "id": "phibpa",
+      "url": "/models/monsters/phibpa.glb",
+      "bytes": 1443812,
+      "sha256": "7737069f1cba7a15905789484c04f79999477e174aa70c89cd15766042adf7f8",
+      "spec": {
+        "url": "/models/monsters/phibpa.glb",
+        "height": 1.8,
+        "lift": 0.12
+      }
+    },
+    {
+      "id": "kongkoi",
+      "url": "/models/monsters/kongkoi.glb",
+      "bytes": 1469344,
+      "sha256": "b3e1f91631c4aa959ad433a20469cc46cb2ed35e286bdc277ecbccb615ef76be",
+      "spec": {
+        "url": "/models/monsters/kongkoi.glb",
+        "height": 1.55
+      }
+    },
+    {
+      "id": "monitor",
+      "url": "/models/monsters/monitor.glb",
+      "bytes": 1257936,
+      "sha256": "ffc781c94efd27e5e0a562e6f7aaaa655fc38f0303486aa683428d662c2757e5",
+      "spec": {
+        "url": "/models/monsters/monitor.glb",
+        "height": 0.8
+      }
+    },
+    {
+      "id": "croc",
+      "url": "/models/monsters/croc.glb",
+      "bytes": 1385112,
+      "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55",
+      "spec": {
+        "url": "/models/monsters/croc.glb",
+        "height": 0.4615384615384615
+      }
+    },
+    {
+      "id": "chalawan",
+      "url": "/models/monsters/chalawan.glb",
+      "bytes": 1530416,
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55",
+      "spec": {
+        "url": "/models/monsters/chalawan.glb",
+        "height": 1.4,
+        "groundPivot": [
+          0,
+          0
+        ],
+        "fill": 0.35,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "bamboo_grave_3",
+      "url": "/models/monsters/bamboo_grave_3.glb",
+      "bytes": 1410124,
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79",
+      "spec": {
+        "url": "/models/monsters/bamboo_grave_3.glb",
+        "height": 1.7,
+        "fill": 0.35,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "sealed_mine_3",
+      "url": "/models/monsters/sealed_mine_3.glb",
+      "bytes": 1460000,
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd",
+      "spec": {
+        "url": "/models/monsters/sealed_mine_3.glb",
+        "height": 1.9,
+        "fill": 0.35,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "sunken_city_3",
+      "url": "/models/monsters/sunken_city_3.glb",
+      "bytes": 1559336,
+      "sha256": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea",
+      "spec": {
+        "url": "/models/monsters/sunken_city_3.glb",
+        "height": 1.6,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "dusk_fort_3",
+      "url": "/models/monsters/dusk_fort_3.glb",
+      "bytes": 1581120,
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a",
+      "spec": {
+        "url": "/models/monsters/dusk_fort_3.glb",
+        "height": 1.8,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "giant_valley_3",
+      "url": "/models/monsters/giant_valley_3.glb",
+      "bytes": 1437052,
+      "sha256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915",
+      "spec": {
+        "url": "/models/monsters/giant_valley_3.glb",
+        "height": 2,
+        "groundPivot": [
+          -0.0015,
+          -0.137
+        ],
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "himmapan_3",
+      "url": "/models/monsters/himmapan_3.glb",
+      "bytes": 1578368,
+      "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45",
+      "spec": {
+        "url": "/models/monsters/himmapan_3.glb",
+        "height": 1.9,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "fallen_city_3",
+      "url": "/models/monsters/fallen_city_3.glb",
+      "bytes": 1484852,
+      "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e",
+      "spec": {
+        "url": "/models/monsters/fallen_city_3.glb",
+        "height": 1.9,
+        "groundPivot": [
+          0.091,
+          -0.275
+        ],
+        "facing": -0.3258631537981599,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "demon_rift_3",
+      "url": "/models/monsters/demon_rift_3.glb",
+      "bytes": 1496980,
+      "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a",
+      "spec": {
+        "url": "/models/monsters/demon_rift_3.glb",
+        "height": 2.1,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "khamot",
+      "url": "/models/monsters/khamot.glb",
+      "bytes": 1116524,
+      "sha256": "7d532a91a1648e66fc21429f49c4dd90441cc191fe839631cdd3302f7bdbafce",
+      "spec": {
+        "url": "/models/monsters/khamot.glb",
+        "height": 0.85,
+        "lift": 0.3,
+        "deathDim": 0.7
+      }
+    },
+    {
+      "id": "winyan",
+      "url": "/models/monsters/winyan.glb",
+      "bytes": 1319596,
+      "sha256": "eb90752105525c639d052d22a33992786b008fb06ff98f99c886401dc9097433",
+      "spec": {
+        "url": "/models/monsters/winyan.glb",
+        "height": 1.85,
+        "lift": 0.14
+      }
+    },
+    {
+      "id": "takian",
+      "url": "/models/monsters/takian.glb",
+      "bytes": 1392948,
+      "sha256": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004",
+      "spec": {
+        "url": "/models/monsters/takian.glb",
+        "height": 2.5
+      }
+    },
+    {
+      "id": "headless",
+      "url": "/models/monsters/headless.glb",
+      "bytes": 1230360,
+      "sha256": "a29cedcdfecb23ef60e4a141a7375beae36d27c952ed891b7fcba8c4dd0ce61f",
+      "spec": {
+        "url": "/models/monsters/headless.glb",
+        "height": 1.9
+      }
+    },
+    {
+      "id": "pret",
+      "url": "/models/monsters/pret.glb",
+      "bytes": 1241504,
+      "sha256": "87d7629b36b1a2d68b6e8677b9d509b2a72c1990d2ae4b53390636ede4f86827",
+      "spec": {
+        "url": "/models/monsters/pret.glb",
+        "height": 2.65
+      }
+    },
+    {
+      "id": "krahang",
+      "url": "/models/monsters/krahang.glb",
+      "bytes": 1507028,
+      "sha256": "488d30a8d7241c241f567d12ecead1faa69e3ea31ac10b78a908fd0b5b85d7f7",
+      "spec": {
+        "url": "/models/monsters/krahang.glb",
+        "height": 1.9,
+        "lift": 0.42
+      }
+    },
+    {
+      "id": "phitaihong",
+      "url": "/models/monsters/phitaihong.glb",
+      "bytes": 1512400,
+      "sha256": "5834620cefc2c27eb278617d455070a92e9c5d2a16a84706962cdf05c62017cd",
+      "spec": {
+        "url": "/models/monsters/phitaihong.glb",
+        "height": 1.9
+      }
+    },
+    {
+      "id": "soldier",
+      "url": "/models/monsters/soldier.glb",
+      "bytes": 1335264,
+      "sha256": "f5870c75e2854b895128451728bd5e716cf1b37fe998a77b73648f170c78a95f",
+      "spec": {
+        "url": "/models/monsters/soldier.glb",
+        "height": 1.95
+      }
+    },
+    {
+      "id": "pusom",
+      "url": "/models/monsters/pusom.glb",
+      "bytes": 1469808,
+      "sha256": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58",
+      "spec": {
+        "url": "/models/monsters/pusom.glb",
+        "height": 1.9
+      }
+    },
+    {
+      "id": "ghost_red",
+      "url": "/models/monsters/ghost_red.glb",
+      "bytes": 1111560,
+      "sha256": "4a475f029556a48526aaf01797cfef16f4e19688e718a6a228b1a4ec1ebe7d91",
+      "spec": {
+        "url": "/models/monsters/ghost_red.glb",
+        "height": 2.6,
+        "lift": 0.1,
+        "fill": 0.5,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    },
+    {
+      "id": "ghost_black",
+      "url": "/models/monsters/ghost_black.glb",
+      "bytes": 1223812,
+      "sha256": "2ec0029679b192dbd248098f0e684937c4c75324fe531f7cf513234938e8e70d",
+      "spec": {
+        "url": "/models/monsters/ghost_black.glb",
+        "height": 2.6,
+        "lift": 0.1,
+        "fill": 0.6,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      }
+    }
+  ],
+  "productionMissing": [
+    {
+      "id": "bamboo_grave_0",
+      "name": "ผีตาโขน",
+      "shape": "spirit"
+    },
+    {
+      "id": "bamboo_grave_1",
+      "name": "กระดูกอาคม",
+      "shape": "spirit"
+    },
+    {
+      "id": "bamboo_grave_2",
+      "name": "เงาผีไผ่",
+      "shape": "spirit"
+    },
+    {
+      "id": "sealed_mine_0",
+      "name": "วิญญาณคนงาน",
+      "shape": "spirit"
+    },
+    {
+      "id": "sealed_mine_1",
+      "name": "แมงมุมผลึก",
+      "shape": "crab"
+    },
+    {
+      "id": "sealed_mine_2",
+      "name": "อสูรศิลา",
+      "shape": "buffalo"
+    },
+    {
+      "id": "sunken_city_0",
+      "name": "พรายบาดาล",
+      "shape": "spirit"
+    },
+    {
+      "id": "sunken_city_1",
+      "name": "ทหารบาดาล",
+      "shape": "spirit"
+    },
+    {
+      "id": "sunken_city_2",
+      "name": "นาคบริวาร",
+      "shape": "snake"
+    },
+    {
+      "id": "dusk_fort_0",
+      "name": "ทหารยักษ์",
+      "shape": "spirit"
+    },
+    {
+      "id": "dusk_fort_1",
+      "name": "กระสือเพลิง",
+      "shape": "krasue"
+    },
+    {
+      "id": "dusk_fort_2",
+      "name": "อสูรเกราะดำ",
+      "shape": "spirit"
+    },
+    {
+      "id": "giant_valley_0",
+      "name": "ยักษ์ลาดตระเวน",
+      "shape": "spirit"
+    },
+    {
+      "id": "giant_valley_1",
+      "name": "ควายธนู",
+      "shape": "buffalo"
+    },
+    {
+      "id": "giant_valley_2",
+      "name": "อสูรหิน",
+      "shape": "monkey"
+    },
+    {
+      "id": "himmapan_0",
+      "name": "มักกะลีผลต้องสาป",
+      "shape": "spirit"
+    },
+    {
+      "id": "himmapan_1",
+      "name": "อสูรปักษา",
+      "shape": "bird"
+    },
+    {
+      "id": "himmapan_2",
+      "name": "พยัคฆ์อาคม",
+      "shape": "tiger"
+    },
+    {
+      "id": "fallen_city_0",
+      "name": "ทหารอาคม",
+      "shape": "spirit"
+    },
+    {
+      "id": "fallen_city_1",
+      "name": "หุ่นยันต์",
+      "shape": "spirit"
+    },
+    {
+      "id": "fallen_city_2",
+      "name": "ราชองครักษ์วิญญาณ",
+      "shape": "spirit"
+    },
+    {
+      "id": "demon_rift_0",
+      "name": "อสูรรอยแยก",
+      "shape": "monkey"
+    },
+    {
+      "id": "demon_rift_1",
+      "name": "ยักษ์เกราะดำ",
+      "shape": "spirit"
+    },
+    {
+      "id": "demon_rift_2",
+      "name": "เงากลืนวิญญาณ",
+      "shape": "spirit"
+    },
+    {
+      "id": "pop",
+      "name": "ปอบ",
+      "shape": "monkey"
+    },
+    {
+      "id": "leech",
+      "name": "ปลิงควาย",
+      "shape": "snake"
+    },
+    {
+      "id": "wraith",
+      "name": "ผีพรายน้ำ",
+      "shape": "spirit"
+    },
+    {
+      "id": "python",
+      "name": "งูเหลือมดงอ้อ",
+      "shape": "snake"
+    },
+    {
+      "id": "phong",
+      "name": "ผีโพง",
+      "shape": "spirit"
+    },
+    {
+      "id": "klom",
+      "name": "ผีตายทั้งกลม",
+      "shape": "spirit"
+    },
+    {
+      "id": "kumphi",
+      "name": "กุมภีล์",
+      "shape": "lizard"
+    },
+    {
+      "id": "nangram",
+      "name": "ผีนางรำ",
+      "shape": "spirit"
+    },
+    {
+      "id": "tani",
+      "name": "นางตานี",
+      "shape": "spirit"
+    },
+    {
+      "id": "tiger",
+      "name": "เสือสมิง",
+      "shape": "tiger"
+    }
+  ]
+}

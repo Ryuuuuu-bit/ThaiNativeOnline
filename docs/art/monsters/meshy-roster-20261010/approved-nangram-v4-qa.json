@@ -1,0 +1,51 @@
+{
+  "monster": "nangram",
+  "version": "v4",
+  "reviewRole": "gameplay-engineer",
+  "reviewScope": "Bounded actual-game runtime smoke; Art and deformation approvals are separate.",
+  "approved": true,
+  "passed": true,
+  "artifact": "artifacts/all-monster-models/rig/nangram-five-clips-v4.glb",
+  "artifactSha256": "d2acc98d0bd7c84bc3a2fbc02f1cb690d3291f9e852ff4293e781552ec81a285",
+  "artifactBytes": 1663708,
+  "browserServedSha256": "d2acc98d0bd7c84bc3a2fbc02f1cb690d3291f9e852ff4293e781552ec81a285",
+  "pipeline": "window.game.game.view.ensure -> makeMonsterModel -> GLTFLoader -> SkeletonUtils clone -> AnimationMixer",
+  "environment": "Fresh guest browser context; Edge headless SwiftShader; existing Vite port 5295; ephemeral mutable registry injection only.",
+  "actualChecks": {
+    "fiveClips": ["idle", "walk", "attack", "hurt", "die"],
+    "heightMeters": 1.9,
+    "triangles": 9998,
+    "bodyMeshes": 1,
+    "attackReturnsToIdle": true,
+    "damageHpBefore": 2500,
+    "damageHpAfter": 2490,
+    "damageSelectsHurt": true,
+    "lethalDamageSelectsDie": true,
+    "deathTimeScale": 1.4,
+    "deadState": "dead",
+    "targetPickablesContainCandidate": true,
+    "pickOwnerMapsToMonster": true,
+    "outOfWorldSpawnRejected": true,
+    "mapReleaseRetiresModel": true,
+    "materialDisposeCount": 2,
+    "skeletonDisposeCount": 1,
+    "ensureRebuildsFreshLoadedController": true,
+    "candidateViewsRemoved": true,
+    "baselineDormantNangramCount": 32,
+    "finalDormantNangramCount": 32,
+    "baselineRegistryCount": 33,
+    "registryRestored": true,
+    "pageExceptions": 0
+  },
+  "evidence": {
+    "report": "artifacts/all-monster-models/runtime-qa/nangram-v4-result.json",
+    "harness": "artifacts/all-monster-models/runtime-qa/nangram-v4.cjs",
+    "screenshots": ["artifacts/all-monster-models/runtime-qa/nangram-v4-game.png"]
+  },
+  "limitations": [
+    "No FPS or long-run GPU memory soak claim; bounded disposal and reference checks only.",
+    "No multiplayer authoritative-server validation or Art approval from this review.",
+    "External Google font requests were blocked by the environment; one browser console 404 occurred without candidate load failure.",
+    "Existing parent validation was 835 passed, 0 failed, 2 skipped with build passing; this artifact-only review did not repeat broad tests or build."
+  ]
+}
