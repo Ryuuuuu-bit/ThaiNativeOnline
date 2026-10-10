@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "flask_boss_ghost_red_mp_1",
+  "family": "flask:flask_boss_ghost_red_mp_1",
+  "memberIDs": [
+    "flask_boss_ghost_red_mp_1"
+  ],
+  "name": "ผีชุดแดง · ขวดน้ำมนต์ฟื้นจิต ขั้น 1",
+  "type": "flask",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-b750-7290-ab64-f50d107607ee\\exec-b1469a55-ad87-4da0-b3a3-24378dfe1ed4.png",
+  "prompt": "Use case: stylized-concept. Asset type: single Thai Native Online inventory item icon. Subject: Reusable MP flask tier 1, minimum Lv.1; blue fluid and slender silhouette; distinct themed ผีชุดแดง boss fittings; epic reward; tier-specific construction and ornament; tier 1 plain glass/brass, progressively stronger fittings at higher tiers; no numbers, UI bars or text.\nStyle: soft hand-painted Thai fantasy matching approved jade/gold equipment; strong broad silhouette readable at 32/48/64 pixels, selective Thai kanok and prajam-yam ornament, restrained wear, warm brass and leather, simplified color blocks. Single complete item (pair only if gloves or boots), centered near-front three-quarter view within square with 10 percent transparent margin. Soft upper-left illumination and painted highlights. Actual transparent background, no ground or shadow outside the object. No text, letters, numbers, watermark, UI, borders, socket markers, charge bars, background glow, duplicate items, grid or sheet. Do not depict a person. Preserve physical kind, regional construction and tier strength; low-tier simple, high-tier increasingly ornate. This is one new asset, not a crop or recolor of another asset.\nPhysical boss identifier: Red bride spirit fittings: red silk bridal cord, dark lacquer petal clasp and aged gold ritual knot; fluid must remain red forHP or blue forMP. Tier-specific construction: simple clear glass, one plain metal rim and small cloth knot only. These are real material fittings on bottle, not a creature attached or floating effects. Colored liquid must occupy more than half visible bottle face, HP rounded red, MP elongated blue.",
+  "master": "docs/art/items/painted-complete-v1/masters/flask_boss_ghost_red_mp_1.png",
+  "masterSha256": "dc94a655043664a0015f661773441258c03890d727e78a4ccc52a7223220c0a7",
+  "originalSha256": "dc94a655043664a0015f661773441258c03890d727e78a4ccc52a7223220c0a7",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/flask_boss_ghost_red_mp_1.webp",
+  "sha256": "94872a22ac83024b6654dd0e23323cf309ad3a9e8768566ea23ac3227ef55a42",
+  "bytes": 16634,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

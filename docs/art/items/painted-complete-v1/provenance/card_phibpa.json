@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_phibpa",
+  "family": "card:card_phibpa",
+  "memberIDs": [
+    "card_phibpa"
+  ],
+  "name": "การ์ดผีป่า",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-72664fe3-3ef1-444f-ab99-85f37742d6d8.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ผีป่า phibpa level5 earth forest spirit. Reviewed game identity: humanoid woodland ghost with a carved wooden mask face, dark hollow eyes, broad green leaf clusters draped as shoulders and ragged skirt, hanging twisted roots forming long arms and lower body, soft jade spectral inner glow. Distinct masked leafy root spirit, not plain white-sheet ghost or human woman. Large recognizable silhouette fills85% card face readable32px, gentle eerie charming Thai fantasy. Soft hand-painted stylized broad green/brown shapes, not photoreal. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners, no label area. Full card square centered15% genuinely transparent outer margin, no outside scene or floor shadow. No labels, writing, letters, digits, stats, UI frame/badges, watermark or other cards.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_phibpa.png",
+  "masterSha256": "d51b49593b68896a1f50f390c16e900d0fa532b92b7e5383a73974ee7f46f31d",
+  "originalSha256": "d51b49593b68896a1f50f390c16e900d0fa532b92b7e5383a73974ee7f46f31d",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_phibpa.webp",
+  "sha256": "5fda3af7c56ba30dfc49e0019c2ec021652733713d7e5c2964f03f3e8a66639d",
+  "bytes": 28062,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

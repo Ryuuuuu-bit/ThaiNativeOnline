@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "hunt_demon_rift_cape_guard",
+  "family": "hunt:demon_rift:cape",
+  "memberIDs": [
+    "hunt_demon_rift_cape_guard",
+    "hunt_demon_rift_cape_sage",
+    "hunt_demon_rift_cape_hunter"
+  ],
+  "name": "ผ้าคลุมลงอักขระผู้พิทักษ์ · ประตูรอยแยกอสูร",
+  "type": "equip",
+  "levels": [
+    90
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-f625a29a-3c6a-4451-9279-d195a7f67ef4.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Hanging Thai cloth cape; broad drape and visible hem. Existing name: ผ้าคลุมลงอักขระผู้พิทักษ์ · ประตูรอยแยกอสูร. เครื่องสวมใส่สายผู้พิทักษ์แห่งประตูรอยแยกอสูร · ต้องการ Lv.90 Region demon_rift. Minimum level 90; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/hunt_demon_rift_cape_guard.png",
+  "masterSha256": "b4c800feb8c1a570aaa0dc0978a2e2273d1ff8206744ab1b600ef1efd91391b8",
+  "originalSha256": "b4c800feb8c1a570aaa0dc0978a2e2273d1ff8206744ab1b600ef1efd91391b8",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/hunt_demon_rift_cape_guard.webp",
+  "sha256": "24344ff3194f90b2f0ca3bd25549e9ca52436fb77da02bc5b41560ce245aaa8b",
+  "bytes": 19670,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

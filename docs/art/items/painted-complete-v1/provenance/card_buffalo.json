@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_buffalo",
+  "family": "card:card_buffalo",
+  "memberIDs": [
+    "card_buffalo"
+  ],
+  "name": "การ์ดควายป่า",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-e47924c1-80b4-4c57-948c-d87ca5590967.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card icon. Exact creature ควายป่า buffalo level4 earth elite beast: powerful charcoal gray Asian wild water buffalo with huge swept crescent horns curving sideways and upward, broad low forehead, bulky muscular shoulders, dark hooved legs, charging three-quarter pose and short black tail. Large horned buffalo unmistakable, not ox with tiny horns or boar. Species fills85% card face for32px readability. Soft hand-painted stylized broad forms charming fantasy, not photoreal. Physical worn cream parchment card narrow sparse aged brass Thai kanok corners, no label area. Full card centered square15% genuine transparent outside margin, no outside scene or floor shadow. No letters, labels, text, numerals, stats, UI frames/badges, watermark or other cards.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_buffalo.png",
+  "masterSha256": "16fe06a068e0007aba601ad349b89624f309a4705a9f1c5447a40706b1e6c870",
+  "originalSha256": "16fe06a068e0007aba601ad349b89624f309a4705a9f1c5447a40706b1e6c870",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_buffalo.webp",
+  "sha256": "5e1c8508c01edcf337ace1f8c7c06ca71a19d847559fe38bba664c069eaac627",
+  "bytes": 24124,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

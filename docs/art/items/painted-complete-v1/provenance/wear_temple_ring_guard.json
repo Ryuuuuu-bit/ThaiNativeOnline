@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "jobID": "wear_temple_ring_guard",
+  "family": "wear:temple:ring",
+  "memberIDs": [
+    "wear_temple_ring_guard",
+    "wear_temple_ring_sage",
+    "wear_temple_ring_hunter"
+  ],
+  "name": "แหวนอักขระผู้พิทักษ์ · วัดร้าง",
+  "type": "equip",
+  "levels": [
+    12
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-7078-7ba3-ad95-f29e87efa11d\\exec-28b96be1-6ad9-4709-ab4b-8f57e75a8961.png",
+  "prompt": "Use case: stylized-concept. Asset type: one transparent inventory item icon for Thai Native Online. Subject and material/tier: Single engraved Thai ring with visible central opening. Existing name: แหวนอักขระผู้พิทักษ์ · วัดร้าง. อุปกรณ์สายผู้พิทักษ์แห่งวัดร้าง · ต้องการ Lv.12 Region temple. Minimum level 12; match authored material/name; starter level plain with restrained brass, higher levels progressively ornate. Shared physical base across guard/sage/hunter stat profiles; neutral material palette, no profile-specific elemental effect. Art direction: soft stylized hand-painted Thai fantasy coherent with approved jade/gold/leather icons, broad clear silhouette, softly shaded large color blocks, selective Thai kanok/prajam-yam only on edge fittings or cloth borders. Basic levels plain and restrained, progressively ornate higher levels; respect authored region/material/name with distinct physical design. Not photoreal. Complete isolated object or specifically requested pair centered three-quarter view, occupy ONLY80% squarecanvas,10%transparent inset on ALL edges, readable at32/48/64px. Wearables empty with no human skin or anatomy. Genuine alpha transparent background. No text, numbers, lettering, UI frames, badges, borders, watermark, glow, scene, ground or background cast shadow.",
+  "master": "docs/art/items/painted-complete-v1/masters/wear_temple_ring_guard.png",
+  "masterSha256": "3ee127d62f5c603a78dc28f5935b671544e05167cb65d74cd650fccb17ff2df2",
+  "originalSha256": "3ee127d62f5c603a78dc28f5935b671544e05167cb65d74cd650fccb17ff2df2",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/wear_temple_ring_guard.webp",
+  "sha256": "90630b35196543d9eab68fb669b0be29a7713113a66cd3da1fc808ff6df26f01",
+  "bytes": 21714,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}

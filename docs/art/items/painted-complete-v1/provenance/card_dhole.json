@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "jobID": "card_dhole",
+  "family": "card:card_dhole",
+  "memberIDs": [
+    "card_dhole"
+  ],
+  "name": "การ์ดหมาไน",
+  "type": "card",
+  "levels": [
+    1
+  ],
+  "method": "built-in image_gen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a127bd-f441-7a92-a1e3-49e6b362199a\\exec-cd2e32ec-9752-46a5-84eb-d5ba1ae19f45.png",
+  "prompt": "One isolated physical Thai fantasy monster collectible card inventory icon. Exact creature หมาไน dhole level5 wind beast: lean rust-orange Asian wild dog, rounded upright ears, narrow alert muzzle with pale cream throat and chest, four lean running legs, full bushy dark-tipped tail, stalking three-quarter pose. Unmistakable dhole not wolf, fox or tiger, no clothes or equipment. Large species illustration fills85% cardface, readable32px broad orange/cream blocks. Soft stylized hand-painted charming fantasy, not photoreal. Worn cream physical parchment card narrow sparse aged brass Thai kanok corners, no label area. Full card square centered15% genuine transparent outside margin, clean outer silhouette, no outside scene or floor shadow. No writing, labels, letters, numerals, stats, UI badges/frame, watermark or other cards.",
+  "master": "docs/art/items/painted-complete-v1/masters/card_dhole.png",
+  "masterSha256": "2f1e04e01a3bde10c65de071721484f29af835e820c8dce3ceea5840ad9b789c",
+  "originalSha256": "2f1e04e01a3bde10c65de071721484f29af835e820c8dce3ceea5840ad9b789c",
+  "masterAlphaMin": 0,
+  "masterAlphaMax": 255,
+  "output": "public/ui/items/painted-complete-v1/card_dhole.webp",
+  "sha256": "35bada136ad6aab88759f6cc9350e673f0bd29f41107ca6d5c40a5a94e28fbd2",
+  "bytes": 22406,
+  "width": 256,
+  "height": 256,
+  "hasAlpha": true,
+  "alphaMin": 0,
+  "alphaMax": 255,
+  "sharp": "0.35.5",
+  "processing": "Original PNG copied unchanged; contain resize to256 and WebP export only.",
+  "status": "exported-awaiting-art-review"
+}
