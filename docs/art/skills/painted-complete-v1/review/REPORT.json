@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "assets": 65,
+  "newMasters": 61,
+  "reused": 4,
+  "uniqueOriginals": 65,
+  "webpBytes": 1655810,
+  "galleryChecks": 10,
+  "widgetChecks": 40,
+  "errors": [],
+  "failures": [],
+  "fullTests": {
+    "total": 1011,
+    "pass": 1009,
+    "fail": 0,
+    "skip": 2
+  },
+  "targetedTests": {
+    "total": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  "build": "pass",
+  "distWebPs": 65,
+  "limitations": [
+    "isolated actual UI widget fixture, not full end-to-end game",
+    "no live deployment",
+    "no physical phone"
+  ]
+}

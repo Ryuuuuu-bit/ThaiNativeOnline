@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "mage_storm",
+  "name": "ประตูยมโลก",
+  "class": "shaman",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-d2f6-7e80-901d-467d57ae546c\\exec-bebbaf20-b7f0-4d11-8037-5bf8baf56e24.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.\nSkill: ประตูยมโลก, mage_storm.\nCentral subject and actual mechanic: An imposing open Thai underworld gate, violet-black portal ring with FIVE large pale spectral grasping hands bursting outward, strongest central hand. Dramatic wide-area spirit eruption.\nBackground: Deep midnight underworld stone terrace with storm mist, faint ancient Thai architecture. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.\nStyle: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.\nComposition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.\nConstraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.",
+  "sourceDefinition": "src/classes/shaman-moves.js",
+  "semantic": "An imposing open Thai underworld gate, violet-black portal ring with FIVE large pale spectral grasping hands bursting outward, strongest central hand. Dramatic wide-area spirit eruption.",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/mage_storm.png",
+    "sourceSHA256": "cea9ecfa45fa10f1b9f3c5258d602443397f7d895ae2a99f94c01fbaaa79aeed",
+    "copySHA256": "cea9ecfa45fa10f1b9f3c5258d602443397f7d895ae2a99f94c01fbaaa79aeed",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2793767
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/mage_storm.webp",
+    "sha256": "23b7488d928dc99b5355bb61097b601df75ceac029afc9da6431efad2c7fc9d0",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 26714
+  },
+  "processing": "Unmodified original PNG; contain resize to 256 square WebP quality 90 alphaQuality 100",
+  "status": "awaiting-art-review"
+}

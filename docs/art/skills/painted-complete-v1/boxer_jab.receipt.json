@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "boxer_jab",
+  "name": "หมัดแย็บ",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-2ffc73b9-ff3e-4cab-ab37-8bc460d901d5.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: หมัดแย็บ (boxer_jab).\nSubject: One large Thai rope-wrapped fist punching toward viewer, three broad sequential amber motion trails, human hand anatomy and readable clenched fist.\nBackground: full bleed beautiful painted muted cool teal training arena haze, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "c2c5118a93af5752f7a69419a18614f75057903248daf12160c76da2a12a84bb",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/boxer_jab.png",
+    "sha256": "c2c5118a93af5752f7a69419a18614f75057903248daf12160c76da2a12a84bb",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2111943
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/boxer_jab.webp",
+    "sha256": "322db2042105218baf9c735b0857396a9a579d4519b02aa4f1e7352a6f3baace",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 20698
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

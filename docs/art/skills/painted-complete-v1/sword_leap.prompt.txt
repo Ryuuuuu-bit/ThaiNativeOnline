@@ -1,0 +1,5 @@
+Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: กระโจนผ่าปฐพี (sword_leap).
+Subject: One dominant Thai dha sword descending into cracked stone ground, large triangular gold impact burst and lifted stone shards, downward earth-cleaving movement.
+Background: full bleed beautiful painted cool desaturated slate rocky mountain haze, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.
+Style: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.
+Constraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_whirl",
+  "name": "ดาบบาทวงจักร",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-2c7c6a42-44f2-4eba-b649-6fc54708aefd.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ดาบบาทวงจักร (sword_whirl).\nSubject: Two Thai swords forming a circular spinning wheel with three concentric broad gold-white motion sweeps, clear round cyclone silhouette.\nBackground: full bleed beautiful painted muted blue-gray dust vortex, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "4e951a792785f4e8284948f9bc90394c30e498d36ca47bc4b502f4e57815d1b1",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_whirl.png",
+    "sha256": "4e951a792785f4e8284948f9bc90394c30e498d36ca47bc4b502f4e57815d1b1",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2718204
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_whirl.webp",
+    "sha256": "071a1b70605e59ce179c1d3a0b5a4b3b722e3baea2fa29bac6ac00f428568637",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 23994
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

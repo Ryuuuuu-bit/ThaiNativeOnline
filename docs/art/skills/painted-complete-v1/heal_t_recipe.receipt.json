@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_t_recipe",
+  "name": "ตำรับโอสถ",
+  "class": "herbalist",
+  "active": false,
+  "passive": true,
+  "semanticBrief": "An open Thai herbal recipe book with simplified botanical diagrams and one leaf; no readable letters, calm jade/cream.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-d95b6c5f-ccc8-4759-8a0c-f4a523b77681.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: An open antique Thai herbal recipe book with broad cream pages, simplified painted botanical leaf diagrams without letters and one fresh medicinal leaf lying across a page. Quiet healing scholarship passive skill.\nBackground: Muted jade herbal study, softly blurred shelves and gentle amber candlelight.",
+  "master": "docs/art/skills/painted-complete-v1/heal_t_recipe.png",
+  "sourceSHA256": "f1d4ee22dfbba59c3391346990120d001514ecacc8c2a14a6ebe6dc698108b25",
+  "masterSHA256": "f1d4ee22dfbba59c3391346990120d001514ecacc8c2a14a6ebe6dc698108b25",
+  "output": "public/ui/skills/painted-complete-v1/heal_t_recipe.webp",
+  "outputSHA256": "71bc92a1d7eea6ce0f7b3262ba798e7ec58d834de9e01180bf0aaeab03e3a207",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 26712,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:12:52.064Z"
+}

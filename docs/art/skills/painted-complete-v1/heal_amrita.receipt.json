@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_amrita",
+  "name": "น้ำอมฤตชุบชีวา",
+  "class": "herbalist",
+  "active": true,
+  "passive": false,
+  "semanticBrief": "A traditional gold Thai water ewer pouring a clear luminous stream into a life-giving lotus glow; revive/heal, cream/gold.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-6d4251de-20cf-4a9a-a300-75770a0ed9b1.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: A traditional golden Thai water ewer tilts and pours one luminous clear ivory stream into a large life-giving lotus glow. Elegant bulbous ewer and curved spout visible, strong cream gold water arc, revival magic.\nBackground: Soft deep jade sacred lotus pond with low-detail gold dawn reflection.",
+  "master": "docs/art/skills/painted-complete-v1/heal_amrita.png",
+  "sourceSHA256": "d0185ae5c1d3f5d56c17f0f0454eecf1da82137e712f4f430f54a99a01f71d6b",
+  "masterSHA256": "d0185ae5c1d3f5d56c17f0f0454eecf1da82137e712f4f430f54a99a01f71d6b",
+  "output": "public/ui/skills/painted-complete-v1/heal_amrita.webp",
+  "outputSHA256": "0268d4807a1445b43ce1a53498661122e52ecc688dba098fe1c04a2ec0a67a79",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 26636,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:12:16.270Z"
+}

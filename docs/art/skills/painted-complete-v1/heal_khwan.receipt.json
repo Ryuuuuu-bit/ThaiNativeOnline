@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_khwan",
+  "name": "พิธีสู่ขวัญ",
+  "class": "herbalist",
+  "active": true,
+  "passive": false,
+  "semanticBrief": "Thai bai sri folded banana-leaf ritual cone, white flowers and white sacred thread curving around a warm healing light; revive support.",
+  "status": "reused-approved-v2",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a12983-1589-79a1-8bf1-6a20b070008d/exec-9de4f902-c6ba-4502-b0ca-f3007490cfe8.png",
+  "reusedFrom": "docs/art/skills/imagegen-sample-v2/heal_khwan.png",
+  "master": "docs/art/skills/painted-complete-v1/heal_khwan.png",
+  "sourceSHA256": "4f395016562893751101c047d717b1bc02b428c6606c3a6edea98e9f365ee317",
+  "masterSHA256": "4f395016562893751101c047d717b1bc02b428c6606c3a6edea98e9f365ee317",
+  "output": "public/ui/skills/painted-complete-v1/heal_khwan.webp",
+  "outputSHA256": "0815169c13dd28e2d5c96f55b73e2ab5bd33ea8011f05ff6b997d93436515728",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 29714,
+  "processing": "Unchanged approved v2 PNG and WebP copies.",
+  "createdAt": "2026-10-11T06:07:54.444Z",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE full-bleed square skill icon with a beautiful painted background for a Thai fantasy RPG, herbalist skill heal_khwan, the bai sri soul-calling healing and revival ritual.\nSubject: A recognizable elegant tiered conical Thai banana-leaf bai sri ritual offering with three bold tiers of folded fresh light emerald leaves, selective creamy white jasmine garlands, and one sacred white cotton cord wrapping protectively in a flowing oval. A small warm antique gold stand with restrained Thai flame ornament supports the offering. Renewing luminous green and warm creamy-gold light gently rises from the center.\nScene/backdrop: Beautiful fully painted deep jade sacred grove, atmospheric shadowy foliage and soft distant amber candle glow. Very subtle Thai kanok-shaped light rays behind the offering. The background fills every pixel of the square and stays low-detail and low-contrast so the brighter leaf silhouette, white flowers and sacred cord read cleanly.\nStyle/medium: Polished soft hand-painted Thai fantasy RPG skill illustration; broad stylized shapes, luminous edges, soft brushwork, clear color blocks and selective Thai identity. Charming fantasy, not photorealistic. The ritual subject dominates, sharply readable at 32, 48 and 64 pixels. Do not scatter excessive tiny decoration or particles.\nComposition: Exactly square full-bleed painting. One compact centered bai sri arrangement fills about 80 percent of the icon, with the tip and brass base both safely inset 8 percent from the canvas edges. Slight three-quarter front angle, balanced leaves and graceful sacred cord. The glowing subject has stronger contrast than the grove behind it.\nPalette: Lighter emerald and fresh green leaves, ivory jasmine and cotton, antique gold stand, creamy gold and pale green healing radiance, deep jade forest behind.\nConstraints: Full opaque painted background, no transparent margins. No frame, border, UI, hotkeys, text, lettering, numerals, watermark, red medical cross, Buddha statue, medicine bottle, full character or floor mandala. No flat vector art or pixel art. Single standalone asset, not a collage or sprite sheet.\n"
+}

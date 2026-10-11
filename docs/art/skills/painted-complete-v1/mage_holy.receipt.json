@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "mage_holy",
+  "name": "พิธีเซ่นผีบรรพบุรุษ",
+  "class": "shaman",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-d2f6-7e80-901d-467d57ae546c\\exec-771a8a17-ea17-4b42-b65d-188e2808e722.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.\nSkill: พิธีเซ่นผีบรรพบุรุษ, mage_holy.\nCentral subject and actual mechanic: An ivory ancestral ghost guardian above a simple golden offering bowl and incense, protective luminous circle sheltering three tiny teammate forms. Gold and cyan life/mana ribbons, sacred benevolent mood.\nBackground: Ancient Thai spirit shrine with warm candle fog, midnight teal backdrop and low-detail temple outlines. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.\nStyle: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.\nComposition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.\nConstraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.",
+  "sourceDefinition": "src/classes/shaman-moves.js",
+  "semantic": "An ivory ancestral ghost guardian above a simple golden offering bowl and incense, protective luminous circle sheltering three tiny teammate forms. Gold and cyan life/mana ribbons, sacred benevolent mood.",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/mage_holy.png",
+    "sourceSHA256": "455dd3bdf1e47b3e52fcbb62a440d8a7775e622e01a2e51c37ada34ae28461ef",
+    "copySHA256": "455dd3bdf1e47b3e52fcbb62a440d8a7775e622e01a2e51c37ada34ae28461ef",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2343055
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/mage_holy.webp",
+    "sha256": "bebfe6eeeba6de871fb0d9c26e1d4cecd215ccdc749fa8387d69492813da9e03",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 26876
+  },
+  "processing": "Unmodified original PNG; contain resize to 256 square WebP quality 90 alphaQuality 100",
+  "status": "awaiting-art-review"
+}

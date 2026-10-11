@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "mage_akom",
+  "name": "กระสุนวิญญาณ",
+  "status": "preview-only-awaiting-user-feedback",
+  "method": "built-in-imagegen",
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a12982-d2f6-7e80-901d-467d57ae546c/exec-88fe0c87-5d2a-4711-a6bc-9126702ff5e3.png",
+  "master": "docs/art/skills/imagegen-sample-v1/mage_akom.png",
+  "originalSHA256": "e2c5e84f9de8101485182b61cbe2509d0f67ce31700e01a8c7f9be384c4c0346",
+  "masterSHA256": "e2c5e84f9de8101485182b61cbe2509d0f67ce31700e01a8c7f9be384c4c0346",
+  "output": "public/ui/skills/imagegen-sample-v1/mage_akom.webp",
+  "outputSHA256": "9a1b687b26a896bb554a98530a4733075077aa4c05cbe60e622d4ce1ffbced5e",
+  "promptFile": "docs/art/skills/imagegen-sample-v1/mage_akom.prompt.txt",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE transparent fantasy MMORPG skill icon, square composition, readable at 32, 48 and 64 pixels.\nPrimary request: Spirit Bullet (กระสุนวิญญาณ), a Thai occult shaman spell: exactly THREE clearly countable ivory bone ghost skull spirits flying along a sweeping curved path toward the SAME upper-right target.\nSubject: one larger leading skull facing upper-right and two distinctly separated smaller trailing skulls below-left; all three have clearly recognizable broad skull silhouettes and dark indigo eye sockets. Flowing indigo and violet spirit wisps follow the common curve, with very restrained old-gold Thai kanok flame-tip accents on the wisps.\nStyle/medium: soft hand-painted Thai fantasy game illustration, rounded stylized forms, broad clean color blocks, gentle highlights, charming supernatural atmosphere. Ivory skull faces remain the strong bright focal shapes.\nComposition/framing: compact diagonal upward-curved movement from lower-left to upper-right, three skulls separate and easy to count even at tiny size. All physical shapes and main wisps remain inside the central 80 percent of the canvas, at least 10 percent transparent safe margin on all four sides.\nScene/backdrop: genuinely transparent background with preserved alpha. No background plate, no square scenery, no circle backdrop.\nColor palette: warm ivory bone, deep indigo, muted violet wisps, sparse antique gold accents. No poison green.\nConstraints: EXACTLY three skulls, one large and two smaller; no full character, no gore, no ornate micro-detail, no baked frame, no UI, no text, no letters, no numerals, no hotkeys, no watermark. One complete standalone asset only, not a sheet.\n",
+  "sourceAlpha": {
+    "min": 0,
+    "max": 255
+  },
+  "outputAlpha": {
+    "min": 0,
+    "max": 255
+  },
+  "outputWidth": 256,
+  "outputHeight": 256,
+  "bytes": 25502,
+  "processing": "Original PNG copied unchanged; contain resize 256 x 256; WebP quality 90 alpha quality 100",
+  "runtimeIntegrated": false
+}

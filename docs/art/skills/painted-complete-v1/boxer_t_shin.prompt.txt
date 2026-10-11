@@ -1,0 +1,5 @@
+Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ขาเหล็ก (boxer_t_shin).
+Subject: Strong Muay Thai fighter shin striking a banana-tree trunk, broad gold impact burst and a few large green banana leaves, rope ankle wrap, resilient trained leg.
+Background: full bleed beautiful painted muted cool indigo jungle haze, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.
+Style: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.
+Constraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.

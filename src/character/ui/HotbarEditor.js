@@ -1,5 +1,5 @@
 import { ITEMS } from '../data/items.js';
-import { iconHtml } from '../../ui/icons.js';
+import { iconHtml, assetIcon } from '../../ui/icons.js';
 import { el, esc } from './dom.js';
 
 export const HOTBAR_DRAG = 'application/x-thainative-hotbar';
@@ -35,7 +35,7 @@ export class HotbarEditor {
     ];
     for (const b of choices) {
       const s = b.kind === 'skill' ? this.bar.baseController.slots.find(s=>s.id===b.id) : ITEMS[b.id]; if (!s) continue;
-      const button = el('button', '', `${b.kind==='item' ? iconHtml(s) : s.icon ? `<img src="${esc(s.icon)}" alt="">` : '✦'}<span>${esc(s.name)}<small>${b.kind==='item' ? `ไอเทม · ${c.count(b.id)} ชิ้น` : 'สกิล'}</small></span>`);
+      const button = el('button', '', `${b.kind==='item' ? iconHtml(s) : s.icon ? assetIcon(s.icon, s.name) : '✦'}<span>${esc(s.name)}<small>${b.kind==='item' ? `ไอเทม · ${c.count(b.id)} ชิ้น` : 'สกิล'}</small></span>`);
       button.type='button'; button.dataset.kind=b.kind; button.dataset.id=b.id; this.root.querySelector('.hotbar-editor-options').append(button);
     }
   }

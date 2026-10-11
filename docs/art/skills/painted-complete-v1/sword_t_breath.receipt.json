@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_t_breath",
+  "name": "ลมหายใจนักรบ",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-773c6950-e882-4857-906f-9713927fc06d.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ลมหายใจนักรบ (sword_t_breath).\nSubject: Heroic Thai warrior chest and serene side-profile breathing out one flowing pale jade ribbon, measured breath and survival, broad simple forms.\nBackground: full bleed beautiful painted calm desaturated midnight blue mountain mist, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "b87a09661e689fd833d08e6ce511c60e18620ff362ea282c8e1de9c92cb06397",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_t_breath.png",
+    "sha256": "b87a09661e689fd833d08e6ce511c60e18620ff362ea282c8e1de9c92cb06397",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2383569
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_t_breath.webp",
+    "sha256": "83623d247799e95fb4ad7380fed3e92bbfb8efab0ae9faeaa65a65b64106bcce",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 22414
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

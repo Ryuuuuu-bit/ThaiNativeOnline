@@ -1,0 +1,3542 @@
+{
+  "assets": [
+    {
+      "id": "boxer_jab",
+      "class": "muaythai",
+      "originalSHA256": "c2c5118a93af5752f7a69419a18614f75057903248daf12160c76da2a12a84bb",
+      "masterBytes": 2111943,
+      "outputBytes": 20698,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_kick",
+      "class": "muaythai",
+      "originalSHA256": "00cba29488762907bfa64b59c63e3232fc90ebffd4f1c93df07235180750bf94",
+      "masterBytes": 2629478,
+      "outputBytes": 25652,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_croc",
+      "class": "muaythai",
+      "originalSHA256": "f6d8497a49ffa3e07a05b96fdeb519ce29f46d6a5b9c4067088304a7d223ea4c",
+      "masterBytes": 2611435,
+      "outputBytes": 27354,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_waikru",
+      "class": "muaythai",
+      "originalSHA256": "bcb4034178ae053e888b60be9dbe98c49535f1f3674623a76459f8897c98436e",
+      "masterBytes": 2405839,
+      "outputBytes": 26326,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_ngouy",
+      "class": "muaythai",
+      "originalSHA256": "9848dbcf5fbc0e3b62059bafb1d482fbba4ea31a997edc46fd950d2465bf7326",
+      "masterBytes": 2646428,
+      "outputBytes": 26970,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_drum",
+      "class": "muaythai",
+      "originalSHA256": "4ec082a571e748ae24604938a77c5539476fb4661cfce081e3f5807ddafb812d",
+      "masterBytes": 2308321,
+      "outputBytes": 24444,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_elbow",
+      "class": "muaythai",
+      "originalSHA256": "c2e73b73c1751745b5cddbf4c89e83ef26e43cff3cb0a16db54f2e4962ddfcac",
+      "masterBytes": 2559682,
+      "outputBytes": 24018,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_knee",
+      "class": "muaythai",
+      "originalSHA256": "293c8032a2783797284b99598e6b350ab9439ee019c80ef110d888ffbcf9a168",
+      "masterBytes": 2338673,
+      "outputBytes": 24354,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_iron",
+      "class": "muaythai",
+      "originalSHA256": "9b00128a6b5d622fec1ebfdffc6d587af98cc8c14ab486522260af118d0d450f",
+      "masterBytes": 2650212,
+      "outputBytes": 25742,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_hanuman",
+      "class": "muaythai",
+      "originalSHA256": "f7ce520af0487ee96294458fead5dee2f239bb548204c372a1ccfb5ccd69db1e",
+      "masterBytes": 2694604,
+      "outputBytes": 27988,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_vine",
+      "class": "herbalist",
+      "originalSHA256": "15ea28dc9123bb6e395b6731b18034257e53177464bf5b2dedfa9248daf4cb59",
+      "masterBytes": 2363861,
+      "outputBytes": 27286,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_pill",
+      "class": "herbalist",
+      "originalSHA256": "8b51bcde8f2beecc2068067fc946bf11ec0b888aa17c67cec62afc1ba592fc09",
+      "masterBytes": 2180095,
+      "outputBytes": 24788,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_zone",
+      "class": "herbalist",
+      "originalSHA256": "78e973bc86f76d075012a60f132853616ac00d250ba44535cf51abe6dc85a6ca",
+      "masterBytes": 2944560,
+      "outputBytes": 30674,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_tiger",
+      "class": "herbalist",
+      "originalSHA256": "e7ca8d2c3b64184aac381401a9261fc4d3ecb535c38dcf3b8e461398a5c7ec15",
+      "masterBytes": 2350045,
+      "outputBytes": 27060,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_khwan",
+      "class": "herbalist",
+      "originalSHA256": "4f395016562893751101c047d717b1bc02b428c6606c3a6edea98e9f365ee317",
+      "masterBytes": 2456435,
+      "outputBytes": 29714,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": true
+    },
+    {
+      "id": "heal_mortar",
+      "class": "herbalist",
+      "originalSHA256": "79adae3d1382d5625839721d044368584e6df4220e48409852c84a046efc83bd",
+      "masterBytes": 2858906,
+      "outputBytes": 30904,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_mist",
+      "class": "herbalist",
+      "originalSHA256": "b94e66b7a40080fc32740295f8880115c896955c35b03d11be9b02cb38e33700",
+      "masterBytes": 2064466,
+      "outputBytes": 20404,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_tonic",
+      "class": "herbalist",
+      "originalSHA256": "8e85a13a224fea1eff57a616864100091f908f23bc075ff7c637534f3883f36e",
+      "masterBytes": 2384693,
+      "outputBytes": 28874,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_mother",
+      "class": "herbalist",
+      "originalSHA256": "aa027a957ef546c1849b1f4eb62821665ee76b330696f756871ef276dbde7031",
+      "masterBytes": 2718820,
+      "outputBytes": 29718,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_amrita",
+      "class": "herbalist",
+      "originalSHA256": "d0185ae5c1d3f5d56c17f0f0454eecf1da82137e712f4f430f54a99a01f71d6b",
+      "masterBytes": 2378298,
+      "outputBytes": 26636,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_quick",
+      "class": "hunter",
+      "originalSHA256": "0666f17e560f6b64910bf6f855f42f0ab58cd71594df578a078386b71afba52b",
+      "masterBytes": 2374780,
+      "outputBytes": 23642,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": true
+    },
+    {
+      "id": "arch_poison",
+      "class": "hunter",
+      "originalSHA256": "3f17e9788500bc985ea9890e4fdb3f0c297b0adcdea4e66f7909fc0712d9be45",
+      "masterBytes": 2210873,
+      "outputBytes": 25784,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_pierce",
+      "class": "hunter",
+      "originalSHA256": "52aa295a085e0180f0c7e901e07444074c98452db0b3c7c965a5f8426d82c150",
+      "masterBytes": 2380201,
+      "outputBytes": 27240,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_hawk",
+      "class": "hunter",
+      "originalSHA256": "ecd4b8b745f52da5f46cb1e3d0f0d170b0ca811901ad277bdaf5d0cbb4597ea3",
+      "masterBytes": 2191715,
+      "outputBytes": 22996,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_rain",
+      "class": "hunter",
+      "originalSHA256": "51b2eb8fa7ba92b95eca9f3a4613e5dc3e6bddcec58dbd43cb50850d122533ef",
+      "masterBytes": 2254725,
+      "outputBytes": 27394,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_garuda",
+      "class": "hunter",
+      "originalSHA256": "295eb8541ab7630dea6ea16c64286ac0fb1606171a4ad7da2d846c8adf94f150",
+      "masterBytes": 2231599,
+      "outputBytes": 24550,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_volley",
+      "class": "hunter",
+      "originalSHA256": "04266221c3eb84b38b1903e48bcc3f8b3fcf14fe6950476a649c0a64d49b1b3c",
+      "masterBytes": 2316483,
+      "outputBytes": 25784,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_trap",
+      "class": "hunter",
+      "originalSHA256": "f78224ab7bb5fb6d7558f277a9eab47f49135dc7a45f4c3be5ba19cb1aef5f11",
+      "masterBytes": 2675182,
+      "outputBytes": 30668,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_snipe",
+      "class": "hunter",
+      "originalSHA256": "73545a11cc30ad9c67e1fc8bb63deb68144f543688ac534733145dc8d316bc90",
+      "masterBytes": 2262892,
+      "outputBytes": 23650,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_meteor",
+      "class": "hunter",
+      "originalSHA256": "16bcfc832314651433959aff56bf8f6da4eb2659c1ad975981b2fbc1b14ca867",
+      "masterBytes": 2676175,
+      "outputBytes": 29968,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_twin",
+      "class": "warrior",
+      "originalSHA256": "fcbdfe776981a21c2618ea015a4e0b5ce301a4d7c2ee34c23a406b2ad16a5f7e",
+      "masterBytes": 2799556,
+      "outputBytes": 24756,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": true
+    },
+    {
+      "id": "sword_thrust",
+      "class": "warrior",
+      "originalSHA256": "b16250c00c4d070c42517135fbd26e21c7d61223d7e69f6ca7d7d436e4d2e55a",
+      "masterBytes": 2523801,
+      "outputBytes": 23916,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_wind",
+      "class": "warrior",
+      "originalSHA256": "a6ff118b875d3a3b75a82fc1fbdf3b0c1a5ca33e3148e9adb0083a52888752c9",
+      "masterBytes": 2456728,
+      "outputBytes": 23844,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_guard",
+      "class": "warrior",
+      "originalSHA256": "8ecc75beacd96765585b6a180343ebe286e861dd281b6519258b037634c4f61e",
+      "masterBytes": 2435375,
+      "outputBytes": 24000,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_pikat",
+      "class": "warrior",
+      "originalSHA256": "1a101eb28ffcc9784acb5b17d305fc24ad3972e9d4e00ef1f6663efa4c56d070",
+      "masterBytes": 2640356,
+      "outputBytes": 25922,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_banner",
+      "class": "warrior",
+      "originalSHA256": "e41f1dbe92f919d9ea5c647430360bb989bc6564e1291d150e408a1ac64b06b9",
+      "masterBytes": 2472383,
+      "outputBytes": 27028,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_whirl",
+      "class": "warrior",
+      "originalSHA256": "4e951a792785f4e8284948f9bc90394c30e498d36ca47bc4b502f4e57815d1b1",
+      "masterBytes": 2718204,
+      "outputBytes": 23994,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_leap",
+      "class": "warrior",
+      "originalSHA256": "b6ce41429c088cc8096a11ff9b589004b2c61d718f22821640124aacbfa927b1",
+      "masterBytes": 2734413,
+      "outputBytes": 28016,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_berserk",
+      "class": "warrior",
+      "originalSHA256": "7e64f3d47f4281c57abbfcd92b469610202b3d9b6eac1940564f72a228a7aff8",
+      "masterBytes": 2746816,
+      "outputBytes": 28006,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_execute",
+      "class": "warrior",
+      "originalSHA256": "b63a4bef15ed71075a4ee19aff9da0bd43ec71d3be3d6275bef8d1d56591a8aa",
+      "masterBytes": 2488025,
+      "outputBytes": 23462,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_akom",
+      "class": "shaman",
+      "originalSHA256": "96696ab1de6fd74ffa60f8876a4cc2b451e13a5264240888b33f955b0d9f5600",
+      "masterBytes": 2378480,
+      "outputBytes": 20964,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": true
+    },
+    {
+      "id": "mage_yant",
+      "class": "shaman",
+      "originalSHA256": "5b2fac2dd8482464c8f10c7f2020c45366f7c3863d1e20383e24961dd29108a0",
+      "masterBytes": 2555622,
+      "outputBytes": 26292,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_shield",
+      "class": "shaman",
+      "originalSHA256": "ba291f7a985ebe58f92747e952cb2bb3c3cd985df11eb4aa6867f5d2287be177",
+      "masterBytes": 2515144,
+      "outputBytes": 27234,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_thunder",
+      "class": "shaman",
+      "originalSHA256": "4acc235c006bcb8945d65c4652a156494bc6a61fbd84c69eaa17343b6964eb41",
+      "masterBytes": 2382692,
+      "outputBytes": 22916,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_kalp",
+      "class": "shaman",
+      "originalSHA256": "0a7e38c6135fd4cf76a3bbc4d991900024d8e887f03e2e3d4364e485a79ef7d9",
+      "masterBytes": 2384743,
+      "outputBytes": 28012,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_holy",
+      "class": "shaman",
+      "originalSHA256": "455dd3bdf1e47b3e52fcbb62a440d8a7775e622e01a2e51c37ada34ae28461ef",
+      "masterBytes": 2343055,
+      "outputBytes": 26876,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_ghostfire",
+      "class": "shaman",
+      "originalSHA256": "b182a6d8dee9546a15269d6eeb9043603f07ce0a1831822ee1b81dddaf1c6813",
+      "masterBytes": 2375347,
+      "outputBytes": 26238,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_curse",
+      "class": "shaman",
+      "originalSHA256": "d7b66e81412864cc37b3614718f6f07af06f48858becc9949578b47a4b3ed686",
+      "masterBytes": 2327406,
+      "outputBytes": 25144,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_meditate",
+      "class": "shaman",
+      "originalSHA256": "c8f597816899dfa505ea4512692c952c0c293bb761d750d11c25576e306dd9c5",
+      "masterBytes": 2340647,
+      "outputBytes": 23876,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_storm",
+      "class": "shaman",
+      "originalSHA256": "cea9ecfa45fa10f1b9f3c5258d602443397f7d895ae2a99f94c01fbaaa79aeed",
+      "masterBytes": 2793767,
+      "outputBytes": 26714,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_t_mastery",
+      "class": "warrior",
+      "originalSHA256": "f3a7bc76e253c91a880e76183f7a4b50713aaace498a3b4635aa2ba4ad1eac83",
+      "masterBytes": 2233292,
+      "outputBytes": 23214,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_t_breath",
+      "class": "warrior",
+      "originalSHA256": "b87a09661e689fd833d08e6ce511c60e18620ff362ea282c8e1de9c92cb06397",
+      "masterBytes": 2383569,
+      "outputBytes": 22414,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "sword_t_hide",
+      "class": "warrior",
+      "originalSHA256": "ded37a0ca0cbe7c8a9aa9396d75317cb9bc5b00e2aefbe2e95217e485f6335fa",
+      "masterBytes": 2945594,
+      "outputBytes": 27828,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_t_wit",
+      "class": "muaythai",
+      "originalSHA256": "d0a41df4dc57f1ef0c993685b0ea753a002d26a329358fe44c5c01e7b6a068a3",
+      "masterBytes": 2617093,
+      "outputBytes": 23900,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_t_shin",
+      "class": "muaythai",
+      "originalSHA256": "83d918d3d79b4d649d7d46718e3bb39974cf9e79d933d1e58e531a19107bdbfb",
+      "masterBytes": 2559533,
+      "outputBytes": 27924,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "boxer_t_calm",
+      "class": "muaythai",
+      "originalSHA256": "c2e0d6382da2da8b0e096629a8127e00752af6535aab2bf3cbe8977a22a788ac",
+      "masterBytes": 2417812,
+      "outputBytes": 24330,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_t_eye",
+      "class": "hunter",
+      "originalSHA256": "161ab7a856d251244f10c4b837deddb84f275e6873fc64cb7ae1b9b942693325",
+      "masterBytes": 2068028,
+      "outputBytes": 16768,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_t_bow",
+      "class": "hunter",
+      "originalSHA256": "7efda22027160919ede499ca1f7613f4dbea33fcbb4764ca903463e0b1c62a77",
+      "masterBytes": 2328356,
+      "outputBytes": 25916,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "arch_t_bond",
+      "class": "hunter",
+      "originalSHA256": "66a213efcdd7c9438ea2cf76f2eed54a2258acaee4dfb3bbf21f84edd75ebea9",
+      "masterBytes": 2324401,
+      "outputBytes": 26160,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_t_tongue",
+      "class": "shaman",
+      "originalSHA256": "39667bfb53b202f93a36fb441a031326e9a3146ec0d43c7d78ab2a20c4865c5d",
+      "masterBytes": 2058632,
+      "outputBytes": 19426,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_t_fire",
+      "class": "shaman",
+      "originalSHA256": "f6c705967db4011bc6d91bb57f9514be1ae04ebf9d03e2935822161ac31b3d35",
+      "masterBytes": 2076679,
+      "outputBytes": 19894,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "mage_t_barami",
+      "class": "shaman",
+      "originalSHA256": "0fa75bf8dcf75e5a6ab4cc1cc860a5828c069a3838e8994173ba6e84f8a6433f",
+      "masterBytes": 2236246,
+      "outputBytes": 25530,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_t_recipe",
+      "class": "herbalist",
+      "originalSHA256": "f1d4ee22dfbba59c3391346990120d001514ecacc8c2a14a6ebe6dc698108b25",
+      "masterBytes": 2591244,
+      "outputBytes": 26712,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_t_venom",
+      "class": "herbalist",
+      "originalSHA256": "a30d434d0c538666d9e70934eb2e296719303939bc6b5ca4dc107cd7253285c2",
+      "masterBytes": 2014923,
+      "outputBytes": 20596,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    },
+    {
+      "id": "heal_t_hands",
+      "class": "herbalist",
+      "originalSHA256": "e484fc1a52b1b17bd7bd963cadd3ffc44e00855d31886c796556a7dcc6ae8c71",
+      "masterBytes": 2354626,
+      "outputBytes": 26708,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true,
+      "reuse": false
+    }
+  ],
+  "gallery": [
+    {
+      "name": "desktop",
+      "cls": "warrior",
+      "cards": 13,
+      "columns": 5,
+      "overflow": false,
+      "images": [
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "cls": "muaythai",
+      "cards": 13,
+      "columns": 5,
+      "overflow": false,
+      "images": [
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "cls": "hunter",
+      "cards": 13,
+      "columns": 5,
+      "overflow": false,
+      "images": [
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "cls": "shaman",
+      "cards": 13,
+      "columns": 5,
+      "overflow": false,
+      "images": [
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "desktop",
+      "cls": "herbalist",
+      "cards": 13,
+      "columns": 5,
+      "overflow": false,
+      "images": [
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "cls": "warrior",
+      "cards": 13,
+      "columns": 2,
+      "overflow": false,
+      "images": [
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_thrust.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_wind.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_guard.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_pikat.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_banner.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_whirl.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_leap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_berserk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_execute.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_mastery.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_breath.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "sword_t_hide.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "cls": "muaythai",
+      "cards": 13,
+      "columns": 2,
+      "overflow": false,
+      "images": [
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_jab.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_kick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_croc.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_waikru.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_ngouy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_drum.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_elbow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_knee.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_iron.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_hanuman.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_wit.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_shin.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "boxer_t_calm.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "cls": "hunter",
+      "cards": 13,
+      "columns": 2,
+      "overflow": false,
+      "images": [
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_poison.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_pierce.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_hawk.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_rain.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_garuda.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_volley.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_trap.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_snipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_meteor.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_eye.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bow.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "arch_t_bond.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "cls": "shaman",
+      "cards": 13,
+      "columns": 2,
+      "overflow": false,
+      "images": [
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_yant.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_shield.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_thunder.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_kalp.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_holy.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_ghostfire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_curse.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_meditate.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_storm.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_tongue.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_fire.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "mage_t_barami.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "cls": "herbalist",
+      "cards": 13,
+      "columns": 2,
+      "overflow": false,
+      "images": [
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_vine.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_pill.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_zone.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tiger.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mortar.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mist.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_tonic.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_mother.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_amrita.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_recipe.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_venom.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        },
+        {
+          "src": "heal_t_hands.webp",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

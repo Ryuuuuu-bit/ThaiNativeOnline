@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_mortar",
+  "name": "ครกยาระเบิดสมุนไพร",
+  "class": "herbalist",
+  "active": true,
+  "passive": false,
+  "semanticBrief": "Traditional wooden or stone herbal mortar and pestle striking leaves, three broad jade powder bursts; attack and healing.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-ef095106-bb70-466c-a740-8924ecbb1f25.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: A strong traditional stone herbal mortar and wooden pestle angled downward, pounding broad medicinal leaves. Three broad jade-and-cream powder bursts rise from the mortar, energetic healing and attack medicine, clear silhouette.\nBackground: Muted deep jade Thai herb workshop with soft gold morning light.",
+  "master": "docs/art/skills/painted-complete-v1/heal_mortar.png",
+  "sourceSHA256": "79adae3d1382d5625839721d044368584e6df4220e48409852c84a046efc83bd",
+  "masterSHA256": "79adae3d1382d5625839721d044368584e6df4220e48409852c84a046efc83bd",
+  "output": "public/ui/skills/painted-complete-v1/heal_mortar.webp",
+  "outputSHA256": "5c664b14e07397f9bbccf9bbe71fff6701243048880f337944088642ffc840a2",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 30904,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:10:02.981Z"
+}

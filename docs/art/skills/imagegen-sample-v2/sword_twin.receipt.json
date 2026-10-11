@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_twin",
+  "name": "ฟันดาบคู่",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a12985-0225-7443-b604-bf17f2c00cb0/exec-2b1f5241-0f44-48a6-ada7-7c389c28fd93.png",
+  "prompt": "Use case: stylized-concept.\nAsset type: one square painted RPG skill icon for Thai Native Online, ฟันดาบคู่.\nPrimary request: two complete curved Thai dha swords crossing dynamically into a clear X, with three broad warm-gold and crimson sweeping slash arcs showing three crossing cuts. Silver steel blades, aged brass guards with selective Thai kanok ornament, dark red wrapped grips. All sword tips and handles visible within an 8 percent safe margin.\nScene/background: full bleed beautiful painted deep cool teal storm clouds with layered atmospheric mist, subtle Thai kanok motifs etched into the mist only near the edges. A luminous storm opening gently illuminates the two blades. Background must remain lower contrast and more desaturated than the swords and broad slash arcs. No transparency. Strong subject separation from cool teal background.\nStyle: soft hand-painted charming Thai fantasy, broad brush shapes, rich but controlled warm highlights, clear readable 32, 48 and 64 pixel hotbar icon. No photorealism. Motion and impact rather than static inventory weapon display.\nComposition: centered dominant X silhouette, background atmospheric and refined, arcs support and do not hide the blades. Subject occupies most of the square while all tips stay inside the safe margin. Exactly two swords and three major slash arcs.\nConstraints: one image only, no contact sheet, no character, victim, extra weapons, UI border, frame, text, numbers, hotkeys, watermark, rarity symbols or cooldown marks. Avoid tiny sparks, visual clutter, excessive bloom, crushed blacks and excessive ornament.",
+  "originalSHA256": "fcbdfe776981a21c2618ea015a4e0b5ce301a4d7c2ee34c23a406b2ad16a5f7e",
+  "master": {
+    "path": "docs/art/skills/imagegen-sample-v2/sword_twin.png",
+    "sha256": "fcbdfe776981a21c2618ea015a4e0b5ce301a4d7c2ee34c23a406b2ad16a5f7e",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2799556
+  },
+  "output": {
+    "path": "public/ui/skills/imagegen-sample-v2/sword_twin.webp",
+    "sha256": "afd0a1a573831b13bef9e1da699a89eac4fea7f7220872072f795b5024367949",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 24756
+  },
+  "processing": "Original PNG unchanged; Sharp contain 256 WebP quality 90 alphaQuality 100",
+  "status": "preview-awaiting-user-feedback",
+  "artNotes": "Two complete swords, three sweeping gold/crimson arcs, cool teal painted cloud background with Thai kanok mist; sword tips closer to top rim than requested 8% but complete and unclipped."
+}

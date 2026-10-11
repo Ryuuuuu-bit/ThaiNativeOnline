@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.
+Skill: พิธีเซ่นผีบรรพบุรุษ, mage_holy.
+Central subject and actual mechanic: An ivory ancestral ghost guardian above a simple golden offering bowl and incense, protective luminous circle sheltering three tiny teammate forms. Gold and cyan life/mana ribbons, sacred benevolent mood.
+Background: Ancient Thai spirit shrine with warm candle fog, midnight teal backdrop and low-detail temple outlines. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.
+Style: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.
+Composition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.
+Constraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.

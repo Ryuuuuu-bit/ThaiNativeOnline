@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: ONE transparent fantasy MMORPG skill icon, square composition, readable at 32, 48 and 64 pixels.
+Primary request: Spirit Bullet (กระสุนวิญญาณ), a Thai occult shaman spell: exactly THREE clearly countable ivory bone ghost skull spirits flying along a sweeping curved path toward the SAME upper-right target.
+Subject: one larger leading skull facing upper-right and two distinctly separated smaller trailing skulls below-left; all three have clearly recognizable broad skull silhouettes and dark indigo eye sockets. Flowing indigo and violet spirit wisps follow the common curve, with very restrained old-gold Thai kanok flame-tip accents on the wisps.
+Style/medium: soft hand-painted Thai fantasy game illustration, rounded stylized forms, broad clean color blocks, gentle highlights, charming supernatural atmosphere. Ivory skull faces remain the strong bright focal shapes.
+Composition/framing: compact diagonal upward-curved movement from lower-left to upper-right, three skulls separate and easy to count even at tiny size. All physical shapes and main wisps remain inside the central 80 percent of the canvas, at least 10 percent transparent safe margin on all four sides.
+Scene/backdrop: genuinely transparent background with preserved alpha. No background plate, no square scenery, no circle backdrop.
+Color palette: warm ivory bone, deep indigo, muted violet wisps, sparse antique gold accents. No poison green.
+Constraints: EXACTLY three skulls, one large and two smaller; no full character, no gore, no ornate micro-detail, no baked frame, no UI, no text, no letters, no numerals, no hotkeys, no watermark. One complete standalone asset only, not a sheet.

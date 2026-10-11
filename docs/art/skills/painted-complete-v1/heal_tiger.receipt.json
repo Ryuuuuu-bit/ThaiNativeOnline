@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_tiger",
+  "name": "ยาต้มพยัคฆ์เหิน",
+  "class": "herbalist",
+  "active": true,
+  "passive": false,
+  "semanticBrief": "A Thai herbal brewing pot with a warm tiger-shaped steam silhouette rising above; cleansing defense tonic, not attacking tiger.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-019ea3d7-f5bb-4fa4-8667-5a0a6d33e3f9.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: A traditional rounded Thai earthen herbal brewing pot with a warm amber tiger-shaped steam spirit rising clearly above it. Tiger head and shoulders in gentle steam, protective and cleansing, not an attacking animal. Broad fresh herb leaves at the rim.\nBackground: Cozy low-contrast jade herbal kitchen with warm distant hearth glow.",
+  "master": "docs/art/skills/painted-complete-v1/heal_tiger.png",
+  "sourceSHA256": "e7ca8d2c3b64184aac381401a9261fc4d3ecb535c38dcf3b8e461398a5c7ec15",
+  "masterSHA256": "e7ca8d2c3b64184aac381401a9261fc4d3ecb535c38dcf3b8e461398a5c7ec15",
+  "output": "public/ui/skills/painted-complete-v1/heal_tiger.webp",
+  "outputSHA256": "402f9801ba84d3b1ed6fd0bc247fc0112372237071bc1fe381c153ea4474de7c",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 27060,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:09:33.110Z"
+}

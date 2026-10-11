@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_wind",
+  "name": "ดาบวายุ",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-910e9ac4-0cb8-4306-b41f-ac2eb5a73cec.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ดาบวายุ (sword_wind).\nSubject: One sweeping Thai sword releasing a broad jade-white crescent wind wave moving across the image, curled air ribbons; projectile wind slash.\nBackground: full bleed beautiful painted stormy desaturated blue mountain clouds, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "a6ff118b875d3a3b75a82fc1fbdf3b0c1a5ca33e3148e9adb0083a52888752c9",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_wind.png",
+    "sha256": "a6ff118b875d3a3b75a82fc1fbdf3b0c1a5ca33e3148e9adb0083a52888752c9",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2456728
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_wind.webp",
+    "sha256": "9fbb515d2c5b79f4f827a5e757e7b42bc25b48b30ac8e34323a16e92bb188c5f",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 23844
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

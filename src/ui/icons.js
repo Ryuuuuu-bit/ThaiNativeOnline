@@ -1,5 +1,6 @@
 import { AVATARS } from '../data/training.js';
 import { versioned } from '../core/version.js';
+import { resolvePaintedSkillIcon, isPaintedSkillIcon } from './painted-skill-icons.js';
 
 // One place that turns icon data into HUD markup, so every screen shows
 // classes, skills, buffs and potions the same way:
@@ -13,7 +14,9 @@ const escapeAttr = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp
 // Keep source art untouched. One live frame replaces the baked PNG rim and
 // scales with inventory, skill tree, hotbar and small buff icons alike.
 export function assetIcon(url, alt = '', imageArt = '') {
-  return `<span class="icon-img asset-icon${imageArt === 'painted' ? ' painted-art' : ''}"><img src="${escapeAttr(url)}" alt="${escapeAttr(alt)}"></span>`;
+  const resolved = resolvePaintedSkillIcon(url, BASE);
+  const painted = imageArt === 'painted' || isPaintedSkillIcon(resolved);
+  return `<span class="icon-img asset-icon${painted ? ' painted-art' : ''}"><img src="${escapeAttr(resolved)}" alt="${escapeAttr(alt)}"></span>`;
 }
 
 // 24×24 line emblems (stroke = currentColor) for classes without a portrait yet.

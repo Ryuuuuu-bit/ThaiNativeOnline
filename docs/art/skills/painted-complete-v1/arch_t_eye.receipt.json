@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "arch_t_eye",
+  "name": "สายตาพราน",
+  "class": "hunter",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-d2f6-7e80-901d-467d57ae546c\\exec-8a6ba3aa-bc01-4519-80f9-98c24d01e3ea.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.\nSkill: สายตาพราน, arch_t_eye.\nCentral subject and actual mechanic: Close-up focused HUMAN Thai hunter eye framed by a brow and a tiny cream feather, bright amber iris reflects a small arrow-shaped glint. Critical accuracy passive, not hawk head.\nBackground: Deep desaturated jade forest bokeh with restrained warm dawn illumination. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.\nStyle: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.\nComposition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.\nConstraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.",
+  "sourceDefinition": "src/rules/data/kitpassives.js",
+  "semantic": "Close-up focused HUMAN Thai hunter eye framed by a brow and a tiny cream feather, bright amber iris reflects a small arrow-shaped glint. Critical accuracy passive, not hawk head.",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/arch_t_eye.png",
+    "sourceSHA256": "161ab7a856d251244f10c4b837deddb84f275e6873fc64cb7ae1b9b942693325",
+    "copySHA256": "161ab7a856d251244f10c4b837deddb84f275e6873fc64cb7ae1b9b942693325",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2068028
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/arch_t_eye.webp",
+    "sha256": "d4113e12111686fbad26cc680e467e8fad560e85b1c53e3ec55054dc74e6e52b",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 16768
+  },
+  "processing": "Unmodified original PNG; contain resize to 256 square WebP quality 90 alphaQuality 100",
+  "status": "awaiting-art-review"
+}

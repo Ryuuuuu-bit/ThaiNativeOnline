@@ -9,6 +9,10 @@ import { createWarriorSkills, warriorIconUrl } from './fx/warrior-skills.js';
 import { SHAMAN_SKILLS } from './shaman-moves.js';
 import { createShamanSkills, shamanIconUrl } from './fx/shaman-skills.js';
 import { withClassDetail } from './fx/class-detail.js';
+import { paintedSkillIcon } from '../ui/painted-skill-icons.js';
+
+// Prefer authored skill art before invoking legacy helpers such as heal_zone's canvas.
+const skillIcon = (id, legacy) => paintedSkillIcon(id, import.meta.env.BASE_URL) ?? legacy(id);
 
 // Class skill kits for the city training ground (src/training): the ten skills of
 // each playable class with their FX runner and hotbar entries. AVATARS in
@@ -22,23 +26,23 @@ import { withClassDetail } from './fx/class-detail.js';
 export const CLASS_KITS = {
   muaythai: {
     name: 'มวยไทย', ground: 'ลานซ้อมมวย · หุ่นฟาง', createSkills: createBoxerSkills,
-    skills: MUAYTHAI_SKILLS.map(s => ({ ...s, ...SKILL_META[s.id], icon: iconUrl(s.id) })),
+    skills: MUAYTHAI_SKILLS.map(s => ({ ...s, ...SKILL_META[s.id], icon: skillIcon(s.id, iconUrl) })),
   },
   herbalist: {
     name: 'หมอยา', ground: 'ลานซ้อมหมอยา · หุ่นฟาง', createSkills: createHerbalistSkills,
-    skills: HERBALIST_SKILLS.map(s => ({ ...s, icon: herbIconUrl(s.id) })),
+    skills: HERBALIST_SKILLS.map(s => ({ ...s, icon: skillIcon(s.id, herbIconUrl) })),
   },
   hunter: {
     name: 'นายพราน', ground: 'ลานซ้อมยิงธนู · หุ่นฟาง', createSkills: createHunterSkills,
-    skills: HUNTER_SKILLS.map(s => ({ ...s, icon: hunterIconUrl(s.id) })),
+    skills: HUNTER_SKILLS.map(s => ({ ...s, icon: skillIcon(s.id, hunterIconUrl) })),
   },
   warrior: {
     name: 'นักรบ', ground: 'ลานซ้อมดาบ · หุ่นฟาง', createSkills: createWarriorSkills,
-    skills: WARRIOR_SKILLS.map(s => ({ ...s, icon: warriorIconUrl(s.id) })),
+    skills: WARRIOR_SKILLS.map(s => ({ ...s, icon: skillIcon(s.id, warriorIconUrl) })),
   },
   shaman: {
     name: 'หมอผี', ground: 'ลานซ้อมคาถา · หุ่นฟาง', createSkills: createShamanSkills,
-    skills: SHAMAN_SKILLS.map(s => ({ ...s, icon: shamanIconUrl(s.id) })),
+    skills: SHAMAN_SKILLS.map(s => ({ ...s, icon: skillIcon(s.id, shamanIconUrl) })),
   },
 };
 export const KIT_IDS = Object.keys(CLASS_KITS);

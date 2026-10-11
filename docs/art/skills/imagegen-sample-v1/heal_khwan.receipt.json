@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_khwan",
+  "name": "พิธีสู่ขวัญ",
+  "class": "herbalist",
+  "status": "preview-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a12983-1589-79a1-8bf1-6a20b070008d/exec-6d50b4cd-c128-4334-8931-2e238266b73f.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE square transparent game skill icon for Thai Native Online, herbalist skill heal_khwan, Thai bai sri soul-calling ritual that heals and revives the party.\nPrimary request: An exquisite yet readable Thai banana-leaf bai sri ritual offering, centered as a single compact magical emblem.\nSubject: A clearly conical arrangement of three bold tiers of folded fresh green banana leaves, small creamy white jasmine flowers nestled selectively along the leaf tiers, supported by a small warm brass ceremonial pedestal with one restrained Thai flame ornament. A luminous white cotton sacred thread curls in one protective oval around the arrangement, visibly connected to the offering. Warm creamy-gold renewing light rises from its center, with a subtle fresh green restorative aura and two or three restrained sparkles.\nStyle/medium: Beautiful soft hand-painted Thai fantasy RPG icon, softly stylized shapes, broad clear color blocks, charming craftsmanship. Match polished hand-painted inventory icons rather than realistic photos. Leaf folds and flower clusters remain readable at 32, 48 and 64 pixels. Strong silhouette, luminous pale highlights, moderate contrast without crushed blacks.\nComposition/framing: Square canvas, one large centered offering occupies about 78 percent of the canvas, all petals, thread and magical light fully inside a generous 10 percent transparent margin. Slight three-quarter front view shows the brass base and layered green cone.\nColor palette: Fresh jade and emerald leaves, ivory jasmine and cotton, warm antique brass, selective creamy gold and pale green healing light.\nScene/backdrop: Genuinely transparent background outside the icon, including the outside of the soft magical aura. No ground, scenery, rectangular backing or painted background.\nConstraints: No frame, border, UI, hotkeys, numerals, readable text, lettering or watermarks. No red medical cross, Buddha statue, medicine bottle, full character, huge floor mandala or excessive tiny ornamental detail. No neon rainbow, flat vector symbols, photorealism or pixel art. This is a single standalone skill asset, not a sheet or collage.\n",
+  "master": "docs/art/skills/imagegen-sample-v1/heal_khwan.png",
+  "sourceSHA256": "4db6e57a2e24f7947eda287e1134b3150420422963a7788410894a0ed5d98080",
+  "masterSHA256": "4db6e57a2e24f7947eda287e1134b3150420422963a7788410894a0ed5d98080",
+  "output": "public/ui/skills/imagegen-sample-v1/heal_khwan.webp",
+  "outputSHA256": "71dffa9ccee9f6db9f829b598f7c9b3409c6ea4034edd5925e6053afe409ed70",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 0,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 0,
+    "max": 255
+  },
+  "outputBytes": 26922,
+  "processing": "Unchanged PNG master copied; Sharp contain resize to 256 x 256 WebP quality 90, alpha quality 100, effort 6. No painting, cleanup or recoloring.",
+  "createdAt": "2026-10-11T05:52:09.890Z"
+}

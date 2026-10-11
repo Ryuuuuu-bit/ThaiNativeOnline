@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "boxer_waikru",
+  "name": "ไหว้ครูรำมวย",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-043a1330-d702-420e-b425-5a276a730366.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ไหว้ครูรำมวย (boxer_waikru).\nSubject: A respectful Thai Muay Thai fighter kneeling with rope-wrapped hands joined in wai, traditional mongkhon headband, serene golden blessing aura.\nBackground: full bleed beautiful painted muted jade old Thai courtyard dawn haze, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "bcb4034178ae053e888b60be9dbe98c49535f1f3674623a76459f8897c98436e",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/boxer_waikru.png",
+    "sha256": "bcb4034178ae053e888b60be9dbe98c49535f1f3674623a76459f8897c98436e",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2405839
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/boxer_waikru.webp",
+    "sha256": "bf0864eb67269315a30c7146ae04124c73da3cc55c5bb8ef8ef81173309ca687",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 26326
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_leap",
+  "name": "กระโจนผ่าปฐพี",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-218d3ecf-4cd1-4765-9f5b-55b6a5baaefa.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: กระโจนผ่าปฐพี (sword_leap).\nSubject: One dominant Thai dha sword descending into cracked stone ground, large triangular gold impact burst and lifted stone shards, downward earth-cleaving movement.\nBackground: full bleed beautiful painted cool desaturated slate rocky mountain haze, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "b6ce41429c088cc8096a11ff9b589004b2c61d718f22821640124aacbfa927b1",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_leap.png",
+    "sha256": "b6ce41429c088cc8096a11ff9b589004b2c61d718f22821640124aacbfa927b1",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2734413
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_leap.webp",
+    "sha256": "56fa2188a56178210cab0616eb3d4c3985036d9a3d092cbb2415ec20957447d8",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 28016
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "mage_thunder",
+  "name": "มือมัจจุราช",
+  "class": "shaman",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-d2f6-7e80-901d-467d57ae546c\\exec-a60098f5-870b-461f-a4a8-03cfac34f843.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.\nSkill: มือมัจจุราช, mage_thunder.\nCentral subject and actual mechanic: ONE enormous ivory spectral clawed hand reaches upward and curls to seize a small dark enemy silhouette, ghostly violet energy joins wrist. Clear five broad fingers.\nBackground: Deep aubergine cemetery soil with muted tomb silhouettes and low spectral fog. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.\nStyle: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.\nComposition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.\nConstraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.",
+  "sourceDefinition": "src/classes/shaman-moves.js",
+  "semantic": "ONE enormous ivory spectral clawed hand reaches upward and curls to seize a small dark enemy silhouette, ghostly violet energy joins wrist. Clear five broad fingers.",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/mage_thunder.png",
+    "sourceSHA256": "4acc235c006bcb8945d65c4652a156494bc6a61fbd84c69eaa17343b6964eb41",
+    "copySHA256": "4acc235c006bcb8945d65c4652a156494bc6a61fbd84c69eaa17343b6964eb41",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2382692
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/mage_thunder.webp",
+    "sha256": "99d9b8628c8b67b872b7ae3a65649229bc875240ce7e3abc4f3e79cbae1fded7",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 22916
+  },
+  "processing": "Unmodified original PNG; contain resize to 256 square WebP quality 90 alphaQuality 100",
+  "status": "awaiting-art-review"
+}

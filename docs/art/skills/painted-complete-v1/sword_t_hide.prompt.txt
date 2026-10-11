@@ -1,0 +1,5 @@
+Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: หนังเหนียว (sword_t_hide).
+Subject: A heroic bronze-brown armored torso with a broad buffalo-hide protective texture and luminous gold protective aura, physical resilience symbol.
+Background: full bleed beautiful painted muted cool green stony mist, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.
+Style: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.
+Constraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.

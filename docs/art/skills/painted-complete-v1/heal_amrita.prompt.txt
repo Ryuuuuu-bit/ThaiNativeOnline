@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.
+Style: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.
+Composition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.
+Palette: jade, leaf green, creamy ivory with warm antique gold highlights.
+Constraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.
+
+Subject: A traditional golden Thai water ewer tilts and pours one luminous clear ivory stream into a large life-giving lotus glow. Elegant bulbous ewer and curved spout visible, strong cream gold water arc, revival magic.
+Background: Soft deep jade sacred lotus pond with low-detail gold dawn reflection.

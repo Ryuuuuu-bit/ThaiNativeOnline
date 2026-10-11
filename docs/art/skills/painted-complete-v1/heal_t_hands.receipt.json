@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_t_hands",
+  "name": "มือทอง",
+  "class": "herbalist",
+  "active": false,
+  "passive": true,
+  "semanticBrief": "Two gentle hands preparing medicinal leaves above a small golden herbal glow; skilled healing hands, no armored gauntlet.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-9aa0bac7-a7dd-4d58-b724-2fad072d7586.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: Two gentle unarmored human hands skillfully preparing broad medicinal leaves above a small warm golden herbal glow. Balanced believable anatomy, tender golden fingertips, quiet passive healing craft.\nBackground: Soft low-detail jade Thai herb preparation table and cream gold candle glow.",
+  "master": "docs/art/skills/painted-complete-v1/heal_t_hands.png",
+  "sourceSHA256": "e484fc1a52b1b17bd7bd963cadd3ffc44e00855d31886c796556a7dcc6ae8c71",
+  "masterSHA256": "e484fc1a52b1b17bd7bd963cadd3ffc44e00855d31886c796556a7dcc6ae8c71",
+  "output": "public/ui/skills/painted-complete-v1/heal_t_hands.webp",
+  "outputSHA256": "9cd45aadb531a9c4f4915a914a932d87c83474a4dac159c33ed791bec8c419d2",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 26708,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:13:57.940Z"
+}

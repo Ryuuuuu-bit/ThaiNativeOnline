@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "mage_akom",
+  "name": "กระสุนวิญญาณ",
+  "class": "shaman",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:/Users/panup/.codex/generated_images/01a12982-d2f6-7e80-901d-467d57ae546c/exec-8a4d574c-9f74-4041-b8f5-50d73e4e3e22.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE square, full bleed, hand-painted fantasy MMORPG skill icon with a beautiful painted background.\nPrimary request: Spirit Bullet, a Thai occult shaman spell. EXACTLY THREE clearly separated ivory bone ghost skull spirits sweeping in a curved diagonal path toward the same upper-right direction; one larger leading skull and two smaller trailing skulls. Each skull has broad bone-white features and indigo eye sockets.\nStyle: soft hand-painted Thai fantasy game illustration, rounded stylized shapes, strong clean silhouettes and broad color blocks, readable at 32 pixels. Indigo and violet wisps curve behind the three spirits; very sparse antique-gold Thai kanok flame tips.\nBackground: an atmospheric deep midnight-indigo and violet temple mist, full bleed to all four edges. Softly suggested ancient Thai temple roof silhouette far behind the spell, deliberately low contrast and low detail. Faint spectral lavender glow lights the mist behind the skulls; beautiful layered brushwork and gentle depth, while the ivory skulls remain the unmistakable focal shapes.\nComposition: all three skulls and their main trails fit inside an 8 percent inset, no clipping. One coherent upward sweeping curve, distinct visible gaps between each skull. Background is restrained rather than competing with the spell.\nConstraints: exactly three skulls, no fourth skull, no full character, no gore, no poison green, no text, letters, numerals, hotkeys, logos, watermarks, border, frame or UI. One complete standalone icon, not a sheet. Fully opaque painted background.\n",
+  "sourceDefinition": "src/classes/shaman-moves.js",
+  "semantic": "Approved full-background v2 sample copied unchanged",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/mage_akom.png",
+    "sourceSHA256": "96696ab1de6fd74ffa60f8876a4cc2b451e13a5264240888b33f955b0d9f5600",
+    "copySHA256": "96696ab1de6fd74ffa60f8876a4cc2b451e13a5264240888b33f955b0d9f5600",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2378480
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/mage_akom.webp",
+    "sha256": "d3789cbb78c11a56cab5578656fc36733917a4c2ea4f89dd8400a5623a3c2557",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 20964
+  },
+  "processing": "Approved v2 PNG and WebP copied byte-for-byte unchanged",
+  "status": "approved-user-sample",
+  "reusedFrom": "docs/art/skills/imagegen-sample-v2/mage_akom.receipt.json"
+}

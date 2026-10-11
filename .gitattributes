@@ -8,3 +8,5 @@
 /docs/art/boss-detail-02/*.json -text whitespace=cr-at-eol
 /docs/art/monsters/meshy-roster-20261010/approved-*.json -text whitespace=cr-at-eol
 /docs/art/monsters/meshy-roster-20261010/delivery-review/*.json -text whitespace=cr-at-eol
+# ImageGen prompts must remain byte-identical to their recorded generation text.
+/docs/art/skills/**/*.prompt.txt -text whitespace=cr-at-eol

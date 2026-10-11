@@ -1,0 +1,463 @@
+{
+  "status": "pass",
+  "promptCount": 65,
+  "indexByteExact": 65,
+  "receiptTextExact": 65,
+  "rows": [
+    {
+      "id": "arch_garuda",
+      "bytes": 1390,
+      "sha256": "4dfa67c871ff4ec3a3218b04d1acfe1de9e4ae87ef5bce11d63cd72d1fe0716c",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_hawk",
+      "bytes": 1354,
+      "sha256": "443a29d7af158cad8bf677ec47a68355763ed9e6e16422fb819f350fd63083e6",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_meteor",
+      "bytes": 1399,
+      "sha256": "32c2963deb0c4524fbf60ae813495706d810ef0f5f8c9433222c092d16d0c012",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_pierce",
+      "bytes": 1358,
+      "sha256": "cd5f864340228cd811898ef75925c870fdc924b3c296803f6ecc0a7a52104504",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_poison",
+      "bytes": 1378,
+      "sha256": "5b6de7eb96009e8aa84f083934e07f8c280026f6d2ada526cfc5ec3415376d12",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_quick",
+      "bytes": 1828,
+      "sha256": "1cf94c302087f4251de77379441bc39cf065c2a39fabb80820ba462567131529",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_rain",
+      "bytes": 1378,
+      "sha256": "2f53dbdd32e5a07edf75d9162b40c482bca649f7577e61e38d80493496f42580",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_snipe",
+      "bytes": 1443,
+      "sha256": "d8b7f46da93d9ab4150225f0cdf07bdd124e82628d4f4272c73b398a94cf7559",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_trap",
+      "bytes": 1370,
+      "sha256": "e4740fdc628c28ffbfdc66a4d6bf52d359b1f7429b97bf9f5a859840652926e4",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_t_bond",
+      "bytes": 1362,
+      "sha256": "55cc7019eac351706538e47ebde3611dcb4315f1daca45706540535905986067",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_t_bow",
+      "bytes": 1357,
+      "sha256": "48a2b4b4e12e48fa0a8253129f0253045687f50c1339c711855d5b1ac1230e23",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_t_eye",
+      "bytes": 1359,
+      "sha256": "7ea3b741a0b0cc9e6fe31fdaa7e03653c6db08cfd1a9b285926f9ae0f5d9562d",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "arch_volley",
+      "bytes": 1370,
+      "sha256": "1dc88558cc9ca4629eb5f891ff44c3673b555964b806cc3a7f41bbd7aa3ad419",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_croc",
+      "bytes": 980,
+      "sha256": "d691054bb6562267fc355cd0017c1e77b59633825ec44ed8e98924fe10645e03",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_drum",
+      "bytes": 991,
+      "sha256": "98ca272998d4bde667eb7670d4f156e2a780542b2f81c9115037b680f33a7a34",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_elbow",
+      "bytes": 984,
+      "sha256": "456fd99e6272bfe11b88b3a8f5fb853ab59e632422a06ecc6daaea9eb842420b",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_hanuman",
+      "bytes": 985,
+      "sha256": "f1c041db4fc65f03d8774f6032f4c0d7dcd081ccdacf1ac61a42182249670433",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_iron",
+      "bytes": 989,
+      "sha256": "e422f94bad4dba856c68ddc4551b60a19fa10e632a899add4f236da62cc16de1",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_jab",
+      "bytes": 952,
+      "sha256": "0f76f08446a6d6619550fb3f6975ddc3543a38572daaf1319098f7604a961cef",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_kick",
+      "bytes": 991,
+      "sha256": "492a638b1cd60cdba0fb635400f45452dd5d2b5b9016cb80e1347de2d3473682",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_knee",
+      "bytes": 962,
+      "sha256": "7f9967e0c139e585da556a17ab7e7b17ef91aad37abc1c802e51ff4b89374cb7",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_ngouy",
+      "bytes": 1806,
+      "sha256": "20eda3cf523a020a9bcc35540890ce82e7bac6917337607d2189f62987a4c932",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_t_calm",
+      "bytes": 971,
+      "sha256": "ad81c6e0bfb62148c4378ff0eeb4663e622b3191e2cdd2fbffff4bed8d855d01",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_t_shin",
+      "bytes": 959,
+      "sha256": "69e7b8704bd1ca0fe7f7caf11aca0c96f64179a289efe3297f653125977145e0",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_t_wit",
+      "bytes": 994,
+      "sha256": "5bbad88c26049d052875c2471ba813a3ad2f3211b63ba1ed443c9cfc99254454",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "boxer_waikru",
+      "bytes": 967,
+      "sha256": "8274ad539be4a900691551615b8b351b75573111a87c6255db2f68c058996172",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_amrita",
+      "bytes": 1267,
+      "sha256": "82beafab2e69ace451095d62c534fe3995cf731215ab6ae4da0c8af91a3075e6",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_khwan",
+      "bytes": 2171,
+      "sha256": "16eb80e48a02d6fb8ce501d4a8ae18ebfdb67fda763c12915838cce4b30a8c59",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_mist",
+      "bytes": 1286,
+      "sha256": "64a47184a8103cd2d12efd0e1d6ff68868940e667c2e7de699c340162a4da8c4",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_mortar",
+      "bytes": 1277,
+      "sha256": "34c43b83fbb320789c87af058fa13939ec330e2552e3789ec1b55d64aca15542",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_mother",
+      "bytes": 1318,
+      "sha256": "c8e63ee861f6af22a5d1546e7f48754813a682ffff7d53858f95eb5cc35b797d",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_pill",
+      "bytes": 1276,
+      "sha256": "267b6a489565fbcf9dc5c13f31f9fc234f8ade699a2edc5b3fe8cab314d41f4c",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_tiger",
+      "bytes": 1304,
+      "sha256": "d70dca020a2883db0ef4b51c2208f8257ab69f8ce1f74376eebc50b8f043c2ef",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_tonic",
+      "bytes": 1346,
+      "sha256": "2ec3f79ee4717fbc426c64dcfecfe75721eda57c938923c85557736884f74d09",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_t_hands",
+      "bytes": 1260,
+      "sha256": "279732d53f7c161181cad0b14e0bcbca2a72b998e106af7a365d783b391d4226",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_t_recipe",
+      "bytes": 1275,
+      "sha256": "6552b21ea4aa3a59f58daf4e7e3466d7ac451309a92ff5b276f31fb184f175fe",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_t_venom",
+      "bytes": 1294,
+      "sha256": "3db0fcd0a1f5529618d079a9410bf69da1a4f1277b674b0510a878527406e469",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_vine",
+      "bytes": 1202,
+      "sha256": "58dbeae1c19930bb4b83b6b48f97f7cad3a1bec8c9f9dded785bc8f541bf362f",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "heal_zone",
+      "bytes": 1425,
+      "sha256": "92d3e859aca45fae12c03548fec19558dd3dcc2cba3b3eae85b2c5534a0a84b7",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_akom",
+      "bytes": 1594,
+      "sha256": "0e150a00087049e3a7791ce4e83dec56a27d98d30b38ca27a5e842c39864dd26",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_curse",
+      "bytes": 1359,
+      "sha256": "2e287653099efa6d1f0189d0d98c841c332dab92e9de5abf37f9059a633bb7f4",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_ghostfire",
+      "bytes": 1410,
+      "sha256": "f1abaca4c7f5fa6acaa3dc67daaed8d384e991ce8b4448ed299b41b43e78b345",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_holy",
+      "bytes": 1443,
+      "sha256": "e34b6082655276a62b9a78abd5ae7db950c9001d2e9365d71eff6d2204f8ae09",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_kalp",
+      "bytes": 1379,
+      "sha256": "dba84080fc328b523d7f3c609d8d1d830a674e8f35cceea9f3f9b6144893782a",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_meditate",
+      "bytes": 1367,
+      "sha256": "c57bcd4fb7b263056b52de7b1db4e2d7f0d19070516a3e96bbc5987e28f9a19e",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_shield",
+      "bytes": 1392,
+      "sha256": "26143dec943f92b87bf5061195646633788d38ae789636b1bc164e4fff2185e2",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_storm",
+      "bytes": 1384,
+      "sha256": "628a28b0714fc60d25838c0e7be2e2e250db3163246b02e31b912aa2213b1574",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_thunder",
+      "bytes": 1358,
+      "sha256": "128cc35ea02a47692cff663b699f4c16b857299165018bc261b90b85118aa816",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_t_barami",
+      "bytes": 1373,
+      "sha256": "24bb266db7bc09848760703de7ee0fbcc373e5331dd4bd12256bcf1bfe7f036e",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_t_fire",
+      "bytes": 1349,
+      "sha256": "0951751c47cc7f3782c7418942f550cb2559a0d4c1030bb0bd04577eff20acf4",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_t_tongue",
+      "bytes": 1379,
+      "sha256": "b3c3c524ddb6cb5f68ae247d54978de5ec5ef5be6ba5cdee7ed03b3c21e3bf15",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "mage_yant",
+      "bytes": 1366,
+      "sha256": "bf5da6b1033fb7210a1177ead528ee8ce249d7f33ec40ad39844c717c94da73d",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_banner",
+      "bytes": 961,
+      "sha256": "961888889d5c3572701f76f8c9922c9e185236418f27bdd01c9f016f4ad2fab7",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_berserk",
+      "bytes": 964,
+      "sha256": "902577c2853e7ed0d6a9396537989be9638de745031a7b59d58aad8dda671b22",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_execute",
+      "bytes": 984,
+      "sha256": "9c6188c4b4ad677933a506d572a4b1c1c95aea87c0a2d37888b90622279691af",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_guard",
+      "bytes": 978,
+      "sha256": "e57bc4549f989bf879be7580f6f0386073634d36082a150b923ed286a825d0d9",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_leap",
+      "bytes": 987,
+      "sha256": "2fdc77c3775a07d33c1f00dd351769ae9fa55d2fb3e7a912f9926136d3c08d6b",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_pikat",
+      "bytes": 972,
+      "sha256": "771c12fce90f5a975c474e5a9c9a9119d3fe0d048cdd6d3596bf4898c28b3759",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_thrust",
+      "bytes": 978,
+      "sha256": "bf86280f73c43bcdea92a4621bc75928a213e513116bb5bd4441516d5ef95e24",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_twin",
+      "bytes": 1616,
+      "sha256": "52a0b8935941a88a6785b58c2a969a608b101985555587d12debcaa2645633d9",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_t_breath",
+      "bytes": 974,
+      "sha256": "36703255b29d263a2c47cd8f73a018896f56e98035e1853b0b1cca8a072d4971",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_t_hide",
+      "bytes": 949,
+      "sha256": "db9bb82f88ae431556839fc3e1e3a544e42b807c6bbc19be1036d842cda09421",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_t_mastery",
+      "bytes": 947,
+      "sha256": "19a1c5395b264c0774504132a7dda6cbaedb6eaa4ca3df7ddb96d08e1c251c1c",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_whirl",
+      "bytes": 946,
+      "sha256": "b93af0474c2f989ca1d1a63d47e870a8fed163bb429c087acadea8bab0a3a806",
+      "gitIndexExact": true,
+      "receiptExact": true
+    },
+    {
+      "id": "sword_wind",
+      "bytes": 946,
+      "sha256": "93b98daeece452e03f8574232bf73a77eabe57b774c6984a9b5b46ea34be9db9",
+      "gitIndexExact": true,
+      "receiptExact": true
+    }
+  ]
+}

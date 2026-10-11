@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_tonic",
+  "name": "ยาบำรุงกำลังเจ็ดพลัง",
+  "class": "herbalist",
+  "active": true,
+  "passive": false,
+  "semanticBrief": "Seven small medicinal pellets of distinct restrained colors orbiting a jade central herbal light; party empowerment.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-9f8aef59-fd41-46db-854f-1d614dbc2c17.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: Exactly seven small round medicinal pellets of seven distinct restrained colors orbit in a wide clear ring around one bright jade herbal light with a leaf at its center. The pellets are ivory, amber, coral, pale blue, violet, emerald and rose. Empowering vitality, not jeweled ring equipment.\nBackground: Low-detail jade medicinal garden softly illuminated by warm twilight.",
+  "master": "docs/art/skills/painted-complete-v1/heal_tonic.png",
+  "sourceSHA256": "8e85a13a224fea1eff57a616864100091f908f23bc075ff7c637534f3883f36e",
+  "masterSHA256": "8e85a13a224fea1eff57a616864100091f908f23bc075ff7c637534f3883f36e",
+  "output": "public/ui/skills/painted-complete-v1/heal_tonic.webp",
+  "outputSHA256": "37d4bfb67619433d9e7a34a3e128e3cca9ca801066ce238918ef7fb0a1b2add1",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 28874,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:11:12.810Z"
+}
