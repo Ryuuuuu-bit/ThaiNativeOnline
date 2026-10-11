@@ -6,3 +6,10 @@
 .plate.plate[data-karma=stain]{color:#f0b27a}.plate.plate[data-karma=red]{color:#ff5a4a;text-shadow:0 0 4px rgba(255,40,30,.6),0 1px 2px #000}
 .karma-line{width:100%;display:grid;gap:2px;font-size:11.5px;line-height:1.45;border-bottom:1px solid #746943;padding-bottom:6px}.karma-line:empty{display:none}.karma-line .sin{color:#ff8c72}.karma-line .merit{color:#ffe08a}.karma-line small{color:#a99c74}.karma-line .markup{color:#ff9a7a}
 @media(max-width:700px){.online-actions{right:8px;top:125px;max-width:175px;padding:5px}.online-actions button{font-size:11px;padding:5px}}
+/* Visible only during a server-authorized recall, above the hotbar. */
+.recall-cast{position:absolute;left:50%;bottom:112px;transform:translateX(-50%);z-index:7;display:grid;grid-template-columns:1fr auto;gap:7px 12px;width:min(320px,calc(100% - 32px));padding:10px 12px;color:#f2dfaa;background:rgba(13,34,27,.96);border:1px solid #ae9459;border-radius:9px;font-size:13px}
+.recall-cast[hidden]{display:none!important}.recall-cast progress{grid-column:1;height:8px;width:100%;accent-color:#d3b76c}.recall-cast button{grid-column:2;grid-row:1 / 3;color:inherit;background:#284236;border:1px solid #a78c51;border-radius:5px;padding:6px 10px;min-height:40px;cursor:pointer}.recall-cast button:disabled{opacity:.6;cursor:wait}
+@media(max-width:700px){.recall-cast{bottom:144px;font-size:12px}}
+@media(max-height:500px){.recall-cast{bottom:82px;padding:7px 10px}}
+/* No outlined shell while all contextual actions are unavailable. */
+.online-actions:not(:has(.karma-line:not(:empty), [data-follow]:not([hidden]), [data-warp]:not([hidden]), [data-target]:not([hidden]), [data-ask]:not([hidden]))){display:none!important}

@@ -5,7 +5,7 @@ import {once} from 'node:events';
 import {createServer} from 'node:net';
 import {WebSocket} from 'ws';
 
-test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown', {timeout:25000}, async t=>{
+test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown', {timeout:40000}, async t=>{
   const probe=createServer();probe.listen(0,'127.0.0.1');await once(probe,'listening');const port=probe.address().port;await new Promise(r=>probe.close(r));
   // IPC emits the real signal handler on Windows, where child.kill is an abrupt termination.
   const child=spawn(process.execPath,['--input-type=module','-e',"await import('./server/index.js'); process.on('message', s => { if(s==='SIGTERM')process.emit(s); });"],{cwd:new URL('../',import.meta.url),env:{...process.env,PORT:String(port),DATABASE_URL:''},stdio:['ignore','pipe','pipe','ipc']});
@@ -20,7 +20,7 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
     const saved=await api('/api/slots/0',auth.token,'PUT',{data:{'tno.character.v1':JSON.stringify({name:`QA${n}`,classId:'muaythai',gender:'male'})}});assert.ok(saved.ok);
     const ws=new WebSocket(`ws://127.0.0.1:${port}/ws`),msgs=[];ws.on('message',d=>msgs.push(JSON.parse(d)));await once(ws,'open');
     const send=m=>ws.send(JSON.stringify(m));
-    const wait=async pred=>{for(let i=0;i<200;i++){const at=msgs.findIndex(pred);if(at>=0)return msgs.splice(at,1)[0];await new Promise(r=>setTimeout(r,10));}throw Error('Message timeout '+logs);};
+    const wait=async (pred,timeout=2000)=>{for(let i=0;i<timeout/10;i++){const at=msgs.findIndex(pred);if(at>=0)return msgs.splice(at,1)[0];await new Promise(r=>setTimeout(r,10));}throw Error('Message timeout '+logs);};
     send({t:'hello',token:auth.token,slot:0,map:'paddy',x:n,z:-130});const welcome=await wait(m=>m.t==='welcome');
     return {ws,msgs,send,wait,id:welcome.you,token:auth.token};
   }
@@ -33,7 +33,22 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
   a.send({t:'duel_cancel'});assert.equal((await b.wait(m=>m.t==='duel_end')).winner,b.id);
   a.send({t:'pinv',id:b.id});await b.wait(m=>m.t==='pinv');b.send({t:'pans',from:a.id,ok:true});await a.wait(m=>m.t==='party'&&m.id);
   await new Promise(r=>setTimeout(r,10100));
-  a.send({t:'recall'});assert.equal((await a.wait(m=>m.t==='position'&&m.map==='city')).z,52);
+  a.send({t:'recall'});assert.equal((await a.wait(m=>m.t==='recall_cast')).duration,5);
+  // A malicious large teleport is refused and cannot interrupt an accepted cast.
+  a.send({t:'s',x:99999,z:-130,m:1});await a.wait(m=>m.t==='position'&&m.map==='paddy');
+  a.send({t:'recall_cancel'});assert.equal((await a.wait(m=>m.t==='recall_cancel')).why,'cancelled');
+  a.send({t:'recall'});await a.wait(m=>m.t==='recall_cast');
+  a.send({t:'s',x:1.5,z:-130,m:1});assert.equal((await a.wait(m=>m.t==='recall_cancel')).why,'moved');
+  a.send({t:'recall'});await a.wait(m=>m.t==='recall_cast');
+  a.send({t:'casting',skill:'invalid'});assert.equal((await a.wait(m=>m.t==='recall_cancel')).why,'busy');
+  const started=performance.now();a.send({t:'recall'});await a.wait(m=>m.t==='recall_cast');
+  await new Promise(r=>setTimeout(r,500));
+  a.send({t:'recall',duration:0,remaining:0});
+  const repeated=await a.wait(m=>m.t==='recall_cast');assert.ok(repeated.remaining<5&&repeated.remaining>4);
+  await new Promise(r=>setTimeout(r,500));
+  assert.equal(a.msgs.some(m=>m.t==='position'&&m.map==='city'),false);
+  assert.equal((await a.wait(m=>m.t==='position'&&m.map==='city',6500)).z,52);
+  assert.ok(performance.now()-started>=5000,'server must enforce the full five seconds');
   b.send({t:'party_warp'});assert.equal((await b.wait(m=>m.t==='position'&&m.map==='city')).z,52);
   b.send({t:'pvp_hit',id:a.id});assert.equal((await b.wait(m=>m.t==='pvp_no')).why,'safe');
   const del=await api('/api/slots/0',a.token,'DELETE');assert.equal(del.status,409);

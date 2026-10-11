@@ -238,6 +238,7 @@ export class Game {
       shops: () => this.openMapDirectory('shops'),
       teachers: () => this.openMapDirectory('training'),
       travel: () => this.openMapDirectory('travel'),
+      recall: () => { if(this.net?.social?.pvp)this.net.social.pvp.recall(); else this.hud.toast('กลับเมือง', 'ต้องเชื่อมต่อเซิร์ฟเวอร์ก่อน'); },
       bestiary: () => this.guide.show(),
       loadouts: () => { this.stopWalk(); this.game?.combat?.cancelPending(); characterUI()?.toggle('loadouts'); },
       auto: () => document.querySelector('.hotbar-auto-cfg')?.click(),

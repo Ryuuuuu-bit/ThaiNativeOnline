@@ -38,7 +38,8 @@ export function attachDynamicHUD(game, net) {
     const quests=document.querySelector('.exploration');
     if(quests&&!document.body.classList.contains('ui-compact')){
       const zoom=parseFloat(getComputedStyle(quests).zoom)||1;
-      quests.style.top=`${Math.round((tools.getBoundingClientRect().bottom-origin+12)/zoom)}px`;
+      const bottom=Math.max(minimap.getBoundingClientRect().bottom,tools.getBoundingClientRect().bottom);
+      quests.style.top=`${Math.round((bottom-origin+12)/zoom)}px`;
     }
   };
   if(tools&&minimap){const observer=new ResizeObserver(layout);observer.observe(minimap);observer.observe(tools);window.addEventListener('resize',layout);layout();}

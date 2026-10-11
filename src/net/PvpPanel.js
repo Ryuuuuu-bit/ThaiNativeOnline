@@ -1,3 +1,4 @@
+import {RecallCast} from './RecallCast.js';
 import {PartyFollow} from './PartyFollow.js';
 import {SKILLS} from '../combat/data/skills.js';
 import {KARMA,SIN_RANKS,MERIT_RANKS,sinRank,meritRank,shopMarkup} from '../data/karma.js';
@@ -6,15 +7,37 @@ const WHY={guest:'ต้องเข้าสู่ระบบก่อน',saf
 export function attachPvp(net,game,chat,social) {
   const app=document.getElementById('app')??document.body;
   const root=document.createElement('section');root.className='online-actions glass';root.setAttribute('aria-label','การเดินทางและต่อสู้');
-  root.innerHTML='<button data-recall title="B · วาร์ปกลับเมือง">กลับเมือง <kbd>B</kbd></button><div data-karma class="karma-line" title="บาปลดลงทีละ 1 ทุกครั้งที่ปราบมอนสเตอร์"></div><button data-follow hidden>เดินตามหัวหน้า</button><button data-warp hidden>วาร์ปไปแผนที่หัวหน้า</button><div data-target hidden><b></b><button data-hit>โจมตีผู้เล่น</button><button data-cancel>ยอมแพ้ / ปิดเป้าหมาย</button></div><div data-ask hidden><p></p><button data-yes>รับคำท้าดวล</button><button data-no>ปฏิเสธ</button></div>';
+  root.innerHTML='<div data-karma class="karma-line" title="บาปลดลงทีละ 1 ทุกครั้งที่ปราบมอนสเตอร์"></div><button data-follow hidden>เดินตามหัวหน้า</button><button data-warp hidden>วาร์ปไปแผนที่หัวหน้า</button><div data-target hidden><b></b><button data-hit>โจมตีผู้เล่น</button><button data-cancel>ยอมแพ้ / ปิดเป้าหมาย</button></div><div data-ask hidden><p></p><button data-yes>รับคำท้าดวล</button><button data-no>ปฏิเสธ</button></div>';
   app.append(root);let me=null,target=null,invite=null,askTimer,markEvery=0;
   const states=new Map();   // the last pvp_state of each player: plates made later still get their marks
   const note=t=>chat.add('ระบบ',t), el=s=>root.querySelector(s);
   const follow=new PartyFollow(game,()=>social.party,()=>me,note);
   const pick=(id,name)=>{target=id;el('[data-target]').hidden=false;el('[data-target] b').textContent=name;};
-  const recall=()=>{if(game.serviceModalOpen)return;follow.stop();if(net.online)net.send({t:'recall'});else note('เชื่อมต่อเซิร์ฟเวอร์ก่อนวาร์ป');};
+  const cast=new RecallCast();let castMap=null;
+  const castPanel=document.createElement('section');castPanel.className='recall-cast glass';castPanel.hidden=true;
+  castPanel.setAttribute('aria-label','ร่ายกลับเมือง');
+  castPanel.innerHTML='<span role="status" data-cast-label></span><progress max="5" value="0" aria-label="ความคืบหน้าร่ายกลับเมือง"></progress><button type="button" data-recall-cancel>ยกเลิก</button>';
+  app.append(castPanel);
+  const castLabel=castPanel.querySelector('[data-cast-label]'), castProgress=castPanel.querySelector('progress'), cancelButton=castPanel.querySelector('button');
+  const renderCast=()=>{
+    castPanel.hidden=!cast.active;
+    const label=cast.cancelling?'กำลังยกเลิก…':cast.remaining>0?'ร่ายกลับเมือง · '+Math.ceil(cast.remaining)+' วินาที':'กำลังกลับเมือง…';
+    if(castLabel.textContent!==label)castLabel.textContent=label;
+    castProgress.max=cast.duration;castProgress.value=cast.duration-cast.remaining;
+    cancelButton.disabled=cast.cancelling;
+  };
+  const clearCast=()=>{cast.clear();castMap=null;renderCast();};
+  const cancelRecall=()=>{if(cast.cancel()){net.send({t:'recall_cancel'});renderCast();}};
+  castPanel.addEventListener('click',e=>{if(e.target.closest('[data-recall-cancel]'))cancelRecall();});
+  const recall=()=>{
+    if(game.serviceModalOpen || cast.busy)return;
+    if(!net.online){note('เชื่อมต่อเซิร์ฟเวอร์ก่อนวาร์ป');return;}
+    follow.stop();game.stopWalk();game.game.hud?.bar?.setAuto(false);
+    game.game.combat?.cancelPending();game.game.combat?.setTarget(null);
+    game.game.onManualMove?.();game.training?.onManualMove?.();
+    if(cast.request()){castMap=game.maps.map.id;net.send({t:'recall'});}
+  };
   root.addEventListener('click',e=>{
-    if(e.target.closest('[data-recall]'))recall();
     if(e.target.closest('[data-follow]'))follow.toggle();
     if(e.target.closest('[data-warp]')){follow.stop();net.send({t:'party_warp'});}
     if(e.target.closest('[data-hit]')&&target!==null){follow.stop();net.send({t:'pvp_hit',id:target});}
@@ -22,7 +45,7 @@ export function attachPvp(net,game,chat,social) {
     if(e.target.closest('[data-yes],[data-no]')){net.send({t:'duel_answer',from:invite,ok:!!e.target.closest('[data-yes]')});el('[data-ask]').hidden=true;invite=null;clearTimeout(askTimer);}
   });
   window.addEventListener('keydown',e=>{if(e.code!=='KeyB'||e.repeat||e.ctrlKey||e.altKey||e.metaKey||e.target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;e.preventDefault();recall();});
-  net.on('welcome',m=>{me=m.you;states.clear();follow.stop();target=null;el('[data-target]').hidden=true;})
+  net.on('welcome',m=>{if(me!==m.you)clearCast();me=m.you;states.clear();follow.stop();target=null;el('[data-target]').hidden=true;})
     .on('party',m=>{if(!m.id)follow.stop();el('[data-follow]').hidden=el('[data-warp]').hidden=!m.id||m.leader===me;})
     .on('pvp_state',m=>{
       states.set(m.id,m);
@@ -41,9 +64,12 @@ export function attachPvp(net,game,chat,social) {
     .on('duel_start',m=>{follow.stop();const id=m.a===me?m.b:m.a;pick(id,game.net?.remote?.list.get(id)?.name??'คู่ดวล');note('เริ่มดวล · จำกัดเวลา 3 นาที');})
     .on('duel_end',m=>{target=null;el('[data-target]').hidden=true;note(m.winner===me?'คุณชนะการดวล':m.winner?'การดวลจบแล้ว':'ยุติการดวล');})
     .on('pvp_no',m=>{if(m.why!=='cooldown')note(WHY[m.why]??'ต่อสู้ไม่ได้');})
-    .on('recall_no',m=>note(WHY[m.why]??'วาร์ปไม่ได้'))
+    .on('recall_cast',m=>{castMap??=game.maps.map.id;cast.start(m);renderCast();})
+    .on('recall_cancel',m=>{clearCast();note(m.why==='moved'?'ยกเลิกร่ายกลับเมืองเพราะเคลื่อนที่':m.why==='cancelled'?'ยกเลิกร่ายกลับเมือง':WHY[m.why]??'ยกเลิกร่ายกลับเมือง');})
+    .on('position',m=>{if(cast.busy&&m.map!==castMap)clearCast();})
+    .on('recall_no',m=>{clearCast();note(WHY[m.why]??'วาร์ปไม่ได้');})
     .on('pvp_hit',m=>{if(m.id===me){const c=game.game.character;game.game.combat.combatTimer=5;if(m.dead)game.game.combat.knockOut();else{c.hp=m.hp;c.emit('change');}}if(m.from===me)note(m.miss?'โจมตีพลาด':`ทำดาเมจ ${m.amount} · เป้าหมาย HP ${Math.ceil(m.hp)}/${m.maxHp}`);})
-    .on('status',on=>{if(!on){follow.stop();target=null;el('[data-target]').hidden=el('[data-ask]').hidden=true;el('[data-karma]').textContent='';}});
+    .on('status',on=>{if(!on){clearCast();follow.stop();target=null;el('[data-target]').hidden=el('[data-ask]').hidden=true;el('[data-karma]').textContent='';}});
   // the plate: "PK" where free PK reaches this player, the ยศ before the name, the name colour by บาป
   const plateOf=id=>id===me?document.querySelector('.plate.is-self'):game.net?.remote?.list.get(id)?.plate;
   function markPlate(plate,m){
@@ -68,7 +94,10 @@ export function attachPvp(net,game,chat,social) {
     const basic=game.game.character.cls.skills.find(id=>SKILLS[id]?.basic),clip=player.casts[basic];
     if(clip&&player.model?.has?.(clip))player.model.attack(clip,player.swingSpeed(clip));
   });
-  return {pick,update(dt){follow.update(dt);
+  return {pick,recall,cancelRecall,update(dt){follow.update(dt);
+    if(cast.busy&&game.serviceModalOpen)cancelRecall();
+    if(cast.update(dt)==='timeout')note('เซิร์ฟเวอร์ยังไม่ตอบรับการกลับเมือง · กรุณาลองใหม่');
+    if(cast.active)renderCast();
     if((markEvery-=dt)<=0){markEvery=.5;for(const [id,m] of states){const plate=plateOf(id);if(plate)markPlate(plate,m);}}
     el('[data-follow]').textContent=follow.active?'หยุดเดินตาม':'เดินตามหัวหน้า';}};
 }

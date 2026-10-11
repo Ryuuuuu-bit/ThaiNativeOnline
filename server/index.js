@@ -86,7 +86,7 @@ import { navigation } from './navigation.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
 import { Pvp } from './pvp.js';
 import { settleKill, karmaRank, karmaTier } from '../src/data/karma.js';
-import { recallWhy } from './recall.js';
+import { recallWhy, RecallCasts } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
 import { createShutdown } from './shutdown.js';
@@ -221,6 +221,7 @@ const server = createServer((req, res) => {
 const presence = new Presence({ navigation });
 // Full character sheets and one atomic 500-slot sell basket fit the existing save budget.
 const wss = new WebSocketServer({ server, path: '/ws', maxPayload: SAVE_LIMIT });
+const recallCasts = new RecallCasts();
 const conns = new Map();   // ws → { allow() }
 const send = (ws, msg) => { if (ws.readyState === 1) ws.send(JSON.stringify(msg)); };
 const toMap = (room, msg, except = null) => { const s = JSON.stringify(msg); for (const [ws] of conns) if (ws !== except && presence.players.get(ws)?.room === room && ws.readyState === 1) ws.send(s); };
@@ -230,6 +231,7 @@ const pickCh = map => (MAPS.includes(map) ? channels.pick(map, presence.counts(m
 // a player to another channel of the same map: like walking through a portal, minus the walk
 const moveTo = (ws, ch, why) => {
   const p = presence.players.get(ws); if (p) resetPvp(p.id);
+  cancelRecall(ws, 'moved');
   const r = presence.setChannel(ws, ch); if (!r) return;
   toMap(r.left, { t: 'leave', id: r.id }, ws);
   send(ws, { t: 'chmove', ch: r.ch, why });
@@ -276,6 +278,7 @@ async function handle(ws, raw) {
       }
       return;
     }
+    if (['casting', 'cast', 'blow', 'pvp_hit', 'duel_request', 'duel_answer', 'treq', 'tans'].includes(m.t)) cancelRecall(ws, 'busy');
     if (partyBoard.handle(ws, m)) return;
     switch (m.t) {
       case 'hello': {
@@ -327,10 +330,12 @@ async function handle(ws, raw) {
       }
       case 's': {   // a move: whoever walks off stops resting
         const p = presence.players.get(ws), x = p?.x, z = p?.z; if (!presence.move(ws, m)) correct(ws);
+        if (p && Math.hypot(p.x - x, p.z - z) > .01) cancelRecall(ws, 'moved');
         if (p && Math.hypot(p.x - x, p.z - z) > .2) { combatants.sit(p.id, false); combatants.interrupt(p.id); }
         break;
       }
       case 'recall': recall(ws); break;
+      case 'recall_cancel': cancelRecall(ws, 'cancelled'); break;
       case 'party_warp': recall(ws, true); break;
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
@@ -360,6 +365,7 @@ async function handle(ws, raw) {
         if (MAP_DATA[m.map]?.nightOnly && clock.phase !== 'night') { send(ws, { t: 'wbnews', state: 'closed' }); correct(ws); return; }   // เรือนหอร้าง opens only at night
         endTrade(presence.players.get(ws)?.id, 'moved');
         const r = presence.changeMap(ws, m, pickCh(m.map)); if (!r) { correct(ws); return; }
+        cancelRecall(ws, 'moved');
         resetPvp(r.id);
         toMap(r.left, { t: 'leave', id: r.id }, ws);
         sendWelcome(ws, { t: 'welcome', you: r.id, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
@@ -443,6 +449,7 @@ async function handle(ws, raw) {
 }
 wss.on('connection', ws => {
   ws.on('close', () => {
+    recallCasts.cancel(presence.players.get(ws)?.id);
     clearTimeout(conns.get(ws)?.statSyncTimer);
     conns.delete(ws);
     const departing = presence.players.get(ws);
@@ -528,6 +535,24 @@ function resetPvp(id) {
   endDuel(pvp.finish(id,'moved'));
   pvpState(id);
 }
+function cancelRecall(ws, why) {
+  if (recallCasts.cancel(presence.players.get(ws)?.id)) send(ws, { t: 'recall_cancel', why });
+}
+function updateRecalls() {
+  for (const [ws, p] of presence.players) {
+    if (!recallCasts.pending.has(p.id)) continue;
+    const state = combatants.get(p.id), view = pvp.view(p.id);
+    const why = recallWhy({ ...p, dead: p.dead || !!state && !state.c.alive }, {
+      fighting: combatants.fighting(p.id) || view.wait > 0, duel: !!view.duel, trade: !!trades.of(p.id)
+    });
+    const result = recallCasts.update(p.id, p, why);
+    if (result?.cancelled) send(ws, { t: 'recall_cancel', why: result.why });
+    else if (result?.complete) {
+      p.recallAt = Date.now() / 1000;
+      teleport(ws, p, { map: 'city', ...MAP_DATA.city.spawn }, pickCh('city'));
+    }
+  }
+}
 function recall(ws, followLeader = false) {
   const p=presence.players.get(ws); if(!p) return;
   const leader=followLeader?byId(parties.get(parties.of(p.id))?.leader)?.p:null;
@@ -536,12 +561,14 @@ function recall(ws, followLeader = false) {
   if (leader && leader.room !== p.room && (presence.counts(dest)[leader.ch]??0) >= channels.cap(dest)) return send(ws,{t:'recall_no',why:'full'});
   const why=recallWhy(followLeader?{...p,map:'field'}:p,{fighting:combatants.fighting(p.id)||pvp.view(p.id).wait>0||!!leader&&(combatants.fighting(leader.id)||pvp.view(leader.id).wait>0||!!pvp.view(leader.id).duel),duel:!!pvp.view(p.id).duel,trade:!!trades.of(p.id)});
   if(why) return send(ws,{t:'recall_no',why});
+  if (!followLeader) return send(ws, { t: 'recall_cast', ...recallCasts.start(p.id, p) });
   p.recallAt = Date.now() / 1000;
   teleport(ws, p, { map: dest, ...MAP_DATA[dest].spawn }, leader?.ch ?? pickCh(dest));
 }
 // Recall and steward travel share the authoritative room, roster and save flow.
 // Same-map travel uses it too, so observers see the relocation immediately.
 function teleport(ws, p, destination, ch, position = {}) {
+  cancelRecall(ws, 'moved');
   const left = p.room, now = Date.now() / 1000;
   resetPvp(p.id); combatants.sit(p.id, false); combatants.interrupt(p.id);
   const state = combatants.get(p.id);
@@ -884,6 +911,7 @@ function route(map, events, except = null) {
       if (!p || p.dead || p.room !== map) continue;
       if (e.attackId !== undefined && (!monster || monster.hp <= 0 || e.generation !== monster.strikeGeneration)) continue;
       if(monster&&p&&!navigation(p.map).clear(e.origin ?? monster,p,.05))continue;
+      cancelRecall(ws, 'busy');
       combatants.touch(e.to);
       const res = combatants.swing(e.to, worldOf(map).byId(e.id)?.def, e.power, { skill: !!e.skill });   // signed-in: resolved here
       if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
@@ -893,6 +921,7 @@ function route(map, events, except = null) {
     else if (e.t === 'wbhit') {   // a world boss skill landed on this player: a share of max HP (signed in: resolved here)
       if (combatants.get(e.to)?.tradeBusy) continue;
       const ws = socketOf(e.to); if (!ws) continue;
+      cancelRecall(ws, 'busy');
       combatants.touch(e.to);
       const res = combatants.pctHit(e.to, e.pct);
       if (res?.dead) { presence.setDead(ws, true); combatants.get(e.to)?.c.note('deaths'); titleNews(e.to); }
@@ -920,6 +949,7 @@ function worldBossClock() {
   }
 }
 function leaveNightMap(ws, p) {
+  cancelRecall(ws, 'moved');
   const door = MAP_DATA[p.map].portals[0], dest = door.to;
   endTrade(p.id, 'moved'); resetPvp(p.id);
   const left = p.room;
@@ -944,6 +974,7 @@ setInterval(() => {
     const m=w.snapshot();
     for(const [ws,p] of presence.players){if(p.room!==room)continue;const before=monsterInterests.get(ws);const next=monsterInterest(w.monsters,m,p,before?.room===room?before.visible:new Set());monsterInterests.set(ws,{room,visible:next.visible});if(next.rows.length)send(ws,{t:'mt',m:next.rows});}
   }
+  updateRecalls();
 }, TICK);
 // channels open and close with the crowd (server/channels.js), checked once a second
 setInterval(() => {
