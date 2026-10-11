@@ -26,8 +26,8 @@ import './equipment-reference.css';
 const AUTO_SORT_KEY = 'thainative.bag.autoSort';
 const pref = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
 
-const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'แหวน / เครื่องราง 1', charm2: 'แหวน / เครื่องราง 2' };
-const DOLL_LABELS = { charm: 'แหวน 1', charm2: 'แหวน 2' };
+const SLOT_LABELS = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'เครื่องประดับ 1', charm2: 'เครื่องประดับ 2' };
+const DOLL_LABELS = { charm: 'ประดับ 1', charm2: 'ประดับ 2' };
 const BONUS_LABELS = { atk: 'ATK', matk: 'MATK', def: 'DEF', hp: 'HP', mp: 'MP', crit: 'คริ', critDmg: 'แรงคริ', acc: 'แม่นยำ', eva: 'หลบ', cdr: 'ลดคูลดาวน์', cast: 'ร่ายเร็ว', mpCost: 'MP ที่ใช้' };
 const PERCENT_BONUS = new Set(['crit', 'critDmg', 'cdr', 'cast', 'mpCost']);
 // card keys: vs_<race> (more damage against it), res_<race | element> (less damage from it)

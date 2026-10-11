@@ -11,7 +11,7 @@ import { STRIP } from '../character/data/cards.js';
 import { REFINE_SHOP, REFINE_SAFE, REFINE_MAX, REFINE_MILESTONES, refinable, refineCost, refineBonus } from '../character/data/refine.js';
 import './shop.css';
 const REFINE_WHY = { gold: 'ตำลึงไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', locked: 'ปลดล็อกอุปกรณ์ก่อนตีบวก', connection: 'รอเชื่อมต่อและข้อมูลอุปกรณ์ล่าสุดก่อนตีบวก', pending: 'รอข้อมูลอุปกรณ์จากการตีครั้งก่อน', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', dead: 'ต้องฟื้นคืนชีพก่อนตีบวก', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
-const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'แหวน / เครื่องราง' };
+const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'เครื่องประดับ' };
 const plusName = (id, plus) => `${plus ? `+${plus} ` : ''}${ITEMS[id].name}`;
 const STRIP_WHY = { gold: 'ตำลึงไม่พอ', ash: 'ขี้เถ้าธูปไม่พอ', bag_full: 'กระเป๋าเต็ม', no_cards: 'ไอเท็มนี้ไม่มีการ์ด', no_shop: 'ต้องอยู่ที่ร้านหมออาคม และไม่ได้อยู่ระหว่างต่อสู้' };
 
@@ -28,7 +28,7 @@ const GROUPS = [
   ['flask', 'ขวดใช้ซ้ำ', 'ขวดเลือด Q · ขวดมานา E'],
   ['weapon', 'อาวุธ', 'สวมได้จากกระเป๋า (I)'],
   ['wear', 'เครื่องแต่งกาย', 'เสื้อ · หมวก · ผ้าคลุม · รองเท้า · ถุงมือ · เข็มขัด · สร้อย'],
-  ['charm', 'เครื่องราง', 'ใส่ช่องเครื่องราง'],
+  ['charm', 'เครื่องประดับ', 'ใส่ช่องเครื่องประดับ'],
   ['material', 'วัตถุดิบ', 'ใช้ตีบวก · ถอดการ์ด'],
   ['card', 'การ์ด', 'ใส่ช่องการ์ดของอุปกรณ์'],
   ['other', 'อื่น ๆ', ''],

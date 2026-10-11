@@ -1,0 +1,31 @@
+{
+  "base": "http://127.0.0.1:5314",
+  "checks": [
+    {
+      "check": "desktop visible labels and accessible slot/lock labels",
+      "labels": [
+        "ประดับ 1",
+        "ประดับ 2"
+      ],
+      "pass": true
+    },
+    {
+      "check": "mobile visible labels and accessible slot/lock labels",
+      "labels": [
+        "ประดับ 1",
+        "ประดับ 2"
+      ],
+      "pass": true
+    },
+    {
+      "check": "actual item name preserved and tooltip uses full accessory term",
+      "pass": true,
+      "tooltip": "ลูกประคำไม้กฤษณา [1]\nเครื่องประดับ 1 · ตำนาน · น้ำหนัก 2\nINT +3\nMP +30\nร่ายเร็ว +15%\nลดคูลดาวน์ +5%\nช่องการ์ด: ○ ว่าง\nอุปกรณ์สวมใส่ · ▼ แย่กว่าที่ใส่อยู่\n\nเลือกไอเท็มเพื่อดูรายละเอียดและปุ่มใช้งาน"
+    },
+    {
+      "check": "shop actual accessory category uses เครื่องประดับ",
+      "pass": true
+    }
+  ],
+  "errors": []
+}
