@@ -17,7 +17,7 @@
     "bytes": 2799556
   },
   "output": {
-    "path": "public/ui/skills/imagegen-sample-v2/sword_twin.webp",
+    "path": "docs/art/skills/imagegen-sample-v2/assets/sword_twin.webp",
     "sha256": "afd0a1a573831b13bef9e1da699a89eac4fea7f7220872072f795b5024367949",
     "width": 256,
     "height": 256,

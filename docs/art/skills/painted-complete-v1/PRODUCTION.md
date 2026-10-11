@@ -8,7 +8,7 @@ This folder holds 65 unchanged PNG masters, exact per-skill `.prompt.txt` files 
 
 Production: `public/ui/skills/painted-complete-v1/` holds 65 opaque 256 x 256 WebPs totaling 1,655,810 bytes and a five-class gallery. PNG masters stay outside the shipped public directory.
 
-Preview: http://127.0.0.1:5314/ui/skills/painted-complete-v1/preview.html
+Preview: http://127.0.0.1:5314/docs/art/skills/painted-complete-v1/preview/preview.html
 
 Changed runtime files:
 

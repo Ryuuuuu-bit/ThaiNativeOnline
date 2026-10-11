@@ -1,5 +1,5 @@
 // Pixel monsters: pulls each monster's PixelLab download (rotations + animation frames) and packs
-// one sprite sheet per monster for src/combat/MonsterSprites.js.
+// Historical pixel authoring utility; these sheets are not used by the 3D game runtime.
 //
 //   npm ci --prefix tools/pixel-monsters
 //   node tools/pixel-monsters/fetch.mjs            # every type in manifest.json

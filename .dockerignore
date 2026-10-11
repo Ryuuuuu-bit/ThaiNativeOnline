@@ -1,0 +1,21 @@
+# Only build inputs and runtime sources enter the build context.
+**
+!Dockerfile
+!.dockerignore
+!package.json
+!package-lock.json
+!index.html
+!vite.config.js
+!src/
+!src/**
+!public/
+!public/**
+!server/
+!server/**
+# Never admit credentials, even if placed inside an allowed directory.
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/node_modules
+**/node_modules/**

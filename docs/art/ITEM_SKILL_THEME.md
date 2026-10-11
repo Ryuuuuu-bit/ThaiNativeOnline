@@ -17,7 +17,7 @@ counts, hotkeys, locks and cooldowns remain separate overlays.
 - `src/ui/icons.js`: shared assetIcon markup, with escaped URLs and alt text.
 - `src/ui/icon-theme.css`: frame, crop, size rules and inventory inner-box sizing.
 - `src/main.js`: loads the shared theme for the game.
-- `src/ui/ActionBar.js`, `src/ui/autoSettings.js`, `src/classes/fx/hotbar.js`:
+- `src/ui/ActionBar.js`, `src/ui/autoSettings.js`:
   action-bar and AUTO icons use the same helper.
 - `src/character/ui/SkillPanel.js`, `src/character/ui/CreationScreen.js`:
   skill tree, detail, assigned slots and character creation use the same helper.

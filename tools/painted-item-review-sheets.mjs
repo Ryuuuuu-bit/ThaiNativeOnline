@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 const [sharpModule, destination = 'artifacts/item-assets-completion/review'] = process.argv.slice(2);
 if (!sharpModule) throw Error('Usage: node tools/painted-item-review-sheets.mjs SHARP_MODULE [OUTPUT_DIRECTORY]');
 const sharp = createRequire(import.meta.url)(sharpModule);
-const manifest = JSON.parse(readFileSync('public/ui/items/painted-complete-v1/preview-manifest.json'));
+const manifest = JSON.parse(readFileSync('docs/art/items/painted-complete-v1/preview/preview-manifest.json'));
 mkdirSync(destination, { recursive: true });
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[c]);
 const index = [];

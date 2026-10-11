@@ -20,7 +20,7 @@
     "bytes": 1422248
   },
   "production": {
-    "path": "public/ui/skills/imagegen-sample-v1/arch_quick.webp",
+    "path": "docs/art/skills/imagegen-sample-v1/assets/arch_quick.webp",
     "sha256": "4d09b4a7ff2a2b265bfb56490846889b879744526f0bf0985d2294b03e0c0ca3",
     "width": 256,
     "height": 256,

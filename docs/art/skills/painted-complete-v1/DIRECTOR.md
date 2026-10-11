@@ -11,7 +11,7 @@ Decision: approve the user-approved v2 colored painted-background style for all 
 - `src/ui/ActionBar.js`: calls `assetIcon(s.icon)` for the live bar. `src/ui/autoSettings.js` does the same for AUTO skill settings.
 - `src/character/ui/SkillPanel.js`: `entry()` reads active kit entries or `KIT_PASSIVES`; tree tiles, selected detail and assigned skill slots all call `assetIcon()`.
 - `src/character/ui/CreationScreen.js`: ready-class preview buttons call `assetIcon()` for all ten kit skills.
-- `src/classes/fx/hotbar.js`: standalone class/training bar calls `assetIcon()`.
+- `src/ui/ActionBar.js`: the shared class/training bar calls `assetIcon()`; the unused standalone bar has been removed.
 - `src/character/ui/HotbarEditor.js:38`: **bypasses `assetIcon` with a raw `<img src=s.icon>`**, so a central resolver only inside `assetIcon` would miss this screen. Route it through `assetIcon` or the same resolver.
 - `src/combat/data/skills.js` / `CharacterUI.buffsHtml()`: buff badges use `iconHtml()` and therefore `assetIcon()`. Existing `waikru` and `regen` images alias `boxer_waikru` and `heal_zone`; map those existing paths. Other guard/smoke/poison badges are glyph status cues, not separate learned skill artwork.
 

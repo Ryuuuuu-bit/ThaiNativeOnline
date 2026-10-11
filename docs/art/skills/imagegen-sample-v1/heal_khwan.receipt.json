@@ -10,7 +10,7 @@
   "master": "docs/art/skills/imagegen-sample-v1/heal_khwan.png",
   "sourceSHA256": "4db6e57a2e24f7947eda287e1134b3150420422963a7788410894a0ed5d98080",
   "masterSHA256": "4db6e57a2e24f7947eda287e1134b3150420422963a7788410894a0ed5d98080",
-  "output": "public/ui/skills/imagegen-sample-v1/heal_khwan.webp",
+  "output": "docs/art/skills/imagegen-sample-v1/assets/heal_khwan.webp",
   "outputSHA256": "71dffa9ccee9f6db9f829b598f7c9b3409c6ea4034edd5925e6053afe409ed70",
   "sourceDimensions": {
     "width": 1254,

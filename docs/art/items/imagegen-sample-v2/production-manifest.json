@@ -16,7 +16,7 @@
   "items": [
     {
       "id": "dusk_fort_book",
-      "source": "public/ui/items/imagegen-sample-v2/dusk_fort_book.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/dusk_fort_book.png",
       "sourceSha256": "77597c4cfb04254d78e7c609278cffaba810a9ace98648121b15da92abc334a7",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -31,7 +31,7 @@
     },
     {
       "id": "dusk_fort_sword",
-      "source": "public/ui/items/imagegen-sample-v2/dusk_fort_sword.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/dusk_fort_sword.png",
       "sourceSha256": "c0720b13abd381233604a6e0f3392d37045eabb006ad0a11d8479a1eb9c36e19",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -46,7 +46,7 @@
     },
     {
       "id": "hunt_dusk_fort_head_sage",
-      "source": "public/ui/items/imagegen-sample-v2/hunt_dusk_fort_head_sage.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/hunt_dusk_fort_head_sage.png",
       "sourceSha256": "a62b58fab3be8df18eff47ffdaa5521b86696e01d13a309b8d8470a21dfd1ea3",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -61,7 +61,7 @@
     },
     {
       "id": "dusk_fort_armor",
-      "source": "public/ui/items/imagegen-sample-v2/dusk_fort_armor.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/dusk_fort_armor.png",
       "sourceSha256": "b43d9c4dc68137b9375b5dc154d2d29a02c9e398df2e2411c5ad15f0dee55f4f",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -76,7 +76,7 @@
     },
     {
       "id": "hunt_dusk_fort_cape_sage",
-      "source": "public/ui/items/imagegen-sample-v2/hunt_dusk_fort_cape_sage.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/hunt_dusk_fort_cape_sage.png",
       "sourceSha256": "e6d0ed171ea2f14de70fa97b0d58afd2965da6fc52cb1fd2baa33e3406f21bc2",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -91,7 +91,7 @@
     },
     {
       "id": "wear_dusk_fort_gloves_guard",
-      "source": "public/ui/items/imagegen-sample-v2/wear_dusk_fort_gloves_guard.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/wear_dusk_fort_gloves_guard.png",
       "sourceSha256": "d27569dc3f4daf72b34711528159d973343d54897d803f275c99e1eea8afa470",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -106,7 +106,7 @@
     },
     {
       "id": "wear_dusk_fort_belt_guard",
-      "source": "public/ui/items/imagegen-sample-v2/wear_dusk_fort_belt_guard.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/wear_dusk_fort_belt_guard.png",
       "sourceSha256": "ed6079f54dc894fd44de273d36b8447df3fd509c80a26e21930592caf212f345",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -121,7 +121,7 @@
     },
     {
       "id": "dusk_fort_shoes",
-      "source": "public/ui/items/imagegen-sample-v2/dusk_fort_shoes.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/dusk_fort_shoes.png",
       "sourceSha256": "fc12e7eced16d92fab1efba21b0de4dc784ef5af182ed017d91dfc8d5907d30c",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -136,7 +136,7 @@
     },
     {
       "id": "wear_dusk_fort_ring_sage",
-      "source": "public/ui/items/imagegen-sample-v2/wear_dusk_fort_ring_sage.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/wear_dusk_fort_ring_sage.png",
       "sourceSha256": "a5a79a8184ce729fc5af7ef31f190b71412461f04203903faedf23c15825795b",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -151,7 +151,7 @@
     },
     {
       "id": "wear_dusk_fort_amulet_sage",
-      "source": "public/ui/items/imagegen-sample-v2/wear_dusk_fort_amulet_sage.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/wear_dusk_fort_amulet_sage.png",
       "sourceSha256": "89e271c3dc6ed676b1d56b4796335f65fcd45fc7f42a3218a327ba2f7e54ae75",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -166,7 +166,7 @@
     },
     {
       "id": "flask_hp_6",
-      "source": "public/ui/items/imagegen-sample-v2/flask_hp_6.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/flask_hp_6.png",
       "sourceSha256": "102f73cd25c48450f094e1641f94193e64d3e1fcba6f7060009b99952d62a733",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -181,7 +181,7 @@
     },
     {
       "id": "flask_mp_6",
-      "source": "public/ui/items/imagegen-sample-v2/flask_mp_6.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/flask_mp_6.png",
       "sourceSha256": "6c0a6cb2a413495940fadd5c965755387cb86b187a16d28c45f267f99e45ebc0",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -196,7 +196,7 @@
     },
     {
       "id": "takrut",
-      "source": "public/ui/items/imagegen-sample-v2/takrut.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/takrut.png",
       "sourceSha256": "4a1cdbd31ebc472c2a855cc977841742221750382e4bc2faf61a9464425a91d1",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -211,7 +211,7 @@
     },
     {
       "id": "bia_kae",
-      "source": "public/ui/items/imagegen-sample-v2/bia_kae.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/bia_kae.png",
       "sourceSha256": "b3cd1b8f48f2aae331ca63f284d8107c2f0e9f0b96c5c7ca0bb950b208574eb1",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
@@ -226,7 +226,7 @@
     },
     {
       "id": "prakam",
-      "source": "public/ui/items/imagegen-sample-v2/prakam.png",
+      "source": "docs/art/items/imagegen-sample-v2/assets/prakam.png",
       "sourceSha256": "98b4ae1204806d116f22ec51b71dc825e4fd7249d841bff4b3aec62d1f428034",
       "sourceWidth": 1254,
       "sourceHeight": 1254,
