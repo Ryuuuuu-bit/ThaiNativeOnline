@@ -3,7 +3,7 @@ import './quests.css';
 import { NEWCOMER_GUIDE } from '../data/newcomer-guide.js';
 import { newcomerJourney } from '../quest/newcomerJourney.js';
 import { passMovementKey } from './nonmodalKeys.js';
-import { questHudPlacement } from './questHudLayout.js';
+import { questHudPlacement, QuestHudTouchAnchor } from './questHudLayout.js';
 export { describeObjective } from '../quest/questPresentation.js';
 
 const $ = id => document.getElementById(id);
@@ -12,6 +12,7 @@ const $ = id => document.getElementById(id);
 export class QuestUI {
   constructor(quests, { onAccept, onComplete, onPanel = () => {}, onJournal = () => {}, onNavigate = () => {}, navigation = () => null }) {
     this.quests = quests;
+    this.touchAnchor = new QuestHudTouchAnchor();
     Object.assign(this, { onJournal, onNavigate, navigation });
     this.guide = document.createElement('section');
     this.guide.id = 'newcomer-guide';
@@ -63,7 +64,7 @@ export class QuestUI {
     this.renderGuide();
     const state = this.navigation(), objective = state?.objective;
     this.root.hidden = !objective || !!state?.hidden || !!this.covered;
-    if (!objective) return;
+    if (!objective) { this.touchAnchor.clear(); return; }
     this.root.querySelector('.quest-hud-title').textContent = objective.quest.title;
     this.root.querySelector('.quest-hud-objective span').textContent = objective.text;
     this.root.querySelector('.quest-hud-objective em').textContent = objective.progress ? `${objective.progress.have}/${objective.progress.need}` : objective.complete ? 'พร้อมส่ง' : 'ยังไม่รับ';
@@ -99,9 +100,10 @@ export class QuestUI {
   layout() {
     const touch = document.body.classList.contains('ui-touch');
     const mini = document.querySelector('.minimap')?.getBoundingClientRect();
-    if (!mini) return;
+    if (!mini) { this.touchAnchor.clear(); return; }
     this.root.dataset.compact = 'false';
-    const placement = questHudPlacement({ touch, mini, width: innerWidth, height: innerHeight,
+    const viewport = { touch, width: innerWidth, height: innerHeight };
+    const placement = questHudPlacement({ ...viewport, mini, previous: this.touchAnchor.previous(viewport),
       fullHeight: this.root.getBoundingClientRect().height,
       hotbar: document.querySelector('.hotbar.action-bar')?.getBoundingClientRect(),
       protectedRects: touch ? [...document.querySelectorAll('.minimap,.location,.plate.is-self,.g-player,.net-chat,.mm-btn,.touch-side,.touch-combat-dock,.touch-pad,.touch-zone,.touch-utilities')].map(el => el.getBoundingClientRect()) : [] });
@@ -109,6 +111,7 @@ export class QuestUI {
     this.root.style.setProperty('--quest-top', `${placement.top}px`);
     this.root.style.setProperty('--quest-right', `${placement.right}px`);
     if (placement.hidden) this.root.hidden = true;
+    this.touchAnchor.remember(placement, !this.root.hidden);
   }
   renderGuide() {
     const journey = newcomerJourney(this.quests, NEWCOMER_GUIDE);
