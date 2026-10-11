@@ -181,7 +181,9 @@ async function api(req, res, url) {
       }
       if (live?.tradeBusy || live?.stashBusy) return json(res, 409, {ok:false,code:'save_busy'});   // resolve after reading: the old socket may have left meanwhile
       if (live && Object.hasOwn(body, 'characterUid') && body.characterUid !== live.persist.characterUid) return json(res, 409, { ok: false, code: 'stale_character' });
-      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), inventoryRevision: live.persist.inventoryRevision ?? 0, characterUid: live.persist.characterUid } : null,
+      const p = live && [...presence.players.values()].find(p => combatants.get(p.id) === live);
+      const location = p ? { map: p.map, x: p.x, z: p.z, facing: p.f } : null;
+      const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), location, inventoryRevision: live.persist.inventoryRevision ?? 0, characterUid: live.persist.characterUid } : null,
         Object.hasOwn(body, 'characterUid') ? { characterUid: body.characterUid } : live ? { characterUid: live.persist.characterUid } : {});
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }

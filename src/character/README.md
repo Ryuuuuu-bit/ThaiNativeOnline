@@ -15,6 +15,8 @@ Owner: gameplay-engineer (`data/`: content-designer). Pure game logic in `Charac
 | `ui/CreationScreen.js` | Name, gender and class picker; resolves `{ name, classId, gender }` |
 | `ui/CharacterUI.js` | Player frame, quick potions, character sheet (C), bag (I) |
 | `ui/Feed.js` | Message feed and centre banner shared by all game UI |
+| `equipmentComparison.js` | Read-only slot projection using current Character getters |
+| `ui/equipmentComparisonView.js` | Shared selected/hover equipment delta table |
 | `ui/dom.js` | `el`, `esc`, `pct`, `setBar` helpers |
 
 ## Public interface
@@ -72,3 +74,20 @@ achievements and rank loss, retaining an unearned worn rank title only while
 entitled. `toJSON` never saves that entitlement or an unearned worn selection.
 Server `Combatants.me` carries the live selected title separately for sync.
 See `docs/technical/SERVER_GM.md` for authentication and revocation hooks.
+
+## Equipment comparisons
+
+`InventoryWorkspace` calls DOM-free `previewEquipment` with an owned item. The
+projection shadows only equipment/cards/refine/gearRolls on an isolated Character
+view and reads the existing getters, including active buffs, night, passives,
+masteries and caps. It never constructs/equips/saves/emits or rerolls anything.
+The destination matches `Character.equip` exactly: a free second accessory is
+used, otherwise the first is replaced. A locked equipment item may still equip.
+
+The shared selected-item/touch and hover table shows actual current → after and
+separate signed deltas. It shows changed numeric stats, or core unchanged stats
+when none change. Percentage differences use percentage points (`จุด%`). Current
+card numeric bonuses are included; outgoing/incoming conditional card abilities
+and race/element effects are listed separately, never projected as flat damage.
+The score arrow is advisory. No comparison modifies rules, rewards or equipment
+metadata. See `docs/design/EQUIPMENT_COMPARISON.md` for presentation/limits.

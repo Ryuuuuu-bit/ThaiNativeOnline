@@ -2,11 +2,13 @@ import { ITEMS } from '../data/items.js';
 import { BAG_TABS, inTab, gearScore } from '../bag.js';
 import { isItemLocked } from '../itemState.js';
 import { el, esc } from './dom.js';
+import { equipDestination } from '../equipmentComparison.js';
+import { equipmentComparisonHtml } from './equipmentComparisonView.js';
 import './inventory-workspace.css';
 
 // Keep visual comparisons aligned with Character.equip, which replaces charm
 // (not the weaker charm) when both accessory slots are occupied.
-export const equipDestination = (c, id) => ITEMS[id]?.slot === 'charm' && c.equipment.charm && !c.equipment.charm2 ? 'charm2' : ITEMS[id]?.slot;
+export { equipDestination };
 export function compareToEquipped(c, input) {
   const id = typeof input === 'string' ? input : input?.id;
   const d = ITEMS[id];
@@ -203,7 +205,7 @@ export class InventoryWorkspace {
     const item = this.tooltipItem(button);
     if (!item || !ITEMS[item.id]) return;
     this.hoverButton = button; this.hoverFingerprint = JSON.stringify(item);
-    this.tooltip.innerHTML = `<div class="iw-item-card">${this.renderCard(item, button.dataset.slot ? 0 : compareToEquipped(this.ui.c, item))}</div><p class="iw-tooltip-hint">เลือกไอเท็มเพื่อดูรายละเอียดและปุ่มใช้งาน</p>`;
+    this.tooltip.innerHTML = `<div class="iw-item-card">${this.renderCard(item, button.dataset.slot ? 0 : compareToEquipped(this.ui.c, item))}</div>${button.dataset.slot ? '' : equipmentComparisonHtml(this.ui.c, item, this.labels)}<p class="iw-tooltip-hint">เลือกไอเท็มเพื่อดูรายละเอียดและปุ่มใช้งาน</p>`;
     button.setAttribute('aria-describedby', this.tooltip.id);
     this.tooltip.hidden = false;
     this.positionTooltip();
@@ -223,6 +225,23 @@ export class InventoryWorkspace {
     clearTimeout(this.tooltipTimer);
     this.hoverButton?.removeAttribute('aria-describedby'); this.hoverButton = null;
     if (this.tooltip) this.tooltip.hidden = true;
+  }
+  refreshComparison() {
+    // Update only the projection, never replace focused actions during HP ticks.
+    const update = (host, item) => {
+      const node = host?.querySelector?.('.iw-stat-comparison');
+      if (!node || !item) return;
+      const html = equipmentComparisonHtml(this.ui.c, item, this.labels);
+      if (node.outerHTML !== html) node.outerHTML = html;
+    };
+    if (this.selected && !this.selected.slot) update(this.ui.detail, this.item());
+    const item = this.item(), d = ITEMS[item?.id];
+    const equip = this.ui.detail?.querySelector?.('[data-item-action="equip"]');
+    if (equip && d?.type === 'equip') equip.disabled = !this.ui.c.alive || !this.ui.c.canWield(item.id) || this.ui.c.level < (d.minLevel ?? 1) || !!d.retired;
+    if (this.hoverButton && !this.hoverButton.dataset.slot && !this.tooltip.hidden) {
+      update(this.tooltip, this.tooltipItem(this.hoverButton));
+      this.positionTooltip();
+    }
   }
   refreshDetail() {
     const item = this.item();
@@ -244,9 +263,9 @@ export class InventoryWorkspace {
       // Match Character.equip's actual destination, including the second charm.
       const slot = equipDestination(c, item.id);
       const current = c.wornItem(slot);
-      comparison = `<div class="iw-comparison"><b>ช่องที่จะสวม: ${esc(this.labels[slot] ?? slot)}</b>${current ? this.renderCard(current, 0) : '<small>ช่องนี้ว่าง</small>'}</div>`;
-      if (!c.canWield(item.id) || c.level < (d.minLevel ?? 1)) comparison += '<p class="iw-warning">อาชีพหรือเลเวลยังใช้อุปกรณ์นี้ไม่ได้</p>';
-      comparison += '<small class="iw-score-note">ลูกศรเปรียบเทียบโบนัสตามอาชีพ รวมออฟสุ่ม ตีบวก และการ์ด</small>';
+      comparison = equipmentComparisonHtml(c, item, this.labels);
+      if (current) comparison += `<details class="iw-current-item"><summary>รายละเอียดชิ้นที่สวมอยู่</summary><div class="iw-item-card">${this.renderCard(current, 0)}</div></details>`;
+      comparison += '<small class="iw-score-note">ลูกศรบนไอเท็มเป็นคะแนนประมาณตามอาชีพ · ตรวจผลต่างแต่ละค่าก่อนสวม</small>';
     }
     host.innerHTML = `${worn ? `<b class="iw-detail-location">สวมอยู่ · ${esc(this.labels[this.selected.slot] ?? this.selected.slot)}</b>` : ''}<div class="iw-item-card">${this.renderCard(item, worn ? 0 : compareToEquipped(c, item))}</div>${comparison}<div class="iw-actions">${action}<button type="button" data-item-action="lock">${isItemLocked(item) ? 'ปลดล็อก' : 'ล็อกไอเท็ม'}</button></div>`;
     host.hidden = false;

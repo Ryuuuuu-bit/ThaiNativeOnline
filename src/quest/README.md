@@ -9,3 +9,5 @@ QuestSystem owns accepted progress and rewards; slotStorage is supplied by Game.
 - QuestUI renders one compact objective HUD; QuestJournal hosts the detailed Lv1–20 journey and journal actions. WorldMapPanel adds a temporary quest entry while preserving its ordinary directory when no coordinates exist.
 
 See `docs/design/QUEST_HUD_NAVIGATION.md` for interaction and verification contracts.
+
+- `questGuidance` reads current step/player/camera basis and the remaining explicit quest route. It distinguishes remaining path distance from idle direct distance; no simulation or authority changes. QuestUI uses `questHudLayout` to protect actual touch title, zone and control rectangles, falling back to the registered journal when no gap exists.

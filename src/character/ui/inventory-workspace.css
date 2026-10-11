@@ -63,6 +63,35 @@ body .inventory-workspace .g-eqs .g-equip-lock {width:44px;height:44px;min-width
 .inventory-workspace .iw-selection-hint {font-size:12px;line-height:1.7;margin:0;color:#bccbb5}
 .inventory-workspace .iw-warning,.inventory-workspace .g-pick-warn {color:#ffd19a}
 .inventory-workspace .iw-score-note {color:#b1bba6;margin-top:8px}
+.inventory-workspace .iw-stat-comparison {margin-top:12px;padding-top:10px;border-top:1px solid #bda16c55;min-width:0;font-size:12px}
+.inventory-workspace .iw-stat-comparison>b {display:block;color:#f1d99c;overflow-wrap:anywhere}
+.inventory-workspace .iw-stat-comparison table {width:100%;table-layout:fixed;border-collapse:collapse;margin-top:8px;font-size:11px;font-variant-numeric:tabular-nums}
+.inventory-workspace .iw-stat-comparison caption {text-align:left;color:#eee6cd;padding:4px 0;font-size:12px}
+.inventory-workspace .iw-stat-comparison :is(th,td) {padding:5px 2px;border-bottom:1px solid #bda16c22;overflow-wrap:anywhere;text-align:right;line-height:1.5}
+.inventory-workspace .iw-stat-comparison th:first-child {width:29%;text-align:left;color:#dfdbbe}
+.inventory-workspace .iw-stat-comparison thead th {color:#b9c8b5;font-weight:400}
+.inventory-workspace .iw-stat-comparison .up {color:#9bdfa8}
+.inventory-workspace .iw-stat-comparison .down {color:#ffbb92}
+.inventory-workspace .iw-unchanged {color:#bdc9b9}
+.inventory-workspace .iw-projection-note {color:#bacbb7;line-height:1.65;margin-top:8px;display:block}
+.inventory-workspace :is(.iw-current-item,.iw-conditional) {margin-top:10px;border-top:1px solid #bda16c33;line-height:1.7}
+.inventory-workspace :is(.iw-current-item,.iw-conditional)>summary {cursor:pointer;min-height:44px;display:flex;align-items:center;color:#dfcfab;font-size:12px}
+.inventory-workspace .iw-current-item .iw-item-card {padding-top:6px}
+.inventory-workspace .iw-bonus-heading {flex-basis:100%;color:#dbc58e;font-size:11px;font-weight:600}
+.inventory-workspace .iw-card-bonuses {white-space:pre-line;border-top:1px solid #bda16c33;padding-top:6px}
+/* Classic selected details use parchment; the separate dark hover tooltip keeps
+   its existing light palette. Scope the ink override to the paper host only. */
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison {color:#332414;border-color:#6c543455}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison :is(caption,th) {color:#332414}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison :is(th,td) {border-color:#6c543433}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .up {color:#123c1c}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .down {color:#5c1b0b}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .iw-unchanged {color:#332414}
+body.skin-classic .inventory-workspace .iw-detail :is(.iw-current-item,.iw-conditional)>summary {color:#332414}
+body.skin-classic .inventory-workspace .iw-detail :is(small,.iw-projection-note,.iw-score-note) {color:#332414}
+body.skin-classic .inventory-workspace .iw-detail .g-detail-bonus i {color:#123c1c}
+body.skin-classic .inventory-workspace .iw-detail :is(.iw-warning,.g-detail-bonus .iw-refine-bonus) {color:#5c1b0b}
+body.skin-classic .inventory-workspace .iw-detail :is(.iw-current-item,.iw-conditional,.iw-card-bonuses) {border-color:#6c543455}
 .inventory-workspace .g-hint {font-size:11px;line-height:1.6}
 .inventory-workspace .g-card-pick {position:sticky;inset:auto;bottom:0;max-height:none;overflow:visible;padding:12px;margin-top:10px;box-shadow:0 -8px 24px #0006;background:#152c22;border-color:#bda16c}
 .inventory-workspace .g-card-pick button[data-where] {min-height:48px;padding:8px;font-size:12px}

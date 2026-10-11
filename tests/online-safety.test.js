@@ -120,9 +120,7 @@ test('accounts retry captured final state and API saves cannot overwrite server 
   // The queue's retry timer is unref()'d (a retrying save must not keep the server alive), so hold the loop open while it runs.
   const alive=setInterval(()=>{},50);try{await Promise.all([flush,api]);}finally{clearInterval(alive);}
   assert.equal((await A.character('test',0)).gold,123);
-  // The later API request owns its other keys; another server snapshot restores the authoritative position.
-  await A.putCharacter('test',0,{...c,gold:123},null,{map:'paddy',x:0,z:-130,facing:3});
-  assert.equal(JSON.parse((await store.listSlots('test'))[0].data['tno.location.v1']).z,-130);
+  assert.deepEqual(JSON.parse((await store.listSlots('test'))[0].data['tno.location.v1']),{map:'paddy',x:0,z:-130,facing:3},'the later API save keeps the earlier authoritative flush location without needing another flush');
 });
 test('shutdown freezes, snapshots and waits for retries before closing; signals share one run',async()=>{
   const q=new SaveQueue({retryMs:5}),out=[];let tries=0;

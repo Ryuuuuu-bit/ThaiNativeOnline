@@ -6,6 +6,83 @@ import { MemoryStore } from '../server/store.js';
 
 const save = (name = 'แดง', extra = {}) => ({ 'tno.character.v1': JSON.stringify({ name, classId: 'hunter', gender: 'male', level: 3 }), 'tno.quests.v1': '{}', ...extra });
 
+test('existing offline saves retain canonical server location even when omitted or replaced by client versions', async () => {
+  const store = new MemoryStore(), A = new Accounts(store);
+  const location = { map: 'city', x: -6, z: 52, facing: 1.5 };
+  assert.ok((await A.save('ryuu', 0, save('แดง', { 'tno.location.v3': JSON.stringify(location) }))).ok, 'new-slot imports keep their location');
+  assert.deepEqual(JSON.parse((await A.slots('ryuu'))[0].data['tno.location.v3']), location);
+  for (const incoming of [{}, { 'tno.location.v1': '{"map":"paddy","x":15,"z":43}', 'tno.location.v9': '{"map":"city","x":99,"z":99}' }]) {
+    assert.ok((await A.save('ryuu', 0, save('แดง', incoming))).ok);
+    const data = (await A.slots('ryuu'))[0].data;
+    assert.deepEqual(Object.keys(data).filter(k => k.startsWith('tno.location.')), ['tno.location.v1']);
+    assert.deepEqual(JSON.parse(data['tno.location.v1']), location);
+  }
+});
+
+test('legacy existing characters without saved location reject injected locations and keep spawn fallback', async () => {
+  const A = new Accounts(new MemoryStore());
+  assert.ok((await A.save('ryuu', 0, save())).ok);
+  assert.ok((await A.save('ryuu', 0, save('แดง', { 'tno.location.v1': '{"map":"city","x":99}', 'tno.location.v2': '{"map":"paddy"}' }))).ok);
+  assert.deepEqual(Object.keys((await A.slots('ryuu'))[0].data).filter(k => k.startsWith('tno.location.')), []);
+  assert.ok((await A.save('ryuu', 1, save('ดำ', { 'tno.location.v1': '{"map":"paddy","x":8,"z":9,"facing":0}' }))).ok);
+  assert.deepEqual(JSON.parse((await A.slots('ryuu')).find(s => s.slot === 1).data['tno.location.v1']), { map: 'paddy', x: 8, z: 9, facing: 0 }, 'a genuinely new slot still accepts its imported location');
+});
+
+test('offline API location fallback reads the latest row after earlier queued server writes', async () => {
+  const A = new Accounts(new MemoryStore());
+  await A.save('ryuu', 0, save('แดง', { 'tno.location.v1': '{"map":"city","x":15,"z":43}' }));
+  const c = await A.character('ryuu', 0), location = { map: 'city', x: -6, z: 52, facing: 2 };
+  let release;
+  const held = A.writes.run('ryuu:0', () => new Promise(resolve => { release = resolve; }));
+  const flush = A.putCharacter('ryuu', 0, c, null, location);
+  const stale = A.save('ryuu', 0, save('แดง', { 'tno.location.v1': '{"map":"city","x":15,"z":43}' }));
+  release();
+  await held; assert.equal(await flush, true); assert.ok((await stale).ok);
+  assert.deepEqual(JSON.parse((await A.slots('ryuu'))[0].data['tno.location.v1']), location);
+});
+
+test('trusted live location is immutable at enqueue and later authoritative writes retain FIFO order', async () => {
+  const A = new Accounts(new MemoryStore());
+  await A.save('ryuu', 0, save('แดง', { 'tno.location.v1': '{"map":"city","x":15,"z":43}' }));
+  const c = await A.character('ryuu', 0), uid = A.characterUid('ryuu', 0);
+  const location = { map: 'city', x: -6, z: 52, facing: 1 };
+  const live = { c, quests: '{}', characterUid: uid, location };
+  let release;
+  const held = A.writes.run('ryuu:0', () => new Promise(resolve => { release = resolve; }));
+  const earlier = A.putCharacter('ryuu', 0, c, null, { map: 'city', x: 0, z: 0, facing: 0 });
+  c.gold = 123;
+  const captured = A.save('ryuu', 0, save('แดง', { 'tno.location.v8': '{"map":"paddy"}' }), live);
+  location.x = 999; live.location = null; c.gold = 999;
+  const observed = A.writes.run('ryuu:0', async () => (await A.slots('ryuu'))[0].data);
+  const laterLocation = { map: 'paddy', x: 2, z: 3, facing: 4 };
+  const later = A.putCharacter('ryuu', 0, { ...c, gold: 123 }, null, laterLocation);
+  release(); await held; assert.equal(await earlier, true); assert.ok((await captured).ok);
+  const capturedData = await observed;
+  assert.deepEqual(JSON.parse(capturedData['tno.location.v1']), { map: 'city', x: -6, z: 52, facing: 1 });
+  assert.equal(JSON.parse(capturedData['tno.character.v1']).gold, 123);
+  assert.deepEqual(Object.keys(capturedData).filter(k => k.startsWith('tno.location.')), ['tno.location.v1']);
+  assert.equal(await later, true);
+  assert.deepEqual(JSON.parse((await A.slots('ryuu'))[0].data['tno.location.v1']), laterLocation);
+});
+
+test('queued old-character save cannot replace the location of a newly created slot', async () => {
+  const A = new Accounts(new MemoryStore());
+  await A.save('ryuu', 0, save());
+  const c = await A.character('ryuu', 0), oldUid = A.characterUid('ryuu', 0);
+  let release;
+  const held = A.writes.run('ryuu:0', () => new Promise(resolve => { release = resolve; }));
+  const removed = A.remove('ryuu', 0);
+  const replacementLocation = { map: 'city', x: 8, z: 9, facing: 0 };
+  const replacement = A.save('ryuu', 0, save('ดำ', { 'tno.location.v1': JSON.stringify(replacementLocation) }), null, { characterUid: null });
+  const stale = A.save('ryuu', 0, save(), { c, quests: '{}', characterUid: oldUid, location: { map: 'paddy', x: 99, z: 99, facing: 2 } });
+  release(); await held; assert.ok((await removed).ok); assert.ok((await replacement).ok);
+  assert.equal((await stale).code, 'stale_save');
+  const row = (await A.slots('ryuu'))[0];
+  assert.notEqual(row.characterUid, oldUid);
+  assert.equal(JSON.parse(row.data['tno.character.v1']).name, 'ดำ'.normalize('NFKC'));
+  assert.deepEqual(JSON.parse(row.data['tno.location.v1']), replacementLocation);
+});
+
 test('register, then log in with the same password only', async () => {
   const A = new Accounts(new MemoryStore());
   const r = await A.register('Ryuu_01', 'secret1');

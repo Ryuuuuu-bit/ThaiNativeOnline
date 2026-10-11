@@ -63,6 +63,13 @@ body #quest-objective-hud[hidden], body.photo-mode #quest-objective-hud { displa
 #quest-objective-hud button:focus-visible { outline:2px solid var(--t-gold-hi); outline-offset:2px; }
 #quest-objective-hud[data-walking=true] { border-color:var(--t-gold-hi); }
 #quest-objective-hud .quest-hud-open { display:none; }
+#quest-objective-hud .quest-hud-direction { display:flex; align-items:center; gap:8px; margin:4px 0; color:var(--t-gold-hi); font-size:12px; }
+#quest-objective-hud .quest-hud-direction[hidden] { display:none; }
+#quest-objective-hud :is(.quest-hud-direction i,.quest-chip-arrow) { flex:none; display:inline-block; width:17px; text-align:center; font:600 19px/1 var(--ui-font); color:var(--t-gold-hi); }
+#quest-objective-hud :is(.quest-hud-direction i,.quest-chip-arrow)[hidden] { display:none; }
+#quest-objective-hud .quest-chip-distance { font:inherit; }
+#quest-objective-hud .quest-chip-distance[hidden] { display:none; }
+#quest-objective-hud .quest-chip-objective { margin-left:5px; font:inherit; }
 /* Large desktop HUDs keep the objective above input controls in a single row. */
 body #quest-objective-hud[data-compact=true] { padding:0; }
 body #quest-objective-hud[data-compact=true] > :not(.quest-hud-open) { display:none; }
@@ -73,6 +80,9 @@ body #quest-objective-hud[data-compact=true] .quest-hud-open span { flex:1; min-
 body.ui-touch #quest-objective-hud { width:138px; padding:0; font-size:13px; }
 body.ui-touch #quest-objective-hud > :not(.quest-hud-open) { display:none; }
 body.ui-touch #quest-objective-hud .quest-hud-open { display:flex; align-items:center; gap:6px; width:100%; min-height:48px; padding:5px 6px; margin:0; border:0; background:none; text-align:left; }
-body.ui-touch #quest-objective-hud .quest-hud-open span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-width:0; flex:1; }
+body.ui-touch #quest-objective-hud .quest-hud-open span { display:block; overflow:hidden; min-width:0; flex:1; }
+body.ui-touch #quest-objective-hud :is(.quest-chip-distance,.quest-chip-objective) { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin:0; font-size:12px; line-height:16px; }
+body.ui-touch #quest-objective-hud .quest-chip-distance { color:var(--t-gold-hi); }
+body.ui-touch #quest-objective-hud .quest-chip-distance[hidden] { display:none; }
 body.ui-touch #quest-objective-hud .quest-hud-open em { color:var(--t-gold-hi); flex:none; font-size:12px; }
 body.ui-touch.touch-menu #quest-objective-hud { display:none; }
