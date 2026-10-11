@@ -85,6 +85,22 @@ client uses for prediction.
   - `src/account/index.js` picks the server store whenever `/api/health` answers.
 - **Guests:** they stay in their browser.
 
+### Saved location authority
+
+For an existing character, `PUT /api/slots/:n` saves the position captured from
+the matching live Presence/Combatants entry after request-body, trade and UID
+checks. Accounts clones that snapshot before entering the per-slot FIFO. If no
+live position is available, it reads the latest stored location inside that FIFO,
+after earlier server writes. Incoming browser location keys of every version are
+removed, and the trusted location is saved as `tno.location.v1`. An existing legacy
+character without a stored location keeps the normal spawn fallback.
+
+New-slot/local-import location behavior remains unchanged. Character UID and
+inventory-revision checks still reject delayed saves for deleted/replaced slots.
+Regression coverage is in `tests/accounts-server.test.js` and
+`tests/online-safety.test.js`; the real PostgreSQL stale-save audit additionally
+checks location after trade and rejoin.
+
 ### Stat allocation persistence
 
 Build plans use one atomic `alloc_batch { add }` instead of an operation per point.

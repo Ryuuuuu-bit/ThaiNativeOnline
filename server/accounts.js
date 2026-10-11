@@ -13,8 +13,9 @@
 // the tests pass their own): audience = GOOGLE_CLIENT_ID, issuer, expiry, verified email.
 // A save is the slot's storage keys (src/core/SaveSlot.js): { 'tno.character.v1': '…json…', … }.
 // Since phase 3c the character inside a save is the server's (server/progress.js): the
-// browser's quests / location keys are kept, its character is replaced by the server's copy
-// (`live`, the one in play, else the stored one; a new slot starts as a fresh character).
+// character and quests are replaced by the server's copy. Existing location comes
+// from captured live presence, else the latest stored row; new-slot location imports
+// are kept (`live`, the one in play, else the stored one; new characters start fresh).
 import { randomBytes, scrypt as scryptCb, timingSafeEqual } from 'node:crypto';
 import { SaveQueue } from './save-queue.js';
 import { promisify } from 'node:util';
@@ -27,6 +28,7 @@ import { googlePictureURL } from '../src/account/profile-picture.js';
 const scrypt = promisify(scryptCb);
 export const SESSION_DAYS = 30;
 export const SAVE_KEY = /^tno\.(character|quests|discovered|location)\.v\d+$/;
+const LOCATION_KEY = /^tno\.location\.v\d+$/;
 export const SAVE_LIMIT = 256 * 1024;   // bytes of one slot's save
 const hashOf = async (pw, salt) => (await scrypt(String(pw), salt, 32, { N: 16384, r: 8, p: 1 })).toString('hex');
 const fail = (code, msg) => ({ ok: false, code, msg });
@@ -126,7 +128,8 @@ export class Accounts {
     for (const k of keys) { try { JSON.parse(data[k]); } catch { return 'bad_save'; } }
     return null;
   }
-  // `live`: the character in play ({ c: its JSON, quests: its quests JSON text }), else the stored one
+  // `live`: trusted server state ({ c, quests, location, inventoryRevision, characterUid }).
+  // Clone it before queuing so later movement cannot mutate this write's snapshot.
   async save(id, slot, data, live = null, { characterUid = live?.characterUid ?? this.characterUids.get(`${id}:${slot}`) } = {}) {
     if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง');
     const bad = this.check(data); if (bad) return fail(bad, 'ข้อมูลเซฟไม่ถูกต้อง');
@@ -138,6 +141,14 @@ export class Accounts {
       const stored = live ? null : row?.data;
       const server = live?.c ?? (stored ? JSON.parse(stored[Object.keys(stored).find(k => CHARACTER_KEY.test(k))]) : null);
       const quests = live ? live.quests : stored?.[QUESTS_KEY] ?? '{}';
+      if (server) {
+        // Read the fallback inside the FIFO, after any earlier trade/flush. An old
+        // browser location must neither roll it back nor leave another version key.
+        const locationKey = Object.hasOwn(row?.data ?? {}, 'tno.location.v1') ? 'tno.location.v1' : Object.keys(row?.data ?? {}).find(k => LOCATION_KEY.test(k));
+        const location = live?.location ? JSON.stringify(live.location) : row?.data?.[locationKey];
+        for (const key of Object.keys(data)) if (LOCATION_KEY.test(key)) delete data[key];
+        if (location !== undefined) data['tno.location.v1'] = location;
+      }
       if (!server) {
         const n = checkName(characterRecord(data).character?.name); if (!n.ok) return n;
         data = renameData(data, n.name);
