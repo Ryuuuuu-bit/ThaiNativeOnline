@@ -1,0 +1,5 @@
+Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: เข่าลอยทะลวงฟ้า (boxer_knee).
+Subject: Heroic Thai Muay Thai fighter leaping with one raised bent knee dominating foreground, red Thai shorts and gold upward impact trail, no victim.
+Background: full bleed beautiful painted desaturated teal sky clouds, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.
+Style: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.
+Constraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.

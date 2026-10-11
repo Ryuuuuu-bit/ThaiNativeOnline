@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "boxer_knee",
+  "name": "เข่าลอยทะลวงฟ้า",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-8af93d08-a4ec-4da9-ab74-1480352661de.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: เข่าลอยทะลวงฟ้า (boxer_knee).\nSubject: Heroic Thai Muay Thai fighter leaping with one raised bent knee dominating foreground, red Thai shorts and gold upward impact trail, no victim.\nBackground: full bleed beautiful painted desaturated teal sky clouds, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "293c8032a2783797284b99598e6b350ab9439ee019c80ef110d888ffbcf9a168",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/boxer_knee.png",
+    "sha256": "293c8032a2783797284b99598e6b350ab9439ee019c80ef110d888ffbcf9a168",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2338673
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/boxer_knee.webp",
+    "sha256": "8794903f25d8e9e4057cd943c7dda202261d3d0f7a3960839808f8d7302221d1",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 24354
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

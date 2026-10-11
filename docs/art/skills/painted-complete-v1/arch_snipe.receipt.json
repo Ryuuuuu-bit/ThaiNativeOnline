@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "arch_snipe",
+  "name": "ล่าคู่ศรเหยี่ยวราตรี",
+  "class": "hunter",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-d2f6-7e80-901d-467d57ae546c\\exec-831e05a4-18e8-4885-82cf-f57bd921ae3a.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.\nSkill: ล่าคู่ศรเหยี่ยวราตรี, arch_snipe.\nCentral subject and actual mechanic: ONE powerful silver-cream arrow with elegant hawk feather fletching drawn toward a glowing weak-point spark, broad midnight-blue precision energy trail; distant faint hawk spirit silhouette optional, no UI crosshair.\nBackground: Beautiful deep midnight teal Thai forest under a small moon, soft foliage low contrast. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.\nStyle: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.\nComposition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.\nConstraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.",
+  "sourceDefinition": "src/classes/hunter-moves.js",
+  "semantic": "ONE powerful silver-cream arrow with elegant hawk feather fletching drawn toward a glowing weak-point spark, broad midnight-blue precision energy trail; distant faint hawk spirit silhouette optional, no UI crosshair.",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/arch_snipe.png",
+    "sourceSHA256": "73545a11cc30ad9c67e1fc8bb63deb68144f543688ac534733145dc8d316bc90",
+    "copySHA256": "73545a11cc30ad9c67e1fc8bb63deb68144f543688ac534733145dc8d316bc90",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2262892
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/arch_snipe.webp",
+    "sha256": "c5acc6dd559336246a7efa52652b5efb2df30c0f487499f991664e5933551979",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 23650
+  },
+  "processing": "Unmodified original PNG; contain resize to 256 square WebP quality 90 alphaQuality 100",
+  "status": "awaiting-art-review"
+}

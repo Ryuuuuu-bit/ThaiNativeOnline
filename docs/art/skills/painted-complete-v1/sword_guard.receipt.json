@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_guard",
+  "name": "ตั้งการ์ดดาบคู่",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-0d8182b8-175e-4023-8d95-097b3d165b7b.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ตั้งการ์ดดาบคู่ (sword_guard).\nSubject: Two Thai dha swords held upright in a defensive crossed barrier, broad translucent blue-gold protective dome behind them, strong calm defense silhouette.\nBackground: full bleed beautiful painted dusky teal temple courtyard haze, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "8ecc75beacd96765585b6a180343ebe286e861dd281b6519258b037634c4f61e",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_guard.png",
+    "sha256": "8ecc75beacd96765585b6a180343ebe286e861dd281b6519258b037634c4f61e",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2435375
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_guard.webp",
+    "sha256": "e98783fe783091e13fad0a1244183b1cdc29d2c6b2ec244d5375e5b6ba3d5eea",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 24000
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

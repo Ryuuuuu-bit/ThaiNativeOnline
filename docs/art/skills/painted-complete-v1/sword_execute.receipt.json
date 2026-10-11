@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_execute",
+  "name": "ดาบประหารอสูร",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-b0b5944e-b15a-408b-b069-0bb8e0b609fc.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: ดาบประหารอสูร (sword_execute).\nSubject: A mighty gold-edged Thai sword delivering a vertical lightning-bright finishing cut, split shadow demon horn silhouette beneath the clean blade, no gore.\nBackground: full bleed beautiful painted deep desaturated purple supernatural storm, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "b63a4bef15ed71075a4ee19aff9da0bd43ec71d3be3d6275bef8d1d56591a8aa",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_execute.png",
+    "sha256": "b63a4bef15ed71075a4ee19aff9da0bd43ec71d3be3d6275bef8d1d56591a8aa",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2488025
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_execute.webp",
+    "sha256": "8c3d73fccbd2ab181eded2efdf484f95e2de8e4d3f06f9d2e6badcabf4324f87",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 23462
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

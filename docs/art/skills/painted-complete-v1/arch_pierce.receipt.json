@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "arch_pierce",
+  "name": "ห่าศรพราน",
+  "class": "hunter",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-d2f6-7e80-901d-467d57ae546c\\exec-4de06da4-4e1c-4000-909f-a9270ae9a452.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE complete square Thai fantasy MMORPG skill icon with beautiful FULL BLEED painted background.\nSkill: ห่าศรพราน, arch_pierce.\nCentral subject and actual mechanic: A clearly readable fan of cream-feathered arrows rains downward into a broad glowing circular patch on the ground; five large spear-like arrow silhouettes convey area volley.\nBackground: Deep moss-green bamboo clearing with pale mist and subdued tree silhouettes. Background stays low detail and low contrast so the central action reads instantly at 32, 48 and 64 pixels.\nStyle: soft hand-painted Thai fantasy, rounded stylized forms, broad clean color shapes, gentle brushwork and highlights, matching painted inventory art. Selective tiny Thai kanok detail only where natural. Charming supernatural/adventure atmosphere, no photorealism, no pixel art.\nComposition: central action fills 75 percent of square, dominant bright recognizable silhouette and distinct color blocks. Main subject and effects inset at least 8 percent from every edge, no clipping. Fully opaque atmospheric background extends to all square edges.\nConstraints: one icon only, no sheet, no border or baked frame, no UI, no text, letters, numerals, hotkeys, stats, watermark. No gore, no excessive noisy particles or bloom, no decorative clutter obscuring action.",
+  "sourceDefinition": "src/classes/hunter-moves.js",
+  "semantic": "A clearly readable fan of cream-feathered arrows rains downward into a broad glowing circular patch on the ground; five large spear-like arrow silhouettes convey area volley.",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/arch_pierce.png",
+    "sourceSHA256": "52aa295a085e0180f0c7e901e07444074c98452db0b3c7c965a5f8426d82c150",
+    "copySHA256": "52aa295a085e0180f0c7e901e07444074c98452db0b3c7c965a5f8426d82c150",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2380201
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/arch_pierce.webp",
+    "sha256": "21ff2b2117776275db45ade9495e5c5a8d32da6d84e8b616a2b1745b65ce4c90",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 27240
+  },
+  "processing": "Unmodified original PNG; contain resize to 256 square WebP quality 90 alphaQuality 100",
+  "status": "awaiting-art-review"
+}

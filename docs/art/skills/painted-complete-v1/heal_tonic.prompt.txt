@@ -1,0 +1,9 @@
+Use case: stylized-concept
+Asset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.
+Style: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.
+Composition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.
+Palette: jade, leaf green, creamy ivory with warm antique gold highlights.
+Constraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.
+
+Subject: Exactly seven small round medicinal pellets of seven distinct restrained colors orbit in a wide clear ring around one bright jade herbal light with a leaf at its center. The pellets are ivory, amber, coral, pale blue, violet, emerald and rose. Empowering vitality, not jeweled ring equipment.
+Background: Low-detail jade medicinal garden softly illuminated by warm twilight.

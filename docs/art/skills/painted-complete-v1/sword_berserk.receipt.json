@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "skillID": "sword_berserk",
+  "name": "โทสะขุนศึก",
+  "method": "builtin-imagegen",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-67acd848-a1be-4846-b774-a69e18644a67.png",
+  "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: โทสะขุนศึก (sword_berserk).\nSubject: Heroic Thai warrior stern face and shoulders in bronze armor, bright amber determined eyes and a broad crimson flame aura, controlled battle fury, no gore.\nBackground: full bleed beautiful painted dark muted indigo smoky storm, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore.",
+  "originalSHA256": "7e64f3d47f4281c57abbfcd92b469610202b3d9b6eac1940564f72a228a7aff8",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/sword_berserk.png",
+    "sha256": "7e64f3d47f4281c57abbfcd92b469610202b3d9b6eac1940564f72a228a7aff8",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2746816
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/sword_berserk.webp",
+    "sha256": "1394567875874bf61d9ce93963d99ba0f6860aad6f0d34bda41c966836533fe5",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 28006
+  },
+  "processing": "Original PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review"
+}

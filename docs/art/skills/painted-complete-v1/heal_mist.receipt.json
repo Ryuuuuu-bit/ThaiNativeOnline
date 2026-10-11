@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "skillID": "heal_mist",
+  "name": "หมอกยาชโลมใจ",
+  "class": "herbalist",
+  "active": true,
+  "passive": false,
+  "semanticBrief": "A medicinal herbal mist plume with a few clear leaves and soft jade/cream restorative light; broad gentle healing cloud.",
+  "status": "exported-awaiting-art-review",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12983-1589-79a1-8bf1-6a20b070008d\\exec-27b18963-f008-438d-b155-121c125d5e07.png",
+  "reusedFrom": null,
+  "prompt": "Use case: stylized-concept\nAsset type: one full-bleed square hand-painted Thai fantasy RPG skill icon.\nStyle: polished soft hand-painted Thai fantasy, broad stylized shapes and strong clear color blocks, luminous edges and selective kanok details only. Match beautiful approved jade/gold bai sri healing skill icon. Charming rather than photorealistic, no pixel art or flat vector.\nComposition: single dominant skill subject occupies about 80 percent of the square, all important subject tips safely inset 8 percent. Strong silhouette readable at 32/48/64 pixels. Crisp brighter foreground, low-detail low-contrast atmospheric background, no excessive particles or micro-detail.\nPalette: jade, leaf green, creamy ivory with warm antique gold highlights.\nConstraints: full opaque painted background covering every pixel. No border, frame, text, lettering, numerals, hotkeys, UI, watermark, red medical cross, modern objects or collage. One distinct skill image.\n\nSubject: A broad gentle creamy-jade medicinal mist plume flowing from lower left to upper right, a few clear fresh leaves suspended in the restorative luminous cloud. The magical mist itself is the dominant subject, no bottle or vessel.\nBackground: Deep jade bamboo grove softly blurred with small warm golden candle glows.",
+  "master": "docs/art/skills/painted-complete-v1/heal_mist.png",
+  "sourceSHA256": "b94e66b7a40080fc32740295f8880115c896955c35b03d11be9b02cb38e33700",
+  "masterSHA256": "b94e66b7a40080fc32740295f8880115c896955c35b03d11be9b02cb38e33700",
+  "output": "public/ui/skills/painted-complete-v1/heal_mist.webp",
+  "outputSHA256": "e5c8a1879545f2a3ae4fbb81e80481c2e5d1a14c74d64e9c7fcbbff7d89a589c",
+  "sourceDimensions": {
+    "width": 1254,
+    "height": 1254
+  },
+  "sourceAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputDimensions": {
+    "width": 256,
+    "height": 256
+  },
+  "outputAlpha": {
+    "min": 255,
+    "max": 255
+  },
+  "outputBytes": 20404,
+  "processing": "Unchanged original PNG copy; Sharp contain resize 256 x 256 WebP quality 90 alpha quality 100 effort 6; no visual edits.",
+  "createdAt": "2026-10-11T06:10:33.771Z"
+}

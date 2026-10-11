@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "skillID": "boxer_ngouy",
+  "name": "หักงวงไอยรา",
+  "method": "builtin-imagegen",
+  "operation": "targeted-semantic-edit",
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-0b7fdd7d-7dec-4c84-9521-2bd292101b0b.png",
+  "referencedImagePaths": [
+    "docs/art/skills/painted-complete-v1/boxer_ngouy.png"
+  ],
+  "referenceOriginalSHA256": "f02bdc14c07eec55cbeabcc70062d347bc282948927abe9d76af281493de706a",
+  "prompt": "Use case: precise-object-edit. Edit the supplied Thai Native Online skill icon to correct the Muay Thai maneuver หักงวงไอยรา. Preserve its high quality soft hand-painted Thai fantasy finish, opaque square full bleed indigo forest clouds, subtle gold kanok at the edges, subdued translucent elephant spirit secondary in background, and bright rope-wrapped heroic human arms. CHANGE the foreground action so the meaning is unmistakable: a heroic Thai fighter's LEFT rope-wrapped hand firmly catches and holds an OPPONENT'S RAISED HUMAN LEG by the ankle, the caught bare human shin stretches nearly horizontally across the center, with ankle and toes visible on the right and the shin connected toward an opponent's partial bent knee/upper leg at left. The defender's OTHER arm has its fist raised and its bent ELBOW POINTING DOWNWARD, visibly striking down onto the middle of that captured horizontal shin. A small broad gold impact burst marks elbow contacting shin. Clearly separate the TWO human arms from the ONE captured opponent leg: arm skin warm amber, opponent leg slightly cooler tan, natural anatomy and five-finger holding hand, no extra limbs. Use a clear readable close-up sports combat diagram-like composition but painterly game icon, not a literal diagram. The caught ankle, horizontal shin, and downward elbow are the three dominant shapes, readable at 32 pixels. No injury, fracture, blood or gore: a stylized heroic martial-arts counter. No faces or full bodies needed. Keep all important action inside an 8 percent safe margin. The elephant spirit remains a small low contrast atmospheric accent and must not replace the human captured leg. No text, UI, frame, labels, letters, numbers, watermark, split panel or contact sheet. Opaque beautiful painted background.",
+  "originalSHA256": "9848dbcf5fbc0e3b62059bafb1d482fbba4ea31a997edc46fd950d2465bf7326",
+  "master": {
+    "path": "docs/art/skills/painted-complete-v1/boxer_ngouy.png",
+    "sha256": "9848dbcf5fbc0e3b62059bafb1d482fbba4ea31a997edc46fd950d2465bf7326",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2646428
+  },
+  "output": {
+    "path": "public/ui/skills/painted-complete-v1/boxer_ngouy.webp",
+    "sha256": "08cd658f6da1cefa549d62e62a5ffb451179f5c99d6adecc3e4f2e1af0f89f43",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 26970
+  },
+  "processing": "Original edited PNG unchanged; contain256 WebP quality90 alphaQuality100",
+  "status": "exported-awaiting-art-review",
+  "semanticCorrection": "Caught raised opponent human leg held at ankle, downward elbow contacting shin; elephant spirit secondary background.",
+  "previousVariant": {
+    "archivePath": "artifacts/skill-semantic-corrections/boxer_ngouy-v1",
+    "source": "C:\\Users\\panup\\.codex\\generated_images\\01a12985-0225-7443-b604-bf17f2c00cb0\\exec-976dac06-242a-455c-ba62-183c49a877bf.png",
+    "masterSHA256": "f02bdc14c07eec55cbeabcc70062d347bc282948927abe9d76af281493de706a",
+    "outputSHA256": "d965fba0ca2bd6ed5c8231fb239a64c3fe5465578c41bc8d07fadd8fc36cd433",
+    "prompt": "Use case: stylized-concept. Asset type: one square RPG skill icon for Thai Native Online. Skill: หักงวงไอยรา (boxer_ngouy).\nSubject: Two powerful rope-wrapped Thai fighter forearms performing a downward breaking elbow maneuver, a stylized translucent elephant trunk arc behind them, no victim or gore.\nBackground: full bleed beautiful painted muted indigo forest clouds, low contrast desaturated atmosphere with subtle Thai kanok mist at edges only. Background supports rather than obscures the main subject.\nStyle: soft hand-painted charming Thai fantasy, broad painterly color blocks, selective Thai detail, bold luminous silhouette readable at 32, 48 and 64 pixels, no photorealism. Main subject entirely inset 8 percent from all edges. Strong cool/warm separation, controlled highlights.\nConstraints: one image, opaque full bleed square, no frame, UI, text, letters, digits, badges, watermarks, contact sheet, excessive bloom, tiny clutter or gore."
+  }
+}

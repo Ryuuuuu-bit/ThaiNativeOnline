@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "arch_quick",
+  "name": "ศรคู่ฉับไว",
+  "class": "hunter",
+  "method": "builtin-imagegen",
+  "transparentBackground": false,
+  "generatedSource": "C:\\Users\\panup\\.codex\\generated_images\\01a12982-a172-74e1-8b4a-4db869f94e76\\exec-043ced65-bcee-4171-a84c-b7ecd7a87d35.png",
+  "prompt": "Use case: stylized-concept\nAsset type: ONE full-background square Thai Native Online game skill icon, arch_quick / ศรคู่ฉับไว.\nPrimary request: exactly TWO complete beautiful Thai feathered arrows flying rapidly toward the SAME target; both parallel and pointing diagonally from lower left to upper right in the SAME direction, separated enough to distinguish two shots at 32 pixels. Show both entire metal tips, wooden shafts and cream-jade feather tails, with strong warm gold and jade wind trails.\nStyle: soft hand-painted Thai fantasy MMORPG illustration, charming stylized forms, bold broad color shapes and gentle painterly shading, matching high-quality painted inventory assets. Not photoreal, not pixel art.\nBackground: beautiful full-bleed atmospheric desaturated dark emerald forest; soft moonlit leaf shapes, layered mist and restrained subtle Thai kanok wind curls near outer edges. Low-detail, low-contrast painted background, no transparency. Background supports the clear bright arrows rather than distracting from them.\nComposition: square icon with dominant bright twin-arrow silhouettes, both complete and inset at least 8 percent from all edges. Parallel same-direction arrows never crossed, no opposite directions. Gentle luminous trails follow their direction, large readable arrowheads and feather tails. Cream highlights stand out from deep emerald background at 32/48/64 pixels. Tiny selective Thai detail only on arrow fittings.\nConstraints: a single finished icon only. Exactly two arrows. No bow, character, hand, target object, extra arrows, image sheet, variants, frame, border, plaque, UI, text, letters, numbers, hotkeys, stats, watermark or checkerboard. Preserve a natural painted background all the way to the four square edges. No excessive bloom or noisy particle cloud.\n",
+  "sourceDefinition": "src/classes/hunter-moves.js",
+  "semantic": "Approved full-background v2 sample copied unchanged",
+  "original": {
+    "path": "docs/art/skills/painted-complete-v1/arch_quick.png",
+    "sourceSHA256": "0666f17e560f6b64910bf6f855f42f0ab58cd71594df578a078386b71afba52b",
+    "copySHA256": "0666f17e560f6b64910bf6f855f42f0ab58cd71594df578a078386b71afba52b",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 2374780
+  },
+  "production": {
+    "path": "public/ui/skills/painted-complete-v1/arch_quick.webp",
+    "sha256": "855399c35a0890076b9f1dee79cc855cd09419d72bd8e321fbf1b27dd3ecd0fc",
+    "width": 256,
+    "height": 256,
+    "hasAlpha": false,
+    "alphaMin": 255,
+    "alphaMax": 255,
+    "bytes": 23642
+  },
+  "processing": "Approved v2 PNG and WebP copied byte-for-byte unchanged",
+  "status": "approved-user-sample",
+  "reusedFrom": "docs/art/skills/imagegen-sample-v2/arch_quick.receipt.json"
+}
