@@ -24,6 +24,7 @@ import { canWearTitle } from '../data/titleAccess.js';
 import { cloneInstance, isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
 import { cleanMasteries, masteryBonus } from './data/masteries.js';
 import { expandInventory } from './inventoryCapacity.js';
+import { cleanCardBook, collectCardBook } from './cardCollection.js';
 
 const SAVE_KEY = 'tno.character.v1';
 export const FRIENDS_MAX = 50;
@@ -35,12 +36,16 @@ const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
 const REC_KEYS = ['kills', 'healOut', 'revive', 'deaths', 'cpRank', 'lvRank', 'enhRank', 'sin', 'merit', 'pkKill', 'redKill', 'pvpKill', 'duelWin'];
 const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
+const liveBuff = b => b && (b.remaining === undefined || (Number.isFinite(b.remaining) && b.remaining > 0));
+const buffRatio = n => Math.max(-1, Math.min(.6, n));
+const NEGATIVE_BUFF_FIELDS = ['poison', 'dot', 'slow', 'stun', 'bleed', 'burn', 'cursed'];
+export const isHarmfulBuff = buff => NEGATIVE_BUFF_FIELDS.some(key => !!buff?.[key]);
 
 // Bumped when the starter set changes; saves below it get the missing starter pieces once (grantMissingStarterEquipment).
 export const STARTER_VERSION = 2;
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0 } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, cardBook, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0 } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -135,6 +140,12 @@ export class Character extends Emitter {
     this.hotbar = cleanHotbar(this, hotbar);
     this.loadouts = cleanLoadouts(this, loadouts);
     this.masteries = cleanMasteries(this.classId, masteries);
+    const savedBook = cleanCardBook(cardBook);
+    this.cardBook = collectCardBook(savedBook, this.inventory, this.equipment, this.cards);
+    this.cardBookMigrated = Object.keys(this.cardBook).some(id => savedBook[id] !== true);
+    // Observe successful bag mutations before UI/quest listeners. This also covers
+    // socketed trade items and authoritative warehouse inventory replacements.
+    this.on('inventory', () => { this.cardBook = collectCardBook(this.cardBook, this.inventory, this.equipment, this.cards); });
     this.inCombat = false; // transient local hint; the server supplies its own combat state
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
     this.cooldowns = {};
@@ -210,15 +221,22 @@ export class Character extends Emitter {
     const mastery = masteryBonus(this.classId, this.masteries);
     return { ...derived, patk: derived.patk + (mastery.atk ?? 0), matk: derived.matk + (mastery.matk ?? 0), maxHp: derived.maxHp + (mastery.hp ?? 0) };
   }
-  buffSum(key) { return this.buffs.reduce((n, b) => n + (b[key] || 0), 0); }
+  buffSum(key) { return this.buffs.reduce((n, b) => n + (liveBuff(b) && Number.isFinite(b[key]) ? b[key] : 0), 0); }
 
   get maxHp() { return this.derived.maxHp; }
   get maxMp() { return this.derived.maxMp; }
   // Attack power after buffs: MATK for spell classes, ATK for the rest.
-  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + this.buffSum('atk'))); }
-  get patk() { return Math.round(this.derived.patk * (1 + this.buffSum('atk'))); }
-  get matk() { return Math.round(this.derived.matk * (1 + this.buffSum('atk'))); }
-  get defense() { const active = this.buffs.filter(b => b.remaining > 0); const ratio = Math.min(.6, Math.max(0, ...active.map(b => b.def || 0))); const flat = Math.max(0, ...active.map(b => b.defFlat || 0)); return Math.round(this.derived.def * (1 + ratio) + flat); }
+  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + buffRatio(this.buffSum('atk')))); }
+  get patk() { return Math.round(this.derived.patk * (1 + buffRatio(this.buffSum('atk')))); }
+  get matk() { return Math.round(this.derived.matk * (1 + buffRatio(this.buffSum('atk')))); }
+  get defense() {
+    const values = key => this.buffs.filter(liveBuff).map(b => b[key]).filter(Number.isFinite);
+    const aggregate = list => Math.max(0, ...list) + list.filter(n => n < 0).reduce((sum, n) => sum + n, 0);
+    const ratio = buffRatio(aggregate(values('def'))), flat = aggregate(values('defFlat'));
+    return Math.max(0, Math.round(this.derived.def * (1 + ratio) + flat));
+  }
+  get speedBonus() { return Math.max(0, Math.min(.5, this.buffSum('speed'))); }
+  get undying() { return this.buffs.some(b => liveBuff(b) && !!b.undying); }
   get accuracy() { return this.derived.accuracy; }
   get evasion() { return this.derived.eva; }
   get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
@@ -268,7 +286,7 @@ export class Character extends Emitter {
   // ---- HP/MP ----
   damage(amount) {
     if (!this.alive) return 0;
-    const dealt = Math.min(this.hp, Math.max(0, Math.round(amount)));
+    const dealt = Math.min(Math.max(0, this.hp - (this.undying ? 1 : 0)), Math.max(0, Math.round(amount)));
     this.hp -= dealt; if (this.hp <= 0 || (dealt && this.hp < 1)) this.fall();   // a blow that leaves a fraction (poison ticks) is a kill
     this.emit('change'); if (dealt) this.emit('damaged', dealt);
     if (this.hp <= 0) this.emit('death');
@@ -283,7 +301,11 @@ export class Character extends Emitter {
   }
   restoreMp(amount) { this.mp = Math.min(this.maxMp, this.mp + Math.round(amount)); this.emit('change'); }
   spendMp(amount) { if (this.mp < amount) return false; this.mp -= amount; this.emit('change'); return true; }
-  revive(ratio = .5) { this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.round(this.maxMp * ratio); this.buffs = []; this.emit('change'); }
+  revive(ratio = .5) {
+    ratio = Number.isFinite(ratio) ? Math.max(0, Math.min(1, ratio)) : .5;
+    this.hp = Math.max(1, Math.round(this.maxHp * ratio)); this.mp = Math.round(this.maxMp * ratio);
+    this.buffs = []; this.emit('change');
+  }
 
   // Slow natural regeneration, slower in combat (no sitting bonus: recovery is potions and healers).
   tick(dt, inCombat) {
@@ -295,7 +317,7 @@ export class Character extends Emitter {
     this.buffs = this.buffs.filter(b => (b.remaining -= dt) > 0);
     if (before !== this.buffs.length) this.emit('change');
     if (!this.alive) return;
-    const hot = this.buffs.reduce((n, b) => n + (b.hot || 0), 0);
+    const hot = this.buffSum('hot');
     if (hot && this.hp < this.maxHp) { this.hp = Math.min(this.maxHp, this.hp + this.maxHp * hot * dt); this.emit('change'); }
     // a monster's poison (src/combat/monsterHit.js): HP a second, never the last one
     const poison = this.buffSum('poison');
@@ -315,7 +337,14 @@ export class Character extends Emitter {
       }
     }
   }
-  addBuff(buff) { this.buffs = this.buffs.filter(b => b.id !== buff.id && (!buff.cleanse || !(b.poison > 0 || b.slow > 0 || b.dot > 0 || b.stun))); this.buffs.push({ ...buff, remaining: buff.duration }); this.emit('change'); }
+  addBuff(buff) {
+    this.buffs = this.buffs.filter(b => b.id !== buff.id && !(buff.cleanse && isHarmfulBuff(b)));
+    const next = { ...buff, remaining: buff.duration ?? buff.remaining ?? 0 };
+    if (liveBuff(next)) this.buffs.push(next);
+    // Movement conditions can live outside Character.buffs, so announce every cleanse.
+    if (buff.cleanse) this.emit('cleansed');
+    this.emit('change');
+  }
 
   // ---- Job level and skills ----
   get jobExpNeeded() { return jobExpToNext(this.jobLevel); }
@@ -449,10 +478,11 @@ export class Character extends Emitter {
   // Adds as many as fit; false (with 'overweight') when any are left behind.
   addItem(id, qty = 1) {
     const def = ITEMS[id]; if (!def || def.retired) return false;
+    if (def.type === 'card' && (!Number.isSafeInteger(qty) || qty < 1)) return false;
     const room = this.carryRoom(id);
     if (room < qty) {
       this.emit('overweight', id);
-      if (room === 0) return false;
+      if (room === 0 || def.type === 'card') return false;   // failed card batches cannot partially acquire/unlock
       this.addItem(id, room);
       return false;
     }
@@ -785,7 +815,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cardBook: cleanCardBook(this.cardBook), cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

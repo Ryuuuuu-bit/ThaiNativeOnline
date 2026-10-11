@@ -49,7 +49,9 @@ test('a healer\'s party skill reaches the members near them; a revive stands the
   const mist = supportOf('heal_mist', 1, 10), khwan = supportOf('heal_khwan', 1, 10);
   assert.ok(mist.heal > 0 && mist.radius > 5 && !mist.revive);
   assert.ok(khwan.revive > 0); assert.equal(supportOf('heal_zone'), null, 'a damage-only skill is not a support skill');
-  const vine = supportOf('heal_vine', 1, 10, 100); assert.ok(vine.hp > 0 && vine.radius > 5, 'a healing skill heals the party near the caster by MATK');
+  const vine = supportOf('heal_vine', 1, 10, 100);
+  assert.equal(vine.hp, 0, 'vines do not pay their lifetime healing upfront');
+  assert.ok(vine.tether.amount > 0 && vine.radius > 5, 'MATK produces timed healing within reach');
   let t = 0; const cs = new Combatants({ now: () => t });
   const all = Object.fromEntries(['heal_vine', 'heal_pill', 'heal_zone', 'heal_tiger', 'heal_khwan', 'heal_mortar', 'heal_mist'].map(id => [id, EVO_LEVEL]));
   cs.load(1, { ...Character.create('หมอ', 'herbalist').toJSON(), jobLevel: 50, skills: all }, { account: 'a', slot: 0 });
@@ -63,7 +65,7 @@ test('a healer\'s party skill reaches the members near them; a revive stands the
   assert.equal(cs.aid(2, r.support), null, 'a heal does not raise the dead');
   t += 100; cs.casting(1, 'heal_khwan'); t += 5;
   const k = cs.cast(1, 'heal_khwan'); assert.ok(k.ok, k.why);
-  assert.deepEqual(cs.aid(2, k.support), { revived: true }); assert.ok(friend.alive);
+  assert.ok(cs.aid(2, k.support).revived); assert.ok(friend.alive && friend.undying);
 });
 
 test('sitting no longer speeds the regen (no rest-to-recover); a fight or a step still stands the player up', () => {

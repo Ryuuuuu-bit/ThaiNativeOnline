@@ -44,6 +44,7 @@ import { SKILL_BY_ID } from '../src/rules/data/skills.js';
 import { rollDamage } from '../src/rules/stats.js';
 import { skillHitSchedule } from '../src/rules/skillHits.js';
 import { allyHeal, castInfo, hitEffects, inShape, monsterDefense, rollBlow, selfEffects, supportOf, tauntOf, within } from '../src/training/kitCombat.js';
+import { bossCardOutgoingMul, bossCardIncomingMul, bossCardProcStateFor, applyBossCardHit, applyBossCardKill } from '../src/combat/bossCardEffects.js';
 import { fromSave, applyOp, questsFor, nearShop } from './progress.js';
 import { applyQuestOp, reconcileQuestMasteries, recordQuestCast, recordQuestSkillHit } from './class-quests.js';
 import { nearAnyShop } from '../src/data/shopSites.js';
@@ -56,6 +57,7 @@ import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 import { SHAMAN_SKILLS } from '../src/classes/shaman-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
+import { createTether, advanceTether } from '../src/training/tether.js';
 
 export const KITS = { muaythai: MUAYTHAI_SKILLS, warrior: WARRIOR_SKILLS, hunter: HUNTER_SKILLS, shaman: SHAMAN_SKILLS, herbalist: HERBALIST_SKILLS };
 export const SKILL_LV = 1;          // the level of a skill a character has no level for (legacy callers)
@@ -93,34 +95,63 @@ export function sane(data, cls) {
 export class Combatants {
   constructor({ now = () => Date.now() / 1000, random = Math.random } = {}) {
     this.now = now; this.r = random; this.list = new Map();   // player id → state
+    this.tethers = new Map();
+    this.bossCardWorlds = new WeakSet(); this.bossCardRewards = new WeakMap();
   }
   get(id) { return this.list.get(id); }
   touch(id) { const s = this.list.get(id); if (s && !s.tradeBusy) { s.fightAt = this.now(); s.c.sitting = false; } }
   // sitting to rest (Combat.sit): double regen, never in a fight; any blow or swing stands up
   sit(id, on) { const s = this.list.get(id); if (s) s.c.sitting = !!on && s.c.alive && !this.fighting(id); }
   fighting(id) { const s = this.list.get(id); return !!s && this.now() - s.fightAt < RULES.combatTimeout; }
-  drop(id) { this.list.delete(id); }
+  drop(id) {
+    this.list.delete(id);
+    for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
+  }
   fall(id) {
     const s = this.list.get(id); if (!s || s.tradeBusy) return;
     s.c.fall(); if (s.persist) s.dirty = true;
+    for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
   }
 
   set(id, data, cls) {
     const old = this.list.get(id);
     if (old?.persist) return false;                               // a signed-in character is the server's own
     const c = sane(data, cls); if (!c) return false;
-    if (old) { c.buffs = old.c.buffs; old.c = c; return true; }   // gear / stats changed: buffs carry over
+    if (old) { c.buffs = old.c.buffs; if (!old.c.alive) c.fall(); old.c = c; return true; }   // gear / stats changed: buffs carry over
     this.list.set(id, this.entry(c));
     return true;
   }
   load(id, saved, persist, questsJson = '{}') {
     const c = fromSave(saved); if (!c) return false;
-    const state = { ...this.entry(c), persist, ack: 0, dirty: !!c.starterEquipmentMigrated || (saved.flaskVersion ?? 0) < c.flaskVersion, quests: questsFor(c, questsJson) };
+    const state = { ...this.entry(c), persist, ack: 0, dirty: !!c.cardBookMigrated || !!c.starterEquipmentMigrated || (saved.flaskVersion ?? 0) < c.flaskVersion, quests: questsFor(c, questsJson) };
     if (reconcileQuestMasteries(c, state.quests)) state.dirty = true;
     this.list.set(id, state);
     return true;
   }
-  entry(c) { const t = this.now(); return { c, cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
+  entry(c) { const t = this.now(); return { c, hitSeq: 0, killSeq: 0, bossCardProcs: bossCardProcStateFor(c), cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
+  // Observe actual world damage without changing reward generation or routing.
+  // The same boundary catches later DoT deaths. Only original owner reward
+  // objects qualify: cloned/forged packets and damage to an already-dead mob do not.
+  watchBossCardRewards(world) {
+    if (this.bossCardWorlds.has(world)) return;
+    this.bossCardWorlds.add(world);
+    const damage = world.damage;
+    world.damage = (m, ...args) => {
+      const hp = m.hp;
+      const events = damage.call(world, m, ...args);
+      const removed = Math.max(0, hp - m.hp);
+      for (const e of events) if (e.t === 'mh' && e.id === m.id && !e.miss) e.removed = removed;
+      if (hp > 0 && m.hp <= 0 && events.some(e => e.t === 'mgone' && e.id === m.id && e.killed)) {
+        const owner = events.find(e => e.t === 'kill' && (e.gold > 0 || e.drops?.length > 0));
+        if (owner) {
+          const s = this.list.get(owner.to);
+          if (s) owner.killSeq = ++s.killSeq;
+          this.bossCardRewards.set(owner, { id: m.id, type: m.type, to: owner.to });
+        }
+      }
+      return events;
+    };
+  }
   casting(id, skillId) { const s = this.list.get(id); if (s && typeof skillId === 'string' && KITS[s.c.classId]?.some(k => k.id === skillId)) s.casting.set(skillId, this.now()); }
   // walking off interrupts a cast bar (the browser cancels it too)
   interrupt(id) { const s = this.list.get(id); if (s) s.casting.clear(); }
@@ -174,6 +205,11 @@ export class Combatants {
   }
   rewardState(s, id, k) {
     const c = s.c, before = c.level;
+    const receipt = this.bossCardRewards.get(k);
+    if (receipt && receipt.to === id && k.to === id && k.id === receipt.id && k.type === receipt.type) {
+      this.bossCardRewards.delete(k);
+      applyBossCardKill(c, s.bossCardProcs, this.now());
+    }
     c.gold += Math.max(0, k.gold | 0); c.gainExp(Math.max(0, k.exp | 0));
     const lost = [];   // a full or overweight bag: the drop is lost (told, not silently)
     for (const d of k.drops ?? []) if (!c.addInstance(d)) lost.push(d);
@@ -198,7 +234,7 @@ export class Combatants {
     s.fightAt = this.now(); c.sitting = false;
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
     const raw = def.atk * power * (.85 + this.r() * .3) * (!skill && def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
-    const dmg = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(def))));   // cards: less from that race / element
+    const dmg = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(def)) * bossCardIncomingMul(c)));   // cards: less from that race / element
     if (c.alive) afterHit(c, def);
     s.dirty = true;
     return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
@@ -218,6 +254,21 @@ export class Combatants {
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
   me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), title: s.c.title, ack: s.ack, quests: s.quests.state, ...(s.c.loadoutResult ? { loadoutResult: { ...s.c.loadoutResult } } : {}) } : null; }
 
+  // Transient combat state is sent separately from persistent character saves.
+  effects(id) {
+    const s = this.list.get(id); if (!s) return null;
+    return { owned: !!s.persist, hp: Math.round(s.c.hp), mp: Math.round(s.c.mp),
+      buffs: s.c.buffs.filter(b => b.remaining > 0).map(b => ({ ...b })) };
+  }
+
+  tether(source, target, skill, effect, room = null) {
+    const link = createTether(effect);
+    if (!link || !this.list.get(source)?.c.alive || !this.list.get(target)?.c.alive) return false;
+    // One active vine per caster; refreshing or changing friends replaces it.
+    this.tethers.set(source, { target, skill, room, link });
+    return true;
+  }
+
   // Attacker stats for a roll, buffs included.
   stats(c) { return { ...c.derived, patk: c.patk, matk: c.matk, critRate: c.critChance, critDmg: c.critDamage, accuracy: c.accuracy }; }
 
@@ -229,7 +280,7 @@ export class Combatants {
     const c = s.c, now = this.now();
     if (!c.alive) return { ok: false, why: 'dead' };
     const kitSkill = KITS[c.classId]?.find(k => k.id === skillId);
-    const legacy = !kitSkill && c.cls.skills.includes(skillId) && !LEGACY[skillId]?.basic ? LEGACY[skillId] : null;
+    const legacy = !KITS[c.classId] && !kitSkill && c.cls.skills.includes(skillId) && !LEGACY[skillId]?.basic ? LEGACY[skillId] : null;
     if (!kitSkill && !legacy) return { ok: false, why: 'not_yours' };
     // a kit skill must be learnt (job levels and skill points)
     if (kitSkill && lvOf(c, skillId) < 1) return { ok: false, why: 'not_learnt' };
@@ -250,7 +301,8 @@ export class Combatants {
     // a signed-in character pays MP here (a little slack: the browser's regen ticks on its own clock)
     const mp = kitSkill ? Math.round(info.mp * (c.mpCostMul ?? 1)) : legacy.mp ?? 0;
     if (s.persist && mp) { if (c.mp + Math.max(2, mp * MP_SLACK) < mp) return { ok: false, why: 'mp' }; c.mp = Math.max(0, c.mp - mp); }
-    s.cds.set(skillId, now + Math.max(0, cd * CD_SLACK - CD_LAG));
+    const base = SKILL_BY_ID[eff];
+    s.cds.set(skillId, now + (base?.buff ? cd : Math.max(0, cd * CD_SLACK - CD_LAG)));
     // The client timeline and authoritative hit budget share the same rules.
     // Support-only casts open no offensive budget; splash is selected here.
     const schedule = kitSkill ? skillHitSchedule(kitSkill, eff) : [0];
@@ -262,43 +314,49 @@ export class Combatants {
     // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
     // and MP land on the server's copy (the browser shows the same)
     const single = !!kitSkill && ally && allyHeal(eff);
+    let self = null;
     if (kitSkill) {
-      const e = selfEffects(eff, slv, c.defense, c.matk, c.healPow ?? 1);
+      const e = selfEffects(eff, slv, c.defense, c.matk, c.healPow ?? 1, c.cooldownCut);
+      if (!single) self = e;
       if (e?.buff) c.addBuff(e.buff);
       if (s.persist && !single && (e?.heal || e?.hp)) c.heal(c.maxHp * e.heal + e.hp);
+      if (e?.tether && !single) this.tether(id, id, skillId, e.tether);
       if (s.persist && e?.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * e.mp);
       if (e?.heal || e?.hp || e?.mp) s.dirty = true;
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
-    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1) : null;
+    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1, c.cooldownCut) : null;
     const effects = [];
     const supportDuration = Math.max(support?.buff?.duration ?? 0, tauntOf(eff)?.duration ?? 0);
     if (supportDuration > 0) s.variantEffectsUntil = Math.max(s.variantEffectsUntil ?? 0, now + supportDuration);
     const challenge = kitSkill ? tauntOf(eff) : null;
     if (challenge && world && player) for (const m of within(world.monsters, player, challenge.radius)) effects.push(world.debuff(m, { id: 'taunt', taunt: true, label: 'ยั่วยุ', remaining: challenge.duration, by: id }));
     recordQuestCast(this, id, skillId, now);
-    if (effects.length) return { ok: true, effects, ...(support ? { support } : {}), ...(single ? { single: true } : {}) };
-    return support ? { ok: true, support, ...(single ? { single: true } : {}) } : { ok: true };
+    if (effects.length) return { ok: true, ...(self ? { self } : {}), effects, ...(support ? { support } : {}), ...(single ? { single: true } : {}) };
+    return support ? { ok: true, ...(self ? { self } : {}), support, ...(single ? { single: true } : {}) } : { ok: true, ...(self ? { self } : {}) };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
   // back where they lie. → what happened ({ heal, revived }) or null.
   aid(id, sup) {
     const s = this.list.get(id); if (!s || s.tradeBusy) return null;
     const c = s.c;
-    if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); s.dirty = true; return { revived: true }; }
+    let revived = false;
+    if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); revived = true; }
     const before = c.hp;
-    if (sup.heal || sup.hp) c.heal(c.maxHp * (sup.heal || 0) + (sup.hp || 0));
-    if (sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
+    if (!revived && (sup.heal || sup.hp)) c.heal(c.maxHp * (sup.heal || 0) + (sup.hp || 0));
+    if (!revived && sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
     if (sup.buff) c.addBuff(sup.buff);
     s.dirty = true;
-    return { heal: Math.round(c.hp - before) };
+    return { heal: Math.round(c.hp - before), ...(revived ? { revived: true } : {}) };
   }
 
   // One blow: msg { id (monster), skill: kit id | legacy id | 'basic' | 'pet', pounce? }.
   blow(id, world, players, msg = {}, phase = 'day') {
     const s = this.list.get(id), p = players.find(x => x.id === id), m = world.byId(msg.id);
     if (!s || !p || p.dead || !m || m.hp <= 0) return [];
+    this.watchBossCardRewards(world);
     const c = s.c, now = this.now(), night = phase === 'night';
+    const cardContext = !s.persist && Number.isFinite(msg.hpFraction) ? { hpFraction: Math.max(0, Math.min(1, msg.hpFraction)) } : {};
     const def = monsterDefense(m);
     s.fightAt = now; c.sitting = false;
     if (msg.skill === 'basic' || msg.skill === 'pet') {
@@ -314,7 +372,7 @@ export class Combatants {
       if (pet && msg.pounce && now - s.pet.pounceAt >= POUNCE_EVERY && this.r() < RULES.petInstinct + (c.stat?.('luk') || 0) * .002) { s.pet.pounceAt = now; power *= 1.5; }
       const atk = { patk: c.patk, matk: c.matk, accuracy: c.accuracy, critRate: skill.alwaysCrit && !pet ? 1 : c.critChance, critDmg: c.critDamage };
       const r = rollDamage(atk, def, !pet && skill.scale === 'int' ? 'magic' : 'physical', power, this.r);
-      const ev = this.land(world, players, m, id, r, night, { pet });
+      const ev = this.land(world, players, m, id, r, night, { pet, ...cardContext });
       if (r.hit && !pet && skill.debuff && m.hp > 0) ev.push(world.debuff(m, { id: skill.debuff.id ?? 'basic', ...skill.debuff, remaining: skill.debuff.duration, source: c.attack, by: id }));
       return ev;
     }
@@ -331,52 +389,64 @@ export class Combatants {
     const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o), cast.eff ?? cast.skill, slv, this.r, o)
       : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
     const primary = roll(m);
-    const ev = this.strike(world, players, m, id, primary, cast, night);
+    const ev = this.strike(world, players, m, id, primary, cast, night, cardContext);
     if (!primary.hit) return ev;
     // area skills: the server picks who else is caught
     const sp = info?.splash;
     if (sp && m) {
       const live = world.monsters.filter(o => o.hp > 0);
       if (sp.line || sp.cone) {
-        for (const o of inShape(live, p, m, sp, m)) if (!cast.splashed.has(o.id)) { cast.splashed.add(o.id); ev.push(...this.strike(world, players, o, id, roll(o), cast, night)); }
+        for (const o of inShape(live, p, m, sp, m)) if (!cast.splashed.has(o.id)) { cast.splashed.add(o.id); ev.push(...this.strike(world, players, o, id, roll(o), cast, night, cardContext)); }
       } else if (sp.chain) {
         // a chain: the blow jumps on to the nearest few around the target, each once per cast
-        for (const o of within(live, m, sp.radius, m).filter(o => !cast.splashed.has(o.id)).slice(0, sp.chain)) { cast.splashed.add(o.id); ev.push(...this.strike(world, players, o, id, roll(o), cast, night)); }
+        for (const o of within(live, m, sp.radius, m).filter(o => !cast.splashed.has(o.id)).slice(0, sp.chain)) { cast.splashed.add(o.id); ev.push(...this.strike(world, players, o, id, roll(o), cast, night, cardContext)); }
       } else {
-        for (const o of within(live, sp.around === 'self' ? p : m, sp.radius, m)) ev.push(...this.strike(world, players, o, id, roll(o), cast, night));
+        for (const o of within(live, sp.around === 'self' ? p : m, sp.radius, m)) ev.push(...this.strike(world, players, o, id, roll(o), cast, night, cardContext));
       }
     } else if (legacy?.kind === 'aoe') {
       const live = world.monsters.filter(o => o.hp > 0);
-      for (const o of within(live, legacy.around === 'self' ? p : m, legacy.radius ?? 3, m)) ev.push(...this.strike(world, players, o, id, roll(o), cast, night));
+      for (const o of within(live, legacy.around === 'self' ? p : m, legacy.radius ?? 3, m)) ev.push(...this.strike(world, players, o, id, roll(o), cast, night, cardContext));
     }
     return ev;
   }
 
   // a landed (or missed) skill blow, then the skill's effects on that monster once per cast
-  strike(world, players, m, id, r, cast, night) {
+  strike(world, players, m, id, r, cast, night, cardContext = {}) {
     if (this.list.get(id)?.tradeBusy) return [];
     const n = cast.struck.get(m.id) ?? 0;
     if (n >= cast.perTarget) return [];   // this cast has struck that monster as often as the skill allows
     cast.struck.set(m.id, n + 1);
     if (r.hit && r.dmg > 0 && m.hp > 0) recordQuestSkillHit(this, id, cast, m, r, cast.window ?? CAST_WINDOW);
-    const ev = this.land(world, players, m, id, r, night);
+    const s = this.list.get(id);
+    const cardMul = bossCardOutgoingMul(s?.c, m, s?.persist ? {} : cardContext), cardSource = r.dmg * cardMul;
+    const ev = this.land(world, players, m, id, r, night, { cardMul });
     if (r.hit && m.hp > 0 && !cast.hit.has(m.id)) {
       cast.hit.add(m.id);
-      for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, r.dmg) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: r.dmg }] : []) {
+      for (const d of cast.kit ? hitEffects(cast.eff ?? cast.skill, cardSource) : LEGACY[cast.skill]?.debuff ? [{ ...LEGACY[cast.skill].debuff, source: cardSource }] : []) {
         const owner = this.list.get(id);
         if (owner) owner.variantEffectsUntil = Math.max(owner.variantEffectsUntil ?? 0, this.now() + d.duration);
-        ev.push(world.debuff(m, { ...d, id: d.id, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, label: d.label, source: d.source || r.dmg, by: id, remaining: d.duration }));
+        ev.push(world.debuff(m, { ...d, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, source: d.source || cardSource, by: id, remaining: d.duration }));
       }
     }
     return ev;
   }
-  land(world, players, m, id, r, night, { pet = false } = {}) {
-    if (!r.hit) { world.aggro(m, id); return [{ t: 'mh', id: m.id, miss: true, by: id }]; }
-    const p = players.find(x => x.id === id), c = this.list.get(id)?.c;
+  land(world, players, m, id, r, night, { pet = false, cardMul, hpFraction } = {}) {
+    const s = this.list.get(id);
+    if (!r.hit) { world.aggro(m, id); return [{ t: 'mh', id: m.id, miss: true, by: id, ...(s ? { hitSeq: ++s.hitSeq } : {}) }]; }
+    if (!(m.hp > 0)) return [];
+    this.watchBossCardRewards(world);
+    const p = players.find(x => x.id === id), c = s?.c;
+    const hp = m.hp;
     let dmg = r.dmg * (1 + (c?.vsRace(m.def) ?? 0));   // cards: more against that race
+    dmg *= cardMul ?? bossCardOutgoingMul(c, m, s?.persist ? {} : { hpFraction });
     if (m.def.shield && p && shielded(m, p)) dmg *= 1 - SHIELD;
     dmg = Math.max(1, Math.round(dmg));
-    return world.damage(m, id, dmg, { crit: !!r.crit, pet }, players, night);
+    const events = world.damage(m, id, dmg, { crit: !!r.crit, pet }, players, night);
+    // One monotonic receipt per character session, across gear changes and
+    // worlds. The client never supplies it; equal-damage hits are distinct.
+    for (const e of events) if (s && e.t === 'mh' && e.id === m.id && e.by === id) e.hitSeq = ++s.hitSeq;
+    if (s?.persist && applyBossCardHit(c, s.bossCardProcs, this.now(), hp - m.hp, { pet })) s.dirty = true;
+    return events;
   }
   // PvP uses the same class stats and basic-attack rate bucket as PvE.
   // Clients supply a target only, never damage or attacker stats.
@@ -389,10 +459,8 @@ export class Combatants {
     this.touch(attacker); this.touch(target); c.sitting = false; t.sitting = false;
     const roll = rollDamage(this.stats(c), { def: t.defense, eva: t.evasion }, basic.scale === 'int' ? 'magic' : 'physical', basic.power, this.r);
     if (!roll.hit) return { miss: true, hp: t.hp, maxHp: t.maxHp };
-    const amount = Math.min(t.hp - (knockout ? 1 : 0), Math.max(1, Math.round(roll.dmg * .5)));
-    const won = knockout && t.hp - amount <= 1;
-    t.hp = Math.max(knockout ? 1 : 0, t.hp - amount);
-    if (!t.hp) t.fall();
+    const amount = t.damage(Math.min(t.hp - (knockout ? 1 : 0), Math.max(1, Math.round(roll.dmg * .5))));
+    const won = knockout && t.hp <= 1;
     a.dirty = true; b.dirty = true;
     return { amount, crit: !!roll.crit, hp: t.hp, maxHp: t.maxHp, dead: !t.alive, won };
   }
@@ -405,7 +473,7 @@ export class Combatants {
   }
   // buffs run out; night crit for night classes
   // (a signed-in character also regenerates MP, faster out of a fight)
-  tick(dt, night) {
+  tick(dt, night, players = null, canAid = () => true) {
     const now = this.now();
     for (const s of this.list.values()) {
       if (s.tradeBusy) continue;
@@ -413,5 +481,29 @@ export class Combatants {
       if (s.persist) { const hp=s.c.hp,mp=s.c.mp; s.c.tick(dt, now - s.fightAt < RULES.combatTimeout); if(s.c.hp!==hp||s.c.mp!==mp)s.dirty=true; }
       else if (s.c.buffs.length) s.c.buffs = s.c.buffs.filter(b => (b.remaining -= dt) > 0);
     }
+    const positions = new Map((players ?? []).map(p => [p.id, p])), events = [];
+    for (const [source, active] of this.tethers) {
+      const from = this.list.get(source), to = this.list.get(active.target);
+      if (from?.tradeBusy || to?.tradeBusy) continue;
+      const p = positions.get(source), q = positions.get(active.target);
+      const self = source === active.target;
+      const noPositions = players === null && self;
+      if (!from?.c.alive || !to?.c.alive || !canAid(source, active.target) ||
+          (!noPositions && (!p || !q || p.dead || q.dead || p.room !== q.room || (active.room !== null && p.room !== active.room)))) {
+        this.tethers.delete(source); continue;
+      }
+      if (p && active.room === null) active.room = p.room;
+      const step = advanceTether(active.link, dt, noPositions ? 0 : dist(p, q));
+      if (step.hp > 0) {
+        // Guests keep their own vitals; the server still owns timing and range.
+        const result = to.persist ? this.aid(active.target, { hp: step.hp }) : { heal: step.hp };
+        if (result?.heal > 0) {
+          if (!self && from.persist) { from.c.note('healOut', result.heal); from.dirty = true; }
+          events.push({ source, target: active.target, skill: active.skill, heal: result.heal });
+        }
+      }
+      if (step.done) this.tethers.delete(source);
+    }
+    return events;
   }
 }

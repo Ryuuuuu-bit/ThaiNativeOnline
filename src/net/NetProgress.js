@@ -17,6 +17,7 @@ import { flaskFields, instanceId, cleanFlask } from '../character/data/flasks.js
 import { lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, gearReference } from '../character/itemState.js';
 import { rollFields, cleanRoll } from '../character/data/affixes.js';
 import { cleanMasteries } from '../character/data/masteries.js';
+import { collectCardBook } from '../character/cardCollection.js';
 import { canWearTitle } from '../data/titleAccess.js';
 export function attachNetProgress(net, c, quests = null, { authenticated = false } = {}) {
   let on = false, sent = 0, depth = 0, resyncPending = false;
@@ -149,6 +150,8 @@ export function attachNetProgress(net, c, quests = null, { authenticated = false
     c.gearRolls = Object.fromEntries(Object.entries(c.equipment).map(([slot, id]) => [slot, cleanRoll(id, s.gearRolls?.[slot])]));
     c.equipmentLocks = cleanEquipmentLocks(c.equipment, s.equipmentLocks);
     c.hotbar = cleanHotbar(c, s.hotbar); c.loadouts = cleanLoadouts(c, s.loadouts); c.masteries = cleanMasteries(c.classId, s.masteries);
+    // Replace predicted/local history with the server's book; never union client claims.
+    c.cardBook = collectCardBook(s.cardBook, c.inventory, c.equipment, c.cards);
     c.emit('skills');
     takeTitles({ titles, title, rec });
     c.mp = Math.min(c.maxMp, s.mp ?? c.mp); c.hp = Math.min(c.maxHp, s.hp > 0 ? s.hp : c.hp);

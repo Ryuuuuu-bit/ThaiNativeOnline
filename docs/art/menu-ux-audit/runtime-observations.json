@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-10",
+  "base": "c65073e",
+  "viewport": [
+    "1366x768",
+    "1920x1080"
+  ],
+  "fixture": "isolated local guest; offline network; one headless browser; no production writes",
+  "tiles": [
+    "ตัวละครC",
+    "สกิลK",
+    "กระเป๋าI",
+    "ชุดอุปกรณ์ / สกิล",
+    "แผนที่M",
+    "สมุดมอนสเตอร์",
+    "AUTOG",
+    "สังคมP",
+    "ชมวิวH",
+    "ตั้งค่าEsc"
+  ],
+  "playVisibleControls": 11,
+  "playText": "หน้าจอการต่อสู้\nชื่อตัวละครของฉันป้ายชื่อเหนือหัวตัวเอง\nชื่อผู้เล่นอื่นป้ายชื่อเหนือหัวคนอื่น\nเวลาของโลก\nช่วงเวลา\nหมุนเวียนตามเวลา\nเช้า\nกลางวัน\nเย็น\nกลางคืน\nความเร็วเวลา\n1 วัน = 24 นาที\n1 วัน = 4 นาที\n1 วัน = 72 วินาที\nหน้าจอ\nโหมดผู้พัฒนา (F3)",
+  "socialInput": 1,
+  "socialStillVisibleAfterFocusedEscape": true,
+  "bestiaryTitle": "สมุดมอนสเตอร์"
+}

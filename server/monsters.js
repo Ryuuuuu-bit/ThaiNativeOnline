@@ -48,6 +48,7 @@ import { WORLD_BOSS, worldBossHp, worldBossTier, WORLD_BOSS_SKILLS, WORLD_BOSS_C
 //   { t: 'wbcast', id, skill, spots: [{x, z, r}], warn } → after `warn` s { t: 'wbfx', id, skill, spots }
 //   and { t: 'wbhit', id, to, pct, skill, knock? } for each player standing in a spot (a share of
 //   their max HP, server/index.js resolves it) · bleeds tick as wbhit · pools: { t: 'wbzone', id, spots, secs }
+import { BOSS_EFFECT_MUL } from '../src/rules/effects.js';
 
 const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
 const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
@@ -275,7 +276,8 @@ export class MonsterWorld {
     return ev;
   }
 
-  // → the event that shows it to the players on the map ({ t: 'md', id, d: { id, stun, slow, dot, label, secs } })
+  // Callers pass full durations; match rules/effects.js boss control resistance.
+  // → md preserves the status strengths and the actual remaining seconds.
   debuff(m, d) {
     if (d.taunt) {
       if (m.state === 'return' || m.hp <= 0) return { t: 'md', id: m.id, d: { id: d.id, secs: 0 } };
@@ -283,6 +285,7 @@ export class MonsterWorld {
       m.taunt = { by: d.by, previous: m.taunt?.previous ?? m.target };
       m.target = d.by; m.state = 'chase'; m.dirty = true;
     }
+    d = { ...d, remaining: (d.remaining ?? d.duration) * (m.def.boss && !d.dot && !d.taunt ? BOSS_EFFECT_MUL : 1) };
     m.debuffs = m.debuffs.filter(o => !sameStatusSource(o, d)); m.debuffs.push(d);
     return { t: 'md', id: m.id, d: { id: d.id, by: d.by, sourceSkill: d.sourceSkill, stun: !!d.stun, slow: d.slow || 0, dot: d.dot || 0, armorBreak: d.armorBreak || 0, weak: d.weak || 0, taunt: !!d.taunt, ...(d.label ? { label: d.label } : {}), secs: d.remaining } };
   }

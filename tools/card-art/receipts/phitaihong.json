@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "phitaihong",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผีตายโหง monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: weathered Thai temple courtyard, mossy brick and quiet spirit lamps. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "phitaihong.png",
+  "sourceSha256": "1bf144c07f7632616b4969216305e2475401ae5dd52f731026a28fe5cec527f7",
+  "reference": "artifacts/card-model-references/phitaihong.png",
+  "referenceSha256": "6f1d9f690367e44a63f21f468ed2446d4454cfb7409debde3749a9dd48dbd536",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/phitaihong.glb",
+      "sha256": "5834620cefc2c27eb278617d455070a92e9c5d2a16a84706962cdf05c62017cd"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/phitaihong.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 76748,
+    "sha256": "e9d8efbb499144cf0f4bc22b7441da4ff54e4be79c3deefe30b69ad50f834d70"
+  },
+  "icon": {
+    "path": "public/ui/card-art/phitaihong-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5528,
+    "sha256": "e7e0e3fa1194c77b7076c16d9d3d497e50f62c28c3b2fa150a49fb75d180ff79"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: watercolor/gouache, ink and soft forms",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Gray-skinned Thai male ghost with dark spiky hair, cream headband, white/red patterned shoulder wrap, maroon dhoti and wrist/ankle wraps; two arms and two legs.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}

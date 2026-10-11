@@ -11,6 +11,7 @@ import { Character } from '../src/character/Character.js';
 import { MONSTERS } from '../src/combat/data/monsters.js';
 import { RULES } from '../src/combat/data/rules.js';
 import { SKILL_BY_ID } from '../src/rules/data/skills.js';
+import { PLAYER_DAMAGE_MULT } from '../src/rules/stats.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
@@ -59,10 +60,10 @@ test('a blow against a monster uses its DEF and EVA (same formula as the dummy)'
   const boar = monsterDefense(MONSTERS.boar);
   const r = rollBlow(d, boar, 'boxer_kick', 1, seq([0, .5, .99]));
   assert.deepEqual(r, rollSkill(d, boar, 'boxer_kick', 1, seq([0, .5, .99])));
-  assert.equal(r.dmg, Math.round(Math.max(1, d.patk * SKILL_BY_ID.boxer_kick.mult - MONSTERS.boar.def * .5)));
+  assert.equal(r.dmg, Math.round(Math.max(1, d.patk * SKILL_BY_ID.boxer_kick.mult - MONSTERS.boar.def * .5) * PLAYER_DAMAGE_MULT));
   // a buff with no damage multiplier still strikes at the fallback multiplier
   const f = rollBlow(d, boar, 'boxer_waikru', 1, seq([0, .5, .99]));
-  assert.equal(f.dmg, Math.round(Math.max(1, d.patk * KIT.fallbackMult - MONSTERS.boar.def * .5)));
+  assert.equal(f.dmg, Math.round(Math.max(1, d.patk * KIT.fallbackMult - MONSTERS.boar.def * .5) * PLAYER_DAMAGE_MULT));
 });
 
 test('rules effects become Combat debuffs and Character buffs', () => {

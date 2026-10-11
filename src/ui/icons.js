@@ -15,8 +15,8 @@ const escapeAttr = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp
 // scales with inventory, skill tree, hotbar and small buff icons alike.
 export function assetIcon(url, alt = '', imageArt = '') {
   const resolved = resolvePaintedSkillIcon(url, BASE);
-  const painted = imageArt === 'painted' || isPaintedSkillIcon(resolved);
-  return `<span class="icon-img asset-icon${painted ? ' painted-art' : ''}"><img src="${escapeAttr(resolved)}" alt="${escapeAttr(alt)}"></span>`;
+  const painted = imageArt === 'painted' || imageArt?.painted === true || isPaintedSkillIcon(resolved);
+  return `<span class="icon-img asset-icon${painted ? ' painted-art' : ''}${imageArt?.illustration ? ' card-illustration-icon' : ''}"><img src="${escapeAttr(resolved)}" alt="${escapeAttr(alt)}"></span>`;
 }
 
 // 24×24 line emblems (stroke = currentColor) for classes without a portrait yet.
@@ -40,6 +40,6 @@ export function classBadge(id, cls, { size = 26 } = {}) {
 export const classEmblem = (id, size = 26) => emblem(id, size);
 
 export function iconHtml(entry, alt = '') {
-  if (entry?.img) return assetIcon(`${BASE}${entry.img}`, alt, entry.imageArt);
+  if (entry?.img) return assetIcon(`${BASE}${entry.img}`, alt, { painted: entry.imageArt === 'painted', illustration: entry.type === 'card' && !!entry.illustration });
   return `<span class="icon-glyph">${entry?.icon ?? '✦'}</span>`;
 }

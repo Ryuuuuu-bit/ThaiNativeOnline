@@ -99,6 +99,15 @@ The controller interface is documented at the top of `ActionBar.js`. `hud.setSaf
 
 ### Hooks for equipment drops
 
+- `bossCardEffects.js` reads only valid sockets on eligible worn equipment.
+  Combat and server combatants apply conditional outgoing/incoming effects once;
+  guarded landed-hit and kill receipts prevent duplicate healing/resource procs.
+  Discovery history is presentation only. See `docs/technical/CARD_COLLECTION.md`.
+- `net/combatState.js` adopts authoritative transient vitals/buffs independently
+  of inventory acknowledgements. Offline KitCaster schedules tether ticks with
+  `training/tether.js`; online server combatants own that schedule and pause it
+  during inventory transactions. Cleanse announces external movement conditions.
+
 - `lootDrops.rollLootDrops(def, { random, uuid, level, multiplier })` shares legacy independent rows plus one bounded level pool roll. Online `MonsterWorld` supplies server RNG/UUID; rewards and NetCombat retain exact instances with `addInstance`. Gear operation/trade/stash requests use `iid` references, never client affix values.
 - The extra equipment pool now includes gloves, belts and amulets. Rings share the existing `charm` kind and two accessory positions. `boss-flask-loot.js` adds one separate bounded themed bottle roll; flask instances carry their own UUID and remaining charges.
 - Flask use and recharge flow through Character and authoritative server progress/kill rewards. The town refill service checks the city herbalist's actual location. Saving, swapping or reconnecting never fills an existing flask.

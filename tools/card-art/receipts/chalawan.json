@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "id": "chalawan",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nReference image role: identity reference captured from the ACTUAL in-game 3D monster model. Draw the same recognizable creature as a polished 2D anime watercolor card illustration. Keep its exact species/body form, face, hairstyle, clothing colors, existing armor, proportions, number of limbs and any tail, horns or tusks from the model. Do not redesign the monster, add a weapon, add a crown, or substitute a different mythological being. Pose may become a natural relaxed ready stance while preserving anatomy. Habitat: softly painted Thai lotus-waterway, jade water and pale stone naga carving far behind. The source's HUMAN-CROCODILE hybrid prince with muscular humanoid chest, crocodile legs/claws and long crocodile tail, gold armor, dark teal trousers and red-gold sash is the subject. Preserve the model's HUMAN face and hair; do not turn it into a quadruped crocodile.",
+  "sourceFile": "exec-635c2ace-5f8a-4af3-aa91-ddbcddfedd9c.png",
+  "sourceSha256": "ba0921adecdd088564bd2f0dadb16485909dfd48bcc4fc66fd662f1e0f0aae26",
+  "reference": "artifacts/card-model-references/chalawan.png",
+  "referenceSha256": "1efce8488cda35a3858a4d526482ca147b6ce41ac7fd1a6a60757b1cc5e1a4c2",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/chalawan.glb",
+      "sha256": "4ce5729d87b1264991f566d5148a54b1e784013d5bd71734b9ff64582e9a238f"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/chalawan.glb",
+      "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/chalawan.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 67766,
+    "sha256": "3347a7af640aaaee842f8ee95cbf1e09555e5d6a21892ebc7014ba9bf4f659dd"
+  },
+  "icon": {
+    "path": "public/ui/card-art/chalawan-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5330,
+    "sha256": "c931e5af1eab09168830057f79c17328da3554d9ee7bf3f2a872f56474554ee4"
+  },
+  "review": {
+    "identity": "checked against captured production model",
+    "style": "2D anime watercolor"
+  }
+}

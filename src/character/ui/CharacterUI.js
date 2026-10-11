@@ -38,13 +38,14 @@ const bonusLabel = (k, v) => {
   return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${+(v * 100).toFixed(2)}%` : v}`;
 };
 export const bonusText = b => (b ? Object.entries(b).map(([k, v]) => bonusLabel(k, v)).join(' · ') : '');
+const cardAbilityText = d => d?.special ? `${d.special.name} · ${d.special.description}` : '';
 
 // "+4 ดาบเหล็กลาย [2]" — RO style, the plus from ตีบวก and the number of card slots
 export const itemName = (id, plus = 0, roll = null) => instanceName({ id, plus, roll });
 const cardsLine = (id, cards = []) => {
   const n = ITEMS[id]?.slots ?? 0; if (ITEMS[id]?.type !== 'equip') return '';
   if (!n) return '\nไม่มีช่องการ์ด';
-  return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
+  return `\nช่องการ์ด: ${[...cards.map(c => `❖ ${ITEMS[c].name} (${bonusText(ITEMS[c].bonus)}${ITEMS[c].special ? ` · ${cardAbilityText(ITEMS[c])}` : ''})`), ...Array(Math.max(0, n - cards.length)).fill('○ ว่าง')].join(' · ')}`;
 };
 const pips = (id, cards = []) => {
   const n = ITEMS[id]?.slots ?? 0, used = Math.min(n, cards.length);
@@ -65,7 +66,7 @@ function itemCard({ id, cards = [], plus = 0, locked = false, roll = null, flask
   const rolled = affixLines(id, roll).map(a => `<i class="iw-affix" title="${esc(`ช่วงค่าสุ่ม ${a.min}–${a.max}`)}">${esc(`${a.kind === 'prefix' ? 'นำหน้า' : 'ต่อท้าย'} · ${a.label} T${a.tier}: ${bonusLabel(a.key, a.value)}`)}</i>`).join('');
   const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
   const act = d.type === 'equip' ? 'อุปกรณ์สวมใส่' : d.type === 'use' ? 'ไอเท็มใช้ได้' : d.type === 'card' ? 'ใส่การ์ดด้วยปุ่มด้านล่าง (ติดถาวร)' : 'ขายได้ที่ร้านค้า';
-  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${flask && d.flask ? `<small>ขั้น ${d.flask.tier} · ฟื้น ${d.flask.kind.toUpperCase()} ${d.flask.recovery} · ประจุ ${flask.charges}/${d.flask.maxCharges} · ใช้ ${d.flask.cost} ต่อครั้ง</small>` : ''}${rolled ? `<span class="g-detail-bonus iw-affix-list">${rolled}</span>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
+  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${flask && d.flask ? `<small>ขั้น ${d.flask.tier} · ฟื้น ${d.flask.kind.toUpperCase()} ${d.flask.recovery} · ประจุ ${flask.charges}/${d.flask.maxCharges} · ใช้ ${d.flask.cost} ต่อครั้ง</small>` : ''}${rolled ? `<span class="g-detail-bonus iw-affix-list">${rolled}</span>` : ''}${cardAbilityText(d) ? `<small>${esc(cardAbilityText(d))}</small>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
 
 export class CharacterUI {
@@ -221,6 +222,7 @@ export class CharacterUI {
       else if (ITEMS[item?.id]?.type === 'equip') this.workspace.startEquipmentDrag(e, index);
       else e.preventDefault();
     });
+    this.grid.addEventListener('dragstart', e => { const button=e.target.closest('[data-index]'), item=this.c.inventory[+button?.dataset.index]; if (ITEMS[item?.id]?.type === 'use') dragBinding(e,{kind:'item',id:item.id}); else e.preventDefault(); });
     this.workspace = new InventoryWorkspace(this, itemCard, SLOT_LABELS);
   }
 
@@ -423,7 +425,7 @@ export class CharacterUI {
     if (i < 0) return;
     const targets = this.c.cardTargets(i); this.pickCard = i;
     this.pickFingerprint = JSON.stringify(this.c.inventory[i]); this.pickWhere = undefined; this.pickTarget = null;
-    this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${bonusText(card.bonus)}</small></header>`
+    this.cardPick.innerHTML = `<header>ใส่${esc(card.name)}<small>${esc(bonusText(card.bonus))}</small>${cardAbilityText(card) ? `<small>${esc(cardAbilityText(card))}</small>` : ''}</header>`
       + (targets.length ? targets.map(t => `<button type="button" data-where="${t.worn ? t.slot : t.index}" data-worn="${!!t.worn}" aria-pressed="false"><span>${iconHtml(ITEMS[t.id])}</span><b>${esc(instanceName(t.worn ? this.c.wornItem(t.slot) : this.c.inventory[t.index]))}${t.worn ? ` · สวมอยู่ (${SLOT_LABELS[t.slot]})` : ''}</b>${pips(t.id, t.cards)}</button>`).join('')
         : `<p>ไม่มี${SLOT_LABELS[card.slot]}ที่มีช่องการ์ดว่าง</p>`)
       + '<p class="g-pick-warn">ใส่แล้วการ์ดติดกับไอเท็มนั้นถาวร ถอดออกไม่ได้</p><p class="iw-socket-target" aria-live="polite">เลือกอุปกรณ์ก่อนยืนยัน</p><button type="button" class="g-pick-confirm" disabled>ยืนยันใส่การ์ด</button><button type="button" class="g-pick-cancel">ยกเลิก</button>';

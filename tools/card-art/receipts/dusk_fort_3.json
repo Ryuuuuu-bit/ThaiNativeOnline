@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "dusk_fort_3",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game เจ้าอสูรสนธยา monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: ruined Thai demon fortress at dusk, subdued terracotta and warm evening light. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. \nKeep the background noticeably softer and simpler than the subject, with a clear light silhouette separation.",
+  "sourceFile": "exec-6d401740-9e87-47fd-9c69-31bd6d25d166.png",
+  "sourceSha256": "0dc4570807a38bab3a18d5849682b9ec324aef834efae85dc0139723697ec101",
+  "reference": "artifacts/card-model-references/dusk_fort_3.png",
+  "referenceSha256": "d661caa21b4b539d8e6839b13a0e989aa694f3da237bfbfd2aa255472bb8b2d7",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/dusk_fort_3.glb",
+      "sha256": "0f834062414177bdf28dc65cf56b498fa32e7e2ff4ac57c035c0db078046422e"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/dusk_fort_3.glb",
+      "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/dusk_fort_3.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 69064,
+    "sha256": "9a92316d44ca1c174c0c48d0ea3e205d7185b5f7a5cfa30a0eeacedfc8cffb48"
+  },
+  "icon": {
+    "path": "public/ui/card-art/dusk_fort_3-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5458,
+    "sha256": "c60593a8db6ecff41a6548e7da98c775533b5a55c358e71e0540a88a5d1d3c48"
+  },
+  "review": null
+}

@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "demon_rift_3",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game เจ้าอสูรรอยแยก monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: Thai enchanted rift gate, softly painted violet-jade glow and restrained mystical haze. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. \nKeep the background noticeably softer and simpler than the subject, with a clear light silhouette separation.",
+  "sourceFile": "exec-327f4489-7609-48da-a15c-11c14848771a.png",
+  "sourceSha256": "71e8261a682c44bdda570fc2790f303c8acbc7320dc18da44c9b0782a7ee65d0",
+  "reference": "artifacts/card-model-references/demon_rift_3.png",
+  "referenceSha256": "d3c93de38f6f52d37d4fa0e467a0226b09840b38ca808dcac0d64a3f13fd25ba",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/demon_rift_3.glb",
+      "sha256": "03fbbbe88d3c206466ce663db886765c66aa64f6b064eb38b7be73a95e88bfe5"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/demon_rift_3.glb",
+      "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/demon_rift_3.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 74532,
+    "sha256": "d1d5a67c8e483a075ad1946522de34a0b1ae4473f5ac221a090c33f4ce668d26"
+  },
+  "icon": {
+    "path": "public/ui/card-art/demon_rift_3-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 6010,
+    "sha256": "c3b47b0a4100ac8e640476eae29208a428b05058cc817bd3a49e901b6b4fd2ca"
+  },
+  "review": null
+}

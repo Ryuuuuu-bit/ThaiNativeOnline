@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "cobra",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game งูเห่านา monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: Thai rice-field path, soft morning grasses. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "cobra.png",
+  "sourceSha256": "0ff435be5ddc0e5063ebcbbb7b51ae15a68e0a9dd67891559588fc7c5ab24f82",
+  "reference": "artifacts/card-model-references/cobra.png",
+  "referenceSha256": "cfc68426b9c4cca6cef6a77edc094b9428c8068e4b9abd4efa59f65107f33bcc",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/cobra.glb",
+      "sha256": "de3c9d1d66adaaf32ee0818b8cb0762ce15eac8afc81b4ab304e543665f53d5a"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/cobra.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 66470,
+    "sha256": "5ae0c4bae2c0fb43923e4e738919ebb7e5e3d04ea83321340104b635e8974241"
+  },
+  "icon": {
+    "path": "public/ui/card-art/cobra-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5322,
+    "sha256": "3db13e1fba73b13cd478bf97cbceaf2c0476184217316dc3ce82e06cee0727a9"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: approved watercolor/gouache and ink treatment",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Brown/olive hood with cream pattern, cream underside and one continuous snake body/tail match the production reference.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}
