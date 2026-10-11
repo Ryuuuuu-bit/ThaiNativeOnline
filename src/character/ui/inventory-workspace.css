@@ -86,9 +86,9 @@ body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison :is(captio
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison :is(th,td) {border-color:#6c543433}
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .up {color:#123c1c}
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .down {color:#5c1b0b}
-body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .iw-unchanged {color:#49331d}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .iw-unchanged {color:#332414}
 body.skin-classic .inventory-workspace .iw-detail :is(.iw-current-item,.iw-conditional)>summary {color:#332414}
-body.skin-classic .inventory-workspace .iw-detail :is(.iw-projection-note,.iw-score-note,.iw-conditional small) {color:#49331d}
+body.skin-classic .inventory-workspace .iw-detail :is(small,.iw-projection-note,.iw-score-note) {color:#332414}
 body.skin-classic .inventory-workspace .iw-detail .g-detail-bonus i {color:#123c1c}
 body.skin-classic .inventory-workspace .iw-detail :is(.iw-warning,.g-detail-bonus .iw-refine-bonus) {color:#5c1b0b}
 body.skin-classic .inventory-workspace .iw-detail :is(.iw-current-item,.iw-conditional,.iw-card-bonuses) {border-color:#6c543455}
