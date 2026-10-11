@@ -3,6 +3,7 @@ import './quests.css';
 import { NEWCOMER_GUIDE } from '../data/newcomer-guide.js';
 import { newcomerJourney } from '../quest/newcomerJourney.js';
 import { passMovementKey } from './nonmodalKeys.js';
+import { questHudPlacement } from './questHudLayout.js';
 export { describeObjective } from '../quest/questPresentation.js';
 
 const $ = id => document.getElementById(id);
@@ -85,8 +86,14 @@ export class QuestUI {
     const touch = document.body.classList.contains('ui-touch');
     const mini = document.querySelector('.minimap')?.getBoundingClientRect();
     if (!mini) return;
-    this.root.style.setProperty('--quest-top', `${mini.bottom + (touch ? 6 : 10)}px`);
-    this.root.style.setProperty('--quest-right', `${touch ? 12 : Math.max(12, innerWidth - mini.right)}px`);
+    this.root.dataset.compact = 'false';
+    const placement = questHudPlacement({ touch, mini, width: innerWidth, height: innerHeight,
+      fullHeight: this.root.getBoundingClientRect().height,
+      hotbar: document.querySelector('.hotbar.action-bar')?.getBoundingClientRect() });
+    this.root.dataset.compact = String(placement.compact);
+    this.root.style.setProperty('--quest-top', `${placement.top}px`);
+    this.root.style.setProperty('--quest-right', `${placement.right}px`);
+    if (placement.hidden) this.root.hidden = true;
   }
   renderGuide() {
     const journey = newcomerJourney(this.quests, NEWCOMER_GUIDE);

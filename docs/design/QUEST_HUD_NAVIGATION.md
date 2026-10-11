@@ -13,3 +13,7 @@ Pinning and locomotion state are transient per session; no character saves, skil
 `tests/quest-navigation.test.js` covers live/scheduled indoor contacts, readonly progress, objective progression, manual hand-in, cross-map gates, exact ordinary drops, locked supplies, unsupported objectives, explicit walking, path failure, lifecycle cancellation, stale target availability and arrival. Browser evidence and the final full-suite/build result belong in `docs/technical/qa/quest-hud-navigation.md` and `docs/technical/VERIFY.md` after QA.
 
 Known limits: destination geography is public spawn data, not a promise that a particular monster is currently alive. The path planner can reject dynamic obstruction, prompting manual detour. Practice/combo objectives currently provide instructions without automated camp routing. Pinning is not persisted across sessions.
+
+## Enlarged desktop HUD
+
+The tracker measures the real minimap and hotbar rectangles. If the full card cannot fit, desktop uses a single 32px objective/progress chip with journal/Stop behavior. This includes saved HUD zoom1.8 at1366×768. An extreme viewport/zoom combination with less than34px plus safe spacing hides the floating tracker; the same objective and actions remain in the main-menu QuestJournal. Touch retains its approved138px-wide48px chip. `tests/quest-hud-layout.test.js` verifies these geometry boundaries without DOM assumptions.

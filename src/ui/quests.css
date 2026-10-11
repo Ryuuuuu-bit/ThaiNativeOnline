@@ -63,6 +63,11 @@ body #quest-objective-hud[hidden], body.photo-mode #quest-objective-hud { displa
 #quest-objective-hud button:focus-visible { outline:2px solid var(--t-gold-hi); outline-offset:2px; }
 #quest-objective-hud[data-walking=true] { border-color:var(--t-gold-hi); }
 #quest-objective-hud .quest-hud-open { display:none; }
+/* Large desktop HUDs keep the objective above input controls in a single row. */
+body #quest-objective-hud[data-compact=true] { padding:0; }
+body #quest-objective-hud[data-compact=true] > :not(.quest-hud-open) { display:none; }
+body #quest-objective-hud[data-compact=true] .quest-hud-open { display:flex; align-items:center; gap:6px; width:100%; min-height:32px; padding:4px 6px; margin:0; border:0; background:none; text-align:left; }
+body #quest-objective-hud[data-compact=true] .quest-hud-open span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 /* Touch keeps only an objective chip beside the top cluster. Details and
    map/walk/untrack live in the registered journal; active walking becomes Stop. */
 body.ui-touch #quest-objective-hud { width:138px; padding:0; font-size:13px; }
