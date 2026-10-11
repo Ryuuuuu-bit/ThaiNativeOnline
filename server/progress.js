@@ -118,10 +118,10 @@ export function applyOp(c, msg = {}, quests = null, here = null, state = null) {
     case 'learn': return typeof msg.id === 'string' && c.learnSkill(msg.id);
     case 'skill_reset': return c.resetSkills();
     case 'evo': return !!state && state.fighting === false && !state.busy && typeof msg.id === 'string' && (msg.pick === 'A' || msg.pick === 'B') && !c.evoBlock(msg.id, msg.pick, state) && c.chooseEvo(msg.id, msg.pick);
-    // quests and talks are face to face: `here` ({ map, x, z }) is checked against the NPC's spots
-    case 'quest_accept': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.giver, here.map, here.x, here.z)) && quests.accept(msg.id); }
-    case 'quest_complete': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.turnIn ?? q.giver, here.map, here.x, here.z)) && quests.complete(msg.id); }
-    case 'talk': if (typeof msg.npc !== 'string' || !quests || (here && !nearNpc(msg.npc, here.map, here.x, here.z))) return false; quests.onTalk(msg.npc); return true;
+    // Face-to-face contacts use server-supplied position and current clock phase.
+    case 'quest_accept': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.giver, here.map, here.x, here.z, here.phase)) && quests.accept(msg.id); }
+    case 'quest_complete': { const q = quests?.defs.get(msg.id); return !!q && (!here || nearNpc(q.turnIn ?? q.giver, here.map, here.x, here.z, here.phase)) && quests.complete(msg.id); }
+    case 'talk': if (typeof msg.npc !== 'string' || !quests || (here && !nearNpc(msg.npc, here.map, here.x, here.z, here.phase))) return false; quests.onTalk(msg.npc); return true;
     default: return false;
   }
 }

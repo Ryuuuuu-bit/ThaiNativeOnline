@@ -7,6 +7,7 @@ import { EXPEDITIONS } from '../world/expeditions.js';
 // district moves a shop).
 import { NPCS } from './npcs.js';
 import { SHOP_HOSTS } from './shops.js';
+import { CONTACT_PHASES, contactPhase, contactActivityFor, contactSitesFor } from './npcContact.js';
 
 export const SHOP_RANGE = 12;   // the NPC's own talk radius (≈6 m) and room for lag
 
@@ -31,13 +32,8 @@ for(const e of EXPEDITIONS)SPOT_SITES[`${e.id}_supply`]=[e.id,18,e.top-24];
 
 const placesOf = npc => {
   const out = new Map();
-  for (const a of Object.values(npc.schedule ?? {})) for (const at of [a?.at, ...(a?.stops ?? []).map(s => typeof s === 'string' ? s : s.at)]) {
-    let place;
-    if (at && typeof at === 'object') place = { map: npc.map ?? 'city', x: at.x, z: at.z };
-    else if (typeof at === 'string' && Object.hasOwn(SPOT_SITES, at)) { const [map, x, z] = SPOT_SITES[at]; place = { map, x, z }; }
-    if (place && Number.isFinite(place.x) && Number.isFinite(place.z)) {
-      out.set(JSON.stringify([place.map, place.x, place.z]), place);
-    }
+  for (const phase of CONTACT_PHASES) for (const place of contactSitesFor(npc, phase, SPOT_SITES)) {
+    out.set(JSON.stringify([place.map, place.x, place.z]), place);
   }
   return [...out.values()];
 };
@@ -47,12 +43,20 @@ for (const n of NPCS) if (n.shopType) for (const p of placesOf(n)) (SHOP_SITES[n
 for (const [shop, host] of Object.entries(SHOP_HOSTS)) SHOP_SITES[shop] = [...(SHOP_SITES[host] ?? [])];
 
 const sitesOf = shop => (typeof shop === 'string' && Object.hasOwn(SHOP_SITES, shop) ? SHOP_SITES[shop] : []);   // never a prototype key
-export const nearShop = (shop, map, x, z) => sitesOf(shop).some(s => s.map === map && Math.hypot(s.x - x, s.z - z) <= SHOP_RANGE);
-// Any NPC, by id: standing within SHOP_RANGE of one of their spots (quests are taken and handed
-// in, and things are sold, face to face).
+// The union above is catalog/test metadata, not contact authorization. Current
+// phase tables contain only outdoor sites, never yesterday's shop or a home.
 const NPC_SITES = {};
-for (const n of NPCS) NPC_SITES[n.id] = placesOf(n);
-export const nearNpc = (npcId, map, x, z) => (typeof npcId === 'string' && Object.hasOwn(NPC_SITES, npcId) ? NPC_SITES[npcId] : []).some(s => s.map === map && Math.hypot(s.x - x, s.z - z) <= SHOP_RANGE);
-export const nearAnyShop = (map, x, z) => Object.keys(SHOP_SITES).some(shop => nearShop(shop, map, x, z));
+const NPC_DEFS = new Map(NPCS.map(n => [n.id, n]));
+for (const n of NPCS) NPC_SITES[n.id] = Object.fromEntries(CONTACT_PHASES.map(phase => [phase, contactSitesFor(n, phase, SPOT_SITES)]));
+const currentSites = (npcId, phase) => {
+  const current = contactPhase(phase);
+  return current && typeof npcId === 'string' && Object.hasOwn(NPC_SITES, npcId) ? NPC_SITES[npcId][current] : [];
+};
+const within = (site, map, x, z) => Number.isFinite(x) && Number.isFinite(z)
+  && site.map === map && Math.hypot(site.x - x, site.z - z) <= SHOP_RANGE;
+export const npcOutdoors = (npcId, phase) => typeof npcId === 'string' && !!contactActivityFor(NPC_DEFS.get(npcId), phase);
+export const nearShop = (shop, map, x, z, phase) => sitesOf(shop).some(s => currentSites(s.npc, phase).some(place => within(place, map, x, z)));
+export const nearNpc = (npcId, map, x, z, phase) => currentSites(npcId, phase).some(s => within(s, map, x, z));
+export const nearAnyShop = (map, x, z, phase) => Object.keys(SHOP_SITES).some(shop => nearShop(shop, map, x, z, phase));
 // a spot right by a shop (tests, the UAT tools)
 export const shopSpot = shop => sitesOf(shop)[0] ?? null;

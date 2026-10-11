@@ -75,6 +75,38 @@ class-specific PvP balance need a separate implementation and balance pass.
 
 ## Saving and shutdown
 
+### Authenticated login position
+
+Signed-in `hello` map/coordinates/facing are ignored. A separate account/slot
+login reservation lets the previous session stop participating, commit its final
+character and position through the ordinary save FIFO, and close before the next
+session reads one coherent stored row. Concurrent same-slot logins serialize;
+other slots continue independently. Repeated hello on an established socket
+cannot move it. Missing, malformed or blocked saved positions use the existing
+spawn fallback; retired `fields` saves retain their map migration. Night-only
+maps keep their existing closed-map eviction. A stalled final save refuses the
+login rather than adopting stale state. Guest placement and existing new-slot/
+local-import location policy remain unchanged.
+
+### Contacts and skill releases
+
+Shop/NPC contact checks receive the server clock phase. Only current outdoor
+activity anchors authorize purchases, sales, flask refills, refinement, card
+removal and quest interactions. Indoor home phases refuse contact; deliberately
+night-working suppliers and class halls preserve their schedules. Contacts keep
+the existing 12m tolerance and registered route anchors, not exact randomized
+client walking positions. Client phase transitions can lag the server by up to
+10 seconds plus walking animations; see `src/data/README.md`.
+
+Multi-hit releases consume their canonical scheduled hit slots only when due,
+with a fixed 100ms early allowance. Early, invalid-range or transaction-blocked
+requests consume no hit. Due hits may arrive together after network delay. Kit
+casts retain their first accepted primary/spawn; the server selects splash and
+chain targets independently. Death/revival clear old releases. The current wire
+has no per-hit receipt identity, so a duplicate arriving when another hit is due
+can consume that slot but cannot exceed the schedule/count budget. Damage values,
+Guest authority and PvP features are unchanged.
+
 `SaveQueue` serializes writes by account and character slot. A failed head write
 stays queued and retries with exponential backoff (0.5–10 seconds). Other slots
 continue independently. Consecutive waiting server snapshots coalesce, but never

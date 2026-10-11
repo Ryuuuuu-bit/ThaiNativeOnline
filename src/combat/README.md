@@ -67,6 +67,22 @@ The controller interface is documented at the top of `ActionBar.js`. `hud.setSaf
 
 ### Hooks for class kits (`src/training/KitCaster.js`)
 
+- Online direct blows use the canonical `skillHitSchedule` measured from server
+  cast release, with a fixed 100ms allowance for delivery jitter. Early packets
+  consume no hit budget; already-due hits may arrive together after a slow frame.
+  Cast speed affects the pre-release bar only. Server cast generations replace
+  old same-skill budgets; repeated hits keep their first accepted primary and its
+  spawn generation while authoritative splash/chain selection stays independent.
+  Legacy immediate/projectile casts keep their existing bounded release budget.
+  The current wire has no per-hit receipt ID: a duplicate arriving when the next
+  hit is already due is indistinguishable from that legitimate hit, but it cannot
+  exceed the schedule/time/target budget. Client generation/timestamp fields grant
+  no authority. `tests/skill-hit-timing.test.js` checks this boundary and every
+  admitted base/evolution schedule without altering damage rules.
+  Authoritative death/respawn/revive clears pending hit budgets and cast bars so
+  a restored character cannot resume a pre-death release. Buff/tether policy and
+  damage/revival amounts retain their existing behavior.
+
 - `combat.damageMonster(monster, amount, { crit, miss })`: apply an already rolled blow; emits `hit` / `miss`, then aggro, or the kill path (`kill` event, EXP, gold, loot). Returns true while the monster lives.
 - `combat.debuff(monster, { id, duration, slow?, stun?, dot?, source?, label? })`: one debuff per id. `stun` stops the monster moving and attacking; `label` is the tag on the target frame.
 - `combat.hold`: true while a kit skill plays; the player's own chase and basic-attack swings wait.

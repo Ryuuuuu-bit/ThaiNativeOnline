@@ -17,7 +17,7 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
   const api=async(path,token,method='GET',body)=>{const r=await fetch(base+path,{method,headers:{'content-type':'application/json',...(token?{authorization:`Bearer ${token}`}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,...await r.json()};};
   async function player(n){
     const auth=await api('/api/register',null,'POST',{id:`qatest${n}`,password:'testsecret'});assert.ok(auth.ok);
-    const saved=await api('/api/slots/0',auth.token,'PUT',{data:{'tno.character.v1':JSON.stringify({name:`QA${n}`,classId:'muaythai',gender:'male'})}});assert.ok(saved.ok);
+    const saved=await api('/api/slots/0',auth.token,'PUT',{data:{'tno.character.v1':JSON.stringify({name:`QA${n}`,classId:'muaythai',gender:'male'}),'tno.location.v1':JSON.stringify({map:'paddy',x:n,z:-130,facing:Math.PI})}});assert.ok(saved.ok);
     const ws=new WebSocket(`ws://127.0.0.1:${port}/ws`),msgs=[];ws.on('message',d=>msgs.push(JSON.parse(d)));await once(ws,'open');
     const send=m=>ws.send(JSON.stringify(m));
     const wait=async (pred,timeout=2000)=>{for(let i=0;i<timeout/10;i++){const at=msgs.findIndex(pred);if(at>=0)return msgs.splice(at,1)[0];await new Promise(r=>setTimeout(r,10));}throw Error('Message timeout '+logs);};

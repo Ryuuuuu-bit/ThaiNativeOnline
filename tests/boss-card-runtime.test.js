@@ -601,6 +601,7 @@ test('guest blow carries bounded HP context through server basics, pets, kits an
       o.c.jobLevel = 50; o.c.skills = fullKit(cls, KIT_SKILL_IDS[cls]);
       assert.ok(o.cs.set(1, o.c.toJSON(), cls)); o.sc = o.cs.get(1).c;
       assert.equal(o.cs.cast(1, skill).ok, true);
+      const cast = o.cs.get(1).casts.at(-1); o.setTime(cast.at + cast.schedule[0]);
     }
     const serverHp = o.sc.hp;
     o.combat.damageMonster(o.local, 1e99, { skill });
@@ -611,6 +612,7 @@ test('guest blow carries bounded HP context through server basics, pets, kits an
       assert.equal(o.sm.debuffs.find(d => d.dot).source, raw * 1.15, 'first hit captures one boost for later ticks');
       // The newer canonical kit budget permits one poison hit per cast.
       o.cs.get(1).cds.delete(skill); assert.equal(o.cs.cast(1, skill).ok, true);
+      const cast = o.cs.get(1).casts.at(-1); o.setTime(cast.at + cast.schedule[0]);
     }
     o.c.hp = o.c.maxHp; o.combat.damageMonster(o.local, 1, { skill });
     assert.equal(o.sent.at(-1).hpFraction, 1);

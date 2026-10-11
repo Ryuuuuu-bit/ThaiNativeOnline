@@ -10,6 +10,7 @@ import { Character, CDR_MAX, CAST_MAX } from '../src/character/Character.js';
 import { Combatants } from '../server/combatants.js';
 import { MonsterWorld } from '../server/monsters.js';
 import { applyOp, fromSave } from '../server/progress.js';
+import { skillHitSchedule } from '../src/rules/skillHits.js';
 
 const all = cls => Object.fromEntries(KIT_SKILL_IDS[cls].map(id => [id, EVO_LEVEL]));
 const kitOf = id => Object.values(KIT_MOVES).flat().find(k => k.id === id);
@@ -67,6 +68,7 @@ test('the server rolls with the path: its effects land on the monster', () => {
   for (let k = 0; k < 3; k += .1) w.update(.1, [], 'day');
   const m = w.monsters[0]; m.maxHp = m.hp = 1e6; m.x = 3; m.z = 0;
   assert.equal(cs.cast(1, 'sword_thrust').ok, true);
+  t += skillHitSchedule(kitOf('sword_thrust'), 'sword_thrust@B')[0];
   cs.blow(1, w, [{ id: 1, x: 0, z: 0 }], { id: m.id, skill: 'sword_thrust' });
   assert.equal(m.debuffs.find(d => d.stun)?.remaining, 1.5, 'แทงตรึง holds 1.5 s');
   // a chain: arch_poison@B jumps to the neighbours
@@ -76,6 +78,7 @@ test('the server rolls with the path: its effects land on the monster', () => {
   for (let k = 0; k < 3; k += .1) w2.update(.1, [], 'day');
   for (const [i, o] of w2.monsters.entries()) { o.maxHp = o.hp = 1e6; o.x = 6 + i; o.z = 0; }
   assert.equal(h.cast(2, 'arch_poison').ok, true);
+  t += skillHitSchedule(kitOf('arch_poison'), 'arch_poison@B')[0];
   const ev = h.blow(2, w2, [{ id: 2, x: 0, z: 0 }], { id: w2.monsters[0].id, skill: 'arch_poison' });
   assert.equal(new Set(ev.filter(e => e.t === 'mh' && !e.miss).map(e => e.id)).size, 4, 'the target and three more');
 });

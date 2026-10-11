@@ -205,11 +205,13 @@ test('actual server skill blows: once per cast, two different skills, live targe
   assert.equal(recordQuestSkillHit(cs,1,cast,{hp:1},{hit:false,dmg:100}),false);
   assert.equal(recordQuestSkillHit(cs,1,cast,{hp:1},{hit:true,dmg:0}),false);
   assert.equal(recordQuestSkillHit(cs,1,cast,{hp:0},{hit:true,dmg:100}),false);
+  now += cast.schedule[0];
   assert.ok(blow('sword_twin').some(e => e.t === 'mh' && e.amount > 0));
   const first = structuredClone(q.state[def.id].combo);
   blow('sword_twin'); assert.deepEqual(q.state[def.id].combo,first,'extra hits/AoE cannot refresh one cast');
   assert.equal(q.objectiveProgress(def,def.objectives.find(o => o.combo)).have,0);
   now += 1; s.c.mp = s.c.maxMp; assert.ok(cs.cast(1,'sword_thrust').ok);
+  now += s.casts.at(-1).schedule[0];
   w.monsters[1].x = 100; assert.deepEqual(blow('sword_thrust',w.monsters[1]),[]); assert.equal(q.state[def.id].combo.done,false);
   w.monsters[1].x = 1; assert.ok(blow('sword_thrust',w.monsters[1]).some(e => e.t === 'mh' && e.amount > 0));
   assert.equal(q.state[def.id].combo.done,true,'different valid targets are allowed');

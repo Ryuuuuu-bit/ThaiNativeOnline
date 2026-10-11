@@ -29,6 +29,25 @@ Do not work directly on main. Use task branches and PRs.
 
 ## Where things connect
 
+- Authenticated login uses `server/login-state.js` to reserve each account/slot
+  independently of the save FIFO. `Accounts.joinState` reads character, quests,
+  position and incarnation metadata together after the previous socket's final
+  save. `server/index.js` uses that stored position for signed-in hello packets;
+  invalid/blocked rows use the existing spawn fallback. Guest hello policy and
+  existing new-slot/local-import location policy are unchanged.
+- NPC contact authorization uses `data/npcContact.js` and current server phase
+  supplied by `server/index.js`, through Combatants/progress/class-quests and
+  shopSites. `SHOP_SITES` is union catalog metadata, not current availability.
+  See `src/data/README.md` for route-anchor and client transition limits.
+- Server skill releases use `server/skill-hit-timing.js` with the canonical
+  gameplay hit schedule, bounded early allowance and per-cast budget. Death,
+  revival and same-skill replacement clear/supersede old releases. Client clocks
+  never authorize timing. Combat README documents the current wire limitations.
+- ServerAccountStore confirms deletion before removing local data; save sync
+  validates HTTP/body acknowledgements, serializes retries and clears lifecycle
+  callbacks on stop. Captured session/slot/UID guards refuse stale completions.
+  See `src/account/README.md` and account-network regression tests.
+
 - Historical card discoveries flow through `character/cardCollection.js` and
   authoritative `NetProgress` into the card journal; worn socket abilities use
   `combat/bossCardEffects.js` and guarded combat receipts. Character/Combat READMEs
