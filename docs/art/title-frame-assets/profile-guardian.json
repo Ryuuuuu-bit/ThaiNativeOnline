@@ -1,0 +1,24 @@
+{
+  "name": "profile-guardian",
+  "sourceFile": "exec-66ff6d6c-4d67-4309-82a7-9d5f9ca1f00a.png",
+  "sourceBytes": 1312080,
+  "sourceSha256": "e3c24eafe9c54bf7f7eb69b4d701918159375c620b33da8c63f872de7ff76571",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1096862,
+  "opaquePixels": 415,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 9,
+    "top": 0,
+    "width": 1236,
+    "height": 1254
+  },
+  "path": "/ui/titles/imagegen-v1/profile-guardian.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 22064,
+  "sha256": "791c32efc4954050146a416d2b3bc38ace763b191c8a0ded225bb003a131e8ae",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

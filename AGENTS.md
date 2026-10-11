@@ -51,3 +51,14 @@ Do not work directly on main. Use task branches and PRs.
 - Stat persistence: CharacterUI build plans use atomic Character.allocateMany, mirrored by NetProgress as one alloc_batch and validated by server/progress. Multiplayer supplies authenticated session state; allocation/reset waits for server sync during reconnect. server/statOps acknowledges rate-limited stat predictions without applying them, and server/index sends a coalesced correction. Hooks are documented in src/character/README.md and src/net/README.md.
 
 - Recall travel: MainMenu's recall tile and B route through Game -> social.pvp.recall. src/net/RecallCast.js tracks only transient channel UI; server/recall.js RecallCasts and server/index.js own the five-second completion, cancellation and revalidation. Party/NPC/world-boss warp timing is unchanged. See docs/technical/ONLINE_SAFETY.md and src/net/README.md.
+
+- HUD and PK intent: `PvpPanel` creates the profile's `.hud-pk-toggle`, then
+  `DynamicHUD` reparents it into the vitals footer. `PkMode` displays only
+  server-confirmed `pvp_mode`/`pvp_state.mode`; public `pvp_state.pk` still means
+  zone vulnerability. `server/pvp.js` guards free-PK attack intent independently
+  of accepted duels. The final `ui/hud-theme.css` import unifies chrome across
+  both skins and enlarges only player names/titles. See src/net/README.md hooks.
+- Title prestige: `ui/titleAppearance.js` and `ui/titleTag.js` classify existing
+  title metadata for presentation. `hud-theme.css` applies static ImageGen frames
+  to player world labels, title previews and the selected HUD portrait; chat stays compact and server
+  title ownership/unlocks remain unchanged. See docs/design/TITLE_APPEARANCE.md.

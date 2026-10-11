@@ -1,11 +1,32 @@
+import { TITLE_BY_ID } from '../data/titles.js';
+import { titleTier, titleTheme } from './titleAppearance.js';
+
 // Presentation only. All values come from the live character/combat/network state.
 export function attachDynamicHUD(game, net) {
   const c=game.game.character, frame=game.game.characterUI.frame;
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   document.body.classList.add('hud-dynamic');
+  // The compact frame may ellipsize a long name; preserve its full hover label.
+  const nameLabel=frame.querySelector('.g-player-name b');
+  nameLabel.title=c.name;
+  c.on('change',()=>{if(nameLabel.title!==c.name)nameLabel.title=c.name;});
+  // The equipped title owns both ornaments; there is no separate frame unlock.
+  const portrait=frame.querySelector('.g-portrait');
+  portrait.classList.add('g-player-portrait');
+  const syncTitleFrame=()=>{
+    const worn=TITLE_BY_ID[c.title], tier=titleTier(worn), theme=titleTheme(worn);
+    if(portrait.dataset.titleTier!==tier)portrait.dataset.titleTier=tier;
+    if(portrait.dataset.titleTheme!==theme)portrait.dataset.titleTheme=theme;
+  };
+  syncTitleFrame();
+  c.on('titles',syncTitleFrame);
+  c.on('change',syncTitleFrame);
   const footer=document.createElement('div'); footer.className='hud-vitals-footer';
   footer.innerHTML='<span class="hud-state" role="status"></span><span class="hud-wallet" title="ตำลึงในกระเป๋า"></span>';
   frame.querySelector('.g-player-info').append(footer);
+  // Keep the server-owned PK control inside the shared profile footer on every layout.
+  const pkToggle=frame.querySelector('.hud-pk-toggle');
+  if(pkToggle)footer.append(pkToggle);
   const state=footer.querySelector('.hud-state'), wallet=footer.querySelector('.hud-wallet');
   const hp=frame.querySelector('.g-hp'), mp=frame.querySelector('.g-mp');
   hp.dataset.label='HP';mp.dataset.label='SP';

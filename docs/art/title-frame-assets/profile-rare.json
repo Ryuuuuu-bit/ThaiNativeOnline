@@ -1,0 +1,38 @@
+{
+  "name": "profile-rare",
+  "sourceFile": "exec-70982240-bfd3-440b-99d5-fe2441dee85c.png",
+  "sourceBytes": 1128408,
+  "sourceSha256": "dc6591cfb410c83476a9d1b633a60cbd23e7bf2f6629f971669ca427fd817daa",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1162376,
+  "opaquePixels": 817,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 20,
+    "top": 0,
+    "width": 1215,
+    "height": 1254
+  },
+  "path": "/ui/titles/imagegen-v1/profile-rare.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 20024,
+  "sha256": "c58b3ebc8408ac62a3379cd8157ae953c1ab66e4c4e34ddd617b054c97aa8890",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal.",
+  "aperture": {
+    "method": "Connected center-transparent component, alpha < 4, decoded WebP",
+    "bounds": {
+      "left": 31,
+      "top": 37,
+      "width": 193,
+      "height": 174
+    },
+    "centroid": {
+      "x": 127.37,
+      "y": 121.61
+    },
+    "area": 25151
+  }
+}

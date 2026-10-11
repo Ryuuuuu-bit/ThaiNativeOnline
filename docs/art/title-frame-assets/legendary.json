@@ -1,0 +1,24 @@
+{
+  "name": "legendary",
+  "sourceFile": "exec-5342c4a6-5f35-4743-a884-5826d2b979f4.png",
+  "sourceBytes": 1177582,
+  "sourceSha256": "30c42b15b89aea40c972fbacf3ed0670d59fdba3c78cdd7762b62c69833a3f7c",
+  "sourceWidth": 1983,
+  "sourceHeight": 793,
+  "transparentPixels": 1006707,
+  "opaquePixels": 22,
+  "sourceCenterAlpha": 253,
+  "alphaBounds": {
+    "left": 14,
+    "top": 75,
+    "width": 1969,
+    "height": 606
+  },
+  "path": "/ui/titles/imagegen-v1/legendary.webp",
+  "width": 768,
+  "height": 236,
+  "bytes": 36830,
+  "sha256": "38f376ec32010e33ba9ea5ead2246ce1b584949b9a890987a9c41c7a51f5a68f",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

@@ -1,0 +1,24 @@
+{
+  "name": "rare",
+  "sourceFile": "exec-5f2a32a2-a37a-4635-9d9c-2055d434cac1.png",
+  "sourceBytes": 998830,
+  "sourceSha256": "46dc686c7a32b66762a558a64d6194ddc3320bceecd825890eabedec771ff2d7",
+  "sourceWidth": 1983,
+  "sourceHeight": 793,
+  "transparentPixels": 1053227,
+  "opaquePixels": 127,
+  "sourceCenterAlpha": 253,
+  "alphaBounds": {
+    "left": 3,
+    "top": 130,
+    "width": 1976,
+    "height": 495
+  },
+  "path": "/ui/titles/imagegen-v1/rare.webp",
+  "width": 768,
+  "height": 192,
+  "bytes": 28026,
+  "sha256": "765d7a17f940ef92a18ea4cea51b30d0f167697159f192f1b2866cbe197e6cde",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

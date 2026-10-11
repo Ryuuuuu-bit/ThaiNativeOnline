@@ -1,0 +1,24 @@
+{
+  "name": "profile-killer",
+  "sourceFile": "exec-55d7b947-28fc-48c1-ac34-47b6320df101.png",
+  "sourceBytes": 1522716,
+  "sourceSha256": "7b3b660f11884b55f691e23edf4e6ee70f0cda15dde9209bb0f82d309480c47a",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1029965,
+  "opaquePixels": 1500,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 9,
+    "top": 0,
+    "width": 1236,
+    "height": 1247
+  },
+  "path": "/ui/titles/imagegen-v1/profile-killer.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 24172,
+  "sha256": "5659d30ed120be7eee4e22d511abca92b45aaedebef295650493cc233a3a1dc2",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

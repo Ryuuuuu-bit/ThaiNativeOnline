@@ -51,10 +51,23 @@ safe. Duels last up to three minutes and end on departure, death, separation,
 forfeit or victory. Duel damage leaves the loser at 1 HP; neither side receives
 EXP, loot or gold. No death penalty is applied to a duel knockout.
 
-PK starts disabled. Both players must enable it outside the city, in the same
-room. Party members cannot PK each other. Disabling PK, recall, trade and portal
-escape are blocked for ten seconds after a PvP hit. Changing rooms resets PK.
-PK deaths use the normal respawn rules and produce no kill rewards.
+The profile's **PK: เปิด / ปิด** button controls attacker intent, defaulting to
+OFF on connection and resetting on map/channel changes. The server confirms each
+request with `pvp_mode`; the client keeps the confirmed state while waiting and
+queries again if an acknowledgement times out. Offline controls are disabled.
+The button appears from `KARMA.freeLevel` (currently Lv 20), matching the existing
+free-PK level rule rather than the legacy project's Lv 30 threshold.
+
+Outside safe maps, signed-in characters at this level remain vulnerable to free
+PK regardless of their toggle. Only the **attacker** must enable the mode; the
+victim need not opt in. The public `pvp_state.pk` marker continues to mean zone
+vulnerability; `pvp_state.mode` is the separate attacker setting. Party members
+cannot PK each other. Disabling an active mode, recall, trade and portal escape
+are blocked for ten seconds after a PvP hit. An OFF victim may enable during that
+combat lock to defend themselves. An accepted duel permits attacks with PK mode
+OFF and keeps its existing knockout/reward rules. Turning OFF clears a free-PK
+target without cancelling a duel target. PK deaths keep normal respawn, karma
+and reward rules. No toggle state is written into character saves.
 
 This first PvP implementation supports **basic attacks**, with 50% damage and
 the same basic-attack rate bucket as PvE. Skill damage, control effects and

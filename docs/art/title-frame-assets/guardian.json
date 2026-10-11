@@ -1,0 +1,24 @@
+{
+  "name": "guardian",
+  "sourceFile": "exec-6b3b60ec-a99a-49ed-9120-c027d04fa9f9.png",
+  "sourceBytes": 1205592,
+  "sourceSha256": "18257a18e00baa08d48b3cc291cd3434b60b3412133577b6b645fbad3fd6a5d7",
+  "sourceWidth": 1983,
+  "sourceHeight": 793,
+  "transparentPixels": 995120,
+  "opaquePixels": 136,
+  "sourceCenterAlpha": 253,
+  "alphaBounds": {
+    "left": 21,
+    "top": 81,
+    "width": 1943,
+    "height": 600
+  },
+  "path": "/ui/titles/imagegen-v1/guardian.webp",
+  "width": 768,
+  "height": 237,
+  "bytes": 36340,
+  "sha256": "8136a9a9ce6420e28717e12eb9a9ef49c7514e88f10d2e50a99476420dc1c7b1",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

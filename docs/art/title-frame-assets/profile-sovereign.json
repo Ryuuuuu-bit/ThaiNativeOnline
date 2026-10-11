@@ -1,0 +1,38 @@
+{
+  "name": "profile-sovereign",
+  "sourceFile": "exec-073471e0-0112-44f4-86eb-9fc1862097c4.png",
+  "sourceBytes": 1338868,
+  "sourceSha256": "c403969b31263f00363ceef5bfdcb88baa51cc1c21f9473a591debc7dc0e17e9",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1109371,
+  "opaquePixels": 374,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 81,
+    "top": 0,
+    "width": 1091,
+    "height": 1254
+  },
+  "path": "/ui/titles/imagegen-v1/profile-sovereign.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 23350,
+  "sha256": "0702832fc89664dc5bd847520955f59d49059b5f4540c7963e1ee40f4b5d3e00",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal.",
+  "aperture": {
+    "method": "Connected center-transparent component, alpha < 4, decoded WebP",
+    "bounds": {
+      "left": 50,
+      "top": 72,
+      "width": 155,
+      "height": 140
+    },
+    "centroid": {
+      "x": 127.11,
+      "y": 141.01
+    },
+    "area": 16789
+  }
+}

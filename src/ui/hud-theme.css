@@ -1,0 +1,269 @@
+/* Shared in-game jade and brass. Loaded after all layout/skin sheets so a saved
+   classic preference changes texture, never the visual language of HUD chrome.
+   Scope keeps account/character selection and approved equipment art intact. */
+body:not(.acc-flow), body.hud-dynamic:not(.acc-flow) {
+  --hud-jade: #102e26;
+  --hud-deep: #081e19;
+  --hud-brass: #cbb277;
+  --hud-edge: #cbb27770;
+  --hud-panel: linear-gradient(145deg, #163a30f5, #0a211cf2);
+  --hud-button: linear-gradient(180deg, #294d3d, #163429);
+  --hud-shadow: 0 0 0 1px var(--hud-edge), 0 8px 24px #0005, inset 0 1px #f0d99d13;
+  --t-panel: var(--hud-panel);
+  --t-panel-night: linear-gradient(145deg, #13332bf5, #081d18f5);
+  --t-ink: #f0e6c8;
+  --t-dim: #c0c6ab;
+  --t-mute: #879d8c;
+  --t-gold: var(--hud-brass);
+  --t-gold-hi: #f3dfab;
+  --t-line: var(--hud-edge);
+  --t-acc: #45896b;
+  --t-acc-2: #609b76;
+  --t-card: #b6cba80c;
+  --t-card-line: #cbb27730;
+  --t-radius: 12px;
+}
+body.skin-classic:not(.acc-flow) {
+  --c-wood: linear-gradient(#12392bec, #09251bf2), var(--tex-wood, none);
+  --c-frame: var(--hud-shadow);
+  --c-ribbon: linear-gradient(180deg, #315843, #18372b);
+  --c-btn: var(--hud-button);
+  --c-wood-btn: var(--hud-button);
+}
+/* Every primary surface shares the same trim, material and ink. No changes to
+   anchors or HUD scaling: layout/mobile/thumb-combat retain that ownership. */
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(
+  .glass, .ro-window, .auto-panel, .hotbar-tip, .g-player-info, .minimap,
+  .net-chat, .mm-btn, .mm-grid, .training-panel, .g-target, .soc-party,
+  .soc-panel, .soc-menu, .online-actions, .hotbar-editor, .zoom-ctl,
+  .interaction, .recall-cast
+) {
+  background: var(--hud-panel);
+  background-color: var(--hud-deep);
+  color: var(--t-ink);
+  border-color: var(--hud-edge);
+  box-shadow: var(--hud-shadow);
+}
+body.skin-classic:not(.acc-flow) :is(.g-player-info, .glass, .ro-window, .auto-panel, .mm-grid) {
+  background: var(--c-wood);
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .g-player.glass {
+  background: none;
+  box-shadow: none;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(
+  .mini-title, .net-chat header, .net-chat .net-box,
+  .hotbar-tip .ro-title, .soc-party > header, .soc-panel > header
+) {
+  background: #0d2a22e6;
+  color: var(--t-gold-hi);
+  border-color: var(--hud-edge);
+  box-shadow: inset 0 -1px #cbb27730;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(.panel-heading, .auto-panel .ro-title, .dlg-head) {
+  color: var(--t-gold-hi);
+  background: linear-gradient(180deg, #2c4c38b3, #15332780);
+  border-color: var(--hud-edge);
+  box-shadow: inset 0 -1px #cbb27750;
+  text-shadow: 0 1px 2px #071711;
+}
+body.skin-classic:not(.acc-flow) :is(.dlg-head span, .shop .panel-heading small) {
+  color: var(--t-dim);
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(
+  .hotbar-auto, .hotbar-auto-cfg, .hotbar-attack, .hotbar-edit, .g-menu,
+  .mm-grid button, .zoom-ctl button, .online-actions button,
+  .training-reset, .training-close, .g-bag-sort,
+  .set-tabs button, .shop-tabs button, .auto-range button,
+  .dlg-actions button, .g-start, .g-reset:not(:disabled), .g-death button
+) {
+  background: var(--hud-button);
+  color: var(--t-gold-hi);
+  border-color: var(--hud-edge);
+  box-shadow: inset 0 0 0 1px #cbb27730, inset 0 1px #fff0c212;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(.hotbar-auto.on, .set-switch[aria-pressed=true]) {
+  background: linear-gradient(180deg, #46885f, #265b3e);
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .hotbar-auto small {
+  color: #d6debd;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(
+  .mm-grid button:hover, .zoom-ctl button:hover, .training-reset:hover,
+  .online-actions button:hover, .hotbar-edit:hover
+) { border-color: var(--t-gold-hi); background: #36563f; }
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(
+  .shop-tabs button[aria-pressed=true], .auto-range button[aria-pressed=true],
+  .set-tabs button[aria-selected=true]
+) { background: #bba06730; color: var(--t-gold-hi); box-shadow: inset 0 0 0 1px var(--hud-brass); }
+/* Danger/HP/MP/rarity remain semantic colours. These shared controls do not
+   repaint inventory slots, title rarity or the artwork inside equipment. */
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .online-actions button[aria-pressed=true] {
+  background: #743c32;
+  border-color: #d18f6d;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .g-player .g-lv {
+  background: linear-gradient(135deg, #b39658, #6b512d);
+  border-color: #f2db9c;
+  color: #fff3cd;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(.g-log, .net-lines p) {
+  background: #081f19cf;
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .g-buffs i {
+  background: #153d30;
+  border-color: var(--hud-edge);
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .map-frame {
+  background: linear-gradient(135deg, #e5d296, #8a7046 45%, #e2ce90 55%, #725b36);
+}
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .g-player-name b {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: .015em;
+}
+/* World labels stay in physical screen pixels, independent of HUD zoom. NPC
+   and monster labels intentionally retain their smaller existing hierarchy. */
+body:not(.acc-flow) .plate:is(.is-self, .is-player) {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-shadow: 0 1px 2px #000, 0 0 4px #000, 0 2px 6px #000d;
+}
+body:not(.acc-flow) .plate:is(.is-self, .is-player) .ttl {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: .02em;
+  margin-bottom: 2px;
+}
+body:not(.acc-flow) .plate:is(.is-self, .is-player) small {
+  font-size: 12px;
+  font-weight: 500;
+}
+/* PK is a child of the movable profile, not an independent floating panel. */
+body:not(.acc-flow) .g-player .hud-pk-toggle {
+  flex: none;
+  align-self: flex-end;
+  min-width: 52px;
+  min-height: 24px;
+  margin: 0 0 0 8px;
+  padding: 3px 5px;
+  border: 1px solid var(--hud-brass);
+  border-radius: 6px;
+  background: var(--hud-button);
+  color: var(--t-gold-hi);
+  font: 600 11px/1.2 var(--ui-font);
+  cursor: pointer;
+  white-space: nowrap;
+}
+body:not(.acc-flow) .g-player .hud-pk-toggle[aria-pressed=true] {
+  background: linear-gradient(180deg, #793e32, #54291f);
+  border-color: #e0a075;
+  color: #ffdfb9;
+}
+body:not(.acc-flow) .g-player .hud-pk-toggle:disabled { opacity: .65; cursor: default; }
+body:not(.acc-flow) .g-player .hud-pk-toggle[data-pending=true] { cursor: wait; }
+body:not(.acc-flow) .g-player .hud-pk-toggle:focus-visible {
+  outline: 2px solid var(--t-gold-hi);
+  outline-offset: 3px;
+}
+@media (max-width: 900px), (max-height: 560px) {
+  body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .g-player-name b { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body:not(.acc-flow):is(.hud-dynamic, .skin-classic) :is(
+    .hotbar-slot, .mm-grid button, .online-actions button, .g-player-info
+  ) { transition: none; }
+}
+/* The compact footer contains status, wallet and the existing server PK hook. */
+body:not(.acc-flow) .g-player .hud-vitals-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 7px;
+  min-width: 0;
+}
+body:not(.acc-flow) .g-player .hud-state { min-width: 0; }
+body:not(.acc-flow) .g-player .hud-wallet {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body:not(.acc-flow) .g-player .hud-vitals-footer .hud-pk-toggle {
+  margin: 0;
+  min-height: 24px;
+  min-width: 52px;
+  align-self: center;
+}
+body.ui-touch:not(.acc-flow) .g-player .hud-vitals-footer {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px;
+}
+body.ui-touch:not(.acc-flow) .g-player .hud-vitals-footer .hud-pk-toggle {
+  min-width: 48px;
+  min-height: 32px;
+  padding: 3px 4px;
+  font-size: 10px;
+}
+body.ui-touch:not(.acc-flow) .g-player-name b { font-size: 16px; }
+body.ui-touch:not(.acc-flow):has(.g-player .hud-pk-toggle:not([hidden])) .net-chat {
+  top: calc(var(--mobile-top) + 128px) !important;
+}
+@media (max-width: 350px) {
+  body.ui-touch:not(.acc-flow) .g-player-name b { font-size: 14px; }
+  body.ui-touch:not(.acc-flow) .g-player .hud-state { font-size: 9px; line-height: 1.3; }
+}
+/* Keep long player names separate from the secondary class/job label. */
+body:not(.acc-flow) .g-player-name { gap: 10px; min-width: 0; }
+body:not(.acc-flow) .g-player-name > b { flex: 1; min-width: 0; }
+body:not(.acc-flow) .g-player-name > span { flex: none; white-space: nowrap; }
+/* Chat expands on request; its collapsed touch tab stays beside the profile,
+   even when the tabbed-chat stylesheet sets a wider landscape composer. */
+body.ui-touch:not(.acc-flow) .net-chat.net-chat-tabs:not(.typing) {
+  max-width: 260px;
+}
+/* Slightly larger secondary class/job text, with touch visibility unchanged. */
+body:not(.acc-flow):is(.hud-dynamic, .skin-classic) .g-player-name > span {
+  font-size: 11px;
+}
+
+/* Live text is transparent over the original ImageGen jade field. Horizontal
+   nine-slicing preserves emblem/end-cap proportions and the complete rails. */
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier] {
+ --title-frame:url('/ui/titles/imagegen-v1/common.webp');--frame-height:44px;--frame-left-cap:59px;--frame-right-cap:54px;--frame-left-slice:22%;--frame-right-slice:20%;--text-offset:1px;
+ position:relative;display:grid;align-items:center;box-sizing:border-box;width:max-content;min-width:180px;max-width:min(320px,calc(100vw - 32px));height:var(--frame-height);padding:0;margin:0 auto 2px;border-style:solid;border-color:transparent;border-width:0 var(--frame-right-cap) 0 var(--frame-left-cap);border-image-source:var(--title-frame);border-image-slice:0 var(--frame-right-slice) 0 var(--frame-left-slice) fill;border-image-width:0 var(--frame-right-cap) 0 var(--frame-left-cap);border-image-repeat:stretch;background:none;font:600 14px/1.2 var(--ui-font);letter-spacing:0;white-space:normal;overflow-wrap:anywhere;text-align:center;color:color-mix(in srgb,var(--ttl) 60%,#fff4d8 40%);-webkit-text-stroke:0;text-shadow:0 1px 1px #000;box-shadow:none;animation:none;transition:none;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier] .ttl-label {
+ position:relative;display:block;box-sizing:border-box;min-width:0;padding:0;border:0;background:none;transform:translateY(var(--text-offset));line-height:inherit;color:inherit;font:inherit;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier]::before,
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier]::after {content:none}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier=rare] {
+ --title-frame:url('/ui/titles/imagegen-v1/rare.webp');--frame-height:50px;--frame-left-cap:44px;--frame-right-cap:40px;--text-offset:1px;min-width:192px;font-size:15px;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier=epic] {
+ --title-frame:url('/ui/titles/imagegen-v1/epic.webp');--frame-height:60px;--frame-left-cap:57px;--frame-right-cap:44px;--frame-left-slice:26%;--text-offset:6px;min-width:208px;font-size:15px;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier=legendary] {
+ --title-frame:url('/ui/titles/imagegen-v1/legendary.webp');--frame-height:64px;--frame-left-cap:54px;--frame-right-cap:42px;--frame-left-slice:26%;--text-offset:2px;min-width:220px;font-size:16px;font-weight:700;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-tier=sovereign] {
+ --title-frame:url('/ui/titles/imagegen-v1/sovereign.webp');--frame-height:64px;--frame-left-cap:56px;--frame-right-cap:43px;--frame-left-slice:26%;--text-offset:12px;min-width:232px;font-size:16px;font-weight:700;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-theme=killer] {
+ --title-frame:url('/ui/titles/imagegen-v1/killer.webp');--frame-height:64px;--frame-left-cap:73px;--frame-right-cap:42px;--frame-left-slice:35%;--text-offset:6px;
+}
+body:not(.acc-flow) :is(.plate:is(.is-self,.is-player),.pv-plate) .ttl[data-title-theme=guardian] {
+ --title-frame:url('/ui/titles/imagegen-v1/guardian.webp');--frame-height:64px;--frame-left-cap:54px;--frame-right-cap:42px;--frame-left-slice:26%;--text-offset:4px;
+}
+/* The existing portrait/HP ring is the fallback for a missing ornament. */
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier] {--profile-frame:url('/ui/titles/imagegen-v1/profile-common.webp');position:relative;overflow:visible}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier]::before {content:'';position:absolute;inset:-10%;z-index:3;pointer-events:none;background:var(--profile-frame) center/contain no-repeat}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier=rare] {--profile-frame:url('/ui/titles/imagegen-v1/profile-rare.webp')}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier=epic] {--profile-frame:url('/ui/titles/imagegen-v1/profile-epic.webp')}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier=legendary] {--profile-frame:url('/ui/titles/imagegen-v1/profile-legendary.webp')}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier=sovereign] {--profile-frame:url('/ui/titles/imagegen-v1/profile-sovereign.webp')}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier=sovereign]::before {transform:translateY(-5.1%)}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-theme=killer] {--profile-frame:url('/ui/titles/imagegen-v1/profile-killer.webp')}
+body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-theme=guardian] {--profile-frame:url('/ui/titles/imagegen-v1/profile-guardian.webp')}

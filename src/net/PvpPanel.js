@@ -1,18 +1,41 @@
+import {PkMode} from './PkMode.js';
 import {RecallCast} from './RecallCast.js';
 import {PartyFollow} from './PartyFollow.js';
 import {SKILLS} from '../combat/data/skills.js';
 import {KARMA,SIN_RANKS,MERIT_RANKS,sinRank,meritRank,shopMarkup} from '../data/karma.js';
 import './pvp.css';
-const WHY={guest:'ต้องเข้าสู่ระบบก่อน',safe:'เมืองเป็นพื้นที่ปลอดภัย',level:`ต้องถึง Lv ${KARMA.freeLevel} ก่อนจึง PK ได้`,protected:`ผู้เล่นต่ำกว่า Lv ${KARMA.freeLevel} ได้รับความคุ้มครองจาก PK`,duel:'ระหว่างดวลตีได้เฉพาะคู่ดวล',party:'โจมตีสมาชิกปาร์ตี้ไม่ได้',far:'เป้าหมายอยู่ไกลเกินไป',blocked:'มีสิ่งกีดขวางระหว่างเป้าหมาย',busy:'ทำไม่ได้ระหว่างต่อสู้ ดวล หรือแลกของ',dead:'ต้องฟื้นก่อน',room:'ต้องอยู่แผนที่และแชนแนลเดียวกัน',expired:'คำท้าดวลหมดอายุ',slow:'กรุณารอสักครู่',offline:'ไม่พบผู้เล่น',city:'อยู่ในเมืองแล้ว',cooldown:'ยังอยู่ในคูลดาวน์',self:'เลือกผู้เล่นอื่น'};
+const WHY={mode:'เปิดโหมด PK ที่ปุ่มข้างโปรไฟล์ก่อนโจมตี',invalid:'คำขอเปิด–ปิด PK ไม่ถูกต้อง',guest:'ต้องเข้าสู่ระบบก่อน',safe:'เมืองเป็นพื้นที่ปลอดภัย',level:`ต้องถึง Lv ${KARMA.freeLevel} ก่อนจึง PK ได้`,protected:`ผู้เล่นต่ำกว่า Lv ${KARMA.freeLevel} ได้รับความคุ้มครองจาก PK`,duel:'ระหว่างดวลตีได้เฉพาะคู่ดวล',party:'โจมตีสมาชิกปาร์ตี้ไม่ได้',far:'เป้าหมายอยู่ไกลเกินไป',blocked:'มีสิ่งกีดขวางระหว่างเป้าหมาย',busy:'ทำไม่ได้ระหว่างต่อสู้ ดวล หรือแลกของ',dead:'ต้องฟื้นก่อน',room:'ต้องอยู่แผนที่และแชนแนลเดียวกัน',expired:'คำท้าดวลหมดอายุ',slow:'กรุณารอสักครู่',offline:'ไม่พบผู้เล่น',city:'อยู่ในเมืองแล้ว',cooldown:'ยังอยู่ในคูลดาวน์',self:'เลือกผู้เล่นอื่น'};
 export function attachPvp(net,game,chat,social) {
   const app=document.getElementById('app')??document.body;
   const root=document.createElement('section');root.className='online-actions glass';root.setAttribute('aria-label','การเดินทางและต่อสู้');
   root.innerHTML='<div data-karma class="karma-line" title="บาปลดลงทีละ 1 ทุกครั้งที่ปราบมอนสเตอร์"></div><button data-follow hidden>เดินตามหัวหน้า</button><button data-warp hidden>วาร์ปไปแผนที่หัวหน้า</button><div data-target hidden><b></b><button data-hit>โจมตีผู้เล่น</button><button data-cancel>ยอมแพ้ / ปิดเป้าหมาย</button></div><div data-ask hidden><p></p><button data-yes>รับคำท้าดวล</button><button data-no>ปฏิเสธ</button></div>';
   app.append(root);let me=null,target=null,invite=null,askTimer,markEvery=0;
+  const pk=new PkMode();
+  const pkButton=document.createElement('button');pkButton.type='button';pkButton.className='hud-pk-toggle';
+  pkButton.dataset.pkMode='';pkButton.setAttribute('aria-label','เปิดหรือปิดโหมดโจมตีผู้เล่น PK');
+  const profile=document.querySelector('.g-player-info');
+  (profile??app).append(pkButton);
+  const renderPk=()=>{
+    pkButton.hidden=game.game.character.level<KARMA.freeLevel;
+    pkButton.disabled=!pk.online||!pk.known||pk.pending;
+    pkButton.dataset.pending=String(pk.pending||pk.online&&!pk.known);
+    pkButton.setAttribute('aria-pressed',String(pk.on));
+    pkButton.textContent=pk.online&&(!pk.known||pk.pending)?'PK: รอ…':pk.on?'PK: เปิด':'PK: ปิด';
+    pkButton.title=!pk.online?'เชื่อมต่อเซิร์ฟเวอร์ก่อนเปิดโหมด PK':pk.pending||!pk.known?'กำลังรอยืนยันสถานะ PK จากเซิร์ฟเวอร์':
+      pk.on?'ปิดโหมดโจมตีผู้เล่น · ปิดไม่ได้ระหว่างต่อสู้ 10 วินาที':
+      'เปิดโหมดโจมตีผู้เล่นนอกเขตปลอดภัย · ปิดโหมดไม่ป้องกันการถูกโจมตีในเขต PK';
+  };
   const states=new Map();   // the last pvp_state of each player: plates made later still get their marks
   const note=t=>chat.add('ระบบ',t), el=s=>root.querySelector(s);
   const follow=new PartyFollow(game,()=>social.party,()=>me,note);
-  const pick=(id,name)=>{target=id;el('[data-target]').hidden=false;el('[data-target] b').textContent=name;};
+  const pick=(id,name,duel=false)=>{if(!duel&&!pk.on){note(WHY.mode);return;}target=id;el('[data-target]').hidden=false;el('[data-target] b').textContent=name;};
+  pkButton.addEventListener('click',e=>{
+    e.stopPropagation();const on=pk.request();if(on===null)return;
+    net.send({t:'pvp_mode',on});renderPk();
+  });
+  renderPk();
+  const clearTarget=()=>{target=null;el('[data-target]').hidden=true;};
+  const syncPk=on=>{pk.sync(on);if(!pk.on&&!states.get(me)?.duel)clearTarget();renderPk();};
   const cast=new RecallCast();let castMap=null;
   const castPanel=document.createElement('section');castPanel.className='recall-cast glass';castPanel.hidden=true;
   castPanel.setAttribute('aria-label','ร่ายกลับเมือง');
@@ -45,14 +68,15 @@ export function attachPvp(net,game,chat,social) {
     if(e.target.closest('[data-yes],[data-no]')){net.send({t:'duel_answer',from:invite,ok:!!e.target.closest('[data-yes]')});el('[data-ask]').hidden=true;invite=null;clearTimeout(askTimer);}
   });
   window.addEventListener('keydown',e=>{if(e.code!=='KeyB'||e.repeat||e.ctrlKey||e.altKey||e.metaKey||e.target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;e.preventDefault();recall();});
-  net.on('welcome',m=>{if(me!==m.you)clearCast();me=m.you;states.clear();follow.stop();target=null;el('[data-target]').hidden=true;})
+  net.on('welcome',m=>{if(me!==m.you)clearCast();me=m.you;pk.reset(net.online);renderPk();states.clear();follow.stop();target=null;el('[data-target]').hidden=true;})
     .on('party',m=>{if(!m.id)follow.stop();el('[data-follow]').hidden=el('[data-warp]').hidden=!m.id||m.leader===me;})
     .on('pvp_state',m=>{
       states.set(m.id,m);
       const plate=plateOf(m.id);
       if(plate)markPlate(plate,m);
-      if(m.id===me)showKarma(m);
+      if(m.id===me){showKarma(m);syncPk(m.mode);}
     })
+    .on('pvp_mode',m=>{syncPk(m.on);if(m.why)note(WHY[m.why]??'เปลี่ยนโหมด PK ไม่ได้');})
     .on('karma',m=>{
       if(m.kind==='murder')note(`สังหารผู้บริสุทธิ์ ${m.name} · บาป +${m.sin} (รวม ${m.total.sin})`);
       else if(m.kind==='justice')note(`ปราบหัวแดง ${m.name} · บุญ +${m.merit} (รวม ${m.total.merit})`);
@@ -61,7 +85,7 @@ export function attachPvp(net,game,chat,social) {
     })
     .on('karma_news',m=>note(`${m.killer} ปราบหัวแดง ${m.victim} ได้สำเร็จ`))
     .on('duel_invite',m=>{invite=m.from;el('[data-ask] p').textContent=`${m.name} ท้าดวล · ผู้แพ้เหลือ 1 HP ไม่เสียตำลึง`;el('[data-ask]').hidden=false;clearTimeout(askTimer);askTimer=setTimeout(()=>{invite=null;el('[data-ask]').hidden=true;},30000);})
-    .on('duel_start',m=>{follow.stop();const id=m.a===me?m.b:m.a;pick(id,game.net?.remote?.list.get(id)?.name??'คู่ดวล');note('เริ่มดวล · จำกัดเวลา 3 นาที');})
+    .on('duel_start',m=>{follow.stop();const id=m.a===me?m.b:m.a;pick(id,game.net?.remote?.list.get(id)?.name??'คู่ดวล',true);note('เริ่มดวล · จำกัดเวลา 3 นาที');})
     .on('duel_end',m=>{target=null;el('[data-target]').hidden=true;note(m.winner===me?'คุณชนะการดวล':m.winner?'การดวลจบแล้ว':'ยุติการดวล');})
     .on('pvp_no',m=>{if(m.why!=='cooldown')note(WHY[m.why]??'ต่อสู้ไม่ได้');})
     .on('recall_cast',m=>{castMap??=game.maps.map.id;cast.start(m);renderCast();})
@@ -69,7 +93,7 @@ export function attachPvp(net,game,chat,social) {
     .on('position',m=>{if(cast.busy&&m.map!==castMap)clearCast();})
     .on('recall_no',m=>{clearCast();note(WHY[m.why]??'วาร์ปไม่ได้');})
     .on('pvp_hit',m=>{if(m.id===me){const c=game.game.character;game.game.combat.combatTimer=5;if(m.dead)game.game.combat.knockOut();else{c.hp=m.hp;c.emit('change');}}if(m.from===me)note(m.miss?'โจมตีพลาด':`ทำดาเมจ ${m.amount} · เป้าหมาย HP ${Math.ceil(m.hp)}/${m.maxHp}`);})
-    .on('status',on=>{if(!on){clearCast();follow.stop();target=null;el('[data-target]').hidden=el('[data-ask]').hidden=true;el('[data-karma]').textContent='';}});
+    .on('status',on=>{pk.reset(on);renderPk();if(!on){clearCast();follow.stop();target=null;el('[data-target]').hidden=el('[data-ask]').hidden=true;el('[data-karma]').textContent='';}});
   // the plate: "PK" where free PK reaches this player, the ยศ before the name, the name colour by บาป
   const plateOf=id=>id===me?document.querySelector('.plate.is-self'):game.net?.remote?.list.get(id)?.plate;
   function markPlate(plate,m){
@@ -95,9 +119,10 @@ export function attachPvp(net,game,chat,social) {
     if(clip&&player.model?.has?.(clip))player.model.attack(clip,player.swingSpeed(clip));
   });
   return {pick,recall,cancelRecall,update(dt){follow.update(dt);
+    if(pk.update(dt)){note('เซิร์ฟเวอร์ยังไม่ยืนยันโหมด PK · กำลังตรวจสอบสถานะ');net.send({t:'pvp_mode',query:true});renderPk();}
     if(cast.busy&&game.serviceModalOpen)cancelRecall();
     if(cast.update(dt)==='timeout')note('เซิร์ฟเวอร์ยังไม่ตอบรับการกลับเมือง · กรุณาลองใหม่');
     if(cast.active)renderCast();
-    if((markEvery-=dt)<=0){markEvery=.5;for(const [id,m] of states){const plate=plateOf(id);if(plate)markPlate(plate,m);}}
+    if((markEvery-=dt)<=0){markEvery=.5;renderPk();for(const [id,m] of states){const plate=plateOf(id);if(plate)markPlate(plate,m);}}
     el('[data-follow]').textContent=follow.active?'หยุดเดินตาม':'เดินตามหัวหน้า';}};
 }

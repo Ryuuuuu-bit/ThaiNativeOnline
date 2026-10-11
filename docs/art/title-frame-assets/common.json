@@ -1,0 +1,24 @@
+{
+  "name": "common",
+  "sourceFile": "exec-e24b85c2-ef8a-40d4-80bc-b72a795fb3ff.png",
+  "sourceBytes": 916334,
+  "sourceSha256": "f92a2741767f37b38ffef3f6fca129d884ffec48d993e7f62bbc2bd1b9ba1e2d",
+  "sourceWidth": 1983,
+  "sourceHeight": 793,
+  "transparentPixels": 1083880,
+  "opaquePixels": 509,
+  "sourceCenterAlpha": 253,
+  "alphaBounds": {
+    "left": 1,
+    "top": 226,
+    "width": 1974,
+    "height": 325
+  },
+  "path": "/ui/titles/imagegen-v1/common.webp",
+  "width": 768,
+  "height": 126,
+  "bytes": 19706,
+  "sha256": "1055335553021cc34b1eb34d5c719855f8c8aa2e41d93b1e486ca9315bfa0856",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

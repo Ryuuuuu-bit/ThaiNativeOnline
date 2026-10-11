@@ -1,0 +1,38 @@
+{
+  "name": "profile-epic",
+  "sourceFile": "exec-a5d4586f-2f53-4427-9f43-892daf0af0f6.png",
+  "sourceBytes": 1445296,
+  "sourceSha256": "b684743d39af444d9fe4dc17a8bf1c5c97b812e802befb3966127ac3b113f836",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1049141,
+  "opaquePixels": 650,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 24,
+    "top": 0,
+    "width": 1206,
+    "height": 1254
+  },
+  "path": "/ui/titles/imagegen-v1/profile-epic.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 21906,
+  "sha256": "6d40d7f805305c906ac2c6b5f992e2c458aa3bdef36733d3a439f892e5f52b96",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal.",
+  "aperture": {
+    "method": "Connected center-transparent component, alpha < 4, decoded WebP",
+    "bounds": {
+      "left": 38,
+      "top": 47,
+      "width": 181,
+      "height": 160
+    },
+    "centroid": {
+      "x": 127.56,
+      "y": 126.44
+    },
+    "area": 22407
+  }
+}

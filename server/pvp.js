@@ -7,8 +7,25 @@ export const PVP = { inviteSecs:30, duelSecs:180, requestEvery:3, combatSecs:10,
 // Players are {id, lv, map, room, x, z, signed, dead, busy, trade, party}.
 export class Pvp {
   constructor({now=()=>Date.now()/1000}={}) { this.now=now; this.players=new Map(); this.requests=new Map(); this.duels=new Map(); this.hits=new Map(); this.next=1; }
-  state(id) { if(!this.players.has(id))this.players.set(id,{duel:null,combatUntil:0,requestAt:-Infinity});return this.players.get(id); }
-  view(id) { const s=this.state(id);return {duel:s.duel?this.duels.get(s.duel):null,wait:Math.max(0,Math.ceil(s.combatUntil-this.now()))}; }
+  state(id) { if(!this.players.has(id))this.players.set(id,{duel:null,mode:false,combatUntil:0,requestAt:-Infinity});return this.players.get(id); }
+  view(id) { const s=this.state(id);return {mode:s.mode,duel:s.duel?this.duels.get(s.duel):null,wait:Math.max(0,Math.ceil(s.combatUntil-this.now()))}; }
+  // Attacker intent is separate from vulnerability: OFF never shields a player.
+  setMode(p,on) {
+    if(!p)return 'offline';
+    if(typeof on!=='boolean')return 'invalid';
+    const s=this.state(p.id);
+    if(on===s.mode)return null;
+    if(p.trade||!on&&(s.combatUntil>this.now()||p.busy))return 'busy';
+    if(on){
+      if(!p.signed)return 'guest';
+      if(p.dead)return 'dead';
+      if(MAPS[p.map]?.safe!==false)return 'safe';
+      if(p.lv<KARMA.freeLevel)return 'level';
+      if(s.duel)return 'busy';
+    }
+    s.mode=on;return null;
+  }
+  resetMode(id) { this.state(id).mode=false; }
   // may this player be struck in free PK where they stand? (the plate's "PK" mark)
   open(p) { return !!p?.signed && MAPS[p.map]?.safe===false && p.lv>=KARMA.freeLevel; }
   eligible(a,b) { if(!a||!b)return 'offline';if(a.id===b.id)return 'self';if(!a.signed||!b.signed)return 'guest';if(a.dead||b.dead)return 'dead';if(a.room!==b.room)return 'room';if(MAPS[a.map]?.safe!==false||MAPS[b.map]?.safe!==false)return 'safe';return null; }
@@ -22,6 +39,7 @@ export class Pvp {
     if(sa.duel||sb.duel){const d=this.duels.get(sa.duel);return d&&sa.duel===sb.duel&&[d.a,d.b].includes(b.id)&&d.until>this.now()?null:'duel';}
     const level=freePkWhy(a.lv,b.lv);if(level)return level;
     if(a.party&&a.party===b.party)return 'party';
+    if(!sa.mode)return 'mode';
     return null;
   }
   // a struck b: both are in combat, and b may answer in self-defence for KARMA.provokeSecs

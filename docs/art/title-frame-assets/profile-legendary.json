@@ -1,0 +1,38 @@
+{
+  "name": "profile-legendary",
+  "sourceFile": "exec-39960140-6f72-4a15-84b9-ea62f69a0427.png",
+  "sourceBytes": 1512566,
+  "sourceSha256": "8e7acd11392aa48385be251037577ceafdbf191998745ad05c613634ffa3325d",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1051391,
+  "opaquePixels": 275,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 0,
+    "top": 0,
+    "width": 1254,
+    "height": 1254
+  },
+  "path": "/ui/titles/imagegen-v1/profile-legendary.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 23686,
+  "sha256": "c50f651633cb3fb15845cc6c4e5048cd5c611395b4bd84a8ec5d3bf23798a8a2",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal.",
+  "aperture": {
+    "method": "Connected center-transparent component, alpha < 4, decoded WebP",
+    "bounds": {
+      "left": 33,
+      "top": 34,
+      "width": 190,
+      "height": 174
+    },
+    "centroid": {
+      "x": 127.63,
+      "y": 120.97
+    },
+    "area": 25005
+  }
+}

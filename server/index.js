@@ -272,6 +272,7 @@ async function handle(ws, raw) {
     // Keep the source bag unchanged while its SQL transfer is in flight. A refused
     // optimistic op is acknowledged with a sync, so NetProgress can reconcile it.
     if ((active?.stashBusy || active?.tradeBusy) && !['stash_open', 'stash_move', 'resync'].includes(m.t)) {
+      if (m.t === 'pvp_mode') send(ws, { t: 'pvp_mode', on: pvp.view(presence.players.get(ws).id).mode, why: 'busy' });
       if (m.t === 'op') {
         if (Number.isSafeInteger(m.n) && m.n > active.ack) active.ack = m.n;
         send(ws, { t: 'sync', c: combatants.me(presence.players.get(ws).id) });
@@ -340,7 +341,7 @@ async function handle(ws, raw) {
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
       case 'wbjoin': joinWorldBoss(ws); break;
-      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': pvpMsg(ws, m); break;
+      case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': case 'pvp_mode': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
       case 'ttl': {   // wear a title: a signed-in character only one it has earned (src/data/titles.js)
@@ -532,6 +533,7 @@ function endDuel(d) {
   for (const id of [d.a,d.b]) { const o=byId(id); if(o) send(o.ws,{t:'duel_end',...d}); pvpState(id); }
 }
 function resetPvp(id) {
+  pvp.resetMode(id);
   endDuel(pvp.finish(id,'moved'));
   pvpState(id);
 }
@@ -608,7 +610,11 @@ function pvpMsg(ws,m) {
   const p=presence.players.get(ws); if(!p) return;
   const a=pvpPlayer(p.id), b=pvpPlayer(Number(m.id ?? m.from));
   const no=why=>send(ws,{t:'pvp_no',why});
-  if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
+  if(m.t==='pvp_mode') {
+    const why=m.query===true?null:pvp.setMode(a,m.on);
+    send(ws,{t:'pvp_mode',on:pvp.view(p.id).mode,...(why?{why}:{})});
+    pvpState(p.id);
+  } else if(m.t==='duel_request') { const why=pvp.request(a,b); if(why)return no(why); send(byId(b.id).ws,{t:'duel_invite',from:p.id,name:p.name}); }
   else if(m.t==='duel_answer') {
     if(m.ok!==true) {pvp.decline(p.id,Number(m.from));return;}
     const r=pvp.accept(a,b); if(r.why)return no(r.why);

@@ -16,3 +16,32 @@ Multiplayer passes `{ authenticated: !!session().token }` to attachNetProgress. 
 
 MainMenu's adventure recall tile calls Game -> social.pvp.recall; B shares the same handler in PvpPanel. RecallCast tracks pending/active UI state without granting travel. Server recall_cast starts the five-second countdown; recall_cancel, a map-changing authoritative position, a new connection identity and offline clear it. Same-map position corrections retain the countdown. Cancellation sends recall_cancel and waits for the server response. The cast indicator is hidden while idle. Server RecallCasts uses monotonic time and checks movement/combat/room state again at completion. Party, steward and world-boss travel keep their existing timing.
 Starting recall stops walking, following, AUTO and pending attacks so automatic movement cannot immediately interrupt the channel. The online-actions shell hides when every contextual action is absent and karma is empty. DynamicHUD anchors quests below the minimap even while that shell is hidden.
+
+## Hooks for PK attack mode and HUD theme
+
+`PvpPanel` creates `.hud-pk-toggle` in the player profile before `DynamicHUD`
+constructs its footer. `DynamicHUD` moves that same button into the footer;
+its event handlers and confirmed state remain owned by `PvpPanel`/`PkMode`.
+The final `ui/hud-theme.css` import supplies shared jade/brass tokens for both
+saved skins and scales only self/remote character names and titles, leaving
+NPC and monster nameplates unchanged.
+
+A `pvp_mode` request carries an explicit boolean `on`. The server replies with
+confirmed `on` and an optional refusal reason; a query retrieves current state.
+`pvp_state.mode` carries attacker intent separately from `pvp_state.pk`, which
+continues to describe vulnerability in the current zone. Mode OFF prevents
+initiating free-PK attacks; it does not grant protection. Accepted duels bypass
+the attack-mode gate. Mode resets on departure, death and a new connection.
+The client never optimistically enables attacks; pending/unknown/offline states
+are disabled, and a missing response triggers a state query.
+
+Title presentation uses `ui/titleAppearance.js` to classify existing title IDs
+and metadata. `titleTag.js` emits tier/theme attributes without changing achievement
+ownership, unlocks, saved IDs or literal chat labels. `hud-theme.css` decorates
+self/remote world labels, the dedicated title preview and the HUD portrait with
+static ImageGen frames. `DynamicHUD` synchronizes the portrait's tier and theme
+on character `titles`/`change` events, including temporary rank loss. Earned PK/sin
+titles use the killer frame; merit/red-hunt titles use the guardian frame. Class
+choice and attack-mode state do not select either theme.
+Assets and generation receipts are in `public/ui/titles/imagegen-v1/` and
+`docs/art/title-frame-assets/`. See docs/design/TITLE_APPEARANCE.md.
