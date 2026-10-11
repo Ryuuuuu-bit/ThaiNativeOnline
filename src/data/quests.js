@@ -92,4 +92,63 @@ export const CLASS_QUESTS = lessons.flatMap(l => [
   },
 ]);
 
-export const QUESTS = [...CLASS_QUESTS];
+// Shared, one-time supply route. These quests supplement hunting; they do not
+// replace the EXP curve or gate any existing class lesson.
+export const NEWCOMER_QUESTS = [
+  {
+    id: 'newcomer_supplies', giver: 'warp_city_gate', turnIn: 'warp_paddy', minLevel: 1,
+    title: 'เสบียงก้าวแรก',
+    offer: 'ก่อนออกล่า เปิดกระเป๋าดูยาหม้อและน้ำผึ้งป่า แล้วใช้ประตูวาปไปทุ่งนาข้าว คุยกับเจ้าหน้าที่พักทางที่ทางเข้าทุ่ง เจ้าหน้าที่จะจัดเสบียงให้เจ้า',
+    done: 'ยาหม้อเติม HP น้ำผึ้งป่าเติม MP เก็บไว้ใช้เมื่อจำเป็น ก่อนล่าให้รับงานจากเจ้าหน้าที่ก่อน',
+    guide: 'คุยเจ้าหน้าที่พักทางประตูเมืองทิศเหนือ → วาปไปทุ่งนาข้าว → คุยและส่งงานกับเจ้าหน้าที่พักทางทุ่งนาข้าว · ทุกเวลา',
+    objectives: [{ talk: 'warp_paddy', hint: 'ทางเข้าทุ่งนาข้าว · ทุกเวลา' }],
+    rewards: { gold: 20, exp: 20, items: [['potion_s', 3], ['ether', 1]] },
+  },
+  {
+    id: 'newcomer_paddy', giver: 'warp_paddy', minLevel: 1, requires: ['newcomer_supplies'],
+    title: 'คันนาไม่ไกลบ้าน',
+    offer: 'ปูนาตามคันนาอยู่ไม่ไกลหมู่บ้าน ลองปราบทีละตัวให้ครบสามตัว เก็บหนังสัตว์หนึ่งชิ้นจากสัตว์ในทุ่ง แล้วกลับมาหาเจ้าหน้าที่พักทาง อย่าเพิ่งไปรบกวนควายป่า',
+    done: 'เจ้ารู้จักล่าและกลับเติมเสบียงแล้ว เก็บหนังสัตว์ที่เหลือไว้ใช้ในบทเรียนสำนัก อย่าขายหมด',
+    guide: 'รับงานก่อนล่า → ปูนา Lv 2 ที่คันนาฝึกหัด → เก็บหนังสัตว์ → ส่งเจ้าหน้าที่พักทางทุ่งนาข้าว · ทุกเวลา',
+    objectives: [{ kill: 'crab', count: 3, hint: 'คันนาฝึกหัด · ทุ่งนาข้าว · Lv 2' }, { collect: 'hide', count: 1, hint: 'สัตว์ในทุ่งอาจดรอป · ส่งแล้วใช้หนัง 1 ชิ้น' }],
+    rewards: { gold: 30, exp: 60, items: [['potion_s', 2]] },
+  },
+  {
+    id: 'newcomer_forest', giver: 'warp_paddy', turnIn: 'forest_herbalist', minLevel: 3, requires: ['newcomer_paddy'],
+    title: 'รู้ทางกลับจากชายป่า',
+    offer: 'ถึง Lv 3 แล้วลองไปศาลาปากป่า คุยกับหมอแสง ปราบผีป่าทีละตัวสามตัว แล้วนำขี้เถ้าธูปหนึ่งชิ้นไปให้นาง หากสู้ไม่ไหวกลับมาเติมยาก่อน',
+    done: 'ศาลาปากป่าเป็นจุดเติมยาได้ทุกเวลา เมื่อถึง Lv 5 และ Job 3 กลับเมืองไปหาครูประจำอาชีพเพื่อรับบทเรียนแรก',
+    guide: 'คุยหมอแสง → ผีป่า Lv 3 ที่ดงปากป่าตะวันออก → เก็บเถ้า → ส่งหมอแสง · เลี่ยงหมาไนที่มาเป็นฝูงและเขตเสือสมิง',
+    objectives: [{ talk: 'forest_herbalist', hint: 'ศาลาปากป่า · ป่าลึก · ทุกเวลา' }, { kill: 'phibpa', count: 3, hint: 'ดงปากป่าตะวันออก · ป่าลึก · Lv 3' }, { collect: 'ash', count: 1, hint: 'ผีป่าและผีทั่วไปอาจดรอป · ส่งแล้วใช้เถ้า 1 ชิ้น' }],
+    rewards: { gold: 40, exp: 100, items: [['potion_s', 3], ['ether', 1]] },
+  },
+  {
+    id: 'newcomer_wat', giver: 'forest_herbalist', turnIn: 'wat_hermit', minLevel: 6, requires: ['newcomer_forest'],
+    title: 'ฝากข่าวถึงฤๅษี',
+    offer: 'เมื่อพร้อมที่ Lv 6 ให้นำข่าวไปถึงตาฤๅษีพรหมตรงปากทางวัดร้าง ช่วยปราบผีหัวขาดสามตัวที่ดงวิญญาณตะวันตก แล้วกลับไปหาฤๅษี ไม่ต้องเข้าโบสถ์หรือหาบอส',
+    done: 'วัดร้างอันตรายกว่าป่า เติมยาก่อนออกทุกครั้ง ฝึกกับศัตรูใกล้ระดับตนจนพร้อมไปคลองที่ Lv 10',
+    guide: 'คุยฤๅษีตรงทางเข้า → ผีหัวขาด Lv 6 ที่ดงวิญญาณตะวันตก → ส่งฤๅษี · ล่าทีละตัวและเลี่ยงเขตบอส',
+    objectives: [{ talk: 'wat_hermit', hint: 'ปากทางวัดร้าง · ทุกเวลา' }, { kill: 'headless', count: 3, hint: 'ดงวิญญาณตะวันตก · วัดร้าง · Lv 6' }],
+    rewards: { gold: 50, exp: 200, items: [['potion_m', 2], ['ether', 1]] },
+  },
+  {
+    id: 'newcomer_marsh', giver: 'wat_hermit', turnIn: 'marsh_trader', minLevel: 10, requires: ['newcomer_wat'],
+    title: 'พักเรือก่อนลงบึง',
+    offer: 'ถึง Lv 10 แล้วค่อยไปคุยแม่บัวผันที่หมู่บ้านริมน้ำ เริ่มจากปลิงควายสี่ตัวบริเวณชายบึงดงอ้อ หากยาหม้อหมดให้กลับเรือ ไม่ต้องตามจระเข้เข้าไปในหนอง',
+    done: 'เรือแม่บัวผันเติมยาและขายอาวุธชาวบึงได้ เก็บเงินไว้ซื้อของที่อาชีพใช้ได้ จากนี้เลือกวงล่าใกล้ระดับตนจนถึง Lv 20',
+    guide: 'คุยแม่บัวผัน → ปลิงควาย Lv 11 ที่ชายบึงดงอ้อ → ส่งแม่บัวผัน · ระวังพิษและผีพรายน้ำที่ดูด MP',
+    objectives: [{ talk: 'marsh_trader', hint: 'หมู่บ้านริมน้ำ · คลองหนองบึง · ทุกเวลา' }, { kill: 'leech', count: 4, hint: 'ชายบึงดงอ้อ · คลองหนองบึง · Lv 11' }],
+    rewards: { gold: 70, exp: 400, items: [['potion_m', 2], ['ether', 1]] },
+  },
+  {
+    id: 'newcomer_homecoming', giver: 'marsh_trader', turnIn: 'forest_herbalist', minLevel: 20, requires: ['newcomer_marsh'],
+    title: 'กลับมาพร้อมเรื่องเล่า',
+    offer: 'ถึง Lv 20 แล้วกลับไปบอกหมอแสงว่าชาวคลองยังปลอดภัย จากนั้นกลับเมืองหาครูประจำอาชีพ ถ้าส่งบทเรียนแรกแล้วและมี Job 12 จะรับบทเรียนขั้นสูงได้',
+    done: 'เจ้ารู้จักจุดพักและทางกลับแล้ว บทเรียนขั้นสูงอยู่กับครูประจำอาชีพ ตรวจ Lv 20 / Job 12 และส่งบทเรียนแรกให้ครบก่อนรับ',
+    guide: 'คุยและส่งหมอแสงที่ศาลาปากป่า → กลับเมือง → ตรวจบทเรียนของอาชีพตนในสมุดเควส',
+    objectives: [{ talk: 'forest_herbalist', hint: 'ศาลาปากป่า · ป่าลึก · ทุกเวลา' }],
+    rewards: { gold: 90, exp: 600, items: [['potion_m', 2], ['ether', 2]] },
+  },
+];
+
+export const QUESTS = [...NEWCOMER_QUESTS, ...CLASS_QUESTS];
