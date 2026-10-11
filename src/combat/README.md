@@ -18,6 +18,16 @@ Owner: gameplay-engineer (`data/`: content-designer). Rules and AI in `Combat.js
 
 ## Public interface
 
+### Hooks for loading readiness
+
+`createGame(options).readyPromise` resolves after character load and combat/HUD
+construction, and rejects critical setup failures. `Game` awaits it before
+creating the class avatar. `prepareMonsterModels(types)` reuses the live GLB
+body cache for the current map's active roster; optional boss motion libraries
+and multiplayer connectivity remain outside the readiness barrier.
+CombatView creates initial views only for live monsters; dormant off-map bodies
+load when the existing spawn event creates their view.
+
 ```js
 import { createGame } from '../combat/index.js';
 const rpg = createGame({

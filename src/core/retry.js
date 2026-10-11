@@ -15,15 +15,31 @@ export async function withRetry(task, { tries = 3, delay = 800 } = {}) {
   throw error;
 }
 
-export function cachedLoader(load, { tries = 3, delay = 800, retryAfter = 15000 } = {}) {
+export function cachedLoader(load, { tries = 3, delay = 800, retryAfter = 15000, onInvalidated } = {}) {
   const cache = new Map();
-  return key => {
-    if (cache.has(key)) return cache.get(key);
-    const p = withRetry(attempt => load(key, attempt), { tries, delay }).catch(e => {
-      setTimeout(() => { if (cache.get(key) === p) cache.delete(key); }, retryAfter);
+  const cached = key => {
+    if (cache.has(key)) return cache.get(key).promise;
+    const record = { promise: null, state: 'pending', invalidated: false };
+    record.promise = withRetry(attempt => load(key, attempt), { tries, delay }).then(value => {
+      if (record.invalidated) { onInvalidated?.(value); throw new Error(`Asset request invalidated: ${key}`); }
+      record.state = 'fulfilled';
+      return value;
+    }).catch(e => {
+      record.state = 'rejected';
+      setTimeout(() => { if (cache.get(key) === record) cache.delete(key); }, retryAfter);
       throw e;
     });
-    cache.set(key, p);
-    return p;
+    cache.set(key, record);
+    return record.promise;
   };
+  // Successful sources may already be in use by another view. Retain them;
+  // only failed or unfinished attempts need a fresh request on explicit retry.
+  cached.invalidate = key => {
+    const record = cache.get(key);
+    if (!record || record.state === 'fulfilled') return false;
+    record.invalidated = true;
+    cache.delete(key);
+    return true;
+  };
+  return cached;
 }

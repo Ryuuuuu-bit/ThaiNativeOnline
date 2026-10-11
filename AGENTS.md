@@ -29,6 +29,14 @@ Do not work directly on main. Use task branches and PRs.
 
 ## Where things connect
 
+- Loading readiness: `Game` awaits `createGame.readyPromise`, class avatar
+  `ready`, visible interface images/fonts and the first usable render through
+  `core/AssetReadiness.js`. `MapManager.prepare` waits only the destination's
+  approved NPC models and active monster body cache; `MapCommit` retains the
+  old world until render succeeds. Network connection is optional and starts
+  afterward. Loading UI attempt handles guard stale callbacks. Hooks are
+  documented in world, combat and training READMEs.
+
 - Ordinary monster clip timing: `src/combat/monsterAttackTiming.js` is shared by offline Combat and `server/monsters.js`; targeted `mstrike` cues enter `NetCombat`/`CombatView`, while existing `ma` remains the only online damage release. `Game.leaveMap` clears offline strikes. See Combat README, "Hooks for ordinary monster strikes".
 
 - Class coordination: rules `synergy` and `effect.taunt/armorBreak/weak` flow through `src/training/kitCombat.js` into offline `KitCaster` and authoritative `server/combatants.js`. Server cast accepts `{ world, player }`; `server/index.js` routes radial status events. Combat hooks are documented in `src/combat/README.md`.

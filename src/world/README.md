@@ -204,6 +204,18 @@ Other systems may read these to match mood (for example monster strength or musi
 
 ## Hooks in shared folders
 
+- Loading readiness: `MapManager.prepare` waits for the target map's approved
+  NPC sources and active monster body cache, with bounded deadlines. Undefined
+  and intentionally unapproved NPC profiles retain their procedural fallback;
+  source failures reject. `NPCModelRenderer.criticalReady()` exposes that check.
+  `MapCommit` retains the old roots and player location until `renderReady`
+  succeeds, restores them on render failure, and notifies optional connectivity
+  through `onCommitted` only after commit. Failed travel keeps its loading
+  screen blocking input and offers an explicit `travel(portal)` retry.
+  Failed/timed-out attempts invalidate only unfinished destination NPC/body
+  cache entries. Fulfilled shared sources remain cached; late invalidated
+  payloads are released and cannot replace the fresh attempt.
+
 The map split needed small hooks outside `src/world`:
 
 - `server/navigation.js`: shares `water-navigation.js` with `World.canStand` after

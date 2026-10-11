@@ -58,6 +58,14 @@ export class NPCModelRenderer {
   }
   get ready() { return Promise.all([...this.entries.values()].map(e => e.ready)); }
 
+  // The map barrier accepts intentional unapproved procedural profiles, but
+  // reports an actual approved-source failure instead of silently counting it ready.
+  async criticalReady() {
+    await this.ready;
+    const failed = [...this.entries.values()].find(entry => entry.reason === 'load-failed');
+    if (failed) throw new Error(`NPC ${failed.spec.family}: ${failed.error}`);
+  }
+
   prepare(entry, source) {
     if (!source?.scene?.isObject3D) throw new Error('NPC GLB has no scene');
     const clips = new Map((source.animations ?? []).map(c => [c.name.toLowerCase(), c]));

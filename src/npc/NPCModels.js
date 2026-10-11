@@ -543,21 +543,27 @@ export function createNPCModelCache(loadSource) {
   const records = new Map(), disposedSources = new WeakSet();
   let disposed = false;
   const release = source => { if (source && !disposedSources.has(source)) { disposedSources.add(source); disposeSource(source); } };
+  const keyOf = spec => `${import.meta.env?.BASE_URL ?? '/'}${spec.url}?v=${encodeURIComponent(spec.revision)}`;
   return {
     load(spec) {
       if (disposed) return Promise.reject(new Error('NPC source cache disposed'));
-      const url = `${import.meta.env?.BASE_URL ?? '/'}${spec.url}?v=${encodeURIComponent(spec.revision)}`;
+      const url = keyOf(spec);
       if (records.has(url)) return records.get(url).promise;
-      const record = { source: null, promise: null };
+      const record = { source: null, promise: null, invalidated: false };
       record.promise = Promise.resolve().then(() => loadSource(url, spec)).then(source => {
         if (!source?.scene?.isObject3D) throw new Error('NPC GLB has no scene');
         record.source = source;
-        if (disposed) { release(source); throw new Error('NPC source cache disposed during load'); }
+        if (disposed || record.invalidated) { release(source); throw new Error('NPC source cache disposed or invalidated during load'); }
         source.scene.traverse(o => { if (o.geometry) o.geometry.userData.npcCached = true; });
         return source;
       }).catch(error => { if (records.get(url) === record) records.delete(url); throw error; });
       records.set(url, record);
       return record.promise;
+    },
+    invalidate(spec) {
+      const url = keyOf(spec), record = records.get(url);
+      if (!record || record.source) return false;
+      record.invalidated = true; records.delete(url); return true;
     },
     dispose() { if (disposed) return; disposed = true; for (const record of records.values()) release(record.source); records.clear(); },
     get size() { return records.size; },
@@ -597,6 +603,10 @@ export function createProfiledNPCModelCache(loadSource = (url, hash) => loadNPCM
       const profile = familyProfiles.get(spec.family);
       if (!profile?.qaApproved) throw Object.assign(new Error(`No approved NPC model profile: ${spec.family}`), { code: 'NPC_MODEL_PROFILE_UNAPPROVED' });
       return cache.load({ ...spec, revision: `${profile.revision}-${profile.assetSha256}`, assetSha256: profile.assetSha256 });
+    },
+    invalidate(spec) {
+      const profile = familyProfiles.get(spec.family);
+      return profile?.qaApproved ? cache.invalidate({ ...spec, revision: `${profile.revision}-${profile.assetSha256}`, assetSha256: profile.assetSha256 }) : false;
     },
     dispose: () => cache.dispose(),
     get size() { return cache.size; },

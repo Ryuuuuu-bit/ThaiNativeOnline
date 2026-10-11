@@ -281,7 +281,7 @@ export class CombatView {
     this.targetRing = new THREE.Mesh(new THREE.RingGeometry(.55, .66, 40), new THREE.MeshBasicMaterial({ color: '#ff7b5c', transparent: true, opacity: .85, side: THREE.DoubleSide, depthWrite: false }));
     this.targetRing.rotation.x = -Math.PI / 2; this.targetRing.visible = false; this.root.add(this.targetRing);
 
-    for (const m of combat.monsters) this.ensure(m);
+    for (const m of combat.monsters) if (m.alive) this.ensure(m);
     combat.on('monster-attack', m => {
       const v = this.ensure(m);
       v.attackAnim = .25;
