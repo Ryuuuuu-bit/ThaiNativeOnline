@@ -420,6 +420,18 @@ export class Character extends Emitter {
     this.clampVitals(); this.emit('change');
     return true;
   }
+  // Spend a build plan atomically so one click is one server operation.
+  allocateMany(add) {
+    if (!add || typeof add !== 'object' || Array.isArray(add)) return false;
+    const entries = Object.entries(add);
+    if (!entries.length || entries.some(([key, n]) => !STATS.includes(key) || !Number.isSafeInteger(n) || n < 0)) return false;
+    const total = entries.reduce((sum, [, n]) => sum + n, 0);
+    if (!Number.isSafeInteger(total) || total <= 0 || total > this.points) return false;
+    this.points -= total;
+    for (const [key, n] of entries) this.alloc[key] += n;
+    this.clampVitals(); this.emit('change');
+    return true;
+  }
   resetStats() {
     this.points += Object.values(this.alloc).reduce((a, b) => a + b, 0);
     this.alloc = emptyAlloc();

@@ -159,7 +159,7 @@ export class Combatants {
     }
     // selling is done at a shop counter too; the fallen handle no items and no stats
     if (['sell', 'sell_batch'].includes(msg.op) && !nearAnyShop(at.map, at.x, at.z)) return false;
-    if (!s.c.alive && ['flask_use', 'flask_equip', 'flask_unequip', 'sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
+    if (!s.c.alive && ['flask_use', 'flask_equip', 'flask_unequip', 'sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'alloc_batch', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
     const questResult = applyQuestOp(s.c, msg, s.quests, at);
     const ok = questResult === null
       ? applyOp(s.c, msg, s.quests, at.map ? at : null, { fighting: this.fighting(id), busy: at.loadoutBusy === true || (msg.op === 'evo' && ((s.variantEffectsUntil ?? 0) > this.now() || s.casting.size > 0 || s.casts.some(cast => this.now() - cast.at < (cast.window ?? CAST_WINDOW) && cast.left > 0) || s.c.buffs.length > 0)) })

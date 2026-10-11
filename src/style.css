@@ -117,6 +117,9 @@ body:not(.ui-compact) .hotbar{bottom:84px}
 .kranok.tl{left:-5px;top:-5px}.kranok.tr{right:-5px;top:-5px;transform:scaleX(-1)}
 .kranok.bl{left:-5px;bottom:-5px;transform:scaleY(-1)}.kranok.br{right:-5px;bottom:-5px;transform:scale(-1,-1)}
 .mini-footer{margin-top:7px}
+/* Keep the game clock readable below the map, including short landscape screens. */
+.minimap .mini-clock{display:flex;justify-content:center;gap:7px;margin-top:6px;padding-top:5px;border-top:1px solid #cabc8629;line-height:1.3;white-space:nowrap}
+.minimap .mini-clock #clock{font-variant-numeric:tabular-nums}
 .mini-footer #safety-dot{width:6px;height:6px;box-shadow:0 0 4px #000a}
 .g-night .map-frame{background:linear-gradient(135deg,#c9d3e8,#5f6f92 45%,#e1e8f6 55%,#4e5c7c)}
 .g-night .kranok{color:#dfe8fb}
