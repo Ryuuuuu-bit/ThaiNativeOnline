@@ -6,8 +6,9 @@ const statusLabel = { active: 'กำลังทำ', ready: 'พร้อม�
 
 // Read-only journal: the parent owns map navigation and NPC dialogue actions.
 export class QuestJournal {
-  constructor({ quests, prepare = () => {}, locate = () => {} }) {
-    Object.assign(this, { quests, prepare, locate });
+  constructor({ quests, prepare = () => {}, locate = () => {}, journey, pin = () => {}, navigate = () => {} }) {
+    Object.assign(this, { quests, prepare, locate, pin, navigate });
+    this.tab = 'quests';
     this.root = document.createElement('div');
     this.root.id = 'quest-journal-overlay';
     this.root.className = 'qol-overlay';
@@ -23,8 +24,18 @@ export class QuestJournal {
     </section>`;
     (document.getElementById('app') ?? document.body).append(this.root);
     this.$ = selector => this.root.querySelector(selector);
+    const tabs = document.createElement('nav'); tabs.className = 'quest-journal-tabs'; tabs.setAttribute('aria-label', 'หน้าสมุดเควส');
+    tabs.innerHTML = '<button type="button" data-journal-tab="quests" aria-pressed="true">ภารกิจ</button><button type="button" data-journal-tab="journey" aria-pressed="false">เส้นทาง Lv 1–20</button>';
+    this.$('.guide-head').after(tabs);
+    this.journey = document.createElement('article'); this.journey.className = 'quest-journal-journey'; this.journey.hidden = true;
+    if (journey) this.journey.append(journey);
+    this.$('.guide-body').after(this.journey);
     this.root.addEventListener('click', event => {
       if (event.target === this.root || event.target.closest('[data-journal-close]')) { this.close(); return; }
+      const tab = event.target.closest('[data-journal-tab]');
+      if (tab) { this.tab = tab.dataset.journalTab; this.render(); return; }
+      const action = event.target.closest('[data-journal-action]');
+      if (action) { if (action.dataset.journalAction !== 'untrack') this.pin(this.selectedId); if (action.dataset.journalAction !== 'pin') this.close(); this.navigate(action.dataset.journalAction); return; }
       const row = event.target.closest('[data-journal-quest]');
       if (row) { this.selectedId = row.dataset.journalQuest; this.render(); return; }
       if (event.target.closest('[data-journal-locate]')) {
@@ -44,14 +55,15 @@ export class QuestJournal {
 
   get open() { return !this.root.hidden; }
 
-  show() {
-    if (this.open) return;
+  show(tab = 'quests') {
+    this.tab = tab;
+    if (this.open) { this.render(); return; }
     this.previousFocus = document.activeElement;
     this.prepare();
     this.root.hidden = false;
     this.render();
     document.addEventListener('focusin', this.keepFocus);
-    this.$('#quest-journal-search').focus();
+    (this.tab === 'journey' ? this.$('[data-journal-tab="journey"]') : this.$('#quest-journal-search')).focus();
   }
 
   close() {
@@ -106,12 +118,17 @@ export class QuestJournal {
       }).join('')}</ul>
       <h4>${done ? 'รางวัลที่ได้รับ' : 'รางวัลเมื่อส่งเควส'}</h4><p class="quest-journal-reward">${esc(rewardText(q.rewards) || 'ไม่มีรางวัลระบุ')}</p>
       ${!done && q.objectives.some(o => o.collect) ? '<p class="guide-note">ส่งของที่ไม่ได้ล็อกตามจำนวนจากกระเป๋าเมื่อรับรางวัล</p>' : ''}
+      ${done ? '' : '<nav class="quest-journal-navigation"><button type="button" data-journal-action="pin">ติดตามภารกิจ</button><button type="button" data-journal-action="map">ดูเป้าหมายบนแผนที่</button><button type="button" data-journal-action="walk">เดินไปเป้าหมาย</button><button type="button" data-journal-action="untrack">เลิกติดตาม</button></nav>'}
       <h4>ผู้รับส่งเควส</h4><div class="guide-locations"><button type="button" data-journal-locate ${npcId ? '' : 'disabled'}><span><b>${esc(npcName(npcId) || 'ไม่ระบุ NPC')}</b><small>${done ? 'ส่งเควสแล้ว' : status === 'ready' ? 'เป้าหมายครบแล้ว · กลับไปคุยเพื่อรับรางวัล' : 'ทำเป้าหมายให้ครบ แล้วกลับมาส่งเควส'}</small></span><span>ดูแผนที่ ↗</span></button></div>
       <p class="guide-note">รับเควสและส่งเควสผ่านบทสนทนากับ NPC</p>`;
   }
 
   render() {
     if (!this.open) return;
+    this.$('.guide-body').hidden = this.tab !== 'quests';
+    this.journey.hidden = this.tab !== 'journey';
+    this.root.querySelectorAll('[data-journal-tab]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.journalTab === this.tab)));
+    if (this.tab === 'journey') return;
     const list = this.entries();
     if (!list.some(({ q }) => q.id === this.selectedId)) this.selectedId = list[0]?.q.id ?? null;
     const host = this.$('#quest-journal-list'), detail = this.$('#quest-journal-detail');
@@ -120,6 +137,7 @@ export class QuestJournal {
     const focused = document.activeElement;
     const focusedId = focused?.dataset?.journalQuest;
     const locateFocused = focused?.hasAttribute?.('data-journal-locate');
+    const actionFocused = focused?.dataset?.journalAction;
     this.$('#quest-journal-count').textContent = `${list.length} เควส`;
     const empty = this.$('#quest-journal-search').value.trim() ? 'ไม่พบเควสที่ค้นหา · ลองเปลี่ยนคำค้นหรือสถานะ'
       : this.$('#quest-journal-filter').value === 'done' ? 'ยังไม่มีเควสที่ส่งแล้ว'
@@ -134,5 +152,6 @@ export class QuestJournal {
       ([...host.querySelectorAll('[data-journal-quest]')].find(el => el.dataset.journalQuest === focusedId)
         ?? this.$('#quest-journal-search')).focus({ preventScroll: true });
     } else if (locateFocused) (this.$('[data-journal-locate]') ?? this.$('#quest-journal-search')).focus({ preventScroll: true });
+    else if (actionFocused) ([...detail.querySelectorAll('[data-journal-action]')].find(b => b.dataset.journalAction === actionFocused) ?? this.$('#quest-journal-search')).focus({ preventScroll: true });
   }
 }
