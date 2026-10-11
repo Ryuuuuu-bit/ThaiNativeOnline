@@ -14,6 +14,7 @@ import './ui/brand.css';
 import './ui/mobile-hud.css';
 import './ui/thumb-combat.css';
 import './ui/world-map.css';
+import './ui/hud-theme.css'; // shared jade/brass chrome, after skin and responsive layout
 mountEntryBrand();
 
 // Login → character select → creation (src/account), then the world.

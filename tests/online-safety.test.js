@@ -57,6 +57,7 @@ test('duels require a fresh acceptance; city, guests and unrelated players are p
 });
 test('free PK opens at Lv 20 outside the city, protects lower levels and spares party members',()=>{
   let t=0;const p=new Pvp({now:()=>t}),a=hero(1,20),b=hero(2,35),low=hero(3,19);
+  assert.equal(p.canAttack(a,b),'mode');assert.equal(p.setMode(a,true),null);assert.equal(p.setMode(b,true),null);
   assert.equal(p.canAttack(a,b),null);assert.equal(p.canAttack(b,a),null);
   assert.equal(p.canAttack(a,low),'protected');assert.equal(p.canAttack(low,a),'level');
   assert.equal(p.canAttack({...a,map:'city',room:'city'},{...b,map:'city',room:'city'}),'safe');

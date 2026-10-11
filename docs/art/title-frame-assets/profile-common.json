@@ -1,0 +1,38 @@
+{
+  "name": "profile-common",
+  "sourceFile": "exec-c2b6131f-8352-401e-aa24-da47be9cf7bb.png",
+  "sourceBytes": 807223,
+  "sourceSha256": "e081a465468f52b297bd01fbd622e2e34f7b355cde3690699ea8b000b1bab4d6",
+  "sourceWidth": 1254,
+  "sourceHeight": 1254,
+  "transparentPixels": 1288101,
+  "opaquePixels": 946,
+  "sourceCenterAlpha": 0,
+  "alphaBounds": {
+    "left": 56,
+    "top": 39,
+    "width": 1143,
+    "height": 1172
+  },
+  "path": "/ui/titles/imagegen-v1/profile-common.webp",
+  "width": 256,
+  "height": 256,
+  "bytes": 17422,
+  "sha256": "5c8f737f162601053e1ae24ddbca427dd0164addb907640e2bf61f96dc5a5ad6",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal.",
+  "aperture": {
+    "method": "Connected center-transparent component, alpha < 4, decoded WebP",
+    "bounds": {
+      "left": 23,
+      "top": 25,
+      "width": 210,
+      "height": 201
+    },
+    "centroid": {
+      "x": 127.45,
+      "y": 125.45
+    },
+    "area": 33195
+  }
+}

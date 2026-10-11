@@ -1,0 +1,24 @@
+{
+  "name": "killer",
+  "sourceFile": "exec-c6e13ca3-307f-4280-8ba1-40b0be98d5ff.png",
+  "sourceBytes": 1173274,
+  "sourceSha256": "c514c1c79bbba3bfcfee61f08290d025fc98478f4d1ed51cda501818f462edff",
+  "sourceWidth": 1983,
+  "sourceHeight": 793,
+  "transparentPixels": 1017370,
+  "opaquePixels": 99,
+  "sourceCenterAlpha": 253,
+  "alphaBounds": {
+    "left": 11,
+    "top": 58,
+    "width": 1954,
+    "height": 597
+  },
+  "path": "/ui/titles/imagegen-v1/killer.webp",
+  "width": 768,
+  "height": 235,
+  "bytes": 40664,
+  "sha256": "d12f67cfbf77a1d8b161caf9f7119af13cddadb5dc2af27d609ade4567c26ddf",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

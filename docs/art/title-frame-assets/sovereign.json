@@ -1,0 +1,24 @@
+{
+  "name": "sovereign",
+  "sourceFile": "exec-00b059e3-7620-4415-b882-3c59250b8987.png",
+  "sourceBytes": 1080585,
+  "sourceSha256": "4e6bf651333a718f7fc54a7c4fa1cab536f33378aa2aba048e5c1d32aa604941",
+  "sourceWidth": 1983,
+  "sourceHeight": 793,
+  "transparentPixels": 1018873,
+  "opaquePixels": 1109,
+  "sourceCenterAlpha": 254,
+  "alphaBounds": {
+    "left": 5,
+    "top": 50,
+    "width": 1967,
+    "height": 586
+  },
+  "path": "/ui/titles/imagegen-v1/sovereign.webp",
+  "width": 768,
+  "height": 229,
+  "bytes": 35556,
+  "sha256": "27b66beeb5d2615e41e620ebd9e558842734aa6e8452b1f6466ab5b65d6cf9b0",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}

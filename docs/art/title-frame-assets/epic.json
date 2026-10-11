@@ -1,0 +1,24 @@
+{
+  "name": "epic",
+  "sourceFile": "exec-42815770-908c-446c-b8e8-4374f8ff92fd.png",
+  "sourceBytes": 1210775,
+  "sourceSha256": "eaedf2ee33f42fec04f8e404828914a862eeff16dbebf50e0e15bad6b92eb636",
+  "sourceWidth": 2076,
+  "sourceHeight": 757,
+  "transparentPixels": 925809,
+  "opaquePixels": 132,
+  "sourceCenterAlpha": 253,
+  "alphaBounds": {
+    "left": 0,
+    "top": 58,
+    "width": 2076,
+    "height": 566
+  },
+  "path": "/ui/titles/imagegen-v1/epic.webp",
+  "width": 768,
+  "height": 209,
+  "bytes": 32504,
+  "sha256": "4ac71ccce0b801b3b9d7a406541bd1689e9d4f68d20a88ea0e20af40e8bb96e9",
+  "hasAlpha": true,
+  "normalization": "Bounding crop alpha >= 4 with 8 source pixel guard removes outer alpha <= 3 speckles; interior alpha preserved; contain/resize; WebP quality 85, alpha quality 100; no redraw or background removal."
+}
