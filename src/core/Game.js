@@ -23,6 +23,7 @@ import { QuestSystem } from '../quest/QuestSystem.js';
 import { QuestUI } from '../ui/QuestUI.js';
 import { questObjective, questNpcDestination } from '../quest/questNavigation.js';
 import { QuestNavigator } from '../quest/QuestNavigator.js';
+import { questGuidance } from '../quest/questGuidance.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { PostFX } from '../world/PostFX.js';
 import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
@@ -123,7 +124,13 @@ export class Game {
       walk: goal => this.walkTo(goal.x, goal.z, goal.near ?? 5, { quest: true }), stop: () => this.stopWalk(),
       changed: () => this.questUI?.renderTracker() });
     this.questUI = new QuestUI(this.quests, {
-      navigation: () => ({ objective: this.questNav.current(), active: this.questNav.active, message: this.questNav.message, hidden: this.questNav.hidden }),
+      navigation: () => {
+        const objective = this.questNav.current();
+        return { objective, active: this.questNav.active, message: this.questNav.message, hidden: this.questNav.hidden,
+          guidance: questGuidance({ objective, position: this.player.position, map: this.maps.map.id,
+            route: this.questNav.active ? this.nav?.route : null, walking: !!this.questNav.active,
+            cameraBasis: { forward: this.view.forward, right: this.view.right, upScale: this.view.offset.y / this.view.offset.length() }, message: this.questNav.message }) };
+      },
       onNavigate: action => this.questNavigationAction(action),
       onJournal: open => open ? this.questJournal?.show('journey') : this.questJournal?.close(),
       onPanel: panel => {

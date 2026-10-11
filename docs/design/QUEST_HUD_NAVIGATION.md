@@ -17,3 +17,11 @@ Known limits: destination geography is public spawn data, not a promise that a p
 ## Enlarged desktop HUD
 
 The tracker measures the real minimap and hotbar rectangles. If the full card cannot fit, desktop uses a single 32px objective/progress chip with journal/Stop behavior. This includes saved HUD zoom1.8 at1366×768. An extreme viewport/zoom combination with less than34px plus safe spacing hides the floating tracker; the same objective and actions remain in the main-menu QuestJournal. Touch retains its approved138px-wide48px chip. `tests/quest-hud-layout.test.js` verifies these geometry boundaries without DOM assumptions.
+
+## Direction, distance and safe touch placement
+
+`questGuidance` is a read-only presentation model. During explicit quest walking, the arrow points toward the next actual collision-path waypoint. “ตามทาง” sums the remaining waypoint segments to the planned standable destination; while idle, “ระยะตรง” measures the direct distance to the current real step, not a route estimate. Cross-map objectives always measure the current next portal, never coordinates in a different map. The camera's forward/right basis and pitch project the arrow into the current screen orientation. Camera pan/zoom does not alter world distance.
+
+Unavailable contacts suppress distance/arrow; blocked-path and AUTO-refusal messages stay visible. Arrival uses the objective's approach radius and remains a manual action. A nearby direct target does not claim arrival while a detour remains. Cross-map arrival explains continuing after the gate. These values neither mutate objectives nor initiate movement, combat, travel or rewards.
+
+Touch placement measures the region pill, player's full painted title/name plate, profile/chat/minimap and gameplay-control rectangles. The chip searches clear right/left edge gaps with spacing; if neither fits, it hides instead of covering title or controls. QuestJournal/map actions remain accessible in the menu. Title and zone art are not resized or moved. Desktop full/compact behavior and both skins retain existing rules. `tests/quest-guidance.test.js` and expanded geometry tests verify rotated/pitched cameras, remaining path sums, portal targets, unavailable/arrival status and protected mobile rectangles. Final native browser captures are a separate QA/Art gate.

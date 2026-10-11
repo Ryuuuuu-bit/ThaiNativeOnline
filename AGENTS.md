@@ -76,3 +76,5 @@ Do not work directly on main. Use task branches and PRs.
   title ownership/unlocks remain unchanged. See docs/design/TITLE_APPEARANCE.md.
 
 - Quest navigation: Game supplies live context and collision-aware walk/stop to the DOM-free questNavigation/QuestNavigator modules. QuestUI owns the compact pinned objective, QuestJournal owns journey details, WorldMapPanel adds a temporary goal, and Multiplayer cancels on logout/disconnect. Hooks and cancellation contracts are documented in src/quest/README.md and src/net/README.md.
+
+- Quest direction presentation: Game supplies camera basis/current quest route to DOM-free questGuidance; QuestUI labels remaining path versus direct distance and uses measured safe edge gaps to protect title/zone/control boxes. See src/quest/README.md and docs/design/QUEST_HUD_NAVIGATION.md.

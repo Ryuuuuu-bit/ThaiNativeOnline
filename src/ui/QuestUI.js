@@ -18,7 +18,9 @@ export class QuestUI {
     this.root = document.createElement('aside'); this.root.id = 'quest-objective-hud';
     this.root.setAttribute('aria-label', 'เป้าหมายเควสที่ติดตาม');
     this.root.innerHTML = `<div class="quest-hud-heading"><span>◆ ภารกิจที่ติดตาม</span><button type="button" data-quest-nav="untrack" aria-label="เลิกติดตามเควส" title="เลิกติดตาม">×</button></div><b class="quest-hud-title"></b><div class="quest-hud-objective"><span></span><em></em></div><small class="quest-hud-state" role="status"></small><nav aria-label="นำทางเควส"><button type="button" data-quest-nav="map">แผนที่</button><button type="button" data-quest-nav="walk">เดินไป</button><button type="button" data-quest-nav="stop" hidden>หยุด</button><button type="button" data-quest-nav="journal">สมุด</button></nav>`;
-    const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'quest-hud-open'; chip.dataset.questOpen = ''; chip.innerHTML = '<span></span><em></em>'; this.root.append(chip);
+    const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'quest-hud-open'; chip.dataset.questOpen = ''; chip.innerHTML = '<span><b class="quest-chip-distance"></b><small class="quest-chip-objective"></small></span><em></em>'; this.root.append(chip);
+    const direction = document.createElement('div'); direction.className = 'quest-hud-direction'; direction.innerHTML = '<i aria-hidden="true">↑</i><span></span>'; this.root.querySelector('.quest-hud-state').before(direction);
+    const chipArrow = document.createElement('i'); chipArrow.className = 'quest-chip-arrow'; chipArrow.setAttribute('aria-hidden', 'true'); chipArrow.textContent = '↑'; chip.prepend(chipArrow);
     document.getElementById('app').append(this.root);
     this.root.addEventListener('pointerdown', e => e.stopPropagation());
     this.root.addEventListener('keydown', e => { if (e.code !== 'Escape' && !passMovementKey(e)) e.stopPropagation(); });
@@ -66,7 +68,7 @@ export class QuestUI {
     this.root.querySelector('.quest-hud-objective span').textContent = objective.text;
     this.root.querySelector('.quest-hud-objective em').textContent = objective.progress ? `${objective.progress.have}/${objective.progress.need}` : objective.complete ? 'พร้อมส่ง' : 'ยังไม่รับ';
     const status = this.root.querySelector('.quest-hud-state');
-    status.textContent = state.message || objective.reason || objective.step?.name || '';
+    status.textContent = state.guidance?.status || state.message || objective.reason || objective.step?.name || '';
     status.title = status.textContent;
     this.root.dataset.walking = String(!!state.active);
     const walk = this.root.querySelector('[data-quest-nav="walk"]');
@@ -74,11 +76,23 @@ export class QuestUI {
     walk.title = objective.reason || (objective.crossMap ? 'เดินไปประตู แล้วกดเดินต่อเมื่อข้ามแผนที่' : 'เดินตามเส้นทางที่ผ่านได้');
     this.root.querySelector('[data-quest-nav="stop"]').hidden = !state.active;
     const chip = this.root.querySelector('.quest-hud-open');
-    chip.querySelector('span').textContent = objective.text;
+    const chipStatus = objective.reason || (!state.active && state.message) ? status.textContent
+      : state.guidance?.arrived ? (objective.crossMap ? 'ถึงประตู · ข้ามแล้วกดเดินต่อ' : 'ถึงจุดหมาย · ทำด้วยตนเอง')
+        : objective.crossMap ? 'ไปประตู · ข้ามแล้วกดเดินต่อ' : objective.text;
+    const distanceLabel = chip.querySelector('.quest-chip-distance');
+    distanceLabel.textContent = state.guidance?.distance != null ? `${state.guidance.distanceKind === 'path' ? 'ตามทาง' : 'ตรง'} ${Math.round(state.guidance.distance)} วา` : state.guidance?.label ?? '';
+    distanceLabel.hidden = !state.guidance;
+    chip.querySelector('.quest-chip-objective').textContent = chipStatus;
     chip.querySelector('em').textContent = state.active ? '■' : objective.progress ? `${objective.progress.have}/${objective.progress.need}` : '◆';
     chip.dataset.navAction = state.active ? 'stop' : 'journal';
-    chip.setAttribute('aria-label', `${state.active ? 'หยุดนำทาง' : 'เปิดสมุดเควส'} · ${objective.quest.title} · ${objective.text}`);
-    chip.title = state.message || objective.reason || `${objective.quest.title} · ${objective.text}`;
+    chip.setAttribute('aria-label', `${state.active ? 'หยุดนำทาง' : 'เปิดสมุดเควส'} · ${objective.quest.title} · ${objective.text} · ${state.guidance?.label ?? ''} · ${status.textContent}`);
+    chip.title = `${objective.quest.title} · ${status.textContent}`;
+    const direction = this.root.querySelector('.quest-hud-direction'); direction.querySelector('span').textContent = state.guidance?.label ?? '';
+    direction.hidden = !state.guidance;
+    for (const arrow of [direction.querySelector('i'), chip.querySelector('i')]) {
+      arrow.hidden = state.guidance?.arrow == null;
+      arrow.style.transform = `rotate(${state.guidance?.arrow ?? 0}deg)`;
+    }
     $('quest-tracker').replaceChildren();
     this.layout();
   }
@@ -89,7 +103,8 @@ export class QuestUI {
     this.root.dataset.compact = 'false';
     const placement = questHudPlacement({ touch, mini, width: innerWidth, height: innerHeight,
       fullHeight: this.root.getBoundingClientRect().height,
-      hotbar: document.querySelector('.hotbar.action-bar')?.getBoundingClientRect() });
+      hotbar: document.querySelector('.hotbar.action-bar')?.getBoundingClientRect(),
+      protectedRects: touch ? [...document.querySelectorAll('.minimap,.location,.plate.is-self,.g-player,.net-chat,.mm-btn,.touch-combat-dock,.touch-pad,.touch-zone,.touch-utilities')].map(el => el.getBoundingClientRect()) : [] });
     this.root.dataset.compact = String(placement.compact);
     this.root.style.setProperty('--quest-top', `${placement.top}px`);
     this.root.style.setProperty('--quest-right', `${placement.right}px`);
