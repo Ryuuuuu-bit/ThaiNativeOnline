@@ -33,6 +33,15 @@ test('touch relocates within a free edge gap when the zone pill blocks the old a
   const r=questHudPlacement({...large,touch:true,width:390,height:844,mini:{right:330,bottom:132},protectedRects:[blocked]});
   assert.equal(r.hidden,false);assert.equal(r.top,166);assert.ok(!hudRectsOverlap(rect(390-r.right-138,r.top,390-r.right,r.top+50),blocked,4));
 });
+
+test('320 touch also avoids the potion and AUTO side controls outside the combat dock',()=>{
+  const protectedRects=[rect(170,124,308,145),rect(62,161,246,230),rect(12,270,186,312),rect(148,456,308,610),rect(0,456,140,618),rect(12,16,160,104),rect(12,104,160,158),rect(190,12,262,132),rect(264,12,308,64)];
+  const r=questHudPlacement({...large,touch:true,width:320,height:640,mini:{right:262,bottom:132},protectedRects});
+  assert.equal(r.hidden,false);
+  const box=rect(320-r.right-138,r.top,320-r.right,r.top+50);
+  assert.ok(protectedRects.every(p=>!hudRectsOverlap(box,p,4)));
+  assert.notEqual(r.top,235);
+});
 test('touch never forces a chip into full-height controls and keeps missing/hidden rectangles harmless',()=>{
   const full=questHudPlacement({...large,touch:true,width:320,height:640,mini:{right:262,bottom:132},protectedRects:[rect(0,0,320,640)]});assert.equal(full.hidden,true);
   const empty=questHudPlacement({...large,touch:true,width:320,height:640,mini:{right:262,bottom:132},protectedRects:[rect(0,0,0,0),null]});assert.equal(empty.hidden,false);

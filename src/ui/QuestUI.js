@@ -104,7 +104,7 @@ export class QuestUI {
     const placement = questHudPlacement({ touch, mini, width: innerWidth, height: innerHeight,
       fullHeight: this.root.getBoundingClientRect().height,
       hotbar: document.querySelector('.hotbar.action-bar')?.getBoundingClientRect(),
-      protectedRects: touch ? [...document.querySelectorAll('.minimap,.location,.plate.is-self,.g-player,.net-chat,.mm-btn,.touch-combat-dock,.touch-pad,.touch-zone,.touch-utilities')].map(el => el.getBoundingClientRect()) : [] });
+      protectedRects: touch ? [...document.querySelectorAll('.minimap,.location,.plate.is-self,.g-player,.net-chat,.mm-btn,.touch-side,.touch-combat-dock,.touch-pad,.touch-zone,.touch-utilities')].map(el => el.getBoundingClientRect()) : [] });
     this.root.dataset.compact = String(placement.compact);
     this.root.style.setProperty('--quest-top', `${placement.top}px`);
     this.root.style.setProperty('--quest-right', `${placement.right}px`);
