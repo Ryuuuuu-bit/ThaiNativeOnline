@@ -25,7 +25,7 @@ void main(){
   float l = dot(c.rgb, vec3(0.2126, 0.7152, 0.0722));
   c.rgb = mix(vec3(l), c.rgb, uSat);
   vec2 d = vUv - 0.5;
-  c.rgb *= mix(1.0 - uVig, 1.0, smoothstep(0.85, 0.25, length(d * vec2(1.0, 0.9))));
+  c.rgb *= mix(1.0 - uVig, 1.0, (1.0 - smoothstep(0.25, 0.85, length(d * vec2(1.0, 0.9)))));
   gl_FragColor = c;
 }`,
 };

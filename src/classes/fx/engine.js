@@ -47,26 +47,28 @@ void main(){
 const DV = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`;
 const DF = `
 varying vec2 vUv; uniform float uTime,uT,uType,uAlpha,uNorm; uniform vec3 uC1,uC2;
+// GLSL smoothstep requires ascending, distinct edges, including shock frame zero.
+float fadeOut(float lo,float hi,float x){ return 1.-smoothstep(lo,max(lo+.00001,hi),x); }
 float ring(float r,float R,float w){ return exp(-pow((r-R)/w,2.)); }
 void main(){
   vec2 p=vUv*2.-1.; float r=length(p); float an=atan(p.y,p.x); float a=0.; vec3 col=uC1;
-  if(uType<.5){ float R=uT; float k=1.-uT; a=ring(r,R,.05+.06*uT)*k*1.4+ring(r,R*.82,.025)*k*.6+smoothstep(R,0.,r)*k*.15*step(r,R); col=mix(uC2,uC1,k); a*=smoothstep(0.,.14,uT)*(.55+.45*smoothstep(.0,.5,uT)); }
-  else if(uType<1.5){ a=ring(r,.97,.025)*1.2+smoothstep(1.,.2,r)*.10*(.7+.3*sin(uTime*7.));
+  if(uType<.5){ float R=uT; float k=1.-uT; a=ring(r,R,.05+.06*uT)*k*1.4+ring(r,R*.82,.025)*k*.6+fadeOut(0.,R,r)*k*.15*step(r,R); col=mix(uC2,uC1,k); a*=smoothstep(0.,.14,uT)*(.55+.45*smoothstep(.0,.5,uT)); }
+  else if(uType<1.5){ a=ring(r,.97,.025)*1.2+fadeOut(.2,1.,r)*.10*(.7+.3*sin(uTime*7.));
     float d=step(.5,fract(an/6.2832*28.+uTime*.6)); a+=ring(r,.88,.012)*d*.9; a+=ring(r,.25,.01)*.5; }
   else if(uType>5.5){ /* water pool: dark swirl, ripples running outward, bright rim */
     float sw=sin(an*3.+r*9.-uTime*2.4)*.5+.5; float rip=pow(sin(r*30.-uTime*7.)*.5+.5,8.)*smoothstep(.15,.45,r);
-    a=smoothstep(1.,.75,r)*(.72+.1*sw)+ring(r,.97,.03); col=mix(uC2,uC1,clamp(rip*.45+sw*.15+ring(r,.97,.05),0.,1.)); }
-  else if(uType>4.5){ float w=sin(r*26.-uTime*5.)*.5+.5; a=pow(w,6.)*smoothstep(1.,.3,r)*.7+ring(r,.98,.02)+smoothstep(1.,0.,r)*.12; }
+    a=fadeOut(.75,1.,r)*(.72+.1*sw)+ring(r,.97,.03); col=mix(uC2,uC1,clamp(rip*.45+sw*.15+ring(r,.97,.05),0.,1.)); }
+  else if(uType>4.5){ float w=sin(r*26.-uTime*5.)*.5+.5; a=pow(w,6.)*fadeOut(.3,1.,r)*.7+ring(r,.98,.02)+fadeOut(0.,1.,r)*.12; }
   else if(uType>3.5){ float ro=an-uTime*1.4; a=ring(r,.86,.03)+ring(r,.62,.02)*.8;
-    float tick=step(.62,fract(ro/6.2832*12.))*step(r,.84)*step(.66,r); a+=tick*.6; a+=pow(abs(sin(ro*3.)),20.)*ring(r,.74,.05)*1.2; a+=smoothstep(.6,0.,r)*.2; }
-  else if(uType>2.5){ float st=sin(an*14.+sin(r*9.-uTime*3.)*1.6); float band=smoothstep(.25,.6,r)*smoothstep(1.,.85,r);
+    float tick=step(.62,fract(ro/6.2832*12.))*step(r,.84)*step(.66,r); a+=tick*.6; a+=pow(abs(sin(ro*3.)),20.)*ring(r,.74,.05)*1.2; a+=fadeOut(0.,.6,r)*.2; }
+  else if(uType>2.5){ float st=sin(an*14.+sin(r*9.-uTime*3.)*1.6); float band=smoothstep(.25,.6,r)*fadeOut(.85,1.,r);
     a=smoothstep(.2,.8,st)*band*.9+ring(r,.97,.03)*1.3+ring(r,.6,.02)*.5; float fl=.75+.25*sin(uTime*23.+r*20.); a*=fl; col=mix(uC2,uC1,st*.5+.5); }
   else { float ro=an+uTime*.25; float pe=pow(abs(cos(ro*4.)),3.); a+=ring(r,.5+.28*pe,.018);
     float pe2=pow(abs(cos((an-uTime*.18)*8.)),4.); a+=ring(r,.3+.12*pe2,.013)*.9;
     a+=ring(r,.96,.012)+ring(r,.9,.007)*.7+ring(r,.2,.012)+ring(r,.13,.006);
     a+=smoothstep(.8,1.,cos(an*36.-uTime*.8))*ring(r,.93,.018)*1.3;
-    float sp=step(.96,fract(an/6.2832*16.+.5))*smoothstep(.2,.3,r)*smoothstep(.95,.85,r); a+=sp*.35;
-    a+=smoothstep(1.,0.,r)*.07; col=mix(uC2,uC1,smoothstep(.1,.9,r)); }
+    float sp=step(.96,fract(an/6.2832*16.+.5))*smoothstep(.2,.3,r)*fadeOut(.85,.95,r); a+=sp*.35;
+    a+=fadeOut(0.,1.,r)*.07; col=mix(uC2,uC1,smoothstep(.1,.9,r)); }
   a*=step(r,1.);
   if(uNorm>.5) gl_FragColor=vec4(col,clamp(a,0.,1.)*uAlpha); else gl_FragColor=vec4((col/(1.+col))*a*uAlpha,1.);
 }`;
@@ -139,7 +141,17 @@ export function createFx({ scene, camera, renderer, labels, size = K }) {
       geo.setAttribute(n, new THREE.BufferAttribute(arr, k).setUsage(THREE.DynamicDrawUsage));
     const mat = new THREE.ShaderMaterial({ vertexShader: PV, fragmentShader: PF, transparent: true, depthWrite: false,
       blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending, uniforms: { uScale: { value: 400 }, uOrtho: { value: camera.isOrthographicCamera ? 1 : 0 }, uNorm: { value: additive ? 0 : 1 } } });
-    const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; pts.renderOrder = additive ? 5 : 4; add(pts);
+    const pts = new THREE.Points(geo, mat); pts.frustumCulled = false; pts.renderOrder = additive ? 5 : 4;
+    // The high-quality composer renders below the canvas resolution under load.
+    // Using canvas height here made smoke/points jump up to 67% larger when its
+    // render target shrank to 60%. Match the actual viewport, for both cameras.
+    const viewport = new THREE.Vector4();
+    pts.onBeforeRender = (r, _scene, renderCamera) => {
+      r.getCurrentViewport(viewport);
+      mat.uniforms.uScale.value = particleProjection(renderCamera, viewport.w, 1, fx.K);
+      mat.uniforms.uOrtho.value = renderCamera.isOrthographicCamera ? 1 : 0;
+    };
+    add(pts);
     return { N, cur: 0, pos, col, size, alpha, shape, rot, mat, geo, v: new Float32Array(N * 3), age: new Float32Array(N), life: new Float32Array(N),
       s0: new Float32Array(N), s1: new Float32Array(N), a0: new Float32Array(N), drag: new Float32Array(N), grav: new Float32Array(N), vr: new Float32Array(N),
       c0: new Float32Array(N * 3), live: new Uint8Array(N), active: 0, home: new Float32Array(N * 4), swirl: new Float32Array(N), onArrive: [] };
