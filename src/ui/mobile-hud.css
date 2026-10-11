@@ -115,5 +115,8 @@ body.ui-touch.touch-menu .touch-combat-dock,body.photo-mode.ui-touch .touch-comb
 
 /* AUTO needs a real viewport scroll container, not just overflow on its content. */
 body.ui-touch .auto-panel { position:fixed!important; left:max(12px,env(safe-area-inset-left))!important; right:max(12px,env(safe-area-inset-right))!important; top:max(12px,env(safe-area-inset-top))!important; bottom:auto!important; width:auto!important; max-width:none!important; height:auto; max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)))!important; box-sizing:border-box; overflow:auto; overscroll-behavior:contain; transform:none!important; translate:none!important; zoom:1!important; }
-body.ui-touch .auto-panel .ro-title { position:sticky; top:0; z-index:2; min-height:44px; background:var(--t-panel); }
+body.ui-touch .auto-panel { padding:0!important; }
+body.ui-touch .auto-panel .ro-title { position:sticky; top:0; z-index:2; min-height:60px; box-sizing:border-box; margin:0; padding:8px 52px; background:#102e26!important; }
+body.ui-touch .auto-panel :is(.auto-grid,.auto-foot) { margin:12px; }
+body.ui-touch .auto-panel .auto-close { top:8px; right:8px; }
 body.ui-touch .auto-panel :is(.auto-close,.auto-step button) { min-height:44px; min-width:44px; }

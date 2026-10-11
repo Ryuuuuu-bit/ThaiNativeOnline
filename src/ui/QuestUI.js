@@ -17,10 +17,11 @@ export class QuestUI {
     this.root = document.createElement('aside'); this.root.id = 'quest-objective-hud';
     this.root.setAttribute('aria-label', 'เป้าหมายเควสที่ติดตาม');
     this.root.innerHTML = `<div class="quest-hud-heading"><span>◆ ภารกิจที่ติดตาม</span><button type="button" data-quest-nav="untrack" aria-label="เลิกติดตามเควส" title="เลิกติดตาม">×</button></div><b class="quest-hud-title"></b><div class="quest-hud-objective"><span></span><em></em></div><small class="quest-hud-state" role="status"></small><nav aria-label="นำทางเควส"><button type="button" data-quest-nav="map">แผนที่</button><button type="button" data-quest-nav="walk">เดินไป</button><button type="button" data-quest-nav="stop" hidden>หยุด</button><button type="button" data-quest-nav="journal">สมุด</button></nav>`;
+    const chip = document.createElement('button'); chip.type = 'button'; chip.className = 'quest-hud-open'; chip.dataset.questOpen = ''; chip.innerHTML = '<span></span><em></em>'; this.root.append(chip);
     document.getElementById('app').append(this.root);
     this.root.addEventListener('pointerdown', e => e.stopPropagation());
     this.root.addEventListener('keydown', e => { if (e.code !== 'Escape' && !passMovementKey(e)) e.stopPropagation(); });
-    this.root.addEventListener('click', e => { const b = e.target.closest('[data-quest-nav]'); if (b) onNavigate(b.dataset.questNav); });
+    this.root.addEventListener('click', e => { const b = e.target.closest('[data-quest-nav],[data-quest-open]'); if (b) onNavigate(b.dataset.questNav ?? b.dataset.navAction); });
     this.guide.addEventListener('click', e => {
       const b = e.target.closest('button[data-panel]');
       if (b) { if (b.dataset.panel !== 'quests') this.toggleJournal(false); onPanel(b.dataset.panel); }
@@ -71,6 +72,12 @@ export class QuestUI {
     walk.hidden = !!state.active; walk.disabled = !objective.step || !!objective.reason;
     walk.title = objective.reason || (objective.crossMap ? 'เดินไปประตู แล้วกดเดินต่อเมื่อข้ามแผนที่' : 'เดินตามเส้นทางที่ผ่านได้');
     this.root.querySelector('[data-quest-nav="stop"]').hidden = !state.active;
+    const chip = this.root.querySelector('.quest-hud-open');
+    chip.querySelector('span').textContent = objective.text;
+    chip.querySelector('em').textContent = state.active ? '■' : objective.progress ? `${objective.progress.have}/${objective.progress.need}` : '◆';
+    chip.dataset.navAction = state.active ? 'stop' : 'journal';
+    chip.setAttribute('aria-label', `${state.active ? 'หยุดนำทาง' : 'เปิดสมุดเควส'} · ${objective.quest.title} · ${objective.text}`);
+    chip.title = state.message || objective.reason || `${objective.quest.title} · ${objective.text}`;
     $('quest-tracker').replaceChildren();
     this.layout();
   }
@@ -78,8 +85,7 @@ export class QuestUI {
     const touch = document.body.classList.contains('ui-touch');
     const mini = document.querySelector('.minimap')?.getBoundingClientRect();
     if (!mini) return;
-    const landscape = touch && innerHeight <= 500;
-    this.root.style.setProperty('--quest-top', `${Math.max(touch && !landscape ? 172 : 0, mini.bottom + 10)}px`);
+    this.root.style.setProperty('--quest-top', `${mini.bottom + (touch ? 6 : 10)}px`);
     this.root.style.setProperty('--quest-right', `${touch ? 12 : Math.max(12, innerWidth - mini.right)}px`);
   }
   renderGuide() {

@@ -1,6 +1,6 @@
 # Quest HUD and navigation
 
-The normal HUD shows one pinned objective, at most two lines, progress, destination/status and Map / Walk (or Stop) / Journal actions. Desktop docks below the minimap; touch uses physical 44px actions on the right, outside chat/profile and the combat tray. Detailed newcomer instructions live in the registered QuestJournal window under “เส้นทาง Lv 1–20”; the independent floating launcher is removed. Both existing skins share jade/brass variables.
+The normal HUD shows one pinned objective, at most two lines, progress, destination/status and Map / Walk (or Stop) / Journal actions. Desktop docks below the minimap; touch uses one 48px objective/progress chip to the right below the minimap, outside chat and the combat tray. The chip opens the registered journal for Map/Walk/Untrack; while walking it becomes Stop. Detailed newcomer instructions live in the registered QuestJournal window under “เส้นทาง Lv 1–20”; the independent floating launcher is removed. Both existing skins share jade/brass variables.
 
 Walk is an explicit user action. It uses Game.walkTo and the existing collision grid, waypoint route and minimap goal/route drawing. It does not teleport, attack, choose a combat target, accept quests or hand in rewards. Enabled AUTO refuses navigation with a visible instruction. Manual input (including an already held key/joystick), Escape after foreground windows, death, service modal/settings, logout/disconnect, map transition, untrack and materially changed objective/availability cancel rather than resume navigation.
 

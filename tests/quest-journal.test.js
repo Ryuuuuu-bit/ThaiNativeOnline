@@ -16,31 +16,36 @@ function harness(t, defs) {
     getElementById: () => ({ append() {} }) };
   function element(dataset = {}) {
     return { dataset, innerHTML: '', value: '', scrollTop: 0, scrollLeft: 0, isConnected: true,
+      hidden:false, attributes:{}, children:[],
+      setAttribute(name,value) { this.attributes[name]=value; },
+      after(node) { this.afterNode=node; }, append(node) { this.children.push(node); },
       events: {}, addEventListener(type, fn) { this.events[type] = fn; },
-      focus() { doc.activeElement = this; }, getClientRects: () => [1],
+      focus() { doc.activeElement = this; }, getClientRects() { return this.hidden ? [] : [1]; },
       hasAttribute(name) { return name === 'data-journal-locate' && this === controls.get('[data-journal-locate]'); },
       querySelectorAll() {
-        return [...this.innerHTML.matchAll(/data-journal-quest="([^"]+)"/g)].map(m => element({ journalQuest: m[1] }));
+        return [...this.innerHTML.matchAll(/data-journal-(quest|action)="([^"]+)"/g)].map(m => element({ [m[1]==='quest'?'journalQuest':'journalAction']:m[2] }));
       }, remove() { this.removed = true; } };
   }
   for (const id of ['[data-journal-close]', '#quest-journal-search', '#quest-journal-filter', '#quest-journal-count',
-    '#quest-journal-list', '#quest-journal-detail', '[data-journal-locate]', '[role="dialog"]']) controls.set(id, element());
+    '#quest-journal-list', '#quest-journal-detail', '[data-journal-locate]', '[role="dialog"]', '.guide-head', '.guide-body']) controls.set(id, element());
+  for(const tab of ['quests','journey']) controls.set(`[data-journal-tab="${tab}"]`,element({journalTab:tab}));
   controls.get('#quest-journal-filter').value = 'active';
   const root = element(); root.querySelector = s => controls.get(s);
-  root.querySelectorAll = () => [controls.get('[data-journal-close]'), controls.get('#quest-journal-search'),
+  root.querySelectorAll = selector => selector==='[data-journal-tab]' ? ['quests','journey'].map(tab=>controls.get(`[data-journal-tab="${tab}"]`)) : [controls.get('[data-journal-close]'), controls.get('#quest-journal-search'),
     controls.get('#quest-journal-filter'), ...controls.get('#quest-journal-list').querySelectorAll(),
     controls.get('#quest-journal-detail'), ...(controls.get('#quest-journal-detail').innerHTML.includes('data-journal-locate')
       ? [controls.get('[data-journal-locate]')] : [])];
-  root.contains = el => [...controls.values()].includes(el) || el?.dataset?.journalQuest !== undefined;
-  doc.createElement = () => root;
+  root.contains = el => [...controls.values()].includes(el) || el?.dataset?.journalQuest !== undefined || el?.dataset?.journalAction !== undefined;
+  let created=0; doc.createElement = () => created++ ? element() : root;
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'document');
   Object.defineProperty(globalThis, 'document', { configurable: true, value: doc });
   t.after(() => { if (previous) Object.defineProperty(globalThis, 'document', previous); else delete globalThis.document; });
   const quests = new QuestSystem(defs, { storage: null });
   quests.character = { classId: 'warrior', level: 30, jobLevel: 20, countUnlocked: () => 0 };
   let prepares = 0;
-  const routes = [], journal = new QuestJournal({ quests, prepare: () => prepares++, locate: id => routes.push(id) });
-  return { journal, quests, root, controls, doc, listeners, routes, element, prepares: () => prepares };
+  const routes = [], actions=[],pins=[],journey=element();
+  const journal = new QuestJournal({ quests, journey, prepare: () => prepares++, locate: id => routes.push(id), pin:id=>pins.push(id),navigate:action=>actions.push({action,open:journal.open}) });
+  return { journal, quests, root, controls, doc, listeners, routes, actions,pins,journey,element, prepares: () => prepares };
 }
 
 const quest = (id, extra = {}) => ({ id, title: `เควส ${id}`, giver: 'village_trader',
@@ -134,4 +139,27 @@ test('map action closes journal before passing turn-in NPC ID and never complete
   h.root.events.click({ target });
   assert.equal(h.journal.open, false); assert.deepEqual(h.routes, ['master_sword']);
   assert.equal(h.quests.status('ready'), 'active');
+});
+
+test('journey lives inside the same registered journal, switches tabs without reopening and never mutates progress', t => {
+  const h=harness(t,[quest('a')]);activate(h,'a');const before=structuredClone(h.quests.state);
+  h.journal.show('journey');assert.equal(h.prepares(),1);assert.equal(h.controls.get('.guide-body').hidden,true);
+  assert.equal(h.journal.journey.hidden,false);assert.equal(h.journal.journey.children[0],h.journey);
+  assert.equal(h.doc.activeElement,h.controls.get('[data-journal-tab="journey"]'));
+  h.root.events.click({target:{closest:s=>s==='[data-journal-tab]'?{dataset:{journalTab:'quests'}}:null}});
+  assert.equal(h.controls.get('.guide-body').hidden,false);assert.equal(h.journal.journey.hidden,true);
+  assert.equal(h.prepares(),1);assert.deepEqual(h.quests.state,before);
+});
+test('progress refresh restores focus to replacement navigation action', t => {
+  const h=harness(t,[quest('a')]);activate(h,'a');h.journal.show();
+  const old=h.controls.get('#quest-journal-detail').querySelectorAll().find(b=>b.dataset.journalAction==='walk');
+  old.focus();h.quests.emit('change');assert.notEqual(h.doc.activeElement,old);assert.equal(h.doc.activeElement.dataset.journalAction,'walk');
+});
+test('journal navigation pins the selected objective and closes before map/walk, while pin keeps journal open', t => {
+  for(const action of ['pin','map','walk','untrack']) {
+    const h=harness(t,[quest('ready')]);activate(h,'ready',2);h.journal.show();
+    h.quests.accept=h.quests.complete=()=>assert.fail('navigation must not grant progress');
+    h.root.events.click({target:{closest:s=>s==='[data-journal-action]'?{dataset:{journalAction:action}}:null}});
+    assert.deepEqual(h.pins,action==='untrack'?[]:['ready']);assert.deepEqual(h.actions,[{action,open:action==='pin'}]);assert.equal(h.quests.status('ready'),'active');h.journal.destroy();
+  }
 });

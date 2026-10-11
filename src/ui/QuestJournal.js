@@ -35,7 +35,7 @@ export class QuestJournal {
       const tab = event.target.closest('[data-journal-tab]');
       if (tab) { this.tab = tab.dataset.journalTab; this.render(); return; }
       const action = event.target.closest('[data-journal-action]');
-      if (action) { this.pin(this.selectedId); if (action.dataset.journalAction !== 'pin') this.close(); this.navigate(action.dataset.journalAction); return; }
+      if (action) { if (action.dataset.journalAction !== 'untrack') this.pin(this.selectedId); if (action.dataset.journalAction !== 'pin') this.close(); this.navigate(action.dataset.journalAction); return; }
       const row = event.target.closest('[data-journal-quest]');
       if (row) { this.selectedId = row.dataset.journalQuest; this.render(); return; }
       if (event.target.closest('[data-journal-locate]')) {
@@ -118,7 +118,7 @@ export class QuestJournal {
       }).join('')}</ul>
       <h4>${done ? 'รางวัลที่ได้รับ' : 'รางวัลเมื่อส่งเควส'}</h4><p class="quest-journal-reward">${esc(rewardText(q.rewards) || 'ไม่มีรางวัลระบุ')}</p>
       ${!done && q.objectives.some(o => o.collect) ? '<p class="guide-note">ส่งของที่ไม่ได้ล็อกตามจำนวนจากกระเป๋าเมื่อรับรางวัล</p>' : ''}
-      ${done ? '' : '<nav class="quest-journal-navigation"><button type="button" data-journal-action="pin">ติดตามภารกิจ</button><button type="button" data-journal-action="map">ดูเป้าหมายบนแผนที่</button><button type="button" data-journal-action="walk">เดินไปเป้าหมาย</button></nav>'}
+      ${done ? '' : '<nav class="quest-journal-navigation"><button type="button" data-journal-action="pin">ติดตามภารกิจ</button><button type="button" data-journal-action="map">ดูเป้าหมายบนแผนที่</button><button type="button" data-journal-action="walk">เดินไปเป้าหมาย</button><button type="button" data-journal-action="untrack">เลิกติดตาม</button></nav>'}
       <h4>ผู้รับส่งเควส</h4><div class="guide-locations"><button type="button" data-journal-locate ${npcId ? '' : 'disabled'}><span><b>${esc(npcName(npcId) || 'ไม่ระบุ NPC')}</b><small>${done ? 'ส่งเควสแล้ว' : status === 'ready' ? 'เป้าหมายครบแล้ว · กลับไปคุยเพื่อรับรางวัล' : 'ทำเป้าหมายให้ครบ แล้วกลับมาส่งเควส'}</small></span><span>ดูแผนที่ ↗</span></button></div>
       <p class="guide-note">รับเควสและส่งเควสผ่านบทสนทนากับ NPC</p>`;
   }

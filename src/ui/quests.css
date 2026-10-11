@@ -62,17 +62,12 @@ body #quest-objective-hud[hidden], body.photo-mode #quest-objective-hud { displa
 #quest-objective-hud button:disabled { opacity:.5; cursor:default; }
 #quest-objective-hud button:focus-visible { outline:2px solid var(--t-gold-hi); outline-offset:2px; }
 #quest-objective-hud[data-walking=true] { border-color:var(--t-gold-hi); }
-body.ui-touch #quest-objective-hud { width:158px; padding:6px 7px; font-size:13px; }
-body.ui-touch #quest-objective-hud .quest-hud-heading span { display:none; }
-body.ui-touch #quest-objective-hud .quest-hud-heading { position:absolute; right:0; top:0; }
-body.ui-touch #quest-objective-hud .quest-hud-title { padding-right:40px; min-height:38px; }
-body.ui-touch #quest-objective-hud button { min-height:44px; min-width:44px; }
-body.ui-touch #quest-objective-hud .quest-hud-heading button { height:44px; width:44px; flex:none; background:var(--t-panel); }
+#quest-objective-hud .quest-hud-open { display:none; }
+/* Touch keeps only an objective chip beside the top cluster. Details and
+   map/walk/untrack live in the registered journal; active walking becomes Stop. */
+body.ui-touch #quest-objective-hud { width:138px; padding:0; font-size:13px; }
+body.ui-touch #quest-objective-hud > :not(.quest-hud-open) { display:none; }
+body.ui-touch #quest-objective-hud .quest-hud-open { display:flex; align-items:center; gap:6px; width:100%; min-height:48px; padding:5px 6px; margin:0; border:0; background:none; text-align:left; }
+body.ui-touch #quest-objective-hud .quest-hud-open span { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-width:0; flex:1; }
+body.ui-touch #quest-objective-hud .quest-hud-open em { color:var(--t-gold-hi); flex:none; font-size:12px; }
 body.ui-touch.touch-menu #quest-objective-hud { display:none; }
-@media(max-height:500px) {
-  body.ui-touch #quest-objective-hud { width:180px; }
-  body.ui-touch #quest-objective-hud .quest-hud-heading { top:0; right:0; }
-  body.ui-touch #quest-objective-hud .quest-hud-title { padding-right:40px; min-height:30px; }
-  body.ui-touch #quest-objective-hud .quest-hud-objective span { -webkit-line-clamp:1; }
-  body.ui-touch #quest-objective-hud .quest-hud-state { display:none; }
-}
