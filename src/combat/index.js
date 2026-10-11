@@ -74,7 +74,7 @@ export function createGame(o) {
     // world's click-to-move handler on the same element.
     const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2();
     o.host.addEventListener('pointerdown', event => {
-      if (event.button !== 0 || !character.alive) return;
+      if (event.button !== 0 || !character.alive || o.actionsBlocked?.()) return;
       const rect = o.host.getBoundingClientRect();
       pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
       raycaster.setFromCamera(pointer, o.camera);

@@ -7,6 +7,7 @@
 //   menu.setAlert(on)                 gold dot when there are stat points to spend
 //   bindSettingsTabs(panel)           the tab strip inside the settings window
 import './menu-groups.css';
+import { passMovementKey } from './nonmodalKeys.js';
 
 const $ = id => document.getElementById(id);
 const GROUPS = [
@@ -33,6 +34,7 @@ export class MainMenu {
     }
     this.btn.addEventListener('click', () => this.toggle());
     const containKeys = e => {
+      if (passMovementKey(e)) return;
       if (e.code === 'Escape') { this.toggle(false); this.btn.focus(); }
       e.stopPropagation();
     };

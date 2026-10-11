@@ -53,7 +53,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get serviceModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.storage?.open || this.game?.hud?.bar?.chooserOpen || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get movementModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -145,9 +145,15 @@ export class Game {
     window.game = this;
   }
 
+  get serviceModalOpen() { return this.movementModalOpen || !!this.game?.hud?.bar?.chooserOpen; }
+  get gameplayActionsBlocked() { return this.serviceModalOpen || !!this.menu?.open; }
+
   bind() {
     const input = this.input, view = this.view;
-    input.blocked = () => this.serviceModalOpen;
+    input.blocked = () => this.movementModalOpen;
+    input.actionsBlocked = () => this.gameplayActionsBlocked;
+    input.stickBlocked = () => this.serviceModalOpen;
+    input.movementBlocked = () => this.movementModalOpen;
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => { input.cancelCameraDrag(); view.reset(); });
@@ -186,7 +192,7 @@ export class Game {
     // (the + / − buttons and the settings slider still can, and unlock nothing)
     $('zoom-lock').addEventListener('click', () => { this.prefs.set({ zoomLock: !this.prefs.zoomLock }); this.syncZoom(); this.note(this.prefs.zoomLock ? 'ล็อกระยะกล้องแล้ว · นิ้ว / ล้อเมาส์จะไม่ซูม' : 'ปลดล็อกระยะกล้อง'); });
     input.on('click', e => {
-      if (this.maps.busy || this.serviceModalOpen) return;
+      if (this.maps.busy || this.movementModalOpen) return;
       const p = view.groundPoint(e.clientX, e.clientY, (x, z) => this.world.heightAt(x, z));
       if (this.world.canStand(p.x, p.z)) this.walkTo(p.x, p.z);
     });
@@ -259,13 +265,14 @@ export class Game {
       { root: () => characterUI()?.skills.root, close: () => { characterUI().skills.root.hidden = true; } },
       { root: () => characterUI()?.loadouts, close: () => { characterUI().loadouts.hidden = true; } },
       { root: () => characterUI()?.flaskPicker.root, close: () => characterUI().flaskPicker.close() },
-      { root: () => this.menu.grid, close: () => this.menu.toggle(false) },
+      { root: () => this.menu.grid, close: () => this.menu.toggle(false), nonModal: true },
+      { root: () => this.game?.hud?.bar?.editor?.root, close: () => this.game.hud.bar.editor.close(), nonModal: true },
       { root: () => $('settings'), close: () => $('settings-close').click() },
       { root: () => $('fullmap-panel'), close: () => this.toggleMap() },
       { root: () => $('shop'), close: () => this.shop.close() },
       { root: () => $('dialogue'), close: () => this.closeDialogue() },
       { root: () => document.querySelector('.auto-panel'), close: () => { document.querySelector('.auto-panel').hidden = true; } },
-    ], { fallback: () => this.menu.btn, onOpen: () => { this.input.keys.clear(); this.input.shift = false; } });
+    ], { fallback: () => this.menu.btn, onOpen: entry => { if (!entry.nonModal) { this.input.keys.clear(); this.input.shift = false; } } });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
     $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100, true));
     $('hud-size').value = String(this.prefs.hud);
@@ -319,8 +326,9 @@ export class Game {
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
       moveTo: (x, z) => this.chaseTo(x, z),
       stop: () => this.stopWalk(),
+      actionsBlocked: () => this.gameplayActionsBlocked,
       // walking by hand (a click on the ground, keys, the joystick): AUTO and chasing wait for it
-      manualMove: () => this.serviceModalOpen || (!!this.destination && !this.autoWalk) || this.input.keys.size > 0 || !!(this.input.stick.x || this.input.stick.y),
+      manualMove: () => this.gameplayActionsBlocked || (!!this.destination && !this.autoWalk) || this.input.keys.size > 0 || !!(this.input.stick.x || this.input.stick.y),
       respawnPoint: this.maps.respawn, spawns: this.maps.zones,
       monsterStyle: this.prefs.monsters,
       isSafe: () => this.maps.map?.safe ?? true, // qa fix: no "danger" tip in the safe city at login
@@ -331,7 +339,7 @@ export class Game {
     this.clock.onPhase(phase => this.game.setPhase(phase));
     this.input.on('move', () => { this.game.onManualMove(); this.training?.onManualMove(); });
     window.addEventListener('keydown', e => {
-      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen || this.serviceModalOpen) return;
+      if (e.target.isContentEditable || ['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName) || this.hud.dialogueOpen || this.gameplayActionsBlocked) return;
       // Tab at the training ground locks onto the next dummy (monsters elsewhere: CombatHUD)
       if (e.code === 'Tab' && this.maps.map?.safe && this.training?.cycleDummy?.()) { e.preventDefault(); return; }
       if (e.code === 'Escape' && this.training?.selected) this.training.select(null);
@@ -352,6 +360,7 @@ export class Game {
       scene: this.scene, camera: this.view.camera, renderer: this.renderer, root: $('app'), player: this.player,
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,
       character: this.game.character,   // the dummy reads the player's real stats
+      actionsBlocked: () => this.gameplayActionsBlocked,
       combat: this.game.combat, hud: this.game.hud,   // kit skills fight monsters and sit on the action bar
     });
     this.training?.enterMap(this.maps.map.id); this.maps.attachTraining(this.training);
@@ -557,7 +566,7 @@ export class Game {
   }
 
   interact() {
-    if (this.maps.busy || this.serviceModalOpen || !this.npcs) return;
+    if (this.maps.busy || this.gameplayActionsBlocked || !this.npcs) return;
     if (this.hud.dialogueOpen && this.talking) {
       const d = this.talking.def; this.talkLine = (this.talkLine + 1) % d.dialogue.length;
       this.hud.openDialogue(this.talking, this.npcs.label(this.talking), d.dialogue[this.talkLine]);
@@ -651,7 +660,7 @@ export class Game {
     // Movement: keys, or a straight walk to a clicked point.
     // A skill move (training.busy) only holds the player in place: a walk the player clicked
     // goes on once it ends; a combat auto-walk is dropped (combat sets a new one if needed).
-    const alive = this.game?.canMove ?? true, canMove = alive && !this.training?.busy && !this.serviceModalOpen;
+    const alive = this.game?.canMove ?? true, canMove = alive && !this.training?.busy && !this.movementModalOpen;
     if (!alive || (!canMove && this.autoWalk)) this.stopWalk();
     const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
     let stalled = false;
