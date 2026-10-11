@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "phibpa",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผีป่า monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: Thai rice-field path, soft morning grasses. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "phibpa.png",
+  "sourceSha256": "1158c8463d2506c8b00dc37af203bec9f5cea98133fe7b999db0255f109a12d8",
+  "reference": "artifacts/card-model-references/phibpa.png",
+  "referenceSha256": "c055c796ba730ae8251724dcb501a631ced179c7baaba543818fe236d23cc881",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/phibpa.glb",
+      "sha256": "7737069f1cba7a15905789484c04f79999477e174aa70c89cd15766042adf7f8"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/phibpa.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 75988,
+    "sha256": "6164a85511b65783ba592512ed90216bdce2ff2ed1ee20aae4aab89e24a64dde"
+  },
+  "icon": {
+    "path": "public/ui/card-art/phibpa-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5742,
+    "sha256": "c398b778612652a26f48717622dc5db2a0da48e6c85f4886da8609888d4a63d1"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: approved watercolor/gouache and ink treatment",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Wood mask, pale turquoise eyes, leaf collar, two twig horns, two wood hands and three floating root prongs match the production reference; no added feet.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}

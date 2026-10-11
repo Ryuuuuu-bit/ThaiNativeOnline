@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "himmapan_3",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game พญาปักษาทมิฬ monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: Thai Himmapan forest, dreamy softly painted tropical foliage. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. \nKeep the background noticeably softer and simpler than the subject, with a clear light silhouette separation.",
+  "sourceFile": "exec-71b58eaf-a4fc-4a3f-979e-556c76ff181c.png",
+  "sourceSha256": "c62636f1d867dc63ae4330e706192796825edcb108c41c1f8c2938b4e7497b28",
+  "reference": "artifacts/card-model-references/himmapan_3.png",
+  "referenceSha256": "b4b7a3bc783558121dcf0815ee3312fcdec60420cdd36868a128b15a6c8d2b67",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/himmapan_3.glb",
+      "sha256": "fa14a242189c80d913d0442b9ce68cde244d0fd9c7419226937d0a226a11f79b"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/himmapan_3.glb",
+      "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/himmapan_3.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 73762,
+    "sha256": "9f113cc42eeb8d20dd1311d0bdc12cf26913fdf14abf69622113bb551bb5b0fa"
+  },
+  "icon": {
+    "path": "public/ui/card-art/himmapan_3-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5880,
+    "sha256": "b7f0a191771dfa5234285d061bf8d8010746288412c12c9f75b32386100b3854"
+  },
+  "review": null
+}

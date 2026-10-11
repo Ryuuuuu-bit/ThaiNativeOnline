@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "id": "crab",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ปูนา monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: Thai rice-field path, soft morning grasses. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "crab.png",
+  "sourceSha256": "1ead69cc0f0676715ca5a8b7f018a208047a075f6987dadd8bfaafbcf84f7037",
+  "reference": "artifacts/card-model-references/crab.png",
+  "referenceSha256": "b332a1ac1c09cfba990d65b4ad20b1071f5aadaf7f6303195b915a4e8891b207",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/crab.glb",
+      "sha256": "feffd3d663ef90ada186ceb5eaded5499c450ac6ff80494f16883c7dafc9834e"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/crab.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 68100,
+    "sha256": "80c2b3f37165ed4672ad763eb92f4fa4575bf81da3476de568b2f714dbe41e8d"
+  },
+  "icon": {
+    "path": "public/ui/card-art/crab-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5610,
+    "sha256": "cf45018253389e36bc4a6067b49e7cab38e9ff50bddafd4b3d528c847f9276d4"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: approved watercolor/gouache and ink treatment",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Olive broad carapace, two orange claws, stalk eyes and walking-leg arrangement match the production reference.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true,
+    "limitations": [
+      "Wide body occupies less of the portrait height; silhouette remains recognizable in the normalized icon."
+    ]
+  }
+}

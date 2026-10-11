@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "id": "croc",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game จระเข้บึง monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: Thai lotus marsh and waterway, reeds and gentle jade water. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "croc.png",
+  "sourceSha256": "675c6eea36cc375689eeff6512b7413fb008c4ec40cda4019e879fc328a749eb",
+  "reference": "artifacts/card-model-references/croc.png",
+  "referenceSha256": "be8060489081348fdfe7dd153fd95a884cfa5e8d3c224247acc003f0f3e9a434",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/croc.glb",
+      "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/croc.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 71510,
+    "sha256": "9c334f7d69dd88e201b3ab7e7814745038d5c29cfc873edb2024cd7295834273"
+  },
+  "icon": {
+    "path": "public/ui/card-art/croc-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5620,
+    "sha256": "7efd5ff7c6afa1e2b63e741050ee9b2105d1d43198a2f74c4b04a8ce31de0741"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: watercolor/gouache, ink and soft forms",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Low olive/gold crocodile with cream belly, broad muzzle, dorsal scutes, four-limbed body and one long tail; far rear limb occluded in three-quarter pose.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true,
+    "limitations": [
+      "Wide body occupies less of the portrait height; silhouette remains recognizable in the normalized icon."
+    ]
+  }
+}

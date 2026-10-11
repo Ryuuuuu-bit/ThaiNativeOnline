@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "fallen_city_3",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ขุนพลอาคม monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: ruined Thai city, weathered brick and muted blue-jade mist. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. \nKeep the background noticeably softer and simpler than the subject, with a clear light silhouette separation.",
+  "sourceFile": "exec-9549f57c-1394-4ab5-97f0-0e9a843b408d.png",
+  "sourceSha256": "e60950160e8c96647c56f2e8f49a116070013b61f2c283d234a87c03f596b6ab",
+  "reference": "artifacts/card-model-references/fallen_city_3.png",
+  "referenceSha256": "e459224737e5f401044cf1607294e063829130983039ab2577314afd9d292d5c",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/fallen_city_3.glb",
+      "sha256": "7080a45db16eefb9865944969bce7a9c06b570b344655e9bab00d67df290fc69"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/fallen_city_3.glb",
+      "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/fallen_city_3.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 69078,
+    "sha256": "cf83eae985af7c8d6d2b5741249b417d99a9da6366ffa2da67029e07103125f3"
+  },
+  "icon": {
+    "path": "public/ui/card-art/fallen_city_3-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5612,
+    "sha256": "5ca8091708050d99d45bc260be82f9760247046bff399fa38d03b4c3aa6334a8"
+  },
+  "review": null
+}

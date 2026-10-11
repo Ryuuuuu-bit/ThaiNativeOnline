@@ -12,7 +12,7 @@ import { passMovementKey } from './nonmodalKeys.js';
 const $ = id => document.getElementById(id);
 const GROUPS = [
   ['character', 'ตัวละคร', ['sheet', 'skills', 'bag', 'loadouts', 'titles']],
-  ['adventure', 'ผจญภัย', ['quests', 'map', 'bestiary', 'shops', 'teachers', 'travel', 'recall']],
+  ['adventure', 'ผจญภัย', ['quests', 'map', 'bestiary', 'cards', 'guide', 'shops', 'teachers', 'travel', 'recall']],
   ['social', 'สังคม', ['social', 'recruit', 'friends', 'rank']],
   ['settings', 'ระบบ', ['auto', 'photo', 'settings']],
 ];

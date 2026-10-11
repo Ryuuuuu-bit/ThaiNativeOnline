@@ -1,0 +1,61 @@
+[
+  {
+    "file": "model-card-pairs-1.jpg",
+    "cards": [
+      "fowl",
+      "boar",
+      "cobra",
+      "crab",
+      "monkey",
+      "phibpa",
+      "dhole",
+      "buffalo"
+    ],
+    "reference": "actual production GLB capture",
+    "layout": "MODEL / CARD / ICON"
+  },
+  {
+    "file": "model-card-pairs-2.jpg",
+    "cards": [
+      "kongkoi",
+      "pray",
+      "monitor",
+      "khamot",
+      "winyan",
+      "takian",
+      "pret",
+      "headless"
+    ],
+    "reference": "actual production GLB capture",
+    "layout": "MODEL / CARD / ICON"
+  },
+  {
+    "file": "model-card-pairs-3.jpg",
+    "cards": [
+      "krasue",
+      "krahang",
+      "phitaihong",
+      "soldier",
+      "pusom",
+      "croc",
+      "chalawan",
+      "bamboo_grave_3"
+    ],
+    "reference": "actual production GLB capture",
+    "layout": "MODEL / CARD / ICON"
+  },
+  {
+    "file": "model-card-pairs-4.jpg",
+    "cards": [
+      "sealed_mine_3",
+      "sunken_city_3",
+      "dusk_fort_3",
+      "giant_valley_3",
+      "himmapan_3",
+      "fallen_city_3",
+      "demon_rift_3"
+    ],
+    "reference": "actual production GLB capture",
+    "layout": "MODEL / CARD / ICON"
+  }
+]

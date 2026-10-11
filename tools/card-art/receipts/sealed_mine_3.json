@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "sealed_mine_3",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผู้พิทักษ์เหมือง monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: abandoned Thai enchanted mine, soft glowing mineral crystals and stone. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. \nKeep the background noticeably softer and simpler than the subject, with a clear light silhouette separation.",
+  "sourceFile": "exec-0eac0a45-5586-423a-a6af-68ad0a1f0032.png",
+  "sourceSha256": "42fe93b52826645ca4eafefcbffd08bbd289882833f8e127138c5b314572a2ed",
+  "reference": "artifacts/card-model-references/sealed_mine_3.png",
+  "referenceSha256": "f9ce636476bc68449293dbedcac7d5f7fa51b08b583dab0863fd9a35f8180718",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/sealed_mine_3.glb",
+      "sha256": "0d124a3f5a61d45073533245779566e62ae999a5c051c6c73a40ba5e11fb9195"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/sealed_mine_3.glb",
+      "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/sealed_mine_3.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 66164,
+    "sha256": "024cd0055b3f8c6e4d666cb52102425944a1ec3c68a52fb2fd92cb6cd13cfb75"
+  },
+  "icon": {
+    "path": "public/ui/card-art/sealed_mine_3-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5364,
+    "sha256": "f22f5d4904932391f45de0f93cce40c80d82964878db7e1a03123ababe7ea26f"
+  },
+  "review": null
+}

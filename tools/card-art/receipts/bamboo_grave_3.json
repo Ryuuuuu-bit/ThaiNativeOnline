@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "bamboo_grave_3",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game เจ้าป่าช้า monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: black bamboo graveyard, quiet mist and dim warm spirit lamps. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. \nKeep the background noticeably softer and simpler than the subject, with a clear light silhouette separation.",
+  "sourceFile": "exec-51d853c4-5f82-47ea-85e2-692ab3ecc425.png",
+  "sourceSha256": "932263e2f949fbd006d2f10a2e98a9d1ee1ca131fdf307d22e289e733f09cfc1",
+  "reference": "artifacts/card-model-references/bamboo_grave_3.png",
+  "referenceSha256": "724a6a89dfac389247d57ec0e664b2db3d72a87af40a4f4ccc0a7f638f17bbb7",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "motions",
+      "url": "/models/monsters/motions/bamboo_grave_3.glb",
+      "sha256": "4df1f8505cb38a5eb8e073b24b25738661a71219b7811763464aae7e25e46f0d"
+    },
+    {
+      "kind": "body",
+      "url": "/models/monsters/bamboo_grave_3.glb",
+      "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/bamboo_grave_3.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 63742,
+    "sha256": "5ef9f4f81f998771442a67d3c4c7ce949452a0678c26f581715e54bd7766b4df"
+  },
+  "icon": {
+    "path": "public/ui/card-art/bamboo_grave_3-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5286,
+    "sha256": "8576a95aaa94b99a416d18105a4b9ebaf2ec71fa52abb9fc8767c453b8933305"
+  },
+  "review": null
+}

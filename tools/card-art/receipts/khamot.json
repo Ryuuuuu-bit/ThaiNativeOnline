@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "id": "khamot",
+  "provider": "built-in-imagegen",
+  "prompt": "Use case: stylized-concept. Asset type: a DRAWN 2D ANIME monster-card illustration for a charming Thai fantasy MMORPG. Portrait 4:5. Art direction: original classic JRPG collectible-card watercolor and gouache illustration, confident visible ink outlines, clean cel-painted color blocks, simplified softly rounded shapes, expressive anime eyes, stylized proportions, restrained illustrative details. This must look like an anime drawing on paper, never a realistic 3D rendering, photograph, realistic skin, fabric threads or raytraced material. Single subject occupies 75 percent of canvas; whole main silhouette readable, head clearly visible, softer simplified painted habitat. Bright readable ambient lighting, jade and antique brass accents and warm parchment color harmony. Actual subject must be distinct and recognizable at 80 pixels. Correct anatomy, natural hands with five fingers if human, no extra limbs. NO text, letters, numbers, logo, watermark, UI or decorative card border. Artwork only; game adds text/border. Thai cultural motifs selective and charming. No macabre gore.\nInput image 1 role: IDENTITY reference captured from the ACTUAL in-game ผีโขมด monster model. Input image 2 role: STYLE reference only, the approved boar card's 2D watercolor/anime painting treatment; do NOT copy boar features, creature or setting from it. Draw the exact creature of IMAGE 1 in the style of IMAGE 2. Keep its species/body form, face shape, hairstyle, clothing and skin colors, existing armor and props, proportions, number of limbs, missing limbs, and any tail, horns or tusks. Do not redesign it, add weapons, crowns, masks, clothing, wings or human anatomy absent from the model, or substitute a different mythological creature. If the model is a simple floating spirit, preserve its floating shape. Use a natural relaxed ready stance with coherent joints while preserving the source anatomy. Preserve recognizable identity before embellishment. Name is identification only, not a new character-design instruction.\nHabitat: deep Thai tropical forest, softly painted foliage and tree roots. Background stays secondary and softly simplified; subject is dominant and clearly separated. No extra monsters or framing. ",
+  "sourceFile": "khamot.png",
+  "sourceSha256": "9155fea48a943a03fd6319d884b92d02a122b440faf7b3c21a8a66a3548a71e2",
+  "reference": "artifacts/card-model-references/khamot.png",
+  "referenceSha256": "637557d60857e555120bdb990014e68c957f3026626c1b3551fac2973da4f8ce",
+  "origin": "production-glb",
+  "modelSources": [
+    {
+      "kind": "body",
+      "url": "/models/monsters/khamot.glb",
+      "sha256": "7d532a91a1648e66fc21429f49c4dd90441cc191fe839631cdd3302f7bdbafce"
+    }
+  ],
+  "image": {
+    "path": "public/ui/card-art/khamot.webp",
+    "width": 384,
+    "height": 480,
+    "bytes": 71136,
+    "sha256": "9dcf6c9d9ddccc08d4e56f96b9def2211bf1ca7213528a9e322a965e384a4a4b"
+  },
+  "icon": {
+    "path": "public/ui/card-art/khamot-icon.webp",
+    "width": 96,
+    "height": 120,
+    "bytes": 5802,
+    "sha256": "d810917123e8e9065aeb4d4cd1bd6b70490e20aa41945a5ff861e6bc56b0ef5c"
+  },
+  "review": {
+    "identity": "pass: paired with captured production GLB reference",
+    "style": "pass: watercolor/gouache, ink and soft forms",
+    "anatomy": "pass: source body form, limb count and existing props retained",
+    "notes": "Ornate golden floating mask surrounded by cream/yellow/orange flame; no torso, hands or legs.",
+    "icon": "pass: inspected normalized 96x120 icon",
+    "pairedInspected": true
+  }
+}

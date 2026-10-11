@@ -1,0 +1,964 @@
+{
+  "schema": 1,
+  "capturedAt": "2026-10-09T18:03:55.603Z",
+  "builder": "makeMonsterFallback(MONSTERS[id]) + makeMonsterModel; direct uncached GLTF loads",
+  "scope": "Designed production GLB models only; user excludes procedural fallback creatures.",
+  "origins": {
+    "production-glb": 31
+  },
+  "capturedOrigins": {
+    "production-glb": 31,
+    "production-fallback": 34
+  },
+  "browser": {
+    "channel": "msedge",
+    "headless": true,
+    "instances": 1,
+    "pages": 1,
+    "closed": true
+  },
+  "errors": [],
+  "warnings": [
+    {
+      "kind": "error",
+      "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "kind": "warning",
+      "message": "THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead."
+    },
+    {
+      "kind": "warning",
+      "message": "THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported."
+    }
+  ],
+  "budgets": {
+    "portrait": 90000,
+    "icon": 9000
+  },
+  "totals": {
+    "count": 31,
+    "portraitBytes": 2203680,
+    "iconBytes": 174366
+  },
+  "entries": [
+    {
+      "id": "fowl",
+      "name": "ไก่ป่า",
+      "origin": "production-glb",
+      "fallbackShape": "bird",
+      "fallbackLook": null,
+      "worldScale": 0.5,
+      "modelSpec": {
+        "url": "/models/monsters/fowl.glb",
+        "height": 1.2
+      },
+      "image": {
+        "path": "artifacts/card-model-references/fowl.png",
+        "bytes": 231928,
+        "sha256": "edfb68099794108f881ddcaa0bc8d3414ec7b6f07f5d6e5bd150018405ae8247",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/fowl.glb",
+          "sha256": "435e56dc2fd46e4c7c182e437202b1f1013a5d1ab43716814a2e9c546c74b962"
+        }
+      ]
+    },
+    {
+      "id": "boar",
+      "name": "หมูป่า",
+      "origin": "production-glb",
+      "fallbackShape": "boar",
+      "fallbackLook": null,
+      "worldScale": 0.8,
+      "modelSpec": {
+        "url": "/models/monsters/boar.glb",
+        "height": 1.25
+      },
+      "image": {
+        "path": "artifacts/card-model-references/boar.png",
+        "bytes": 222615,
+        "sha256": "407d8d8f10b768f241c8134a21c882df1da9740813da39db553703981e226d5b",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/boar.glb",
+          "sha256": "cf77c100bbbcf5f23b14b611f8b165ce77bb2915a88928c1991918381126166d"
+        }
+      ]
+    },
+    {
+      "id": "cobra",
+      "name": "งูเห่านา",
+      "origin": "production-glb",
+      "fallbackShape": "snake",
+      "fallbackLook": null,
+      "worldScale": 0.7,
+      "modelSpec": {
+        "url": "/models/monsters/cobra.glb",
+        "height": 1.05
+      },
+      "image": {
+        "path": "artifacts/card-model-references/cobra.png",
+        "bytes": 114744,
+        "sha256": "cfc68426b9c4cca6cef6a77edc094b9428c8068e4b9abd4efa59f65107f33bcc",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/cobra.glb",
+          "sha256": "de3c9d1d66adaaf32ee0818b8cb0762ce15eac8afc81b4ab304e543665f53d5a"
+        }
+      ]
+    },
+    {
+      "id": "crab",
+      "name": "ปูนา",
+      "origin": "production-glb",
+      "fallbackShape": "crab",
+      "fallbackLook": null,
+      "worldScale": 0.6,
+      "modelSpec": {
+        "url": "/models/monsters/crab.glb",
+        "height": 0.65
+      },
+      "image": {
+        "path": "artifacts/card-model-references/crab.png",
+        "bytes": 92259,
+        "sha256": "b332a1ac1c09cfba990d65b4ad20b1071f5aadaf7f6303195b915a4e8891b207",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/crab.glb",
+          "sha256": "feffd3d663ef90ada186ceb5eaded5499c450ac6ff80494f16883c7dafc9834e"
+        }
+      ]
+    },
+    {
+      "id": "monkey",
+      "name": "ลิงกัง",
+      "origin": "production-glb",
+      "fallbackShape": "monkey",
+      "fallbackLook": null,
+      "worldScale": 0.6,
+      "modelSpec": {
+        "url": "/models/monsters/monkey.glb",
+        "height": 1.3
+      },
+      "image": {
+        "path": "artifacts/card-model-references/monkey.png",
+        "bytes": 196980,
+        "sha256": "02ea15f1c22680346c9d786dccffb9be796dbf43cf546271465e67fae9084cc8",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/monkey.glb",
+          "sha256": "e0f9f051768d3e33cde7438aa9d4ecc515e3c58ae473d720546eee1de0802ea2"
+        }
+      ]
+    },
+    {
+      "id": "phibpa",
+      "name": "ผีป่า",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": null,
+      "worldScale": 0.85,
+      "modelSpec": {
+        "url": "/models/monsters/phibpa.glb",
+        "height": 1.8,
+        "lift": 0.12
+      },
+      "image": {
+        "path": "artifacts/card-model-references/phibpa.png",
+        "bytes": 197164,
+        "sha256": "c055c796ba730ae8251724dcb501a631ced179c7baaba543818fe236d23cc881",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/phibpa.glb",
+          "sha256": "7737069f1cba7a15905789484c04f79999477e174aa70c89cd15766042adf7f8"
+        }
+      ]
+    },
+    {
+      "id": "dhole",
+      "name": "หมาไน",
+      "origin": "production-glb",
+      "fallbackShape": "dog",
+      "fallbackLook": null,
+      "worldScale": 0.65,
+      "modelSpec": {
+        "url": "/models/monsters/dhole.glb",
+        "height": 1.065
+      },
+      "image": {
+        "path": "artifacts/card-model-references/dhole.png",
+        "bytes": 181467,
+        "sha256": "643560d0a4c72510eac9717c60112fc537ebea5ad36717905cc14af79384de11",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/dhole.glb",
+          "sha256": "6b672bd3a26fc1d2d0b9e61e6e03ba5beb9d032e74fea811df1319b96b531152"
+        }
+      ]
+    },
+    {
+      "id": "buffalo",
+      "name": "ควายป่า",
+      "origin": "production-glb",
+      "fallbackShape": "buffalo",
+      "fallbackLook": null,
+      "worldScale": 1.3,
+      "modelSpec": {
+        "url": "/models/monsters/buffalo.glb",
+        "height": 1.6
+      },
+      "image": {
+        "path": "artifacts/card-model-references/buffalo.png",
+        "bytes": 132537,
+        "sha256": "22d41fe8f797289b53580ccece1145d6909d3c19840471965ae2afe8d5355b4b",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/buffalo.glb",
+          "sha256": "7d9edf0dfe5bf860ba167b7e3e1420965f14e6a9c2aa69495d857d0c2e371735"
+        }
+      ]
+    },
+    {
+      "id": "kongkoi",
+      "name": "ผีกองกอย",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "oneLeg": true
+      },
+      "worldScale": 0.85,
+      "modelSpec": {
+        "url": "/models/monsters/kongkoi.glb",
+        "height": 1.55
+      },
+      "image": {
+        "path": "artifacts/card-model-references/kongkoi.png",
+        "bytes": 177933,
+        "sha256": "ed515f1361a0df08d03c5053867e5bb7c3c1f7962c0e1b573fec107c152e0d55",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/kongkoi.glb",
+          "sha256": "b3e1f91631c4aa959ad433a20469cc46cb2ed35e286bdc277ecbccb615ef76be"
+        }
+      ]
+    },
+    {
+      "id": "pray",
+      "name": "ผีพราย",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": null,
+      "worldScale": 0.9,
+      "modelSpec": {
+        "url": "/models/monsters/pray.glb",
+        "height": 1.9,
+        "lift": 0.16
+      },
+      "image": {
+        "path": "artifacts/card-model-references/pray.png",
+        "bytes": 195001,
+        "sha256": "95c555180dcb6fcdad4dc5c568295a23b79909c1291294a7a4f8b9c77ef2f25e",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/pray.glb",
+          "sha256": "31f9145d0a28adc0ad4fd5b9aff7f7ec0cd2d56d2e7af70f118fba9e8211e3b2"
+        }
+      ]
+    },
+    {
+      "id": "monitor",
+      "name": "เหี้ย",
+      "origin": "production-glb",
+      "fallbackShape": "lizard",
+      "fallbackLook": null,
+      "worldScale": 0.9,
+      "modelSpec": {
+        "url": "/models/monsters/monitor.glb",
+        "height": 0.8
+      },
+      "image": {
+        "path": "artifacts/card-model-references/monitor.png",
+        "bytes": 87726,
+        "sha256": "8402e120bac5b7c7a3735e52e778443b5cddf07b380fe92ecb449bf7059d03c0",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/monitor.glb",
+          "sha256": "ffc781c94efd27e5e0a562e6f7aaaa655fc38f0303486aa683428d662c2757e5"
+        }
+      ]
+    },
+    {
+      "id": "khamot",
+      "name": "ผีโขมด",
+      "origin": "production-glb",
+      "fallbackShape": "orb",
+      "fallbackLook": null,
+      "worldScale": 0.8,
+      "modelSpec": {
+        "url": "/models/monsters/khamot.glb",
+        "height": 0.85,
+        "lift": 0.3,
+        "deathDim": 0.7
+      },
+      "image": {
+        "path": "artifacts/card-model-references/khamot.png",
+        "bytes": 189594,
+        "sha256": "637557d60857e555120bdb990014e68c957f3026626c1b3551fac2973da4f8ce",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/khamot.glb",
+          "sha256": "7d532a91a1648e66fc21429f49c4dd90441cc191fe839631cdd3302f7bdbafce"
+        }
+      ]
+    },
+    {
+      "id": "winyan",
+      "name": "วิญญาณเร่ร่อน",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": null,
+      "worldScale": 0.9,
+      "modelSpec": {
+        "url": "/models/monsters/winyan.glb",
+        "height": 1.85,
+        "lift": 0.14
+      },
+      "image": {
+        "path": "artifacts/card-model-references/winyan.png",
+        "bytes": 183470,
+        "sha256": "fa90311093342245ba77cb45c327db76574709257f0648907a46007fa0dbc25a",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/winyan.glb",
+          "sha256": "eb90752105525c639d052d22a33992786b008fb06ff98f99c886401dc9097433"
+        }
+      ]
+    },
+    {
+      "id": "takian",
+      "name": "นางตะเคียน",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "tall": true,
+        "hair": true
+      },
+      "worldScale": 1.3,
+      "modelSpec": {
+        "url": "/models/monsters/takian.glb",
+        "height": 2.5
+      },
+      "image": {
+        "path": "artifacts/card-model-references/takian.png",
+        "bytes": 174536,
+        "sha256": "e1c0ceef40357e9120ef5843779467320c39dd94ea4366263d4f2afe10878f0a",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/takian.glb",
+          "sha256": "208770e56e70395f34acc0d0cb1b14e58f3139735a0d151de6098bbe10243004"
+        }
+      ]
+    },
+    {
+      "id": "pret",
+      "name": "เปรตน้อย",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "tall": true
+      },
+      "worldScale": 1,
+      "modelSpec": {
+        "url": "/models/monsters/pret.glb",
+        "height": 2.65
+      },
+      "image": {
+        "path": "artifacts/card-model-references/pret.png",
+        "bytes": 131791,
+        "sha256": "03f437fa18233db9834aed0a5b36ac129cc60509302f4f423b5a91b8754db204",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/pret.glb",
+          "sha256": "87d7629b36b1a2d68b6e8677b9d509b2a72c1990d2ae4b53390636ede4f86827"
+        }
+      ]
+    },
+    {
+      "id": "headless",
+      "name": "ผีหัวขาด",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "headless": true
+      },
+      "worldScale": 1,
+      "modelSpec": {
+        "url": "/models/monsters/headless.glb",
+        "height": 1.9
+      },
+      "image": {
+        "path": "artifacts/card-model-references/headless.png",
+        "bytes": 166251,
+        "sha256": "07783c79c5ed329eaec006229a0e6e584859c64c1e844dad5b8c0caa6294fdfb",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/headless.glb",
+          "sha256": "a29cedcdfecb23ef60e4a141a7375beae36d27c952ed891b7fcba8c4dd0ce61f"
+        }
+      ]
+    },
+    {
+      "id": "krasue",
+      "name": "กระสือ",
+      "origin": "production-glb",
+      "fallbackShape": "krasue",
+      "fallbackLook": null,
+      "worldScale": 1,
+      "modelSpec": {
+        "url": "/models/monsters/krasue.glb",
+        "height": 1.55,
+        "lift": 0.45,
+        "deathDim": 0.7
+      },
+      "image": {
+        "path": "artifacts/card-model-references/krasue.png",
+        "bytes": 141166,
+        "sha256": "93c2b8a5a6762e37123208243c74c6f8e22a942269d7daf4682025713a731eb2",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/krasue.glb",
+          "sha256": "0da5f68891ac2f4f7f832e8c6c604252b6f771b1a7794d7e10540a89eeadcc08"
+        }
+      ]
+    },
+    {
+      "id": "krahang",
+      "name": "ผีกระหัง",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "wings": true
+      },
+      "worldScale": 1,
+      "modelSpec": {
+        "url": "/models/monsters/krahang.glb",
+        "height": 1.9,
+        "lift": 0.42
+      },
+      "image": {
+        "path": "artifacts/card-model-references/krahang.png",
+        "bytes": 194856,
+        "sha256": "fecfff4f561d1b774c988d990239a1f0e2c1e41288256978ed7f3d39769f8e1e",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/krahang.glb",
+          "sha256": "488d30a8d7241c241f567d12ecead1faa69e3ea31ac10b78a908fd0b5b85d7f7"
+        }
+      ]
+    },
+    {
+      "id": "phitaihong",
+      "name": "ผีตายโหง",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": null,
+      "worldScale": 1.05,
+      "modelSpec": {
+        "url": "/models/monsters/phitaihong.glb",
+        "height": 1.9
+      },
+      "image": {
+        "path": "artifacts/card-model-references/phitaihong.png",
+        "bytes": 158192,
+        "sha256": "6f1d9f690367e44a63f21f468ed2446d4454cfb7409debde3749a9dd48dbd536",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/phitaihong.glb",
+          "sha256": "5834620cefc2c27eb278617d455070a92e9c5d2a16a84706962cdf05c62017cd"
+        }
+      ]
+    },
+    {
+      "id": "soldier",
+      "name": "ทหารผีเฝ้าวัด",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "shield": true
+      },
+      "worldScale": 1.05,
+      "modelSpec": {
+        "url": "/models/monsters/soldier.glb",
+        "height": 1.95
+      },
+      "image": {
+        "path": "artifacts/card-model-references/soldier.png",
+        "bytes": 174013,
+        "sha256": "2e20e844df8b2a93095f19cfbdebf0b60b8b8444629a77c4565cb18e232cfcc5",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/soldier.glb",
+          "sha256": "f5870c75e2854b895128451728bd5e716cf1b37fe998a77b73648f170c78a95f"
+        }
+      ]
+    },
+    {
+      "id": "pusom",
+      "name": "ผีปู่โสม",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "elder": true
+      },
+      "worldScale": 1.6,
+      "modelSpec": {
+        "url": "/models/monsters/pusom.glb",
+        "height": 1.9
+      },
+      "image": {
+        "path": "artifacts/card-model-references/pusom.png",
+        "bytes": 203435,
+        "sha256": "5bb9fe294ebd3b78e26e77c80902f54be256878466a4b7af5023da5e9c10e145",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/pusom.glb",
+          "sha256": "02ac2f11849d70ef2bb84c08e3d25dc1b40d603c3b0d83407c1efc54fdc67f58"
+        }
+      ]
+    },
+    {
+      "id": "croc",
+      "name": "จระเข้บึง",
+      "origin": "production-glb",
+      "fallbackShape": "lizard",
+      "fallbackLook": null,
+      "worldScale": 1.3,
+      "modelSpec": {
+        "url": "/models/monsters/croc.glb",
+        "height": 0.4615384615384615
+      },
+      "image": {
+        "path": "artifacts/card-model-references/croc.png",
+        "bytes": 69386,
+        "sha256": "be8060489081348fdfe7dd153fd95a884cfa5e8d3c224247acc003f0f3e9a434",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/croc.glb",
+          "sha256": "8d62143762aba4fab3b718f9cde2cbee6f03f02726de5b0845c1252879df5f55"
+        }
+      ]
+    },
+    {
+      "id": "chalawan",
+      "name": "ชาละวัน",
+      "origin": "production-glb",
+      "fallbackShape": "lizard",
+      "fallbackLook": null,
+      "worldScale": 2.4,
+      "modelSpec": {
+        "url": "/models/monsters/chalawan.glb",
+        "height": 1.4,
+        "groundPivot": [
+          0,
+          0
+        ],
+        "fill": 0.35,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/chalawan.png",
+        "bytes": 134324,
+        "sha256": "1efce8488cda35a3858a4d526482ca147b6ce41ac7fd1a6a60757b1cc5e1a4c2",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/chalawan.glb",
+          "sha256": "4ce5729d87b1264991f566d5148a54b1e784013d5bd71734b9ff64582e9a238f"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/chalawan.glb",
+          "sha256": "1d44ccc84b13b8698390207ddf72bf474252d24ddbe704cbe308dec4ae3afc55"
+        }
+      ]
+    },
+    {
+      "id": "bamboo_grave_3",
+      "name": "เจ้าป่าช้า",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "elder": true
+      },
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/bamboo_grave_3.glb",
+        "height": 1.7,
+        "fill": 0.35,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/bamboo_grave_3.png",
+        "bytes": 170061,
+        "sha256": "724a6a89dfac389247d57ec0e664b2db3d72a87af40a4f4ccc0a7f638f17bbb7",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/bamboo_grave_3.glb",
+          "sha256": "4df1f8505cb38a5eb8e073b24b25738661a71219b7811763464aae7e25e46f0d"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/bamboo_grave_3.glb",
+          "sha256": "b068b44f7159ec28acc3d2a0b96b88539ddd2aed6e5b78db97dcb4e595161b79"
+        }
+      ]
+    },
+    {
+      "id": "sealed_mine_3",
+      "name": "ผู้พิทักษ์เหมือง",
+      "origin": "production-glb",
+      "fallbackShape": "buffalo",
+      "fallbackLook": {},
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/sealed_mine_3.glb",
+        "height": 1.9,
+        "fill": 0.35,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/sealed_mine_3.png",
+        "bytes": 211374,
+        "sha256": "f9ce636476bc68449293dbedcac7d5f7fa51b08b583dab0863fd9a35f8180718",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/sealed_mine_3.glb",
+          "sha256": "0d124a3f5a61d45073533245779566e62ae999a5c051c6c73a40ba5e11fb9195"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/sealed_mine_3.glb",
+          "sha256": "eac366b7efad407cd2201b36c49265ab852acd7fdccb1c2317df4deabfc532dd"
+        }
+      ]
+    },
+    {
+      "id": "sunken_city_3",
+      "name": "นาคราชเฝ้าประตู",
+      "origin": "production-glb",
+      "fallbackShape": "snake",
+      "fallbackLook": {},
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/sunken_city_3.glb",
+        "height": 1.6,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/sunken_city_3.png",
+        "bytes": 216921,
+        "sha256": "61914aa2346d0f512d13e306ad33196c35f9fcf79d954a5fbe300854c849f154",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "body",
+          "url": "/models/monsters/sunken_city_3.glb",
+          "sha256": "4fa20542ebb027ee11295de31a39892c332a4b1811e9460e2d628af84c965bea"
+        }
+      ]
+    },
+    {
+      "id": "dusk_fort_3",
+      "name": "เจ้าอสูรสนธยา",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "elder": true
+      },
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/dusk_fort_3.glb",
+        "height": 1.8,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/dusk_fort_3.png",
+        "bytes": 201997,
+        "sha256": "d661caa21b4b539d8e6839b13a0e989aa694f3da237bfbfd2aa255472bb8b2d7",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/dusk_fort_3.glb",
+          "sha256": "0f834062414177bdf28dc65cf56b498fa32e7e2ff4ac57c035c0db078046422e"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/dusk_fort_3.glb",
+          "sha256": "e570992477ed5a48f59382f333b6739f6b01dc0c1c82ddc29697b79b1ca9a36a"
+        }
+      ]
+    },
+    {
+      "id": "giant_valley_3",
+      "name": "ยักษ์เฝ้าหุบเขา",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "tall": true
+      },
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/giant_valley_3.glb",
+        "height": 2,
+        "groundPivot": [
+          -0.0015,
+          -0.137
+        ],
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/giant_valley_3.png",
+        "bytes": 205006,
+        "sha256": "3df36013389f91d796f9951535d0c5149d84eda3a040d7c993d0714bec35ef29",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/giant_valley_3.glb",
+          "sha256": "507c9950426aed0bae1e156d4bb7bdebd5e8fdd545424f9faf4c1dba122aedbd"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/giant_valley_3.glb",
+          "sha256": "bbbb0fc757216a69b1fcfff649e300010e8bf4b007c9f85b6338a7d81d546915"
+        }
+      ]
+    },
+    {
+      "id": "himmapan_3",
+      "name": "พญาปักษาทมิฬ",
+      "origin": "production-glb",
+      "fallbackShape": "bird",
+      "fallbackLook": {},
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/himmapan_3.glb",
+        "height": 1.9,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/himmapan_3.png",
+        "bytes": 231718,
+        "sha256": "b4b7a3bc783558121dcf0815ee3312fcdec60420cdd36868a128b15a6c8d2b67",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/himmapan_3.glb",
+          "sha256": "fa14a242189c80d913d0442b9ce68cde244d0fd9c7419226937d0a226a11f79b"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/himmapan_3.glb",
+          "sha256": "87187a592ed037f2e3a394db3f8fe7fc484d8b0388eb2dd273ccffd3d80ffd45"
+        }
+      ]
+    },
+    {
+      "id": "fallen_city_3",
+      "name": "ขุนพลอาคม",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "shield": true,
+        "tall": true
+      },
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/fallen_city_3.glb",
+        "height": 1.9,
+        "groundPivot": [
+          0.091,
+          -0.275
+        ],
+        "facing": -0.3258631537981599,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/fallen_city_3.png",
+        "bytes": 149649,
+        "sha256": "e459224737e5f401044cf1607294e063829130983039ab2577314afd9d292d5c",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/fallen_city_3.glb",
+          "sha256": "7080a45db16eefb9865944969bce7a9c06b570b344655e9bab00d67df290fc69"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/fallen_city_3.glb",
+          "sha256": "6fc4a6fad3cb82d4ebfd85ac0e71e99f22598b4fb8e49355c3f748e2fb3c8e0e"
+        }
+      ]
+    },
+    {
+      "id": "demon_rift_3",
+      "name": "เจ้าอสูรรอยแยก",
+      "origin": "production-glb",
+      "fallbackShape": "spirit",
+      "fallbackLook": {
+        "elder": true,
+        "tall": true
+      },
+      "worldScale": 2,
+      "modelSpec": {
+        "url": "/models/monsters/demon_rift_3.glb",
+        "height": 2.1,
+        "fill": 0.35,
+        "fogScale": 0.45,
+        "deathDim": 0.82
+      },
+      "image": {
+        "path": "artifacts/card-model-references/demon_rift_3.png",
+        "bytes": 204424,
+        "sha256": "d3c93de38f6f52d37d4fa0e467a0226b09840b38ca808dcac0d64a3f13fd25ba",
+        "width": 600,
+        "height": 750
+      },
+      "sources": [
+        {
+          "kind": "motions",
+          "url": "/models/monsters/motions/demon_rift_3.glb",
+          "sha256": "03fbbbe88d3c206466ce663db886765c66aa64f6b064eb38b7be73a95e88bfe5"
+        },
+        {
+          "kind": "body",
+          "url": "/models/monsters/demon_rift_3.glb",
+          "sha256": "5f622db6ac315aa0632e5ddc8f2a35a944daff830236fbc8872bb39a3316371a"
+        }
+      ]
+    }
+  ]
+}
