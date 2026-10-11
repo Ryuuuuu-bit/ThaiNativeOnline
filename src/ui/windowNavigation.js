@@ -1,5 +1,6 @@
 // Own Escape before text-input guards and gameplay listeners. Registration stays
 // lazy because character and network windows are mounted after the app binds.
+import { passMovementKey } from './nonmodalKeys.js';
 const focusable = root => [...root.querySelectorAll('button,input,select,textarea,a[href],summary,[tabindex]')]
   .filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
 const visible = root => root && !root.hidden && root.getClientRects().length;
@@ -38,7 +39,7 @@ export function bindWindowNavigation(entries, { fallback, onOpen = () => {} }) {
       if (open && !entry.wasOpen) {
         entry.order = ++serial;
         entry.opener = root.contains(opener) ? previousFocus : opener;
-        onOpen();
+        onOpen(entry);
       }
       if (!open && entry.wasOpen && (root?.contains(document.activeElement) || (document.activeElement === document.body && entry.hadFocus))) closed.push(entry);
       entry.wasOpen = open;
@@ -68,7 +69,8 @@ export function bindWindowNavigation(entries, { fallback, onOpen = () => {} }) {
   };
   const containKeys = e => {
     // Let controls handle editing / Enter first, then contain gameplay shortcuts.
-    if (entries.some(entry => visible(entry.root()) && entry.root().contains(e.target))) e.stopPropagation();
+    const containing = entries.filter(entry => visible(entry.root()) && entry.root().contains(e.target));
+    if (containing.length && !(containing.every(entry => entry.nonModal) && passMovementKey(e))) e.stopPropagation();
   };
   const rememberFocus = e => {
     refresh(previousFocus);

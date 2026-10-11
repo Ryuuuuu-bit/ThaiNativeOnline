@@ -2,8 +2,10 @@
 
 ## Player controls
 
-- **B / กลับเมือง** recalls to the city market. **I** opens the bag. Recall has a
-  30-second cooldown and is refused while dead, fighting, duelling or trading.
+- **B / เมนู → ผจญภัย → กลับเมือง** channels for five seconds before recalling
+  to the city market. The persistent floating recall button is removed. **I** opens
+  the bag. Recall has a 30-second cooldown after successful travel and is refused
+  while dead, fighting, duelling or trading.
 - A party member can enable **เดินตามหัวหน้า**. It routes through the existing
   path finder, stops about two metres behind the leader and stops on manual
   movement, a combat target, a cast, death, disconnection or a map/channel change.
@@ -13,6 +15,20 @@
 - Click a player's nameplate for **ท้าดวล** or **เลือกเป้าหมาย PK**. Attack the
   selected player using the opponent panel. The attack is manual; it does not
   chase distant players.
+
+## Recall channel
+
+Ordinary recall uses the server's monotonic five-second timer in RecallCasts
+(server/recall.js). Repeated requests retain the original start time. The server
+sends recall_cast with duration/remaining, recall_cancel with a reason, and the
+existing authoritative position/welcome packets only after successful completion.
+Client countdowns are presentation; they never trigger teleportation.
+
+Movement, combat actions or incoming attacks, death, duel/trade activity, room
+changes and disconnection cancel the channel. The server rechecks the existing
+recall restrictions at completion, after world damage is processed. Cancellation
+does not spend the cooldown. Party leader warps, steward travel and world-boss
+travel keep their existing timing.
 
 ## Authority and consent
 

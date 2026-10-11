@@ -1,6 +1,7 @@
 // Keyboard, mouse and touch input. Movement keys (and the touch joystick,
 // src/ui/TouchControls.js → setStick) are polled each frame; actions are
 // dispatched as named events.
+import { isTypingControl, isMovementKey } from '../ui/nonmodalKeys.js';
 const MOVE = { KeyW: 'up', ArrowUp: 'up', KeyS: 'down', ArrowDown: 'down', KeyA: 'left', ArrowLeft: 'left', KeyD: 'right', ArrowRight: 'right' };
 export const ACTIONS = { Home: 'resetCamera', KeyH: 'photo', KeyF: 'interact', KeyM: 'map', Escape: 'escape', F3: 'debug' };
 // + / − zoom the camera (held keys repeat).
@@ -13,8 +14,8 @@ export class InputManager {
     window.addEventListener('keydown', e => {
       // Escape closes panels even while a settings control has focus.
       if (e.code === 'Escape' && !e.repeat) return this.emit('escape');
-      if (this.blocked?.()) return;
-      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+      if (isTypingControl(e.target)) return;
+      if ((isMovementKey(e.code) ? (this.movementBlocked ?? this.blocked)?.() : (this.actionsBlocked ?? this.blocked)?.())) return;
       if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move'); }
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.shift = true;
       if (ZOOM_KEYS[e.code]) { e.preventDefault(); this.emit('zoomStep', ZOOM_KEYS[e.code]); }
@@ -25,6 +26,7 @@ export class InputManager {
       if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.shift = false;
     });
     window.addEventListener('blur', () => { this.keys.clear(); this.cancelCameraDrag(); this.shift = false; });
+    document.addEventListener('focusin', e => { if (isTypingControl(e.target)) { this.keys.clear(); this.shift = false; } });
     document.addEventListener('visibilitychange', () => { this.keys.clear(); this.cancelCameraDrag(); this.shift = false; });
     host.addEventListener('contextmenu', e => e.preventDefault());
     // Two-finger pinch zooms on touch screens: 'zoomBy' gets the distance ratio since the last move.
@@ -64,10 +66,10 @@ export class InputManager {
     if (this.host.hasPointerCapture(id)) this.host.releasePointerCapture(id);
   }
   // Running: Shift held, or the joystick pushed to its rim.
-  get running() { return this.shift || this.stick.run; }
+  get running() { return this.shift || (!this.stickBlocked?.() && this.stick.run); }
   // The touch joystick: x right, y down (screen), each -1..1; a push from rest counts as a move key.
   setStick(x, y, run = false) {
-    if (this.blocked?.()) { this.stick = { x: 0, y: 0, run: false }; return; }
+    if ((this.stickBlocked ?? this.blocked)?.()) { this.stick = { x: 0, y: 0, run: false }; return; }
     const was = this.stick.x || this.stick.y;
     Object.assign(this.stick, { x, y, run: run && !!(x || y) });
     if (!was && (x || y)) this.emit('move');
@@ -80,7 +82,7 @@ export class InputManager {
     if (this.keys.has('down')) out.sub(forward);
     if (this.keys.has('right')) out.add(right);
     if (this.keys.has('left')) out.sub(right);
-    if (this.stick.x || this.stick.y) out.addScaledVector(right, this.stick.x).addScaledVector(forward, -this.stick.y);
+    if (!this.stickBlocked?.() && (this.stick.x || this.stick.y)) out.addScaledVector(right, this.stick.x).addScaledVector(forward, -this.stick.y);
     return out.lengthSq() ? out.normalize() : out;
   }
 }

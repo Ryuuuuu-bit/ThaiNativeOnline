@@ -57,7 +57,7 @@ export function createClassAvatar(classId, opts) {
 }
 
 export class TrainingGround {
-  constructor({ scene, camera, renderer, root, player, canStand, groundHeight, character, combat, hud }, avatar, kit) {
+  constructor({ scene, camera, renderer, root, player, canStand, groundHeight, character, combat, hud, actionsBlocked }, avatar, kit) {
     this.kit = kit; this.kitId = avatar.skills; this.combat = combat;
     const q = new URLSearchParams(location.search), num = (k, d) => (q.has(k) && Number.isFinite(Number(q.get(k))) ? Number(q.get(k)) : d);
     const f = TRAINING.fighter;
@@ -72,7 +72,7 @@ export class TrainingGround {
     this.player = player; this.canStand = canStand; this.groundHeight = groundHeight; this.inGround = false;
     this.scene = scene; this.camera = camera; this.renderer = renderer; this.selected = null;
     // a tap / click on a dummy locks onto it (before the ground click walks there)
-    renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 0 && this.pickAt(e.clientX, e.clientY, e.pointerType === 'touch')) e.stopPropagation(); });
+    renderer.domElement.addEventListener('pointerdown', e => { if (e.button === 0 && !actionsBlocked?.() && this.pickAt(e.clientX, e.clientY, e.pointerType === 'touch')) e.stopPropagation(); });
 
     // The Player still walks and turns the avatar; this drives its skills.
     this.character = wearModel(player, scene, avatar);

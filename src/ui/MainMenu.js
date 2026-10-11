@@ -7,11 +7,12 @@
 //   menu.setAlert(on)                 gold dot when there are stat points to spend
 //   bindSettingsTabs(panel)           the tab strip inside the settings window
 import './menu-groups.css';
+import { passMovementKey } from './nonmodalKeys.js';
 
 const $ = id => document.getElementById(id);
 const GROUPS = [
   ['character', 'ตัวละคร', ['sheet', 'skills', 'bag', 'loadouts', 'titles']],
-  ['adventure', 'ผจญภัย', ['quests', 'map', 'bestiary', 'shops', 'teachers', 'travel']],
+  ['adventure', 'ผจญภัย', ['quests', 'map', 'bestiary', 'shops', 'teachers', 'travel', 'recall']],
   ['social', 'สังคม', ['social', 'recruit', 'friends', 'rank']],
   ['settings', 'ระบบ', ['auto', 'photo', 'settings']],
 ];
@@ -33,6 +34,7 @@ export class MainMenu {
     }
     this.btn.addEventListener('click', () => this.toggle());
     const containKeys = e => {
+      if (passMovementKey(e)) return;
       if (e.code === 'Escape') { this.toggle(false); this.btn.focus(); }
       e.stopPropagation();
     };

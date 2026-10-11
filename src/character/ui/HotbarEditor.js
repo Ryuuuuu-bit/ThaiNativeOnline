@@ -1,6 +1,7 @@
 import { ITEMS } from '../data/items.js';
 import { iconHtml, assetIcon } from '../../ui/icons.js';
 import { el, esc } from './dom.js';
+import { passMovementKey } from '../../ui/nonmodalKeys.js';
 
 export const HOTBAR_DRAG = 'application/x-thainative-hotbar';
 export function dragBinding(event, binding) {
@@ -14,13 +15,13 @@ export class HotbarEditor {
     this.root = el('section', 'hotbar-editor ro-window panel'); this.root.hidden = true;
     this.root.setAttribute('role', 'dialog'); this.root.setAttribute('aria-label', 'จัดช่องลัด');
     host.append(this.root);
-    this.root.addEventListener('keydown', e => { e.stopPropagation(); if (e.code === 'Escape') this.close(); });
+    this.root.addEventListener('keydown', e => { if (passMovementKey(e)) return; e.stopPropagation(); if (e.code === 'Escape') this.close(); });
     this.root.addEventListener('click', e => {
       const button = e.target.closest('button'); if (!button) return;
       if (button.dataset.close !== undefined) return this.close();
       if (button.dataset.slot !== undefined) { this.slot = +button.dataset.slot; this.render(); return; }
-      if (button.dataset.kind) { this.bar.character.setHotbarBinding(this.slot, {kind:button.dataset.kind,id:button.dataset.id}); this.close(); }
-      if (button.dataset.clear !== undefined) { this.bar.character.setHotbarBinding(this.slot, null); this.close(); }
+      if (button.dataset.kind) { this.bar.character.setHotbarBinding(this.slot, {kind:button.dataset.kind,id:button.dataset.id}); this.pending = null; this.render(); }
+      if (button.dataset.clear !== undefined) { this.bar.character.setHotbarBinding(this.slot, null); this.pending = null; this.render(); }
     });
     window.addEventListener('hotbar-assign', e => { this.pending = e.detail; this.open(0); });
   }
@@ -28,6 +29,7 @@ export class HotbarEditor {
   close() { this.root.hidden = true; this.pending = null; this.returnFocus?.focus?.(); }
   render() {
     const c = this.bar.character; if (!c) return;
+    const active = document.activeElement, focus = this.root.contains(active) ? { ...active.dataset } : null;
     this.root.innerHTML = `<header>จัดช่องลัด <button type="button" data-close aria-label="ปิด">×</button></header><p>เลือกช่องแล้วเลือกสกิลหรือไอเทม · ลากจากกระเป๋าหรือหน้าวิชามาใส่ได้</p><div class="hotbar-editor-keys">${c.hotbarBindings.map((b,i)=>`<button type="button" data-slot="${i}" aria-pressed="${i===this.slot}">${(i+1)%10}</button>`).join('')}</div><div class="hotbar-editor-options"></div><button type="button" data-clear>เว้นช่อง ${(this.slot+1)%10} ว่าง</button>`;
     const choices = this.pending ? [this.pending] : [
       ...this.bar.baseController.slots.filter((s,i)=>this.bar.baseController.level?.(i)!==0).map(s=>({kind:'skill',id:s.id})),
@@ -37,6 +39,11 @@ export class HotbarEditor {
       const s = b.kind === 'skill' ? this.bar.baseController.slots.find(s=>s.id===b.id) : ITEMS[b.id]; if (!s) continue;
       const button = el('button', '', `${b.kind==='item' ? iconHtml(s) : s.icon ? assetIcon(s.icon, s.name) : '✦'}<span>${esc(s.name)}<small>${b.kind==='item' ? `ไอเทม · ${c.count(b.id)} ชิ้น` : 'สกิล'}</small></span>`);
       button.type='button'; button.dataset.kind=b.kind; button.dataset.id=b.id; this.root.querySelector('.hotbar-editor-options').append(button);
+    }
+    if (focus) {
+      const buttons = [...this.root.querySelectorAll('button')];
+      const match = buttons.find(button => Object.entries(focus).every(([key,value]) => button.dataset[key] === value));
+      (match ?? buttons.find(button => button.dataset.slot !== undefined && +button.dataset.slot === this.slot))?.focus();
     }
   }
 }
