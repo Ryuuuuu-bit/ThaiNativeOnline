@@ -35,7 +35,7 @@ const bonusLabel = (k, v) => {
   const [kind, what] = k.split('_');
   if (kind === 'vs') return `ตี${RACE_LABELS[what] ?? what} +${Math.round(v * 100)}%`;
   if (kind === 'res') return `รับดาเมจจาก${RACE_LABELS[what] ?? `ธาตุ${ELEMENT_LABELS[what] ?? what}`} −${Math.round(v * 100)}%`;
-  return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} +${PERCENT_BONUS.has(k) ? `${+(v * 100).toFixed(2)}%` : v}`;
+  return `${STAT_LABELS[k] ? k.toUpperCase() : BONUS_LABELS[k] ?? k} ${v < 0 ? '−' : '+'}${PERCENT_BONUS.has(k) ? `${+(Math.abs(v) * 100).toFixed(2)}%` : Math.abs(v)}`;
 };
 export const bonusText = b => (b ? Object.entries(b).map(([k, v]) => bonusLabel(k, v)).join(' · ') : '');
 const cardAbilityText = d => d?.special ? `${d.special.name} · ${d.special.description}` : '';
@@ -58,15 +58,15 @@ const RARITY_TH = { common: 'ธรรมดา', rare: 'หายาก', epic:
 function itemCard({ id, cards = [], plus = 0, locked = false, roll = null, flask = null }, cmp) {
   const d = ITEMS[id];
   const item = { id, cards, plus, roll }, color = instanceColor(item);
-  const bonus = d.bonus ? Object.entries(d.bonus).map(([k, v]) => `<i>${esc(bonusLabel(k, v))}</i>`).join('') : '';
+  const bonus = d.bonus ? `<b class="iw-bonus-heading">ค่าพื้นฐาน</b>${Object.entries(d.bonus).map(([k, v]) => `<i>${esc(bonusLabel(k, v))}</i>`).join('')}` : '';
   const refine = plus ? `<i class="iw-refine-bonus">${esc(`ตีบวก +${plus}: ${bonusText(refineBonus(d, plus))}`)}</i>` : '';
   const wield = d.weapon ? `${WEAPON_KIND_TH[d.weapon] ?? d.weapon} · ${Object.keys(WEAPON_KINDS).filter(c => WEAPON_KINDS[c].includes(d.weapon)).map(c => CLASSES[c]?.name).join(', ')}` : '';
   const slots = cardsLine(id, cards).trim();
   const tag = [d.type === 'card' ? `การ์ด${SLOT_LABELS[d.slot]}` : d.slot && SLOT_LABELS[d.slot], RARITY_TH[d.rarity], d.minLevel ? `ต้องการ Lv.${d.minLevel}` : '', `น้ำหนัก ${d.weight || 0}`].filter(Boolean).join(' · ');
   const rolled = affixLines(id, roll).map(a => `<i class="iw-affix" title="${esc(`ช่วงค่าสุ่ม ${a.min}–${a.max}`)}">${esc(`${a.kind === 'prefix' ? 'นำหน้า' : 'ต่อท้าย'} · ${a.label} T${a.tier}: ${bonusLabel(a.key, a.value)}`)}</i>`).join('');
-  const note = cmp > 0 ? '<b class="up">▲ ดีกว่าที่ใส่อยู่</b>' : cmp < 0 ? '<b class="down">▼ แย่กว่าที่ใส่อยู่</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
+  const note = cmp > 0 ? '<b class="up">▲ คะแนนประมาณสูงขึ้น</b>' : cmp < 0 ? '<b class="down">▼ คะแนนประมาณลดลง</b>' : `ขายได้ ${Math.max(1, Math.floor(d.price / 2))} ตำลึง`;
   const act = d.type === 'equip' ? 'อุปกรณ์สวมใส่' : d.type === 'use' ? 'ไอเท็มใช้ได้' : d.type === 'card' ? 'ใส่การ์ดด้วยปุ่มด้านล่าง (ติดถาวร)' : 'ขายได้ที่ร้านค้า';
-  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${flask && d.flask ? `<small>ขั้น ${d.flask.tier} · ฟื้น ${d.flask.kind.toUpperCase()} ${d.flask.recovery} · ประจุ ${flask.charges}/${d.flask.maxCharges} · ใช้ ${d.flask.cost} ต่อครั้ง</small>` : ''}${rolled ? `<span class="g-detail-bonus iw-affix-list">${rolled}</span>` : ''}${cardAbilityText(d) ? `<small>${esc(cardAbilityText(d))}</small>` : ''}${slots ? `<small>${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
+  return `<span class="g-detail-icon" style="--rar:${color}">${iconHtml(d)}</span><div><b class="iw-item-name" style="--rar:${color}">${esc(itemName(id, plus, roll))}</b><small>${esc(tag)}${locked ? ' · 🔒 ล็อกแล้ว' : ''}</small>${instanceQuality(item) ? `<small class="iw-roll-quality">${esc(instanceQuality(item))}</small>` : ''}${wield ? `<small>${esc(wield)}</small>` : ''}<span class="g-detail-bonus">${bonus + refine || esc(d.desc || '')}</span>${flask && d.flask ? `<small>ขั้น ${d.flask.tier} · ฟื้น ${d.flask.kind.toUpperCase()} ${d.flask.recovery} · ประจุ ${flask.charges}/${d.flask.maxCharges} · ใช้ ${d.flask.cost} ต่อครั้ง</small>` : ''}${rolled ? `<span class="g-detail-bonus iw-affix-list"><b class="iw-bonus-heading">ออฟสุ่ม</b>${rolled}</span>` : ''}${cardAbilityText(d) ? `<small>${esc(cardAbilityText(d))}</small>` : ''}${slots ? `<small class="iw-card-bonuses">${esc(slots)}</small>` : ''}<small>${act} · ${note}</small></div>`;
 }
 
 export class CharacterUI {
@@ -290,6 +290,7 @@ export class CharacterUI {
     bar.classList.toggle('heavy', heavy);
     if (this.wasHeavy !== undefined && heavy !== this.wasHeavy) this.feed.log(heavy ? 'สัมภาระหนัก HP/MP จะไม่ฟื้นเอง' : 'สัมภาระเบาลงแล้ว', heavy ? 'bad' : '');
     this.wasHeavy = heavy;
+    this.workspace?.refreshComparison();
   }
   // Rebuilt only when something it shows changed: 'change' fires for every HP tick in a fight, and
   // a sheet rebuilt between pointerdown and click eats the click on a + button.
