@@ -1,5 +1,13 @@
 # Realtime UI hooks
 
+- `Multiplayer` applies authenticated private `welcome`/`gmAccess` to the transient
+  `data/titleAccess.js` capability, clearing it on disconnect. `SocialPanes` uses
+  `availableTitles` for GM selection/counts; achievement toasts continue reading
+  only earned `c.titles`. `NetProgress` accepts live selected titles only when
+  `canWearTitle` permits them and never derives entitlement from a sync payload.
+  The server refreshes live role authority for each selection and broadcasts
+  removal of an unearned title on logout/revocation; GM-only selections are not saved.
+
 - `Multiplayer` handles private `welcome`/`gmAccess` metadata from the server.
   Only `admin: true` plus the server command catalog enables `ChatBox.setGmCatalog`.
   Disconnect, logout, revoked rights or a nonadmin welcome remove the help UI and

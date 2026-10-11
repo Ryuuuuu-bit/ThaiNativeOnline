@@ -79,6 +79,7 @@ import { commitTrade } from './trade-service.js';
 import { gm, GM_PREFIX, GM_COMMANDS } from './gm.js';
 import { openAdminRoles } from './adminRoles.js';
 import { authenticatedAdmin } from './gm-authority.js';
+import { setGmTitleAccess } from '../src/data/titleAccess.js';
 import { FRIENDS_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
 import { ALLY_FOCUS } from '../src/training/kitCombat.js';
@@ -147,7 +148,8 @@ async function api(req, res, url) {
     if (req.method === 'POST' && url.pathname === '/api/logout') { await accounts.logout(token);
       for (const [ws, p] of presence.players) if (gmTokens.get(ws) === token) {
         gmTokens.delete(ws); p.admin = false; const state = combatants.get(p.id); if (state) state.god = false;
-        send(ws, { t: 'gmAccess', admin: false });
+        refreshGmTitles(ws, p, false);
+        send(ws, { t: 'gmAccess', ...gmMetadata(p) });
         send(ws, { t: 'identity', accountUid: null, characterUid: null });
       }
       return json(res, 200, { ok: true }); }
@@ -344,10 +346,13 @@ async function handle(ws, raw) {
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': case 'pvp_mode': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
       case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
-      case 'ttl': {   // wear a title: a signed-in character only one it has earned (src/data/titles.js)
+      case 'ttl': {   // earned titles, or all catalog titles for a freshly authenticated GM
         const p = presence.players.get(ws), s = p && combatants.get(p.id); if (!p) return;
+        const token = gmTokens.get(ws), epoch = gmRoleEpoch.get(p.account) ?? 0;
+        const allowed = await authorizeGm(p);
+        if (ws.readyState !== 1 || presence.players.get(ws) !== p || combatants.get(p.id) !== s || gmTokens.get(ws) !== token || (gmRoleEpoch.get(p.account) ?? 0) !== epoch) return;
         const id = typeof m.id === 'string' ? m.id : null;
-        if (s?.persist) { if (!s.c.setTitle(id)) return send(ws, { t: 'titles', titles: s.c.titles, title: s.c.title, rec: s.c.rec, got: [] }); s.dirty = true; }
+        if (s?.persist) { if ((!allowed && id !== null && !s.c.titles.includes(id)) || !s.c.setTitle(id)) return send(ws, { t: 'titles', titles: s.c.titles, title: s.c.title, rec: s.c.rec, got: [] }); s.dirty = true; }
         const r = presence.setTitle(ws, id, !!s?.persist); if (r) toMap(p.room, { t: 'ttl', ...r }, ws);
         break;
       }
@@ -838,15 +843,28 @@ async function sendWelcome(ws, message) {
 }
 function gmMetadata(p) {
   const allowed = !!p?.admin && combatants.get(p.id)?.persist?.account === p.account;
-  return allowed ? { admin: true, gmCommands: GM_COMMANDS } : { admin: false };
+  const state = combatants.get(p?.id);
+  const worn = state?.persist ? { title: state.c.title } : {};
+  return allowed ? { admin: true, gmCommands: GM_COMMANDS, ...worn } : { admin: false, ...worn };
+}
+function refreshGmTitles(ws, p, allowed) {
+  const s = combatants.get(p.id); if (!s?.persist) return;
+  const worn = s.c.title;
+  setGmTitleAccess(s.c, allowed);
+  if (worn !== s.c.title) {
+    s.dirty = true;
+    const r = presence.setTitle(ws, s.c.title, true); if (r) toMap(p.room, { t: 'ttl', ...r }, ws);
+  }
 }
 async function authorizeGm(p) {
   const live = p && byId(p.id);
   if (!live || live.p !== p) return false;
   const token = gmTokens.get(live.ws), epoch = gmRoleEpoch.get(p.account) ?? 0;
-  const current = () => presence.players.get(live.ws) === p && gmTokens.get(live.ws) === token && (gmRoleEpoch.get(p.account) ?? 0) === epoch;
+  const state = combatants.get(p.id);
+  const current = () => presence.players.get(live.ws) === p && combatants.get(p.id) === state && gmTokens.get(live.ws) === token && (gmRoleEpoch.get(p.account) ?? 0) === epoch;
   const allowed = await authenticatedAdmin({ auth: t => accounts.auth(t), effective: id => adminRoles.effective(id), token, account: p.account, persistAccount: combatants.get(p.id)?.persist?.account, stillCurrent: current });
   if (!current()) return false;
+  refreshGmTitles(live.ws, p, allowed);
   if (p.admin !== allowed) {
     p.admin = allowed;
     if (!allowed) { const state = combatants.get(p.id); if (state) state.god = false; }

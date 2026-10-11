@@ -20,6 +20,7 @@ import { JOBS } from '../rules/data/classes.js';
 import { Emitter } from './Emitter.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { TITLE_BY_ID, BOSS_TITLES, checkTitles } from '../data/titles.js';
+import { canWearTitle } from '../data/titleAccess.js';
 import { cloneInstance, isItemLocked, lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, hotbarOrder, gearReference, loadoutIndex, loadoutName, planLoadout } from './itemState.js';
 import { cleanMasteries, masteryBonus } from './data/masteries.js';
 import { expandInventory } from './inventoryCapacity.js';
@@ -236,7 +237,7 @@ export class Character extends Emitter {
   note(key, n = 1) { if (REC_KEYS.includes(key)) this.rec[key] += count(n); }
   // newly earned titles → their ids (emits 'titles' when the list or the worn one changed)
   checkTitles() { const before = this.titles.length, worn = this.title, got = checkTitles(this); if (got.length || before !== this.titles.length || worn !== this.title) this.emit('titles', got); return got; }
-  setTitle(id) { if (id !== null && !this.titles.includes(id)) return false; this.title = id; this.emit('titles', []); return true; }
+  setTitle(id) { if (!canWearTitle(this, id)) return false; this.title = id; this.emit('titles', []); return true; }
   // share cut from the basic-attack interval: AGI/DEX (≤30%) plus buffs, all together ≤45%
   get attackSpeed() { return Math.min(ASPD_BUFF_MAX, this.derived.aspd + this.buffSum('aspd')); }
   get cooldownCut() { return Math.min(CDR_MAX, this.derived.castRed + this.equipBonus('cdr')); }   // share cut from skill cooldowns
@@ -784,7 +785,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.title, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

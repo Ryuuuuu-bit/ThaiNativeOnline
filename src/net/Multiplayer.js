@@ -13,6 +13,7 @@ import { ITEMS } from '../character/data/items.js';
 import { readSession, writeSession } from '../account/session.js';
 import { setIdentity } from '../account/identity.js';
 import { WorldBossBanner } from '../ui/WorldBossBanner.js';
+import { setGmTitleAccess, canWearTitle } from '../data/titleAccess.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
 // on this map and talk to everyone. The player's own position goes out ~10× a second
@@ -38,7 +39,11 @@ export function startMultiplayer(game) {
   const bossBanner = new WorldBossBanner({ onJoin: () => net.send({ t: 'wbjoin' }), canJoin: () => net.online && game.maps?.map?.id !== 'ruen_ho' });
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
-  const gmAccess = m => { chat.setGmCatalog(m.admin === true ? m.gmCommands : null); game.setDev?.(LOCAL_DEV || m.admin === true); };
+  const gmAccess = m => {
+    setGmTitleAccess(c, m.admin === true);
+    if ('title' in m && canWearTitle(c, m.title)) c.setTitle(m.title);
+    chat.setGmCatalog(m.admin === true ? m.gmCommands : null); game.setDev?.(LOCAL_DEV || m.admin === true);
+  };
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
   net.on('welcome', m => { setIdentity(m); if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
     .on('gmAccess', gmAccess)

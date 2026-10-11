@@ -6,6 +6,7 @@ import { CLASSES } from '../character/data/classes.js';
 import { classBadge } from '../ui/icons.js';
 import { titleHtml } from '../ui/titleTag.js';
 import { TITLES, TITLE_BY_ID, TITLE_CATS } from '../data/titles.js';
+import { availableTitles, hasGmTitleAccess } from '../data/titleAccess.js';
 import { FRIENDS_MAX } from '../character/Character.js';
 import { MAX_LEVEL } from '../character/data/progression.js';
 
@@ -104,9 +105,9 @@ export function friendsPane(st) {
 // ---- ฉายา ----------------------------------------------------------------------------
 // st: { c (Character), cat, sel }
 const own = t => !t.dynamic;
-export const titleCount = c => ({ got: TITLES.filter(t => own(t) && c.titles.includes(t.id)).length, all: TITLES.filter(own).length });
+export const titleCount = c => hasGmTitleAccess(c) ? { got: TITLES.length, all: TITLES.length } : ({ got: TITLES.filter(t => own(t) && c.titles.includes(t.id)).length, all: TITLES.filter(own).length });
 export function titlesPane(st) {
-  const c = st.c, rec = c.rec ?? {}, held = id => c.titles.includes(id);
+  const c = st.c, rec = c.rec ?? {}, available = new Set(availableTitles(c)), held = id => available.has(id);
   const cats = TITLE_CATS.filter(([k]) => k !== 'rank' || TITLES.some(t => t.cat === 'rank' && held(t.id)));
   const inCat = k => TITLES.filter(t => t.cat === k && (k !== 'rank' || held(t.id)));
   const { got, all } = titleCount(c);
@@ -131,6 +132,7 @@ export function titlesPane(st) {
       <span class="pv-por">${classBadge(c.classId, CLASSES[c.classId], { size: 110 })}</span>
       <p class="pv-chat">${t ? titleHtml(t.id, { brackets: true }) : ''} <b>${esc(c.name)}:</b> ไปป่าลึกกันไหม</p>
       <p class="sw-note">ฉายาแสดงเหนือชื่อตัวละครและในแชท ทุกคนเห็น · ไม่เพิ่มค่าพลัง</p>
+      ${hasGmTitleAccess(c) ? '<p class="sw-note">GM · ใช้ฉายาได้ทั้งหมดระหว่างมีสิทธิ์ ไม่เพิ่มสถิติหรืออันดับ</p>' : ''}
       <span class="sw-fill"></span>${action}
       ${c.title ? '<button class="sw-btn dark wide" data-twear="">ไม่แสดงฉายา</button>' : ''}</aside></div>`;
 }

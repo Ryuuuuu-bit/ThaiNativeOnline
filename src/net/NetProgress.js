@@ -17,6 +17,7 @@ import { flaskFields, instanceId, cleanFlask } from '../character/data/flasks.js
 import { lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, gearReference } from '../character/itemState.js';
 import { rollFields, cleanRoll } from '../character/data/affixes.js';
 import { cleanMasteries } from '../character/data/masteries.js';
+import { canWearTitle } from '../data/titleAccess.js';
 export function attachNetProgress(net, c, quests = null, { authenticated = false } = {}) {
   let on = false, sent = 0, depth = 0, resyncPending = false;
   let pendingLoadout = null;
@@ -156,7 +157,7 @@ export function attachNetProgress(net, c, quests = null, { authenticated = false
   };
   // the server's titles and records (src/data/titles.js): `got` = just earned (the social window toasts them)
   const takeTitles = ({ titles, title, rec, got = [] }) => {
-    c.titles = [...titles]; c.title = title ?? null; c.rec = { ...rec, boss: { ...rec?.boss } };
+    c.titles = [...titles]; c.title = canWearTitle(c, title ?? null) ? title ?? null : null; c.rec = { ...rec, boss: { ...rec?.boss } };
     c.emit('titles', got);
   };
   net.on('titles', m => { if (on) { takeTitles(m); c.save?.(); } });

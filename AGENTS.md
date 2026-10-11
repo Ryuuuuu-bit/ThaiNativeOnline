@@ -43,6 +43,11 @@ Do not work directly on main. Use task branches and PRs.
 - `src/combat/statusEffects.js` supplies bounded live status math and per-source status identity to combat, server monster AI and `src/net/NetCombat.js`; Character applies party utility buffs through `addBuff`, with no save-format change.
 - `src/world/water-surfaces.js` supplies shared rendered water topology; `src/world/water-navigation.js` supplies the client World and server navigation predicate. The 0.22m wading limit applies only inside the exact static water triangles. Map bounds, solid collision, bridge decks and deep-water masks retain their precedence; shader ripples do not change navigation.
 - GM authority flows from authenticated Accounts sessions and server-managed roles into the private `/gm` dispatcher. Server role changes commit before online privilege/catalog updates; client chat visibility is presentation only. Bootstrap `ADMIN_IDS`/`GM_ID` grants remain protected. See `docs/technical/SERVER_GM.md` for commands, storage and revocation behavior.
+- GM title display: `data/titleAccess.js` supplies a transient WeakSet capability
+  granted only by live server authorization/private metadata. Character and Social
+  selection use it without changing earned achievements; storage excludes unearned
+  worn selections while Combatants.me includes the live choice. Logout/revocation
+  clears that choice and broadcasts it. See Character/Net README hooks and SERVER_GM.md.
 - Account and Character UIDs are immutable server-owned metadata stored outside character save JSON. Own-account API/session metadata supplies display/copy UI; GM role targets may resolve Account UID to the existing account key without changing authentication or exposing email. Deleting and recreating a character produces a new Character UID.
 
 - Equipment loot: offline Combat and authoritative MonsterWorld share `src/combat/lootDrops.js`; persistent roll metadata flows through Character instances, server progress/trade/stash and NetProgress. The combat README documents the hook; client actions reference owned `iid` values.
