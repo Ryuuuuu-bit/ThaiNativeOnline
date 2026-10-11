@@ -16,7 +16,8 @@ test('HTTP/WS: PK mode acknowledgement, OFF victim, combat lock, travel/rejoin r
     MemoryStore.prototype.createAccount=async function(...args){
       const ok=await create.apply(this,args);
       if(ok){const c=Character.create(args[0],'warrior');c.level=args[0]==='pklow'?KARMA.freeLevel-1:KARMA.freeLevel;c.hp=c.maxHp;
-        this.slots.set(args[0],new Map([[0,{data:{'tno.character.v1':JSON.stringify(c)},updated:1}]]));await this.init();}
+        const map=args[0]==='pkcity'?'city':'paddy', x={pkfirst:0,pksecond:1,pklow:2,pkcity:0}[args[0]]??0;
+        this.slots.set(args[0],new Map([[0,{data:{'tno.character.v1':JSON.stringify(c),'tno.location.v1':JSON.stringify({map,x,z:map==='city'?52:-130,facing:Math.PI})},updated:1}]]));await this.init();}
       return ok;
     };await import('./server/index.js');`;
   const child=spawn(process.execPath,['--input-type=module','-e',bootstrap],{cwd:new URL('../',import.meta.url),env:{...process.env,PORT:String(port),DATABASE_URL:'',GM_ID:'',GM_PASSWORD:''},stdio:['ignore','pipe','pipe']});

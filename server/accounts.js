@@ -215,6 +215,21 @@ export class Accounts {
     });
   }
   async quests(id, slot) { return (await this.store.listSlots(id)).find(x => x.slot === slot)?.data?.[QUESTS_KEY] ?? '{}'; }
+  async joinState(id, slot) {
+    const row = (await this.store.listSlots(id)).find(x => x.slot === slot);
+    if (!row) return null;
+    const key = Object.keys(row.data).find(k => CHARACTER_KEY.test(k));
+    let character;
+    try { character = key ? JSON.parse(row.data[key]) : null; } catch { return null; }
+    if (!character) return null;
+    const locationKey = Object.hasOwn(row.data, 'tno.location.v1') ? 'tno.location.v1' : Object.keys(row.data).find(k => LOCATION_KEY.test(k));
+    let location = null;
+    try { location = JSON.parse(row.data[locationKey] ?? 'null'); } catch { /* use safe spawn */ }
+    this.inventoryRevisions.set(`${id}:${slot}`, row.inventoryRevision ?? 0);
+    this.characterUids.set(`${id}:${slot}`, row.characterUid);
+    return { character, location, quests: row.data[QUESTS_KEY] ?? '{}', needsRename: !!row.needsRename,
+      characterUid: row.characterUid, inventoryRevision: row.inventoryRevision ?? 0 };
+  }
   async remove(id, slot) { if (!this.validSlot(slot)) return fail('bad_slot', 'ช่องตัวละครไม่ถูกต้อง'); await this.writes.run(`${id}:${slot}`, () => this.store.deleteSlot(id, slot)); this.inventoryRevisions.delete(`${id}:${slot}`); this.characterUids.delete(`${id}:${slot}`); return { ok: true }; }
   async character(id, slot) {
     const s = (await this.store.listSlots(id)).find(x => x.slot === slot); if (!s) return null;

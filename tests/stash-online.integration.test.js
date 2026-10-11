@@ -51,7 +51,10 @@ test('real HTTP/WS account vault: shared counters, atomic transfers, retries, co
   };
   async function account(name, slots = [0]) {
     const a = await api('/api/register', null, 'POST', { id: name.toLowerCase(), password: 'fixture-secret' });
-    for (const slot of slots) await api(`/api/slots/${slot}`, a.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name: slot ? 'VaultB' : name, classId: 'warrior', gender: 'male' }) } });
+    for (const slot of slots) {
+      const counter = counters[slot];
+      await api(`/api/slots/${slot}`, a.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name: slot ? 'VaultB' : name, classId: 'warrior', gender: 'male' }), 'tno.location.v1': JSON.stringify({ map: counter.map, x: counter.x, z: counter.z, facing: Math.PI }) } });
+    }
     return a;
   }
   const counters = WARP_SERVICES.filter(s => s.map === 'city'), npc = counters[0].npcId;

@@ -70,6 +70,7 @@ import { rejectRateLimitedStatOp } from './statOps.js';
 import { Channels, CHANNEL, roomOf, parseRoom } from './channels.js';
 import { openStore } from './store.js';
 import { Accounts, SAVE_LIMIT } from './accounts.js';
+import { LoginQueue, loginPosition, waitForLoginSave } from './login-state.js';
 import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
 import { Parties, PARTY } from './parties.js';
@@ -163,7 +164,7 @@ async function api(req, res, url) {
       const slot = Number(rename[1]);
       const body = await readBody(req);
       if (stopping) return json(res, 503, {ok:false,code:'shutdown'});
-      if (combatants.live(id,slot) || accounts.writes.queues.has(`${id}:${slot}`)) return json(res,409,{ok:false,code:'in_play',msg:'กรุณาออกจากเกมก่อนเปลี่ยนชื่อ'});
+      if (combatants.live(id,slot) || accounts.writes.queues.has(`${id}:${slot}`) || loginQueue.pending.has(`${id}:${slot}`)) return json(res,409,{ok:false,code:'in_play',msg:'กรุณาออกจากเกมก่อนเปลี่ยนชื่อ'});
       const r = await accounts.rename(id,slot,body.name);
       return json(res,r.ok ? 200 : r.code === 'name_taken' ? 409 : 400,r);
     }
@@ -187,7 +188,7 @@ async function api(req, res, url) {
         Object.hasOwn(body, 'characterUid') ? { characterUid: body.characterUid } : live ? { characterUid: live.persist.characterUid } : {});
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
     }
-    if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
+    if (m && req.method === 'DELETE') { if (combatants.live(id, Number(m[1])) || accounts.writes.queues.has(`${id}:${Number(m[1])}`) || loginQueue.pending.has(`${id}:${Number(m[1])}`)) return json(res, 409, {ok:false,code:'in_play'}); const r = await accounts.remove(id, Number(m[1])); return json(res, r.ok ? 200 : 400, r); }
     return json(res, 404, { ok: false, code: 'not_found' });
   } catch (e) {
     console.warn('api', url.pathname, e.message);
@@ -229,6 +230,7 @@ const presence = new Presence({ navigation });
 const wss = new WebSocketServer({ server, path: '/ws', maxPayload: SAVE_LIMIT });
 const recallCasts = new RecallCasts();
 const conns = new Map();   // ws → { allow() }
+const loginQueue = new LoginQueue();
 const send = (ws, msg) => { if (ws.readyState === 1) ws.send(JSON.stringify(msg)); };
 const toMap = (room, msg, except = null) => { const s = JSON.stringify(msg); for (const [ws] of conns) if (ws !== except && presence.players.get(ws)?.room === room && ws.readyState === 1) ws.send(s); };
 const channels = new Channels();
@@ -289,50 +291,64 @@ async function handle(ws, raw) {
     if (partyBoard.handle(ws, m)) return;
     switch (m.t) {
       case 'hello': {
-        // a signed-in player is shown as the character the server has saved (name, class, level)
-        const id = await accounts.auth(m.token).catch(() => null);
-        if (id && Number.isInteger(m.slot)) {
-          try { await accounts.writes.wait(`${id}:${m.slot}`, 10000); }
-          catch { send(ws, {t:'kicked',why:'กำลังเซฟตัวละคร กรุณาลองเชื่อมต่อใหม่'}); ws.close(); return; }
-        }
-        if (stopping || ws.readyState !== 1) return;
-        if (id && (await accounts.slots(id)).find(s => s.slot === m.slot)?.needsRename) {
-          send(ws,{t:'kicked',code:'rename_required',why:'ชื่อตัวละครซ้ำ กรุณาเลือกชื่อใหม่ฟรีที่หน้าเลือกตัวละคร'}); ws.close(); return;
-        }
-        const saved = id && Number.isInteger(m.slot) ? await accounts.character(id, m.slot).catch(() => null) : null;
-        if (stopping || ws.readyState !== 1) return;
-        if (saved) Object.assign(m, { name: saved.name, cls: saved.classId, gender: saved.gender, lv: saved.level });
-        const r = presence.join(ws, m, pickCh(m.map), {guest:!saved});
-        if (!r) return;
-        if (r.full) { send(ws, { t: 'full' }); ws.close(); return; }
-        if (id) Object.assign(presence.players.get(ws), { account: id, admin: false });
-        if (saved) {
-          // one tab per character: an older socket on the same slot is closed (its copy is saved first)
-          // one tab per character: the older socket on the same slot is dropped from play at once
-          // (so no op of its reaches the character any more), then saved and closed
-          const kick = async () => {
-            const old = combatants.live(id, m.slot); if (!old) return;
-            for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) { combatants.drop(op.id); old.dirty=true; flushEntry(old, op); send(ows, { t: 'kicked' }); ows.close(); await accounts.writes.wait(`${id}:${m.slot}`, 10000); }
-          };
-          await kick();
-          const fresh = await accounts.character(id, m.slot).catch(() => null);
-          const characterUid = accounts.characterUid(id, m.slot), inventoryRevision = accounts.inventoryRevision(id, m.slot);
-          if (!fresh || !characterUid) { send(ws, { t: 'kicked', why: 'โหลดตัวละครไม่ได้ กรุณาเชื่อมต่อใหม่' }); ws.close(); return; }
-          const quests = await accounts.quests(id, m.slot).catch(() => '{}');
-          await kick();   // a twin that signed in during the reads
-          if (stopping || !presence.players.has(ws)) return;   // we were the one kicked meanwhile
-          combatants.load(r.you, fresh, { account: id, slot: m.slot, characterUid, inventoryRevision }, quests);
-          presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
-          gmTokens.set(ws, m.token);
-          await authorizeGm(presence.players.get(ws));
-          send(ws, { t: 'sync', c: combatants.me(r.you) });
-        }
-        sendWelcome(ws, { t: 'welcome', you: r.you, name:r.joined.name, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
-        toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
-        correct(ws); pvpState(r.you);
-        // saved inside a night-only map (เรือนหอร้าง) and back by day: out through its door
-        if (MAP_DATA[r.map]?.nightOnly && clock.phase !== 'night') { send(ws, { t: 'wbnews', state: 'closed' }); leaveNightMap(ws, presence.players.get(ws)); }
-        if (saved) friendNews(presence.players.get(ws), true);
+        if (conn.joining || presence.players.has(ws)) return;
+        conn.joining = true;
+        try {
+          const id = await accounts.auth(m.token).catch(() => null);
+          const key = id && Number.isInteger(m.slot) ? `${id}:${m.slot}` : ws;
+          await loginQueue.run(key, async () => {
+            if (stopping || ws.readyState !== 1) return;
+            let state = null;
+            if (id && Number.isInteger(m.slot)) {
+              try {
+                await accounts.writes.wait(key, 10000);
+                state = await accounts.joinState(id, m.slot);
+                if (state && !state.needsRename) {
+                  // Reserve the login separately from the save FIFO. The previous
+                  // session's last position/inventory must commit before this read.
+                  const old = combatants.live(id, m.slot);
+                  if (old) for (const [ows, op] of presence.players) if (combatants.get(op.id) === old) {
+                    combatants.drop(op.id); old.dirty = true;
+                    const saving = flushEntry(old, { ...op });
+                    send(ows, { t: 'kicked' }); ows.close();
+                    await waitForLoginSave(saving);
+                    await accounts.writes.wait(key, 10000);
+                    if (old.dirty) throw new Error('Previous session save was not committed');
+                  }
+                  state = await accounts.joinState(id, m.slot);
+                  if (!state?.characterUid) { send(ws, { t: 'kicked', why: 'โหลดตัวละครไม่ได้ กรุณาเชื่อมต่อใหม่' }); ws.close(); return; }
+                }
+              } catch {
+                send(ws, { t: 'kicked', why: 'กำลังเซฟตัวละคร กรุณาลองเชื่อมต่อใหม่' }); ws.close(); return;
+              }
+            }
+            if (stopping || ws.readyState !== 1) return;
+            if (state?.needsRename) {
+              send(ws, { t: 'kicked', code: 'rename_required', why: 'ชื่อตัวละครซ้ำ กรุณาเลือกชื่อใหม่ฟรีที่หน้าเลือกตัวละคร' }); ws.close(); return;
+            }
+            const saved = state?.character;
+            const hello = saved ? { ...m, name: saved.name, cls: saved.classId, gender: saved.gender, lv: saved.level,
+              ...loginPosition(state.location, navigation) } : m;
+            const r = presence.join(ws, hello, pickCh(hello.map), { guest: !saved });
+            if (!r) return;
+            if (r.full) { send(ws, { t: 'full' }); ws.close(); return; }
+            if (id) Object.assign(presence.players.get(ws), { account: id, admin: false });
+            if (saved) {
+              combatants.load(r.you, saved, { account: id, slot: m.slot, characterUid: state.characterUid, inventoryRevision: state.inventoryRevision }, state.quests);
+              presence.setTitle(ws, combatants.get(r.you).c.title, true); r.joined.title = presence.players.get(ws).title;
+              gmTokens.set(ws, m.token);
+              await authorizeGm(presence.players.get(ws));
+              if (stopping || !presence.players.has(ws) || ws.readyState !== 1) return;
+              send(ws, { t: 'sync', c: combatants.me(r.you) });
+            }
+            sendWelcome(ws, { t: 'welcome', you: r.you, name:r.joined.name, roster: r.roster, online: presence.count, ch: r.ch, chs: chs(r.map) }); arrive(ws, r.room);
+            toMap(r.room, { t: 'join', p: r.joined }, ws); toAll({ t: 'online', n: presence.count });
+            correct(ws); pvpState(r.you);
+            // Night-only saved maps still use the normal closed-map eviction.
+            if (MAP_DATA[r.map]?.nightOnly && clock.phase !== 'night') { send(ws, { t: 'wbnews', state: 'closed' }); leaveNightMap(ws, presence.players.get(ws)); }
+            if (saved) friendNews(presence.players.get(ws), true);
+          });
+        } finally { conn.joining = false; }
         break;
       }
       case 's': {   // a move: whoever walks off stops resting
@@ -458,7 +474,7 @@ async function handle(ws, raw) {
       case 'op': {
         const p = presence.players.get(ws); if (!p || !combatants.get(p.id)?.persist) return;
         const view = pvp.view(p.id);
-        const ok = combatants.op(p.id, m, { map: p.map, x: p.x, z: p.z, loadoutBusy: !!trades.of(p.id) || !!view?.duel || view?.wait > 0 });
+        const ok = combatants.op(p.id, m, { map: p.map, x: p.x, z: p.z, phase: clock.phase, loadoutBusy: !!trades.of(p.id) || !!view?.duel || view?.wait > 0 });
         // taking cards out and ตีบวก are rolled here: the result, then the character as it is now
         if (m.op === 'strip') { send(ws, { t: 'stripped', ...combatants.get(p.id).stripped }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }
         else if (m.op === 'refine') { send(ws, { t: 'refined', ...combatants.get(p.id).refined }); send(ws, { t: 'sync', c: combatants.me(p.id) }); }

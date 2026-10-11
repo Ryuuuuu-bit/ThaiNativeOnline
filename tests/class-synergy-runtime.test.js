@@ -109,8 +109,8 @@ test('eight configured setup skills retain real status effects on both evolution
 test('authoritative warrior thrust opens armor for hunter snipe, including prepared damage bonus',()=>{
  const {w,m}=world();m.maxHp=m.hp=100000;
  let now=100;const cs=new Combatants({now:()=>now,random:()=>.5});cs.load(1,realSheet('warrior','sword_thrust'),{account:'qa',slot:0});cs.load(2,realSheet('hunter','arch_snipe'),{account:'qa2',slot:0});
- assert.equal(cs.cast(1,'sword_thrust').ok,true);const setup=cs.blow(1,w,[p1,p2],{id:m.id,skill:'sword_thrust'},'day');assert.ok(setup.some(e=>e.t==='md'&&e.d.armorBreak===.3));
+ assert.equal(cs.cast(1,'sword_thrust').ok,true);now+=cs.get(1).casts.at(-1).schedule[0];const setup=cs.blow(1,w,[p1,p2],{id:m.id,skill:'sword_thrust'},'day');assert.ok(setup.some(e=>e.t==='md'&&e.d.armorBreak===.3));
  cs.casting(2,'arch_snipe');now+=2;assert.equal(cs.cast(2,'arch_snipe').ok,true);const stats=cs.stats(cs.get(2).c),lv=cs.get(2).c.skillLevel('arch_snipe'),def=effectiveDefense(m);
  const unprepared=rollBlow(stats,def,'arch_snipe',lv,()=>.5);const expected=Math.round(unprepared.dmg*1.2);
- const result=cs.blow(2,w,[p1,p2],{id:m.id,skill:'arch_snipe'},'day');assert.equal(result.find(e=>e.t==='mh').amount,expected);
+ now+=cs.get(2).casts.at(-1).schedule[0];const result=cs.blow(2,w,[p1,p2],{id:m.id,skill:'arch_snipe'},'day');assert.equal(result.find(e=>e.t==='mh').amount,expected);
 });

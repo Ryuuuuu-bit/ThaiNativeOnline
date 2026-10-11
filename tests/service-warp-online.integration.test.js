@@ -37,9 +37,9 @@ test('real HTTP/WS steward travel: fixed destinations, guest/state gates, shared
     const response = await fetch(`http://127.0.0.1:${port}${path}`, { method, headers: { 'content-type': 'application/json', ...(token ? { authorization: `Bearer ${token}` } : {}) }, ...(body ? { body: JSON.stringify(body) } : {}) });
     assert.ok(response.ok, `${method} ${path}: ${response.status}`); return response.json();
   };
-  async function account(name) {
+  async function account(name, place = here(city)) {
     const auth = await api('/api/register', null, 'POST', { id: name.toLowerCase(), password: 'fixture-secret' }); assert.ok(auth.ok);
-    assert.ok((await api('/api/slots/0', auth.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name, classId: 'muaythai', gender: 'male' }) } })).ok);
+    assert.ok((await api('/api/slots/0', auth.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name, classId: 'muaythai', gender: 'male' }), 'tno.location.v1': JSON.stringify({ ...place, facing: Math.PI }) } })).ok);
     return auth;
   }
   async function connect(name, place, auth = null) {
@@ -68,7 +68,7 @@ test('real HTTP/WS steward travel: fixed destinations, guest/state gates, shared
   const anotherCity = WARP_DESTINATIONS.find(d => d.map === 'city' && d.id !== cityDestination.id);
   const auth = await account('WarpTraveller'), a = await connect('WarpTraveller', here(city), auth);
   const cityWitness = await connect('CityWitness', here(city));
-  const bAuth = await account('WarpPartner'), b = await connect('WarpPartner', here(field), bAuth);
+  const bAuth = await account('WarpPartner', here(field)), b = await connect('WarpPartner', here(field), bAuth);
   const no = async (p, msg, why) => { p.send(msg); assert.equal((await p.wait(m => m.t === 'service_warp_no')).why, why); };
   const unjoined = await connect('Unjoined'); await no(unjoined, request(city, cityDestination), 'offline');
   await no(a, request(city, cityDestination, { npc: '__proto__' }), 'npc');

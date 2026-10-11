@@ -1,6 +1,6 @@
 import { HALLS } from '../src/data/halls.js';
 import { CLASS_MASTERS } from '../src/data/quests.js';
-import { nearNpc, SHOP_RANGE } from '../src/data/shopSites.js';
+import { nearNpc, npcOutdoors, SHOP_RANGE } from '../src/data/shopSites.js';
 import { cleanMasteries, masteryForQuest } from '../src/character/data/masteries.js';
 import { SKILLS } from '../src/combat/data/skills.js';
 
@@ -17,9 +17,9 @@ export function nearQuestNpc(npcId, here) {
   if (typeof npcId !== 'string' || !here || !Number.isFinite(here.x) || !Number.isFinite(here.z)) return false;
   if (Object.hasOwn(CLASS_MASTER_SITES, npcId)) {
     const s = CLASS_MASTER_SITES[npcId];
-    return here.map === s.map && Math.hypot(here.x - s.x, here.z - s.z) <= SHOP_RANGE;
+    return npcOutdoors(npcId, here.phase) && here.map === s.map && Math.hypot(here.x - s.x, here.z - s.z) <= SHOP_RANGE;
   }
-  return nearNpc(npcId, here.map, here.x, here.z);
+  return nearNpc(npcId, here.map, here.x, here.z, here.phase);
 }
 
 // Invoke from Combatants.op before generic applyOp. null means another system

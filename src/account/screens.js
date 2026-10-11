@@ -90,8 +90,8 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
     const overlay = el('section', 'acc-screen acc-character-select');
     // One 3D stage above the slots shows the character under the pointer / focus.
     const stage = el('div', 'acc-stage', '<span class="acc-stage-name"></span>');
-    let preview = null;
-    const leave = value => { preview?.dispose(); overlay.remove(); resolve(value); };
+    let preview = null, deleting = false, closed = false;
+    const leave = value => { closed = true; preview?.dispose(); overlay.remove(); resolve(value); };
     const render = () => {
       const slots = store.slots(session.id);
       overlay.innerHTML = `
@@ -103,6 +103,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
           <p class="acc-select-intro">นครที่ถูกลืมเลือนรอการกลับมาของเจ้า</p>
           <div class="acc-stage-slot"></div>
           <div class="acc-slots">${slots.map(slotCard).join('')}</div>
+          <p class="acc-error" role="alert" aria-live="polite"></p>
           <button type="button" class="acc-logout">${session.guest ? 'กลับไปหน้าเข้าสู่ระบบ' : 'ออกจากระบบ'}</button>
         </div>`;
       const filled = slots.filter(s => s.character);
@@ -124,15 +125,37 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
         });
       } else if (preview) { preview.dispose(); preview = null; }   // the last character gone: no preview keeps rendering off-screen
       overlay.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => {
+        if (deleting || closed) return;
         const s = slots[Number(b.dataset.play)]; leave({ slot: s.slot, prefix: s.prefix, fresh: !s.character });
       }));
-      overlay.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', e => {
+      overlay.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', async e => {
         e.stopPropagation();
+        if (deleting || closed) return;
         const s = slots[Number(b.dataset.delete)];
         if (!confirm(`ลบ "${s.character.name}" ถาวร? ความคืบหน้า เควส และของในกระเป๋าจะหายทั้งหมด`)) return;
-        store.deleteSlot(session.id, s.slot); render();
+        deleting = true;
+        overlay.setAttribute('aria-busy', 'true');
+        overlay.querySelectorAll('button').forEach(button => { button.disabled = true; });
+        b.textContent = 'กำลังลบ…';
+        const error = overlay.querySelector('.acc-error'); error.textContent = '';
+        try {
+          const r = await store.deleteSlot(session.id, s.slot);
+          if (closed) return;
+          // Local AccountStore deletion is synchronous and returns undefined.
+          if (r?.ok === false) error.textContent = r.msg ?? 'ลบตัวละครไม่สำเร็จ กรุณาลองใหม่';
+          else render();
+        } catch { if (!closed) error.textContent = 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่'; }
+        finally {
+          deleting = false;
+          if (!closed) {
+            overlay.removeAttribute('aria-busy');
+            overlay.querySelectorAll('button').forEach(button => { button.disabled = false; });
+            if (b.isConnected) { b.textContent = 'ลบ'; b.focus(); }
+            if (error.isConnected && error.textContent) error.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+          }
+        }
       }));
-      overlay.querySelector('.acc-logout').addEventListener('click', () => { onLogout?.(); leave(null); });
+      overlay.querySelector('.acc-logout').addEventListener('click', () => { if (deleting || closed) return; onLogout?.(); leave(null); });
     };
     render();
     root.append(overlay);

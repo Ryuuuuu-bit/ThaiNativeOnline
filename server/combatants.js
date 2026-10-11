@@ -58,6 +58,7 @@ import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 import { SHAMAN_SKILLS } from '../src/classes/shaman-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
 import { createTether, advanceTether } from '../src/training/tether.js';
+import { hitDue, consumeHit } from './skill-hit-timing.js';
 
 export const KITS = { muaythai: MUAYTHAI_SKILLS, warrior: WARRIOR_SKILLS, hunter: HUNTER_SKILLS, shaman: SHAMAN_SKILLS, herbalist: HERBALIST_SKILLS };
 export const SKILL_LV = 1;          // the level of a skill a character has no level for (legacy callers)
@@ -69,6 +70,7 @@ const CD_SLACK = .85, CD_LAG = .3;  // a cooldown may come back 15% + 0.3 s earl
 const PET_EVERY = 1.3, PET_FRENZY = .55, POUNCE_EVERY = 2;   // s: the dog's bite, its bite in a frenzy (ไอ้ด่าง ลุย!), and the least between pounces
 const MP_SLACK = .25;               // a cast may dip this share of its cost below 0 MP (the browser's regen ticks on its own clock)
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
+const clearCasts = s => { s.casts = []; s.casting?.clear(); };
 
 // A character sheet from the browser, made safe enough to roll with: a known class, a level
 // in range, no more stat points than the level gives, real items only.
@@ -109,7 +111,7 @@ export class Combatants {
   }
   fall(id) {
     const s = this.list.get(id); if (!s || s.tradeBusy) return;
-    s.c.fall(); if (s.persist) s.dirty = true;
+    s.c.fall(); clearCasts(s); if (s.persist) s.dirty = true;
     for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
   }
 
@@ -128,7 +130,7 @@ export class Combatants {
     this.list.set(id, state);
     return true;
   }
-  entry(c) { const t = this.now(); return { c, hitSeq: 0, killSeq: 0, bossCardProcs: bossCardProcStateFor(c), cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
+  entry(c) { const t = this.now(); return { c, castGeneration: 0, hitSeq: 0, killSeq: 0, bossCardProcs: bossCardProcStateFor(c), cds: new Map(), casts: [], casting: new Map(), basic: { at: t, credit: 2 }, pet: { at: t, credit: 2, pounceAt: -Infinity }, fightAt: -Infinity }; }
   // Observe actual world damage without changing reward generation or routing.
   // The same boundary catches later DoT deaths. Only original owner reward
   // objects qualify: cloned/forged packets and damage to an already-dead mob do not.
@@ -161,7 +163,7 @@ export class Combatants {
     const s = this.list.get(id); if (!s?.persist || s.tradeBusy) return false;
     s.ack++;
     // shops: next to an NPC of that shop (src/data/shopSites.js), and not in the middle of a fight
-    const atShop = shop => nearShop(shop, at.map, at.x, at.z) && this.now() - s.fightAt >= RULES.combatTimeout;
+    const atShop = shop => nearShop(shop, at.map, at.x, at.z, at.phase) && this.now() - s.fightAt >= RULES.combatTimeout;
     if (msg.op === 'buy' && !atShop(msg.shop)) return false;
     if (msg.op === 'flask_refill') {
       if (!s.c.alive || at.map !== 'city' || !atShop('herbalist')) return false;
@@ -189,7 +191,7 @@ export class Combatants {
       return s.refined.ok;
     }
     // selling is done at a shop counter too; the fallen handle no items and no stats
-    if (['sell', 'sell_batch'].includes(msg.op) && !nearAnyShop(at.map, at.x, at.z)) return false;
+    if (['sell', 'sell_batch'].includes(msg.op) && !nearAnyShop(at.map, at.x, at.z, at.phase)) return false;
     if (!s.c.alive && ['flask_use', 'flask_equip', 'flask_unequip', 'sell', 'sell_batch', 'use', 'equip', 'card', 'unequip', 'alloc', 'alloc_batch', 'reset', 'learn', 'skill_reset', 'evo'].includes(msg.op)) return false;
     const questResult = applyQuestOp(s.c, msg, s.quests, at);
     const ok = questResult === null
@@ -223,7 +225,7 @@ export class Combatants {
   // back up after a death (only when the server saw the death)
   respawn(id) {
     const s = this.list.get(id); if (!s?.persist || s.c.alive) return false;
-    s.c.gold -= Math.floor(s.c.gold * RULES.deathGoldLoss); s.c.revive(RULES.reviveRatio); s.dirty = true;
+    clearCasts(s); s.c.gold -= Math.floor(s.c.gold * RULES.deathGoldLoss); s.c.revive(RULES.reviveRatio); s.dirty = true;
     return true;
   }
   // A monster's swing at a signed-in player, with the browser's formula (Combat.monsterAttack).
@@ -235,7 +237,7 @@ export class Combatants {
     if (this.r() < c.evadeChance(def.acc ?? MONSTER_ACCURACY(def.level))) return { dodge: true, hp: c.hp };
     const raw = def.atk * power * (.85 + this.r() * .3) * (!skill && def.elite && this.r() < RULES.eliteHeavyChance ? 1.8 : 1);
     const dmg = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(def)) * bossCardIncomingMul(c)));   // cards: less from that race / element
-    if (c.alive) afterHit(c, def);
+    if (c.alive) afterHit(c, def); else clearCasts(s);
     s.dirty = true;
     return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
   }
@@ -247,6 +249,7 @@ export class Combatants {
     if (s.god) return { dodge: true, hp: c.hp };
     s.fightAt = this.now(); c.sitting = false;
     const dmg = c.damage(Math.max(1, Math.round(c.maxHp * pct)));
+    if (!c.alive) clearCasts(s);
     s.dirty = true;
     return { dmg, hp: c.hp, mp: Math.round(c.mp), dead: !c.alive };
   }
@@ -308,8 +311,9 @@ export class Combatants {
     const schedule = kitSkill ? skillHitSchedule(kitSkill, eff) : [0];
     const hits = schedule.length, window = Math.max(CAST_WINDOW, (schedule.at(-1) ?? 0) + .75);
     const perTarget = kitSkill ? hits : 2, blows = kitSkill ? hits : legacy.kind === 'aoe' ? 3 : 2;
-    s.casts = s.casts.filter(k => now - k.at < (k.window ?? CAST_WINDOW));
-    s.casts.push({ skill: skillId, eff, at: now, window, left: blows, perTarget, struck: new Map(), kit: !!kitSkill, hit: new Set(), splashed: new Set() });
+    // A fresh generation cannot fall back into an older same-skill budget.
+    s.casts = s.casts.filter(k => k.skill !== skillId && now - k.at < (k.window ?? CAST_WINDOW));
+    s.casts.push({ skill: skillId, eff, generation: ++s.castGeneration, at: now, window, schedule: kitSkill ? [...schedule] : Array(blows).fill(0), next: 0, left: blows, perTarget, struck: new Map(), kit: !!kitSkill, hit: new Set(), splashed: new Set() });
     if (legacy?.kind === 'pet' && legacy.frenzy) s.pet.frenzyUntil = now + legacy.frenzy;   // ไอ้ด่าง ลุย!: the dog bites faster for a while
     // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
     // and MP land on the server's copy (the browser shows the same)
@@ -341,7 +345,7 @@ export class Combatants {
     const s = this.list.get(id); if (!s || s.tradeBusy) return null;
     const c = s.c;
     let revived = false;
-    if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); revived = true; }
+    if (!c.alive) { if (!sup.revive) return null; clearCasts(s); c.revive(sup.revive); revived = true; }
     const before = c.hp;
     if (!revived && (sup.heal || sup.hp)) c.heal(c.maxHp * (sup.heal || 0) + (sup.hp || 0));
     if (!revived && sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
@@ -353,7 +357,7 @@ export class Combatants {
   // One blow: msg { id (monster), skill: kit id | legacy id | 'basic' | 'pet', pounce? }.
   blow(id, world, players, msg = {}, phase = 'day') {
     const s = this.list.get(id), p = players.find(x => x.id === id), m = world.byId(msg.id);
-    if (!s || !p || p.dead || !m || m.hp <= 0) return [];
+    if (!s || s.tradeBusy || !s.c.alive || !p || p.dead || !m || m.hp <= 0) return [];
     this.watchBossCardRewards(world);
     const c = s.c, now = this.now(), night = phase === 'night';
     const cardContext = !s.persist && Number.isFinite(msg.hpFraction) ? { hpFraction: Math.max(0, Math.min(1, msg.hpFraction)) } : {};
@@ -378,13 +382,13 @@ export class Combatants {
     }
     // a skill: it needs a live cast with blows left
     const cast = [...s.casts].reverse().find(k => k.skill === msg.skill && now - k.at < (k.window ?? CAST_WINDOW) && k.left > 0);
-    if (!cast) return [];
+    if (!cast || !hitDue(cast, now, m)) return [];
     const kitSkill = cast.kit ? KITS[c.classId].find(k => k.id === cast.skill) : null, legacy = cast.kit ? null : LEGACY[cast.skill];
     const slv = kitSkill ? Math.max(1, lvOf(c, cast.skill)) : 1;
     const info = kitSkill ? castInfo({ ...kitSkill, id: cast.eff ?? cast.skill }, slv) : null;
     const reach = (info ? info.range + (info.splash?.length ?? info.splash?.radius ?? 0) : 10) + REACH_SLACK;
     if (dist(m, p) > reach) return [];
-    cast.left--;
+    consumeHit(cast, m);
     const stats = this.stats(c);
     const roll = o => (kitSkill ? rollBlow(stats, monsterDefense(o), cast.eff ?? cast.skill, slv, this.r, o)
       : rollDamage({ ...stats, critRate: legacy.alwaysCrit ? 1 : stats.critRate }, monsterDefense(o), legacy.scale === 'int' ? 'magic' : 'physical', legacy.power ?? 1, this.r));
@@ -480,6 +484,7 @@ export class Combatants {
       s.c.night = night;
       if (s.persist) { const hp=s.c.hp,mp=s.c.mp; s.c.tick(dt, now - s.fightAt < RULES.combatTimeout); if(s.c.hp!==hp||s.c.mp!==mp)s.dirty=true; }
       else if (s.c.buffs.length) s.c.buffs = s.c.buffs.filter(b => (b.remaining -= dt) > 0);
+      if (!s.c.alive) clearCasts(s);
     }
     const positions = new Map((players ?? []).map(p => [p.id, p])), events = [];
     for (const [source, active] of this.tethers) {

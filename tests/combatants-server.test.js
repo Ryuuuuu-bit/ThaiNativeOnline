@@ -5,6 +5,7 @@ import { Combatants, KITS, sane, CAST_WINDOW } from '../server/combatants.js';
 import { MonsterWorld } from '../server/monsters.js';
 import { Character } from '../src/character/Character.js';
 import { castInfo } from '../src/training/kitCombat.js';
+import { skillHitSchedule } from '../src/rules/skillHits.js';
 
 const clock = () => { let t = 0; const now = () => t; now.add = s => { t += s; }; return now; };
 const zone = (o = {}) => ({ type: 'boar', x: 0, z: 0, radius: 0, count: 1, active: ['morning', 'day', 'evening', 'night'], ...o });
@@ -24,6 +25,11 @@ const setup = (classId = 'hunter', o = {}) => {
   return { now, cs, p: { id: 1, x: 3, z: 0, lv: 10 }, ...o };
 };
 const hits = ev => ev.filter(e => e.t === 'mh' && !e.miss);
+const advanceToHit = (now, cs, skill, index = 0) => {
+  const c = cs.get(1).c, cast = cs.get(1).casts.find(k => k.skill === skill);
+  const due = skillHitSchedule(KITS[c.classId].find(k => k.id === skill), c.skillVariant(skill))[index];
+  now.add(Math.max(0, cast.at + due - now()));
+};
 
 test('character sheets: unknown classes and over-spent stat points are refused', () => {
   assert.equal(sane({ level: 5 }, 'dragon'), null);
@@ -55,6 +61,7 @@ test('skills: only your own kit, cooldowns hold, a cast allows only so many blow
   cs.casting(1, 'arch_snipe'); now.add(1);
   assert.equal(cs.cast(1, 'arch_snipe').ok, true);
   assert.equal(cs.cast(1, 'arch_snipe').why, 'cooldown');
+  advanceToHit(now, cs, 'arch_snipe');
   let n = 0; for (let i = 0; i < 50; i++) n += cs.blow(1, w, players, { id: m.id, skill: 'arch_snipe' }).filter(e => e.t === 'mh').length;
   assert.ok(n > 0 && n <= 7, `blows per cast are bounded (${n})`);
   now.add(CAST_WINDOW + 1);
@@ -69,25 +76,29 @@ test('an effect the server lands is announced to the map (md)', () => {
   m.x = 1; m.z = 0; m.maxHp = m.hp = 1e6;
   cs.load(1, { ...cs.get(1).c.toJSON(), jobLevel: 50, skills: { sword_twin: 5, sword_thrust: 5 }, evo: { sword_thrust: 'B' } }, { account: 'x', slot: 0 });
   assert.equal(cs.cast(1, 'sword_thrust').ok, true);
+  advanceToHit(now, cs, 'sword_thrust');
   let md = []; for (let i = 0; i < 6 && !md.length; i++) md = cs.blow(1, w, [p], { id: m.id, skill: 'sword_thrust' }).filter(e => e.t === 'md');
   assert.equal(md[0]?.id, m.id); assert.ok(md[0].d.stun && md[0].d.secs > 0 && md[0].d.label);
 });
 
 test('area skills: the server finds who else is caught; effects land once per cast', () => {
-  const { cs, p } = setup('hunter'), w = boars(4, 1.5), players = [p];
+  const { cs, p, now } = setup('hunter'), w = boars(4, 1.5), players = [p];
   const [a, ...rest] = w.monsters;
   for (const [i, m] of w.monsters.entries()) { m.x = 6 + i * 1.2; m.z = 0; }
   cs.cast(1, 'arch_rain');   // a circle around the target
+  advanceToHit(now, cs, 'arch_rain');
   const ev = cs.blow(1, w, players, { id: a.id, skill: 'arch_rain' });
   const struck = new Set(hits(ev).map(e => e.id));
   assert.ok(struck.has(a.id) && rest.some(m => struck.has(m.id)), 'neighbours hit too');
   // a piercing volley: everyone on the line, each once per cast
   cs.cast(1, 'arch_volley');
+  advanceToHit(now, cs, 'arch_volley');
   const v1 = hits(cs.blow(1, w, players, { id: a.id, skill: 'arch_volley' }));
   const v2 = hits(cs.blow(1, w, players, { id: a.id, skill: 'arch_volley' }));
   assert.ok(v1.length >= 3, 'the line caught the row'); assert.equal(v2.length, 0, 'the single primary and line cannot repeat');
   // a poison arrow leaves damage over time on the monster
   cs.cast(1, 'arch_poison');
+  advanceToHit(now, cs, 'arch_poison');
   cs.blow(1, w, players, { id: a.id, skill: 'arch_poison' });
   assert.ok(a.debuffs.some(d => d.dot > 0 && d.by === 1));
 });

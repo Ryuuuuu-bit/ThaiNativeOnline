@@ -59,13 +59,13 @@ test('production HTTP/WS party board: signed create/list/publish/request, leader
   const health = await api('/api/health');
   assert.equal(health.accounts, true); assert.equal(health.store, 'memory');
 
-  async function account(name, cls) {
+  async function account(name, cls, map = 'city') {
     const id = name.toLowerCase(), password = 'party-server-fixture';
     assert.ok((await api('/api/register', null, 'POST', { id, password })).ok);
     const auth = await api('/api/login', null, 'POST', { id, password });
     assert.ok(auth.ok && auth.token); assert.equal(auth.id, id);
     assert.ok((await api('/api/slots/0', auth.token, 'PUT', {
-      data: { 'tno.character.v1': JSON.stringify({ name, classId: cls, gender: 'male' }) },
+      data: { 'tno.character.v1': JSON.stringify({ name, classId: cls, gender: 'male' }), 'tno.location.v1': JSON.stringify({ map, ...MAPS[map].spawn }) },
     })).ok);
     assert.equal((await api('/api/me', auth.token)).id, id);
     return { ...auth, name, cls };
@@ -118,7 +118,7 @@ test('production HTTP/WS party board: signed create/list/publish/request, leader
   };
 
   const leaderAuth = await account('BoardServerLead', 'warrior');
-  const memberAuth = await account('BoardServerHeal', 'herbalist');
+  const memberAuth = await account('BoardServerHeal', 'herbalist', 'paddy');
   const waitingAuth = await account('BoardServerWait', 'hunter');
   const observerAuth = await account('BoardServerWatch', 'assassin');
   const leader = await connect(leaderAuth), member = await connect(memberAuth, 'paddy'),
