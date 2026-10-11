@@ -32,8 +32,8 @@ export function skillPreview(id, level, stats, options = {}) {
       formula: 'round(max(1, power × multiplier × random(0.9,1.1) − DEF × armorFactor) × criticalMultiplier × playerMultiplier)',
       conditional: true };
   }
-  const self = selfEffects(id, lv, stats.def ?? 10, stats.matk ?? 0, stats.healPow ?? 1);
-  const support = supportOf(id, lv, stats.def ?? 10, stats.matk ?? 0, stats.healPow ?? 1);
+  const self = selfEffects(id, lv, stats.def ?? 10, stats.matk ?? 0, stats.healPow ?? 1, stats.cooldownCut ?? 0);
+  const support = supportOf(id, lv, stats.def ?? 10, stats.matk ?? 0, stats.healPow ?? 1, stats.cooldownCut ?? 0);
   return { id, level: lv, type: base.type, targetKnown: known, defense: known ? { ...defense } : null,
     assumption: known ? 'target-defense' : 'before-armor', damage,
     mp: Math.round(cast.mp * (stats.mpCostMul ?? 1)),

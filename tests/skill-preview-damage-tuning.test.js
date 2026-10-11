@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { skillPreview } from '../src/rules/skillPreview.js';
 import { rollDamage } from '../src/rules/stats.js';
+import { selfEffects, supportOf } from '../src/training/kitCombat.js';
 
 test('skill preview endpoints match one live outgoing modifier after armor and critical scaling', () => {
   for (const mob of [false, true]) for (const id of ['sword_twin', 'mage_akom', 'boxer_jab']) {
@@ -14,5 +15,17 @@ test('skill preview endpoints match one live outgoing modifier after armor and c
       assert.equal(p.crit[i], rollDamage({ ...stats, critRate: 1 }, defense, p.kind, p.mult, critRng).dmg);
       assert.equal(p.total[i], p.normal[i] * 3);
     }
+  }
+});
+
+test('preview buff uptime matches live self and party adapters after cooldown reduction', () => {
+  for (const id of ['boxer_waikru', 'mage_shield', 'heal_tonic', 'sword_guard']) {
+    const stats = { def: 32, matk: 80, healPow: 1.1, cooldownCut: .3 };
+    const preview = skillPreview(id, 10, stats);
+    const self = selfEffects(id, 10, stats.def, stats.matk, stats.healPow, stats.cooldownCut);
+    const support = supportOf(id, 10, stats.def, stats.matk, stats.healPow, stats.cooldownCut);
+    assert.equal(preview.self?.buff?.duration, self?.buff?.duration, id);
+    assert.equal(preview.support?.buff?.duration, support?.buff?.duration, id);
+    assert.ok(self?.buff?.duration < selfEffects(id, 10, stats.def, stats.matk, stats.healPow, 0)?.buff?.duration, `${id} must exercise the uptime cap`);
   }
 });
