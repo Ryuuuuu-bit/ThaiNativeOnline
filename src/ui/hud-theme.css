@@ -267,3 +267,39 @@ body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-titl
 body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-tier=sovereign]::before {transform:translateY(-5.1%)}
 body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-theme=killer] {--profile-frame:url('/ui/titles/imagegen-v1/profile-killer.webp')}
 body:not(.acc-flow) :is(.g-player,.profile-example) .g-player-portrait[data-title-theme=guardian] {--profile-frame:url('/ui/titles/imagegen-v1/profile-guardian.webp')}
+/* Reserve a level medallion below the portrait, above every painted ornament.
+   The portrait column owns its space; bars and the PK footer keep their layout. */
+body:not(.acc-flow) .g-player .g-player-portrait { margin-bottom:28px; }
+body:not(.acc-flow) .g-player .g-player-portrait .g-lv {
+  position:absolute;
+  top:calc(100% + 4px);
+  left:50%;
+  right:auto;
+  bottom:auto;
+  z-index:5;
+  transform:translateX(-50%);
+  display:grid;
+  place-items:center;
+  box-sizing:border-box;
+  width:40px;
+  min-width:40px;
+  height:22px;
+  padding:0 4px;
+  border:1px solid var(--hud-brass);
+  border-radius:10px;
+  background:linear-gradient(180deg,#244b39,#102c22);
+  color:#fff1c6;
+  box-shadow:0 0 0 1px #081e19,0 2px 4px #0006;
+  font:700 13px/1 var(--ui-font);
+  font-variant-numeric:tabular-nums;
+  text-align:center;
+  white-space:nowrap;
+}
+body.ui-touch:not(.acc-flow) .g-player .g-player-portrait { margin-bottom:24px; }
+body.ui-touch:not(.acc-flow) .g-player .g-player-portrait .g-lv {
+  top:calc(100% + 3px);
+  width:34px;
+  min-width:34px;
+  height:20px;
+  font-size:11px;
+}

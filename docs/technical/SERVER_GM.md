@@ -1,5 +1,38 @@
 # Admin commands
 
+## GM title access
+
+An authenticated GM with a live persisted character can select all 41 existing
+catalog titles, including temporary server-rank titles. This is a session-only
+display entitlement in `src/data/titleAccess.js` (a module-private WeakSet), not
+an achievement grant. Earned `c.titles`, level, kill/karma records and real ranking
+holders continue to change only through their existing gameplay systems. The
+title tab shows 41/41 and a GM note while entitled; unlock notifications still
+read the genuinely earned list.
+
+`authorizeGm` refreshes entitlement before the initial sync and each `ttl` request.
+Post-await checks retain the exact socket, token, role epoch, presence and
+Combatants state; an unearned selection requires a fresh positive authorization.
+Logout and role revocation immediately remove entitlement, clear any unearned worn
+title, privately send current `gmAccess`/title state and broadcast the world title.
+Ordinary earned selections survive revocation. Private welcome/access metadata
+and the client disconnect handler update the transient capability. Saves,
+constructor options and progress JSON cannot grant it.
+
+`Character.toJSON()` persists only genuinely earned selections; `Combatants.me()`
+overrides that field with the current worn title on the wire. A GM-only selection
+therefore clears on a new connection; access is restored after authentication and
+the GM can select it again. Rank refresh still adds/removes real rank achievements,
+but retains the chosen display while entitled. Boards and holder counts remain
+based on real rank records, irrespective of a GM's worn display title.
+
+Validation: `gm-title-access.test.js` covers the catalog, forged/inherited IDs,
+constructor/save isolation, earned/rank changes, wire-versus-save behavior and stale
+progress after revocation. `gm-titles.integration.test.js` uses isolated MemoryStore
+accounts over HTTP/WebSocket for grants, ordinary/guest forgeries, rank checks,
+revocation, reconnect and delayed authorization during logout/role revocation.
+No production account or live PostgreSQL data is changed by these tests.
+
 The server exposes the existing 24 gameplay/moderation commands plus `admin`:
 `/gm admin add <accountId>`, `/gm admin remove <accountId>`, `/gm admin list`.
 Account IDs are trimmed and lowercased; character names are not role identifiers.

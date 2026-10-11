@@ -53,3 +53,12 @@ Classes have no models here. The player wears the class's Tripo GLB (`AVATARS` i
 ## Hooks for stat allocation
 
 CharacterUI uses `allocateMany(add)` for a build plan: validate the six stat keys, nonnegative integer counts and the available-point budget before any mutation, then emit one change. Accepted UI allocation/reset saves immediately through slotStorage. NetProgress mirrors the plan as one `alloc_batch` operation; server/progress replays the same validation and Combatants rejects it while dead. Single-point `allocate(stat)` remains supported.
+
+## Hooks for authenticated GM titles
+
+`data/titleAccess.js` keeps the live GM display capability outside Character/save
+fields. `setTitle` consults `canWearTitle`; `checkTitles` still records genuine
+achievements and rank loss, retaining an unearned worn rank title only while
+entitled. `toJSON` never saves that entitlement or an unearned worn selection.
+Server `Combatants.me` carries the live selected title separately for sync.
+See `docs/technical/SERVER_GM.md` for authentication and revocation hooks.

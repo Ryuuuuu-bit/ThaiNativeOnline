@@ -10,6 +10,7 @@
 // pvpKill · duelWin (src/data/karma.js).
 //   checkTitles(c) → ids just earned (and drops a rank title the character lost)
 import { MAX_LEVEL } from '../character/data/progression.js';
+import { hasGmTitleAccess } from './titleAccess.js';
 
 export const TITLE_CATS = [['lv', 'เลเวล'], ['hunt', 'ล่าผี'], ['boss', 'ปราบบอส'], ['support', 'สายซัพพอร์ต'], ['pvp', 'PK · ประลอง'], ['social', 'สังคม'], ['legend', '✦ ตำนาน'], ['rank', 'อันดับเซิร์ฟ']];
 // the bosses behind the boss titles (src/combat/data/monsters.js types)
@@ -78,7 +79,7 @@ export function checkTitles(c) {
   for (const t of TITLES) {
     const has = c.titles.includes(t.id);
     if (!has && t.ok(c, rec)) { c.titles.push(t.id); got.push(t.id); }
-    else if (has && t.dynamic && !t.ok(c, rec)) { c.titles = c.titles.filter(x => x !== t.id); if (c.title === t.id) c.title = null; }
+    else if (has && t.dynamic && !t.ok(c, rec)) { c.titles = c.titles.filter(x => x !== t.id); if (c.title === t.id && !hasGmTitleAccess(c)) c.title = null; }
   }
   return got;
 }
