@@ -75,6 +75,21 @@ test('guest revival restores its ratio once and then grants protection without a
   assert.equal(c.hp, Math.round(c.maxHp * .4)); assert.equal(c.mp, Math.round(c.maxMp * .4)); assert.equal(c.undying, true);
 });
 
+test('generic DOT survives ordinary guest snapshots and is cleared by local and server cleanse', () => {
+  const c = Character.create('สถานะ', 'warrior');
+  c.addBuff({ id: 'generic_dot', dot: 3, duration: 10 });
+  applyCombatState(c, { owned: false, buffs: [] });
+  assert.deepEqual(c.buffs.map(b => b.id), ['generic_dot']);
+  c.addBuff({ id: 'cleanser', cleanse: true, def: .1, duration: 5 });
+  assert.deepEqual(c.buffs.map(b => b.id), ['cleanser']);
+  c.addBuff({ id: 'generic_dot', dot: 3, duration: 10 });
+  applyCombatState(c, { owned: false, buffs: [
+    { id: 'incoming_dot', dot: 2, remaining: 5 },
+    { id: 'protection', def: .2, remaining: 5 },
+  ] }, { cleanse: true });
+  assert.deepEqual(c.buffs.map(b => b.id), ['protection']);
+});
+
 test('signed-in revival adopts exact server state while ordinary aid heals a living guest once', () => {
   const { character: c, combat } = game(); c.fall();
   applyAid(c, { revive: .4, heal: .4, amount: 0, state: { owned: true, hp: 53, mp: 2, buffs: [{ id: 'revive', remaining: 10, undying: true }] } }, ratio => combat.reviveHere(ratio));

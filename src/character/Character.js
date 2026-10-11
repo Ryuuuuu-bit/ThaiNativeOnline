@@ -38,7 +38,7 @@ const count = v => (Number.isFinite(v) && v > 0 ? Math.floor(v) : 0);
 const cleanRec = r => ({ ...Object.fromEntries(REC_KEYS.map(k => [k, count(r?.[k])])), boss: Object.fromEntries(Object.keys(BOSS_TITLES).map(t => [t, count(r?.boss?.[t])]).filter(([, n]) => n)) });
 const liveBuff = b => b && (b.remaining === undefined || (Number.isFinite(b.remaining) && b.remaining > 0));
 const buffRatio = n => Math.max(-1, Math.min(.6, n));
-const NEGATIVE_BUFF_FIELDS = ['poison', 'slow', 'stun', 'bleed', 'burn', 'cursed'];
+const NEGATIVE_BUFF_FIELDS = ['poison', 'dot', 'slow', 'stun', 'bleed', 'burn', 'cursed'];
 export const isHarmfulBuff = buff => NEGATIVE_BUFF_FIELDS.some(key => !!buff?.[key]);
 
 // Bumped when the starter set changes; saves below it get the missing starter pieces once (grantMissingStarterEquipment).
