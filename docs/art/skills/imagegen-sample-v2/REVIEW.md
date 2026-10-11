@@ -11,9 +11,9 @@ Four preview-only skill icons redesigned with the built-in ImageGen tool after t
 
 ## Deliverables
 
-This folder holds untouched PNG masters, exact `.prompt.txt` prompts and `.receipt.json` generation/export provenance for each skill. Production preview WebPs and the gallery are in `public/ui/skills/imagegen-sample-v2/`. Transparent v1 samples are preserved separately in sibling sample-v1 directories for comparison. Every distinct image was a separate built-in ImageGen call; no recoloring or sheet extraction was used.
+This folder holds untouched PNG masters, exact `.prompt.txt` prompts and `.receipt.json` generation/export provenance for each skill. Production preview WebPs and the gallery are in `docs/art/skills/imagegen-sample-v2/assets/`. Transparent v1 samples are preserved separately in sibling sample-v1 directories for comparison. Every distinct image was a separate built-in ImageGen call; no recoloring or sheet extraction was used.
 
-Preview: http://127.0.0.1:5314/ui/skills/imagegen-sample-v2/preview.html
+Preview: http://127.0.0.1:5314/docs/art/skills/imagegen-sample-v2/assets/preview.html
 
 ## Review and validation
 

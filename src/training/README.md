@@ -71,4 +71,4 @@ On the dummy the blood ticks of ศอกกลับ still deal a flat 30; on m
 - **`createFx({ scale, gain })`** (`src/classes/fx/engine.js`) takes an FX scale for fighters of other heights and also works with an orthographic camera.
 - **`createXSkills({ damage })`**: optional `damage(skillId) → { hit, crit, dmg }` rolls each blow; without it the hand-tuned FX numbers stay.
 - **`createDummy(…, { hp, onHit })`**: `onHit` receives `{ amount, crit, miss, bleed, killed }`; `hurt(..., exact)` skips the ±10% spread; `miss()` shows MISS.
-- `src/classes/fx/hotbar.js` (`createHotbar`) is no longer used by the game; the action bar replaced it.
+- The unused standalone `createHotbar` implementation has been removed; `src/ui/ActionBar.js` is the live action bar.

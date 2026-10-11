@@ -33,8 +33,8 @@ const summary = { plannedNewMasters: backlog.counts.newImageGenJobs,
   reusedApprovedMasters: items.filter(item => item.origin === 'reuse').length,
   mappedIDs: Object.keys(mapping).length, activeIDs: backlog.counts.activeItems,
   pendingMasters: pending.length };
-mkdirSync('public/ui/items/painted-complete-v1', { recursive: true });
-writeFileSync('public/ui/items/painted-complete-v1/preview-manifest.json', JSON.stringify({ summary, items }, null, 2) + '\n');
+mkdirSync('docs/art/items/painted-complete-v1/preview', { recursive: true });
+writeFileSync('docs/art/items/painted-complete-v1/preview/preview-manifest.json', JSON.stringify({ summary, items }, null, 2) + '\n');
 if (finalize) {
   if (pending.length || Object.keys(mapping).length !== backlog.counts.activeItems) throw Error(`Completion gate not satisfied: ${JSON.stringify(summary)}`);
   if (!review?.approved || !(review.score >= 8) || approved.size !== backlog.groups.length || backlog.groups.some(group => !approved.has(group.representativeID)) || review.rejectedIDs?.length) throw Error('Art review gate not satisfied: require score>=8, all semantic masters explicitly approved and no rejected IDs');
