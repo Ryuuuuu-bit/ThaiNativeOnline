@@ -77,9 +77,13 @@ export class TrainingGround {
     // The Player still walks and turns the avatar; this drives its skills.
     this.character = wearModel(player, scene, avatar);
 
-    this.labels = $el('div', 'fx-labels'); this.dim = $el('div', 'fx-dim'); this.vignette = $el('div', 'fx-vignette');
+    this.labels = $el('div', 'fx-labels');
+    // Keep legacy runners' dim target detached: combat effects should stay at
+    // the caster/target, without pulsing the whole viewport on every skill.
+    // The isolated model preview retains its cinematic overlays.
+    this.dim = $el('div', 'fx-dim');
     this.dummyLabels = $el('div', 'fx-dummy-labels'); this.labels.append(this.dummyLabels);
-    root.append(this.vignette, this.dim, this.labels);
+    root.append(this.labels);
     // FX units are sized for a 2.6 m character; scale them to this one.
     this.fx = createFx({ scene, camera, renderer, labels: this.labels, size: FOREST_K * avatar.height / 2.6 });
     this.fx.warm();   // the effects' shaders compile now, not on the first skill in a fight
@@ -237,7 +241,6 @@ export class TrainingGround {
       }
     }
     if (this.ring?.visible) { this.ring.rotation.z = this.clock; this.ring.scale.setScalar(1 + Math.sin(this.clock * 6) * .06); }
-    this.vignette.style.opacity = fx.mood.toFixed(3);
     if (this.dirty) { this.dirty = false; this.renderPanel(); }
   }
 
