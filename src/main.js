@@ -22,4 +22,5 @@ bindUiSounds();
 Sound.music(MUSIC_FOR.entry); // starts with the first click or key press (browser autoplay rules)
 await enterGame(document.getElementById('app'));
 document.body.classList.remove('acc-flow');
-new Game().start();
+try { await new Game().start(); }
+catch (error) { console.error('Game startup failed', error); } // Game retains its retry overlay.

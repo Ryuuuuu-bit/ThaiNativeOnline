@@ -1,7 +1,12 @@
 import * as THREE from 'three';
 import { disposeResources } from './ResourceLifecycle.js';
 import { transitionMap } from './MapTransition.js';
+import { commitPreparedMap } from './MapCommit.js';
 import { loadingMarkup } from '../ui/Brand.js';
+import { createLoadingScreen } from '../ui/LoadingScreen.js';
+import { boundedReady } from '../core/AssetReadiness.js';
+import { prepareMonsterModels, invalidateMonsterModelLoads } from '../combat/MonsterModels.js';
+import { npcModelCache } from '../npc/NPCModels.js';
 import { buildWorld } from './World.js';
 import { slotStorage } from '../core/SaveSlot.js'; // per-character save slot (src/account)
 import { Portals } from './Portals.js';
@@ -30,8 +35,8 @@ export class MapManager {
    * @param {(info: {map, to}) => void} [o.onLeave]  before a map is unloaded
    * @param {(info: {map, to, why}) => void} [o.onRefuse]  a portal that is shut (why 'night': a nightOnly map by day)
    */
-  constructor({ scene, clock, player, progress = () => {}, onChange = () => {}, onLeave = () => {}, onRefuse = () => {} }) {
-    Object.assign(this, { scene, clock, player, progress, onChange, onLeave, onRefuse });
+  constructor({ scene, clock, player, progress = () => {}, onChange = () => {}, onLeave = () => {}, onRefuse = () => {}, renderReady = () => {} }) {
+    Object.assign(this, { scene, clock, player, progress, onChange, onLeave, onRefuse, renderReady });
     this.map = null; this.world = null; this.npcs = null; this.portals = null;
     this.busy = false; this.armed = false; this.rpg = null; this.saveTimer = 0;
     // Monster zones for createGame({ spawns }). Each is tagged with its map and is
@@ -71,20 +76,53 @@ export class MapManager {
   }
 
   async prepare(mapId) {
+    const attempt = { npcSpecs: [], monsterTypes: [], cancelled: false, invalidated: false };
+    try {
+      return await boundedReady(this.buildPrepared(mapId, attempt), 'แผนที่', { onLate: prepared => {
+        prepared.npcs.dispose(); prepared.world.dispose();
+      } });
+    } catch (error) {
+      attempt.cancelled = true;
+      this.invalidatePreparedAssets(attempt);
+      throw error;
+    }
+  }
+
+  invalidatePreparedAssets(attempt) {
+    if (attempt.invalidated) return;
+    attempt.invalidated = true;
+    invalidateMonsterModelLoads(attempt.monsterTypes);
+    for (const spec of attempt.npcSpecs) npcModelCache.invalidate(spec);
+  }
+
+  async buildPrepared(mapId, attempt) {
     const map = MAPS[mapId] ?? MAPS[DEFAULT_MAP];
-    const report = text => { this.progress(text); if (this.busy && this.overlay) this.overlay.querySelector('[data-loading-text]').textContent = text; };
+    const run = this.loadingRun;
+    const report = text => { if (run) run.setDetail(text); else this.progress(text); };
     const staging = new THREE.Group();
+    const monsterTypes = this.zones.filter(zone => zone.map === map.id && zone.phases.includes(this.clock.phase)).map(zone => zone.type);
+    attempt.monsterTypes = monsterTypes;
     let world, npcs;
     try {
       world = await buildWorld(staging, report, map);
+      if (attempt.cancelled) throw new Error('Map preparation cancelled');
       report('ชาวเมืองกำลังออกจากบ้าน…'); await wait(0);
+      if (attempt.cancelled) throw new Error('Map preparation cancelled');
       const has = id => !!world.spots[id] || (!!J[id] && walkable(map, ...J[id]));
       npcs = new NPCManager(world.root, world, npcsForMap(NPCS, map.id, has), this.clock);
+      attempt.npcSpecs = [...(npcs.renderer.modelRenderer?.entries.values() ?? [])].map(entry => entry.spec);
+      await boundedReady(Promise.all([
+        npcs.renderer.modelRenderer?.criticalReady(),
+        prepareMonsterModels(monsterTypes),
+      ]), 'ตัวละครในแผนที่', { timeout: 60000 });
       const portals = new Portals(world.root, map, (x, z) => world.heightAt(x, z));
       const hunting = new HuntingGrounds(world.root,map,(x,z)=>world.heightAt(x,z));
       const [rx, rz] = map.respawn.find(([x, z]) => world.canStand(x, z)) ?? [map.spawn.x, map.spawn.z];
       return { map, world, npcs, portals, hunting, respawn: { x: rx, z: rz } };
     } catch (error) {
+      // Drop only unfinished destination sources so explicit Retry cannot
+      // reuse a timed-out promise. Late payloads are released by their cache.
+      this.invalidatePreparedAssets(attempt);
       // Builders may reject before returning a world, leaving partial roots.
       try { npcs?.dispose(); } catch (cleanupError) { console.error('NPC cleanup failed', cleanupError); }
       try {
@@ -103,6 +141,12 @@ export class MapManager {
     this.spawnAreas = spawnsOf(map.id, SPAWNS);
     for (const z of this.zones) z.active = z.map === map.id ? z.phases : NONE;
     Object.assign(this.respawn, respawn);
+  }
+
+  // Hold the old roots until the new map has rendered successfully. A failure
+  // restores both the player and map systems without discarding the old world.
+  async commitPrepared(prepared, arrival, from) {
+    return commitPreparedMap(this, prepared, arrival, from);
   }
 
   // Unload the current map completely: NPCs, monsters of this map, scenery.
@@ -158,7 +202,7 @@ export class MapManager {
     // a skill move carrying the player (a dash) ends first; the portal takes them once they stand
     // a night-only map (เรือนหอร้าง, the world boss room) keeps its door shut by day
     else if (this.armed && MAPS[portal.to]?.nightOnly && this.clock.phase !== 'night') { this.armed = false; this.onRefuse({ map: this.map, to: MAPS[portal.to], why: 'night' }); }
-    else if (this.armed && !this.training?.busy) { this.travel(portal); return; }
+    else if (this.armed && !this.training?.busy) { void this.travel(portal); return; }
     if ((this.saveTimer += dt) > 3) { this.saveTimer = 0; this.save(); }
   }
 
@@ -181,11 +225,13 @@ export class MapManager {
         position: 'fixed', inset: '0', zIndex: '25', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px',
         background: '#0e1a15', color: '#f3ead0', opacity: '0', transition: 'opacity .28s ease', pointerEvents: 'none', textShadow: '0 2px 14px #000a',
       });
-      el.innerHTML = loadingMarkup().replace('id="loading-text"', 'data-loading-text');
+      el.innerHTML = loadingMarkup().replace('id="loading-text"', '');
       document.body.append(el);
+      this.loadingScreen = createLoadingScreen(el);
     }
     const el = this.overlay;
-    if (on) { el.querySelector('[data-loading-title]').textContent = to.name; el.querySelector('[data-loading-text]').textContent = to.sub ?? 'กำลังเดินทาง…'; }
+    if (on) this.loadingRun = this.loadingScreen.begin({ title: to.name, steps: [{ id: 'map', label: 'เตรียมแผนที่และตัวละคร' }, { id: 'render', label: 'เตรียมภาพแรก' }] });
+    else if (!this.loadingRun.finish()) return;
     el.style.pointerEvents = on ? 'auto' : 'none';
     el.style.opacity = on ? '1' : '0';
   }

@@ -37,12 +37,12 @@ import './training.css';
 
 const $el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
-// The model is shown only once it loads; a missing or broken GLB leaves just the ground ring and a console warning.
+// Local avatar failure rejects readiness so startup can offer a retry.
 function wearModel(player, scene, avatar) {
   const character = makeModelCharacter(scene, null, { url: `${import.meta.env.BASE_URL}${avatar.url}`, height: avatar.height });
   character.group.visible = false;
-  character.ready.then(() => { character.group.visible = true; player.setAvatar(character, avatar.casts); })
-    .catch(error => { scene.remove(character.group); console.warn(`avatar ${avatar.url} failed to load`, error); });
+  character.ready = character.ready.then(() => { character.group.visible = true; player.setAvatar(character, avatar.casts); })
+    .catch(error => { scene.remove(character.group); throw error; });
   return character;
 }
 
@@ -51,9 +51,9 @@ export function createClassAvatar(classId, opts) {
   // Only the class that owns the model gets its skills; a fallback wearer gets the look alone.
   const kit = CLASS_KITS[avatar.skills];
   if (kit && avatar === AVATARS[classId]) return new TrainingGround(opts, avatar, kit);
-  wearModel(opts.player, opts.scene, avatar);
+  const model = wearModel(opts.player, opts.scene, avatar);
   // Model only: nothing to drive per frame.
-  return { busy: false, enterMap() {}, onManualMove() {}, update() {} };
+  return { ready: model.ready, cancelLoading: () => model.dispose(), busy: false, enterMap() {}, onManualMove() {}, update() {} };
 }
 
 export class TrainingGround {
@@ -76,6 +76,7 @@ export class TrainingGround {
 
     // The Player still walks and turns the avatar; this drives its skills.
     this.character = wearModel(player, scene, avatar);
+    this.ready = this.character.ready;
 
     this.labels = $el('div', 'fx-labels');
     // Keep legacy runners' dim target detached: combat effects should stay at
@@ -107,6 +108,7 @@ export class TrainingGround {
     hud?.setSkills(this.caster, 'สกิล' + kit.name);
   }
   get lastSkill() { return this.caster?.lastSkill; }
+  cancelLoading() { this.character.dispose(); }
 
   // Built lazily on entering the city so the dummies can stand on real, loaded ground.
   spawnDummies() {

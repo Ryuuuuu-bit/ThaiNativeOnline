@@ -123,6 +123,6 @@ export function createGame(o) {
     feed.log(`ยินดีต้อนรับ ${character.name} · 1–0 สกิล · R ออโต้ · Q / E ดื่มยา · C ตัวละคร · I กระเป๋า · ลองสกิลที่หุ่นซ้อมในลานซ้อม`, 'gold');
   };
 
-  loadOrCreateCharacter(o.root).then(begin);
+  game.readyPromise = loadOrCreateCharacter(o.root).then(character => { begin(character); return game; });
   return game;
 }

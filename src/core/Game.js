@@ -44,6 +44,8 @@ import { Sound } from '../audio/Sound.js';
 import { bindCombatSounds, mountAudioSettings } from '../audio/gameSounds.js';
 import { LocationMusic } from '../audio/LocationMusic.js';
 import { combatMusicState } from '../data/calmMusic.js';
+import { createLoadingScreen } from '../ui/LoadingScreen.js';
+import { boundedReady, loadingTask, interfaceReady } from './AssetReadiness.js';
 
 const $ = id => document.getElementById(id);
 // Route planning keeps this much room from obstacles (the body itself needs .28, src/world/Collision.js).
@@ -58,7 +60,30 @@ export class Game {
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
 
-  async start() {
+  start() {
+    if (this.readyPromise) return this.readyPromise;
+    this.loadingScreen = createLoadingScreen($('loading'));
+    this.loadingRun = this.loadingScreen.begin({ title: 'เข้าสู่โลกไทยเนทีฟ', steps: [
+      { id: 'map', label: 'เตรียมแผนที่และชาวเมือง' },
+      { id: 'character', label: 'เตรียมตัวละครและแถบคำสั่ง' },
+      { id: 'avatar', label: 'เตรียมโมเดลตัวละคร' },
+      { id: 'interface', label: 'เตรียมภาพและแบบอักษร' },
+      { id: 'render', label: 'เตรียมภาพแรก' },
+    ] });
+    this.readyPromise = this.initialize().catch(error => {
+      this.startupFailed = true;
+      this.training?.cancelLoading?.();
+      this.renderer?.setAnimationLoop(null);
+      this.ticker?.stop();
+      this.loadingRun.fail(document.body.dataset.error === 'webgl'
+        ? 'ไม่สามารถเปิด WebGL ได้ กรุณาเปิด hardware acceleration แล้วลองใหม่'
+        : 'ไม่สามารถเตรียมเกมได้ กรุณาลองใหม่');
+      throw error;
+    });
+    return this.readyPromise;
+  }
+
+  async initialize() {
     const host = this.host = $('world');
     try { this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' }); }
     catch (error) { document.body.dataset.error = 'webgl'; $('loading-text').textContent = 'ไม่สามารถเปิด WebGL ได้ กรุณาเปิด hardware acceleration แล้วลองใหม่'; throw error; }
@@ -82,11 +107,13 @@ export class Game {
     // Maps (src/world/maps.js): นครที่ถูกลืมเลือน and ทุ่งนอกเมือง, one loaded at a time; warps move between them.
     this.maps = new MapManager({
       scene: this.scene, clock: this.clock, player: this.player,
-      progress: text => { $('loading-text').textContent = text; },
+      progress: text => this.loadingRun.setDetail(text),
+      renderReady: () => this.renderMapReady(),
       onLeave: () => this.leaveMap(), onChange: info => this.enterMap(info),
       onRefuse: info => this.hud.toast(info.to.name, WORLD_BOSS_NEWS.closed()),   // a night-only door by day
     });
-    await this.maps.start(MapManager.startLocation(params));
+    await loadingTask(this.loadingRun, 'map', () => this.maps.start(MapManager.startLocation(params)), { timeout: 100000 });
+    this.maps.onCommitted = map => this.net?.enterMap(map.id);
     // Quests and vendors attach to the character once one exists (after creation or load).
     this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id), storage: slotStorage });
     this.questUI = new QuestUI(this.quests, {
@@ -120,6 +147,9 @@ export class Game {
     $('particles').checked = this.prefs.particles; $('quality').value = this.prefs.quality;
     if (this.prefs.quality === 'low') $('quality').dispatchEvent(new Event('change'));
     this.startCombat();
+    await loadingTask(this.loadingRun, 'character', () => this.game.readyPromise);
+    this.startTraining();
+    await loadingTask(this.loadingRun, 'avatar', () => this.training.ready);
     this.maps.attachCombat(this.game);
     this.view.setZoom(params.has('zoom') ? Number(params.get('zoom')) : this.prefs.zoom);
     this.syncZoom();
@@ -132,8 +162,15 @@ export class Game {
     this.setDev(DEV_HOST);
     if (params.has('debug') && this.devAllowed) this.toggleDebug();
     this.updateJournal();
-    this.frame(0, 1 / 60);
-    $('loading').classList.add('done'); setTimeout(() => { $('loading').hidden = true; }, 700);
+    await loadingTask(this.loadingRun, 'interface', () => interfaceReady());
+    await loadingTask(this.loadingRun, 'render', async () => {
+      this.frame(0, 0);
+      // Render submits shader compilation and texture uploads before revealing the world.
+      await boundedReady(this.renderer.compileAsync?.(this.scene, this.view.camera), 'ภาพแรก', { timeout: 30000 });
+      this.postfx.render();
+    });
+    this.started = true;
+    this.loadingRun.finish();
     this.renderer.setAnimationLoop(time => this.tick(time));
     // A hidden tab gets no frames: a worker beat steps the game meanwhile (src/core/BackgroundTicker.js).
     this.ticker = new BackgroundTicker(now => this.backgroundStep(now));
@@ -146,14 +183,15 @@ export class Game {
   }
 
   get serviceModalOpen() { return this.movementModalOpen || !!this.game?.hud?.bar?.chooserOpen; }
-  get gameplayActionsBlocked() { return this.serviceModalOpen || !!this.menu?.open; }
+  get loadingBlocked() { return !this.started || this.maps?.busy || this.maps?.loadingScreen?.pending; }
+  get gameplayActionsBlocked() { return this.loadingBlocked || this.serviceModalOpen || !!this.menu?.open; }
 
   bind() {
     const input = this.input, view = this.view;
-    input.blocked = () => this.movementModalOpen;
+    input.blocked = () => this.loadingBlocked || this.movementModalOpen;
     input.actionsBlocked = () => this.gameplayActionsBlocked;
-    input.stickBlocked = () => this.serviceModalOpen;
-    input.movementBlocked = () => this.movementModalOpen;
+    input.stickBlocked = () => this.loadingBlocked || this.serviceModalOpen;
+    input.movementBlocked = () => this.loadingBlocked || this.movementModalOpen;
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => { input.cancelCameraDrag(); view.reset(); });
@@ -370,6 +408,17 @@ export class Game {
     this.game.hud?.setSafe(this.maps.map.safe); // world-designer hook: fight tips only on maps with monsters
   }
 
+  async renderMapReady() {
+    const p = this.player.position;
+    const env = this.env.update(this.clock.hour, this.view.focus);
+    this.postfx.update(env);
+    this.world.update(this.elapsed, 0, this.view.focus, env);
+    this.npcs.update(0, this.elapsed, p);
+    this.view.snap(p);
+    await boundedReady(this.renderer.compileAsync?.(this.scene, this.view.camera), 'ภาพแผนที่', { timeout: 30000 });
+    this.postfx.render();
+  }
+
   // Camera zoom from the wheel, pinch, + / − keys, the buttons by the minimap and the
   // settings slider; saved per device (src/ui/viewPrefs.js).
   // `deliberate`: the + / − buttons or the slider (they still work while the zoom is locked)
@@ -430,7 +479,6 @@ export class Game {
     if (this.view) { this.view.recenter(); this.view.snap(this.player.position); }
     if (this.questUI) this.updateJournal();
     this.training?.enterMap(map.id);
-    this.net?.enterMap(map.id);
     this.game?.hud?.setSafe(map.safe); // world-designer hook: fight tips only on maps with monsters
   }
 
@@ -656,7 +704,7 @@ export class Game {
       ...combatMusicState(this.game?.combat, p),
     });
     // While maps swap the fade overlay covers the screen; the clock keeps running.
-    if (this.maps.busy || !this.world) return;
+    if (this.maps.busy || this.maps.loadingScreen?.pending || !this.world) return;
     // Movement: keys, or a straight walk to a clicked point.
     // A skill move (training.busy) only holds the player in place: a walk the player clicked
     // goes on once it ends; a combat auto-walk is dropped (combat sets a new one if needed).
@@ -707,8 +755,7 @@ export class Game {
     this.training?.update(dt);
     if (!this.questsReady && this.game?.ready) { this.quests.attach(this.game.character, this.game.combat); this.questsReady = true; }
     this.player.bindCombat(this.game); // rigged class model + skill animations (no-op once bound)
-    if (this.training === undefined && this.game?.ready) this.startTraining();
-    if (!this.net && this.game?.ready && this.training !== undefined) this.net = startMultiplayer(this); // other players + chat (src/net)
+    if (this.started && !this.net && this.game?.ready && this.training !== undefined) this.net = startMultiplayer(this); // optional connectivity starts after local readiness
     this.net?.update(dt, view.camera);
     if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);

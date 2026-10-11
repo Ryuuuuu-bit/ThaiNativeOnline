@@ -7,6 +7,7 @@ import { seedOf } from '../core/seed.js';
 import { disposeCombatModel, markCachedCombatGeometry } from './CombatResources.js';
 import { applyBossFog } from './BossMaterial.js';
 import { BossMotion, BOSS_MOTION_PROFILES, createBossAnimator } from './BossMotion.js';
+import { disposeResources } from '../world/ResourceLifecycle.js';
 
 // Geometry, textures and clips are cached; each monster owns its skeleton,
 // animation clock and materials so damage flashes never affect its neighbours.
@@ -55,10 +56,28 @@ export const MONSTER_MODELS = {
 // One parse per file, shared; a load is retried, and a failure is forgotten after a while so
 // the next monster of the type asks the server again (src/core/retry.js).
 const loader = gltfLoader();
-const load = cachedLoader(url => loader.loadAsync(versioned(url)).then(gltf => {
+const requestGenerations = new Map();
+const load = cachedLoader(url => {
+  const revision = requestGenerations.get(url) ?? 0, requestURL = versioned(url);
+  // Three's FileLoader also deduplicates in-flight URLs. A retry of a stalled
+  // body must use a new request URL, while the source cache keeps its stable key.
+  return loader.loadAsync(revision ? `${requestURL}${requestURL.includes('?') ? '&' : '?'}retry=${revision}` : requestURL).then(gltf => {
   markCachedCombatGeometry(gltf.scene);
   return gltf;
-}));
+  });
+}, { onInvalidated: gltf => disposeResources(gltf.scene) });
+
+// Reuses the body cache used by live views; optional motion libraries stay outside readiness.
+export function prepareMonsterModels(types) {
+  return Promise.all([...new Set(types)].filter(type => MONSTER_MODELS[type]).map(type => load(MONSTER_MODELS[type].url)));
+}
+
+export function invalidateMonsterModelLoads(types) {
+  for (const type of new Set(types)) {
+    const url = MONSTER_MODELS[type]?.url;
+    if (url && load.invalidate(url)) requestGenerations.set(url, (requestGenerations.get(url) ?? 0) + 1);
+  }
+}
 
 // Optional animation libraries must never delay or reject the body load. A
 // missing library is cached as null and warns once, including on older deploys.

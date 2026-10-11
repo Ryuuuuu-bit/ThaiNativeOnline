@@ -62,3 +62,27 @@ test('sprite-supported monsters load 3D models even after a legacy pixel restyle
   assert.equal(view.monsterById(monster.id), monster);
   assert.deepEqual(view.pickables, [redrawn.group]);
 });
+
+test('dormant off-map monsters defer model requests until they spawn', async t => {
+  const loads = [];
+  t.mock.method(GLTFLoader.prototype, 'loadAsync', async url => {
+    loads.push(url);
+    const scene = new THREE.Group();
+    scene.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial()));
+    return { scene, animations: [] };
+  });
+  const monster = { id: 'dormant-crab', type: 'crab', alive: false, def: { shape: 'boar', color: '#647357', size: 1 } };
+  const combat = new Emitter(); combat.monsters = [monster];
+  const view = new CombatView(new THREE.Scene(), combat, () => 0);
+  t.after(() => { for (const v of view.views.values()) view.disposeModel(v.group); });
+  assert.equal(view.views.size, 0);
+  assert.deepEqual(loads, []);
+  monster.alive = true;
+  combat.emit('spawn', monster);
+  const spawned = view.views.get(monster.id);
+  await spawned.group.userData.ready;
+  assert.equal(spawned.group.visible, true);
+  assert.equal(spawned.group.userData.modelLoaded, true);
+  assert.equal(loads.length, 1);
+  assert.ok(loads[0].includes('/models/monsters/crab.glb'));
+});

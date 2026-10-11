@@ -65,6 +65,10 @@ On the dummy the blood ticks of ศอกกลับ still deal a flat 30; on m
 
 ## Hooks into shared code (documented interface changes)
 
+- `createClassAvatar(...).ready` resolves only after the avatar GLB is attached
+  to `Player`, for both kit and model-only classes. Critical failures reject;
+  `cancelLoading()` prevents a timed-out avatar from attaching later.
+
 - **`Player.setAvatar(model, casts)`** (`src/entities/Player.js`): the player's only look.
 - **`Game`** (`src/core/Game.js`): `this.training = createClassAvatar(...)` is created once `game.ready`, with `combat` and `hud`. Game then calls `enterMap(map.id)` on every map change, `onManualMove()` when the player steers, blocks walking while `training.busy`, and calls `update(dt)` each frame. Keys go to `game.handleKey` (CharacterUI, then CombatHUD and its action bar).
 - **`CombatHUD.setSkills(controller, label)`** and **`Combat.damageMonster / debuff / hold`**: see `src/combat/README.md`.

@@ -61,14 +61,21 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
   const group = new THREE.Group(); scene.add(group);
   const body = new THREE.Group(); group.add(body);
 
-  let mixer = null, current = null, oneShot = null, tintFade = null;
+  let mixer = null, current = null, oneShot = null, tintFade = null, disposed = false;
+  const releaseClone = model => model.traverse(o => {
+    if (!o.isMesh) return;
+    for (const material of Array.isArray(o.material) ? o.material : [o.material]) material.dispose();
+    o.skeleton?.dispose();
+  });
   const tinted = [];
   const actions = {};
   const ready = loadShared(url).then(gltf => {
     const model = gltf.scene;
+    if (disposed) { releaseClone(model); throw new Error('Avatar loading cancelled'); }
     // Refresh cloned skin bind inverses before Box3 samples quantised vertices.
     model.updateMatrixWorld(true);
     const box = new THREE.Box3().setFromObject(model), size = box.getSize(new THREE.Vector3());
+    if (!Number.isFinite(size.y) || size.y <= 0) { releaseClone(model); throw new Error('Avatar model has invalid bounds'); }
     const s = height / size.y;
     model.scale.setScalar(s);
     model.position.set(-(box.min.x + box.max.x) / 2 * s, -box.min.y * s, -(box.min.z + box.max.z) / 2 * s);
@@ -126,6 +133,13 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
   let facing = 0, walkTime = 0, lastStep = -1, sway = 0;
   return {
     group, ready,
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      mixer?.stopAllAction();
+      body.children.forEach(releaseClone);
+      group.removeFromParent();
+    },
     get clips() { return Object.keys(actions); },
     has: name => Boolean(actions[name]),
     // Authored length of a clip in seconds (0 if absent).
