@@ -1,6 +1,6 @@
 # Navigation, equipment and authenticated online UX QA
 
-Final authenticated persistence audit and combined QA gate on `cbe2a37`, including the navigation touch fix `0f3bad3`. QA owns the independent test harness, receipts and this report, with no application edits or production writes.
+Authenticated persistence and full-suite gate on behavior/server freeze `cbe2a37`, including the navigation touch fix `0f3bad3`. Later classic parchment CSS corrections are checked separately in the linked browser/Art reports. QA owns the independent test harness, receipts and this report, with no application edits or production writes.
 
 ## Confirmed finding
 
@@ -46,8 +46,8 @@ The final executed audit extends the ordinary trade with a second generated, unl
 | Explicit real PostgreSQL integration | **1 test,1 pass,0 fail,0 skip;16942.0023ms** |
 | Recorded audit checks | **67 successful checks**, plus exact equality assertions for flask metadata; one server restart and two successful graceful shutdowns |
 | Fixture cleanup | Exactly3 current synthetic accounts deleted after teardown from the guarded task database |
-| `npm test` on final source | **1298 total,1295 pass,0 fail,3 skip;43813.0689ms** |
-| `npm run build` | Passed, **1.10s**; existing large-chunk warning remains |
+| `npm test` on behavior/server freeze | **1298 total,1295 pass,0 fail,3 skip;43813.0689ms** |
+| `npm run build` at that freeze | Passed, **1.10s**; later CSS build is recorded in UI QA; existing large-chunk warning remains |
 | Final UI retake, independent browser owner | **40 touch states,0 protected intersections,0 uncaught page errors**;20 hidden-chip fallback states and1/1 explicit journal fallback |
 | UI behavior | **18/18 navigation/equipment checks plus2/2 actual pointer/focus checks passed** |
 
@@ -55,10 +55,14 @@ The full suite deliberately omits `TNO_QA_PG_CONFIG`, so its third skip is this 
 
 ## UI evidence and changed files
 
-The separate [browser QA report](navigation-equipment-ui.md) records48 initial layout samples, the confirmed narrow touch defect,40 final touch samples, actual route movement/cancellation/AUTO refusal, camera-relative arrow checks, real equipment comparison against disposable `Character.equip`, and focus/tooltip scrolling checks. It links eight unedited native screenshots under `docs/art/reviews/navigation-equipment-online-ux/`, including desktop walking navigation, fixed320px placement, enlarged390px HUD, comparison tables, scrolled actions, and journal fallback. Art verdict is a separate review; no physical-device or universal overlap-free certification is implied.
+The separate [browser QA report](navigation-equipment-ui.md) records48 initial layout samples, the confirmed narrow touch defect,40 final touch samples, actual route movement/cancellation/AUTO refusal, camera-relative arrow checks, real equipment comparison against disposable `Character.equip`, and focus/tooltip scrolling checks. It links nine unedited native screenshots under `docs/art/reviews/navigation-equipment-online-ux/`, including desktop walking navigation, fixed320px placement, enlarged390px HUD, comparison tables, scrolled actions, and journal fallback. Art verdict is a separate review; no physical-device or universal overlap-free certification is implied.
 
 This audit owner's changed files are `tests/postgres-auth-persistence.integration.test.js` and this report. Application fixes are owned by the implementation specialists/root. UI owner maintains `navigation-equipment-ui.md` and the eight native captures.
 
 ## Safety and limits
+
+After validation, root stopped the dedicated PostgreSQL cluster cleanly with
+`pg_ctl stop -m fast -w` and removed the ignored private configuration/password
+files. No PostgreSQL Windows service or production deployment was created.
 
 The test reads private config without printing connection strings/passwords and guards loopback host plus explicit database name/prefix before any write. Synthetic accounts are created only within this dedicated database; current fixture cleanup deletes only the exact generated account IDs after server teardown. Root owns PostgreSQL cluster lifecycle. No UAT database/accounts/saves are touched. This is actual local authenticated PostgreSQL durability evidence, not production capacity, arbitrary rank progression, all rewards/shops or physical-phone certification.
