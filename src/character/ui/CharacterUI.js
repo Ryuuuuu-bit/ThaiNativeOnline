@@ -200,19 +200,20 @@ export class CharacterUI {
     this.sheet.addEventListener('click', e => {
       const lock = e.target.closest('[data-lock-slot]');
       if (lock) { const slot = lock.dataset.lockSlot; this.c.setItemLock(slot, !this.c.isLocked(slot)); this.c.save(); return; }
-      const add = e.target.closest('[data-stat]'); if (add) this.c.allocate(add.dataset.stat);
+      const add = e.target.closest('[data-stat]'); if (add && this.c.allocate(add.dataset.stat)) this.c.save();
       // the stat guide (คู่มือลงแต้ม): open/close, and "ลงตามแผน" spends the points left by a build's ratio
       const gb = e.target.closest('.g-guide-btn'); if (gb) { this.guideOpen = !this.guideOpen; this.sheetKey = null; this.refreshSheet(); }
       const plan = e.target.closest('[data-plan]');
       if (plan) {
         const build = STAT_GUIDE.classes[this.c.classId]?.builds[Number(plan.dataset.plan)]; if (!build || !this.c.points) return;
         const add = spreadPoints(this.c.stats, this.c.points, build.plan);
-        for (const [k, n] of Object.entries(add)) for (let i = 0; i < n; i++) this.c.allocate(k);
+        if (!this.c.allocateMany(add)) return;
+        this.c.save();
         this.feed.log(`ลงแต้มตามแผน ${build.name}: ${Object.entries(add).map(([k, n]) => `${k.toUpperCase()} +${n}`).join(' · ')}`);
       }
       const flask = e.target.closest('[data-flask-kind]'); if (flask) { this.flaskPicker.open(flask.dataset.flaskKind); return; }
       const slot = e.target.closest('[data-slot]'); if (slot) this.workspace.select(null, slot.dataset.slot);
-      if (e.target.closest('.g-reset')) this.c.resetStats();
+      if (e.target.closest('.g-reset') && this.c.resetStats() !== false) this.c.save();
     });
     this.grid.addEventListener('dragstart', e => {
       const button = e.target.closest('[data-index]'), index = Number(button?.dataset.index), item = this.c.inventory[index];
@@ -226,6 +227,8 @@ export class CharacterUI {
   bind() {
     const c = this.c;
     c.on('change', () => this.refresh());
+    c.on('stat-connection', () => this.feed.log('กำลังเชื่อมต่อและโหลดสถานะตัวละคร กรุณารอสักครู่ก่อนลงแต้ม', 'bad', true));
+    c.on('stat-refused', () => this.feed.log('ลงแต้มเร็วเกินไป ระบบคืนแต้มที่ยังไม่บันทึกแล้ว กรุณาลองใหม่', 'bad', true));
     c.on('inventory', () => { this.cardPick.hidden = true; this.refreshInventory(); });
     c.on('loadout-result', r => this.reportLoadout(r));
     c.on('inventory-full', id => this.feed.log(`กระเป๋าเต็ม ทิ้ง ${ITEMS[id].name}`, 'bad'));

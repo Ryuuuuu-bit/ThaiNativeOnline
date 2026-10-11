@@ -66,6 +66,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { WebSocketServer } from 'ws';
 import { Presence, rateLimiter, MAPS } from './presence.js';
+import { rejectRateLimitedStatOp } from './statOps.js';
 import { Channels, CHANNEL, roomOf, parseRoom } from './channels.js';
 import { openStore } from './store.js';
 import { Accounts, SAVE_LIMIT } from './accounts.js';
@@ -248,8 +249,22 @@ wss.on('connection', ws => {
 });
 // one socket's message: a thrown error is that message's alone, never the server's
 async function handle(ws, raw) {
-    if (stopping || !conns.get(ws)?.allow()) return;
+    if (stopping) return;
+    const conn = conns.get(ws); if (!conn) return;
+    const allowed = conn.allow();
     let m; try { m = JSON.parse(raw); } catch { return; }
+    if (!allowed) {
+      const p = presence.players.get(ws), state = p && combatants.get(p.id);
+      if (rejectRateLimitedStatOp(state, m) && !conn.statSyncTimer) {
+        // Coalesce a burst into one correction rather than reflecting every dropped packet.
+        conn.statSyncTimer = setTimeout(() => {
+          conn.statSyncTimer = null;
+          if (conns.get(ws) !== conn) return;
+          const c = combatants.me(p.id); if (c) send(ws, { t: 'sync', c, statRefused: true });
+        }, 100);
+      }
+      return;
+    }
     if (!m || typeof m !== 'object' || typeof m.t !== 'string') return;
     const active = combatants.get(presence.players.get(ws)?.id);
     // Keep the source bag unchanged while its SQL transfer is in flight. A refused
@@ -428,6 +443,7 @@ async function handle(ws, raw) {
 }
 wss.on('connection', ws => {
   ws.on('close', () => {
+    clearTimeout(conns.get(ws)?.statSyncTimer);
     conns.delete(ws);
     const departing = presence.players.get(ws);
     const r = presence.leave(ws);

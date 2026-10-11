@@ -112,6 +112,7 @@ export function applyOp(c, msg = {}, quests = null, here = null, state = null) {
       return result.ok;
     }
     case 'alloc': return STATS.includes(msg.key) && c.allocate(msg.key);
+    case 'alloc_batch': return c.allocateMany(msg.add);
     case 'reset': c.resetStats(); return true;
     case 'sort': sortBag(c); return true;
     case 'learn': return typeof msg.id === 'string' && c.learnSkill(msg.id);

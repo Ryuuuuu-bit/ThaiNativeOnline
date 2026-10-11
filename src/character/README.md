@@ -49,3 +49,7 @@ Every item has a `weight`; bag stacks and equipped items both count. The limit i
 ## Look
 
 Classes have no models here. The player wears the class's Tripo GLB (`AVATARS` in `src/data/training.js`, attached by `src/training` through `Player.setAvatar`), which plays the `casts` clip on every combat `cast`.
+
+## Hooks for stat allocation
+
+CharacterUI uses `allocateMany(add)` for a build plan: validate the six stat keys, nonnegative integer counts and the available-point budget before any mutation, then emit one change. Accepted UI allocation/reset saves immediately through slotStorage. NetProgress mirrors the plan as one `alloc_batch` operation; server/progress replays the same validation and Combatants rejects it while dead. Single-point `allocate(stat)` remains supported.

@@ -85,6 +85,20 @@ client uses for prediction.
   - `src/account/index.js` picks the server store whenever `/api/health` answers.
 - **Guests:** they stay in their browser.
 
+### Stat allocation persistence
+
+Build plans use one atomic `alloc_batch { add }` instead of an operation per point.
+The shared Character.allocateMany validates known stat keys, integer counts and
+the available-point budget before changing anything; Combatants also refuses
+allocation while dead. Single-point allocation remains supported.
+
+Signed-in stat allocation/reset waits for an online connection and the first
+authoritative sync. Guests retain local allocation; accepted UI changes save
+immediately to their slot. The existing 40-message/second budget is unchanged.
+Throttled stat operations advance only their acknowledgement, then receive a
+coalesced authoritative correction with feedback, preventing unrecorded stat
+predictions from appearing permanent. See tests/stat-persistence.test.js.
+
 ### Character names
 
 - Registered characters reserve one global, case-insensitive NFKC name key. Trimmed

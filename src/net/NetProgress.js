@@ -17,7 +17,7 @@ import { flaskFields, instanceId, cleanFlask } from '../character/data/flasks.js
 import { lockFields, cleanEquipmentLocks, cleanLoadouts, cleanHotbar, gearReference } from '../character/itemState.js';
 import { rollFields, cleanRoll } from '../character/data/affixes.js';
 import { cleanMasteries } from '../character/data/masteries.js';
-export function attachNetProgress(net, c, quests = null) {
+export function attachNetProgress(net, c, quests = null, { authenticated = false } = {}) {
   let on = false, sent = 0, depth = 0, resyncPending = false;
   let pendingLoadout = null;
   let pendingRefine = null, unknownRefine = false;
@@ -77,8 +77,25 @@ export function attachNetProgress(net, c, quests = null) {
     pendingLoadout = { index, ack: sent };
     c.loadoutPending = true; c.emit('change'); return { ok: true, pending: true, index };
   };
-  wrap('allocate', key => ({ op: 'alloc', key }));
-  const reset = c.resetStats.bind(c); c.resetStats = () => { reset(); op({ op: 'reset' }); };
+  // A signed-in sheet is only a prediction after the server has loaded it.
+  // Never spend locally while disconnected: those changes cannot reach its save.
+  const statReady = () => {
+    if (!authenticated || (on && net.online)) return true;
+    c.emit('stat-connection'); return false;
+  };
+  const allocate = c.allocate.bind(c), allocateMany = c.allocateMany.bind(c);
+  c.allocate = key => {
+    if (!statReady()) return false;
+    const ok = allocate(key); if (ok) op({ op: 'alloc', key }); return ok;
+  };
+  c.allocateMany = add => {
+    if (!statReady()) return false;
+    const ok = allocateMany(add); if (ok) op({ op: 'alloc_batch', add: { ...add } }); return ok;
+  };
+  const reset = c.resetStats.bind(c); c.resetStats = () => {
+    if (!statReady()) return false;
+    reset(); op({ op: 'reset' });
+  };
   wrap('learnSkill', id => ({ op: 'learn', id }));
   wrap('resetSkills', () => ({ op: 'skill_reset' }));
   wrap('chooseEvo', (id, pick) => ({ op: 'evo', id, pick }));
@@ -145,13 +162,14 @@ export function attachNetProgress(net, c, quests = null) {
   net.on('titles', m => { if (on) { takeTitles(m); c.save?.(); } });
   net.on('sync', m => {
     if (!m.c) return;
-    on = true;
+    authenticated = true; on = true;
     if (quests) quests.deferMastery = quests.deferPractice = true;
     if (m.c.ack < sent) { resyncPending = true; return; }   // our latest action is still on its way
     resyncPending = false; adopt(m.c);
     // Raw network syncs may be stale. Consumers needing an authoritative bag
     // wait for this character event, emitted only after the accepted copy is adopted.
     c.emit('server-sync', { ack: m.c.ack });
+    if (m.statRefused) c.emit('stat-refused');
     if (c.refineRecovering || (pendingRefine && m.c.ack >= pendingRefine.ack)) {
       const unknown = unknownRefine || !!(pendingRefine && !pendingRefine.result);
       pendingRefine = null; unknownRefine = false; c.refineRecovering = false;
