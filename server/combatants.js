@@ -56,6 +56,7 @@ import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 import { SHAMAN_SKILLS } from '../src/classes/shaman-moves.js';
 import { HERBALIST_SKILLS } from '../src/classes/herbalist-moves.js';
+import { createTether, advanceTether } from '../src/training/tether.js';
 
 export const KITS = { muaythai: MUAYTHAI_SKILLS, warrior: WARRIOR_SKILLS, hunter: HUNTER_SKILLS, shaman: SHAMAN_SKILLS, herbalist: HERBALIST_SKILLS };
 export const SKILL_LV = 1;          // the level of a skill a character has no level for (legacy callers)
@@ -93,23 +94,28 @@ export function sane(data, cls) {
 export class Combatants {
   constructor({ now = () => Date.now() / 1000, random = Math.random } = {}) {
     this.now = now; this.r = random; this.list = new Map();   // player id → state
+    this.tethers = new Map();
   }
   get(id) { return this.list.get(id); }
   touch(id) { const s = this.list.get(id); if (s && !s.tradeBusy) { s.fightAt = this.now(); s.c.sitting = false; } }
   // sitting to rest (Combat.sit): double regen, never in a fight; any blow or swing stands up
   sit(id, on) { const s = this.list.get(id); if (s) s.c.sitting = !!on && s.c.alive && !this.fighting(id); }
   fighting(id) { const s = this.list.get(id); return !!s && this.now() - s.fightAt < RULES.combatTimeout; }
-  drop(id) { this.list.delete(id); }
+  drop(id) {
+    this.list.delete(id);
+    for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
+  }
   fall(id) {
     const s = this.list.get(id); if (!s || s.tradeBusy) return;
     s.c.fall(); if (s.persist) s.dirty = true;
+    for (const [source, link] of this.tethers) if (source === id || link.target === id) this.tethers.delete(source);
   }
 
   set(id, data, cls) {
     const old = this.list.get(id);
     if (old?.persist) return false;                               // a signed-in character is the server's own
     const c = sane(data, cls); if (!c) return false;
-    if (old) { c.buffs = old.c.buffs; old.c = c; return true; }   // gear / stats changed: buffs carry over
+    if (old) { c.buffs = old.c.buffs; if (!old.c.alive) c.fall(); old.c = c; return true; }   // gear / stats changed: buffs carry over
     this.list.set(id, this.entry(c));
     return true;
   }
@@ -218,6 +224,21 @@ export class Combatants {
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
   me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), title: s.c.title, ack: s.ack, quests: s.quests.state, ...(s.c.loadoutResult ? { loadoutResult: { ...s.c.loadoutResult } } : {}) } : null; }
 
+  // Transient combat state is sent separately from persistent character saves.
+  effects(id) {
+    const s = this.list.get(id); if (!s) return null;
+    return { owned: !!s.persist, hp: Math.round(s.c.hp), mp: Math.round(s.c.mp),
+      buffs: s.c.buffs.filter(b => b.remaining > 0).map(b => ({ ...b })) };
+  }
+
+  tether(source, target, skill, effect, room = null) {
+    const link = createTether(effect);
+    if (!link || !this.list.get(source)?.c.alive || !this.list.get(target)?.c.alive) return false;
+    // One active vine per caster; refreshing or changing friends replaces it.
+    this.tethers.set(source, { target, skill, room, link });
+    return true;
+  }
+
   // Attacker stats for a roll, buffs included.
   stats(c) { return { ...c.derived, patk: c.patk, matk: c.matk, critRate: c.critChance, critDmg: c.critDamage, accuracy: c.accuracy }; }
 
@@ -229,7 +250,7 @@ export class Combatants {
     const c = s.c, now = this.now();
     if (!c.alive) return { ok: false, why: 'dead' };
     const kitSkill = KITS[c.classId]?.find(k => k.id === skillId);
-    const legacy = !kitSkill && c.cls.skills.includes(skillId) && !LEGACY[skillId]?.basic ? LEGACY[skillId] : null;
+    const legacy = !KITS[c.classId] && !kitSkill && c.cls.skills.includes(skillId) && !LEGACY[skillId]?.basic ? LEGACY[skillId] : null;
     if (!kitSkill && !legacy) return { ok: false, why: 'not_yours' };
     // a kit skill must be learnt (job levels and skill points)
     if (kitSkill && lvOf(c, skillId) < 1) return { ok: false, why: 'not_learnt' };
@@ -250,7 +271,8 @@ export class Combatants {
     // a signed-in character pays MP here (a little slack: the browser's regen ticks on its own clock)
     const mp = kitSkill ? Math.round(info.mp * (c.mpCostMul ?? 1)) : legacy.mp ?? 0;
     if (s.persist && mp) { if (c.mp + Math.max(2, mp * MP_SLACK) < mp) return { ok: false, why: 'mp' }; c.mp = Math.max(0, c.mp - mp); }
-    s.cds.set(skillId, now + Math.max(0, cd * CD_SLACK - CD_LAG));
+    const base = SKILL_BY_ID[eff];
+    s.cds.set(skillId, now + (base?.buff ? cd : Math.max(0, cd * CD_SLACK - CD_LAG)));
     // The client timeline and authoritative hit budget share the same rules.
     // Support-only casts open no offensive budget; splash is selected here.
     const schedule = kitSkill ? skillHitSchedule(kitSkill, eff) : [0];
@@ -262,36 +284,40 @@ export class Combatants {
     // the caster's side happens here: buffs raise the next rolls; a signed-in caster's own heal
     // and MP land on the server's copy (the browser shows the same)
     const single = !!kitSkill && ally && allyHeal(eff);
+    let self = null;
     if (kitSkill) {
-      const e = selfEffects(eff, slv, c.defense, c.matk, c.healPow ?? 1);
+      const e = selfEffects(eff, slv, c.defense, c.matk, c.healPow ?? 1, c.cooldownCut);
+      if (!single) self = e;
       if (e?.buff) c.addBuff(e.buff);
       if (s.persist && !single && (e?.heal || e?.hp)) c.heal(c.maxHp * e.heal + e.hp);
+      if (e?.tether && !single) this.tether(id, id, skillId, e.tether);
       if (s.persist && e?.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * e.mp);
       if (e?.heal || e?.hp || e?.mp) s.dirty = true;
     } else if (legacy.kind === 'buff' && legacy.buff) c.addBuff(legacy.buff);
     // a party / revive / healing skill: what the members near the caster get (server/index.js hands it out)
-    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1) : null;
+    const support = kitSkill ? supportOf(eff, slv, c.defense, c.matk, c.healPow ?? 1, c.cooldownCut) : null;
     const effects = [];
     const supportDuration = Math.max(support?.buff?.duration ?? 0, tauntOf(eff)?.duration ?? 0);
     if (supportDuration > 0) s.variantEffectsUntil = Math.max(s.variantEffectsUntil ?? 0, now + supportDuration);
     const challenge = kitSkill ? tauntOf(eff) : null;
     if (challenge && world && player) for (const m of within(world.monsters, player, challenge.radius)) effects.push(world.debuff(m, { id: 'taunt', taunt: true, label: 'ยั่วยุ', remaining: challenge.duration, by: id }));
     recordQuestCast(this, id, skillId, now);
-    if (effects.length) return { ok: true, effects, ...(support ? { support } : {}), ...(single ? { single: true } : {}) };
-    return support ? { ok: true, support, ...(single ? { single: true } : {}) } : { ok: true };
+    if (effects.length) return { ok: true, ...(self ? { self } : {}), effects, ...(support ? { support } : {}), ...(single ? { single: true } : {}) };
+    return support ? { ok: true, ...(self ? { self } : {}), support, ...(single ? { single: true } : {}) } : { ok: true, ...(self ? { self } : {}) };
   }
   // A healer's support landing on another player: heal, MP and buff; a revive brings a fallen one
   // back where they lie. → what happened ({ heal, revived }) or null.
   aid(id, sup) {
     const s = this.list.get(id); if (!s || s.tradeBusy) return null;
     const c = s.c;
-    if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); s.dirty = true; return { revived: true }; }
+    let revived = false;
+    if (!c.alive) { if (!sup.revive) return null; c.revive(sup.revive); revived = true; }
     const before = c.hp;
-    if (sup.heal || sup.hp) c.heal(c.maxHp * (sup.heal || 0) + (sup.hp || 0));
-    if (sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
+    if (!revived && (sup.heal || sup.hp)) c.heal(c.maxHp * (sup.heal || 0) + (sup.hp || 0));
+    if (!revived && sup.mp) c.mp = Math.min(c.maxMp, c.mp + c.maxMp * sup.mp);
     if (sup.buff) c.addBuff(sup.buff);
     s.dirty = true;
-    return { heal: Math.round(c.hp - before) };
+    return { heal: Math.round(c.hp - before), ...(revived ? { revived: true } : {}) };
   }
 
   // One blow: msg { id (monster), skill: kit id | legacy id | 'basic' | 'pet', pounce? }.
@@ -389,10 +415,8 @@ export class Combatants {
     this.touch(attacker); this.touch(target); c.sitting = false; t.sitting = false;
     const roll = rollDamage(this.stats(c), { def: t.defense, eva: t.evasion }, basic.scale === 'int' ? 'magic' : 'physical', basic.power, this.r);
     if (!roll.hit) return { miss: true, hp: t.hp, maxHp: t.maxHp };
-    const amount = Math.min(t.hp - (knockout ? 1 : 0), Math.max(1, Math.round(roll.dmg * .5)));
-    const won = knockout && t.hp - amount <= 1;
-    t.hp = Math.max(knockout ? 1 : 0, t.hp - amount);
-    if (!t.hp) t.fall();
+    const amount = t.damage(Math.min(t.hp - (knockout ? 1 : 0), Math.max(1, Math.round(roll.dmg * .5))));
+    const won = knockout && t.hp <= 1;
     a.dirty = true; b.dirty = true;
     return { amount, crit: !!roll.crit, hp: t.hp, maxHp: t.maxHp, dead: !t.alive, won };
   }
@@ -405,7 +429,7 @@ export class Combatants {
   }
   // buffs run out; night crit for night classes
   // (a signed-in character also regenerates MP, faster out of a fight)
-  tick(dt, night) {
+  tick(dt, night, players = null, canAid = () => true) {
     const now = this.now();
     for (const s of this.list.values()) {
       if (s.tradeBusy) continue;
@@ -413,5 +437,28 @@ export class Combatants {
       if (s.persist) { const hp=s.c.hp,mp=s.c.mp; s.c.tick(dt, now - s.fightAt < RULES.combatTimeout); if(s.c.hp!==hp||s.c.mp!==mp)s.dirty=true; }
       else if (s.c.buffs.length) s.c.buffs = s.c.buffs.filter(b => (b.remaining -= dt) > 0);
     }
+    const positions = new Map((players ?? []).map(p => [p.id, p])), events = [];
+    for (const [source, active] of this.tethers) {
+      const from = this.list.get(source), to = this.list.get(active.target);
+      const p = positions.get(source), q = positions.get(active.target);
+      const self = source === active.target;
+      const noPositions = players === null && self;
+      if (!from?.c.alive || !to?.c.alive || !canAid(source, active.target) ||
+          (!noPositions && (!p || !q || p.dead || q.dead || p.room !== q.room || (active.room !== null && p.room !== active.room)))) {
+        this.tethers.delete(source); continue;
+      }
+      if (p && active.room === null) active.room = p.room;
+      const step = advanceTether(active.link, dt, noPositions ? 0 : dist(p, q));
+      if (step.hp > 0) {
+        // Guests keep their own vitals; the server still owns timing and range.
+        const result = to.persist ? this.aid(active.target, { hp: step.hp }) : { heal: step.hp };
+        if (result?.heal > 0) {
+          if (!self && from.persist) { from.c.note('healOut', result.heal); from.dirty = true; }
+          events.push({ source, target: active.target, skill: active.skill, heal: result.heal });
+        }
+      }
+      if (step.done) this.tethers.delete(source);
+    }
+    return events;
   }
 }

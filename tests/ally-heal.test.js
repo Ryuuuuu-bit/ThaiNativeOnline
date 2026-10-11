@@ -11,15 +11,18 @@ test('the vine and the bouncing pill aim at one friend; area and party skills do
   assert.ok(ALLY_FOCUS > 1);
 });
 
-test('a heal sent to a friend skips the caster and says single; without one it heals the caster as before', () => {
+test('a vine sent to a friend skips the caster; a self vine heals only on its timed ticks', () => {
   let t = 0; const cs = new Combatants({ now: () => t });
   cs.load(1, { ...Character.create('หมอ', 'herbalist').toJSON(), jobLevel: 10, skills: { heal_vine: 1 } }, { account: 'a', slot: 0 });
   const c = cs.get(1).c; c.mp = 999; c.hp = 10;
   const r = cs.cast(1, 'heal_vine', { ally: true });
-  assert.ok(r.ok && r.single && r.support.hp > 0, r.why);
+  assert.ok(r.ok && r.single && r.support.tether.amount > 0, r.why);
+  assert.equal(r.support.hp, 0, 'the complete duration is never paid at cast time');
   assert.equal(c.hp, 10, 'the caster is not healed');
   t += 60;
   const r2 = cs.cast(1, 'heal_vine');
-  assert.ok(r2.ok && !r2.single); assert.ok(c.hp > 10, 'the caster heals itself');
-  assert.ok(supportOf('heal_vine', 1, 10, 100).hp > 0, 'the heal a friend gets grows with MATK');
+  assert.ok(r2.ok && !r2.single); assert.equal(c.hp, 10);
+  cs.tick(.49, false); assert.equal(c.hp, 10);
+  cs.tick(.01, false); assert.ok(c.hp > 10, 'the first tick heals the caster');
+  assert.ok(supportOf('heal_vine', 1, 10, 100).tether.amount > 0, 'the heal a friend gets grows with MATK');
 });

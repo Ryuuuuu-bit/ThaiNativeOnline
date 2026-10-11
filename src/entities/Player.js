@@ -51,7 +51,9 @@ export class Player {
   move(direction, dt, world, running) {
     const p = this.group.position;
     if (!direction.lengthSq()) { this.animate(dt, 0); return true; }
-    const speed = (running ? RUN_SPEED : WALK_SPEED) * world.speedAt(p.x, p.z), step = speed * dt, startX = p.x, startZ = p.z;
+    const bonus = this.combat?.character?.speedBonus ?? 0;
+    const speedBonus = Number.isFinite(bonus) ? Math.max(0, Math.min(.5, bonus)) : 0;
+    const speed = (running ? RUN_SPEED : WALK_SPEED) * (1 + speedBonus) * world.speedAt(p.x, p.z), step = speed * dt, startX = p.x, startZ = p.z;
     // in pieces no longer than a body's width, so a long frame (a hidden tab's catch-up, a slow
     // phone) cannot carry the player through a fence post or a wall between two tests
     const pieces = Math.max(1, Math.ceil(step / .12));

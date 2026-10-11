@@ -132,11 +132,14 @@ export function hitChanceOf(accuracy, eva) {
   return clamp(0.95 + (accuracy - 90 - eva) / 100, 0.6, 0.99);
 }
 
+// Shared outgoing player damage, including skills and pets. Monster rolls opt out with atk.mob.
+export const PLAYER_DAMAGE_MULT = 1.2;
+
 /**
  * ทอยความเสียหาย 1 ครั้ง
- * @param {object} atk  { patk, matk, accuracy, critRate, critDmg }
+ * @param {object} atk  { patk, matk, accuracy, critRate, critDmg, mob? }
  * @param {object} def  { def, eva }
- * @param {'physical'|'magic'} kind
+ * @param {'physical'|'magic'|'best'} kind
  * @param {number} mult ตัวคูณของท่าโจมตี
  * @returns {{hit:boolean, crit:boolean, dmg:number}}
  */
@@ -154,5 +157,5 @@ export function rollDamage(atk, def, kind = 'physical', mult = 1, rng = Math.ran
   const crit = rng() < atk.critRate;
   if (crit) dmg *= atk.critDmg;
 
-  return { hit: true, crit, dmg: Math.round(dmg) };
+  return { hit: true, crit, dmg: Math.round(dmg * (atk.mob ? 1 : PLAYER_DAMAGE_MULT)) };
 }

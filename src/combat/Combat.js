@@ -16,6 +16,7 @@ import { afterHit, shoveTo } from './monsterHit.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
 import { resetBossSkills, cancelBossSkill, tickBossSkills } from './bossSkills.js';
 import { monsterAttackImpact, beginMonsterStrike, tickMonsterStrike, cancelMonsterStrike } from './monsterAttackTiming.js';
+import { BOSS_EFFECT_MUL } from '../rules/effects.js';
 
 const { leash: LEASH, combatTimeout: COMBAT_TIMEOUT, projectileSpeed: PROJECTILE_SPEED, globalCooldown: GLOBAL_COOLDOWN, petBite: PET_BITE, petInstinct: PET_INSTINCT } = RULES;
 
@@ -46,6 +47,15 @@ export class Combat extends Emitter {
     this.attackTimer = 0; this.gcd = 0; this.combatTimer = 0; this.projectiles = []; this.hold = false;
     this.phase = 'day';
     character.evoContext = () => ({ fighting: this.inCombat, busy: !!this.pending || this.projectiles.length > 0 || character.buffs.length > 0 });
+    character.on('cleansed', () => {
+      // Rule conditions may live outside Character.buffs. Clear only existing
+      // player-side fields; monster debuffs and positive buffs are unaffected.
+      for (const target of [this, character]) for (const [key, value] of Object.entries({
+        stunUntil: 0, dots: null, slowUntil: 0, slowPct: 0,
+        defDownUntil: 0, defDownPct: 0, weakUntil: 0, weakPct: 0,
+      })) if (Object.hasOwn(target, key)) target[key] = value;
+      this.emit('cleansed');
+    });
     // Hunter's dog: follows the player and bites whatever the player fights.
     this.pet = character.cls.pet ? { kind: character.cls.pet, x: 0, z: 0, facing: 0, moving: false, attackTimer: 0, frenzy: 0, placed: false } : null;
     for (const spawn of spawns) for (let i = 0; i < spawn.count; i++) {
@@ -154,11 +164,9 @@ export class Combat extends Emitter {
         if (this.attackTimer > 0) { this.pending = { skillId, target }; return { ok: true, queued: true }; }
       }
       this.pending = null;
-      this.execute(skillId, target);
-      return { ok: true };
+      return { ok: this.execute(skillId, target) !== false };
     }
-    this.execute(skillId, null);
-    return { ok: true };
+    return { ok: this.execute(skillId, null) !== false };
   }
   skillRange(skill) {
     if (skill.kind === 'pet') return 12;
@@ -168,6 +176,7 @@ export class Combat extends Emitter {
 
   execute(skillId, target) {
     const c = this.character, skill = SKILLS[skillId], p = this.world.playerPos();
+    if (!skill.basic && c.kitSkills?.length > 0) { this.fail('ใช้สกิลจากชุดสกิลอาชีพ'); return false; }
     if (!c.spendMp(skill.mp)) { this.autoAttack = false; this.fail('MP ไม่พอ'); return false; }
     if (skill.cd) c.cooldowns[skillId] = skill.cd * (1 - c.cooldownCut);          // DEX shortens skill cooldowns
     if (skill.basic) this.attackTimer = c.cls.attackSpeed * (1 - c.attackSpeed);   // AGI speeds up basic attacks
@@ -213,7 +222,8 @@ export class Combat extends Emitter {
     // สัญชาตญาณหมาล่า: a hunter's landed basic hit may send the dog in at once (LUK helps)
     if (hit && skill.basic && this.pet && Math.random() < PET_INSTINCT + (this.character.stat?.('luk') || 0) * .002) { this.pet.attackTimer = 0; this.pet.pounce = this.pet.pounce || { power: PET_BITE * 1.5 * (this.character.petBiteMul ?? 1) }; }
     const id = skill.basic ? 'basic' : Object.keys(SKILLS).find(k => SKILLS[k] === skill);
-    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff && !this.remote) this.debuff(m, { ...skill.debuff, source: this.character.attack });
+    // Match server skill DoTs: the landed roll already includes player damage tuning.
+    if (this.damageMonster(m, hit ? dealt : 0, { crit, miss: !hit, skill: id }) && skill.debuff && !this.remote) this.debuff(m, { ...skill.debuff, source: dealt });
   }
 
   // Apply an already rolled blow to a monster (hook for the class skill kits,
@@ -229,7 +239,7 @@ export class Combat extends Emitter {
     this.aggro(m); return true;
   }
   // Debuff on a monster: { id, duration, slow?, stun?, dot?, source?, label? }; one of each id at a time.
-  debuff(m, d) { if (!m.alive) return; if (d.taunt) { if (m.state === 'return') return; d = { ...d, duration: Math.min(m.def.boss ? 2 : 8, d.duration) }; m.state = 'chase'; } m.debuffs = m.debuffs.filter(o => !sameStatusSource(o, d)); m.debuffs.push({ ...d, remaining: d.duration }); this.emit('debuffed', { monster: m, debuff: d }); }
+  debuff(m, d) { if (!m.alive) return; if (d.taunt) { if (m.state === 'return') return; d = { ...d, duration: Math.min(m.def.boss ? 2 : 8, d.duration) }; m.state = 'chase'; } d = { ...d, duration: d.duration * (m.def.boss && !d.dot && !d.taunt ? BOSS_EFFECT_MUL : 1) }; m.debuffs = m.debuffs.filter(o => !sameStatusSource(o, d)); m.debuffs.push({ ...d, remaining: d.duration }); this.emit('debuffed', { monster: m, debuff: d }); }
 
   aggro(m) { if (m.state !== 'return') m.state = 'chase'; this.combatTimer = COMBAT_TIMEOUT; }
 
@@ -458,24 +468,40 @@ export class Combat extends Emitter {
     const c = this.character;
     const at = this.world.playerPos();
     if (m.def.ranged) this.emit('projectile', { from: { x: m.x, z: m.z }, target: { x: at.x, z: at.z }, color: m.def.ranged, duration: .3 });
-    if (res ? res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level))) { this.emit('dodge', { x: this.world.playerPos().x, z: this.world.playerPos().z }); return; }
-    let dealt;
-    if (res) { c.hp = Math.max(1, Math.round(res.hp + res.dmg)); dealt = c.damage(res.hp > 0 ? res.dmg : c.hp); }   // land exactly on the server's HP
-    else {
+    const wasAlive = c.alive;
+    const dodged = res ? !!res.dodge : Math.random() < c.evadeChance(m.def.acc ?? MONSTER_ACCURACY(m.def.level));
+    let dealt = 0;
+    if (res) {
+      // A resolved result is authoritative, including fractional HP and death.
+      // Character.damage() rounds and consults local undying, which may be stale.
+      const hasHp = Number.isFinite(res.hp), hasMp = Number.isFinite(res.mp);
+      if (hasHp) { c.hp = Math.max(0, res.hp); if (!c.alive) c.fall(); }
+      if (hasMp) c.mp = Math.max(0, Math.min(c.maxMp, res.mp));
+      if (hasHp || hasMp) c.emit('change');
+      dealt = !dodged && Number.isFinite(res.dmg) ? Math.max(0, res.dmg) : 0;
+      if (dealt) c.emit('damaged', dealt);
+      if (wasAlive && !c.alive) c.emit('death');
+    }
+    if (dodged) {
+      this.emit('dodge', { x: at.x, z: at.z });
+      if (c.alive) return;
+    } else if (!res) {
       const night = this.night && this.isGhost(m) ? NIGHT.ghostPower : 1;
-      const raw = m.def.atk * monsterAttackMul(m) * (fx?.power ?? night) * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
+      // Remote guest packets already include weakness in their supplied power.
+      const weak = this.remote && Number.isFinite(fx?.power) ? 1 : monsterAttackMul(m);
+      const raw = m.def.atk * (fx?.power ?? night) * weak * rand(.85, 1.15) * (!fx?.skill && m.def.elite && Math.random() < RULES.eliteHeavyChance ? 1.8 : 1);
       dealt = c.damage(Math.max(1, (raw - c.defense * .4) * (1 - c.resist(m.def))));
     }
     const p = this.world.playerPos();
-    this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
-    if (c.alive) {
+    if (!dodged) this.emit('player-hit', { amount: dealt, x: p.x, z: p.z, monster: m });
+    if (!dodged && c.alive) {
       afterHit(c, m.def);
       if (res?.mp !== undefined) c.mp = Math.min(c.maxMp, res.mp);   // the server's drain
       const shove = fx ?? (m.def.knock && Math.random() < m.def.knock ? { knock: true } : null);
       const to = shove && shoveTo(m, p, shove, this.world.canStand);
       if (to) { p.x = to.x; p.z = to.z; this.emit('shoved', { monster: m, ...to, pull: !!shove.pull }); }
     }
-    if (!c.alive) {
+    if (wasAlive && !c.alive) {
       this.autoAttack = false; this.pending = null; this.setTarget(null);
       for (const other of this.monsters) if (other.state === 'chase') other.state = 'return';
       this.emit('player-death', m);

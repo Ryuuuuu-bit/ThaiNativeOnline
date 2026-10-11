@@ -1,7 +1,7 @@
 // Pure presentation data, using the same formulas as kit combat. No saved state.
 import { SKILL_BY_ID, skillStats } from './data/skills.js';
 import './data/evolutions.js';
-import { hitChanceOf } from './stats.js';
+import { hitChanceOf, PLAYER_DAMAGE_MULT } from './stats.js';
 import { RULES } from '../combat/data/rules.js';
 import { castInfo, selfEffects, supportOf, hitEffects } from '../training/kitCombat.js';
 
@@ -24,11 +24,12 @@ export function skillPreview(id, level, stats, options = {}) {
     const armor = Math.max(0, Number(defense.def) || 0) * (kind === 'magic' ? .25 : .5);
     const low = Math.max(1, power * mult * .9 - armor), high = Math.max(1, power * mult * 1.1 - armor);
     const critMultiplier = stats.critDmg ?? 1.5;
+    const playerMultiplier = stats.mob ? 1 : PLAYER_DAMAGE_MULT;
     const hitChance = kind === 'magic' && !stats.mob ? 1 : hitChanceOf(stats.accuracy, defense.eva || 0);
     damage = { kind, power, mult, armor, hits, hitChance, critChance: stats.critRate ?? 0, critMultiplier,
-      normal: [Math.round(low), Math.round(high)], crit: [Math.round(low * critMultiplier), Math.round(high * critMultiplier)],
-      total: [Math.round(low) * hits, Math.round(high) * hits],
-      formula: 'round(max(1, power × multiplier × random(0.9,1.1) − DEF × armorFactor) × criticalMultiplier)',
+      normal: [Math.round(low * playerMultiplier), Math.round(high * playerMultiplier)], crit: [Math.round(low * critMultiplier * playerMultiplier), Math.round(high * critMultiplier * playerMultiplier)],
+      total: [Math.round(low * playerMultiplier) * hits, Math.round(high * playerMultiplier) * hits],
+      formula: 'round(max(1, power × multiplier × random(0.9,1.1) − DEF × armorFactor) × criticalMultiplier × playerMultiplier)',
       conditional: true };
   }
   const self = selfEffects(id, lv, stats.def ?? 10, stats.matk ?? 0, stats.healPow ?? 1);
