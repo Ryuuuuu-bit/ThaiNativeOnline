@@ -484,6 +484,7 @@ export class Combatants {
     const positions = new Map((players ?? []).map(p => [p.id, p])), events = [];
     for (const [source, active] of this.tethers) {
       const from = this.list.get(source), to = this.list.get(active.target);
+      if (from?.tradeBusy || to?.tradeBusy) continue;
       const p = positions.get(source), q = positions.get(active.target);
       const self = source === active.target;
       const noPositions = players === null && self;
