@@ -2,22 +2,22 @@
 
 ## Finding, resolved
 
-Severity: minor  
-Environment: `/ ?ui=1&at=4,150&t=12` (without the space), isolated local Guest; headless Microsoft Edge/Playwright, touch DPR 2, 320 × 640 CSS pixels, both modern and classic skins; initial UI source `f660272fad5493845b16d8f4241932e8dbde40e6`.  
-Steps to Reproduce: track `newcomer_supplies`; leave the quest idle, with the player near the southern city route; inspect the objective chip and the separate potions/AUTO row. Orbiting the camera also reproduces the overlap.  
-Expected: objective HUD avoids all actionable combat/utility controls.  
-Actual: the chip intersects AUTO settings by 16 × 15 CSS pixels. `TouchControls` appends `.touch-side` outside `.touch-combat-dock`, while the placement obstacle list included only the dock.  
-Evidence: initial `artifacts/navigation-equipment-online-ux/ui-qa/result.json`; native before image `artifacts/navigation-equipment-online-ux/ui-qa/exploratory/320-normal-navigation.png`.  
-Suspected Area: `src/ui/QuestUI.js`, HUD/layout owner.  
+Severity: minor
+Environment: `/ ?ui=1&at=4,150&t=12` (without the space), isolated local Guest; headless Microsoft Edge/Playwright, touch DPR 2, 320 × 640 CSS pixels, both modern and classic skins; initial UI source `f660272fad5493845b16d8f4241932e8dbde40e6`.
+Steps to Reproduce: track `newcomer_supplies`; leave the quest idle, with the player near the southern city route; inspect the objective chip and the separate potions/AUTO row. Orbiting the camera also reproduces the overlap.
+Expected: objective HUD avoids all actionable combat/utility controls.
+Actual: the chip intersects AUTO settings by 16 × 15 CSS pixels. `TouchControls` appends `.touch-side` outside `.touch-combat-dock`, while the placement obstacle list included only the dock.
+Evidence: initial `artifacts/navigation-equipment-online-ux/ui-qa/result.json`; native before image `artifacts/navigation-equipment-online-ux/ui-qa/exploratory/320-normal-navigation.png`.
+Suspected Area: `src/ui/QuestUI.js`, HUD/layout owner.
 Resolution: root added `.touch-side` to protected rectangles in `0f3bad3628867a5330b3d4ee3665578183c7399a`; final browser retake found zero intersections in 40 touch layout states. Root separately reports 9/9 geometry regression tests; this browser owner did not run those tests.
 
-Severity: cosmetic  
-Environment: classic skin selected equipment detail, desktop 1366×768 and touch 390×844; parchment background.  
-Steps to Reproduce: select refined armor or an accessory with mixed stat changes; scroll the selected item into its current → after comparison and inspect refinement, replacement/card text and notes.  
-Expected: selected-detail text remains readable on the parchment, with text contrast at least 4.5:1.  
-Actual: Art scored classic readability 7; the new light captions/labels/deltas inherited a dark-UI palette on pale parchment. During the first ink fix, computed replacement/card text still inherited `#6c5434` (2.62–2.92:1 against the conservative darkest sampled parchment) and `#49331d` notes reached only 4.37:1 in the desktop sample. Existing green item bonus text was 4.264:1 even against the plain base parchment before shading.  
-Evidence: ignored `ui-qa/classic-before-note-tail.json`, before native `ui-qa/exploratory/touch-equipment-1-actions-before-classic-fix.png`; Art review and final captures linked below.  
-Suspected Area: `src/character/ui/inventory-workspace.css`, equipment presentation owner/root.  
+Severity: cosmetic
+Environment: classic skin selected equipment detail, desktop 1366×768 and touch 390×844; parchment background.
+Steps to Reproduce: select refined armor or an accessory with mixed stat changes; scroll the selected item into its current → after comparison and inspect refinement, replacement/card text and notes.
+Expected: selected-detail text remains readable on the parchment, with text contrast at least 4.5:1.
+Actual: Art scored classic readability 7; the new light captions/labels/deltas inherited a dark-UI palette on pale parchment. During the first ink fix, computed replacement/card text still inherited `#6c5434` (2.62–2.92:1 against the conservative darkest sampled parchment) and `#49331d` notes reached only 4.37:1 in the desktop sample. Existing green item bonus text was 4.264:1 even against the plain base parchment before shading.
+Evidence: ignored `ui-qa/classic-before-note-tail.json`, before native `ui-qa/exploratory/touch-equipment-1-actions-before-classic-fix.png`; Art review and final captures linked below.
+Suspected Area: `src/character/ui/inventory-workspace.css`, equipment presentation owner/root.
 Resolution: classic selected-details only now use dark ink (`#332414` captions, labels, metadata and notes; `#123c1c` beneficial/item bonuses; `#5c1b0b` adverse/refinement). Final CSS source **`689e3da75b1531699fe3f222f2e860388236cbc9`** passed all four contrast fixture sets, minimum **4.7607:1**. Modern and classic dark hover tooltip computed colors remain identical. No further confirmed bug in the bounded checks below. This is not certification of every menu, authenticated transaction, map, or physical device.
 
 ## Summary and files
