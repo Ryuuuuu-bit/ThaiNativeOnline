@@ -58,4 +58,3 @@ body.ui-touch.newcomer-journal-open #newcomer-journal-toggle { position:static; 
 body.newcomer-journal-open .exploration::before { display:none; }
 body:not(.newcomer-journal-open) #newcomer-guide { display:none; }
 body:not(.newcomer-journal-open) .exploration:not(:has(#quest-tracker > *)) { display:none; }
-

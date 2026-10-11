@@ -8,12 +8,15 @@ active hunting location from current gameplay data. Search and map/type/slot/
 collection filters do not change items or teleport the player. Location actions
 use the existing atlas route selection; guide actions open existing game panels.
 
-There are 65 card definitions and 63 species with active spawn locations. Entries
+There are 67 card definitions and 65 species with active spawn locations. Entries
 without an active source remain visible and explicitly say that no current
 hunting location exists. New individual paintings cover only the 31 monsters
 with designed production GLB models, as requested. The 34 procedural fallback
 creatures retain existing icon/emblem presentation; no new designs are published
-for them. The original item PNG files remain available.
+for them. The two subsequently added ghost sisters retain their approved existing
+icons and bonuses; they have no newly invented socket proc. The original item PNG
+files remain available. The current catalog therefore has 31 painted entries and
+36 entries using their existing presentation.
 
 The 24 ordinary expedition cards now have distinct combinations of precision,
 critical damage, casting, SP reserves, race damage and defense. Their weapon
@@ -43,9 +46,10 @@ continue to apply.
 
 ## Boss cards
 
-All 11 boss card definitions and the two early map guardians (buffalo and
+The original 11 boss card definitions and the two early map guardians (buffalo and
 takian) have an explicit ability separate from their existing flat bonuses.
-The boss catalog filter includes all 13; map-role badges do not change monster
+The current boss catalog filter includes 15 entries after the ghost sisters were
+added; 13 have the authored abilities below. Map-role badges do not change monster
 flags or drop rates. The two guardians retain their elite 0.25% card rate.
 Abilities work from valid sockets on currently worn,
 eligible equipment. Multiple copies of one boss ability do not stack. Collected
@@ -107,7 +111,7 @@ complete 31-model set before generating the illustration registry.
 
 ## Validation and limits
 
-Final local validation: **830/830 tests pass** with test concurrency limited to
+Historical original-branch validation: **830/830 tests pass** with test concurrency limited to
 two; `npm run build` succeeds with the existing large-bundle warning. Six browser
 scenarios and ten refreshed screenshots pass with no page errors. Independent
 Art/Tech review accepts all 31 paintings/icons and the refreshed responsive
@@ -130,3 +134,9 @@ economy balance. Drop rates remain 0.02% ordinary, 0.25% elite and 0.5% boss.
 Collection cannot recover old discoveries that were already sold or lost before
 history tracking. Two catalog entries (pop and tiger) still have no active spawn.
 Live PostgreSQL migration and physical-device performance were not exercised.
+
+The consolidation into current main verifies the counts directly from
+`CARD_CATALOG`: 67 total, 65 with active locations, 15 boss-filter entries,
+13 authored abilities and 31 illustration/icon pairs (62 WebP files). Current
+integration validation and conflict decisions are recorded in
+`BRANCH_CONSOLIDATION.md`; the original receipts above are historical evidence.

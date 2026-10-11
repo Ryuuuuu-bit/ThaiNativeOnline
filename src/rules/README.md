@@ -245,8 +245,11 @@ The implementation shares the calculation between local combat and the server.
 Provocation is limited to 8 seconds on ordinary enemies and 2 seconds on bosses,
 requires a living nearby caster and never redirects an already aimed boss warning.
 Armor-break and weak effects use the strongest active source, capped at 60%.
-Party defenses use strongest active flat/proportional values rather than unlimited
-addition. Healing, cleansing and resource recovery keep their own skill range,
+Party defenses use strongest active positive flat/proportional values rather than unlimited
+addition. Active finite negative modifiers still add to each aggregate, with the
+ratio bounded from -100% to +60%; flat defense is added after the ratio and final
+DEF cannot fall below zero. Older status-branch tests expecting positive stacking
+are superseded by this existing strongest-party policy. Healing, cleansing and resource recovery keep their own skill range,
 duration and server recipient rules. Fifteen existing passive A/B choices continue
 to use their differentiated consumed stats; none gains a free new multiplier.
 
@@ -255,6 +258,14 @@ deliberately replaces its advertised 25% running bonus with an actual 10% dodge
 bonus, growing by one percentage point per skill scaling step. Berserk drops its
 unused movement-speed field and retains its working attack-speed bonus. This avoids
 adding a separate network movement/security change to the skill revision.
+
+The branch consolidation also admits the authored status authority adapters:
+live/expired buff filtering, external-condition cleansing, revival protection,
+tether healing and bounded movement bonuses. Ordinary timed kit buffs cannot
+exceed 80% of their effective cooldown after cooldown reduction. Both self and
+party previews pass the same cooldown reduction to the live adapters; no second
+damage factor is introduced into skill delivery. `PLAYER_DAMAGE_MULT` is shared
+with damage previews and applies once after defense/critical scaling.
 
 ## Ordinary-monster progression decision
 

@@ -29,6 +29,13 @@ Do not work directly on main. Use task branches and PRs.
 
 ## Where things connect
 
+- Historical card discoveries flow through `character/cardCollection.js` and
+  authoritative `NetProgress` into the card journal; worn socket abilities use
+  `combat/bossCardEffects.js` and guarded combat receipts. Character/Combat READMEs
+  and `docs/technical/CARD_COLLECTION.md` describe the hooks. Live kit status
+  snapshots use `net/combatState.js`; cleanse covers generic DOT and external
+  movement conditions without serializing transient buffs.
+
 - Loading readiness: `Game` awaits `createGame.readyPromise`, class avatar
   `ready`, visible interface images/fonts and the first usable render through
   `core/AssetReadiness.js`. `MapManager.prepare` waits only the destination's
