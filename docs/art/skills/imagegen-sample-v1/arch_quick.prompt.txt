@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: ONE transparent game skill icon for Thai Native Online, arch_quick / ศรคู่ฉับไว, rapid twin-arrow shot.
+Primary request: exactly TWO beautiful feathered arrows flying rapidly toward the SAME target, both pointing diagonally from lower left toward upper right in the same direction. Clearly separated silhouettes, a short parallel offset communicates two shots in quick succession. Show complete sharp arrowheads, shafts and feathered tails inside the canvas. No target object needed.
+Style/medium: soft hand-painted Thai fantasy MMORPG inventory-quality illustration, charming stylized proportions, confident broad shapes, gentle modeled shading, clear readable color blocks at 32, 48 and 64 pixels. Painterly rather than photoreal or pixel art.
+Composition/framing: square centered isolated cutout, two arrows large enough to dominate the icon, 10 percent transparent safe margin on every side; arrowheads and tails fully visible and never clipped. Restrained jade-green and warm gold curved wind streaks support the SAME travel direction without obscuring either arrow. Both arrows are parallel, never crossed and never facing opposite directions.
+Color palette: warm light wood shafts, antique gold arrowhead fittings, pale jade and cream feathers, strong warm highlights for dark jade UI readability. Tiny selective Thai kanok flourish only at the fletching collar; not all-over decoration.
+Scene/backdrop: genuine fully transparent background, no backing plate.
+Constraints: single finished icon, exactly two arrows. No bow, person, hand, extra arrows, sheet, grid, variants, frame, badge, border, checkerboard, solid background, letters, Thai text, numbers, hotkeys, cooldowns, watermark, interface, excessive sparks or bloom.

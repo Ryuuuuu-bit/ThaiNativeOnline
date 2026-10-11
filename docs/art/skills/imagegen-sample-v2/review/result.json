@@ -1,0 +1,313 @@
+{
+  "assets": [
+    {
+      "id": "sword_twin",
+      "originalSHA256": "fcbdfe776981a21c2618ea015a4e0b5ce301a4d7c2ee34c23a406b2ad16a5f7e",
+      "masterBytes": 2799556,
+      "outputBytes": 24756,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true
+    },
+    {
+      "id": "arch_quick",
+      "originalSHA256": "0666f17e560f6b64910bf6f855f42f0ab58cd71594df578a078386b71afba52b",
+      "masterBytes": 2374780,
+      "outputBytes": 23642,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true
+    },
+    {
+      "id": "mage_akom",
+      "originalSHA256": "96696ab1de6fd74ffa60f8876a4cc2b451e13a5264240888b33f955b0d9f5600",
+      "masterBytes": 2378480,
+      "outputBytes": 20964,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true
+    },
+    {
+      "id": "heal_khwan",
+      "originalSHA256": "4f395016562893751101c047d717b1bc02b428c6606c3a6edea98e9f365ee317",
+      "masterBytes": 2456435,
+      "outputBytes": 29714,
+      "alpha": [
+        255,
+        255
+      ],
+      "unchangedOriginal": true
+    }
+  ],
+  "browsers": [
+    {
+      "name": "desktop",
+      "width": 1100,
+      "height": 1000,
+      "cards": 4,
+      "columns": 2,
+      "overflow": false,
+      "images": [
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/warrior/icon_sword_twin.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/hunter/icon_arch_quick.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/shaman/icon_mage_akom.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/herbalist/icon_heal_khwan.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844,
+      "cards": 4,
+      "columns": 1,
+      "overflow": false,
+      "images": [
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "sword_twin.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/warrior/icon_sword_twin.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "arch_quick.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/hunter/icon_arch_quick.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "mage_akom.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/shaman/icon_mage_akom.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "heal_khwan.webp",
+          "width": 256,
+          "height": 256,
+          "old": false
+        },
+        {
+          "src": "/fx/herbalist/icon_heal_khwan.png",
+          "width": 48,
+          "height": 48,
+          "old": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "errors": []
+}

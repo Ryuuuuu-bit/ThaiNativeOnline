@@ -1,0 +1,7 @@
+Use case: stylized-concept.
+Asset type: one square RPG skill icon for Thai Native Online.
+Primary request: ฟันดาบคู่, the warrior skill that makes three crossing cuts with two Thai swords. Draw TWO complete beautiful curved Thai dha blades crossing dynamically, one sweeping upward left and one upward right, with three broad warm-gold and muted-crimson slash arcs behind them. Show motion and impact rather than a static inventory weapon.
+Style: soft hand-painted charming Thai fantasy, broad painterly shapes, clearly readable at 32, 48 and 64 pixels. Silver steel, aged brass guards, dark red leather grips and restrained Thai kanok ornament on the guards only. Rich warm highlights but no photorealism or metallic over-detail.
+Composition: large clear X silhouette, centered, complete sword tips and handles comfortably inside a 10 percent transparent safe margin. Motion arcs support rather than obscure the blades. No full character, victim, scenery or extra weapons.
+Background: genuinely transparent, including outside the motion effects; no floor shadow or square color backing. The game's jade-and-gold UI frame will be added separately.
+Constraints: one image only, no contact sheet, no baked border/frame, text, letters, digits, labels, hotkeys, cooldowns, watermark or rarity badge. Do not use heavy bloom, tiny sparks or dense filigree.
