@@ -98,6 +98,8 @@ export function selfEffects(skillId, lv = 1, ownDef = 10, matk = 0, healPow = 1,
       if (b.defMul) buff.def = b.defMul;
       if (b.critAdd) buff.crit = b.critAdd;
       if (b.aspd) buff.aspd = b.aspd;
+      if (b.dodge) buff.dodge = b.dodge;
+      if (b.hot) buff.hot = b.hot;
       if (b.speed) buff.speed = b.speed;
       if (b.cleanse) buff.cleanse = b.cleanse;
     }
