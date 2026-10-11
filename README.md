@@ -152,6 +152,8 @@ prototypes/    skill-fx: ต้นแบบเอฟเฟกต์สกิล 
 
 กฎการทำงานร่วมกันของ agent อยู่ใน [`CLAUDE.md`](CLAUDE.md) สถาปัตยกรรมใน [`docs/technical/ARCHITECTURE.md`](docs/technical/ARCHITECTURE.md)
 
+การฉายขนาดอนุภาคตาม render target และข้อกำหนด shader สกิล: [`docs/technical/SKILL_FX_RENDERING.md`](docs/technical/SKILL_FX_RENDERING.md)
+
 ## ประสิทธิภาพ
 
 อาคารรวม mesh ตามวัสดุทีละ chunk 40×40 พืชพรรณและของประกอบฉากเป็น InstancedMesh หญ้าเป็น GPU field ชุดเดียวตามกล้อง NPC ใช้ instanced mesh ร่วมกันและอัปเดตตามระยะ โมเดลอาชีพแต่ละไฟล์โหลดครั้งเดียวแล้ว clone ให้ผู้เล่นทุกคน ไม่มี dynamic light นอกจากดวงอาทิตย์ เกณฑ์ที่ 1920×1080 ราว 200–450 draw calls ([`docs/technical/PERFORMANCE_BUDGET.md`](docs/technical/PERFORMANCE_BUDGET.md))

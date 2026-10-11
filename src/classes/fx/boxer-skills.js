@@ -96,7 +96,7 @@ function auraMat(c) {
         float rim = pow(1. - abs(dot(vN, vV)), 1.6);
         // flame tongues: the envelope's top edge rises and falls around it
         float tip = .62 + .2 * sin(u * 7. + uTime * 5.) * sin(u * 3. - uTime * 3.1) + .12 * sin(u * 13. + uTime * 9.);
-        float body = smoothstep(tip, tip - .22, v) * smoothstep(0., .08, v);
+        float body = (1. - smoothstep(tip - .22, tip, v)) * smoothstep(0., .08, v);
         float streak = .55 + .45 * sin(u * 23. + v * 9. - uTime * 14.);
         float a = (rim * .9 + .12) * body * streak * uA;
         gl_FragColor = vec4(uC * a, 1.);
