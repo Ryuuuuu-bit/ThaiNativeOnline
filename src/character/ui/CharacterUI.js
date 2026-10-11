@@ -222,6 +222,7 @@ export class CharacterUI {
       else if (ITEMS[item?.id]?.type === 'equip') this.workspace.startEquipmentDrag(e, index);
       else e.preventDefault();
     });
+    this.grid.addEventListener('dragstart', e => { const button=e.target.closest('[data-index]'), item=this.c.inventory[+button?.dataset.index]; if (ITEMS[item?.id]?.type === 'use') dragBinding(e,{kind:'item',id:item.id}); else e.preventDefault(); });
     this.workspace = new InventoryWorkspace(this, itemCard, SLOT_LABELS);
   }
 
