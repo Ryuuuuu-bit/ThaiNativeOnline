@@ -84,12 +84,12 @@ body .inventory-workspace .g-eqs .g-equip-lock {width:44px;height:44px;min-width
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison {color:#332414;border-color:#6c543455}
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison :is(caption,th) {color:#332414}
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison :is(th,td) {border-color:#6c543433}
-body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .up {color:#164d23}
-body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .down {color:#70240e}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .up {color:#123c1c}
+body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .down {color:#5c1b0b}
 body.skin-classic .inventory-workspace .iw-detail .iw-stat-comparison .iw-unchanged {color:#49331d}
 body.skin-classic .inventory-workspace .iw-detail :is(.iw-current-item,.iw-conditional)>summary {color:#332414}
 body.skin-classic .inventory-workspace .iw-detail :is(.iw-projection-note,.iw-score-note,.iw-conditional small) {color:#49331d}
-body.skin-classic .inventory-workspace .iw-detail :is(.iw-warning,.g-detail-bonus .iw-refine-bonus) {color:#70240e}
+body.skin-classic .inventory-workspace .iw-detail :is(.iw-warning,.g-detail-bonus .iw-refine-bonus) {color:#5c1b0b}
 body.skin-classic .inventory-workspace .iw-detail :is(.iw-current-item,.iw-conditional,.iw-card-bonuses) {border-color:#6c543455}
 .inventory-workspace .g-hint {font-size:11px;line-height:1.6}
 .inventory-workspace .g-card-pick {position:sticky;inset:auto;bottom:0;max-height:none;overflow:visible;padding:12px;margin-top:10px;box-shadow:0 -8px 24px #0006;background:#152c22;border-color:#bda16c}
