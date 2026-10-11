@@ -2,25 +2,25 @@ import { describeObjective, rewardText, requirementText, lockedReason, npcName, 
 import './quests.css';
 import { NEWCOMER_GUIDE } from '../data/newcomer-guide.js';
 import { newcomerJourney } from '../quest/newcomerJourney.js';
+import { passMovementKey } from './nonmodalKeys.js';
 export { describeObjective } from '../quest/questPresentation.js';
 
 const $ = id => document.getElementById(id);
 
 // Quest blocks inside the NPC dialogue, and the tracker in the journal panel.
 export class QuestUI {
-  constructor(quests, { onAccept, onComplete, onPanel = () => {} }) {
+  constructor(quests, { onAccept, onComplete, onPanel = () => {}, onJournal = () => {}, onNavigate = () => {}, navigation = () => null }) {
     this.quests = quests;
+    Object.assign(this, { onJournal, onNavigate, navigation });
     this.guide = document.createElement('section');
     this.guide.id = 'newcomer-guide';
-    $('quest-tracker').before(this.guide);
-    this.journalButton = document.createElement('button');
-    this.journalButton.id = 'newcomer-journal-toggle';
-    this.journalButton.type = 'button';
-    this.journalButton.textContent = 'เส้นทาง Lv 1–20';
-    this.journalButton.setAttribute('aria-expanded', 'false');
-    this.journalButton.setAttribute('aria-controls', 'newcomer-guide');
-    document.getElementById('app').append(this.journalButton);
-    this.journalButton.addEventListener('click', () => this.toggleJournal());
+    this.root = document.createElement('aside'); this.root.id = 'quest-objective-hud';
+    this.root.setAttribute('aria-label', 'เป้าหมายเควสที่ติดตาม');
+    this.root.innerHTML = `<div class="quest-hud-heading"><span>◆ ภารกิจที่ติดตาม</span><button type="button" data-quest-nav="untrack" aria-label="เลิกติดตามเควส" title="เลิกติดตาม">×</button></div><b class="quest-hud-title"></b><div class="quest-hud-objective"><span></span><em></em></div><small class="quest-hud-state" role="status"></small><nav aria-label="นำทางเควส"><button type="button" data-quest-nav="map">แผนที่</button><button type="button" data-quest-nav="walk">เดินไป</button><button type="button" data-quest-nav="stop" hidden>หยุด</button><button type="button" data-quest-nav="journal">สมุด</button></nav>`;
+    document.getElementById('app').append(this.root);
+    this.root.addEventListener('pointerdown', e => e.stopPropagation());
+    this.root.addEventListener('keydown', e => { if (e.code !== 'Escape' && !passMovementKey(e)) e.stopPropagation(); });
+    this.root.addEventListener('click', e => { const b = e.target.closest('[data-quest-nav]'); if (b) onNavigate(b.dataset.questNav); });
     this.guide.addEventListener('click', e => {
       const b = e.target.closest('button[data-panel]');
       if (b) { if (b.dataset.panel !== 'quests') this.toggleJournal(false); onPanel(b.dataset.panel); }
@@ -31,14 +31,7 @@ export class QuestUI {
       if (b.dataset.action === 'accept') onAccept(b.dataset.quest); else onComplete(b.dataset.quest);
     });
   }
-  toggleJournal(open = !document.body.classList.contains('newcomer-journal-open')) {
-    document.body.classList.toggle('newcomer-journal-open', open);
-    this.journalButton.setAttribute('aria-expanded', String(open));
-    this.journalButton.textContent = open ? 'ปิดเส้นทาง Lv 1–20' : 'เส้นทาง Lv 1–20';
-    if(open)this.guide.parentElement.prepend(this.journalButton);
-    else document.getElementById('app').append(this.journalButton);
-    this.journalButton.focus({preventScroll:true});
-  }
+  toggleJournal(open = true) { this.onJournal(open); }
   objectivesHtml(q) {
     return `<ul>${q.objectives.map(o => {
       const p = this.quests.objectiveProgress(q, o);
@@ -64,8 +57,30 @@ export class QuestUI {
   }
   renderTracker() {
     this.renderGuide();
-    const list = this.quests.tracker(describeObjective).slice(0, 3);
-    $('quest-tracker').innerHTML = list.map(q => `<b class="${q.complete ? 'ready' : ''}">${q.complete ? '? ' : '◆ '}${esc(q.title)}${q.complete ? ' · ส่งได้แล้ว' : ''}</b>${q.complete ? `<span class="quest-return">กลับไปหา${esc(npcName(q.turnIn))}</span>` : ''}${q.lines.map(l => `<span class="${l.have >= l.need ? 'done' : ''}">${esc(l.text)} ${l.need > 1 ? `${l.have}/${l.need}` : l.have ? '✓' : ''}</span>`).join('<br>')}`).join('');
+    const state = this.navigation(), objective = state?.objective;
+    this.root.hidden = !objective || !!state?.hidden || !!this.covered;
+    if (!objective) return;
+    this.root.querySelector('.quest-hud-title').textContent = objective.quest.title;
+    this.root.querySelector('.quest-hud-objective span').textContent = objective.text;
+    this.root.querySelector('.quest-hud-objective em').textContent = objective.progress ? `${objective.progress.have}/${objective.progress.need}` : objective.complete ? 'พร้อมส่ง' : 'ยังไม่รับ';
+    const status = this.root.querySelector('.quest-hud-state');
+    status.textContent = state.message || objective.reason || objective.step?.name || '';
+    status.title = status.textContent;
+    this.root.dataset.walking = String(!!state.active);
+    const walk = this.root.querySelector('[data-quest-nav="walk"]');
+    walk.hidden = !!state.active; walk.disabled = !objective.step || !!objective.reason;
+    walk.title = objective.reason || (objective.crossMap ? 'เดินไปประตู แล้วกดเดินต่อเมื่อข้ามแผนที่' : 'เดินตามเส้นทางที่ผ่านได้');
+    this.root.querySelector('[data-quest-nav="stop"]').hidden = !state.active;
+    $('quest-tracker').replaceChildren();
+    this.layout();
+  }
+  layout() {
+    const touch = document.body.classList.contains('ui-touch');
+    const mini = document.querySelector('.minimap')?.getBoundingClientRect();
+    if (!mini) return;
+    const landscape = touch && innerHeight <= 500;
+    this.root.style.setProperty('--quest-top', `${Math.max(touch && !landscape ? 172 : 0, mini.bottom + 10)}px`);
+    this.root.style.setProperty('--quest-right', `${touch ? 12 : Math.max(12, innerWidth - mini.right)}px`);
   }
   renderGuide() {
     const journey = newcomerJourney(this.quests, NEWCOMER_GUIDE);

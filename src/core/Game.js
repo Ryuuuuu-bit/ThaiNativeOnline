@@ -21,8 +21,8 @@ import { QUESTS } from '../data/quests.js';
 import { SHOPS } from '../data/shops.js';
 import { QuestSystem } from '../quest/QuestSystem.js';
 import { QuestUI } from '../ui/QuestUI.js';
-import { NEWCOMER_GUIDE } from '../data/newcomer-guide.js';
-import { newcomerDestination } from '../quest/newcomerJourney.js';
+import { questObjective, questNpcDestination } from '../quest/questNavigation.js';
+import { QuestNavigator } from '../quest/QuestNavigator.js';
 import { ShopPanel } from '../ui/ShopPanel.js';
 import { PostFX } from '../world/PostFX.js';
 import { MainMenu, bindSettingsTabs } from '../ui/MainMenu.js';
@@ -58,7 +58,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get movementModalOpen() { return !!(document.body.classList.contains('newcomer-journal-open') || this.questJournal?.open || this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get movementModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -119,7 +119,13 @@ export class Game {
     this.maps.onCommitted = map => this.net?.enterMap(map.id);
     // Quests and vendors attach to the character once one exists (after creation or load).
     this.quests = new QuestSystem(QUESTS, { isDiscovered: id => this.discovered.has(id), storage: slotStorage });
+    this.questNav = new QuestNavigator({ resolve: id => questObjective(this.quests, id, this.questNavigationContext()),
+      walk: goal => this.walkTo(goal.x, goal.z, goal.near ?? 5, { quest: true }), stop: () => this.stopWalk(),
+      changed: () => this.questUI?.renderTracker() });
     this.questUI = new QuestUI(this.quests, {
+      navigation: () => ({ objective: this.questNav.current(), active: this.questNav.active, message: this.questNav.message, hidden: this.questNav.hidden }),
+      onNavigate: action => this.questNavigationAction(action),
+      onJournal: open => open ? this.questJournal?.show('journey') : this.questJournal?.close(),
       onPanel: panel => {
         if (panel === 'map') this.locateNewcomerGoal();
         else if (panel === 'bestiary') this.guide?.show?.();
@@ -127,7 +133,7 @@ export class Game {
           const ui = this.game?.characterUI;
           const root = panel === 'skills' ? ui?.skills.root : ui?.[panel];
           if (root?.hidden) ui.toggle(panel);
-        } else { this.questUI.toggleJournal(true); this.questUI.guide.scrollIntoView({ block: 'nearest' }); }
+        } else this.questJournal?.show('journey');
       },
       // accepting / finishing a quest is a line in the feed, not a popup
       onAccept: id => { if (this.quests.accept(id)) this.game?.hud?.feed?.log(`รับเควส · ${this.quests.defs.get(id).title}`, 'gold'); this.refreshDialogue(); },
@@ -142,7 +148,8 @@ export class Game {
       prepare: () => { this.cardBook?.close(); this.closeDialogue(); this.warp.close(); this.storage?.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); },
       locate: (monster, location) => this.locateMonster(monster, location) });
     this.questJournal = new QuestJournal({ quests: this.quests,
-      prepare: () => { this.closeDialogue(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null); },
+      journey: this.questUI.guide, pin: id => this.questNav.pin(id), navigate: action => this.questNavigationAction(action),
+      prepare: () => { this.cardBook?.close(); this.guide.close(); this.storage?.close(); this.warp.close(); this.shop.close(); this.closeDialogue(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null); },
       locate: npcId => this.locateQuestNpc(npcId) });
     this.storage = new StoragePanel({ character: () => this.game?.character,
       prepare: () => { this.cardBook?.close(); this.closeDialogue(); this.warp.close(); this.guide.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
@@ -150,7 +157,7 @@ export class Game {
       note: text => this.game?.hud?.feed?.log(text, 'gold', true) });
     this.cardBook = new CardCompendiumPanel({ character: () => this.game?.character,
       prepare: () => {
-        this.closeDialogue(); this.warp.close(); this.guide.close(); this.storage.close(); this.shop.close();
+        this.questJournal.close(); this.closeDialogue(); this.warp.close(); this.guide.close(); this.storage.close(); this.shop.close();
         this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
         const ui = this.game?.characterUI;
         if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; }
@@ -222,7 +229,7 @@ export class Game {
     input.stickBlocked = () => this.loadingBlocked || this.serviceModalOpen;
     input.movementBlocked = () => this.loadingBlocked || this.movementModalOpen;
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
-    input.on('move', () => { this.stopWalk(); view.recenter(); });
+    input.on('move', () => { this.questNav?.cancel(); this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => { input.cancelCameraDrag(); view.reset(); });
     input.on('photo', () => this.togglePhoto());
     input.on('interact', () => this.interact());
@@ -232,7 +239,7 @@ export class Game {
       if (this.game?.hud?.bar?.chooserOpen) { this.game.hud.bar.editor.close(); return; }
       if (this.game?.characterUI?.flasksOpen) { this.game.characterUI.flaskPicker.close(); return; }
       if (this.cardBook.open) return this.cardBook.close();
-      if (document.body.classList.contains('newcomer-journal-open')) return this.questUI.toggleJournal(false);
+      if (this.questJournal.open) return this.questJournal.close();
       if (this.storage.open) return this.storage.close();
       if (this.guide.open) return this.guide.close();
       if (this.warp.open) return this.warp.close();
@@ -243,8 +250,9 @@ export class Game {
       if (this.shop.open) return this.shop.close();
       if (this.hud.dialogueOpen) return this.closeDialogue();
       if (!$('fullmap-panel').hidden) return this.toggleMap();
-      $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false');
-      if (this.photo) this.togglePhoto();
+      if (!$('settings').hidden) { $('settings').hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); return; }
+      if (this.photo) return this.togglePhoto();
+      if (this.questNav.active) return this.questNav.cancel('หยุดนำทางแล้ว');
     });
     let cameraDrag = null;
     input.on('panStart', shift => { cameraDrag = { shift, pan: view.panOffset.clone(), yaw: view.yaw }; });
@@ -343,7 +351,7 @@ export class Game {
       { root: () => $('shop'), close: () => this.shop.close() },
       { root: () => $('dialogue'), close: () => this.closeDialogue() },
       { root: () => document.querySelector('.auto-panel'), close: () => { document.querySelector('.auto-panel').hidden = true; } },
-    ], { fallback: () => this.menu.btn, onOpen: entry => { if (!entry.nonModal) { this.input.keys.clear(); this.input.shift = false; } } });
+    ], { fallback: () => this.menu.btn, onOpen: entry => { if (!entry.nonModal) { this.questNav.cancel(); this.input.keys.clear(); this.input.shift = false; } } });
     $('settings-close').addEventListener('click', () => { settings.hidden = true; $('settings-toggle').setAttribute('aria-expanded', 'false'); });
     $('zoom').addEventListener('input', e => this.zoomTo(Number(e.target.value) / 100, true));
     $('hud-size').value = String(this.prefs.hud);
@@ -469,6 +477,7 @@ export class Game {
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
   // then rebuild the minimap and debug overlay and reapply settings for the new one.
   leaveMap() {
+    this.questNav?.cancel(); this.questJournal?.close();
     this.game?.combat?.cancelMonsterAttacks();
     this.cardBook?.close();
     this.guide?.close();
@@ -492,6 +501,7 @@ export class Game {
 
     }).activate();
     this.mapPanel ??= new WorldMapPanel($('fullmap-panel'), {
+      objective: () => this.questNav?.current(), onQuestWalk: () => this.questNavigationAction('walk'),
       minimap: () => this.minimap, player: () => this.player.position, npcs: () => this.npcs?.npcs ?? [],
       walk: (x, z) => { if (this.walkTo(x, z, 10)) this.toggleMap(); },
       changed: () => { if (!$('fullmap-panel').hidden) this.minimap.drawFull(this.player.position, this.player.group.rotation.y, this.minimapState()); },
@@ -520,7 +530,8 @@ export class Game {
   // route with findPath to (x, z), or to the nearest standable point within `near`.
   // The route is planned with more room than the body needs (ROOMY) so it keeps off walls and
   // trunks; only when that finds nothing does it plan at the body's own width.
-  walkTo(x, z, near = 0, { replan = false } = {}) {
+  walkTo(x, z, near = 0, { replan = false, quest = false } = {}) {
+    if (!quest && !replan) this.questNav?.cancel();
     const stand = (a, b) => this.world.canStand(a, b);
     let goal = stand(x, z) ? { x, z } : null;
     for (let r = 1; !goal && r <= near; r++) for (let i = 0; i < 16 && !goal; i++) { const a = i / 16 * Math.PI * 2, gx = x + Math.cos(a) * r, gz = z + Math.sin(a) * r; if (stand(gx, gz)) goal = { x: gx, z: gz }; }
@@ -573,8 +584,10 @@ export class Game {
   }
   locateQuestNpc(npcId) {
     const npc = NPCS.find(n => n.id === npcId);
-    const destination = npc?.map ?? 'city';
+    const resolved = questNpcDestination(npcId, this.questNavigationContext());
+    const destination = resolved.destination?.map ?? npc?.map ?? 'city';
     this.openMapDirectory('all');
+    if (resolved.reason) { this.note(resolved.reason); return; }
     let entry = destination === this.maps.map.id
       ? this.minimap.directory.find(e => e.npcId === npcId || e.landmark?.id === npc?.home?.near)
       : this.minimap.directory.find(e => e.portal?.id === nextPortal(this.maps.map.id, destination)?.id);
@@ -612,19 +625,25 @@ export class Game {
     if (entry) this.mapPanel.select(entry);
   }
   locateNewcomerGoal() {
-    const goal = newcomerDestination(this.quests, NEWCOMER_GUIDE);
-    if ($('fullmap-panel').hidden) this.toggleMap();
-    if (!goal) return;
-    this.mapPanel.category='all'; this.mapPanel.query=''; $('map-search').value='';
-    let entry;
-    if(goal.map!==this.maps.map.id) {
-      const portal=nextPortal(this.maps.map.id,goal.map);
-      entry=this.minimap.directory.find(e=>e.portal?.id===portal?.id);
-    } else {
-      entry=this.minimap.directory.find(e=>(goal.npcId&&e.npcId===goal.npcId)||(goal.id&&e.id===goal.id));
-      if(!entry)entry={...goal,id:`quest:${goal.npcId}`,category:'training',glyph:'travel',tag:'เป้าหมายเควส',goal};
+    this.questNavigationAction('map');
+  }
+  questNavigationContext() { return { map: this.maps?.map?.id, phase: this.clock?.phase, position: this.player.position, npcs: this.npcs?.npcs ?? [], spots: this.world?.spots ?? {} }; }
+  questNavigationAction(action) {
+    if (action === 'journal') return this.questJournal.show();
+    if (action === 'untrack') return this.questNav.untrack();
+    if (action === 'stop') return this.questNav.cancel('หยุดนำทางแล้ว');
+    if (action === 'pin') return;
+    if (action === 'walk') {
+      if (this.game?.hud?.bar?.auto) { this.questNav.cancel('ปิด AUTO ก่อนเริ่มนำทาง'); return; }
+      if (this.loadingBlocked || this.serviceModalOpen || !this.game?.character?.alive) return;
+      if (this.questNav.start()) $('fullmap-panel').hidden = true;
+      return;
     }
-    if(entry)this.mapPanel.select(entry);
+    if (action === 'map') {
+      this.openMapDirectory('all');
+      const entry = this.mapPanel.questEntry();
+      if (entry) this.mapPanel.select(entry); // A missing objective leaves the normal directory usable.
+    }
   }
   // What the minimap draws on top of the painted map (refreshed with the HUD, ~8 times a second).
   minimapState() {
@@ -758,8 +777,12 @@ export class Game {
     // A skill move (training.busy) only holds the player in place: a walk the player clicked
     // goes on once it ends; a combat auto-walk is dropped (combat sets a new one if needed).
     const alive = this.game?.canMove ?? true, canMove = alive && !this.training?.busy && !this.movementModalOpen;
+    this.questNav?.update({ map: this.maps.map.id, alive: this.game?.character?.alive ?? true,
+      blocked: this.movementModalOpen || this.hud.dialogueOpen || this.shop.open || this.game?.hud?.bar?.auto || !$('settings').hidden,
+      walking: !!this.destination && !!this.navGoal, position: p });
     if (!alive || (!canMove && this.autoWalk)) this.stopWalk();
     const dir = canMove ? this.input.direction(view.forward, view.right, this.dir) : this.dir.set(0, 0, 0);
+    if (dir.lengthSq() && this.questNav?.active) this.questNav.cancel(); // Held keys/stick take ownership before any route step.
     let stalled = false;
     if (canMove && !dir.lengthSq() && this.destination) {
       dir.subVectors(this.destination, p); dir.y = 0;
@@ -813,6 +836,10 @@ export class Game {
 
     if (time - this.lastHud > 120 || time === 0) {
       this.lastHud = time;
+      const ui = this.game?.characterUI;
+      this.questUI.covered = this.serviceModalOpen || this.hud.dialogueOpen || this.shop.open || !$('fullmap-panel').hidden || !$('settings').hidden
+        || [ui?.sheet, ui?.bag, ui?.skills?.root].some(root => root && !root.hidden);
+      this.questUI.renderTracker();
       this.hud.setRegion(regionAt(p.x, p.z, this.discovered.has('cemetery')));
       this.hud.setClock(this.clock.label, this.clock.phase, this.clock.hour);
       this.hud.setCoords(p);

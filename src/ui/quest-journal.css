@@ -50,3 +50,10 @@
   #quest-journal-list { flex-direction: column; }
   #quest-journal-overlay .quest-journal-row { flex: 0 0 auto; }
 }
+
+#quest-journal-overlay :is(.guide-body,.quest-journal-journey)[hidden] { display:none; }
+#quest-journal-overlay .quest-journal-tabs { display:flex; flex-shrink:0; gap:8px; padding:8px 16px; border-bottom:1px solid var(--t-card-line); }
+#quest-journal-overlay :is(.quest-journal-tabs,.quest-journal-navigation) button { min-height:44px; padding:8px 14px; color:var(--journal-ink); background:var(--t-card); border:1px solid var(--t-card-line); border-radius:7px; font:inherit; }
+#quest-journal-overlay .quest-journal-tabs button[aria-pressed=true] { border-color:var(--journal-gold); color:var(--journal-gold); }
+#quest-journal-overlay .quest-journal-journey { min-height:0; flex:1; overflow:auto; overscroll-behavior:contain; padding:16px 24px; }
+#quest-journal-overlay .quest-journal-navigation { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }

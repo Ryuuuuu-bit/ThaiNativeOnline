@@ -74,3 +74,5 @@ Do not work directly on main. Use task branches and PRs.
   title metadata for presentation. `hud-theme.css` applies static ImageGen frames
   to player world labels, title previews and the selected HUD portrait; chat stays compact and server
   title ownership/unlocks remain unchanged. See docs/design/TITLE_APPEARANCE.md.
+
+- Quest navigation: Game supplies live context and collision-aware walk/stop to the DOM-free questNavigation/QuestNavigator modules. QuestUI owns the compact pinned objective, QuestJournal owns journey details, WorldMapPanel adds a temporary goal, and Multiplayer cancels on logout/disconnect. Hooks and cancellation contracts are documented in src/quest/README.md and src/net/README.md.

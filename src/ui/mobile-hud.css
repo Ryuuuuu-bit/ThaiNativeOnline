@@ -112,3 +112,8 @@ body.ui-touch .touch-combat-dock .hotbar.action-bar{padding:5px 6px;gap:0;backgr
 body.ui-touch .touch-combat-dock .hotbar-row{min-height:44px}
 body.ui-touch.touch-menu .touch-combat-dock,body.photo-mode.ui-touch .touch-combat-dock{display:none!important}
 @media(orientation:landscape){body.ui-touch .touch-combat-dock{bottom:calc(var(--mobile-bottom) + 30px)}}
+
+/* AUTO needs a real viewport scroll container, not just overflow on its content. */
+body.ui-touch .auto-panel { position:fixed!important; left:max(12px,env(safe-area-inset-left))!important; right:max(12px,env(safe-area-inset-right))!important; top:max(12px,env(safe-area-inset-top))!important; bottom:auto!important; width:auto!important; max-width:none!important; height:auto; max-height:calc(100dvh - max(12px,env(safe-area-inset-top)) - max(12px,env(safe-area-inset-bottom)))!important; box-sizing:border-box; overflow:auto; overscroll-behavior:contain; transform:none!important; translate:none!important; zoom:1!important; }
+body.ui-touch .auto-panel .ro-title { position:sticky; top:0; z-index:2; min-height:44px; background:var(--t-panel); }
+body.ui-touch .auto-panel :is(.auto-close,.auto-step button) { min-height:44px; min-width:44px; }

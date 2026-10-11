@@ -1,8 +1,8 @@
 import { MAP_FILTERS, CATEGORY_ICONS, filterPlaces, worldOrder, nextPortal } from './mapDirectory.js';
 
 export class WorldMapPanel {
-  constructor(panel, { minimap, player, npcs, walk, changed }) {
-    Object.assign(this, { panel, minimap, player, npcs, walk, changed });
+  constructor(panel, { minimap, player, npcs, walk, changed, objective = () => null, onQuestWalk = () => {} }) {
+    Object.assign(this, { panel, minimap, player, npcs, walk, changed, objective, onQuestWalk });
     this.category = 'all'; this.query = ''; this.tab = 'places';
     this.list = panel.querySelector('#map-places');
     const filters = panel.querySelector('#map-filters');
@@ -18,7 +18,7 @@ export class WorldMapPanel {
     panel.querySelector('[data-map-view="city"]').addEventListener('click', () => this.minimap().resetFull());
     panel.querySelector('[data-map-view="player"]').addEventListener('click', () => this.minimap().focusFull(this.player()));
     panel.querySelector('#map-walk').addEventListener('click', () => {
-      const e = this.selected; if (e) this.walk(e.goal.x, e.goal.z);
+      const e = this.selected; if (e?.questObjective) this.onQuestWalk(); else if (e?.goal) this.walk(e.goal.x, e.goal.z);
     });
     panel.querySelector('#map-clear').addEventListener('click', () => { this.selected = null; this.refresh(); });
   }
@@ -40,8 +40,18 @@ export class WorldMapPanel {
     this.clusterIds = new Set(entries.map(e => e.id)); this.panel.querySelector('#map-search').value = ''; this.refresh();
     this.list.scrollTop = 0;
   }
+  questEntry() {
+    const objective = this.objective(), step = objective?.step;
+    if (!step || objective.reason) return null;
+    return { ...step, id: `quest-goal:${objective.key}`, name: step.name, goal: step,
+      category: 'places', purpose: 'quest', glyph: 'quest', tag: objective.text, detail: objective.crossMap ? 'เดินไปประตูนี้ แล้วกดเดินต่อในแผนที่ถัดไป' : 'เดินตามทาง · ทำภารกิจด้วยตนเอง', questObjective: true };
+  }
   refresh() {
     const mm = this.minimap(), p = this.player();
+    const questEntry = this.questEntry();
+    mm.directory = mm.directory.filter(e => !e.questObjective);
+    if (questEntry) mm.directory.unshift(questEntry);
+    if (this.selected?.questObjective) this.selected = questEntry;
     mm.filter = this.category; mm.search = this.query; mm.selectedId = this.selected?.id;
     this.panel.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === this.category)));
     this.panel.querySelectorAll('[data-map-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mapTab === this.tab)));
@@ -49,6 +59,10 @@ export class WorldMapPanel {
     const world = this.panel.querySelector('#fullmap-route'); world.hidden = this.tab !== 'world';
     this.panel.querySelector('.atlas-search').hidden = this.tab !== 'places';
     this.list.replaceChildren();
+    if (!questEntry && this.objective()) {
+      const note = document.createElement('p'); note.className = 'atlas-empty quest-map-note';
+      note.textContent = `เป้าหมายเควส: ${this.objective().reason || 'เลือกสถานที่จากรายการด้านล่าง'}`; this.list.append(note);
+    }
     const rows = filterPlaces(mm.directory, this.category, this.query, p).filter(e => !this.clusterIds || this.clusterIds.has(e.id));
     this.panel.querySelector('#map-count').textContent = `${rows.length} จุดบนแผนที่`;
     for (const e of rows) {
@@ -84,6 +98,7 @@ export class WorldMapPanel {
       const unavailable = this.selected.npcId && (!npc || npc.indoors || Math.hypot(npc.x - this.selected.goal.x, npc.z - this.selected.goal.z) > 12);
       card.querySelector('p').textContent = `${this.selected.detail ?? this.selected.tag}${unavailable ? ' · ผู้ขายไม่อยู่ที่เคาน์เตอร์ตอนนี้' : ''}`;
       card.querySelector('small').textContent = `ระยะตรง ${Math.round(Math.hypot(this.selected.x - p.x, this.selected.z - p.z))} วา · เดินตามทางที่ผ่านได้`;
+      this.panel.querySelector('#map-walk').disabled = !this.selected.goal || !!(this.selected.npcId && unavailable);
     }
     this.changed();
   }
