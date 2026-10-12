@@ -1,4 +1,5 @@
 import { CITY_NEIGHBORHOODS } from './compact-city-neighborhoods.js';
+import { FAIR_SITES } from '../fair/fairSites.js';
 const building = (id,label,x,z,w,d,kind,stage,color,front='south') => ({id,label,x,z,w,d,kind,stage,color,front});
 const poi = (id,label,x,z,buildingId,stage,role,extra={}) => ({id,label,x,z,buildingId,stage,role,...extra});
 export const COMPACT_CITY = {
@@ -31,6 +32,7 @@ export const COMPACT_CITY = {
     building('fishmarket','ตลาดริมน้ำ',22,43,16,8,'market','built','#b78a63'),
     building('homes','เรือนชาวบ้าน',-54,39,16,12,'house','built','#b69a76'),
     ...CITY_NEIGHBORHOODS,
+    ...FAIR_SITES.map(s => building(`fair:${s.id}`,s.label,s.x,s.z,s.w,s.d,'fair','built','#ae7955')),
   ],
   pois:[
     poi('plaza','ลานหลักเมือง',0,0,'landmark','built','รวมตัว / จุดเริ่มต้น'),

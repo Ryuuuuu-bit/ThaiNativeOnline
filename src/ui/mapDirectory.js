@@ -8,6 +8,7 @@ import { MAPS, MAP_IDS, spawnsOf } from '../world/maps.js';
 import { WARP_SERVICES, getWarpDestination } from '../data/warpServices.js';
 import { SPAWNS, combatSpawns } from '../data/spawns.js';
 import { MONSTERS } from '../combat/data/monsters.js';
+import { FAIR_SITES } from '../fair/fairSites.js';
 
 export const MAP_FILTERS = [
   ['all', 'ทั้งหมด'], ['shops', 'ร้านค้า'], ['training', 'ครู'],
@@ -78,6 +79,11 @@ export function mapDirectory(map, landmarks, portals = map.portals ?? [], spots 
     goal: getWarpDestination(s.arrivalId), npcId: s.npcId,
   });
   entries.push(...bossLairsForMap(map));
+  if (map.id === 'city') for (const s of FAIR_SITES) entries.push({
+    id: `fair:${s.id}`, name: `งานวัด · ${s.label}`, ...s.approach,
+    purpose: 'story', category: 'places', glyph: 'fair', tag: 'เปิด 16:30–05:00',
+    detail: 'งานวัดยามเย็น · ใช้ตำลึงในเกม · เดินไปที่หน้าซุ้มแล้วกด F เพื่อดูกติกา', goal: s.approach,
+  });
   return entries;
 }
 

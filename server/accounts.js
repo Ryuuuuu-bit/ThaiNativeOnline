@@ -200,13 +200,14 @@ export class Accounts {
   }
   inventoryRevision(id, slot) { return this.inventoryRevisions.get(`${id}:${slot}`) ?? 0; }
   characterUid(id, slot) { return this.characterUids.get(`${id}:${slot}`) ?? null; }
-  trade(request, participants, { capture, adopt }) {
+  // meta: optional JSON kept with the durable receipt (see store.transferTrade / tradeReceipt)
+  trade(request, participants, { capture, adopt, meta = null }) {
     let prepared, fingerprint, adopted = false;
     return this.writes.runMany(participants.map(p => `${p.account}:${p.slot}`), async () => {
       prepared ??= capture();
       if (prepared.failure) return prepared.failure;
       fingerprint ??= JSON.stringify(prepared);
-      const result = await this.store.transferTrade(request, fingerprint, prepared);
+      const result = await this.store.transferTrade(request, fingerprint, prepared, meta);
       if (result.ok && !adopted) {
         adopt(prepared, result.revisions); adopted = true;
         prepared.forEach((p, i) => this.inventoryRevisions.set(`${p.account}:${p.slot}`, result.revisions[i]));
@@ -214,6 +215,7 @@ export class Accounts {
       return result;
     });
   }
+  async tradeReceipt(request) { return typeof request === 'string' ? (await this.store.tradeReceipt?.(request)) ?? null : null; }
   async quests(id, slot) { return (await this.store.listSlots(id)).find(x => x.slot === slot)?.data?.[QUESTS_KEY] ?? '{}'; }
   async joinState(id, slot) {
     const row = (await this.store.listSlots(id)).find(x => x.slot === slot);

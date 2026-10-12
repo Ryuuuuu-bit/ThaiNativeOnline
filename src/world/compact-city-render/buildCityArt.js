@@ -13,6 +13,7 @@ import { buildCityTemple } from './buildCityTemple.js';
 import { buildCityWater } from './buildCityWater.js';
 import { buildCityHarbor } from './buildCityHarbor.js';
 import { attachCityFoliageShadows } from './cityFoliageWind.js';
+import { buildTempleFair } from './buildTempleFair.js';
 
 // Production dressing adapted from the approved compact-city proposal. The
 // canonical module owns navigation: every solid is inside a building reservation
@@ -653,7 +654,7 @@ export async function buildCityArt(root, progress = () => {}) {
   pickGround.name='compact-city-picking-ground';pickGround.receiveShadow=true;root.add(pickGround);
   // Front courts and streets are composed together below, so buildings no
   // longer sit on identical disconnected rectangles of paving.
-  for(const b of CITY.buildings.filter(b=>b.kind!=='infill'&&b.kind!=='garden')) {
+  for(const b of CITY.buildings.filter(b=>!['infill','garden','fair'].includes(b.kind))) {
     // Full footprint plinth is the visible counterpart of the canonical box.
     box(staticRoot,M.brick,b.x,.10,b.z,b.w,.2,b.d);
     if(b.kind==='temple'||b.kind==='chedi')await sacred(b);
@@ -754,6 +755,7 @@ export async function buildCityArt(root, progress = () => {}) {
     ground,lanternAt,pot,crate,kitRoof,roofM,M,assemble});
   const boats=harbor.boats;
   const water=buildCityWater({root,mat,geo});controllers.push(water);
+  const fair=buildTempleFair({root,mat,geo,box,cyl,beam,ball,authoredTextures,batch:true});controllers.push(fair);
   // Three restrained, unshadowed pools identify occupied town thresholds at
   // night. They share the day-cycle fade and allocate no additional shadow maps.
   const nightLights=[[0,2.7,-1.4,18],[-10.5,3.7,8.2,28],[10.5,3.7,10,28]].map(([x,y,z,power])=>{
@@ -765,11 +767,12 @@ export async function buildCityArt(root, progress = () => {}) {
   const streetStats=buildCityStreets({root:staticRoot,mat,geo,box,cyl,beam,lanternAt,M,authoredTextures,CITY});
   const batches=await assemble(staticRoot,root);
   const windShadows=attachCityFoliageShadows(root,{ownMaterial:m=>mats.push(m)});controllers.push(windShadows);
-  const stats={...streetStats,...landscape.stats,...water.stats,harbor:harbor.stats,
+  const stats={...streetStats,...landscape.stats,...water.stats,...fair.stats,harbor:harbor.stats,
     residentialFences:{lots:(neighborhoods.fenceLots??0)+(courtyards.fenceLots??0),segments:(neighborhoods.fenceSegments??0)+(courtyards.fenceSegments??0),gatePosts:(neighborhoods.gatePosts??0)+(courtyards.gatePosts??0)},
     sacred:sacredStats,windShadowMeshes:windShadows.meshes,animatedBoats:boats.length,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
   return {ground:pickGround,water,stats,update(t,dt,focus,env){
     water.update(t,dt,focus,env);
+    fair.update(t,dt,focus,env);
     for(const surface of fountainSurfaces)surface.update(t,env);
     for(const {group,phase} of boats){
       group.position.y=-.28+Math.sin(t*.72+phase)*.052;

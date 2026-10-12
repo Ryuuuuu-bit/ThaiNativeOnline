@@ -56,7 +56,9 @@ export class MemoryStore {
       return { ok: true, changed, id: account, ids: [...nextRoles].sort() };
     });
   }
-  async transferTrade(request, fingerprint, participants) {
+  // meta (optional, JSON) is kept with the durable receipt and returned by tradeReceipt(request):
+  // a service that settles through a trade (the temple fair) stores its outcome there.
+  async transferTrade(request, fingerprint, participants, meta = null) {
     const ids = [...new Set(participants.map(p => p.account))].sort();
     const locked = i => i < ids.length ? this.withAccount(ids[i], () => locked(i + 1)) : commit();
     const commit = () => {
@@ -68,13 +70,14 @@ export class MemoryStore {
       if (rows.some((row, i) => revisionOf(row) !== participants[i].inventoryRevision)) return { ok: false, why: 'character_stale' };
       const revisions = rows.map(row => revisionOf(row) + 1);
       const data = rows.map((row, i) => tradeData(row, participants[i]));
-      const result = { ok: true, revisions };
+      const result = { ok: true, revisions, ...(meta == null ? {} : { meta: structuredClone(meta) }) };
       rows.forEach((row, i) => Object.assign(row, { data: data[i], inventoryRevision: revisions[i], updated: Date.now() }));
       this.tradeReceipts.set(request, { fingerprint, result });
       return structuredClone(result);
     };
     return locked(0);
   }
+  async tradeReceipt(request) { const receipt = this.tradeReceipts?.get(request); return receipt ? structuredClone(receipt.result) : null; }
   constructor({ uidGenerator = newUid } = {}) { this.uidGenerator = uidGenerator; this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; this.stashes = new Map(); this.stashReceipts = new Map(); this.locks = new Map(); }
   withAccount(id, work) {
     const next = (this.locks.get(id) ?? Promise.resolve()).catch(() => {}).then(work);
@@ -188,7 +191,7 @@ export class PgStore {
     } catch (error) { await client.query('rollback').catch(() => {}); throw error; }
     finally { client.release(); }
   }
-  async transferTrade(request, fingerprint, participants) {
+  async transferTrade(request, fingerprint, participants, meta = null) {
     const client = await this.pool.connect();
     try {
       await client.query('begin');
@@ -208,7 +211,7 @@ export class PgStore {
             const p = participants[i];
             await client.query('update characters set data = $3, inventory_revision = $4, updated = now() where account = $1 and slot = $2', [p.account, p.slot, tradeData(rows[i], p), revisions[i]]);
           }
-          result = { ok: true, revisions };
+          result = { ok: true, revisions, ...(meta == null ? {} : { meta }) };
           await client.query('insert into trade_receipts (request, fingerprint, result) values ($1, $2, $3)', [request, fingerprint, result]);
         }
       }
@@ -216,6 +219,7 @@ export class PgStore {
     } catch (error) { await client.query('rollback').catch(() => {}); throw error; }
     finally { client.release(); }
   }
+  async tradeReceipt(request) { return (await this.q('select result from trade_receipts where request = $1', [request])).rows[0]?.result ?? null; }
   constructor(pool, { uidGenerator = newUid } = {}) { this.pool = pool; this.uidGenerator = uidGenerator; this.kind = 'postgres'; }
   q(text, values) { return this.pool.query(text, values); }
   async init() {

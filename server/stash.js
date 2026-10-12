@@ -10,7 +10,7 @@ export function stashWhy(p, state, npc, { fighting = false, duel = false, trade 
   const service = typeof npc === 'string' && getWarpService(npc);
   if (!service || service.map !== 'city') return 'npc';
   if (p.dead || !state.c.alive) return 'dead';
-  if (state.stashBusy || fighting || duel || trade) return 'busy';
+  if (state.stashBusy || state.tradeBusy || fighting || duel || trade) return 'busy';
   if (p.map !== 'city') return 'map';
   if (![p.x, p.z].every(Number.isFinite) || Math.hypot(p.x - service.x, p.z - service.z) > WARP_RANGE) return 'far';
   if (!navigate('city').clear(p, service, .05)) return 'blocked';

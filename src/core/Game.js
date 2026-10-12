@@ -15,7 +15,7 @@ import { InputManager } from './InputManager.js';
 import { WorldClock, PHASE_HOURS, wallHour } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
 import { citySoundscape } from '../audio/citySoundscape.js';
-import { findPath } from './GridPath.js';
+import { findPath, clearLine } from './GridPath.js';
 import { createGame } from '../combat/index.js';
 import { startMultiplayer } from '../net/Multiplayer.js';
 import { QUESTS } from '../data/quests.js';
@@ -34,6 +34,8 @@ import { segmentSelects } from '../ui/segControls.js';
 import { WorldMapPanel } from '../ui/WorldMapPanel.js';
 import { WarpPanel } from '../ui/WarpPanel.js';
 import { StoragePanel } from '../ui/StoragePanel.js';
+import { TempleFairPanel } from '../fair/TempleFairPanel.js';
+import { FAIR_SITES, FAIR_RANGE } from '../fair/fairSites.js';
 import { BestiaryPanel } from '../ui/BestiaryPanel.js';
 import { QuestJournal } from '../ui/QuestJournal.js';
 import { bindWindowNavigation } from '../ui/windowNavigation.js';
@@ -51,6 +53,7 @@ import { LocationMusic } from '../audio/LocationMusic.js';
 import { combatMusicState } from '../data/calmMusic.js';
 import { createLoadingScreen } from '../ui/LoadingScreen.js';
 import { boundedReady, loadingTask, interfaceReady } from './AssetReadiness.js';
+import { getIdentity } from '../account/identity.js';
 
 const $ = id => document.getElementById(id);
 // Route planning keeps this much room from obstacles (the body itself needs .28, src/world/Collision.js).
@@ -60,7 +63,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get movementModalOpen() { return !!(this.questJournal?.open || this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get movementModalOpen() { return !!(this.fair?.open || this.questJournal?.open || this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -163,6 +166,19 @@ export class Game {
       prepare: () => { this.cardBook?.close(); this.closeDialogue(); this.warp.close(); this.guide.close(); this.shop.close(); this.stopWalk(); this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
         const ui = this.game?.characterUI; if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; } },
       note: text => this.game?.hud?.feed?.log(text, 'gold', true) });
+    this.fair = new TempleFairPanel({ character: () => this.game?.character,
+      context: () => ({ hour: this.clock.hour, map: this.maps.map?.id, position: this.player.position,
+        online: !!this.net?.net?.online, authenticated: !!getIdentity().characterUid }),
+      prepare: () => {
+        this.questNav.cancel(); this.questJournal.close(); this.cardBook?.close(); this.guide.close();
+        this.storage.close(); this.warp.close(); this.shop.close(); this.closeDialogue(); this.stopWalk();
+        this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
+        const ui = this.game?.characterUI;
+        if (ui) { ui.sheet.hidden = ui.bag.hidden = ui.loadouts.hidden = true; ui.skills.root.hidden = true; }
+        $('fullmap-panel').hidden = true; $('settings').hidden = true;
+        this.menu?.toggle(false); this.input?.keys.clear(); this.input?.cancelCameraDrag();
+      },
+    });
     this.cardBook = new CardCompendiumPanel({ character: () => this.game?.character,
       prepare: () => {
         this.questJournal.close(); this.closeDialogue(); this.warp.close(); this.guide.close(); this.storage.close(); this.shop.close();
@@ -244,6 +260,7 @@ export class Game {
     input.on('map', () => this.toggleMap());
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
+      if (this.fair.open) return this.fair.close();
       if (this.game?.hud?.bar?.chooserOpen) { this.game.hud.bar.editor.close(); return; }
       if (this.game?.characterUI?.flasksOpen) { this.game.characterUI.flaskPicker.close(); return; }
       if (this.cardBook.open) return this.cardBook.close();
@@ -339,6 +356,7 @@ export class Game {
       settings: () => $('settings-toggle').click(),
     });
     this.unbindWindowNavigation = bindWindowNavigation([
+      { root: () => this.fair.root, close: () => this.fair.close() },
       { root: () => this.questJournal.root, close: () => this.questJournal.close() },
       { root: () => this.guide.root, close: () => this.guide.close() },
       { root: () => this.storage.root, close: () => this.storage.close() },
@@ -485,6 +503,7 @@ export class Game {
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
   // then rebuild the minimap and debug overlay and reapply settings for the new one.
   leaveMap() {
+    this.fair?.close();
     this.questNav?.cancel(); this.questJournal?.close();
     this.game?.combat?.cancelMonsterAttacks();
     this.cardBook?.close();
@@ -696,6 +715,8 @@ export class Game {
       this.hud.openDialogue(this.talking, this.npcs.label(this.talking), d.dialogue[this.talkLine]);
       return this.refreshDialogue();
     }
+    const fair = this.nearFair();
+    if (fair) { this.fair.show(fair.id); return; }
     const p = this.player.position, npc = this.npcs.nearestInteractable(p.x, p.z);
     if (npc) {
       this.talking = npc; this.talkLine = 0; npc.talkTo(p.x, p.z);
@@ -706,6 +727,13 @@ export class Game {
     // places are found silently by walking through them (no prompt, no popup)
   }
   closeDialogue() { this.hud.closeDialogue(); this.talking?.release(); this.talking = null; }
+  nearFair() {
+    if (this.maps.map?.id !== 'city') return null;
+    const p = this.player.position;
+    return FAIR_SITES.filter(s => Math.hypot(p.x - s.approach.x, p.z - s.approach.z) <= FAIR_RANGE
+      && clearLine((x,z) => this.world.canStand(x,z,.05), p.x,p.z,s.approach.x,s.approach.z))
+      .sort((a, b) => Math.hypot(p.x-a.approach.x,p.z-a.approach.z)-Math.hypot(p.x-b.approach.x,p.z-b.approach.z))[0] ?? null;
+  }
   // Quest offers and the trade button for the NPC being talked to.
   refreshDialogue() {
     const npc = this.talking;
@@ -837,6 +865,7 @@ export class Game {
     this.player.bindCombat(this.game); // rigged class model + skill animations (no-op once bound)
     if (this.started && !this.net && this.game?.ready && this.training !== undefined) this.net = startMultiplayer(this); // optional connectivity starts after local readiness
     this.net?.update(dt, view.camera);
+    this.fair?.update(dt);
     if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);
@@ -857,7 +886,8 @@ export class Game {
       if (!$('fullmap-panel').hidden) this.minimap.drawFull(p, this.player.group.rotation.y, mapState);
       for (const l of this.maps.landmarks) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
       const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z);
-      this.hud.prompt(npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
+      const fair = this.hud.dialogueOpen || this.fair.open ? null : this.nearFair();
+      this.hud.prompt(fair ? `${fair.label} · งานวัด 16:30–05:00` : npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
       this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery,
         ...citySoundscape(this.maps.map?.id, this.player.position.x, this.player.position.z) });
       if (this.debugOn) {

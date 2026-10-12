@@ -94,6 +94,7 @@ import { settleKill, karmaRank, karmaTier } from '../src/data/karma.js';
 import { recallWhy, RecallCasts } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
+import { TempleFairService } from './temple-fair.js';
 import { createShutdown } from './shutdown.js';
 import { WorldClock, wallHour } from '../src/core/WorldClock.js';
 
@@ -110,6 +111,9 @@ const gmTokens = new WeakMap();
 const gmRoleEpoch = new Map();
 const accounts = new Accounts(store, { googleClientId: process.env.GOOGLE_CLIENT_ID || null });
 const stash = new StashService(accounts);
+const fair = new TempleFairService(accounts, {
+  reward: (s, { id, k }) => rewardNews(byId(id)?.p.room, k, combatants.rewardState(s, id, k)),
+});
 // GM account: GM_ID + GM_PASSWORD is made here when missing (the memory store forgets accounts on restart)
 if (process.env.GM_ID && process.env.GM_PASSWORD) {
   const r = await accounts.register(process.env.GM_ID, process.env.GM_PASSWORD);
@@ -280,7 +284,7 @@ async function handle(ws, raw) {
     const active = combatants.get(presence.players.get(ws)?.id);
     // Keep the source bag unchanged while its SQL transfer is in flight. A refused
     // optimistic op is acknowledged with a sync, so NetProgress can reconcile it.
-    if ((active?.stashBusy || active?.tradeBusy) && !['stash_open', 'stash_move', 'resync'].includes(m.t)) {
+    if ((active?.stashBusy || active?.tradeBusy) && !['stash_open', 'stash_move', 'fair', 'resync'].includes(m.t)) {
       if (m.t === 'pvp_mode') send(ws, { t: 'pvp_mode', on: pvp.view(presence.players.get(ws).id).mode, why: 'busy' });
       if (m.t === 'op') {
         if (Number.isSafeInteger(m.n) && m.n > active.ack) active.ack = m.n;
@@ -364,6 +368,7 @@ async function handle(ws, raw) {
       case 'party_warp': recall(ws, true); break;
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
+      case 'fair': await fairMsg(ws, m); break;
       case 'wbjoin': joinWorldBoss(ws); break;
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': case 'pvp_mode': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
@@ -510,6 +515,19 @@ wss.on('connection', ws => {
 
 // Vault mutations send a confirmed result, current account vault, and current
 // character. Retries use the same request ID; no raw HTTP stash writes exist.
+async function fairMsg(ws, m) {
+  const p = presence.players.get(ws), s = p && combatants.get(p.id), view = p && pvp.view(p.id);
+  cancelRecall(ws, 'busy');
+  const result = await fair.handle(p, s, m, { hour: clock.hour,
+    fighting: !!p && (combatants.fighting(p.id) || view?.wait > 0),
+    duel: !!view?.duel, trade: !!p && !!trades.of(p.id) });
+  // A departed/replaced session still commits its accepted transaction, but
+  // only the original live character receives its response and balance sync.
+  if (presence.players.get(ws) !== p || combatants.get(p?.id) !== s) return;
+  send(ws, result);
+  const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c });
+}
+
 async function stashMsg(ws, m) {
   const p = presence.players.get(ws), s = p && combatants.get(p.id), view = p && pvp.view(p.id);
   const context = { fighting: !!p && (combatants.fighting(p.id) || view?.wait > 0), duel: !!view?.duel, trade: !!p && !!trades.of(p.id) };
@@ -548,7 +566,7 @@ function correct(ws, extra = {}) {
 function pvpPlayer(id) {
   const p = byId(id)?.p, s = combatants.get(id);
   return p ? {...p,lv:s?.c.level ?? p.lv,signed:!!s?.persist,dead:!!p.dead || !s?.c.alive,
-    busy:!!s?.stashBusy || !!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
+    busy:!!s?.stashBusy || !!s?.tradeBusy || !!trades.of(id) || combatants.fighting(id),trade:!!trades.of(id),party:parties.of(id)} : null;
 }
 // what the room sees of someone's PvP standing: open to free PK here, in a duel, and their
 // บาป · บุญ, tier (name colour) and ยศ (src/data/karma.js)
@@ -728,7 +746,7 @@ function partyMsg(ws, m) {
 function tradeWhy(a, b) {
   if (!b) return 'offline';
   if (!combatants.get(a.id)?.persist || !combatants.get(b.id)?.persist) return 'guest';
-  if (combatants.get(a.id).stashBusy || combatants.get(b.id).stashBusy) return 'busy';
+  if ([combatants.get(a.id), combatants.get(b.id)].some(s => s.stashBusy || s.tradeBusy)) return 'busy';
   if (a.room !== b.room || Math.hypot(a.x - b.x, a.z - b.z) > TRADE.range) return 'far';
   if (a.dead || b.dead || combatants.fighting(a.id) || combatants.fighting(b.id) || pvp.view(a.id).duel || pvp.view(b.id).duel || pvp.view(a.id).wait || pvp.view(b.id).wait) return 'busy';
   return null;

@@ -78,6 +78,7 @@ export function startMultiplayer(game) {
   const pvp = attachPvp(net, game, chat, social);
   game.warp.connect(net);
   game.storage.connect(net);
+  game.fair.connect(net);
   social.pvp = pvp;
   const dynamicHUD = attachDynamicHUD(game, net);
   net.on('position', async m => {

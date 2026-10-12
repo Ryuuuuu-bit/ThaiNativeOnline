@@ -57,3 +57,11 @@ Assets and generation receipts are in `public/ui/titles/imagegen-v1/` and
 ## Hooks for quest navigation
 
 Multiplayer disconnect and identity logout cancel Game.questNav; reconnect never resumes a route. Entitlement, quest progress and server authority are unchanged. See src/quest/README.md and docs/design/QUEST_HUD_NAVIGATION.md.
+
+## Temple fair transport hook
+
+`Multiplayer` connects `Game.fair` to `fair_result`, link status and character
+sync. `fair` messages carry intentions only; `server/temple-fair.js` owns timing,
+random draws and atomic gold settlement. `Game` closes the panel on map leave.
+After disconnect, an uncertain paid action must not be resent automatically;
+wait for the server's current balance. See `src/fair/README.md` for the contract.

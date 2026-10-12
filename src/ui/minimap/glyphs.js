@@ -5,6 +5,7 @@ import { EMBLEMS } from '../icons.js';
 // symbol, the player arrow, warps, monsters, NPC dots and a compass rose.
 // Symbols are SVG path data in a 24×24 box (stroke = ink), turned into Path2D once.
 const SYMBOLS = {
+  fair: ['M6 7h12l-1 11H7z M8 3h8 M12 1v2 M6 7 8 3 M18 7 16 3 M8 20h8 M12 20v3 M9 8v8 M15 8v8', false],
   warp: ['M12 2a10 10 0 1 0 .01 0 M12 5l2.5 4.5L19 12l-4.5 2.5L12 19l-2.5-4.5L5 12l4.5-2.5z', false],
   trade: ['M9 3.5h6l-1.6 3.2h-2.8z M8.6 7.6h6.8c3.8 2.6 4.8 11.9-3.4 11.9S4.8 10.2 8.6 7.6z', true],
   equipment: ['M18.5 3.5 20.5 5.5 10 16l-2-2z M6.5 13.5l4 4-1.5 1.5-1.2-1.2-2.6 2.6-1.6-1.6 2.6-2.6-1.2-1.2z', true],

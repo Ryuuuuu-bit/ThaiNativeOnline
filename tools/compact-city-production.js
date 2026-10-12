@@ -31,6 +31,8 @@ const views=[
   ['city-gate',0,-60,.65,10],
   ['riverside-rest',-24,59,1.1,10],['banana-yard',-63,36,1.6,10],
   ['banana-landing',47,62,1.4,10],
+  ['temple-fair',-51,-24,1.5,18.5],['temple-fair-night',-51,-24,1.5,22],
+  ['temple-fair-day',-51,-24,1.5,12],
   ['forge',-23,-13,1.4,10],['pharmacy',23,-13,1.4,10],
   ['general',-23,15,1.4,10],['depot',23,15,1.4,10],
   ['north-halls',0,-39,1,10],['hunter',41,-43,1,10],['herbalist',43,-15,1,10],

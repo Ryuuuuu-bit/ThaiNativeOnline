@@ -330,3 +330,12 @@ that do not overlap roads, water or each other, spots chained to the lane).
 
 Browser: `tests/browser/zones-probe.html` (see `docs/technical/VERIFY.md`)
 walks city → paddy → deep_forest → wat_rang and back through every trigger.
+
+## Temple fair city hook
+
+`../fair/fairSites.js` supplies the three `kind: fair` solid reservations in
+`compact-city.js`. `compact-city-render/buildTempleFair.js` dresses those bounds;
+the general building and courtyard builders skip them. `buildCityArt` owns its
+allocations and phase updates. Re-export `server/data/collision.json` after
+changing sites; `tools/collision-source-hash.js` includes the shared site file.
+Map directory destinations and interaction use exterior approach points.
