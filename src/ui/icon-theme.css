@@ -32,7 +32,7 @@
   object-fit: contain; image-rendering: auto;
 }
 .g-skslot > .asset-icon.icon-img { width: 34px; height: 34px; display: inline-block; }
-.auto-skills button > .asset-icon.icon-img { width: 46px; height: 46px; display: inline-block; }
+.auto-skills .auto-tog > .asset-icon.icon-img { width: 46px; height: 46px; display: inline-block; }
 .g-node .g-ic, .g-skd-head .g-ic { background: #132b25; }
 .g-kit-skill > .asset-icon, .hotbar-slot > .asset-icon { display: block; }
 /* Counts, rarity borders, locks and cooldowns belong to the parent slot and

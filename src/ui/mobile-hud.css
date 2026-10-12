@@ -120,3 +120,5 @@ body.ui-touch .auto-panel .ro-title { position:sticky; top:0; z-index:2; min-hei
 body.ui-touch .auto-panel :is(.auto-grid,.auto-foot) { margin:12px; }
 body.ui-touch .auto-panel .auto-close { top:8px; right:8px; }
 body.ui-touch .auto-panel :is(.auto-close,.auto-step button) { min-height:44px; min-width:44px; }
+body.ui-touch .auto-panel .auto-move button { height:34px; }
+body.ui-touch .auto-panel .auto-mobs button { min-height:38px; padding:6px 12px; }

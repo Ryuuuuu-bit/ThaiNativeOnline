@@ -110,16 +110,33 @@ body .auto-panel{font-size:14px;padding:16px 18px}
 body .auto-panel .ro-title{font-size:19px}
 body .auto-panel .auto-kc{position:absolute;left:4px;top:0;font-size:12px}
 .auto-skills{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.auto-skills button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px 4px;border-radius:11px;cursor:pointer;font:inherit;color:var(--t-ink);background:rgba(75,135,200,.12);border:1px solid #4b87c8}
-.auto-skills button img,.auto-skills button b{width:46px;height:46px;border-radius:3px;display:grid;place-items:center;box-shadow:0 0 0 1px #120b05}
-.auto-skills button span{font-size:11px;line-height:1.25;text-align:center;min-height:28px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.auto-skills .auto-tog{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px 4px;border-radius:11px;cursor:pointer;font:inherit;color:var(--t-ink);background:rgba(75,135,200,.12);border:1px solid #4b87c8}
+.auto-skills .auto-tog img,.auto-skills .auto-tog b{width:46px;height:46px;border-radius:3px;display:grid;place-items:center;box-shadow:0 0 0 1px #120b05}
+.auto-skills .auto-tog span{font-size:11px;line-height:1.25;text-align:center;min-height:28px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .auto-skills .k{position:absolute;left:3px;top:2px;width:18px;height:18px;border-radius:50%;font-style:normal;font-size:11px;font-weight:700;display:grid;place-items:center;color:#fff;background:var(--t-acc)}
 .auto-skills .ok{position:absolute;right:-6px;top:-6px;width:20px;height:20px;border-radius:50%;font-style:normal;font-size:12px;font-weight:700;display:grid;place-items:center;color:#fff;background:#3f9a44;box-shadow:0 0 0 2px #1a2230}
-.auto-skills button.survival{border-color:#3f9a44;background:rgba(80,180,80,.12)}
-.auto-skills button.survival .k{background:#2e6a28}
-.auto-skills button.off{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
-.auto-skills button.off img{filter:grayscale(1) brightness(.6)}
-.auto-skills button.off span{color:var(--t-mute)}
+.auto-skills .auto-tog.survival{border-color:#3f9a44;background:rgba(80,180,80,.12)}
+.auto-skills .auto-tog.survival .k{background:#2e6a28}
+.auto-skills .auto-tog.off{border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
+.auto-skills .auto-tog.off img{filter:grayscale(1) brightness(.6)}
+.auto-skills .auto-tog.off span{color:var(--t-mute)}
+.auto-tile{display:flex;flex-direction:column;gap:4px;min-width:0}
+.auto-skills .auto-tog{width:100%}
+/* the order under each tile: ‹ ลำดับ n › */
+.auto-move{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:3px;min-width:0}
+.auto-move em{min-width:20px;padding:0 3px;box-sizing:border-box;border-radius:10px;font-style:normal;font-size:12px;font-weight:700;line-height:20px;text-align:center;color:#1d140a;background:var(--t-gold,#d8b26a);white-space:nowrap}
+.auto-tile:has(.auto-tog.off) .auto-move em{color:var(--t-mute);background:rgba(255,255,255,.08)}
+.auto-move button{min-width:0;height:22px;padding:0;border:1px solid rgba(255,255,255,.12);border-radius:6px;cursor:pointer;font:700 14px/1 var(--ui-font);color:var(--t-ink);background:rgba(255,255,255,.06)}
+.auto-move button:disabled{opacity:.25;cursor:default}
+.auto-radius.two{grid-template-columns:repeat(2,1fr)}
+/* hunt list: ตีทั้งหมด and one chip per monster of the map */
+.auto-mobs{display:flex;flex-wrap:wrap;gap:5px}
+.auto-mobs button{display:inline-flex;align-items:baseline;gap:5px;padding:5px 10px;cursor:pointer;border-radius:999px;font:600 13px var(--ui-font);color:var(--t-ink);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+.auto-mobs button small{font-size:11px;font-weight:400;color:var(--t-dim)}
+.auto-mobs button.elite,.auto-mobs button.boss{border-color:#c9a24f88}
+.auto-mobs button[aria-pressed="true"]{color:#fff;background:linear-gradient(180deg,#4a90e2,#2f6fc4);border-color:transparent}
+.auto-mobs button[aria-pressed="true"] small{color:#dbe9ff}
+.auto-none{margin:0;font-size:12px;color:var(--t-dim)}
 .auto-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--t-dim)}
 .auto-legend i{display:inline-block;width:10px;height:10px;margin-right:5px;border-radius:2px;vertical-align:-1px}
 .auto-legend .atk{background:#4b87c8}
@@ -142,7 +159,7 @@ body .auto-card .auto-note{margin:auto 0 0;font-size:12px;line-height:1.55;color
 .auto-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:12px;font-size:13px;color:var(--t-mute)}
 .auto-reset{font:inherit;font-size:14px;padding:7px 16px;cursor:pointer;border:0;border-radius:10px;color:#e6ebf2;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13)}
 body.skin-classic .auto-card h4{color:#3d2b17}
-body.skin-classic .auto-skills button{color:#3d2b17}
+body.skin-classic .auto-skills .auto-tog{color:#3d2b17}
 body.skin-classic .auto-panel input.auto-sw{background:linear-gradient(#1a130c,#2b2117)}
 body.skin-classic .auto-panel input.auto-sw:checked{background:linear-gradient(#24578f,#2f6aa8)}
 

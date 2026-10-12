@@ -24,7 +24,8 @@ import { iconHtml } from './icons.js';
 // }
 import '../classes/fx/fx.css';
 import './actionbar.css';
-import { AUTO_RANGES, AutoPanel, castOrder, loadAuto, normalizeAuto, pickTarget, saveAuto } from './autoSettings.js';
+import { AUTO_RANGES, AutoPanel, castOrder, loadAuto, nextAfter, normalizeAuto, pickTarget, saveAuto, wantedTypes } from './autoSettings.js';
+import { MAPS, mapOf } from '../world/maps.js';
 
 export const AUTO_KEY = 'KeyR';
 const keyLabel = i => String((i + 1) % 10);
@@ -41,7 +42,8 @@ export class ActionBar {
     this.cfgBtn = el('button', 'ro-button hotbar-auto-cfg', '⚙'); this.cfgBtn.type = 'button'; this.cfgBtn.title = 'ตั้งค่า AUTO';
     this.autoCfg = loadAuto(); this.potionWait = 0;
     this.panel = new AutoPanel(host, () => this.autoCfg, s => { this.autoCfg = normalizeAuto(s); saveAuto(this.autoCfg); });
-    this.cfgBtn.addEventListener('click', () => this.panel.toggle(this.ctl?.slots.map((sl, i) => ({ ...sl, survival: this.survival(i) })) ?? []));
+    // the panel lists the skills on the bar and the monsters of the map the player stands on
+    this.cfgBtn.addEventListener('click', () => this.panel.toggle(this.ctl?.slots.map((sl, i) => ({ ...sl, survival: this.survival(i) })) ?? [], this.mapContext()));
     // the basic attack (Space): every class has one, its speed follows AGI and buffs
     this.atkBtn = el('button', 'ro-button hotbar-attack', '<b>โจมตี</b><kbd>Space</kbd>'); this.atkBtn.type = 'button'; this.atkBtn.hidden = true;
     this.atkBtn.title = 'ตีปกติใส่เป้าหมาย (เร็วขึ้นตาม AGI และบัฟ)';
@@ -149,6 +151,10 @@ export class ActionBar {
     if (cb.target?.alive && !cb.autoAttack && cb.basicSkillId?.()) cb.useSkill(cb.basicSkillId());
     else if (!cb.target?.alive) this.idleSwing?.();   // no monster: the training dummy (Game sets this)
   }
+  mapContext() {
+    const p = this.combat?.world?.playerPos?.(), map = p ? mapOf(p.x, p.z) : null;
+    return { map, mapName: MAPS[map]?.name ?? '', safe: MAPS[map]?.safe !== false };
+  }
   // Survival skills (quick buffs, heals) go first when HP is low: the kit's quick moves.
   survival(i) { const s = this.ctl?.slots[i]; return !!(s?.survival ?? this.ctl?.kit?.skills?.[i]?.quick); }
 
@@ -209,9 +215,9 @@ export class ActionBar {
       if (t !== cb.target) { cb.setTarget(t ?? null); if (!t) { cb.cancelPending?.(); cb.world.stop?.(); } }
     }
     // the next enabled skill that is ready (survival skills first when HP is low)
-    const order = castOrder(this.slots.map((_, i) => ({ survival: this.survival(i) })), cfg, hp, this.next);
+    const skills = this.slots.map((_, i) => ({ survival: this.survival(i) })), order = castOrder(skills, cfg, hp, this.next);
     for (const i of order) {
-      if (ctl.slots[i]?.kind === 'skill' && ctl.cooldown(i)[0] <= 0 && this.cast(i, true)) { this.next = i + 1; this.autoWait = .35; this.swing(); return; }
+      if (ctl.slots[i]?.kind === 'skill' && ctl.cooldown(i)[0] <= 0 && this.cast(i, true)) { this.next = nextAfter(skills, cfg, i); this.autoWait = .35; this.swing(); return; }
     }
     // nothing ready: the basic attack fills the gaps (its speed follows AGI and buffs)
     this.swing();

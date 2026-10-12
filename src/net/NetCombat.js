@@ -9,6 +9,8 @@ import { shoveTo } from '../combat/monsterHit.js';
 import { acceptMonsterStrike, releaseMonsterStrike, cancelMonsterStrike } from '../combat/monsterAttackTiming.js';
 import { applyCombatState } from './combatState.js';
 import { applyBossCardHit, applyBossCardKill } from '../combat/bossCardEffects.js';
+import { wantedTypes } from '../ui/autoSettings.js';
+import { mapOf } from '../world/maps.js';
 
 // Shared monsters (phases 3a–3b of docs/technical/SERVER_SPLIT.md). Once the server sends
 // a map's monsters, the browser's Combat (src/combat/Combat.js) stops running its own:
@@ -35,7 +37,8 @@ export function attachNetCombat(net, game) {
   combat.seekMapTarget = cfg => {
     if (!net.online || !combat.remote || Date.now() - locateAt < 1100) return combat.mapTarget ?? null;
     locateAt = Date.now();
-    net.send({ t: 'auto_target', request: ++locateRequest, elites: cfg.elites, attackers: cfg.attackers,
+    const p = combat.world.playerPos(), mobs = wantedTypes(cfg, mapOf(p.x, p.z));   // the hunt list (src/ui/autoSettings.js)
+    net.send({ t: 'auto_target', request: ++locateRequest, elites: cfg.elites, attackers: cfg.attackers, ...(mobs ? { mobs: [...mobs] } : {}),
       exclude: combat.monsters.filter(m => Date.now() - (m.unreachableAt ?? -Infinity) < 6000).map(m => m.sid).filter(Number.isInteger).slice(0, 64) });
     return combat.mapTarget ?? null;
   };

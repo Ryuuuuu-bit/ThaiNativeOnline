@@ -485,7 +485,7 @@ async function handle(ws, raw) {
         const p = presence.players.get(ws); if (!p || p.dead || Date.now() - (ws.autoTargetAt ?? 0) < 1000) break;
         ws.autoTargetAt = Date.now();
         send(ws, { t: 'auto_target', map: p.map, ch: p.ch, request: m.request,
-          m: locateAutoTarget(worldOf(p.room), p, { elites: m.elites !== false, attackers: m.attackers !== false, exclude: m.exclude }) });
+          m: locateAutoTarget(worldOf(p.room), p, { elites: m.elites !== false, attackers: m.attackers !== false, exclude: m.exclude, mobs: m.mobs }) });
         break;
       }
       case 'resync': { const p = presence.players.get(ws); const c = p && combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); break; }
