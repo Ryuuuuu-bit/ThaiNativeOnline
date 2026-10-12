@@ -4,6 +4,8 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { createServer } from 'node:net';
 import { WebSocket } from 'ws';
+import { CITY_LAYOUT_REVISION } from '../src/world/compact-city.js';
+import { MAPS } from '../src/world/maps.js';
 
 test('HTTP/WS login ignores forged hello location, commits previous session movement, and serializes twin joins', { timeout: 20000 }, async t => {
   const probe = createServer(); probe.listen(0, '127.0.0.1'); await once(probe, 'listening');
@@ -48,7 +50,7 @@ test('HTTP/WS login ignores forged hello location, commits previous session move
   const auth = await api('/api/register', null, 'POST', { id: 'loginposqa', password: 'fixture-secret' }); assert.ok(auth.ok);
   assert.ok((await api('/api/slots/0', auth.token, 'PUT', { data: {
     'tno.character.v1': JSON.stringify({ name: 'LoginPositionQA', classId: 'warrior', gender: 'male' }),
-    'tno.location.v1': JSON.stringify({ map: 'city', x: -6, z: 52, facing: 1.25 }),
+    'tno.location.v1': JSON.stringify({ map: 'city', x: -6, z: 8, facing: 1.25, layoutRevision: CITY_LAYOUT_REVISION }),
   } })).ok);
   const connect = async (token = auth.token, slot = 0, location = { map: 'paddy', x: 4, z: -130, f: -1 }, refused = false) => {
     const ws = new WebSocket(`ws://127.0.0.1:${port}/ws`), messages = []; sockets.push(ws);
@@ -63,10 +65,10 @@ test('HTTP/WS login ignores forged hello location, commits previous session move
     return { ws, messages, send, wait, welcome, position };
   };
   const a = await connect();
-  assert.deepEqual(a.position, { t: 'position', map: 'city', x: -6, z: 52, f: 1.25 });
+  assert.deepEqual(a.position, { t: 'position', map: 'city', x: -6, z: 8, f: 1.25 });
   assert.equal(a.welcome.name, 'LoginPositionQA');
   const uid = a.welcome.characterUid;
-  a.send({ t: 's', x: -5.4, z: 52, f: .8, m: 1 });
+  a.send({ t: 's', x: -5.4, z: 8, f: .8, m: 1 });
   a.send({ t: 's', x: 99999, z: 99999, f: .8, m: 1 });
   const moved = await a.wait(m => m.t === 'position'); assert.equal(moved.x, -5.4);
   const b = await connect(auth.token, 0, { map: 'city', x: 100, z: 200, f: -2 });
@@ -74,7 +76,7 @@ test('HTTP/WS login ignores forged hello location, commits previous session move
   assert.equal(b.position.x, moved.x); assert.equal(b.position.z, moved.z); assert.equal(b.position.f, moved.f);
   assert.equal(b.welcome.characterUid, uid);
   const row = (await api('/api/slots', auth.token)).slots[0];
-  assert.deepEqual(JSON.parse(row.data['tno.location.v1']), { map: 'city', x: moved.x, z: moved.z, facing: moved.f });
+  assert.deepEqual(JSON.parse(row.data['tno.location.v1']), { map: 'city', x: moved.x, z: moved.z, facing: moved.f, layoutRevision: CITY_LAYOUT_REVISION });
 
   const [c, d] = await Promise.all([connect(), connect(auth.token, 0, { map: 'wat_rang', x: 4, z: -450, f: 3 })]);
   await b.wait(m => m.t === 'kicked');
@@ -88,7 +90,7 @@ test('HTTP/WS login ignores forged hello location, commits previous session move
 
   assert.ok((await api('/api/slots/1', auth.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name: 'FreshPositionQA', classId: 'warrior' }) } })).ok);
   const fresh = await connect(auth.token, 1);
-  assert.equal(fresh.position.map, 'city'); assert.equal(fresh.position.x, 0); assert.equal(fresh.position.z, 52, 'missing saved location uses city spawn');
+  assert.equal(fresh.position.map, 'city'); assert.equal(fresh.position.x, 0); assert.equal(fresh.position.z, MAPS.city.spawn.z, 'missing saved location uses city spawn');
   const guest = await connect(null, null, { map: 'paddy', x: 4, z: -130, f: .2 });
   assert.equal(guest.position.map, 'paddy'); assert.equal(guest.position.x, 4, 'Guest placement policy is unchanged');
 
@@ -96,7 +98,7 @@ test('HTTP/WS login ignores forged hello location, commits previous session move
     const login = await api('/api/register', null, 'POST', { id, password: 'fixture-secret' }); assert.ok(login.ok);
     assert.ok((await api('/api/slots/0', login.token, 'PUT', { data: {
       'tno.character.v1': JSON.stringify({ name, classId: 'warrior' }),
-      'tno.location.v1': JSON.stringify({ map: 'city', x: -6, z: 52, facing: 1.25 }),
+      'tno.location.v1': JSON.stringify({ map: 'city', x: -6, z: 8, facing: 1.25, layoutRevision: CITY_LAYOUT_REVISION }),
     } })).ok); return login;
   };
   const racing = await makeAccount('loginraceqa', 'LoginRaceQA');
@@ -112,7 +114,7 @@ test('HTTP/WS login ignores forged hello location, commits previous session move
 
   const failed = await makeAccount('loginfailqa', 'LoginFailureQA');
   const previous = await connect(failed.token);
-  previous.send({ t: 's', x: -5.4, z: 52, f: .8, m: 1 });
+  previous.send({ t: 's', x: -5.4, z: 8, f: .8, m: 1 });
   previous.send({ t: 's', x: 99999, z: 99999 });
   assert.equal((await previous.wait(m => m.t === 'position')).x, -5.4);
   const failureArmed = once(child, 'message'); child.send('fail_next_login_save');

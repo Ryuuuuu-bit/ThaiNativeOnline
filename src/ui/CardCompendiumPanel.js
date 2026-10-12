@@ -19,7 +19,7 @@ export class CardCompendiumPanel {
     this.root.id = 'card-compendium-overlay'; this.root.className = 'qol-overlay cc-overlay'; this.root.hidden = true;
     const maps = Object.values(MAPS).filter(map => CARD_CATALOG.some(card => card.locations.some(l => l.map === map.id)));
     this.root.innerHTML = `<section class="guide-panel cc-panel" role="dialog" aria-modal="true" aria-labelledby="cc-title" tabindex="-1">
-      <header class="guide-head cc-head"><div><small>บันทึกแห่งอโยธยา</small><h2 id="cc-title">สมุดการ์ดและคู่มือ</h2><p>จดจำอาคม เตรียมศาสตรา และเลือกแหล่งล่า</p></div><button type="button" class="cc-close" data-cc-close aria-label="ปิดสมุดการ์ดและคู่มือ">×</button></header>
+      <header class="guide-head cc-head"><div><small>บันทึกแห่งนครที่ถูกลืมเลือน</small><h2 id="cc-title">สมุดการ์ดและคู่มือ</h2><p>จดจำอาคม เตรียมศาสตรา และเลือกแหล่งล่า</p></div><button type="button" class="cc-close" data-cc-close aria-label="ปิดสมุดการ์ดและคู่มือ">×</button></header>
       <nav class="cc-tabs" role="tablist" aria-label="หน้าสมุด"><button type="button" id="cc-tab-cards" role="tab" data-cc-tab="cards" aria-controls="cc-cards" aria-selected="true">❖ สมุดการ์ด</button><button type="button" id="cc-tab-guide" role="tab" data-cc-tab="guide" aria-controls="cc-guide" aria-selected="false" tabindex="-1">◇ คู่มือผู้เดินทาง</button></nav>
       <div id="cc-cards" class="cc-cards" role="tabpanel" aria-labelledby="cc-tab-cards">
         <div class="cc-progress"><div><b id="cc-progress-count"></b><small id="cc-character"></small></div><progress id="cc-progress-bar" value="0" max="${CARD_CATALOG.length}" aria-label="จำนวนชนิดการ์ดที่เคยค้นพบ"></progress><small id="cc-source-count"></small></div>

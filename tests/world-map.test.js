@@ -3,8 +3,24 @@ import assert from 'node:assert/strict';
 import { mapDirectory, filterPlaces, worldOrder, nextPortal } from '../src/ui/mapDirectory.js';
 import { fittedCamera, mapTransform, placeLabels, clampCamera, clusterMarkers } from '../src/ui/minimap/mapLayout.js';
 import { LANDMARKS } from '../src/data/landmarks.js';
-import { MAPS, MAP_IDS, landmarksOf } from '../src/world/maps.js';
+import { MAPS, MAP_IDS, landmarksOf, walkBounds } from '../src/world/maps.js';
 import { WARP_SERVICES } from '../src/data/warpServices.js';
+import { Minimap } from '../src/ui/Minimap.js';
+
+test('real atlas reset fits compact city bounds and whole-map painted extent', () => {
+  const bounds = walkBounds(MAPS.city);
+  const rect = { minX: bounds.minX - 18, maxX: bounds.maxX + 18, minZ: bounds.minZ - 18, maxZ: bounds.maxZ + 18 };
+  let redraws = 0;
+  const fixture = { map: MAPS.city, bounds, base: { rect }, full: {},
+    fit: () => [1000, 700], fullInset: () => 70, redrawFull: () => redraws++ };
+  Minimap.prototype.resetFull.call(fixture);
+  assert.deepEqual(fixture.fullCamera, fittedCamera(rect, 1000, 700, bounds, 70));
+  const transform = mapTransform(rect, 1000, 700, fixture.fullCamera, 70);
+  assert.ok((bounds.maxZ - bounds.minZ) * transform.k > .9 * (700 - 70), 'compact city fills available height');
+  Minimap.prototype.resetFull.call(fixture, true);
+  assert.deepEqual(fixture.fullCamera, fittedCamera(rect, 1000, 700, rect, 70));
+  assert.equal(redraws, 2);
+});
 
 test('atlas lists all maps and secret places; gate and portal are one selectable destination', () => {
   for (const id of MAP_IDS) {

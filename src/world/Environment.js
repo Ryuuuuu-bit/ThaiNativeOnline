@@ -49,7 +49,7 @@ export class Environment {
     for (const key of NUM_KEYS) K[key] = a[key] + (b[key] - a[key]) * t;
     return K;
   }
-  update(hour, focus) {
+  update(hour, focus, mapId) {
     const k = this.sample(hour), w = wildness(focus.z), cem = cemeteryFactor(focus.x, focus.z);
     const night = Math.max(1 - smoothstep(4.5, 6.2, hour), smoothstep(18.6, 20, hour));
     const lantern = Math.max(1 - smoothstep(5.4, 6.6, hour), smoothstep(17.4, 18.6, hour));
@@ -64,6 +64,16 @@ export class Environment {
     this.hemi.color.copy(k.sky).lerp(c1.set('#5d7a5a'), w * .35); this.hemi.groundColor.copy(k.ground);
     this.hemi.intensity = k.hi * SKY_GAIN * (1 - .32 * w - .2 * cem);
     this.renderer.toneMappingExposure = k.exp * (1 - .07 * w);
+    // Town has softer fill and warm daylight than the wilds. This is
+    // explicit map context, reset by the normal keys on every update/map change.
+    if(mapId==='city') {
+      this.sun.intensity *= .86;
+      this.hemi.intensity *= 1.34;
+      this.sun.color.lerp(c1.set('#ffe6ba'),.32*(1-night));
+      this.hemi.color.lerp(c1.set('#d3e2ed'),.28*(1-night));
+      this.hemi.groundColor.lerp(c1.set('#697a77'),.28*(1-night));
+      this.renderer.toneMappingExposure *= .97;
+    }
 
     const el = THREE.MathUtils.degToRad(k.el), az = THREE.MathUtils.degToRad(k.az);
     this.dir.set(Math.cos(el) * Math.sin(az), Math.sin(el), Math.cos(el) * Math.cos(az)).normalize();

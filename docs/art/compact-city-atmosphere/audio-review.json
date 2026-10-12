@@ -1,0 +1,74 @@
+{
+  "source": "Production CalmMusicPlayer rendered by OfflineAudioContext; previews fade at endpoints, live score repeats without restarting its audio graph.",
+  "errors": [],
+  "playback": {
+    "errors": [],
+    "tracks": 10,
+    "muted": true,
+    "context": "running",
+    "stopped": true
+  },
+  "loops": [
+    {
+      "id": "calm_river",
+      "peak": 0.32940104603767395,
+      "seamRms": 0.0710688958416169,
+      "seamMaxStep": 0.04823373444378376
+    },
+    {
+      "id": "calm_market",
+      "peak": 0.3463893532752991,
+      "seamRms": 0.07803083632639281,
+      "seamMaxStep": 0.05762599129229784
+    },
+    {
+      "id": "calm_temple",
+      "peak": 0.29964661598205566,
+      "seamRms": 0.060437792429815645,
+      "seamMaxStep": 0.05636215768754482
+    },
+    {
+      "id": "calm_paddy",
+      "peak": 0.2945418655872345,
+      "seamRms": 0.055860559658584386,
+      "seamMaxStep": 0.041189905256032944
+    },
+    {
+      "id": "calm_forest",
+      "peak": 0.2894414961338043,
+      "seamRms": 0.05578076465623526,
+      "seamMaxStep": 0.03625870496034622
+    },
+    {
+      "id": "calm_ruins",
+      "peak": 0.22854340076446533,
+      "seamRms": 0.05470679265663974,
+      "seamMaxStep": 0.03124246373772621
+    },
+    {
+      "id": "calm_marsh",
+      "peak": 0.2681158185005188,
+      "seamRms": 0.05855108288959778,
+      "seamMaxStep": 0.04180387407541275
+    },
+    {
+      "id": "calm_night",
+      "peak": 0.2564007639884949,
+      "seamRms": 0.0639450589744053,
+      "seamMaxStep": 0.030890729278326035
+    },
+    {
+      "id": "calm_battle",
+      "peak": 0.3109064996242523,
+      "seamRms": 0.06137026446218008,
+      "seamMaxStep": 0.03911316581070423
+    },
+    {
+      "id": "calm_boss",
+      "peak": 0.37153419852256775,
+      "seamRms": 0.07523175943137726,
+      "seamMaxStep": 0.04126404970884323
+    }
+  ],
+  "note": "Four cozy profiles use 32-bar call/response arrangements. Preview WAV files are 40-second faded mono excerpts of the production score, not runtime loops. No auditory acceptance is claimed by these numeric checks."
+}

@@ -5,6 +5,7 @@ import { once } from 'node:events';
 import { createServer } from 'node:net';
 import { WebSocket } from 'ws';
 import { WARP_SERVICES } from '../src/data/warpServices.js';
+import { MAPS } from '../src/world/maps.js';
 import { stashIdentity } from '../src/data/stash.js';
 
 test('real HTTP/WS account vault: shared counters, atomic transfers, retries, concurrent withdrawal, auth, saved state and disconnect', { timeout: 20000 }, async t => {
@@ -53,7 +54,7 @@ test('real HTTP/WS account vault: shared counters, atomic transfers, retries, co
     const a = await api('/api/register', null, 'POST', { id: name.toLowerCase(), password: 'fixture-secret' });
     for (const slot of slots) {
       const counter = counters[slot];
-      await api(`/api/slots/${slot}`, a.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name: slot ? 'VaultB' : name, classId: 'warrior', gender: 'male' }), 'tno.location.v1': JSON.stringify({ map: counter.map, x: counter.x, z: counter.z, facing: Math.PI }) } });
+      await api(`/api/slots/${slot}`, a.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name: slot ? 'VaultB' : name, classId: 'warrior', gender: 'male' }), 'tno.location.v1': JSON.stringify({ map: counter.map, x: counter.x, z: counter.z, facing: Math.PI, layoutRevision:MAPS.city.layoutRevision }) } });
     }
     return a;
   }

@@ -4,6 +4,7 @@ import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import {createServer} from 'node:net';
 import {WebSocket} from 'ws';
+import {COMPACT_CITY} from '../src/world/compact-city.js';
 
 test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown', {timeout:40000}, async t=>{
   const probe=createServer();probe.listen(0,'127.0.0.1');await once(probe,'listening');const port=probe.address().port;await new Promise(r=>probe.close(r));
@@ -47,9 +48,11 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
   const repeated=await a.wait(m=>m.t==='recall_cast');assert.ok(repeated.remaining<5&&repeated.remaining>4);
   await new Promise(r=>setTimeout(r,500));
   assert.equal(a.msgs.some(m=>m.t==='position'&&m.map==='city'),false);
-  assert.equal((await a.wait(m=>m.t==='position'&&m.map==='city',6500)).z,52);
+  const recalled=await a.wait(m=>m.t==='position'&&m.map==='city',6500);
+  assert.deepEqual({x:recalled.x,z:recalled.z},COMPACT_CITY.spawn);
   assert.ok(performance.now()-started>=5000,'server must enforce the full five seconds');
-  b.send({t:'party_warp'});assert.equal((await b.wait(m=>m.t==='position'&&m.map==='city')).z,52);
+  b.send({t:'party_warp'});const warped=await b.wait(m=>m.t==='position'&&m.map==='city');
+  assert.deepEqual({x:warped.x,z:warped.z},COMPACT_CITY.spawn);
   b.send({t:'pvp_hit',id:a.id});assert.equal((await b.wait(m=>m.t==='pvp_no')).why,'safe');
   const del=await api('/api/slots/0',a.token,'DELETE');assert.equal(del.status,409);
   const exited=once(child,'exit');child.send('SIGTERM');await a.wait(m=>m.t==='shutdown');assert.equal((await exited)[0],0);

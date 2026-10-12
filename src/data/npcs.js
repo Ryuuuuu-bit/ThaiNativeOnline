@@ -1,5 +1,6 @@
 import { EXPEDITIONS } from '../world/expeditions.js';
 import { WARP_NPCS } from './warpServices.js';
+import { compactCityNpc } from './compactCityNpcs.js';
 // NPC roster for นครที่ถูกลืมเลือน and the zone maps outside the wall. Each entry is pure data:
 //   id, name, occupation, gender, home, interactionRadius, dialogue, shopType / trainer,
 //   map (optional: which map of src/world/maps.js the NPC lives on; otherwise
@@ -277,7 +278,7 @@ export const NPCS = [
       'คนเฒ่าคนแก่ว่าใต้หนองใหญ่ทางตะวันออกเฉียงใต้ ชาละวันยังไม่ตาย มันรอเหยื่ออยู่',
     ],
     schedule: { morning: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell'), day: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell'), evening: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell'), night: work(P(20.5, -626, -Math.PI / 2, 'kv1'), 'sell') } },
-];
+].map(compactCityNpc);
 
 
 for(const e of EXPEDITIONS)NPCS.push({id:`supply_${e.id}`,name:`คนเสบียง · ${e.name}`,occupation:'merchant',gender:'female',map:e.id,home:`${e.id}_supply`,shopType:`supplies_${e.id}`,interactionRadius:3,dialogue:['พักเติมเสบียงก่อนเข้าวงล่า ให้เพื่อนพร้อมแล้วค่อยไปด้วยกัน'],schedule:Object.fromEntries(['morning','day','evening','night'].map(p=>[p,{do:'stay',at:`${e.id}_supply`,state:'work',anim:'sell'}]))});

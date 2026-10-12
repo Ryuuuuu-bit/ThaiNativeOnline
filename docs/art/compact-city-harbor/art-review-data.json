@@ -1,0 +1,507 @@
+{
+  "steps": [
+    [
+      "world-contract",
+      {
+        "buildings": 33,
+        "stats": {
+          "map": "city",
+          "streets": 47,
+          "streetSurfaceMeshes": 7,
+          "landscapeTrees": 66,
+          "landscapeShrubs": 305,
+          "landscapeFlowers": 492,
+          "landscapeGardens": 12,
+          "landscapePlanters": 26,
+          "landscapeTextures": 1,
+          "landscapeVariants": {
+            "banyan": 2,
+            "shade": 4,
+            "blossom": 4,
+            "palm": 2
+          },
+          "cityWaterDraws": 1,
+          "cityWaterTextures": 0,
+          "cityWaterWaveBands": 4,
+          "cityWaterRippleSources": 4,
+          "harbor": {
+            "harborBoats": 2,
+            "harborBoatBatches": 2,
+            "harborPiers": 2,
+            "harborSalas": 1,
+            "harborCranes": 1,
+            "harborNets": 2,
+            "harborBollards": 8,
+            "harborSalaPilings": 4,
+            "harborConnectors": 1,
+            "harborSourceMeshes": 688,
+            "harborBounds": {
+              "min": [
+                -72,
+                -2.4000000000000004,
+                42.126
+              ],
+              "max": [
+                72.10000000000001,
+                8.121926677338491,
+                82.07433352615952
+              ]
+            }
+          },
+          "residentialFences": {
+            "lots": 18,
+            "segments": 77,
+            "gatePosts": 38
+          },
+          "sacred": [
+            {
+              "kind": "temple",
+              "roofTiers": 3,
+              "highMeshes": 445,
+              "lowMeshes": 285,
+              "highHeight": 17.098770738840102,
+              "lowHeight": 17.098770738840102,
+              "bounds": {
+                "high": {
+                  "min": [
+                    -61.65,
+                    0,
+                    -51.65
+                  ],
+                  "max": [
+                    -42.35,
+                    17.098770738840102,
+                    -34.35
+                  ]
+                },
+                "low": {
+                  "min": [
+                    -61.65,
+                    0,
+                    -51.65
+                  ],
+                  "max": [
+                    -42.35,
+                    17.098770738840102,
+                    -34.35
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "chedi",
+              "roofTiers": 0,
+              "highMeshes": 67,
+              "lowMeshes": 31,
+              "highHeight": 14.76,
+              "lowHeight": 14.76,
+              "bounds": {
+                "high": {
+                  "min": [
+                    -66.805,
+                    0,
+                    -26.805
+                  ],
+                  "max": [
+                    -59.195,
+                    14.76,
+                    -19.195
+                  ]
+                },
+                "low": {
+                  "min": [
+                    -66.805,
+                    0,
+                    -26.805
+                  ],
+                  "max": [
+                    -59.195,
+                    14.76,
+                    -19.195
+                  ]
+                }
+              }
+            }
+          ],
+          "windShadowMeshes": 218,
+          "animatedBoats": 2,
+          "nightLights": 3,
+          "marketCanopies": 2,
+          "lotusFountains": 1,
+          "neighborhoodBuildings": 16,
+          "neighborhoodVariants": {
+            "woodworker": 1,
+            "potter": 1,
+            "teahouse": 2,
+            "weaver": 3,
+            "merchant": 2,
+            "bakery": 1,
+            "inn": 2,
+            "fisher": 4
+          },
+          "courtyardEdges": 17,
+          "buildings": 33,
+          "halls": {
+            "count": 6
+          },
+          "classCues": 6,
+          "lodAssets": 2,
+          "staticMeshes": 773,
+          "instanceMeshes": 337,
+          "sourceMeshes": 15813,
+          "houses": 2,
+          "forestTrees": 66,
+          "buildMs": 359
+        },
+        "flat": true,
+        "ground": true,
+        "grassSettings": true
+      }
+    ],
+    [
+      "routes",
+      [
+        {
+          "id": "plaza",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "forge",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "pharmacy",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "general",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "stash",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "warp",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "abbot",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "monk",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "muaythai",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "warrior",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "hunter",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "herbalist",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "shaman",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "assassin",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "docks",
+          "standing": true,
+          "route": true
+        },
+        {
+          "id": "northgate",
+          "standing": true,
+          "route": true
+        }
+      ]
+    ],
+    [
+      "navigation-extra-blocked-samples",
+      {
+        "mismatch": 10,
+        "expected": "only portal pillar reservations"
+      }
+    ],
+    [
+      "minimap",
+      {
+        "width": 516,
+        "height": 468
+      }
+    ],
+    [
+      "production-npcs",
+      {
+        "count": 60,
+        "criticalModels": "ready"
+      }
+    ],
+    [
+      "view:waterfront",
+      {
+        "calls": 561,
+        "triangles": 783493
+      }
+    ],
+    [
+      "view:harbor-overview",
+      {
+        "calls": 637,
+        "triangles": 816714
+      }
+    ],
+    [
+      "view:harbor-evening",
+      {
+        "calls": 669,
+        "triangles": 826827
+      }
+    ],
+    [
+      "view:home-boundaries",
+      {
+        "calls": 560,
+        "triangles": 892585
+      }
+    ],
+    [
+      "view:east-boundaries",
+      {
+        "calls": 675,
+        "triangles": 1140379
+      }
+    ],
+    [
+      "view:city-gate",
+      {
+        "calls": 738,
+        "triangles": 1283486
+      }
+    ],
+    [
+      "view:overview",
+      {
+        "calls": 1743,
+        "triangles": 2229062
+      }
+    ],
+    [
+      "dispose",
+      {
+        "baseline": 872,
+        "after": 12,
+        "released": {
+          "geometries": 1271,
+          "materials": 143,
+          "textures": 18
+        },
+        "idempotent": {
+          "geometries": 0,
+          "materials": 0,
+          "textures": 0
+        }
+      }
+    ],
+    [
+      "rebuild",
+      {
+        "stats": {
+          "map": "city",
+          "streets": 47,
+          "streetSurfaceMeshes": 7,
+          "landscapeTrees": 66,
+          "landscapeShrubs": 305,
+          "landscapeFlowers": 492,
+          "landscapeGardens": 12,
+          "landscapePlanters": 26,
+          "landscapeTextures": 1,
+          "landscapeVariants": {
+            "banyan": 2,
+            "shade": 4,
+            "blossom": 4,
+            "palm": 2
+          },
+          "cityWaterDraws": 1,
+          "cityWaterTextures": 0,
+          "cityWaterWaveBands": 4,
+          "cityWaterRippleSources": 4,
+          "harbor": {
+            "harborBoats": 2,
+            "harborBoatBatches": 2,
+            "harborPiers": 2,
+            "harborSalas": 1,
+            "harborCranes": 1,
+            "harborNets": 2,
+            "harborBollards": 8,
+            "harborSalaPilings": 4,
+            "harborConnectors": 1,
+            "harborSourceMeshes": 688,
+            "harborBounds": {
+              "min": [
+                -72,
+                -2.4000000000000004,
+                42.126
+              ],
+              "max": [
+                72.10000000000001,
+                8.121926677338491,
+                82.07433352615952
+              ]
+            }
+          },
+          "residentialFences": {
+            "lots": 18,
+            "segments": 77,
+            "gatePosts": 38
+          },
+          "sacred": [
+            {
+              "kind": "temple",
+              "roofTiers": 3,
+              "highMeshes": 445,
+              "lowMeshes": 285,
+              "highHeight": 17.098770738840102,
+              "lowHeight": 17.098770738840102,
+              "bounds": {
+                "high": {
+                  "min": [
+                    -61.65,
+                    0,
+                    -51.65
+                  ],
+                  "max": [
+                    -42.35,
+                    17.098770738840102,
+                    -34.35
+                  ]
+                },
+                "low": {
+                  "min": [
+                    -61.65,
+                    0,
+                    -51.65
+                  ],
+                  "max": [
+                    -42.35,
+                    17.098770738840102,
+                    -34.35
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "chedi",
+              "roofTiers": 0,
+              "highMeshes": 67,
+              "lowMeshes": 31,
+              "highHeight": 14.76,
+              "lowHeight": 14.76,
+              "bounds": {
+                "high": {
+                  "min": [
+                    -66.805,
+                    0,
+                    -26.805
+                  ],
+                  "max": [
+                    -59.195,
+                    14.76,
+                    -19.195
+                  ]
+                },
+                "low": {
+                  "min": [
+                    -66.805,
+                    0,
+                    -26.805
+                  ],
+                  "max": [
+                    -59.195,
+                    14.76,
+                    -19.195
+                  ]
+                }
+              }
+            }
+          ],
+          "windShadowMeshes": 218,
+          "animatedBoats": 2,
+          "nightLights": 3,
+          "marketCanopies": 2,
+          "lotusFountains": 1,
+          "neighborhoodBuildings": 16,
+          "neighborhoodVariants": {
+            "woodworker": 1,
+            "potter": 1,
+            "teahouse": 2,
+            "weaver": 3,
+            "merchant": 2,
+            "bakery": 1,
+            "inn": 2,
+            "fisher": 4
+          },
+          "courtyardEdges": 17,
+          "buildings": 33,
+          "halls": {
+            "count": 6
+          },
+          "classCues": 6,
+          "lodAssets": 2,
+          "staticMeshes": 773,
+          "instanceMeshes": 337,
+          "sourceMeshes": 15813,
+          "houses": 2,
+          "forestTrees": 66,
+          "buildMs": 396
+        },
+        "geometries": 839
+      }
+    ],
+    [
+      "done",
+      {
+        "ok": true
+      }
+    ]
+  ],
+  "shots": {
+    "minimap": "minimap.jpg",
+    "waterfront": "waterfront.jpg",
+    "harbor-overview": "harbor-overview.jpg",
+    "harbor-evening": "harbor-evening.jpg",
+    "home-boundaries": "home-boundaries.jpg",
+    "east-boundaries": "east-boundaries.jpg",
+    "city-gate": "city-gate.jpg",
+    "overview": "overview.jpg"
+  },
+  "errors": [],
+  "browserErrors": []
+}

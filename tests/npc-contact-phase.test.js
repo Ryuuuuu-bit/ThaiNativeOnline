@@ -44,7 +44,7 @@ test('all-night suppliers, occult counter and warp keepers stay available', () =
   for (const id of ['marsh', 'occult', 'charms', ...Object.keys(SHOP_SITES).filter(id => id.startsWith('supplies_'))]) {
     assert.equal(near(nearShop, id, shopSpot(id), 'night'), true, id);
   }
-  assert.equal(nearNpc('warp_city_market', 'city', 17, 42, 'night'), true);
+  assert.equal(nearNpc('warp_city_market', 'city', 17, 12, 'night'), true);
 });
 
 test('explicit invalid phases, prototype IDs and non-numeric positions fail closed', () => {

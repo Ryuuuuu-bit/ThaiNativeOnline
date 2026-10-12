@@ -1,7 +1,7 @@
 import { M } from '../materials.js';
 import { box, cyl, cone, ball, structure, prop, glow, sala, stall, shophouseRow, lanternPost, post, deck, hangingLantern } from '../Architecture.js';
 import { J, ROADS, roadPoints, segmentDistance } from '../CityMap.js';
-import { landmark } from '../../data/landmarks.js';
+import { landmark } from '../legacy-city-sites.js';
 
 const CENTER = { x: 0, z: 28 };
 const RING = roadPoints(ROADS.find(r => r.kind === 'plaza'));

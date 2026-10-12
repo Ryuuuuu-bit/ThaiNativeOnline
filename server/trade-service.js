@@ -2,6 +2,7 @@
 import { randomUUID } from 'node:crypto';
 import { Character } from '../src/character/Character.js';
 import { swap } from './trades.js';
+import { snapshotLocation } from './player-location.js';
 
 export function commitTrade(accounts, trade, states, players, { reward = () => {} } = {}) {
   if (trade.committing) return trade.task;
@@ -14,7 +15,7 @@ export function commitTrade(accounts, trade, states, players, { reward = () => {
       if (!result.ok) return { failure: result };
       return states.map((s, i) => ({ account: s.persist.account, slot: s.persist.slot,
         inventoryRevision: s.persist.inventoryRevision ?? 0, character: copies[i].toJSON(), quests: s.quests.json(),
-        location: { map: players[i].map, x: players[i].x, z: players[i].z, facing: players[i].f } }));
+        location: snapshotLocation(players[i]) }));
     },
     adopt: (prepared, revisions) => states.forEach((s, i) => {
       s.c.inventory = structuredClone(prepared[i].character.inventory); s.c.gold = prepared[i].character.gold;

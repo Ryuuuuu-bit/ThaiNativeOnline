@@ -15,7 +15,7 @@ import { navigation } from '../server/navigation.js';
 import { MAPS, npcMap, walkable, landmarksOf } from '../src/world/maps.js';
 import { mapDirectory } from '../src/ui/mapDirectory.js';
 import { NavGraph } from '../src/npc/NavGraph.js';
-import { createRng } from '../src/world/rng.js';
+import * as THREE from 'three';
 
 const formerWeapons = ['wood_sword', 'short_bow', 'krabi', 'hand_wrap', 'reed_wand', 'herb_book', 'iron_dap', 'bamboo_bow', 'tiger_wrap', 'bone_dagger'];
 const formerArmor = ['cloth_vest', 'hide_armor', 'pha_khao', 'ngob', 'pakhaoma', 'sandals'];
@@ -112,35 +112,23 @@ test('service landmarks explicitly link their real counters without enabling fut
   assert.equal(LANDMARKS.find(l => l.id === 'market').shopType, undefined, 'the multi-stall market is a public district');
 });
 
-// The drawing-only canvas shim lets real building geometry/anchor code run in
-// Node. It supplies no pixels and is not rendering or visual QA evidence.
-const paint = { createLinearGradient: () => ({ addColorStop() {} }) };
-for (const name of ['fillRect', 'strokeRect', 'beginPath', 'moveTo', 'lineTo', 'closePath', 'arc', 'stroke']) paint[name] = () => {};
-const previousDocument = globalThis.document;
-let buildShops;
-try {
-  globalThis.document = { createElement: name => { assert.equal(name, 'canvas'); return { getContext: () => paint }; } };
-  ({ buildShops } = await import('../src/world/districts/Shops.js'));
-} finally {
-  if (previousDocument === undefined) delete globalThis.document;
-  else globalThis.document = previousDocument;
+async function builtSpots() {
+  // Drawing-only shim: executes the production builder, supplies no visual evidence.
+  const previous = globalThis.document;
+  const paint = new Proxy({ createLinearGradient:()=>({addColorStop(){}}), createRadialGradient:()=>({addColorStop(){}}) }, {get:(target,key)=>target[key]??(()=>{})});
+  for(const name of ['fillRect','strokeRect','beginPath','moveTo','lineTo','closePath','arc','stroke']) paint[name]=()=>{};
+  globalThis.document = {createElement:()=>({getContext:()=>paint})};
+  try {
+    const { buildWorld } = await import('../src/world/World.js');
+    const world = await buildWorld(new THREE.Scene(), () => {}, 'city');
+    const spots = world.spots; world.dispose(); return spots;
+  } finally {
+    if(previous === undefined) delete globalThis.document; else globalThis.document=previous;
+  }
 }
 
-function builtSpots() {
-  const spots = {};
-  buildShops({
-    rng: createRng(20260), collision: { addBox() {} },
-    place(group, x, z, rot = 0) {
-      const c = Math.cos(rot), s = Math.sin(rot);
-      return Object.fromEntries(Object.entries(group.userData.anchors ?? {}).map(([id, a]) => [id, { x: x + a.x * c + a.z * s, z: z - a.x * s + a.z * c, face: a.face + rot }]));
-    },
-    spot(id, x, z, face, link) { spots[id] = { x, z, face, link }; },
-  });
-  return spots;
-}
-
-test('actual shop builder anchors match server sites and reachable customer approaches', () => {
-  const spots = builtSpots(), graph = NavGraph.fromRoads((x, z) => walkable(MAPS.city, x, z));
+test('actual shop builder anchors match server sites and reachable customer approaches', async () => {
+  const spots = await builtSpots(), graph = NavGraph.fromCompactCity({spots, canStand:navigation('city').canStand});
   const landmarks = landmarksOf('city', LANDMARKS);
   const directory = mapDirectory(MAPS.city, landmarks, MAPS.city.portals, spots);
   const publicDirectory = mapDirectory(MAPS.city, landmarks);

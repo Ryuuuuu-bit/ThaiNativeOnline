@@ -7,13 +7,40 @@ supports the vision's peaceful towns and supernatural wilderness while
 leaving combat cues audible. These are synthesized instruments, not a
 recorded Thai ensemble or historically authentic tuning.
 
+## Compact city atmosphere — 2026-10-12
+
+Town river, market, temple and night profiles now include the original soft
+felt-key/wooden-bar synthesis in `src/audio/CozyVoices.js`. Four decaying piano
+partials and three wooden-bar partials give the melody a softer body. The
+second pass answers selected flute phrases with keys: a 32-bar arrangement,
+with the existing original 16-bar harmony retained. Market tempo is 76 BPM.
+The central square selects the warm river theme; the temple district keeps
+its sparse, slower variation. Other maps and combat selection are unchanged.
+
+`src/audio/citySoundscape.js` provides bounded presentation weights from the
+loaded map and player position. `Game` supplies them to `AudioAmbience` on
+the existing ambience bus: softly filtered shore wash near the waterfront,
+occasional ceramic ticks around the market and a restrained temple bell.
+These original synthesized sounds require no external downloads or licenses;
+no Stardew Valley recordings, themes or samples are used. Existing gesture
+unlock, mute, volume persistence and crossfade rules remain in effect.
+
+Reproduce the offline/runtime checks with `tools/location-music-capture.mjs`
+against `tools/location-music-review.html`. The loop probe renders two complete
+arrangements, including the return from the answer to the opening phrase.
+The new report and 40-second listening excerpts are under
+`docs/art/compact-city-atmosphere/`. Numerical peak/continuity measurements
+do not replace a human listening check. All voices release their nodes after
+their tails; the ambience graph belongs to the lifetime of the shared game
+audio context, not to each map.
+
 ## Moods and real geography
 
 | Mood | BPM | Feeling | Existing locations |
 | --- | ---: | --- | --- |
-| `calm_river` | 68 | Warm, restful | ท่าเรือหลวง, ชุมชนริมน้ำ, หมู่บ้านชาวประมง, แม่น้ำเจ้าพระยา, ย่านบ้านเรือน and safe-city fallback |
-| `calm_market` | 80 | Bright, gently busy | ตลาดกลางเมือง, ถนนพ่อค้า, ตลาดปลา, ย่านช่างเหล็ก |
-| `calm_temple` | 60 | Open, serene | เขตวัดสุวรรณเจดีย์ and ศาลหลักเมือง |
+| `calm_river` | 68 | Warm, restful | ใจกลางนคร, ท่าเรือหลวง, ชุมชนริมน้ำ, หมู่บ้านชาวประมง, แม่น้ำเจ้าพระยา, ย่านบ้านเรือน and safe-city fallback |
+| `calm_market` | 76 | Bright, gently busy | ตลาดกลางเมือง, ถนนพ่อค้า, ตลาดปลา, ย่านช่างเหล็ก |
+| `calm_temple` | 60 | Open, serene | เขตวัดสุวรรณเจดีย์ |
 | `calm_paddy` | 72 | Hopeful, lightly moving | ทุ่งนาหลวง, สวนผลไม้และสมุนไพร, ถนนสู่ป่า, ทุ่งหญ้าชายป่า; training/hall areas share this hopeful mood |
 | `calm_forest` | 64 | Curious, shaded | ชายป่า, ป่าทึบ, ไพรลึกเหนือลำธาร; forest-themed expeditions |
 | `calm_ruins` | 58 | Eerie, restrained | ดงวัดร้าง, ศาลร้างกลางไพร, สุสานเก่าแห่งอโยธยา, เรือนหอร้าง; ruin-themed expeditions |

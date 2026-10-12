@@ -29,6 +29,31 @@ Do not work directly on main. Use task branches and PRs.
 
 ## Where things connect
 
+- City life: `NPCManager` selects client-only daytime routines through
+  `npc/NPCPresentationActivity.js`; ambient content lives in
+  `data/compactCityNpcs.js`. Authoritative schedules, service approaches and
+  contact phases stay unchanged. Quest giver/turn-in/talk IDs, class masters,
+  service keepers and faction guards bypass presentation routines automatically.
+  Compact navigation adds collision-clear local
+  links for market, temple and port routines. Existing idle/walk clips and poses
+  handle movement and pauses. See `src/npc/README.md`, `src/data/README.md` and
+  `tests/compact-city-life.test.js`. Reuse one disposable browser for captures.
+
+- City geometry and save revision: `world/compact-city.js` is the canonical
+  city layout; `CompactCityWorld` builds it. MapManager and the shared server
+  `snapshotLocation` stamp `layoutRevision` on regular and atomic transaction
+  saves. Old city positions relocate to the plaza.
+  Frozen legacy city halls/sites preserve wilderness RNG reservations. See
+  `docs/world/COMPACT_CITY.md`; re-export collision after world source changes.
+
+- Compact city NPC anchors: `data/compactCityNpcs.js` exports
+  `COMPACT_CITY_SPOTS` for World spots and shared `shopSites.SPOT_SITES` city
+  overrides. Residents use explicit compact `home.near: { x, z }` points and a
+  city-only navigation graph; global legacy J remains unchanged. HALLS read
+  canonical buildings/POIs; warp IDs and phase-gated authorization stay intact.
+  Field gathering and outside gate guards retain wilderness positions. See
+  `src/data/README.md` Hooks and `tests/compact-city-npcs.test.js`.
+
 - Authenticated login uses `server/login-state.js` to reserve each account/slot
   independently of the save FIFO. `Accounts.joinState` reads character, quests,
   position and incarnation metadata together after the previous socket's final

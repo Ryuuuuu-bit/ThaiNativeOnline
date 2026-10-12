@@ -18,7 +18,10 @@ test('shared water topology preserves every original rendered buffer across all 
   const baseline = JSON.parse(readFileSync(new URL('./water-geometry-baseline.json', import.meta.url)));
   for (const map of Object.values(MAPS)) {
     if (map.expedition) { assert.deepEqual(baseline[map.id], []); continue; }
-    const water = buildWater(new THREE.Scene(), map.view);
+    // The replacement city no longer uses the legacy water builder; its old
+    // topology stays frozen for wilderness backdrops and this regression.
+    const view = map.id === 'city' ? {minX:-102,maxX:125,minZ:-192,maxZ:268} : map.view;
+    const water = buildWater(new THREE.Scene(), view);
     const actual = water.meshes.map(({ geometry: g }) => ({
       vertices: g.attributes.position.count, indices: g.index.count,
       positions: hash(g.attributes.position.array), shore: hash(g.attributes.aShore.array), index: hash(g.index.array),
@@ -108,7 +111,7 @@ test('expedition views contain no city water and remain dry at negative terrain 
 
 test('authoritative navigation admits dry regressions and bridge decks but rejects deep water and boundaries', () => {
   for (const [map, x, z] of [['deep_forest', 10.5, -429], ['wat_rang', 27, -548],
-    ['deep_forest', -4, -405], ['city', 0, -10]]) {
+    ['deep_forest', -4, -405], ['city', 0, 8]]) {
     assert.equal(navigation(map).canStand(x, z), true, `${map} ${x},${z}`);
   }
   for (const [map, x, z] of [['deep_forest', -20, -404.25], ['city', 0, 190],

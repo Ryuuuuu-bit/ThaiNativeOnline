@@ -56,6 +56,18 @@ function streamZ(x) {
 // Bands follow the zone maps (src/world/maps.js): wat_rang north of z -445,
 // deep_forest -445 … -296, paddy -296 … -112.
 export function regionAt(x, z, discoveredCemetery = true) {
+  if (z >= -112 && z <= 96) {
+    if(z > 64)return REG.river;
+    if(z < -54 && Math.abs(x)<12)return REG.gate;
+    if(x < -36 && z < -5)return REG.temple;
+    if(z > 48)return REG.port;
+    if(z > 34 && x < -38)return REG.residential;
+    if(z < -32 || (x>36 && z<42))return REG.halls;
+    if(x < -36)return REG.training;
+    if(x < -12 && z < -5)return REG.smiths;
+    if(Math.abs(x)<12 && Math.abs(z)<28)return REG.center;
+    return REG.market;
+  }
   const expedition=expeditionAt(z);if(expedition)return {id:expedition.id,name:expedition.name,sub:'พื้นที่ล่าปาร์ตี้',safety:'danger'};
   if (z > riverBank(x) + .5) return REG.river;
   if (z < BOUNDS.minZ) return REG.ruen_ho;   // the world boss room past the expeditions (map ruen_ho)

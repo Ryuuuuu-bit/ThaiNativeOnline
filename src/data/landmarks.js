@@ -1,5 +1,22 @@
 import { EXPEDITIONS } from '../world/expeditions.js';
 import { HALLS } from './halls.js';
+import { COMPACT_CITY } from '../world/compact-city.js';
+import { COMPACT_CITY_SPOTS } from './compactCityNpcs.js';
+
+const cityGoals = {
+  port: 'docks', market: 'plaza', enhance: 'forge', general: 'general',
+  herbalist: 'pharmacy', training: 'muaythai', city_pillar: 'plaza', temple: 'abbot', north_gate: 'northgate',
+};
+const cityAliases = { forge: 'forge_smith', occult: 'occult_keeper', port_tower: 'kid_watch',
+  fish_market: 'fishmkt', fishing_village: 'fv_net', boatyard: 'boatyard' };
+const compactLandmark = l => {
+  const p = cityGoals[l.id] ? COMPACT_CITY.pois.find(p => p.id === cityGoals[l.id])
+    : COMPACT_CITY_SPOTS[cityAliases[l.id]];
+  if (!p) return l; // field landmarks and already-compact hall doors
+  const point = l.id === 'training' ? { x: 0, z: -35 }
+    : l.id === 'city_pillar' ? COMPACT_CITY_SPOTS.pillar_pray : p;
+  return { ...l, x: point.x, z: point.z };
+};
 
 // Public points of interest. `hidden` retains discovery/quest semantics; the atlas
 // reveals their location without granting a visit. shopType names a counter,
@@ -11,13 +28,13 @@ export const PURPOSES = {
 
 export const LANDMARKS = [
   { id: 'port', name: 'ท่าเรือหลวง', x: 6, z: 158, radius: 16, icon: '⚓', purpose: 'travel', text: 'ท่าเรือหลวงริมแม่น้ำเจ้าพระยา เรือสินค้าจากหัวเมืองและแดนไกลเทียบท่าที่นี่ทุกวัน' },
-  { id: 'port_tower', name: 'หอดูเรือ', x: 18, z: 160, radius: 6, icon: '▲', purpose: 'travel', text: 'หอไม้สูงที่สุดริมน้ำ ใช้ส่งสัญญาณให้เรือที่เข้าออกท่า' },
+  { id: 'port_tower', name: 'ลานชมท่าเรือ', x: 18, z: 160, radius: 6, icon: '▲', purpose: 'travel', text: 'ลานริมน้ำสำหรับชมเรือสินค้าที่เข้าออกท่าและพักคอยคนเรือ' },
   { id: 'fish_market', name: 'ตลาดปลา', x: 0, z: 124, radius: 12, icon: '◆', purpose: 'trade', shopType: 'fish', text: 'กลิ่นปลาสดและเสียงต่อราคา ชาวประมงนำของจากแม่น้ำมาขายตั้งแต่ฟ้ายังไม่สาง' },
   { id: 'fishing_village', name: 'หมู่บ้านชาวประมง', x: -67, z: 154, radius: 10, icon: '◆', purpose: 'travel', text: 'บ้านใต้ถุนสูงริมน้ำ อวนตากแดดเรียงราย ที่นี่เรียนรู้การตกปลาได้ในวันหน้า' },
   { id: 'boatyard', name: 'อู่ต่อเรือ', x: 98, z: 154, radius: 10, icon: '◆', purpose: 'travel', text: 'ช่างไม้กำลังต่อเรือลำใหม่ สักวันเรือลำนี้อาจพาคุณล่องไปเมืองอื่น' },
-  { id: 'market', name: 'ศาลาตลาดใหญ่', x: 0, z: 28, radius: 18, icon: '◆', purpose: 'trade', text: 'หัวใจของนครที่ถูกลืมเลือน พ่อค้าจากทุกทิศมาชุมนุมใต้ศาลาหลังคาซ้อนชั้น' },
+  { id: 'market', name: 'ศาลาตลาดใหญ่', x: 0, z: 28, radius: 18, icon: '◆', purpose: 'trade', text: 'ลานกลางนครที่ถูกลืมเลือน เชื่อมร้านอุปกรณ์ ร้านยา ของใช้ และคลังเก็บของ พ่อค้าวางสินค้าบนเสื่อริมลาน' },
   { id: 'forge', name: 'โรงตีเหล็ก', x: -28, z: 64, radius: 8, icon: '⚒', purpose: 'equipment', shopType: 'blacksmith', text: 'คลังอาวุธและเกราะของลุงดำ รวมอุปกรณ์จากแผงตลาดไว้ที่เคาน์เตอร์เดียว' },
-  { id: 'enhance', name: 'โรงหลอมศาสตรา', x: -48, z: 92, radius: 8, icon: '✦', purpose: 'upgrade', shopType: 'enhance', text: 'เตาหลอมเปลวสีฟ้าที่ช่างตีบวกใช้หลอมแร่ศักดิ์สิทธิ์เข้ากับศาสตรา' },
+  { id: 'enhance', name: 'โรงหลอมศาสตรา', x: -48, z: 92, radius: 8, icon: '✦', purpose: 'upgrade', shopType: 'enhance', text: 'หมื่นเพชรศาสตรารับตีบวกที่โรงตีเหล็กเดียวกับลุงดำ แยกจุดบริการซื้ออุปกรณ์และหลอมแร่ศักดิ์สิทธิ์' },
   { id: 'general', name: 'ร้านของชำ', x: -9, z: 62, radius: 6, icon: '◆', purpose: 'trade', shopType: 'general', text: 'ร้านของใช้ประจำวัน คบไฟ เชือก เสบียง และยาพื้นบ้าน' },
   { id: 'herbalist', name: 'ร้านหมอยา', x: 10, z: 65, radius: 6, icon: '✚', purpose: 'trade', shopType: 'herbalist', text: 'สมุนไพรตากแห้งห้อยเต็มชายคา กลิ่นยาหอมฉุนลอยออกมาถึงถนน' },
   { id: 'occult', name: 'ร้านหมออาคม', x: 10, z: 86, radius: 6, icon: '☯', purpose: 'skills', shopType: 'occult', text: 'ผ้ายันต์ เทียน และควันธูป หมออาคมไม่เคยบอกว่าตนมาจากที่ใด' },
@@ -55,7 +72,7 @@ export const LANDMARKS = [
   // ---------- เรือนหอร้าง (map `ruen_ho`, the world boss room, night only) ----------
   { id: 'ruen_ho_gallery', name: 'ระเบียงเรือนหอ', x: -2, z: -2900, radius: 6, icon: '◆', purpose: 'story', text: 'ระเบียงไม้ทอดยาว เทียนในซุ้มไม่เคยดับแม้ไม่มีใครจุด ปลายทางคือห้องหอที่ไม่มีใครกล้าเปิด' },
   { id: 'bridal_chamber', name: 'ห้องหอ', x: 27, z: -900, radius: 12, icon: '☠', purpose: 'boss', text: 'เตียงหอใต้ม่านแดง ด้ายสายสิญจน์ห้อยลงมาจากความมืด สองพี่น้องรอเจ้าบ่าวที่ไม่มีวันมา' },
-];
+].map(compactLandmark);
 export const landmark = id => LANDMARKS.find(l => l.id === id);
 
 for(const e of EXPEDITIONS)LANDMARKS.push({id:`rest_${e.id}`,name:'ศาลาพักปาร์ตี้',x:18,z:e.top-24,radius:8,icon:'◆',purpose:'trade',text:`เสบียงก่อนออกล่า ${e.name} · เลือกวงล่าตามระดับทีม`},{id:`arena_${e.id}`,name:`ลานบอส ${e.name}`,x:92,z:e.top-211,radius:10,icon:'☠',purpose:'boss',text:`บอส Lv.${e.levels[1]} · เตรียมทีมให้พร้อม`});

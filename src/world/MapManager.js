@@ -213,7 +213,7 @@ export class MapManager {
   save() {
     if (!this.map) return;
     const p = this.player.position;
-    slotStorage.setItem(LOCATION_KEY, JSON.stringify({ map: this.map.id, x: +p.x.toFixed(2), z: +p.z.toFixed(2), facing: +this.player.group.rotation.y.toFixed(3) }));
+    slotStorage.setItem(LOCATION_KEY, JSON.stringify({ map: this.map.id, x: +p.x.toFixed(2), z: +p.z.toFixed(2), facing: +this.player.group.rotation.y.toFixed(3), ...(this.map.layoutRevision ? {layoutRevision:this.map.layoutRevision} : {}) }));
   }
 
   // Full-screen fade while maps swap (DOM overlay, inline styles).

@@ -1,4 +1,5 @@
 import { J, ROADS, resample } from '../world/CityMap.js';
+import { findPath as gridPath, clearLine } from '../core/GridPath.js';
 
 // Waypoint navigation over the road network. Roads are resampled into nodes so
 // NPCs follow curves; named junctions and spots become addressable nodes.
@@ -11,6 +12,33 @@ export class NavGraph {
     if (!A || !B || a === b || A.edges.some(e => e.to === b)) return;
     const cost = Math.hypot(A.x - B.x, A.z - B.z);
     A.edges.push({ to: b, cost }); B.edges.push({ to: a, cost });
+  }
+  connectWalkable(a,b,canStand) {
+    const A=this.nodes.get(a),B=this.nodes.get(b);
+    if(!A||!B||a===b)return;
+    const path=gridPath(canStand,A,B,{step:1,margin:24});
+    if(!path)return;
+    let previous=a;
+    for(let i=0;i<path.length-1;i++) {
+      const id=`~${this.anon++}`;this.add(id,path[i].x,path[i].z);this.connect(previous,id);previous=id;
+    }
+    this.connect(previous,b);
+  }
+  static fromCompactCity(world) {
+    const g=new NavGraph();
+    g.add('center',0,0);
+    for(const [id,s] of Object.entries(world.spots))g.add(id,s.x,s.z);
+    for(const id of [...g.nodes.keys()])g.connectWalkable(id,'center',(x,z)=>world.canStand(x,z,.35));
+    // Nearby anchors need local links: dock workers must not cross the whole
+    // plaza to carry one load, and temple circuits follow the exterior corners.
+    // Keep the existing collision-aware plaza paths as inter-district links.
+    const anchors = Object.keys(world.spots).map(id => g.nodes.get(id));
+    for (const a of anchors) {
+      const neighbors = anchors.filter(b => b !== a && Math.hypot(b.x-a.x,b.z-a.z) <= 24)
+        .sort((b,c) => Math.hypot(b.x-a.x,b.z-a.z) - Math.hypot(c.x-a.x,c.z-a.z)).slice(0,8);
+      for (const b of neighbors) if (clearLine((x,z)=>world.canStand(x,z,.35),a.x,a.z,b.x,b.z)) g.connect(a.id,b.id);
+    }
+    return g;
   }
   // keep(x, z) (optional): only junctions on the current map; road segments
   // need both ends kept.

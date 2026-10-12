@@ -14,6 +14,7 @@ import { CameraController } from './CameraController.js';
 import { InputManager } from './InputManager.js';
 import { WorldClock, PHASE_HOURS, wallHour } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
+import { citySoundscape } from '../audio/citySoundscape.js';
 import { findPath } from './GridPath.js';
 import { createGame } from '../combat/index.js';
 import { startMultiplayer } from '../net/Multiplayer.js';
@@ -458,7 +459,7 @@ export class Game {
 
   async renderMapReady() {
     const p = this.player.position;
-    const env = this.env.update(this.clock.hour, this.view.focus);
+    const env = this.env.update(this.clock.hour, this.view.focus, this.maps.map.id);
     this.postfx.update(env);
     this.world.update(this.elapsed, 0, this.view.focus, env);
     this.npcs.update(0, this.elapsed, p);
@@ -825,7 +826,7 @@ export class Game {
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
 
-    const env = this.env.update(this.clock.hour, view.focus);
+    const env = this.env.update(this.clock.hour, view.focus, this.maps.map.id);
     this.postfx.update(env);
     this.envNight = env.night;
     this.world.update(this.elapsed, dt, view.focus, env);
@@ -857,7 +858,8 @@ export class Game {
       for (const l of this.maps.landmarks) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
       const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z);
       this.hud.prompt(npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
-      this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery });
+      this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery,
+        ...citySoundscape(this.maps.map?.id, this.player.position.x, this.player.position.z) });
       if (this.debugOn) {
         const info = this.renderer.info.render;
         this.hud.debug(`FPS ${this.fps.toFixed(0)} · draw calls ${info.calls} · ${(info.triangles / 1000).toFixed(0)}k tris\nNPC ใกล้ ${this.npcs.visibleCount}/${this.npcs.npcs.length} · ${this.clock.label} (${this.clock.phase})\nตำแหน่ง ${p.x.toFixed(1)}, ${p.z.toFixed(1)} · spawn ที่ใช้งาน ${activeSpawns(this.clock.phase).length}\nบ้าน ${this.world.stats.houses} · ต้นไม้ป่า ${this.world.stats.forestTrees} · สร้างโลก ${this.world.stats.buildMs} ms

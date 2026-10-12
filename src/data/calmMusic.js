@@ -6,14 +6,14 @@ const mood = (name, bpm, options = {}) => ({ style: 'calm', name, bpm, chords: C
   gain: 1.8, flute: .09, strings: .022, pluck: .024, wood: .012, bass: .05,
   transpose: 0, minor: false, sparse: false, ...options });
 export const CALM_MUSIC = {
-  calm_river: mood('ริมน้ำนครที่ถูกลืมเลือน', 68),
-  calm_market: mood('ตลาดเช้านครที่ถูกลืมเลือน', 80, { pluck: .035, wood: .025, strings: .017, bright: true }),
-  calm_temple: mood('แสงสุวรรณเจดีย์', 60, { pluck: .008, wood: .003, flute: .074, strings: .028, sparse: true }),
+  calm_river: mood('ริมน้ำนครที่ถูกลืมเลือน', 68, { cozy: true, piano: .067, mallet: .018, flute: .069, strings: .016, pluck: .013 }),
+  calm_market: mood('ตลาดเช้านครที่ถูกลืมเลือน', 76, { cozy: true, piano: .062, mallet: .023, flute: .064, pluck: .021, wood: .016, strings: .014, bright: true }),
+  calm_temple: mood('แสงสุวรรณเจดีย์', 60, { cozy: true, piano: .044, mallet: .007, pluck: .007, wood: .003, flute: .061, strings: .020, sparse: true }),
   calm_paddy: mood('ลมเหนือทุ่งข้าว', 72, { flute: .086, pluck: .027, wood: .017 }),
   calm_forest: mood('เงาไม้กลางไพร', 64, { minor: true, pluck: .018, strings: .024, wood: .007, flute: .078 }),
   calm_ruins: mood('เสียงกระซิบวัดร้าง', 58, { minor: true, transpose: -5, sparse: true, flute: .051, strings: .024, pluck: .008, wood: 0 }),
   calm_marsh: mood('หมอกเหนือบึง', 62, { minor: true, transpose: -2, sparse: true, flute: .062, strings: .026, pluck: .014, wood: .005 }),
-  calm_night: mood('จันทร์เหนือนครที่ถูกลืมเลือน', 58, { transpose: -5, sparse: true, flute: .067, strings: .022, pluck: .012, wood: .003 }),
+  calm_night: mood('จันทร์เหนือนครที่ถูกลืมเลือน', 58, { cozy: true, piano: .045, mallet: .009, transpose: -5, sparse: true, flute: .047, strings: .016, pluck: .007, wood: .003 }),
   calm_battle: mood('ก้าวออกศึก', 104, { minor: true, bright: true, pulse: true, drums: .038, flute: .087, strings: .019, pluck: .036, wood: .023, bass: .065 }),
   calm_boss: mood('ศึกอสูรนครที่ถูกลืมเลือน', 120, { minor: true, transpose: -2, bright: true, pulse: true, boss: true, drums: .048, flute: .082, strings: .023, pluck: .042, wood: .027, bass: .07 }),
 };
@@ -43,7 +43,7 @@ export function musicAt({ mapId = 'city', regionId = 'city', phase = 'day', inCo
   if (phase === 'night') return 'calm_night';
   if (mapId === 'paddy') return 'calm_paddy';
   if (['market', 'merchants', 'smiths', 'fishmkt'].includes(regionId)) return 'calm_market';
-  if (['temple', 'center'].includes(regionId)) return 'calm_temple';
+  if (regionId === 'temple') return 'calm_temple';
   if (['training', 'halls'].includes(regionId)) return 'calm_paddy';
   return 'calm_river';
 }

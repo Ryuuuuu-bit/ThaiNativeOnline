@@ -39,7 +39,7 @@ test('real HTTP/WS steward travel: fixed destinations, guest/state gates, shared
   };
   async function account(name, place = here(city)) {
     const auth = await api('/api/register', null, 'POST', { id: name.toLowerCase(), password: 'fixture-secret' }); assert.ok(auth.ok);
-    assert.ok((await api('/api/slots/0', auth.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name, classId: 'muaythai', gender: 'male' }), 'tno.location.v1': JSON.stringify({ ...place, facing: Math.PI }) } })).ok);
+    assert.ok((await api('/api/slots/0', auth.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify({ name, classId: 'muaythai', gender: 'male' }), 'tno.location.v1': JSON.stringify({ ...place, facing: Math.PI, ...(place.map === 'city' ? {layoutRevision: MAPS.city.layoutRevision} : {}) }) } })).ok);
     return auth;
   }
   async function connect(name, place, auth = null) {
@@ -127,7 +127,7 @@ test('real HTTP/WS steward travel: fixed destinations, guest/state gates, shared
     if (location?.map === 'city' && location.x === anotherCity.x && location.z === anotherCity.z) break;
     await sleep(10);
   }
-  assert.deepEqual(JSON.parse(saved.data['tno.location.v1']), { map: 'city', x: anotherCity.x, z: anotherCity.z, facing: anotherCity.facing });
+  assert.deepEqual(JSON.parse(saved.data['tno.location.v1']), { map: 'city', x: anotherCity.x, z: anotherCity.z, facing: anotherCity.facing, layoutRevision:MAPS.city.layoutRevision });
   const closed = once(a.ws, 'close'); a.ws.close(); await closed;
   const rejoined = await connect('WarpTraveller', { map: 'city', x: anotherCity.x, z: anotherCity.z }, auth);
   assert.deepEqual(rejoined.initial.inventory, a.initial.inventory); assert.equal(rejoined.initial.gold, a.initial.gold);

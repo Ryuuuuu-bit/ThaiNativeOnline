@@ -5,7 +5,7 @@ this page lists; changes to it must be documented here and in the PR.
 
 ## Maps (`maps.js`)
 
-The game has four maps, built one at a time (each will become one server room),
+The game builds one map at a time, each with its own server room,
 Ragnarok-style: the city inside the walls and three zone maps north of it, one
 loaded at a time and linked by portals. The North City Gate (ประตูเมืองทิศเหนือ)
 stays closed and the walk areas end on either side of the wall; a pair of
@@ -15,7 +15,7 @@ path exits on the trail. Layout, purposes and level bands:
 
 | id | Name | Band (`owns`) | Walk | Theme | Levels | Contains |
 | --- | --- | --- | --- | --- | --- | --- |
-| `city` | นครที่ถูกลืมเลือน | z ≥ -112 | x ±122, z -108.5 … 266 | `city` | — | River and port, market, shops, temple, residential streets, the class training halls (ย่านสำนักครู), the closed north gate with the warp in its passage. Safe zone, no monsters |
+| `city` | นครที่ถูกลืมเลือน | z ≥ -112 | x ±72, z ±64 | `city` | — | River and port, market, shops, temple, residential streets, the class training halls (ย่านสำนักครู), the closed north gate with the warp in its passage. Safe zone, no monsters |
 | `paddy` | ทุ่งนาข้าว | -296 ≤ z < -112 | x ±122, z -293 … -113.5 | `paddy` | 1-3 | Rice fields, farmers' village (ยายเพียร's shop), orchards, grassland, the banyan |
 | `deep_forest` | ป่าลึก | -445 ≤ z < -296 | x ±122, z -442 … -298.5 | `forest` | 2-5 | Forest gate, dense forest and the ruined chedi, the stream and log bridge, the deep forest beyond it |
 | `wat_rang` | วัดร้าง | z < -445 | x ±122, z -592 … -447 | `wat` | 4-7 | Woods around the ruins, the abandoned shrine, the old cemetery, the reserved temple site (`src/data/sites.js`) |
@@ -25,15 +25,16 @@ walk areas stay at least 4 m apart.
 
 | Portal | Style | On | Trigger `at` | `arrive` | `node` |
 | --- | --- | --- | --- | --- | --- |
-| `warp_to_paddy` | warp | city | 0, -107, r 2.2 (gate passage) | paddy 0, -130, facing π | `gate_in` |
-| `warp_to_city` | warp | paddy | 0, -122.5, r 2.2 (outside the gate) | city 0, -99, facing 0 | `gate_out` |
+| `warp_to_paddy` | warp | city | 0, -59, r 2.2 (gate passage) | paddy 0, -130, facing π | `gate_in` |
+| `warp_to_city` | warp | paddy | 0, -122.5, r 2.2 (outside the gate) | city 0, -53, facing 0 | `gate_out` |
 | `path_to_forest` | path | paddy | -0.9, -290, r 2.4 (north road past the banyan) | deep_forest 0, -311, facing π | `n6` |
 | `path_to_paddy` | path | deep_forest | 0, -301, r 2.4 (outside the forest gate rope) | paddy -1.6, -282, facing 0 | `fe` |
 | `path_to_wat` | path | deep_forest | 8.5, -439, r 2.4 (trail beyond the log bridge) | wat_rang -1.5, -459, facing π | `f5` |
 | `path_to_deep_forest` | path | wat_rang | 3, -450, r 2.4 (trail head) | deep_forest 10.5, -429, facing 0 | `f6` |
 
-Coordinates stay in world space (the same as `CityMap.js`), so landmarks,
-quests, spawns and NPC data need no conversion. Each `MAPS[id]` entry is data:
+The city uses `compact-city.js`; other maps retain `CityMap.js` coordinates.
+See `docs/world/COMPACT_CITY.md` for contacts and migration. City save positions
+include `layoutRevision: 2`; old city saves relocate to the plaza once. Each `MAPS[id]` entry is data:
 
 | Field | Meaning |
 | --- | --- |
@@ -101,7 +102,7 @@ state, inventory and quests live outside the map and are untouched.
 
 The current map and position are saved in the character's save slot
 (`slotStorage`, `src/core/SaveSlot.js`) under `tno.location.v1`
-(`{ map, x, z, facing }`) every 3 s, after each transition and on unload, so a
+(`{ map, x, z, facing, layoutRevision? }`) every 3 s, after each transition and on unload, so a
 reload returns to the same map. Saves of the retired `fields` map load on the
 zone map that owns their position (`resolveLocation`).
 
@@ -118,8 +119,8 @@ also releases each `InstancedMesh` instance buffer.
 
 Builds one map (`map` is an id or a `MAPS` entry, default `city`) under its own
 root group: terrain, water, districts, vegetation, atmosphere, portals and, if
-listed, boats and animals. `progress(text)` receives loading messages. Every
-district runs for every map with the same random sequence and a world-wide
+listed, boats and animals. `progress(text)` receives loading messages. The city uses the independent `CompactCityWorld` builder. For legacy wild maps,
+every district runs with the same random sequence and a world-wide
 occupancy grid, so layouts are identical on both sides of the seam; whatever
 lies outside `map.view` is dropped before it is batched.
 
@@ -152,7 +153,7 @@ Junction ids in `J` are referenced by NPC routes (`src/data/npcs.js`) and by
 
 `PLAZAS` entries with `rect: true` reserve their whole rectangle in the
 occupancy grid (`seedOccupancy`); the training-hall yards are such rects
-(`hall: <hall id>`), generated from `src/data/halls.js`. The quarter's lane
+(`hall: <hall id>`), generated from frozen `legacy-city-halls.js`. The quarter's lane
 (`e3 → hq_n → hq_1 → hq_2 → hq_3 → hq_s`) is the last entry of `ROADS` and of
 kind `plaza`, so no houses or street trees are placed along it and the random
 layout of every other road is unchanged. Keep new roads after it, or expect the
@@ -251,6 +252,45 @@ loaded; on a transition it despawns live monsters through
 GPU. A `rpg.setActiveZones()` API in combat would make this bridge unnecessary.
 
 ## Checks
+
+### Compact city atmosphere
+
+`compact-city-render/buildCityTemple.js` creates the temple and chedi at their
+canonical reservations; high/low geometry share the same silhouette and height.
+The lower entrance remains readable from the abbot approach while the three-tier
+roof and bell-shaped chedi establish the skyline. `buildCityArt` owns and batches
+their resources, rather than modifying shared Architecture assets.
+
+`cityFoliageWind.js` adds a shared world-space breeze to upper leaf clusters and
+market cloth, including matching depth/distance shadow materials after batching.
+Trunks and navigation stay fixed. `buildCityWater.js` replaces the city river's
+static ripple strips with one opaque StandardMaterial draw: analytic wave normals,
+shore highlights and bounded disturbance rings. The fountain borrows the same
+surface controller. Water stays at its original static height for navigation;
+all animated craft remain outside the walkable town boundary. Controllers use
+the elapsed game clock and belong to the city's idempotent resource disposer.
+
+`tools/compact-city-production-qa.mjs --atmosphere` records production Game motion
+at the market, temple and waterfront by stepping simulation in 1/60-second
+increments. Its image sequence is visual/motion evidence, not measured GPU FPS.
+Actual terrain, collision, service contacts and saved locations retain the
+canonical compact-city contract above. Evidence is in
+`docs/art/compact-city-atmosphere/`.
+
+### Home boundaries and harbor
+
+`buildCityNeighborhoods.js` adds visible lot fences to the existing reserved
+house footprints. Low corner returns and front openings preserve the entrance
+silhouette; they do not create navigable interiors. `buildCityHarbor.js` builds
+the quay dressing and offshore berths using the same tracked material/geometry
+factories. It returns separately batched craft to `buildCityArt` for the existing
+gentle current motion. Offshore upright props remain beyond z=64.65; the boatman
+and playable waterfront approach remain at (0,55) and (0,62).
+
+Review bookmarks `home-boundaries`, `east-boundaries`, `harbor-overview` and
+`harbor-evening` are in the existing production page. Its optional `views`
+query limits captures without opening another page. Visual references, final
+evidence and limitations belong to `docs/art/compact-city-harbor/`.
 
 `npm test` runs `tests/world.test.js`, `tests/maps.test.js` and
 `tests/two-maps-qa.test.js` in Node. They check road and bridge placement

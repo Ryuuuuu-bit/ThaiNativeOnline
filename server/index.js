@@ -71,6 +71,7 @@ import { Channels, CHANNEL, roomOf, parseRoom } from './channels.js';
 import { openStore } from './store.js';
 import { Accounts, SAVE_LIMIT } from './accounts.js';
 import { LoginQueue, loginPosition, waitForLoginSave } from './login-state.js';
+import { snapshotLocation } from './player-location.js';
 import { MonsterWorld } from './monsters.js';
 import { Combatants } from './combatants.js';
 import { Parties, PARTY } from './parties.js';
@@ -183,7 +184,7 @@ async function api(req, res, url) {
       if (live?.tradeBusy || live?.stashBusy) return json(res, 409, {ok:false,code:'save_busy'});   // resolve after reading: the old socket may have left meanwhile
       if (live && Object.hasOwn(body, 'characterUid') && body.characterUid !== live.persist.characterUid) return json(res, 409, { ok: false, code: 'stale_character' });
       const p = live && [...presence.players.values()].find(p => combatants.get(p.id) === live);
-      const location = p ? { map: p.map, x: p.x, z: p.z, facing: p.f } : null;
+      const location = snapshotLocation(p);
       const r = await accounts.save(id, slot, body.data, live ? { c: live.c.toJSON(), quests: live.quests.json(), location, inventoryRevision: live.persist.inventoryRevision ?? 0, characterUid: live.persist.characterUid } : null,
         Object.hasOwn(body, 'characterUid') ? { characterUid: body.characterUid } : live ? { characterUid: live.persist.characterUid } : {});
       return json(res, r.ok ? 200 : ['name_taken','slot_taken'].includes(r.code) ? 409 : 400, r);   // the live copy stays `dirty`: its own flush decides
@@ -1076,7 +1077,7 @@ const flushEntry = (s, p = null) => {
     return s.stashFlush ??= s.stashTask.then(() => { s.stashFlush = null; return flushEntry(s, p); });
   }
   s.dirty = false;
-  return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), p ? {map:p.map,x:p.x,z:p.z,facing:p.f} : null,
+  return accounts.putCharacter(s.persist.account, s.persist.slot, s.c.toJSON(), s.quests.json(), snapshotLocation(p),
     { inventoryRevision: s.persist.inventoryRevision ?? 0, characterUid: s.persist.characterUid }).then(ok => { if (!ok) s.dirty = true; }).catch(e => { s.dirty = true; console.warn('save', e.message); });
 };
 const flush = id => flushEntry(combatants.get(id), byId(id)?.p);

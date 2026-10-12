@@ -37,6 +37,7 @@
 //            read by Game.updateJournal → HUD.setJournal).
 import { expeditionMaps } from './expeditions.js';
 import { J, BOUNDS, WALL } from './CityMap.js';
+import { COMPACT_CITY, CITY_LAYOUT_REVISION, compactCityCanStand } from './compact-city.js';
 
 // The city wall runs along z = -110 (WALL.z); the seam sits just outside it.
 export const SEAM_Z = -112;
@@ -61,18 +62,19 @@ export const MAPS = {
     intro: { title: 'เมืองแห่งสายน้ำ', text: 'ตลาด วัด และลานฝึกริมแม่น้ำ\nประตูวาปทิศเหนือพาออกสู่ทุ่งนา' },
     owns: { minZ: SEAM_Z, maxZ: BOUNDS.maxZ },
     walk: [
-      { minX: WALL.west - 2, maxX: 122, minZ: -108.5, maxZ: 266 }, // inside the walls (trimmed on the west; the wall itself blocks), port and river bank
+      { ...COMPACT_CITY.bounds },
     ],
-    view: { minX: WALL.west - 24, maxX: BOUNDS.maxX, minZ: -192, maxZ: BOUNDS.maxZ },
+    view: { minX: -92, maxX: 92, minZ: -84, maxZ: 96 },
+    layoutRevision: CITY_LAYOUT_REVISION,
     // New players and respawns start in the heart of the city: the south side of the market
     // plaza, a short walk from the shops, ลานฝึกครู (the training dummies) and the north gate.
-    spawn: { x: 0, z: 52, facing: Math.PI },
-    respawn: [[0, 52], [0, -99]],   // the market first (the north gate only if it is blocked)
+    spawn: { ...COMPACT_CITY.spawn, facing: Math.PI },
+    respawn: [[COMPACT_CITY.spawn.x, COMPACT_CITY.spawn.z], [0, -55]],
     entities: ['boats', 'animals'],
     regions: ['river', 'port', 'fishmkt', 'fishing', 'riverside', 'market', 'merchants', 'smiths', 'training', 'halls', 'center', 'residential', 'temple', 'city', 'gate'],
     portals: [
       // The warp glows in the passage of the closed North City Gate.
-      { id: 'warp_to_paddy', style: 'warp', at: { x: 0, z: -107, radius: 2.2 }, to: 'paddy', arrive: { x: 0, z: -130, facing: Math.PI }, node: 'gate_in', name: 'ประตูวาป', marker: { x: 0, z: -107 } },
+      { id: 'warp_to_paddy', style: 'warp', at: { x: 0, z: -59, radius: 2.2 }, to: 'paddy', arrive: { x: 0, z: -130, facing: Math.PI }, node: 'gate_in', name: 'ประตูวาป', marker: { x: 0, z: -59 } },
     ],
     visitors: [],
   },
@@ -91,7 +93,7 @@ export const MAPS = {
     portals: [
       // Kept first: visiting city folk leave through it (npcsForMap).
       // Outside, the warp stands in front of the gate between the lantern posts (clear of the gate roof for the camera).
-      { id: 'warp_to_city', style: 'warp', at: { x: 0, z: -122.5, radius: 2.2 }, to: 'city', arrive: { x: 0, z: -99, facing: 0 }, node: 'gate_out', name: 'ประตูวาป', marker: { x: 0, z: -122.5 } },
+      { id: 'warp_to_city', style: 'warp', at: { x: 0, z: -122.5, radius: 2.2 }, to: 'city', arrive: { x: 0, z: -53, facing: 0 }, node: 'gate_out', name: 'ประตูวาป', marker: { x: 0, z: -122.5 } },
       // The north road leaves the grassland past the banyan toward the forest gate.
       { id: 'path_to_forest', style: 'path', at: { x: -0.9, z: -290, radius: 2.4 }, to: 'deep_forest', arrive: { x: 0, z: -311, facing: Math.PI }, node: 'n6', name: 'ทางเข้าป่า', marker: { x: -5.4, z: -289 } },
     ],
@@ -210,7 +212,13 @@ export const arrivalsOn = mapId => MAP_IDS.flatMap(id => MAPS[id].portals.filter
 export function resolveLocation(saved) {
   if (!saved || !Number.isFinite(saved.x) || !Number.isFinite(saved.z)) return null;
   const { x, z } = saved, facing = Number.isFinite(saved.facing) ? saved.facing : Math.PI;
-  if (MAPS[saved.map]) return { map: saved.map, x, z, facing };
+  if (MAPS[saved.map]) {
+    if(saved.map === 'city') {
+      const at=saved.layoutRevision===CITY_LAYOUT_REVISION && compactCityCanStand(x,z) ? {x,z,facing} : MAPS.city.spawn;
+      return {map:'city',...at,layoutRevision:CITY_LAYOUT_REVISION};
+    }
+    return { map: saved.map, x, z, facing };
+  }
   const id = mapOf(x, z);
   if (!id || (LEGACY_MAPS[saved.map] && !LEGACY_MAPS[saved.map].includes(id))) return null;
   if (walkable(MAPS[id], x, z)) return { map: id, x, z, facing };
@@ -225,6 +233,7 @@ export const spawnsOf = (mapId, spawns) => spawns.filter(s => mapOf(s.x, s.z) ==
 // Where an NPC lives: its home junction, or the first road junction in its
 // schedule (null for NPCs homed at a district spot; those declare `map`).
 export function npcHome(def) {
+  if(Number.isFinite(def.home?.near?.x)&&Number.isFinite(def.home?.near?.z))return [def.home.near.x,def.home.near.z];
   if (def.home?.near && J[def.home.near]) return J[def.home.near];
   for (const act of Object.values(def.schedule ?? {})) {
     const stops = act.do === 'route' ? act.stops : act.do === 'stay' ? [act.at] : [];

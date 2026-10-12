@@ -2,7 +2,8 @@ import { NPC } from '../entities/NPC.js';
 import { NPCRenderer } from './NPCRenderer.js';
 import { NavGraph } from './NavGraph.js';
 import { makeLook, OCCUPATIONS } from './NPCData.js';
-import { activityFor, normalizeStops } from './NPCSchedule.js';
+import { normalizeStops } from './NPCSchedule.js';
+import { presentationActivityFor } from './NPCPresentationActivity.js';
 import { J } from '../world/CityMap.js';
 
 // Owns the population: builds the nav graph, resolves spots and homes, reacts
@@ -14,7 +15,7 @@ export class NPCManager {
   constructor(scene, world, defs, clock, rendererOptions = {}) {
     this.world = world; this.clock = clock;
     // world.contains (World hook): the nav graph covers the current map only.
-    this.nav = NavGraph.fromRoads(world.contains);
+    this.nav = world.map.id === 'city' ? NavGraph.fromCompactCity(world) : NavGraph.fromRoads(world.contains);
     // Spots registered by the districts become graph nodes linked to their road.
     for (const [id, s] of Object.entries(world.spots)) Object.assign(this.nav.add(id, s.x, s.z), { spot: true, face: s.face });
     for (const [id, s] of Object.entries(world.spots)) this.link(id, s.link);
@@ -24,11 +25,11 @@ export class NPCManager {
       this.prepare(npc);
       return npc;
     });
-    for (const npc of this.npcs) npc.setActivity(activityFor(npc.def, clock.phase), true);
+    for (const npc of this.npcs) npc.setActivity(presentationActivityFor(npc.def, clock.phase), true);
     this.renderer = new NPCRenderer(scene, this.npcs, rendererOptions);
     this.offPhase = clock.onPhase(phase => {
       // Stagger reactions so the town does not move in lockstep.
-      for (const npc of this.npcs) npc.pending = { activity: activityFor(npc.def, phase), delay: Math.random() * 10 };
+      for (const npc of this.npcs) npc.pending = { activity: presentationActivityFor(npc.def, phase), delay: Math.random() * 10 };
     });
     this.tick = 0;
   }
@@ -36,7 +37,8 @@ export class NPCManager {
     const node = this.nav.nodes.get(id);
     const to = target && this.nav.nodes.get(target) ? target : this.nav.nearest(node.x, node.z, n => !n.spot && n.id !== id)?.id;
     if (target && !this.nav.nodes.get(target)) console.warn(`[npc] spot ${id} links to unknown node ${target}`);
-    this.nav.connect(id, to);
+    if(this.world.map.id==='city')this.nav.connectWalkable(id,to,(x,z)=>this.world.canStand(x,z,.35));
+    else this.nav.connect(id, to);
   }
   // Resolve literal positions, missing spots and homes before the first plan.
   prepare(npc) {
@@ -61,10 +63,12 @@ export class NPCManager {
     const home = npc.def.home;
     if (typeof home === 'string' && this.nav.nodes.has(home)) npc.homeId = home;
     else {
-      const near = J[home?.near] ?? [npc.x, npc.z];
+      const cityNode=this.world.map.id==='city' ? this.nav.nodes.get(home?.near) : null;
+      const point=home?.near;
+      const near = Number.isFinite(point?.x) && Number.isFinite(point?.z) ? [point.x,point.z] : cityNode ? [cityNode.x,cityNode.z] : J[point] ?? [npc.x, npc.z];
       const options = this.homes.filter(h => h.n < 2).map(h => ({ h, d: Math.hypot(this.nav.nodes.get(h.id).x - near[0], this.nav.nodes.get(h.id).z - near[1]) })).sort((a, b) => a.d - b.d);
       if (options.length && options[0].d < 45) { options[0].h.n++; npc.homeId = options[0].h.id; }
-      else npc.homeId = home?.near ?? this.nav.nearest(npc.x, npc.z).id;
+      else npc.homeId = typeof home?.near==='string' && this.nav.nodes.has(home.near) ? home.near : this.nav.nearest(...near)?.id;
     }
   }
   homeOf(npc) { return npc.homeId; }

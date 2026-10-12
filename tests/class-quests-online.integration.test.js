@@ -14,6 +14,7 @@ test('signed-in HTTP/WS: forged quest counts/rewards/masteries fail, valid hand-
   const port = probe.address().port; await new Promise(r => probe.close(r));
   const bootstrap = `
     import {MemoryStore} from './server/store.js';
+    import {MAPS} from './src/world/maps.js';
     import {Character} from './src/character/Character.js';
     import {HALLS} from './src/data/halls.js';
     const create = MemoryStore.prototype.createAccount;
@@ -32,11 +33,13 @@ test('signed-in HTTP/WS: forged quest counts/rewards/masteries fail, valid hand-
         const door = HALLS.find(h=>h.classId==='warrior').door;
         const location = {map:'city',x:id==='questfar'?0:door.x,z:id==='questfar'?52:door.z,facing:0};
         this.slots.set(id,new Map([[0,{data:{'tno.character.v1':JSON.stringify(c),
-          'tno.quests.v1':JSON.stringify(q),'tno.location.v1':JSON.stringify(location)},updated:1}]]));
+          'tno.quests.v1':JSON.stringify(q),'tno.location.v1':JSON.stringify({...location, ...(location.map === 'city' ? {layoutRevision:MAPS.city.layoutRevision} : {})})},updated:1}]]));
         await this.init();
       }
       return ok;
     };
+    // Masters must actually be outdoors for the successful hand-in fixture.
+    process.argv.push('--hour=12');
     await import('./server/index.js');
   `;
   const child = spawn(process.execPath,['--input-type=module','-e',bootstrap],{
