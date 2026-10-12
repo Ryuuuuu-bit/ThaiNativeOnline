@@ -64,12 +64,14 @@ export class Environment {
     this.hemi.color.copy(k.sky).lerp(c1.set('#5d7a5a'), w * .35); this.hemi.groundColor.copy(k.ground);
     this.hemi.intensity = k.hi * SKY_GAIN * (1 - .32 * w - .2 * cem);
     this.renderer.toneMappingExposure = k.exp * (1 - .07 * w);
-    // Town has softer fill and a more neutral daylight than the wilds. This is
+    // Town has softer fill and warm daylight than the wilds. This is
     // explicit map context, reset by the normal keys on every update/map change.
     if(mapId==='city') {
       this.sun.intensity *= .86;
       this.hemi.intensity *= 1.34;
-      this.sun.color.lerp(c1.set('#fff6e9'),.24*(1-night));
+      this.sun.color.lerp(c1.set('#ffe6ba'),.32*(1-night));
+      this.hemi.color.lerp(c1.set('#d3e2ed'),.28*(1-night));
+      this.hemi.groundColor.lerp(c1.set('#697a77'),.28*(1-night));
       this.renderer.toneMappingExposure *= .97;
     }
 

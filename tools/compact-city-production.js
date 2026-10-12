@@ -25,6 +25,7 @@ window.addEventListener('error',e=>{result.errors.push(e.message);publish();});
 window.addEventListener('unhandledrejection',e=>{result.errors.push(String(e.reason));publish();});
 const views=[
   ['plaza',0,8,1,10],['shops',-12,-13,1,10],['temple',-52,-31,1,10],
+  ['temple-complex',-52,-35,.65,10],['waterfront',0,62,1,10],
   ['forge',-23,-13,1.4,10],['pharmacy',23,-13,1.4,10],
   ['general',-23,15,1.4,10],['depot',23,15,1.4,10],
   ['north-halls',0,-39,1,10],['hunter',41,-43,1,10],['herbalist',43,-15,1,10],

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { StaticBatcher, InstanceSet } from '../Batching.js';
-import { ubosot, chedi, kuti, warehouse, thaiRoof } from '../Architecture.js';
+import { kuti, warehouse, thaiRoof } from '../Architecture.js';
 import { M as kitMaterials } from '../materials.js';
 import { createRng } from '../rng.js';
 import { patchMaterial } from '../shaders.js';
@@ -9,6 +9,9 @@ import { buildCityStreets } from './buildCityStreets.js';
 import { buildCityNeighborhoods, buildCityCourtyardEdges } from './buildCityNeighborhoods.js';
 import { buildCityLandscape } from './buildCityLandscape.js';
 import { buildCityMarket } from './buildCityMarket.js';
+import { buildCityTemple } from './buildCityTemple.js';
+import { buildCityWater } from './buildCityWater.js';
+import { attachCityFoliageShadows } from './cityFoliageWind.js';
 
 // Production dressing adapted from the approved compact-city proposal. The
 // canonical module owns navigation: every solid is inside a building reservation
@@ -17,6 +20,7 @@ export async function buildCityArt(root, progress = () => {}) {
   // All resources are local to this build; shared Architecture resources are cloned.
   const staticRoot = new THREE.Group(), rng = createRng(20261012);
   const mats = [], geometries = [], authoredTextures = new Set(), ownedRoots = new Set([root, staticRoot]);
+  const controllers = [], fountainSurfaces = [];
   let disposed = false;
   const ownRoot = group => { ownedRoots.add(group); return group; };
   function dispose() {
@@ -38,6 +42,8 @@ export async function buildCityArt(root, progress = () => {}) {
     const failures=[];
     const release=resource=>{try{resource.dispose();}catch(error){failures.push(error);}};
     try {
+      for(const controller of controllers)release(controller);
+      for(const surface of fountainSurfaces)release(surface);
       for(const resource of instances)release(resource);
       for(const resource of materials)release(resource);
       for(const resource of all)release(resource);
@@ -626,23 +632,10 @@ export async function buildCityArt(root, progress = () => {}) {
     for(const set of sets.values())instances+=set.build(target).length;
     return {merged,instances,source:batcher.count+[...sets.values()].reduce((n,s)=>n+s.total,0)};
   }
-  const lods=[];
+  const lods=[],sacredStats=[];
   async function sacred(b) {
     const high=ownRoot(new THREE.Group()),low=ownRoot(new THREE.Group());
-    if(b.kind==='temple')high.add(localKit(ubosot(rng),b));
-    else {const g=new THREE.Group();chedi(g,{scale:1.5});high.add(localKit(g,b));}
-    const g=new THREE.Group();g.position.set(b.x,0,b.z);low.add(g);
-    if(b.kind==='temple') {
-      box(g,M.brick,0,.35,0,b.w-.2,.7,b.d-.2);
-      box(g,M.cream,0,2.3,0,b.w*.65,3.3,b.d*.7);
-      const templeRoof=kitMaterial(kitMaterials.tileGreen,true);
-      roof(g,b.w*.85,b.d*.86,4.0,3.5,templeRoof);
-      roof(g,b.w*.60,b.d*.65,5.3,2.8,templeRoof);
-    }else {
-      box(g,M.brick,0,.4,0,b.w-.2,.8,b.d-.2);
-      cyl(g,M.rim,0,1.4,0,2.8,1.6);ball(g,M.rim,0,3.2,0,2.1,2.4,2.1);
-      mesh(g,CONE,M.gold,0,7,0,.65,4,.65);
-    }
+    sacredStats.push(buildCityTemple({b,high,low,mat,geo,box,cyl,beam,ball,kitRoof,roofM,M}));
     const hi=ownRoot(new THREE.Group()),lo=ownRoot(new THREE.Group());
     await assemble(high,hi);await assemble(low,lo);
     // The geometry is baked in city coordinates, so the LOD origin is moved to
@@ -734,7 +727,7 @@ export async function buildCityArt(root, progress = () => {}) {
       }
     }
   }
-  const marketStats=buildCityMarket({root:staticRoot,mat,geo,box,cyl,beam,ball,lanternAt,pot,M,roofM,CITY,authoredTextures});
+  const marketStats=buildCityMarket({root:staticRoot,mat,geo,box,cyl,beam,ball,lanternAt,pot,M,roofM,CITY,authoredTextures,fountainSurfaces});
 
   // Layered planting and feathered ground cover are owned by buildCityLandscape.
   // Perimeter masonry lies beyond the navigation boundary; the north passage
@@ -756,25 +749,27 @@ export async function buildCityArt(root, progress = () => {}) {
   for(const side of[-1,1])for(let z=65;z<76;z+=4){cyl(staticRoot,M.wood,side*7,-.15,z,.26,2.4);cyl(staticRoot,M.gold,side*7,.8,z,.3,.12);}
   ground(M.wood,0,-.016,69,14,.025,9);
   for(let x=-70;x<72;x+=4){box(staticRoot,M.rim,x+2,.08,64.6,3.96,.32,.7);}
-  // A cargo sampan and a moored junk are silhouettes in the river backdrop.
-  function boat(x,z,scale=1,sail=false) {
-    const g=new THREE.Group();g.position.set(x,-.28,z);g.scale.setScalar(scale);staticRoot.add(g);
+  // Moored craft have their own small batches so a gentle current can move the
+  // entire hull without rebuilding geometry or changing navigation.
+  const boats=[];
+  async function boat(x,z,scale=1,sail=false) {
+    const g=ownRoot(new THREE.Group());
     ball(g,M.wood,0,.25,0,2.4,.62,6);
     box(g,M.timber,0,.60,0,3.5,.18,9.5);
     for(const side of[-1,1])box(g,M.dark,side*1.8,.95,0,.2,.6,9);
     for(let i=0;i<4;i++)crate(g,-.9+(i%2)*1.8,.72,-2+Math.floor(i/2)*2,1.2);
     if(sail){cyl(g,M.wood,0,5,0,.15,10);box(g,M.cream,0,6.5,.12,5.5,5.5,.08);
       for(let y=4;y<9;y+=.85)box(g,M.timber,0,y,.19,5.5,.07,.08);roof(g,3.5,3.2,1.3,1.4);}
+    const moving=ownRoot(new THREE.Group());await assemble(g,moving);g.clear();
+    moving.position.set(x,-.28,z);moving.scale.setScalar(scale);
+    moving.name=sail?'city-moored-junk':'city-cargo-sampan';
+    root.add(moving);boats.push({group:moving,phase:x*.13});
   }
-  boat(-20,75,1.2,true);boat(23,70,.8,false);
-  const waterMaterial=mat('#6ba6a0',{roughness:.38,metalness:.06});
-  const river=new THREE.Mesh(geo(new THREE.PlaneGeometry(200,70)),waterMaterial);
-  river.rotation.x=-Math.PI/2;river.position.set(0,-.32,99.65);river.receiveShadow=true;root.add(river);
-  const rippleMat=mat('#a5cebb',{transparent:true,opacity:.30,depthWrite:false});
-  const rippleGroup=new THREE.Group();root.add(rippleGroup);
-  const rippleSet=new InstanceSet(BOX,rippleMat,{chunk:32,castShadow:false});
-  for(let i=0;i<150;i++)rippleSet.add(rng.range(-90,90),-.30,rng.range(65,130),{sx:rng.range(.7,3),sy:.008,sz:.045});
-  rippleSet.build(rippleGroup);
+  await boat(-20,75,1.2,true);await boat(-10,70,.8,false);
+  // The working sampan sits alongside the pier, visible as players reach the
+  // quay. Mooring lines stay outside the walk boundary with the hull.
+  for(const z of[67,73])beam(staticRoot,M.rim,[-7,.70,z],[-8.55,.33,z],.035);
+  const water=buildCityWater({root,mat,geo});controllers.push(water);
   // Three restrained, unshadowed pools identify occupied town thresholds at
   // night. They share the day-cycle fade and allocate no additional shadow maps.
   const nightLights=[[0,2.7,-1.4,18],[-10.5,3.7,8.2,28],[10.5,3.7,10,28]].map(([x,y,z,power])=>{
@@ -785,10 +780,16 @@ export async function buildCityArt(root, progress = () => {}) {
   progress('กำลังประกอบหลังคาและรายละเอียดเมือง…');
   const streetStats=buildCityStreets({root:staticRoot,mat,geo,box,cyl,beam,lanternAt,M,authoredTextures,CITY});
   const batches=await assemble(staticRoot,root);
-  const stats={...streetStats,...landscape.stats,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
-  const water={mesh:river,update(t){rippleGroup.position.x=Math.sin(t*.18)*.18;},dispose(){}};
+  const windShadows=attachCityFoliageShadows(root,{ownMaterial:m=>mats.push(m)});controllers.push(windShadows);
+  const stats={...streetStats,...landscape.stats,...water.stats,sacred:sacredStats,windShadowMeshes:windShadows.meshes,animatedBoats:boats.length,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
   return {ground:pickGround,water,stats,update(t,dt,focus,env){
-    water.update(t);
+    water.update(t,dt,focus,env);
+    for(const surface of fountainSurfaces)surface.update(t,env);
+    for(const {group,phase} of boats){
+      group.position.y=-.28+Math.sin(t*.72+phase)*.052;
+      group.rotation.z=Math.sin(t*.47+phase)*.009;
+      group.rotation.x=Math.sin(t*.61+phase)*.007;
+    }
     const night=THREE.MathUtils.clamp(env?.lantern??env?.night??0,0,1);
     M.lantern.emissiveIntensity=1.8*night;M.window.emissiveIntensity=1.15*night;
     M.fire.emissiveIntensity=1.1+night*.3;M.warp.emissiveIntensity=.35+night*.3;

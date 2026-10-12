@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { createRng, hashString } from '../rng.js';
 import { CITY_STREETS } from '../compact-city-streets.js';
+import { applyCityFoliageWind } from './cityFoliageWind.js';
 
 // Render-only planting. Main owns garden reservations/collision and replaces the
 // old ground/trees with this output. Pass the SAME CITY used by the World builder.
@@ -98,7 +99,7 @@ export function buildCityLandscape({
           clamp(vCityLeafLight * 0.45 + 0.5, 0.0, 1.0)) * (0.95 + leafBrush * 0.075);`);
     };
     material.customProgramCacheKey = function() { return `${priorKey.call(this)}|city-landscape-leaf-v2`; };
-    return material;
+    return applyCityFoliageWind(material);
   }
   const crown = foliageGeometry();
   const leaf = ['#417546', '#598c4c', '#739954', '#628c50'].map(color => paintedLeaf(color));

@@ -93,6 +93,46 @@ for (const [id, p] of Object.entries({ cs: [-52,-31], ce: [-40,-43], cn: [-52,-5
 // Called once on the legacy-authored roster. String anchors resolve through
 // COMPACT_CITY_SPOTS or main's mapped J. Outside visitors retain field literals.
 const mappedDefinitions = new WeakSet();
+const pause = (at, state = 'idle', anim = 'look', time = [3, 5]) => ({ at, state, anim, time });
+const routine = (...stops) => ({ do: 'route', stops });
+const opening = (startAt, ...stops) => ({ ...routine(...stops), startAt });
+// Client presentation only. The original schedules remain server contact truth.
+// Short pauses show browsing, carrying and courtyard upkeep between real walks.
+const daytimeRoutines = {
+  kid_a: routine('pl_sw', 'mkt_w', pause('pl_nw'), 'mkt_n', 'mkt_e', pause('pl_se')),
+  kid_b: routine('pl_ne', 'mkt_e', pause('pl_se'), 'mkt_s', 'mkt_w', pause('pl_nw')),
+  kid_port: routine(pause('kid_watch'), 'port_c', pause('dockA_land'), 'port_w', pause('bank_seat')),
+  cargo_merchant: routine(pause('dockA_land','work','point'), pause('warehouseA','work','lift'), 'port_w'),
+  // Existing ambient merchants dress the east awning; they acquire no shop role.
+  fish_vendor_e: { do: 'stay', at: 'market_e_seller', state: 'work', anim: 'sell' },
+  trader_a: opening('market_e_stock', pause('market_e_stock','work','point',[4,7]), pause('market_e_unpack','work','lift',[3,5])),
+  trader_b: opening('market_e_customer_b', pause('market_e_customer_b','talk','talk',[14,18]), pause('market_w_customer_b','idle','look',[3,5]), pause('market_e_customer_a','talk','talk')),
+  shopper_a: opening('market_w_customer_a', pause('market_w_customer_a','talk','talk',[4,7]), pause('market_e_customer_a','idle','look',[4,7])),
+  shopper_b: opening('market_w_customer_b', pause('market_w_customer_b','idle','look',[14,18]), pause('market_e_customer_b','talk','talk',[4,7])),
+  shopper_c: opening('market_e_customer_a', pause('market_e_customer_a','talk','talk',[4,7]), pause('market_w_customer_a','idle','look',[3,5]), pause('market_e_customer_b','idle','look')),
+  gossip_a: opening('plaza_chat_a', pause('plaza_chat_a','talk','talk',[8,12]), pause('temple_sala','idle','pray',[4,6]), 'tw', pause('center_bench','idle','rest')),
+  gossip_b: opening('plaza_chat_b', pause('plaza_chat_b','talk','talk',[8,12]), pause('center_bench','idle','rest',[4,7]), pause('market_w_customer_b','talk','talk')),
+  sweeper: routine(pause('plaza_sweep','work','sweep',[4,7]), 'mkt_w', pause('pillar_pray2','idle','look')),
+  pillar_devotee: routine(pause('pillar_pray','idle','pray',[4,6]), pause('stall_o3_c','talk','talk'), pause('temple_pray','idle','pray',[5,8]), 'tw', pause('center_bench','idle','rest')),
+  monk_young: routine(pause('temple_sweep','work','sweep',[5,8]), pause('kuti_b','idle','look'), pause('temple_upkeep','work','sweep',[5,8])),
+  temple_visitor: routine(pause('temple_pray2','idle','pray',[5,8]), pause('temple_pray','idle','pray',[4,6]), 'td'),
+  traveler: routine(pause('bodhi_seat','idle','rest',[5,8]), 'td', pause('temple_pray2','idle','look'), 't1'),
+  boat_fixer: routine(pause('fv_boat','work','work',[5,8]), pause('fv_rack','work','hang',[4,6]), 'fv_m'),
+  boatwright: routine(pause('boatyard','work','hammer',[5,8]), pause('port_e2','work','look'), 'port_e'),
+};
+// Distinct, collision-safe conversation/upkeep points; no service approaches move.
+COMPACT_CITY_SPOTS.plaza_chat_a = spot(-9, -5, 0, 'center_bench');
+COMPACT_CITY_SPOTS.plaza_chat_b = spot(-9, -3, Math.PI, 'center_bench');
+COMPACT_CITY_SPOTS.plaza_sweep = spot(-4, -5, 0, 'center');
+COMPACT_CITY_SPOTS.temple_upkeep = spot(-46, -6, Math.PI, 'tk');
+COMPACT_CITY_SPOTS.market_w_customer_a = spot(-10.3, 13, -Math.PI / 2, 'mkt_w');
+COMPACT_CITY_SPOTS.market_w_customer_b = spot(-10.3, 10, -Math.PI / 2, 'mkt_w');
+COMPACT_CITY_SPOTS.market_e_customer_a = spot(10.3, 11, Math.PI / 2, 'mkt_e');
+COMPACT_CITY_SPOTS.market_e_customer_b = spot(10.3, 14, Math.PI / 2, 'mkt_e');
+COMPACT_CITY_SPOTS.market_e_seller = spot(14, 11, -Math.PI / 2, 'market_e_customer_a');
+COMPACT_CITY_SPOTS.market_e_stock = spot(14, 14, -Math.PI / 2, 'market_e_customer_b');
+COMPACT_CITY_SPOTS.market_e_unpack = spot(16, 14, -Math.PI / 2, 'market_e_stock');
+
 export function compactCityNpc(def) {
   if (mappedDefinitions.has(def) || (def.map && def.map !== 'city') || def.warpService) return def;
   const at = value => !value || typeof value !== 'object' || value.link === 'gate_out'
@@ -108,7 +148,9 @@ export function compactCityNpc(def) {
   const fieldHome = def.schedule?.day?.at;
   const home = fieldGuard ? { ...def.home, near: { x: fieldHome.x, z: fieldHome.z } }
     : homeSpot ? { ...def.home, near: { x: homeSpot.x, z: homeSpot.z } } : def.home;
-  const mapped = { ...def, map: fieldGuard ? 'paddy' : 'city', home, schedule };
+  const daytimeRoutine = !def.shopType && !def.trainer ? daytimeRoutines[def.id] : undefined;
+  const mapped = { ...def, map: fieldGuard ? 'paddy' : 'city', home, schedule,
+    ...(daytimeRoutine ? { daytimeRoutine } : {}) };
   mappedDefinitions.add(mapped);
   return mapped;
 }

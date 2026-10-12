@@ -1,0 +1,2391 @@
+{
+  "mode": "Production Game; 12 simulation seconds in 1/60 steps, 4 captured frames/sec. Not an FPS benchmark.",
+  "scenes": [
+    {
+      "name": "market",
+      "before": {
+        "start": 1.9999999999999978,
+        "npcs": [
+          {
+            "id": "warp_city_market",
+            "x": 17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "warp_city_port",
+            "x": 7,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "warp_city_forge",
+            "x": -12,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "warp_city_training",
+            "x": 0,
+            "z": -35,
+            "shown": true
+          },
+          {
+            "id": "warp_city_temple",
+            "x": -43,
+            "z": -29,
+            "shown": true
+          },
+          {
+            "id": "warp_city_gate",
+            "x": 4,
+            "z": -57,
+            "shown": true
+          },
+          {
+            "id": "fisher_pier",
+            "x": -43,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "fisher_dock",
+            "x": 33,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_a",
+            "x": -28,
+            "z": 50,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_b",
+            "x": 30,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "cargo_merchant",
+            "x": -20,
+            "z": 52.34834312458093,
+            "shown": true
+          },
+          {
+            "id": "boatman",
+            "x": 0,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "kid_port",
+            "x": -4.677861887447606,
+            "z": 53.99760102411835,
+            "shown": true
+          },
+          {
+            "id": "trader_a",
+            "x": 14,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "trader_b",
+            "x": 10.3,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "river_sitter",
+            "x": 19.75785487322926,
+            "z": 51.207552965803494,
+            "shown": true
+          },
+          {
+            "id": "guard_port",
+            "x": -38,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_w",
+            "x": 18.5,
+            "z": 49,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_e",
+            "x": 14,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "vendor_fruit",
+            "x": -12.6,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "vendor_rice",
+            "x": -12.6,
+            "z": 16,
+            "shown": true
+          },
+          {
+            "id": "vendor_lanterns",
+            "x": -12.6,
+            "z": 19,
+            "shown": true
+          },
+          {
+            "id": "vendor_pottery",
+            "x": -12.6,
+            "z": 22,
+            "shown": true
+          },
+          {
+            "id": "shopper_a",
+            "x": -10.3,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "shopper_b",
+            "x": -10.3,
+            "z": 10,
+            "shown": true
+          },
+          {
+            "id": "shopper_c",
+            "x": 10.3,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "porter",
+            "x": -19.355952374201827,
+            "z": 33.146907271755424,
+            "shown": true
+          },
+          {
+            "id": "guard_market",
+            "x": 0,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "blacksmith",
+            "x": -17,
+            "z": -13,
+            "shown": true
+          },
+          {
+            "id": "enhancer",
+            "x": -17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "general_merchant",
+            "x": -17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "gate_supplier",
+            "x": -3.84,
+            "z": -50.800000000000004,
+            "shown": true
+          },
+          {
+            "id": "herbalist",
+            "x": 17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "occultist",
+            "x": -42,
+            "z": 17,
+            "shown": true
+          },
+          {
+            "id": "master_muay",
+            "x": -16,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_sword",
+            "x": 15,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_hunter",
+            "x": 41,
+            "z": -43,
+            "shown": true
+          },
+          {
+            "id": "master_herbal",
+            "x": 43,
+            "z": -15,
+            "shown": true
+          },
+          {
+            "id": "master_shaman",
+            "x": -42,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "master_bandit",
+            "x": 43,
+            "z": 35,
+            "shown": true
+          },
+          {
+            "id": "guard_center",
+            "x": 2.16,
+            "z": -22,
+            "shown": true
+          },
+          {
+            "id": "pillar_devotee",
+            "x": -34.33839018430001,
+            "z": -26.538355828592643,
+            "shown": true
+          },
+          {
+            "id": "old_man_bench",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "sweeper",
+            "x": -4,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "gossip_a",
+            "x": -9,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "gossip_b",
+            "x": -9,
+            "z": -3,
+            "shown": true
+          },
+          {
+            "id": "kid_a",
+            "x": 12,
+            "z": 24,
+            "shown": true
+          },
+          {
+            "id": "kid_b",
+            "x": -9.446713020787076,
+            "z": -4.2554782986882,
+            "shown": true
+          },
+          {
+            "id": "basket_woman",
+            "x": -31.68,
+            "z": -28.586995922727546,
+            "shown": true
+          },
+          {
+            "id": "monk_elder",
+            "x": -64,
+            "z": -52.77872655293531,
+            "shown": true
+          },
+          {
+            "id": "monk_young",
+            "x": -46,
+            "z": -6,
+            "shown": true
+          },
+          {
+            "id": "monk_teacher",
+            "x": -43,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "temple_visitor",
+            "x": -52,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "traveler",
+            "x": -55,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "guard_temple",
+            "x": 10.32,
+            "z": -30.6,
+            "shown": true
+          },
+          {
+            "id": "guard_patrol",
+            "x": 2.297700005454719,
+            "z": -0.8419500190915326,
+            "shown": true
+          },
+          {
+            "id": "net_mender",
+            "x": -54,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "fish_carrier",
+            "x": -54,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "boat_fixer",
+            "x": -36.54352929039057,
+            "z": 49.427309520902895,
+            "shown": true
+          },
+          {
+            "id": "boatwright",
+            "x": 38,
+            "z": 55,
+            "shown": true
+          }
+        ],
+        "audio": {
+          "night": 0,
+          "wild": 0,
+          "cemetery": 0,
+          "river": 0,
+          "market": 0.8,
+          "temple": 0
+        },
+        "position": [
+          0,
+          0,
+          6
+        ]
+      },
+      "after": {
+        "end": 14.000000000000275,
+        "npcs": [
+          {
+            "id": "warp_city_market",
+            "x": 17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "warp_city_port",
+            "x": 7,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "warp_city_forge",
+            "x": -12,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "warp_city_training",
+            "x": 0,
+            "z": -35,
+            "shown": true
+          },
+          {
+            "id": "warp_city_temple",
+            "x": -43,
+            "z": -29,
+            "shown": true
+          },
+          {
+            "id": "warp_city_gate",
+            "x": 4,
+            "z": -57,
+            "shown": true
+          },
+          {
+            "id": "fisher_pier",
+            "x": -43,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "fisher_dock",
+            "x": 33,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_a",
+            "x": -20.65577217502854,
+            "z": 58.2622563030929,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_b",
+            "x": 38,
+            "z": 50,
+            "shown": true
+          },
+          {
+            "id": "cargo_merchant",
+            "x": -28,
+            "z": 50,
+            "shown": true
+          },
+          {
+            "id": "boatman",
+            "x": 0,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "kid_port",
+            "x": -20,
+            "z": 54.12624728454588,
+            "shown": true
+          },
+          {
+            "id": "trader_a",
+            "x": 14,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "trader_b",
+            "x": 10.3,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "river_sitter",
+            "x": 4.4891836165489245,
+            "z": 55.69064363331519,
+            "shown": true
+          },
+          {
+            "id": "guard_port",
+            "x": -31.517737600587523,
+            "z": 51.75886880029376,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_w",
+            "x": 18.5,
+            "z": 49,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_e",
+            "x": 14,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "vendor_fruit",
+            "x": -12.6,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "vendor_rice",
+            "x": -12.6,
+            "z": 16,
+            "shown": true
+          },
+          {
+            "id": "vendor_lanterns",
+            "x": -12.6,
+            "z": 19,
+            "shown": true
+          },
+          {
+            "id": "vendor_pottery",
+            "x": -12.6,
+            "z": 22,
+            "shown": true
+          },
+          {
+            "id": "shopper_a",
+            "x": 0.4462343736150565,
+            "z": 8.09916319413667,
+            "shown": true
+          },
+          {
+            "id": "shopper_b",
+            "x": -10.3,
+            "z": 10,
+            "shown": true
+          },
+          {
+            "id": "shopper_c",
+            "x": -0.8419863549391752,
+            "z": 8.187108078875347,
+            "shown": true
+          },
+          {
+            "id": "porter",
+            "x": -26.931503109279554,
+            "z": 34.385989741056264,
+            "shown": true
+          },
+          {
+            "id": "guard_market",
+            "x": 5.7236255448900035,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "blacksmith",
+            "x": -17,
+            "z": -13,
+            "shown": true
+          },
+          {
+            "id": "enhancer",
+            "x": -17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "general_merchant",
+            "x": -17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "gate_supplier",
+            "x": -3.84,
+            "z": -50.800000000000004,
+            "shown": true
+          },
+          {
+            "id": "herbalist",
+            "x": 17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "occultist",
+            "x": -42,
+            "z": 17,
+            "shown": true
+          },
+          {
+            "id": "master_muay",
+            "x": -16,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_sword",
+            "x": 15,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_hunter",
+            "x": 41,
+            "z": -43,
+            "shown": true
+          },
+          {
+            "id": "master_herbal",
+            "x": 43,
+            "z": -15,
+            "shown": true
+          },
+          {
+            "id": "master_shaman",
+            "x": -42,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "master_bandit",
+            "x": 43,
+            "z": 35,
+            "shown": true
+          },
+          {
+            "id": "guard_center",
+            "x": 2.16,
+            "z": -22,
+            "shown": true
+          },
+          {
+            "id": "pillar_devotee",
+            "x": -18.61219318198055,
+            "z": -22.6,
+            "shown": true
+          },
+          {
+            "id": "old_man_bench",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "sweeper",
+            "x": -8.532791738459496,
+            "z": -2.16700516346278,
+            "shown": true
+          },
+          {
+            "id": "gossip_a",
+            "x": -11.516723717575736,
+            "z": -0.8054604707070601,
+            "shown": true
+          },
+          {
+            "id": "gossip_b",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "kid_a",
+            "x": -8.271421473789271,
+            "z": 25.242859508736817,
+            "shown": true
+          },
+          {
+            "id": "kid_b",
+            "x": -12,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "basket_woman",
+            "x": -21.64065142797076,
+            "z": -31.403257139854215,
+            "shown": true
+          },
+          {
+            "id": "monk_elder",
+            "x": -64,
+            "z": -39.29787758822552,
+            "shown": true
+          },
+          {
+            "id": "monk_young",
+            "x": -51,
+            "z": -6,
+            "shown": true
+          },
+          {
+            "id": "monk_teacher",
+            "x": -43,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "temple_visitor",
+            "x": -62.11017451722175,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "traveler",
+            "x": -63,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "guard_temple",
+            "x": 10.32,
+            "z": -30.6,
+            "shown": true
+          },
+          {
+            "id": "guard_patrol",
+            "x": 0.9349908508683922,
+            "z": -17.86500914913153,
+            "shown": true
+          },
+          {
+            "id": "net_mender",
+            "x": -54,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "fish_carrier",
+            "x": -50.27397021824545,
+            "z": 48.753418100175,
+            "shown": true
+          },
+          {
+            "id": "boat_fixer",
+            "x": -54.5317638427774,
+            "z": 53.26086770419844,
+            "shown": true
+          },
+          {
+            "id": "boatwright",
+            "x": 23.479126511991574,
+            "z": 53.95626204640253,
+            "shown": true
+          }
+        ],
+        "boats": [
+          {
+            "name": "city-moored-junk",
+            "y": -0.23159423277994637,
+            "roll": -0.006692212250499246
+          },
+          {
+            "name": "city-cargo-sampan",
+            "y": -0.2487469084057075,
+            "roll": -0.007588689676707127
+          }
+        ],
+        "audio": {
+          "night": 0,
+          "wild": 0,
+          "cemetery": 0,
+          "river": 0,
+          "market": 0.8,
+          "temple": 0
+        },
+        "calls": 1,
+        "triangles": 1
+      },
+      "moved": [
+        "dock_worker_a",
+        "dock_worker_b",
+        "cargo_merchant",
+        "kid_port",
+        "river_sitter",
+        "guard_port",
+        "shopper_a",
+        "shopper_c",
+        "porter",
+        "guard_market",
+        "pillar_devotee",
+        "sweeper",
+        "gossip_a",
+        "gossip_b",
+        "kid_a",
+        "kid_b",
+        "basket_woman",
+        "monk_elder",
+        "monk_young",
+        "temple_visitor",
+        "traveler",
+        "guard_patrol",
+        "fish_carrier",
+        "boat_fixer",
+        "boatwright"
+      ],
+      "animation": "market-motion.webp"
+    },
+    {
+      "name": "temple",
+      "before": {
+        "start": 16.000000000000373,
+        "npcs": [
+          {
+            "id": "warp_city_market",
+            "x": 17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "warp_city_port",
+            "x": 7,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "warp_city_forge",
+            "x": -12,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "warp_city_training",
+            "x": 0,
+            "z": -35,
+            "shown": true
+          },
+          {
+            "id": "warp_city_temple",
+            "x": -43,
+            "z": -29,
+            "shown": true
+          },
+          {
+            "id": "warp_city_gate",
+            "x": 4,
+            "z": -57,
+            "shown": true
+          },
+          {
+            "id": "fisher_pier",
+            "x": -43,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "fisher_dock",
+            "x": 33,
+            "z": 59,
+            "shown": false
+          },
+          {
+            "id": "dock_worker_a",
+            "x": -22.623088700114156,
+            "z": 56.04902521237159,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_b",
+            "x": 36.414572507974945,
+            "z": 52.8537694856451,
+            "shown": false
+          },
+          {
+            "id": "cargo_merchant",
+            "x": -28,
+            "z": 50,
+            "shown": true
+          },
+          {
+            "id": "boatman",
+            "x": 0,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "kid_port",
+            "x": -15.80536519591871,
+            "z": 55.69910580068023,
+            "shown": true
+          },
+          {
+            "id": "trader_a",
+            "x": 14,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "trader_b",
+            "x": 10.3,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "river_sitter",
+            "x": 1.5795028016938486,
+            "z": 55.24300043102981,
+            "shown": true
+          },
+          {
+            "id": "guard_port",
+            "x": -28.865902982646055,
+            "z": 50.432951491323024,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_w",
+            "x": 18.5,
+            "z": 49,
+            "shown": false
+          },
+          {
+            "id": "fish_vendor_e",
+            "x": 14,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "vendor_fruit",
+            "x": -12.6,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "vendor_rice",
+            "x": -12.6,
+            "z": 16,
+            "shown": true
+          },
+          {
+            "id": "vendor_lanterns",
+            "x": -12.6,
+            "z": 19,
+            "shown": true
+          },
+          {
+            "id": "vendor_pottery",
+            "x": -12.6,
+            "z": 22,
+            "shown": true
+          },
+          {
+            "id": "shopper_a",
+            "x": 3.5173768273186807,
+            "z": 8.7816392949597,
+            "shown": true
+          },
+          {
+            "id": "shopper_b",
+            "x": -10.3,
+            "z": 10,
+            "shown": true
+          },
+          {
+            "id": "shopper_c",
+            "x": -3.578442008491491,
+            "z": 8.795209335220317,
+            "shown": true
+          },
+          {
+            "id": "porter",
+            "x": -24.34610750030277,
+            "z": 32.561682954895545,
+            "shown": true
+          },
+          {
+            "id": "guard_market",
+            "x": 8.27959573096683,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "blacksmith",
+            "x": -17,
+            "z": -13,
+            "shown": true
+          },
+          {
+            "id": "enhancer",
+            "x": -17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "general_merchant",
+            "x": -17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "gate_supplier",
+            "x": -3.84,
+            "z": -50.800000000000004,
+            "shown": true
+          },
+          {
+            "id": "herbalist",
+            "x": 17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "occultist",
+            "x": -42,
+            "z": 17,
+            "shown": true
+          },
+          {
+            "id": "master_muay",
+            "x": -16,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_sword",
+            "x": 15,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_hunter",
+            "x": 41,
+            "z": -43,
+            "shown": true
+          },
+          {
+            "id": "master_herbal",
+            "x": 43,
+            "z": -15,
+            "shown": true
+          },
+          {
+            "id": "master_shaman",
+            "x": -42,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "master_bandit",
+            "x": 43,
+            "z": 35,
+            "shown": false
+          },
+          {
+            "id": "guard_center",
+            "x": 2.16,
+            "z": -22,
+            "shown": true
+          },
+          {
+            "id": "pillar_devotee",
+            "x": -17.435361343513506,
+            "z": -20.585328711287666,
+            "shown": true
+          },
+          {
+            "id": "old_man_bench",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "sweeper",
+            "x": -5.881397185516818,
+            "z": -3.824126759051974,
+            "shown": true
+          },
+          {
+            "id": "gossip_a",
+            "x": -13.8654932566238,
+            "z": -0.2961100407339364,
+            "shown": true
+          },
+          {
+            "id": "gossip_b",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "kid_a",
+            "x": -12.061384142529302,
+            "z": 23.48846547892248,
+            "shown": true
+          },
+          {
+            "id": "kid_b",
+            "x": -12,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "basket_woman",
+            "x": -21.05485333193193,
+            "z": -28.47426665966014,
+            "shown": true
+          },
+          {
+            "id": "monk_elder",
+            "x": -64,
+            "z": -36.86776646665008,
+            "shown": true
+          },
+          {
+            "id": "monk_young",
+            "x": -51,
+            "z": -6,
+            "shown": true
+          },
+          {
+            "id": "monk_teacher",
+            "x": -43,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "temple_visitor",
+            "x": -59.18972165066763,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "traveler",
+            "x": -63,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "guard_temple",
+            "x": 10.32,
+            "z": -30.6,
+            "shown": true
+          },
+          {
+            "id": "guard_patrol",
+            "x": 1.6569640357819653,
+            "z": -19.058900630590927,
+            "shown": true
+          },
+          {
+            "id": "net_mender",
+            "x": -54,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "fish_carrier",
+            "x": -50,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "boat_fixer",
+            "x": -57.47529313316797,
+            "z": 53.888177225101366,
+            "shown": true
+          },
+          {
+            "id": "boatwright",
+            "x": 20.743095677862147,
+            "z": 54.77707129664135,
+            "shown": false
+          }
+        ],
+        "audio": {
+          "night": 0,
+          "wild": 0,
+          "cemetery": 0,
+          "river": 0,
+          "market": 0,
+          "temple": 1
+        },
+        "position": [
+          -52,
+          0,
+          -31
+        ]
+      },
+      "after": {
+        "end": 27.99999999999969,
+        "npcs": [
+          {
+            "id": "warp_city_market",
+            "x": 17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "warp_city_port",
+            "x": 7,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "warp_city_forge",
+            "x": -12,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "warp_city_training",
+            "x": 0,
+            "z": -35,
+            "shown": true
+          },
+          {
+            "id": "warp_city_temple",
+            "x": -43,
+            "z": -29,
+            "shown": true
+          },
+          {
+            "id": "warp_city_gate",
+            "x": 4,
+            "z": -57,
+            "shown": true
+          },
+          {
+            "id": "fisher_pier",
+            "x": -43,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "fisher_dock",
+            "x": 33,
+            "z": 59,
+            "shown": false
+          },
+          {
+            "id": "dock_worker_a",
+            "x": -24.28395767483828,
+            "z": 54.180547615806915,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_b",
+            "x": 33,
+            "z": 59,
+            "shown": false
+          },
+          {
+            "id": "cargo_merchant",
+            "x": -20,
+            "z": 52,
+            "shown": true
+          },
+          {
+            "id": "boatman",
+            "x": 0,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "kid_port",
+            "x": -0.8596670349965247,
+            "z": 55.21491675874913,
+            "shown": true
+          },
+          {
+            "id": "trader_a",
+            "x": 14,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "trader_b",
+            "x": -1.8933204590178814,
+            "z": 8.420737879781749,
+            "shown": true
+          },
+          {
+            "id": "river_sitter",
+            "x": -8,
+            "z": 57,
+            "shown": true
+          },
+          {
+            "id": "guard_port",
+            "x": -12.3263083455009,
+            "z": 56.2789486090832,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_w",
+            "x": 18.5,
+            "z": 49,
+            "shown": false
+          },
+          {
+            "id": "fish_vendor_e",
+            "x": 14,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "vendor_fruit",
+            "x": -12.6,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "vendor_rice",
+            "x": -12.6,
+            "z": 16,
+            "shown": true
+          },
+          {
+            "id": "vendor_lanterns",
+            "x": -12.6,
+            "z": 19,
+            "shown": true
+          },
+          {
+            "id": "vendor_pottery",
+            "x": -12.6,
+            "z": 22,
+            "shown": true
+          },
+          {
+            "id": "shopper_a",
+            "x": 8.658761949588486,
+            "z": 9.924169322130775,
+            "shown": true
+          },
+          {
+            "id": "shopper_b",
+            "x": 6.026476933669883,
+            "z": 9.339217096371087,
+            "shown": true
+          },
+          {
+            "id": "shopper_c",
+            "x": -9,
+            "z": 10,
+            "shown": true
+          },
+          {
+            "id": "porter",
+            "x": -8.33106698783364,
+            "z": 25.22297767072212,
+            "shown": true
+          },
+          {
+            "id": "guard_market",
+            "x": 7.521590699608967,
+            "z": -13.25181767906153,
+            "shown": true
+          },
+          {
+            "id": "blacksmith",
+            "x": -17,
+            "z": -13,
+            "shown": true
+          },
+          {
+            "id": "enhancer",
+            "x": -17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "general_merchant",
+            "x": -17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "gate_supplier",
+            "x": -3.84,
+            "z": -50.800000000000004,
+            "shown": true
+          },
+          {
+            "id": "herbalist",
+            "x": 17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "occultist",
+            "x": -42,
+            "z": 17,
+            "shown": true
+          },
+          {
+            "id": "master_muay",
+            "x": -16,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_sword",
+            "x": 15,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_hunter",
+            "x": 41,
+            "z": -43,
+            "shown": true
+          },
+          {
+            "id": "master_herbal",
+            "x": 43,
+            "z": -15,
+            "shown": true
+          },
+          {
+            "id": "master_shaman",
+            "x": -42,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "master_bandit",
+            "x": 43,
+            "z": 35,
+            "shown": false
+          },
+          {
+            "id": "guard_center",
+            "x": 2.16,
+            "z": -22,
+            "shown": true
+          },
+          {
+            "id": "pillar_devotee",
+            "x": -9.947244448955189,
+            "z": -5.947244448955177,
+            "shown": true
+          },
+          {
+            "id": "old_man_bench",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "sweeper",
+            "x": -4,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "gossip_a",
+            "x": -30.232792010898393,
+            "z": -4.445139265342996,
+            "shown": true
+          },
+          {
+            "id": "gossip_b",
+            "x": -9,
+            "z": 7,
+            "shown": true
+          },
+          {
+            "id": "kid_a",
+            "x": -9.879436162494354,
+            "z": -3.5342730625094116,
+            "shown": true
+          },
+          {
+            "id": "kid_b",
+            "x": 10.345767383386075,
+            "z": -20.02984172012657,
+            "shown": true
+          },
+          {
+            "id": "basket_woman",
+            "x": -8.82405064558826,
+            "z": -23.078164598161706,
+            "shown": true
+          },
+          {
+            "id": "monk_elder",
+            "x": -53.21298247935755,
+            "z": -31.24259649587151,
+            "shown": true
+          },
+          {
+            "id": "monk_young",
+            "x": -53.04202395737917,
+            "z": -6,
+            "shown": true
+          },
+          {
+            "id": "monk_teacher",
+            "x": -43,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "temple_visitor",
+            "x": -52,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "traveler",
+            "x": -54.89779767598492,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "guard_temple",
+            "x": 10.32,
+            "z": -30.6,
+            "shown": true
+          },
+          {
+            "id": "guard_patrol",
+            "x": 5.076748944410589,
+            "z": -14.057796503545909,
+            "shown": true
+          },
+          {
+            "id": "net_mender",
+            "x": -54,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "fish_carrier",
+            "x": -52.69102150904496,
+            "z": 55.40030914987359,
+            "shown": true
+          },
+          {
+            "id": "boat_fixer",
+            "x": -50,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "boatwright",
+            "x": 34.011936517485196,
+            "z": 53.50447619405695,
+            "shown": false
+          }
+        ],
+        "boats": [
+          {
+            "name": "city-moored-junk",
+            "y": -0.3299570191149819,
+            "roll": -0.008159650938125427
+          },
+          {
+            "name": "city-cargo-sampan",
+            "y": -0.27945691779327647,
+            "roll": -0.005841693866205311
+          }
+        ],
+        "audio": {
+          "night": 0,
+          "wild": 0,
+          "cemetery": 0,
+          "river": 0,
+          "market": 0,
+          "temple": 1
+        },
+        "calls": 1,
+        "triangles": 1
+      },
+      "moved": [
+        "dock_worker_a",
+        "cargo_merchant",
+        "kid_port",
+        "trader_b",
+        "river_sitter",
+        "guard_port",
+        "shopper_a",
+        "shopper_b",
+        "shopper_c",
+        "porter",
+        "guard_market",
+        "pillar_devotee",
+        "sweeper",
+        "gossip_a",
+        "gossip_b",
+        "kid_a",
+        "kid_b",
+        "basket_woman",
+        "monk_elder",
+        "monk_young",
+        "temple_visitor",
+        "traveler",
+        "guard_patrol",
+        "fish_carrier",
+        "boat_fixer"
+      ],
+      "animation": "temple-motion.webp"
+    },
+    {
+      "name": "waterfront",
+      "before": {
+        "start": 29.999999999999577,
+        "npcs": [
+          {
+            "id": "warp_city_market",
+            "x": 17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "warp_city_port",
+            "x": 7,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "warp_city_forge",
+            "x": -12,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "warp_city_training",
+            "x": 0,
+            "z": -35,
+            "shown": true
+          },
+          {
+            "id": "warp_city_temple",
+            "x": -43,
+            "z": -29,
+            "shown": true
+          },
+          {
+            "id": "warp_city_gate",
+            "x": 4,
+            "z": -57,
+            "shown": false
+          },
+          {
+            "id": "fisher_pier",
+            "x": -43,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "fisher_dock",
+            "x": 33,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_a",
+            "x": -22.215753122825262,
+            "z": 56.50727773682156,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_b",
+            "x": 34.691122658159735,
+            "z": 55.955979215312226,
+            "shown": true
+          },
+          {
+            "id": "cargo_merchant",
+            "x": -20,
+            "z": 52,
+            "shown": true
+          },
+          {
+            "id": "boatman",
+            "x": 0,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "kid_port",
+            "x": 4.283873070282152,
+            "z": 55.65905739542791,
+            "shown": true
+          },
+          {
+            "id": "trader_a",
+            "x": 14,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "trader_b",
+            "x": -4.733301147544704,
+            "z": 9.051844699454376,
+            "shown": true
+          },
+          {
+            "id": "river_sitter",
+            "x": -8,
+            "z": 57,
+            "shown": true
+          },
+          {
+            "id": "guard_port",
+            "x": -9.126853844602312,
+            "z": 56.812191025899594,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_w",
+            "x": 18.5,
+            "z": 49,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_e",
+            "x": 14,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "vendor_fruit",
+            "x": -12.6,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "vendor_rice",
+            "x": -12.6,
+            "z": 16,
+            "shown": true
+          },
+          {
+            "id": "vendor_lanterns",
+            "x": -12.6,
+            "z": 19,
+            "shown": true
+          },
+          {
+            "id": "vendor_pottery",
+            "x": -12.6,
+            "z": 22,
+            "shown": true
+          },
+          {
+            "id": "shopper_a",
+            "x": 5.587619495884862,
+            "z": 9.241693221307745,
+            "shown": true
+          },
+          {
+            "id": "shopper_b",
+            "x": 8.881123902250355,
+            "z": 9.973583089388967,
+            "shown": true
+          },
+          {
+            "id": "shopper_c",
+            "x": -6.263544346447684,
+            "z": 9.391898743655041,
+            "shown": true
+          },
+          {
+            "id": "porter",
+            "x": -5.046987088831639,
+            "z": 26.317670970389422,
+            "shown": true
+          },
+          {
+            "id": "guard_market",
+            "x": 6.5385252434255765,
+            "z": -10.89246058422139,
+            "shown": true
+          },
+          {
+            "id": "blacksmith",
+            "x": -17,
+            "z": -13,
+            "shown": true
+          },
+          {
+            "id": "enhancer",
+            "x": -17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "general_merchant",
+            "x": -17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "gate_supplier",
+            "x": -3.84,
+            "z": -50.800000000000004,
+            "shown": false
+          },
+          {
+            "id": "herbalist",
+            "x": 17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "occultist",
+            "x": -42,
+            "z": 17,
+            "shown": true
+          },
+          {
+            "id": "master_muay",
+            "x": -16,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_sword",
+            "x": 15,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_hunter",
+            "x": 41,
+            "z": -43,
+            "shown": false
+          },
+          {
+            "id": "master_herbal",
+            "x": 43,
+            "z": -15,
+            "shown": true
+          },
+          {
+            "id": "master_shaman",
+            "x": -42,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "master_bandit",
+            "x": 43,
+            "z": 35,
+            "shown": true
+          },
+          {
+            "id": "guard_center",
+            "x": 2.16,
+            "z": -22,
+            "shown": true
+          },
+          {
+            "id": "pillar_devotee",
+            "x": -7.71301902549807,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "old_man_bench",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "sweeper",
+            "x": -4,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "gossip_a",
+            "x": -31.238549561354883,
+            "z": -7.093890066163544,
+            "shown": true
+          },
+          {
+            "id": "gossip_b",
+            "x": -10.270950247791207,
+            "z": 9.932962110287399,
+            "shown": true
+          },
+          {
+            "id": "kid_a",
+            "x": -10.821522643312692,
+            "z": -6.821522643312688,
+            "shown": true
+          },
+          {
+            "id": "kid_b",
+            "x": 8.27797661261867,
+            "z": -15.06714387028478,
+            "shown": true
+          },
+          {
+            "id": "basket_woman",
+            "x": -7.96757824496395,
+            "z": -20.29462929613274,
+            "shown": true
+          },
+          {
+            "id": "monk_elder",
+            "x": -52,
+            "z": -31,
+            "shown": false
+          },
+          {
+            "id": "monk_young",
+            "x": -51.04053829690351,
+            "z": -6,
+            "shown": true
+          },
+          {
+            "id": "monk_teacher",
+            "x": -43,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "temple_visitor",
+            "x": -52,
+            "z": -31,
+            "shown": false
+          },
+          {
+            "id": "traveler",
+            "x": -52,
+            "z": -31,
+            "shown": false
+          },
+          {
+            "id": "guard_temple",
+            "x": 10.32,
+            "z": -30.6,
+            "shown": true
+          },
+          {
+            "id": "guard_patrol",
+            "x": 6.288091506872502,
+            "z": -16.82281757003506,
+            "shown": true
+          },
+          {
+            "id": "net_mender",
+            "x": -54,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "fish_carrier",
+            "x": -53.62252895448359,
+            "z": 57.96195462482986,
+            "shown": true
+          },
+          {
+            "id": "boat_fixer",
+            "x": -50,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "boatwright",
+            "x": 36.864869152141296,
+            "z": 54.57432593205309,
+            "shown": true
+          }
+        ],
+        "audio": {
+          "night": 0,
+          "wild": 0,
+          "cemetery": 0,
+          "river": 0.9166666666666666,
+          "market": 0,
+          "temple": 0
+        },
+        "position": [
+          0,
+          0,
+          62
+        ]
+      },
+      "after": {
+        "end": 41.9999999999989,
+        "npcs": [
+          {
+            "id": "warp_city_market",
+            "x": 17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "warp_city_port",
+            "x": 7,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "warp_city_forge",
+            "x": -12,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "warp_city_training",
+            "x": 0,
+            "z": -35,
+            "shown": true
+          },
+          {
+            "id": "warp_city_temple",
+            "x": -43,
+            "z": -29,
+            "shown": true
+          },
+          {
+            "id": "warp_city_gate",
+            "x": 4,
+            "z": -57,
+            "shown": false
+          },
+          {
+            "id": "fisher_pier",
+            "x": -43,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "fisher_dock",
+            "x": 33,
+            "z": 59,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_a",
+            "x": -26.894015173376715,
+            "z": 51.244232929951195,
+            "shown": true
+          },
+          {
+            "id": "dock_worker_b",
+            "x": 33.8646766249685,
+            "z": 57.44358207505675,
+            "shown": true
+          },
+          {
+            "id": "cargo_merchant",
+            "x": -25.17483522756987,
+            "z": 51.76572798276894,
+            "shown": true
+          },
+          {
+            "id": "boatman",
+            "x": 0,
+            "z": 55,
+            "shown": true
+          },
+          {
+            "id": "kid_port",
+            "x": 0.552519758048116,
+            "z": 55.08500303969974,
+            "shown": true
+          },
+          {
+            "id": "trader_a",
+            "x": 14,
+            "z": 14,
+            "shown": true
+          },
+          {
+            "id": "trader_b",
+            "x": -4.5822522622916075,
+            "z": 9.018278280509248,
+            "shown": true
+          },
+          {
+            "id": "river_sitter",
+            "x": -8,
+            "z": 57,
+            "shown": true
+          },
+          {
+            "id": "guard_port",
+            "x": 8.715957926961007,
+            "z": 56.34091660414776,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_w",
+            "x": 18.5,
+            "z": 49,
+            "shown": true
+          },
+          {
+            "id": "fish_vendor_e",
+            "x": 14,
+            "z": 11,
+            "shown": true
+          },
+          {
+            "id": "vendor_fruit",
+            "x": -12.6,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "vendor_rice",
+            "x": -12.6,
+            "z": 16,
+            "shown": true
+          },
+          {
+            "id": "vendor_lanterns",
+            "x": -12.6,
+            "z": 19,
+            "shown": true
+          },
+          {
+            "id": "vendor_pottery",
+            "x": -12.6,
+            "z": 22,
+            "shown": true
+          },
+          {
+            "id": "shopper_a",
+            "x": -10.3,
+            "z": 13,
+            "shown": true
+          },
+          {
+            "id": "shopper_b",
+            "x": 9.295468943931763,
+            "z": 10.49244823988627,
+            "shown": true
+          },
+          {
+            "id": "shopper_c",
+            "x": 9.801243757524997,
+            "z": 11.335406262541659,
+            "shown": true
+          },
+          {
+            "id": "porter",
+            "x": 0,
+            "z": 42.14438858563672,
+            "shown": true
+          },
+          {
+            "id": "guard_market",
+            "x": 1.7039801240512171,
+            "z": 0,
+            "shown": true
+          },
+          {
+            "id": "blacksmith",
+            "x": -17,
+            "z": -13,
+            "shown": true
+          },
+          {
+            "id": "enhancer",
+            "x": -17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "general_merchant",
+            "x": -17,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "gate_supplier",
+            "x": -3.84,
+            "z": -50.800000000000004,
+            "shown": false
+          },
+          {
+            "id": "herbalist",
+            "x": 17,
+            "z": -17,
+            "shown": true
+          },
+          {
+            "id": "occultist",
+            "x": -42,
+            "z": 17,
+            "shown": true
+          },
+          {
+            "id": "master_muay",
+            "x": -16,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_sword",
+            "x": 15,
+            "z": -39,
+            "shown": true
+          },
+          {
+            "id": "master_hunter",
+            "x": 41,
+            "z": -43,
+            "shown": false
+          },
+          {
+            "id": "master_herbal",
+            "x": 43,
+            "z": -15,
+            "shown": true
+          },
+          {
+            "id": "master_shaman",
+            "x": -42,
+            "z": 12,
+            "shown": true
+          },
+          {
+            "id": "master_bandit",
+            "x": 43,
+            "z": 35,
+            "shown": true
+          },
+          {
+            "id": "guard_center",
+            "x": 2.16,
+            "z": -22,
+            "shown": true
+          },
+          {
+            "id": "pillar_devotee",
+            "x": 0,
+            "z": -7,
+            "shown": true
+          },
+          {
+            "id": "old_man_bench",
+            "x": -7,
+            "z": -5,
+            "shown": true
+          },
+          {
+            "id": "sweeper",
+            "x": -6.402611499343209,
+            "z": -3.498367812910493,
+            "shown": true
+          },
+          {
+            "id": "gossip_a",
+            "x": -39.97526008342105,
+            "z": -21.353352572993405,
+            "shown": true
+          },
+          {
+            "id": "gossip_b",
+            "x": -9.29633398783924,
+            "z": -1.8475900472918494,
+            "shown": true
+          },
+          {
+            "id": "kid_a",
+            "x": -12,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "kid_b",
+            "x": 10.752512007990541,
+            "z": 0,
+            "shown": true
+          },
+          {
+            "id": "basket_woman",
+            "x": -2.733580241148757,
+            "z": -3.2841357837334306,
+            "shown": true
+          },
+          {
+            "id": "monk_elder",
+            "x": -40.608854117617,
+            "z": -31,
+            "shown": true
+          },
+          {
+            "id": "monk_young",
+            "x": -46,
+            "z": -6,
+            "shown": true
+          },
+          {
+            "id": "monk_teacher",
+            "x": -43,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "temple_visitor",
+            "x": -62.9516982495785,
+            "z": -31,
+            "shown": false
+          },
+          {
+            "id": "traveler",
+            "x": -63,
+            "z": -31,
+            "shown": false
+          },
+          {
+            "id": "guard_temple",
+            "x": 10.32,
+            "z": -30.6,
+            "shown": true
+          },
+          {
+            "id": "guard_patrol",
+            "x": 6.37286097828811,
+            "z": -24,
+            "shown": true
+          },
+          {
+            "id": "net_mender",
+            "x": -54,
+            "z": 48,
+            "shown": true
+          },
+          {
+            "id": "fish_carrier",
+            "x": -50.79147435460025,
+            "z": 50.17655447515071,
+            "shown": true
+          },
+          {
+            "id": "boat_fixer",
+            "x": -36.3571252883369,
+            "z": 48.66550608349565,
+            "shown": true
+          },
+          {
+            "id": "boatwright",
+            "x": 53,
+            "z": 55,
+            "shown": true
+          }
+        ],
+        "boats": [
+          {
+            "name": "city-moored-junk",
+            "y": -0.24918266226462582,
+            "roll": -0.00891349491964859
+          },
+          {
+            "name": "city-cargo-sampan",
+            "y": -0.31211432509910497,
+            "roll": -0.003583818135814569
+          }
+        ],
+        "audio": {
+          "night": 0,
+          "wild": 0,
+          "cemetery": 0,
+          "river": 0.9166666666666666,
+          "market": 0,
+          "temple": 0
+        },
+        "calls": 1,
+        "triangles": 1
+      },
+      "moved": [
+        "dock_worker_a",
+        "dock_worker_b",
+        "cargo_merchant",
+        "kid_port",
+        "guard_port",
+        "shopper_a",
+        "shopper_b",
+        "shopper_c",
+        "porter",
+        "guard_market",
+        "pillar_devotee",
+        "sweeper",
+        "gossip_a",
+        "gossip_b",
+        "kid_a",
+        "kid_b",
+        "basket_woman",
+        "monk_elder",
+        "monk_young",
+        "guard_patrol",
+        "fish_carrier",
+        "boat_fixer",
+        "boatwright"
+      ],
+      "animation": "waterfront-motion.webp"
+    }
+  ]
+}

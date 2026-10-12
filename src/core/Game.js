@@ -14,6 +14,7 @@ import { CameraController } from './CameraController.js';
 import { InputManager } from './InputManager.js';
 import { WorldClock, PHASE_HOURS, wallHour } from './WorldClock.js';
 import { AudioAmbience } from './AudioAmbience.js';
+import { citySoundscape } from '../audio/citySoundscape.js';
 import { findPath } from './GridPath.js';
 import { createGame } from '../combat/index.js';
 import { startMultiplayer } from '../net/Multiplayer.js';
@@ -857,7 +858,8 @@ export class Game {
       for (const l of this.maps.landmarks) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
       const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z);
       this.hud.prompt(npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
-      this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery });
+      this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery,
+        ...citySoundscape(this.maps.map?.id, this.player.position.x, this.player.position.z) });
       if (this.debugOn) {
         const info = this.renderer.info.render;
         this.hud.debug(`FPS ${this.fps.toFixed(0)} · draw calls ${info.calls} · ${(info.triangles / 1000).toFixed(0)}k tris\nNPC ใกล้ ${this.npcs.visibleCount}/${this.npcs.npcs.length} · ${this.clock.label} (${this.clock.phase})\nตำแหน่ง ${p.x.toFixed(1)}, ${p.z.toFixed(1)} · spawn ที่ใช้งาน ${activeSpawns(this.clock.phase).length}\nบ้าน ${this.world.stats.houses} · ต้นไม้ป่า ${this.world.stats.forestTrees} · สร้างโลก ${this.world.stats.buildMs} ms

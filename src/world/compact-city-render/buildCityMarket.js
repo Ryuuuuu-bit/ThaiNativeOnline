@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 import { patchMaterial } from '../shaders.js';
+import { applyCityFoliageWind } from './cityFoliageWind.js';
+import { createCityWaterMaterial } from './buildCityWater.js';
 
 // Street-facing fabric is suspended from canonical shop reservations. Nothing
 // below head height is added to the road; the fountain belongs to garden_civic.
 export function buildCityMarket({
-  root,mat,geo,box,cyl,beam,ball,lanternAt,pot,M,roofM,CITY,authoredTextures,
+  root,mat,geo,box,cyl,beam,ball,lanternAt,pot,M,roofM,CITY,authoredTextures,fountainSurfaces=[],
 }) {
   const stats={canopies:0,signs:0,lanterns:0,fountains:0,sourceMeshes:0};
   const market=new THREE.Group();market.name='compact-city-market-frontages';root.add(market);
@@ -16,6 +18,9 @@ export function buildCityMarket({
   const weave=new THREE.CanvasTexture(canvas);authoredTextures.add(weave);
   weave.colorSpace=THREE.SRGBColorSpace;weave.wrapS=weave.wrapT=THREE.RepeatWrapping;weave.anisotropy=4;
   const fabrics=[fadeMat('#ddca9e',{map:weave,side:THREE.DoubleSide}),fadeMat('#648b75',{map:weave,side:THREE.DoubleSide})];
+  // Reuse the same mild, world-space breeze and matching depth pass as nearby
+  // leaf clusters. At awning height the displacement stays below a few cm.
+  for(const fabric of fabrics)applyCityFoliageWind(fabric);
   const signMat=fadeMat('#bc985f',{map:weave,side:THREE.DoubleSide});
   const glow=fadeMat('#ffe3a0',{emissive:M.lantern.emissive,emissiveIntensity:0});
   // Batching keeps this material identity. Follow the production world clock
@@ -95,7 +100,8 @@ export function buildCityMarket({
   if(bed) {
     const fountain=new THREE.Group();fountain.name='lotus-fountain';fountain.position.set(bed.x,0,bed.z);root.add(fountain);
     const stone=mat('#d8cfb4',{roughness:.82}),gold=mat('#ba9250',{metalness:.25,roughness:.58});
-    const water=mat('#71b8ae',{roughness:.28,metalness:.08,transparent:true,opacity:.90});
+    const surface=createCityWaterMaterial({mat,mode:'fountain',x:bed.x,z:bed.z});
+    fountainSurfaces.push(surface);const water=surface.material;
     const radius=Math.min(1.35,bed.w/2-.10,bed.d/2-.10);
     function lathe(profile,material,y=0,scale=1) {
       const shape=profile.map(([r,h])=>new THREE.Vector2(r*scale,h));
@@ -105,7 +111,7 @@ export function buildCityMarket({
     const basinScale=radius/1.35;
     cyl(fountain,M.brick,0,.12,0,radius,.24);
     lathe([[0,0],[1.15,0],[1.23,.10],[1.32,.29],[1.35,.37],[1.35,.46],[1.25,.48],[1.20,.36],[1.09,.17],[0,.17]],stone,.23,basinScale);
-    // Still water and a slender lotus pedestal: Thai floral forms, no tall jet.
+    // Rippled water and a slender lotus pedestal: Thai floral forms, no tall jet.
     cyl(fountain,water,0,.61,0,radius*.88,.018);
     lathe([[.38,0],[.43,.10],[.28,.23],[.23,.71],[.34,.82]],stone,.42);
     lathe([[.13,0],[.38,.06],[.68,.17],[.83,.36],[.83,.42],[.71,.42],[.62,.26],[.25,.12]],stone,1.20);

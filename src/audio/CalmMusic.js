@@ -1,4 +1,5 @@
 import { moodPitch } from '../data/calmMusic.js';
+import { cozyNote } from './CozyVoices.js';
 
 const hz = midi => 440 * 2 ** ((midi - 69) / 12);
 
@@ -73,6 +74,7 @@ export class CalmMusicPlayer {
   renderBar(bar, time) {
     const tr = this.track, b = 60 / tr.bpm, index = bar % tr.chords.length;
     const chord = tr.chords[index].map(n => moodPitch(n, tr));
+    const answer = tr.cozy && Math.floor(bar / tr.chords.length) % 2 === 1;
     for (let i = 1; i < chord.length; i++) note(this.ctx, this.out, chord[i], time, 4 * b + 1.6, 'strings', tr.strings, [-.65,-.2,.3,.7][i-1]);
     note(this.ctx, this.out, chord[0] >= 47 ? chord[0]-12 : chord[0], time, 4 * b + .6, 'bass', tr.bass);
     const plucks = tr.pulse ? [[0,1],[.5,3],[1,2],[1.5,4],[2,1],[2.5,3],[3,2],[3.5,4]]
@@ -81,9 +83,23 @@ export class CalmMusicPlayer {
     if (tr.drums) for (const at of tr.boss ? [0,1.5,2,3.5] : [0,2]) note(this.ctx, this.out, 45, time + at*b, .34, 'drum', tr.drums*(at%2 ? .7 : 1));
     if (bar % 2 === 0) note(this.ctx, this.out, chord[2]+12, time + 3.5*b, 1, 'wood', tr.wood, .45);
     if (tr.bright) for (const at of [1,3]) note(this.ctx, this.out, chord[1]+12, time + at*b, .65, 'wood', tr.wood*.6, -.35);
+    if (tr.cozy) {
+      // A quiet broken-chord piano part with musical breath. The second pass
+      // answers the flute with keys, making a 32-bar arrangement of our motif.
+      const pattern = tr.sparse ? [[0, 1], [2.5, 3]] : [[0, 1], [1, 2], [2.5, 3], [3.5, 2]];
+      for (const [i, [at, degree]] of pattern.entries()) {
+        const velocity = [1, .73, .87, .66][i];
+        cozyNote(this.ctx, this.out, chord[degree], time + at*b + (i % 2 ? .011 : 0),
+          Math.min(3.4, 2.8*b), tr.piano * velocity, -.28);
+      }
+      if (index % 4 === 3) cozyNote(this.ctx, this.out, chord[2] + 12,
+        time + 3*b, 1.4, tr.mallet, .32, true);
+    }
     for (const [i, [at, pitch, len]] of tr.melody[index].entries()) {
       if (tr.sparse && i === 1) continue;
-      note(this.ctx, this.out, moodPitch(pitch, tr), time + at*b, len*b*.94, 'flute', tr.flute, -.08);
+      const p = moodPitch(pitch, tr), keysLead = answer && index % 4 >= 2;
+      if (keysLead) cozyNote(this.ctx, this.out, p, time + at*b, len*b + .35, tr.piano * .9, .12);
+      else note(this.ctx, this.out, p, time + at*b, len*b*.94, 'flute', tr.flute * (tr.cozy ? [1,.85,.92][i%3] : 1), -.08);
     }
   }
 }

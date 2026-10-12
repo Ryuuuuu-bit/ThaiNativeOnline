@@ -1,7 +1,7 @@
 <!doctype html><html lang="th"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>เดโม่ดนตรีแต่ละพื้นที่</title>
 <style>body{background:#172b28;color:#eee6cc;font:18px system-ui;max-width:700px;margin:40px auto;padding:20px}button,select{font:inherit;padding:12px;margin:8px;border-radius:8px}p{line-height:1.7}output{display:block;margin-top:20px}</style>
-<h1>อารมณ์ดนตรีแห่งนครที่ถูกลืมเลือน</h1><p>ขลุ่ยและเครื่องสายสังเคราะห์ · เพลงแต่งใหม่ 8 บรรยากาศ</p>
+<h1>อารมณ์ดนตรีแห่งนครที่ถูกลืมเลือน</h1><p>เพลงเมืองเรียบเรียงใหม่ · เปียโนนุ่ม ขลุ่ย เครื่องสาย และเสียงไม้สังเคราะห์ · แต่งสำหรับเกมนี้</p>
 <select id="moods"></select><button id="play">ฟังเพลง</button><button id="stop">หยุด</button><output id="status"></output>
 <script type="module">
 import {CALM_MUSIC} from '/src/data/calmMusic.js';
@@ -14,11 +14,11 @@ document.querySelector('#play').onclick=()=>{Sound.unlock();Sound.music(select.v
 document.querySelector('#stop').onclick=()=>{Sound.music(null);document.querySelector('#status').textContent='หยุดเพลง'};
 window.tracks=Object.keys(CALM_MUSIC);
 window.renderMusic=async(id)=>{
- const track=CALM_MUSIC[id], seconds=track.chords.length*4*60/track.bpm+4, rate=22050;
+ const track=CALM_MUSIC[id], bars=track.chords.length*(track.cozy?2:1), seconds=bars*4*60/track.bpm+4, rate=22050;
  const ctx=new OfflineAudioContext(2,Math.ceil(seconds*rate),rate);
  const player=new CalmMusicPlayer(ctx,ctx.destination,track);
  player.out.gain.setValueAtTime(track.gain,0);
- for(let bar=0;bar<track.chords.length;bar++) player.renderBar(bar,bar*4*60/track.bpm);
+ for(let bar=0;bar<bars;bar++) player.renderBar(bar,bar*4*60/track.bpm);
  const buffer=await ctx.startRendering(); const channels=[buffer.getChannelData(0),buffer.getChannelData(1)];
  let peak=0,sum=0; const count=buffer.length;
  for(let i=0;i<count;i++)for(const ch of channels){const v=ch[i];peak=Math.max(peak,Math.abs(v));sum+=v*v;}
@@ -40,10 +40,10 @@ window.browserCheck=async()=>{
 window.loopAudit=async()=>{
  const results=[];
  for(const [id,track] of Object.entries(CALM_MUSIC)){
-  const cycle=track.chords.length*4*60/track.bpm, rate=8000;
+  const bars=track.chords.length*(track.cozy?2:1), cycle=bars*4*60/track.bpm, rate=8000;
   const ctx=new OfflineAudioContext(2,Math.ceil((cycle*2+1)*rate),rate),player=new CalmMusicPlayer(ctx,ctx.destination,track);
   player.out.gain.setValueAtTime(track.gain,0);
-  for(let bar=0;bar<=32;bar++)player.renderBar(bar,bar*4*60/track.bpm);
+  for(let bar=0;bar<=bars*2;bar++)player.renderBar(bar,bar*4*60/track.bpm);
   const buffer=await ctx.startRendering(),left=buffer.getChannelData(0),right=buffer.getChannelData(1);
   const from=Math.floor((cycle-.15)*rate),to=Math.ceil((cycle+.15)*rate);
   let sum=0,delta=0,peak=0;

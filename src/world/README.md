@@ -253,6 +253,30 @@ GPU. A `rpg.setActiveZones()` API in combat would make this bridge unnecessary.
 
 ## Checks
 
+### Compact city atmosphere
+
+`compact-city-render/buildCityTemple.js` creates the temple and chedi at their
+canonical reservations; high/low geometry share the same silhouette and height.
+The lower entrance remains readable from the abbot approach while the three-tier
+roof and bell-shaped chedi establish the skyline. `buildCityArt` owns and batches
+their resources, rather than modifying shared Architecture assets.
+
+`cityFoliageWind.js` adds a shared world-space breeze to upper leaf clusters and
+market cloth, including matching depth/distance shadow materials after batching.
+Trunks and navigation stay fixed. `buildCityWater.js` replaces the city river's
+static ripple strips with one opaque StandardMaterial draw: analytic wave normals,
+shore highlights and bounded disturbance rings. The fountain borrows the same
+surface controller. Water stays at its original static height for navigation;
+all animated craft remain outside the walkable town boundary. Controllers use
+the elapsed game clock and belong to the city's idempotent resource disposer.
+
+`tools/compact-city-production-qa.mjs --atmosphere` records production Game motion
+at the market, temple and waterfront by stepping simulation in 1/60-second
+increments. Its image sequence is visual/motion evidence, not measured GPU FPS.
+Actual terrain, collision, service contacts and saved locations retain the
+canonical compact-city contract above. Evidence is in
+`docs/art/compact-city-atmosphere/`.
+
 `npm test` runs `tests/world.test.js`, `tests/maps.test.js` and
 `tests/two-maps-qa.test.js` in Node. They check road and bridge placement
 against water, paddy generation, nav-graph connectivity, collision and deck

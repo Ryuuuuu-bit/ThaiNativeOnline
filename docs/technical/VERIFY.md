@@ -142,3 +142,14 @@ late-join network state and GPU disposal. Local real sockets and a networked
 browser verify warning delivery and impact damage. See
 `docs/technical/BOSS_ENCOUNTERS.md` and `docs/art/boss-skills/REVIEW.md` for captures,
 scope and limits. Physical-device and live-party balance checks remain pending.
+
+## Compact city daytime residents
+
+See [activity and contact audit](compact-city-npcs/DAYTIME_ACTIVITY.md) for the
+19 ambient routine owners, all-quest contact exclusion and measured 15-second
+market activity. Seven focused tests pass. Final full suite after collision
+export and canonical recall assertion repair: **1,397 passed, 0 failed,
+2 existing skips** (1,399 total). Build passes with 374 modules and the existing
+large-chunk warning. Production Game screenshots and 12-second motion sequences
+are recorded in `docs/art/compact-city-atmosphere/`; geometric population counts
+remain distinct from rendered visibility or hardware frame-rate measurement.

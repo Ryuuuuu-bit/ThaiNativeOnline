@@ -2,7 +2,8 @@ import { NPC } from '../entities/NPC.js';
 import { NPCRenderer } from './NPCRenderer.js';
 import { NavGraph } from './NavGraph.js';
 import { makeLook, OCCUPATIONS } from './NPCData.js';
-import { activityFor, normalizeStops } from './NPCSchedule.js';
+import { normalizeStops } from './NPCSchedule.js';
+import { presentationActivityFor } from './NPCPresentationActivity.js';
 import { J } from '../world/CityMap.js';
 
 // Owns the population: builds the nav graph, resolves spots and homes, reacts
@@ -24,11 +25,11 @@ export class NPCManager {
       this.prepare(npc);
       return npc;
     });
-    for (const npc of this.npcs) npc.setActivity(activityFor(npc.def, clock.phase), true);
+    for (const npc of this.npcs) npc.setActivity(presentationActivityFor(npc.def, clock.phase), true);
     this.renderer = new NPCRenderer(scene, this.npcs, rendererOptions);
     this.offPhase = clock.onPhase(phase => {
       // Stagger reactions so the town does not move in lockstep.
-      for (const npc of this.npcs) npc.pending = { activity: activityFor(npc.def, phase), delay: Math.random() * 10 };
+      for (const npc of this.npcs) npc.pending = { activity: presentationActivityFor(npc.def, phase), delay: Math.random() * 10 };
     });
     this.tick = 0;
   }

@@ -2,6 +2,16 @@
 
 ## Hooks
 
+City life presentation: `compactCityNpc` may attach a `daytimeRoutine` to an
+existing ambient resident. `NPCManager` uses `presentationActivityFor` only for
+the visible city daytime plan. `NPCSchedule.activityFor` and the original
+`schedule` remain the server/quest contact truth. Shop, trainer, warp/storage roles,
+faction guards and all quest giver/turn-in/talk/class-master IDs,
+home phases and wilderness NPCs bypass this presentation override. No new
+vendor, stock or quest contact is introduced. Routine points use the same
+collision-tested `COMPACT_CITY_SPOTS` registry; optional idle/work/talk/prayer
+pauses reuse the existing procedural poses and measured idle/walk GLB clips.
+
 `compactCityNpcs.js` exports `COMPACT_CITY_SPOTS`, an object keyed by retained
 city schedule/home/road aliases with `{ x, z, face, link }` records. World merges
 these already-compact coordinates directly into its spots; `shopSites.js`

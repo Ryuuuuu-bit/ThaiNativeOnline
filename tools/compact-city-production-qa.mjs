@@ -88,7 +88,7 @@ try {
   await page.evaluate(()=>{const g=window.game;g.view.setYaw(g.view.yaw+Math.PI/2);});
   await page.waitForTimeout(500);await shot('production-day-rotated');
   await page.evaluate(()=>{const g=window.game;g.clock.set(22);g.view.reset();g.view.setZoom(2);g.syncZoom();});
-  await page.waitForTimeout(700);await shot('production-night');
+  await page.waitForTimeout(3800);await shot('production-night');
   await page.evaluate(()=>window.game.toggleMap());
   await page.waitForTimeout(500);await shot('production-atlas');
   await page.keyboard.press('Escape');
@@ -143,8 +143,18 @@ try {
   await bookmark('production-counter-depot',{x:14,z:12});
   await bookmark('production-homes',{x:-54,z:47});
   await bookmark('production-warehouse-port',{x:0,z:55});
+  await bookmark('production-waterfront',{x:0,z:62});
   await bookmark('production-warehouse-facade-zoom-1.25',{x:-28,z:52},false,1.25);
   result.checks.push('full-resolution production visual bookmarks: forge/temple default and rotated, all six hall masters, pharmacy/general/occult counters, warehouse/port');
+  }
+  if(process.argv.includes('--atmosphere')){
+    const {captureCityAtmosphere}=await import('./compact-city-atmosphere-qa.mjs');
+    result.atmosphere=await captureCityAtmosphere(page,out);
+    assert.ok(result.atmosphere.scenes.find(s=>s.name==='market').moved.length>0,'market has purposeful resident movement');
+    assert.ok(result.atmosphere.scenes.find(s=>s.name==='market').after.audio.market>.7,'market ambience follows actual location');
+    assert.ok(result.atmosphere.scenes.find(s=>s.name==='temple').after.audio.temple>.9,'temple ambience follows actual location');
+    assert.ok(result.atmosphere.scenes.find(s=>s.name==='waterfront').after.audio.river>.9,'waterfront ambience follows actual location');
+    result.checks.push('12-second production motion sequences for market, temple and waterfront; location ambience');
   }
   result.passed=result.errors.length===0;
 } catch(error) {result.failure=error.stack;result.passed=false;await shot('production-failure').catch(()=>{});process.exitCode=1;}
