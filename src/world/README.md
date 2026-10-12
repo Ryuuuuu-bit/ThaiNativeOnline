@@ -292,6 +292,24 @@ Review bookmarks `home-boundaries`, `east-boundaries`, `harbor-overview` and
 query limits captures without opening another page. Visual references, final
 evidence and limitations belong to `docs/art/compact-city-harbor/`.
 
+### River and street garden hooks
+
+`compact-city-neighborhoods.js` owns the eight additional `banana`/`riverside`
+reservations; these enter both client collision and the server export. The
+landscape renderer delegates their household details to
+`compact-city-render/buildCityStreetGardens.js`, using the same allocation,
+batching and foliage-wind ownership as the rest of the city. Low geometry stays
+inside its footprint; only marked high foliage may overhang. Rest-pocket north
+approaches are flush surfaces in `compact-city-streets.js`.
+
+The compact river borrows Environment's existing `Water.js` sky/sun uniform
+objects but does not register or change a wilderness material. Its moving
+reflection is analytic, requires no render target and leaves the fountain and
+navigation topology unchanged. Review bookmarks `riverside-rest`, `banana-yard`
+and `banana-landing`, plus optional `water-motion=1` capture at fixed t=0/3,
+use the existing disposable production review page. Evidence lives in
+`docs/art/city-river-gardens/`.
+
 `npm test` runs `tests/world.test.js`, `tests/maps.test.js` and
 `tests/two-maps-qa.test.js` in Node. They check road and bridge placement
 against water, paddy generation, nav-graph connectivity, collision and deck

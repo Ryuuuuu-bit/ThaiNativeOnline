@@ -48,6 +48,12 @@ export const CITY_STREETS = [
   street('residential-veranda-apron', -54, 48.5, 17, 10, 'court'),
   street('west-river-hut-entry', -62, 56, 3, 5, 'alley'),
   street('east-river-hut-entry', 57, 56, 3, 5, 'alley'),
+  // Flush approaches join the quay's southern pavement to the north-facing
+  // resting-pocket thresholds. They add no obstacles or benches to the lane.
+  ...COMPACT_CITY.buildings.filter(b=>b.variant==='riverside').map(b=>{
+    const north=b.z-b.d/2;
+    return street(`${b.id}-approach`,b.x,(55.4+north)/2,2.6,north-55.4+.12,'court');
+  }),
 ];
 
 export const CITY_FORECOURTS = COMPACT_CITY.buildings.filter(b=>b.kind!=='garden').map(b => {

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { createRng, hashString } from '../rng.js';
 import { CITY_STREETS } from '../compact-city-streets.js';
 import { applyCityFoliageWind } from './cityFoliageWind.js';
+import { buildCityStreetGardens } from './buildCityStreetGardens.js';
 
 // Render-only planting. Main owns garden reservations/collision and replaces the
 // old ground/trees with this output. Pass the SAME CITY used by the World builder.
@@ -15,7 +16,7 @@ export function buildCityLandscape({
   const rng = createRng(2026101207);
   const stats = { landscapeTrees: 0, landscapeShrubs: 0, landscapeFlowers: 0,
     landscapeGardens: 0, landscapePlanters: 0, landscapeTextures: 1,
-    landscapeVariants: { banyan: 0, shade: 0, blossom: 0, palm: 0 } };
+    landscapeVariants: { banyan: 0, shade: 0, blossom: 0, palm: 0, banana: 0, riverside: 0 } };
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 256;
   const c = canvas.getContext('2d');
@@ -107,6 +108,7 @@ export function buildCityLandscape({
   const bark = mat('#967756', { roughness: .97 });
   const planter = mat('#c7b19a', { roughness: .95 });
   const soil = mat('#514c36', { roughness: 1 });
+  const domesticGround = mat('#839566', { roughness: 1 });
   const flowers = ['#e8b5b0', '#efdaa1', '#d9d0e7'].map(color => mat(color, { roughness: .9 }));
   const blossomLeaf = ['#c690a7', '#e0adc0', '#efd0ca'].map(color => paintedLeaf(color));
   const palmLeaf = paintedLeaf('#729b65', { side: THREE.DoubleSide });
@@ -243,6 +245,7 @@ export function buildCityLandscape({
     return Math.abs(x - b.x) + radius + margin <= b.w / 2
       && Math.abs(z - b.z) + radius + margin <= b.d / 2;
   }
+  Object.assign(stats,buildCityStreetGardens({root,CITY,mat,geo,box,cyl,beam,ball,M}));
   for (const b of CITY.buildings) {
     const local = createRng(hashString(`landscape:${b.id}`));
     if (b.kind === 'garden') {
@@ -257,6 +260,24 @@ export function buildCityLandscape({
       // The curb describes the actual solid rectangle; packed underplanting
       // makes even the smallest collision plot read as a full garden bed.
       const inset = .06, rim = .16;
+      if(variant==='banana'||variant==='riverside') {
+        // Domestic pockets are grass-and-earth compositions with incomplete
+        // low edging, not four identical pale walls around an empty soil pad.
+        box(root,domesticGround,b.x,.07,b.z,b.w-.12,.10,b.d-.12);
+        const edging=variant==='banana'?M.timber:planter;
+        if(variant==='riverside') {
+          // Quay approach arrives from the north, aligned with the lot centre.
+          // Split edging leaves the complete 2.6m paved entrance unobstructed.
+          const opening=1.38,edge=b.w/2-.15,span=edge-opening;
+          for(const side of[-1,1])box(root,edging,b.x+side*(opening+span/2),.15,b.z-b.d/2+.15,span,.18,.17);
+        }else box(root,edging,b.x-b.w*.10,.15,b.z-b.d/2+.15,b.w*.58,.18,.17);
+        box(root,edging,b.x-b.w/2+.15,.13,b.z-b.d*.12,.17,.14,b.d*.53);
+        // Two irregular low corner stones define the bed without a full front curb.
+        for(const side of[-1,1])ball(root,planter,b.x+side*b.w*.37,.15,b.z+b.d*.35,.19,.12,.16);
+        if(variant==='riverside')tree(b.x-b.w*.20,b.z+b.d*.12,2.65,5.45,local,'shade',
+          Math.min(.65,b.w*.25-.25,b.d*.25-.25));
+        continue;
+      }
       box(root, soil, b.x, .11, b.z, b.w - inset * 2, .20, b.d - inset * 2);
       for (const side of [-1, 1]) {
         box(root, planter, b.x + side * (b.w / 2 - inset - rim / 2), .17, b.z,

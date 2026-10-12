@@ -99,7 +99,7 @@ annexes, working porches, framed side/rear windows, laundry and household wares.
 Low courtyard edges connect the original compounds without closing their
 service-facing entrances. These infill homes are scenery, not duplicate shops.
 
-Twelve garden beds add layered canopy, shrubs and flowers, while grouped trees
+Twenty garden pockets add layered canopy, shrubs and flowers, while grouped trees
 beyond the walls form a backdrop. High foliage may overhang; trunks, roots and
 low solid planting remain in reservations. A painted ground wash and softer
 city-specific daylight fill replace the uniformly bare ground treatment.
@@ -127,7 +127,7 @@ the playable bounds; the central paths remain clear.
 
 The main north/south and east/west streets use grey stone, distinct from the warm
 brick lanes, lighter sidewalks, flat drainage bands and central ceremonial plaza.
-Forty-seven connected street/approach segments cover the original seven roads,
+Forty-nine connected street/approach segments cover the original seven roads,
 market frontages, residential lane, school/temple approaches, service arrivals
 and quay. Intersections share one surface classification instead of stacking
 rectangles. Individual buildings have front courts rather than repeated square
@@ -137,9 +137,10 @@ Fifty-four canonical POI, shop approach/contact, warp, spawn, respawn and portal
 arrival records have collision-valid paved routes from the plaza. This does not
 force roaming residents to remain on paving. All 16 new front courts also have
 collision-valid paved routes. Surface detailing itself is flat; the infill and
-gardens add 28 solid reservations, making 47 exported city shapes including the
-two portal pillars. Revision 2 is retained because this replacement has not
-deployed; current saves obstructed by a new lot use the existing safe fallback.
+gardens add 36 solid reservations, making 55 exported city shapes including the
+two portal pillars. Revision 2 is retained after the first compact-city deployment;
+current saves obstructed by a new garden use the existing safe fallback. Other
+valid revision-2 positions stay where they were.
 The player remains free to cross unreserved open ground.
 
 ## Harbor and residential boundaries
@@ -154,6 +155,26 @@ cargo dressing inspired by the spatial clarity of Ragnarok's Alberta. Boatman
 contact and resident routines remain unchanged. Offshore berths are scenic and
 their entry rail marks the walk limit; this revision does not extend the
 playable envelope into the river. See [harbor examples and validation](../art/compact-city-harbor/README.md).
+
+## River and Thai domestic planting
+
+`buildCityWater.js` adapts the legacy water's flowing noise normals, Fresnel sky
+colour and broken sun highlights to the compact river. It borrows Environment's
+sky/sun uniforms without modifying the wilderness material registry. River
+topology, water navigation and the fountain remain unchanged; reflection is an
+analytic sky approximation, not a second camera rendering the scene.
+
+Eight new shared garden reservations add six banana clumps by homes, fishing
+lanes and the gate, plus two resting pockets flanking the harbor apron. The
+`banana` and `riverside` variants are rendered through `buildCityStreetGardens.js`
+and the existing landscape owner/batcher. Low foliage, fruit, jars, benches and
+garden borders stay inside their reservations. Only high canopy may overhang;
+the existing foliage wind and matching shadow pass animate the leaves.
+
+Two flush north approaches connect the quay road to the resting pockets. Public
+contacts, residential gates and routes stay clear. These are scenery/seating
+compositions, not new service NPCs or an interactive sitting system. See
+[river/garden review](../art/city-river-gardens/README.md) for captures and checks.
 
 ## Review and validation
 

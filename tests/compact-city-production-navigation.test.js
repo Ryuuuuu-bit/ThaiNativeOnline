@@ -26,7 +26,7 @@ const canStand = (x,z,pad=.28) => compactCityCanStand(x,z,pad) && !collision.blo
 
 test('inhabited infill and garden reservations block their interiors and retain player body clearance', () => {
   assert.equal(CITY_NEIGHBORHOODS.filter(b=>b.kind==='infill').length,16);
-  assert.equal(CITY_NEIGHBORHOODS.filter(b=>b.kind==='garden').length,12);
+  assert.equal(CITY_NEIGHBORHOODS.filter(b=>b.kind==='garden').length,20);
   assert.equal(new Set(COMPACT_CITY.buildings.map(b=>b.id)).size,COMPACT_CITY.buildings.length);
   for(const b of CITY_NEIGHBORHOODS) {
     assert.equal(COMPACT_CITY.buildings.find(at=>at.id===b.id),b,`${b.id}: canonical reservation missing`);

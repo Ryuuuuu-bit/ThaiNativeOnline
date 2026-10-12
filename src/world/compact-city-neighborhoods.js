@@ -31,4 +31,14 @@ export const CITY_NEIGHBORHOODS=[
   garden('garden_port',-12,43,5,7,'banyan'),
   garden('garden_port_e',11,43,4,7,'blossom'),
   garden('garden_south',48,44,4,4,'palm'),
+  // Small lived-in verge pockets. Hard edges, seating and stems belong to
+  // these shared reservations; quayside NPC stops and through lanes stay open.
+  garden('garden_quay_w',-16,59,6,3.4,'riverside'),
+  garden('garden_quay_e',19,59,6,3.4,'riverside'),
+  garden('garden_home_banana',-66,36,3.4,4.5,'banana'),
+  garden('garden_fisher_banana_w',-48,59,3.4,3.4,'banana'),
+  garden('garden_fisher_banana_e',44,59,4,3.4,'banana'),
+  garden('garden_east_banana',66,37,3.4,4.5,'banana'),
+  garden('garden_gate_banana_w',-15,-59,4,3.4,'banana'),
+  garden('garden_gate_banana_e',16,-59,3.4,3.4,'banana'),
 ];

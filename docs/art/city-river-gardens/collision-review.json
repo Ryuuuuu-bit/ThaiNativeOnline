@@ -1,0 +1,20 @@
+{
+  "sourceHash": "7fa52217fcb3158a1db8e2a77090a48b2c9cedf0f16d68013d1b482b69fadba2",
+  "cityShapes": 55,
+  "previousCityShapes": 47,
+  "unchangedMaps": [
+    "paddy",
+    "deep_forest",
+    "wat_rang",
+    "klong",
+    "ruen_ho",
+    "bamboo_grave",
+    "sealed_mine",
+    "sunken_city",
+    "dusk_fort",
+    "giant_valley",
+    "himmapan",
+    "fallen_city",
+    "demon_rift"
+  ]
+}

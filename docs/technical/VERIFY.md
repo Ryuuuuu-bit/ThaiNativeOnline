@@ -173,3 +173,12 @@ Final screenshots, reference links, collision comparison and art review are in
 `docs/art/compact-city-harbor/`. Capture one disposable browser at a time. Source
 changes require a fresh collision export even when the 47 city shapes and all
 13 wilderness map objects remain unchanged.
+## River and Thai garden revision (2026-10-12)
+
+On `codex/city-river-gardens`, `npm test` passes **1,417 / 1,419** with two
+existing skips and no failures; `npm run build` passes (376 modules, existing
+large-bundle warning). Production Game QA passes 24 captures with zero browser
+errors and zero client/server collision mismatches in 19,257 samples. Eight
+garden reservations bring city collision to 55 shapes; all 13 non-city map
+objects remain unchanged. See `docs/art/city-river-gardens/README.md` for the
+visual comparison, changed files, additional focused checks and limitations.

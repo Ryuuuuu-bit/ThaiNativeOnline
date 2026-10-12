@@ -1,0 +1,942 @@
+{
+  "entry": "http://127.0.0.1:5187",
+  "viewport": {
+    "width": 1600,
+    "height": 900
+  },
+  "scope": "real production index, guest UI creation, Game and NPCManager; isolated profile, no live account access",
+  "checks": [
+    "guest login",
+    "character select",
+    "character creation",
+    "actual production World/NPCManager: six masters, four dummies, every phase contact reachable, server/client sampled collision parity",
+    "Escape closes actual atlas panel",
+    "collision-aware real movement from spawn (0,3) to (0,8)",
+    "Space basic combat damages selected training dummy",
+    "guest save/reload retains current-revision training position",
+    "production shop counter approaches, daytime authorization and inventory row counts recorded",
+    "walk from boatman approach (0,55) to waterfront (0,62) remains clear",
+    "full-resolution production visual bookmarks: forge/temple default and rotated, all six hall masters, pharmacy/general/occult counters, warehouse/port"
+  ],
+  "errors": [],
+  "screenshots": [
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-day.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-day-rotated.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-night.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-atlas.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-training-arrival.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-training.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-forge.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-forge-rotated.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-temple.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-temple-rotated.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-muaythai.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-warrior.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-hunter.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-herbalist.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-shaman.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-assassin.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-pharmacy.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-general.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-occult.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-depot.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-homes.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-warehouse-port.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-waterfront.png",
+    "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-warehouse-facade-zoom-1.25.png"
+  ],
+  "captures": [
+    {
+      "name": "production-day",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-day.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        3
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 703,
+      "triangles": 1347964,
+      "geometries": 378,
+      "textures": 59,
+      "npcCount": 60,
+      "npcVisible": 28,
+      "dummies": 4
+    },
+    {
+      "name": "production-day-rotated",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-day-rotated.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        3
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 2.1692152202734336,
+      "zoom": 2,
+      "drawCalls": 704,
+      "triangles": 1441683,
+      "geometries": 386,
+      "textures": 62,
+      "npcCount": 60,
+      "npcVisible": 28,
+      "dummies": 4
+    },
+    {
+      "name": "production-night",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-night.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        3
+      ],
+      "hour": 22,
+      "phase": "night",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 719,
+      "triangles": 1452856,
+      "geometries": 419,
+      "textures": 64,
+      "npcCount": 60,
+      "npcVisible": 28,
+      "dummies": 4
+    },
+    {
+      "name": "production-atlas",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-atlas.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        3
+      ],
+      "hour": 22,
+      "phase": "night",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 719,
+      "triangles": 1452856,
+      "geometries": 419,
+      "textures": 64,
+      "npcCount": 60,
+      "npcVisible": 28,
+      "dummies": 4
+    },
+    {
+      "name": "production-training-arrival",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-training-arrival.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        -32
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 701,
+      "triangles": 1447382,
+      "geometries": 583,
+      "textures": 67,
+      "npcCount": 60,
+      "npcVisible": 18,
+      "dummies": 4
+    },
+    {
+      "name": "production-training",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-training.png",
+      "map": "city",
+      "position": [
+        -1.2813574532802778,
+        0,
+        -33.92203617992041
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 705,
+      "triangles": 1467585,
+      "geometries": 585,
+      "textures": 68,
+      "npcCount": 60,
+      "npcVisible": 18,
+      "dummies": 4
+    },
+    {
+      "name": "production-forge",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-forge.png",
+      "map": "city",
+      "position": [
+        -12,
+        0,
+        -13
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 697,
+      "triangles": 1502487,
+      "geometries": 475,
+      "textures": 65,
+      "npcCount": 60,
+      "npcVisible": 35,
+      "dummies": 4
+    },
+    {
+      "name": "production-forge-rotated",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-forge-rotated.png",
+      "map": "city",
+      "position": [
+        -12,
+        0,
+        -13
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 2.1692152202734336,
+      "zoom": 2,
+      "drawCalls": 698,
+      "triangles": 1532596,
+      "geometries": 476,
+      "textures": 65,
+      "npcCount": 60,
+      "npcVisible": 35,
+      "dummies": 4
+    },
+    {
+      "name": "production-temple",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-temple.png",
+      "map": "city",
+      "position": [
+        -52,
+        0,
+        -31
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 571,
+      "triangles": 1304184,
+      "geometries": 521,
+      "textures": 71,
+      "npcCount": 60,
+      "npcVisible": 11,
+      "dummies": 4
+    },
+    {
+      "name": "production-temple-rotated",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-temple-rotated.png",
+      "map": "city",
+      "position": [
+        -52,
+        0,
+        -31
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 2.1692152202734336,
+      "zoom": 2,
+      "drawCalls": 543,
+      "triangles": 1283976,
+      "geometries": 521,
+      "textures": 71,
+      "npcCount": 60,
+      "npcVisible": 11,
+      "dummies": 4
+    },
+    {
+      "name": "production-hall-muaythai",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-muaythai.png",
+      "map": "city",
+      "position": [
+        -16,
+        0,
+        -39
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 646,
+      "triangles": 1435125,
+      "geometries": 521,
+      "textures": 71,
+      "npcCount": 60,
+      "npcVisible": 23,
+      "dummies": 4
+    },
+    {
+      "name": "production-hall-warrior",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-warrior.png",
+      "map": "city",
+      "position": [
+        15,
+        0,
+        -39
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 700,
+      "triangles": 1230030,
+      "geometries": 567,
+      "textures": 73,
+      "npcCount": 60,
+      "npcVisible": 14,
+      "dummies": 4
+    },
+    {
+      "name": "production-hall-hunter",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-hunter.png",
+      "map": "city",
+      "position": [
+        41,
+        0,
+        -43
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 583,
+      "triangles": 931756,
+      "geometries": 618,
+      "textures": 74,
+      "npcCount": 60,
+      "npcVisible": 6,
+      "dummies": 4
+    },
+    {
+      "name": "production-hall-herbalist",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-herbalist.png",
+      "map": "city",
+      "position": [
+        43,
+        0,
+        -15
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 652,
+      "triangles": 1079639,
+      "geometries": 672,
+      "textures": 74,
+      "npcCount": 60,
+      "npcVisible": 7,
+      "dummies": 4
+    },
+    {
+      "name": "production-hall-shaman",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-shaman.png",
+      "map": "city",
+      "position": [
+        -42,
+        0,
+        12
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 668,
+      "triangles": 1166051,
+      "geometries": 785,
+      "textures": 76,
+      "npcCount": 60,
+      "npcVisible": 21,
+      "dummies": 4
+    },
+    {
+      "name": "production-hall-assassin",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-hall-assassin.png",
+      "map": "city",
+      "position": [
+        43,
+        0,
+        35
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 549,
+      "triangles": 918206,
+      "geometries": 874,
+      "textures": 78,
+      "npcCount": 60,
+      "npcVisible": 11,
+      "dummies": 4
+    },
+    {
+      "name": "production-counter-pharmacy",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-pharmacy.png",
+      "map": "city",
+      "position": [
+        14,
+        0,
+        -17
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 712,
+      "triangles": 1115909,
+      "geometries": 880,
+      "textures": 79,
+      "npcCount": 60,
+      "npcVisible": 26,
+      "dummies": 4
+    },
+    {
+      "name": "production-counter-general",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-general.png",
+      "map": "city",
+      "position": [
+        -14,
+        0,
+        12
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 744,
+      "triangles": 1355539,
+      "geometries": 887,
+      "textures": 84,
+      "npcCount": 60,
+      "npcVisible": 28,
+      "dummies": 4
+    },
+    {
+      "name": "production-counter-occult",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-occult.png",
+      "map": "city",
+      "position": [
+        -39,
+        0,
+        17
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 702,
+      "triangles": 1216295,
+      "geometries": 905,
+      "textures": 84,
+      "npcCount": 60,
+      "npcVisible": 21,
+      "dummies": 4
+    },
+    {
+      "name": "production-counter-depot",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-counter-depot.png",
+      "map": "city",
+      "position": [
+        14,
+        0,
+        12
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 674,
+      "triangles": 1303701,
+      "geometries": 914,
+      "textures": 85,
+      "npcCount": 60,
+      "npcVisible": 27,
+      "dummies": 4
+    },
+    {
+      "name": "production-homes",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-homes.png",
+      "map": "city",
+      "position": [
+        -54,
+        0,
+        47
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 551,
+      "triangles": 848215,
+      "geometries": 954,
+      "textures": 85,
+      "npcCount": 60,
+      "npcVisible": 10,
+      "dummies": 4
+    },
+    {
+      "name": "production-warehouse-port",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-warehouse-port.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        55
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 599,
+      "triangles": 927606,
+      "geometries": 970,
+      "textures": 85,
+      "npcCount": 60,
+      "npcVisible": 15,
+      "dummies": 4
+    },
+    {
+      "name": "production-waterfront",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-waterfront.png",
+      "map": "city",
+      "position": [
+        0,
+        0,
+        62
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 2,
+      "drawCalls": 554,
+      "triangles": 796881,
+      "geometries": 971,
+      "textures": 85,
+      "npcCount": 60,
+      "npcVisible": 13,
+      "dummies": 4
+    },
+    {
+      "name": "production-warehouse-facade-zoom-1.25",
+      "path": "D:\\Project\\ThaiNativeOnline\\artifacts\\city-river-gardens\\game\\production-warehouse-facade-zoom-1.25.png",
+      "map": "city",
+      "position": [
+        -28,
+        0,
+        52
+      ],
+      "hour": 10,
+      "phase": "day",
+      "yaw": 0.5984188934785372,
+      "zoom": 1.25,
+      "drawCalls": 665,
+      "triangles": 894011,
+      "geometries": 971,
+      "textures": 85,
+      "npcCount": 60,
+      "npcVisible": 15,
+      "dummies": 4
+    }
+  ],
+  "production": {
+    "map": "city",
+    "root": "map:compact-city",
+    "spawn": [
+      0,
+      0,
+      3
+    ],
+    "stats": {
+      "map": "city",
+      "streets": 49,
+      "streetSurfaceMeshes": 7,
+      "landscapeTrees": 68,
+      "landscapeShrubs": 305,
+      "landscapeFlowers": 492,
+      "landscapeGardens": 20,
+      "landscapePlanters": 26,
+      "landscapeTextures": 1,
+      "landscapeVariants": {
+        "banyan": 2,
+        "shade": 4,
+        "blossom": 4,
+        "palm": 2,
+        "banana": 6,
+        "riverside": 2
+      },
+      "bananaClumps": 6,
+      "bananaStalks": 18,
+      "bananaLeaves": 90,
+      "bananaBunches": 6,
+      "bananaShoots": 6,
+      "gardenGroundcovers": 16,
+      "gardenSeatPads": 2,
+      "gardenBenches": 2,
+      "gardenJars": 10,
+      "vegetableBeds": 8,
+      "streetGardenMeshes": 738,
+      "cityWaterDraws": 1,
+      "cityWaterTextures": 0,
+      "cityWaterWaveBands": 4,
+      "cityWaterRippleSources": 4,
+      "cityWaterRippleLayers": 3,
+      "cityWaterSkyReflection": true,
+      "harbor": {
+        "harborBoats": 2,
+        "harborBoatBatches": 2,
+        "harborPiers": 2,
+        "harborSalas": 1,
+        "harborCranes": 1,
+        "harborNets": 2,
+        "harborBollards": 8,
+        "harborSalaPilings": 4,
+        "harborConnectors": 1,
+        "harborSourceMeshes": 688,
+        "harborBounds": {
+          "min": [
+            -72,
+            -2.4000000000000004,
+            42.126
+          ],
+          "max": [
+            72.10000000000001,
+            8.121926677338491,
+            82.07433352615952
+          ]
+        }
+      },
+      "residentialFences": {
+        "lots": 18,
+        "segments": 77,
+        "gatePosts": 38
+      },
+      "sacred": [
+        {
+          "kind": "temple",
+          "roofTiers": 3,
+          "highMeshes": 445,
+          "lowMeshes": 285,
+          "highHeight": 17.098770738840102,
+          "lowHeight": 17.098770738840102,
+          "bounds": {
+            "high": {
+              "min": [
+                -61.65,
+                0,
+                -51.65
+              ],
+              "max": [
+                -42.35,
+                17.098770738840102,
+                -34.35
+              ]
+            },
+            "low": {
+              "min": [
+                -61.65,
+                0,
+                -51.65
+              ],
+              "max": [
+                -42.35,
+                17.098770738840102,
+                -34.35
+              ]
+            }
+          }
+        },
+        {
+          "kind": "chedi",
+          "roofTiers": 0,
+          "highMeshes": 67,
+          "lowMeshes": 31,
+          "highHeight": 14.76,
+          "lowHeight": 14.76,
+          "bounds": {
+            "high": {
+              "min": [
+                -66.805,
+                0,
+                -26.805
+              ],
+              "max": [
+                -59.195,
+                14.76,
+                -19.195
+              ]
+            },
+            "low": {
+              "min": [
+                -66.805,
+                0,
+                -26.805
+              ],
+              "max": [
+                -59.195,
+                14.76,
+                -19.195
+              ]
+            }
+          }
+        }
+      ],
+      "windShadowMeshes": 256,
+      "animatedBoats": 2,
+      "nightLights": 3,
+      "marketCanopies": 2,
+      "lotusFountains": 1,
+      "neighborhoodBuildings": 16,
+      "neighborhoodVariants": {
+        "woodworker": 1,
+        "potter": 1,
+        "teahouse": 2,
+        "weaver": 3,
+        "merchant": 2,
+        "bakery": 1,
+        "inn": 2,
+        "fisher": 4
+      },
+      "courtyardEdges": 17,
+      "buildings": 33,
+      "halls": {
+        "count": 6
+      },
+      "classCues": 6,
+      "lodAssets": 2,
+      "staticMeshes": 842,
+      "instanceMeshes": 388,
+      "sourceMeshes": 16679,
+      "houses": 2,
+      "forestTrees": 68,
+      "buildMs": 538
+    },
+    "unreachable": [],
+    "actualMasters": [
+      {
+        "id": "master_muay",
+        "present": true
+      },
+      {
+        "id": "master_sword",
+        "present": true
+      },
+      {
+        "id": "master_hunter",
+        "present": true
+      },
+      {
+        "id": "master_herbal",
+        "present": true
+      },
+      {
+        "id": "master_shaman",
+        "present": true
+      },
+      {
+        "id": "master_bandit",
+        "present": true
+      }
+    ],
+    "dummies": 4,
+    "pathClear": true
+  },
+  "collisionMismatches": [],
+  "serviceCounters": [
+    {
+      "shop": "blacksmith",
+      "approachId": "forge_customer",
+      "approach": {
+        "x": -12,
+        "z": -13,
+        "face": -1.5707963267948966,
+        "link": "bl1"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 29,
+      "hosts": [
+        {
+          "id": "blacksmith",
+          "present": true,
+          "sites": [
+            {
+              "map": "city",
+              "x": -17,
+              "z": -13
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shop": "enhance",
+      "approachId": "enh_front",
+      "approach": {
+        "x": -14,
+        "z": -17,
+        "face": -1.5707963267948966,
+        "link": "bl1"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 2,
+      "hosts": [
+        {
+          "id": "enhancer",
+          "present": true,
+          "sites": [
+            {
+              "map": "city",
+              "x": -17,
+              "z": -17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shop": "general",
+      "approachId": "general_customer",
+      "approach": {
+        "x": -14,
+        "z": 12,
+        "face": -1.5707963267948966,
+        "link": "shops_m"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 25,
+      "hosts": [
+        {
+          "id": "general_merchant",
+          "present": true,
+          "sites": [
+            {
+              "map": "city",
+              "x": -17,
+              "z": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shop": "herbalist",
+      "approachId": "herb_customer",
+      "approach": {
+        "x": 14,
+        "z": -17,
+        "face": 1.5707963267948966,
+        "link": "tr1"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 27,
+      "hosts": [
+        {
+          "id": "herbalist",
+          "present": true,
+          "sites": [
+            {
+              "map": "city",
+              "x": 17,
+              "z": -17
+            }
+          ]
+        },
+        {
+          "id": "forest_herbalist",
+          "present": false,
+          "sites": []
+        },
+        {
+          "id": "wat_hermit",
+          "present": false,
+          "sites": []
+        }
+      ]
+    },
+    {
+      "shop": "occult",
+      "approachId": "occult_customer",
+      "approach": {
+        "x": -39,
+        "z": 17,
+        "face": -1.5707963267948966,
+        "link": "shops_s"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 7,
+      "hosts": [
+        {
+          "id": "occultist",
+          "present": true,
+          "sites": [
+            {
+              "map": "city",
+              "x": -42,
+              "z": 17
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "shop": "weapons",
+      "approachId": "forge_customer",
+      "approach": {
+        "x": -12,
+        "z": -13,
+        "face": -1.5707963267948966,
+        "link": "bl1"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 10,
+      "hosts": []
+    },
+    {
+      "shop": "armor",
+      "approachId": "forge_customer",
+      "approach": {
+        "x": -12,
+        "z": -13,
+        "face": -1.5707963267948966,
+        "link": "bl1"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 6,
+      "hosts": []
+    },
+    {
+      "shop": "charms",
+      "approachId": "occult_customer",
+      "approach": {
+        "x": -39,
+        "z": 17,
+        "face": -1.5707963267948966,
+        "link": "shops_s"
+      },
+      "standable": true,
+      "authorized": true,
+      "stockRows": 1,
+      "hosts": []
+    }
+  ],
+  "passed": true
+}
