@@ -1,4 +1,6 @@
 import { buildExpeditionWorld } from './ExpeditionWorld.js';
+import { buildCompactCityWorld } from './CompactCityWorld.js';
+import { COMPACT_CITY_SPOTS } from '../data/compactCityNpcs.js';
 import * as THREE from 'three';
 import { J } from './CityMap.js';
 import { MAPS, DEFAULT_MAP, inView, walkable } from './maps.js';
@@ -118,6 +120,11 @@ function disposeTree(root) {
 // MAPS entry; the default is the city.
 export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP) {
   const map = typeof mapId === 'string' ? MAPS[mapId] : mapId;
+  if(map.id==='city') {
+    const world=await buildCompactCityWorld(scene,map,progress);
+    world.spots={...COMPACT_CITY_SPOTS,...world.spots};
+    return world;
+  }
   if(map.expedition)return buildExpeditionWorld(scene,map);
   const started = performance.now(), timings = {};
   let mark = started;

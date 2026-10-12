@@ -1,6 +1,7 @@
 # World Map Direction
 
-Owner: world-designer. Coordinates are world space (`src/world/CityMap.js`):
+Owner: world-designer. Current city: [compact production layout](COMPACT_CITY.md).
+Coordinates are world space (`src/world/compact-city.js` for city, `CityMap.js` for wilderness):
 `+x` east, `-z` north, the river to the south. Maps: `src/world/maps.js`
 (interface: `src/world/README.md`).
 
@@ -28,14 +29,14 @@ City equipment sales are consolidated at **ลุงดำ**: the former weapon/
 and forge retain their complete combined inventory at one counter. Charms remain at
 the occult shop. The cargo merchant and eastern fish seller are ambient townsfolk;
 their redundant shop roles are removed. **หมื่นเพชรศาสตรา** is the sole refinement
-NPC, distinct from the equipment seller. Existing city geometry, quest destinations,
-prices and server proximity limits are retained. Customer navigation approaches and
+NPC, distinct from the equipment seller. Quest IDs, prices and server proximity limits are retained; physical contacts now
+follow the compact city layout. Customer navigation approaches and
 server keeper coordinates share the shop-site registry. Future services are labelled
 as future services and are excluded from the atlas's active shop filter.
 
 | id | Name | Band | Walk area | Safe | Levels | Who / why |
 | --- | --- | --- | --- | --- | --- | --- |
-| `city` | นครที่ถูกลืมเลือน | `z ≥ -112` (`SEAM_Z`) | x ±122, z -108.5 … 266 (inside the walls, port, river bank) | yes | — | everyone: trade, equipment, quests, class halls, training dummy |
+| `city` | นครที่ถูกลืมเลือน | `z ≥ -112` (`SEAM_Z`) | x ±72, z ±64 (compact city, riverfront) | yes | — | everyone: trade, equipment, quests, class halls, training dummy |
 | `paddy` | ทุ่งนาข้าว | `-296 ≤ z < -112` | x ±122, z -293 … -113.5 | no | 1-5 | new characters: first hunts in the orchards, farmers' village shop, gathering in the paddies |
 | `deep_forest` | ป่าลึก | `-445 ≤ z < -296` (`FOREST_SEAM_Z`) | x ±122, z -442 … -298.5 | no | 3-9 | mid levels: forest spirits by day and night, the ruined chedi, the log bridge |
 | `wat_rang` | วัดร้าง | `z < -445` (`WAT_SEAM_Z`) | x ±122, z -592 … -447 | no | 5-14 | strongest characters, mostly evening and night: the wandering dead, the cemetery, the temple ruins and the boss |
@@ -50,8 +51,8 @@ touch; each map's `view` builds the neighbouring land as backdrop.
 
 | Portal | Style | Map | Trigger (x, z, r) | Arrives at | NPC exit node | Label |
 | --- | --- | --- | --- | --- | --- | --- |
-| `warp_to_paddy` | warp | city | 0, -107, 2.2 (in the gate passage) | paddy 0, -130, facing north | `gate_in` | ประตูวาป → ทุ่งนาข้าว |
-| `warp_to_city` | warp | paddy | 0, -122.5, 2.2 (outside the gate) | city 0, -99, facing south | `gate_out` | ประตูวาป → นครที่ถูกลืมเลือน |
+| `warp_to_paddy` | warp | city | 0, -59, 2.2 (in the gate passage) | paddy 0, -130, facing north | `gate_in` | ประตูวาป → ทุ่งนาข้าว |
+| `warp_to_city` | warp | paddy | 0, -122.5, 2.2 (outside the gate) | city 0, -53, facing south | `gate_out` | ประตูวาป → นครที่ถูกลืมเลือน |
 | `path_to_forest` | path | paddy | -0.9, -290, 2.4 (north road past the banyan) | deep_forest 0, -311, facing north | `n6` | ทางเข้าป่า → ป่าลึก |
 | `path_to_paddy` | path | deep_forest | 0, -301, 2.4 (outside the forest gate rope) | paddy -1.6, -282, facing south | `fe` | ทางออกสู่ทุ่ง → ทุ่งนาข้าว |
 | `path_to_wat` | path | deep_forest | 8.5, -439, 2.4 (trail beyond the log bridge) | wat_rang -1.5, -459, facing north | `f5` | ทางสู่วัดร้าง → วัดร้าง |
@@ -60,8 +61,8 @@ touch; each map's `view` builds the neighbouring land as backdrop.
 The city warp pair is magic (the gate is closed). Between the wild maps the
 trail itself leads on: chevrons on the ground and a signpost beside the trail.
 
-From the city spawn (port, 4, 151) the warp is reached along the main avenue:
-port → fish market → market → bridge → ศาลหลักเมือง → avenue → gate.
+From the city spawn (central plaza, 0,8), walk north around ศาลหลักเมือง
+to the training ground and gate. Shops sit around the plaza.
 
 Old saves on the retired `fields` map load on the zone map that owns the saved
 position; a position in a gap between walk areas moves to that map's nearest
@@ -70,29 +71,14 @@ arrival point (`resolveLocation`).
 ## นครที่ถูกลืมเลือน (`city`) — safe, all levels
 
 Who: everyone. Why: shops, smiths, quests, learning a class, trying skills on
-the straw dummy at the port. No monsters (`src/data/spawns.js` has none in the city).
+the four straw dummies at the northern practice ground. No monsters (`src/data/spawns.js` has none in the city).
 
-### ย่านสำนักครู (training-hall quarter)
-
-East of ลานฝึกครู (47, 62), between the e-road and the port, backed by the
-east wall. A sandy lane (`hq_*` junctions, ROADS kind `plaza`) runs south from
-`e3` (92, 30) to the head hall. One Thai-style hall per class, each with its
-master (`src/data/halls.js`, `HALLS`). Region `halls` (ย่านสำนักครู).
-
-| Hall | Class | Footprint centre | w × d | Door faces | Door | Master spot | Junction |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `hall_muaythai` ค่ายมวยไทย | muaythai | 98, 115 | 15 × 11 | north | 98, 108.7 | 98, 111.5 | `hq_s` |
-| `hall_warrior` สำนักดาบนักรบ | warrior | 107.5, 62 | 13 × 11 | west | 101.2, 62 | 104, 62 | `hq_1` |
-| `hall_hunter` ทับนายพราน | hunter | 107.5, 78 | 13 × 11 | west | 101.2, 78 | 104, 78 | `hq_2` |
-| `hall_herbalist` สำนักหมอยา | herbalist | 107.5, 94 | 13 × 11 | west | 101.2, 94 | 104, 94 | `hq_3` |
-| `hall_shaman` ตำหนักหมอผี | shaman | 87, 85.5 | 11 × 9 | east | 92.3, 85.5 | 89.5, 85.5 | `hq_3` |
-| `hall_assassin` เรือนโจรป่า | assassin | 87, 98.5 | 10 × 9 | east | 92.3, 98.5 | 89.5, 98.5 | `hq_s` |
-
-Each hall's yard is reserved as an `earth` rect in `PLAZAS`, so the house
-filler and gardens keep out. Spots for the builder: `hallSpots()` →
-`<hall id>_master` (link `<hall id>_door`) and `<hall id>_door` (link: junction).
-The old ลานฝึกครู yard (ring, dummies, targets, camps) stays as the shared
-practice ground.
+The compact layout contains all six class halls, the central service plaza,
+temple, residential cluster and riverfront. Current hall footprints, exterior
+contacts, migration behavior and sources are documented in
+[COMPACT_CITY.md](COMPACT_CITY.md); `src/data/halls.js` derives its records from
+`src/world/compact-city.js`. The old eastern hall lane is preserved only in
+the wilderness generator's frozen reservation data.
 
 ## The zone maps
 

@@ -29,6 +29,21 @@ Do not work directly on main. Use task branches and PRs.
 
 ## Where things connect
 
+- City geometry and save revision: `world/compact-city.js` is the canonical
+  city layout; `CompactCityWorld` builds it. MapManager and the shared server
+  `snapshotLocation` stamp `layoutRevision` on regular and atomic transaction
+  saves. Old city positions relocate to the plaza.
+  Frozen legacy city halls/sites preserve wilderness RNG reservations. See
+  `docs/world/COMPACT_CITY.md`; re-export collision after world source changes.
+
+- Compact city NPC anchors: `data/compactCityNpcs.js` exports
+  `COMPACT_CITY_SPOTS` for World spots and shared `shopSites.SPOT_SITES` city
+  overrides. Residents use explicit compact `home.near: { x, z }` points and a
+  city-only navigation graph; global legacy J remains unchanged. HALLS read
+  canonical buildings/POIs; warp IDs and phase-gated authorization stay intact.
+  Field gathering and outside gate guards retain wilderness positions. See
+  `src/data/README.md` Hooks and `tests/compact-city-npcs.test.js`.
+
 - Authenticated login uses `server/login-state.js` to reserve each account/slot
   independently of the save FIFO. `Accounts.joinState` reads character, quests,
   position and incarnation metadata together after the previous socket's final

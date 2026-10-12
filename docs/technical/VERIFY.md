@@ -5,6 +5,9 @@ QA and Art Director agents also use the screenshot recipe.
 
 ## Always
 
+Current compact-city results: [QA report](qa/compact-city-production.md),
+[layout contract](../world/COMPACT_CITY.md).
+
 ```sh
 npm test          # node --test tests/**/*.test.js
 npm run build     # vite build (index)
@@ -22,7 +25,7 @@ Maps (`src/world/maps.js`), loaded one at a time:
 
 | Map | Where | Safe | What to check |
 |---|---|---|---|
-| `city` นครอโยธยา | z ≥ -112 (inside the wall) | yes | no monsters, the same action bar as every map (kit classes: skills hit the dummy), six class halls (ย่านสำนักครู, x 87–108, z 62–115) with their masters by day, ลุงดำ at the forge, the warp in the North Gate passage (0, -107) |
+| `city` นครที่ถูกลืมเลือน | x ±72, z ±64 | yes | no monsters, the same action bar as every map (kit classes: skills hit the dummy), six compact class halls (see COMPACT_CITY.md) with their masters by day, ลุงดำ at the forge, the warp in the North Gate passage (0, -59) |
 | `paddy` ทุ่งนาข้าว | -296 ≤ z < -112 | no | Primary Lv 1-4 monsters, with Lv 5 forest spirits at the northern transition (orchards, grassland), the same action bar: kit skills fight the Tab / click target, ยายเพียร's shop in the farmers' village, the warp back at (0, -122.5), the path exit to the forest (-0.9, -290) |
 | `deep_forest` ป่าลึก | -445 ≤ z < -296 | no | Primary Lv 5-9 forest spirits, with Lv 3 monkeys at the entry, หมอแสง's shop inside the forest gate, path exits to the paddies (0, -301) and to the wat (8.5, -439) |
 | `wat_rang` วัดร้าง | z < -445 | no | Primary Lv 10-14, with Lv 5/8 spirits at the entry, mostly at night, ตาฤๅษีพรหม's shop at the trail head, the path exit back to the forest (3, -450) |
@@ -62,7 +65,7 @@ Put a temporary page in the repo root (delete it afterwards). It seeds a guest s
 import { Character } from '/src/character/Character.js';
 Character.create('ทดสอบ', 'muaythai', 'male').save();        // guest slot 0 = unprefixed keys
 sessionStorage.setItem('tno.session.v1', JSON.stringify({ id: 'guest', guest: true, prefix: '' }));
-location.replace('/?at=4,150&t=10');
+location.replace('/?at=0,8&t=10');
 </script>
 ```
 

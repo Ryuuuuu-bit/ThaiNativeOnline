@@ -4,7 +4,7 @@ import {
   mesh, box, cyl, cone, ball, beam, structure, solid, post, deck, prop, glow, smoke,
   thaiRoof, leanTo, panelFace, windowFrame, stairs, railing, hangingLantern, spiritHouse,
 } from '../Architecture.js';
-import { HALLS, hallSpots } from '../../data/halls.js';
+import { LEGACY_HALLS as HALLS, hallSpots } from '../legacy-city-halls.js';
 
 // Class training halls (โรงฝึก) of ย่านสำนักครู, one per class, built from the
 // records in src/data/halls.js (placement: world-designer). Every hall shares

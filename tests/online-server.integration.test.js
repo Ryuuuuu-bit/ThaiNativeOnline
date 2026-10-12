@@ -47,9 +47,9 @@ test('real HTTP/WS: duel consent, recall, party map warp and graceful shutdown',
   const repeated=await a.wait(m=>m.t==='recall_cast');assert.ok(repeated.remaining<5&&repeated.remaining>4);
   await new Promise(r=>setTimeout(r,500));
   assert.equal(a.msgs.some(m=>m.t==='position'&&m.map==='city'),false);
-  assert.equal((await a.wait(m=>m.t==='position'&&m.map==='city',6500)).z,52);
+  assert.equal((await a.wait(m=>m.t==='position'&&m.map==='city',6500)).z,8);
   assert.ok(performance.now()-started>=5000,'server must enforce the full five seconds');
-  b.send({t:'party_warp'});assert.equal((await b.wait(m=>m.t==='position'&&m.map==='city')).z,52);
+  b.send({t:'party_warp'});assert.equal((await b.wait(m=>m.t==='position'&&m.map==='city')).z,8);
   b.send({t:'pvp_hit',id:a.id});assert.equal((await b.wait(m=>m.t==='pvp_no')).why,'safe');
   const del=await api('/api/slots/0',a.token,'DELETE');assert.equal(del.status,409);
   const exited=once(child,'exit');child.send('SIGTERM');await a.wait(m=>m.t==='shutdown');assert.equal((await exited)[0],0);

@@ -14,16 +14,20 @@ test('real WS sells all 500 slots in one op, keeps the socket open and persists 
   const bootstrap = `
     import { MemoryStore } from './server/store.js';
     import { Character } from './src/character/Character.js';
+    import { shopSpot } from './src/data/shopSites.js';
+    import { MAPS } from './src/world/maps.js';
     const create = MemoryStore.prototype.createAccount;
     MemoryStore.prototype.createAccount = async function(...args) {
       const ok = await create.apply(this, args);
       if (ok && args[0] === 'bagqa') {
         const c = Character.create('BagQA', 'warrior');
         c.inventory = Array.from({length:500}, () => ({id:'ash',qty:1}));
-        await this.putSlot(args[0], 0, {'tno.character.v1':JSON.stringify(c)});
+        await this.putSlot(args[0], 0, {'tno.character.v1':JSON.stringify(c),'tno.location.v1':JSON.stringify({...shopSpot('general'),facing:Math.PI,layoutRevision:MAPS.city.layoutRevision})});
       }
       return ok;
     };
+    // Exercise real daytime contact authorization independently of wall time.
+    process.argv.push('--hour=12');
     await import('./server/index.js');
   `;
   const child = spawn(process.execPath, ['--input-type=module', '-e', bootstrap], {

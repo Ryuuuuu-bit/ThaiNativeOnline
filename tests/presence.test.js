@@ -38,7 +38,7 @@ test('moves faster than anyone can run are refused; walking is fine', () => {
 
 test('a portal moves you to another room (the jump is allowed once)', () => {
   const now = clock(), P = new Presence({ now }), a = {}, b = {};
-  P.join(a, { map: 'city', x: 0, z: -100 }); P.join(b, { map: 'paddy' });
+  P.join(a, { map: 'city', x: 0, z: -59 }); P.join(b, { map: 'paddy' });
   const r = P.changeMap(a, { map: 'paddy', x: 0, z: -130 });
   assert.equal(r.left, 'city'); assert.equal(r.map, 'paddy'); assert.equal(r.roster.length, 1);
   assert.equal(P.changeMap(a, { map: 'nowhere' }), null);
@@ -50,7 +50,7 @@ test('a portal moves you to another room (the jump is allowed once)', () => {
   assert.equal(P.changeMap(c, { map: 'city', x: 0, z: -99 }), null, 'not while dead');
   P.players.get(c).dead = false;
   assert.equal(P.changeMap(c, { map: 'city', x: 40, z: -40 }).map, 'city', 'the portal decides where you arrive');
-  assert.deepEqual([P.players.get(c).x, P.players.get(c).z], [0, -99]);
+  assert.deepEqual([P.players.get(c).x, P.players.get(c).z], [0, -53]);
 });
 test('many small moves cannot add up past the top speed', () => {
   const now = clock(), P = new Presence({ now }), a = {};

@@ -329,8 +329,10 @@ export class Minimap {
   redrawFull() { if (this.fullState) this.drawFull(this.fullState.p, this.fullState.yaw, this.fullState.state); }
   resetFull(whole = false) {
     const [w, h] = this.fit(this.full), R = this.base.rect;
-    const pad = this.fullInset(w, h), short = (h - pad) / devicePixelRatio < 300;
-    const focus = !whole && this.map?.id === 'city' ? short ? { minX: -70, maxX: 116, minZ: 8, maxZ: 122 } : { minX: Math.max(R.minX, -92), maxX: R.maxX, minZ: -119, maxZ: 177 } : R;
+    const pad = this.fullInset(w, h);
+    // Fit the playable city, not the retired city's much larger coordinates.
+    // Whole-map view includes the painted river/wall margin around the bounds.
+    const focus = !whole && this.map?.id === 'city' ? this.bounds ?? R : R;
     this.fullCamera = fittedCamera(R, w, h, focus, pad); this.redrawFull();
   }
   // The view buttons (.atlas-view) float over the bottom of the full map: their box (canvas

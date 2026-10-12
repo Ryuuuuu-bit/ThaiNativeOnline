@@ -3,6 +3,7 @@ import { randomUUID, createHash } from 'node:crypto';
 import { getWarpService, WARP_RANGE } from '../src/data/warpServices.js';
 import { STASH_CAPACITY, cleanStashMove, planStashMove } from '../src/data/stash.js';
 import { navigation } from './navigation.js';
+import { snapshotLocation } from './player-location.js';
 
 export function stashWhy(p, state, npc, { fighting = false, duel = false, trade = false, navigate = navigation } = {}) {
   if (!p || !state?.persist || p.account !== state.persist.account) return 'offline';
@@ -32,7 +33,7 @@ export class StashService {
     try {
       return await this.accounts.moveStash(s.persist.account, s.persist.slot, move, fingerprint, {
         capture: () => ({ character: structuredClone(s.c.toJSON()), quests: s.quests.json(),
-          location: { map: p.map, x: p.x, z: p.z, facing: p.f }, inventoryRevision: s.persist.inventoryRevision ?? 0 }),
+          location: snapshotLocation(p), inventoryRevision: s.persist.inventoryRevision ?? 0 }),
         plan: (snapshot, vault) => planStashMove(snapshot.character, vault, move, randomUUID),
         adopt: (inventory, revision) => {
           s.c.inventory = structuredClone(inventory); s.persist.inventoryRevision = revision;

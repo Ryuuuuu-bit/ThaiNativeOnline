@@ -15,16 +15,20 @@ test('real signed-in WS: sell 9999 items, buy 999, keep connection and reload pe
   const bootstrap = `
     import { MemoryStore } from './server/store.js';
     import { Character } from './src/character/Character.js';
+    import { shopSpot } from './src/data/shopSites.js';
+    import { MAPS } from './src/world/maps.js';
     const create = MemoryStore.prototype.createAccount;
     MemoryStore.prototype.createAccount = async function(...args) {
       const ok = await create.apply(this, args);
       if (ok && args[0] === 'shopqa') {
         const c = Character.create('ShopQA', 'hunter'); c.gold = 20000;
         c.inventory.fill(null); c.addItem('potion_s', 9000); c.addItem('ash', 999);
-        await this.putSlot(args[0], 0, { 'tno.character.v1': JSON.stringify(c) });
+        await this.putSlot(args[0], 0, { 'tno.character.v1': JSON.stringify(c), 'tno.location.v1':JSON.stringify({...shopSpot('general'), facing:Math.PI, layoutRevision:MAPS.city.layoutRevision}) });
       }
       return ok;
     };
+    // Exercise real daytime contact authorization independently of wall time.
+    process.argv.push('--hour=12');
     await import('./server/index.js');
   `;
   const child = spawn(process.execPath, ['--input-type=module', '-e', bootstrap], {

@@ -94,7 +94,7 @@ test('world clock phases and listeners', () => {
 });
 
 test('regions name the main districts', () => {
-  const cases = [[0, 28, 'market'], [6, 150, 'port'], [70, -60, 'temple'], [-60, -200, 'rice'], [0, -380, 'forest'], [0, -425, 'deep'], [0, -470, 'wat_wood'], [0, -540, 'cemetery'], [0, 200, 'river']];
+  const cases = [[17, 12, 'market'], [6, 55, 'port'], [-52, -31, 'temple'], [-60, -200, 'rice'], [0, -380, 'forest'], [0, -425, 'deep'], [0, -470, 'wat_wood'], [0, -540, 'cemetery'], [0, 200, 'river']];
   for (const [x, z, id] of cases) assert.equal(regionAt(x, z).id, id, `${x},${z}`);
   assert.equal(regionAt(0, -540, false).id, 'wat_wood', 'an undiscovered cemetery reads as the woods of the wat');
 });

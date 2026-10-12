@@ -1,7 +1,8 @@
 // Geography of นครที่ถูกลืมเลือน: bounds, water, roads and the analytic terrain shape.
 // Pure data and math (no three.js) so collision, painting, minimap and NPC
 // navigation all read the same source of truth. North is -z, the river is +z.
-import { HALLS } from '../data/halls.js';
+// Old district reservations remain the seed geometry for wilderness backdrops.
+import { LEGACY_HALLS as HALLS } from './legacy-city-halls.js';
 import { WAT_RANG } from '../data/sites.js';
 
 export const BOUNDS = { minX: -125, maxX: 125, minZ: -820, maxZ: 268 };

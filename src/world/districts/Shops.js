@@ -4,7 +4,7 @@ import {
   box, cyl, cone, ball, beam, structure, solid, post, deck, prop, glow, smoke, anchor,
   thaiRoof, tieredRoof, shophouseRow, hangingLantern,
 } from '../Architecture.js';
-import { landmark } from '../../data/landmarks.js';
+import { landmark } from '../legacy-city-sites.js';
 import { timberWalls, porchFrame, shopCanopy, herbPlaque } from './ShopDetails.js';
 
 // Shops that NPC services will attach to later. Each building exposes anchors

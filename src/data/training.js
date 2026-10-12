@@ -43,10 +43,10 @@ export const classReady = id => AVATARS[id]?.ready === true;
 // URL overrides for quick tests: ?lv=50 &skill=5 &ddef=40 &deva=30
 export const TRAINING = {
   map: 'city',
-  // A row of four dummies on ลานฝึกครู (the masters' training ground, east of the shops), in
-  // front of the sword master; each stands on the nearest free spot to its mark. Skills go to
+  // A row of four dummies on ลานฝึกครู, north of the central service plaza;
+  // each stands on the nearest free spot to its mark. Skills go to
   // the nearest one within `range`.
-  dummy: { spots: [[46.5, 55.5], [49.5, 55.5], [52.5, 55.5], [55.5, 55.5]], hp: 5000, def: 0, eva: 0 },
+  dummy: { spots: [[-6, -35], [-2, -35], [2, -35], [6, -35]], hp: 5000, def: 0, eva: 0 },
   fighter: {
     level: 10, skillLevel: 1,
     stats: { STR: 30, AGI: 18, VIT: 15, INT: 5, DEX: 15, LUK: 10 },

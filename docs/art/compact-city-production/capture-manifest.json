@@ -1,0 +1,380 @@
+{
+  "date": "2026-10-12",
+  "viewport": {
+    "width": 1600,
+    "height": 900
+  },
+  "architectureCamera": {
+    "zoom": 1,
+    "overviewZoom": 0.2
+  },
+  "art": {
+    "steps": [
+      [
+        "world-contract",
+        {
+          "buildings": 17,
+          "stats": {
+            "map": "city",
+            "buildings": 17,
+            "halls": {
+              "count": 6
+            },
+            "classCues": 6,
+            "lodAssets": 2,
+            "staticMeshes": 334,
+            "instanceMeshes": 272,
+            "sourceMeshes": 4431,
+            "houses": 2,
+            "forestTrees": 0,
+            "buildMs": 67
+          },
+          "flat": true,
+          "ground": true,
+          "grassSettings": true
+        }
+      ],
+      [
+        "routes",
+        [
+          {
+            "id": "plaza",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "forge",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "pharmacy",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "general",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "stash",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "warp",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "abbot",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "monk",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "muaythai",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "warrior",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "hunter",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "herbalist",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "shaman",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "assassin",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "docks",
+            "standing": true,
+            "route": true
+          },
+          {
+            "id": "northgate",
+            "standing": true,
+            "route": true
+          }
+        ]
+      ],
+      [
+        "navigation-extra-blocked-samples",
+        {
+          "mismatch": 10,
+          "expected": "only portal pillar reservations"
+        }
+      ],
+      [
+        "minimap",
+        {
+          "width": 516,
+          "height": 468
+        }
+      ],
+      [
+        "production-npcs",
+        {
+          "count": 60,
+          "criticalModels": "ready"
+        }
+      ],
+      [
+        "view:plaza",
+        {
+          "calls": 464,
+          "triangles": 706417
+        }
+      ],
+      [
+        "view:shops",
+        {
+          "calls": 479,
+          "triangles": 745692
+        }
+      ],
+      [
+        "view:temple",
+        {
+          "calls": 395,
+          "triangles": 796424
+        }
+      ],
+      [
+        "view:north-halls",
+        {
+          "calls": 506,
+          "triangles": 764510
+        }
+      ],
+      [
+        "view:hunter",
+        {
+          "calls": 424,
+          "triangles": 516202
+        }
+      ],
+      [
+        "view:herbalist",
+        {
+          "calls": 432,
+          "triangles": 501458
+        }
+      ],
+      [
+        "view:shaman",
+        {
+          "calls": 451,
+          "triangles": 661651
+        }
+      ],
+      [
+        "view:assassin",
+        {
+          "calls": 353,
+          "triangles": 468396
+        }
+      ],
+      [
+        "view:residential",
+        {
+          "calls": 283,
+          "triangles": 452761
+        }
+      ],
+      [
+        "view:port",
+        {
+          "calls": 330,
+          "triangles": 498884
+        }
+      ],
+      [
+        "view:night-plaza",
+        {
+          "calls": 464,
+          "triangles": 610997
+        }
+      ],
+      [
+        "view:overview",
+        {
+          "calls": 963,
+          "triangles": 622710
+        }
+      ],
+      [
+        "dispose",
+        {
+          "baseline": 399,
+          "after": 17,
+          "released": {
+            "geometries": 542,
+            "materials": 75,
+            "textures": 10
+          },
+          "idempotent": {
+            "geometries": 0,
+            "materials": 0,
+            "textures": 0
+          }
+        }
+      ],
+      [
+        "rebuild",
+        {
+          "stats": {
+            "map": "city",
+            "buildings": 17,
+            "halls": {
+              "count": 6
+            },
+            "classCues": 6,
+            "lodAssets": 2,
+            "staticMeshes": 334,
+            "instanceMeshes": 272,
+            "sourceMeshes": 4431,
+            "houses": 2,
+            "forestTrees": 0,
+            "buildMs": 43
+          },
+          "geometries": 363
+        }
+      ],
+      [
+        "done",
+        {
+          "ok": true
+        }
+      ]
+    ],
+    "shots": {
+      "plaza": "plaza.jpg",
+      "temple": "temple.jpg",
+      "north-halls": "north-halls.jpg",
+      "hunter": "hunter.jpg",
+      "herbalist": "herbalist.jpg",
+      "shaman": "shaman.jpg",
+      "assassin": "assassin.jpg",
+      "port": "port.jpg",
+      "night-plaza": "night-plaza.jpg",
+      "overview": "overview.jpg"
+    },
+    "errors": [],
+    "browserErrors": []
+  },
+  "production": {
+    "checks": [
+      "guest login",
+      "character select",
+      "character creation",
+      "actual production World/NPCManager: six masters, four dummies, every phase contact reachable, server/client sampled collision parity",
+      "Escape closes actual atlas panel"
+    ],
+    "errors": [],
+    "passed": true,
+    "collisionMismatches": [],
+    "stats": {
+      "map": "city",
+      "buildings": 17,
+      "halls": {
+        "count": 6
+      },
+      "classCues": 6,
+      "lodAssets": 2,
+      "staticMeshes": 334,
+      "instanceMeshes": 272,
+      "sourceMeshes": 4431,
+      "houses": 2,
+      "forestTrees": 0,
+      "buildMs": 57
+    },
+    "captures": [
+      {
+        "name": "production-day",
+        "map": "city",
+        "position": [
+          0,
+          0,
+          8
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 428,
+        "triangles": 842877,
+        "geometries": 231,
+        "textures": 55,
+        "npcCount": 60,
+        "npcVisible": 21,
+        "dummies": 4,
+        "path": "production-day.png"
+      },
+      {
+        "name": "production-night",
+        "map": "city",
+        "position": [
+          0,
+          0,
+          8
+        ],
+        "hour": 22,
+        "phase": "night",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 430,
+        "triangles": 771639,
+        "geometries": 246,
+        "textures": 59,
+        "npcCount": 60,
+        "npcVisible": 21,
+        "dummies": 4,
+        "path": "production-night.png"
+      },
+      {
+        "name": "production-atlas",
+        "map": "city",
+        "position": [
+          0,
+          0,
+          8
+        ],
+        "hour": 22,
+        "phase": "night",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 432,
+        "triangles": 796823,
+        "geometries": 246,
+        "textures": 59,
+        "npcCount": 60,
+        "npcVisible": 21,
+        "dummies": 4,
+        "path": "production-atlas.png"
+      }
+    ]
+  },
+  "collisionSourceHash": "b92e9ae631a6a3d67002d2787e0e8debbf987b53e9e3de9945526797c949a121"
+}

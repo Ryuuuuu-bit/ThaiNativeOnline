@@ -124,7 +124,7 @@ test('real HTTP/WS: timed party healing, cleanse, protected revival, guest heali
   guest.send({ t: 'dead', v: false }); await guest.wait(m => m.t === 'position');
   guest.send({ t: 'cast', skill: 'heal_vine' });
   assert.equal((await guest.wait(m => m.t === 'nope')).why, 'cooldown', 'death does not reset cast cooldown');
-  const guestFriend = await connect(null, 55); assert.equal(guestFriend.position.z, 55);
+  const guestFriend = await connect(null, 11); assert.equal(guestFriend.position.z, 11);
   guestFriend.send({ t: 'ch', data: guestSheet });
   guest.send({ t: 'pinv', id: guestFriend.id }); await guestFriend.wait(m => m.t === 'pinv');
   guestFriend.send({ t: 'pans', from: guest.id, ok: true }); await guestFriend.wait(m => m.t === 'party' && m.id);
@@ -141,7 +141,7 @@ test('real HTTP/WS: timed party healing, cleanse, protected revival, guest heali
   assert.ok(afterRevive.state.buffs.some(b => b.undying));
   await sleep(150);
   assert.equal(guestFriend.messages.some(m => m.t === 'position'), false, 'healer revival keeps the fallen location');
-  assert.ok(guestFriend.messages.some(m => m.t === 'tick' && m.p.some(row => row[0] === guestFriend.id && row[2] === 55)), 'guest remains where they fell');
+  assert.ok(guestFriend.messages.some(m => m.t === 'tick' && m.p.some(row => row[0] === guestFriend.id && row[2] === 11)), 'guest remains where they fell');
   const stored = await api('/api/slots/0', healer.token, 'PUT', { data: { 'tno.character.v1': JSON.stringify(healer.initial) } });
   assert.ok(stored.ok);
   const slots = await api('/api/slots', healer.token);

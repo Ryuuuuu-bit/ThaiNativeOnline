@@ -6,6 +6,7 @@ import { EXPEDITIONS } from '../world/expeditions.js';
 // world builds them (read from window.game.world.spots in the browser; re-read them when a
 // district moves a shop).
 import { NPCS } from './npcs.js';
+import { COMPACT_CITY_SPOTS } from './compactCityNpcs.js';
 import { SHOP_HOSTS } from './shops.js';
 import { CONTACT_PHASES, contactPhase, contactActivityFor, contactSitesFor } from './npcContact.js';
 
@@ -29,6 +30,8 @@ export const SPOT_SITES = {
 };
 
 for(const e of EXPEDITIONS)SPOT_SITES[`${e.id}_supply`]=[e.id,18,e.top-24];
+// World uses these same compact coordinates; field anchors retain their maps.
+for (const [id, s] of Object.entries(COMPACT_CITY_SPOTS)) SPOT_SITES[id] = ['city', s.x, s.z];
 
 const placesOf = npc => {
   const out = new Map();

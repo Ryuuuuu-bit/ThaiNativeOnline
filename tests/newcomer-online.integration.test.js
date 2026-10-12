@@ -15,6 +15,7 @@ test('signed-in newcomer HTTP/WS: nearby acceptance/talk/claim, forgery rejectio
   const port=probe.address().port;await new Promise(r=>probe.close(r));
   const bootstrap=`
     import {MemoryStore} from './server/store.js';
+    import {MAPS} from './src/world/maps.js';
     import {Character} from './src/character/Character.js';
     import {NEWCOMER_QUESTS} from './src/data/quests.js';
     import {NPCS} from './src/data/npcs.js';
@@ -28,7 +29,7 @@ test('signed-in newcomer HTTP/WS: nearby acceptance/talk/claim, forgery rejectio
         const q=id==='newcomerreturn'?Object.fromEntries(NEWCOMER_QUESTS.slice(0,-1).map(q=>[q.id,{status:'done'}])):{};
         const c=new Character({name:id,classId:'shaman',level:id==='newcomerreturn'?20:1,jobLevel:12});
         const location=site(id==='newcomerreturn'?last.giver:first.giver);
-        this.slots.set(id,new Map([[0,{data:{'tno.character.v1':JSON.stringify(c),'tno.quests.v1':JSON.stringify(q),'tno.location.v1':JSON.stringify(location)},updated:1}]]));
+        this.slots.set(id,new Map([[0,{data:{'tno.character.v1':JSON.stringify(c),'tno.quests.v1':JSON.stringify(q),'tno.location.v1':JSON.stringify({...location, ...(location.map === 'city' ? {layoutRevision:MAPS.city.layoutRevision} : {})})},updated:1}]]));
         await this.init();
       }return ok;
     };await import('./server/index.js');`;

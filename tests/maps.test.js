@@ -18,6 +18,10 @@ import { QUESTS } from '../src/data/quests.js';
 import { HALLS, hallSpots, hallOf } from '../src/data/halls.js';
 import { WAT_RANG, SITES } from '../src/data/sites.js';
 import { CLASSES } from '../src/character/data/classes.js';
+import { COMPACT_CITY, compactCityCanStand } from '../src/world/compact-city.js';
+import { COMPACT_CITY_SPOTS } from '../src/data/compactCityNpcs.js';
+const cityNode = id => COMPACT_CITY_SPOTS[id] ? [COMPACT_CITY_SPOTS[id].x, COMPACT_CITY_SPOTS[id].z] : null;
+const graphFor = map => map.id === 'city' ? NavGraph.fromCompactCity({ spots: COMPACT_CITY_SPOTS, canStand: compactCityCanStand }) : NavGraph.fromRoads((x,z)=>walkable(map,x,z));
 
 const { city, paddy, deep_forest: forest, wat_rang: wat } = MAPS;
 const WILD = ['paddy', 'deep_forest', 'wat_rang', 'klong'];
@@ -37,7 +41,8 @@ test('the registry has the city and four zone maps, linked by portals both ways'
       assert.ok(p.name, `${p.id} has no label`);
       // an instance (the world boss room) is entered from the news banner: its door only leads out
       if (!map.instance) assert.ok(MAPS[p.to].portals.some(q => q.to === map.id && q.style === p.style), `${p.to} has no ${p.style} back to ${map.id}`);
-      assert.ok(map.expedition ? p.node.startsWith(map.id) : J[p.node] && walkable(map, ...J[p.node]), `${p.id} exit node ${p.node} is not a junction on ${map.id}`);
+      const node = map.id === 'city' ? cityNode(p.node) : J[p.node];
+      assert.ok(map.expedition ? p.node.startsWith(map.id) : node && walkable(map, ...node), `${p.id} exit node ${p.node} is not a junction on ${map.id}`);
     }
   }
   assert.ok(city.safe && city.levels === null);
@@ -100,10 +105,10 @@ test('portals arrive somewhere standable that is not inside a trigger (no ping-p
       assert.ok(Math.hypot(J[p.node][0] - p.at.x, J[p.node][1] - p.at.z) < 15, `${p.id} is far from ${p.node}`);
     }
   }
-  // The city warp sits in the gate passage, off the wall road (z -103 ± 1.75).
+  // The compact gate warp stays clear of the north court's through route.
   const warp = city.portals[0];
   assert.equal(warp.to, 'paddy');
-  assert.ok(warp.at.z + warp.at.radius < -104.75, 'walking along the wall road would trigger the warp');
+  assert.ok(warp.at.z + warp.at.radius < cityNode('ave2')[1], 'walking across the north court would trigger the warp');
 });
 
 test('every landmark lies inside exactly one map and can be walked to there', () => {
@@ -201,7 +206,7 @@ test('every NPC home lies inside exactly one map; visitors leave the paddies thr
   }
   for (const map of Object.values(MAPS)) for (const id of map.visitors) assert.ok(NPCS.some(n => n.id === id), `unknown visitor ${id}`);
 
-  const has = map => id => (id === 'herb_gather' ? map.id === 'paddy' : !!J[id] && walkable(map, ...J[id]));
+  const has = map => id => (id === 'herb_gather' ? map.id === 'paddy' : map.id === 'city' ? !!cityNode(id) && walkable(map,...cityNode(id)) : !!J[id] && walkable(map, ...J[id]));
   const rosters = Object.fromEntries(MAP_IDS.map(id => [id, npcsForMap(NPCS, id, has(MAPS[id]))]));
   const inCity = rosters.city, outside = rosters.paddy;
   assert.equal(MAP_IDS.reduce((n, id) => n + rosters[id].filter(r => !r.visitor).length, 0), NPCS.length, 'each NPC is a resident of one map');
@@ -237,12 +242,12 @@ test('region names on each map come from that map\'s region list', () => {
 test('each original map\'s road graph is one connected network', () => {
   for (const map of Object.values(MAPS)) {
     if(map.expedition)continue;
-    const g = NavGraph.fromRoads((x, z) => walkable(map, x, z)), ids = [...g.nodes.keys()];
+    const g = graphFor(map), ids = [...g.nodes.keys()];
     if (map.instance) { assert.ok(map.portals.every(p => g.nodes.has(p.node)), `${map.id}: door node missing`); continue; }   // a closed room: no roads, no NPCs
     assert.ok(ids.length > 20, `${map.id} nav graph is tiny`);
     const start = map.portals[0].node, seen = new Set([start]), queue = [start];
     while (queue.length) for (const e of g.nodes.get(queue.shift()).edges) if (!seen.has(e.to)) { seen.add(e.to); queue.push(e.to); }
-    for (const id of Object.keys(J)) if (g.nodes.has(id)) assert.ok(seen.has(id), `${map.id}: ${id} is not reachable from the warp`);
+    for (const id of map.id === 'city' ? Object.keys(COMPACT_CITY_SPOTS) : Object.keys(J)) if (g.nodes.has(id)) assert.ok(seen.has(id), `${map.id}: ${id} is not reachable from the warp`);
     for (const p of map.portals) assert.ok(seen.has(p.node), `${map.id}: exit node ${p.node} is not connected`);
   }
 });
@@ -299,28 +304,29 @@ test('one training hall per class, inside the city walls', () => {
     assert.equal(hallOf(h.classId), h);
     for (const [x, z] of corners(h)) assert.ok(walkable(city, x, z) && x < 114.5, `${h.id} corner ${x.toFixed(1)},${z.toFixed(1)} is outside the city or in the wall`);
     for (const p of [h.door, h.master]) assert.ok(walkable(city, p.x, p.z) && waterAt(p.x, p.z) === 0, `${h.id} spot ${p.x},${p.z}`);
-    assert.ok(J[h.junction], `${h.id} links to unknown junction ${h.junction}`);
-    assert.ok(Math.hypot(h.door.x - J[h.junction][0], h.door.z - J[h.junction][1]) < 12, `${h.id} door is far from ${h.junction}`);
-    assert.equal(regionAt(h.x, h.z).id, 'halls', `${h.id} is not in ย่านสำนักครู`);
+    assert.ok(cityNode(h.junction), `${h.id} links to unknown junction ${h.junction}`);
+    const graph = graphFor(city);
+    assert.ok(graph.findPath(h.spots.door,h.junction), `${h.id} door cannot reach ${h.junction}`);
+    const district = h.classId === 'shaman' ? 'training' : 'halls';
+    assert.equal(regionAt(h.x, h.z).id, district, `${h.id} is not in its compact class district`);
     assert.ok(LANDMARKS.some(l => l.id === h.id && l.purpose === 'skills'), `${h.id} has no landmark`);
   }
 });
 
 test('hall yards are reserved and keep clear of each other, roads and water', () => {
   for (const h of HALLS) {
-    assert.ok(PLAZAS.some(p => p.hall === h.id && p.rect), `${h.id} yard is not reserved`);
+    assert.ok(COMPACT_CITY.buildings.some(b => b.id === h.id), `${h.id} footprint is not reserved`);
     for (const [x, z] of corners(h)) assert.ok(inYard(h.yard, x, z, .01), `${h.id} footprint leaves its yard`);
     assert.ok(inYard(h.yard, h.door.x, h.door.z), `${h.id} door is outside its yard`);
-    for (let x = h.yard.x - h.yard.rx; x <= h.yard.x + h.yard.rx; x += .5) for (let z = h.yard.z - h.yard.rz; z <= h.yard.z + h.yard.rz; z += .5) assert.equal(waterAt(x, z), 0, `${h.id} yard is wet at ${x},${z}`);
+    for (let x = h.yard.x - h.yard.rx; x <= h.yard.x + h.yard.rx; x += .5) for (let z = h.yard.z - h.yard.rz; z <= h.yard.z + h.yard.rz; z += .5) assert.ok(walkable(city,x,z), `${h.id} yard leaves city land at ${x},${z}`);
     for (const o of HALLS) if (o !== h) {
       const a = h.yard, b = o.yard;
       assert.ok(Math.abs(a.x - b.x) >= a.rx + b.rx || Math.abs(a.z - b.z) >= a.rz + b.rz, `${h.id} and ${o.id} yards overlap`);
     }
     // No road crosses a footprint (the quarter's lane passes in front of the doors).
-    for (const road of ROADS) for (const [x, z] of resample(roadPoints(road), .5)) {
-      const c = Math.cos(h.facing), s = Math.sin(h.facing), dx = x - h.x, dz = z - h.z;
-      const lx = dx * c - dz * s, lz = dx * s + dz * c;
-      assert.ok(Math.abs(lx) > h.w / 2 + road.w / 2 || Math.abs(lz) > h.d / 2 + road.w / 2, `${road.pts.join('→')} crosses ${h.id}`);
+    const footprint = COMPACT_CITY.buildings.find(b => b.id === h.id);
+    for (const road of COMPACT_CITY.roads) {
+      assert.ok(Math.abs(road.x-footprint.x) >= (road.w+footprint.w)/2 || Math.abs(road.z-footprint.z) >= (road.d+footprint.d)/2, `compact road crosses ${h.id}`);
     }
   }
 });
@@ -328,7 +334,7 @@ test('hall yards are reserved and keep clear of each other, roads and water', ()
 test('hall NPC spots chain master → door → lane junction', () => {
   const spots = hallSpots(), ids = new Set(spots.map(s => s.id));
   assert.equal(spots.length, HALLS.length * 2);
-  for (const s of spots) assert.ok(ids.has(s.link) || J[s.link], `${s.id} links to ${s.link}`);
-  const g = NavGraph.fromRoads((x, z) => walkable(city, x, z));
+  for (const s of spots) assert.ok(ids.has(s.link) || cityNode(s.link), `${s.id} links to ${s.link}`);
+  const g = graphFor(city);
   for (const h of HALLS) assert.ok(g.nodes.has(h.junction), `${h.junction} is not on the city nav graph`);
 });
