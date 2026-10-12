@@ -1,11 +1,13 @@
 {
   "date": "2026-10-12",
+  "scope": "Denser Forgotten City: neighborhoods, joined streets, layered gardens and civic market composition after 0374c9b",
   "viewport": {
     "width": 1600,
     "height": 900
   },
   "architectureCamera": {
     "zoom": 1,
+    "serviceShopZoom": 1.4,
     "overviewZoom": 0.2
   },
   "art": {
@@ -13,21 +15,50 @@
       [
         "world-contract",
         {
-          "buildings": 17,
+          "buildings": 33,
           "stats": {
             "map": "city",
-            "buildings": 17,
+            "streets": 47,
+            "streetSurfaceMeshes": 7,
+            "landscapeTrees": 66,
+            "landscapeShrubs": 305,
+            "landscapeFlowers": 492,
+            "landscapeGardens": 12,
+            "landscapePlanters": 26,
+            "landscapeTextures": 1,
+            "landscapeVariants": {
+              "banyan": 2,
+              "shade": 4,
+              "blossom": 4,
+              "palm": 2
+            },
+            "nightLights": 3,
+            "marketCanopies": 2,
+            "lotusFountains": 1,
+            "neighborhoodBuildings": 16,
+            "neighborhoodVariants": {
+              "woodworker": 1,
+              "potter": 1,
+              "teahouse": 2,
+              "weaver": 3,
+              "merchant": 2,
+              "bakery": 1,
+              "inn": 2,
+              "fisher": 4
+            },
+            "courtyardEdges": 17,
+            "buildings": 33,
             "halls": {
               "count": 6
             },
             "classCues": 6,
             "lodAssets": 2,
-            "staticMeshes": 334,
-            "instanceMeshes": 272,
-            "sourceMeshes": 4431,
+            "staticMeshes": 744,
+            "instanceMeshes": 340,
+            "sourceMeshes": 14854,
             "houses": 2,
-            "forestTrees": 0,
-            "buildMs": 67
+            "forestTrees": 66,
+            "buildMs": 330
           },
           "flat": true,
           "ground": true,
@@ -143,96 +174,124 @@
       [
         "view:plaza",
         {
-          "calls": 464,
-          "triangles": 706417
+          "calls": 766,
+          "triangles": 1325691
         }
       ],
       [
         "view:shops",
         {
-          "calls": 479,
-          "triangles": 745692
+          "calls": 754,
+          "triangles": 1358154
         }
       ],
       [
         "view:temple",
         {
-          "calls": 395,
-          "triangles": 796424
+          "calls": 589,
+          "triangles": 1374366
+        }
+      ],
+      [
+        "view:forge",
+        {
+          "calls": 679,
+          "triangles": 1332759
+        }
+      ],
+      [
+        "view:pharmacy",
+        {
+          "calls": 736,
+          "triangles": 1067240
+        }
+      ],
+      [
+        "view:general",
+        {
+          "calls": 727,
+          "triangles": 1279900
+        }
+      ],
+      [
+        "view:depot",
+        {
+          "calls": 666,
+          "triangles": 1075221
         }
       ],
       [
         "view:north-halls",
         {
-          "calls": 506,
-          "triangles": 764510
+          "calls": 748,
+          "triangles": 1139177
         }
       ],
       [
         "view:hunter",
         {
-          "calls": 424,
-          "triangles": 516202
+          "calls": 671,
+          "triangles": 898912
         }
       ],
       [
         "view:herbalist",
         {
-          "calls": 432,
-          "triangles": 501458
+          "calls": 733,
+          "triangles": 1046070
         }
       ],
       [
         "view:shaman",
         {
-          "calls": 451,
-          "triangles": 661651
+          "calls": 743,
+          "triangles": 1250146
         }
       ],
       [
         "view:assassin",
         {
-          "calls": 353,
-          "triangles": 468396
+          "calls": 560,
+          "triangles": 1062236
         }
       ],
       [
         "view:residential",
         {
-          "calls": 283,
-          "triangles": 452761
+          "calls": 496,
+          "triangles": 827603
         }
       ],
       [
         "view:port",
         {
-          "calls": 330,
-          "triangles": 498884
+          "calls": 516,
+          "triangles": 891665
         }
       ],
       [
         "view:night-plaza",
         {
-          "calls": 464,
-          "triangles": 610997
+          "calls": 778,
+          "triangles": 1282091
         }
       ],
       [
         "view:overview",
         {
-          "calls": 963,
-          "triangles": 622710
+          "calls": 1642,
+          "triangles": 2116522
         }
       ],
       [
         "dispose",
         {
-          "baseline": 399,
+          "baseline": 809,
           "after": 17,
           "released": {
-            "geometries": 542,
-            "materials": 75,
-            "textures": 10
+            "geometries": 1078,
+            "materials": 111,
+            "textures": 18
           },
           "idempotent": {
             "geometries": 0,
@@ -246,20 +305,49 @@
         {
           "stats": {
             "map": "city",
-            "buildings": 17,
+            "streets": 47,
+            "streetSurfaceMeshes": 7,
+            "landscapeTrees": 66,
+            "landscapeShrubs": 305,
+            "landscapeFlowers": 492,
+            "landscapeGardens": 12,
+            "landscapePlanters": 26,
+            "landscapeTextures": 1,
+            "landscapeVariants": {
+              "banyan": 2,
+              "shade": 4,
+              "blossom": 4,
+              "palm": 2
+            },
+            "nightLights": 3,
+            "marketCanopies": 2,
+            "lotusFountains": 1,
+            "neighborhoodBuildings": 16,
+            "neighborhoodVariants": {
+              "woodworker": 1,
+              "potter": 1,
+              "teahouse": 2,
+              "weaver": 3,
+              "merchant": 2,
+              "bakery": 1,
+              "inn": 2,
+              "fisher": 4
+            },
+            "courtyardEdges": 17,
+            "buildings": 33,
             "halls": {
               "count": 6
             },
             "classCues": 6,
             "lodAssets": 2,
-            "staticMeshes": 334,
-            "instanceMeshes": 272,
-            "sourceMeshes": 4431,
+            "staticMeshes": 744,
+            "instanceMeshes": 340,
+            "sourceMeshes": 14854,
             "houses": 2,
-            "forestTrees": 0,
-            "buildMs": 43
+            "forestTrees": 66,
+            "buildMs": 377
           },
-          "geometries": 363
+          "geometries": 773
         }
       ],
       [
@@ -269,7 +357,10 @@
         }
       ]
     ],
+    "errors": [],
+    "browserErrors": [],
     "shots": {
+      "overview": "overview.jpg",
       "plaza": "plaza.jpg",
       "temple": "temple.jpg",
       "north-halls": "north-halls.jpg",
@@ -279,102 +370,304 @@
       "assassin": "assassin.jpg",
       "port": "port.jpg",
       "night-plaza": "night-plaza.jpg",
-      "overview": "overview.jpg"
-    },
-    "errors": [],
-    "browserErrors": []
+      "forge": "forge.jpg",
+      "pharmacy": "pharmacy.jpg",
+      "general": "general.jpg",
+      "depot": "depot.jpg",
+      "residential": "residential.jpg"
+    }
   },
-  "production": {
+  "game": {
+    "passed": true,
     "checks": [
       "guest login",
       "character select",
       "character creation",
       "actual production World/NPCManager: six masters, four dummies, every phase contact reachable, server/client sampled collision parity",
-      "Escape closes actual atlas panel"
+      "Escape closes actual atlas panel",
+      "collision-aware real movement from spawn (0,3) to (0,8)",
+      "Space basic combat damages selected training dummy",
+      "guest save/reload retains current-revision training position",
+      "production shop counter approaches, daytime authorization and inventory row counts recorded",
+      "full-resolution production visual bookmarks: forge/temple default and rotated, all six hall masters, pharmacy/general/occult counters, warehouse/port"
     ],
     "errors": [],
-    "passed": true,
-    "collisionMismatches": [],
-    "stats": {
-      "map": "city",
-      "buildings": 17,
-      "halls": {
-        "count": 6
-      },
-      "classCues": 6,
-      "lodAssets": 2,
-      "staticMeshes": 334,
-      "instanceMeshes": 272,
-      "sourceMeshes": 4431,
-      "houses": 2,
-      "forestTrees": 0,
-      "buildMs": 57
-    },
     "captures": [
       {
         "name": "production-day",
+        "path": "production-day.png",
         "map": "city",
         "position": [
           0,
           0,
-          8
+          3
         ],
         "hour": 10,
         "phase": "day",
         "yaw": 0.5984188934785372,
         "zoom": 2,
-        "drawCalls": 428,
-        "triangles": 842877,
-        "geometries": 231,
-        "textures": 55,
+        "drawCalls": 680,
+        "triangles": 1286424,
+        "geometries": 361,
+        "textures": 59,
         "npcCount": 60,
-        "npcVisible": 21,
-        "dummies": 4,
-        "path": "production-day.png"
+        "npcVisible": 24,
+        "dummies": 4
       },
       {
         "name": "production-night",
+        "path": "production-night.png",
         "map": "city",
         "position": [
           0,
           0,
-          8
+          3
         ],
         "hour": 22,
         "phase": "night",
         "yaw": 0.5984188934785372,
         "zoom": 2,
-        "drawCalls": 430,
-        "triangles": 771639,
-        "geometries": 246,
-        "textures": 59,
+        "drawCalls": 699,
+        "triangles": 1388672,
+        "geometries": 397,
+        "textures": 64,
         "npcCount": 60,
-        "npcVisible": 21,
-        "dummies": 4,
-        "path": "production-night.png"
+        "npcVisible": 24,
+        "dummies": 4
       },
       {
         "name": "production-atlas",
+        "path": "production-atlas.png",
         "map": "city",
         "position": [
           0,
           0,
-          8
+          3
         ],
         "hour": 22,
         "phase": "night",
         "yaw": 0.5984188934785372,
         "zoom": 2,
-        "drawCalls": 432,
-        "triangles": 796823,
-        "geometries": 246,
-        "textures": 59,
+        "drawCalls": 699,
+        "triangles": 1388672,
+        "geometries": 397,
+        "textures": 64,
         "npcCount": 60,
-        "npcVisible": 21,
-        "dummies": 4,
-        "path": "production-atlas.png"
+        "npcVisible": 24,
+        "dummies": 4
+      },
+      {
+        "name": "production-forge",
+        "path": "production-forge.png",
+        "map": "city",
+        "position": [
+          -12,
+          0,
+          -13
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 646,
+        "triangles": 1424811,
+        "geometries": 434,
+        "textures": 65,
+        "npcCount": 60,
+        "npcVisible": 34,
+        "dummies": 4
+      },
+      {
+        "name": "production-forge-rotated",
+        "path": "production-forge-rotated.png",
+        "map": "city",
+        "position": [
+          -12,
+          0,
+          -13
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 2.1692152202734336,
+        "zoom": 2,
+        "drawCalls": 649,
+        "triangles": 1457480,
+        "geometries": 435,
+        "textures": 65,
+        "npcCount": 60,
+        "npcVisible": 34,
+        "dummies": 4
+      },
+      {
+        "name": "production-counter-pharmacy",
+        "path": "production-counter-pharmacy.png",
+        "map": "city",
+        "position": [
+          14,
+          0,
+          -17
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 682,
+        "triangles": 1075805,
+        "geometries": 768,
+        "textures": 80,
+        "npcCount": 60,
+        "npcVisible": 22,
+        "dummies": 4
+      },
+      {
+        "name": "production-counter-general",
+        "path": "production-counter-general.png",
+        "map": "city",
+        "position": [
+          -14,
+          0,
+          12
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 703,
+        "triangles": 1260705,
+        "geometries": 772,
+        "textures": 85,
+        "npcCount": 60,
+        "npcVisible": 23,
+        "dummies": 4
+      },
+      {
+        "name": "production-counter-depot",
+        "path": "production-counter-depot.png",
+        "map": "city",
+        "position": [
+          14,
+          0,
+          12
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 642,
+        "triangles": 1273227,
+        "geometries": 788,
+        "textures": 86,
+        "npcCount": 60,
+        "npcVisible": 22,
+        "dummies": 4
+      },
+      {
+        "name": "production-homes",
+        "path": "production-homes.png",
+        "map": "city",
+        "position": [
+          -54,
+          0,
+          47
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 2,
+        "drawCalls": 436,
+        "triangles": 789475,
+        "geometries": 809,
+        "textures": 86,
+        "npcCount": 60,
+        "npcVisible": 9,
+        "dummies": 4
+      },
+      {
+        "name": "production-warehouse-facade-zoom-1.25",
+        "path": "warehouse-facade.png",
+        "map": "city",
+        "position": [
+          -28,
+          0,
+          52
+        ],
+        "hour": 10,
+        "phase": "day",
+        "yaw": 0.5984188934785372,
+        "zoom": 1.25,
+        "drawCalls": 500,
+        "triangles": 815773,
+        "geometries": 817,
+        "textures": 86,
+        "npcCount": 60,
+        "npcVisible": 16,
+        "dummies": 4
       }
     ]
   },
-  "collisionSourceHash": "b92e9ae631a6a3d67002d2787e0e8debbf987b53e9e3de9945526797c949a121"
+  "collision": {
+    "base": "0374c9b75dc2b410f84cfe4a9e1b646257e7f292",
+    "sourceHash": "91fa9d92e851beb7f983acdb4aa6e4ef697455fc2a811e0fe520984185bf67e8",
+    "mapCount": 14,
+    "nonCityIdentical": 13,
+    "comparison": {
+      "city": {
+        "identical": false,
+        "shapes": 47
+      },
+      "paddy": {
+        "identical": true,
+        "shapes": 756
+      },
+      "deep_forest": {
+        "identical": true,
+        "shapes": 1145
+      },
+      "wat_rang": {
+        "identical": true,
+        "shapes": 1574
+      },
+      "klong": {
+        "identical": true,
+        "shapes": 1055
+      },
+      "ruen_ho": {
+        "identical": true,
+        "shapes": 34
+      },
+      "bamboo_grave": {
+        "identical": true,
+        "shapes": 118
+      },
+      "sealed_mine": {
+        "identical": true,
+        "shapes": 139
+      },
+      "sunken_city": {
+        "identical": true,
+        "shapes": 122
+      },
+      "dusk_fort": {
+        "identical": true,
+        "shapes": 126
+      },
+      "giant_valley": {
+        "identical": true,
+        "shapes": 143
+      },
+      "himmapan": {
+        "identical": true,
+        "shapes": 121
+      },
+      "fallen_city": {
+        "identical": true,
+        "shapes": 141
+      },
+      "demon_rift": {
+        "identical": true,
+        "shapes": 135
+      }
+    }
+  },
+  "note": "Actual production captures after final market/fountain/lighting revision; generated concept is documented separately in TARGET_CONCEPT.md. Software rendering, not a hardware FPS claim."
 }

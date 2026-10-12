@@ -1,7 +1,8 @@
+import { CITY_NEIGHBORHOODS } from './compact-city-neighborhoods.js';
 const building = (id,label,x,z,w,d,kind,stage,color,front='south') => ({id,label,x,z,w,d,kind,stage,color,front});
 const poi = (id,label,x,z,buildingId,stage,role,extra={}) => ({id,label,x,z,buildingId,stage,role,...extra});
 export const COMPACT_CITY = {
-  bounds:{minX:-72,maxX:72,minZ:-64,maxZ:64},center:{x:0,z:0},spawn:{x:0,z:8},
+  bounds:{minX:-72,maxX:72,minZ:-64,maxZ:64},center:{x:0,z:0},spawn:{x:0,z:3},
   roads:[{x:0,z:0,w:10,d:120},{x:0,z:0,w:132,d:10},{x:-36,z:0,w:7,d:86},{x:36,z:0,w:7,d:86},{x:0,z:-32,w:79,d:7},{x:0,z:32,w:79,d:7},{x:0,z:52,w:112,d:7}],
   districts:[
     {id:'civic',label:'ลานหลักเมือง',x:0,z:0,w:34,d:42,color:'#d8c49b'},
@@ -29,6 +30,7 @@ export const COMPACT_CITY = {
     building('warehouse','โกดังท่าเรือ',-28,43,17,9,'warehouse','built','#998567'),
     building('fishmarket','ตลาดริมน้ำ',22,43,16,8,'market','built','#b78a63'),
     building('homes','เรือนชาวบ้าน',-54,39,16,12,'house','built','#b69a76'),
+    ...CITY_NEIGHBORHOODS,
   ],
   pois:[
     poi('plaza','ลานหลักเมือง',0,0,'landmark','built','รวมตัว / จุดเริ่มต้น'),

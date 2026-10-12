@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { COMPACT_CITY, compactCityCanStand } from '../src/world/compact-city.js';
+import { CITY_NEIGHBORHOODS } from '../src/world/compact-city-neighborhoods.js';
 import { COMPACT_CITY_SPOTS } from '../src/data/compactCityNpcs.js';
 import { NPCS } from '../src/data/npcs.js';
 import { CONTACT_PHASES, contactSitesFor } from '../src/data/npcContact.js';
@@ -22,6 +23,24 @@ const collision = new Collision(8);
 for (const b of COMPACT_CITY.buildings) collision.addBox(b.x,b.z,b.w,b.d);
 for (const p of MAPS.city.portals) for (const s of portalPillars(MAPS.city,p)) collision.addCircle(s.x,s.z,s.r);
 const canStand = (x,z,pad=.28) => compactCityCanStand(x,z,pad) && !collision.blocked(x,z,pad);
+
+test('inhabited infill and garden reservations block their interiors and retain player body clearance', () => {
+  assert.equal(CITY_NEIGHBORHOODS.filter(b=>b.kind==='infill').length,16);
+  assert.equal(CITY_NEIGHBORHOODS.filter(b=>b.kind==='garden').length,12);
+  assert.equal(new Set(COMPACT_CITY.buildings.map(b=>b.id)).size,COMPACT_CITY.buildings.length);
+  for(const b of CITY_NEIGHBORHOODS) {
+    assert.equal(COMPACT_CITY.buildings.find(at=>at.id===b.id),b,`${b.id}: canonical reservation missing`);
+    for(const pad of [.28,.35,.6]) {
+      const points=[[b.x,b.z],[b.x+b.w/2+pad-.01,b.z],[b.x-b.w/2-pad+.01,b.z],
+        [b.x,b.z+b.d/2+pad-.01],[b.x,b.z-b.d/2-pad+.01]];
+      for(const [x,z] of points) {
+        assert.equal(compactCityCanStand(x,z,pad),false,`${b.id}: reservation permits ${x},${z},pad=${pad}`);
+        assert.equal(collision.blocked(x,z,pad),true,`${b.id}: client collision misses body clearance`);
+      }
+    }
+  }
+  assert.ok(canStand(COMPACT_CITY.spawn.x,COMPACT_CITY.spawn.z,.6),'infill must preserve usable spawn');
+});
 function reachable(goal,label) {
   assert.ok(canStand(goal.x,goal.z),`${label}: blocked endpoint ${goal.x},${goal.z}`);
   const path=findPath(canStand,COMPACT_CITY.spawn,goal,{ margin:24 });

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { COMPACT_CITY, compactCityCanStand, compactCityHeightAt } from './compact-city.js';
+import { cityPavedAt } from './compact-city-streets.js';
 import { Collision } from './Collision.js';
 import { portalPillars } from './portal-layout.js';
 import { windUniforms } from './shaders.js';
@@ -47,9 +48,7 @@ export async function buildCompactCityWorld(scene, map, progress = () => {}) {
   const data = new Uint8Array(width * height * 4);
   for (let j = 0; j < height; j++) for (let i = 0; i < width; i++) {
     const x = rect.minX + i + .5, z = rect.minZ + j + .5;
-    const paved = COMPACT_CITY.roads.some(r => Math.abs(x-r.x) <= r.w/2 && Math.abs(z-r.z) <= r.d/2)
-      || Math.abs(x) < 14.2 && Math.abs(z) < 14.2
-      || COMPACT_CITY.buildings.some(b => Math.abs(x-b.x) < b.w/2+1 && Math.abs(z-b.z) < b.d/2+1);
+    const paved = cityPavedAt(x,z);
     const k = (j * width + i) * 4;
     data[k] = paved ? 0 : 140; data[k+1] = 80; data[k+2] = 12; data[k+3] = 255;
   }
@@ -70,9 +69,9 @@ export async function buildCompactCityWorld(scene, map, progress = () => {}) {
   return {
     map, root, ground: art.ground, terrain, mask: { area: rect, width, height, data },
     collision, grass, atmosphere, water: art.water, boats: null, animals: null,
-    spots: {}, footprints: COMPACT_CITY.buildings.map(b => ({ ...b, rot: 0, paint: b.kind === 'temple' || b.kind === 'chedi' ? 'stone' : 'earth' })),
+    spots: {}, footprints: COMPACT_CITY.buildings.filter(b=>b.kind!=='garden').map(b => ({ ...b, rot: 0, paint: b.kind === 'temple' || b.kind === 'chedi' ? 'stone' : 'earth' })),
     market: [],
-    stats: { map: map.id, ...art.stats, houses: 2, forestTrees: 0, buildMs: Math.round(performance.now()-start) },
+    stats: { map: map.id, ...art.stats, houses: 2, forestTrees: art.stats.landscapeTrees ?? 0, buildMs: Math.round(performance.now()-start) },
     contains(x, z) { return Number.isFinite(x) && Number.isFinite(z) && x >= bounds.minX && x <= bounds.maxX && z >= bounds.minZ && z <= bounds.maxZ; },
     canStand(x, z, pad = .28) { return compactCityCanStand(x,z,pad) && !collision.blocked(x,z,pad); },
     heightAt: compactCityHeightAt,

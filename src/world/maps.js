@@ -69,7 +69,7 @@ export const MAPS = {
     // New players and respawns start in the heart of the city: the south side of the market
     // plaza, a short walk from the shops, ลานฝึกครู (the training dummies) and the north gate.
     spawn: { ...COMPACT_CITY.spawn, facing: Math.PI },
-    respawn: [[0, 8], [0, -55]],
+    respawn: [[COMPACT_CITY.spawn.x, COMPACT_CITY.spawn.z], [0, -55]],
     entities: ['boats', 'animals'],
     regions: ['river', 'port', 'fishmkt', 'fishing', 'riverside', 'market', 'merchants', 'smiths', 'training', 'halls', 'center', 'residential', 'temple', 'city', 'gate'],
     portals: [

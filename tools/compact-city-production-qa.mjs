@@ -60,17 +60,18 @@ try {
     const {SPOT_SITES}=await import('/src/data/shopSites.js');
     const {findPath,clearLine}=await import('/src/core/GridPath.js');
     const {HALLS}=await import('/src/data/halls.js');
+    const spawn=g.maps.map.spawn;
     const unreachable=[];
     for(const n of NPCS)for(const phase of CONTACT_PHASES)for(const s of contactSitesFor(n,phase,SPOT_SITES).filter(s=>s.map==='city')) {
-      const path=findPath((x,z)=>g.world.canStand(x,z),{x:0,z:8},s,{margin:24});
+      const path=findPath((x,z)=>g.world.canStand(x,z),spawn,s,{margin:24});
       if(!g.world.canStand(s.x,s.z)||!path)unreachable.push(`${n.id}/${phase}`);
     }
     const masterIds=HALLS.map(h=>NPCS.find(n=>Object.values(n.schedule??{}).some(a=>a.at===h.spots.master))?.id);
     const actualMasters=masterIds.map(id=>({id,present:g.npcs.npcs.some(n=>n.def?.id===id)}));
     const clientSamples=[];
     for(let z=-65;z<=65;z+=1)for(let x=-73;x<=73;x+=1)clientSamples.push([x,z,g.world.canStand(x,z)]);
-    const path=findPath((x,z)=>g.world.canStand(x,z),{x:0,z:8},{x:0,z:-32},{margin:24});
-    let at={x:0,z:8};let clear=!!path;for(const next of path??[]){clear &&=clearLine((x,z)=>g.world.canStand(x,z),at.x,at.z,next.x,next.z);at=next;}
+    const path=findPath((x,z)=>g.world.canStand(x,z),spawn,{x:0,z:-32},{margin:24});
+    let at=spawn;let clear=!!path;for(const next of path??[]){clear &&=clearLine((x,z)=>g.world.canStand(x,z),at.x,at.z,next.x,next.z);at=next;}
     return {map:g.maps.map.id,root:g.world.root.name,spawn:g.player.position.toArray(),stats:g.world.stats,unreachable,actualMasters,dummies:g.training.dummies?.length,pathClear:clear,clientSamples};
   });
   assert.equal(result.production.root,'map:compact-city');
@@ -95,9 +96,9 @@ try {
   result.checks.push('Escape closes actual atlas panel');
   if (!process.argv.includes('--atlas-only')) {
   // Short real movement smoke: long trips can exceed wall-time on SwiftShader.
-  assert.ok(await page.evaluate(()=>window.game.walkTo(0,3)));
-  await page.waitForFunction(()=>Math.hypot(window.game.player.position.x,window.game.player.position.z-3)<.3,null,{timeout:30000});
-  result.checks.push('collision-aware real movement from spawn (0,8) to (0,3)');
+  assert.ok(await page.evaluate(()=>window.game.walkTo(0,8)));
+  await page.waitForFunction(()=>Math.hypot(window.game.player.position.x,window.game.player.position.z-8)<.3,null,{timeout:30000});
+  result.checks.push('collision-aware real movement from spawn (0,3) to (0,8)');
   await bookmark('production-training-arrival',{x:0,z:-32});
   const before=await page.evaluate(()=>{const t=window.game.training;t.select(t.dummies[1]);return t.dummies[1].dummy.hp;});
   await page.keyboard.press('Space');
@@ -140,6 +141,7 @@ try {
     await bookmark(`production-counter-${name}`,point);
   }
   await bookmark('production-counter-depot',{x:14,z:12});
+  await bookmark('production-homes',{x:-54,z:47});
   await bookmark('production-warehouse-port',{x:0,z:55});
   await bookmark('production-warehouse-facade-zoom-1.25',{x:-28,z:52},false,1.25);
   result.checks.push('full-resolution production visual bookmarks: forge/temple default and rotated, all six hall masters, pharmacy/general/occult counters, warehouse/port');

@@ -5,6 +5,10 @@ import { M as kitMaterials } from '../materials.js';
 import { createRng } from '../rng.js';
 import { patchMaterial } from '../shaders.js';
 import { COMPACT_CITY as CITY } from '../compact-city.js';
+import { buildCityStreets } from './buildCityStreets.js';
+import { buildCityNeighborhoods, buildCityCourtyardEdges } from './buildCityNeighborhoods.js';
+import { buildCityLandscape } from './buildCityLandscape.js';
+import { buildCityMarket } from './buildCityMarket.js';
 
 // Production dressing adapted from the approved compact-city proposal. The
 // canonical module owns navigation: every solid is inside a building reservation
@@ -51,9 +55,7 @@ export async function buildCityArt(root, progress = () => {}) {
     if (fade) patchMaterial(m,{fade:true}); mats.push(m); return m;
   };
   const M = {
-    sand:mat('#96a979'), path:mat('#ccb893'), brick:mat('#927456'), rim:mat('#ead4a5'),
-    verge:mat('#c9b992',{transparent:true,opacity:.28,depthWrite:false}),
-    vergeInner:mat('#c9b992',{transparent:true,opacity:.42,depthWrite:false}),
+    sand:mat('#96a979'), path:mat('#c2b8a4'), brick:mat('#927456'), rim:mat('#ead4a5'),
     wood:mat('#684c33'), dark:mat('#3e3830'), timber:mat('#987044'), cream:mat('#ede0b5'),
     gold:mat('#caa05e',{metalness:.15}), copper:mat('#b06439'), jade:mat('#49775c'),
     ochre:mat('#cf9b4d'), indigo:mat('#556979'), iron:mat('#566166',{metalness:.5}),
@@ -67,7 +69,7 @@ export async function buildCityArt(root, progress = () => {}) {
   // Broad painted grain/courses reinforce the modeled boards and plinths;
   // shared small textures stay restrained at the normal orthographic zoom.
   function surfaceTexture(kind) {
-    const canvas=document.createElement('canvas');canvas.width=canvas.height=64;
+    const canvas=document.createElement('canvas');canvas.width=canvas.height=kind==='paving'?256:64;
     const c=canvas.getContext('2d'),look=createRng(kind==='wood'?5143:7119);
     c.fillStyle='#f3eddf';c.fillRect(0,0,64,64);
     if(kind==='wood') {
@@ -76,12 +78,20 @@ export async function buildCityArt(root, progress = () => {}) {
         c.beginPath();c.moveTo(x,0);c.bezierCurveTo(x+look.range(-3,3),20,x+look.range(-3,3),42,x,64);c.stroke();
       }
     }else if(kind==='paving') {
-      // Four broad stone slabs per four-metre repeat, with quiet mortar joints.
-      for(let row=0;row<2;row++)for(let col=0;col<2;col++) {
-        c.fillStyle=(row+col)%2?'#f4efe5':'#ebe6db';c.fillRect(col*32,row*32,32,32);
+      // Offset one-metre limestone slabs, clipped/worn corners and broad colour
+      // washes keep the civic court softer than a perfectly regular tile grid.
+      c.fillStyle='#c5bfae';c.fillRect(0,0,256,256);
+      for(let row=0;row<4;row++)for(let col=-1;col<5;col++) {
+        const x=col*64+(row%2)*32,y=row*64,cut=look.range(2,5);
+        c.fillStyle=['#ece7d9','#e5e0d2','#f0eadd','#e8e3d6'][(row+col+8)%4];
+        c.beginPath();c.moveTo(x+cut,y+1.5);c.lineTo(x+62-cut,y+1.5);
+        c.lineTo(x+62,y+cut);c.lineTo(x+62,y+62-cut);c.lineTo(x+62-cut,y+62);
+        c.lineTo(x+cut,y+62);c.lineTo(x+1.5,y+62-cut);c.lineTo(x+1.5,y+cut);c.closePath();c.fill();
+        c.strokeStyle='rgba(255,255,241,.25)';c.lineWidth=1.5;
+        c.beginPath();c.moveTo(x+cut,y+3);c.lineTo(x+59,y+3);c.stroke();
+        c.fillStyle='rgba(151,144,123,.06)';
+        c.beginPath();c.ellipse(x+33,y+35,look.range(13,23),look.range(8,15),look.range(0,3),0,Math.PI*2);c.fill();
       }
-      c.fillStyle='#d9d2c4';
-      for(const t of[0,32]){c.fillRect(t,0,1,64);c.fillRect(0,t,64,1);}
     }else {
       c.fillStyle='#d3c9b6';
       for(let row=0;row<4;row++){
@@ -136,6 +146,13 @@ export async function buildCityArt(root, progress = () => {}) {
   }
   function crate(p,x,y,z,s=1){box(p,M.timber,x,y+s*.45,z,s,s*.9,s*.85);for(const h of[-.32,.32])box(p,M.dark,x,y+s*(.45+h),z+s*.43,s*1.03,.075,s*.05);for(const dx of[-.38,.38])box(p,M.wood,x+dx*s,y+s*.45,z+s*.435,.09,s*.86,.05);}
   function pot(p,x,y,z,s=1,herbs=false){cyl(p,M.clay,x,y+.32*s,z,.34*s,.58*s);cyl(p,M.dark,x,y+.63*s,z,.28*s,.035*s);if(herbs)for(let k=0;k<5;k++){const a=k*2.4;ball(p,k%2?M.leaf:M.leafLight,x+Math.cos(a)*s*.24,y+s*(.83+.11*(k%2)),z+Math.sin(a)*s*.24,s*.23,s*.37,s*.22);}}
+  function basketAt(p,x,y,z,s=1) {
+    cyl(p,M.timber,x,y+.22*s,z,.34*s,.43*s);
+    cyl(p,M.ochre,x,y+.45*s,z,.37*s,.07*s);
+    cyl(p,M.dark,x,y+.49*s,z,.29*s,.025*s);
+    for(const side of[-1,1])beam(p,M.wood,[x+side*.32*s,y+.46*s,z],[x+side*.25*s,y+.72*s,z],.035*s);
+    beam(p,M.wood,[x-.25*s,y+.72*s,z],[x+.25*s,y+.72*s,z],.035*s);
+  }
   function bottle(p,x,y,z,m,s=1){ball(p,m,x,y+.21*s,z,.18*s,.23*s,.18*s);cyl(p,m,x,y+.46*s,z,.075*s,.22*s);cyl(p,M.gold,x,y+.6*s,z,.085*s,.07*s);}
   function roof(p,w,d,y,h=2,roofMaterial=M.roof){
     const profile=[[-w/2,.13],[-w*.39,0],[-w*.20,h*.39],[0,h],[w*.20,h*.39],[w*.39,0],[w/2,.13]];
@@ -161,6 +178,7 @@ export async function buildCityArt(root, progress = () => {}) {
     for(let j=0;j<6;j++){const z=-d/2+(j+.5)*d/6;for(const side of[-1,1])beam(p,M.roofLight,[0,y+h+.035,z],[side*w*.4,y+.055,z],.026);}
   }
   function shop(b){
+    if(['forge','pharmacy','general','storage'].includes(b.id))return serviceShop(b);
     const g=new THREE.Group();g.name=b.id;g.position.set(b.x,0,b.z);g.rotation.y=({east:Math.PI/2,west:-Math.PI/2,north:Math.PI,south:0})[b.front]??0;staticRoot.add(g);
     const rotated=b.front==='east'||b.front==='west',w=rotated?b.d:b.w,d=rotated?b.w:b.d;
     const kind=b.id, accent=/forge|smith/.test(kind)?M.copper:/pharm|herb|potion/.test(kind)?M.jade:/stor|stash/.test(kind)?M.indigo:M.ochre;
@@ -198,6 +216,167 @@ export async function buildCityArt(root, progress = () => {}) {
     }
     box(g,M.timber,0,1.72,-d*.18,w*.52,.10,.7);
     for(let i=0;i<5;i++)pot(g,-w*.19+i*w*.095,1.78,-d*.18,.55,i%2===0);
+  }
+
+  function serviceShop(b) {
+    const g=new THREE.Group();g.name=b.id;g.position.set(b.x,0,b.z);
+    g.rotation.y=({east:Math.PI/2,west:-Math.PI/2,north:Math.PI,south:0})[b.front]??0;staticRoot.add(g);
+    const sideways=b.front==='east'||b.front==='west',w=sideways?b.d:b.w,d=sideways?b.w:b.d;
+    box(g,M.brick,0,.22,0,w-.3,.44,d-.3);box(g,M.rim,0,.46,0,w-.25,.08,d-.25);
+    function post(x,z,h) {
+      box(g,M.rim,x,.65,z,.44,.30,.44);box(g,M.wood,x,(h+.50)/2,z,.23,h-.5,.23);
+      beam(g,M.timber,[x,h-.9,z],[x-.55,h-.12,z],.085);
+      beam(g,M.timber,[x,h-.9,z],[x,h-.12,z-.55],.085);
+    }
+    function boards(x,z,width,bottom,top,material=M.timber) {
+      box(g,material,x,(bottom+top)/2,z,width,top-bottom,.22);
+      for(let y=bottom+.35;y<top;y+=.55)box(g,M.wood,x,y,z+.13,width,.06,.045);
+      for(const side of[-1,1])box(g,M.dark,x+side*(width/2-.08),(bottom+top)/2,z+.16,.13,top-bottom,.09);
+    }
+    function shade(x,z,width,depth,y,material) {
+      const canopy=box(g,material,x,y,z,width,.07,depth);canopy.rotation.x=.13;
+      box(g,roofM.wood,x,y-.31,z+depth/2-.1,width,.13,.12);
+      for(const side of[-1,1])post(x+side*(width/2-.25),z+depth/2-.15,y-.25);
+    }
+    function door(x,z,width,height,bottom=.52) {
+      box(g,M.dark,x,bottom+height/2,z,width,height,.12);
+      for(const side of[-1,1])box(g,M.timber,x+side*(width/2+.08),bottom+height/2,z+.10,.16,height+.18,.18);
+      box(g,M.wood,x,bottom+height+.10,z+.12,width+.5,.22,.24);
+    }
+    if(b.id==='forge') {
+      // Low, open-sided smithy. Hearth and anvil face the street, not a counter.
+      boards(1.0,-d*.37,w*.68,.52,3.30,M.dark);
+      kitRoof(g,{width:w*.62,depth:d*.57,y:3.55,height:2.20,x:w*.12,z:-d*.12,material:kitMaterials.tileDark,pattern:'panel'});
+      for(const x of[-w*.18,w*.41])for(const z of[-d*.34,d*.14])post(x,z,3.50);
+      // Detached brick chimney is a strong silhouette above the lower workshop.
+      box(g,M.brick,-w*.32,3.6,-d*.23,1.15,6.2,1.15);
+      for(const y of[1.1,3.4,6.55])box(g,M.rim,-w*.32,y,-d*.23,1.38,.17,1.38);
+      box(g,M.dark,-w*.32,6.65,-d*.23,.87,.035,.87);
+      box(g,M.brick,-w*.24,1.02,d*.21,2.2,1.0,1.65);
+      box(g,M.dark,-w*.24,1.56,d*.21,1.65,.10,1.15);
+      box(g,M.fire,-w*.24,1.65,d*.21,1.32,.10,.90);
+      for(const side of[-1,1])box(g,M.brick,-w*.24+side*.94,1.82,d*.21,.28,.66,1.65);
+      cyl(g,M.wood,w*.22,.88,d*.28,.49,.75);
+      box(g,M.iron,w*.22,1.37,d*.28,1.35,.28,.61);
+      const horn=mesh(g,CONE,M.iron,w*.22+.88,1.39,d*.28,.27,.63,.27);horn.rotation.z=-Math.PI/2;
+      beam(g,M.wood,[w*.19,1.60,d*.27],[w*.27,1.62,d*.34],.055);
+      box(g,M.iron,w*.27,1.63,d*.34,.32,.14,.16);
+      box(g,M.wood,.65,1.92,-d*.35,2.8,.16,.18);
+      for(let i=0;i<4;i++){const x=-.35+i*.60;beam(g,M.iron,[x,1.15,-d*.34],[x,2.45,-d*.34],.05);box(g,M.timber,x,2.25,-d*.32,.48,.13,.13);}
+      for(let i=0;i<4;i++)cyl(g,M.wood,-w*.34+i*.38,.70,-d*.40,.14,.28).rotation.z=Math.PI/2;
+      pot(g,w*.39,.51,d*.39,1.0,false);
+      lanternAt(g,w*.40,2.7,d*.12,.21,.44);
+    }else if(b.id==='pharmacy') {
+      // An L-shaped clinic: a plaster rear room and a timber herb-drying wing.
+      box(g,M.cream,0,2.05,-d*.27,w-.95,3.1,d*.27);
+      kitRoof(g,{width:w-.9,depth:d*.34,y:3.65,height:2.65,z:-d*.27,material:kitMaterials.tileGreen,pattern:'sun'});
+      box(g,M.timber,-w*.31,1.85,d*.03,w*.25,2.7,d*.52);
+      kitRoof(g,{width:w*.29,depth:d*.57,y:3.1,height:1.90,x:-w*.31,z:d*.03,material:kitMaterials.tileGreen,pattern:'panel'});
+      framedWindow(g,-w*.26,2.16,-d*.125,1.55,1.35);framedWindow(g,w*.27,2.16,-d*.125,1.55,1.35);
+      door(0,-d*.12,1.60,2.4);
+      // Woven shade cloth has no oversized roof-tile UVs on this shallow awning.
+      shade(w*.13,d*.24,w*.62,d*.35,2.90,mat('#778f61',{},true));
+      box(g,M.timber,w*.13,1.12,d*.30,w*.48,.19,1.1);
+      for(let i=0;i<5;i++)bottle(g,-w*.05+i*.37,1.23,d*.30,i%2?M.blue:M.red,1.0);
+      for(let i=0;i<4;i++) {
+        const x=-w*.02+i*.55;
+        beam(g,M.timber,[x,2.8,d*.35],[x,2.37,d*.35],.025);
+        for(const side of[-1,1])ball(g,side<0?M.leaf:M.leafLight,x+side*.09,2.27,d*.35,.12,.29,.13);
+      }
+      for(let i=0;i<3;i++)pot(g,-w*.31,.51,d*.29+i*.60,.78,true);
+      pot(g,w*.38,.51,-d*.08,1.10,false);lanternAt(g,w*.36,2.43,d*.39,.20,.43);
+    }else if(b.id==='general') {
+      // A tall timber shophouse with upper living quarters and a woven awning.
+      box(g,M.timber,0,3.0,-d*.19,w-.95,5.0,d*.44);
+      boards(0,d*.035,w-.95,.52,5.58);
+      kitRoof(g,{width:w-.8,depth:d*.52,y:5.80,height:3.0,z:-d*.19,material:kitMaterials.tileOrange,pattern:'sun'});
+      door(-w*.18,d*.045,1.75,2.35);
+      for(const x of[-w*.24,w*.24])framedWindow(g,x,4.35,d*.055,1.55,1.55);
+      box(g,M.timber,0,3.26,d*.105,w*.73,.16,.85);
+      box(g,M.wood,0,3.95,d*.135,w*.73,.11,.13);
+      for(let i=0;i<8;i++)box(g,M.wood,-w*.32+i*w*.091,3.61,d*.135,.07,.64,.07);
+      shade(0,d*.27,w-.95,d*.35,2.80,roofM.cream);
+      for(const x of[-w*.28,0,w*.28])box(g,roofM.gold,x,2.82,d*.27,.26,.035,d*.35);
+      box(g,M.wood,w*.18,1.10,d*.33,w*.36,1.12,1.1);
+      box(g,M.timber,w*.18,1.71,d*.33,w*.39,.12,1.25);
+      for(let i=0;i<3;i++)pot(g,w*.05+i*.60,1.77,d*.33,.65,false);
+      crate(g,-w*.29,.51,d*.27,1.14);crate(g,-w*.30,.51,-d*.04,.82);
+      for(let i=0;i<2;i++){ball(g,M.cream,-w*.13+i*.40,.82,d*.35,.27,.32,.31);box(g,M.dark,-w*.13+i*.40,1.12,d*.35,.16,.055,.10);}
+      lanternAt(g,-w*.37,2.32,d*.41,.20,.45);
+    }else {
+      // High storehouse doors, a loading porch and a lower side cargo shelter.
+      box(g,M.timber,0,2.85,-d*.18,w-.95,4.65,d*.47);
+      boards(0,d*.065,w-.95,.52,5.1,M.wood);
+      kitRoof(g,{width:w-.85,depth:d*.55,y:5.25,height:3.6,z:-d*.18,material:kitMaterials.tileDark,pattern:'panel'});
+      door(0,d*.08,w*.47,3.8);
+      for(const side of[-1,1]) {
+        const x=side*w*.24;
+        // Doors stand open beside the dark cargo bay, with large diagonal braces.
+        boards(x,d*.11,w*.22,.58,4.35);
+        beam(g,M.timber,[x-w*.09,.80,d*.13],[x+w*.09,4.10,d*.13],.09);
+        box(g,M.gold,x-side*.60,2.3,d*.17,.10,.38,.08);
+      }
+      box(g,M.timber,0,.65,d*.31,w*.77,.29,d*.28);
+      kitRoof(g,{width:w*.79,depth:d*.30,y:3.2,height:1.35,z:d*.30,material:kitMaterials.tileDark,pattern:null});
+      for(const side of[-1,1])post(side*w*.36,d*.41,3.17);
+      for(let i=0;i<3;i++)crate(g,-w*.27+i*.95,.81,d*.29,1.0);
+      crate(g,-w*.27,1.76,d*.29,.86);
+      ball(g,M.cream,w*.27,1.13,d*.33,.42,.37,.48);box(g,M.wood,w*.27,1.48,d*.33,.18,.055,.12);
+      lanternAt(g,w*.34,2.67,d*.40,.22,.47);
+    }
+  }
+
+  function compoundHome(sub,index) {
+    const g=new THREE.Group();g.name=`homes:${index}`;g.position.set(sub.x,0,sub.z);staticRoot.add(g);
+    const w=sub.w-.5,d=sub.d-1,tall=index===0,deck=tall?1.30:.48;
+    const wall=tall?M.wood:M.cream,eave=tall?4.25:3.15;
+    for(const x of[-w*.37,w*.37])for(const z of[-d*.34,d*.34]) {
+      cyl(g,M.wood,x,deck/2,z,.15,deck);
+      if(tall)beam(g,M.timber,[x,.18,z],[x*.55,deck-.10,z],.08);
+    }
+    box(g,M.timber,0,deck,0,w,.17,d-.3);
+    box(g,wall,0,(deck+eave)/2,-d*.13,w-.45,eave-deck,d*.57);
+    for(const x of[-w*.39,w*.39])box(g,M.timber,x,(deck+eave)/2,d*.15,.17,eave-deck,.18);
+    const doorX=tall?-w*.15:w*.18;
+    box(g,M.dark,doorX,deck+1.12,d*.163,1.12,2.12,.12);
+    for(const side of[-1,1])box(g,M.timber,doorX+side*.64,deck+1.15,d*.18,.16,2.32,.14);
+    box(g,M.timber,doorX,deck+2.33,d*.18,1.58,.18,.18);
+    if(tall) {
+      // Taller timber house: dark steep roof, raised gallery and asymmetric door.
+      kitRoof(g,{width:w-.15,depth:d*.78,y:eave,height:3.05,z:-d*.10,material:kitMaterials.tileDark,pattern:'sun'});
+      framedWindow(g,w*.24,deck+1.52,d*.17,1.18,1.35);
+      framedWindow(g,0,deck+1.55,-d*.425,1.50,1.20,Math.PI);
+      for(let y=deck+.40;y<eave;y+=.52)box(g,M.timber,0,y,-d*.425,w-.45,.055,.045);
+      for(const side of[-1,1]) {
+        box(g,M.wood,side*w*.35,deck+.76,d*.38,w*.25,.10,.10);
+        for(let i=0;i<4;i++)box(g,M.timber,side*w*.35+(i-1.5)*w*.06,deck+.39,d*.38,.06,.70,.06);
+        box(g,M.wood,side*w*.38,(deck+eave)/2,d*.36,.18,eave-deck,.18);
+        beam(g,M.timber,[side*w*.38,eave-.95,d*.36],[side*w*.22,eave-.12,d*.36],.08);
+      }
+      for(let i=0;i<4;i++)box(g,M.timber,doorX,deck*(i+1)/8,d*.43-i*.27,1.35,deck*(i+1)/4,.29);
+      pot(g,w*.31,deck+.11,d*.24,.88,true);
+      // Door-side household grouping, distinct from the lower sitting porch.
+      basketAt(g,doorX-1.0,deck+.10,d*.25,.90);
+      pot(g,doorX+.95,deck+.10,d*.28,.84,false);
+      crate(g,-w*.30,.12,-d*.10,.92);
+      lanternAt(g,-w*.35,eave-.63,d*.35,.19,.40);
+    }else {
+      // Lower plaster-and-thatch home: ridge turned across the courtyard,
+      // shaded sitting porch, side window and a domestic water-jar corner.
+      kitRoof(g,{width:d*.66,depth:w-.5,y:eave,height:2.30,z:-d*.12,ry:Math.PI/2,material:kitMaterials.thatch,pattern:'panel'});
+      framedWindow(g,-w*.23,deck+1.36,d*.17,1.40,1.12);
+      framedWindow(g,w*.465,deck+1.38,-d*.10,1.36,1.18,Math.PI/2);
+      const canopy=box(g,roofM.cream,0,2.55,d*.32,w-.8,.065,d*.23);canopy.rotation.x=.10;
+      for(const side of[-1,1])box(g,M.wood,side*w*.40,1.55,d*.42,.17,2.05,.17);
+      box(g,M.timber,-w*.23,deck+.55,d*.31,1.55,.13,.55);
+      for(const dx of[-.55,.55])box(g,M.wood,-w*.23+dx,deck+.28,d*.31,.10,.50,.40);
+      pot(g,w*.33,deck+.11,d*.30,1.08,false);
+      cyl(g,M.timber,w*.33,deck+.85,d*.30,.34,.05);
+      basketAt(g,-w*.28,deck+.10,d*.39,.82);
+      pot(g,-w*.38,deck+.10,d*.16,.65,true);
+      for(let i=0;i<2;i++)box(g,M.rim,doorX,.13*(i+1),d*.44-i*.32,1.3,.26*(i+1),.34);
+      lanternAt(g,w*.39,2.18,d*.40,.18,.39);
+    }
   }
 
   function framedWindow(parent,x,y,z,w,h,ry=0) {
@@ -473,25 +652,14 @@ export async function buildCityArt(root, progress = () => {}) {
     lod.addLevel(hi,0);lod.addLevel(lo,95,.12);lod.name=b.id;root.add(lod);lods.push(lod);
   }
 
-  const landMaterial=M.sand;
+  const landscape=buildCityLandscape({root:staticRoot,mat,geo,box,cyl,beam,ball,M,CITY,authoredTextures});
+  const landMaterial=landscape.groundMaterial;
   const pickGround=new THREE.Mesh(geo(new THREE.PlaneGeometry(180,146)),landMaterial);
   pickGround.rotation.x=-Math.PI/2;pickGround.position.set(0,0,-8.4);
   pickGround.name='compact-city-picking-ground';pickGround.receiveShadow=true;root.add(pickGround);
-  for(const road of CITY.roads){
-    ground(M.verge,road.x,.0005,road.z,road.w+2.8,.001,road.d+2.8);
-    ground(M.vergeInner,road.x,.0015,road.z,road.w+1.5,.001,road.d+1.5);
-    ground(M.brick,road.x,.003,road.z,road.w+.5,.004,road.d+.5);
-    ground(M.path,road.x,.008,road.z,road.w,.004,road.d);
-  }
-  // Courts connect every service face to the road network, with paving almost
-  // flush with canonical zero-height land so movement and click picking agree.
-  for(const b of CITY.buildings) {
-    ground(M.verge,b.x,.0005,b.z,b.w+4.5,.001,b.d+4.5);
-    ground(M.vergeInner,b.x,.0015,b.z,b.w+3,.001,b.d+3);
-    ground(M.path,b.x,.006,b.z,b.w+2,.004,b.d+2);
-    const side=b.front==='east'?1:b.front==='west'?-1:0;
-    if(side)ground(M.path,b.x+side*(b.w/2+1.6),.007,b.z,3.2,.004,b.d+2);
-    else ground(M.path,b.x,.007,b.z+b.d/2+1.6,b.w+2,.004,3.2);
+  // Front courts and streets are composed together below, so buildings no
+  // longer sit on identical disconnected rectangles of paving.
+  for(const b of CITY.buildings.filter(b=>b.kind!=='infill'&&b.kind!=='garden')) {
     // Full footprint plinth is the visible counterpart of the canonical box.
     box(staticRoot,M.brick,b.x,.10,b.z,b.w,.2,b.d);
     if(b.kind==='temple'||b.kind==='chedi')await sacred(b);
@@ -500,22 +668,7 @@ export async function buildCityArt(root, progress = () => {}) {
       for(let i=0;i<homes;i++){
         const sub={...b,x:b.x+(i-(homes-1)/2)*b.w/homes,w:b.w/homes-.3};
         if(b.id==='kuti')staticRoot.add(localKit(kuti(rng),sub));
-        else {
-          // Own seeded house kit avoids Architecture's global look counter,
-          // keeping repeated city builds identical during map round trips.
-          const g=new THREE.Group();g.position.set(sub.x,0,sub.z);staticRoot.add(g);
-          const w=sub.w-.5,d=sub.d-1;
-          for(const x of[-w*.37,w*.37])for(const z of[-d*.34,d*.34])cyl(g,M.wood,x,.65,z,.13,1.3);
-          box(g,M.timber,0,1.1,0,w,.18,d);
-          box(g,M.cream,0,2.3,-d*.10,w-.5,2.3,d*.65);
-          for(const side of[-1,1]){box(g,M.window,side*w*.24,2.3,d*.23,.95,1.2,.12);box(g,M.gold,side*w*.24,2.3,d*.30,.08,1.05,.04);}
-          box(g,M.dark,0,2.0,d*.23,.95,1.9,.12);
-          roof(g,w,d,3.55,2.8);
-          box(g,M.wood,0,1.85,d*.44,w,.10,.10);
-          for(let i=0;i<6;i++)box(g,M.wood,-w*.44+i*w*.176,1.55,d*.44,.055,.60,.055);
-          for(let i=0;i<4;i++)box(g,M.timber,0,.15+i*.23,d*.43-i*.35,1.15,.30+i*.46,.37);
-          pot(g,w*.35,1.21,d*.30,.75,true);
-        }
+        else compoundHome(sub,i);
       }
     }else if(b.kind==='warehouse') {
       staticRoot.add(localKit(warehouse(rng,b.w-2,b.d-2),b));
@@ -530,6 +683,8 @@ export async function buildCityArt(root, progress = () => {}) {
     }else if(b.kind==='class')classHall(b);
     else shop(b);
   }
+  const neighborhoods=buildCityNeighborhoods({root:staticRoot,CITY,mat,geo,box,cyl,beam,ball,lanternAt,pot,crate,kitRoof,roofM,M});
+  const courtyards=buildCityCourtyardEdges({root:staticRoot,CITY,mat,geo,box,cyl,beam,ball,M,pot,lanternAt});
   progress('กำลังจัดลานตลาด สวน และท่าเรือ…');await new Promise(r=>setTimeout(r,0));
   ground(M.brick,0,.014,0,28.8,.004,28.8);ground(M.path,0,.018,0,28,.004,28);
   disc(staticRoot,M.rim,0,0,6.5,.022);disc(staticRoot,M.brick,0,0,6.05,.026);disc(staticRoot,M.path,0,0,5.7,.030);
@@ -549,9 +704,10 @@ export async function buildCityArt(root, progress = () => {}) {
   // counter, upright post or collision box intrudes into the shared NPC routes.
   for(const side of[-1,1])for(let i=0;i<6;i++) {
     const x=side*12.6,z=4+i*3;
-    ground(i%2?M.ochre:M.indigo,x,.022,z,1.7,.004,2.2);
+    // The street surface is y=.024: keep the mat and its trim above it.
+    ground(i%2?M.ochre:M.indigo,x,.034,z,1.7,.004,2.2);
     for(let k=0;k<3;k++) {
-      ground(M.rim,x+side*.05,.026,z-.7+k*.7,1.4,.003,.10);
+      ground(M.rim,x+side*.05,.039,z-.7+k*.7,1.4,.003,.10);
       const zz=z-.7+k*.7,kind=(i+k)%4;
       if(kind===0) {
         const basket=cyl(staticRoot,M.timber,x,.08,zz,.31,.11);basket.castShadow=false;
@@ -578,51 +734,9 @@ export async function buildCityArt(root, progress = () => {}) {
       }
     }
   }
-  // Shade sails are supported from the blocked shop buildings. Their ropes
-  // and hanging lanterns stay well above head height over the market frontage.
-  for(const side of[-1,1]) {
-    const b=CITY.buildings.find(b=>b.id===(side<0?'general':'storage'));
-    const anchorX=side*19.8;
-    box(staticRoot,M.wood,anchorX,3.8,b.z-2,.18,7.2,.18);
-    box(staticRoot,M.wood,anchorX,3.8,b.z+2,.18,7.2,.18);
-    for(const z of[b.z-2,b.z+2])beam(staticRoot,roofM.wood,[anchorX,7.1,z],[side*10.5,4.2,z],.025);
-    box(staticRoot,side<0?roofM.cream:M.roofDark,side*14.8,4.2,b.z,8.5,.045,4.1);
-    for(let i=0;i<3;i++)box(staticRoot,roofM.gold,side*14.8,4.23,b.z-1.4+i*1.4,8.4,.035,.30);
-    for(const z of[b.z-1.5,b.z+1.5])lanternAt(staticRoot,side*11.2,3.7,z,.18,.45);
-  }
+  const marketStats=buildCityMarket({root:staticRoot,mat,geo,box,cyl,beam,ball,lanternAt,pot,M,roofM,CITY,authoredTextures});
 
-  function tree(p,x,z,s=1,lift=0) {
-    const trunkHeight=3.1*s+lift;
-    cyl(p,M.wood,x,trunkHeight/2,z,.25*s,trunkHeight);
-    for(let i=0;i<5;i++){const a=i*2.4;
-      beam(p,M.wood,[x,1.8*s+lift*.7,z],[x+Math.cos(a)*s,3*s+lift,z+Math.sin(a)*s],.11*s);
-      ball(p,[M.leaf,M.leafLight,M.leafDark][i%3],x+Math.cos(a)*s,(3.25+i%2*.4)*s+lift,z+Math.sin(a)*s,1.65*s,1.05*s,1.5*s);
-    }
-  }
-  // Tree trunks and planted vessels belong to blocked reservations. The outer
-  // groves form clusters behind the walls; service lanes stay entirely open.
-  for(const b of CITY.buildings.filter(b=>['class','house','warehouse'].includes(b.kind))) {
-    const x=b.x-b.w*.43,z=b.z-b.d*.40;
-    tree(staticRoot,x,z,b.kind==='house'?1.15:.95,2.6);
-    for(let i=0;i<3;i++)pot(staticRoot,x+i*.65,.2,z+.8,.65,true);
-  }
-  for(const side of[-1,1])for(const cz of[-50,-15,22,48]) {
-    for(let i=0;i<4;i++)tree(staticRoot,side*rng.range(77,86),cz+rng.range(-4,4),rng.range(.9,1.5));
-  }
-  for(const cx of[-60,-30,28,60])for(let i=0;i<3;i++)tree(staticRoot,cx+rng.range(-3,3),rng.range(-80,-74),rng.range(.8,1.3));
-  // Low grass/moss islands are land coloring, with no invisible solid obstacles.
-  for(let i=0;i<160;i++) {
-    const x=rng.range(-70,70),z=rng.range(-62,62);
-    if(CITY.roads.some(r=>Math.abs(x-r.x)<r.w/2+2&&Math.abs(z-r.z)<r.d/2+2)
-      || CITY.buildings.some(b=>Math.abs(x-b.x)<b.w/2+3&&Math.abs(z-b.z)<b.d/2+3)
-      || Math.abs(x)<16&&Math.abs(z)<28)continue;
-    const patchRadius=rng.range(1.2,3.0);
-    disc(staticRoot,i%2?M.sand:M.leafLight,x,z,patchRadius,-.0175);
-    for(let j=0;j<5;j++){
-      const xx=x+rng.range(-patchRadius*.55,patchRadius*.55),zz=z+rng.range(-patchRadius*.55,patchRadius*.55);
-      const cover=ball(staticRoot,floorMaterial(j%2?M.leaf:M.leafLight),xx,.06,zz,.32,.065,.23);cover.castShadow=false;
-    }
-  }
+  // Layered planting and feathered ground cover are owned by buildCityLandscape.
   // Perimeter masonry lies beyond the navigation boundary; the north passage
   // stays visually open and PortalManager supplies the actual warp pillars.
   for(const side of[-1,1]) {
@@ -661,15 +775,24 @@ export async function buildCityArt(root, progress = () => {}) {
   const rippleSet=new InstanceSet(BOX,rippleMat,{chunk:32,castShadow:false});
   for(let i=0;i<150;i++)rippleSet.add(rng.range(-90,90),-.30,rng.range(65,130),{sx:rng.range(.7,3),sy:.008,sz:.045});
   rippleSet.build(rippleGroup);
+  // Three restrained, unshadowed pools identify occupied town thresholds at
+  // night. They share the day-cycle fade and allocate no additional shadow maps.
+  const nightLights=[[0,2.7,-1.4,18],[-10.5,3.7,8.2,28],[10.5,3.7,10,28]].map(([x,y,z,power])=>{
+    const light=new THREE.PointLight('#ffd6a0',0,12,2);
+    light.position.set(x,y,z);light.castShadow=false;light.userData.cityNightPower=power;
+    root.add(light);return light;
+  });
   progress('กำลังประกอบหลังคาและรายละเอียดเมือง…');
+  const streetStats=buildCityStreets({root:staticRoot,mat,geo,box,cyl,beam,lanternAt,M,authoredTextures,CITY});
   const batches=await assemble(staticRoot,root);
-  const stats={buildings:CITY.buildings.length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
+  const stats={...streetStats,...landscape.stats,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
   const water={mesh:river,update(t){rippleGroup.position.x=Math.sin(t*.18)*.18;},dispose(){}};
   return {ground:pickGround,water,stats,update(t,dt,focus,env){
     water.update(t);
     const night=THREE.MathUtils.clamp(env?.lantern??env?.night??0,0,1);
     M.lantern.emissiveIntensity=1.8*night;M.window.emissiveIntensity=1.15*night;
     M.fire.emissiveIntensity=1.1+night*.3;M.warp.emissiveIntensity=.35+night*.3;
+    for(const light of nightLights)light.intensity=light.userData.cityNightPower*night;
   },dispose};
   }catch(error){
     dispose();

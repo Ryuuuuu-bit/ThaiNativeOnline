@@ -28,7 +28,7 @@ test('current city revision retains valid position and facing, while buildings a
   const saved = { map:'city', x:4, z:8, facing:.7, layoutRevision:CITY_LAYOUT_REVISION };
   assert.deepEqual(resolveLocation(saved), saved);
   assert.deepEqual(loginPosition(saved, navigation), { map:'city', x:4, z:8, f:.7 });
-  for (const [x,z] of [[-25,-17], [0,-12], [73,0], [0,65]]) {
+  for (const [x,z] of [...COMPACT_CITY.buildings.map(b=>[b.x,b.z]), [73,0], [0,65]]) {
     assert.deepEqual(resolveLocation({ ...saved,x,z }), { map:'city', ...MAPS.city.spawn, layoutRevision:CITY_LAYOUT_REVISION });
   }
 });

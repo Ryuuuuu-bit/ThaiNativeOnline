@@ -458,7 +458,7 @@ export class Game {
 
   async renderMapReady() {
     const p = this.player.position;
-    const env = this.env.update(this.clock.hour, this.view.focus);
+    const env = this.env.update(this.clock.hour, this.view.focus, this.maps.map.id);
     this.postfx.update(env);
     this.world.update(this.elapsed, 0, this.view.focus, env);
     this.npcs.update(0, this.elapsed, p);
@@ -825,7 +825,7 @@ export class Game {
     }
     if (dir.lengthSq() && this.hud.dialogueOpen && this.talking && Math.hypot(this.talking.x - p.x, this.talking.z - p.z) > this.talking.interactionRadius + 1.5) this.closeDialogue();
 
-    const env = this.env.update(this.clock.hour, view.focus);
+    const env = this.env.update(this.clock.hour, view.focus, this.maps.map.id);
     this.postfx.update(env);
     this.envNight = env.night;
     this.world.update(this.elapsed, dt, view.focus, env);

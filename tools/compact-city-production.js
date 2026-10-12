@@ -25,6 +25,8 @@ window.addEventListener('error',e=>{result.errors.push(e.message);publish();});
 window.addEventListener('unhandledrejection',e=>{result.errors.push(String(e.reason));publish();});
 const views=[
   ['plaza',0,8,1,10],['shops',-12,-13,1,10],['temple',-52,-31,1,10],
+  ['forge',-23,-13,1.4,10],['pharmacy',23,-13,1.4,10],
+  ['general',-23,15,1.4,10],['depot',23,15,1.4,10],
   ['north-halls',0,-39,1,10],['hunter',41,-43,1,10],['herbalist',43,-15,1,10],
   ['shaman',-42,12,1,10],['assassin',43,35,1,10],['residential',-54,47,1,10],
   ['port',0,55,1,10],['night-plaza',0,8,1,22],['overview',0,0,.20,10],
@@ -65,7 +67,7 @@ try {
     view.zoom=zoom;view.updateProjection();view.camera.far=500;view.camera.updateProjectionMatrix();
     view.offset.set(15,23,22);if(zoom<.5)view.offset.multiplyScalar(4);
     view.snap(new THREE.Vector3(x,0,z));
-    const state=env.update(hour,view.focus);scene.fog.density=zoom<.5?.002:scene.fog.density;
+    const state=env.update(hour,view.focus,'city');scene.fog.density=zoom<.5?.002:scene.fog.density;
     // A capture is a phase fixture: finish pending phase changes immediately
     // instead of retaining the preceding shot's randomly staggered schedule.
     for(const npc of npcs?.npcs??[])if(npc.pending)npc.pending.delay=0;
@@ -88,7 +90,7 @@ try {
     step('rebuild',{stats:again.stats,geometries:renderer.info.memory.geometries});again.dispose();
     step('done',{ok:!result.errors.length});
   }else {
-    render();renderer.setAnimationLoop(()=>{elapsed+=1/60;const state=env.update(current[4],view.focus);world.update(elapsed,1/60,view.focus,state);npcs?.update(1/60,elapsed,view.focus);portals.update(elapsed,view.focus);renderer.render(scene,view.camera);});
+    render();renderer.setAnimationLoop(()=>{elapsed+=1/60;const state=env.update(current[4],view.focus,'city');world.update(elapsed,1/60,view.focus,state);npcs?.update(1/60,elapsed,view.focus);portals.update(elapsed,view.focus);renderer.render(scene,view.camera);});
     window.addEventListener('resize',()=>{view.resize();render();});
   }
 }catch(error){result.errors.push(error.stack??String(error));status.textContent=String(error);step('done',{ok:false});}

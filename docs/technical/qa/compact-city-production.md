@@ -3,7 +3,91 @@
 Branch: `codex/compact-city-production`. Scope: city fixtures, compact-city
 regression tests, real server integration and production-page automation.
 
-## Final validation after lamp/paving/LOD source freeze
+## Latest: denser Forgotten City and arrival composition
+
+2026-10-12. Added 16 infill lots, 12 garden/focal reservations, connected working
+aprons, 47 street segments, layered planting, market canopies and a lotus
+fountain. The central spawn/respawn is (0,3), keeping the focal point fully
+visible at the unchanged default zoom 2.
+
+- Full suite before the last market/arrival polish: **1380 total, 1378 passed,
+  0 failed, 2 existing skips**, 55.89s.
+- After the final spawn, central-respawn and light-intensity changes:
+  **48/48 focused tests passed**, no failures/skips. Covers maps, navigation,
+  public and infill paved routes, save migration, persistence, online safety
+  and refreshed collision source hash.
+- Final `npm run build`: passed, **368 modules**, 540 ms. Main JS 2591.74 kB,
+  gzip 781.88 kB. Existing >500 kB bundle warning remains.
+- Final isolated production-art capture: zero browser errors; build/dispose/
+  rebuild passed. World reports 33 building lots, 12 focal reservations,
+  66 trees, 305 shrubs, 492 flower groups, two market canopies and one fountain.
+- Market geometry check: low supports stay inside original shop reservations;
+  overhead clearance is at least 3.465 m. Fountain bounds are 2.70 × 2.70 m
+  and 2.21 m tall, inside its existing 3 × 3 m reservation.
+- Seven final resource checks passed, including an injected failure after
+  Market/lights creation. The weave texture disposes once, glow follows the
+  world clock, and all three lights detach on cleanup with no shadow maps.
+  Zero shared resources disposed; repeated disposal is safe.
+- Collision export: **47 city shapes**, all **13 non-city map objects
+  byte-identical** to `0374c9b`. Final source hash:
+  `91fa9d92e851beb7f983acdb4aa6e4ef697455fc2a811e0fe520984185bf67e8`.
+- Final real guest/Game run: **passed**, 23 captures, zero console/page errors.
+  Real account-entry guest creation spawns at (0,3); movement to (0,8), dummy
+  combat, save/reload, atlas closure and all shop/phase contacts pass. Six
+  masters and four dummies are present. Client/server collision agrees at
+  **19,257 sampled positions**. The browser/page closed after completion.
+- Final Art Director acceptance: **8/10** for style, readability, Thai identity
+  and technical usability. Default zoom-2 day/night screenshots show the full
+  fountain, player and approaches. No blocking visual issues remain in scope.
+
+The two full-suite skips are pre-existing NPC-candidate artifact coverage and
+dedicated PostgreSQL restart integration. No hardware FPS or live-account
+test is claimed. Browser captures use one disposable page at a time, closed
+after every run; SwiftShader may activate the game's dynamic resolution.
+
+## Earlier architecture/street validation (superseded by the results above)
+
+
+2026-10-12, following commit `0374c9b`. Four distinct service structures and two
+different domestic buildings replace repeated silhouettes. Shared street
+classification drives the surface renderer, vegetation clearance and atlas.
+
+- Street regressions: **2 passed**, covering continuous paved routes to **54**
+  canonical destination records, intersection priority and reserved surfaces.
+- Full suite: **1378 total; 1375 passed, 1 stale collision-source-hash failure,
+  2 existing skips**. After the final collision export, the failed hash/spawn
+  assertion alone passed **1/1**. No other failures; no full-suite rerun claimed.
+- Final `npm run build`: passed, **364 modules**, 531 ms; main bundle 2559.15 kB
+  (gzip 770.11 kB). Existing bundle-size warning remains.
+- Fresh real-Game runner: passed, **23 captures**, zero console/page errors.
+  Guest creation, actual movement, dummy combat, save/reload, atlas closure,
+  six masters, four dummies and all NPC phase contacts passed. The new homes
+  bookmark uses default gameplay zoom 2, as do the shop bookmarks.
+- Client/server collision agrees at **19,257** sampled positions. All **14**
+  exported map objects (including city's 19 shapes) remain byte-identical to
+  `0374c9b`; only the source hash changed to
+  `7090060280ad640b73f9c26c3ea1f7575014734f87e3cc69bab507296940fdbb`.
+- Technical review: **6/6** resource/failure probes passed, including street
+  construction failure and idempotent cleanup; zero shared resources disposed.
+  All four signboards fit their reservations with 0.15 m southern clearance.
+
+During review, nine service destinations lacked paved coverage and four signs
+overhung reservations. Short surface connectors and deeper sign insets resolved
+both findings before the production captures. No canonical collision changed.
+
+Final polish replaces the pharmacy's oversized tiled awning with green cloth
+and lifts market mats above the new street surface. After that small art change,
+the hash/spawn check passed 1/1, street regressions passed 2/2, and the build
+passed again. Fresh isolated scene captures/dispose/rebuild also passed.
+
+Main owns the browser run and export comparison; QA owns the full suite/build
+and hash assertion rerun; Technical Artist owns the resource/containment probes.
+Screenshots and the portable capture manifest are in
+[the art evidence folder](../../art/compact-city-production/ART_REVIEW.md).
+Only one headless browser/page ran at a time and every session closed afterward.
+No hardware FPS or live-account/PostgreSQL restart verification is claimed.
+
+## Previous compact replacement validation (commit 0374c9b)
 
 `npm test`: exit 0, **1376 tests, 1374 passed, 0 failed, 0 cancelled, 2 skipped, 0 todo**, 44983.3246 ms. Includes deterministic daytime fixtures and final collision source hash check. No QA test was disabled or weakened to obtain this result.
 

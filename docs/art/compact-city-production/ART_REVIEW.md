@@ -1,7 +1,10 @@
-# Compact city production — art and technical review
+# Forgotten City — environment review
 
-Status: **APPROVED** for the compact city architecture, reviewed on 2026-10-12.
-The Art Director assessed fresh production-renderer and real Game captures.
+Scope: compact production replacement for **นครที่ถูกลืมเลือน**, followed by
+the requested denser Thai town and softer fantasy atmosphere. Date: 2026-10-12.
+
+Status: **APPROVED** after independent Art Director review of the final real
+Game day/night captures at default zoom 2 and spawn (0,3).
 
 | Criterion | Final score |
 | --- | --- |
@@ -10,63 +13,86 @@ The Art Director assessed fresh production-renderer and real Game captures.
 | Thai identity | 8/10 |
 | Technical usability | 8/10 |
 
-The six schools now have distinct structural silhouettes, Thai roof assemblies,
-eaves, supporting timber, galleries and class cues. Shops, temple, stilt houses
-and waterfront retain the game's stylized Thai theme. Initial review issues
-with missing roof faces, lost texture maps, generic school structures, cleanup
-after failed builds and unreadable atlas framing were corrected.
+No blocking changes remain for the reviewed town revision. The scores are art
+and usability judgments, not a claim of hardware performance or fidelity to
+Ragnarok Origin's shipped assets.
 
-Final polish exposes the night lantern glass between separate metal end caps,
-adds restrained world-aligned paving joints, and matches the distant temple's
-roof hue to its detailed version. Main inspected fresh day/night captures:
-warm lamp bodies are visible, slab joints align, and character/route readability
-is retained. The Art Director independently confirmed both refreshed shots and
-retained the approval with no required changes. These lamps use emissive surfaces,
-not additional shadowed lights.
+## Implemented design
 
-## Captured evidence
+- 33 building lots, including 16 infill homes/workshops in eight structural
+  types; six class schools, temple, daily services and working waterfront.
+- Four distinct service structures: open smithy, L-shaped apothecary,
+  two-storey timber general store and high-door storage/loading frontage.
+- Linked working aprons, verandas, framed shutters, lower annexes, courtyard
+  edges, household wares and visible river-hut approaches.
+- 47 composed street/approach segments with one surface classification per
+  location, smaller worn paving stones and a painted ground wash.
+- Twelve garden/focal reservations, layered foliage, low planting and flowers;
+  temple and school rooflines remain distinct. Night lanterns and lit windows
+  mark occupied frontages, with three unshadowed warm lights at civic/market
+  thresholds. The city daylight has more ambient fill than the wilderness.
 
-These are screenshots of the actual production scene, not generated concept art.
-Wide architectural views use the production camera at zoom 1; overview uses 0.2.
-Real Game screenshots retain the default zoom 2 and HUD. The warehouse facade
-is explicitly a wider zoom 1.25 view and predates only the lamp/paving polish.
+The [generated target concept](TARGET_CONCEPT.md) guides atmosphere and spatial
+relationships. It is not a game screenshot or proof of implementation.
 
-![City overview](overview.jpg)
+## Review findings addressed
 
-| Architecture | Evidence |
+The first density pass remained a collection of separated compounds. The Art
+Director requested stronger framing at spawn, joined working/domestic aprons
+and a warm inhabited focal point at night. Large smooth tree lobes were also
+replaced with irregular branch fans, smaller foliage tufts and small blossoms.
+The market/fountain revision was assessed in the actual Game at default zoom.
+Arrival moved from (0,8) to (0,3), bringing the entire lotus fountain below the
+HUD/top edge. Reduced civic illumination retains petal/basin detail at night.
+The reviewer confirmed visible player, trainer and approaches, joined aprons
+and side framing from the inward awnings; no further changes were required.
+
+## Actual game and architecture evidence
+
+![Actual production town, wide architectural view](overview.jpg)
+
+These images are rendered from the production scene. Wide architectural
+captures use zoom 1, shop studies 1.4 and overview 0.2. Real Game captures use
+the normal zoom 2 and HUD; the warehouse facade is explicitly zoom 1.25.
+Camera state, counters, checks and source-hash provenance are recorded in
+[capture-manifest.json](capture-manifest.json).
+
+| Area | Evidence |
 | --- | --- |
-| Temple, chedi and kuti | [Temple](temple.jpg) |
-| Muay Thai and sword schools | [Northern halls](north-halls.jpg) |
-| Raised hunting lodge | [Hunter](hunter.jpg) |
-| Herbal veranda | [Herbalist](herbalist.jpg) |
-| Ceremonial shaman porch | [Shaman](shaman.jpg) |
-| Timber assassin school | [Assassin](assassin.jpg) |
-| Plaza, materials and evening lamps | [Day](plaza.jpg), [Night](night-plaza.jpg) |
-| Riverfront and warehouse | [Port](port.jpg), [Warehouse facade](warehouse-facade.png) |
-| Real production HUD | [Day](production-day.png), [Night](production-night.png) |
-| Corrected city atlas | [Atlas](production-atlas.png) |
+| First playable view | [Day](production-day.png), [Night](production-night.png) |
+| Civic/market composition | [Plaza](plaza.jpg), [Evening](night-plaza.jpg) |
+| Daily services | [Smithy](forge.jpg), [Pharmacy](pharmacy.jpg), [General shop](general.jpg), [Depot](depot.jpg) |
+| Service approaches | [Forge](production-forge.png), [Rotated forge](production-forge-rotated.png), [Pharmacy](production-counter-pharmacy.png), [General](production-counter-general.png), [Storage](production-counter-depot.png) |
+| Neighborhoods | [Wide residential view](residential.jpg), [Playable view](production-homes.png) |
+| Temple and schools | [Temple](temple.jpg), [Northern halls](north-halls.jpg), [Hunter](hunter.jpg), [Herbalist](herbalist.jpg), [Shaman](shaman.jpg), [Assassin](assassin.jpg) |
+| Waterfront | [Port](port.jpg), [Warehouse facade](warehouse-facade.png) |
+| Navigation atlas | [Actual atlas panel](production-atlas.png) |
 
-## Technical review
+## Technical acceptance
 
-All 16 canonical destinations have clear routes. The production scene contains
-17 building reservations, six school masters, four training dummies and 60
-registered city NPCs. All phase contact locations are reachable. Actual client
-and server collision agree across 19,257 sampled positions.
+All 16 canonical destinations and all NPC phase contacts retain collision-valid
+routes. Street checks cover 54 public destination records plus all 16 infill
+front courts. Six class masters, four training dummies and the existing NPC
+identities remain in the production Game. New scenery adds no duplicate shop
+interactions.
 
-Read-only technical review passed five disposal/failure probes, preserving all
-shared source geometry/material/texture resources. Source texture maps are
-cloned locally. Final browser build/dispose/rebuild also passed; repeated
-disposal released nothing twice. Meshes are merged or instanced by spatial
-chunk, with distant LODs for the temple and chedi.
+Building/garden reservations and portal pillars produce 47 city collision
+shapes. The other 13 maps retain byte-identical exported map objects. Real
+client/server collision is compared at 19,257 sampled positions. Blocked
+current-revision saves fall back safely; valid positions remain intact.
 
-The 15 shared server snapshot checks passed for regular/HTTP/stash/trade saves.
-See [QA report](../../technical/qa/compact-city-production.md) for full-suite,
-build, migration, real-socket and browser results.
+Geometry, materials and generated textures are owned locally and disposed on
+failure/departure. Source kit maps are cloned; geometry is merged or instanced.
+Focused ownership probes and browser build/dispose/rebuild verify these paths.
+See the [QA report](../../technical/qa/compact-city-production.md) for exact
+test, build and gameplay evidence and any validation chronology.
 
-## Limits
+## Known limitations
 
+- Exterior buildings have solid reservations; there are no traversable rooms.
+- This is original Thai procedural architecture inspired by the requested
+  atmosphere, not Ragnarok Origin's assets or a one-to-one recreation.
 - Hardware GPU frame time and physical-device FPS have not been measured.
-- Headless SwiftShader counters are diagnostic, not a performance claim.
-- No new paid Meshy generation was used. This adapts the existing architectural
-  kit and retains the approved Meshy NPC models.
-- The city is implemented on a task branch; PR creation does not deploy it.
+  SwiftShader counters and dynamic-resolution captures are diagnostic only.
+- No paid Meshy generation was started; existing Meshy NPC models are retained.
+- The task branch and PR do not deploy the change.
