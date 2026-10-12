@@ -1,9 +1,14 @@
 // Pure shared fair rules. Authority, randomness, balances and receipts belong to the server.
 import { phaseOf } from '../core/WorldClock.js';
 
-export const FAIR_RULES_VERSION = 1;
+export const FAIR_RULES_VERSION = 2;
 export const FAIR_GAME_IDS = Object.freeze(['balloons', 'dolls', 'dice']);
-export const FAIR_STAKES = Object.freeze([20, 50, 100]);
+// Any whole number of ตำลึง from FAIR_STAKE_MIN to FAIR_STAKE_MAX (version 2: players with
+// millions can play for meaningful sums; dice still sink 17/216 of every stake on average).
+// FAIR_STAKES are the quick-pick amounts the panel offers next to its number field.
+export const FAIR_STAKE_MIN = 20;
+export const FAIR_STAKE_MAX = 1_000_000;
+export const FAIR_STAKES = Object.freeze([20, 100, 1_000, 10_000, 100_000, 1_000_000]);
 export const FAIR_GAMES = Object.freeze({
   balloons: Object.freeze({ nameTh: 'ปาโป่ง', kind: 'skill' }),
   dolls: Object.freeze({ nameTh: 'ยิงตุ๊กตา', kind: 'skill' }),
@@ -37,7 +42,7 @@ export function isFairOpen(hour) {
   return phase === 'evening' || phase === 'night';
 }
 
-export const isFairStake = stake => FAIR_STAKES.includes(stake);
+export const isFairStake = stake => Number.isSafeInteger(stake) && stake >= FAIR_STAKE_MIN && stake <= FAIR_STAKE_MAX;
 const isSkillGame = gameId => gameId === 'balloons' || gameId === 'dolls';
 const isSeed = seed => Number.isInteger(seed) && seed >= 0 && seed <= 0xffffffff;
 const isShotIndex = index => Number.isInteger(index) && index >= 0 && index < FAIR_LIMITS.shots;

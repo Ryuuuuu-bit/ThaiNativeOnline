@@ -199,7 +199,7 @@ test('interrupted skill rounds are discarded on range, activity and room changes
 
 test('stakes, symbols, game, action, request and round UUIDs reject malformed values', async () => {
   const f = await fixture();
-  for (const stake of [0, -20, 21, 20.1, '20', NaN, Infinity, null])
+  for (const stake of [0, -20, 19, 20.1, 1_000_001, 1e12, '20', NaN, Infinity, null])
     assert.equal((await f.start('dice', { stake })).why, 'bad_stake');
   f.advance(1000);
   for (const symbol of [-1, 6, .5, '0', NaN, null, undefined])
@@ -444,4 +444,20 @@ test('a settled request replayed after a reconnect or restart returns its durabl
   const reused = await restarted.handle(f.p, { ...rejoined }, { ...message, symbol: 'crab' }, f.context);
   assert.equal(reused.ok, false); assert.equal(reused.why, 'request_reused');
   assert.equal((await f.saved()).gold, 1040);
+});
+
+test('a millionaire can stake any whole amount up to 1,000,000 and settles exactly', async () => {
+  const f = await fixture({ gold: 5_000_000, faces: [0, 0, 0] });
+  const win = await f.start('dice', { stake: 1_000_000 });
+  assert.equal(win.ok, true); assert.equal(win.result.gross, 4_000_000); assert.equal(win.result.net, 3_000_000);
+  assert.equal(f.s.c.gold, 8_000_000); assert.equal((await f.saved()).gold, 8_000_000);
+  f.advance(FAIR_LIMITS.roundCooldownMs);
+  let { round } = await f.start('balloons', { stake: 123_457 });
+  for (let i = 0; i < 5; i++) { const r = await shoot(f, round, i < 3); round = r.round; if (i === 4) {
+    assert.equal(r.result.net, -(123_457 - Math.floor(123_457 * 50 / 100))); } }
+  assert.equal(f.s.c.gold, 8_000_000 - 61_729);
+  f.advance(FAIR_LIMITS.roundCooldownMs);
+  assert.equal((await f.start('dice', { stake: 1_000_001 })).why, 'bad_stake');
+  f.s.c.gold = 999_999;
+  assert.equal((await f.start('dice', { stake: 1_000_000 })).why, 'gold');
 });

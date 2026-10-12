@@ -49,11 +49,15 @@ invalid hours fail closed. Server world time authorizes play; client clock/URL
 overrides only affect presentation. Do not use the representative `PHASE_HOURS`
 values as phase boundaries.
 
-Fixed tiers: **20, 50, 100 gold** (existing balance field `gold`, display currency
-ตำลึง). These are small bounded choices alongside current basic supplies priced
-around 20–70 gold. Default to 20 and show the maximum fee before starting. No
-custom amounts, all-in option, or multipliers from luck, level, buffs, blessings,
-gear or gold bonuses. All results use integer gold.
+Stakes (rules version 2, 2026-10-12, owner decision): **any whole number of gold
+from 20 to 1,000,000** (existing balance field `gold`, display currency ตำลึง).
+Version 1 fixed 20/50/100; some players now hold millions, so the range lets them
+play for meaningful sums and turns the dice sink (17/216 of every stake) into a
+real brake on their surplus. The panel offers a number field, quick picks
+(20, 100, 1K, 10K, 100K, 1M), half and all-in (both capped at 1,000,000); a stake
+of 100,000 or more needs a second press. Default 20; the maximum fee or full dice
+stake is shown before starting and must be affordable. No multipliers from luck,
+level, buffs, blessings, gear or gold bonuses. All results use integer gold.
 
 Skill rounds have five shots, a **500 ms minimum interval** between accepted
 shots, and a **20,000 ms exclusive deadline** measured from server round start.
@@ -151,7 +155,9 @@ The gross includes the returned stake: when matches >= 1 it is
 Expected net sink is `17/216 = 7.870370...%` of the stake. Display these odds and
 gross-versus-net meanings before acceptance. Dice can pay more gold than charged
 on individual rounds; the sink is an expectation, not a guarantee in a short
-session. Maximum gross is 400 and maximum net gain is 300 at the 100-gold tier.
+session. Maximum gross is 4,000,000 and maximum net gain is 3,000,000 at the
+1,000,000 cap (one 0.46% triple). The range is a deliberate owner tradeoff:
+lucky streaks can mint large sums, the long-run expectation still sinks.
 
 Main settles dice immediately through **one-participant `accounts.trade`** with
 atomic debit-plus-gross and a durable receipt. No start-time fee, pending paid
@@ -168,10 +174,12 @@ All exports are in `src/fair/fairRules.js`; no DOM, three.js, IO, clock reads,
 random draws or balance mutations. The only import is the shared phase helper.
 
 ```js
-FAIR_RULES_VERSION // 1
+FAIR_RULES_VERSION // 2
+FAIR_STAKE_MIN     // 20
+FAIR_STAKE_MAX     // 1,000,000
 FAIR_GAME_IDS      // ['balloons', 'dolls', 'dice']
 FAIR_GAMES         // frozen metadata by ID: { nameTh, kind }
-FAIR_STAKES        // [20, 50, 100]
+FAIR_STAKES        // quick picks [20, 100, 1e3, 1e4, 1e5, 1e6]
 FAIR_LIMITS        // { shots: 5, roundMs: 20000, shotIntervalMs: 500,
                    //   diceRevealMs: 1500, roundCooldownMs: 3000 }
 DICE_SYMBOLS      // ['gourd', 'crab', 'fish', 'rooster', 'shrimp', 'tiger']
@@ -180,7 +188,7 @@ DICE_ODDS         // exact counts, multipliers, denominator and EV numerators
 SKILL_REFUND_PERCENT // [0, 0, 25, 50, 75, 100], indexed by confirmed hits
 
 isFairOpen(hour)                         // boolean, rejects invalid [0,24) hours
-isFairStake(stake)                       // boolean, no coercion
+isFairStake(stake)                       // safe integer in [20, 1e6], no coercion
 dicePayout(stake, symbol, faces)          // integer gross, faces = 3 symbol IDs
 skillPayout(stake, hits)                  // integer displayed gross refund
 skillFee(stake, hits)                     // integer debit at five-shot completion
@@ -234,8 +242,8 @@ latency workaround.
 
 ## Required verification and release risks
 
-Pure tests enumerate all 216 dice results for all six choices at all three tiers
-(3,888 settlements), prove exact integer EV, cover all 32 five-shot binary result
+Pure tests enumerate all 216 dice results for all six choices at every quick-pick stake
+(7,776 settlements), prove exact integer EV, cover all 32 five-shot binary result
 sequences at each tier, phase boundaries, invalid input, deterministic bounded
 targets, both-axis 50/100/150 ms delayed center aims, receipt-time geometry and
 deadlines. `npm test` and `npm run build` are

@@ -25,7 +25,7 @@ test('confirmation sends one fresh request with no client score or clock',()=>{
   assert.equal(h.net.shot(.4,.5),false);
 });
 test('invalid game, stakes, coordinates, guests and offline never transmit',()=>{
-  const h=harness();for(const stake of [0,21,'20',Infinity])assert.equal(h.net.start('dolls','dolls',stake),false);
+  const h=harness();for(const stake of [0,19,20.5,1_000_001,'20',Infinity])assert.equal(h.net.start('dolls','dolls',stake),false);
   assert.equal(h.net.start('bad','balloon',20),false);
   h.context.authenticated=false;assert.equal(h.net.start('dolls','dolls',20),false);
   h.context.authenticated=true;h.context.online=false;assert.equal(h.net.start('dolls','dolls',20),false);

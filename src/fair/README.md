@@ -13,6 +13,8 @@ Only authenticated online characters may play for the existing in-game currency.
 line, combat/trade state, stake, round ID, shot cadence and server receipt time.
 The five-shot skill games start free and charge their net fee only on completion;
 interrupted rounds cost nothing. Their maximum refund equals the chosen stake.
+Stakes are any whole 20–1,000,000 ตำลึง (`isFairStake`); the panel adds quick picks,
+half, all-in and a second press from 100,000.
 Dice resolve three independent server CSPRNG symbols with published payouts.
 
 Settlement reuses `Accounts.trade` with one participant: an immutable snapshot,

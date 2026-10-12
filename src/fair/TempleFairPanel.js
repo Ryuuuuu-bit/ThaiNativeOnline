@@ -1,4 +1,4 @@
-import { NetFair, FAIR_GAMES, FAIR_STAKES, fairIsOpen } from './NetFair.js';
+import { NetFair, FAIR_GAMES, FAIR_STAKES, FAIR_STAKE_MIN, FAIR_STAKE_MAX, isFairStake, fairIsOpen } from './NetFair.js';
 import './fair.css';
 import { DICE_SYMBOLS, DICE_SYMBOL_NAMES, DICE_ODDS, SKILL_REFUND_PERCENT, FAIR_LIMITS, skillFee } from './fairRules.js';
 import { FAIR_SITES, FAIR_RANGE } from './fairSites.js';
@@ -13,6 +13,10 @@ const reasons = { closed: 'งานเปิด 16:30–05:00', range: 'กร�
   request_limit: 'กรุณาเชื่อมต่อใหม่เพื่อตรวจสอบรายการ', rate_limit: 'ส่งคำขอเร็วเกินไป กรุณารอสักครู่',
   request_reused: 'เลขคำขอไม่ตรงกับรายการ กรุณาตรวจสอบสถานะ', auth: 'กรุณาเข้าสู่ระบบ',
   round: 'รอบนี้ไม่พร้อม กรุณาตรวจสอบสถานะ' };
+const fmt = n => Number.isFinite(n) ? Math.floor(n).toLocaleString('en-US') : '—';
+const short = n => n >= 1e6 ? `${n / 1e6}M` : n >= 1e3 ? `${n / 1e3}K` : String(n);
+// A stake this large asks for a second press before it is sent.
+const BIG_STAKE = 100_000, ARM_MS = 4000;
 const svg = (body, cls = '') => `<svg class="${cls}" viewBox="0 0 100 120" aria-hidden="true" focusable="false">${body}</svg>`;
 function symbolArt(id) {
   const art = {
@@ -69,11 +73,28 @@ export class TempleFairPanel {
     const details = el('details'), summary = el('summary','','กติกาและโอกาสได้รับเงินคืน');
     this.ruleDetails = el('p'); details.append(summary,this.ruleDetails); this.rules.append(this.ruleSummary,details);
     this.selection = el('fieldset', 'fair-selection');
-    this.selection.append(el('legend', '', 'เลือกวงเงินสำหรับรอบนี้'));
-    this.stakes = FAIR_STAKES.map(stake => {
-      const b = button(`${stake} ตำลึง`, () => { this.stake = stake; this.render(); });
-      this.selection.append(b); return b;
+    this.selection.append(el('legend', '', `วงเงินรอบนี้ (${fmt(FAIR_STAKE_MIN)}–${fmt(FAIR_STAKE_MAX)} ตำลึง)`));
+    // Any whole amount: a number field plus quick picks, half and all-in (capped at the maximum).
+    const entry = el('label', 'fair-stake-entry');
+    this.stakeInput = el('input', 'fair-stake-input');
+    Object.assign(this.stakeInput, { type: 'text', inputMode: 'numeric', autocomplete: 'off', value: fmt(this.stake) });
+    this.stakeInput.setAttribute('aria-label', 'จำนวนตำลึงที่วาง');
+    this.stakeInput.addEventListener('input', () => {
+      const digits = this.stakeInput.value.replace(/[^0-9]/g, '').slice(0, 9);
+      this.setStake(digits ? Number(digits) : 0, false);
     });
+    this.stakeInput.addEventListener('blur', () => { this.setStake(this.stake); });
+    this.stakeInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); this.setStake(this.stake); } });
+    entry.append(this.stakeInput, el('span', '', 'ตำลึง'));
+    this.stakeRow = el('div', 'fair-stake-picks');
+    this.stakes = FAIR_STAKES.map(stake => {
+      const b = button(short(stake), () => this.setStake(stake)); b.dataset.stake = String(stake);
+      this.stakeRow.append(b); return b;
+    });
+    this.halfButton = button('ครึ่งหนึ่ง', () => this.setStake(Math.floor((this.character()?.gold ?? 0) / 2)));
+    this.allButton = button('หมดหน้าตัก', () => this.setStake(Math.min(FAIR_STAKE_MAX, this.character()?.gold ?? 0)));
+    this.stakeRow.append(this.halfButton, this.allButton);
+    this.selection.append(entry, this.stakeRow);
     this.symbols = el('fieldset', 'fair-symbols'); this.symbols.append(el('legend', '', 'เลือกสัญลักษณ์หนึ่งอย่าง'));
     this.symbolButtons = symbols.map((symbol, i) => {
       const b = button('', () => { this.symbol = i; this.render(); });
@@ -82,7 +103,7 @@ export class TempleFairPanel {
     });
     this.status = el('p', 'fair-status'); this.status.setAttribute('role', 'status'); this.status.setAttribute('aria-live', 'polite');
     this.result = el('p', 'fair-result');
-    this.confirm = button('', () => this.net.start(this.siteId, this.game, this.stake, DICE_SYMBOLS[this.symbol]), 'fair-confirm');
+    this.confirm = button('', () => this.confirmStart(), 'fair-confirm');
     this.cancel = button('ยกเลิกรอบ • ไม่เสียตำลึง', () => this.net.cancel(), 'fair-secondary');
     this.check = button('ตรวจสอบสถานะ', () => this.net.status(this.siteId), 'fair-secondary');
     const footer = el('footer', 'fair-actions'); footer.append(this.confirm, this.cancel, this.check);
@@ -98,6 +119,23 @@ export class TempleFairPanel {
     });
   }
   get open() { return !this.root.hidden; }
+  // commit=false while typing: keep what was typed (it may be below the minimum for a moment)
+  setStake(value, commit = true) {
+    let stake = Number.isFinite(value) ? Math.floor(value) : FAIR_STAKE_MIN;
+    if (commit) stake = Math.min(FAIR_STAKE_MAX, Math.max(FAIR_STAKE_MIN, stake));
+    this.stake = stake; this.armedUntil = 0;
+    if (commit || document.activeElement !== this.stakeInput) this.stakeInput.value = fmt(stake);
+    else { const at = this.stakeInput.value.length - this.stakeInput.selectionEnd; this.stakeInput.value = stake ? fmt(stake) : '';
+      const pos = Math.max(0, this.stakeInput.value.length - at); this.stakeInput.setSelectionRange?.(pos, pos); }
+    this.render();
+  }
+  confirmStart() {
+    if (!isFairStake(this.stake)) return this.setStake(this.stake);
+    const now = this.net.now();
+    if (this.stake >= BIG_STAKE && !(now < (this.armedUntil ?? 0))) { this.armedUntil = now + ARM_MS; this.render(); return; }
+    this.armedUntil = 0;
+    this.net.start(this.siteId, this.game, this.stake, DICE_SYMBOLS[this.symbol]);
+  }
   connect(net) {
     if (this.transport === net) return;
     this.transport = net;
@@ -135,7 +173,7 @@ export class TempleFairPanel {
   receive(m) { return this.net.receive(m); }
   update(dt) {
     this.net.update(dt);
-    const c = this.context(), key = `${c.online}:${c.authenticated}:${c.map}:${fairIsOpen(c.hour)}:${this.nearSite}:${this.character()?.gold}:${this.net.now()<this.net.cooldownUntil}`;
+    const c = this.context(), key = `${c.online}:${c.authenticated}:${c.map}:${fairIsOpen(c.hour)}:${this.nearSite}:${this.character()?.gold}:${this.net.now()<this.net.cooldownUntil}:${this.net.now()<(this.armedUntil??0)}`;
     if (key !== this.contextKey) { this.contextKey = key; this.render(); }
     if (this.open && this.net.round) {
       const target = this.net.target, b = this.board.querySelector('[data-fair-target]');
@@ -156,7 +194,7 @@ export class TempleFairPanel {
     e.stopPropagation();
     if (e.key === 'Escape') { e.preventDefault(); this.close(); return; }
     if (e.key !== 'Tab') return;
-    const controls = [...this.root.querySelectorAll('button:not(:disabled), summary')].filter(n => !n.closest('[hidden]'));
+    const controls = [...this.root.querySelectorAll('button:not(:disabled), input:not(:disabled), summary')].filter(n => !n.closest('[hidden]'));
     const first = controls[0], last = controls.at(-1);
     if (e.shiftKey && (document.activeElement === first || !controls.includes(document.activeElement))) {
       e.preventDefault(); last?.focus();
@@ -168,32 +206,40 @@ export class TempleFairPanel {
     if (this.destroyed) return;
     const c = this.context(), round = this.net.round, busy = this.net.busy;
     const game = round?.game ?? this.game, locked = busy || !!round;
-    this.info.textContent = `เปิด 16:30–05:00 · ${this.character()?.gold ?? '—'} ตำลึง · ${games[game] ?? 'งานวัด'}`;
+    const gold = this.character()?.gold;
+    this.info.textContent = `เปิด 16:30–05:00 · มี ${fmt(gold)} ตำลึง · ${games[game] ?? 'งานวัด'}`;
     for (const b of this.tabButtons) { b.disabled = b.dataset.game !== game; b.setAttribute('aria-pressed', String(b.dataset.game === game)); }
     this.stakes.forEach((b,i) => { b.disabled = locked; b.setAttribute('aria-pressed', String(FAIR_STAKES[i] === this.stake)); });
+    this.stakeInput.disabled = this.halfButton.disabled = this.allButton.disabled = locked;
+    const valid = isFairStake(this.stake), affordable = Number.isSafeInteger(gold) && gold >= this.stake;
+    this.stakeInput.setAttribute('aria-invalid', String(!valid || !affordable));
     this.symbols.hidden = game !== 'dice';
     this.symbolButtons.forEach((b,i) => { b.disabled = locked; b.setAttribute('aria-pressed', String(i === this.symbol)); });
     this.ruleSummary.textContent = game === 'dice'
-      ? `ตรง 0/1/2/3 ลูก: จ่ายคืนรวมทุน ${DICE_ODDS.grossMultipliers.join('/')} เท่า\nตัดวงเงินและจ่ายคืนทันทีเมื่อร้านยืนยัน • ไม่กดเล่นซ้ำอัตโนมัติ`
-      : `โดน 0/1/2/3/4/5 เป้า: ลดค่ารอบ ${SKILL_REFUND_PERCENT.join('/')}%\nเสียสุทธิ ${SKILL_REFUND_PERCENT.map((_,i)=>skillFee(this.stake,i)).join('/')} ตำลึง • คิดหลังยิงครบ 5 นัดเท่านั้น • รอบที่หยุดกลางทางไม่เสียตำลึง`;
+      ? `ตรง 0/1/2/3 ลูก: จ่ายคืนรวมทุน ${DICE_ODDS.grossMultipliers.join('/')} เท่า${valid ? ` (สูงสุด ${fmt(this.stake * 4)} ตำลึง)` : ''}\nตัดวงเงินและจ่ายคืนทันทีเมื่อร้านยืนยัน • ไม่กดเล่นซ้ำอัตโนมัติ`
+      : `โดน 0/1/2/3/4/5 เป้า: ลดค่ารอบ ${SKILL_REFUND_PERCENT.join('/')}%\nเสียสุทธิ ${valid ? SKILL_REFUND_PERCENT.map((_,i)=>fmt(skillFee(this.stake,i))).join('/') : '—'} ตำลึง • คิดหลังยิงครบ 5 นัดเท่านั้น • รอบที่หยุดกลางทางไม่เสียตำลึง`;
     this.ruleDetails.textContent = game === 'dice'
       ? `เต๋าอิสระ 3 ลูก • แต่ละหน้ามีโอกาส 1/6\nตรง 0/1/2/3 ลูก: โอกาส ${DICE_ODDS.matchCounts.join('/')} จาก ${DICE_ODDS.outcomes} ผลลัพธ์\nเสียเฉลี่ย ${((DICE_ODDS.expectedSinkNumerator/DICE_ODDS.outcomes)*100).toFixed(2)}% ของวงเงิน (17/216) • ไม่มีรางวัลไอเทมหรือ EXP`
-      : `5 นัด ใน 20 วินาที • เว้นแต่ละนัด 0.5 วินาที • วงเงินสูงสุด ${this.stake} ตำลึง\nส่วนลดปัดเศษลง • ไม่ได้รับตำลึงเกินวงเงิน • เป้าเคลื่อนที่ตามแบบเดิม ร้านตรวจตำแหน่งเมื่อได้รับคำขอ`;
+      : `5 นัด ใน 20 วินาที • เว้นแต่ละนัด 0.5 วินาที • วงเงินสูงสุด ${fmt(this.stake)} ตำลึง\nส่วนลดปัดเศษลง • ไม่ได้รับตำลึงเกินวงเงิน • เป้าเคลื่อนที่ตามแบบเดิม ร้านตรวจตำแหน่งเมื่อได้รับคำขอ`;
     const available = this.ready && c.online && c.authenticated && this.nearSite && fairIsOpen(c.hour);
-    this.confirm.disabled = locked || !available || this.net.awaitingSync || this.net.now()<this.net.cooldownUntil;
-    this.confirm.textContent = game === 'dice' ? `ยืนยันทาย ${symbols[this.symbol]} • จ่าย ${this.stake} ตำลึง` : `ยืนยันเล่น 5 นัด • สูงสุด ${this.stake} ตำลึง`;
+    this.confirm.disabled = locked || !available || !valid || !affordable || this.net.awaitingSync || this.net.now()<this.net.cooldownUntil;
+    const armed = this.net.now() < (this.armedUntil ?? 0);
+    this.confirm.dataset.armed = armed ? 'true' : 'false';
+    this.confirm.textContent = armed ? `กดอีกครั้งเพื่อยืนยันวาง ${fmt(this.stake)} ตำลึง`
+      : game === 'dice' ? `ยืนยันทาย ${symbols[this.symbol]} • จ่าย ${fmt(this.stake)} ตำลึง` : `ยืนยันเล่น 5 นัด • สูงสุด ${fmt(this.stake)} ตำลึง`;
     this.cancel.hidden = !round; this.cancel.disabled = busy || !c.online || !c.authenticated;
     this.check.disabled = !!this.net.probe || this.net.awaitingSync || !c.online || !c.authenticated;
     const connection = this.net.awaitingSync ? this.net.message : !c.online ? 'ยังไม่เชื่อมต่อเซิร์ฟเวอร์'
       : !c.authenticated ? 'เข้าสู่ระบบเพื่อเล่นงานวัด' : c.map !== 'city' ? 'กลับไปที่ร้านในเมืองเพื่อเล่น'
       : !this.nearSite ? 'เดินกลับไปด้านหน้าร้านนี้เพื่อเล่น' : !fairIsOpen(c.hour) && !round ? 'ร้านปิด • เปิดอีกครั้ง 16:30' : null;
-    this.status.textContent = connection ?? (this.preparing ? 'กำลังเตรียมร้าน…' : reasons[this.net.message] ?? this.net.message);
+    const stakeNote = !valid ? `วางได้ ${fmt(FAIR_STAKE_MIN)}–${fmt(FAIR_STAKE_MAX)} ตำลึง` : !affordable && !round ? 'ตำลึงไม่พอสำหรับวงเงินนี้' : null;
+    this.status.textContent = connection ?? stakeNote ?? (this.preparing ? 'กำลังเตรียมร้าน…' : reasons[this.net.message] ?? this.net.message);
     this.result.hidden = !this.net.result;
     const result = this.net.result;
     if (result) {
       const parts = ['ผลยืนยันจากร้าน'];
       for (const [key,label] of [['hits','โดนเป้า'],['stake','วงเงิน'],['gross',game==='dice'?'จ่ายคืนรวมทุน':'ส่วนลดค่ารอบ'],['net','ตำลึงเปลี่ยนแปลง']]) {
-        if (Number.isFinite(result[key])) parts.push(`${label} ${result[key]}`);
+        if (Number.isFinite(result[key])) parts.push(`${label} ${key === 'net' && result[key] > 0 ? '+' : ''}${key === 'hits' ? result[key] : fmt(result[key])}`);
       }
       if (Array.isArray(result.faces)) parts.push(`ลูกเต๋า ${result.faces.map(id=>DICE_SYMBOL_NAMES[id]??'—').join(' · ')}`);
       this.result.textContent = parts.join(' • ');

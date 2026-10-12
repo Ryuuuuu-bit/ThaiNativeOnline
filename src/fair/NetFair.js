@@ -1,6 +1,6 @@
 // Transport/state only. The server owns hits, remaining shots and settlement.
-import { isFairOpen, FAIR_GAME_IDS, FAIR_STAKES, DICE_SYMBOLS, FAIR_LIMITS, targetAt } from './fairRules.js';
-export { FAIR_STAKES };
+import { isFairOpen, isFairStake, FAIR_GAME_IDS, FAIR_STAKES, FAIR_STAKE_MIN, FAIR_STAKE_MAX, DICE_SYMBOLS, FAIR_LIMITS, targetAt } from './fairRules.js';
+export { FAIR_STAKES, FAIR_STAKE_MIN, FAIR_STAKE_MAX, isFairStake };
 export const fairIsOpen = isFairOpen;
 export const FAIR_GAMES = FAIR_GAME_IDS;
 
@@ -31,7 +31,7 @@ export class NetFair {
     return true;
   }
   start(site, game, stake, symbol) {
-    if (this.round || this.busy || this.now() < this.cooldownUntil || !FAIR_GAMES.includes(game) || !FAIR_STAKES.includes(stake)
+    if (this.round || this.busy || this.now() < this.cooldownUntil || !FAIR_GAMES.includes(game) || !isFairStake(stake)
       || !fairIsOpen(this.context().hour) || this.context().map !== 'city'
       || (game === 'dice' && !DICE_SYMBOLS.includes(symbol))) return false;
     const c = this.context(); if (!c.online || !c.authenticated || this.awaitingSync) return false;

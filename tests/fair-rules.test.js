@@ -2,16 +2,18 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { phaseOf } from '../src/core/WorldClock.js';
 import {
-  FAIR_RULES_VERSION, FAIR_GAME_IDS, FAIR_GAMES, FAIR_STAKES, FAIR_LIMITS,
+  FAIR_RULES_VERSION, FAIR_GAME_IDS, FAIR_GAMES, FAIR_STAKES, FAIR_STAKE_MIN, FAIR_STAKE_MAX, FAIR_LIMITS,
   DICE_SYMBOLS, DICE_SYMBOL_NAMES, DICE_ODDS, SKILL_REFUND_PERCENT,
   isFairOpen, isFairStake, dicePayout, skillPayout, skillFee, targetAt, judgeFairShot,
 } from '../src/fair/fairRules.js';
 
-test('fair tables expose only the approved games, tiers and bounded round limits', () => {
-  assert.equal(FAIR_RULES_VERSION, 1);
+test('fair tables expose only the approved games, stake range and bounded round limits', () => {
+  assert.equal(FAIR_RULES_VERSION, 2);
   assert.deepEqual(FAIR_GAME_IDS, ['balloons', 'dolls', 'dice']);
   assert.deepEqual(Object.keys(FAIR_GAMES), FAIR_GAME_IDS);
-  assert.deepEqual(FAIR_STAKES, [20, 50, 100]);
+  assert.equal(FAIR_STAKE_MIN, 20); assert.equal(FAIR_STAKE_MAX, 1_000_000);
+  assert.deepEqual(FAIR_STAKES, [20, 100, 1_000, 10_000, 100_000, 1_000_000]);
+  for (const stake of FAIR_STAKES) assert.ok(isFairStake(stake));
   assert.deepEqual(FAIR_LIMITS, { shots: 5, roundMs: 20000, shotIntervalMs: 500, diceRevealMs: 1500, roundCooldownMs: 3000 });
   assert.equal(new Set(DICE_SYMBOLS).size, 6);
   assert.deepEqual(Object.keys(DICE_SYMBOL_NAMES), DICE_SYMBOLS);
@@ -37,7 +39,7 @@ test('invalid hours and stakes fail closed without coercion or wrapping', () => 
   for (const hour of [undefined, null, NaN, Infinity, -Infinity, -0.1, 24, 48, '22', true, {}]) {
     assert.equal(isFairOpen(hour), false);
   }
-  for (const stake of [undefined, null, NaN, Infinity, -20, 0, 1, 19, 20.5, 101, 10000, '20', true, {}]) {
+  for (const stake of [undefined, null, NaN, Infinity, -20, 0, 1, 19, 20.5, 1_000_000.5, 1_000_001, 1e9, Number.MAX_SAFE_INTEGER + 1, 2n ** 70n, '20', '1000', true, {}]) {
     assert.equal(isFairStake(stake), false);
     assert.throws(() => dicePayout(stake, 'fish', ['fish', 'fish', 'fish']), RangeError);
     assert.throws(() => skillPayout(stake, 5), RangeError);
@@ -90,8 +92,22 @@ test('skill refunds and completion fees are exact integer gold at every tier', (
   }
 });
 
+test('any whole stake from 20 to 1,000,000 is accepted; odd amounts settle in whole gold', () => {
+  for (const stake of [20, 21, 37, 50, 99, 101, 12_345, 333_333, 999_999, 1_000_000]) {
+    assert.equal(isFairStake(stake), true, `${stake}`);
+    for (let hits = 0; hits <= 5; hits++) {
+      const fee = skillFee(stake, hits);
+      assert.ok(Number.isSafeInteger(fee) && fee >= 0 && fee <= stake);
+    }
+    assert.equal(dicePayout(stake, 'tiger', ['tiger', 'tiger', 'tiger']), stake * 4);
+    assert.equal(dicePayout(stake, 'tiger', ['crab', 'fish', 'gourd']), 0);
+  }
+  // the largest single dice result: +3,000,000 net on a 1,000,000 stake
+  assert.equal(dicePayout(FAIR_STAKE_MAX, 'fish', ['fish', 'fish', 'fish']) - FAIR_STAKE_MAX, 3_000_000);
+});
+
 test('all 32 five-shot result sequences can only sink gold or break even', () => {
-  for (const stake of FAIR_STAKES) for (let sequence = 0; sequence < 32; sequence++) {
+  for (const stake of [...FAIR_STAKES, 21, 333_333]) for (let sequence = 0; sequence < 32; sequence++) {
     const hits = Array.from({ length: 5 }, (_, i) => (sequence >>> i) & 1).reduce((a, b) => a + b, 0);
     const fee = skillFee(stake, hits);
     assert.ok(fee >= 0 && fee <= stake);

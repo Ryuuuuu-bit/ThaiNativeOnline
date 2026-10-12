@@ -69,3 +69,26 @@ test('Escape closes and Tab traps focus including rules disclosure',async()=>{
   h.panel.keydown({key:'Tab',stopPropagation(){},preventDefault(){trapped=true;}});assert.equal(trapped,false);
   h.panel.keydown({key:'Escape',stopPropagation(){},preventDefault(){}});assert.equal(h.panel.open,false);h.panel.destroy();
 });
+test('stake: typed amounts, clamping, affordability and a second press for big stakes',async()=>{
+  const h=await fixture();h.c.gold=5_000_000;await h.panel.show('dice');
+  h.panel.stakeInput.value='2,500';h.panel.stakeInput.fire('input');assert.equal(h.panel.stake,2500);
+  h.panel.stakeInput.fire('blur');assert.equal(h.panel.stakeInput.value,'2,500');
+  h.panel.confirm.fire('click');assert.equal(h.sent.length,1);assert.equal(h.sent[0].stake,2500);
+  h.panel.receive({t:'fair_result',request:h.sent[0].request,ok:false,why:'gold'});h.panel.net.cooldownUntil=0;
+  // typing below the minimum keeps the text but cannot be sent; leaving the field clamps it
+  h.panel.stakeInput.value='5';h.panel.stakeInput.fire('input');h.panel.render();assert.equal(h.panel.confirm.disabled,true);
+  h.panel.stakeInput.fire('blur');assert.equal(h.panel.stake,20);
+  h.panel.stakeInput.value='99999999';h.panel.stakeInput.fire('input');h.panel.stakeInput.fire('blur');assert.equal(h.panel.stake,1_000_000);
+  // half / all-in follow the purse and the cap
+  h.panel.halfButton.fire('click');assert.equal(h.panel.stake,1_000_000);
+  h.c.gold=300_001;h.panel.halfButton.fire('click');assert.equal(h.panel.stake,150_000);
+  h.panel.allButton.fire('click');assert.equal(h.panel.stake,300_001);
+  // 100,000 or more: the first press arms, the second sends
+  h.panel.confirm.fire('click');assert.equal(h.sent.length,1);assert.match(h.panel.confirm.textContent,/กดอีกครั้ง/);
+  h.panel.confirm.fire('click');assert.equal(h.sent.length,2);assert.equal(h.sent[1].stake,300_001);
+  h.panel.receive({t:'fair_result',request:h.sent[1].request,ok:false,why:'gold'});h.panel.net.cooldownUntil=0;
+  // more than the purse: confirmation is disabled and says why
+  h.c.gold=50;h.panel.stakeInput.value='100';h.panel.stakeInput.fire('input');h.panel.stakeInput.fire('blur');
+  assert.equal(h.panel.confirm.disabled,true);assert.match(h.panel.status.textContent,/ตำลึงไม่พอ/);
+  h.panel.destroy();
+});
