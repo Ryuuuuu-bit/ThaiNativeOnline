@@ -26,6 +26,9 @@ window.addEventListener('unhandledrejection',e=>{result.errors.push(String(e.rea
 const views=[
   ['plaza',0,8,1,10],['shops',-12,-13,1,10],['temple',-52,-31,1,10],
   ['temple-complex',-52,-35,.65,10],['waterfront',0,62,1,10],
+  ['harbor-overview',0,67,.60,10],['harbor-evening',0,64,.8,19],
+  ['home-boundaries',-53,41,1.1,10],['east-boundaries',51,14,1,10],
+  ['city-gate',0,-60,.65,10],
   ['forge',-23,-13,1.4,10],['pharmacy',23,-13,1.4,10],
   ['general',-23,15,1.4,10],['depot',23,15,1.4,10],
   ['north-halls',0,-39,1,10],['hunter',41,-43,1,10],['herbalist',43,-15,1,10],
@@ -80,7 +83,8 @@ try {
   for(const entry of views){const button=document.createElement('button');button.textContent=entry[0];button.onclick=()=>render(entry);document.querySelector('#views').append(button);}
   window.compactCityReview={world,scene,renderer,view,npcs,clock,render,result};
   if(params.has('capture')){
-    for(const entry of views){await frame();result.shots[entry[0]]=render(entry);step('view:'+entry[0],{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});}
+    const selected=params.get('views')?.split(',');
+    for(const entry of views.filter(v=>!selected||selected.includes(v[0]))){await frame();result.shots[entry[0]]=render(entry);step('view:'+entry[0],{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});}
     npcs?.dispose();
     const baseline=renderer.info.memory.geometries;
     const disposed=world.dispose();renderer.render(scene,view.camera);

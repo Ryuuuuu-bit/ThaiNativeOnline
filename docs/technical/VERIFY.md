@@ -153,3 +153,23 @@ export and canonical recall assertion repair: **1,397 passed, 0 failed,
 large-chunk warning. Production Game screenshots and 12-second motion sequences
 are recorded in `docs/art/compact-city-atmosphere/`; geometric population counts
 remain distinct from rendered visibility or hardware frame-rate measurement.
+
+## Compact city home boundaries and harbor
+
+`tests/compact-city-home-fences.test.js` measures reserved bounds and clear stair
+openings; `tests/compact-city-harbor.test.js` checks outward hull normals, offshore
+motion envelopes, tracked allocations and failed-build cleanup. Together they
+have seven focused cases. `tools/compact-city-production-qa.mjs` additionally
+walks from the boatman at (0,55) to the waterfront at (0,62).
+
+Final full suite after the two-gate compound revision and collision export:
+**1,404 passed, 0 failed, 2 existing skips** (1,406 total). `npm run build` passes
+with 375 modules; the existing large-chunk warning remains. Final actual Game
+QA has 24 captures, zero browser errors and zero client/server collision
+mismatches across 19,257 sampled positions. Seven art views pass, including
+the revised central compound wall and harbor day/evening composition.
+
+Final screenshots, reference links, collision comparison and art review are in
+`docs/art/compact-city-harbor/`. Capture one disposable browser at a time. Source
+changes require a fresh collision export even when the 47 city shapes and all
+13 wilderness map objects remain unchanged.

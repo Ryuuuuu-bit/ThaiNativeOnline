@@ -11,6 +11,7 @@ import { buildCityLandscape } from './buildCityLandscape.js';
 import { buildCityMarket } from './buildCityMarket.js';
 import { buildCityTemple } from './buildCityTemple.js';
 import { buildCityWater } from './buildCityWater.js';
+import { buildCityHarbor } from './buildCityHarbor.js';
 import { attachCityFoliageShadows } from './cityFoliageWind.js';
 
 // Production dressing adapted from the approved compact-city proposal. The
@@ -735,6 +736,13 @@ export async function buildCityArt(root, progress = () => {}) {
   for(const side of[-1,1]) {
     box(staticRoot,M.brick,side*73,1.15,-1,1.5,2.3,130);
     box(staticRoot,M.rim,side*73,2.35,-1,1.7,.18,130);
+    // A visible plinth and spaced pilasters make the town edge read as masonry
+    // from oblique gameplay views. Everything stays beyond the walk boundary.
+    box(staticRoot,M.dark,side*73,.22,-1,1.75,.44,130);
+    for(let z=-58;z<64;z+=16) {
+      box(staticRoot,M.cream,side*73,1.30,z,1.9,2.6,.56);
+      box(staticRoot,M.gold,side*73,2.66,z,1.94,.12,.68);
+    }
     for(let z=-62;z<64;z+=4)box(staticRoot,M.rim,side*73,2.65,z,1.8,.45,.9);
     box(staticRoot,M.brick,side*39,1.5,-65,66,3,1.5);
     box(staticRoot,M.rim,side*39,3.05,-65,66,.18,1.8);
@@ -742,33 +750,9 @@ export async function buildCityArt(root, progress = () => {}) {
     const g=new THREE.Group();g.position.set(side*7.5,0,-67);staticRoot.add(g);
     box(g,M.cream,0,2,0,4,4,4);roof(g,5,5,4,2.5);
   }
-  // Pier land stays flat through the boatman's (0,55) contact area. Water starts
-  // outside +64, so neither client nor server requires a special deck exception.
-  ground(M.wood,0,.002,59,14,.003,10);
-  for(let z=54;z<=63;z+=.5)ground(M.timber,0,.007,z,13.9,.003,.43);
-  for(const side of[-1,1])for(let z=65;z<76;z+=4){cyl(staticRoot,M.wood,side*7,-.15,z,.26,2.4);cyl(staticRoot,M.gold,side*7,.8,z,.3,.12);}
-  ground(M.wood,0,-.016,69,14,.025,9);
-  for(let x=-70;x<72;x+=4){box(staticRoot,M.rim,x+2,.08,64.6,3.96,.32,.7);}
-  // Moored craft have their own small batches so a gentle current can move the
-  // entire hull without rebuilding geometry or changing navigation.
-  const boats=[];
-  async function boat(x,z,scale=1,sail=false) {
-    const g=ownRoot(new THREE.Group());
-    ball(g,M.wood,0,.25,0,2.4,.62,6);
-    box(g,M.timber,0,.60,0,3.5,.18,9.5);
-    for(const side of[-1,1])box(g,M.dark,side*1.8,.95,0,.2,.6,9);
-    for(let i=0;i<4;i++)crate(g,-.9+(i%2)*1.8,.72,-2+Math.floor(i/2)*2,1.2);
-    if(sail){cyl(g,M.wood,0,5,0,.15,10);box(g,M.cream,0,6.5,.12,5.5,5.5,.08);
-      for(let y=4;y<9;y+=.85)box(g,M.timber,0,y,.19,5.5,.07,.08);roof(g,3.5,3.2,1.3,1.4);}
-    const moving=ownRoot(new THREE.Group());await assemble(g,moving);g.clear();
-    moving.position.set(x,-.28,z);moving.scale.setScalar(scale);
-    moving.name=sail?'city-moored-junk':'city-cargo-sampan';
-    root.add(moving);boats.push({group:moving,phase:x*.13});
-  }
-  await boat(-20,75,1.2,true);await boat(-10,70,.8,false);
-  // The working sampan sits alongside the pier, visible as players reach the
-  // quay. Mooring lines stay outside the walk boundary with the hull.
-  for(const z of[67,73])beam(staticRoot,M.rim,[-7,.70,z],[-8.55,.33,z],.035);
+  const harbor=await buildCityHarbor({root,staticRoot,ownRoot,mat,geo,box,cyl,beam,ball,
+    ground,lanternAt,pot,crate,kitRoof,roofM,M,assemble});
+  const boats=harbor.boats;
   const water=buildCityWater({root,mat,geo});controllers.push(water);
   // Three restrained, unshadowed pools identify occupied town thresholds at
   // night. They share the day-cycle fade and allocate no additional shadow maps.
@@ -781,7 +765,9 @@ export async function buildCityArt(root, progress = () => {}) {
   const streetStats=buildCityStreets({root:staticRoot,mat,geo,box,cyl,beam,lanternAt,M,authoredTextures,CITY});
   const batches=await assemble(staticRoot,root);
   const windShadows=attachCityFoliageShadows(root,{ownMaterial:m=>mats.push(m)});controllers.push(windShadows);
-  const stats={...streetStats,...landscape.stats,...water.stats,sacred:sacredStats,windShadowMeshes:windShadows.meshes,animatedBoats:boats.length,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
+  const stats={...streetStats,...landscape.stats,...water.stats,harbor:harbor.stats,
+    residentialFences:{lots:(neighborhoods.fenceLots??0)+(courtyards.fenceLots??0),segments:(neighborhoods.fenceSegments??0)+(courtyards.fenceSegments??0),gatePosts:(neighborhoods.gatePosts??0)+(courtyards.gatePosts??0)},
+    sacred:sacredStats,windShadowMeshes:windShadows.meshes,animatedBoats:boats.length,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
   return {ground:pickGround,water,stats,update(t,dt,focus,env){
     water.update(t,dt,focus,env);
     for(const surface of fountainSurfaces)surface.update(t,env);

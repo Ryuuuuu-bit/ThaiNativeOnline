@@ -1,6 +1,63 @@
 import * as THREE from 'three';
 import { M as kitMaterials } from '../materials.js';
 
+// +Z is the street face. Gate clearance includes the stair centre and the
+// central approach; caps and posts stay on the closed side of that interval.
+function residentialBoundary({p,w,d,doorX=0,gateHalf=.92,centralSpan=null,style,base,box,cyl,beam,M,plaster,fullSides=false}) {
+  const fence=new THREE.Group();fence.name='residential-boundary';p.add(fence);
+  const edge=w*.455,front=d*.455,height=1.08-base;
+  const left=Math.max(-edge+.40,Math.min(-gateHalf,doorX-.72));
+  const right=Math.min(edge-.40,Math.max(gateHalf,doorX+.72));
+  const stats={segments:0,gatePosts:centralSpan?4:2,style};
+  fence.userData.gate={left,right,front,doorX,base,top:1.18};
+  fence.userData.gateOpenings=centralSpan?
+    [{left,right:centralSpan.left-.16},{left:centralSpan.right+.16,right}]:[{left,right}];
+  fence.userData.fenceStyle=style;
+  function segment(x1,z1,x2,z2) {
+    const length=Math.hypot(x2-x1,z2-z1);if(length<.10)return;
+    const s=new THREE.Group();s.position.set((x1+x2)/2,0,(z1+z2)/2);
+    s.rotation.y=Math.atan2(x2-x1,z2-z1);fence.add(s);
+    // Longitudinal local Z lets the geometry work for every front orientation.
+    if(style==='plaster') {
+      box(s,plaster,0,base+height*.43,0,.16,height*.86,length);
+      box(s,M.rim,0,base+height*.88,0,.23,.10,length+.04);
+    }else {
+      const bamboo=style==='bamboo',count=Math.max(2,Math.ceil(length/(bamboo?.24:.36)));
+      for(const y of[base+.22,base+height-.08])box(s,bamboo?M.ochre:M.wood,0,y,0,.09,.085,length);
+      for(let i=0;i<=count;i++) {
+        const z=-length/2+i*length/count;
+        if(bamboo) {
+          cyl(s,M.timber,0,base+height/2,z,.042,height);
+          // A few broad tie bands convey bamboo without a noisy node texture.
+          if(i%3===0)cyl(s,M.wood,0,base+height*.72,z,.049,.045);
+        }else box(s,M.timber,0,base+height/2,z,.07,height,style==='slat'?.19:.09);
+      }
+      if(style==='timber')beam(s,M.wood,[0,base+.18,-length/2],[0,base+height-.13,length/2],.045);
+    }
+    for(const z of[-length/2,length/2]) {
+      box(s,style==='plaster'?plaster:M.wood,0,base+height/2,z,.16,height,.16);
+      box(s,M.rim,0,1.11,z,.23,.10,.23);
+    }
+    stats.segments++;
+  }
+  segment(-edge,front,left-.16,front);
+  segment(right+.16,front,edge,front);
+  if(centralSpan) {
+    segment(centralSpan.left,front,centralSpan.right,front);
+    fence.children.at(-1).name='residential-central-front-span';
+  }
+  const rear=fullSides?-d*.455:d*.10;
+  segment(-edge,rear,-edge,front);segment(edge,rear,edge,front);
+  if(fullSides) {
+    segment(-edge,rear,-.55,rear);segment(.55,rear,edge,rear);
+  }
+  for(const x of[left-.16,right+.16,...(centralSpan?[centralSpan.left,centralSpan.right]:[])]) {
+    box(fence,style==='plaster'?plaster:M.wood,x,(base+1.12)/2,front,.20,1.12-base,.20);
+    box(fence,M.rim,x,1.145,front,.27,.07,.27);
+  }
+  return stats;
+}
+
 // Canonical lots own occupancy. Everything here, including eaves, planting and
 // domestic props, belongs to the lot; this module never dresses the street.
 // All primitives/materials go through the caller's tracked allocation helpers.
@@ -9,7 +66,7 @@ export function buildCityNeighborhoods({
   kitRoof, roofM, M,
 }) {
   const lots=CITY.buildings.filter(b=>b.kind==='infill');
-  const result={count:0,variants:{},sourceMeshes:0,ids:[]};
+  const result={count:0,variants:{},sourceMeshes:0,ids:[],fenceLots:0,fenceSegments:0,gatePosts:0,fenceStyles:{}};
   if(!lots.length)return result;
   const plaster=[M.cream,mat('#d9c8aa'),mat('#c9cfad')];
   const cloth=[roofM.cream,roofM.gold,roofM.timber];
@@ -105,28 +162,14 @@ export function buildCityNeighborhoods({
     return kitRoof(p,{width,depth,y,height,material,x,z,ry,pattern:'panel',tips:true});
   }
   function courtyardFence(p,w,d,variant,index) {
-    const gateX=w*(/fisher/.test(variant)?.13:/merchant|townhouse/.test(variant)?-.146:/inn/.test(variant)?-.15:-.12);
-    const gateWidth=Math.min(1.55,w*.34),front=d*.445,edge=w*.445;
-    const stone=variant==='inn'||variant==='teahouse',height=stone?.78:.66;
-    function segment(x1,z1,x2,z2) {
-      const a=new THREE.Vector3(x1,0,z1),b=new THREE.Vector3(x2,0,z2),length=a.distanceTo(b);
-      if(length<.14)return;
-      const count=Math.max(1,Math.ceil(length/.63));
-      beam(p,M.wood,[x1,height,z1],[x2,height,z2],.045);
-      beam(p,stone?M.rim:M.timber,[x1,.34,z1],[x2,.34,z2],stone?.09:.035);
-      for(let i=0;i<=count;i++) {
-        const t=i/count,x=x1+(x2-x1)*t,z=z1+(z2-z1)*t;
-        box(p,stone?M.rim:M.wood,x,height/2,z,stone?.13:.07,height,stone?.13:.07);
-        if(stone&&i%2===0)box(p,M.rim,x,height+.035,z,.20,.09,.20);
-      }
-    }
-    // A short front court, with a generous doorway-aligned break. Trade lots
-    // keep the cargo/workshop edge open; domestic courts get two side returns.
-    segment(-edge,front,gateX-gateWidth/2,front);
-    segment(gateX+gateWidth/2,front,edge,front);
-    segment(-edge,d*.13,-edge,front);
-    if(!/woodworker|potter|bakery/.test(variant))segment(edge,d*.13,edge,front);
-    if(index%2===0)planter(p,-edge+.24,d*.15,.33,.60);
+    const doorX=w*({fisher:.13,'fisher-home':.13,merchant:-.146,townhouse:-.146,
+      inn:-.15,weaver:-.20,woodworker:-.23,potter:-.17,bakery:.08,teahouse:-.12,'tea-house':-.12}[variant]??0);
+    const style=/fisher|woodworker/.test(variant)?'bamboo':/inn|teahouse|tea-house/.test(variant)?'plaster':index%2?'slat':'timber';
+    const f=residentialBoundary({p,w,d,doorX,style,base:.32,box,cyl,beam,M,plaster:plaster[index%plaster.length]});
+    result.fenceLots++;result.fenceSegments+=f.segments;result.gatePosts+=f.gatePosts;
+    result.fenceStyles[style]=(result.fenceStyles[style]??0)+1;
+    // Planting sits behind the outer corner, leaving the gate and stair mouth clear.
+    if(index%2===0)planter(p,w*.36,d*.37,.33,.53);
   }
   const fallback=['townhouse','tea-house','fisher-home','warehouse-extension'];
   function variantFor(b,index) {
@@ -351,7 +394,7 @@ export function buildCityNeighborhoods({
 export function buildCityCourtyardEdges({
   root,CITY,mat,geo,box,cyl,beam,ball,M,pot,lanternAt,
 }) {
-  const result={count:0,walls:0,planters:0,facadeBays:0,clusters:0,sourceMeshes:0};
+  const result={count:0,walls:0,planters:0,facadeBays:0,clusters:0,sourceMeshes:0,fenceLots:0,fenceSegments:0,gatePosts:0,fenceStyles:{}};
   const buildings=CITY.buildings.filter(b=>b.kind!=='infill'&&b.kind!=='garden');
   if(!buildings.length)return result;
   const warmPlaster=mat('#d9cfb4'),soil=M.dark;
@@ -434,7 +477,16 @@ export function buildCityCourtyardEdges({
     const herbs=/pharm|herbal|shaman/.test(b.id);
     const timber=craft||b.kind==='house'||cargo;
     const height=sacred?.76:timber?.63:.69,edge=w*.46,rear=-d*.46;
-    if(!['landmark','chedi'].includes(b.kind)) {
+    if(b.kind==='house') {
+      // Original compounds get visible street corners as well as rear walls.
+      // The broad middle stays open for both houses' stairs and the kuti door.
+      const style=b.id==='kuti'?'bamboo':'plaster';
+      const centralSpan=b.id==='homes'?{left:-w*.20625,right:w*.20625}:null;
+      const f=residentialBoundary({p:g,w,d,doorX:0,gateHalf:w*(b.id==='homes'?.38:.31),centralSpan,style,base:.22,box,cyl,beam,M,plaster:warmPlaster,fullSides:true});
+      result.fenceLots++;result.fenceSegments+=f.segments;result.gatePosts+=f.gatePosts;
+      result.fenceStyles[style]=(result.fenceStyles[style]??0)+1;result.walls+=f.segments;
+      strip(g,-w*.37,d*.27,Math.min(1.15,w*.12),Math.min(.53,d*.07));
+    }else if(!['landmark','chedi'].includes(b.kind)) {
       // Rear fragments and side returns share the reserved lot. Never draw a
       // full front edge: smithy bays and every main doorway remain open.
       const gap=index%2===0?Math.min(1.25,w*.20):.40;

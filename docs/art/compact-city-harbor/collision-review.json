@@ -1,0 +1,64 @@
+{
+  "base": "87c96389ba160ca04ae6f25fef710f439d46aeb4",
+  "sourceHash": "ed6cf77e174584e429ef45b173d816f83cc706bdcf2dd207e356c60d73623a1d",
+  "mapCount": 14,
+  "nonCityIdentical": 13,
+  "comparison": {
+    "city": {
+      "identical": true,
+      "shapes": 47
+    },
+    "paddy": {
+      "identical": true,
+      "shapes": 756
+    },
+    "deep_forest": {
+      "identical": true,
+      "shapes": 1145
+    },
+    "wat_rang": {
+      "identical": true,
+      "shapes": 1574
+    },
+    "klong": {
+      "identical": true,
+      "shapes": 1055
+    },
+    "ruen_ho": {
+      "identical": true,
+      "shapes": 34
+    },
+    "bamboo_grave": {
+      "identical": true,
+      "shapes": 118
+    },
+    "sealed_mine": {
+      "identical": true,
+      "shapes": 139
+    },
+    "sunken_city": {
+      "identical": true,
+      "shapes": 122
+    },
+    "dusk_fort": {
+      "identical": true,
+      "shapes": 126
+    },
+    "giant_valley": {
+      "identical": true,
+      "shapes": 143
+    },
+    "himmapan": {
+      "identical": true,
+      "shapes": 121
+    },
+    "fallen_city": {
+      "identical": true,
+      "shapes": 141
+    },
+    "demon_rift": {
+      "identical": true,
+      "shapes": 135
+    }
+  }
+}

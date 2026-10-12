@@ -277,6 +277,21 @@ Actual terrain, collision, service contacts and saved locations retain the
 canonical compact-city contract above. Evidence is in
 `docs/art/compact-city-atmosphere/`.
 
+### Home boundaries and harbor
+
+`buildCityNeighborhoods.js` adds visible lot fences to the existing reserved
+house footprints. Low corner returns and front openings preserve the entrance
+silhouette; they do not create navigable interiors. `buildCityHarbor.js` builds
+the quay dressing and offshore berths using the same tracked material/geometry
+factories. It returns separately batched craft to `buildCityArt` for the existing
+gentle current motion. Offshore upright props remain beyond z=64.65; the boatman
+and playable waterfront approach remain at (0,55) and (0,62).
+
+Review bookmarks `home-boundaries`, `east-boundaries`, `harbor-overview` and
+`harbor-evening` are in the existing production page. Its optional `views`
+query limits captures without opening another page. Visual references, final
+evidence and limitations belong to `docs/art/compact-city-harbor/`.
+
 `npm test` runs `tests/world.test.js`, `tests/maps.test.js` and
 `tests/two-maps-qa.test.js` in Node. They check road and bridge placement
 against water, paddy generation, nav-graph connectivity, collision and deck

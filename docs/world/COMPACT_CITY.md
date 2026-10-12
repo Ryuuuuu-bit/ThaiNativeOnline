@@ -142,6 +142,19 @@ two portal pillars. Revision 2 is retained because this replacement has not
 deployed; current saves obstructed by a new lot use the existing safe fallback.
 The player remains free to cross unreserved open ground.
 
+## Harbor and residential boundaries
+
+Home lots use visible timber/slat and capped plaster edges with front openings.
+They remain inside the existing solid reservations; no private interiors or
+new navigation barriers are introduced. Perimeter masonry now has a stronger
+plinth and pilasters, still outside the town boundary.
+
+The trading harbor uses an open quay, timber berths, a Thai pavilion and grouped
+cargo dressing inspired by the spatial clarity of Ragnarok's Alberta. Boatman
+contact and resident routines remain unchanged. Offshore berths are scenic and
+their entry rail marks the walk limit; this revision does not extend the
+playable envelope into the river. See [harbor examples and validation](../art/compact-city-harbor/README.md).
+
 ## Review and validation
 
 - Interactive production view: `/tools/compact-city-production.html`.

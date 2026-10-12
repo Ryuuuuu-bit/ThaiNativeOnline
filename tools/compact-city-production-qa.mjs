@@ -143,6 +143,9 @@ try {
   await bookmark('production-counter-depot',{x:14,z:12});
   await bookmark('production-homes',{x:-54,z:47});
   await bookmark('production-warehouse-port',{x:0,z:55});
+  assert.ok(await page.evaluate(()=>window.game.walkTo(0,62)));
+  await page.waitForFunction(()=>Math.hypot(window.game.player.position.x,window.game.player.position.z-62)<.3,null,{timeout:30000});
+  result.checks.push('walk from boatman approach (0,55) to waterfront (0,62) remains clear');
   await bookmark('production-waterfront',{x:0,z:62});
   await bookmark('production-warehouse-facade-zoom-1.25',{x:-28,z:52},false,1.25);
   result.checks.push('full-resolution production visual bookmarks: forge/temple default and rotated, all six hall masters, pharmacy/general/occult counters, warehouse/port');
