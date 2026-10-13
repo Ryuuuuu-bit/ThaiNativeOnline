@@ -11,6 +11,7 @@ import { RULES } from './data/rules.js';
 import { monsterAttackMul, effectiveDefense, sameStatusSource } from './statusEffects.js';
 import { rollDamage } from '../rules/stats.js';
 import { followerAway } from '../classes/dog.js';
+import { flaskKillCharges } from '../character/data/flasks.js';
 import { MONSTER_ACCURACY, killExp } from '../character/data/progression.js';
 import { afterHit, shoveTo } from './monsterHit.js';
 import { cardId, cardRate, hasCard } from '../character/data/cards.js';
@@ -281,7 +282,7 @@ export class Combat extends Emitter {
       applyBossCardKill(c, this.bossCardProcs, Date.now() / 1000);
     this.emit('kill', { monster: m, exp, gold, drops });
     c.gold += gold; c.gainExp(exp);
-    c.refillFlasks('kill', m.def.boss ? 10 : m.def.elite ? 3 : 1);
+    c.refillFlasks('kill', flaskKillCharges(m.def));
     for (const d of drops) c.addInstance(d);
     if (this.target === m) { this.target = null; this.autoAttack = false; this.pending = null; this.emit('target', null); }
   }

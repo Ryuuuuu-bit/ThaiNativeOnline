@@ -1,7 +1,8 @@
 import { MONSTERS } from '../../combat/data/monsters.js';
 
 export const FLASK_LEVELS = Object.freeze([1,10,20,30,40,50,60,70,80,90,100]);
-const hp = [60,90,140,210,300,420,560,720,900,1100,1400];
+// HP heal ≈ 2.5–3.5 hits of a normal monster of that tier's level band
+const hp = [70,160,280,420,540,680,820,960,1100,1250,1450];
 const mp = [50,70,100,140,190,250,320,400,490,600,760];
 export const flaskTierForLevel = level => Math.max(0,FLASK_LEVELS.findLastIndex(n => n <= level));
 export const NORMAL_FLASK_IDS = Object.freeze(FLASK_LEVELS.flatMap((_,i) => ['hp','mp'].map(kind => `flask_${kind}_${i+1}`)));

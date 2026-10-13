@@ -50,6 +50,7 @@ import { applyQuestOp, reconcileQuestMasteries, recordQuestCast, recordQuestSkil
 import { nearAnyShop } from '../src/data/shopSites.js';
 import { MONSTER_ACCURACY, MAX_LEVEL } from '../src/character/data/progression.js';
 import { afterHit, shielded, SHIELD } from '../src/combat/monsterHit.js';
+import { flaskKillCharges } from '../src/character/data/flasks.js';
 import { STRIP } from '../src/character/data/cards.js';
 import { REFINE_SHOP, sameGear } from '../src/character/data/refine.js';
 import { MUAYTHAI_SKILLS } from '../src/classes/muaythai-moves.js';
@@ -217,7 +218,7 @@ export class Combatants {
     for (const d of k.drops ?? []) if (!c.addInstance(d)) lost.push(d);
     if (k.type) s.quests.onKill(k.type);
     const def = MONSTERS[k.type];
-    if (def) c.refillFlasks('kill', def.boss ? 10 : def.elite ? 3 : 1);
+    if (def) c.refillFlasks('kill', flaskKillCharges(def));
     c.noteKill(k.type);   // the records behind the titles (src/data/titles.js)
     s.dirty = true;
     return { ...(c.level !== before ? { level: c.level } : {}), ...(lost.length ? { lost } : {}) };

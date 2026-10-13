@@ -1,4 +1,5 @@
 import { MONSTERS } from '../combat/data/monsters.js';
+import { flaskKillCharges } from '../character/data/flasks.js';
 import { keptLootDrops } from '../combat/lootDrops.js';
 import { sameStatusSource } from '../combat/statusEffects.js';
 import { Monster } from '../combat/Combat.js';
@@ -197,7 +198,7 @@ export function attachNetCombat(net, game) {
     combat.emit('kill', { monster: m, exp: msg.exp, gold: msg.gold, drops: kept });
     if (lost.length) combat.emit('fail', 'กระเป๋าเต็ม · ของที่ตกหายไป');
     c.gold += msg.gold; c.gainExp(msg.exp);
-    const def = MONSTERS[msg.type]; if (def) c.refillFlasks('kill', def.boss ? 10 : def.elite ? 3 : 1);
+    const def = MONSTERS[msg.type]; if (def) c.refillFlasks('kill', flaskKillCharges(def));
     for (const d of kept) c.addInstance(d);
     c.emit('change');
   });
