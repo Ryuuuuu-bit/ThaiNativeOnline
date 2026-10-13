@@ -2,7 +2,7 @@
   "schema": 1,
   "family": "boatman",
   "revision": "woven-v2",
-  "assetSha256": "af19412c9ef20ccae95bb5861c449494d08185b52f2be489efed892ff36b104b",
+  "assetSha256": "0a29a95d7dd23ef46ac681e79a9327890e1eb42980067f6056b518de7ba889c6",
   "walkStride": 1.3437,
   "geometryAssetSha256": "e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44",
   "qaApproved": true,

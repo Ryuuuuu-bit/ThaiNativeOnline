@@ -161,15 +161,18 @@ for (let f = 0; f <= frames; f++) {
   }
 }
 function depth(n) { let d = 0; for (let p = T.parent.get(n); p; p = T.parent.get(p)) d++; return d; }
-// root motion: the straight line from the first to the last frame is the travel; the rest is sway/bob
-const travel = pelvisPath.at(-1).clone().sub(pelvisPath[0]); travel.y = 0;
+// root motion: the straight line from the first to the last frame is the travel; the rest is sway/bob.
+// All of it, height included: a source body that leans a little in its rest pose gets a travel
+// that climbs or sinks once aligned, and leaving that in would lift the hips a few cm over each
+// cycle and drop them back at the loop (a stumble every step).
+const travel = pelvisPath.at(-1).clone().sub(pelvisPath[0]);
 const hipsNode = tHips, hipsParentInv = tgtRest(T.parent.get(hipsNode)).clone().invert(), hipsRestWorld = posOf(tgtRest(hipsNode));
 for (let f = 0; f <= frames; f++) {
   const k = f / frames, along = travel.clone().multiplyScalar(k);
   const sway = pelvisPath[f].clone().sub(pelvisPath[0]).sub(along).multiplyScalar(scale);
   hipsPos.push(hipsRestWorld.clone().add(sway).applyMatrix4(hipsParentInv));
 }
-const stride = travel.length() * scale;   // metres per cycle in the target's units
+const stride = Math.hypot(travel.x, travel.z) * scale;   // metres per cycle in the target's units
 
 // replace the target clip
 const root = tgt.getRoot(), buffer = root.listBuffers()[0];
