@@ -15,6 +15,8 @@ const parse = async path => {
 };
 const ORIGINAL = { muaythai: 'muay-thai-fighter', herbalist: 'herbalist', hunter: 'hunter', warrior: 'warrior', shaman: 'shaman' };
 const PROPS = { warrior: ['sword_L', 'sword_R'], hunter: ['hunter_bow'] };
+// classes whose idle is a Tripo text-to-motion stance (tools/class-models/add-idle.mjs), not the original's
+const TRIPO_IDLE = ['warrior', 'hunter', 'shaman'];
 
 test('avatarFor picks the body by gender, male by default, one object per class and gender', () => {
   for (const id of Object.keys(ORIGINAL)) {
@@ -34,9 +36,11 @@ for (const [id, file] of Object.entries(ORIGINAL)) test(`${id}: male and female 
   for (const gender of ['male', 'female']) {
     const { size, gltf } = await parse(AVATARS[id].models[gender]), tag = `${id} ${gender}`;
     assert.ok(size < 1700000, `${tag} download ${size}`);
-    assert.deepEqual(gltf.animations.map(c => c.name).sort(), wanted, tag);
+    const extra = AVATARS[id].previewClip ? [AVATARS[id].previewClip] : [];   // the entry-screen stance
+    assert.deepEqual(gltf.animations.map(c => c.name).filter(n => !extra.includes(n)).sort(), wanted, tag);
+    for (const n of extra) assert.ok(gltf.animations.some(c => c.name === n), `${tag} ${n}`);
     for (const clip of gltf.animations) {
-      const before = original.animations.find(c => c.name === clip.name);
+      const before = original.animations.find(c => c.name === clip.name); if (!before || (clip.name === 'idle' && TRIPO_IDLE.includes(id))) continue;
       assert.ok(Math.abs(clip.duration - before.duration) < .05, `${tag} ${clip.name} timing`);
       for (const track of clip.tracks) assert.ok(Array.from(track.values).every(Number.isFinite), `${tag} ${track.name}`);
     }

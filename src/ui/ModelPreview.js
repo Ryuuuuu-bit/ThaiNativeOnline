@@ -152,7 +152,7 @@ export class ModelPreview {
     const avatar = avatarFor(classId, gender);
     let entry = this.models.get(avatar.url);
     if (!entry) {
-      const character = makeModelCharacter(this.scene, null, { url: `${import.meta.env.BASE_URL}${avatar.url}`, height: avatar.height, guardClip: 'idle' });
+      const character = makeModelCharacter(this.scene, null, { url: `${import.meta.env.BASE_URL}${avatar.url}`, height: avatar.height, guardClip: 'idle', idleClip: avatar.previewClip });
       this.turntable.add(character.group);
       entry = { avatar, character, loaded: false };
       entry.ready = character.ready.catch(error => { console.warn(`preview ${avatar.url} failed to load`, error); }).finally(() => { entry.loaded = true; });

@@ -59,7 +59,8 @@ function pinRoot(clip) {
   return clip;
 }
 
-export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip = 'attack_jab' } = {}) {
+// idleClip: stand in this clip instead of 'idle' (the archer's draw stance on the entry screens)
+export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip = 'attack_jab', idleClip = null } = {}) {
   const group = new THREE.Group(); scene.add(group);
   const body = new THREE.Group(); group.add(body);
 
@@ -95,6 +96,7 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
         const name = gameName(clip.name);
         if (!actions[name]) actions[name] = mixer.clipAction(pinRoot(clip));
       }
+      if (idleClip && actions[idleClip]) actions.idle = actions[idleClip];
       if (!actions.idle && actions[guardClip]) {
         // Hold the guard pose of an attack clip as the idle stance.
         const idle = mixer.clipAction(actions[guardClip].getClip().clone());

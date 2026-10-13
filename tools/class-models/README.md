@@ -21,9 +21,25 @@ npx gltfpack -i artifacts/warrior-female.glb -o public/models/classes/warrior-fe
 retarget.mjs also corrects what the donor's bones cannot carry over (2026-10-13 anatomy pass):
 fingers are rebuilt on the new hand (each curled as far as, and toward the same palm side as, the
 donor's; full grip on the swords; the archer's drawing hand hooks the string in bow moves), the
+a loose hand takes a relaxed hand's soft curl with the fingers held together instead of the
+T-pose fan, fingers are scaled to 0.86 from the knuckle (the generated hands run long), the
 hips are lifted or lowered so idle soles stand on the ground, and a sword or bow that would pass
 through the head (key frames and the in-betweens) swings clear: the upper arm turns out first,
 then the weapon about the hand, eased over ±7 frames. The log lists every clip it touched.
+
+The archer bodies also carry `aim_pose`, the full-draw stance the entry screens show
+(`AVATARS.hunter.previewClip`): `node tools/class-models/archer-pose.mjs body.glb body.glb` after
+the retarget, before packing. IK from hunter_shot's full draw: wide stance with bent knees, bow arm
+straight at the target, the string hand at the jaw with a straight wrist and the elbow back, the
+head down the arrow, the bow turned upright.
+
+Swordsman, archer and shaman idles are Tripo Studio text-to-motion stances (Animate tab, 20
+credits each, exported with "stay in place" on the male bodies; Downloads/<job>-male-idles.glb):
+twin-sword guard, alert hunter with the bow held low, spirit caster cradling an orb.
+`tools/class-models/add-idle.mjs` puts one on the male body as `idle` (weapon hands keep their
+grip, the bow hangs upright, every frame's lower foot stands on the ground, the end eases into the
+start); that body is then the donor for retarget.mjs onto both genders, so the new idle gets the
+same finger, ground and weapon-clearance pass as every other clip.
 
 Portraits (`public/ui/portraits/<class>.png`, `<class>-female.png`) are 256px renders of the
 packed bodies' idle pose in the game loader. If a Tripo export comes back with its bones at

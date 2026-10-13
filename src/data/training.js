@@ -11,6 +11,7 @@
 // skills: a kit id from src/classes (CLASS_KITS) — the class's ten skills,
 // their FX and the training dummy in the city.
 // job: rules job (src/rules/data/classes.js JOBS) for the trainee's stats.
+// previewClip: the clip the entry screens' model stands in (default idle).
 // portrait: head render for the HUD and entry screens (src/ui/icons.js classBadge); portraits.female
 // the female body's (classBadge(id, cls, { gender })).
 // ready: true opens the class in the creation screen; every other class shows
@@ -26,7 +27,7 @@ export const AVATARS = {
     casts: { dart: 'cast_book', blight: 'toss', grove: 'kneel_heal', balm: 'raise_sky' },
   },
   hunter: {
-    url: 'models/classes/hunter-male.glb', models: { male: 'models/classes/hunter-male.glb', female: 'models/classes/hunter-female.glb' }, portrait: 'ui/portraits/hunter.png', portraits: { female: 'ui/portraits/hunter-female.png' }, height: 1.8, skills: 'hunter', job: 'archer', ready: true,
+    url: 'models/classes/hunter-male.glb', previewClip: 'aim_pose', models: { male: 'models/classes/hunter-male.glb', female: 'models/classes/hunter-female.glb' }, portrait: 'ui/portraits/hunter.png', portraits: { female: 'ui/portraits/hunter-female.png' }, height: 1.8, skills: 'hunter', job: 'archer', ready: true,
     casts: { shot: 'hunter_shot', volley: 'hunter_volley', snare: 'hunter_trap', sic: 'hunter_hawk' },
   },
   warrior: {

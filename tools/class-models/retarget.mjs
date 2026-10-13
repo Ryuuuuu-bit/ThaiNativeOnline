@@ -28,6 +28,14 @@ const attachments = props.map(name => {
 R.nodes = R.root.listNodes(); R.parent = new Map();
 R.nodes.forEach(n => n.listChildren().forEach(c => R.parent.set(c, n)));
 for (const { name, node } of attachments) R.byName[name] = node;
+// The generated hands have long fingers next to the body: scale each finger from its knuckle
+// (bind-time node scale; the clips leave scale alone, so it holds in every pose).
+const M = n => 'mixamorig:' + n;
+const FINGER_SCALE = +(process.env.FINGER_SCALE ?? .86);
+for (const side of ['Left', 'Right']) for (const f of ['Index', 'Middle', 'Ring', 'Pinky', 'Thumb']) {
+  const n = R.byName[M(side + 'Hand' + f + (f === 'Thumb' ? '2' : '1'))];
+  if (n) n.setScale(n.getScale().map(v => v * (f === 'Thumb' ? (1 + FINGER_SCALE) / 2 : FINGER_SCALE)));
+}
 const rr = rest(R), order = [];
 (function visit(n) { order.push(n); n.listChildren().forEach(visit); })(R.byName[hips]);
 // A matching bone name does not imply matching anatomical axes. Align the
@@ -60,7 +68,7 @@ for (const node of order) {
 }
 // How far a donor finger is curled: the bends between its segments (the knuckle measured
 // from the palm's long axis), in radians.
-const FIST_CURL = 1.45 + 1.55 + 1.1, THUMB_CURL = 1.3, M = n => 'mixamorig:' + n;
+const FIST_CURL = 1.45 + 1.55 + 1.1, THUMB_CURL = 1.3;
 function donorCurl(pd, side, f) {
   const P = n => worldPos(D, pd, M(side + n));
   const pts = f === 'Thumb' ? [P('HandThumb2'), P('HandThumb3'), P('HandThumb4')] : [P('Hand'), P('Hand' + f + '1'), P('Hand' + f + '2'), P('Hand' + f + '3'), P('Hand' + f + '4')];
@@ -81,7 +89,7 @@ function donorBendSide(pd, side, f) {
   const bend = dir.sub(along.clone().multiplyScalar(dir.dot(along)));
   return bend.dot(palmSide(D, pd, side)) >= 0 ? 1 : -1;
 }
-const CURL_SCALE = 1;
+const CURL_SCALE = 1, RELAX_UNTIL = +(process.env.RELAX_UNTIL ?? .55);
 function curlFinger(p, side, f, k, want = 1) {
   if (k < .02) return;
   const P = n => worldPos(R, p, M(side + n)), across = P('HandPinky1').sub(P('HandIndex1')).normalize().toArray();
@@ -89,7 +97,18 @@ function curlFinger(p, side, f, k, want = 1) {
   rotWorld(R, probe, first, across, .3);
   const moved = worldPos(R, probe, M(side + 'Hand' + f + '4')).sub(P('Hand' + f + '4'));
   const sign = Math.sign(moved.dot(n0)) === want ? 1 : -1;
-  [1, 2, 3].forEach((j, i) => rotWorld(R, p, M(side + 'Hand' + f + j), across, sign * [1.45, 1.55, 1.1][i] * k * CURL_SCALE));
+  // a clenched hand folds like a fist; a loose one (the donor barely curls it) takes a relaxed
+  // hand's shape instead: a soft bend that grows toward the tip, never straight, never a claw
+  const fist = [1.45, 1.55, 1.1], relaxed = [.32, .62, .42], t = Math.min(1, Math.max(0, (k - RELAX_UNTIL) / (1 - RELAX_UNTIL)));
+  [1, 2, 3].forEach((j, i) => rotWorld(R, p, M(side + 'Hand' + f + j), across, sign * (relaxed[i] * (1 - t) + fist[i] * k * t) * CURL_SCALE));
+}
+// fingers fan out in the T-pose; a relaxed hand holds them together (turn each toward the middle finger)
+function closeFan(p, side, amount = .7) {
+  const P = n => worldPos(R, p, M(side + n)), n0 = palmSide(R, p, side), mid = P('HandMiddle2').sub(P('HandMiddle1')).normalize();
+  for (const f of ['Index', 'Ring', 'Pinky']) {
+    const dir = P('Hand' + f + '2').sub(P('Hand' + f + '1')).normalize(), a = Math.atan2(dir.clone().cross(mid).dot(n0), dir.dot(mid));
+    rotWorld(R, p, M(side + 'Hand' + f + '1'), n0.toArray(), a * amount);
+  }
 }
 function curlThumb(p, side, k) {
   if (k < .02) return;
@@ -131,6 +150,7 @@ function pose(pd, clipName = '') {
     if (swordRig) { for (const f of ['Index', 'Middle', 'Ring', 'Pinky']) curlFinger(p, side, f, 1, donorBendSide(pd, side, f)); curlThumb(p, side, 1); continue; }
     // an archer's drawing hand hooks the string in the bow moves (the donor's hand stays flat)
     const hook = bowRig && side === 'Right' && clipName.startsWith('hunter_') ? { Index: .42, Middle: .42, Ring: .42, Pinky: .5 } : {};
+    if (process.env.CLOSE_FAN !== '0') closeFan(p, side);
     for (const f of ['Index', 'Middle', 'Ring', 'Pinky']) curlFinger(p, side, f, Math.max(hook[f] ?? 0, Math.min(1.1, donorCurl(pd, side, f) / FIST_CURL)), donorBendSide(pd, side, f));
     curlThumb(p, side, Math.min(1.1, donorCurl(pd, side, 'Thumb') / THUMB_CURL));
   }
@@ -156,8 +176,12 @@ for (const { node } of attachments) node.setTranslation(neutral.get(node).t.toAr
 const FEET = ['LeftFoot', 'RightFoot', 'LeftToeBase', 'RightToeBase'].map(M);
 const low = (Mo, p0) => Math.min(...FEET.map(n => worldPos(Mo, p0, n).y));
 const idle = D.anims.idle ?? D.root.listAnimations()[0];
-const idlePose = sample(D, idle, 0), expected = (low(D, idlePose) - low(D, rd)) * k;
-const groundLift = expected - (low(R, pose(idlePose, idle.getName())) - low(R, rr));
+// (averaged over the idle: a weight shift moves the feet through the clip)
+const idleTimes = Array.from({ length: 8 }, (_, i) => duration(idle) * i / 8);
+const groundLift = idleTimes.reduce((sum, t) => {
+  const idlePose = sample(D, idle, t), expected = (low(D, idlePose) - low(D, rd)) * k;
+  return sum + expected - (low(R, pose(idlePose, idle.getName())) - low(R, rr));
+}, 0) / idleTimes.length;
 const hipsParent = R.parent.get(R.byName[hips]);
 const liftLocal = new THREE.Vector3(0, groundLift, 0).applyMatrix3(new THREE.Matrix3().setFromMatrix4(hipsParent ? worldMatrix(R, rr, hipsParent) : new THREE.Matrix4()).invert());
 console.log(`feet: hips ${groundLift >= 0 ? 'up' : 'down'} ${(Math.abs(groundLift) * 100).toFixed(1)} cm (model units)`);
