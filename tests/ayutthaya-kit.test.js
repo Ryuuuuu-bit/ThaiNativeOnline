@@ -77,7 +77,7 @@ test('the pieces take the town materials and only allocate what they add', async
   assert.equal(made.length, 1, 'one extra material (the gate brick)');
   const used = new Set(); root.traverse(o => { if (o.isMesh) used.add(o.material); });
   for (const m of used) assert.ok(Object.values(M).includes(m) || made.includes(m));
-  assert.equal(stats.pieces.gate, 1); assert.equal(stats.pieces.shophouse, 6); assert.equal(stats.pieces.elephant, 2);
+  assert.equal(stats.pieces.gate, 1); assert.equal(stats.pieces.shophouse, 6); assert.equal(stats.pieces.elephant, undefined, 'the royal elephants are the Tripo model (buildCityElephants.js)');
   assert.equal(stats.placements, AYUTTHAYA_PLACEMENTS(CITY).length);
   // every lamp, shophouse lantern and gate lantern glows at night: a halo and a pool of light
   const lamps = stats.pieces.lamp, expected = lamps + stats.pieces.shophouse + 2;

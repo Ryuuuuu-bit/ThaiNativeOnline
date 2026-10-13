@@ -5,6 +5,7 @@ import { Collision } from './Collision.js';
 import { portalPillars } from './portal-layout.js';
 import { windUniforms } from './shaders.js';
 import { buildCityArt } from './compact-city-render/buildCityArt.js';
+import { buildCityElephants } from './compact-city-render/buildCityElephants.js';
 
 // Compact city has its own flat land and southern river. Never sample CityMap's
 // legacy canal, occupancy, water or procedural landscape at these coordinates.
@@ -16,7 +17,7 @@ export async function buildCompactCityWorld(scene, map, progress = () => {}) {
   for (const portal of map.portals ?? []) {
     for (const p of portalPillars(map, portal)) collision.addCircle(p.x, p.z, p.r);
   }
-  let art, grassGeometry, grassMaterial, disposed = false;
+  let art, elephants, grassGeometry, grassMaterial, disposed = false;
   const dispose = () => {
     if (disposed) return { geometries: 0, materials: 0, textures: 0 };
     disposed = true;
@@ -25,6 +26,7 @@ export async function buildCompactCityWorld(scene, map, progress = () => {}) {
     // must release them as well as the completed render batches.
     try { return art?.dispose() ?? { geometries: 0, materials: 0, textures: 0 }; }
     finally {
+      elephants?.dispose();
       grassGeometry?.dispose(); grassMaterial?.dispose();
       collision.shapes.clear(); collision.decks.clear();
     }
@@ -32,6 +34,9 @@ export async function buildCompactCityWorld(scene, map, progress = () => {}) {
   try {
     progress('กำลังก่อเมืองนครที่ถูกลืมเลือน…');
     art = await buildCityArt(root, progress);
+    // The avenue's royal elephants are optional dressing: a failed download leaves the city intact.
+    try { elephants = await buildCityElephants({ city: COMPACT_CITY }); root.add(elephants.root); }
+    catch (error) { elephants = null; console.warn('[compact-city] royal elephants unavailable', error); }
   const rect = { minX: -90, maxX: 90, minZ: -82, maxZ: 96 };
   const width = rect.maxX - rect.minX, height = rect.maxZ - rect.minZ;
   const terrain = {
@@ -71,7 +76,7 @@ export async function buildCompactCityWorld(scene, map, progress = () => {}) {
     collision, grass, atmosphere, water: art.water, boats: null, animals: null,
     spots: {}, footprints: COMPACT_CITY.buildings.filter(b=>b.kind!=='garden').map(b => ({ ...b, rot: 0, paint: b.kind === 'temple' || b.kind === 'chedi' ? 'stone' : 'earth' })),
     market: [],
-    stats: { map: map.id, ...art.stats, houses: 2, forestTrees: art.stats.landscapeTrees ?? 0, buildMs: Math.round(performance.now()-start) },
+    stats: { map: map.id, ...art.stats, ...(elephants?.stats ?? { royalElephants: 0 }), houses: 2, forestTrees: art.stats.landscapeTrees ?? 0, buildMs: Math.round(performance.now()-start) },
     contains(x, z) { return Number.isFinite(x) && Number.isFinite(z) && x >= bounds.minX && x <= bounds.maxX && z >= bounds.minZ && z <= bounds.maxZ; },
     canStand(x, z, pad = .28) { return compactCityCanStand(x,z,pad) && !collision.blocked(x,z,pad); },
     heightAt: compactCityHeightAt,
