@@ -18,6 +18,13 @@ python tools/models/shrink-glb-textures.py artifacts/warrior-female.glb --max 10
 npx gltfpack -i artifacts/warrior-female.glb -o public/models/classes/warrior-female.glb -cc -kn -ke -vpf   # -vpf for the weapon classes
 ```
 
+retarget.mjs also corrects what the donor's bones cannot carry over (2026-10-13 anatomy pass):
+fingers are rebuilt on the new hand (each curled as far as, and toward the same palm side as, the
+donor's; full grip on the swords; the archer's drawing hand hooks the string in bow moves), the
+hips are lifted or lowered so idle soles stand on the ground, and a sword or bow that would pass
+through the head (key frames and the in-betweens) swings clear: the upper arm turns out first,
+then the weapon about the hand, eased over ±7 frames. The log lists every clip it touched.
+
 Portraits (`public/ui/portraits/<class>.png`, `<class>-female.png`) are 256px renders of the
 packed bodies' idle pose in the game loader. If a Tripo export comes back with its bones at
 identity and the skeleton turned 90° from the mesh (it happened once), export it again: the
