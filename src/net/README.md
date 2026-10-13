@@ -9,6 +9,8 @@
   removal of an unearned title on logout/revocation; GM-only selections are not saved.
 
 - `Multiplayer` handles private `welcome`/`gmAccess` metadata from the server.
+- `{ t: 'news' }` (sent to everyone when a GM posts or removes news with `/gm news`) makes
+  the news window (`src/ui/news/NewsPanel.js`) refetch `GET /api/news` and light the menu dot.
   Only `admin: true` plus the server command catalog enables `ChatBox.setGmCatalog`.
   Disconnect, logout, revoked rights or a nonadmin welcome remove the help UI and
   private GM history. Local development controls are separate from GM authority.

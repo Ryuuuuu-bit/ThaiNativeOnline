@@ -83,6 +83,10 @@ export class MemoryStore {
   async listMutes() { return [...(this.mutes ?? new Map())].filter(([, until]) => until > Date.now()).map(([account, until]) => ({ account, until })); }
   async addReport(r) { (this.reports ??= []).push({ id: this.reports.length + 1, created: new Date().toISOString(), ...structuredClone(r) }); if (this.reports.length > 500) this.reports.shift(); }
   async listReports(limit = 10) { return structuredClone((this.reports ?? []).slice(-limit).reverse()); }
+  // news feed (server/news.js): newest first
+  async newsList(limit = 20) { return structuredClone((this.news ?? []).slice(-limit).reverse()); }
+  async newsAdd({ kind, title, body, author }) { this.newsSeq = (this.newsSeq ?? 0) + 1; const row = { id: this.newsSeq, kind, title, body, author, created: new Date().toISOString() }; (this.news ??= []).push(row); if (this.news.length > 200) this.news.shift(); return structuredClone(row); }
+  async newsDelete(id) { const n = (this.news ?? []).length; this.news = (this.news ?? []).filter(r => r.id !== id); return this.news.length < n; }
   constructor({ uidGenerator = newUid } = {}) { this.uidGenerator = uidGenerator; this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; this.stashes = new Map(); this.stashReceipts = new Map(); this.locks = new Map(); }
   withAccount(id, work) {
     const next = (this.locks.get(id) ?? Promise.resolve()).catch(() => {}).then(work);
@@ -232,6 +236,9 @@ export class PgStore {
   async listMutes() { return (await this.q('select account, muted_until from chat_mutes where muted_until > now()')).rows.map(r => ({ account: r.account, until: new Date(r.muted_until).getTime() })); }
   async addReport(r) { await this.q('insert into chat_reports (reporter, target, reason, note, evidence) values ($1, $2, $3, $4, $5)', [r.reporter, r.target, r.reason, r.note ?? '', JSON.stringify(r.evidence ?? [])]); }
   async listReports(limit = 10) { return (await this.q('select id, created, reporter, target, reason, note, evidence from chat_reports order by id desc limit $1', [limit])).rows.map(r => ({ ...r, created: new Date(r.created).toISOString() })); }
+  async newsList(limit = 20) { return (await this.q('select id, kind, title, body, author, created from news order by id desc limit $1', [limit])).rows; }
+  async newsAdd({ kind, title, body, author }) { return (await this.q('insert into news (kind, title, body, author) values ($1, $2, $3, $4) returning id, kind, title, body, author, created', [kind, title, body, author])).rows[0]; }
+  async newsDelete(id) { return (await this.q('delete from news where id = $1', [id])).rowCount > 0; }
   constructor(pool, { uidGenerator = newUid } = {}) { this.pool = pool; this.uidGenerator = uidGenerator; this.kind = 'postgres'; }
   q(text, values) { return this.pool.query(text, values); }
   async init() {
@@ -249,6 +256,7 @@ export class PgStore {
     await this.q(`create table if not exists chat_mutes (account text primary key, muted_until timestamptz not null)`);
     await this.q(`create table if not exists chat_reports (id bigserial primary key, created timestamptz not null default now(), reporter text not null, target text not null, reason text not null, note text not null default '', evidence jsonb not null default '[]')`);
     await this.q(`delete from chat_mutes where muted_until < now()`);
+    await this.q(`create table if not exists news (id bigserial primary key, kind text not null, title text not null, body text not null default '', author text not null, created timestamptz not null default now())`);
     await this.q(`create table if not exists google_links (sub text primary key, account text not null references accounts(id) on delete cascade, email text, linked timestamptz not null default now())`);
     await this.q(`alter table google_links add column if not exists picture text`);
     await this.q(`alter table google_links add column if not exists profile_updated timestamptz`);

@@ -5,6 +5,7 @@
 //   const menu = new MainMenu({ sheet, skills, social, bag, map, auto, photo, settings })   actions by tile
 //   menu.open / menu.toggle(on?)      Esc closes it first (src/core/Game.js)
 //   menu.setAlert(on)                 gold dot when there are stat points to spend
+//   menu.setNewsAlert(on)             dot on the news tile (and the menu button) for unread news
 //   bindSettingsTabs(panel)           the tab strip inside the settings window
 import './menu-groups.css';
 import { passMovementKey } from './nonmodalKeys.js';
@@ -13,7 +14,7 @@ const $ = id => document.getElementById(id);
 const GROUPS = [
   ['character', 'ตัวละคร', ['sheet', 'skills', 'bag', 'loadouts', 'titles']],
   ['adventure', 'ผจญภัย', ['quests', 'map', 'bestiary', 'cards', 'guide', 'shops', 'teachers', 'travel', 'recall']],
-  ['social', 'สังคม', ['social', 'recruit', 'friends', 'rank']],
+  ['social', 'สังคม', ['news', 'social', 'recruit', 'friends', 'rank']],
   ['settings', 'ระบบ', ['auto', 'photo', 'settings']],
 ];
 
@@ -56,8 +57,16 @@ export class MainMenu {
   setAlert(on) {
     if (on === this.alert) return;
     this.alert = on;
-    for (const dot of document.querySelectorAll('#menu-btn .mm-dot, #menu-grid [data-act="sheet"] .mm-dot')) dot.hidden = !on;
+    for (const dot of document.querySelectorAll('#menu-grid [data-act="sheet"] .mm-dot')) dot.hidden = !on;
+    this.syncDot();
   }
+  // unread news (src/ui/news/NewsPanel.js): dot on the "ข่าวสาร" tile and the menu button
+  setNewsAlert(on) {
+    this.newsAlert = !!on;
+    for (const dot of document.querySelectorAll('#menu-grid [data-act="news"] .mm-dot')) dot.hidden = !on;
+    this.syncDot();
+  }
+  syncDot() { for (const dot of document.querySelectorAll('#menu-btn .mm-dot')) dot.hidden = !(this.alert || this.newsAlert); }
 }
 
 export function bindSettingsTabs(panel) {

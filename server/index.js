@@ -97,6 +97,8 @@ import { StashService, stashMessage } from './stash.js';
 import { TempleFairService } from './temple-fair.js';
 import { CHAT_RULES, ChatHistory, maskRude } from './chat-guard.js';
 import { createShutdown } from './shutdown.js';
+import { publicNews } from './news.js';
+import { COMMUNITY, NEWS } from '../src/data/community.js';
 import { WorldClock, wallHour } from '../src/core/WorldClock.js';
 
 try { process.loadEnvFile(resolve(import.meta.dirname, '..', '.env')); } catch { /* no .env */ }
@@ -140,6 +142,7 @@ async function api(req, res, url) {
   const token = (req.headers.authorization ?? '').replace(/^Bearer /, '');
   try {
     if (url.pathname === '/api/health') return json(res, 200, { accounts: true, store: store.kind, googleClientId: accounts.googleClientId });
+    if (req.method === 'GET' && url.pathname === '/api/news') return json(res, 200, { ok: true, news: (await store.newsList(NEWS.listMax)).map(publicNews), discord: COMMUNITY.discord });
     if (req.method === 'POST' && url.pathname === '/api/google') {
       if (tooMany(ip)) return json(res, 429, { ok: false, code: 'slow_down', msg: 'ลองใหม่อีกครั้งในอีกสักครู่' });
       const r = await accounts.google((await readBody(req)).credential);
@@ -961,7 +964,9 @@ function report(ws, me, m) {
 }
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, saveMute, remember: line => chatHistory.add(line), listReports: n => store.listReports?.(n) ?? [], moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
+const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, saveMute, remember: line => chatHistory.add(line), listReports: n => store.listReports?.(n) ?? [], moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h),
+  // news feed (server/news.js): a change tells every client to refresh its news window and badge
+  news: { list: n => store.newsList(n), add: async post => { const row = await store.newsAdd(post); toAll({ t: 'news' }); return row; }, remove: async id => { const ok = await store.newsDelete(id); if (ok) toAll({ t: 'news' }); return ok; } } };
 
 async function sendWelcome(ws, message) {
   const p = presence.players.get(ws), room = p?.room, persisted = p && combatants.get(p.id)?.persist;

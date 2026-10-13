@@ -60,6 +60,7 @@ export function startMultiplayer(game) {
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
   net.on('welcome', m => { myId = m.you; bubbles.clear(); setIdentity(m); if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
     .on('gmAccess', gmAccess)
+    .on('news', () => game.news?.refresh())   // a GM posted or removed news (server/news.js)
     .on('identity', m => { setIdentity(m); if (!m.characterUid) game.questNav?.cancel(); })
     .on('chans', m => chan.set(m.ch, m.list, true))
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))

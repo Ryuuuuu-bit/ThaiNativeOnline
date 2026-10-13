@@ -7,6 +7,7 @@ import { classBadge } from '../ui/icons.js';
 import { renderGoogleButton } from './google.js';
 import { checkName, NAME_HINT } from '../data/character-names.js';
 import { uidRow } from './UidRow.js';
+import { mountNewsTeaser } from '../ui/news/newsTeaser.js';
 
 // Login and character-select screens. Both are overlays over #app and resolve
 // a Promise; src/account/index.js chains them before the world starts.
@@ -43,6 +44,7 @@ export function showLogin(root, store) {
       </form>
       <footer class="acc-login-footer"><span>THAI NATIVE ONLINE</span><span>ทุกการเดินทาง เริ่มต้นด้วยก้าวแรก</span></footer>`);
     const form = overlay.querySelector('form'), error = overlay.querySelector('.acc-error'), submit = overlay.querySelector('.acc-primary');
+    mountNewsTeaser(overlay.querySelector('.acc-welcome'));   // latest news + Discord link (src/ui/news)
     const field = n => form.elements.namedItem(n);
     field('id').value = store.lastId ?? '';
     // with the game server: accounts live there; Google sign-in when the server has a Client ID

@@ -12,6 +12,7 @@ export const GM_COMMANDS = [
   ['kick', '<ชื่อ> [เหตุผล]', 'ให้ออกจากเกม'], ['mute', '<ชื่อ> [นาที]', 'ระงับแชท · ค่าเริ่มต้น 10 นาที'],
   ['unmute', '<ชื่อ>', 'คืนสิทธิ์แชท'], ['reports', '[n]', 'ดูรายงานผู้เล่นล่าสุด · ค่าเริ่มต้น 5'], ['killall', '', 'กำจัดมอนในแมพและแชนแนล'],
   ['say', '<ข้อความ>', 'ประกาศถึงทุกคน'], ['time', '<ชั่วโมง>', 'ตั้งเวลาโลก'],
+  ['news', '<update|event|notice|maint> <หัวข้อ> | <เนื้อหา> · list · del <id>', 'โพสต์ข่าวในหน้าข่าวสาร (หน้าล็อกอินและในเกม) · list ดูข่าว · del ลบข่าว'],
   ['admin', '<add|remove|list> [AccountUID|accountId]', 'add/remove ใช้ Account UID หรือชื่อบัญชีเดิม · list ดูรายการ'],
 ].map(([id, args, description]) => Object.freeze({ id, usage: `/gm ${id}${args ? ` ${args}` : ''}`, description }));
 const ALIASES = { level: 'lv', points: 'stat' };

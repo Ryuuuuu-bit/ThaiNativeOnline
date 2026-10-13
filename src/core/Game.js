@@ -38,6 +38,8 @@ import { TempleFairPanel } from '../fair/TempleFairPanel.js';
 import { FAIR_SITES, FAIR_RANGE } from '../fair/fairSites.js';
 import { BestiaryPanel } from '../ui/BestiaryPanel.js';
 import { QuestJournal } from '../ui/QuestJournal.js';
+import { NewsPanel } from '../ui/news/NewsPanel.js';
+import { maybeShowDiscordPrompt } from '../ui/news/DiscordPrompt.js';
 import { bindWindowNavigation } from '../ui/windowNavigation.js';
 import { NPCS } from '../data/npcs.js';
 import { CardCompendiumPanel } from '../ui/CardCompendiumPanel.js';
@@ -342,6 +344,7 @@ export class Game {
       recruit: () => this.net?.social?.toggle('board'),
       friends: () => this.net?.social?.toggle('friends'),
       titles: () => this.net?.social?.toggle('titles'),
+      news: () => this.news?.show(),
       rank: () => this.net?.social?.toggle('rank'),
       quests: () => this.questJournal.show(),
       shops: () => this.openMapDirectory('shops'),
@@ -356,7 +359,11 @@ export class Game {
       photo: () => this.togglePhoto(),
       settings: () => $('settings-toggle').click(),
     });
+    // news window (src/ui/news): unread entries light the menu dot; the server pushes { t: 'news' } on a GM post
+    this.news = new NewsPanel({ onUnread: n => this.menu.setNewsAlert(n > 0) });
+    this.news.refresh();
     this.unbindWindowNavigation = bindWindowNavigation([
+      { root: () => this.news.root, close: () => this.news.close() },
       { root: () => this.fair.root, close: () => this.fair.close() },
       { root: () => this.questJournal.root, close: () => this.questJournal.close() },
       { root: () => this.guide.root, close: () => this.guide.close() },
@@ -462,6 +469,7 @@ export class Game {
   // (game.hud) for every map and gets the training dummy in the city.
   startTraining() {
     bindCombatSounds(this.game);
+    this.game.character.on('levelup', lv => maybeShowDiscordPrompt(lv));   // one-time Discord invite (src/ui/news/DiscordPrompt.js)
     this.training = createClassAvatar(this.game.character.classId, {
       scene: this.scene, camera: this.view.camera, renderer: this.renderer, root: $('app'), player: this.player,
       canStand: (x, z) => this.world?.canStand(x, z) ?? false, groundHeight: (x, z) => this.world?.heightAt(x, z) ?? 0,

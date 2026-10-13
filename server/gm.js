@@ -22,6 +22,7 @@ import { POINTS_PER_LEVEL } from '../src/character/data/classes.js';
 
 export const admins = (env = process.env.ADMIN_IDS) => new Set(String(env ?? '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean));
 import { GM_COMMANDS, GM_PREFIX, GM_HELP, parseGm, gmHelp } from './gm-catalog.js';
+import { parseNewsPost } from './news.js';
 export { GM_COMMANDS, GM_PREFIX, GM_HELP, parseGm };
 const HELP = GM_HELP;
 const int = (v, d) => { const n = Math.floor(Number(v)); return Number.isFinite(n) ? n : d; };
@@ -147,6 +148,24 @@ export async function gm(ctx, me, text) {
       let n = 0;
       for (const m of w.monsters) if (m.hp > 0) { n++; ctx.route(me.room, w.damage(m, me.id, m.hp + 1, {}, players, ctx.phase() === 'night')); }
       log(`killall ${n}`); return n ? `ฆ่ามอนในแมพนี้ ${n} ตัว` : 'ไม่มีมอนให้ฆ่า';
+    }
+    case 'news': {
+      const sub = String(args[0] ?? '').toLowerCase();
+      if (!ctx.news) return 'ระบบข่าวยังไม่พร้อม';
+      if (sub === 'list') {
+        const rows = await ctx.news.list(10);
+        return rows.length ? rows.map(r => `#${r.id} [${r.kind}] ${r.title}`).join('  ▸ ') : 'ยังไม่มีข่าว';
+      }
+      if (sub === 'del' || sub === 'delete') {
+        const id = int(args[1], 0); if (id <= 0) return 'ใช้: /gm news del <id> (ดู id จาก /gm news list)';
+        const ok = await ctx.news.remove(id); if (ok) log(`news del ${id}`);
+        return ok ? `ลบข่าว #${id} แล้ว` : `ไม่พบข่าว #${id}`;
+      }
+      const post = parseNewsPost(args);
+      if (!post.ok) return post.why === 'kind' ? `ใช้: ${gmHelp('news')}` : 'ใส่หัวข้อข่าว เช่น /gm news event คืนผีออก | เที่ยงคืนถึงตีสาม ผีหายากออกอาละวาด';
+      const row = await ctx.news.add({ ...post, author: me.account });
+      log(`news add #${row.id} ${post.kind} ${post.title}`);
+      return `โพสต์ข่าว #${row.id} แล้ว · ผู้เล่นจะเห็นจุดแจ้งเตือนในเมนู`;
     }
     case 'say': {
       const msg = args.join(' ').slice(0, 160); if (!msg) return 'ใส่ข้อความ';
