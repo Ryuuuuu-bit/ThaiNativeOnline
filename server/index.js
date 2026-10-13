@@ -95,6 +95,7 @@ import { recallWhy, RecallCasts } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
 import { TempleFairService } from './temple-fair.js';
+import { blessRequest } from './ubosot.js';
 import { CHAT_RULES, ChatHistory, maskRude } from './chat-guard.js';
 import { createShutdown } from './shutdown.js';
 import { publicNews } from './news.js';
@@ -373,6 +374,7 @@ async function handle(ws, raw) {
       case 'service_warp': serviceWarp(presence.players.get(ws), m.npc, m.destination, ws); break;
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
       case 'fair': await fairMsg(ws, m); break;
+      case 'bless': blessMsg(ws, m); break;
       case 'wbjoin': joinWorldBoss(ws); break;
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': case 'pvp_mode': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
@@ -531,6 +533,14 @@ wss.on('connection', ws => {
 
 // Vault mutations send a confirmed result, current account vault, and current
 // character. Retries use the same request ID; no raw HTTP stash writes exist.
+// ไหว้พระเสี่ยงเซียมซี in the ordination hall (server/ubosot.js)
+function blessMsg(ws, m) {
+  const p = presence.players.get(ws), s = p && combatants.get(p.id);
+  const result = blessRequest(p, s, m);
+  send(ws, result);
+  if (result.ok) { flush(p.id); const c = combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); }
+}
+
 async function fairMsg(ws, m) {
   const p = presence.players.get(ws), s = p && combatants.get(p.id), view = p && pvp.view(p.id);
   cancelRecall(ws, 'busy');
@@ -1046,7 +1056,7 @@ const combatants = new Combatants();   // each player's character sheet, cooldow
 const monsterInterests = new WeakMap();
 const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
 const worldOf = room => {
-  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; w.online = () => presence.count; worlds.set(room, w); }
+  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; w.online = () => presence.count; w.dropMulOf = id => combatants.dropMul(id); worlds.set(room, w); }
   return worlds.get(room);
 };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };

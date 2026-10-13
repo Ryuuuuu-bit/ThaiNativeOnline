@@ -24,7 +24,8 @@
 //            `node` is the road junction visiting NPCs walk to when they leave;
 //            `marker` is where the portal is drawn; `style` is 'warp' (glowing
 //            ประตูวาป, default) or 'path' (a trail exit: trodden ground at `at`
-//            and a signpost at `marker`).
+//            and a signpost at `marker`) or 'door' (a building's own doorway: no gate,
+//            pillars or label are drawn, only the glowing threshold ring).
 //   theme, levels — display hints for the HUD/minimap: theme key
 //            ('city' | 'paddy' | 'forest' | 'wat') and the level band [min, max]
 //            of the map's monsters (null on safe maps).
@@ -38,6 +39,7 @@
 import { expeditionMaps } from './expeditions.js';
 import { J, BOUNDS, WALL } from './CityMap.js';
 import { COMPACT_CITY, CITY_LAYOUT_REVISION, compactCityCanStand } from './compact-city.js';
+import { UBOSOT, UBOSOT_WALK, UBOSOT_DOOR } from './ubosot.js';
 
 // The city wall runs along z = -110 (WALL.z); the seam sits just outside it.
 export const SEAM_Z = -112;
@@ -75,6 +77,8 @@ export const MAPS = {
     portals: [
       // The warp glows in the passage of the closed North City Gate.
       { id: 'warp_to_paddy', style: 'warp', at: { x: 0, z: -59, radius: 2.2 }, to: 'paddy', arrive: { x: 0, z: -130, facing: Math.PI }, node: 'gate_in', name: 'ประตูวาป', marker: { x: 0, z: -59 } },
+      // the temple's front door: inside, the presiding Buddha (map ubosot, src/world/ubosot.js)
+      { id: 'door_to_ubosot', style: 'door', at: { x: -52, z: -33.5, radius: .8 }, to: 'ubosot', arrive: { x: UBOSOT_DOOR.x, z: UBOSOT.z + 6, facing: Math.PI }, node: 't1', name: 'เข้าอุโบสถ', marker: { x: -52, z: -33.5 } },
     ],
     visitors: [],
   },
@@ -174,6 +178,25 @@ export const MAPS = {
     regions: ['ruen_ho'],
     portals: [
       { id: 'door_to_wat', style: 'warp', at: { x: -14.6, z: RUEN_HO.z, radius: 1.2 }, to: 'wat_rang', arrive: { x: -51, z: -556, facing: 0 }, node: 'rh0', name: 'ออกสู่วัดร้าง', marker: { x: -14.6, z: RUEN_HO.z } },
+    ],
+    visitors: [],
+  },
+  // ภายในอุโบสถ: the city temple's ordination hall, entered through its front door. A safe
+  // room beyond the world's edge (between the expeditions and เรือนหอร้าง), built by
+  // src/world/UbosotWorld.js: pray before the presiding Buddha, shake the siamsi.
+  ubosot: {
+    id: 'ubosot', name: 'ภายในอุโบสถ', sub: 'พระประธาน · ไหว้พระขอพร · เสี่ยงเซียมซี', safe: true, theme: 'city', levels: null,
+    instance: true, interior: true,
+    intro: { title: 'ภายในอุโบสถ', text: 'แสงเทียนส่องพระพักตร์พระประธาน กลิ่นธูปลอยอวล\nจุดธูปไหว้พระขอพร หรือเสี่ยงเซียมซีถามโชคชะตา' },
+    owns: { minZ: -2800, maxZ: -2740 },
+    walk: [{ ...UBOSOT_WALK }],
+    view: { minX: -30, maxX: 30, minZ: -2798, maxZ: -2742 },
+    spawn: { x: UBOSOT_DOOR.x, z: UBOSOT.z + 6, facing: Math.PI },
+    respawn: [[UBOSOT_DOOR.x, UBOSOT.z + 6]],
+    entities: [],
+    regions: ['ubosot'],
+    portals: [
+      { id: 'door_to_city', style: 'door', at: { x: UBOSOT_DOOR.x, z: UBOSOT_DOOR.z + .1, radius: .9 }, to: 'city', arrive: { x: -52, z: -29.6, facing: 0 }, node: 'ub0', name: 'ออกจากอุโบสถ', marker: { x: UBOSOT_DOOR.x, z: UBOSOT_DOOR.z + .1 } },
     ],
     visitors: [],
   },

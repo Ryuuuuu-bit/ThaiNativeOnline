@@ -167,6 +167,7 @@ body .g-stat-footer .g-reset:disabled{opacity:.55}
 .g-buffs i{display:inline-flex;align-items:center;gap:3px;padding:1px 4px 1px 1px}
 .g-buffs i .icon-img{width:16px;height:16px;border-radius:2px}
 .g-buffs i b{font-weight:500}
+.g-buffs i.g-blessing{background:#6b2a17;border-color:#e2b96b88;color:#ffe3a3}.g-buffs i.g-blessing span{font-size:13px;line-height:16px;width:16px;text-align:center}
 
 /* Item art (src/ui/icons.js iconHtml): framed pixel icons; rarity glows around them. */
 .g-equip span .icon-img{width:34px;height:34px;display:block;image-rendering:pixelated;border-radius:3px;box-shadow:0 0 0 1px var(--rar),0 0 8px color-mix(in srgb,var(--rar) 40%,transparent)}

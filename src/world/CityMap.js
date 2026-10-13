@@ -195,6 +195,8 @@ export const J = {
   kw0: [-40, -506], kw1: [-50, -548], kw2: [-40, -586],
   // เรือนหอร้าง (map ruen_ho, past the expeditions beyond the north edge): the gallery by its door.
   rh0: [-12, -2900],
+  // ภายในอุโบสถ (map ubosot, src/world/ubosot.js): inside the hall's door.
+  ub0: [0, -2763.5],
   k0: [-40, -612], k1: [-28, -640], k2: [-8, -664], kb_s: [0, -678], kb_n: [0, -700], k3: [12, -722], k4: [32, -748], k5: [52, -770],
   kv1: [22, -628], kv2: [44, -622], kt1: [-22, -716], kt2: [-38, -738],
 };

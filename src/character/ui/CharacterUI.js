@@ -1,4 +1,5 @@
 // Character interface: player frame, quick potions, character sheet and bag.
+import { activeBlessing, modsText } from '../blessing.js';
 import { STATS, STAT_LABELS, STAT_HINTS, POINTS_PER_LEVEL, WEAPON_KINDS, WEAPON_KIND_TH, CLASSES } from '../data/classes.js';
 import { STAT_GUIDE, spreadPoints } from '../data/statguide.js';
 import { ITEMS, RARITY_COLORS } from '../data/items.js';
@@ -264,7 +265,13 @@ export class CharacterUI {
     if (!p.hidden) { if (name === 'sheet') this.refreshSheet(); else if (name === 'loadouts') this.refreshLoadouts(); else this.refreshInventory(); }
   }
 
-  buffsHtml() { return this.c.buffs.map(b => `<i title="${b.id}">${iconHtml(this.buffIcons[b.id] ?? { icon: '✧' })}<b>${Math.ceil(b.remaining)}</b></i>`).join(''); }
+  buffsHtml() { return this.blessingHtml() + this.c.buffs.map(b => `<i title="${b.id}">${iconHtml(this.buffIcons[b.id] ?? { icon: '✧' })}<b>${Math.ceil(b.remaining)}</b></i>`).join(''); }
+  // the siamsi blessing (src/character/blessing.js): a dharma-wheel chip with the minutes left
+  blessingHtml() {
+    const b = this.c.blessing, card = activeBlessing(b); if (!card) return '';
+    const minutes = Math.ceil((b.until - Date.now()) / 60000);
+    return `<i class="g-blessing" title="เซียมซีใบที่ ${card.no} · ${card.luck} · ${modsText(card.mods)}"><span aria-hidden="true">☸</span><b>${minutes >= 60 ? `${Math.floor(minutes / 60)}ช` : `${minutes}น`}</b></i>`;
+  }
   refresh() {
     const c = this.c;
     this.frame.querySelector('.g-lv').textContent = c.level;
@@ -436,5 +443,5 @@ export class CharacterUI {
     if (slot) this.workspace.select(Number(slot.dataset.index));
   }
   // Per frame: buff timers count down.
-  update() { this.refreshFlasks(); if (this.c.buffs.length) this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml(); }
+  update() { this.refreshFlasks(); if (this.c.buffs.length || this.c.blessing) this.frame.querySelector('.g-buffs').innerHTML = this.buffsHtml(); }
 }

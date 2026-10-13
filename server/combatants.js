@@ -1,3 +1,4 @@
+import { blessingRewardMul } from '../src/character/blessing.js';
 import { MONSTERS } from '../src/combat/data/monsters.js';
 // Server-side damage (phase 3b of docs/technical/SERVER_SPLIT.md). The browser no longer
 // says how hard it hit: it says "I cast skill X" and "skill X landed on monster N", and the
@@ -213,7 +214,9 @@ export class Combatants {
       this.bossCardRewards.delete(k);
       applyBossCardKill(c, s.bossCardProcs, this.now());
     }
-    c.gold += Math.max(0, k.gold | 0); c.gainExp(Math.max(0, k.exp | 0));
+    // the siamsi blessing (src/character/blessing.js) multiplies this character's EXP and gold
+    const blessed = blessingRewardMul(c.blessing, Date.now());
+    c.gold += Math.round(Math.max(0, k.gold | 0) * blessed.gold); c.gainExp(Math.round(Math.max(0, k.exp | 0) * blessed.exp));
     const lost = [];   // a full or overweight bag: the drop is lost (told, not silently)
     for (const d of k.drops ?? []) if (!c.addInstance(d)) lost.push(d);
     if (k.type) s.quests.onKill(k.type);
@@ -256,6 +259,8 @@ export class Combatants {
   }
   // the signed-in character in play for an account's slot (the save API asks), or null
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
+  // the loot-chance multiplier of a player's blessing (MonsterWorld.dropMulOf)
+  dropMul(id) { const s = this.list.get(id); return s?.persist ? blessingRewardMul(s.c.blessing, Date.now()).drop : 1; }
   me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), title: s.c.title, ack: s.ack, quests: s.quests.state, ...(s.c.loadoutResult ? { loadoutResult: { ...s.c.loadoutResult } } : {}) } : null; }
 
   // Transient combat state is sent separately from persistent character saves.

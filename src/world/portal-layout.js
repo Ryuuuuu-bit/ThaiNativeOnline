@@ -4,6 +4,8 @@ export function portalYaw(map, at) {
   return [[at.z-b.minZ,Math.PI],[b.maxZ-at.z,0],[at.x-b.minX,-Math.PI/2],[b.maxX-at.x,Math.PI/2]].sort((a,b)=>a[0]-b[0])[0][1];
 }
 export function portalPillars(map, portal) {
+  // a building's doorway ('door') has its own posts: no free-standing pillars
+  if(portal.style==='door')return [];
   const yaw=portalYaw(map,portal.at),offset=(portal.at.radius??2.4)+.75;
   return [-1,1].map(side=>({x:portal.at.x+Math.cos(yaw)*offset*side,z:portal.at.z-Math.sin(yaw)*offset*side,r:.38}));
 }

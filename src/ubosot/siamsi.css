@@ -1,0 +1,21 @@
+.siamsi{--s-gold:#e2b96b;--s-paper:#fff3d8;position:fixed;inset:0;z-index:1600;display:grid;place-items:center;padding:clamp(8px,2vw,24px);background:#1e0f0ad9;backdrop-filter:blur(5px);color:var(--s-paper);font-family:inherit}
+.siamsi[hidden],.siamsi [hidden]{display:none!important}
+.siamsi *{box-sizing:border-box}
+.siamsi-dialog{width:min(100%,460px);max-height:calc(100dvh - 32px);overflow:auto;padding:18px;border:2px solid var(--s-gold);border-radius:18px;background:linear-gradient(160deg,#6b1d17,#2c0d0a);box-shadow:0 20px 70px #0009,inset 0 0 0 4px #edce8620;text-align:center}
+.siamsi-head{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left}.siamsi-head h2{margin:3px 0;font-size:clamp(19px,4vw,24px)}.siamsi-head small{color:#eac780}
+.siamsi button{font:inherit;min-height:44px;border:1px solid #ddbb7b80;border-radius:9px;color:var(--s-paper);background:#ffffff0a;cursor:pointer;padding:8px 12px;touch-action:manipulation}
+.siamsi button:focus-visible{outline:3px solid #fff0ad;outline-offset:3px}.siamsi button:disabled{cursor:default;opacity:.55}
+.siamsi-close{min-width:44px}
+.siamsi-info{font-size:13px;color:#f0d7a5;line-height:1.6;margin:8px 0 14px}
+.siamsi-cup{position:relative;width:76px;height:118px;margin:4px auto 14px;border-radius:10px 10px 14px 14px;background:linear-gradient(90deg,#9b6a35,#d2a764 45%,#8a5b2b);box-shadow:inset 0 -10px 0 #6e4520,0 6px 14px #0006;transform-origin:50% 100%}
+.siamsi-cup i{position:absolute;bottom:88px;width:5px;height:44px;border-radius:2px;background:#e9d3a4;box-shadow:inset 0 3px 0 #b23a2a}
+.siamsi-cup i:nth-child(1){left:9px;height:40px}.siamsi-cup i:nth-child(2){left:16px;height:48px}.siamsi-cup i:nth-child(3){left:23px;height:42px}.siamsi-cup i:nth-child(4){left:30px;height:50px}.siamsi-cup i:nth-child(5){left:37px;height:44px}.siamsi-cup i:nth-child(6){left:44px;height:52px}.siamsi-cup i:nth-child(7){left:51px;height:41px}.siamsi-cup i:nth-child(8){left:58px;height:46px}.siamsi-cup i:nth-child(9){left:64px;height:39px}
+.siamsi-cup.is-shaking{animation:siamsi-shake .18s ease-in-out infinite alternate}
+@keyframes siamsi-shake{from{transform:rotate(-9deg) translateY(-2px)}to{transform:rotate(9deg) translateY(1px)}}
+.siamsi-card{margin:0 0 12px;padding:12px 14px;border-radius:10px;background:var(--s-paper);color:#3c2416;border:2px solid var(--s-gold);text-align:left;line-height:1.6;animation:siamsi-reveal .35s ease-out}
+.siamsi-card h3{margin:0 0 4px;font-size:18px;color:#8a2a1e}.siamsi-card[data-luck="ร้าย"] h3{color:#4b4b6e}
+.siamsi-text{margin:0 0 6px}.siamsi-mods{margin:0;font-weight:700;color:#6b4415}.siamsi-advice{margin:4px 0 0;font-size:13px;color:#7c3540}.siamsi-time{margin:6px 0 0;font-size:13px;color:#7a6143}
+@keyframes siamsi-reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.siamsi-status{min-height:22px;font-size:13px;color:#f9d99f;margin:6px 0}
+.siamsi .siamsi-action{width:100%;background:linear-gradient(#c8913e,#8f5a1d);font-weight:700;border-color:var(--s-gold)}
+@media(prefers-reduced-motion:reduce){.siamsi *{animation:none!important}}

@@ -1,3 +1,4 @@
+import { cleanBlessing } from '../character/blessing.js';
 import { flaskFields, instanceId, cleanFlask } from '../character/data/flasks.js';
 // A signed-in character's progress belongs to the server (phase 3c of
 // docs/technical/SERVER_SPLIT.md, server/progress.js). Once the server sends `sync` (its copy
@@ -150,6 +151,8 @@ export function attachNetProgress(net, c, quests = null, { authenticated = false
     c.gearRolls = Object.fromEntries(Object.entries(c.equipment).map(([slot, id]) => [slot, cleanRoll(id, s.gearRolls?.[slot])]));
     c.equipmentLocks = cleanEquipmentLocks(c.equipment, s.equipmentLocks);
     c.hotbar = cleanHotbar(c, s.hotbar); c.loadouts = cleanLoadouts(c, s.loadouts); c.masteries = cleanMasteries(c.classId, s.masteries);
+    // the server's blessing (src/character/blessing.js) replaces any local one
+    c.blessing = cleanBlessing(s.blessing); c.emit('blessing', c.blessing);
     // Replace predicted/local history with the server's book; never union client claims.
     c.cardBook = collectCardBook(s.cardBook, c.inventory, c.equipment, c.cards);
     c.emit('skills');

@@ -36,7 +36,7 @@ test('all 25 portal centres stay clear while their pillars block movement',()=>{
     for(const pillar of portalPillars(map,p))assert.ok(!nav.canStand(pillar.x,pillar.z),p.id+' solid pillar');
     assert.ok(findPath(nav.canStand,map.spawn,p.at,{step:1,margin:35}),map.id+':'+p.id+' route');
   }
-  assert.equal(count,25);   // 24 + the way out of the world boss room (ruen_ho: in through the news banner)
+  assert.equal(count,27);   // 24 + the way out of the world boss room (ruen_ho: in through the news banner) + the ordination hall's door both ways (door style: no pillars)
 });
 import { MonsterWorld } from '../server/monsters.js';
 import { createRng } from '../src/world/rng.js';

@@ -339,3 +339,21 @@ the general building and courtyard builders skip them. `buildCityArt` owns its
 allocations and phase updates. Re-export `server/data/collision.json` after
 changing sites; `tools/collision-source-hash.js` includes the shared site file.
 Map directory destinations and interaction use exterior approach points.
+
+## ภายในอุโบสถ (map `ubosot`)
+
+The city temple's ordination hall, a safe `instance` + `interior` map in its own band
+(z −2800 … −2740, between the expeditions and เรือนหอร้าง).
+
+- Layout data: `ubosot.js` (pure). It holds the walls, pillars, Tripo props
+  (`public/models/temple/*.glb`), the F sites (`UBOSOT_SITES`, `UBOSOT_RANGE`) and the
+  colliders. Collision comes from this data, never from the GLBs.
+- Builder: `UbosotWorld.js`, reached through `World.js` (`map.interior`). It has murals,
+  always-lit candles, incense smoke, and shrine lights.
+- Doors: `door_to_ubosot` sits on the temple steps (−52, −33.5) and `door_to_city` in
+  the hall's south doorway. Portal `style: 'door'` draws only the threshold ring and a
+  small label, and `portalPillars` returns none for it.
+- Blessing: the F sites open `src/ubosot/SiamsiPanel.js`. The server draws the card in
+  `server/ubosot.js` (`t: 'bless'`), and the rules live in `src/character/blessing.js`
+  (12 cards: damage / EXP / drop +5–20%, 3 h, once a Thai day).
+- Review page: `tools/ubosot-review.html`.

@@ -1,4 +1,5 @@
 // Combat rules and monster AI on the XZ plane. No rendering: views listen to events.
+import { blessingRewardMul } from '../character/blessing.js';
 import { MONSTERS, NIGHT } from './data/monsters.js';
 import { SKILLS } from './data/skills.js';
 import { rollLootDrops } from './lootDrops.js';
@@ -274,9 +275,10 @@ export class Combat extends Emitter {
     for (const e of cancelBossSkill(m)) this.emit('boss-skill', { ...e, monster: m });
     m.state = 'dead'; m.respawnTimer = m.spawn.respawn ?? RULES.monsterRespawn; m.debuffs = [];
     const c = this.character;
-    const exp = killExp(m.def.exp, c.level, m.level ?? m.def.level, !!(m.def.elite || m.def.boss), this.night ? NIGHT.expBonus : 1);
-    const gold = randInt(...m.def.gold);
-    const drops = rollLootDrops(m.def);
+    const blessed = blessingRewardMul(c.blessing);   // the siamsi blessing (src/character/blessing.js)
+    const exp = Math.round(killExp(m.def.exp, c.level, m.level ?? m.def.level, !!(m.def.elite || m.def.boss), this.night ? NIGHT.expBonus : 1) * blessed.exp);
+    const gold = Math.round(randInt(...m.def.gold) * blessed.gold);
+    const drops = rollLootDrops(m.def, { multiplier: blessed.drop });
     if (hasCard(m.type) && Math.random() < cardRate(m.def)) drops.push({ id: cardId(m.type), qty: 1 });
     if (realDeath && m.hp <= 0 && (gold > 0 || drops.length) && !this.remote && !this.serverOwned && this.monsters.includes(m))
       applyBossCardKill(c, this.bossCardProcs, Date.now() / 1000);

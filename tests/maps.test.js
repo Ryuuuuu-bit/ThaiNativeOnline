@@ -29,7 +29,7 @@ const bandOf = z => (z >= SEAM_Z ? 'city' : z >= FOREST_SEAM_Z ? 'paddy' : z >= 
 const owners = (x, z) => MAP_IDS.filter(id => z >= MAPS[id].owns.minZ && z < MAPS[id].owns.maxZ);
 
 test('the registry has the city and four zone maps, linked by portals both ways', () => {
-  assert.equal(MAP_IDS.length,14);assert.deepEqual(MAP_IDS.filter(id=>!MAPS[id].expedition).sort(), ['city', 'deep_forest', 'klong', 'paddy', 'ruen_ho', 'wat_rang']);
+  assert.equal(MAP_IDS.length,15);assert.deepEqual(MAP_IDS.filter(id=>!MAPS[id].expedition).sort(), ['city', 'deep_forest', 'klong', 'paddy', 'ruen_ho', 'ubosot', 'wat_rang']);
   assert.equal(DEFAULT_MAP, 'city');
   for (const map of Object.values(MAPS)) {
     assert.ok(map.name && map.sub && map.walk.length && map.view && map.owns && map.spawn, `${map.id} is incomplete`);
@@ -37,7 +37,7 @@ test('the registry has the city and four zone maps, linked by portals both ways'
     assert.ok(map.portals.length, `${map.id} has no way out`);
     for (const p of map.portals) {
       assert.ok(MAPS[p.to], `${map.id} portal ${p.id} leads to unknown map ${p.to}`);
-      assert.ok(['warp', 'path'].includes(p.style), `${p.id} style ${p.style}`);
+      assert.ok(['warp', 'path', 'door'].includes(p.style), `${p.id} style ${p.style}`);
       assert.ok(p.name, `${p.id} has no label`);
       // an instance (the world boss room) is entered from the news banner: its door only leads out
       if (!map.instance) assert.ok(MAPS[p.to].portals.some(q => q.to === map.id && q.style === p.style), `${p.to} has no ${p.style} back to ${map.id}`);
@@ -49,9 +49,11 @@ test('the registry has the city and four zone maps, linked by portals both ways'
   for (const id of WILD) assert.ok(!MAPS[id].safe && MAPS[id].levels?.length === 2, id);
   // The city and the paddies are linked by the warp pair; the wild maps by path exits in a chain.
   const links = Object.values(MAPS).flatMap(m => m.portals.filter(p=>!m.expedition&&!MAPS[p.to].expedition).map(p => `${m.id}>${p.to}:${p.style}`)).sort();
-  assert.deepEqual(links, ['city>paddy:warp', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'klong>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'ruen_ho>wat_rang:warp', 'wat_rang>deep_forest:path', 'wat_rang>klong:path']);
+  assert.deepEqual(links, ['city>paddy:warp', 'city>ubosot:door', 'deep_forest>paddy:path', 'deep_forest>wat_rang:path', 'klong>wat_rang:path', 'paddy>city:warp', 'paddy>deep_forest:path', 'ruen_ho>wat_rang:warp', 'ubosot>city:door', 'wat_rang>deep_forest:path', 'wat_rang>klong:path']);
   // เรือนหอร้าง, the world boss room: a closed instance beyond the world's edge, open only at night.
   assert.ok(MAPS.ruen_ho.instance && MAPS.ruen_ho.nightOnly && MAPS.ruen_ho.owns.maxZ <= BOUNDS.minZ);
+  // ภายในอุโบสถ: a safe instance behind the city temple's front door, open day and night.
+  assert.ok(MAPS.ubosot.instance && MAPS.ubosot.safe && !MAPS.ubosot.nightOnly && MAPS.ubosot.owns.maxZ <= BOUNDS.minZ);
   // Visitors from the city leave the paddies through the warp (npcsForMap uses portals[0]).
   assert.equal(paddy.portals[0].to, 'city');
 });

@@ -37,6 +37,7 @@ export function musicAt({ mapId = 'city', regionId = 'city', phase = 'day', inCo
   // Loaded map wins over coordinates: expedition coordinates are outside city bands.
   const expedition = EXPEDITIONS.find(e => e.id === mapId);
   if (expedition) return expedition.theme === 'forest' ? 'calm_forest' : expedition.theme === 'klong' ? 'calm_marsh' : 'calm_ruins';
+  if (mapId === 'ubosot') return 'calm_temple';
   if (mapId === 'wat_rang' || mapId === 'ruen_ho') return 'calm_ruins';
   if (mapId === 'klong') return 'calm_marsh';
   if (mapId === 'deep_forest' || mapId !== 'city' && mapId !== 'paddy') return 'calm_forest';

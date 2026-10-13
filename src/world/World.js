@@ -1,3 +1,4 @@
+import { buildUbosotWorld } from './UbosotWorld.js';
 import { buildExpeditionWorld } from './ExpeditionWorld.js';
 import { buildCompactCityWorld } from './CompactCityWorld.js';
 import { COMPACT_CITY_SPOTS } from '../data/compactCityNpcs.js';
@@ -126,6 +127,7 @@ export async function buildWorld(scene, progress = () => {}, mapId = DEFAULT_MAP
     return world;
   }
   if(map.expedition)return buildExpeditionWorld(scene,map);
+  if(map.interior)return buildUbosotWorld(scene,map);
   const started = performance.now(), timings = {};
   let mark = started;
   const lap = name => { const now = performance.now(); timings[name] = Math.round(now - mark); mark = now; };

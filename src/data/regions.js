@@ -39,6 +39,7 @@ const REG = {
   klong_bank: R('klong_bank', 'คลองใหญ่', 'คลองหนองบึง · ฝั่งคลองและสะพานไม้', 'danger'),
   lagoon: R('lagoon', 'บึงชาละวัน', 'คลองหนองบึง · ถิ่นพญาจระเข้', 'danger'),
   ruen_ho: R('ruen_ho', 'เรือนหอร้าง', 'ระเบียงเรือนหอ · ถิ่นผีสองพี่น้อง (บอสโลก กลางคืน)', 'danger'),
+  ubosot: R('ubosot', 'ภายในอุโบสถ', 'พระประธาน · ไหว้พระขอพร · เสี่ยงเซียมซี', 'safe'),
 };
 export const SAFETY = {
   safe: { label: 'พื้นที่สงบ', color: '#a3bb86' },
@@ -70,6 +71,7 @@ export function regionAt(x, z, discoveredCemetery = true) {
   }
   const expedition=expeditionAt(z);if(expedition)return {id:expedition.id,name:expedition.name,sub:'พื้นที่ล่าปาร์ตี้',safety:'danger'};
   if (z > riverBank(x) + .5) return REG.river;
+  if (z >= -2800 && z < -2740) return REG.ubosot;   // inside the ordination hall (map ubosot, src/world/ubosot.js)
   if (z < BOUNDS.minZ) return REG.ruen_ho;   // the world boss room past the expeditions (map ruen_ho)
   if (z < -600) {
     const lagoon = NONGS.find(n => n.lagoon);

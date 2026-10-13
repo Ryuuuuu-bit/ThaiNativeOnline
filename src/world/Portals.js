@@ -103,7 +103,10 @@ export class Portals {
         const mesh = new THREE.Mesh(geometry,material); mesh.position.set(x,y,z);
         mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);return mesh;
       };
-      if (map.id === 'city') ayutthayaGateway(add, offset);
+      const door = portal.style === 'door';
+      // a doorway ('door') is the building's own: only the threshold ring and a small label
+      if (door) { /* no gate */ }
+      else if (map.id === 'city') ayutthayaGateway(add, offset);
       else {
         for (const side of [-1,1]) {
           const x=side*offset;
@@ -141,16 +144,16 @@ export class Portals {
       const runes=add(flat,glowMaterial(runeTexture(),light),0,.09);runes.scale.setScalar(radius*2.1);
       // Wisps on either side frame the opening without hiding characters.
       const veil=veilTexture();
-      for(const side of [-1,1]) {
+      if(!door)for(const side of [-1,1]) {
         const wisp=add(new THREE.PlaneGeometry(.65,3.2),glowMaterial(veil,light,THREE.DoubleSide),side*(radius-.35),1.65);
         wisp.material.opacity=.22;
       }
       const destination=MAPS[portal.to], levels=destination.levels;
-      const caption=levels ? `จุดล่า Lv.${levels[0]}–${levels[1]} · เดินผ่านเพื่อวาร์ป` : 'เขตปลอดภัย · เดินผ่านเพื่อวาร์ป';
+      const caption=door ? 'เดินเข้าประตู' : levels ? `จุดล่า Lv.${levels[0]}–${levels[1]} · เดินผ่านเพื่อวาร์ป` : 'เขตปลอดภัย · เดินผ่านเพื่อวาร์ป';
       const label=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTexture(caption,destination.name),transparent:true,depthWrite:false,fog:false}));
-      const compact=map.id==='paddy', labelY=compact?6.6:7;
+      const compact=map.id==='paddy'||door, labelY=door?3.1:compact?6.6:7;
       label.scale.set(compact?4.6:6.4,compact?1.44:2,1);label.position.y=labelY;group.add(label);
-      root.add(group); this.items.push({at,ground,runes,label,labelY,range:compact?22:38});
+      root.add(group); this.items.push({at,ground,runes,label,labelY,range:door?12:compact?22:38});
     }
   }
   update(t, player) {

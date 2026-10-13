@@ -9,6 +9,8 @@ import { DASH } from '../data/dash.js';
 // Speed is tuned to the city's travel-time targets.
 export const WALK_SPEED = 4.2, RUN_SPEED = 6.8;
 const SWING_TEMPO = 1.25;   // combat clips play at least this fast (see swingSpeed)
+// pray clips by preference (src/data/training.js casts): wai khru, a kneel, a blessing, a guard
+const PRAY_CLIPS = ['boxer_waikru', 'kneel_heal', 'shaman_holy', 'sword_guard'];
 
 export class Player {
   constructor(scene) {
@@ -48,6 +50,14 @@ export class Player {
     const c = this.combat?.character, len = this.model?.clipLength?.(clip) ?? 0;
     const interval = c?.cls?.attackSpeed ? c.cls.attackSpeed * (1 - (c.attackSpeed || 0)) : 0;
     return Math.min(3, Math.max(SWING_TEMPO, interval > 0 && len > 0 ? len / (interval * .9) : 0));
+  }
+  // ไหว้พระ (src/ubosot/SiamsiPanel.js): face the presiding Buddha (north) and play the class's
+  // closest respectful clip once — the Muay Thai wai khru, a kneel or a meditation.
+  pray() {
+    this.group.rotation.y = Math.PI;
+    const clip = PRAY_CLIPS.find(c => this.model?.has?.(c));
+    if (clip) this.model.attack(clip, 1);
+    return !!clip;
   }
   // Shift: a dash of DASH.distance along `direction` (or the way the player faces) over
   // DASH.time, then DASH.cooldown before the next. False while one is not ready.

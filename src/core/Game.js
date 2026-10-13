@@ -35,6 +35,8 @@ import { WorldMapPanel } from '../ui/WorldMapPanel.js';
 import { WarpPanel } from '../ui/WarpPanel.js';
 import { StoragePanel } from '../ui/StoragePanel.js';
 import { TempleFairPanel } from '../fair/TempleFairPanel.js';
+import { SiamsiPanel } from '../ubosot/SiamsiPanel.js';
+import { UBOSOT_SITES, UBOSOT_RANGE } from '../world/ubosot.js';
 import { FAIR_SITES, FAIR_RANGE } from '../fair/fairSites.js';
 import { BestiaryPanel } from '../ui/BestiaryPanel.js';
 import { QuestJournal } from '../ui/QuestJournal.js';
@@ -65,7 +67,7 @@ const params = new URLSearchParams(location.search);
 // a local build (npm run dev / a server on this machine): the developer settings are open
 const DEV_HOST = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 export class Game {
-  get movementModalOpen() { return !!(this.fair?.open || this.questJournal?.open || this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
+  get movementModalOpen() { return !!(this.fair?.open || this.siamsi?.open || this.questJournal?.open || this.warp?.open || this.guide?.open || this.cardBook?.open || this.storage?.open || this.game?.characterUI?.flasksOpen || (this.game?.characterUI?.loadouts && !this.game.characterUI.loadouts.hidden)); }
   // The active map's world and NPCs live in the map manager (src/world/MapManager.js).
   get world() { return this.maps?.world ?? null; }
   get npcs() { return this.maps?.npcs ?? null; }
@@ -181,6 +183,18 @@ export class Game {
         this.menu?.toggle(false); this.input?.keys.clear(); this.input?.cancelCameraDrag();
       },
     });
+    // ไหว้พระเสี่ยงเซียมซี inside the ordination hall (map ubosot, src/ubosot/SiamsiPanel.js)
+    this.siamsi = new SiamsiPanel({ character: () => this.game?.character,
+      context: () => ({ map: this.maps.map?.id, position: this.player.position,
+        online: !!this.net?.net?.online, authenticated: !!getIdentity().characterUid }),
+      prepare: () => {
+        this.questNav.cancel(); this.questJournal.close(); this.cardBook?.close(); this.guide.close();
+        this.storage.close(); this.warp.close(); this.shop.close(); this.closeDialogue(); this.stopWalk();
+        this.game?.combat?.cancelPending(); this.game?.combat?.setTarget(null);
+        this.menu?.toggle(false); this.input?.keys.clear(); this.input?.cancelCameraDrag();
+      },
+      onPray: () => this.player.pray?.(),
+    });
     this.cardBook = new CardCompendiumPanel({ character: () => this.game?.character,
       prepare: () => {
         this.questJournal.close(); this.closeDialogue(); this.warp.close(); this.guide.close(); this.storage.close(); this.shop.close();
@@ -264,6 +278,7 @@ export class Game {
     input.on('debug', () => this.toggleDebug());
     input.on('escape', () => {
       if (this.fair.open) return this.fair.close();
+      if (this.siamsi.open) return this.siamsi.close();
       if (this.game?.hud?.bar?.chooserOpen) { this.game.hud.bar.editor.close(); return; }
       if (this.game?.characterUI?.flasksOpen) { this.game.characterUI.flaskPicker.close(); return; }
       if (this.cardBook.open) return this.cardBook.close();
@@ -365,6 +380,7 @@ export class Game {
     this.unbindWindowNavigation = bindWindowNavigation([
       { root: () => this.news.root, close: () => this.news.close() },
       { root: () => this.fair.root, close: () => this.fair.close() },
+      { root: () => this.siamsi.root, close: () => this.siamsi.close() },
       { root: () => this.questJournal.root, close: () => this.questJournal.close() },
       { root: () => this.guide.root, close: () => this.guide.close() },
       { root: () => this.storage.root, close: () => this.storage.close() },
@@ -512,7 +528,7 @@ export class Game {
   // Map changes (src/world/MapManager.js): close what belongs to the old map,
   // then rebuild the minimap and debug overlay and reapply settings for the new one.
   leaveMap() {
-    this.fair?.close();
+    this.fair?.close(); this.siamsi?.close();
     this.questNav?.cancel(); this.questJournal?.close();
     this.game?.combat?.cancelMonsterAttacks();
     this.cardBook?.close();
@@ -726,6 +742,8 @@ export class Game {
     }
     const fair = this.nearFair();
     if (fair) { this.fair.show(fair.id); return; }
+    const shrine = this.nearShrine();
+    if (shrine) { this.siamsi.show(shrine.id); return; }
     const p = this.player.position, npc = this.npcs.nearestInteractable(p.x, p.z);
     if (npc) {
       this.talking = npc; this.talkLine = 0; npc.talkTo(p.x, p.z);
@@ -741,6 +759,13 @@ export class Game {
     const p = this.player.position;
     return FAIR_SITES.filter(s => Math.hypot(p.x - s.approach.x, p.z - s.approach.z) <= FAIR_RANGE
       && clearLine((x,z) => this.world.canStand(x,z,.05), p.x,p.z,s.approach.x,s.approach.z))
+      .sort((a, b) => Math.hypot(p.x-a.approach.x,p.z-a.approach.z)-Math.hypot(p.x-b.approach.x,p.z-b.approach.z))[0] ?? null;
+  }
+  // the prayer rug or siamsi stand in the ordination hall (src/world/ubosot.js)
+  nearShrine() {
+    if (this.maps.map?.id !== 'ubosot') return null;
+    const p = this.player.position;
+    return UBOSOT_SITES.filter(s => Math.hypot(p.x - s.approach.x, p.z - s.approach.z) <= UBOSOT_RANGE)
       .sort((a, b) => Math.hypot(p.x-a.approach.x,p.z-a.approach.z)-Math.hypot(p.x-b.approach.x,p.z-b.approach.z))[0] ?? null;
   }
   // Quest offers and the trade button for the NPC being talked to.
@@ -884,7 +909,7 @@ export class Game {
     this.player.bindCombat(this.game); // rigged class model + skill animations (no-op once bound)
     if (this.started && !this.net && this.game?.ready && this.training !== undefined) this.net = startMultiplayer(this); // optional connectivity starts after local readiness
     this.net?.update(dt, view.camera);
-    this.fair?.update(dt);
+    this.fair?.update(dt); this.siamsi?.update();
     if (this.shop.open && Math.hypot(this.shop.npc.x - p.x, this.shop.npc.z - p.z) > this.shop.npc.interactionRadius + 2) this.shop.close();
     view.update(dt, p);
     if (this.marker.visible) this.marker.scale.setScalar(1 + Math.sin(this.elapsed * 5) * .12);
@@ -906,7 +931,8 @@ export class Game {
       for (const l of this.maps.landmarks) if (!this.discovered.has(l.id) && Math.hypot(l.x - p.x, l.z - p.z) < l.radius) this.discover(l);
       const npc = this.hud.dialogueOpen ? null : this.npcs.nearestInteractable(p.x, p.z);
       const fair = this.hud.dialogueOpen || this.fair.open ? null : this.nearFair();
-      this.hud.prompt(fair ? `${fair.label} · งานวัด 16:30–05:00` : npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
+      const shrine = this.hud.dialogueOpen || this.siamsi.open || fair ? null : this.nearShrine();
+      this.hud.prompt(fair ? `${fair.label} · งานวัด 16:30–05:00` : shrine ? `${shrine.label} · ขอพรวันละครั้ง` : npc ? `คุยกับ ${npc.def.name} · ${this.npcs.label(npc)}` : null);
       this.audio.setMood({ night: env.night, wild: env.wild, cemetery: env.cemetery,
         ...citySoundscape(this.maps.map?.id, this.player.position.x, this.player.position.z) });
       if (this.debugOn) {

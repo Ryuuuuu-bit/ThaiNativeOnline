@@ -119,6 +119,8 @@ Do not work directly on main. Use task branches and PRs.
   to player world labels, title previews and the selected HUD portrait; chat stays compact and server
   title ownership/unlocks remain unchanged. See docs/design/TITLE_APPEARANCE.md.
 
+- Temple hall and siamsi blessing: the city temple's door portal (`style: 'door'`) leads to the safe interior map `ubosot` (`src/world/ubosot.js`, `UbosotWorld.js`). Its F sites open `src/ubosot/SiamsiPanel.js`; signed-in draws are server-authoritative (`server/ubosot.js`, message `bless`). `src/character/blessing.js` holds the 12 cards and the 3-hour, once-a-Thai-day rule. The saved `Character.blessing` (not a buff) feeds `atkRatio`, `combatants.rewardState` EXP and `MonsterWorld.dropMulOf` loot, and `NetProgress.adopt` copies it. See `src/world/README.md`.
+
 - Quest navigation: Game supplies live context and collision-aware walk/stop to the DOM-free questNavigation/QuestNavigator modules. QuestUI owns the compact pinned objective, QuestJournal owns journey details, WorldMapPanel adds a temporary goal, and Multiplayer cancels on logout/disconnect. Hooks and cancellation contracts are documented in src/quest/README.md and src/net/README.md.
 
 - Quest direction presentation: Game supplies camera basis/current quest route to DOM-free questGuidance; QuestUI labels remaining path versus direct distance and uses measured safe edge gaps to protect title/zone/control boxes. See src/quest/README.md and docs/design/QUEST_HUD_NAVIGATION.md.

@@ -100,6 +100,7 @@ export function startMultiplayer(game) {
   game.warp.connect(net);
   game.storage.connect(net);
   game.fair.connect(net);
+  game.siamsi.connect(net);
   social.pvp = pvp;
   const dynamicHUD = attachDynamicHUD(game, net);
   net.on('position', async m => {

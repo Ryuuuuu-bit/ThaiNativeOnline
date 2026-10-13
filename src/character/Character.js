@@ -1,3 +1,4 @@
+import { cleanBlessing, blessingMods } from './blessing.js';
 import { cleanFlask, createFlask, flaskFields, instanceId, FLASK_VERSION } from './data/flasks.js';
 import { validBinding, cleanBindings, HOTBAR_SIZE } from './hotbarBindings.js';
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
@@ -46,7 +47,7 @@ export const isHarmfulBuff = buff => NEGATIVE_BUFF_FIELDS.some(key => !!buff?.[k
 export const STARTER_VERSION = 2;
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, cardBook, evo, refine, friends, blocked, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0 } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, cardBook, evo, refine, friends, blocked, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0, blessing } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -151,6 +152,8 @@ export class Character extends Emitter {
     this.on('inventory', () => { this.cardBook = collectCardBook(this.cardBook, this.inventory, this.equipment, this.cards); });
     this.inCombat = false; // transient local hint; the server supplies its own combat state
     this.buffs = []; // {id, def?, slow?, dot?, remaining}
+    // พรเซียมซีจากการไหว้พระ (src/character/blessing.js): saved, outlives death, not a buff
+    this.blessing = cleanBlessing(blessing);
     this.cooldowns = {};
     // ฉายา (src/data/titles.js): the ids earned, the one worn (null = none) and the records behind them
     this.rec = cleanRec(rec);
@@ -229,20 +232,23 @@ export class Character extends Emitter {
   get maxHp() { return this.derived.maxHp; }
   get maxMp() { return this.derived.maxMp; }
   // Attack power after buffs: MATK for spell classes, ATK for the rest.
-  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + buffRatio(this.buffSum('atk')))); }
-  get patk() { return Math.round(this.derived.patk * (1 + buffRatio(this.buffSum('atk')))); }
-  get matk() { return Math.round(this.derived.matk * (1 + buffRatio(this.buffSum('atk')))); }
+  // the blessing's mods in force now (src/character/blessing.js)
+  get blessed() { return blessingMods(this.blessing); }
+  get atkRatio() { return buffRatio(this.buffSum('atk') + (this.blessed.atkMul ?? 0)); }
+  get attack() { const d = this.derived; return Math.round((this.cls.magic ? d.matk : d.patk) * (1 + this.atkRatio)); }
+  get patk() { return Math.round(this.derived.patk * (1 + this.atkRatio)); }
+  get matk() { return Math.round(this.derived.matk * (1 + this.atkRatio)); }
   get defense() {
     const values = key => this.buffs.filter(liveBuff).map(b => b[key]).filter(Number.isFinite);
     const aggregate = list => Math.max(0, ...list) + list.filter(n => n < 0).reduce((sum, n) => sum + n, 0);
     const ratio = buffRatio(aggregate(values('def'))), flat = aggregate(values('defFlat'));
-    return Math.max(0, Math.round(this.derived.def * (1 + ratio) + flat));
+    return Math.max(0, Math.round(this.derived.def * (1 + ratio) + flat + (this.blessed.def ?? 0)));
   }
   get speedBonus() { return Math.max(0, Math.min(.5, this.buffSum('speed'))); }
   get undying() { return this.buffs.some(b => liveBuff(b) && !!b.undying); }
   get accuracy() { return this.derived.accuracy; }
   get evasion() { return this.derived.eva; }
-  get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.night ? this.cls.nightCrit || 0 : 0)); }
+  get critChance() { return Math.min(.75, this.derived.critRate + this.buffSum('crit') + (this.blessed.critAdd ?? 0) + (this.night ? this.cls.nightCrit || 0 : 0)); }
   get critDamage() { return this.derived.critDmg; }
   // ค่าพลังรวม (CP): one number for the ranking boards and titles, without buffs (ThaiNative's
   // combatPower, src/rules/character.js, on this game's derived stats)
@@ -818,7 +824,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], blocked: [...this.blocked], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cardBook: cleanCardBook(this.cardBook), cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], blocked: [...this.blocked], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, blessing: this.blessing ? { ...this.blessing } : null, cardBook: cleanCardBook(this.cardBook), cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {
