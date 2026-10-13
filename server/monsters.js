@@ -50,7 +50,7 @@ import { WORLD_BOSS, worldBossHp, worldBossTier, WORLD_BOSS_SKILLS, WORLD_BOSS_C
 //   their max HP, server/index.js resolves it) · bleeds tick as wbhit · pools: { t: 'wbzone', id, spots, secs }
 import { BOSS_EFFECT_MUL } from '../src/rules/effects.js';
 
-const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN } = RULES;
+const { leash: LEASH, wanderRadius: WANDER, monsterAttackDelay: ATTACK_DELAY, eliteAttackDelay: ELITE_DELAY, monsterRespawn: RESPAWN, busyRespawn: BUSY, respawnClear: CLEAR, rangedMonster: RANGED } = RULES;
 const STATES = ['dormant', 'idle', 'chase', 'return', 'dead', 'flee'];
 export const CHARGE = { min: 3.5, max: 10, speed: 3, power: 1.6, every: 6 };
 export const FLEE = { secs: 2.5, every: 8 };
@@ -94,8 +94,16 @@ export class MonsterWorld {
       m.maxHp = worldBossHp(m.def.hp * m.tier.hp, this.online?.() ?? 1);
       Object.assign(m, { cast: null, cds: {}, skillGap: WORLD_BOSS_CAST.gap });
     }
-    const a = this.r() * Math.PI * 2, rr = Math.sqrt(this.r()) * (m.spawn.radius ?? 0);
-    Object.assign(m, { x: m.spawn.x + Math.cos(a) * rr, z: m.spawn.z + Math.sin(a) * rr, hp: m.maxHp, state: 'idle', debuffs: [], taunt: null, attackTimer: 0, target: null, contrib: new Map(), dirty: true, charging: false, summonAt: null });
+    // a spot in the zone away from the players (never pops up on top of someone); the farthest of
+    // a few tries when the zone is crowded
+    const players = (this.seen ?? []).filter(p => !p.dead), nearest = (x, z) => players.reduce((d, p) => Math.min(d, Math.hypot(p.x - x, p.z - z)), Infinity);
+    let x = m.spawn.x, z = m.spawn.z, best = -1;
+    for (let i = 0; i < (players.length ? 8 : 1); i++) {
+      const a = this.r() * Math.PI * 2, rr = Math.sqrt(this.r()) * (m.spawn.radius ?? 0), tx = m.spawn.x + Math.cos(a) * rr, tz = m.spawn.z + Math.sin(a) * rr, d = nearest(tx, tz);
+      if (d > best) { best = d; x = tx; z = tz; }
+      if (d >= CLEAR) break;
+    }
+    Object.assign(m, { x, z, hp: m.maxHp, state: 'idle', debuffs: [], taunt: null, attackTimer: 0, target: null, contrib: new Map(), dirty: true, charging: false, summonAt: null });
     if (this.navigation && !this.navigation.canStand(m.x, m.z)) {
       let found = false;
       for (let i = 0; i < 80; i++) { const a = this.r() * Math.PI * 2, r = this.r() * Math.max(6, m.spawn.radius ?? 6); const x = m.spawn.x + Math.cos(a) * r, z = m.spawn.z + Math.sin(a) * r; if (this.navigation.canStand(x, z)) { m.x = x; m.z = z; found = true; break; } }
@@ -146,7 +154,9 @@ export class MonsterWorld {
       if (m.def.worldBoss && this.worldBossStep(m, dt, night, ev, live)) continue;
       if (m.state === 'dead' || m.state === 'dormant') {
         if (!isActive(m.spawn, phase)) { m.state = 'dormant'; continue; }
-        if ((m.respawn -= dt) <= 0) {
+        // a zone someone is hunting in refills faster
+        const r = (m.spawn.radius ?? 0) + 12, busy = !m.def.elite && !m.def.boss && live.some(p => Math.hypot(p.x - m.spawn.x, p.z - m.spawn.z) < r);
+        if ((m.respawn -= dt * (busy ? BUSY : 1)) <= 0) {
           if (this.spawn(m)) ev.push({ t: 'mspawn', m: this.info(m) });
           else { m.state = 'dormant'; m.respawn = m.spawn.respawn ?? RESPAWN; }
         }
@@ -215,6 +225,10 @@ export class MonsterWorld {
               this.step(m, tg, speed * (m.charging ? CHARGE.speed : 1), dt);
             }
           } else {
+            // a ranged monster steps back from a player in its face between shots
+            if (def.listedAtk && !rooted && d < RANGED.keepAway && m.attackTimer > .3) {
+              const len = d || 1; this.step(m, { x: m.x + (m.x - tg.x) / len * 2, z: m.z + (m.z - tg.z) / len * 2 }, speed * .8, dt);
+            }
             m.f = Math.atan2(tg.x - m.x, tg.z - m.z);
             if (m.charging) { m.charging = false; m.chargeCd = CHARGE.every; m.attackTimer = 0; m.charged = true; }
             if (m.attackTimer <= 0) {

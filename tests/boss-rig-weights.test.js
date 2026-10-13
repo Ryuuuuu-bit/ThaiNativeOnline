@@ -485,7 +485,10 @@ class OfflineBossTests(unittest.TestCase):
 unittest.main(argv=['offline-boss-rig-tests'],verbosity=2)
 `;
 
-test('Meshy humanoid boss weights, staged motions and durable jobs pass offline Python checks', () => {
+// Retired 2026-10-13: new models come from Tripo only; the Meshy job pipeline (tools/monster-models/meshy
+// submissions and staged motion jobs) is no longer run. The Meshy-made bosses already in the game stay
+// covered by the asset tests below and in boss-meshy-motion-assets.test.js.
+test.skip('Meshy humanoid boss weights, staged motions and durable jobs pass offline Python checks (retired: Tripo only)', () => {
   const result = spawnSync(process.env.PYTHON ?? 'python', ['-B', '-c', python], {
     cwd: fileURLToPath(new URL('../', import.meta.url)), encoding: 'utf8', timeout: 30000,
     env: { ...process.env, PYTHONDONTWRITEBYTECODE: '1', BLENDER_SESSION_DESCRIPTOR: '', BLENDER_DESIGN_ROOT: '' },

@@ -25,6 +25,7 @@ import { EXPEDITIONS } from '../world/expeditions.js';
 // stupas some nights. ปอบ is not placed yet.
 import { MONSTERS } from '../combat/data/monsters.js';
 import { HUNTING_GROUNDS } from './hunting.js';
+import { RULES } from '../combat/data/rules.js';
 
 // How full the maps are: every ordinary monster's count is multiplied by this (elites and
 // bosses stay one at a time). With RULES.monsterRespawn this sets how fast a map refills.
@@ -95,7 +96,7 @@ const ROSTER = {
   orchard_boars: [{ type: 'boar', count: 4 }],
   orchard_monkeys: [{ type: 'monkey', count: 4 }],
   grassland: [
-    { type: 'boar', count: 3, active: DAYLIGHT }, { type: 'monkey', count: 1, active: DAYLIGHT },
+    { type: 'boar', count: 3, active: DAYLIGHT }, { type: 'monkey', count: 1, active: DAYLIGHT }, { type: 'cobra', count: 1, active: DAYLIGHT },
     { type: 'phibpa', count: 2, active: NIGHT },
   ],
   forest_edge: [
@@ -117,7 +118,7 @@ const ROSTER = {
   ],
   wat_grove: [
     { type: 'pray', count: 3, active: DAYLIGHT },
-    { type: 'winyan', count: 3, active: NIGHT },
+    { type: 'winyan', count: 3, active: NIGHT }, { type: 'khamot', count: 1, active: NIGHT },   // a will-o'-wisp shooting from the trees
   ],
   abandoned_shrine: [{ type: 'winyan', count: 2 }],
   cemetery_path: [{ type: 'winyan', count: 3 }],
@@ -163,7 +164,7 @@ export function combatSpawns() {
 }
 for (const camp of HUNTING_GROUNDS) {
   if(!SPAWNS.some(s=>s.id===camp.id))SPAWNS.push({id:camp.id,monster:camp.roster.map(r=>MONSTERS[r.type].name).join(' · '),x:camp.x,z:camp.z,radius:camp.radius,active:ALWAYS,max:camp.roster.reduce((sum,r)=>sum+r.count,0)});
-  ROSTER[camp.id]=camp.roster.map(r=>({respawn:24,...r}));
+  ROSTER[camp.id]=camp.roster.map(r=>({respawn:RULES.campRespawn,...r}));
 }
 
 for(const e of EXPEDITIONS){

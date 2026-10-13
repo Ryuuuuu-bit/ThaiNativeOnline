@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { RULES } from '../src/combat/data/rules.js';
 import assert from 'node:assert/strict';
 import { HUNTING_GROUNDS, huntingFor, huntingSign } from '../src/data/hunting.js';
 import { combatSpawns } from '../src/data/spawns.js';
@@ -14,7 +15,7 @@ test('all 136 hunting pockets share ordinary monster rosters and valid level sig
   for(const c of HUNTING_GROUNDS){
     assert.ok(!ids.has(c.id));ids.add(c.id);assert.equal(mapOf(c.x,c.z),c.map);
     const zones=combatSpawns().filter(z=>z.area===c.id);assert.equal(zones.length,c.roster.length);
-    for(const z of zones){const m=MONSTERS[z.type];assert.ok(!m.boss&&!m.elite);assert.ok(m.level>=c.levels[0]&&m.level<=c.levels[1]);assert.equal(z.respawn,24);slots+=z.count;}
+    for(const z of zones){const m=MONSTERS[z.type];assert.ok(!m.boss&&!m.elite);assert.ok(m.level>=c.levels[0]&&m.level<=c.levels[1]);assert.equal(z.respawn,RULES.campRespawn);slots+=z.count;}
     assert.ok(zones.some(z=>z.active.includes('night')),c.id+' night option');
   }
   assert.equal(slots,HUNTING_GROUNDS.reduce((n,c)=>n+c.roster.reduce((n,r)=>n+r.count*2,0),0));

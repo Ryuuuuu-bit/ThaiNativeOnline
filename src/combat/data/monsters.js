@@ -1,3 +1,4 @@
+import { RULES } from './rules.js';
 import { EXPEDITION_MONSTERS } from './expedition-monsters.js';
 // Content data only: edit freely without touching game logic.
 // Optional per monster: acc (accuracy; default MONSTER_ACCURACY(level) in
@@ -10,7 +11,8 @@ import { EXPEDITION_MONSTERS } from './expedition-monsters.js';
 //   pack: r        when hit, others of its kind within r metres join in
 //   callSpirits: r when it starts a fight, every spirit within r metres joins in
 //   charge         from 3.5–10 m it dashes at its target and hits harder (cooldown 6 s)
-//   ranged: color  attacks from `range` metres with a bolt of that colour
+//   ranged: color  attacks from `range` metres with a bolt of that colour; an ordinary one hits
+//                  and lasts less than its listed atk/hp (RULES.rangedMonster, applied below)
 //   attackDelay    seconds between its swings (slow, heavy hitters)
 //   poison: { dot, secs }  a landed hit poisons: dot HP a second (never below 1 HP)
 //   mpDrain        a landed hit drains this much MP
@@ -76,3 +78,11 @@ export const MONSTERS = {
 // Night is a different mood and a riskier, richer hunt.
 export const NIGHT = { expBonus: 1.25, ghostPower: 1.2 };
 
+
+// Ranged ordinary monsters up to Lv 20 (the open hunting maps; higher content is tuned as a whole
+// and locked by tests/monster-progression.test.js): softer blows and less HP than listed
+// (RULES.rangedMonster), the price of hitting from afar. listedAtk/listedHp keep the authored numbers.
+for (const def of Object.values(MONSTERS)) if (def.ranged && !def.elite && !def.boss && def.level <= 20 && !def.listedAtk) {
+  def.listedAtk = def.atk; def.listedHp = def.hp;
+  def.atk = Math.round(def.atk * RULES.rangedMonster.atk); def.hp = Math.round(def.hp * RULES.rangedMonster.hp);
+}

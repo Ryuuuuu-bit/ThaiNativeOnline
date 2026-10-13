@@ -5,7 +5,13 @@ export const RULES = {
   combatTimeout: 5,        // seconds without hits before "out of combat" regen
   projectileSpeed: 16,
   globalCooldown: 1,       // shared delay after any non-basic skill
-  monsterRespawn: 7,       // default when a zone has no `respawn`
+  monsterRespawn: 5,       // default when a zone has no `respawn`
+  campRespawn: 8,          // the small farming pockets (src/data/hunting.js)
+  busyRespawn: 1.6,        // a dead monster's timer runs this much faster while a player hunts in its zone
+  respawnClear: 8,         // a monster never rises within this many metres of a player
+  // Ranged monsters (`ranged` in monsters.js, not elites or bosses) hit from afar, so each blow
+  // lands softer and they fall sooner; they back off from a player closer than keepAway.
+  rangedMonster: { atk: .7, hp: .75, keepAway: 2.2 },
   monsterAttackDelay: 1.6,
   eliteAttackDelay: 1.3,
   eliteHeavyChance: .25,   // elites sometimes hit for 1.8×
