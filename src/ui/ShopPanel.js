@@ -11,6 +11,7 @@ import { STRIP } from '../character/data/cards.js';
 import { REFINE_SHOP, REFINE_SAFE, REFINE_MAX, REFINE_MILESTONES, refinable, refineCost, refineBonus } from '../character/data/refine.js';
 import './shop.css';
 import { blessingRefineAdd } from '../character/blessing.js';
+import { ForgeFx } from './ForgeFx.js';
 const REFINE_WHY = { gold: 'ตำลึงไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', locked: 'ปลดล็อกอุปกรณ์ก่อนตีบวก', connection: 'รอเชื่อมต่อและข้อมูลอุปกรณ์ล่าสุดก่อนตีบวก', pending: 'รอข้อมูลอุปกรณ์จากการตีครั้งก่อน', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', dead: 'ต้องฟื้นคืนชีพก่อนตีบวก', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
 const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'เครื่องประดับ' };
 const plusName = (id, plus) => `${plus ? `+${plus} ` : ''}${ITEMS[id].name}`;
@@ -143,7 +144,7 @@ export class ShopPanel {
     ];
   }
   attemptRefine(key) {
-    if (this.refinePending || this.character.refineRecovering) return;
+    if (this.refinePending || this.forging || this.character.refineRecovering) return;
     const t = this.refineList().find(t => (t.worn ? `w:${t.slot}` : `i:${t.index}`) === key);
     const cost = t && refineCost(ITEMS[t.id], t.plus);
     if (!cost || !this.character.alive || this.character.gold < cost.gold || !this.character.count(cost.ore)) return;
@@ -152,20 +153,42 @@ export class ShopPanel {
     // Set the lock before calling: offline results emit synchronously, online returns pending.
     const held = t.worn ? this.character.wornItem(t.slot) : this.character.inventory[t.index];
     this.refinePending = { key, item: t.id, iid: held?.roll?.iid, to: cost.to };
+    // the hammer and the held breath (src/ui/ForgeFx.js): the result shows when they are done
+    const bless = cost.risky ? blessingRefineAdd(this.character.blessing) : 0;
+    if (typeof document.createElement === 'function') this.fx ??= new ForgeFx($('shop'));
+    if (this.fx) this.forging = { ...this.fx.start({ icon: iconHtml(ITEMS[t.id]), from: t.plus, to: cost.to, risky: cost.risky,
+      rate: +(Math.min(1, cost.rate + bless) * 100).toFixed(1), blessed: bless }), result: null };
     const r = this.character.refineGear(t.worn ? t.slot : t.index);
     if (this.refinePending && r?.pending) this.refinePending.ack = r.ack;
     else if (this.refinePending && r?.ok === false) this.receiveRefine(r);
     this.render();
   }
   recoverRefine({ state, unknown }) {
+    this.endForge();
     this.refinePending = null; this.armed = null;
     if (unknown) this.forgeResult = { recovery: state, serial: ++this.forgeSerial };
     this.render();
   }
+  endForge() { this.fx?.cancel(); clearTimeout(this.forging?.timer); this.forging = null; }
   receiveRefine(r) {
     if (r.pending) return;
     // A refused/invalid reply must never become a success or a destruction effect.
     const valid = r.ok === true && ['up', 'broke'].includes(r.outcome) && refinable(ITEMS[r.item]) && Number.isInteger(r.to) && r.to > 0 && r.to <= REFINE_MAX;
+    const f = this.forging;
+    if (f && !valid) this.endForge();
+    else if (f && !f.result) {
+      // hold the result until the strikes are done, then land it with the overlay
+      f.result = r;
+      f.timer = setTimeout(() => {
+        if (this.forging !== f) return;
+        this.fx.finish(r.outcome, { great: r.outcome === 'up' && r.to >= 7 }).then(() => { if (this.forging === f) { this.forging = null; this.render(); } });
+        this.applyRefine(r, true);
+      }, Math.max(0, f.readyAt - performance.now()));
+      return;
+    }
+    this.applyRefine(r, valid);
+  }
+  applyRefine(r, valid) {
     this.forgeResult = { ...r, ok: valid, serial: ++this.forgeSerial };
     if (!valid) {
       this.refinePending = null;
@@ -311,7 +334,7 @@ export class ShopPanel {
     // a siamsi card may add to this one risky try (src/character/blessing.js)
     const bless = cost?.risky ? blessingRefineAdd(c.blessing) : 0;
     const ore = cost && ITEMS[cost.ore], have = cost ? c.count(cost.ore) : 0, rate = cost ? +(Math.min(1, cost.rate + bless) * 100).toFixed(1) : 0;
-    const pending = !!this.refinePending || !!c.refineRecovering;
+    const pending = !!this.refinePending || !!this.forging || !!c.refineRecovering;
     const can = !!cost && c.alive && c.gold >= cost.gold && have > 0 && !pending, sells = !!cost && stockOf(this.shopType).includes(cost.ore);
     const label = c.refineRecovering ? 'รอข้อมูลอุปกรณ์ล่าสุด…' : pending ? this.forgeResult ? 'กำลังอัปเดตอุปกรณ์…' : 'กำลังรอผล…' : max ? 'สูงสุดแล้ว' : !c.alive ? 'ต้องฟื้นคืนชีพก่อน' : armed ? 'เสี่ยงแตก! ยืนยันตีบวก' : !have ? `ไม่มี${ore.name}` : c.gold < cost.gold ? 'ตำลึงไม่พอ' : `ตีบวก +${cost.to}`;
     const milestones = REFINE_MILESTONES.map(n => `<div class="eh-milestone${t.plus >= n ? ' reached' : cost?.to === n ? ' next' : ''}"><b>+${n} <small>${MILESTONE_TH[n]}</small></b><span>${Object.entries(refineBonus(d, n)).map(([k, v]) => `${BONUS[k]} +${fmt(v)}`).join(' · ')}</span><small>${t.plus >= n ? 'ถึงขั้นนี้แล้ว' : cost?.to === n ? 'ขั้นถัดไป' : n <= REFINE_SAFE ? 'สำเร็จเสมอ' : 'มีโอกาสแตก'}</small></div>`).join('');
@@ -347,6 +370,8 @@ export class ShopPanel {
   }
   close() {
     $('shop').hidden = true; this.npc = null;
+    if (this.forging?.result) { const r = this.forging.result; this.endForge(); this.applyRefine(r, true); }
+    else this.endForge();
     // A pending result still arrives after closing; reopening must not send a second try.
     if (!this.refinePending && !this.character?.refineRecovering) { this.unsub?.(); this.unsub = null; }
   }

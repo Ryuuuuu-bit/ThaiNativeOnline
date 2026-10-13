@@ -1,3 +1,4 @@
+@import './forge-fx.css';
 /* Shop sign above a vendor (src/ui/HUD.js) and the shop window (src/ui/ShopPanel.js).
    Sign: design C "ธงสีตามประเภทร้าน" (an icon block in the shop kind's colour, a dark body, a tail).
    Window: ThaiNative's shop layout (header, tab rail, grouped list + detail panel) in this game's skin. */

@@ -88,6 +88,28 @@ Object.assign(SFX, {
   blade_cut:   { vary: .1, layers: [{ wave: 'noise', dur: .14, a: .01, gain: .12, filter: { type: 'bandpass', f: [2600, 900], q: 1.4 } }, { wave: 'sine', f: [3300, 3000], dur: .22, at: .02, gain: .03 }] },
   thunder:     { layers: [{ wave: 'noise', dur: .9, a: .01, gain: .3, filter: { type: 'lowpass', f: [1800, 120], q: .7 } }, { wave: 'sine', f: [70, 40], dur: .8, gain: .3 }] },
   // the shaman: a chanted hum as the spell gathers, a whoosh of fire, a sizzle of spirit
+  // ตีบวก at the forge (src/ui/ForgeFx.js): hammer on hot metal, the held breath, the result
+  forge_hit:     { vary: .03, layers: [
+    { wave: 'square', f: [1250, 1180], dur: .18, gain: .06, filter: { type: 'bandpass', f: [2400, 1800], q: 3 } },
+    { wave: 'sine', f: [2900, 2850], dur: .45, gain: .07 }, { wave: 'sine', f: [4100, 4050], dur: .3, gain: .04 },
+    { wave: 'noise', dur: .07, gain: .2, filter: { type: 'highpass', f: [2500, 1500] } },
+    { wave: 'sine', f: [140, 70], dur: .16, gain: .22 }] },
+  forge_charge:  { layers: [
+    { wave: 'sawtooth', f: [110, 330], dur: .9, a: .5, gain: .05, filter: { type: 'lowpass', f: [400, 1800], q: 5 } },
+    { wave: 'sine', f: [220, 660], dur: .9, a: .5, gain: .06 }, { wave: 'noise', dur: .9, a: .6, gain: .04, filter: { type: 'bandpass', f: [600, 3000], q: 1 } }] },
+  forge_success: { layers: [
+    ...[523, 659, 784, 1047].map((f, i) => ({ wave: 'triangle', f: [f, f], dur: .5, at: i * .07, gain: .1 })),
+    { wave: 'sine', f: [2093, 2093], dur: 1.2, at: .28, gain: .06 }, { wave: 'noise', dur: .6, at: .05, a: .05, gain: .05, filter: { type: 'highpass', f: [6000, 8000] } }] },
+  forge_great:   { layers: [
+    ...[392, 523, 659, 784, 1047, 1319].map((f, i) => ({ wave: 'triangle', f: [f, f], dur: .6, at: i * .07, gain: .1 })),
+    { wave: 'sine', f: [1568, 1568], dur: 1.6, at: .42, gain: .07 }, { wave: 'sine', f: [2093, 2093], dur: 1.6, at: .42, gain: .05 },
+    { wave: 'sine', f: [98, 98], dur: 1.2, at: .42, gain: .14 },
+    { wave: 'noise', dur: 1.1, at: .1, a: .1, gain: .06, filter: { type: 'highpass', f: [5000, 9000] } }] },
+  forge_break:   { layers: [
+    { wave: 'noise', dur: .09, gain: .3, filter: { type: 'highpass', f: [3000, 1800] } },
+    { wave: 'noise', dur: .7, at: .04, gain: .12, filter: { type: 'bandpass', f: [5200, 2600], q: 2 } },
+    ...[3100, 4300, 2600, 3700].map((f, i) => ({ wave: 'sine', f: [f, f * .97], dur: .25, at: .05 + i * .06, gain: .04 })),
+    { wave: 'sine', f: [120, 45], dur: .9, gain: .3 }, { wave: 'sawtooth', f: [180, 60], dur: .7, at: .1, gain: .05, filter: { type: 'lowpass', f: [500, 200] } }] },
   // หอระฆัง in the temple grounds (src/temple): a bronze temple bell, struck, with a long hum
   temple_bell: { vary: .01, layers: [
     { wave: 'sine', f: [196, 194], dur: 3, a: .005, gain: .26 },
