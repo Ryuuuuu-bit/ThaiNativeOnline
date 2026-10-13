@@ -28,6 +28,7 @@ import { cleanCardBook, collectCardBook } from './cardCollection.js';
 
 const SAVE_KEY = 'tno.character.v1';
 export const FRIENDS_MAX = 50;
+export const BLOCK_MAX = 100;   // names a character can block (server/chat-guard.js CHAT_RULES.blockMax)
 // Gear bonus keys passed to computeDerived besides the base stats.
 const DERIVED_BONUS = ['atk', 'matk', 'def', 'hp', 'mp', 'crit', 'critDmg', 'acc', 'eva'];
 const emptyAlloc = () => Object.fromEntries(STATS.map(k => [k, 0]));
@@ -45,7 +46,7 @@ export const isHarmfulBuff = buff => NEGATIVE_BUFF_FIELDS.some(key => !!buff?.[k
 export const STARTER_VERSION = 2;
 
 export class Character extends Emitter {
-  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, cardBook, evo, refine, friends, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0 } = {}) {
+  constructor({ name, classId, gender = 'male', level = 1, exp = 0, gold = 20, points = 0, alloc, inventory, equipment, hp, mp, jobLevel, jobExp = 0, skills, cards, cardBook, evo, refine, friends, blocked, title, titles, rec, starterEquipmentVersion = 0, equipmentLocks, gearRolls, loadouts, hotbar, masteries, flasks, flaskVersion = 0 } = {}) {
     super();
     classId = CLASS_ALIASES[classId] || classId;
     if (!CLASSES[classId]) throw new Error(`Unknown class ${classId}`);
@@ -69,6 +70,8 @@ export class Character extends Emitter {
     this.alloc = { ...emptyAlloc(), ...alloc };
     // friends: other characters' names (server/index.js keeps the list; online / offline notices)
     this.friends = Array.isArray(friends) ? [...new Set(friends.filter(n => typeof n === 'string' && n.trim()).map(n => n.slice(0, 16)))].slice(0, FRIENDS_MAX) : [];
+    // blocked: names whose chat, whispers and invites the server does not deliver to this character
+    this.blocked = Array.isArray(blocked) ? [...new Set(blocked.filter(n => typeof n === 'string' && n.trim()).map(n => n.slice(0, 16)))].slice(0, BLOCK_MAX) : [];
     // gear in the bag may carry cards (src/character/data/cards.js): only real ones, no more than its slots
     // and a plus from ตีบวก (src/character/data/refine.js): only on gear that takes one
     this.inventory = expandInventory(inventory).map(s => {
@@ -815,7 +818,7 @@ export class Character extends Emitter {
   // ---- Persistence ----
   toJSON() {
     const { name, classId, gender, level, exp, gold, points, alloc, inventory, equipment, hp, mp, jobLevel, jobExp, skills, cards } = this;
-    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cardBook: cleanCardBook(this.cardBook), cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
+    return { flaskVersion:this.flaskVersion, flasks:{hp:cloneInstance(this.flasks.hp),mp:cloneInstance(this.flasks.mp)}, starterEquipmentVersion: this.starterEquipmentVersion, name, classId, gender, level, exp, gold, points, alloc, inventory: inventory.map(cloneInstance), equipment: { ...equipment }, gearRolls: Object.fromEntries(EQUIP_SLOTS.map(slot => [slot, cleanRoll(equipment[slot], this.gearRolls[slot])])), hp, mp, jobLevel, jobExp, skills: { ...skills }, evo: { ...this.evo }, refine: { ...this.refine }, equipmentLocks: { ...this.equipmentLocks }, hotbar: this.hotbarBindings, loadouts: structuredClone(this.loadouts), masteries: { ...this.masteries }, friends: [...this.friends], blocked: [...this.blocked], title: this.titles.includes(this.title) ? this.title : null, titles: [...this.titles], rec: { ...this.rec, boss: { ...this.rec.boss } }, cardBook: cleanCardBook(this.cardBook), cards: Object.fromEntries(Object.entries(cards).map(([k, v]) => [k, [...v]])) };
   }
   save() { try { slotStorage.setItem(SAVE_KEY, JSON.stringify(this)); } catch { /* storage unavailable */ } }
   static load() {

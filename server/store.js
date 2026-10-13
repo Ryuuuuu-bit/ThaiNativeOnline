@@ -78,6 +78,11 @@ export class MemoryStore {
     return locked(0);
   }
   async tradeReceipt(request) { const receipt = this.tradeReceipts?.get(request); return receipt ? structuredClone(receipt.result) : null; }
+  // chat moderation (server/index.js): GM mutes by account, players' reports
+  async setMute(account, until) { this.mutes ??= new Map(); if (until > Date.now()) this.mutes.set(account, until); else this.mutes.delete(account); }
+  async listMutes() { return [...(this.mutes ?? new Map())].filter(([, until]) => until > Date.now()).map(([account, until]) => ({ account, until })); }
+  async addReport(r) { (this.reports ??= []).push({ id: this.reports.length + 1, created: new Date().toISOString(), ...structuredClone(r) }); if (this.reports.length > 500) this.reports.shift(); }
+  async listReports(limit = 10) { return structuredClone((this.reports ?? []).slice(-limit).reverse()); }
   constructor({ uidGenerator = newUid } = {}) { this.uidGenerator = uidGenerator; this.accounts = new Map(); this.sessions = new Map(); this.slots = new Map(); this.google = new Map(); this.kind = 'memory'; this.stashes = new Map(); this.stashReceipts = new Map(); this.locks = new Map(); }
   withAccount(id, work) {
     const next = (this.locks.get(id) ?? Promise.resolve()).catch(() => {}).then(work);
@@ -220,6 +225,13 @@ export class PgStore {
     finally { client.release(); }
   }
   async tradeReceipt(request) { return (await this.q('select result from trade_receipts where request = $1', [request])).rows[0]?.result ?? null; }
+  async setMute(account, until) {
+    if (until > Date.now()) await this.q('insert into chat_mutes (account, muted_until) values ($1, $2) on conflict (account) do update set muted_until = excluded.muted_until', [account, new Date(until)]);
+    else await this.q('delete from chat_mutes where account = $1', [account]);
+  }
+  async listMutes() { return (await this.q('select account, muted_until from chat_mutes where muted_until > now()')).rows.map(r => ({ account: r.account, until: new Date(r.muted_until).getTime() })); }
+  async addReport(r) { await this.q('insert into chat_reports (reporter, target, reason, note, evidence) values ($1, $2, $3, $4, $5)', [r.reporter, r.target, r.reason, r.note ?? '', JSON.stringify(r.evidence ?? [])]); }
+  async listReports(limit = 10) { return (await this.q('select id, created, reporter, target, reason, note, evidence from chat_reports order by id desc limit $1', [limit])).rows.map(r => ({ ...r, created: new Date(r.created).toISOString() })); }
   constructor(pool, { uidGenerator = newUid } = {}) { this.pool = pool; this.uidGenerator = uidGenerator; this.kind = 'postgres'; }
   q(text, values) { return this.pool.query(text, values); }
   async init() {
@@ -233,6 +245,10 @@ export class PgStore {
     await this.q(`create table if not exists account_stashes (account text primary key references accounts(id) on delete cascade, revision bigint not null default 0, slots jsonb not null)`);
     await this.q(`create table if not exists stash_receipts (account text not null references accounts(id) on delete cascade, request text not null, slot int not null, fingerprint text not null, result jsonb not null, primary key (account, request))`);
     await this.q(`create table if not exists trade_receipts (request text primary key, fingerprint text not null, result jsonb not null)`);
+    // Chat moderation: mutes survive restarts; reports keep who, whom, why and the reported player's recent public lines.
+    await this.q(`create table if not exists chat_mutes (account text primary key, muted_until timestamptz not null)`);
+    await this.q(`create table if not exists chat_reports (id bigserial primary key, created timestamptz not null default now(), reporter text not null, target text not null, reason text not null, note text not null default '', evidence jsonb not null default '[]')`);
+    await this.q(`delete from chat_mutes where muted_until < now()`);
     await this.q(`create table if not exists google_links (sub text primary key, account text not null references accounts(id) on delete cascade, email text, linked timestamptz not null default now())`);
     await this.q(`alter table google_links add column if not exists picture text`);
     await this.q(`alter table google_links add column if not exists profile_updated timestamptz`);

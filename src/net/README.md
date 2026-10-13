@@ -65,3 +65,21 @@ sync. `fair` messages carry intentions only; `server/temple-fair.js` owns timing
 random draws and atomic gold settlement. `Game` closes the panel on map leave.
 After disconnect, an uncertain paid action must not be resent automatically;
 wait for the server's current balance. See `src/fair/README.md` for the contract.
+
+## Chat moderation (server/chat-guard.js)
+
+- **World channel**: signed-in characters from Lv 5, one line every 5 s (GMs exempt). Guests and
+  lower levels are told to use ช่องพื้นที่. Area, party and whisper keep presence's 0.8 s pace.
+- **Rude words** are masked with ✱ on the server for world, area, party and whispers (`maskRude`:
+  Thai inside words, English at word boundaries; spaced, dotted or stretched spellings too).
+- **Blocks** live on the character (`Character.blocked`, max 100): the server does not deliver
+  that name's public lines, whispers (the sender still sees an echo), party lines, party invites
+  or trade requests (both answered as declined). Menu on a name plate, `/block` · `/unblock`, and
+  the list in the friends tab. Messages: `block` · `unblock` · `blocks` → `{ t:'blocks', list }`.
+- **Reports**: plate menu → reason, or `/report name note`; one per 30 s; stored with the
+  reported player's last public lines (`chat_reports`), online GMs are told, `/gm reports [n]`.
+- **Mutes** by account are stored (`chat_mutes`) and reloaded at start; a guest's lasts its session.
+- **History**: the last 50 world lines and 30 lines of the arrival room (≤ 2 h old) are sent once
+  per connection as `{ t:'chist', lines }`; ChatBox shows them dimmed above a divider. Tabs keep 100 lines.
+- **Speech bubbles** (src/net/SpeechBubbles.js) over the speaker for area/world lines from this
+  room, party lines and your own.

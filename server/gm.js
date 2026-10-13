@@ -126,9 +126,17 @@ export async function gm(ctx, me, text) {
     case 'mute': case 'unmute': {
       const { t, err } = other(); if (err) return err;
       const min = cmd === 'mute' ? Math.max(1, Math.min(10080, int(args[1], 10))) : 0, key = t.p.account ?? `s${t.p.id}`;
-      if (min) ctx.mutes.set(key, Date.now() + min * 60000); else ctx.mutes.delete(key);
+      const until = min ? Date.now() + min * 60000 : 0;
+      if (min) ctx.mutes.set(key, until); else ctx.mutes.delete(key);
+      ctx.saveMute?.(key, until);   // account mutes survive a restart
       tell(t, min ? `คุณถูกห้ามแชท ${min} นาที` : 'คุณแชทได้ตามปกติแล้ว');
       log(`${cmd} ${t.p.name} ${min || ''}`); return min ? `ห้าม ${t.p.name} แชท ${min} นาที` : `ปลดห้ามแชท ${t.p.name}`;
+    }
+    case 'reports': {
+      const n = Math.max(1, Math.min(20, int(args[0], 5)));
+      const list = await ctx.listReports?.(n) ?? [];
+      if (!list.length) return 'ยังไม่มีรายงาน';
+      return list.map(r => `#${r.id} ${String(r.created).slice(5, 16).replace('T', ' ')} ${r.target} · ${r.reason}${r.note ? ` · ${r.note}` : ''} · โดย ${r.reporter}${r.evidence?.length ? ` · ล่าสุด: "${r.evidence.at(-1).text}"` : ''}`).join('  ▸ ');
     }
     case 'time': {
       const h = Number(args[0]); if (!Number.isFinite(h) || h < 0 || h >= 24) return 'ใส่ชั่วโมง 0–23.9 เช่น time 20 (กลางคืน 19:30–05:00)';

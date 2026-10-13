@@ -82,7 +82,7 @@ import { gm, GM_PREFIX, GM_COMMANDS } from './gm.js';
 import { openAdminRoles } from './adminRoles.js';
 import { authenticatedAdmin } from './gm-authority.js';
 import { setGmTitleAccess } from '../src/data/titleAccess.js';
-import { FRIENDS_MAX } from '../src/character/Character.js';
+import { FRIENDS_MAX, BLOCK_MAX } from '../src/character/Character.js';
 import { createRanking, RANKING } from './ranking.js';
 import { ALLY_FOCUS, allyHeal, castInfo } from '../src/training/kitCombat.js';
 import { monsterAttackMul } from '../src/combat/statusEffects.js';
@@ -95,6 +95,7 @@ import { recallWhy, RecallCasts } from './recall.js';
 import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-warp.js';
 import { StashService, stashMessage } from './stash.js';
 import { TempleFairService } from './temple-fair.js';
+import { CHAT_RULES, ChatHistory, maskRude } from './chat-guard.js';
 import { createShutdown } from './shutdown.js';
 import { WorldClock, wallHour } from '../src/core/WorldClock.js';
 
@@ -372,7 +373,7 @@ async function handle(ws, raw) {
       case 'wbjoin': joinWorldBoss(ws); break;
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': case 'pvp_mode': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
-      case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': socialMsg(ws, m); break;
+      case 'w': case 'who': case 'friends': case 'fadd': case 'fdel': case 'block': case 'unblock': case 'blocks': case 'report': socialMsg(ws, m); break;
       case 'ttl': {   // earned titles, or all catalog titles for a freshly authenticated GM
         const p = presence.players.get(ws), s = p && combatants.get(p.id); if (!p) return;
         const token = gmTokens.get(ws), epoch = gmRoleEpoch.get(p.account) ?? 0;
@@ -430,11 +431,23 @@ async function handle(ws, raw) {
           pvpState(p.id);   // a level set by GM may open or close free PK
           send(ws, { t: 'c', id: null, name: '🛠️ GM', kind: 'gm', text }); break;
         }
-        if (muted(p)) { send(ws, { t: 'c', id: null, name: 'ระบบ', text: 'คุณถูกห้ามแชทชั่วคราว' }); break; }
+        const sys = text => send(ws, { t: 'c', id: null, name: 'ระบบ', text });
+        if (muted(p)) { sys(mutedText(p)); break; }
         if (m.scope !== undefined && m.scope !== 'world' && m.scope !== 'area') break;
+        const world = m.scope !== 'area';
+        // the world channel: signed-in, Lv 5+, one line every few seconds (GMs exempt)
+        if (world && !p.admin) {
+          const s = combatants.get(p.id);
+          if (!s?.persist) { sys('ผู้มาเยือนคุยได้ในช่องพื้นที่ · เข้าสู่ระบบเพื่อคุยช่องโลก'); break; }
+          if ((s.c?.level ?? 1) < CHAT_RULES.worldMinLevel) { sys(`ช่องโลกคุยได้ตั้งแต่ Lv ${CHAT_RULES.worldMinLevel} · ตอนนี้คุยในช่องพื้นที่ได้`); break; }
+          const wait = (p.worldAt ?? -Infinity) + CHAT_RULES.worldEvery * 1000 - Date.now();
+          if (wait > 0) { sys(`ช่องโลกส่งได้ทุก ${CHAT_RULES.worldEvery} วินาที · รออีก ${Math.ceil(wait / 1000)} วินาที`); break; }
+        }
         const r = presence.chat(ws, m.text); if (!r) break;
-        if (m.scope === 'area') toMap(p.room, { ...r, kind: 'area' });
-        else toAll(r);
+        if (world) p.worldAt = Date.now();
+        const line = { ...r, text: maskRude(r.text), ...(world ? {} : { kind: 'area' }) };
+        chatOut(line, world ? null : p.room);
+        chatHistory.add(line, world ? null : p.room);
         break;
       }
       case 'ch': { const p = presence.players.get(ws); if (p) combatants.set(p.id, m.data, p.cls); break; }
@@ -721,6 +734,8 @@ function partyMsg(ws, m) {
   const no = (why, name) => send(ws, { t: 'pno', why: PARTY_WHY.has(why) ? why : 'expired', ...(name ? { name } : {}) });
   if (m.t === 'pinv') {
     const to = byId(Number(m.id)); if (!to) return no('offline');
+    // someone who blocked the inviter: the same answer as a refusal (the block stays private)
+    if (blocks(to.p.id, me.name)) return send(ws, { t: 'pno', why: 'declined', name: to.p.name });
     if (!!combatants.get(me.id)?.persist !== !!combatants.get(to.p.id)?.persist) return no('guest', to.p.name);   // a guest and a signed-in character cannot share one
     const r = parties.invite(me.id, to.p.id); if (!r.ok) return no(r.why, to.p.name);
     send(to.ws, { t: 'pinv', from: me.id, name: me.name });
@@ -737,9 +752,9 @@ function partyMsg(ws, m) {
   } else if (m.t === 'plead') {
     const party = parties.promote(me.id, Number(m.id)); if (party) sendParty(party.id);
   } else if (m.t === 'pc') {
-    if (muted(me)) return;
+    if (muted(me)) return send(ws, { t: 'c', id: null, name: 'ระบบ', text: mutedText(me) });
     const pid = parties.of(me.id), r = pid && presence.chat(ws, m.text); if (!r) return;
-    tellParty(parties.members(pid), { t: 'pc', name: me.name, text: r.text });
+    tellParty(parties.members(pid).filter(id => !blocks(id, me.name)), { t: 'pc', id: me.id, name: me.name, text: maskRude(r.text) });
   }
 }
 // a trade needs both signed in, alive, out of a fight, in the same room within TRADE.range
@@ -768,7 +783,8 @@ function tradeMsg(ws, m) {
   const me = presence.players.get(ws); if (!me) return;
   const no = why => send(ws, { t: 'tno', why });
   if (m.t === 'treq') {
-    const to = byId(Number(m.id)), why = tradeWhy(me, to?.p) ?? trades.request(me.id, to.p.id); if (why) return no(why);
+    const to = byId(Number(m.id)); if (to && blocks(to.p.id, me.name)) return no('declined');
+    const why = tradeWhy(me, to?.p) ?? trades.request(me.id, to.p.id); if (why) return no(why);
     send(to.ws, { t: 'treq', from: me.id, name: me.name });
   } else if (m.t === 'tans') {
     const from = byId(Number(m.from));
@@ -862,12 +878,29 @@ function socialMsg(ws, m) {
   const me = presence.players.get(ws); if (!me) return;
   const s = combatants.get(me.id), sys = text => send(ws, { t: 'c', id: null, name: 'ระบบ', text });
   if (m.t === 'w') {
-    if (muted(me)) return sys('คุณถูกห้ามแชทชั่วคราว');
+    if (muted(me)) return sys(mutedText(me));
     const to = byName(m.to, me); if (!to) return sys(`ไม่พบผู้เล่น "${String(m.to ?? '').slice(0, 16)}" ที่ออนไลน์`);
     const r = presence.chat(ws, m.text); if (!r) return;
-    send(to.ws, { t: 'w', from: me.name, text: r.text }); send(ws, { t: 'w', to: to.p.name, text: r.text, echo: true });
+    const text = maskRude(r.text);
+    // a whisper to someone who blocked the sender is echoed but never delivered (the block stays private)
+    if (!blocks(to.p.id, me.name)) send(to.ws, { t: 'w', from: me.name, text });
+    send(ws, { t: 'w', to: to.p.name, text, echo: true });
   } else if (m.t === 'who') send(ws, { t: 'who', list: whoList() });
   else if (m.t === 'friends') send(ws, { t: 'friends', list: friendList(me.id) });
+  else if (m.t === 'blocks') send(ws, { t: 'blocks', list: s?.c?.blocked ?? [] });
+  else if (m.t === 'block' || m.t === 'unblock') {
+    if (!s?.c) return;
+    const name = String(m.name ?? '').trim().slice(0, 16); if (!name) return;
+    const list = s.c.blocked ??= [];
+    if (m.t === 'block') {
+      if (name.toLowerCase() === me.name.toLowerCase()) return sys('บล็อกตัวเองไม่ได้');
+      if (list.includes(name)) return sys(`บล็อก ${name} อยู่แล้ว`);
+      if (list.length >= BLOCK_MAX) return sys(`บล็อกได้สูงสุด ${BLOCK_MAX} คน`);
+      list.push(name); sys(`บล็อก ${name} แล้ว · จะไม่เห็นแชท กระซิบ และคำเชิญจากคนนี้`);
+    } else { s.c.blocked = list.filter(n => n !== name); sys(`เลิกบล็อก ${name} แล้ว`); }
+    if (s.persist) s.dirty = true;
+    send(ws, { t: 'blocks', list: s.c.blocked });
+  } else if (m.t === 'report') report(ws, me, m);
   else if (m.t === 'fadd' || m.t === 'fdel') {
     if (!s?.persist) return sys('ต้องเข้าสู่ระบบจึงมีรายชื่อเพื่อนได้');
     const name = String(m.name ?? '').slice(0, 16);
@@ -884,10 +917,51 @@ function socialMsg(ws, m) {
 
 // ---- GM commands (server/gm.js): accounts in ADMIN_IDS ---------------------------------------
 const mutes = new Map();   // ADMIN_IDS + GM_ID · account (or session) → muted until (ms)
+// account mutes are kept in the store and come back after a restart; a guest's lasts its session
+try { for (const { account, until } of await store.listMutes?.() ?? []) mutes.set(account, until); }
+catch (e) { console.warn('mutes', e.message); }
+const saveMute = (key, until) => { if (!key.startsWith('s') || !/^s\d+$/.test(key)) Promise.resolve(store.setMute?.(key, until)).catch(e => console.warn('mute save', e.message)); };
 const muted = p => (mutes.get(p.account ?? `s${p.id}`) ?? 0) > Date.now();
+const mutedText = p => { const left = Math.ceil(((mutes.get(p.account ?? `s${p.id}`) ?? 0) - Date.now()) / 60000);
+  return `คุณถูกห้ามแชทอีก ${left >= 60 ? `${Math.floor(left / 60)} ชั่วโมง ${left % 60} นาที` : `${left} นาที`}`; };
+// ---- chat delivery: blocks, history, reports (server/chat-guard.js) ------------------------------
+const chatHistory = new ChatHistory();
+// does player `id` block `name`?
+const blocks = (id, name) => !!combatants.get(id)?.c?.blocked?.includes(name);
+// a public line to everyone (room = null) or one room, skipping those who blocked the speaker
+function chatOut(line, room) {
+  const text = JSON.stringify(line);
+  for (const [ws] of conns) {
+    const o = presence.players.get(ws);
+    if (!o || ws.readyState !== 1 || (room && o.room !== room) || blocks(o.id, line.name)) continue;
+    ws.send(text);
+  }
+}
+const historySent = new WeakSet();
+function sendHistory(ws) {
+  const p = presence.players.get(ws); if (!p || historySent.has(ws)) return;
+  historySent.add(ws);
+  const lines = chatHistory.for(p.room).filter(l => !blocks(p.id, l.name));
+  if (lines.length) send(ws, { t: 'chist', lines });
+}
+const REPORT_REASONS = new Set(['rude', 'spam', 'cheat', 'scam', 'other']);
+function report(ws, me, m) {
+  const sys = text => send(ws, { t: 'c', id: null, name: 'ระบบ', text });
+  const target = String(m.name ?? '').trim().slice(0, 16), reason = REPORT_REASONS.has(m.reason) ? m.reason : 'other';
+  if (!target || target.toLowerCase() === me.name.toLowerCase()) return sys('ใส่ชื่อผู้เล่นที่จะรายงาน');
+  const wait = (me.reportAt ?? -Infinity) + CHAT_RULES.reportEvery * 1000 - Date.now();
+  if (wait > 0) return sys(`รายงานได้อีกครั้งในอีก ${Math.ceil(wait / 1000)} วินาที`);
+  me.reportAt = Date.now();
+  const entry = { reporter: me.account ?? `guest:${me.name}`, target, reason, note: String(m.note ?? '').replace(/[\u0000-\u001f<>]/g, '').slice(0, 200),
+    evidence: chatHistory.by(target) };
+  Promise.resolve(store.addReport?.(entry)).catch(e => console.warn('report save', e.message));
+  console.log('[report]', JSON.stringify({ reporter: entry.reporter, target, reason }));
+  for (const [gws, o] of presence.players) if (o.admin) send(gws, { t: 'c', id: null, name: '🛠️ GM', kind: 'gm', text: `รายงานใหม่: ${target} · ${reason} · โดย ${me.name}` });
+  sys(`ส่งรายงาน ${target} ให้ทีมงานแล้ว · ขอบคุณที่ช่วยดูแลชุมชน`);
+}
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
+const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, saveMute, listReports: n => store.listReports?.(n) ?? [], moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
 
 async function sendWelcome(ws, message) {
   const p = presence.players.get(ws), room = p?.room, persisted = p && combatants.get(p.id)?.persist;
@@ -902,6 +976,7 @@ async function sendWelcome(ws, message) {
   if (p && presence.players.get(ws) === p && p.room === room) {
     const { admin, gmCommands, accountUid, characterUid, ...safe } = message;
     send(ws, { ...safe, ...identity, ...gmMetadata(p) });
+    sendHistory(ws);   // recent public lines, once per connection
   }
 }
 function gmMetadata(p) {

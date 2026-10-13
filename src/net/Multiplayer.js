@@ -1,6 +1,8 @@
+import * as THREE from 'three';
 import { NetClient, serverUrl } from './NetClient.js';
 import { ChatBox } from './ChatBox.js';
 import { RemotePlayers } from './RemotePlayers.js';
+import { SpeechBubbles } from './SpeechBubbles.js';
 import { attachNetCombat } from './NetCombat.js';
 import { attachNetProgress } from './NetProgress.js';
 import { attachSocial } from './Social.js';
@@ -26,6 +28,7 @@ import { setGmTitleAccess, canWearTitle } from '../data/titleAccess.js';
 // Channels (server/channels.js): the CH badge on the minimap shows this player's channel of the
 // map; clicking it lists the open ones to switch to (out of a fight, once a minute).
 const SEND_EVERY = .1, KEEPALIVE = 1;
+const bubblePoint = new THREE.Vector3();
 const LOCAL_DEV = import.meta.env?.DEV || ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 
 export function startMultiplayer(game) {
@@ -33,6 +36,13 @@ export function startMultiplayer(game) {
   const remote = new RemotePlayers(game.scene, document.getElementById('nameplates'), (x, z) => game.world?.heightAt(x, z) ?? 0);
   const net = new NetClient(serverUrl());
   const chat = new ChatBox((text, channel) => net.send({ t: 'c', text, scope: channel === 'area' ? 'area' : 'world' }));
+  // speech bubbles over heads: the speaker's id → a point just above the name plate
+  let myId = null;
+  const headOf = id => {
+    if (id === myId) { const g = player.group.position; return bubblePoint.set(g.x, g.y + 2.75, g.z); }
+    const r = remote.list.get(id); return r && r.model.group.visible ? bubblePoint.set(r.x, r.model.group.position.y + 2.75, r.z) : null;
+  };
+  const bubbles = chat.bubbles = new SpeechBubbles(document.getElementById('nameplates'), headOf);
   const refreshWhisperContacts = () => chat.setWhisperContacts([...remote.list.values()].map(p=>p.name), c.name);
   for(const event of ['welcome','join','leave','status'])net.on(event,()=>queueMicrotask(refreshWhisperContacts));
   game.game.hud.feed.connectChat(chat);
@@ -45,7 +55,7 @@ export function startMultiplayer(game) {
     chat.setGmCatalog(m.admin === true ? m.gmCommands : null); game.setDev?.(LOCAL_DEV || m.admin === true);
   };
   const chan = new ChannelPicker(ch => net.send({ t: 'chan', ch }), () => net.send({ t: 'chans' }));
-  net.on('welcome', m => { setIdentity(m); if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
+  net.on('welcome', m => { myId = m.you; bubbles.clear(); setIdentity(m); if (m.name && m.name !== c.name) { c.name=m.name; c.emit('change'); } gmAccess(m); remote.clear(); for (const p of m.roster) remote.set(p); chat.setOnline(m.online); chan.set(m.ch ?? 1, m.chs); })
     .on('gmAccess', gmAccess)
     .on('identity', m => { setIdentity(m); if (!m.characterUid) game.questNav?.cancel(); })
     .on('chans', m => chan.set(m.ch, m.list, true))
@@ -61,12 +71,18 @@ export function startMultiplayer(game) {
     .on('a', m => remote.anim(m.id, m.clip, m.sp))
     .on('lv', m => remote.level(m.id, m.lv))
     .on('ttl', m => remote.setTitle(m.id, m.title))   // someone's worn title (src/data/titles.js)
-    .on('c', m => chat.add(m.name, m.text, m.kind ?? '', m.title))
+    .on('c', m => {
+      if (m.id != null && chat.isBlocked?.(m.name)) return;
+      chat.add(m.name, m.text, m.kind ?? '', m.title);
+      if (m.id != null) bubbles.say(m.id, m.text, m.kind || 'world');   // only someone in this room (or you) has a head here
+    })
+    // recent public lines, once after joining (server/chat-guard.js ChatHistory)
+    .on('chist', m => chat.addHistory((m.lines ?? []).filter(l => !chat.isBlocked?.(l.name))))
     // a GM's commands (server/gm.js): sent somewhere, HP set
     .on('gmwarp', m => { const maps = game.maps; if (maps.map?.id === m.map) maps.place({ x: m.x, z: m.z, facing: game.player.group.rotation.y }); else maps.travel({ to: m.map, arrive: { x: m.x, z: m.z } }); })
     .on('gmhp', m => { if (m.pct === 0) { game.game.combat?.knockOut(); return; } c.hp = Math.round(c.maxHp * m.pct / 100); if (m.mp) c.mp = c.maxMp; c.emit('change'); })
     .on('online', m => chat.setOnline(m.n))
-    .on('status', on => { chat.setStatus(on, net.closed); chan.online(on); if (!on) { game.questNav?.cancel(); remote.clear(); gmAccess({admin:false}); } });
+    .on('status', on => { chat.setStatus(on, net.closed); chan.online(on); if (!on) { game.questNav?.cancel(); remote.clear(); bubbles.clear(); gmAccess({admin:false}); } });
   // a signed-in player sends its session: the server then shows the character it has saved
   const session = () => { try { const s = JSON.parse(sessionStorage.getItem('tno.session.v1') ?? 'null'); return s?.token ? { token: s.token, slot: s.slot } : {}; } catch { return {}; } };
   const combat = game.game?.combat ? attachNetCombat(net, game) : null;   // shared monsters (phase 3a)
@@ -100,9 +116,10 @@ export function startMultiplayer(game) {
 
   return {
     net, remote, chat, social, meters,
-    enterMap(id) { map = id; last = null; remote.clear(); net.send({ t: 'map', map: id, ...pos() }); },
+    enterMap(id) { map = id; last = null; remote.clear(); bubbles.clear(); net.send({ t: 'map', map: id, ...pos() }); },
     update(dt, camera) {
       remote.update(dt, camera, document.getElementById('world'));
+      bubbles.update(dt, camera, document.getElementById('world'));
       skillsFx.update(dt);
       meters.update(dt, camera);
       combat?.update(dt);

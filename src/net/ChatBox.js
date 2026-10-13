@@ -2,6 +2,8 @@ import { titleHtml } from '../ui/titleTag.js';
 import { draggable } from '../ui/draggable.js';
 import './chat-tabs.css';
 
+// lines kept per tab (older ones drop off the top)
+const HISTORY_LINES = 100;
 const CHANNELS = { general: 'โลก', area: 'พื้นที่', party: 'ปาร์ตี้', whisper: 'กระซิบ', system: 'ระบบ' };
 
 // Social supplies filter(text); keep its command parsing and server authority intact.
@@ -137,7 +139,7 @@ export class ChatBox {
     this.input.setAttribute('aria-label', system ? 'คำสั่ง Admin' : 'ข้อความแชท');
     this.root.querySelector('.chat-send').textContent = system ? 'รัน' : 'ส่ง';
     this.recipientRow.hidden = this.channel !== 'whisper';
-    this.input.placeholder = system ? '/gm help · พิมพ์คำสั่ง Admin' : this.channel === 'area' ? 'ข้อความถึงแผนที่และ CH นี้' : this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? `ข้อความถึง ${this.recipient.value || 'ผู้รับที่เลือก'}` : 'ข้อความถึงทุกคนในเซิร์ฟเวอร์';
+    this.input.placeholder = system ? '/gm help · พิมพ์คำสั่ง Admin' : this.channel === 'area' ? 'ข้อความถึงแผนที่และ CH นี้' : this.channel === 'party' ? 'ข้อความถึงปาร์ตี้' : this.channel === 'whisper' ? `ข้อความถึง ${this.recipient.value || 'ผู้รับที่เลือก'}` : 'ถึงทุกคนในเซิร์ฟเวอร์ · Lv 5 ขึ้นไป · ทุก 5 วินาที';
     this.paintUnread();
   }
 
@@ -257,10 +259,31 @@ export class ChatBox {
     const atBottom = this.lines.scrollHeight - this.lines.scrollTop - this.lines.clientHeight < 24;
     this.lines.append(line);
     const history = [...this.lines.children].filter(item => item.dataset.channel === channel);
-    while (history.length > 30) history.shift().remove();
+    while (history.length > HISTORY_LINES) history.shift().remove();
     if (this.visible(channel)) this.markRead(); else { this.unread[channel]++; this.paintUnread(); }
     if (atBottom) this.lines.scrollTop = this.lines.scrollHeight;
     setTimeout(() => line.classList.add('old'), 12000);
+  }
+
+  // Recent public lines the server replays once after joining (server/chat-guard.js): shown dimmed,
+  // with a divider, and never counted as unread.
+  addHistory(lines) {
+    if (this.historyShown || !Array.isArray(lines) || !lines.length) return;
+    this.historyShown = true;
+    const unread = { ...this.unread }, used = new Set();
+    for (const l of lines) {
+      if (typeof l?.name !== 'string' || typeof l?.text !== 'string') continue;
+      this.add(l.name, l.text, l.kind === 'area' ? 'area' : '', l.title ?? null);
+      const line = this.lines.lastElementChild; line?.classList.add('hist', 'old'); if (line) used.add(line.dataset.channel);
+      if (line && Number.isFinite(l.at)) line.title = new Date(l.at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+    }
+    for (const channel of used) {
+      const divider = document.createElement('p'); divider.className = 'chat-divider'; divider.dataset.channel = channel;
+      divider.hidden = channel !== this.channel; divider.textContent = 'ข้อความก่อนหน้านี้ ↑';
+      this.lines.append(divider);
+    }
+    this.unread = unread; this.paintUnread();
+    this.lines.scrollTop = this.lines.scrollHeight;
   }
 
   setOnline(n) { this.online.textContent = `ออนไลน์ ${n} คน`; }

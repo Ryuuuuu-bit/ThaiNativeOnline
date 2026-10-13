@@ -68,7 +68,7 @@ export function partyBoardPane(st) {
 }
 
 // ---- เพื่อน ----------------------------------------------------------------------------
-// st: { friends, filter, search, party, me, nearby: [{ id, name, cls, lv, dist }], notes: [{ kind, name, cls, at }] }
+// st: { friends, filter, search, party, me, nearby: [{ id, name, cls, lv, dist }], notes: [{ kind, name, cls, at }], blocked: [name] }
 export function friendsPane(st) {
   const inParty = new Set(st.party?.members.map(p => p.id) ?? []), mine = inParty.has(st.me);
   const q = st.search.trim().toLowerCase();
@@ -97,6 +97,7 @@ export function friendsPane(st) {
         <small class="sw-sub">ผู้เล่นใกล้คุณ</small>${near || '<p class="sw-empty sm">ไม่มีผู้เล่นอื่นอยู่ใกล้ ๆ</p>'}
         <p class="sw-note">เพิ่มได้ทันทีไม่ต้องรอตอบรับ อีกฝ่ายจะได้รับแจ้ง และกดเพิ่มกลับได้ เพื่อนสูงสุด ${FRIENDS_MAX} คน</p></section>
       <section class="sw-box"><b class="sw-h">แจ้งเตือน</b>${notes || '<p class="sw-empty sm">ยังไม่มีอะไรใหม่</p>'}</section>
+      <section class="sw-box sw-blocked"><b class="sw-h">บล็อก ${(st.blocked ?? []).length}</b>${(st.blocked ?? []).map(name => `<div class="sw-mini"><span class="sw-who"><b>${esc(name)}</b><small>ไม่เห็นแชท กระซิบ และคำเชิญ</small></span><button class="sw-btn dark sm" data-unblock="${esc(name)}">เลิกบล็อก</button></div>`).join('') || '<p class="sw-empty sm">ยังไม่ได้บล็อกใคร · คลิกชื่อผู้เล่นแล้วเลือก "บล็อก" หรือพิมพ์ /block ชื่อ</p>'}</section>
       <section class="sw-box"><b class="sw-h">คลิกชื่อผู้เล่นในโลก</b>
         <div class="sw-demo"><header>${esc(demo.name)} · ${clsName(demo.cls)} Lv ${demo.lv}</header><span>กระซิบ</span><span>เพิ่มเพื่อน</span><span>ชวนเข้าปาร์ตี้</span><span class="on">ขอแลกของ</span></div></section>
     </aside></div>`;

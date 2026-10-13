@@ -94,13 +94,15 @@ test('chat scope routes by authoritative map and channel', { timeout: 30000 }, a
     await cooldown();
     await broadcast({ scope: 'area', text: 'spoofed room', map: 'city', ch: 2, room: 'paddy#2', kind: 'world' }, sameRoom, 'area');
   });
-  await t.test('explicit World reaches everyone with the existing packet shape', async () => {
+  // World delivery for signed-in Lv 5+ players: tests/chat-moderation.integration.test.js
+  await t.test('guests cannot use World (explicit or legacy scope); they are told why', async () => {
     await cooldown();
-    await broadcast({ scope: 'world', text: 'explicit world' }, peers, undefined);
-  });
-  await t.test('old clients without scope still reach everyone', async () => {
-    await cooldown();
-    await broadcast({ text: 'legacy world' }, peers, undefined);
+    for (const message of [{ scope: 'world', text: 'explicit world' }, { text: 'legacy world' }]) {
+      sender.send({ t: 'c', ...message });
+      await settle();
+      for (const peer of peers) assert.equal(received(peer, message.text).length, 0);
+    }
+    assert.ok(sender.chats.some(m => m.id === null && /ช่องพื้นที่/.test(m.text)));
   });
   await t.test('invalid scopes never fall back to World or leak to any player', async () => {
     await cooldown();
@@ -111,12 +113,12 @@ test('chat scope routes by authoritative map and channel', { timeout: 30000 }, a
     for (const peer of peers) assert.ok(!peer.chats.some(message => message.text.startsWith('invalid scope')));
     await broadcast({ scope: 'area', text: 'valid after rejection' }, sameRoom, 'area');
   });
-  await t.test('area and World share the existing chat throttle', async () => {
+  await t.test('area lines keep the chat throttle', async () => {
     await cooldown();
     sender.send({ t: 'c', scope: 'area', text: 'throttle area' });
-    sender.send({ t: 'c', scope: 'world', text: 'throttle world' });
+    sender.send({ t: 'c', scope: 'area', text: 'throttle area 2' });
     await settle();
     assert.equal(received(sender, 'throttle area').length, 1);
-    for (const peer of peers) assert.equal(received(peer, 'throttle world').length, 0);
+    for (const peer of peers) assert.equal(received(peer, 'throttle area 2').length, 0);
   });
 });

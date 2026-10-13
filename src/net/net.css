@@ -151,3 +151,13 @@ button.soc-card.empty { cursor: pointer; } button.soc-card.empty:hover { border-
 .plate.is-self { color: #ffe9b0; }
 .plate.is-self small { color: #e0cf9e; }
 #nameplates.hide-others .plate.is-player { display: none; }
+
+/* speech bubbles over heads (src/net/SpeechBubbles.js) */
+.speech-bubble{position:absolute;left:0;top:0;margin-top:-30px;max-width:220px;padding:5px 10px;border-radius:12px;background:#fff8e8f2;color:#2f2418;font:600 13px/1.35 var(--font-ui,inherit);text-align:center;word-break:break-word;box-shadow:0 2px 8px #0006;pointer-events:none;white-space:normal;transition:opacity .2s}
+.speech-bubble::after{content:'';position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#fff8e8f2}
+.speech-bubble[data-kind=party]{background:#e3f1ffef;color:#173048}.speech-bubble[data-kind=party]::after{border-top-color:#e3f1ffef}
+.speech-bubble[data-kind=world]{background:#fff1c9f2}.speech-bubble[data-kind=world]::after{border-top-color:#fff1c9f2}
+.photo-mode .speech-bubble{display:none}
+/* replayed lines and the divider under them (ChatBox.addHistory) */
+.net-chat .net-lines p.hist{opacity:.6}
+.net-chat .net-lines p.chat-divider{margin:4px 0;text-align:center;font-size:11px;color:#e8d4a2aa;border-top:1px dashed #e8d4a255;padding-top:2px}

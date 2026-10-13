@@ -55,13 +55,27 @@ export function attachSocial(net, c, chat, remote, game = null) {
   remote.onPick = (r, x, y) => {
     if (party?.members.some(p => p.id === r.id)) setAlly(r.id);   // a party member's name: also the friend heals go to
     menu.innerHTML = `<header>${esc(r.name)} · ${CLASSES[r.cls]?.name ?? ''} Lv ${r.lv}</header>
-      <button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button><button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกของ</button><button data-act="duel_request">ท้าดวล</button><button data-act="pvp_target">เลือกเป้าหมาย PK</button>`;
+      <button data-act="w">กระซิบ</button><button data-act="fadd">เพิ่มเพื่อน</button><button data-act="pinv">ชวนเข้าปาร์ตี้</button><button data-act="treq">ขอแลกของ</button><button data-act="duel_request">ท้าดวล</button><button data-act="pvp_target">เลือกเป้าหมาย PK</button>
+      <button data-act="${blocked.has(r.name) ? 'unblock' : 'block'}">${blocked.has(r.name) ? 'เลิกบล็อก' : 'บล็อก'}</button><button data-act="report">รายงาน…</button>`;
     menu.dataset.id = r.id; menu.dataset.name = r.name; menu.style.left = `${Math.max(90, Math.min(innerWidth - 90, x))}px`; menu.style.top = `${Math.max(8, Math.min(innerHeight - 140, y))}px`; menu.hidden = false;
+  };
+  // ---- block list (server/index.js keeps it on the character) and reports ----
+  const blocked = chat.blocked = new Set(c.blocked ?? []);
+  chat.isBlocked = name => blocked.has(name);
+  net.on('welcome', () => net.send({ t: 'blocks' }));
+  net.on('blocks', m => { blocked.clear(); for (const n of m.list ?? []) blocked.add(n); c.blocked = [...blocked]; if (tab === 'friends') renderSoc(); });
+  const REASONS = [['rude', 'คำหยาบ / คุกคาม'], ['spam', 'สแปม / ขายของ'], ['cheat', 'โกง / ใช้บอท'], ['scam', 'หลอกลวง'], ['other', 'อื่น ๆ']];
+  const openReport = (name, left, top) => {
+    menu.innerHTML = `<header>รายงาน ${esc(name)} · เลือกเหตุผล</header>${REASONS.map(([id, label]) => `<button data-act="report_reason" data-reason="${id}">${label}</button>`).join('')}`;
+    menu.dataset.name = name; menu.style.left = left; menu.style.top = top; menu.hidden = false;
   };
   menu.addEventListener('click', e => {
     const b = e.target.closest('[data-act]'); if (!b) return;
     menu.hidden = true;
     if (b.dataset.act === 'w') { chat.startWhisper(menu.dataset.name); return; }
+    if (b.dataset.act === 'block' || b.dataset.act === 'unblock') { net.send({ t: b.dataset.act, name: menu.dataset.name }); return; }
+    if (b.dataset.act === 'report') { openReport(menu.dataset.name, menu.style.left, menu.style.top); return; }
+    if (b.dataset.act === 'report_reason') { net.send({ t: 'report', name: menu.dataset.name, reason: b.dataset.reason }); return; }
     if (b.dataset.act === 'fadd') { net.send({ t: 'fadd', name: menu.dataset.name }); return; }
     if (b.dataset.act === 'pvp_target') { game.net?.social?.pvp?.pick(Number(menu.dataset.id),menu.dataset.name); return; }
     net.send({ t: b.dataset.act, id: Number(menu.dataset.id) });
@@ -134,7 +148,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     if (key !== lastPartyKey) { lastPartyKey = key; renderParty(); noteFallen(); }   // the 1 Hz broadcast redraws only what changed
   });
   let lastPartyKey = '';
-  net.on('pc', m => chat.add(`[ปาร์ตี้] ${m.name}`, m.text, 'party'));
+  net.on('pc', m => { if (blocked.has(m.name)) return; chat.add(`[ปาร์ตี้] ${m.name}`, m.text, 'party'); chat.bubbles?.say(m.id, m.text, 'party'); });
   net.on('status', on => { if (!on) { party = null; lastPartyKey = ''; bst.data = null; bst.loading = false; bst.notice = ''; bst.draftFor = null; renderParty(); closeTrade(); } });
   // a member's frame picks them as the friend heals go to (again: unpick); the header opens the party tab
   frame.addEventListener('click', e => {
@@ -187,10 +201,14 @@ export function attachSocial(net, c, chat, remote, game = null) {
     if (w) { net.send({ t: 'w', to: w[1], text: w[2] }); return true; }
     const r = /^\/r\s+(.+)/.exec(text);
     if (r) { if (lastFrom) net.send({ t: 'w', to: lastFrom, text: r[1] }); else chat.add('ระบบ', 'ยังไม่มีใครกระซิบมา'); return true; }
-    if (/^\/(w|r|p)\b/.test(text)) { chat.add('ระบบ', 'ใช้: /p ข้อความ · /w ชื่อ ข้อความ · /r ข้อความ'); return true; }
+    const bl = /^\/(block|unblock)\s+(\S+)/.exec(text);
+    if (bl) { net.send({ t: bl[1], name: bl[2] }); return true; }
+    const rp = /^\/report\s+(\S+)(?:\s+(.+))?/.exec(text);
+    if (rp) { net.send({ t: 'report', name: rp[1], reason: 'other', note: rp[2] ?? '' }); return true; }
+    if (/^\/(w|r|p|block|unblock|report)\b/.test(text)) { chat.add('ระบบ', 'ใช้: /p ข้อความ · /w ชื่อ ข้อความ · /r ข้อความ · /block ชื่อ · /unblock ชื่อ · /report ชื่อ เหตุผล'); return true; }
     return false;
   };
-  net.on('w', m => { if (!m.echo) lastFrom = m.from; chat.addWhisper(m); });
+  net.on('w', m => { if (!m.echo && blocked.has(m.from)) return; if (!m.echo) lastFrom = m.from; chat.addWhisper(m); });
   // friends coming online and adding us: a chat line and the friends tab's notices
   const notes = [];
   const note = (kind, name, cls) => { notes.unshift({ kind, name, cls: cls ?? lists.friends.find(f => f.name === name)?.cls, at: Date.now() }); notes.length = Math.min(notes.length, 8); if (tab === 'friends') renderSoc(); };
@@ -278,7 +296,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     const fname = soc.querySelector('[data-fname]')?.value ?? '', scroll = [...soc.querySelectorAll('.sw-list, .sw-tgrid, .sw-table, .sb-list, .sb-side')].map(e => e.scrollTop);
     const body = tab === 'party' ? partyPane()
       : tab === 'board' ? partyBoardPane({ ...bst, party, me, online: net.online })
-      : tab === 'friends' ? friendsPane({ ...fst, friends: lists.friends, party, me, nearby: nearby(), notes })
+      : tab === 'friends' ? friendsPane({ ...fst, friends: lists.friends, party, me, nearby: nearby(), notes, blocked: [...blocked] })
         : tab === 'titles' ? titlesPane({ c, ...tst })
           : rankPane({ ...rst, name: c.name, myCls: c.classId, myTitle: c.title });
     soc.innerHTML = `<header><kbd>P</kbd><b>สังคม</b><button data-close aria-label="ปิด">✕</button></header>${tabs()}<div class="sw-body">${body}</div>`;
@@ -309,6 +327,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
     else if (d.fadd) net.send({ t: 'fadd', name: d.fadd });
     else if (d.fnameGo !== undefined) { const name = soc.querySelector('[data-fname]')?.value.trim(); if (name) { net.send({ t: 'fadd', name }); soc.querySelector('[data-fname]').value = ''; } }
     else if (d.fdel) net.send({ t: 'fdel', name: d.fdel });
+    else if (d.unblock) net.send({ t: 'unblock', name: d.unblock });
     else if (d.ff) { fst.filter = d.ff; renderSoc(); }
     else if (d.tcat) { tst.cat = d.tcat; renderSoc(); }
     else if (d.tsel) { tst.sel = d.tsel; renderSoc(); }
