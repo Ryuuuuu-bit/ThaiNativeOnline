@@ -96,6 +96,7 @@ import { serviceWarp as planServiceWarp, serviceWarpChannel } from './service-wa
 import { StashService, stashMessage } from './stash.js';
 import { TempleFairService } from './temple-fair.js';
 import { blessRequest } from './ubosot.js';
+import { TempleGrounds } from './templeGrounds.js';
 import { CHAT_RULES, ChatHistory, maskRude } from './chat-guard.js';
 import { createShutdown } from './shutdown.js';
 import { publicNews } from './news.js';
@@ -375,6 +376,7 @@ async function handle(ws, raw) {
       case 'stash_open': case 'stash_move': await stashMsg(ws, m); break;
       case 'fair': await fairMsg(ws, m); break;
       case 'bless': blessMsg(ws, m); break;
+      case 'bell': case 'wish': templeMsg(ws, m); break;
       case 'wbjoin': joinWorldBoss(ws); break;
       case 'duel_request': case 'duel_answer': case 'duel_cancel': case 'pvp_hit': case 'pvp_mode': pvpMsg(ws, m); break;
       case 'pinv': case 'pans': case 'pleave': case 'pkick': case 'plead': case 'pc': partyMsg(ws, m); break;
@@ -539,6 +541,18 @@ function blessMsg(ws, m) {
   const result = blessRequest(p, s, m);
   send(ws, result);
   if (result.ok) { flush(p.id); const c = combatants.me(p.id); if (c) send(ws, { t: 'sync', c }); }
+}
+
+// the bell tower and the Bodhi tree in the temple grounds (server/templeGrounds.js)
+const temple = new TempleGrounds({ mask: maskRude });
+const toCity = msg => { const str = JSON.stringify(msg); for (const [ws] of conns) if (presence.players.get(ws)?.map === 'city' && ws.readyState === 1) ws.send(str); };
+function templeMsg(ws, m) {
+  const p = presence.players.get(ws), s = p && combatants.get(p.id);
+  const request = typeof m?.request === 'string' ? m.request.slice(0, 64) : null;
+  const r = m.t === 'bell' ? temple.ring(p, s) : temple.wish(p, s, m, { muted: !!p && muted(p) });
+  send(ws, { t: `${m.t}_result`, request, ok: r.ok, ...(r.why ? { why: r.why } : {}), ...(r.wait ? { wait: r.wait } : {}) });
+  if (r.ring) toCity(r.ring);
+  if (r.wish) toCity({ t: 'wish', w: r.wish });
 }
 
 async function fairMsg(ws, m) {
@@ -1110,7 +1124,7 @@ function route(map, events, except = null) {
     else toMap(map, e, except);
   }
 }
-const arrive = (ws, map) => { for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id),pk:pvp.open(pvpPlayer(p.id)),...karmaOf(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
+const arrive = (ws, map) => { if (parseRoom(map).map === 'city') send(ws, { t: 'wishes', list: temple.list() }); for (const p of presence.inMap(map)) send(ws, {t:'pvp_state',id:p.id,...pvp.view(p.id),pk:pvp.open(pvpPlayer(p.id)),...karmaOf(p.id)}); send(ws, { t: 'clock', h: +clock.hour.toFixed(3) }); send(ws, { t: 'mlist', m: worldOf(map).list() }); if (bossUp && clock.phase === 'night') send(ws, { t: 'wbnews', state: 'open' }); };   // a late comer sees the standing boss news (the clock may have just moved: --hour, GM time)
 
 // World boss (src/combat/data/worldBoss.js): news to everyone at dusk and at nightfall (the boss
 // rises when its map's monsters run, server/monsters.js); at dawn the night-only maps send everyone

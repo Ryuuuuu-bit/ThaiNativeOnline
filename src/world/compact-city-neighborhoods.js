@@ -1,3 +1,4 @@
+import { TEMPLE_BELL, TEMPLE_BODHI } from '../data/templeGrounds.js';
 // Infill reservations form inhabited blocks around existing services. Buildings
 // and planted beds share these footprints with client/server collision.
 const house=(id,label,x,z,w,d,front,variant)=>({id,label,x,z,w,d,front,variant,kind:'infill',stage:'built',color:'#ae7955'});
@@ -28,6 +29,10 @@ export const CITY_NEIGHBORHOODS=[
   ...[9,16,23,30].flatMap((x,i)=>[-1,1].map(s=>kit(`kit_verge_${s<0?'w':'e'}${i}`,'แนวต้นลีลาวดี',s*x,-36.45,2.4,1.4,'south','verge',{feature:i%2?'flag':'frangipani'}))),
   kit('kit_elephant_w','ช้างทรง',-7.7,-20,4,2.3,'east','elephant'),
   kit('kit_elephant_e','ช้างทรง',7.7,-20,4,2.3,'west','elephant'),
+  // The temple grounds (src/data/templeGrounds.js): guardian giants flanking the ordination
+  // hall's front steps (drawn on its terrace), the bell tower by its east corner, the Bodhi tree
+  // in the lodge's garden.
+  ...[TEMPLE_BELL,TEMPLE_BODHI].map((t,i)=>kit(t.id,t.label,t.x,t.z,t.w,t.d,t.front,i?'bodhi':'bell_tower')),
   kit('kit_prang_w','ปรางค์หน้าประตูเมือง',-21,-56.6,3.4,3.4,'south','prang'),
   kit('kit_prang_e','ปรางค์หน้าประตูเมือง',21.5,-56.6,3.4,3.4,'south','prang'),
   garden('garden_plaza_sw',-6.8,12,2.4,3,'shade'),

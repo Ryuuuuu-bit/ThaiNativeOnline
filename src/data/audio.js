@@ -88,6 +88,13 @@ Object.assign(SFX, {
   blade_cut:   { vary: .1, layers: [{ wave: 'noise', dur: .14, a: .01, gain: .12, filter: { type: 'bandpass', f: [2600, 900], q: 1.4 } }, { wave: 'sine', f: [3300, 3000], dur: .22, at: .02, gain: .03 }] },
   thunder:     { layers: [{ wave: 'noise', dur: .9, a: .01, gain: .3, filter: { type: 'lowpass', f: [1800, 120], q: .7 } }, { wave: 'sine', f: [70, 40], dur: .8, gain: .3 }] },
   // the shaman: a chanted hum as the spell gathers, a whoosh of fire, a sizzle of spirit
+  // หอระฆัง in the temple grounds (src/temple): a bronze temple bell, struck, with a long hum
+  temple_bell: { vary: .01, layers: [
+    { wave: 'sine', f: [196, 194], dur: 3, a: .005, gain: .26 },
+    { wave: 'sine', f: [392, 390], dur: 2.6, a: .005, gain: .1 },
+    { wave: 'sine', f: [494, 492], dur: 1.8, a: .005, gain: .07 },
+    { wave: 'sine', f: [1046, 1040], dur: .7, a: .002, gain: .05 },
+    { wave: 'noise', dur: .06, gain: .12, filter: { type: 'bandpass', f: [1800, 900], q: 1.4 } }] },
   chant:       { vary: .04, layers: [{ wave: 'sawtooth', f: [110, 104], dur: .6, a: .15, gain: .05, filter: { type: 'lowpass', f: [700, 500], q: 4 } }, { wave: 'sine', f: [220, 218], dur: .6, a: .15, gain: .05 }] },
   fire_whoosh: { vary: .1, layers: [{ wave: 'noise', dur: .45, a: .04, gain: .14, filter: { type: 'bandpass', f: [500, 1600], q: .9 } }, { wave: 'sine', f: [160, 70], dur: .35, gain: .08 }] },
   spirit:      { vary: .08, layers: [{ wave: 'sine', f: [880, 660], dur: .5, a: .05, gain: .05 }, { wave: 'noise', dur: .4, a: .1, gain: .05, filter: { type: 'highpass', f: [4000, 2500] } }] },

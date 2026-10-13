@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { gltfLoader } from '../../core/gltf.js';
 import { Sprites } from '../Atmosphere.js';
+import { CITY_MODELS } from './buildCityElephants.js';
 
 // The Ayutthaya kit: modular Thai architecture modelled in Blender
 // (tools/city-kit/ayutthaya_kit.py → public/models/city/ayutthaya-kit.glb). Each top-level node
@@ -93,8 +94,8 @@ export function AYUTTHAYA_PLACEMENTS(city) {
       put('planter', b.x, b.z, ry);
       put(b.feature ?? 'frangipani', b.x - toAvenue * .35, b.z, ry, 1, b.feature === 'flag' ? 1 : 1.45);
       put('lamp', b.x + toAvenue * .85, b.z, ry);
-    } else if (b.variant === 'elephant') {
-      // the royal elephants are a textured Tripo model, drawn by buildCityElephants.js
+    } else if (CITY_MODELS[b.variant]) {
+      // Tripo models (royal elephants, guardian giants, bell tower, Bodhi): buildCityElephants.js
       continue;
     } else put(b.variant, b.x, b.z, ry, 1, b.scale ?? 1);
   }

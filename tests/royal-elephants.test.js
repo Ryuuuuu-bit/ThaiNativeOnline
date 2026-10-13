@@ -29,7 +29,7 @@ test('two royal elephants face the avenue from their reservations; the kit no lo
   const root = new THREE.Group(); root.add(built.root); root.updateMatrixWorld(true);
   assert.equal(built.stats.royalElephants, 2);
   for (const yard of yards) {
-    const g = built.root.getObjectByName(`royal-elephant:${yard.id}`), body = g.getObjectByName('royal-elephant');
+    const g = built.root.getObjectByName(`city-model:${yard.id}`), body = g.getObjectByName('city-model-body');
     const box = new THREE.Box3().setFromObject(body);
     assert.ok(box.min.x >= yard.x - yard.w / 2 && box.max.x <= yard.x + yard.w / 2, `${yard.id} x ${box.min.x.toFixed(2)}…${box.max.x.toFixed(2)}`);
     assert.ok(box.min.z >= yard.z - yard.d / 2 && box.max.z <= yard.z + yard.d / 2, `${yard.id} z ${box.min.z.toFixed(2)}…${box.max.z.toFixed(2)}`);

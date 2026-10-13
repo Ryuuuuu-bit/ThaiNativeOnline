@@ -1,0 +1,27 @@
+/* ต้นโพธิ์ผูกผ้า window and wish tags (src/temple/TempleGrounds.js); same skin as the siamsi window */
+.temple-wish{--t-gold:#e2b96b;--t-paper:#fff3d8;position:fixed;inset:0;z-index:1600;display:grid;place-items:center;padding:clamp(8px,2vw,24px);background:#10140cc9;backdrop-filter:blur(4px);color:var(--t-paper);font-family:inherit}
+.temple-wish[hidden],.temple-wish [hidden]{display:none!important}
+.temple-wish *{box-sizing:border-box}
+.temple-wish-dialog{width:min(100%,440px);max-height:calc(100dvh - 32px);overflow:auto;padding:18px;border:2px solid var(--t-gold);border-radius:18px;background:linear-gradient(160deg,#2f5a33,#14261a);box-shadow:0 20px 70px #0009,inset 0 0 0 4px #edce8620}
+.temple-wish-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.temple-wish-head h2{margin:3px 0;font-size:clamp(19px,4vw,24px)}.temple-wish-head small{color:#eac780}
+.temple-wish button{font:inherit;min-height:44px;border:1px solid #ddbb7b80;border-radius:9px;color:var(--t-paper);background:#ffffff0a;cursor:pointer;padding:8px 12px;touch-action:manipulation}
+.temple-wish button:focus-visible,.temple-wish input:focus-visible{outline:3px solid #fff0ad;outline-offset:2px}.temple-wish button:disabled{opacity:.55;cursor:default}
+.temple-wish-close{min-width:44px}
+.temple-wish-info{font-size:13px;color:#e9dcb3;line-height:1.6;margin:8px 0 12px}
+.temple-wish-form{display:grid;grid-template-columns:1fr auto;gap:6px 8px;align-items:center}
+.temple-wish-form input{grid-column:1/-1;min-height:44px;padding:8px 12px;border-radius:9px;border:1px solid #ddbb7b99;background:#fff8e8;color:#2f2418;font:inherit;font-size:16px}
+.temple-wish-count{font-size:12px;color:#cdbf98}
+.temple-wish .temple-wish-submit{background:linear-gradient(#c8913e,#8f5a1d);font-weight:700;border-color:var(--t-gold)}
+.temple-wish-status{min-height:20px;font-size:13px;color:#f9d99f;margin:8px 0 4px}
+.temple-wish-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.temple-wish-list li{display:flex;justify-content:space-between;gap:10px;padding:7px 10px 7px 14px;border-radius:8px;background:#ffffff0d;border-left:5px solid var(--cloth,#d8392b);font-size:14px;line-height:1.4}
+.temple-wish-list q{word-break:break-word}.temple-wish-list small{color:#cdbf98;white-space:nowrap}
+.temple-wish-list li.is-empty{border-left-color:#ffffff30;color:#cdbf98}
+/* the one wish rising over the Bodhi tree (in #nameplates) */
+.temple-wish-float{position:absolute;left:0;top:0;max-width:240px;padding:2px 4px;color:#fff8e6;font:600 14px/1.35 var(--font-ui,inherit);text-align:center;text-shadow:0 1px 3px #000c,0 0 10px #0008;pointer-events:none;opacity:0}
+.temple-wish-float span::before{content:'';display:inline-block;width:7px;height:12px;margin-right:6px;vertical-align:-1px;border-radius:1px 1px 3px 3px;background:var(--cloth,#d8392b);box-shadow:0 0 0 1px #0004}
+.temple-wish-float small{display:block;font-weight:500;font-size:11px;color:#e9dcb3}
+.temple-wish-float.is-in{animation:temple-wish-rise 4.5s ease-out both}
+@keyframes temple-wish-rise{0%{opacity:0;margin-top:10px}15%{opacity:1;margin-top:0}80%{opacity:1;margin-top:-6px}100%{opacity:0;margin-top:-12px}}
+.photo-mode .temple-wish-float{display:none}
+@media(prefers-reduced-motion:reduce){.temple-wish-float.is-in{animation:none;opacity:1}}
