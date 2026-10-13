@@ -270,7 +270,7 @@ export class CharacterUI {
   blessingHtml() {
     const b = this.c.blessing, card = activeBlessing(b); if (!card) return '';
     const minutes = Math.ceil((b.until - Date.now()) / 60000);
-    return `<i class="g-blessing" title="เซียมซีใบที่ ${card.no} · ${card.luck} · ${modsText(card.mods)}"><span aria-hidden="true">☸</span><b>${minutes >= 60 ? `${Math.floor(minutes / 60)}ช` : `${minutes}น`}</b></i>`;
+    return `<i class="g-blessing" title="เซียมซีใบที่ ${card.no} · ${card.luck} · ${modsText(card.mods)}${b.refineUsed ? ' · ใช้แล้ว' : ''}"><span aria-hidden="true">☸</span><b>${minutes >= 60 ? `${Math.floor(minutes / 60)}ช` : `${minutes}น`}</b></i>`;
   }
   refresh() {
     const c = this.c;

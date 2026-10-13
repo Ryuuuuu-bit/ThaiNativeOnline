@@ -4,11 +4,16 @@
 // resets at midnight Thai time (todayKey); a new card replaces the old one. Pure: shared by
 // Character, the server and tests.
 //
-// Saved on the character as `blessing: { day, no, at, until }` (ms timestamps). It is kept
+// Saved on the character as `blessing: { day, no, at, until, refineUsed? }` (ms timestamps). It is kept
 // apart from `buffs`: death does not clear it and it never blocks skill-evolution choices.
-// Every card blesses one of three things, by luck: ดีเลิศ +20% · ดีมาก +15% · ดี +10% · กลาง +5%
-//   atkMul  damage (ATK/MATK ratio)   expMul  kill EXP   dropMul  loot chance
-// No card is harmful; the twelve are drawn with equal chance.
+// Every card blesses one of five things, by luck (ดีเลิศ · ดีมาก · ดี · กลาง):
+//   atkMul    damage (ATK/MATK ratio)   +20 · +15 · +10 · +5%
+//   expMul    kill EXP                  ×1.20 · 1.15 · 1.10 · 1.05
+//   dropMul   loot chance               ×1.20 · 1.15 · 1.10 · 1.05
+//   cardMul   card drop chance          ×1.30 · 1.20 · 1.10 · 1.05
+//   refineAdd ตีบวก success chance on ONE risky try (then `refineUsed`) +3 · +2 · +1.5 · +1 points
+// No card is harmful; the twenty are drawn with equal chance. Cards 1–12 are the first three
+// kinds (their numbers predate the last two, so saved blessings keep their meaning).
 import { todayKey } from '../rules/data/blessings.js';
 
 const LUCK = [['ดีเลิศ', .20], ['ดีมาก', .15], ['ดี', .10], ['กลาง', .05]];
@@ -17,15 +22,28 @@ const KINDS = {
   exp: { mod: 'expMul', label: 'EXP', text: ['ดั่งพระจันทร์เต็มดวง ปัญญาสว่างไสว เรียนรู้สิ่งใดก็แตกฉาน', 'ปลูกข้าวในนาดี ได้ผลงามเกินคาด งานที่ทำจะให้ผล', 'น้ำนิ่งไหลลึก ทุกก้าวคือบทเรียน', 'ทางยาวไกลแต่ไม่โดดเดี่ยว มีมิตรร่วมทาง'] },
   drop: { mod: 'dropMul', label: 'ของดรอป', text: ['พญานาคให้พร ทรัพย์สมบัติไหลมาเทมา', 'ทองคำฝังดิน ขุดพบโดยบังเอิญ โชคลาภมาจากทางไม่คาดคิด', 'ของหายได้คืน ของดีจะตกถึงมือ', 'ฟ้าหลังฝนย่อมสดใส อดทนไว้แล้วจะดีเอง'] },
 };
-// ใบที่ 1–12: by luck tier (ดีเลิศ first), each tier one card of each kind.
-export const TEMPLE_SIAMSI = Object.freeze(LUCK.flatMap(([luck, bonus], tier) => Object.entries(KINDS).map(([kind, k], i) => Object.freeze({
+// added later: numbered 13–20 after the first twelve
+const LATER = {
+  card: { mod: 'cardMul', label: 'ดรอปการ์ด', values: [1.3, 1.2, 1.1, 1.05], text: ['ดวงวิญญาณยอมสยบ ฝากรอยไว้ให้ผู้มีบุญ', 'ภูตผีเมตตา ทิ้งร่องรอยไว้ให้เก็บ', 'ผู้เพียรย่อมพบ สิ่งหายากจะปรากฏ', 'ตั้งใจล่าต่อไป ของหายากรออยู่ข้างหน้า'] },
+  refine: { mod: 'refineAdd', label: 'โอกาสตีบวก', values: [.03, .02, .015, .01], once: true, text: ['ไฟเตาหลอมลุกโชน เหล็กกล้าเชื่อฟังมือช่าง', 'ค้อนหนักแม่นยำ ศาสตราจะแกร่งขึ้น', 'ใจเย็นแล้วตี ของดีจะไม่แตก', 'ระวังไว้ก่อน แต่ฟ้ายังเข้าข้าง'] },
+};
+// ใบที่ 1–12: by luck tier (ดีเลิศ first), each tier one card of each first kind; 13–20 the later two.
+const FIRST = LUCK.flatMap(([luck, bonus], tier) => Object.entries(KINDS).map(([kind, k], i) => Object.freeze({
   no: tier * 3 + i + 1, luck, kind, bonus, text: k.text[tier],
   mods: Object.freeze({ [k.mod]: k.mod === 'atkMul' ? bonus : +(1 + bonus).toFixed(2) }),
-}))));
+})));
+const SECOND = LUCK.flatMap(([luck], tier) => Object.entries(LATER).map(([kind, k], i) => Object.freeze({
+  no: 13 + tier * 2 + i, luck, kind, bonus: k.mod === 'refineAdd' ? k.values[tier] : +(k.values[tier] - 1).toFixed(2), text: k.text[tier],
+  mods: Object.freeze({ [k.mod]: k.values[tier] }), ...(k.once ? { once: true } : {}),
+})));
+export const TEMPLE_SIAMSI = Object.freeze([...FIRST, ...SECOND]);
 export const SIAMSI = TEMPLE_SIAMSI;
-// "ดาเมจ +20%"
-export const modsText = m => Object.entries(KINDS).filter(([, k]) => m?.[k.mod] != null)
-  .map(([, k]) => `${k.label} +${Math.round((k.mod === 'atkMul' ? m[k.mod] : m[k.mod] - 1) * 100)}%`).join(' · ');
+// "ดาเมจ +20%" · "ดรอปการ์ด +30%" · "โอกาสตีบวก +3% (ครั้งเดียว)"
+const ALL_KINDS = { ...KINDS, ...LATER };
+const pct = n => `${+(n * 100).toFixed(1)}%`;
+export const modsText = m => Object.values(ALL_KINDS).filter(k => m?.[k.mod] != null).map(k =>
+  k.mod === 'refineAdd' ? `${k.label} +${pct(m[k.mod])} (ตีครั้งเดียว)`
+    : `${k.label} +${pct(k.mod === 'atkMul' ? m[k.mod] : m[k.mod] - 1)}`).join(' · ');
 
 export const BLESSING_HOURS = 3;
 export const BLESSING_MS = BLESSING_HOURS * 3600e3;
@@ -35,10 +53,10 @@ export const siamsiCard = no => SIAMSI.find(card => card.no === no) ?? null;
 // A saved blessing made valid (null if malformed).
 export function cleanBlessing(b) {
   if (!b || typeof b !== 'object') return null;
-  const { day, no, at, until } = b;
+  const { day, no, at, until, refineUsed } = b;
   if (typeof day !== 'string' || !/^\d{4}-\d{1,2}-\d{1,2}$/.test(day) || !siamsiCard(no)) return null;
   if (![at, until].every(Number.isSafeInteger) || until <= at || until - at > BLESSING_MS) return null;
-  return { day, no, at, until };
+  return { day, no, at, until, ...(refineUsed === true ? { refineUsed: true } : {}) };
 }
 // The card in force at `now`, or null.
 export function activeBlessing(b, now = Date.now()) {
@@ -62,5 +80,9 @@ export function grantBlessing(c, { now = Date.now(), random = Math.random } = {}
 // Kill reward multipliers for a character at `now` (1 when unblessed).
 export function blessingRewardMul(b, now = Date.now()) {
   const m = blessingMods(b, now);
-  return { exp: m.expMul ?? 1, gold: m.goldMul ?? 1, drop: m.dropMul ?? 1 };
+  return { exp: m.expMul ?? 1, gold: m.goldMul ?? 1, drop: m.dropMul ?? 1, card: m.cardMul ?? 1 };
+}
+// The ตีบวก chance the blessing adds to the next risky try (0 when none or already used).
+export function blessingRefineAdd(b, now = Date.now()) {
+  return b?.refineUsed ? 0 : blessingMods(b, now).refineAdd ?? 0;
 }

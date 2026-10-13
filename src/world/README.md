@@ -355,5 +355,5 @@ The city temple's ordination hall, a safe `instance` + `interior` map in its own
   small label, and `portalPillars` returns none for it.
 - Blessing: the F sites open `src/ubosot/SiamsiPanel.js`. The server draws the card in
   `server/ubosot.js` (`t: 'bless'`), and the rules live in `src/character/blessing.js`
-  (12 cards: damage / EXP / drop +5–20%, 3 h, once a Thai day).
+  (20 cards: damage / EXP / drop +5–20%, card drop ×1.05–1.3, ตีบวก +1–3% on one risky try; 3 h, once a Thai day).
 - Review page: `tools/ubosot-review.html`.

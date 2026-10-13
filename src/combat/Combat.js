@@ -279,7 +279,7 @@ export class Combat extends Emitter {
     const exp = Math.round(killExp(m.def.exp, c.level, m.level ?? m.def.level, !!(m.def.elite || m.def.boss), this.night ? NIGHT.expBonus : 1) * blessed.exp);
     const gold = Math.round(randInt(...m.def.gold) * blessed.gold);
     const drops = rollLootDrops(m.def, { multiplier: blessed.drop });
-    if (hasCard(m.type) && Math.random() < cardRate(m.def)) drops.push({ id: cardId(m.type), qty: 1 });
+    if (hasCard(m.type) && Math.random() < cardRate(m.def) * blessed.card) drops.push({ id: cardId(m.type), qty: 1 });
     if (realDeath && m.hp <= 0 && (gold > 0 || drops.length) && !this.remote && !this.serverOwned && this.monsters.includes(m))
       applyBossCardKill(c, this.bossCardProcs, Date.now() / 1000);
     this.emit('kill', { monster: m, exp, gold, drops });

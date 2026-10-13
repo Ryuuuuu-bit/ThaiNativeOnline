@@ -261,6 +261,8 @@ export class Combatants {
   live(account, slot) { for (const s of this.list.values()) if (s.persist?.account === account && s.persist.slot === slot) return s; return null; }
   // the loot-chance multiplier of a player's blessing (MonsterWorld.dropMulOf)
   dropMul(id) { const s = this.list.get(id); return s?.persist ? blessingRewardMul(s.c.blessing, Date.now()).drop : 1; }
+  // the siamsi card-drop blessing (src/character/blessing.js), signed-in characters only
+  cardMul(id) { const s = this.list.get(id); return s?.persist ? blessingRewardMul(s.c.blessing, Date.now()).card : 1; }
   me(id) { const s = this.list.get(id); return s?.persist ? { ...s.c.toJSON(), title: s.c.title, ack: s.ack, quests: s.quests.state, ...(s.c.loadoutResult ? { loadoutResult: { ...s.c.loadoutResult } } : {}) } : null; }
 
   // Transient combat state is sent separately from persistent character saves.

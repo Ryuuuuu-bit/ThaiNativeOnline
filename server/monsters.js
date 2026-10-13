@@ -446,7 +446,7 @@ export class MonsterWorld {
         exp += Math.round(killExp(b.def.exp, p.lv, b.tier?.lv ?? b.def.level, true, nightMul) * (b.tier?.hp ?? 1));
         gold += Math.round(randInt(...b.def.gold, this.r) * WORLD_BOSS.goldShare[tier]);
         drops.push(...rollLootDrops(b.def, { random: this.r, uuid: randomUUID, level: b.tier?.lv ?? b.def.level, multiplier: WORLD_BOSS.lootChance[tier] * (this.dropMulOf?.(id) ?? 1) }));
-        if (!card && i === 0 && hasCard(b.type) && this.r() < cardRate(b.def)) { card = cardId(b.type); drops.push({ id: card, qty: 1 }); }
+        if (!card && i === 0 && hasCard(b.type) && this.r() < cardRate(b.def) * (this.cardMulOf?.(id) ?? 1)) { card = cardId(b.type); drops.push({ id: card, qty: 1 }); }
       }
       out.push({ t: 'kill', id: head.id, type: head.type, to: id, exp, gold, drops, share: +(dmg / total).toFixed(3), ...(card ? { card } : {}) });
     });
@@ -487,7 +487,7 @@ export class MonsterWorld {
       let card = null, gold = 0;
       if (top && lootTo) {
         drops.push(...rollLootDrops(m.def, { random: this.r, uuid: randomUUID, multiplier: this.dropMulOf?.(lootTo.id) ?? 1 }));
-        if (hasCard(m.type) && this.r() < cardRate(m.def)) { card = cardId(m.type); drops.push({ id: card, qty: 1 }); }
+        if (hasCard(m.type) && this.r() < cardRate(m.def) * (this.cardMulOf?.(lootTo.id) ?? 1)) { card = cardId(m.type); drops.push({ id: card, qty: 1 }); }
         gold = randInt(...m.def.gold, this.r);
       }
       for (const { p, exp } of paid) {

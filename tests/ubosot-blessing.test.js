@@ -7,7 +7,7 @@ import { UBOSOT_SITES, UBOSOT_PROPS, UBOSOT_RANGE } from '../src/world/ubosot.js
 import { navigation } from '../server/navigation.js';
 import { findPath, clearLine } from '../src/core/GridPath.js';
 import { Character } from '../src/character/Character.js';
-import { TEMPLE_SIAMSI, BLESSING_MS, grantBlessing, activeBlessing, blessingRewardMul, cleanBlessing, canDrawBlessing, todayKey, modsText } from '../src/character/blessing.js';
+import { TEMPLE_SIAMSI, BLESSING_MS, grantBlessing, activeBlessing, blessingRewardMul, blessingRefineAdd, cleanBlessing, canDrawBlessing, todayKey, modsText } from '../src/character/blessing.js';
 import { blessRequest } from '../server/ubosot.js';
 
 // 2026-10-13 10:00 Bangkok (UTC+7)
@@ -29,14 +29,17 @@ test('the hall: every site is reachable from the door, the shrine is solid, the 
   assert.ok(navigation('city').canStand(out.arrive.x, out.arrive.z), 'the temple steps arrival is open');
 });
 
-test('twelve cards, three kinds by four luck tiers, none harmful', () => {
-  assert.equal(TEMPLE_SIAMSI.length, 12);
-  assert.deepEqual(TEMPLE_SIAMSI.map(c => c.no), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+test('twenty cards, five kinds by four luck tiers, none harmful; 1–12 keep their old meaning', () => {
+  assert.equal(TEMPLE_SIAMSI.length, 20);
+  assert.deepEqual(TEMPLE_SIAMSI.map(c => c.no), Array.from({ length: 20 }, (_, i) => i + 1));
+  assert.deepEqual(TEMPLE_SIAMSI.slice(0, 12).map(c => c.kind), Array(4).fill(['dmg', 'exp', 'drop']).flat());
   for (const kind of ['dmg', 'exp', 'drop']) assert.deepEqual(TEMPLE_SIAMSI.filter(c => c.kind === kind).map(c => c.bonus), [.2, .15, .1, .05]);
+  assert.deepEqual(TEMPLE_SIAMSI.filter(c => c.kind === 'card').map(c => c.mods.cardMul), [1.3, 1.2, 1.1, 1.05]);
+  assert.deepEqual(TEMPLE_SIAMSI.filter(c => c.kind === 'refine').map(c => c.mods.refineAdd), [.03, .02, .015, .01]);
   for (const c of TEMPLE_SIAMSI) {
     assert.equal(Object.keys(c.mods).length, 1);
     assert.ok(Object.values(c.mods).every(v => v > 0), `${c.no} is a blessing`);
-    assert.match(modsText(c.mods), /^(ดาเมจ|EXP|ของดรอป) \+\d+%$/);
+    assert.match(modsText(c.mods), /^(ดาเมจ|EXP|ของดรอป|ดรอปการ์ด) \+\d+%$|^โอกาสตีบวก \+[\d.]+% \(ตีครั้งเดียว\)$/);
     assert.ok(c.text.length > 10);
   }
 });
@@ -54,7 +57,7 @@ test('one card a Thai day, for three hours; it resets at midnight Bangkok time a
   assert.equal(canDrawBlessing(c.blessing, next), true);
   assert.equal(todayKey(next), '2026-10-14');
   const again = grantBlessing(c, { now: next, random: () => .99 });
-  assert.equal(again.ok, true); assert.equal(again.blessing.no, 12); assert.equal(c.blessing.day, '2026-10-14');
+  assert.equal(again.ok, true); assert.equal(again.blessing.no, 20); assert.equal(c.blessing.day, '2026-10-14');
 });
 
 test('the blessing is saved, raises damage or rewards, outlives death and never becomes a buff', () => {
@@ -66,12 +69,12 @@ test('the blessing is saved, raises damage or rewards, outlives death and never 
   const loaded = new Character(JSON.parse(JSON.stringify(c)));
   assert.deepEqual(loaded.blessing, c.blessing);
   assert.equal(cleanBlessing({ day: 'x', no: 1, at: 1, until: 2 }), null);
-  assert.equal(cleanBlessing({ day: '2026-10-13', no: 13, at: 1, until: 2 }), null);
+  assert.equal(cleanBlessing({ day: '2026-10-13', no: 21, at: 1, until: 2 }), null);
   assert.equal(cleanBlessing({ day: '2026-10-13', no: 2, at: 0, until: BLESSING_MS * 2 }), null, 'longer than three hours is refused');
   const exp = { day: '2026-10-13', no: 2, at: MORNING, until: MORNING + BLESSING_MS }, drop = { ...exp, no: 3 };
-  assert.deepEqual(blessingRewardMul(exp, MORNING + 1), { exp: 1.2, gold: 1, drop: 1 });
-  assert.deepEqual(blessingRewardMul(drop, MORNING + 1), { exp: 1, gold: 1, drop: 1.2 });
-  assert.deepEqual(blessingRewardMul(exp, MORNING + BLESSING_MS), { exp: 1, gold: 1, drop: 1 });
+  assert.deepEqual(blessingRewardMul(exp, MORNING + 1), { exp: 1.2, gold: 1, drop: 1, card: 1 });
+  assert.deepEqual(blessingRewardMul(drop, MORNING + 1), { exp: 1, gold: 1, drop: 1.2, card: 1 });
+  assert.deepEqual(blessingRewardMul(exp, MORNING + BLESSING_MS), { exp: 1, gold: 1, drop: 1, card: 1 });
 });
 
 test('the server draws only for a signed-in, living character standing at a site in the hall, once a day', () => {
@@ -84,9 +87,31 @@ test('the server draws only for a signed-in, living character standing at a site
   assert.equal(blessRequest({ ...at, x: at.x + UBOSOT_RANGE + 2 }, s, { site: 'pray' }).why, 'far');
   assert.equal(blessRequest(at, s, { site: 'nowhere' }).why, 'far');
   const ok = blessRequest(at, s, { site: 'pray', request: 'r1' }, { now: MORNING, random: () => .5 });
-  assert.equal(ok.ok, true); assert.equal(ok.request, 'r1'); assert.equal(ok.blessing.no, 7); assert.equal(s.dirty, true);
+  assert.equal(ok.ok, true); assert.equal(ok.request, 'r1'); assert.equal(ok.blessing.no, 11); assert.equal(s.dirty, true);
   const twice = blessRequest(at, s, { site: 'siamsi' }, { now: MORNING + HOUR });
   assert.equal(twice.why, 'far', 'the siamsi stand is elsewhere');
   const stand = UBOSOT_SITES.find(x => x.id === 'siamsi').approach;
   assert.equal(blessRequest({ map: 'ubosot', ...stand }, s, { site: 'siamsi' }, { now: MORNING + HOUR }).why, 'today');
+});
+
+test('the ตีบวก card adds to one risky try only, then is spent and saved as spent', () => {
+  const c = Character.create('QA', 'warrior'); c.gold = 50000; c.addItem('sacred_ore', 20);
+  const now = Date.now();
+  c.blessing = { day: todayKey(now), no: 14, at: now, until: now + BLESSING_MS };   // +3%
+  assert.equal(blessingRefineAdd(c.blessing), .03);
+  for (let i = 0; i < 4; i++) assert.equal(c.refineGear('weapon', () => 0).outcome, 'up');   // +1…+4 are safe
+  assert.equal(c.blessing.refineUsed, undefined, 'safe steps do not spend it');
+  // +5 succeeds 60%: a roll of .62 fails without the card, works with +3%
+  const r = c.refineGear('weapon', () => .62);
+  assert.equal(r.outcome, 'up'); assert.equal(r.blessed, .03);
+  assert.equal(c.blessing.refineUsed, true); assert.equal(blessingRefineAdd(c.blessing), 0);
+  assert.deepEqual(new Character(JSON.parse(JSON.stringify(c))).blessing.refineUsed, true);
+  assert.equal(c.refineGear('weapon', () => .52).outcome, 'broke', 'the next try has no help (+6 is 50%)');
+});
+
+test('the card-drop card multiplies the card chance for signed-in kills', () => {
+  const now = Date.now(), b = { day: todayKey(now), no: 13, at: now, until: now + BLESSING_MS };
+  assert.equal(blessingRewardMul(b).card, 1.3);
+  assert.equal(blessingRewardMul(null).card, 1);
+  assert.equal(blessingRewardMul({ ...b, no: 1 }).card, 1);
 });

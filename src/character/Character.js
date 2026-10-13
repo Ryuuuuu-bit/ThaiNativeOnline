@@ -1,4 +1,4 @@
-import { cleanBlessing, blessingMods } from './blessing.js';
+import { cleanBlessing, blessingMods, blessingRefineAdd } from './blessing.js';
 import { cleanFlask, createFlask, flaskFields, instanceId, FLASK_VERSION } from './data/flasks.js';
 import { validBinding, cleanBindings, HOTBAR_SIZE } from './hotbarBindings.js';
 // Character model: stats, level/EXP, HP/MP, inventory, equipment, buffs, save/load.
@@ -786,14 +786,17 @@ export class Character extends Emitter {
     this.gold -= cost.gold;
     this.inventory[ore].qty--; if (!this.inventory[ore].qty) this.inventory[ore] = null;
     const cards = worn ? [...this.cards[where]] : [...(s.cards ?? [])];
-    const up = !cost.risky || roll() < cost.rate;
+    // a siamsi card may add a little to ONE risky try (src/character/blessing.js), then it is spent
+    const blessed = cost.risky ? blessingRefineAdd(this.blessing) : 0;
+    if (blessed) { this.blessing = { ...this.blessing, refineUsed: true }; this.emit('blessing', this.blessing); }
+    const up = !cost.risky || roll() < Math.min(1, cost.rate + blessed);
     if (worn) {
       if (up) this.refine[where] = cost.to;
       else { this.equipment[where] = null; this.cards[where] = []; this.refine[where] = 0; this.gearRolls[where] = null; this.equipmentLocks[where] = false; }
     } else if (up) s.plus = cost.to;
     else this.inventory[where] = null;
     this.clampVitals();
-    const res = { ok: true, outcome: up ? 'up' : 'broke', item: id, to: cost.to, cards: up ? [] : cards };
+    const res = { ok: true, outcome: up ? 'up' : 'broke', item: id, to: cost.to, cards: up ? [] : cards, ...(blessed ? { blessed } : {}) };
     this.emit('inventory'); this.emit('change'); this.emit('refined', res);
     return res;
   }

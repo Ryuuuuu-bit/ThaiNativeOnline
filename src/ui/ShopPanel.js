@@ -10,6 +10,7 @@ import { SHOP_ICONS } from './HUD.js';
 import { STRIP } from '../character/data/cards.js';
 import { REFINE_SHOP, REFINE_SAFE, REFINE_MAX, REFINE_MILESTONES, refinable, refineCost, refineBonus } from '../character/data/refine.js';
 import './shop.css';
+import { blessingRefineAdd } from '../character/blessing.js';
 const REFINE_WHY = { gold: 'ตำลึงไม่พอ', ore: 'ไม่มีแร่สำหรับตีบวก', locked: 'ปลดล็อกอุปกรณ์ก่อนตีบวก', connection: 'รอเชื่อมต่อและข้อมูลอุปกรณ์ล่าสุดก่อนตีบวก', pending: 'รอข้อมูลอุปกรณ์จากการตีครั้งก่อน', max: `ตีบวกได้สูงสุด +${REFINE_MAX}`, not_refinable: 'ไอเท็มนี้ตีบวกไม่ได้', no_item: 'ไม่พบไอเท็มนั้น', dead: 'ต้องฟื้นคืนชีพก่อนตีบวก', no_shop: 'ต้องอยู่ที่โรงหลอมศาสตรา และไม่ได้อยู่ระหว่างต่อสู้' };
 const SLOT_TH = { weapon: 'อาวุธ', armor: 'เสื้อเกราะ', head: 'ศีรษะ', cape: 'ผ้าคลุม', shoes: 'รองเท้า', gloves: 'ถุงมือ', belt: 'เข็มขัด', amulet: 'สร้อย', charm: 'เครื่องประดับ' };
 const plusName = (id, plus) => `${plus ? `+${plus} ` : ''}${ITEMS[id].name}`;
@@ -307,7 +308,9 @@ export class ShopPanel {
       const base = (d.bonus?.[k] ?? 0) + (affixBonus(t.id, held?.roll)[k] ?? 0) + t.cards.reduce((n, id) => n + (ITEMS[id]?.bonus?.[k] ?? 0), 0);
       return `<div class="eh-stat"><span><small>โบนัสตีบวก · ${BONUS[k] ?? k}</small><b>+${fmt(cur[k])} <i>→</i> <em>+${fmt(nxt[k])}</em></b><small>พลังไอเท็มรวม ${fmt(base + (cur[k] ?? 0))} → ${fmt(base + nxt[k])}</small></span><span class="eh-gain"><small>${max ? 'โบนัสสูงสุด' : 'ขั้นถัดไปเพิ่ม'}</small><b>${max ? `+${fmt(nxt[k])}` : `+${fmt(nxt[k] - (cur[k] ?? 0))}`}</b></span></div>`;
     }).join('');
-    const ore = cost && ITEMS[cost.ore], have = cost ? c.count(cost.ore) : 0, rate = cost ? Math.round(cost.rate * 100) : 0;
+    // a siamsi card may add to this one risky try (src/character/blessing.js)
+    const bless = cost?.risky ? blessingRefineAdd(c.blessing) : 0;
+    const ore = cost && ITEMS[cost.ore], have = cost ? c.count(cost.ore) : 0, rate = cost ? +(Math.min(1, cost.rate + bless) * 100).toFixed(1) : 0;
     const pending = !!this.refinePending || !!c.refineRecovering;
     const can = !!cost && c.alive && c.gold >= cost.gold && have > 0 && !pending, sells = !!cost && stockOf(this.shopType).includes(cost.ore);
     const label = c.refineRecovering ? 'รอข้อมูลอุปกรณ์ล่าสุด…' : pending ? this.forgeResult ? 'กำลังอัปเดตอุปกรณ์…' : 'กำลังรอผล…' : max ? 'สูงสุดแล้ว' : !c.alive ? 'ต้องฟื้นคืนชีพก่อน' : armed ? 'เสี่ยงแตก! ยืนยันตีบวก' : !have ? `ไม่มี${ore.name}` : c.gold < cost.gold ? 'ตำลึงไม่พอ' : `ตีบวก +${cost.to}`;
@@ -326,7 +329,7 @@ export class ShopPanel {
         <div class="eh-stage">
           <div class="eh-ring ${enhTier(max ? t.plus : cost.to)}"><i class="eh-rays"></i><span class="eh-item" style="--rar:${RARITY_COLORS[d.rarity] ?? '#e9dfc0'}">${iconHtml(d)}</span>
             <div class="eh-step">${max ? `<b class="enh ${enhTier(t.plus)}">+${t.plus}</b> <small>สูงสุด</small>` : `<b class="enh ${enhTier(t.plus)}">+${t.plus}</b> → <b class="enh ${enhTier(cost.to)}">+${cost.to}</b>`}</div></div>
-          <div class="eh-box rate"><small>โอกาสสำเร็จ</small><b class="eh-pct${rate >= 100 ? ' safe' : ''}">${max ? '—' : `${rate}%`}</b><i class="eh-bar"><i style="width:${rate}%"></i></i><small>${max ? `ตีได้สูงสุด +${REFINE_MAX}` : cost.risky ? `ล้มเหลว ${100 - rate}% · แตกสลายพร้อมการ์ด` : `ถึง +${REFINE_SAFE} สำเร็จเสมอ`}</small></div>
+          <div class="eh-box rate"><small>โอกาสสำเร็จ</small><b class="eh-pct${rate >= 100 ? ' safe' : ''}">${max ? '—' : `${rate}%`}</b><i class="eh-bar"><i style="width:${rate}%"></i></i><small>${max ? `ตีได้สูงสุด +${REFINE_MAX}` : cost.risky ? `ล้มเหลว ${+(100 - rate).toFixed(1)}% · แตกสลายพร้อมการ์ด` : `ถึง +${REFINE_SAFE} สำเร็จเสมอ`}</small>${bless ? `<small class="eh-blessed">☸ พรเซียมซี +${+(bless * 100).toFixed(1)}% · ใช้กับการตีครั้งนี้</small>` : ''}</div>
         </div>
         <div class="eh-bonus">${stats}<small>ตีบวกเพิ่มเฉพาะพลังพื้นฐาน · ออฟสุ่มและการ์ดคงเดิม</small></div>
         <div class="eh-milestones" aria-label="โบนัสสะสมตามหมุดหมาย">${milestones}</div>
@@ -337,7 +340,7 @@ export class ShopPanel {
         </div>
         <p class="sh-note">ค่าตีและแร่ใช้ทุกครั้ง ทั้งสำเร็จและล้มเหลว · ตีบวกเพิ่มเฉพาะพลังพื้นฐาน ออฟสุ่มและการ์ดคงเดิม · ไม่สุ่มออฟใหม่ · สูงสุด +${REFINE_MAX}</p>
         </div>
-        <div class="eh-foot"><p class="eh-risk${cost?.risky ? ' risky' : ''}">${max ? 'ศาสตราชิ้นนี้ถึงขั้นสูงสุดแล้ว' : cost.risky ? `⚠ ล้มเหลว ${100 - rate}%: อุปกรณ์${t.cards.length ? `และการ์ด ${t.cards.length} ใบ` : ''}สูญเสียถาวร` : `✦ ถึง +${REFINE_SAFE} สำเร็จเสมอ · การ์ดไม่เสี่ยงแตก`}</p><span class="eh-cost"><small>ค่าตีบวก</small><b class="${cost && c.gold < cost.gold ? 'bad' : ''}">${max ? '—' : `${fmt(cost.gold)} ตำลึง`}</b>${cost ? `<small>เหลือ ${fmt(Math.max(0, c.gold - cost.gold))}</small>` : ''}</span>
+        <div class="eh-foot"><p class="eh-risk${cost?.risky ? ' risky' : ''}">${max ? 'ศาสตราชิ้นนี้ถึงขั้นสูงสุดแล้ว' : cost.risky ? `⚠ ล้มเหลว ${+(100 - rate).toFixed(1)}%: อุปกรณ์${t.cards.length ? `และการ์ด ${t.cards.length} ใบ` : ''}สูญเสียถาวร` : `✦ ถึง +${REFINE_SAFE} สำเร็จเสมอ · การ์ดไม่เสี่ยงแตก`}</p><span class="eh-cost"><small>ค่าตีบวก</small><b class="${cost && c.gold < cost.gold ? 'bad' : ''}">${max ? '—' : `${fmt(cost.gold)} ตำลึง`}</b>${cost ? `<small>เหลือ ${fmt(Math.max(0, c.gold - cost.gold))}</small>` : ''}</span>
           <button type="button" class="sh-go${armed ? ' danger' : ''}" data-refine="${key}" ${cost?.risky ? 'data-risky="1"' : ''} ${can ? '' : 'disabled'}>${label}</button></div>
       </div>
       <aside class="sh-right eh-list">${worn.length ? `<p class="sh-gh"><b>อุปกรณ์ที่สวมอยู่</b><small>เลือกชิ้นที่จะตี</small></p>${worn.map(row).join('')}` : ''}${bag.length ? `<p class="sh-gh"><b>ในกระเป๋า</b></p>${bag.map(row).join('')}` : ''}</aside></div>`;

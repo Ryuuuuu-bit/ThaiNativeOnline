@@ -1070,7 +1070,7 @@ const combatants = new Combatants();   // each player's character sheet, cooldow
 const monsterInterests = new WeakMap();
 const worlds = new Map();   // room id → MonsterWorld, made when someone first arrives (CH 2+: no elites or bosses)
 const worldOf = room => {
-  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; w.online = () => presence.count; w.dropMulOf = id => combatants.dropMul(id); worlds.set(room, w); }
+  if (!worlds.has(room)) { const { map, ch } = parseRoom(room), w = new MonsterWorld(map, { elites: ch === 1, idleRadius:96, navigation: navigation(map) }); w.party = parties; w.online = () => presence.count; w.dropMulOf = id => combatants.dropMul(id); w.cardMulOf = id => combatants.cardMul(id); worlds.set(room, w); }
   return worlds.get(room);
 };
 const socketOf = id => { for (const [ws, p] of presence.players) if (p.id === id) return ws; return null; };
