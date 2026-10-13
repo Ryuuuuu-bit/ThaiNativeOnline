@@ -69,11 +69,11 @@ export class NPCModelRenderer {
   prepare(entry, source) {
     if (!source?.scene?.isObject3D) throw new Error('NPC GLB has no scene');
     const clips = new Map((source.animations ?? []).map(c => [c.name.toLowerCase(), c]));
-    for (const name of entry.spec.clips) {
-      const clip = clips.get(name);
-      if (!clip || !Number.isFinite(clip.duration) || clip.duration <= 0 || !clip.tracks.length
-        || clip.tracks.some(t => !finite(Array.from(t.times)) || !finite(Array.from(t.values)))) throw new Error(`Missing/invalid native ${name} clip`);
-    }
+    // required clips, then any optional one the file carries (a mocap 'talk')
+    const valid = clip => clip && Number.isFinite(clip.duration) && clip.duration > 0 && clip.tracks.length
+      && !clip.tracks.some(t => !finite(Array.from(t.times)) || !finite(Array.from(t.values)));
+    for (const name of entry.spec.clips) if (!valid(clips.get(name))) throw new Error(`Missing/invalid native ${name} clip`);
+    const names = [...entry.spec.clips, ...(entry.spec.optionalClips ?? []).filter(name => valid(clips.get(name)))];
     const model = cloneSkinned(source.scene); entry.model = model;
     const clonedMaterials = new Map(); let skins = 0;
     model.traverse(o => {
@@ -105,13 +105,13 @@ export class NPCModelRenderer {
       targetHeight: entry.spec.height, facingYaw: entry.spec.facingYaw, measurement: 'provisional full bind bounds; actual adapter may supply soles-to-crown measurement',
       convention: 'Prepared asset faces +Z; compensate outer npc.look.scale exactly once' };
     entry.mixer = new THREE.AnimationMixer(model);
-    entry.actions = Object.fromEntries(entry.spec.clips.map(name => [name, entry.mixer.clipAction(clips.get(name))]));
+    entry.actions = Object.fromEntries(names.map(name => [name, entry.mixer.clipAction(clips.get(name))]));
     // The adapter restores a complete rig each frame. AnimationMixer caches
     // unchanged values and may therefore skip a repeated position/quaternion
     // key after that restore (notably a native Hips floor correction). Reapply
     // this renderer's single active clip through public Three bindings; the
     // interpolants preserve its authored interpolation and exact phase time.
-    entry.nativeSamples = Object.fromEntries(entry.spec.clips.map(name => [name, clips.get(name).tracks.map(track => ({
+    entry.nativeSamples = Object.fromEntries(names.map(name => [name, clips.get(name).tracks.map(track => ({
       binding: THREE.PropertyBinding.create(model, track.name), interpolant: track.createInterpolant(),
     }))]));
     entry.context.model = model; entry.context.source = source; entry.context.root = root; entry.context.poseRoot = poseRoot;
@@ -171,7 +171,8 @@ export class NPCModelRenderer {
         if (entry.adapterRevision !== npcPoseAdapterRevision()) this.prepareAdapter(entry);
         if (!entry.adapter) continue;
         const talk = !!npc.talkTarget, moving = !talk && (!!npc.path || npc.state === 'walk');
-        const phase = moving ? npc.anim === 'run' ? 'run' : 'walk' : 'idle', context = entry.context;
+        const chatting = talk || npc.state === 'talk';
+        const phase = moving ? npc.anim === 'run' ? 'run' : 'walk' : chatting && entry.actions.talk ? 'talk' : 'idle', context = entry.context;
         Object.assign(context, { time, dt, phase, moving, state: talk ? 'talk' : moving ? 'walk' : npc.state,
           anim: talk ? 'talk' : moving ? npc.anim === 'run' ? 'run' : 'walk' : npc.anim, pose: npc.pose });
         if (entry.adapter.supports(context) !== true) { entry.reason = 'unsupported-pose'; continue; }

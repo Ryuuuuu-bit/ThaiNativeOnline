@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "warp_keeper",
   "revision": "woven-v4",
-  "assetSha256": "5431a4d579fe3eb47770b033d2899a64ae31ff3ad4b070312838561f226474e6",
+  "assetSha256": "127592f124b5682014389aa7bcb2f09ae6508647416c022791d47d53d342117e",
   "walkStride": 1.3698,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "099119c59cee2870dc2650cc974a6a76d81f1ef8f29a9a6e99f3d9840a6f5704",
   "qaApproved": true,
   "calibration": {

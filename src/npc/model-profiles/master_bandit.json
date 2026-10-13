@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "master_bandit",
   "revision": "woven-v3",
-  "assetSha256": "4cf121aa1536d101ca255e283707b4cea7cd34952a83024a2866c541540c4b1f",
+  "assetSha256": "b20d664f6b7b5cca3d8edaec3d38a367425e72f76e27815a6eb158edc0aebbf6",
   "walkStride": 1.3583,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
   "qaApproved": true,
   "calibration": {

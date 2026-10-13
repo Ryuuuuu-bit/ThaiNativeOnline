@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "master_shaman",
   "revision": "woven-v2",
-  "assetSha256": "7c9730624ed379a08aea24bd7edd640706c9d2efa97676523e9cfed9dcbcae83",
+  "assetSha256": "14d299a632438831042b73e68c31c3d4dae33f1a7f7286b7a82b154c7f8cf74d",
   "walkStride": 1.3756,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "a11dd0734c6bac6428b2c60e51e2a8f63aac0eafea83baf53edf4aaac0869902",
   "qaApproved": true,
   "calibration": {

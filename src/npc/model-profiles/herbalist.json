@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "herbalist",
   "revision": "woven-v1",
-  "assetSha256": "2d531ef3e635f2cccb2fae4ef64603227dfaf652367225ee97411ce2ef7238a5",
+  "assetSha256": "6029a8831f4b18358505bca5a7d9805085fc1d913662ba7afd55320be3a6c5a7",
   "walkStride": 1.3874,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "faf5763f946f5c10dd5d4cb01510ef5eba47d4064c263a9102e96cee609c6524",
   "qaApproved": true,
   "calibration": {

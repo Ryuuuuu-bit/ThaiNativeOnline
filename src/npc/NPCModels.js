@@ -30,7 +30,7 @@ export const NPC_MODELS = Object.freeze(Object.fromEntries(Object.entries(roles)
   // calibration, rather than bone-name heuristics, supplies pose/tool axes.
   height: family === 'monk_novice' ? 1.2 : 1.72, facingYaw: 0,
   bakedAccessories: Object.freeze(bakedAccessories[family] ?? []),
-  bakedHeadwear: family === 'warp_keeper', clips: Object.freeze(['idle', 'walk', 'run']),
+  bakedHeadwear: family === 'warp_keeper', clips: Object.freeze(['idle', 'walk', 'run']), optionalClips: Object.freeze(['talk']),
 })])));
 export const NPC_MODEL_IDS = Object.freeze(Object.fromEntries(Object.values(NPC_MODELS).flatMap(s => s.npcIds.map(id => [id, s.family]))));
 
@@ -195,6 +195,7 @@ export function npcHandContactTransform(hand, { handScale = 1, contact = [0, RIG
  */
 export function createMeshy24NPCPoseAdapter(model, context, calibration, options = {}) {
   const motion = roleMotion(context.spec.family, options.roleMotion);
+  const mocap = new Set(options.mocapClips ?? []);
   const activities = activityPoses(context.spec.family, options.activityPoses);
   const bones = new Map(), records = new Map(), frames = {}, sockets = new Map();
   model.traverse(o => { if (o.isBone) { if (bones.has(o.name)) throw new Error(`Duplicate NPC joint: ${o.name}`); bones.set(o.name, o); } });
@@ -345,11 +346,16 @@ export function createMeshy24NPCPoseAdapter(model, context, calibration, options
       // correctly grounded native foot. Carrying props still follow its hands.
       c.poseRoot.position.set(0, 0, 0);
       if (c.moving) return;
-      for (const r of records.values()) r.bone.quaternion.copy(r.idle);
+      // A mocap idle/talk clip (retargeted ActionForge motion) already stands, breathes, shifts its
+      // weight and gestures with relaxed arms: standing and talking keep the clip's pose and add
+      // only the authored look and lean. Work and sitting keep the measured idle stance, which
+      // their authored arm and leg angles are measured against.
+      const clipDriven = (c.state === 'idle' || c.state === 'talk') && mocap.has(c.state);
+      if (!clipDriven) for (const r of records.values()) r.bone.quaternion.copy(r.idle);
       // Slow, seeded cycles on measured local axes. No bone scaling, chest
       // translation or extra hand/finger articulation. Only ordinary idle gets
       // this loop; work/talk/sit continue to use the NPC's authored pose output.
-      const idle = !c.moving && c.state === 'idle', clock = c.time + (c.npc.seed ?? 0);
+      const idle = !clipDriven && !c.moving && c.state === 'idle', clock = c.time + (c.npc.seed ?? 0);
       const breathing = idle || c.state === 'sit';
       const breath = breathing ? Math.sin(clock * (Math.PI * 2 / 4.4)) : 0;
       const weight = idle ? Math.sin(clock * (Math.PI * 2 / 7.6)) : 0;
@@ -359,7 +365,8 @@ export function createMeshy24NPCPoseAdapter(model, context, calibration, options
         rotate('Spine', 'pitch', breath * .012); rotate('Spine02', 'roll', -weight * .009);
         rotate('Head', 'pitch', -breath * .004); rotate('Head', 'roll', weight * .004);
       }
-      for (const [side, key] of [['Left', 'L'], ['Right', 'R']]) {
+      // the clip's own arms for standing and talking
+      for (const [side, key] of clipDriven ? [] : [['Left', 'L'], ['Right', 'R']]) {
         const spread = Math.sign(records.get(side + 'Hand').point.x - records.get('Hips').point.x);
         rotate(side + 'Arm', 'pitch', clamp(p[`arm${key}x`], -2.5, .5) * motion.arm);
         // NPC.animate's ordinary rest has .06 roll and .12 elbow bend. Both
@@ -367,7 +374,7 @@ export function createMeshy24NPCPoseAdapter(model, context, calibration, options
         rotate(side + 'Arm', 'roll', spread * clamp(p[`arm${key}z`] - .06, -.55, .55) * motion.arm);
         rotate(side + 'ForeArm', 'pitch', -(elbowBend(p[`arm${key}x`]) - elbowBend(0)) * motion.arm);
       }
-      if (!c.moving) {
+      if (!c.moving && !clipDriven) {
         model.updateWorldMatrix(true, true);
         const ratio = model.getWorldScale(current).y / c.root.scale.y;
         const shiftX = idle ? Math.abs(legs[0].thigh.point.x - legs[1].thigh.point.x) * .08 * weight : 0;
@@ -505,6 +512,8 @@ export function registerNPCModelProfiles(catalog) {
       qaApproved, stowedTools: p.stowedTools === true,
       // metres (in the file's units) the body travels per `walk` cycle (tools/npc-models/retarget-gait.mjs)
       walkStride: Number.isFinite(p.walkStride) && p.walkStride > 0 ? p.walkStride : null,
+      // stationary clips retargeted from mocap (idle, talk): they drive the standing body themselves
+      mocapClips: Object.freeze((Array.isArray(p.mocapClips) ? p.mocapClips : []).filter(name => ['idle', 'talk'].includes(name))),
       calibration: { schema: 1, coordinates: { up: '+Y', front: '+Z', height: c.coordinates.height, footOrigin: [...c.coordinates.footOrigin] }, nodes, hands },
       normalization: p.normalization, handScale: p.handScale,
       grips: p.grips, sockets: p.sockets, roleMotion: roleMotion(p.family, p.roleMotion), activityPoses: activityPoses(p.family, p.activityPoses),

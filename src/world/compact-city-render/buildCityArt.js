@@ -683,9 +683,11 @@ export async function buildCityArt(root, progress = () => {}) {
   const courtyards=buildCityCourtyardEdges({root:staticRoot,CITY,mat,geo,box,cyl,beam,ball,M,pot,lanternAt});
   progress('กำลังจัดลานตลาด สวน และท่าเรือ…');await new Promise(r=>setTimeout(r,0));
   ground(M.brick,0,.014,0,28.8,.004,28.8);ground(M.path,0,.018,0,28,.004,28);
-  disc(staticRoot,M.rim,0,0,6.5,.022);disc(staticRoot,M.brick,0,0,6.05,.026);disc(staticRoot,M.path,0,0,5.7,.030);
-  for(let i=0;i<8;i++){const a=i*Math.PI/4;ground(M.rim,Math.sin(a)*4.2,.052,Math.cos(a)*4.2,.15,.005,2,a);}
-  disc(staticRoot,M.gold,0,0,.7,.035);
+  // The ring and its eight rays are centred on the lotus fountain (garden_civic), not on the
+  // plaza's middle: the fountain stands north of the 'center' junction NPCs walk through.
+  const civic=CITY.buildings.find(b=>b.id==='garden_civic')??{x:0,z:0},cx=civic.x,cz=civic.z;
+  disc(staticRoot,M.rim,cx,cz,6.5,.022);disc(staticRoot,M.brick,cx,cz,6.05,.026);disc(staticRoot,M.path,cx,cz,5.7,.030);
+  for(let i=0;i<8;i++){const a=i*Math.PI/4;ground(M.rim,cx+Math.sin(a)*4.2,.052,cz+Math.cos(a)*4.2,.15,.005,2,a);}
   const warp=CITY.pois.find(p=>p.id==='warp');
   if(warp){
     const storage=CITY.buildings.find(b=>b.id==='storage');

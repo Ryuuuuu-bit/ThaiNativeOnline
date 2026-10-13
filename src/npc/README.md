@@ -24,11 +24,16 @@ unchanged.
 
 ## Animation and verification
 
-Walking remains the existing NPC locomotion clock and native walk clip. Timed
-work, conversation, prayer and browsing pauses use existing seeded poses and
-the existing idle clip/rig adapter. No clips, models, root offsets or geometry
-are added; the adapter still owns grounded limbs and props. Talking pauses the
-runtime plan through the existing NPC interaction contract.
+Skinned city NPCs carry retargeted ActionForge motion (CC0, recipe in
+`tools/npc-models/retarget-gait.mjs`): a mocap walk whose clock follows the
+distance walked (`walkStride`), a standing `idle` loop and a `talk` loop. A
+profile's `mocapClips` lets those clips drive standing and talking: the adapter
+keeps the clip's body (relaxed arms, breathing, weight shifts, gestures) and adds
+only the authored head look and lean. Work, prayer and sitting still start from
+the measured idle stance, which their authored limb angles are measured against.
+`gate_supplier` keeps its native clips: its Meshy skeleton does not follow the
+body, so retargeted motion folds its limbs. Talking pauses the runtime plan
+through the existing NPC interaction contract.
 
 `tests/compact-city-life.test.js` checks presentation isolation, safe targets,
 local graph clearance, real NPC planning/movement and stationary animation.

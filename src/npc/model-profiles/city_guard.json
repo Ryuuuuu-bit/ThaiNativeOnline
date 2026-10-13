@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "city_guard",
   "revision": "woven-v1",
-  "assetSha256": "35e8100217d668d88b2345268ddc2a57a20523428f0c8bdd60a2b2ad62ff7a7a",
+  "assetSha256": "1a4e301f8710b64abe0ba2a4f1d9d8d6ee007da249ad91f4d344b8f78bd3c553",
   "walkStride": 1.3496,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "d0544edba8252ad0fdb0e525c3efd842f6df4cbb1641703c99ba241014631891",
   "qaApproved": true,
   "calibration": {

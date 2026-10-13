@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "master_sword",
   "revision": "woven-v1",
-  "assetSha256": "77a876a55d5be41ba06881779b6c6debb4cfbc8c8025e87de868ac88641b5a78",
+  "assetSha256": "2e3fab27049f6b7360020d549676a1e1992e98c5bd101710e23239f03ddcdffb",
   "walkStride": 1.3134,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "e3c4f36d1c81fee1b294406411066603b714e523d5c7d360ae642667a8c45cd8",
   "qaApproved": true,
   "calibration": {

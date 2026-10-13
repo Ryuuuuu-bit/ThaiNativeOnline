@@ -154,7 +154,7 @@ src/
   ui/          HUD, hudRail (คอลัมน์ขวา), AnnounceBanner, ActionBar, autoSettings, Minimap, WorldMapPanel, QuestJournal, BestiaryPanel, CardCompendiumPanel, ShopPanel, MainMenu, SkillPager, TouchControls, settings, draggable
   quest/ shop/ account/ audio/ data/ shared/
 server/        ดูตารางด้านบน
-tests/         node --test (202 ไฟล์) · docs/ วิสัยทัศน์ ศิลป์ โลก เทคนิค
+tests/         node --test (203 ไฟล์) · docs/ วิสัยทัศน์ ศิลป์ โลก เทคนิค
 tools/         pipeline โมเดล (มอนสเตอร์ NPC อาชีพ หมา, ชุดสถาปัตยกรรมอยุธยา city-kit/ สร้างด้วย Blender bpy) ไอคอน สคริปต์ QA/ถ่ายภาพ export collision และ sim/farm-sim.mjs
 prototypes/    skill-fx: ต้นแบบเอฟเฟกต์สกิล ยังไม่ผูกกับ build
 ```

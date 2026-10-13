@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "monk_elder",
   "revision": "woven-v3",
-  "assetSha256": "0f3527660507e9499f0da8b8bbfd91bbbc51a0547ef0f685ef2606db9d795f4e",
+  "assetSha256": "cb4777f02f5d8d4c09ccf2d1d0d7a8043e96367a5692cfb659222e91c0288fe9",
   "walkStride": 1.3811,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
   "qaApproved": true,
   "calibration": {

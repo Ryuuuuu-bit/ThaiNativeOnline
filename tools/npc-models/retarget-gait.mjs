@@ -5,7 +5,15 @@
 //   node tools/npc-models/retarget-gait.mjs <source.glb> <model.glb> [out.glb] [--clip walk] [--from name] [--rig ue|mixamo]
 //     --rig ue      (default) UE-mannequin source → Meshy-24 NPC rig
 //     --rig mixamo  Mixamo source (the 85-clip pack) → our Mixamo class rigs (warrior, hunter …)
+//     --rig mixamo-meshy  the same Mixamo source → the Meshy-24 NPC rig
 //     --from        source clip name (default: the source's first clip)
+//     --twist deg   turn forearms/hands about their axis (Meshy hands are modelled palm-forward: -60)
+//
+// City NPC recipe (every family but gate_supplier, whose skeleton does not follow its body):
+//   walk ← walk_loop.glb (city_guard: walk_formal_loop.glb)          --twist -60
+//   idle ← idle_loop.glb                                   --clip idle --twist -60
+//   talk ← 85-clip pack idle_talking_loop  --rig mixamo-meshy --from idle_talking_loop --clip talk --twist -60
+// then update the family's profile: assetSha256, walkStride (printed) and mocapClips ["idle","talk"].
 //   → writes out.glb (default: in place) and prints { stride } — metres the body travels per
 //     cycle at the target's normalized height, which the NPC renderer uses to keep feet planted.
 //
@@ -19,6 +27,10 @@ import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { MeshoptDecoder, MeshoptEncoder } from 'meshoptimizer';
 import * as THREE from 'three';
 
+// the next bone along each Meshy-24 chain, for the rest-direction alignment (none: keep the body alignment)
+const RIGS_UE_NEXT = { Spine02: 'Spine01', Spine01: 'Spine', Spine: 'neck', neck: 'Head', LeftShoulder: 'LeftArm', LeftArm: 'LeftForeArm',
+  LeftForeArm: 'LeftHand', RightShoulder: 'RightArm', RightArm: 'RightForeArm', RightForeArm: 'RightHand',
+  LeftUpLeg: 'LeftLeg', LeftLeg: 'LeftFoot', LeftFoot: 'LeftToeBase', RightUpLeg: 'RightLeg', RightLeg: 'RightFoot', RightFoot: 'RightToeBase' };
 const RIGS = {
   ue: { // target (Meshy-24) ← source (UE mannequin)
     map: {
@@ -28,12 +40,16 @@ const RIGS = {
       LeftUpLeg: 'thigh_l', LeftLeg: 'calf_l', LeftFoot: 'foot_l', LeftToeBase: 'ball_l',
       RightUpLeg: 'thigh_r', RightLeg: 'calf_r', RightFoot: 'foot_r', RightToeBase: 'ball_r',
     },
-    // the next bone along each chain, for the rest-direction alignment (none: keep the body alignment)
-    next: { Spine02: 'Spine01', Spine01: 'Spine', Spine: 'neck', neck: 'Head', LeftShoulder: 'LeftArm', LeftArm: 'LeftForeArm',
-      LeftForeArm: 'LeftHand', RightShoulder: 'RightArm', RightArm: 'RightForeArm', RightForeArm: 'RightHand',
-      LeftUpLeg: 'LeftLeg', LeftLeg: 'LeftFoot', LeftFoot: 'LeftToeBase', RightUpLeg: 'RightLeg', RightLeg: 'RightFoot', RightFoot: 'RightToeBase' },
+    next: RIGS_UE_NEXT,
     body: { t: ['Hips', 'Head', 'LeftUpLeg', 'RightUpLeg', 'LeftFoot', 'RightFoot'], s: ['pelvis', 'Head', 'thigh_l', 'thigh_r', 'foot_l', 'foot_r'] },
   },
+  'mixamo-meshy': (() => { // Mixamo source (the 85-clip pack) → Meshy-24 NPC rig
+    const m = n => `mixamorig:${n}`;
+    const map = { Hips: m('Hips'), Spine02: m('Spine'), Spine01: m('Spine1'), Spine: m('Spine2'), neck: m('Neck'), Head: m('Head'),
+      ...Object.fromEntries(['Left', 'Right'].flatMap(k => ['Shoulder', 'Arm', 'ForeArm', 'Hand', 'UpLeg', 'Leg', 'Foot', 'ToeBase'].map(b => [k + b, m(k + b)]))) };
+    return { map, next: { ...RIGS_UE_NEXT }, body: { t: ['Hips', 'Head', 'LeftUpLeg', 'RightUpLeg', 'LeftFoot', 'RightFoot'],
+      s: ['Hips', 'Head', 'LeftUpLeg', 'RightUpLeg', 'LeftFoot', 'RightFoot'].map(m) } };
+  })(),
   mixamo: (() => { // same names on both sides; fingers stay at the target's rest
     const m = n => `mixamorig:${n}`, bones = ['Hips', 'Spine', 'Spine1', 'Spine2', 'Neck', 'Head',
       ...['Left', 'Right'].flatMap(k => ['Shoulder', 'Arm', 'ForeArm', 'Hand', 'UpLeg', 'Leg', 'Foot', 'ToeBase'].map(b => k + b))];
@@ -50,7 +66,7 @@ const FPS = 30;
 
 const args = process.argv.slice(2), flag = k => { const i = args.indexOf(k); return i >= 0 ? args.splice(i, 2)[1] : null; };
 const clipName = flag('--clip') ?? 'walk', fromName = flag('--from'), rig = RIGS[flag('--rig') ?? 'ue'];
-if (!rig) throw new Error('--rig must be ue or mixamo');
+if (!rig) throw new Error('--rig must be ue, mixamo-meshy or mixamo');
 const { map: MAP, next: NEXT, body: BODY } = rig;
 const [sourcePath, targetPath, outPath = targetPath] = args;
 await MeshoptDecoder.ready; await MeshoptEncoder.ready;
@@ -108,7 +124,23 @@ const anim = fromName ? src.getRoot().listAnimations().find(a => a.getName() ===
 if (!anim) throw new Error(`source clip missing: ${fromName}`);
 const duration = Math.max(...anim.listChannels().map(c => { const a = c.getSampler().getInput().getArray(); return a[a.length - 1]; }));
 const srcAt = sampler(anim), srcRest = worlds(S, n => new THREE.Matrix4().compose(new THREE.Vector3(...n.getTranslation()), new THREE.Quaternion(...n.getRotation()), new THREE.Vector3(...n.getScale())));
-const tgtRest = worlds(T, n => new THREE.Matrix4().compose(new THREE.Vector3(...n.getTranslation()), new THREE.Quaternion(...n.getRotation()), new THREE.Vector3(...n.getScale())));
+const tgtNodeRest = worlds(T, n => new THREE.Matrix4().compose(new THREE.Vector3(...n.getTranslation()), new THREE.Quaternion(...n.getRotation()), new THREE.Vector3(...n.getScale())));
+// The target's rest is its skin's bind pose (mesh node · inverse bind matrix), not the joints'
+// stored TRS: some prepared bodies (gate_supplier) keep a posed skeleton in the node values, and
+// aligning to that bends every limb of the clip. Scale cancels between the two; only rotation and
+// position are used.
+const bindWorld = new Map();
+for (const skin of tgt.getRoot().listSkins()) {
+  const mesh = tgt.getRoot().listNodes().find(n => n.getSkin() === skin), ibm = skin.getInverseBindMatrices()?.getArray();
+  if (!mesh || !ibm) continue;
+  const meshWorld = tgtNodeRest(mesh);
+  skin.listJoints().forEach((joint, i) => {
+    const m = meshWorld.clone().multiply(new THREE.Matrix4().fromArray(ibm, i * 16).invert());
+    const p = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3(); m.decompose(p, q, sc);
+    bindWorld.set(joint, new THREE.Matrix4().compose(p, q, new THREE.Vector3(1, 1, 1)));
+  });
+}
+const tgtRest = n => bindWorld.get(n) ?? tgtNodeRest(n);
 const sN = name => { const n = S.nodes.get(name); if (!n) throw new Error(`source bone missing: ${name}`); return n; };
 const tN = name => { const n = T.nodes.get(name); if (!n) throw new Error(`target bone missing: ${name}`); return n; };
 
@@ -132,6 +164,22 @@ for (const [t, s] of Object.entries(MAP)) {
   const dS = posOf(srcRest(sN(MAP[next] ?? next)))   // (a chain end outside the map: same name on both sides)
     .sub(posOf(srcRest(sN(s)))).applyQuaternion(Gq).normalize();
   C[t].setFromUnitVectors(dT, dS);
+}
+// A chain end (hand, head, toe) has no next bone to align by: it takes its parent's alignment,
+// so an A-pose wrist follows its forearm instead of keeping the T-pose angle (flared hands).
+const mappedParent = t => { for (let p = T.parent.get(tN(t)); p; p = T.parent.get(p)) if (MAP[p.getName()]) return p.getName(); return null; };
+for (const t of Object.keys(MAP).sort((a, b) => depth(tN(a)) - depth(tN(b)))) {
+  const parent = mappedParent(t);
+  if (!NEXT[t] && parent) C[t] = C[parent].clone();
+}
+// --twist deg: turn the forearms (and hands) about their own axis, left one way and right the
+// other, for a body whose hand mesh was modelled palm-forward
+const twist = Number(flag('--twist') ?? 0) * Math.PI / 180;
+if (twist) for (const [side, sign] of [['Left', 1], ['Right', -1]]) {
+  const fore = side + 'ForeArm', hand = side + 'Hand'; if (!MAP[fore] || !MAP[hand]) continue;
+  const axis = posOf(tgtRest(tN(hand))).sub(posOf(tgtRest(tN(fore)))).normalize();
+  const r = new THREE.Quaternion().setFromAxisAngle(axis, sign * twist);
+  for (const b of [fore, hand]) C[b] = C[b].clone().multiply(r);
 }
 const Rs0 = Object.fromEntries(Object.entries(MAP).map(([t, s]) => [t, Gq.clone().multiply(rotOf(srcRest(sN(s))))]));
 const Rt0 = Object.fromEntries(Object.keys(MAP).map(t => [t, rotOf(tgtRest(tN(t)))]));

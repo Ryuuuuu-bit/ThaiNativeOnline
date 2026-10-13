@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "occultist",
   "revision": "woven-v2",
-  "assetSha256": "4c0ebad2d810255eab8b7e0f8de9cc318867129e86e86d8f7218e6d6a65019af",
+  "assetSha256": "8d4718859fd9637fec1220595899ef7ab38fdc0bec5be06f6f979e1e5bf04068",
   "walkStride": 1.3916,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61",
   "qaApproved": true,
   "calibration": {

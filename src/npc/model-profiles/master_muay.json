@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "master_muay",
   "revision": "woven-v1",
-  "assetSha256": "e2eb3005ec24fd5616d70a8f5bd283fd5edb6f82e90317d7be9f4d4a675961e1",
+  "assetSha256": "9223007b37dc8e869810109dc243304a6f1939f858a3966ba7145cccda4ccaa5",
   "walkStride": 1.3247,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "c5f36e6b0f78e3b30edd644c551b4ee4cc426d6b7e396d46a51c21786802ed4c",
   "qaApproved": true,
   "calibration": {

@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "boatman",
   "revision": "woven-v2",
-  "assetSha256": "0a29a95d7dd23ef46ac681e79a9327890e1eb42980067f6056b518de7ba889c6",
+  "assetSha256": "4b6782244368afe151697ba2fcf97c66d533b51f64a9c4bff7b10f97fd784c61",
   "walkStride": 1.3437,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "e0a9a8f08253ac1ff886c88f6748c3548ddcac5c7dbba9872a41c4647332cb44",
   "qaApproved": true,
   "calibration": {

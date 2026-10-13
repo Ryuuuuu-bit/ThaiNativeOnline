@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "enhancer",
   "revision": "woven-v2",
-  "assetSha256": "a0e7b1f324d0d5a2383f900350aa2555d4788f4a6f8fa871b3222b7daef77c04",
+  "assetSha256": "1355d292c008c62062a09f43e9a58c5e85c984b5bc4e81d6c7aa78270dfd6d85",
   "walkStride": 1.364,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "0f1011b44b64b11db9f0ae4801a7637a12b30d556bb23a0a6f480917c42ffe81",
   "qaApproved": true,
   "calibration": {

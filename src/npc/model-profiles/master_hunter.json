@@ -2,8 +2,9 @@
   "schema": 1,
   "family": "master_hunter",
   "revision": "woven-v1",
-  "assetSha256": "fc8e136dc40af89a496a2b8edeff58c57e7c0f857cc489a4ced3d3640e6c4d8a",
+  "assetSha256": "71797ccaed6ad5c210fe8b3f8c6061565aa6bffcb9f61e7ab4c681139b4af39d",
   "walkStride": 1.3803,
+  "mocapClips": ["idle", "talk"],
   "geometryAssetSha256": "0d35aac66523b53d2c7dfdc79de23b42e1187d8c7a8be8c88055194870bd7860",
   "qaApproved": true,
   "calibration": {
