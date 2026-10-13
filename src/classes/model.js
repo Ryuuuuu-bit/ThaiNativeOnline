@@ -39,7 +39,9 @@ const CLIP_NAMES = [
   ['die', /\bdie\b|death|knock ?out/i],
 ];
 // Clips already exported under a game name (e.g. "boxer_croc", "walk.001") keep it.
-const EXACT = /^(boxer_[a-z]+|idle|walk|run|hurt|die|attack_[a-z_]+|skill_[a-z_]+)$/;
+const EXACT = /^(boxer_[a-z]+|idle|walk|run|dash|hurt|die|attack_[a-z_]+|skill_[a-z_]+)$/;
+// one-shot moves made while travelling: walking does not cut them short
+const WHILE_MOVING = new Set(['dash']);
 const gameName = clipName => {
   const bare = clipName.replace(/\.\d+$/, '');
   if (EXACT.test(bare)) return bare;
@@ -163,7 +165,7 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
       if (oneShot && oneShot !== action) oneShot.fadeOut(.08);
       action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.timeScale = speed;
       action.reset().fadeIn(.08).play(); if (current !== action) current?.fadeOut(.08);
-      oneShot = action; current = action;
+      oneShot = action; current = action; action.whileMoving = WHILE_MOVING.has(name);
       return true;
     },
     update(dt, time, moving, heading) {
@@ -183,7 +185,7 @@ export function makeModelCharacter(scene, onStep, { url, height = 2.6, guardClip
       if (mixer) {
         // the player only walks once the cast has let go of him (Game blocks walking while a
         // skill holds him), so walking now means: skip the rest of the move
-        if (moving && oneShot) { oneShot.fadeOut(.12); oneShot = null; current = null; }
+        if (moving && oneShot && !oneShot.whileMoving) { oneShot.fadeOut(.12); oneShot = null; current = null; }
         if (!oneShot) play(moving ? 'walk' : 'idle');
         mixer.update(dt);
         // A held idle pose still breathes a little.

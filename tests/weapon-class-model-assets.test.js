@@ -7,8 +7,8 @@ import { WARRIOR_SKILLS } from '../src/classes/warrior-moves.js';
 import { HUNTER_SKILLS } from '../src/classes/hunter-moves.js';
 
 for (const [id, skills, budget, weapons, count] of [
-  ['warrior', WARRIOR_SKILLS, 2100000, { sword_L: 'LeftHand', sword_R: 'RightHand' }, 15],
-  ['hunter', HUNTER_SKILLS, 1700000, { hunter_bow: 'LeftHand' }, 14],
+  ['warrior', WARRIOR_SKILLS, 2100000, { sword_L: 'LeftHand', sword_R: 'RightHand' }, 16],
+  ['hunter', HUNTER_SKILLS, 1700000, { hunter_bow: 'LeftHand' }, 15],
 ]) test(`${id}: replacement body supports gameplay animations and attached weapons`, async () => {
   const bytes = await readFile(new URL(`../public/models/${id}.glb`, import.meta.url));
   assert.ok(bytes.length < budget, 'mobile download budget');
@@ -52,7 +52,7 @@ for (const [id, skills, budget, weapons, count] of [
         }
       }
     }
-    if (id === 'warrior' && !['hurt', 'die'].includes(clip.name)) {
+    if (id === 'warrior' && !['hurt', 'die', 'dash'].includes(clip.name)) {   // (the dash roll tumbles head over heels)
       // The restored original has authored head turns/leans (up to 28 degrees),
       // unlike the replacement rig's artificially stabilized gaze. Keep bounded
       // tilt and the same strict wrist check across every authored frame.

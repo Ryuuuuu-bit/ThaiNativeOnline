@@ -255,6 +255,7 @@ export class Game {
     window.addEventListener('resize', () => { view.resize(); this.postfx.setSize(this.host.clientWidth, this.host.clientHeight); });
     input.on('move', () => { this.questNav?.cancel(); this.stopWalk(); view.recenter(); });
     input.on('resetCamera', () => { input.cancelCameraDrag(); view.reset(); });
+    input.on('dash', () => this.dash());
     input.on('photo', () => this.togglePhoto());
     input.on('interact', () => this.interact());
     input.on('map', () => this.toggleMap());
@@ -791,6 +792,16 @@ export class Game {
         if (this.slowFor >= 8) { this.autoLowered = true; $('quality').value = 'low'; $('quality').dispatchEvent(new Event('change')); this.hud.toast('ปรับกราฟิกเป็น "ประหยัด" ให้อัตโนมัติ เพราะเครื่องเริ่มกระตุก · เปลี่ยนกลับได้ในตั้งค่า', ''); }
       }
     }
+  }
+  // Shift: a dash (src/data/dash.js) the way the player is going — held keys or stick, else a
+  // walk in progress. Standing still it does nothing, so Shift + right-drag still pans the camera.
+  // Not while down, held by a skill, in a window that stops walking, or between maps.
+  dash() {
+    if (this.maps.busy || !this.world || !(this.game?.canMove ?? true) || this.training?.busy || this.movementModalOpen) return;
+    const dir = this.input.direction(this.view.forward, this.view.right, new THREE.Vector3());
+    if (!dir.lengthSq() && this.destination) { dir.subVectors(this.destination, this.player.position); dir.y = 0; }
+    if (dir.lengthSq() < 1e-4 || !this.player.dash(dir.normalize())) return;
+    Sound.sfx('whoosh');
   }
   // One beat while the tab is hidden: the time since the last one in steps of at most 50 ms
   // (as a frame would be), at most a second's worth, nothing drawn.

@@ -14,7 +14,7 @@
 //   P.setChannel(conn, ch)    → the same, staying on the map (server/channels.js)
 //   P.counts(map) → { [ch]: players } · players are grouped by room ('paddy', 'paddy#2', …):
 //   inMap(room) and snapshot(room) take a room id (CH 1's room id is the map id).
-//   P.anim(conn, msg)     → relay message | null
+//   P.anim(conn, msg)     → relay message | null (a 'dash' also lets the next move be one dash longer, src/data/dash.js)
 //   P.chat(conn, text)    → relay message | null
 //   P.leave(conn)         → { map, id, name, account } | null
 //   P.allowJump(conn, m)  the next move may be m metres longer (thrown back / dragged by a monster)
@@ -23,6 +23,7 @@
 import { TITLE_BY_ID } from '../src/data/titles.js';
 import { MAPS as MAP_DATA } from '../src/world/maps.js';
 import { guestName } from '../src/data/character-names.js';
+import { DASH_SERVER } from '../src/data/dash.js';
 
 export const LIMITS = {
   name: 16, chat: 120, chatEvery: 0.8,      // characters; seconds between chat lines
@@ -132,6 +133,12 @@ export class Presence {
     const p = this.players.get(conn); if (!p) return null;
     const clip = clean(msg.clip, 32); if (!/^[a-z0-9_]+$/.test(clip)) return null;
     const sp = Math.max(.5, Math.min(3, Number(msg.sp) || 1));
+    if (clip === 'dash') {
+      // at most one dash's extra distance per cooldown, and none while down
+      const now = this.now();
+      if (p.dead || now - (p.dashAt ?? -Infinity) < DASH_SERVER.every) return null;
+      p.dashAt = now; this.allowJump(conn, DASH_SERVER.slack);
+    }
     return { t: 'a', id: p.id, clip, sp, map: p.room };
   }
   chat(conn, text) {

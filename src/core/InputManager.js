@@ -17,7 +17,11 @@ export class InputManager {
       if (isTypingControl(e.target)) return;
       if ((isMovementKey(e.code) ? (this.movementBlocked ?? this.blocked)?.() : (this.actionsBlocked ?? this.blocked)?.())) return;
       if (MOVE[e.code]) { e.preventDefault(); this.keys.add(MOVE[e.code]); this.emit('move'); }
-      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.shift = true;
+      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+        this.shift = true;
+        // a press (not the key's auto-repeat) dashes; keep holding it to run on
+        if (!e.repeat && !this.pan) this.emit('dash');
+      }
       if (ZOOM_KEYS[e.code]) { e.preventDefault(); this.emit('zoomStep', ZOOM_KEYS[e.code]); }
       if (!e.repeat && ACTIONS[e.code]) { if (e.code === 'F3') e.preventDefault(); this.emit(ACTIONS[e.code]); }
     });
@@ -65,7 +69,7 @@ export class InputManager {
     const id = this.pan.id; this.pan = null;
     if (this.host.hasPointerCapture(id)) this.host.releasePointerCapture(id);
   }
-  // Running: Shift held, or the joystick pushed to its rim.
+  // Running: Shift held (its press is a dash, src/data/dash.js), or the joystick pushed to its rim.
   get running() { return this.shift || (!this.stickBlocked?.() && this.stick.run); }
   // The touch joystick: x right, y down (screen), each -1..1; a push from rest counts as a move key.
   setStick(x, y, run = false) {
