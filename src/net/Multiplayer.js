@@ -16,6 +16,7 @@ import { readSession, writeSession } from '../account/session.js';
 import { setIdentity } from '../account/identity.js';
 import { WorldBossBanner } from '../ui/WorldBossBanner.js';
 import { AnnounceBanner } from '../ui/AnnounceBanner.js';
+import { startHudRail } from '../ui/hudRail.js';
 import { setGmTitleAccess, canWearTitle } from '../data/titleAccess.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
@@ -116,6 +117,9 @@ export function startMultiplayer(game) {
   // every move the player's model plays (skills, basic attacks) is mirrored to the others
   // (a class skill's own clips are not: the others play the whole skill from its `fx`)
   player.onAnim = (clip, sp) => { if (!game.training?.busy) net.send({ t: 'a', clip, sp: +(sp || 1).toFixed(2) }); };
+
+  // the right-hand column (party tools, world boss news) stacks under the minimap and quest
+  startHudRail();
 
   return {
     net, remote, chat, social, meters,

@@ -1,7 +1,7 @@
 /* Peripheral jade/brass news, below major windows and outside the target HUD. */
 body .wb-banner {
   position:fixed; right:max(16px,env(safe-area-inset-right)); top:46%;
-  z-index:4; width:284px; max-width:calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  z-index:4; width:240px; max-width:calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right));
   max-height:calc(54dvh - 16px - env(safe-area-inset-bottom));
   box-sizing:border-box; overflow:auto; padding:8px 10px; text-align:left;
   color:#eee6cd; background:linear-gradient(140deg,#18382ff2,#0c1a17f5);
@@ -52,3 +52,10 @@ body.ui-touch .wb-banner {
   }
 }
 @media (prefers-reduced-motion:reduce) {.wb-banner.wb-in {animation:none}}
+/* the right-hand column is short (src/ui/hudRail.js): the one-line summary and the join button */
+body .wb-banner.rail-tight .wb-text {display:none}
+body .wb-banner.rail-tight .wb-mini {display:block}
+body .wb-banner.rail-tight .wb-toggle {display:none}
+body .wb-banner.rail-tight .wb-join {margin-top:4px; min-height:36px}
+/* no room at all for now: it comes back when there is */
+body [data-rail=wait] {visibility:hidden!important}

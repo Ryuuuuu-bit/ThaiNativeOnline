@@ -247,3 +247,7 @@ body .g-death button{padding:10px 26px;font-size:14px}
 /* windows you can move (src/ui/draggable.js): grab the title bar */
 body:not(.ui-touch) :is(.g-panel > .panel-heading,.settings > .panel-heading,.shop > .panel-heading,.fullmap > .panel-heading,.dlg-head,.auto-panel .ro-title,.training-panel > header,.soc-party > header,.soc-panel > header){cursor:move;user-select:none}
 body .dragging{transition:none!important}
+/* A large window open over the play area: the menu button steps behind it instead of sitting on
+   its corner (the window has its own close button; Esc and the hotkeys still work). Phones keep
+   the button on top: it is how they move between windows. */
+body:not(.ui-touch):has(:is(.inventory-workspace,.g-skills,.soc-panel.soc-win,.settings,.shop,.fullmap,.warp-overlay,.qol-overlay,.g-loadouts,.auto-panel,[aria-modal="true"]):not([hidden]):not([hidden] *)) .mm-btn{z-index:1}

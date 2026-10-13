@@ -52,18 +52,7 @@ export function attachDynamicHUD(game, net) {
     if(zoom)utilities.append(zoom);
     menu.append(utilities);
   }
-  const layout=()=>{
-    if(!tools||!minimap||document.body.classList.contains('ui-touch'))return;
-    const origin=tools.offsetParent?.getBoundingClientRect().top??0;
-    tools.style.top=`${Math.round(minimap.getBoundingClientRect().bottom-origin+8)}px`;
-    const quests=document.querySelector('.exploration');
-    if(quests&&!document.body.classList.contains('ui-compact')){
-      const zoom=parseFloat(getComputedStyle(quests).zoom)||1;
-      const bottom=Math.max(minimap.getBoundingClientRect().bottom,tools.getBoundingClientRect().bottom);
-      quests.style.top=`${Math.round((bottom-origin+12)/zoom)}px`;
-    }
-  };
-  if(tools&&minimap){const observer=new ResizeObserver(layout);observer.observe(minimap);observer.observe(tools);window.addEventListener('resize',layout);layout();}
+  // the party tools and the old journal card are placed by the right-hand column (src/ui/hudRail.js)
   let timer=1,lastHp=c.hp,lastLevel=c.level,lastMode='',lastGold=-1,damageAnimation;
   const cooldowns=new WeakMap();
   return {
