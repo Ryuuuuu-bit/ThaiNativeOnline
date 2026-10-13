@@ -47,10 +47,10 @@ function wearModel(player, scene, avatar) {
 }
 
 export function createClassAvatar(classId, opts) {
-  const avatar = avatarFor(classId);
+  const avatar = avatarFor(classId, opts.character?.gender);
   // Only the class that owns the model gets its skills; a fallback wearer gets the look alone.
   const kit = CLASS_KITS[avatar.skills];
-  if (kit && avatar === AVATARS[classId]) return new TrainingGround(opts, avatar, kit);
+  if (kit && AVATARS[classId]?.url) return new TrainingGround(opts, avatar, kit);
   const model = wearModel(opts.player, opts.scene, avatar);
   // Model only: nothing to drive per frame.
   return { ready: model.ready, cancelLoading: () => model.dispose(), busy: false, enterMap() {}, onManualMove() {}, update() {} };

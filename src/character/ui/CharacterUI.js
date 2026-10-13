@@ -89,7 +89,7 @@ export class CharacterUI {
   buildFrame() {
     const c = this.c;
     this.frame = el('aside', 'g-player glass', `
-      <div class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 30 })}<span class="g-lv"></span></div>
+      <div class="g-portrait" style="--cls:${c.cls.color}">${classBadge(c.classId, c.cls, { size: 30, gender: c.gender })}<span class="g-lv"></span></div>
       <div class="g-player-info">
         <div class="g-player-name"><b>${esc(c.name)}</b><span>${c.cls.name} · <i class="g-job-lv" title="Job Lv. (แต้มสกิล: กด K)"></i></span></div>
         <div class="g-bar g-hp" title="HP"><span></span><em></em></div>

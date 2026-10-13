@@ -20,7 +20,7 @@ export class RemotePlayers {
   get count() { return this.list.size; }
   set(p) {
     if (this.list.has(p.id)) this.remove(p.id);
-    const avatar = avatarFor(p.cls), model = makeModelCharacter(this.scene, null, { url: `${import.meta.env.BASE_URL}${avatar.url}`, height: avatar.height });
+    const avatar = avatarFor(p.cls, p.gender), model = makeModelCharacter(this.scene, null, { url: `${import.meta.env.BASE_URL}${avatar.url}`, height: avatar.height });
     model.group.visible = false;
     model.ready.then(() => { if (this.list.get(p.id)?.model === model) model.group.visible = true; }).catch(() => {});
     const plate = document.createElement('div'); plate.className = 'plate is-player'; this.layer.append(plate);

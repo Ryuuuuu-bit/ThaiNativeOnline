@@ -22,9 +22,12 @@ const attachments = props.map(name => {
   if (!R.byName[hand]) throw Error(`Missing weapon hand ${hand}`);
   R.byName[hand].addChild(node);
   node.setScale(from.getScale().map(v => v * k));
-  R.byName[name] = node; R.parent.set(node, R.byName[hand]); R.nodes.push(node);
   return { name, from, node, hand };
 });
+// the copied props may carry child nodes (their mesh parts): re-index the whole scene
+R.nodes = R.root.listNodes(); R.parent = new Map();
+R.nodes.forEach(n => n.listChildren().forEach(c => R.parent.set(c, n)));
+for (const { name, node } of attachments) R.byName[name] = node;
 const rr = rest(R), order = [];
 (function visit(n) { order.push(n); n.listChildren().forEach(visit); })(R.byName[hips]);
 // A matching bone name does not imply matching anatomical axes. Align the

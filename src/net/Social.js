@@ -116,7 +116,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
       const sh = share(), bonus = sh.near && sh.even ? ` · EXP +${Math.round(party.share.bonus * sh.near * 100)}%` : sh.near ? ' · เลเวลห่างเกิน แยก EXP' : '';
       frame.innerHTML = `<header title="เปิดหน้าต่างปาร์ตี้ (P)">ปาร์ตี้ ${party.members.length} / 6${bonus}</header>` + party.members.filter(p => p.id !== me).map(p => {
         const near = nearOf(p), where = p.dead ? 'หมดสติ' : near || p.map === self()?.map ? `Lv ${p.lv}` : MAP_TH[p.map] ?? p.map ?? '';
-        return `<div class="soc-pf glass${near ? '' : ' far'}${p.dead ? ' dead' : ''}${allyId() === p.id ? ' sel' : ''}" data-id="${p.id}" title="คลิก: เลือกเป็นเป้าฮีล · คลิกอีกครั้งเพื่อเลิกเลือก">${classBadge(p.cls, CLASSES[p.cls])}<div>`
+        return `<div class="soc-pf glass${near ? '' : ' far'}${p.dead ? ' dead' : ''}${allyId() === p.id ? ' sel' : ''}" data-id="${p.id}" title="คลิก: เลือกเป็นเป้าฮีล · คลิกอีกครั้งเพื่อเลิกเลือก">${classBadge(p.cls, CLASSES[p.cls], { gender: p.gender })}<div>`
           + `<div class="r1"><b>${p.id === party.leader ? CROWN : ''}${esc(p.name)}</b><small>${esc(where)}</small></div>${bar('hp', p.hp, p.maxHp)}${bar('mp', p.mp, p.maxMp)}</div></div>`;
       }).join('');
     }
@@ -273,7 +273,7 @@ export function attachSocial(net, c, chat, remote, game = null) {
       const state = mine ? '<b class="ok">คุณ</b>' : p.dead ? '<b class="no">หมดสติ</b>' : near ? '<b class="ok">ใกล้ · ได้ EXP</b>' : '<b class="no">อยู่ไกล · ไม่ได้ EXP</b>';
       const acts = mine ? '<button class="ghost" data-leave>ออกจากปาร์ตี้</button>'
         : `<button data-w="${esc(p.name)}">กระซิบ</button>${lead ? `<button class="ghost" data-lead="${p.id}">มอบหัวหน้า</button><button class="ghost" data-kick="${p.id}">เชิญออก</button>` : ''}`;
-      return `<div class="soc-card${mine ? ' me' : ''}${p.dead ? ' dead' : ''}">${p.id === party.leader ? CROWN : ''}<span class="por">${classBadge(p.cls, CLASSES[p.cls], { size: 40 })}</span>`
+      return `<div class="soc-card${mine ? ' me' : ''}${p.dead ? ' dead' : ''}">${p.id === party.leader ? CROWN : ''}<span class="por">${classBadge(p.cls, CLASSES[p.cls], { size: 40, gender: p.gender })}</span>`
         + `<span class="nm">${esc(p.name)}</span><span class="cl">${CLASSES[p.cls]?.name ?? ''} · Lv ${p.lv}</span>`
         + `${bar('hp', p.hp, p.maxHp, true)}${bar('mp', p.mp, p.maxMp, true)}<div class="pbuffs">${buffsHtml(p.buffs)}</div>`
         + `<div class="meta"><span>อยู่ที่ <b>${esc(MAP_TH[p.map] ?? p.map ?? '')}${p.ch > 1 ? ` · CH ${p.ch}` : ''}</b></span><span>${state}</span></div><div class="acts">${acts}</div></div>`;

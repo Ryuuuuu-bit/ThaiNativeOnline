@@ -66,6 +66,8 @@ export function showCreation(root, { onConfirm = async () => ({ok:true}) } = {})
     };
     const sync = () => {
       list.querySelectorAll('.g-class:not(.g-class-locked)').forEach(b => b.setAttribute('aria-checked', String(b.dataset.id === chosen)));
+      // the portraits follow the chosen gender
+      list.querySelectorAll('.g-class:not(.g-class-locked) .g-class-icon').forEach(i => { const id = i.parentElement.dataset.id; i.innerHTML = classBadge(id, CLASSES[id], { size: 30, gender }); });
       overlay.querySelectorAll('[data-g]').forEach(b => b.setAttribute('aria-checked', String(b.dataset.g === gender)));
       const c = CLASSES[chosen], kit = CLASS_KITS[AVATARS[chosen]?.skills];
       detail.style.setProperty('--cls', c.color); stage.style.setProperty('--cls', c.color);
@@ -81,7 +83,7 @@ export function showCreation(root, { onConfirm = async () => ({ok:true}) } = {})
         playSkillSound(s, AVATARS[chosen]?.skills);
         detail.querySelector('.g-skill-name').textContent = `${s.name} — ${s.desc ?? ''}`;
       }));
-      preview?.show(chosen);
+      preview?.show(chosen, gender);
     };
     sync();
     const input = overlay.querySelector('input');

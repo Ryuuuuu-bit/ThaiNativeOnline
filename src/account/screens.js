@@ -118,7 +118,7 @@ export function showCharacterSelect(root, store, session, { onLogout } = {}) {
           const cls = CLASSES[CLASS_ALIASES[s.character.classId] || s.character.classId];
           stage.style.setProperty('--cls', cls?.color ?? '#cabc86');
           stage.querySelector('.acc-stage-name').textContent = `${s.character.name} · ${cls?.name ?? ''} Lv.${s.character.level ?? 1}`;
-          preview?.show(CLASS_ALIASES[s.character.classId] || s.character.classId);
+          preview?.show(CLASS_ALIASES[s.character.classId] || s.character.classId, s.character.gender);
         };
         showSlot(filled[0]);
         overlay.querySelectorAll('.acc-play').forEach(b => {
@@ -170,7 +170,7 @@ function slotCard({ slot, character: c, needsRename }) {
   const cls = CLASSES[CLASS_ALIASES[c.classId] || c.classId];
   return `<div class="acc-slot" style="--cls:${cls?.color ?? '#cabc86'}">
     <button type="button" class="acc-play" data-play="${slot}" aria-label="เล่น ${esc(c.name)}">
-      <span class="acc-icon">${classBadge(CLASS_ALIASES[c.classId] || c.classId, cls, { size: 34 })}</span>
+      <span class="acc-icon">${classBadge(CLASS_ALIASES[c.classId] || c.classId, cls, { size: 34, gender: c.gender })}</span>
       <b>${esc(c.name)}</b>
       <em>${esc(cls?.name ?? c.classId)} · Lv.${c.level ?? 1}</em>
       <small>${c.gender === 'female' ? 'หญิง' : 'ชาย'} · ${(c.gold ?? 0).toLocaleString()} ตำลึง</small>

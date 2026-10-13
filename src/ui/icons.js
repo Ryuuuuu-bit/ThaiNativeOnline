@@ -4,7 +4,7 @@ import { resolvePaintedSkillIcon, isPaintedSkillIcon } from './painted-skill-ico
 
 // One place that turns icon data into HUD markup, so every screen shows
 // classes, skills, buffs and potions the same way:
-//   classBadge(id, cls)  the class's rendered portrait (AVATARS[id].portrait), else
+//   classBadge(id, cls, { gender })  the class's rendered portrait (AVATARS[id].portrait, or that gender's), else
 //                        its gold line emblem below
 //   iconHtml(entry)      entry.img (a framed PNG) when there is one, else entry.icon
 //   (items, potions included, use iconHtml with their framed art in public/ui/items)
@@ -31,8 +31,8 @@ export const EMBLEMS = {
 const emblem = (id, size) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${EMBLEMS[id] ?? '<circle cx="12" cy="12" r="7"/>'}</svg>`;
 
 // `cls` is the class data (name, color); `size` the emblem's pixel size.
-export function classBadge(id, cls, { size = 26 } = {}) {
-  const portrait = AVATARS[id]?.portrait;
+export function classBadge(id, cls, { size = 26, gender } = {}) {
+  const portrait = AVATARS[id]?.portraits?.[gender] ?? AVATARS[id]?.portrait;
   const inner = portrait ? `<img src="${escapeAttr(versioned(`${BASE}${portrait}`))}" alt="">` : emblem(id, size);
   return `<span class="cls-badge${portrait ? ' has-portrait' : ''}" style="--cls:${cls?.color ?? '#cabc86'}">${inner}</span>`;
 }

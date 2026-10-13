@@ -3,39 +3,53 @@
 //
 // AVATARS: the 3D model (Tripo GLB with a Mixamo rig, see
 // docs/art/classes/<class>/PRODUCTION.md) each class wears in the city.
+// models: one body per gender (public/models/classes/<class>-<gender>.glb, built by
+// tools/class-models/retarget.mjs from the class's original model, public/models/<class>.glb,
+// which keeps the authored clips); url is the male body, the default.
 // A class with no entry wears AVATAR_FALLBACK's model until it gets its own.
 // casts: city combat skill id (src/combat/data/skills.js) → clip played on cast.
 // skills: a kit id from src/classes (CLASS_KITS) — the class's ten skills,
 // their FX and the training dummy in the city.
 // job: rules job (src/rules/data/classes.js JOBS) for the trainee's stats.
-// portrait: head render for the HUD and entry screens (src/ui/icons.js classBadge).
+// portrait: head render for the HUD and entry screens (src/ui/icons.js classBadge); portraits.female
+// the female body's (classBadge(id, cls, { gender })).
 // ready: true opens the class in the creation screen; every other class shows
 // as a locked black silhouette with "?" until its model and skills are done
 // (?classes=all unlocks them all for testing).
 export const AVATARS = {
   muaythai: {
-    url: 'models/muay-thai-fighter.glb', portrait: 'ui/portraits/muaythai.png', height: 1.8, skills: 'muaythai', job: 'boxer', ready: true,
+    url: 'models/classes/muay-thai-fighter-male.glb', models: { male: 'models/classes/muay-thai-fighter-male.glb', female: 'models/classes/muay-thai-fighter-female.glb' }, portrait: 'ui/portraits/muaythai.png', portraits: { female: 'ui/portraits/muaythai-female.png' }, height: 1.8, skills: 'muaythai', job: 'boxer', ready: true,
     casts: { jab: 'boxer_jab', knee: 'boxer_knee', elbow: 'boxer_elbow', waikru: 'boxer_waikru' },
   },
   herbalist: {
-    url: 'models/herbalist.glb', portrait: 'ui/portraits/herbalist.png', height: 1.75, skills: 'herbalist', job: 'healer', ready: true,
+    url: 'models/classes/herbalist-male.glb', models: { male: 'models/classes/herbalist-male.glb', female: 'models/classes/herbalist-female.glb' }, portrait: 'ui/portraits/herbalist.png', portraits: { female: 'ui/portraits/herbalist-female.png' }, height: 1.75, skills: 'herbalist', job: 'healer', ready: true,
     casts: { dart: 'cast_book', blight: 'toss', grove: 'kneel_heal', balm: 'raise_sky' },
   },
   hunter: {
-    url: 'models/hunter.glb', portrait: 'ui/portraits/hunter.png', height: 1.8, skills: 'hunter', job: 'archer', ready: true,
+    url: 'models/classes/hunter-male.glb', models: { male: 'models/classes/hunter-male.glb', female: 'models/classes/hunter-female.glb' }, portrait: 'ui/portraits/hunter.png', portraits: { female: 'ui/portraits/hunter-female.png' }, height: 1.8, skills: 'hunter', job: 'archer', ready: true,
     casts: { shot: 'hunter_shot', volley: 'hunter_volley', snare: 'hunter_trap', sic: 'hunter_hawk' },
   },
   warrior: {
-    url: 'models/warrior.glb', portrait: 'ui/portraits/warrior.png', height: 1.8, skills: 'warrior', job: 'swordman', ready: true,
+    url: 'models/classes/warrior-male.glb', models: { male: 'models/classes/warrior-male.glb', female: 'models/classes/warrior-female.glb' }, portrait: 'ui/portraits/warrior.png', portraits: { female: 'ui/portraits/warrior-female.png' }, height: 1.8, skills: 'warrior', job: 'swordman', ready: true,
     casts: { slash: 'sword_twin', whirl: 'sword_whirl', guard: 'sword_guard', rally: 'sword_banner' },
   },
   shaman: {
-    url: 'models/shaman.glb', portrait: 'ui/portraits/shaman.png', height: 1.8, skills: 'shaman', job: 'mage', ready: true,
+    url: 'models/classes/shaman-male.glb', models: { male: 'models/classes/shaman-male.glb', female: 'models/classes/shaman-female.glb' }, portrait: 'ui/portraits/shaman.png', portraits: { female: 'ui/portraits/shaman-female.png' }, height: 1.8, skills: 'shaman', job: 'mage', ready: true,
     casts: { bolt: 'shaman_akom', yantra: 'shaman_yant', curse: 'shaman_curse', mend: 'shaman_holy' },
   },
 };
 export const AVATAR_FALLBACK = 'muaythai';
-export const avatarFor = id => (AVATARS[id]?.url ? AVATARS[id] : AVATARS[AVATAR_FALLBACK]);
+// avatarFor(classId, gender?) → the class's avatar wearing that gender's body ('male' unless 'female');
+// the same object every time for the same class and gender
+const GENDERED = new Map();
+export function avatarFor(id, gender) {
+  const owner = AVATARS[id]?.url ? id : AVATAR_FALLBACK, base = AVATARS[owner], g = gender === 'female' ? 'female' : 'male';
+  const url = base.models?.[g]; if (!url || url === base.url) return base;
+  const key = `${owner}:${g}`;
+  if (!GENDERED.has(key)) GENDERED.set(key, Object.freeze({ ...base, url }));
+  return GENDERED.get(key);
+}
+export const ownsAvatar = id => !!AVATARS[id]?.url;
 export const classReady = id => AVATARS[id]?.ready === true;
 
 // Damage comes from src/rules: the player's own Character stats (computeDerived) for

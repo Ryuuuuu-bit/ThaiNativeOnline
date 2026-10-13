@@ -1,3 +1,31 @@
+# Male and female class bodies (2026-10-13)
+
+Every class now has two bodies, `public/models/classes/<class>-male.glb` and
+`<class>-female.glb`, picked by the character's gender (`avatarFor(classId, gender)` in
+`src/data/training.js`). They were made in Tripo Studio from the turnaround art in
+`ThaiNativeOnline-Character-Art/class-turnaround-40/<job>/<gender>/{front,left,right,back}.png`
+(multi-view, H3.1, 30k triangles, 2K PBR), auto-rigged with the Mixamo preset and exported as
+GLB with the skeleton (Downloads/<job>-<gender>.glb; not committed, ~4.5 MB each).
+
+The clips and weapons come from the class's original model, which stays in `public/models/<class>.glb`
+as the donor (job → donor: swordman → warrior `sword_L sword_R`, archer → hunter `hunter_bow`,
+boxer → muay-thai-fighter, healer → herbalist, mage → shaman):
+
+```sh
+node tools/class-models/unpack.mjs public/models/warrior.glb artifacts/warrior-donor.glb   # meshopt → plain (three's meshopt_decoder + dequantize)
+node tools/class-models/retarget.mjs Downloads/swordman-female.glb artifacts/warrior-donor.glb artifacts/warrior-female.glb sword_L sword_R
+python tools/models/shrink-glb-textures.py artifacts/warrior-female.glb --max 1024 --quality 90
+npx gltfpack -i artifacts/warrior-female.glb -o public/models/classes/warrior-female.glb -cc -kn -ke -vpf   # -vpf for the weapon classes
+```
+
+Portraits (`public/ui/portraits/<class>.png`, `<class>-female.png`) are 256px renders of the
+packed bodies' idle pose in the game loader. If a Tripo export comes back with its bones at
+identity and the skeleton turned 90° from the mesh (it happened once), export it again: the
+second export was a normal rig. `tests/class-gender-models.test.js` checks every body keeps
+the donor's clips, timings, skeleton, weapons and download budget.
+
+---
+
 # Retarget supplied warrior and ranger models
 
 The warrior replacement is now inactive: the user requested the original Tripo

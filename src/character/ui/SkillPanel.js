@@ -193,7 +193,7 @@ export class SkillPanel {
     const key = JSON.stringify([this.sel, c.jobLevel, c.skills, c.evo, c.gold, c.derived, c.patk, c.matk, c.critChance, c.cooldownCut, c.evoContext?.(), this.pendingEvo]);
     if (key === this.key) return;
     this.key = key;
-    this.root.querySelector('.g-sk-path').innerHTML = `<span class="g-pchip cur">${classBadge(c.classId, c.cls, { size: 17 })}<span>${esc(c.cls?.name ?? '')}<small>ปัจจุบัน · Job Lv ${c.jobLevel} / ${MAX_JOB_LEVEL}</small></span></span>
+    this.root.querySelector('.g-sk-path').innerHTML = `<span class="g-pchip cur">${classBadge(c.classId, c.cls, { size: 17, gender: c.gender })}<span>${esc(c.cls?.name ?? '')}<small>ปัจจุบัน · Job Lv ${c.jobLevel} / ${MAX_JOB_LEVEL}</small></span></span>
       <small class="g-future-class">อาชีพขั้นสอง · ยังไม่เปิด</small>`;
     const pts = this.root.querySelector('.g-sk-pts'); pts.querySelector('b').textContent = c.skillPoints; pts.classList.toggle('g-has-points', c.skillPoints > 0);
     const reset = this.root.querySelector('.g-skill-reset');

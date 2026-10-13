@@ -13,7 +13,7 @@ import { createDummy } from '../classes/fx/dummy.js';
 // dispose() before the world starts.
 //
 //   const preview = new ModelPreview(hostElement);
-//   preview.show('herbalist'); preview.skill('heal_vine'); preview.dispose();
+//   preview.show('herbalist', 'female'); preview.skill('heal_vine'); preview.dispose();
 //
 // The camera orbits the model (the world stays still) so skill FX, which live in
 // world space, line up with the moving fighter.
@@ -148,8 +148,8 @@ export class ModelPreview {
   }
 
   // Shows the class's model (loaded once, then cached). Resolves when it is visible.
-  show(classId) {
-    const avatar = avatarFor(classId);
+  show(classId, gender) {
+    const avatar = avatarFor(classId, gender);
     let entry = this.models.get(avatar.url);
     if (!entry) {
       const character = makeModelCharacter(this.scene, null, { url: `${import.meta.env.BASE_URL}${avatar.url}`, height: avatar.height, guardClip: 'idle' });
