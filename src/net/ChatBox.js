@@ -245,24 +245,33 @@ export class ChatBox {
     this.rememberWhisper(peer);
     this.add(message.echo?`ถึง ${peer}`:`จาก ${peer}`,message.text,'whisper',null,peer);
   }
+  // kind 'announce': a server-wide announcement (GM ประกาศ, world boss, rare card). It goes to the
+  // World tab, styled apart and not whisperable, and a copy to the System log (counted unread once).
   add(name, text, kind = '', title = null, peer = null) {
-    const channel = kind === 'area' ? 'area' : kind === 'party' ? 'party' : kind === 'whisper' ? 'whisper' :
-      kind === 'gm' || kind === 'news' || kind === 'system' || name === 'ระบบ' || name === 'ประกาศ' || name === 'บอสโลก' ? 'system' : 'general';
+    if (kind === 'news' && /^📢/.test(name)) kind = 'announce';   // a GM ประกาศ from an older server
+    if (kind === 'announce') { this.addLine(name, text, kind, null, null, 'system', false); return this.addLine(name, text, kind, null, null, 'general'); }
+    return this.addLine(name, text, kind, title, peer);
+  }
+  addLine(name, text, kind = '', title = null, peer = null, forced = null, count = true) {
+    const channel = forced ?? (kind === 'area' ? 'area' : kind === 'party' ? 'party' : kind === 'whisper' ? 'whisper' :
+      kind === 'gm' || kind === 'news' || kind === 'system' || name === 'ระบบ' || name === 'ประกาศ' || name === 'บอสโลก' ? 'system' : 'general');
     const line = document.createElement('p');
     // Only the local, whitelisted title catalogue produces markup; message/name are text.
     line.innerHTML = `${titleHtml(title, { brackets: true })}<b></b> <span></span>`;
     if (kind) line.className = kind;
     line.dataset.channel = channel; line.hidden = channel !== this.channel;
     line.querySelector('b').textContent = name; line.querySelector('span').textContent = text;
-    const to=peer||(['general','area','party'].includes(channel)&&name!==this.selfName?name:null);
+    const to=peer||(kind!=='announce'&&['general','area','party'].includes(channel)&&name!==this.selfName?name:null);
     if(to){const button=document.createElement('button');button.type='button';button.className='chat-person';button.dataset.whisperTo=to;button.textContent=name;button.setAttribute('aria-label',`กระซิบถึง ${to}`);line.querySelector('b').replaceWith(button);}
     const atBottom = this.lines.scrollHeight - this.lines.scrollTop - this.lines.clientHeight < 24;
     this.lines.append(line);
     const history = [...this.lines.children].filter(item => item.dataset.channel === channel);
     while (history.length > HISTORY_LINES) history.shift().remove();
-    if (this.visible(channel)) this.markRead(); else { this.unread[channel]++; this.paintUnread(); }
+    if (this.visible(channel)) this.markRead(); else if (count) { this.unread[channel]++; this.paintUnread(); }
     if (atBottom) this.lines.scrollTop = this.lines.scrollHeight;
-    setTimeout(() => line.classList.add('old'), 12000);
+    // announcements stay bright; ordinary lines dim after a while
+    if (kind !== 'announce') setTimeout(() => line.classList.add('old'), 12000);
+    return line;
   }
 
   // Recent public lines the server replays once after joining (server/chat-guard.js): shown dimmed,
@@ -273,8 +282,9 @@ export class ChatBox {
     const unread = { ...this.unread }, used = new Set();
     for (const l of lines) {
       if (typeof l?.name !== 'string' || typeof l?.text !== 'string') continue;
-      this.add(l.name, l.text, l.kind === 'area' ? 'area' : '', l.title ?? null);
-      const line = this.lines.lastElementChild; line?.classList.add('hist', 'old'); if (line) used.add(line.dataset.channel);
+      const kind = l.kind === 'area' || l.kind === 'announce' ? l.kind : '';
+      const line = kind === 'announce' ? this.addLine(l.name, l.text, kind, null, null, 'general', false) : this.addLine(l.name, l.text, kind, l.title ?? null);
+      line?.classList.add('hist', 'old'); if (line) used.add(line.dataset.channel);
       if (line && Number.isFinite(l.at)) line.title = new Date(l.at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
     }
     for (const channel of used) {

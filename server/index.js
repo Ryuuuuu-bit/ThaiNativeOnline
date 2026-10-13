@@ -961,7 +961,7 @@ function report(ws, me, m) {
 }
 // by name (someone other than `not` first: guests may share a name)
 const byName = (name, not = null) => { const k = String(name ?? '').toLowerCase(); let self = null; for (const [ws, p] of presence.players) if (p.name.toLowerCase() === k) { if (p !== not) return { ws, p }; self = { ws, p }; } return self; };
-const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, saveMute, listReports: n => store.listReports?.(n) ?? [], moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
+const gmCtx = { isAdmin: authorizeGm, adminCommand, presence, get combatants() { return combatants; }, worldOf: room => worldOf(room), route: (room, ev) => route(room, ev), send, toAll, toMap: (room, msg) => toMap(room, msg), byName: (name, not) => { const target = byName(name, not); return target && !(combatants.get(target.p.id)?.stashBusy || combatants.get(target.p.id)?.tradeBusy) ? target : null; }, byId, mutes, saveMute, remember: line => chatHistory.add(line), listReports: n => store.listReports?.(n) ?? [], moveTo: (ws, ch, why) => moveTo(ws, ch, why), phase: () => clock.phase, setHour: h => setHour(h) };
 
 async function sendWelcome(ws, message) {
   const p = presence.players.get(ws), room = p?.room, persisted = p && combatants.get(p.id)?.persist;

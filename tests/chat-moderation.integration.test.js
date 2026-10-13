@@ -29,7 +29,7 @@ test('chat moderation: World rules, masking, blocks, history and reports', { tim
     await import('./server/index.js');`;
   const child = spawn(process.execPath, ['--input-type=module', '-e', bootstrap], {
     cwd: new URL('../', import.meta.url),
-    env: { ...process.env, PORT: String(port), DATABASE_URL: '', ADMIN_IDS: '', GM_ID: '', GM_PASSWORD: '', GOOGLE_CLIENT_ID: '' },
+    env: { ...process.env, PORT: String(port), DATABASE_URL: '', ADMIN_IDS: 'chatb', GM_ID: '', GM_PASSWORD: '', GOOGLE_CLIENT_ID: '' },
     stdio: ['ignore', 'pipe', 'pipe'],
   });
   let logs = ''; child.stdout.on('data', d => { logs += d; }); child.stderr.on('data', d => { logs += d; });
@@ -102,12 +102,22 @@ test('chat moderation: World rules, masking, blocks, history and reports', { tim
     assert.deepEqual((await b.wait(m => m.t === 'blocks', 'unblock')).list, []);
   });
 
+  await t.test('a GM ประกาศ reaches everyone as an announcement and is replayed to newcomers', async () => {
+    b.send({ t: 'c', text: '/gm say ปิดปรับปรุง 22:00 น.' });
+    await settleAll();
+    for (const p of [a, b, low]) {
+      const [line] = p.lines('ปิดปรับปรุง 22:00 น.');
+      assert.ok(line, `announcement to ${p.welcome.you}`); assert.equal(line.kind, 'announce'); assert.equal(line.id, null);
+    }
+  });
+
   await t.test('a newcomer gets the recent public lines once, masked', async () => {
     const guest = await connect(null);
     const hist = await guest.wait(m => m.t === 'chist', 'chist');
     const texts = hist.lines.map(l => l.text);
     assert.ok(texts.includes('สวัสดี ✱✱✱✱✱ ✱✱✱✱ you'));
     assert.ok(texts.includes('area after block'));
+    assert.equal(hist.lines.find(l => l.text === 'ปิดปรับปรุง 22:00 น.')?.kind, 'announce');
     assert.ok(hist.lines.every(l => Number.isFinite(l.at)));
     guest.send({ t: 'c', scope: 'world', text: 'guest world' });
     await settleAll();

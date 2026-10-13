@@ -150,7 +150,8 @@ export async function gm(ctx, me, text) {
     }
     case 'say': {
       const msg = args.join(' ').slice(0, 160); if (!msg) return 'ใส่ข้อความ';
-      ctx.toAll({ t: 'c', id: null, name: '📢 ประกาศ', text: msg, kind: 'news' }); log(`say ${msg}`); return 'ประกาศแล้ว';
+      const line = { t: 'c', id: null, name: '📢 ประกาศ', text: msg, kind: 'announce' };
+      ctx.toAll(line); ctx.remember?.(line); log(`say ${msg}`); return 'ประกาศแล้ว';
     }
   }
   return `ไม่รู้จักคำสั่ง "${cmd}" · ${HELP}`;

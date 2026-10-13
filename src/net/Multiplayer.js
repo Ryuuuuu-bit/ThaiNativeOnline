@@ -15,6 +15,7 @@ import { ITEMS } from '../character/data/items.js';
 import { readSession, writeSession } from '../account/session.js';
 import { setIdentity } from '../account/identity.js';
 import { WorldBossBanner } from '../ui/WorldBossBanner.js';
+import { AnnounceBanner } from '../ui/AnnounceBanner.js';
 import { setGmTitleAccess, canWearTitle } from '../data/titleAccess.js';
 
 // Phase 1 of the server split (docs/technical/SERVER_SPLIT.md): see the other players
@@ -46,6 +47,7 @@ export function startMultiplayer(game) {
   const refreshWhisperContacts = () => chat.setWhisperContacts([...remote.list.values()].map(p=>p.name), c.name);
   for(const event of ['welcome','join','leave','status'])net.on(event,()=>queueMicrotask(refreshWhisperContacts));
   game.game.hud.feed.connectChat(chat);
+  const announceBanner = new AnnounceBanner();
   const bossBanner = new WorldBossBanner({ onJoin: () => net.send({ t: 'wbjoin' }), canJoin: () => net.online && game.maps?.map?.id !== 'ruen_ho' });
   let map = game.maps.map.id, sendT = 0, keepT = 0, last = null, lv = c.level;
   const pos = () => ({ x: +player.position.x.toFixed(2), z: +player.position.z.toFixed(2), f: +player.group.rotation.y.toFixed(3) });
@@ -62,9 +64,9 @@ export function startMultiplayer(game) {
     .on('chmove', m => chat.add('ระบบ', m.why === 'closed' ? `แชนแนลเดิมปิดแล้ว · ย้ายมา CH ${m.ch}` : `ย้ายมา CH ${m.ch}`))
     .on('chwarn', m => chat.add('ระบบ', `CH ${m.ch} คนน้อย จะปิดใน ${m.secs} วินาที · ระบบจะย้ายคุณไปแชนแนลอื่นเอง`))
     .on('chno', m => chat.add('ระบบ', CH_WHY[m.why] ?? 'ย้ายแชนแนลไม่ได้'))
-    .on('cardnews', m => chat.add('ประกาศ', `✦ ${m.name} ได้รับ${ITEMS[m.card]?.name ?? 'การ์ด'}!`, 'news'))
+    .on('cardnews', m => chat.add('✦ การ์ดหายาก', `${m.name} ได้รับ${ITEMS[m.card]?.name ?? 'การ์ด'}!`, 'announce'))
     // world boss news (server/index.js): a banner for everyone, and the line in the chat
-    .on('wbnews', m => { const line = bossBanner.show(m); if (line && m.state !== 'closed') chat.add('บอสโลก', line, 'news'); })
+    .on('wbnews', m => { const line = bossBanner.show(m); if (line && m.state !== 'closed') chat.add('👹 บอสโลก', line, 'announce'); })
     .on('join', m => remote.set(m.p))
     .on('leave', m => remote.remove(m.id))
     .on('tick', m => { for (const [id, x, z, f, mv] of m.p) remote.move(id, x, z, f, mv); })
@@ -72,6 +74,7 @@ export function startMultiplayer(game) {
     .on('lv', m => remote.level(m.id, m.lv))
     .on('ttl', m => remote.setTitle(m.id, m.title))   // someone's worn title (src/data/titles.js)
     .on('c', m => {
+      if (m.kind === 'announce') announceBanner.show(m.name, m.text);   // a GM ประกาศ: across the top of the screen too
       if (m.id != null && chat.isBlocked?.(m.name)) return;
       chat.add(m.name, m.text, m.kind ?? '', m.title);
       if (m.id != null) bubbles.say(m.id, m.text, m.kind || 'world');   // only someone in this room (or you) has a head here

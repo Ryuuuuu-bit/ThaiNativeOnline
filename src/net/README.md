@@ -83,3 +83,7 @@ wait for the server's current balance. See `src/fair/README.md` for the contract
   per connection as `{ t:'chist', lines }`; ChatBox shows them dimmed above a divider. Tabs keep 100 lines.
 - **Speech bubbles** (src/net/SpeechBubbles.js) over the speaker for area/world lines from this
   room, party lines and your own.
+- **Announcements** (kind `announce`: GM `/gm say`, world boss, rare cards) go to the World tab,
+  highlighted and not whisperable, with a copy in the System log (unread counted once). A GM
+  ประกาศ also shows across the top of the screen (src/ui/AnnounceBanner.js) and is kept in the
+  history replay. Personal lines (titles, loot, combat, buffs) stay in System.

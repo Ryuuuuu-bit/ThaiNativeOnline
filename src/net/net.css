@@ -161,3 +161,14 @@ button.soc-card.empty { cursor: pointer; } button.soc-card.empty:hover { border-
 /* replayed lines and the divider under them (ChatBox.addHistory) */
 .net-chat .net-lines p.hist{opacity:.6}
 .net-chat .net-lines p.chat-divider{margin:4px 0;text-align:center;font-size:11px;color:#e8d4a2aa;border-top:1px dashed #e8d4a255;padding-top:2px}
+
+/* server-wide announcements: in the World tab and the System log (ChatBox kind 'announce') */
+.net-chat .net-lines p.announce{background:linear-gradient(90deg,#c99a3a40,#c99a3a12);border-left:3px solid #e6be6a;border-radius:4px;padding:3px 6px;margin:3px 0;color:#fff2cf}
+.net-chat .net-lines p.announce b{color:#ffd77a}
+.net-chat .net-lines p.announce.hist{opacity:.75}
+/* a GM ประกาศ across the top of the screen (src/ui/AnnounceBanner.js) */
+.announce-banner{position:fixed;left:50%;top:92px;transform:translateX(-50%);z-index:40;max-width:min(680px,calc(100vw - 32px));padding:10px 18px;border-radius:12px;background:linear-gradient(180deg,#3b2a12f2,#24190bf2);border:1px solid #e6be6a;box-shadow:0 6px 24px #0008,inset 0 1px 0 #ffe6a855;color:#fff2cf;font-size:15px;line-height:1.45;text-align:center;cursor:pointer;animation:announce-in .35s ease-out}
+.announce-banner b{display:block;color:#ffd77a;font-size:13px;letter-spacing:.04em;margin-bottom:2px}
+.announce-banner.leaving{opacity:0;transition:opacity .3s}
+@keyframes announce-in{from{opacity:0;transform:translate(-50%,-12px)}to{opacity:1;transform:translate(-50%,0)}}
+.photo-mode .announce-banner{display:none}
