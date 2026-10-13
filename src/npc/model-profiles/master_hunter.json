@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "master_hunter",
   "revision": "woven-v1",
-  "assetSha256": "08ea714087fff4906e590799eaddb0596a71273cf0fa3788344d814d6e1e7bf2",
+  "assetSha256": "2a4819b6abf927ca4b8904b369b9026d2e49bd8db2c6634c7bfbead915ef3241",
+  "walkStride": 1.3803,
   "geometryAssetSha256": "0d35aac66523b53d2c7dfdc79de23b42e1187d8c7a8be8c88055194870bd7860",
   "qaApproved": true,
   "calibration": {

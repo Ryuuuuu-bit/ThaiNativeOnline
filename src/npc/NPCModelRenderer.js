@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { clone as cloneSkinned } from 'three/addons/utils/SkeletonUtils.js';
-import { npcModelSpec, npcModelCache, createNPCPoseAdapter, npcPoseAdapterRevision, npcAccessoryParts, NPC_PROP_FRAMES } from './NPCModels.js';
+import { npcModelSpec, npcModelCache, createNPCPoseAdapter, npcPoseAdapterRevision, npcAccessoryParts, NPC_PROP_FRAMES, npcModelProfile } from './NPCModels.js';
 import { computeFrames } from './body/rig.js';
 
 const warned = new Set();
@@ -186,7 +186,14 @@ export class NPCModelRenderer {
         // Evaluate the real native clip before visibility, including a load that
         // finishes mid-walk. Walking cadence follows the existing NPC gait clock.
         const duration = action.getClip().duration;
-        const clock = moving && Number.isFinite(npc.walkPhase) ? npc.walkPhase / (2 * Math.PI) * duration : time + (npc.seed ?? 0);
+        // A mocap walk with a measured stride follows the distance actually walked, so the planted
+        // foot stays still on the ground whatever the NPC's speed; older clips keep the gait clock.
+        const stride = phase === 'walk' && npcModelProfile(entry.spec.family)?.walkStride;
+        if (Number.isFinite(entry.lastX)) entry.walked = (entry.walked ?? 0) + (moving ? Math.hypot(npc.x - entry.lastX, npc.z - entry.lastZ) : 0);
+        entry.lastX = npc.x; entry.lastZ = npc.z;
+        const strideWorld = stride ? stride * entry.scale.scale.x * root.scale.x : 0;
+        const clock = moving && strideWorld > 0 ? (entry.walked ?? 0) / strideWorld * duration
+          : moving && Number.isFinite(npc.walkPhase) ? npc.walkPhase / (2 * Math.PI) * duration : time + (npc.seed ?? 0);
         action.time = ((clock % duration) + duration) % duration;
         entry.mixer.update(0);
         for (const sample of entry.nativeSamples[phase]) sample.binding.setValue(sample.interpolant.evaluate(action.time), 0);

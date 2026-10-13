@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "master_sword",
   "revision": "woven-v1",
-  "assetSha256": "758fc9829c6719a535500b2f8fee286ae3b00f6e28660661bb349beb62665c47",
+  "assetSha256": "381497a67eef02f0e16df8ee9baef387d99234d333dd0c6a8146e084de69c535",
+  "walkStride": 1.3134,
   "geometryAssetSha256": "e3c4f36d1c81fee1b294406411066603b714e523d5c7d360ae642667a8c45cd8",
   "qaApproved": true,
   "calibration": {

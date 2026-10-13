@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "occultist",
   "revision": "woven-v2",
-  "assetSha256": "bcf7a1c5f3b1d23be1c07403ccee5e640fd62f18887bcb7b4eb257776353d3ac",
+  "assetSha256": "ecfa4fc3c6119e9ffbe466a26ad9f635019d7642336bd874243fbe0b98fdff4a",
+  "walkStride": 1.3916,
   "geometryAssetSha256": "619e684d6e16de1fa93c1f779442ff71934bf9af987623177cf8b79db5370d61",
   "qaApproved": true,
   "calibration": {

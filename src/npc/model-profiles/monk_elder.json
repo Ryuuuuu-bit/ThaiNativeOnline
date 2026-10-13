@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "monk_elder",
   "revision": "woven-v3",
-  "assetSha256": "5487c15a0b60691c0c0e2dfe3196d75c1ddb1824ab32d4f6f9275d6922bfd837",
+  "assetSha256": "383d45f01b26d386a24d7b98f91ac4838c56e03093fc050a9283d786a93ff400",
+  "walkStride": 1.3811,
   "geometryAssetSha256": "20357680875252c883bcb4fbb5681ce10d8f5d3d1cd2a8338162693d5427e236",
   "qaApproved": true,
   "calibration": {

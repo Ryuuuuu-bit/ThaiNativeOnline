@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "general_merchant",
   "revision": "woven-v1",
-  "assetSha256": "904e8357a883adc16bd013e87fe078f2843936a9571b8ef290ad7e97995b63d6",
+  "assetSha256": "7e23a4813a69f48753309bf59840df1eb7b53b9f64d21ad00d29f7a970214ed5",
+  "walkStride": 1.3719,
   "geometryAssetSha256": "4f38b1e684ed6e4cfd9292ef5906ba62b72ac0d1e5187eca59e9c78db388274f",
   "qaApproved": true,
   "calibration": {

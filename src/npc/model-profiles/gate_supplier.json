@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "gate_supplier",
   "revision": "woven-v2",
-  "assetSha256": "182c54ced869fdfc9ed32674c50965dc1d04c311b216cb4e5f43774854e4f506",
+  "assetSha256": "de2879ce942d99bfccdae418f944ae49c9a35599f8cba84e2614679171c2e334",
+  "walkStride": 1.501,
   "geometryAssetSha256": "55bce431f91a5efe89e33d5945f0fa7bf39b3075243d0dbdd5ba9a575e78c403",
   "qaApproved": true,
   "calibration": {

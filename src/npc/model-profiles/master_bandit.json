@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "master_bandit",
   "revision": "woven-v3",
-  "assetSha256": "d99b30aa40d341b9ddf7e82d577bb3b2bf4553ffc3d20abebf5a603c1c2f913b",
+  "assetSha256": "c8bc7e608f05bcd4dcfd031746166aaa3647337002cd39514780036b23f4d4d9",
+  "walkStride": 1.3583,
   "geometryAssetSha256": "03197e2d2cd355de6045943a50e7cf00678c65f05239d9e430674a7a31b6f91e",
   "qaApproved": true,
   "calibration": {

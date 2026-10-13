@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "master_herbal",
   "revision": "woven-v4",
-  "assetSha256": "528d02f33505964d2b1419f5978c80c9b21af8ad58e20f8e984ca0a8fd42fe50",
+  "assetSha256": "8cd3eff5006f63d49cb8674555ce5d340b00df42e7606d0f5117538f545765b0",
+  "walkStride": 1.2117,
   "geometryAssetSha256": "c699a77238d1ebb1771a5aba4c3edec310d7d40feb05197d59dca80e6b8bf166",
   "qaApproved": true,
   "calibration": {

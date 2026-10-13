@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "master_muay",
   "revision": "woven-v1",
-  "assetSha256": "939783ef28a8f66100bf9be7c9e8003fbf532ad8212e9accfa92a20c6419da0c",
+  "assetSha256": "0f0f7d39720fa56a825855a41d684046df8cceef64ed12bf02846d984c7fdd4f",
+  "walkStride": 1.3247,
   "geometryAssetSha256": "c5f36e6b0f78e3b30edd644c551b4ee4cc426d6b7e396d46a51c21786802ed4c",
   "qaApproved": true,
   "calibration": {

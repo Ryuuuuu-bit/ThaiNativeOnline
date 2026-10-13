@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "herbalist",
   "revision": "woven-v1",
-  "assetSha256": "a9ef1d29b9afc5b3ea1d4e2abee5de047799022017d4e2c4b5ac7e2c56b9be1a",
+  "assetSha256": "28624ef5cd758cbc7ed41da18f6ad41eb1887d881b2ad03f2ea1f85863534a34",
+  "walkStride": 1.3874,
   "geometryAssetSha256": "faf5763f946f5c10dd5d4cb01510ef5eba47d4064c263a9102e96cee609c6524",
   "qaApproved": true,
   "calibration": {

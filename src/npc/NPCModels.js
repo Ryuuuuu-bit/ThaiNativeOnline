@@ -503,6 +503,8 @@ export function registerNPCModelProfiles(catalog) {
     // private output paths and preparation metadata elsewhere.
     return Object.freeze({ schema: 1, family: p.family, revision: p.revision, geometryAssetSha256: p.geometryAssetSha256, assetSha256: p.assetSha256,
       qaApproved, stowedTools: p.stowedTools === true,
+      // metres (in the file's units) the body travels per `walk` cycle (tools/npc-models/retarget-gait.mjs)
+      walkStride: Number.isFinite(p.walkStride) && p.walkStride > 0 ? p.walkStride : null,
       calibration: { schema: 1, coordinates: { up: '+Y', front: '+Z', height: c.coordinates.height, footOrigin: [...c.coordinates.footOrigin] }, nodes, hands },
       normalization: p.normalization, handScale: p.handScale,
       grips: p.grips, sockets: p.sockets, roleMotion: roleMotion(p.family, p.roleMotion), activityPoses: activityPoses(p.family, p.activityPoses),

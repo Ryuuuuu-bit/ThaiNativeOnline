@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "warp_keeper",
   "revision": "woven-v4",
-  "assetSha256": "b2bab82d7114ac4b224d7e16efbc00105d31c168d78a01e937ab79e65ef3278a",
+  "assetSha256": "41ce8f3e7c669e0cefc85d2d5235844349d2fdb541d69dc0c1ea61e8f5bd0ac5",
+  "walkStride": 1.3698,
   "geometryAssetSha256": "099119c59cee2870dc2650cc974a6a76d81f1ef8f29a9a6e99f3d9840a6f5704",
   "qaApproved": true,
   "calibration": {

@@ -2,7 +2,8 @@
   "schema": 1,
   "family": "blacksmith",
   "revision": "woven-v1",
-  "assetSha256": "f5746d160c6fc1a2771c3d204fd9ede3053750ce15d931cd3c61ff7f01d9b2af",
+  "assetSha256": "0ec165843a0d17ded287e6a08692fefc30ab2111a53850c3ad4d61e25d2f0fe2",
+  "walkStride": 1.3985,
   "geometryAssetSha256": "7acc63e9351e52ca07bc4878170f844f6dbf3bafac4bf04e5bcd0c1d74a92c4f",
   "qaApproved": true,
   "calibration": {
