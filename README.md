@@ -37,7 +37,7 @@ Deploy อยู่บน Railway เฉพาะ UAT (<https://thainative-uat.u
 
 | แมพ | ระดับ | บรรยากาศ |
 | --- | --- | --- |
-| นครที่ถูกลืมเลือน | เขตปลอดภัย | ท่าเรือ ตลาด ย่านช่าง ลานฝึก วัด งานวัดยามเย็น NPC 63 ตัวมีตารางชีวิตกลางวัน–กลางคืน และผู้ดูแลการเดินทาง |
+| นครที่ถูกลืมเลือน | เขตปลอดภัย | ท่าเรือ ตลาด ย่านช่าง ลานฝึก วัด งานวัดยามเย็น ถนนหน้าประตูเมืองแบบอยุธยา (ประตูเมืองยอดปรางค์ กำแพงใบเสมา ห้องแถวหน้าจั่ว ช้างปูนปั้น ธงตะขาบ) NPC 63 ตัวมีตารางชีวิตกลางวัน–กลางคืน และผู้ดูแลการเดินทาง |
 | ทุ่งนาข้าว | 1–5 | หมูป่า ไก่ป่า ปูนา ลิงกัง งูเห่านา ผีป่า · ควายป่า (อีลิท) |
 | ป่าลึก | 3–9 | หมาไน เหี้ย ผีกองกอย ผีโขมด · เสือสมิง (อีลิท เฉพาะกลางคืน) นางตะเคียน |
 | วัดร้าง | 5–14 | เปรตน้อย ผีหัวขาด ผีกระหัง ผีตายโหง ทหารผีเฝ้าวัด · กระสือ (อีลิท) ผีปู่โสม (บอส) |
@@ -154,8 +154,8 @@ src/
   ui/          HUD, hudRail (คอลัมน์ขวา), AnnounceBanner, ActionBar, autoSettings, Minimap, WorldMapPanel, QuestJournal, BestiaryPanel, CardCompendiumPanel, ShopPanel, MainMenu, SkillPager, TouchControls, settings, draggable
   quest/ shop/ account/ audio/ data/ shared/
 server/        ดูตารางด้านบน
-tests/         node --test (199 ไฟล์) · docs/ วิสัยทัศน์ ศิลป์ โลก เทคนิค
-tools/         pipeline โมเดล (มอนสเตอร์ NPC อาชีพ หมา) ไอคอน สคริปต์ QA/ถ่ายภาพ export collision และ sim/farm-sim.mjs
+tests/         node --test (202 ไฟล์) · docs/ วิสัยทัศน์ ศิลป์ โลก เทคนิค
+tools/         pipeline โมเดล (มอนสเตอร์ NPC อาชีพ หมา, ชุดสถาปัตยกรรมอยุธยา city-kit/ สร้างด้วย Blender bpy) ไอคอน สคริปต์ QA/ถ่ายภาพ export collision และ sim/farm-sim.mjs
 prototypes/    skill-fx: ต้นแบบเอฟเฟกต์สกิล ยังไม่ผูกกับ build
 ```
 

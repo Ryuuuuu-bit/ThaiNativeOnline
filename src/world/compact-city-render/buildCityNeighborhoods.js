@@ -395,7 +395,7 @@ export function buildCityCourtyardEdges({
   root,CITY,mat,geo,box,cyl,beam,ball,M,pot,lanternAt,
 }) {
   const result={count:0,walls:0,planters:0,facadeBays:0,clusters:0,sourceMeshes:0,fenceLots:0,fenceSegments:0,gatePosts:0,fenceStyles:{}};
-  const buildings=CITY.buildings.filter(b=>!['infill','garden','fair'].includes(b.kind));
+  const buildings=CITY.buildings.filter(b=>!['infill','garden','fair','kit'].includes(b.kind));
   if(!buildings.length)return result;
   const warmPlaster=mat('#d9cfb4'),soil=M.dark;
 

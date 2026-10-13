@@ -63,6 +63,32 @@ const PALETTES = {
   forest: ['#697565','#aa9c65','#a8d3b9'], wat: ['#78665f','#b5a079','#c8b4dc'],
   klong: ['#637b76','#b8a779','#9ed8cf'],
 };
+// The city's warp stands just inside the Ayutthaya north gate (src/world/compact-city-render/
+// buildCityAyutthaya.js), so its gateway is built in the same idiom: square brick pillars with
+// stucco bands and lotus-bud finials, a lintel crowned with ใบเสมา and a small prang.
+const SEMA = [[-.34, 0], [.34, 0], [.34, .42], [.22, .68], [0, .95], [-.22, .68], [-.34, .42]];
+function ayutthayaGateway(add, offset) {
+  const brick = new THREE.MeshLambertMaterial({ color: '#9a5a3e' }), stucco = new THREE.MeshLambertMaterial({ color: '#ead4a5' });
+  const gold = new THREE.MeshLambertMaterial({ color: '#caa05e' });
+  const sema = new THREE.ExtrudeGeometry(new THREE.Shape(SEMA.map(([x, y]) => new THREE.Vector2(x, y))), { depth: .16, bevelEnabled: false }).translate(0, 0, -.08);
+  for (const side of [-1, 1]) {
+    const x = side * offset;
+    add(new THREE.BoxGeometry(.78, .3, .78), stucco, x, .15);
+    add(new THREE.BoxGeometry(.6, 3.7, .6), brick, x, 2.15);
+    for (const y of [.62, 3.7]) add(new THREE.BoxGeometry(.7, .14, .7), stucco, x, y);
+    const bud = add(new THREE.SphereGeometry(.24, 8, 6), gold, x, 4.62); bud.scale.set(1, 1.5, 1);
+    add(new THREE.ConeGeometry(.08, .35, 6), gold, x, 5.08);
+    // Small hanging bells stay above the player's clearance.
+    add(new THREE.ConeGeometry(.16, .25, 8), gold, x - side * .55, 3.55);
+  }
+  add(new THREE.BoxGeometry(offset * 2 + .8, .34, .62), brick, 0, 4.08);
+  add(new THREE.BoxGeometry(offset * 2 + 1.0, .1, .72), stucco, 0, 4.3);
+  for (const x of [-1.5, -.75, .75, 1.5].map(k => k * offset / 1.6)) add(sema, stucco, x, 4.35).scale.setScalar(.7);
+  add(new THREE.BoxGeometry(.8, .4, .5), stucco, 0, 4.55);
+  add(new THREE.CylinderGeometry(.05, .34, 1.2, 8), stucco, 0, 5.35);
+  add(new THREE.ConeGeometry(.04, .45, 5), gold, 0, 6.15);
+}
+
 export class Portals {
   constructor(root, map, heightAt) {
     this.items = [];
@@ -77,22 +103,25 @@ export class Portals {
         const mesh = new THREE.Mesh(geometry,material); mesh.position.set(x,y,z);
         mesh.castShadow=true;mesh.receiveShadow=true;group.add(mesh);return mesh;
       };
-      for (const side of [-1,1]) {
-        const x=side*offset;
-        add(new THREE.CylinderGeometry(.29,.34,3.9,8),body,x,1.95);
-        for(const y of [.18,.55,3.65,3.95]) add(new THREE.CylinderGeometry(.37,.37,.16,8),trim,x,y);
-        add(new THREE.ConeGeometry(.34,.7,6),trim,x,4.5);
-        // Small hanging bells stay above the player's clearance.
-        add(new THREE.ConeGeometry(.16,.25,8),trim,x-side*.55,3.55);
+      if (map.id === 'city') ayutthayaGateway(add, offset);
+      else {
+        for (const side of [-1,1]) {
+          const x=side*offset;
+          add(new THREE.CylinderGeometry(.29,.34,3.9,8),body,x,1.95);
+          for(const y of [.18,.55,3.65,3.95]) add(new THREE.CylinderGeometry(.37,.37,.16,8),trim,x,y);
+          add(new THREE.ConeGeometry(.34,.7,6),trim,x,4.5);
+          // Small hanging bells stay above the player's clearance.
+          add(new THREE.ConeGeometry(.16,.25,8),trim,x-side*.55,3.55);
+        }
+        add(new THREE.BoxGeometry(offset*2+.7,.28,.62),body,0,4.08);
+        add(new THREE.BoxGeometry(offset*2+.9,.08,.7),trim,0,4.26);
+        for(const side of [-1,1]) {
+          const slope=add(new THREE.BoxGeometry(Math.hypot(offset+.3,1.2),.16,.68),body,side*(offset+.3)/2,4.88);
+          slope.rotation.z=-side*Math.atan2(1.2,offset+.3);
+        }
+        add(new THREE.ConeGeometry(.22,.8,6),trim,0,5.85);
+        const crest=add(new THREE.OctahedronGeometry(.3),trim,0,4.75,.42);crest.scale.set(.7,1.3,.4);
       }
-      add(new THREE.BoxGeometry(offset*2+.7,.28,.62),body,0,4.08);
-      add(new THREE.BoxGeometry(offset*2+.9,.08,.7),trim,0,4.26);
-      for(const side of [-1,1]) {
-        const slope=add(new THREE.BoxGeometry(Math.hypot(offset+.3,1.2),.16,.68),body,side*(offset+.3)/2,4.88);
-        slope.rotation.z=-side*Math.atan2(1.2,offset+.3);
-      }
-      add(new THREE.ConeGeometry(.22,.8,6),trim,0,5.85);
-      const crest=add(new THREE.OctahedronGeometry(.3),trim,0,4.75,.42);crest.scale.set(.7,1.3,.4);
       if(map.id==='paddy') {
         // Woven field-gate cloth and marigolds sit above the walk-through
         // clearance; pillar anchors and trigger geometry remain shared.

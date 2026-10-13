@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Ayutthaya kit review</title>
+<style>html,body{margin:0;height:100%;background:#9fb59a}canvas{display:block}</style></head><body>
+<script type="module">
+// Every piece of public/models/city/ayutthaya-kit.glb in a row under the city's light,
+// with the preview palette baked into the file. ?piece=name shows one; ?yaw rotates.
+import * as THREE from 'three';
+import { gltfLoader } from '/src/core/gltf.js';
+const params = new URLSearchParams(location.search);
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); r.setSize(innerWidth, innerHeight);
+r.shadowMap.enabled = true; r.toneMapping = THREE.ACESFilmicToneMapping; document.body.append(r.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color('#c9d8c2');
+scene.add(new THREE.HemisphereLight('#fff6e0', '#6f7f5f', 1.6));
+const sun = new THREE.DirectionalLight('#fff1d6', 2.4); sun.position.set(30, 50, 40); sun.castShadow = true;
+Object.assign(sun.shadow.camera, { left: -60, right: 60, top: 40, bottom: -40, far: 200 }); sun.shadow.mapSize.set(2048, 2048); scene.add(sun);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 200), new THREE.MeshStandardMaterial({ color: '#a9b98f' }));
+ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+const gltf = await gltfLoader().loadAsync('/models/city/ayutthaya-kit.glb');
+const only = params.get('piece')?.split(','), list = gltf.scene.children.filter(o => !only || only.includes(o.name));
+const order = ['gate', 'wall', 'bastion', 'prang', 'chedi', 'shophouse', 'elephant', 'naga', 'lamp', 'flag', 'planter', 'frangipani', 'palm', 'spirit_house', 'sema'];
+list.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
+let x = 0; const info = [];
+for (const o of list) {
+  o.traverse(m => { if (m.isMesh) { m.castShadow = m.receiveShadow = true; if (m.material.name === 'lantern') m.material.emissive = new THREE.Color('#ffad52'), m.material.emissiveIntensity = .4; } });
+  const box = new THREE.Box3().setFromObject(o), size = box.getSize(new THREE.Vector3());
+  o.position.x = x + size.x / 2 - (box.min.x + box.max.x) / 2; x += size.x + 1.2; scene.add(o);
+  let tris = 0; o.traverse(m => { if (m.isMesh) tris += (m.geometry.index ? m.geometry.index.count : m.geometry.attributes.position.count) / 3; });
+  info.push({ name: o.name, size: size.toArray().map(v => +v.toFixed(2)), tris });
+}
+const all = new THREE.Box3(); for (const o of list) all.expandByObject(o);
+const yaw = Number(params.get('yaw') ?? .55), cam = new THREE.OrthographicCamera(-1, 1, 1, -1, .1, 800);
+const c = all.getCenter(new THREE.Vector3());
+cam.position.copy(c).add(new THREE.Vector3(Math.sin(yaw) * 120, 90, Math.cos(yaw) * 120)); cam.lookAt(c); cam.updateMatrixWorld();
+// fit the ortho frustum to the projected corners of everything shown
+const pts = [0, 1].flatMap(i => [0, 1].flatMap(j => [0, 1].map(k => new THREE.Vector3(i ? all.max.x : all.min.x, j ? all.max.y : all.min.y, k ? all.max.z : all.min.z).applyMatrix4(cam.matrixWorldInverse))));
+const lo = { x: Math.min(...pts.map(p => p.x)), y: Math.min(...pts.map(p => p.y)) }, hi = { x: Math.max(...pts.map(p => p.x)), y: Math.max(...pts.map(p => p.y)) };
+const aspect = innerWidth / innerHeight, w = Math.max(hi.x - lo.x, (hi.y - lo.y) * aspect) * 1.04, h = w / aspect, mx = (lo.x + hi.x) / 2, my = (lo.y + hi.y) / 2;
+Object.assign(cam, { left: mx - w / 2, right: mx + w / 2, top: my + h / 2, bottom: my - h / 2 }); cam.updateProjectionMatrix();
+r.render(scene, cam); window.done = info;
+</script></body></html>

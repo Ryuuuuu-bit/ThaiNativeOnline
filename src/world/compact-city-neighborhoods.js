@@ -1,6 +1,8 @@
 // Infill reservations form inhabited blocks around existing services. Buildings
 // and planted beds share these footprints with client/server collision.
 const house=(id,label,x,z,w,d,front,variant)=>({id,label,x,z,w,d,front,variant,kind:'infill',stage:'built',color:'#ae7955'});
+// Ayutthaya kit pieces along the north avenue (buildCityAyutthaya.js draws them).
+const kit=(id,label,x,z,w,d,front,variant,extra={})=>({id,label,x,z,w,d,front,variant,kind:'kit',stage:'built',color:'#9a5a3e',...extra});
 const garden=(id,x,z,w,d,variant)=>({id,label:'สวนร่มไม้',x,z,w,d,front:'south',variant,kind:'garden',stage:'built',color:'#65904f'});
 export const CITY_NEIGHBORHOODS=[
   house('forge_north','เรือนช่างไม้',-26.5,-25.5,8,4.5,'east','woodworker'),
@@ -19,6 +21,15 @@ export const CITY_NEIGHBORHOODS=[
   house('north_east_lodge','เรือนเย็บผ้า',28,-58,7,7,'south','weaver'),
   house('west_water','เรือนประมงฝั่งตะวันตก',-62,60,10,6,'north','fisher'),
   house('east_water','เรือนประมงฝั่งตะวันออก',57,60,12,6,'north','fisher'),
+  // ถนนหน้าประตูเมือง: a pair of guardian elephants where the avenue leaves the plaza,
+  // shophouse rows facing the plaza, planted verges with banners, prangs before the north gate.
+  kit('kit_shops_w','ห้องแถวหน้าประตูเมือง',-10.3,-26.6,9.2,3.4,'south','shophouse'),
+  kit('kit_shops_e','ห้องแถวหน้าประตูเมือง',10.3,-26.6,9.2,3.4,'south','shophouse'),
+  ...[9,16,23,30].flatMap((x,i)=>[-1,1].map(s=>kit(`kit_verge_${s<0?'w':'e'}${i}`,'แนวต้นลีลาวดี',s*x,-36.45,2.4,1.4,'south','verge',{feature:i%2?'flag':'frangipani'}))),
+  kit('kit_elephant_w','ช้างปูนปั้น',-7.7,-20,4,2.3,'east','elephant',{scale:1.3}),
+  kit('kit_elephant_e','ช้างปูนปั้น',7.7,-20,4,2.3,'west','elephant',{scale:1.3}),
+  kit('kit_prang_w','ปรางค์หน้าประตูเมือง',-21,-56.6,3.4,3.4,'south','prang'),
+  kit('kit_prang_e','ปรางค์หน้าประตูเมือง',21.5,-56.6,3.4,3.4,'south','prang'),
   garden('garden_plaza_sw',-6.8,12,2.4,3,'shade'),
   garden('garden_plaza_se',6.8,12,2.4,3,'blossom'),
   garden('garden_plaza_nw',-10,-10,3,3,'blossom'),

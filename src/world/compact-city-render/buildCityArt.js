@@ -14,6 +14,7 @@ import { buildCityWater } from './buildCityWater.js';
 import { buildCityHarbor } from './buildCityHarbor.js';
 import { attachCityFoliageShadows } from './cityFoliageWind.js';
 import { buildTempleFair } from './buildTempleFair.js';
+import { loadAyutthayaKit, buildCityAyutthaya } from './buildCityAyutthaya.js';
 
 // Production dressing adapted from the approved compact-city proposal. The
 // canonical module owns navigation: every solid is inside a building reservation
@@ -654,7 +655,7 @@ export async function buildCityArt(root, progress = () => {}) {
   pickGround.name='compact-city-picking-ground';pickGround.receiveShadow=true;root.add(pickGround);
   // Front courts and streets are composed together below, so buildings no
   // longer sit on identical disconnected rectangles of paving.
-  for(const b of CITY.buildings.filter(b=>!['infill','garden','fair'].includes(b.kind))) {
+  for(const b of CITY.buildings.filter(b=>!['infill','garden','fair','kit'].includes(b.kind))) {
     // Full footprint plinth is the visible counterpart of the canonical box.
     box(staticRoot,M.brick,b.x,.10,b.z,b.w,.2,b.d);
     if(b.kind==='temple'||b.kind==='chedi')await sacred(b);
@@ -734,7 +735,12 @@ export async function buildCityArt(root, progress = () => {}) {
   // Layered planting and feathered ground cover are owned by buildCityLandscape.
   // Perimeter masonry lies beyond the navigation boundary; the north passage
   // stays visually open and PortalManager supplies the actual warp pillars.
-  for(const side of[-1,1]) {
+  // The Ayutthaya kit (buildCityAyutthaya.js) draws the walls, gate and the north avenue's
+  // pieces; without it (a failed download) the plain masonry below stands in.
+  let ayutthaya=null;
+  const kit=await loadAyutthayaKit().catch(error=>{console.warn('[compact-city] Ayutthaya kit unavailable',error);return null;});
+  if(kit)ayutthaya=buildCityAyutthaya({root:staticRoot,lightRoot:root,kit,M,mat,city:CITY});
+  for(const side of kit?[]:[-1,1]) {
     box(staticRoot,M.brick,side*73,1.15,-1,1.5,2.3,130);
     box(staticRoot,M.rim,side*73,2.35,-1,1.7,.18,130);
     // A visible plinth and spaced pilasters make the town edge read as masonry
@@ -769,7 +775,7 @@ export async function buildCityArt(root, progress = () => {}) {
   const windShadows=attachCityFoliageShadows(root,{ownMaterial:m=>mats.push(m)});controllers.push(windShadows);
   const stats={...streetStats,...landscape.stats,...water.stats,...fair.stats,harbor:harbor.stats,
     residentialFences:{lots:(neighborhoods.fenceLots??0)+(courtyards.fenceLots??0),segments:(neighborhoods.fenceSegments??0)+(courtyards.fenceSegments??0),gatePosts:(neighborhoods.gatePosts??0)+(courtyards.gatePosts??0)},
-    sacred:sacredStats,windShadowMeshes:windShadows.meshes,animatedBoats:boats.length,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
+    sacred:sacredStats,ayutthaya:ayutthaya?.stats??null,windShadowMeshes:windShadows.meshes,animatedBoats:boats.length,nightLights:nightLights.length,marketCanopies:marketStats.canopies,lotusFountains:marketStats.fountains,neighborhoodBuildings:neighborhoods.count,neighborhoodVariants:neighborhoods.variants,courtyardEdges:courtyards.count,buildings:CITY.buildings.filter(b=>b.kind!=='garden').length,halls:{count:CITY.buildings.filter(b=>b.kind==='class').length},classCues:CITY.buildings.filter(b=>b.kind==='class').length,lodAssets:lods.length,staticMeshes:batches.merged,instanceMeshes:batches.instances,sourceMeshes:batches.source};
   return {ground:pickGround,water,stats,update(t,dt,focus,env){
     water.update(t,dt,focus,env);
     fair.update(t,dt,focus,env);
@@ -783,6 +789,7 @@ export async function buildCityArt(root, progress = () => {}) {
     M.lantern.emissiveIntensity=1.8*night;M.window.emissiveIntensity=1.15*night;
     M.fire.emissiveIntensity=1.1+night*.3;M.warp.emissiveIntensity=.35+night*.3;
     for(const light of nightLights)light.intensity=light.userData.cityNightPower*night;
+    ayutthaya?.update(night);
   },dispose};
   }catch(error){
     dispose();
